@@ -1,0 +1,4 @@
+<buildinformation>
+	<build.tag>@buildTag@</build.tag>
+	<build.time>@buildTime@</build.time>
+</buildinformation>

@@ -1,0 +1,58 @@
+th {
+	background: #ffffad;
+}
+
+.majorDiv {
+	width: 96%;
+	/* border: thin solid black; */
+	margin-left: 10px;
+	background: white; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;
+}
+
+.errorBox {
+	background: orange;
+	padding: 5px;
+}
+
+.stdMargin {
+	margin-left: 15;
+}
+
+.standardFont {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;
+}
+
+.displayTagTable {
+	background: #f0f0f0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12;
+	text-align: center;
+	width: 100%;
+}
+
+/* DisplayTag table column alignment */
+.std-alignment {
+	text-align: right;
+}
+/* DisplayTag table column alignment */
+.left-align {
+	text-align: left;
+}
+.middle-vert-align {
+	vertical-align: middle;
+}
+.details-table-label {
+	background: #8fff8f;
+	font-weight: bold;
+	border: thin double gray;
+}
+.details-expand-div {
+	border: thin double gray;
+}
+/* DisplayTag table odd and even row configuration */
+.odd { background: #BFDFFF; }
+.even { background: white; }
+

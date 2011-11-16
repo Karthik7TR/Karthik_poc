@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Spring Web MVC dispatcher servlet configuration.
+	The DispatcherServlet is the front-controller servlet for Spring MVC framework.
+	It serves to funnel HTTP requests to their correct controller (handler).
+	These are the beans used in configuring the DispatcherServlet servlet as defined in web.xml.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Map logical view name to a physical JSP file located at /WEB-INF/jsp/<viewName>.jsp --> 
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	  	<property name="prefix" value="/WEB-INF/jsp/"/>
+	  	<property name="suffix" value=".jsp"/>
+	</bean>
+
+</beans>

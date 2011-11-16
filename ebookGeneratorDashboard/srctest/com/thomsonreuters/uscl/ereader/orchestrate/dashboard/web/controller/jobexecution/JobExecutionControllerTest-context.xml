@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  	   xmlns:p="http://www.springframework.org/schema/p"
+  	   xmlns:context="http://www.springframework.org/schema/context"
+  	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+  	   					   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  	   					   http://www.springframework.org/schema/context
+  	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+    <!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
+  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution"/>
+  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+  
+  	<bean id="environmentName" class="java.lang.String">
+  		<constructor-arg value="junitTestEnvironment"/>
+  	</bean>
+  	<bean id="engineContextUrl" class="java.net.URL">
+  		<constructor-arg value="http://junitHost:1234/junitEngineContext"/>
+  	</bean>
+  	<bean id="jobExplorer" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.MockJobExplorer"/> 
+</beans>
