@@ -1,0 +1,23 @@
+<binding>
+	<!-- 
+	<mapping class="java.util.HashMap" name="paramsMap"
+			 marshaller="com.thomsonreuters.west.codes.sb.core.sdk.JibxHashMapHandler"
+			 unmarshaller="com.thomsonreuters.west.codes.sb.core.sdk.JibxHashMapHandler"/>
+	<mapping name="paramsMap" class="java.util.HashMap" 
+   		   	 marshaller="org.jibx.extras.HashMapperStringToComplex"
+   		     unmarshaller="org.jibx.extras.HashMapperStringToComplex"/>
+	<mapping name="jobParameters" class="org.springframework.batch.core.JobParameters">
+		<structure field="parameters"
+        		   marshaller="org.jibx.extras.HashMapperStringToComplex"
+   		     	   unmarshaller="org.jibx.extras.HashMapperStringToComplex"/>
+	</mapping>	 
+	<mapping name="jobParameter" class="org.springframework.batch.core.JobParameter">
+		<value name="parameter" field="parameter" usage="optional"/>
+		<value name="parameterType" field="parameterType" usage="optional"/>
+	</mapping>
+	 -->
+    <mapping name="jobStartRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
+        <value name="jobName" field="jobName" usage="optional"/>
+        <value name="threadPriority" field="threadPriority" usage="optional"/>
+    </mapping>
+</binding>
