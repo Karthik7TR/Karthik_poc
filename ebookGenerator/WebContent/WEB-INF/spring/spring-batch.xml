@@ -1,0 +1,59 @@
+<beans  
+     xmlns="http://www.springframework.org/schema/beans"
+     xmlns:batch="http://www.springframework.org/schema/batch"
+     xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+
+    <batch:job-repository id="jobRepository"
+    			data-source="dataSource"
+				transaction-manager="transactionManager"/>
+				
+	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
+	<!-- This is a bean post-processor that can register all jobs as they are created. -->
+	<bean id="jobRegistryBeanPostProcessor" class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor"
+		  p:jobRegistry-ref="jobRegistry"/>
+
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
+		  p:dataSource-ref="dataSource"/>				
+
+<!-- 
+	<bean id="lowPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
+			p:threadPriority="1"/>
+	<bean id="normalPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
+			p:threadPriority="5"/>	
+	<bean id="highPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
+			p:threadPriority="10"/>	
+ -->
+				
+    <bean id="lowThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+		  p:jobRepository-ref="jobRepository">
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="1"/>
+		</property>
+	</bean>
+    <bean id="normalThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+		  p:jobRepository-ref="jobRepository">
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="5"/>
+		</property>
+	</bean>
+    <bean id="highThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+		  p:jobRepository-ref="jobRepository">
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="10"/>
+		</property>
+	</bean>
+
+	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator"
+		  p:jobExplorer-ref="jobExplorer"
+		  p:jobRepository-ref="jobRepository"
+		  p:jobRegistry-ref="jobRegistry"
+		  p:jobLauncher-ref="normalThreadPriorityJobLauncher"/>	
+
+</beans>
