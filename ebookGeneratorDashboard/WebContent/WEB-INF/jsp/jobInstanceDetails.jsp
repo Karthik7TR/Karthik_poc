@@ -15,12 +15,12 @@
 --%>
 <html>
   <head>
-  	<link rel="stylesheet" href="theme/master.css">
+  	<link rel="stylesheet" href="theme/dashboard.css"/>
 	<title>Job Instance Details</title>
   </head>
   
   <body>
-  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
+  	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
 	<h2>Job Instance ${jobInstance.id} Details</h2>

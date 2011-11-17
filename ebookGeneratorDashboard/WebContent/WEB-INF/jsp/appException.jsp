@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<jsp:include page="stdHeader.jsp"/>
 
 <strong>Error - An unexpected application exception has occurred:</strong><br/>
 <strong><%=exception.getMessage() %></strong><br/>

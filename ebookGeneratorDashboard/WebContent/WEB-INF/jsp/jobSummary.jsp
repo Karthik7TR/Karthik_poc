@@ -12,7 +12,7 @@
 
 <html>
   <head>
-  	<link rel="stylesheet" href="theme/master.css">
+  	<link rel="stylesheet" href="theme/dashboard.css"/>
   	<link rel="stylesheet" href="theme/jquery.ui.all.css">
   	<link rel="stylesheet" href="theme/jquery.ui.datepicker.css">
   	<link rel="stylesheet" href="theme/jquery.ui.theme.css">
@@ -30,7 +30,7 @@
   </head>
 
   <body>
-	
+	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 
 	<h2>Job Execution Summary</h2>

@@ -12,7 +12,7 @@
 
 <html>
   <head>
-  	<link rel="stylesheet" href="theme/master.css">
+  	<link rel="stylesheet" href="theme/dashboard.css"/>
   	<script type="text/javascript" src="js/jquery.js"></script>
 	<title>Step Execution Details</title>
 	
@@ -52,7 +52,7 @@
   
 
   <body>
-  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
+  	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
 	<h2>Step ${stepExecution.id} Execution Details</h2>
