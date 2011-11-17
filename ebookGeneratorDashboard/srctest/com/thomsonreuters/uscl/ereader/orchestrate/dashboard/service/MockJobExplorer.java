@@ -43,7 +43,10 @@ public class MockJobExplorer implements JobExplorer {
 
 	@Override
 	public List<String> getJobNames() {
-		return null;
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("fooJob");
+		list.add("barJob");
+		return list;
 	}
 
 	@Override

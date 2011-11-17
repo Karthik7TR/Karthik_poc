@@ -59,7 +59,7 @@ public class JobExecutionControllerTest {
      * Test the GET to the details page.
      */
     @Test
-    public void testDoGetJobExecutionDetails() throws Exception {
+    public void testGetJobExecutionDetails() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_EXECUTION_DETAILS_GET);
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "1234");
@@ -77,7 +77,7 @@ public class JobExecutionControllerTest {
      * to view a new job execution.
      */
     @Test
-    public void testDoPostJobExecutionDetails() throws Exception {
+    public void testPostJobExecutionDetails() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_EXECUTION_DETAILS_POST);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "5678");
@@ -96,7 +96,7 @@ public class JobExecutionControllerTest {
      * the job Execution ID text input field. 
      */
     @Test
-    public void testDoPostJobExecutionDetailsValidationError() throws Exception {
+    public void testPostJobExecutionDetailsValidationError() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_EXECUTION_DETAILS_POST);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "abcd");  // INVALID id
