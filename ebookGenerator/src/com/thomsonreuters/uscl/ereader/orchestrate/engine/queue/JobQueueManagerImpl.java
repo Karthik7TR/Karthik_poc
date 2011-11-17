@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobControlRequest;
 
 /**
  * Handle receiving messages from the high and normal priority job request queues.
@@ -26,11 +26,11 @@ public class JobQueueManagerImpl implements JobQueueManager {
 	private Queue normalPriorityJobQueue;
 	
 	
-	public JobRunRequest getHighPriorityJobRunRequest() throws Exception {
+	public JobControlRequest getHighPriorityJobRunRequest() throws Exception {
 		return getJobRunRequest(highPriorityJobQueue);
 	}
 
-	public JobRunRequest getNormalPriorityJobRunRequest() throws Exception {
+	public JobControlRequest getNormalPriorityJobRunRequest() throws Exception {
 		return getJobRunRequest(normalPriorityJobQueue);		
 	}
 	
@@ -40,15 +40,15 @@ public class JobQueueManagerImpl implements JobQueueManager {
 	 * @return the message at the front of the queue, or null if the queue is emtpy.
 	 * @throws Exception if there is a JMS fetch error, or a parse error with the received message.
 	 */
-	private JobRunRequest getJobRunRequest(Queue queue) throws Exception {
-		JobRunRequest jobRunRequest = null;
+	private JobControlRequest getJobRunRequest(Queue queue) throws Exception {
+		JobControlRequest jobRunRequest = null;
 		// Synchronous receive, but the timeout value is set so it will timeout and return quickly if there is nothing on the JMS queue.
 		// See jmsTemplate definition in Spring bean xml file.
 		Message message = jmsTemplate.receive(queue);
 		if (message != null) {
 			TextMessage textMessage = (TextMessage) message;
 			String xmlRequest = textMessage.getText();
-			jobRunRequest = JobRunRequest.unmarshal(xmlRequest);
+			jobRunRequest = JobControlRequest.unmarshal(xmlRequest);
 		}
 		return jobRunRequest;
 	}

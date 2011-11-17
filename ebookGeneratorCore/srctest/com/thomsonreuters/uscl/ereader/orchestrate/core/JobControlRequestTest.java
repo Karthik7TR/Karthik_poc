@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class JobRunRequestTest  {
+public class JobControlRequestTest  {
 
 	@Test
 	public void testJobRequestMarshalling() {
@@ -18,11 +18,11 @@ public class JobRunRequestTest  {
 			HashMap<String,String> params = new HashMap<String,String>();
 			params.put("foo", "abc");
 			params.put("bar", "def");
-			final JobRunRequest requestToMarshal = JobRunRequest.createStartRequest("fooJob", Thread.MAX_PRIORITY);
+			final JobControlRequest requestToMarshal = JobControlRequest.createStartRequest("fooJob", Thread.MAX_PRIORITY);
 //System.out.println("To Marshal: " + requestToMarshal);
 			String xml = requestToMarshal.marshal();
-//System.out.println(xml);  // DEBUG
-			JobRunRequest unmarshalledRequest = JobRunRequest.unmarshal(xml);
+System.out.println(xml);  // DEBUG
+			JobControlRequest unmarshalledRequest = JobControlRequest.unmarshal(xml);
 //System.out.println("Unmarshalled: " + unmarshalledRequest);
 			assertEquals(requestToMarshal.getThreadPriority(), unmarshalledRequest.getThreadPriority());
 			assertEquals(requestToMarshal.getJobName(), unmarshalledRequest.getJobName());

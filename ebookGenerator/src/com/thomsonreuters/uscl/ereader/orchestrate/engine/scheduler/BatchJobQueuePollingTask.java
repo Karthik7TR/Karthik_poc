@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobControlRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.EngineManager;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManager;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
@@ -27,15 +27,17 @@ public class BatchJobQueuePollingTask {
 	
 	public void run() {
 		try {
+			// If the engine will accept the start of another job and is not at the max concurrent jobs limit
 			if (!throttle.isAtMaximum()) {
-				JobRunRequest jobRunRequest = jobQueueManager.getHighPriorityJobRunRequest();
-if (jobRunRequest != null) log.debug("Queue high priority job: " + jobRunRequest);	// DEBUG
-				if (jobRunRequest == null) {
-					jobRunRequest = jobQueueManager.getNormalPriorityJobRunRequest();
-if (jobRunRequest != null) log.debug("Queue normal priority job: " + jobRunRequest);  // DEBUG					
+				// then look to see if there is a job run request sitting on the high priority queue
+				JobControlRequest jobRequest = jobQueueManager.getHighPriorityJobRunRequest();
+				// if not, then check the normal priority queue
+				if (jobRequest == null) {
+					jobRequest = jobQueueManager.getNormalPriorityJobRunRequest();
 				}
-				if (jobRunRequest != null) {
-					engineManager.runJob(jobRunRequest.getJobName(), jobRunRequest.getThreadPriority());
+				// if there was a job to run, then launch it
+				if (jobRequest != null) {
+					engineManager.runJob(jobRequest.getJobName(), jobRequest.getThreadPriority());
 				}
 			}
 		} catch (Exception e) {

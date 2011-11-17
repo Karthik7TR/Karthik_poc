@@ -33,7 +33,7 @@ public class JmsJobControlImpl implements JobControl {
 	
 
 	private void startJob(Queue queue, String jobName, Integer priority) throws Exception {
-		JobRunRequest requestObj = JobRunRequest.createStartRequest(jobName, priority);
+		JobControlRequest requestObj = JobControlRequest.createStartRequest(jobName, priority);
 		String xmlRequest = requestObj.marshal();
 		sendJmsMessage(queue, xmlRequest);
 	}
