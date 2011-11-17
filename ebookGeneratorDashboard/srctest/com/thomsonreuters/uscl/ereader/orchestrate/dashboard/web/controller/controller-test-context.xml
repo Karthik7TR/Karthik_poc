@@ -9,7 +9,7 @@
   	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
     <!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
-  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution"/>
+  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller"/>
   	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
   
   	<bean id="environmentName" class="java.lang.String">
@@ -18,5 +18,6 @@
   	<bean id="engineContextUrl" class="java.net.URL">
   		<constructor-arg value="http://junitHost:1234/junitEngineContext"/>
   	</bean>
-  	<bean id="jobExplorer" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.MockJobExplorer"/> 
+  	<bean id="jobExplorer" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockJobExplorer"/>
+  	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockDashboardService"/>  
 </beans>

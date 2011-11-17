@@ -96,7 +96,7 @@
 		    <br/>
 	    </spring:hasBindErrors>
 	    
-  		Job Execution ID &nbsp; <form:input path="executionId"/>
+  		Job Execution ID &nbsp; <form:input path="jobExecutionId"/>
   		<input type="submit" value="Find"/> &nbsp;
   		<input type="button" value="Job Summary"
   			onclick="location.href='<%=WebConstants.URL_JOB_SUMMARY%>'"/> &nbsp;

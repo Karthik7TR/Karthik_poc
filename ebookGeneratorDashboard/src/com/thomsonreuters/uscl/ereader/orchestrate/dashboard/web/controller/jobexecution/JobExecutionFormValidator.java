@@ -24,8 +24,8 @@ public class JobExecutionFormValidator implements Validator {
     	}
     	JobExecutionForm form = (JobExecutionForm) obj;
     	
-		if (form.getExecutionId() == null) {
-			String[] args = { "Execution ID" };
+		if (form.getJobExecutionId() == null) {
+			String[] args = { "Job Execution ID" };
 			errors.reject("error.required.field", args, "execution id is required");
 		}
 	}

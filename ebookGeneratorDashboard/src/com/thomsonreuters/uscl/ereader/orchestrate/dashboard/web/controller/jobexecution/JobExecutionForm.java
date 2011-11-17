@@ -10,14 +10,14 @@ public class JobExecutionForm {
 	
 	public static final String FORM_NAME = "jobExecutionForm";
 
-	private Long executionId;
+	private Long jobExecutionId;
 
-	public Long getExecutionId() {
-		return executionId;
+	public Long getJobExecutionId() {
+		return jobExecutionId;
 	}
 
-	public void setExecutionId(Long executionId) {
-		this.executionId = executionId;
+	public void setJobExecutionId(Long executionId) {
+		this.jobExecutionId = executionId;
 	}
 	
 	public String toString() {

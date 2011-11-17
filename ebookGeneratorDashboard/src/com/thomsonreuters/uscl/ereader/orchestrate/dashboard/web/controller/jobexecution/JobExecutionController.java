@@ -27,6 +27,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdo;
 
+/**
+ * Controller for the Job Execution Details page.
+ */
 @Controller
 public class JobExecutionController {
 	private static final Logger log = Logger.getLogger(JobExecutionController.class);
@@ -63,9 +66,9 @@ public class JobExecutionController {
 log.debug(form);
 		JobExecution jobExecution = null;
 		if (!bindingResult.hasErrors()) {
-			jobExecution = jobExplorer.getJobExecution(form.getExecutionId());
+			jobExecution = jobExplorer.getJobExecution(form.getJobExecutionId());
 			if (jobExecution == null) {
-				String[] args = { form.getExecutionId().toString() };
+				String[] args = { form.getJobExecutionId().toString() };
 				bindingResult.reject("executionId.not.found", args, "Job execution not found");
 			}
 		}
