@@ -10,6 +10,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequestTest;
 @RunWith(Suite.class)
 @SuiteClasses( { JobRunRequestTest.class } )
 
-public class TestSuite {
+public class EbookGeneratorTestSuite {
 
 }
