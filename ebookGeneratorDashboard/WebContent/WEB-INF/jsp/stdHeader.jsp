@@ -1,4 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
-<div class="arial20" style="font-weight: bold;">E-Book Generator Dashboard &nbsp; (${environment})</div>
+<div class="arial20" style="font-weight: bold;">
+	E-Book Generator Dashboard &nbsp; (${environment}) &nbsp;
+	<input type="button" value="Job Summary" onclick="location.href='<%=WebConstants.URL_JOB_SUMMARY%>'"/>
+</div>

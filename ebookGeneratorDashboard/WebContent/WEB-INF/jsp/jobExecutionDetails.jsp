@@ -69,8 +69,8 @@
 	</script>
   </head>
   
-
   <body>
+	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
@@ -96,10 +96,8 @@
 		    <br/>
 	    </spring:hasBindErrors>
 	    
-  		Job Execution ID &nbsp; <form:input path="jobExecutionId"/>
+  		Job Execution ID &nbsp; <form:input path="jobExecutionId"/> &nbsp;
   		<input type="submit" value="Find"/> &nbsp;
-  		<input type="button" value="Job Summary"
-  			onclick="location.href='<%=WebConstants.URL_JOB_SUMMARY%>'"/> &nbsp;
   		<input type="button" value="Refresh"
   			onclick="location.href='<%=WebConstants.URL_JOB_EXECUTION_DETAILS_GET%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/>
 	</form:form>

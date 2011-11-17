@@ -20,15 +20,12 @@
   </head>
   
   <body>
+	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
 	<h2>Job Instance ${jobInstance.id} Details</h2>
-	
-	<input type="button" value="Job Summary"
-  			onclick="location.href='<%=WebConstants.URL_JOB_SUMMARY%>'"/> &nbsp;
-  	<br/>
-  	<br/>
+
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>

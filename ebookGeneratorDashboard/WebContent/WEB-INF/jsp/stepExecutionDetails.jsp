@@ -52,15 +52,11 @@
   
 
   <body>
+  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
 	<h2>Step ${stepExecution.id} Execution Details</h2>
-	
-	<input type="button" value="Job Summary"
-  			onclick="location.href='<%=WebConstants.URL_JOB_SUMMARY%>'"/> &nbsp;
-  	<br/>
-  	<br/>
   	
 	<%--
 		Ensure we are working with a valid StepExecution.  We may not be if they entered an execution ID that was not found.
