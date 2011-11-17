@@ -6,15 +6,17 @@
 
 <html>
 <head>
+  	<link rel="stylesheet" href="theme/engine.css">
 	<title>Job Op Fail</title>
 </head>
 
 <body>
-<h2 style="color: red">Job Execution <a href="${dashboardDetailsUrl}">${jobExecutionId}</a> ${action} failed</h2>
+<h2 class="arialFont20 colorRed">Job Execution <a href="${dashboardDetailsUrl}">${jobExecutionId}</a> ${action} failed</h2>
 
-<div style="color: red">${errorMessage}</div>
+<div class="arialFont18 colorRed">${errorMessage}</div>
 <br/>
-<div>${stackTrace}</div>
+<%--
+<div class="arialFont12">${stackTrace}</div>
+ --%>
 
 </body>
-
