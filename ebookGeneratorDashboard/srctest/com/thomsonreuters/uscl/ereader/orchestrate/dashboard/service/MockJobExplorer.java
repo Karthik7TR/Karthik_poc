@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 
@@ -25,12 +27,13 @@ public class MockJobExplorer implements JobExplorer {
 
 	@Override
 	public List<JobExecution> getJobExecutions(JobInstance arg0) {
-		return null;
+		return new ArrayList<JobExecution>(0);
 	}
 
 	@Override
-	public JobInstance getJobInstance(Long arg0) {
-		return null;
+	public JobInstance getJobInstance(Long id) {
+		JobParameters jobParameters = new JobParameters();
+		return new JobInstance(id, jobParameters, "mockTestingJobName");
 	}
 
 	@Override
