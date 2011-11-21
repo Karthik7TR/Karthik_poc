@@ -1,17 +1,21 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine;
 
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
 
 
 public interface EngineManager {
 	
 	/**
 	 * Immediately run a batch job at the specified thread execution priority.
-	 * @param jobName the name of the job as defined in Spring bean definition file(s)
+	 * @param jobName the name of the job as defined in Spring bean definition file(s).
+	 * @param jobParameters key/value pairs defined prior to job launch, but used within the job.
 	 * @param threadPriority 1..10, but mapped to LOW (1..4), NORMAL (5), HIGH (6..10).
 	 * @return the job execution object
 	 * @throws Exception on unable to find job name, or launching the job
 	 */
+	public JobExecution runJob(String jobName, JobParameters jobParameters, Integer threadPriority) throws Exception;
+	
 	public JobExecution runJob(String jobName, Integer threadPriority) throws Exception;
 	
 	/**

@@ -3,17 +3,23 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 
 @Component
 public class EngineManagerImpl implements EngineManager {
@@ -32,6 +38,10 @@ public class EngineManagerImpl implements EngineManager {
 	public JobExecution runJob(String jobName) throws Exception {
 		return runJob(jobName, null);
 	}
+	
+	public JobExecution runJob(String jobName, Integer threadPriority) throws Exception {
+		return runJob(jobName, new JobParameters(), threadPriority);
+	}
 
 	/**
 	 * Immediately run a job at the specified thread execution priority.
@@ -40,7 +50,7 @@ public class EngineManagerImpl implements EngineManager {
 	 * @return the job execution object
 	 * @throws Exception on unable to find job name, or launching the job
 	 */
-	public JobExecution runJob(String jobName, Integer threadPriority) throws Exception {
+	public JobExecution runJob(String jobName, JobParameters jobParameters, Integer threadPriority) throws Exception {
 		int priority = (threadPriority != null) ? threadPriority.intValue() : Thread.NORM_PRIORITY;
 		if ((priority < Thread.MIN_PRIORITY) || (priority > Thread.MAX_PRIORITY)) {
 			throw new IllegalArgumentException("Thread priority must be in range 1..10");
@@ -49,18 +59,38 @@ public class EngineManagerImpl implements EngineManager {
 		// Lookup job object from set of defined jobs 
 		Job job = jobRegistry.getJob(jobName);
 		
-		// Create the async task executor and have it run at the desired thread priority
-//		SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("ER_");
-//		taskExecutor.setThreadPriority(priority);
-		
-		// Create the job launcher with the execution executor
-//		SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-//		jobLauncher.setTaskExecutor(taskExecutor);
-		
-		// Launch the job  TODO: what about job parameters here ...
-		JobParameters jobParameters = new JobParameters();
-		JobExecution jobExecution = prioritizedJobLauncher.run(job, jobParameters);
+		// Add in 
+		JobParameters launchJobParameters = setUpStandardJobParameters(jobParameters);
+		// Launch the job with a MIN|NORMAL|MAX thread priority
+		JobExecution jobExecution = prioritizedJobLauncher.run(job, launchJobParameters);
 		return jobExecution;
+	}
+	
+	/**
+	 * Add the standard set of job parameters to the launch configuration.
+	 * @param jobParameters an existing set of parameters, perhaps specific to the job being run.
+	 * @return a superset of the provided jobParameters.
+	 */
+	private static JobParameters setUpStandardJobParameters(JobParameters jobParameters) {
+		Map<String,JobParameter> jobParamMap = jobParameters.getParameters();
+		
+		// Who is running the job?  Add the username of the currently authenticated user to the set of job launch parameters.
+		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
+		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
+		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
+		// What host is the job running on?
+		String hostName = null;
+		try {
+			InetAddress host = InetAddress.getLocalHost();
+			hostName = host.getHostName();
+		} catch (UnknownHostException uhe) {
+			hostName = null;
+		}
+		// Store the values in the job parameters map
+		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(userName));
+		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(userEmail));
+		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));
+		return new JobParameters(jobParamMap);
 	}
 	
 	/**

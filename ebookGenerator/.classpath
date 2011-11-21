@@ -15,5 +15,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ebookGeneratorCore"/>
+	<classpathentry kind="lib" path="containerLibs/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
