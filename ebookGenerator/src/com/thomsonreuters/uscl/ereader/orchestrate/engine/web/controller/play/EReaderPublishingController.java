@@ -25,11 +25,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.EngineManager;
 @Controller
 public class EReaderPublishingController {
 	private static final Logger log = Logger.getLogger(EReaderPublishingController.class);
-	
-//	@Resource(name="normalThreadPriorityJobLauncher")
-//	private JobLauncher jobLauncher;
-//	@Resource(name="eReaderPublishingJob")
-//	private Job job;
+
 	@Autowired
 	private EngineManager engineManager;
 	
@@ -42,7 +38,7 @@ public class EReaderPublishingController {
 		paramMap.put("p1", new JobParameter("foo"+dateNow.getTime()));
 		paramMap.put("p2", new JobParameter("bar"+dateNow.getTime()));
 		JobParameters jobParameters = new JobParameters(paramMap);
-		JobExecution je = engineManager.runJob("eReaderPublishingJob", jobParameters, 5);
+		JobExecution je = engineManager.runJob("eReaderPublishingJob", 5, jobParameters);
 		request.setAttribute("jobExecution", je);
 		return new ModelAndView("results");
 	}

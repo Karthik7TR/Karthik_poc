@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
  * This is a Spring bean that is loaded at app context load time.
  *
  */
-@Component("quartzManager")
+//@Component("quartzManager")
+@Deprecated
 public class QuartzManager implements InitializingBean {
 	
 	private static Logger log = Logger.getLogger(QuartzManager.class);

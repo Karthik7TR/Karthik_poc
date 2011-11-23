@@ -8,7 +8,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 public class PackageForBermudaTasklet extends AbstractSbTasklet {
 	private static final Logger log = Logger.getLogger(PackageForBermudaTasklet.class);

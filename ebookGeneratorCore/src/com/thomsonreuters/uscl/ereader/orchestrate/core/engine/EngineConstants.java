@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.engine;
+package com.thomsonreuters.uscl.ereader.orchestrate.core.engine;
 
 public class EngineConstants {
 	

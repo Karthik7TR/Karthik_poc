@@ -30,7 +30,7 @@
   </head>
 
   <body>
-  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
+  	<c:set var="DATE_FORMAT" value="MM-dd-yy HH:mm:ss"/>
 	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 
@@ -96,7 +96,6 @@
 		</c:choose>
 
 <%-- Table of job executions for a specific Job name --%>
-		<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss"/>
 		<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
 					   requestURI="<%=WebConstants.URL_JOB_SUMMARY_PAGING%>"
 					   sort="external">

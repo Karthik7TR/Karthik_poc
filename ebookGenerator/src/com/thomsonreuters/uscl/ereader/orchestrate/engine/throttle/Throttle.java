@@ -9,9 +9,14 @@ public interface Throttle {
 	 */
 	public boolean isAtMaximum();
 	
+	/**
+	 * Returns the current number of concurrent actions.
+	 */
 	public int getCount();
-	public void setCount(int count);
 	
-	public ThrottleConfig getThrottleConfig();
-	public void setThrottleConfig(ThrottleConfig config);
+	/**
+	 * Load the external definition of the throttle.
+	 */
+	public void loadThrottleConfig();
+
 }

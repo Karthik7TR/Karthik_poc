@@ -5,11 +5,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
-import org.quartz.SchedulerException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.scheduler.QuartzManager;
 
 public class EngineListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(EngineListener.class);
@@ -23,13 +20,13 @@ public class EngineListener implements ServletContextListener {
 		ServletContext servletContext = sce.getServletContext();
 		WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
-		QuartzManager quartzManager = (QuartzManager) springContext.getBean("quartzManager");
-		try {
-			quartzManager.shutdownQuartzScheduler();
-			log.info("Quartz scheduler has been successfully shutdown.");
-		} catch (SchedulerException e) {
-			log.error("Quartz scheduler failed to properly shutdown.", e);
-		}
+//		QuartzManager quartzManager = (QuartzManager) springContext.getBean("quartzManager");
+//		try {
+//			quartzManager.shutdownQuartzScheduler();
+//			log.info("Quartz scheduler has been successfully shutdown.");
+//		} catch (SchedulerException e) {
+//			log.error("Quartz scheduler failed to properly shutdown.", e);
+//		}
 	}
 
 	@Override

@@ -52,7 +52,7 @@
   
 
   <body>
-  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
+  	<c:set var="DATE_FORMAT" value="MM-dd-yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	

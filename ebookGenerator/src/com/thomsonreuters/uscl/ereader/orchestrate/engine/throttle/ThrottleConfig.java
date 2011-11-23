@@ -6,7 +6,9 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle;
  */
 public interface ThrottleConfig {
 	
+	/**
+	 * Returns the maximum number of concurrent events for the given point in time.
+	 */
 	public int getMaximum();
-	public void setMaximum(int max);
 
 }
