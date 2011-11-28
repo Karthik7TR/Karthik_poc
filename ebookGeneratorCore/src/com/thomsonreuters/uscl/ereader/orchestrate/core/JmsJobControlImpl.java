@@ -1,65 +1,67 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
-
+ 
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+
+import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+
 public class JmsJobControlImpl implements JobControl {
 	
-	private QueueConnectionFactory qcf;
-	private Queue normalQueue;
-	private Queue immediateQueue;
-
-
+	private JmsTemplate jmsTemplate;
+	private Queue highPriorityQueue;
+	private Queue normalPriorityQueue;
+	
 	@Override
-	public void startJob(String jobName) throws Exception {
-		startJob(jobName, Thread.NORM_PRIORITY);
+	public void enqueueNormalPriorityJobRunRequest(String jobName, int threadPriority) throws Exception {
+		enqueueJobRunRequest(normalPriorityQueue, jobName, threadPriority);
 	}
 	
 	@Override
-	public void startJob(String jobName, Integer threadPriority) throws Exception {
-		startJob(normalQueue, jobName, threadPriority);
+	public void enqueueHighPriorityJobRunRequest(String jobName, int threadPriority) throws Exception {
+		enqueueJobRunRequest(highPriorityQueue, jobName, threadPriority);
 	}
-	
-	@Override
-	public void startJobImmediately(String jobName) throws Exception {
-		startJob(immediateQueue, jobName, Thread.MAX_PRIORITY);
-	}
-	
 
-	private void startJob(Queue queue, String jobName, Integer priority) throws Exception {
-		JobControlRequest requestObj = JobControlRequest.createStartRequest(jobName, priority);
+	private void enqueueJobRunRequest(Queue queue, String jobName, int threadPriority) throws Exception {
+		// Who is running the job?  Add the username of the currently authenticated user to the set of job launch parameters.
+		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
+		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
+		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
+
+		JobRunRequest requestObj = JobRunRequest.createStartRequest(jobName, threadPriority, userName, userEmail);
 		String xmlRequest = requestObj.marshal();
-		sendJmsMessage(queue, xmlRequest);
-	}
-
-	/**
-	 * Send a message to the queue configured to accept job operation related messages.
-	 * @param queue the JMS message queue resource
-	 * @param payload the XML job operation request, a marshalled JobControlRequest object
-	 * @throws JMSException on problems using messaging system
-	 */
-	private void sendJmsMessage(Queue queue, String payload) throws JMSException {
-		QueueSession session = null;
-		try {
-			QueueConnection connection = qcf.createQueueConnection();
-			session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
-			TextMessage message = session.createTextMessage(payload);
-			QueueSender sender = session.createSender(queue);
-			sender.send(message);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+		MyStringMessageCreator stringMessageCreator = new MyStringMessageCreator(xmlRequest);
+		jmsTemplate.send(queue, stringMessageCreator);
 	}
 	
-	public void setQueueConnectionFacory(QueueConnectionFactory qcf) {
-		this.qcf = qcf;
+	@Required
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
+	@Required
+	public void setHighPriorityQueue(Queue highPriorityQueue) {
+		this.highPriorityQueue = highPriorityQueue;
+	}
+	@Required
+	public void setNormalPriorityQueue(Queue normalPriorityQueue) {
+		this.normalPriorityQueue = normalPriorityQueue;
+	}
+	
+	public class MyStringMessageCreator implements MessageCreator {
+		private String payload;
+		
+		public MyStringMessageCreator(String payload) {
+			this.payload = payload;
+		}
+		public Message createMessage(Session jmsSession) throws JMSException {
+			TextMessage message = jmsSession.createTextMessage(payload);
+			return message;
+		}
 	}
 }

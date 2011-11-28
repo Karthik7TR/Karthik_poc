@@ -48,15 +48,14 @@
        	 	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
        	 	  brokerURL="tcp://localhost:61616" brokerName="LocalActiveMQBroker"/>
 	
-	<!-- Input queue for important jobs that need to run right friggin now and are not subject to job rate throttling within the engine -->       	 	  
-    <Resource name="jms/HighPriorityJobQueue" auth="Container"
+    <Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
 			  type="org.apache.activemq.command.ActiveMQQueue"
         	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-       	 	  physicalName="EREADER.HIGH.PRIORITY.JOB.PC"/>
-	<!-- Input queue for run of the mill jobs that are subject to job rate throttling within the engine -->
-    <Resource name="jms/NormalPriorityJobQueue" auth="Container"
+       	 	  physicalName="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
+       	 	  
+    <Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
 			  type="org.apache.activemq.command.ActiveMQQueue"
         	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-       	 	  physicalName="EREADER.NORMAL.PRIORITY.JOB.PC"/>
+       	 	  physicalName="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY.REQ"/>
 
 </Context>

@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
  * that can run at any point in time.
  */
 @Component
-public class JobRunThrottle implements Throttle {
+public class JobRunThrottle implements Throttle, InitializingBean {
 	
 	@Autowired
 	private EngineDao dao;
@@ -24,6 +24,10 @@ public class JobRunThrottle implements Throttle {
 	
 	public JobRunThrottle() {
 		super();
+	}
+	
+	public void afterPropertiesSet() {
+		loadThrottleConfig();
 	}
 	
 	@Override
@@ -46,9 +50,6 @@ public class JobRunThrottle implements Throttle {
 	 */
 	@Transactional(readOnly = true)
 	public void loadThrottleConfig() {
-		// What schedule should be applied to a given day of the week
-		//ScheduleDayOfWeek[] dayOfWeekSchedule = new ScheduleDayOfWeek[Calendar.SATURDAY];
-		
 		// The collection of named curves where the name is the schedule name, like "WEEKDAY"
 		Collection<ScheduleCurve> curves = new ArrayList<ScheduleCurve>();
 

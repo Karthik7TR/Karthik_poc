@@ -52,7 +52,7 @@
     <target name="eclipse-jibx-bind">
         <jibxCompiler>
             <bindingfileset dir="${binding.fileset.dir}">
-                <include name="jibx-jobOperationRequest.xml"/>
+                <include name="jibx-bindings.xml"/>
             </bindingfileset>
             <classpath>
             	<pathelement location="bin"/>

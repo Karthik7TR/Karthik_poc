@@ -6,9 +6,6 @@ import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 public class JobControlRequestTest  {
 
@@ -18,11 +15,11 @@ public class JobControlRequestTest  {
 			HashMap<String,String> params = new HashMap<String,String>();
 			params.put("foo", "abc");
 			params.put("bar", "def");
-			final JobControlRequest requestToMarshal = JobControlRequest.createStartRequest("fooJob", Thread.MAX_PRIORITY);
+			final JobRunRequest requestToMarshal = JobRunRequest.createStartRequest("fooJob", Thread.MAX_PRIORITY, "jblow", "jblow@bogusaddr.com");
 //System.out.println("To Marshal: " + requestToMarshal);
 			String xml = requestToMarshal.marshal();
 System.out.println(xml);  // DEBUG
-			JobControlRequest unmarshalledRequest = JobControlRequest.unmarshal(xml);
+			JobRunRequest unmarshalledRequest = JobRunRequest.unmarshal(xml);
 //System.out.println("Unmarshalled: " + unmarshalledRequest);
 			assertEquals(requestToMarshal.getThreadPriority(), unmarshalledRequest.getThreadPriority());
 			assertEquals(requestToMarshal.getJobName(), unmarshalledRequest.getJobName());

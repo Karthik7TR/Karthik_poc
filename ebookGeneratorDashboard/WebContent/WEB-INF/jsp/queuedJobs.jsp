@@ -1,5 +1,4 @@
-<%@ page import="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.admin.AdminForm"%>
-<%@ page import="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -17,9 +16,10 @@
 <h2>E-Book Generator Job Queues</h2>
 
 Maximum Concurrent Jobs: nn<br/>
-Currently Executing Jobs: mm<br/>
+Currently Executing Job Count: mm<br/>
 <br/>
-TODO: Display 2 tables, the List<JobRunRequest> sitting on both the high and normal JMS run queues.
+
+TODO: Display 2 tables,  List JobRunRequest's sitting on both the high and normal JMS run queues.
 
 
 

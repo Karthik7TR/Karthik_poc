@@ -37,6 +37,7 @@ public class WebConstants {
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "jobExecutionDetails";
 	public static final String VIEW_STEP_EXECUTION_DETAILS = "stepExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "jobInstanceDetails";
+	public static final String VIEW_JOB_RUN = "jobRun";
 	
 	public static final String URL_JOB_SUMMARY = VIEW_JOB_SUMMARY+".mvc";
 	public static final String URL_JOB_EXECUTION_DETAILS_GET = VIEW_JOB_EXECUTION_DETAILS+".mvc";
@@ -45,6 +46,7 @@ public class WebConstants {
 	public static final String URL_JOB_INSTANCE_DETAILS = VIEW_JOB_INSTANCE_DETAILS+".mvc";
 	public static final String URL_JOB_SUMMARY_PAGING = "jobSummaryPaging.mvc";
 	public static final String URL_JOB_RESTART = "restartJob.mvc";  // redirects to sbEngine restart job 
+	public static final String URL_JOB_RUN = VIEW_JOB_RUN+".mvc";
 	public static final String URL_JOB_STOP = "stopJob.mvc";	// redirects to sbEngine stop job
 	
 

@@ -1,20 +1,19 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.log4j.Logger;
 
 /**
  * Encapsulates the day of the week schedule curves that indicate the maximum number of concurrent
  * jobs that can run at any one time.
  */
 class JobRunThrottleConfig implements ThrottleConfig {
-	
+	private Logger log = Logger.getLogger(JobRunThrottleConfig.class);
 	/** The day-of-week to schedule-name association, like MONDAY(2)=WEEKDAY or SATURDAY(7)=WEEKEND (1..7) but indexed 0..6 */
 	private List<ScheduleDayOfWeek> daysOfWeekSchedule;
 	
@@ -38,6 +37,13 @@ class JobRunThrottleConfig implements ThrottleConfig {
 				break;
 			}
 		}
+		
+		// Fail safe to no concurrent job limit if there is no schedule defined for a given day
+		if (schedule == null) {
+//			log.debug(String.format("No max concurrent jobs schedule has been defined in the database table for this day of the week (%d).  Defaulting to no limit.", dayOfWeek));
+			return Integer.MAX_VALUE;
+		}
+		
 		String scheduleName = schedule.getScheduleName();  // like "WEEKDAY"
 		
 		// Second, get the curve (function) for this day of the week

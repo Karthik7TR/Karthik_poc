@@ -13,24 +13,23 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
 /**
- * Represents a XML request that is sent to the batch engine JMS input queue and is used to start a job.
- * This object is JiBX marshalled and sent as XML JMS message payload to the
- * job run queue (high or normal priority) that the batch engine is monitoring for new run requests.
+ * Represents an XML request that is sent to the batch engine JMS input queue and is used to start a job.
+ * This object is JiBX marshalled and sent as the XML JMS message payload to one of the
+ * job run queues (high or normal priority) that the batch engine is periodically polling for new run requests.
  */
-public class JobControlRequest implements Serializable {
+public class JobRunRequest implements Serializable {
 	private static final long serialVersionUID = -7285672486471302865L;
 	
-	public enum Action { START };
-	
-	private Action action;
 	private String jobName;			// job name to launch, required to START
-	private Integer threadPriority;	// Job Thread CPU execution priority (1..10), e.g. Thread.NORM_PRIORITY, required to START 
+	private Integer threadPriority;	// Job Thread CPU execution priority (1..10), e.g. Thread.NORM_PRIORITY, required to START
+	private String userName;		// Who is requesting that the job be run
+	private String userEmail;		// What is the requestor's email address
 	
-	public static JobControlRequest createStartRequest(String jobName, Integer threadPriority) {
-		return new JobControlRequest(Action.START, jobName, threadPriority);
+	public static JobRunRequest createStartRequest(String jobName, Integer threadPriority, String userName, String userEmail) {
+		return new JobRunRequest(jobName, threadPriority, userName, userEmail);
 	}
 	public String marshal() throws JiBXException {
-		IBindingFactory factory = BindingDirectory.getFactory(JobControlRequest.class);
+		IBindingFactory factory = BindingDirectory.getFactory(JobRunRequest.class);
 		IMarshallingContext context = factory.createMarshallingContext();
 		context.setIndent(2);
 		StringWriter stringWriter = new StringWriter();
@@ -40,12 +39,12 @@ public class JobControlRequest implements Serializable {
 		return xml;
 	}
 	
-	public static JobControlRequest unmarshal(String xml) throws JiBXException {
+	public static JobRunRequest unmarshal(String xml) throws JiBXException {
 		StringReader stringReader = new StringReader(xml);
 		try {
-			IBindingFactory factory = BindingDirectory.getFactory(JobControlRequest.class);
+			IBindingFactory factory = BindingDirectory.getFactory(JobRunRequest.class);
 			IUnmarshallingContext context = factory.createUnmarshallingContext();
-			JobControlRequest request = (JobControlRequest) context.unmarshalDocument(stringReader);
+			JobRunRequest request = (JobRunRequest) context.unmarshalDocument(stringReader);
 			return request;
 		} finally {
 			stringReader.close();
@@ -55,16 +54,14 @@ public class JobControlRequest implements Serializable {
 	/**
 	 * No-arg constructor required for unmarshaling
 	 */
-	public JobControlRequest() {
+	public JobRunRequest() {
 		super();
 	}
-	private JobControlRequest(Action action, String jobName, Integer threadPriority) {
-		this.action = action;
+	private JobRunRequest(String jobName, Integer threadPriority, String userName, String userEmail) {
 		this.jobName = jobName;
 		this.threadPriority = threadPriority;
-	}
-	public Action getAction() {
-		return action;
+		this.userName = userName;
+		this.userEmail = userEmail;
 	}
 	public String getJobName() {
 		return jobName;
@@ -72,8 +69,11 @@ public class JobControlRequest implements Serializable {
 	public Integer getThreadPriority() {
 		return threadPriority;
 	}
-	public void setAction(Action action) {
-		this.action = action;
+	public String getUserName() {
+		return userName;
+	}
+	public String getUserEmail() {
+		return userEmail;
 	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
@@ -81,7 +81,12 @@ public class JobControlRequest implements Serializable {
 	public void setThreadPriority(Integer priority) {
 		this.threadPriority = priority;
 	}
-
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

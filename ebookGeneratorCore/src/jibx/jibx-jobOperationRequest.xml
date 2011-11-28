@@ -1,9 +1,0 @@
-<binding>
-
-    <mapping name="jobControlRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobControlRequest">
-    	<value name="action" field="action" usage="required"/>
-        <value name="jobName" field="jobName" usage="optional"/>
-        <value name="threadPriority" field="threadPriority" usage="optional"/>
-    </mapping>
-    
-</binding>

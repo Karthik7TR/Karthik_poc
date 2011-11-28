@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
@@ -20,13 +21,13 @@ import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 
 @Component
 public class EngineManagerImpl implements EngineManager {
-	
+	private static final Logger log = Logger.getLogger(EngineManagerImpl.class);
 	@Autowired
 	private JobRegistry jobRegistry;
 	@Autowired
@@ -40,15 +41,6 @@ public class EngineManagerImpl implements EngineManager {
 	@Resource(name="highThreadPriorityJobLauncher")
 	private JobLauncher highThreadPriorityJobLauncher;
 	
-	@Override
-	public JobExecution runJob(String jobName) throws Exception {
-		return runJob(jobName, Thread.NORM_PRIORITY);
-	}
-	@Override	
-	public JobExecution runJob(String jobName, Integer threadPriority) throws Exception {
-		return runJob(jobName, threadPriority, new JobParameters());
-	}
-	
 	/**
 	 * Immediately run a job at the specified thread execution priority.
 	 * @param jobName the name of the job as defined in Spring bean definition file(s)
@@ -57,22 +49,23 @@ public class EngineManagerImpl implements EngineManager {
 	 * @throws Exception on unable to find job name, or launching the job
 	 */
 	@Override
-	public JobExecution runJob(String jobName, Integer threadPriority, JobParameters userJobParameters) throws Exception {
-		
+	public JobExecution runJob(JobRunRequest request) throws Exception {
+		log.debug(String.format("Starting job: %s", request.getJobName()));
+
 		// Lookup job object from set of defined collection of jobs 
-		Job job = jobRegistry.getJob(jobName);
+		Job job = jobRegistry.getJob(request.getJobName());
 		if (job == null) {
-			throw new IllegalArgumentException("Job name: " + jobName + " was not found!");
+			throw new IllegalArgumentException("Job name: " + request.getJobName() + " was not found!");
 		}
 		
 		// Get the launcher with the correctly prioritized thread priority for this job
-		JobLauncher prioritizedJobLauncher = getJobLauncher(threadPriority);
+		JobLauncher prioritizedJobLauncher = getJobLauncher(request.getThreadPriority());
 		
 		// Load the pre-defined set of job parameters for this specific job from a database table
-		JobParameters databaseJobParameters = engineService.loadJobParameters(jobName);
+		JobParameters databaseJobParameters = engineService.loadJobParameters(request.getJobName());
 		
 		// Combine and add in the well-known set of launch parameters
-		JobParameters combinedJobParameters = createLaunchJobParameters(userJobParameters, databaseJobParameters);
+		JobParameters combinedJobParameters = createCombinedJobParameters(request, databaseJobParameters);
 		
 		// Launch the job with a MIN|NORMAL|MAX thread priority
 		JobExecution jobExecution = prioritizedJobLauncher.run(job, combinedJobParameters);
@@ -113,29 +106,14 @@ public class EngineManagerImpl implements EngineManager {
 	}
 	
 	/**
-	 * Load job launch parameters from a database table.
-	 * @param jobName job to load launch parameters for, lookup key in table
-	 * @return a map of the job parameters
-	 */
-	
-//	private Map<String,JobParameter> loadJobParameters(String jobName) {
-//		Map<String, JobParameter> params = engineService.loadJobParameters(jobName);
-//	}
-	
-	/**
 	 * Combine user and database loaded job params and ddd the standard well-known set of job parameters to the job launch configuration.
 	 * @return a superset of the provided jobParameters including the well-known set.
 	 */
-	private static JobParameters createLaunchJobParameters(JobParameters userJobParams, JobParameters databaseJobParams) {
+	private static JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
 		
 		// Combine the user and database provided job parameters
-		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>(userJobParams.getParameters());
-		jobParamMap.putAll(databaseJobParams.getParameters());
+		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>(databaseJobParams.getParameters());
 		
-		// Who is running the job?  Add the username of the currently authenticated user to the set of job launch parameters.
-		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
-		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
-		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
 		// What host is the job running on?
 		String hostName = null;
 		try {
@@ -145,9 +123,10 @@ public class EngineManagerImpl implements EngineManager {
 			hostName = null;
 		}
 		// Add the "well-known"  ken/values into the job parameters map
-		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(userName));
-		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(userEmail));
+		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
+		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));
+		jobParamMap.put(EngineConstants.JOB_PARAM_SERIAL_NUMBER, new JobParameter(System.currentTimeMillis()));
 		return new JobParameters(jobParamMap);
 	}
 }

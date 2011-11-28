@@ -10,16 +10,9 @@
 </head>
 
 <body>
-<h2>E-Book Generator Home</h2>
-
-Max Concurrent Jobs: TODO<br/>
-Current job count: nn<br/>
+<h2>E-Book Generator Engine Home</h2>
 
 <br/>
-
-<a href="<%=WebConstants.URL_ADMIN_GET%>">Generator Administration</a><br/>
-<br/>
-<a href="eReaderPublishingJob.mvc">Launch Play eReader Publishing Job</a><br/>
 
 <%-- Hudson build information --%>
   <div style="vertical-align: middle; width:98%" align="right">

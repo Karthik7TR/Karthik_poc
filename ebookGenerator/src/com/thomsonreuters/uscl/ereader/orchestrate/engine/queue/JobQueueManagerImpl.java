@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobControlRequest;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 /**
  * Handle receiving messages from the high and normal priority job request queues.
@@ -20,18 +20,18 @@ public class JobQueueManagerImpl implements JobQueueManager {
 	
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	@Resource(name="highPriorityJobQueue")
-	private Queue highPriorityJobQueue;
-	@Resource(name="normalPriorityJobQueue")
-	private Queue normalPriorityJobQueue;
+	@Resource(name="highPriorityJobRunRequestQueue")
+	private Queue highPriorityJobRunRequestQueue;
+	@Resource(name="normalPriorityJobRunRequestQueue")
+	private Queue normalPriorityJobRunRequestQueue;
 	
 	
-	public JobControlRequest getHighPriorityJobRunRequest() throws Exception {
-		return getJobRunRequest(highPriorityJobQueue);
+	public JobRunRequest getHighPriorityJobRunRequest() throws Exception {
+		return getJobRunRequest(highPriorityJobRunRequestQueue);
 	}
 
-	public JobControlRequest getNormalPriorityJobRunRequest() throws Exception {
-		return getJobRunRequest(normalPriorityJobQueue);		
+	public JobRunRequest getNormalPriorityJobRunRequest() throws Exception {
+		return getJobRunRequest(normalPriorityJobRunRequestQueue);		
 	}
 	
 	/**
@@ -40,15 +40,15 @@ public class JobQueueManagerImpl implements JobQueueManager {
 	 * @return the message at the front of the queue, or null if the queue is emtpy.
 	 * @throws Exception if there is a JMS fetch error, or a parse error with the received message.
 	 */
-	private JobControlRequest getJobRunRequest(Queue queue) throws Exception {
-		JobControlRequest jobRunRequest = null;
+	private JobRunRequest getJobRunRequest(Queue queue) throws Exception {
+		JobRunRequest jobRunRequest = null;
 		// Synchronous receive, but the timeout value is set so it will timeout and return quickly if there is nothing on the JMS queue.
 		// See jmsTemplate definition in Spring bean xml file.
 		Message message = jmsTemplate.receive(queue);
 		if (message != null) {
 			TextMessage textMessage = (TextMessage) message;
 			String xmlRequest = textMessage.getText();
-			jobRunRequest = JobControlRequest.unmarshal(xmlRequest);
+			jobRunRequest = JobRunRequest.unmarshal(xmlRequest);
 		}
 		return jobRunRequest;
 	}
