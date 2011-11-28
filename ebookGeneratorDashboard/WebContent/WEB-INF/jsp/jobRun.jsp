@@ -14,8 +14,6 @@
 <body>
 <h2>Run Job</h2>
 
-<br/>
-
 	<form:form action="<%=WebConstants.URL_JOB_RUN%>"
 			   commandName="<%=JobRunForm.FORM_NAME%>" name="theForm" method="post">
 			   
@@ -35,12 +33,27 @@
 		    <br/>
 	    </spring:hasBindErrors>
 
-		<input type="submit" value="Run Job"/>
-		
-		&nbsp; Job Name
+		Job Name
 		<form:select path="jobName">
 			<form:options items="${jobNames}" itemLabel="label" itemValue="value"/>
 		</form:select>
+		<br/>
+		Job Priority
+		<form:select path="highPriorityJob">
+			<form:option label="Normal" value="false"/>
+			<form:option label="High" value="true"/>
+		</form:select>
+		<br/>
+		Thread Priority
+		<form:select path="threadPriority">
+			<form:option label="Normal" value="5"/>
+			<form:option label="Minimum" value="1"/>
+			<form:option label="Maximum" value="10"/>
+		</form:select>
+		<br/>
+		<br/>
+		
+		<input type="submit" value="Run Job"/>
 	</form:form>
 
 </body>
