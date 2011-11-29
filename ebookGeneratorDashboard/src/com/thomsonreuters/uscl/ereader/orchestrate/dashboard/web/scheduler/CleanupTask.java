@@ -5,23 +5,24 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 /**
- * A Quartz job task to remove the oldest database records.
- * This task is executed from the Job class.
+ * Task to remove the oldest Spring Batch Job execution database records.
  */
 public class CleanupTask {
 	private static final Logger log = Logger.getLogger(CleanupTask.class);
 	private DashboardService service;
 	private int deleteJobsDaysOlderThan;
 	
-	public void deleteOldJobs() {
+	@Scheduled(fixedRate=12*60*60*1000)
+	public void run() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -deleteJobsDaysOlderThan);
 		Date removeBeforeDate = cal.getTime();
-		log.info("SB Job cleanup task has started, deleting job metadata older than: " + removeBeforeDate);
+		log.info("SB Job cleanup task has started, deleting job execution records older than: " + removeBeforeDate);
 		service.jobCleaner(removeBeforeDate);
 		log.info("SB Job cleanup task has completed.");
 	}
