@@ -43,7 +43,7 @@ public class JobRunQueuePoller {
 				}
 			}
 		} catch (Exception e) {
-			log.error("Failed to fetch or run batch job", e);
+			log.error(String.format("Failed to fetch job run request from launch input queue.\n\t%s", e.getMessage()));
 		}
 	}
 }
