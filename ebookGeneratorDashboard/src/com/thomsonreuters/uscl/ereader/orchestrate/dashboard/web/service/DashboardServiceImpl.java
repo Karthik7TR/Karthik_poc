@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -23,6 +25,8 @@ public class DashboardServiceImpl implements DashboardService {
 	private DashboardDao dao;
 	@Autowired
 	private JobExplorer jobExplorer;
+	@Resource(name="jobNames")
+	private List<String> jobNames;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -61,5 +65,10 @@ public class DashboardServiceImpl implements DashboardService {
 	@Transactional
 	public void jobCleaner(Date jobsBefore) {
 		dao.deleteJobsBefore(jobsBefore);
+	}
+	
+	@Override
+	public List<String> getRunnableJobNames() {
+		return jobNames;
 	}
 }

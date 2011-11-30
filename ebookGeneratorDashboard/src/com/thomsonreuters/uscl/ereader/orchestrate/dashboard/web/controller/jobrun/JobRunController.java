@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobControl;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 @Controller
 public class JobRunController {
@@ -26,9 +26,9 @@ public class JobRunController {
 	@Resource(name="environmentName")
 	private String environmentName;
 	@Autowired
-	private JobExplorer jobExplorer;
-	@Autowired
 	private JobControl jobControl;
+	@Autowired
+	private DashboardService service;
 	
 	/**
 	 * Handle in-bound GET request to display the job launching page.
@@ -59,9 +59,8 @@ public class JobRunController {
 
 	private void populateModel(Model model) {
 		/* Get all the unique job names */
-		List<String> uniqueJobNames = jobExplorer.getJobNames();		
 		List<SelectOption> jobNameOptions = new ArrayList<SelectOption>();
-		for (String jobName : uniqueJobNames) {
+		for (String jobName : service.getRunnableJobNames()) {
 			jobNameOptions.add(new SelectOption(jobName, jobName));
 		}
 		model.addAttribute(WebConstants.KEY_JOB_NAMES, jobNameOptions);

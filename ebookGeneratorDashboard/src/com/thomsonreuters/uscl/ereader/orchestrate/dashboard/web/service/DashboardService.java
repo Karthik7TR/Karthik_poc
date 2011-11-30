@@ -36,5 +36,10 @@ public interface DashboardService {
 	 */
 	public void jobCleaner(Date jobsBefore);
 	
+	/**
+	 * Get the list of jobs that can be launched.
+	 * @return a list of job name id strings.
+	 */
+	public List<String> getRunnableJobNames();
 
 }

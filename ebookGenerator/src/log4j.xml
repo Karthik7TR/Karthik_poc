@@ -13,7 +13,7 @@
 		This is done in consideration of multi-server instance deployment environment where multiple where multiple instances of the web app. will be deployed across several hosts.
 	-->
 	<appender name="rollingFileAppender" class="com.thomsonwest.codes.log4j.appender.CodesRollingFileAppender">
-		<param name="File" value="/apps/Codes/MP2/LandingStrips/logs/sbEngine-%server%.log"/>
+		<param name="File" value="/apps/Codes/MP2/LandingStrips/logs/ebookGenerator-%server%.log"/>
 		<param name="MaxFileSize" value="10024KB" />
 		<param name="MaxBackupIndex" value="20" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -27,7 +27,7 @@
 	</logger>
 	
 	<logger name="org.springframework.batch.core" additivity="false">
-		<level value="debug"/>
+		<level value="warn"/>
 		<appender-ref ref="console"/>
 	</logger>
 

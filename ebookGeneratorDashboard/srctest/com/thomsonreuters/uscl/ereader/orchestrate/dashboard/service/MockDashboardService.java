@@ -30,4 +30,9 @@ public class MockDashboardService implements DashboardService {
 	@Override
 	public void jobCleaner(Date jobsBefore) {
 	}
+	
+	@Override
+	public List<String> getRunnableJobNames() {
+		return new ArrayList<String>(0);
+	}
 }

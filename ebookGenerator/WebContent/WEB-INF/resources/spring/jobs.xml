@@ -1,0 +1,66 @@
+<beans:beans xmlns="http://www.springframework.org/schema/batch" 
+     xmlns:beans="http://www.springframework.org/schema/beans"
+     xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+ 
+	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
+
+	<job id="stubJob1">
+		<step id="sj1_Step0">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj1_Step1"/>
+		</step>
+		<step id="sj1_Step1">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj1_Step2"/>
+		</step>
+		<step id="sj1_Step2">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj1_Step3"/>
+		</step>
+		<step id="sj1_Step3">
+			<tasklet ref="stubTask"/>
+		</step>
+	</job>
+	
+	<job id="stubJob2">
+		<step id="sj2_Step0">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj2_Step1"/>
+		</step>
+		<step id="sj2_Step1">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj2_Step2"/>
+		</step>
+		<step id="sj2_Step2">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj2_Step3"/>
+		</step>
+		<step id="sj2_Step3">
+			<tasklet ref="stubTask"/>
+		</step>
+	</job>	
+	
+	<job id="stubJob3">
+		<step id="sj3_Step0">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj3_Step1"/>
+		</step>
+		<step id="sj3_Step1">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj3_Step2"/>
+		</step>
+		<step id="sj3_Step2">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="sj3_Step3"/>
+		</step>
+		<step id="sj3_Step3">
+			<tasklet ref="stubTask"/>
+		</step>
+	</job>
+</beans:beans>

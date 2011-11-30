@@ -2,11 +2,13 @@
      xmlns="http://www.springframework.org/schema/beans"
      xmlns:batch="http://www.springframework.org/schema/batch"
      xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:util="http://www.springframework.org/schema/util"
      xmlns:context="http://www.springframework.org/schema/context"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
 
 	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
@@ -20,5 +22,13 @@
 		  p:jmsTemplate-ref="jmsTemplate"
 		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
 		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
+
+	<!-- The list of runnable jobs.
+		 TODO: Refactor to get the list from the engine web app. as (say) a REST-style service call.  Change DashboardService implementation of getRunnableJobNames() -->
+	<util:list id="jobNames" value-type="java.lang.String">
+    	<value>stubJob1</value>
+    	<value>stubJob2</value>
+    	<value>stubJob3</value>
+	</util:list>
 
 </beans>
