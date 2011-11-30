@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +26,24 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	
 	@Autowired
-	private EngineManagerImpl engineUtils;
+	private EngineManagerImpl engineManager;
 	@Resource(name="dashboardContextUrl")
 	private URL dashboardContextUrl;
+	@Autowired
+	private MessageSourceAccessor messageSourceAccessor;
 
-	// RESTART ===========================================================================================================
+	/**
+	 * Attempt to restart a currently stopped job execution.
+	 * Makes no attempt to verify that the specified jobExecutionId is in a state that allows it to be restarted.
+	 * If the job cannot be restarted due to an improper state, the user is directed to an error page describing the reason for the failure.
+	 * @param jobExecutionId id of the job execution to restart
+	 */
 	@RequestMapping(value=WebConstants.URL_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJobExecution(@RequestParam Long jobExecutionId, Model model) throws Exception {
 		Long jobExecutionIdToRestart = jobExecutionId;
 log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);		
 		try {
-			Long restartedJobExecutionId = engineUtils.restartJob(jobExecutionIdToRestart);
+			Long restartedJobExecutionId = engineManager.restartJob(jobExecutionIdToRestart);
 log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the restarted job
@@ -43,18 +51,23 @@ log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 			return new ModelAndView(new RedirectView(dashboardDetailsUrl));
 		} catch (Exception e) {
 			log.error("Failed to restart job with execution ID=" + jobExecutionIdToRestart, e);
-			populateModel(model, jobExecutionIdToRestart, e, "restart");
+			populateModel(model, jobExecutionIdToRestart, e, messageSourceAccessor.getMessage("label.restart"));
 			return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_FAILURE);
 		}
 	}
 	
-	// STOP ===========================================================================================================
+	/**
+	 * Attempt to Stop a currently started job execution.
+	 * Makes no attempt to verify that the specified jobExecutionId is in a state that allows it to be stopped.
+	 * If the job cannot be stopped due to an improper state, the user is directed to an error page describing the reason for the failure.
+	 * @param jobExecutionId id of the job execution to stop
+	 */
 	@RequestMapping(value=WebConstants.URL_JOB_STOP, method = RequestMethod.GET)
-	public ModelAndView stopJobExecution(@RequestParam Long jobExecutionId, Model model) throws Exception {
+	public ModelAndView stopJobExecution(@RequestParam Long jobExecutionId, Model model) {
 		Long jobExecutionIdToStop = jobExecutionId;
 log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
 		try {
-			engineUtils.stopJob(jobExecutionIdToStop);
+			engineManager.stopJob(jobExecutionIdToStop);
 log.debug("Stopped Job: " + jobExecutionIdToStop);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the stopped job
@@ -62,7 +75,7 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 			return new ModelAndView(new RedirectView(dashboardDetailsUrl));
 		} catch (Exception e) {
 			log.error("Failed to stop job with execution ID=" + jobExecutionIdToStop, e);
-			populateModel(model, jobExecutionIdToStop, e, "stop");
+			populateModel(model, jobExecutionIdToStop, e, messageSourceAccessor.getMessage("label.stop"));
 			return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_FAILURE);
 		}
 	}
@@ -76,6 +89,10 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 		model.addAttribute(WebConstants.KEY_ACTION, action);
 	}
 	
+	/**
+	 * Fetch the complete URL for the Job Execution Details page of the dashboard web application, less the required query string.
+	 * @return the Dashboard Job execution details page url with no query string.
+	 */
 	private String getDashboardJobExecutionDetailsUrl() {
 		return dashboardContextUrl.toString()+"/jobExecutionDetails.mvc";
 	}
