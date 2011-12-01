@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobControl;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
@@ -26,7 +26,7 @@ public class JobRunController {
 	@Resource(name="environmentName")
 	private String environmentName;
 	@Autowired
-	private JobControl jobControl;
+	private JobRunner jobRunner;
 	@Autowired
 	private DashboardService service;
 	
@@ -49,9 +49,9 @@ public class JobRunController {
 								Model model) throws Exception {
 		log.debug(form);
 		if (form.isHighPriorityJob()) {
-			jobControl.enqueueHighPriorityJobRunRequest(form.getJobName(), form.getThreadPriority());
+			jobRunner.enqueueHighPriorityJobRunRequest(form.getJobName(), form.getThreadPriority());
 		} else {
-			jobControl.enqueueNormalPriorityJobRunRequest(form.getJobName(), form.getThreadPriority());
+			jobRunner.enqueueNormalPriorityJobRunRequest(form.getJobName(), form.getThreadPriority());
 		}
 		populateModel(model);
 		return new ModelAndView(WebConstants.VIEW_JOB_RUN);

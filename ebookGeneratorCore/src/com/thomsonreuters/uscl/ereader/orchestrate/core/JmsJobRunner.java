@@ -12,7 +12,7 @@ import org.springframework.jms.core.MessageCreator;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 
-public class JmsJobControlImpl implements JobControl {
+public class JmsJobRunner implements JobRunner {
 	
 	private JmsTemplate jmsTemplate;
 	private Queue highPriorityQueue;
@@ -53,7 +53,7 @@ public class JmsJobControlImpl implements JobControl {
 		this.normalPriorityQueue = normalPriorityQueue;
 	}
 	
-	public class MyStringMessageCreator implements MessageCreator {
+	final class MyStringMessageCreator implements MessageCreator {
 		private String payload;
 		
 		public MyStringMessageCreator(String payload) {

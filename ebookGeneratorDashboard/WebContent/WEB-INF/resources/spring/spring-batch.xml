@@ -18,7 +18,7 @@
 		The JobControl class is used to enqueue job run request messages onto either the high or normal priority
 		job run JMS queue. 
 	 -->	  
-	<bean id="jobController" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobControlImpl"
+	<bean id="jobRunner" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobRunner"
 		  p:jmsTemplate-ref="jmsTemplate"
 		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
 		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
