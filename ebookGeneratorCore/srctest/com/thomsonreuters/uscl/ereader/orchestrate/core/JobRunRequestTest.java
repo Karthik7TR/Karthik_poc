@@ -22,6 +22,8 @@ public class JobRunRequestTest  {
 //System.out.println("Unmarshalled: " + unmarshalledRequest);
 			Assert.assertEquals(requestToMarshal.getThreadPriority(), unmarshalledRequest.getThreadPriority());
 			Assert.assertEquals(requestToMarshal.getJobName(), unmarshalledRequest.getJobName());
+			Assert.assertEquals(requestToMarshal.getUserName(), unmarshalledRequest.getUserName());
+			Assert.assertEquals(requestToMarshal.getUserEmail(), unmarshalledRequest.getUserEmail());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
