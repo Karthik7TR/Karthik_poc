@@ -21,7 +21,7 @@
 		</layout>
 	</appender>
 
-	<logger name="com.thomsonreuters" additivity="false">
+	<logger name="com.thomsonreuters.uscl.ereader" additivity="false">
 		<level value="debug"/>
 		<appender-ref ref="console"/>
 	</logger>
