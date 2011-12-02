@@ -35,6 +35,12 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
+		<td width="20%">Book</td>
+		<td width="30%">${jobInstance.jobParameters.parameters.bookCode}</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
 		<td width="20%">Job Instance</td>
 		<td width="30%">${jobInstance.id}</td>
 		<td>&nbsp;</td>

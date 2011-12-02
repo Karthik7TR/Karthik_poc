@@ -113,7 +113,13 @@
 	<tr>
 		<td width="25%">Job Name</td>
 		<td width="35%">${jobExecution.jobInstance.jobName}</td>
-		<td width="18%">Create Time</td>
+		<td width="18%">&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>Book</td>
+		<td>${vdo.bookCode}</td>
+		<td>Create Time</td>
 		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>

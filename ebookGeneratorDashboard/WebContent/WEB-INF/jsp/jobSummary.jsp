@@ -88,7 +88,7 @@
 			<c:otherwise><c:set var="sortImage" value="<img src='images/arrowdown.gif' alt='(desc)'/>"/></c:otherwise>
 		</c:choose>
 		<c:choose>
-			<c:when test="${paginatedList.sortCriterion == 'JOB_NAME'}"><c:set var="jobNameImageTag" value="${sortImage}"/></c:when>
+			<c:when test="${paginatedList.sortCriterion == 'BOOK'}"><c:set var="bookCodeImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'INSTANCE_ID'}"><c:set var="instanceIdImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'BATCH_STATUS'}"><c:set var="batchStatusImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'START_TIME'}"><c:set var="startTimeImageTag" value="${sortImage}"/></c:when>
@@ -101,8 +101,9 @@
 					   sort="external">
 		  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
 	
-		  <!-- display:column title="Job Name" property="jobInstance.jobName"/ -->
-		  <display:column title="Job Name ${jobNameImageTag}" property="jobExecution.jobInstance.jobName" sortable="true" sortProperty="<%=SortProperty.JOB_NAME.toString()%>" style="text-align: left"/>
+		  <%-- display:column title="Job Name ${jobNameImageTag}" property="jobExecution.jobInstance.jobName" sortable="true" sortProperty="<%=SortProperty.JOB_NAME.toString()%>" style="text-align: left"/ --%>
+		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
+		  <display:column title="Book ${bookCodeImageTag}" property="bookCode" sortable="true" sortProperty="<%=SortProperty.BOOK.toString()%>" style="text-align: left"/>
 		  <display:column title="Instance ${instanceIdImageTag}" sortable="true" sortProperty="<%=SortProperty.INSTANCE_ID.toString()%>">
 		  		<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 		  </display:column>

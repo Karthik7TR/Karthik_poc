@@ -19,6 +19,8 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+
 
 /**
  * A View Data Object (VDO) wrapper around a Spring Batch JobExecution object (Decorator/VDO patterns).
@@ -40,6 +42,10 @@ public class JobExecutionVdo {
 	
 	public JobExecution getJobExecution() {
 		return jobExecution;
+	}
+	
+	public String getBookCode() {
+		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_CODE);
 	}
 	
 	/**

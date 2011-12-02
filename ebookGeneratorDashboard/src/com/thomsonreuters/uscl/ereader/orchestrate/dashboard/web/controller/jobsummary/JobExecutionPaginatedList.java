@@ -8,7 +8,9 @@ import java.util.Map;
 
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
+import org.springframework.batch.core.JobParameter;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants.SortProperty;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdo;
 
@@ -101,7 +103,7 @@ public class JobExecutionPaginatedList implements PaginatedList {
 	 */
 	private Map<SortProperty, Comparator<JobExecutionVdo>> createComparatorMap(Comparator<JobExecutionVdo> startTimeComparator) {
 		Map<SortProperty, Comparator<JobExecutionVdo>> map = new HashMap<SortProperty, Comparator<JobExecutionVdo>>();
-		map.put(SortProperty.JOB_NAME, new JobNameComparator());
+		map.put(SortProperty.BOOK, new BookComparator());
 		map.put(SortProperty.INSTANCE_ID, new InstanceIdComparator());
 		map.put(SortProperty.BATCH_STATUS, new BatchStatusComparator());
 		map.put(SortProperty.START_TIME, startTimeComparator);
@@ -109,11 +111,40 @@ public class JobExecutionPaginatedList implements PaginatedList {
 		return map;
 	}
 	
-	class JobNameComparator implements Comparator<JobExecutionVdo> {
+//	class JobNameComparator implements Comparator<JobExecutionVdo> {
+//		public int compare(JobExecutionVdo je1, JobExecutionVdo je2) {
+//			int result = 0;
+//			if (je1.getJobExecution().getJobInstance().getJobName() != null) {
+//				result = je1.getJobExecution().getJobInstance().getJobName().compareTo(je2.getJobExecution().getJobInstance().getJobName());
+//			}
+//			return ((ascending) ? result : -result);
+//		}
+//	}
+	
+	
+	class BookComparator implements Comparator<JobExecutionVdo> {
 		public int compare(JobExecutionVdo je1, JobExecutionVdo je2) {
 			int result = 0;
-			if (je1.getJobExecution().getJobInstance().getJobName() != null) {
-				result = je1.getJobExecution().getJobInstance().getJobName().compareTo(je2.getJobExecution().getJobInstance().getJobName());
+			JobParameter book1Param = je1.getJobExecution().getJobInstance().getJobParameters().getParameters().get(EngineConstants.JOB_PARAM_BOOK_CODE);
+			if (book1Param != null) {
+				JobParameter book2Param = je2.getJobExecution().getJobInstance().getJobParameters().getParameters().get(EngineConstants.JOB_PARAM_BOOK_CODE);
+				if (book2Param != null) {
+					String book1Code = (String) book1Param.getValue();
+					String book2Code = (String) book2Param.getValue();
+					if (book1Code != null) {
+						if (book2Code != null) {
+							result = book1Code.compareTo(book2Code);
+						} else {
+							result = 1;
+						}
+					} else {
+						result = -1;
+					}
+				} else {
+					result = 1;
+				}
+			} else {
+				result = -1;
 			}
 			return ((ascending) ? result : -result);
 		}

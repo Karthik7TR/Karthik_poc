@@ -50,7 +50,7 @@ public class EngineManagerImpl implements EngineManager {
 	 */
 	@Override
 	public JobExecution runJob(JobRunRequest request) throws Exception {
-		log.debug(String.format("Starting job: %s", request.getJobName()));
+		log.debug(String.format("Starting job: %s", request));
 
 		// Lookup job object from set of defined collection of jobs 
 		Job job = jobRegistry.getJob(request.getJobName());
@@ -106,7 +106,7 @@ public class EngineManagerImpl implements EngineManager {
 	}
 	
 	/**
-	 * Combine user and database loaded job params and ddd the standard well-known set of job parameters to the job launch configuration.
+	 * Combine user and database loaded job params and the standard "well-known" set of job parameters to the job launch configuration.
 	 * @return a superset of the provided jobParameters including the well-known set.
 	 */
 	private static JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
@@ -123,6 +123,7 @@ public class EngineManagerImpl implements EngineManager {
 			hostName = null;
 		}
 		// Add the "well-known"  ken/values into the job parameters map
+		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(runRequest.getBookCode()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));

@@ -1,8 +1,9 @@
 <binding>
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
-        <value name="jobName" field="jobName" usage="optional"/>
-        <value name="threadPriority" field="threadPriority" usage="optional"/>
+        <value name="jobName" field="jobName" usage="required"/>
+        <value name="bookCode" field="bookCode" usage="required"/>
+        <value name="threadPriority" field="threadPriority" usage="required"/>
         <value name="userName" field="userName" usage="optional"/>
         <value name="userEmail" field="userEmail" usage="optional"/>
     </mapping>

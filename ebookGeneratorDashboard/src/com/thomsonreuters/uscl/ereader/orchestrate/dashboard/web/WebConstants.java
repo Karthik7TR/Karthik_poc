@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  */
 public class WebConstants {
 	
-	public enum SortProperty { JOB_NAME, INSTANCE_ID, BATCH_STATUS, START_TIME, EXECUTION_TIME };  // Job Summary page
+	public enum SortProperty { BOOK, INSTANCE_ID, BATCH_STATUS, START_TIME, EXECUTION_TIME };  // Job Summary page
 	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_PATTERN);
 	public static final String JVM_PROPERTY_ENVIRONMENT = "environment";
