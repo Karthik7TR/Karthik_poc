@@ -28,8 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobrun.JobRunController;
-import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobrun.JobRunForm;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookController;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm;
 
 /**
  * Unit tests for the JobInstanceController which handles the Job Instance page.
@@ -37,9 +37,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobr
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobRunControllerTest {
-	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+JobRunForm.FORM_NAME;
+	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+CreateBookForm.FORM_NAME;
     @Autowired
-    private JobRunController controller;
+    private CreateBookController controller;
     @Resource(name="engineContextUrl")
     private URL engineContextUrl;
     private MockHttpServletRequest request;
@@ -60,12 +60,12 @@ public class JobRunControllerTest {
      */
     @Test
     public void testGetJobRun() throws Exception {
-    	request.setRequestURI("/"+WebConstants.URL_JOB_RUN);
+    	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.GET.name());
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name
-        assertEquals(WebConstants.VIEW_JOB_RUN, mav.getViewName());
+        assertEquals(WebConstants.VIEW_CREATE_BOOK, mav.getViewName());
         
         // Check the state of the model
         validateModel(mav.getModel());
@@ -76,7 +76,7 @@ public class JobRunControllerTest {
      */
     @Test
     public void testPostJobSummary() throws Exception {
-    	request.setRequestURI("/"+WebConstants.URL_JOB_RUN);
+    	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("bookCode", "testBookCode");
     	request.setParameter("threadPriority", String.valueOf(Thread.NORM_PRIORITY));
@@ -88,7 +88,7 @@ public class JobRunControllerTest {
     	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
     	assertNotNull(bindingResult);
     	assertFalse(bindingResult.hasErrors());
-    	Assert.assertEquals(WebConstants.VIEW_JOB_RUN, mav.getViewName());
+    	Assert.assertEquals(WebConstants.VIEW_CREATE_BOOK, mav.getViewName());
     	validateModel(model);
     }
     
@@ -97,7 +97,7 @@ public class JobRunControllerTest {
      */
     @Test
     public void testPostJobRunWithBindingError() {
-    	request.setRequestURI("/"+WebConstants.URL_JOB_RUN);
+    	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("bookCode", "testBookCode");
     	request.setParameter("threadPriority", "badThreadPriority");  // an invalid integer

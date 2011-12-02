@@ -9,12 +9,12 @@
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
         				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-        				   
 
   	 
   	<!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
   	<context:component-scan base-package="com.thomsonreuters.uscl.ereader"/>
   	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+  	
 
 	<!-- Application properties.
 		 Note: the "environment" property is set as a JVM argument at server start and is used to drive the loading of environment specific properties
@@ -23,17 +23,17 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
        	  <list>
-          	<value>classpath:properties/default_ebookGenerator.properties</value>
-           	<value>classpath:properties/${environment}_ebookGenerator.properties</value>
+          	<value>/WEB-INF/spring/properties/default-spring.properties</value>
+           	<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
          </list>
        </property>
 	</bean>
-	<bean id="environmentName" class="java.lang.String">
+  	<bean id="environmentName" class="java.lang.String">
   		<constructor-arg value="#{systemProperties['environment']}"/>
   	</bean>
-	<bean id="dashboardContextUrl" class="java.net.URL">
-		<constructor-arg value="${dashboard.context.url}"/>
-	</bean>
+  	<bean id="engineContextUrl" class="java.net.URL">
+  		<constructor-arg value="${engine.context.url}"/>
+  	</bean>
 	
 	<!-- Define message resource bundles used by the application.  These bundle files must be on the classpath. -->
   	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

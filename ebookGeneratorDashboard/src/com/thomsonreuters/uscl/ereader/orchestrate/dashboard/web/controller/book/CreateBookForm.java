@@ -1,10 +1,10 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobrun;
+package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class JobRunForm {
-	public static final String FORM_NAME = "jobRunForm";
+public class CreateBookForm {
+	public static final String FORM_NAME = "createBookForm";
 	
 	private String bookCode;		// Book code/id to be generated
 	private int threadPriority;	// 1..10, 1=MIN, 5=NORMAL, 10=MAX

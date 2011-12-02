@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobrun;
+package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 @Controller
-public class JobRunController {
-	private static final Logger log = Logger.getLogger(JobRunController.class);
+public class CreateBookController {
+	private static final Logger log = Logger.getLogger(CreateBookController.class);
 	
 	@Resource(name="environmentName")
 	private String environmentName;
@@ -33,21 +33,21 @@ public class JobRunController {
 	private DashboardService service;
 	
 	/**
-	 * Handle in-bound GET request to display the job launching page.
+	 * Handle in-bound GET request to display the book job launching page.
 	 */
-	@RequestMapping(value=WebConstants.URL_JOB_RUN, method = RequestMethod.GET)
-	public ModelAndView doGet(@ModelAttribute JobRunForm form,
+	@RequestMapping(value=WebConstants.URL_CREATE_BOOK, method = RequestMethod.GET)
+	public ModelAndView doGet(@ModelAttribute CreateBookForm form,
 							  Model model) throws Exception {
 		form.setThreadPriority(Thread.NORM_PRIORITY);
 		populateModel(model);
-		return new ModelAndView(WebConstants.VIEW_JOB_RUN);
+		return new ModelAndView(WebConstants.VIEW_CREATE_BOOK);
 	}
 	
 	/**
-	 * Handle submit (POST) of the form that indicates which job is to be run.
+	 * Handle submit (POST) of the form that indicates which book is to be created.
 	 */
-	@RequestMapping(value=WebConstants.URL_JOB_RUN, method = RequestMethod.POST)
-	public ModelAndView doPost(@ModelAttribute JobRunForm form,
+	@RequestMapping(value=WebConstants.URL_CREATE_BOOK, method = RequestMethod.POST)
+	public ModelAndView doPost(@ModelAttribute CreateBookForm form,
 								Model model) throws Exception {
 		log.debug(form);
 		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
@@ -61,7 +61,7 @@ public class JobRunController {
 			jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 		}
 		populateModel(model);
-		return new ModelAndView(WebConstants.VIEW_JOB_RUN);
+		return new ModelAndView(WebConstants.VIEW_CREATE_BOOK);
 	}
 
 	private void populateModel(Model model) {

@@ -1,5 +1,5 @@
 
-<%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobrun.JobRunForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,13 +12,13 @@
 </head>
 
 <body>
-<h2>Run Job</h2>
+<h2>Create Book</h2>
 
-	<form:form action="<%=WebConstants.URL_JOB_RUN%>"
-			   commandName="<%=JobRunForm.FORM_NAME%>" name="theForm" method="post">
+	<form:form action="<%=WebConstants.URL_CREATE_BOOK%>"
+			   commandName="<%=CreateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
 		<%-- Error Message Presentation --%>
-		<spring:hasBindErrors name="<%=JobRunForm.FORM_NAME%>">
+		<spring:hasBindErrors name="<%=CreateBookForm.FORM_NAME%>">
 			<div class="errorBox">
 		      <b><spring:message code="please.fix.errors"/></b><br/>
 		      <form:errors path="*">
@@ -53,7 +53,7 @@
 		<br/>
 		<br/>
 		
-		<input type="submit" value="Run Job"/>
+		<input type="submit" value="Create Book"/>
 	</form:form>
 
 </body>
