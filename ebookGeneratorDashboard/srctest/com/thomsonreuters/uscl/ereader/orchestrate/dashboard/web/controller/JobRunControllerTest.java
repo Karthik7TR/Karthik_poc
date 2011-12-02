@@ -103,14 +103,8 @@ public class JobRunControllerTest {
     	request.setParameter("threadPriority", "badThreadPriority");  // an invalid integer
     	request.setParameter("highPriorityJob", Boolean.TRUE.toString());
     	try {
-    		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-//        	assertNotNull(mav);
-//        	Map<String,Object> model = mav.getModel();
-//        	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
-//        	assertNotNull(bindingResult);
-//        	assertTrue(bindingResult.hasErrors());
-//        	Assert.assertEquals(WebConstants.VIEW_JOB_RUN, mav.getViewName());
-//        	assertNull(model.get(WebConstants.KEY_BOOK_CODE_OPTIONS));
+    		handlerAdapter.handle(request, response, controller);
+    		Assert.fail("Should have thrown a binding exception.");
     	} catch (Exception e) {
     		assertTrue(e instanceof BindException);
     		assertTrue(true); // expected
