@@ -57,13 +57,16 @@
 
 <%-- Search Filter --%>	    
 		<div>
-		<!-- Pick the job name for which you want a summary -->
 		<input type="submit" value="Search"/>
-		&nbsp; Job Name
-		<form:select path="jobName">
+
+		<!-- Pick the Book for which you want a summary -->
+<%-- TODO: since the bookCode is a JobParameter, we need to load all the entities, and then filter out the books we don't want.
+		&nbsp; Book
+		<form:select path="bookCode">
 			<form:option label="ALL" value=""/>
-			<form:options items="${jobNames}" itemLabel="label" itemValue="value"/>
+			<form:options items="${bookCodes}" itemLabel="label" itemValue="value"/>
 		</form:select>
+ --%>		
 
 		&nbsp; Job Status
 		<form:select path="status">

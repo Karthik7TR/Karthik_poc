@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants.SortProperty;
@@ -62,7 +63,7 @@ public class JobSummaryController {
 		initializeForm(form, httpSession);
 log.debug(">>> " + form);
 		JobExecution filter = createFilter(form);
-		List<Long> filteredExecutionIds = service.findJobExecutionIds(form.getJobName(), filter);
+		List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, filter);
 		saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 		PaginatedList paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 														  SortProperty.START_TIME, false);
@@ -75,8 +76,8 @@ log.debug(">>> " + form);
 	/**
 	 * Handles the POST submission of the search filter to limit the number of displayed job executions.
 	 * @param form the entered search criteria
-	 * @param bindingResult any data binding or vaidation errors
-	 * @param model a map whose key/value pais end up as Http request attributes.
+	 * @param bindingResult any data binding or validation errors
+	 * @param model a map whose key/value pairs end up as http request attributes.
 	 * @return the Job Summary page view
 	 */
 	@RequestMapping(value=WebConstants.URL_JOB_SUMMARY, method = RequestMethod.POST)
@@ -89,7 +90,7 @@ log.debug(">>> " + form);
 		if (!bindingResult.hasErrors()) {
 			httpSession.setAttribute(WebConstants.KEY_SESSION_SUMMARY_FORM, form);  // Save the entered values
 			JobExecution filter = createFilter(form);
-			List<Long> filteredExecutionIds = service.findJobExecutionIds(form.getJobName(), filter);
+			List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, filter);
 			saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 			paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 											    SortProperty.START_TIME, false);

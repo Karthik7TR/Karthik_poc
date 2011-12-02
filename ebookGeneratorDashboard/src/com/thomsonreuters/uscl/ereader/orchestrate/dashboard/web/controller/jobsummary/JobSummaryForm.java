@@ -20,7 +20,7 @@ public class JobSummaryForm {
 	public static final String FORM_NAME = "jobSummaryForm";
 	
 	// Filter fields set by user
-	private String jobName;
+	private String bookCode;	// The book that the job generated
 	private String status;		// a BatchStatus enumeration value
 	private String startDate;	// Start time in form: mm/dd/yyyy
 	private int itemsPerPage;  	// maximum rows shown in table at one time, from the select
@@ -31,7 +31,7 @@ public class JobSummaryForm {
 	private String dir;		// sort direction, sent by DisplayTag, one of: asc | desc
 
 	public void copyUserFields(JobSummaryForm other) {
-		setJobName(other.getJobName());
+		setBookCode(other.getBookCode());
 		setStatus(other.getStatus());
 		setStartDate(other.getStartDate());
 		setItemsPerPage(other.getItemsPerPage());
@@ -67,8 +67,8 @@ public class JobSummaryForm {
 	public int getItemsPerPage() {
 		return itemsPerPage;
 	}
-	public String getJobName() {
-		return jobName;
+	public String getBookCode() {
+		return bookCode;
 	}
 	public String getPage() {
 		return page;
@@ -105,8 +105,8 @@ public class JobSummaryForm {
 	public void setPage(String page) {
 		this.page = page;
 	}
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
+	public void setBookCode(String bookCode) {
+		this.bookCode = bookCode;
 	}
 	public void setSort(String sort) {
 		this.sort = sort;
