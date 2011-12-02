@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -18,11 +18,10 @@ public class DashboardDaoImpl implements DashboardDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<Long> findJobExecutionIds(String jobName, JobExecution filter) {
+	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus) {
 		Object[] args;
 		int[] argTypes;
 		
-		Date startTime = filter.getStartTime();
 		StringBuffer sql = new StringBuffer();
 		sql.append("select bje.JOB_EXECUTION_ID from BATCH_JOB_EXECUTION bje ");
 		if (StringUtils.isNotBlank(jobName)) {
@@ -31,9 +30,9 @@ public class DashboardDaoImpl implements DashboardDao {
 		
 		sql.append("where (START_TIME > ?) ");
 		
-		if (filter.getStatus() != null) {
+		if (batchStatus != null) {
 			sql.append("and (STATUS = ");
-			sql.append("'" + filter.getStatus().toString() + "') ");
+			sql.append("'" + batchStatus.toString() + "') ");
 		}
 		
 		if (StringUtils.isNotBlank(jobName)) {

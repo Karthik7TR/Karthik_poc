@@ -62,8 +62,7 @@ public class JobSummaryController {
 							   Model model) throws Exception {
 		initializeForm(form, httpSession);
 log.debug(">>> " + form);
-		JobExecution filter = createFilter(form);
-		List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, filter);
+		List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, form.getStartTime(), form.getBatchStatus());
 		saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 		PaginatedList paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 														  SortProperty.START_TIME, false);
@@ -89,8 +88,7 @@ log.debug(">>> " + form);
 		PaginatedList paginatedList = null;
 		if (!bindingResult.hasErrors()) {
 			httpSession.setAttribute(WebConstants.KEY_SESSION_SUMMARY_FORM, form);  // Save the entered values
-			JobExecution filter = createFilter(form);
-			List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, filter);
+			List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, form.getStartTime(), form.getBatchStatus());
 			saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 			paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 											    SortProperty.START_TIME, false);
@@ -189,13 +187,13 @@ log.debug(">>> " + form);
 		return paginatedList;
 	}
     
-    private JobExecution createFilter(JobSummaryForm form) {
-		JobExecution filter = new JobExecution((Long) null);
-		filter.setStatus(form.getBatchStatus());
-		filter.setStartTime(form.getStartTime());
-//log.debug(filter);
-		return filter;
-    }
+//    private JobExecution createFilter(JobSummaryForm form) {
+//		JobExecution filter = new JobExecution((Long) null);
+//		filter.setStatus(form.getBatchStatus());
+//		filter.setStartTime(form.getStartTime());
+////log.debug(filter);
+//		return filter;
+//    }
     
     /**
      * Fetch the current list (from the last filter search) of execution ID's from the session.

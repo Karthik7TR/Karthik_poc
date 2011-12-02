@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -37,8 +38,8 @@ public class DashboardServiceImpl implements DashboardService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Long> findJobExecutionIds(String jobName, JobExecution filter) {
-		return dao.findJobExecutionIds(jobName, filter);
+	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus) {
+		return dao.findJobExecutionIds(jobName, startTime, batchStatus);
 	}
 	
 	@Override

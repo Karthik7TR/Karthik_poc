@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 
 public interface DashboardService {
@@ -14,14 +15,14 @@ public interface DashboardService {
 	 */
 	public List<JobExecution> findAllJobExecutions(String jobName);
 	
-	
 	/**
-	 * Returns a list of the job execution ID's of a given job that are ((job start >= startTime) && (job start < endTime)).
-	 * @param startTime returns ID's that are greater than or equal to this time
-	 * @param filter, the template object for a query by example
-	 * @return list of job execution ID
+	 * Find list of job execution ID's that match the supplied criteria. 
+	 * @param jobName the name of the job
+	 * @param startTime job executions on and after this time are returned
+	 * @param batchStatus the job status for the execution
+	 * @return a list of job execution ID's
 	 */
-	public List<Long> findJobExecutionIds(String jobName, JobExecution filter);
+	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus);
 	
 	/**
 	 * Get the job executions with the specified list of primary keys, quietly skips entry if no record found for a key.
