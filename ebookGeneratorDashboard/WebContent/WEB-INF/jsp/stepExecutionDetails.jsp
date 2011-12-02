@@ -71,8 +71,12 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
-		<td width="20%">Job Name</td>
-		<td width="30%">${jobInstance.jobName}</td>
+		<td>Job Name</td>
+		<td colspan="3">${jobInstance.jobName}</td>
+	<tr>
+	<tr>
+		<td width="20%">Book</td>
+		<td width="30%">${jobInstance.jobParameters.parameters.bookCode}</td>
 		<td width="25%">Start Time</td>
 		<td><fmt:formatDate value="${stepExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	<tr>
