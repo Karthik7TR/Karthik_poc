@@ -23,12 +23,11 @@
 		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
 		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
 
-	<!-- The list of runnable jobs.
-		 TODO: Refactor to get the list from the engine web app. as (say) a REST-style service call.  Change DashboardService implementation of getRunnableJobNames() -->
-	<util:list id="jobNames" value-type="java.lang.String">
-    	<value>stubJob1</value>
-    	<value>stubJob2</value>
-    	<value>stubJob3</value>
+	<!-- The list of books created from generator job pathway. -->
+	<util:list id="bookCodes" value-type="java.lang.String">
+    	<value>book_1</value>
+    	<value>book_2</value>
+    	<value>book_3</value>
 	</util:list>
 
 </beans>

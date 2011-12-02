@@ -6,12 +6,12 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class JobRunForm {
 	public static final String FORM_NAME = "jobRunForm";
 	
-	private String jobName;		// Job name to be launched
+	private String bookCode;		// Book code/id to be generated
 	private int threadPriority;	// 1..10, 1=MIN, 5=NORMAL, 10=MAX
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 
-	public String getJobName() {
-		return jobName;
+	public String getBookCode() {
+		return bookCode;
 	}
 	public int getThreadPriority() {
 		return threadPriority;
@@ -22,8 +22,8 @@ public class JobRunForm {
 	public void setHighPriorityJob(boolean high) {
 		this.highPriorityJob = high;
 	}
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
+	public void setBookCode(String bookCode) {
+		this.bookCode = bookCode;
 	}
 	public void setThreadPriority(int threadPriority) {
 		this.threadPriority = threadPriority;

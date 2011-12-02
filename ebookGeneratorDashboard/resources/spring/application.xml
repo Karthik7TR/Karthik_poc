@@ -23,8 +23,8 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
        	  <list>
-          	<value>WEB-INF/resources/properties/default-application.properties</value>
-           	<value>WEB-INF/resources/properties/${environment}-application.properties</value>
+          	<value>classpath:properties/default_ebookGeneratorDashboard.properties</value>
+           	<value>classpath:properties/${environment}_ebookGeneratorDashboard.properties</value>
          </list>
        </property>
 	</bean>

@@ -10,20 +10,20 @@
  
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 
-	<job id="stubJob1">
-		<step id="sj1_Step0">
+	<job id="ebookGeneratorJob">
+		<step id="define">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj1_Step1"/>
+			<next on="COMPLETED" to="gather"/>
 		</step>
-		<step id="sj1_Step1">
+		<step id="gather">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj1_Step2"/>
+			<next on="COMPLETED" to="format"/>
 		</step>
-		<step id="sj1_Step2">
+		<step id="format">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj1_Step3"/>
+			<next on="COMPLETED" to="deliver"/>
 		</step>
-		<step id="sj1_Step3">
+		<step id="deliver">
 			<tasklet ref="stubTask"/>
 		</step>
 	</job>

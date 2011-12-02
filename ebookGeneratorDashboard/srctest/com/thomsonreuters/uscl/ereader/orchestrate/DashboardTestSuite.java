@@ -7,11 +7,12 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobInstanceControllerTest;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobRunControllerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobSummaryControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( { JobExecutionControllerTest.class, JobInstanceControllerTest.class,
-				 JobSummaryControllerTest.class } )
+				 JobSummaryControllerTest.class, JobRunControllerTest.class} )
 
 public class DashboardTestSuite {
 

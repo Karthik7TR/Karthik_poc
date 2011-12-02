@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.core;
+package com.thomsonreuters.uscl.ereader.orchestrate.core.mock;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;

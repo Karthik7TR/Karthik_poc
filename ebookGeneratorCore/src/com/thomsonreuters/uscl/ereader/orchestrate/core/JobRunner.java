@@ -15,7 +15,7 @@ public interface JobRunner {
 	 * @param jobName job definition name defined in the Spring Batch engine
 	 * @throws Exception on failure to send launch message to the engine.
 	 */
-	public void enqueueNormalPriorityJobRunRequest(String jobName, int threadPriority) throws Exception;
+	public void enqueueNormalPriorityJobRunRequest(JobRunRequest jobRunRequest) throws Exception;
 
 	/**
 	 * Place a job start request on the high priority job request queue.
@@ -24,5 +24,5 @@ public interface JobRunner {
 	 * @param jobName job definition name defined in the Spring Batch engine
 	 * @throws Exception on failure to send launch message to the engine.
 	 */
-	public void enqueueHighPriorityJobRunRequest(String jobName, int threadPriority) throws Exception;
+	public void enqueueHighPriorityJobRunRequest(JobRunRequest jobRunRequest) throws Exception;
 }

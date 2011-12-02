@@ -23,7 +23,7 @@ public class WebConstants {
 	public static final String KEY_SESSION_SUMMARY_FORM = "sessionJobSummaryForm";	// Summary search criteria saved on session
 	public static final String KEY_FILTERED_EXECUTION_IDS = "filteredExecutionIds";  // List<Long>: the list of Execution ID's that match the current search filter as defined on the Summary page
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
-	public static final String KEY_JOB_NAME = "jobName";
+	public static final String KEY_BOOK_CODE_OPTIONS = "bookCodeOptions";	// Which book to generate
 	public static final String KEY_JOB_NAMES = "jobNames";
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
 	public static final String KEY_JOB_EXECUTION = "jobExecution";

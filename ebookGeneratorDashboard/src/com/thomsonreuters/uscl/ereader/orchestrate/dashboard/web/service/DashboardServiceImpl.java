@@ -4,29 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.DashboardDao;
 
-@Component("dashboardService")
 public class DashboardServiceImpl implements DashboardService {
 	//private static final Logger log = Logger.getLogger(DashboardServiceImpl.class);
 	private static final int MAX_JOB_INSTANCES = 1000;
-	
-	@Autowired
+
 	private DashboardDao dao;
-	@Autowired
 	private JobExplorer jobExplorer;
-	@Resource(name="jobNames")
-	private List<String> jobNames;
+	private List<String> bookCodes;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -68,7 +61,19 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 	
 	@Override
-	public List<String> getRunnableJobNames() {
-		return jobNames;
+	public List<String> getBookCodes() {
+		return bookCodes;
+	}
+	@Required
+	public void setDao(DashboardDao dao) {
+		this.dao = dao;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer jobExplorer) {
+		this.jobExplorer = jobExplorer;
+	}
+	@Required
+	public void setBookCodes(List<String> bookCodes) {
+		this.bookCodes = bookCodes;
 	}
 }

@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -29,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobi
  * Unit tests for the JobInstanceController which handles the Job Instance page.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "controller-test-context.xml" } )
+@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobInstanceControllerTest {
 
     @Autowired
@@ -68,7 +71,7 @@ public class JobInstanceControllerTest {
 
     private static void validateModel(Map<String,Object> model) {
         assertNotNull(model.get(WebConstants.KEY_ENVIRONMENT));
-        assertNotNull(model.get(WebConstants.KEY_JOB_INSTANCE));
-        assertNotNull(model.get(WebConstants.KEY_STEP_EXECUTIONS));
+        assertTrue(model.get(WebConstants.KEY_JOB_INSTANCE) instanceof JobInstance);
+        assertTrue(model.get(WebConstants.KEY_STEP_EXECUTIONS) instanceof List<?>);
     }
 }

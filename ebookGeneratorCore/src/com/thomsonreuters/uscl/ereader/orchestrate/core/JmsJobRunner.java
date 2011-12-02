@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
-import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
-
 public class JmsJobRunner implements JobRunner {
 	
 	private JmsTemplate jmsTemplate;
@@ -19,23 +17,17 @@ public class JmsJobRunner implements JobRunner {
 	private Queue normalPriorityQueue;
 	
 	@Override
-	public void enqueueNormalPriorityJobRunRequest(String jobName, int threadPriority) throws Exception {
-		enqueueJobRunRequest(normalPriorityQueue, jobName, threadPriority);
+	public void enqueueNormalPriorityJobRunRequest(JobRunRequest jobRunRequest) throws Exception {
+		enqueueJobRunRequest(normalPriorityQueue, jobRunRequest);
 	}
 	
 	@Override
-	public void enqueueHighPriorityJobRunRequest(String jobName, int threadPriority) throws Exception {
-		enqueueJobRunRequest(highPriorityQueue, jobName, threadPriority);
+	public void enqueueHighPriorityJobRunRequest(JobRunRequest jobRunRequest) throws Exception {
+		enqueueJobRunRequest(highPriorityQueue, jobRunRequest);
 	}
 
-	private void enqueueJobRunRequest(Queue queue, String jobName, int threadPriority) throws Exception {
-		// Who is running the job?  Add the username of the currently authenticated user to the set of job launch parameters.
-		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
-		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
-		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
-
-		JobRunRequest requestObj = JobRunRequest.createStartRequest(jobName, threadPriority, userName, userEmail);
-		String xmlRequest = requestObj.marshal();
+	private void enqueueJobRunRequest(Queue queue, JobRunRequest jobRunRequest) throws Exception {
+		String xmlRequest = jobRunRequest.marshal();
 		MyStringMessageCreator stringMessageCreator = new MyStringMessageCreator(xmlRequest);
 		jmsTemplate.send(queue, stringMessageCreator);
 	}

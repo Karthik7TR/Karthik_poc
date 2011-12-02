@@ -13,7 +13,7 @@ public class JobRunRequestTest  {
 			HashMap<String,String> params = new HashMap<String,String>();
 			params.put("foo", "abc");
 			params.put("bar", "def");
-			final JobRunRequest requestToMarshal = JobRunRequest.createStartRequest("fooJob", Thread.MAX_PRIORITY, "jblow", "jblow@bogusaddr.com");
+			final JobRunRequest requestToMarshal = JobRunRequest.create("fooJob", Thread.MAX_PRIORITY, "jblow", "jblow@bogusaddr.com");
 //System.out.println("To Marshal: " + requestToMarshal);
 			String xml = requestToMarshal.marshal();
 			Assert.assertNotNull(xml);

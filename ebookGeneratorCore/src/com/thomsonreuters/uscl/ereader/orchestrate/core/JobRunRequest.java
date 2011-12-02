@@ -20,13 +20,14 @@ import org.jibx.runtime.JiBXException;
 public class JobRunRequest implements Serializable {
 	private static final long serialVersionUID = -7285672486471302865L;
 	
-	private String jobName;			// job name to launch, required to START
-	private Integer threadPriority;	// Job Thread CPU execution priority (1..10), e.g. Thread.NORM_PRIORITY, required to START
+	private String jobName = "ebookGeneratorJob";			// job name to launch, required to START
+	private String bookCode;		// Which book is to be created
+	private int threadPriority;	// Job Thread CPU execution priority (1..10), e.g. Thread.NORM_PRIORITY, required to START
 	private String userName;		// Who is requesting that the job be run
 	private String userEmail;		// What is the requestor's email address
 	
-	public static JobRunRequest createStartRequest(String jobName, Integer threadPriority, String userName, String userEmail) {
-		return new JobRunRequest(jobName, threadPriority, userName, userEmail);
+	public static JobRunRequest create(String bookCode, int threadPriority, String userName, String userEmail) {
+		return new JobRunRequest(bookCode, threadPriority, userName, userEmail);
 	}
 	public String marshal() throws JiBXException {
 		IBindingFactory factory = BindingDirectory.getFactory(JobRunRequest.class);
@@ -57,16 +58,19 @@ public class JobRunRequest implements Serializable {
 	public JobRunRequest() {
 		super();
 	}
-	private JobRunRequest(String jobName, Integer threadPriority, String userName, String userEmail) {
-		this.jobName = jobName;
+	private JobRunRequest(String bookCode, int threadPriority, String userName, String userEmail) {
+		this.bookCode = bookCode;
 		this.threadPriority = threadPriority;
 		this.userName = userName;
 		this.userEmail = userEmail;
 	}
+	public String getBookCode() {
+		return bookCode;
+	}
 	public String getJobName() {
 		return jobName;
 	}
-	public Integer getThreadPriority() {
+	public int getThreadPriority() {
 		return threadPriority;
 	}
 	public String getUserName() {
@@ -75,10 +79,13 @@ public class JobRunRequest implements Serializable {
 	public String getUserEmail() {
 		return userEmail;
 	}
+	public void setBookCode(String code) {
+		this.bookCode = code;
+	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-	public void setThreadPriority(Integer priority) {
+	public void setThreadPriority(int priority) {
 		this.threadPriority = priority;
 	}
 	public void setUserName(String userName) {

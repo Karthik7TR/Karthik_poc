@@ -33,12 +33,12 @@
 		    <br/>
 	    </spring:hasBindErrors>
 
-		Job Name
-		<form:select path="jobName">
-			<form:options items="${jobNames}" itemLabel="label" itemValue="value"/>
+		Book	<%-- Unique book discriminate --%>
+		<form:select path="bookCode">
+			<form:options items="${bookCodeOptions}" itemLabel="label" itemValue="value"/>
 		</form:select>
 		<br/>
-		Job Priority
+		Job Priority  <%-- Indicates which launch queue to place job request on --%>
 		<form:select path="highPriorityJob">
 			<form:option label="Normal" value="false"/>
 			<form:option label="High" value="true"/>

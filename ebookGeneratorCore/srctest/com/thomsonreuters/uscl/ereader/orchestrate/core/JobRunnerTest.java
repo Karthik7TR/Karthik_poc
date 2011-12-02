@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "core-test-context.xml" } )
 public class JobRunnerTest  {
-	private static final String JOB_NAME = "junitJobName";
+	private static final String BOOK_CODE = "junitBook";
 	@Autowired
 	private JobRunner jobRunner;
 	
@@ -23,7 +23,8 @@ public class JobRunnerTest  {
 	@Test
 	public void testHighPriorityJobRunRequest() {
 		try {
-			jobRunner.enqueueHighPriorityJobRunRequest(JOB_NAME, Thread.MAX_PRIORITY);
+			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, Thread.MAX_PRIORITY, "joeh", "joeh@bogus.com");
+			jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -32,7 +33,8 @@ public class JobRunnerTest  {
 	@Test
 	public void testNormalPriorityJobRunRequest() {
 		try {
-			jobRunner.enqueueNormalPriorityJobRunRequest(JOB_NAME, Thread.MAX_PRIORITY);
+			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, Thread.MAX_PRIORITY, "joen", "joen@bogus.com");
+			jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());

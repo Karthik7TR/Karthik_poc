@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("dashboardDao")
 public class DashboardDaoImpl implements DashboardDao {
 	private static final Logger log = Logger.getLogger(DashboardDaoImpl.class);
 	@Autowired

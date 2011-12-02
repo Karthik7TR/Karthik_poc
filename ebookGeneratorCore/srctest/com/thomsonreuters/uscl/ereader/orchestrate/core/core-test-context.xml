@@ -20,11 +20,11 @@
   		<constructor-arg value="http://junitHost:1234/junitEngineContext"/>
   	</bean>
   	
-  	<bean id="queueConnectionFactory" class="com.thomsonreuters.uscl.ereader.orchestrate.core.MockQueueConnectionFactory"/>
-  	<bean id="highPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.MockQueue"/>
-  	<bean id="normalPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.MockQueue"/>
+  	<bean id="queueConnectionFactory" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueueConnectionFactory"/>
+  	<bean id="highPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
+  	<bean id="normalPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
   	
-  	<bean id="jmsTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.MockJmsTemplate"
+  	<bean id="jmsTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJmsTemplate"
 		  p:connectionFactory-ref="queueConnectionFactory"/>
 
   	<bean id="jobRunner" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobRunner"

@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -34,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobe
  * Unit tests for the JobExecutionController which handles the Job Execution Details page.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "controller-test-context.xml" } )
+@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobExecutionControllerTest {
 
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+JobExecutionForm.FORM_NAME;
@@ -143,7 +144,7 @@ public class JobExecutionControllerTest {
     private static void validateModel(Map<String,Object> model) {
         // Check the state of the model
         assertNotNull(model.get(WebConstants.KEY_ENVIRONMENT));
-        assertNotNull(model.get(WebConstants.KEY_JOB_EXECUTION));
-        assertNotNull(model.get(WebConstants.KEY_VDO));
+        assertTrue(model.get(WebConstants.KEY_JOB_EXECUTION) instanceof JobExecution);
+        assertTrue(model.get(WebConstants.KEY_VDO) instanceof JobExecutionVdo);
     }
 }
