@@ -1,6 +1,6 @@
-﻿<!--TODO: Replace #PROJECT_NAME# with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
+﻿<!--TODO: Replace ebookGenerator with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
 <?xml version="1.0"?>
-<project name="Cobalt #PROJECT_NAME# Developer Ant Build" basedir="." default="main">
+<project name="Cobalt ebookGenerator Developer Ant Build" basedir="." default="main">
   <property file="ant-global.properties" />
   <property name="testResultsFolder" location="../TestResults"/>
 
