@@ -1,11 +1,11 @@
-﻿<!--TODO: Replace #PROJECT_NAME# with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
+﻿<!--TODO: Replace ebookGenerator with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
 <?xml version="1.0"?>
-<project name="#PROJECT_NAME#_Compile_Script" default="normal_build" basedir="..\">
+<project name="ebookGenerator_Compile_Script" default="normal_build" basedir="..\">
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
-  <property name="warFilename" value="#PROJECT_NAME#.war"/>
+  <property name="warFilename" value="ebookGenerator.war"/>
 
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
@@ -34,7 +34,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the #PROJECT_NAME# project" depends="-init, -compile, -compile_unitTests, -createJar, -createWar">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile, -compile_unitTests, -createJar, -createWar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -43,7 +43,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the #PROJECT_NAME# project" depends="-init, -compile, -compile_unitTests, -compile_integrationTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile, -compile_unitTests, -compile_integrationTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
