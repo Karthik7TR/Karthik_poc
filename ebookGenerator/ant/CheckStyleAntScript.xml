@@ -1,6 +1,5 @@
-﻿<!--TODO: Replace #PROJECT_NAME# with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
-<?xml version="1.0"?>
-<project name="#PROJECT_NAME#_CheckStyle_Script" default="checkStyleMain" basedir="..\">
+﻿<?xml version="1.0"?>
+<project name="ebookGenerator_CheckStyle_Script" default="checkStyleMain" basedir="..\">
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="checkStyleConfig" value="ant/checkStyleConfig.xml" />
