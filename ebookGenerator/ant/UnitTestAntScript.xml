@@ -1,0 +1,117 @@
+﻿<!--TODO: Replace #PROJECT_NAME# with the actual name of the project. DELETE THIS COMMENT IN THE ACTUAL SCRIPT. -->
+<?xml version="1.0"?>
+<project name="#PROJECT_NAME#_Test_Script" default="JUnitTestMain" basedir="..\">
+  <property environment="env" />
+  <property file="ant/build.properties" />
+  <property file="ant/ant-global.properties" />
+  <property name="test.reports.dir" value="${logs.dir}/TestsReports" />
+
+  <!--- - - - - - - - - - - - - - - - -
+           Create the Unit test class path that will be used by all targets in the script. 
+          - - - - - - - - - - - - - - - - - -->
+  <path id="classpath.unitTestLibs">
+    <fileset dir="${dir.webContent}/WEB-INF/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${dir.librariesPath}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${env.buildextensionroot}">
+      <include name="JUnit/*.jar"/>
+      <include name="OtherLibraries/**/*.jar"/>
+    </fileset>
+  </path>
+
+  <!--- - - - - - - - - - - - - - - - -
+           Create the class path for cobertura that will be used by all targets in the script. 
+          - - - - - - - - - - - - - - - - - -->
+  <path id="classpath.cobertura">
+    <fileset dir="${env.buildextensionroot}\Cobertura">
+      <include name="cobertura.jar" />
+      <include name="lib/**/*.jar" />
+    </fileset>
+  </path>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -init
+          description: Perform all initialization tasks like cleaning up old reports, 
+                       create directories that do not exist, etc.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-init">
+    <delete dir="${dir.tmpBuildDir}\JUnitTest" failonerror="false" includeemptydirs="true"/>
+    <delete>
+      <fileset dir="${dir.tmpBuildDir}">
+        <include name="*.xml"/>
+      </fileset>
+    </delete>
+
+    <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${dir.tmpBuildDir}\JUnitTest"/>
+    <mkdir dir="${logs.dir}"/>
+  </target>
+
+  <!-- ================================= 
+          target: unitTestMain
+          description: This is the default entry target. Test cases will be executed and a report 
+                       will be generated in the ${logs.dir} folder.
+         ================================= -->
+  <target name="JUnitTestMain" depends="-init">
+    <!-- 
+            For the developer build the consolidated unit test results should be stored under the "TestResults" Folder.
+            The property ${dir.TestResultsFolder} will be set via the developerbuild.xml ANT script, and this property
+            will be used to differentiate between the caller (developer build or team build) 
+        -->
+    <condition property="dir.TestResultsFolder" value="${dir.tmpBuildDir}">
+      <not>
+        <isset property="dir.TestResultsFolder"/>
+      </not>
+    </condition>
+
+    <!-- The value of "haltonfailure" should be set to false or else no reports would be generated -->
+    <junit fork="on" forkmode="once" haltonfailure="false" showoutput="on"
+           printsummary="on" failureproperty="tests.failed">
+
+      <!-- This line is required by cobertura. Do not delete it. -->
+      <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.data.file}" />
+
+      <classpath>
+        <path refid="classpath.unitTestLibs"/>
+        <path refid="classpath.cobertura" />
+
+        <!-- The cobertura pathelement should be specified BEFORE the build location.  This is where the classpath reference is set. -->
+        <pathelement path="${cobertura.instrumentedPath}" />
+
+        <pathelement path="${dir.binaries}" />
+        <pathelement path="${dir.testBinaries}" />
+
+        <pathelement path="${dir.unitTestSource}" />
+        <pathelement path="${dir.integrationTestSource}" />
+        <pathelement path="${dir.source}" />
+      </classpath>
+
+      <formatter type="xml" usefile="yes" />
+      <batchtest todir="${dir.tmpBuildDir}\JUnitTest">
+        <fileset dir="${dir.testBinaries}">
+          <!-- ************** TODO: Verify if the include matches with the name of the test classes DELETE THIS COMMENT IN THE ACTUAL SCRIPT *************** -->
+          <include name="**/*Tests.class" />
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <!--
+          Generate the JUnit test report. Store the consolidated XML file in the temporary 
+          folder and the generated HTML files under ${logs.dir}  
+        -->
+    <junitreport todir="${dir.TestResultsFolder}" tofile="${log.file}">
+      <fileset dir="${dir.tmpBuildDir}\JUnitTest">
+        <include name="TEST-*.xml" />
+      </fileset>
+      <report format="frames" todir="${test.reports.dir}" />
+    </junitreport>
+
+    <fail if="tests.failed">
+      One or more tests failed!
+      For more information check the log files created under the logs folder- '${test.reports.dir}'."
+    </fail>
+  </target>
+</project>
