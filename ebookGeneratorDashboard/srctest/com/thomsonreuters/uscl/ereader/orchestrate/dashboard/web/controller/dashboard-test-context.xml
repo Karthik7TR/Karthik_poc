@@ -25,24 +25,15 @@
   	<bean id="jmsTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJmsTemplate"
 		  p:connectionFactory-ref="queueConnectionFactory"/>
   	<bean id="jobRunner" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobRunner"
-  			p:jmsTemplate-ref="jmsTemplate"
-  			p:highPriorityQueue-ref="highPriorityQueue"
-  			p:normalPriorityQueue-ref="normalPriorityQueue"/>
+  		  p:jmsTemplate-ref="jmsTemplate"
+  		  p:highPriorityQueue-ref="highPriorityQueue"
+  		  p:normalPriorityQueue-ref="normalPriorityQueue"/>
   	
   	<bean id="dataSource" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockDataSource"/>
   	<bean id="jdbcTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJdbcTemplate"
   		  p:dataSource-ref="dataSource"/>
   	<bean id="dashboardDao" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.MockDashboardDao"/>
   	<bean id="jobExplorer" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockJobExplorer"/>
-  	<!-- The list of books created from generator job pathway. -->
-	<util:list id="bookCodes" value-type="java.lang.String">
-    	<value>junitBook1</value>
-    	<value>junitBook2</value>
-    	<value>junitBook3</value>
-	</util:list>
-  	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardServiceImpl"
-  		  p:dao-ref="dashboardDao"
-  		  p:jobExplorer-ref="jobExplorer"
-  		  p:bookCodes="bookCodes"/>
+  	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockDashboardService"/>
   	  
 </beans>

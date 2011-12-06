@@ -20,33 +20,12 @@
 		  p:jobRegistry-ref="jobRegistry"/>
 
 	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
-		  p:dataSource-ref="dataSource"/>				
-
-<!-- 
-	<bean id="lowPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
-			p:threadPriority="1"/>
-	<bean id="normalPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
-			p:threadPriority="5"/>	
-	<bean id="highPriorityTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"
-			p:threadPriority="10"/>	
- -->
+		  p:dataSource-ref="dataSource"/>
 				
-    <bean id="lowThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
-		  p:jobRepository-ref="jobRepository">
-		<property name="taskExecutor">
-			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="1"/>
-		</property>
-	</bean>
-    <bean id="normalThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository">
 		<property name="taskExecutor">
 			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="5"/>
-		</property>
-	</bean>
-    <bean id="highThreadPriorityJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
-		  p:jobRepository-ref="jobRepository">
-		<property name="taskExecutor">
-			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="10"/>
 		</property>
 	</bean>
 
@@ -54,6 +33,6 @@
 		  p:jobExplorer-ref="jobExplorer"
 		  p:jobRepository-ref="jobRepository"
 		  p:jobRegistry-ref="jobRegistry"
-		  p:jobLauncher-ref="normalThreadPriorityJobLauncher"/>	
+		  p:jobLauncher-ref="jobLauncher"/>	
 
 </beans>

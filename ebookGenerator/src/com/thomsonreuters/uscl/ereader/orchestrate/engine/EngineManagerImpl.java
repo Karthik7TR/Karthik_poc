@@ -8,8 +8,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -34,12 +32,8 @@ public class EngineManagerImpl implements EngineManager {
 	private JobOperator jobOperator;
 	@Autowired
 	private EngineService engineService;
-	@Resource(name="lowThreadPriorityJobLauncher")
-	private JobLauncher lowThreadPriorityJobLauncher;
-	@Resource(name="normalThreadPriorityJobLauncher")
-	private JobLauncher normalThreadPriorityJobLauncher;
-	@Resource(name="highThreadPriorityJobLauncher")
-	private JobLauncher highThreadPriorityJobLauncher;
+	@Autowired
+	private JobLauncher jobLauncher;
 	
 	/**
 	 * Immediately run a job at the specified thread execution priority.
@@ -58,17 +52,14 @@ public class EngineManagerImpl implements EngineManager {
 			throw new IllegalArgumentException("Job name: " + request.getJobName() + " was not found!");
 		}
 		
-		// Get the launcher with the correctly prioritized thread priority for this job
-		JobLauncher prioritizedJobLauncher = getJobLauncher(request.getThreadPriority());
-		
 		// Load the pre-defined set of job parameters for this specific job from a database table
 		JobParameters databaseJobParameters = engineService.loadJobParameters(request.getJobName());
 		
 		// Combine and add in the well-known set of launch parameters
 		JobParameters combinedJobParameters = createCombinedJobParameters(request, databaseJobParameters);
 		
-		// Launch the job with a MIN|NORMAL|MAX thread priority
-		JobExecution jobExecution = prioritizedJobLauncher.run(job, combinedJobParameters);
+		// Launch the job with the specified set of JobParameters
+		JobExecution jobExecution = jobLauncher.run(job, combinedJobParameters);
 		return jobExecution;
 	}
 	
@@ -95,16 +86,6 @@ public class EngineManagerImpl implements EngineManager {
 		return writer.toString();
 	}
 	
-	private JobLauncher getJobLauncher(int priority) {
-		if (priority < Thread.NORM_PRIORITY) {
-			return lowThreadPriorityJobLauncher;
-		} else if (priority > Thread.NORM_PRIORITY) {
-			return highThreadPriorityJobLauncher;
-		} else {
-			return normalThreadPriorityJobLauncher;
-		}
-	}
-	
 	/**
 	 * Combine user and database loaded job params and the standard "well-known" set of job parameters to the job launch configuration.
 	 * @return a superset of the provided jobParameters including the well-known set.
@@ -124,6 +105,8 @@ public class EngineManagerImpl implements EngineManager {
 		}
 		// Add the "well-known"  ken/values into the job parameters map
 		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(runRequest.getBookCode()));
+		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
+		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_VERSION, new JobParameter(runRequest.getBookVersion()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));

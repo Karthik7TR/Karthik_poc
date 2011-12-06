@@ -7,14 +7,14 @@ public class CreateBookForm {
 	public static final String FORM_NAME = "createBookForm";
 	
 	private String bookCode;		// Book code/id to be generated
-	private int threadPriority;	// 1..10, 1=MIN, 5=NORMAL, 10=MAX
+	private String bookVersion;
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 
 	public String getBookCode() {
 		return bookCode;
 	}
-	public int getThreadPriority() {
-		return threadPriority;
+	public String getBookVersion() {
+		return bookVersion;
 	}
 	public boolean isHighPriorityJob() {
 		return highPriorityJob;
@@ -25,8 +25,8 @@ public class CreateBookForm {
 	public void setBookCode(String bookCode) {
 		this.bookCode = bookCode;
 	}
-	public void setThreadPriority(int threadPriority) {
-		this.threadPriority = threadPriority;
+	public void setBookVersion(String bookVersion) {
+		this.bookVersion = bookVersion;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

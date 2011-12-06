@@ -71,34 +71,33 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
+		<td>Book</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitle} &nbsp; (${jobInstance.jobParameters.parameters.bookCode})</td>
+	</tr>
+	
+	<tr>
 		<td>Job Name</td>
 		<td colspan="3">${jobInstance.jobName}</td>
 	<tr>
 	<tr>
-		<td width="20%">Book</td>
-		<td width="30%">${jobInstance.jobParameters.parameters.bookCode}</td>
-		<td width="25%">Start Time</td>
-		<td><fmt:formatDate value="${stepExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
-	<tr>
-	<tr>
 		<td>Step Name</td>
 		<td>${stepExecution.stepName}</td>
-		<td>End Time</td>
-		<td><fmt:formatDate value="${stepExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
+		<td width="25%">Start Time</td>
+		<td><fmt:formatDate value="${stepExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
 		<td>Instance ID</td>
 		<td>
 			<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobInstance.id}">${jobInstance.id}</a>
 		</td>
-		<td>Duration</td>
-		<td><%=JobExecutionVdo.getExecutionDuration(executionMs)%></td>
+		<td>End Time</td>
+		<td><fmt:formatDate value="${stepExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
 	<tr>
 	<tr>
 		<td>Execution ID</td>
 		<td><a href="<%=WebConstants.URL_JOB_EXECUTION_DETAILS_GET%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${stepExecution.jobExecutionId}">${stepExecution.jobExecutionId}</a>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>Duration</td>
+		<td><%=JobExecutionVdo.getExecutionDuration(executionMs)%></td>
 	<tr>
 	<tr>
 		<td>Step ID</td>

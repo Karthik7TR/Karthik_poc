@@ -8,9 +8,7 @@ import java.util.Map;
 
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
-import org.springframework.batch.core.JobParameter;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants.SortProperty;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdo;
 
@@ -111,41 +109,20 @@ public class JobExecutionPaginatedList implements PaginatedList {
 		return map;
 	}
 	
-//	class JobNameComparator implements Comparator<JobExecutionVdo> {
-//		public int compare(JobExecutionVdo je1, JobExecutionVdo je2) {
-//			int result = 0;
-//			if (je1.getJobExecution().getJobInstance().getJobName() != null) {
-//				result = je1.getJobExecution().getJobInstance().getJobName().compareTo(je2.getJobExecution().getJobInstance().getJobName());
-//			}
-//			return ((ascending) ? result : -result);
-//		}
-//	}
-	
-	
 	class BookComparator implements Comparator<JobExecutionVdo> {
 		public int compare(JobExecutionVdo je1, JobExecutionVdo je2) {
 			int result = 0;
-			JobParameter book1Param = je1.getJobExecution().getJobInstance().getJobParameters().getParameters().get(EngineConstants.JOB_PARAM_BOOK_CODE);
-			if (book1Param != null) {
-				JobParameter book2Param = je2.getJobExecution().getJobInstance().getJobParameters().getParameters().get(EngineConstants.JOB_PARAM_BOOK_CODE);
-				if (book2Param != null) {
-					String book1Code = (String) book1Param.getValue();
-					String book2Code = (String) book2Param.getValue();
-					if (book1Code != null) {
-						if (book2Code != null) {
-							result = book1Code.compareTo(book2Code);
+					String book1 = je1.getBookTitle();
+					String book2 = je2.getBookTitle();
+					if (book1 != null) {
+						if (book2 != null) {
+							result = book1.compareTo(book2);
 						} else {
 							result = 1;
 						}
 					} else {
 						result = -1;
 					}
-				} else {
-					result = 1;
-				}
-			} else {
-				result = -1;
-			}
 			return ((ascending) ? result : -result);
 		}
 	}

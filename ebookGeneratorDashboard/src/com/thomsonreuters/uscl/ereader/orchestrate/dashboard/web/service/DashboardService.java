@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -38,8 +39,17 @@ public interface DashboardService {
 	public void jobCleaner(Date jobsBefore);
 	
 	/**
-	 * Get the list of books for which a job is launched.
-	 * @return a list of book name strings.
+	 * Get the set of books for which a job is launched.
+	 * Key=the title ID, like "FL_2011_LOCAL" the value is the proper name
+	 * Value=The natural language book name, like "Flordia Rule of Court 2011 local volume 2".
+	 * @return a map of book name strings.
 	 */
-	public List<String> getBookCodes();
+	public Map<String,String> getBookCodes();
+	
+	/**
+	 * Returns the natural languange title of the book for a give book id.
+	 * @param bookCode the title identifier
+	 * @return the descriptive title of the book or null if not found
+	 */
+	public String getBookTitle(String bookCode);
 }

@@ -8,12 +8,14 @@
 
 <html>
 <head>
-	<link rel="stylesheet" href="css/Master.css">
+<head>
+	<link rel="stylesheet" href="theme/dashboard.css">
 </head>
 
 <body>
-<h2>Create Book</h2>
-
+  <jsp:include page="stdHeader.jsp"/>
+  <div class="majorDiv">
+	<h2>Create Book</h2>
 	<form:form action="<%=WebConstants.URL_CREATE_BOOK%>"
 			   commandName="<%=CreateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
@@ -32,29 +34,27 @@
 		    </div>
 		    <br/>
 	    </spring:hasBindErrors>
-
-		Book	<%-- Unique book discriminate --%>
-		<form:select path="bookCode">
-			<form:options items="${bookCodeOptions}" itemLabel="label" itemValue="value"/>
-		</form:select>
+		<table>
+		  <tr>
+			<td>Book</td>	<%-- Unique book discriminate --%>
+			<td>
+			  <form:select path="bookCode">
+			    <form:options items="${bookCodeOptions}" itemLabel="label" itemValue="value"/>
+			  </form:select>
+			</td>
+		  <tr>
+			<td>Job Priority&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
+			<td>
+			  <form:select path="highPriorityJob">
+			    <form:option label="Normal" value="false"/>
+				<form:option label="High" value="true"/>
+			  </form:select>
+			 </td>
+		  </tr>
+		</table>
 		<br/>
-		Job Priority  <%-- Indicates which launch queue to place job request on --%>
-		<form:select path="highPriorityJob">
-			<form:option label="Normal" value="false"/>
-			<form:option label="High" value="true"/>
-		</form:select>
-		<br/>
-		Thread Priority
-		<form:select path="threadPriority">
-			<form:option label="Normal" value="5"/>
-			<form:option label="Minimum" value="1"/>
-			<form:option label="Maximum" value="10"/>
-		</form:select>
-		<br/>
-		<br/>
-		
 		<input type="submit" value="Create Book"/>
 	</form:form>
-
+  </div>
 </body>
 </html>

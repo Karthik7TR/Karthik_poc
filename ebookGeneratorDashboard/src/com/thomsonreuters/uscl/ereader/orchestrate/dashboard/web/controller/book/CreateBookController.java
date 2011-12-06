@@ -2,6 +2,9 @@ package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.boo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -38,7 +41,6 @@ public class CreateBookController {
 	@RequestMapping(value=WebConstants.URL_CREATE_BOOK, method = RequestMethod.GET)
 	public ModelAndView doGet(@ModelAttribute CreateBookForm form,
 							  Model model) throws Exception {
-		form.setThreadPriority(Thread.NORM_PRIORITY);
 		populateModel(model);
 		return new ModelAndView(WebConstants.VIEW_CREATE_BOOK);
 	}
@@ -54,7 +56,10 @@ public class CreateBookController {
 		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
 
-		JobRunRequest jobRunRequest = JobRunRequest.create(form.getBookCode(), form.getThreadPriority(), userName, userEmail);
+		String bookCode = form.getBookCode();
+		String bookTitle = service.getBookTitle(bookCode);
+		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, bookTitle, form.getBookVersion(),
+														   userName, userEmail);
 		if (form.isHighPriorityJob()) {
 			jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
 		} else {
@@ -65,10 +70,12 @@ public class CreateBookController {
 	}
 
 	private void populateModel(Model model) {
-		/* Get all the unique book codes */
+		/* Get all the unique books that can be created */
 		List<SelectOption> bookCodeOptions = new ArrayList<SelectOption>();
-		for (String bookCode : service.getBookCodes()) {
-			bookCodeOptions.add(new SelectOption(bookCode, bookCode));
+		Map<String,String> bookMap = service.getBookCodes();
+		Set<Entry<String,String>> entrySet = bookMap.entrySet();
+		for (Entry<String,String> book : entrySet) {
+			bookCodeOptions.add(new SelectOption(book.getValue(), book.getKey()));
 		}
 		model.addAttribute(WebConstants.KEY_BOOK_CODE_OPTIONS, bookCodeOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);

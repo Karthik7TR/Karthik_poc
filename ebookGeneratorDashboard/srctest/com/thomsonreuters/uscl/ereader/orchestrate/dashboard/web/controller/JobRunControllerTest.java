@@ -100,8 +100,8 @@ public class JobRunControllerTest {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("bookCode", "testBookCode");
-    	request.setParameter("threadPriority", "badThreadPriority");  // an invalid integer
-    	request.setParameter("highPriorityJob", Boolean.TRUE.toString());
+    	request.setParameter("bookVersion", "testVersion");
+    	request.setParameter("highPriorityJob", "xxx");	// expects true|false
     	try {
     		handlerAdapter.handle(request, response, controller);
     		Assert.fail("Should have thrown a binding exception.");

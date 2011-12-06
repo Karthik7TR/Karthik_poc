@@ -39,15 +39,15 @@ public class JobExecutionVdo {
 	public JobExecutionVdo(JobExecution jobExecution) {
 		this.jobExecution = jobExecution;
 	}
-	
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
-	
 	public String getBookCode() {
 		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_CODE);
 	}
-	
+	public String getBookTitle() {
+		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_TITLE);
+	}
 	/**
 	 * Get the job execution steps in descending start time order.
 	 */

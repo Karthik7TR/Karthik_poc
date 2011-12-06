@@ -70,7 +70,7 @@
   </head>
   
   <body>
-	<c:set var="DATE_FORMAT" value="MM-dd-yy HH:mm:ss.SSS"/>
+	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
@@ -111,32 +111,36 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
+		<td>Book</td>
+		<td colspan="3">${vdo.bookTitle} &nbsp; (${vdo.bookCode})</td>
+	</tr>
+	<tr>
 		<td>Job Name</td>
 		<td colspan="3">${jobExecution.jobInstance.jobName}</td>
 	</tr>
 	<tr>
-		<td width="25%">Book</td>
-		<td width="35%">${vdo.bookCode}</td>
-		<td width="18%">Create Time</td>
-		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
-	</tr>
-	<tr>
-		<td>Instance ID</td>
-		<td>
+		<td width="25%">Instance ID</td>
+		<td width="35%">
 			<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}">${jobExecution.jobInstance.id}</a>
 		</td>
-		<td>Start Time</td>
-		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
+		<td>Create Time</td>
+		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
 		<td>Execution ID</td>
 		<td>${jobExecution.id}</td>
-		<td>End Time</td>
-		<td><fmt:formatDate value="${jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
+		<td>Start Time</td>
+		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	<tr>
 	<tr>
 		<td>Running</td>
 		<td>${jobExecution.running}</td>
+		<td>End Time</td>
+		<td><fmt:formatDate value="${jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
+	</tr>
+	<tr>
+  		<td>&nbsp;</td>
+  		<td>&nbsp;</td>
 		<td>Duration</td>
 		<td>${vdo.executionDuration}</td>
 	</tr>

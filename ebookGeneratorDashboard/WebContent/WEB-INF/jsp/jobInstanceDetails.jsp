@@ -29,20 +29,18 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
+		<td>Book</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitle} &nbsp; (${jobInstance.jobParameters.parameters.bookCode})</td>
+	</tr>
+	<tr>
 		<td width="20%">Job Name</td>
 		<td width="30%">${jobInstance.jobName}</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="20%">Book</td>
-		<td width="30%">${jobInstance.jobParameters.parameters.bookCode}</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td width="20%">Job Instance</td>
-		<td width="30%">${jobInstance.id}</td>
+		<td>Job Instance</td>
+		<td>${jobInstance.id}</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>

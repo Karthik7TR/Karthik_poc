@@ -14,7 +14,6 @@
   	 
   	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardServiceImpl"
   		  p:dao-ref="dashboardDao"
-  		  p:jobExplorer-ref="jobExplorer"
-  		  p:bookCodes-ref="bookCodes"/>
+  		  p:jobExplorer-ref="jobExplorer"/>
 
 </beans>
