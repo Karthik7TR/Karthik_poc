@@ -6,8 +6,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TocController {
-    @RequestMapping("/hello")   
-    public ModelAndView helloWorld() { 
-    	String message = "This where we will start calling Toc service!"; 
-    	return new ModelAndView("Toc services are getting called..", "message", message);     } 
+    @RequestMapping("/SubmitToc")   
+    public ModelAndView getTocData() { 
+    	String message = "This where we will start calling Toc service!";
+    	System.out.println("Request is reaching controller");
+    	return new ModelAndView("SubmitToc", "message", message);     } 
 }
