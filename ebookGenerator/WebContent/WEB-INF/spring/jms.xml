@@ -27,5 +27,10 @@
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
 		  p:connectionFactory-ref="queueConnectionFactory"
 		  p:receiveTimeout="250"/>
+		  
+	<bean id="jobQueueManager" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerImpl"
+  		  p:jmsTemplate-ref="jmsTemplate"
+  		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
+  		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
 	
 </beans>

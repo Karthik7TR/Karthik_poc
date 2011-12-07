@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
-import javax.annotation.Resource;
 import javax.jms.Message;
 import javax.jms.Queue;
 import javax.jms.TextMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +15,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
  */
 @Component
 public class JobQueueManagerImpl implements JobQueueManager {
-	//private static final Logger log = Logger.getLogger(JobQueueManagerImpl.class);
+	// private static final Logger log = Logger.getLogger(JobQueueManagerImpl.class);
 	
-	@Autowired
 	private JmsTemplate jmsTemplate;
-	@Resource(name="highPriorityJobRunRequestQueue")
 	private Queue highPriorityJobRunRequestQueue;
-	@Resource(name="normalPriorityJobRunRequestQueue")
 	private Queue normalPriorityJobRunRequestQueue;
-	
 	
 	public JobRunRequest getHighPriorityJobRunRequest() throws Exception {
 		return getJobRunRequest(highPriorityJobRunRequestQueue);
@@ -51,5 +46,17 @@ public class JobQueueManagerImpl implements JobQueueManager {
 			jobRunRequest = JobRunRequest.unmarshal(xmlRequest);
 		}
 		return jobRunRequest;
+	}
+	@Required
+	public void setJmsTemplate(JmsTemplate template) {
+		this.jmsTemplate = template;
+	}
+	@Required
+	public void setHighPriorityQueue(Queue high) {
+		this.highPriorityJobRunRequestQueue = high;
+	}
+	@Required
+	public void setNormalPriorityQueue(Queue normal) {
+		this.normalPriorityJobRunRequestQueue = normal;
 	}
 }
