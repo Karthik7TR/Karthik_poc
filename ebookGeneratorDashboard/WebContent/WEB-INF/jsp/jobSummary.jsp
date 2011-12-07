@@ -133,11 +133,7 @@
 			<form:option label="500" value="500"/>
 		</form:select>
 	</form:form>
-	
-	<%-- Hudson build information --%>
-  	<div style="vertical-align: middle; width:98%" align="right">
-		${environment} Build # @buildTag@ (@buildTime@)
-  	</div>
+
 	</div>
   </body>
 </html>
