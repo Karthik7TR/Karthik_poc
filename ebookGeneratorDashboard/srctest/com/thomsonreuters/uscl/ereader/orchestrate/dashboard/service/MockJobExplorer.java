@@ -1,9 +1,15 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.easymock.EasyMock;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -23,6 +29,11 @@ public class MockJobExplorer implements JobExplorer {
 	@Override
 	public JobExecution getJobExecution(Long id) {
 		return new JobExecution(id);
+	}
+	@Override 
+	public StepExecution getStepExecution(Long jobExecId, Long stepExecId) {
+		return new StepExecution("mockStep", EasyMock.createMock(JobExecution.class));
+		
 	}
 
 	@Override
@@ -47,10 +58,5 @@ public class MockJobExplorer implements JobExplorer {
 		list.add("fooJob");
 		list.add("barJob");
 		return list;
-	}
-
-	@Override
-	public StepExecution getStepExecution(Long arg0, Long arg1) {
-		return null;
 	}
 }

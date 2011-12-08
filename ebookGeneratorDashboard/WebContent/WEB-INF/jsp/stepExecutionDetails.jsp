@@ -1,3 +1,8 @@
+<!--
+	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Proprietary and Confidential information of TRGR. Disclosure, Use or
+	Reproduction without the written authorization of TRGR is prohibited
+-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="java.util.Date"%>
 <%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdo"%>
@@ -80,9 +85,9 @@
 		<td colspan="3">${jobInstance.jobName}</td>
 	<tr>
 	<tr>
-		<td>Step Name</td>
-		<td>${stepExecution.stepName}</td>
-		<td width="25%">Start Time</td>
+		<td width="22%">Step Name</td>
+		<td width="30%">${stepExecution.stepName}</td>
+		<td width="22%">Start Time</td>
 		<td><fmt:formatDate value="${stepExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
@@ -114,15 +119,14 @@
 	<tr>
 		<td>Commits</td>
 		<td>${stepExecution.commitCount}</td>
-		<td>Filter Count</td>
-		<td>${stepExecution.filterCount}</td>
-
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<td>Rollbacks</td>
 		<td>${stepExecution.rollbackCount}</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>Filter Count</td>
+		<td>${stepExecution.filterCount}</td>
 	</tr>
 	<tr>
 		<td>Reads</td>

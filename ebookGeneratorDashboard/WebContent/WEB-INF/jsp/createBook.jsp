@@ -1,4 +1,8 @@
-
+<!--
+	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Proprietary and Confidential information of TRGR. Disclosure, Use or
+	Reproduction without the written authorization of TRGR is prohibited
+-->
 <%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -19,7 +23,7 @@
 	<form:form action="<%=WebConstants.URL_CREATE_BOOK%>"
 			   commandName="<%=CreateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
-		<%-- Error Message Presentation --%>
+		<%-- Validation error Message Presentation --%>
 		<spring:hasBindErrors name="<%=CreateBookForm.FORM_NAME%>">
 			<div class="errorBox">
 		      <b><spring:message code="please.fix.errors"/></b><br/>
@@ -34,6 +38,22 @@
 		    </div>
 		    <br/>
 	    </spring:hasBindErrors>
+	    
+	    <%-- Informational Messages area --%>
+	    <c:if test="${infoMessage != null}">
+	    <div style="background: lightgreen; padding: 5px 5px 5px 5px;">
+	    	${infoMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+	    <%-- Error Messages area --%>
+	    <c:if test="${errMessage != null}">
+	    <div style="background: orange; padding: 5px 5px 5px 5px;">
+	    	${errMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+	    
 		<table>
 		  <tr>
 			<td>Book</td>	<%-- Unique book discriminate --%>

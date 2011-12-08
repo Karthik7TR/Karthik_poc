@@ -1,7 +1,11 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web;
 
 import java.text.SimpleDateFormat;
-
 
 /**
  * Miscellaneous keys and constants used throughout the application.
@@ -32,6 +36,8 @@ public class WebConstants {
 	public static final String KEY_STEP_EXECUTIONS = "stepExecutions";
 	public static final String KEY_STEP_EXECUTION_CONTEXT_MAP_ENTRIES = "stepExecutionContextMapEntries";  // A list of Map.Entry from the current step execution context
 	public static final String KEY_VDO = "vdo";
+	public static final String KEY_INFO_MESSAGE = "infoMessage";
+	public static final String KEY_ERR_MESSAGE = "errMessage";
 	
 	public static final String VIEW_JOB_SUMMARY = "jobSummary";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "jobExecutionDetails";

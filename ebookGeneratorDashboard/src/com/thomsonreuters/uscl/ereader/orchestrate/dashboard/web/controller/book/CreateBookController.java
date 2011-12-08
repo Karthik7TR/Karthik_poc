@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
@@ -40,6 +40,8 @@ public class CreateBookController {
 	private JobRunner jobRunner;
 	@Autowired
 	private DashboardService service;
+	@Autowired
+	private MessageSourceAccessor messageSourceAccessor;
 	
 	/**
 	 * Handle in-bound GET request to display the book job launching page.
@@ -56,8 +58,9 @@ public class CreateBookController {
 	 */
 	@RequestMapping(value=WebConstants.URL_CREATE_BOOK, method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute CreateBookForm form,
-								Model model) throws Exception {
+								Model model) {
 		log.debug(form);
+		String queuePriorityLabel = form.isHighPriorityJob() ? "high" : "normal";
 		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
 		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
@@ -65,12 +68,24 @@ public class CreateBookController {
 		String bookCode = form.getBookCode();
 		String bookTitle = service.getBookTitle(bookCode);
 		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, bookTitle, userName, userEmail);
-		if (form.isHighPriorityJob()) {
-			jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
-		} else {
-			jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
+		try {
+			if (form.isHighPriorityJob()) {
+				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
+			} else {
+				jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
+			}
+			// Report success to user in informational message on page
+			Object[] args = { queuePriorityLabel};
+			String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.success", args);
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
+		} catch (Exception e) {	// Report failure on page in error message area
+			Object[] args = { queuePriorityLabel, e.getMessage()};
+			String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
+			log.error(errMessage, e);
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 		}
 		populateModel(model);
+		
 		return new ModelAndView(WebConstants.VIEW_CREATE_BOOK);
 	}
 
