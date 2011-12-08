@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import javax.jms.Queue;
@@ -12,7 +17,7 @@ import org.springframework.jms.core.JmsTemplate;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 public class JobQueueManagerTest  {
-	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theTitle", "theVersion", "theUserName", "theUserEmail");
+	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theTitle", "theUserName", "theUserEmail");
 	private JmsTemplate jmsTemplate;
 	private TextMessage textMessage; 
 	private JobQueueManagerImpl queueManager;

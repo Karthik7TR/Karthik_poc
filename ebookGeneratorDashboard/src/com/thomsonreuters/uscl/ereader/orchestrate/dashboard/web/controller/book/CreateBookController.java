@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import java.util.ArrayList;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
@@ -58,8 +64,7 @@ public class CreateBookController {
 
 		String bookCode = form.getBookCode();
 		String bookTitle = service.getBookTitle(bookCode);
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, bookTitle, form.getBookVersion(),
-														   userName, userEmail);
+		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, bookTitle, userName, userEmail);
 		if (form.isHighPriorityJob()) {
 			jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
 		} else {

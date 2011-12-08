@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import javax.jms.Message;
@@ -6,14 +11,12 @@ import javax.jms.TextMessage;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 /**
  * Handle receiving messages from the high and normal priority job request queues.
  */
-@Component
 public class JobQueueManagerImpl implements JobQueueManager {
 	// private static final Logger log = Logger.getLogger(JobQueueManagerImpl.class);
 	
@@ -21,10 +24,12 @@ public class JobQueueManagerImpl implements JobQueueManager {
 	private Queue highPriorityJobRunRequestQueue;
 	private Queue normalPriorityJobRunRequestQueue;
 	
+	@Override
 	public JobRunRequest getHighPriorityJobRunRequest() throws Exception {
 		return getJobRunRequest(highPriorityJobRunRequestQueue);
 	}
-
+	
+	@Override
 	public JobRunRequest getNormalPriorityJobRunRequest() throws Exception {
 		return getJobRunRequest(normalPriorityJobRunRequestQueue);		
 	}

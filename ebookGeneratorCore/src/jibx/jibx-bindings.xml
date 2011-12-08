@@ -1,10 +1,14 @@
+<!--
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+-->
 <binding>
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
         <value name="jobName" field="jobName" usage="required"/>
         <value name="bookCode" field="bookCode" usage="required"/>
         <value name="bookTitle" field="bookTitle" usage="required"/>
-        <value name="bookVersion" field="bookVersion" usage="optional"/>
         <value name="userName" field="userName" usage="optional"/>
         <value name="userEmail" field="userEmail" usage="optional"/>
     </mapping>

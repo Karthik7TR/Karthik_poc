@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.scheduler;
 
 import org.apache.log4j.Logger;
@@ -6,8 +11,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.EngineManager;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManager;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 /**
@@ -22,7 +27,7 @@ public class JobRunQueuePoller {
 	@Autowired
 	private Throttle throttle;
 	@Autowired
-	private EngineManager engineManager;
+	private EngineService engineService;
 	@Autowired
 	private JobQueueManager jobQueueManager;
 	
@@ -39,7 +44,7 @@ public class JobRunQueuePoller {
 				}
 				// if there was a job to run, then launch it
 				if (jobRunRequest != null) {
-					engineManager.runJob(jobRunRequest);
+					engineService.runJob(jobRunRequest);
 				}
 			}
 		} catch (Exception e) {

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.net.URL;
@@ -15,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.EngineManagerImpl;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
 /**
@@ -26,7 +32,7 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	
 	@Autowired
-	private EngineManagerImpl engineManager;
+	private EngineService engineService;
 	@Resource(name="dashboardContextUrl")
 	private URL dashboardContextUrl;
 	@Autowired
@@ -43,7 +49,7 @@ public class OperationsController {
 		Long jobExecutionIdToRestart = jobExecutionId;
 log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);		
 		try {
-			Long restartedJobExecutionId = engineManager.restartJob(jobExecutionIdToRestart);
+			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
 log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the restarted job
@@ -67,7 +73,7 @@ log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 		Long jobExecutionIdToStop = jobExecutionId;
 log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
 		try {
-			engineManager.stopJob(jobExecutionIdToStop);
+			engineService.stopJob(jobExecutionIdToStop);
 log.debug("Stopped Job: " + jobExecutionIdToStop);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the stopped job
@@ -85,7 +91,7 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 		model.addAttribute("dashboardDetailsUrl", dashboardDetailsUrl+jobExecutionId);
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION_ID, jobExecutionId);
 		model.addAttribute(WebConstants.KEY_ERROR_MESSAGE, e.getMessage());
-		model.addAttribute(WebConstants.KEY_STACK_TRACE, EngineManagerImpl.getStackTrace(e));
+		model.addAttribute(WebConstants.KEY_STACK_TRACE, EngineServiceImpl.getStackTrace(e));
 		model.addAttribute(WebConstants.KEY_ACTION, action);
 	}
 	

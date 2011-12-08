@@ -1,9 +1,14 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
 
 /**
  * Client-side utility to send job run request messages to either the HIGH or NORMAL priority queue
- * monitoried by the engine web application requesting it to start jobs.
+ * monitored by the engine web application requesting it to start jobs.
  * Exceptions from these methods are related to interaction (placing messages on) with a queue,
  * not exceptions from job run operations themselves which are carried out from the remote engine web application.
  */

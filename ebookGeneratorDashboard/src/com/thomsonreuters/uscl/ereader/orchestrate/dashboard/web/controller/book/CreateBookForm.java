@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -7,14 +12,10 @@ public class CreateBookForm {
 	public static final String FORM_NAME = "createBookForm";
 	
 	private String bookCode;		// Book code/id to be generated
-	private String bookVersion;
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 
 	public String getBookCode() {
 		return bookCode;
-	}
-	public String getBookVersion() {
-		return bookVersion;
 	}
 	public boolean isHighPriorityJob() {
 		return highPriorityJob;
@@ -24,9 +25,6 @@ public class CreateBookForm {
 	}
 	public void setBookCode(String bookCode) {
 		this.bookCode = bookCode;
-	}
-	public void setBookVersion(String bookVersion) {
-		this.bookVersion = bookVersion;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
