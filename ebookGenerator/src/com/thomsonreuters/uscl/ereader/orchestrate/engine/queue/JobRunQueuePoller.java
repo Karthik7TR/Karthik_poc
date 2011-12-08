@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.engine.scheduler;
+package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManager;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 

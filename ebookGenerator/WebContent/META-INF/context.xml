@@ -40,19 +40,22 @@
               driverClassName="oracle.jdbc.OracleDriver"
               url="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = hasty-vip.int.westgroup.com)(PORT = 1521)) (ADDRESS = (PROTOCOL = TCP)(HOST = holly-vip.int.westgroup.com)(PORT = 1521)) (LOAD_BALANCE = yes) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = codes_sand.int.westgroup.com) (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5))))"
               username="CODES_SAND_USER" password="CODES_SAND_USER"/>
-              
-              
+                            
     <!-- JMS Queue Connection Factory(s) -->
     <Resource name="jms/QueueConnectionFactory" auth="Container"
 		  	  type="org.apache.activemq.ActiveMQConnectionFactory"
        	 	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
        	 	  brokerURL="tcp://localhost:61616" brokerName="LocalActiveMQBroker"/>
+
+	<!-- ==== JMS Queue destination definitions ==== -->
 	
+	<!-- The first queue that is checked for new job run requests (as opposed to the normal priority queue). -->
     <Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
 			  type="org.apache.activemq.command.ActiveMQQueue"
         	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
        	 	  physicalName="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
-       	 	  
+
+	<!-- Second queue checked for job run requests, the high priority queue is always checked first. -->       	 	  
     <Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
 			  type="org.apache.activemq.command.ActiveMQQueue"
         	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
