@@ -9,28 +9,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.junit.Assert;
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.stepexecution.StepExecutionController;
@@ -38,25 +35,32 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.step
 /**
  * Unit tests for the JobInstanceController which handles the Job Instance page.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class StepExecutionControllerTest {
 	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+CreateBookForm.FORM_NAME;
-    @Autowired
+	private static final long JOB_INST_ID = 444;
+	private static final long JOB_EXEC_ID = 555;
+	private static final long STEP_EXEC_ID = 666;
     private StepExecutionController controller;
-    @Resource(name="engineContextUrl")
-    private URL engineContextUrl;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
     public void setUp() {
-    	Assert.assertNotNull(controller);
-    	Assert.assertNotNull(engineContextUrl);
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	// Mock up the Spring Bach JobExplorer
+    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
+    	JobExecution jobExecution = new JobExecution(JOB_EXEC_ID);
+    	EasyMock.expect(jobExplorer.getJobInstance(JOB_INST_ID)).andReturn(new JobInstance(JOB_INST_ID, new JobParameters(), EngineConstants.JOB_DEFINITION_EBOOK));
+    	EasyMock.expect(jobExplorer.getStepExecution(JOB_EXEC_ID, STEP_EXEC_ID)).andReturn(new StepExecution("theStep", jobExecution));
+    	EasyMock.replay(jobExplorer);
+    	
+    	this.controller = new StepExecutionController();
+    	controller.setEnvironmentName("junitTestEnv");
+    	controller.setJobExplorer(jobExplorer);
     }
         
     /**
@@ -66,9 +70,9 @@ public class StepExecutionControllerTest {
     public void testGet() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_STEP_EXECUTION_DETAILS);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "1234");
-    	request.setParameter(WebConstants.KEY_JOB_INSTANCE_ID, "5678");
-    	request.setParameter(WebConstants.KEY_STEP_EXECUTION_ID, "4456");
+    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, String.valueOf(JOB_EXEC_ID));
+    	request.setParameter(WebConstants.KEY_JOB_INSTANCE_ID, String.valueOf(JOB_INST_ID));
+    	request.setParameter(WebConstants.KEY_STEP_EXECUTION_ID, String.valueOf(STEP_EXEC_ID));
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name

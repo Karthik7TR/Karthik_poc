@@ -39,18 +39,12 @@ public class EngineServiceTest  {
 	
 	@Before
 	public void setUp() throws Exception {
-		this.service = new EngineServiceImpl();
 		EngineDao dao = EasyMock.createMock(EngineDao.class);
 		JobLauncher jobLauncher = EasyMock.createMock(JobLauncher.class);
 		JobOperator jobOperator = EasyMock.createMock(JobOperator.class);
 		JobRegistry jobRegistry = EasyMock.createMock(JobRegistry.class);
 		JobExecution jobExecution = EasyMock.createMock(JobExecution.class);
-		
 		Job job = EasyMock.createMock(Job.class);
-		service.setDao(dao);
-		service.setJobLauncher(jobLauncher);
-		service.setJobOperator(jobOperator);
-		service.setJobRegistry(jobRegistry);
 		
 		this.jobRunRequest = JobRunRequest.create("bookCode", "bookTitle", "userName", "userEmail");
 		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
@@ -67,6 +61,12 @@ public class EngineServiceTest  {
 		EasyMock.replay(jobRegistry);
 		EasyMock.expect(jobLauncher.run(job, jobParams)).andReturn(jobExecution);
 		EasyMock.replay(jobLauncher);
+		
+		this.service = new EngineServiceImpl();
+		service.setDao(dao);
+		service.setJobLauncher(jobLauncher);
+		service.setJobOperator(jobOperator);
+		service.setJobRegistry(jobRegistry);
 	}
 	@Test
 	public void testCreateCombinedJobParameters() {

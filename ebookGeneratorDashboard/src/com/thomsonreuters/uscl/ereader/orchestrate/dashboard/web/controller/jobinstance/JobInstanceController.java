@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobinstance;
 
 import java.util.ArrayList;
@@ -5,14 +10,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +26,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.StepStartTimeComparator;
 
+/**
+ * Controller for the Job Instance Details page.
+ */
 @Controller
 public class JobInstanceController {
 	private static final Logger log = Logger.getLogger(JobInstanceController.class);
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
-	@Resource(name="environmentName")
 	private String environmentName;
-	@Autowired
 	private JobExplorer jobExplorer;
-	
 	
 	/**
 	 * Create a aggregated list of StepExecution's from all JobInstance's specified by id.
@@ -61,5 +64,13 @@ public class JobInstanceController {
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
 		model.addAttribute(WebConstants.KEY_STEP_EXECUTIONS, allJobInstanceSteps);
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer jobExplorer) {
+		this.jobExplorer = jobExplorer;
 	}
 }

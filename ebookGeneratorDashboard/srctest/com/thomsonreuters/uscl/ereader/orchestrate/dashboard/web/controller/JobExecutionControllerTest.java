@@ -13,19 +13,15 @@ import static org.junit.Assert.assertTrue;
 import java.net.URL;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,30 +31,43 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution.JobExecutionForm;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution.JobExecutionFormValidator;
 
 /**
  * Unit tests for the JobExecutionController which handles the Job Execution Details page.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobExecutionControllerTest {
 
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+JobExecutionForm.FORM_NAME;
-    @Autowired
+	private static final long JOB_EXEC_ID = 1234;
+	private static URL ENGINE_CONTEXT_URL;
+	static {
+		try {
+			ENGINE_CONTEXT_URL = new URL("http://engineContextUrl");
+		} catch (Exception e) {
+			
+		}
+	}
     private JobExecutionController controller;
-    @Resource(name="engineContextUrl")
-    private URL engineContextUrl;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp() {
-    	assertNotNull(controller);
-    	assertNotNull(engineContextUrl);
+    public void setUp() throws Exception {
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
+    	EasyMock.expect(jobExplorer.getJobExecution(JOB_EXEC_ID)).andReturn(new JobExecution(JOB_EXEC_ID));
+    	EasyMock.replay(jobExplorer);
+    	
+    	this.controller = new JobExecutionController();
+    	controller.setEngineContextUrl(new URL("http://engineContextUrl"));
+    	controller.setEnvironmentName("junitTestEnv");
+    	controller.setJobExplorer(jobExplorer);
+    	controller.setValidator(new JobExecutionFormValidator());
     }
         
     /**
@@ -68,7 +77,7 @@ public class JobExecutionControllerTest {
     public void testGetJobExecutionDetails() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_EXECUTION_DETAILS_GET);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "1234");
+    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, String.valueOf(JOB_EXEC_ID));
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name
@@ -86,7 +95,7 @@ public class JobExecutionControllerTest {
     public void testPostJobExecutionDetails() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_EXECUTION_DETAILS_POST);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, "5678");
+    	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, String.valueOf(JOB_EXEC_ID));
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
@@ -128,7 +137,7 @@ public class JobExecutionControllerTest {
     	assertNotNull(mav);
     	assertTrue(mav.getView() instanceof RedirectView);
     	// Verify the returned view
-    	Assert.assertTrue((((RedirectView)mav.getView()).getUrl().toString()+"/"+WebConstants.URL_JOB_RESTART).startsWith(engineContextUrl.toString()));
+    	Assert.assertTrue((((RedirectView)mav.getView()).getUrl().toString()+"/"+WebConstants.URL_JOB_RESTART).startsWith(ENGINE_CONTEXT_URL.toString()));
     }
 
     /**
@@ -143,7 +152,7 @@ public class JobExecutionControllerTest {
     	assertNotNull(mav);
     	assertTrue(mav.getView() instanceof RedirectView);
     	// Verify the returned view
-    	Assert.assertTrue((((RedirectView)mav.getView()).getUrl().toString()+"/"+WebConstants.URL_JOB_STOP).startsWith(engineContextUrl.toString()));
+    	Assert.assertTrue((((RedirectView)mav.getView()).getUrl().toString()+"/"+WebConstants.URL_JOB_STOP).startsWith(ENGINE_CONTEXT_URL.toString()));
     }
     
     private static void validateModel(Map<String,Object> model) {

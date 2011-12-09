@@ -1,10 +1,14 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,17 +35,16 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants.So
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdo;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
+/**
+ * Controller for the Job Summary page.
+ */
 @Controller
 public class JobSummaryController {
 	private static final Logger log = Logger.getLogger(JobSummaryController.class);
 	
-	@Resource(name="environmentName")
 	private String environmentName;
-	@Autowired
 	private JobExplorer jobExplorer;
-	@Autowired
 	private DashboardService service;
-	@Resource(name="jobSummaryFormValidator")
 	private Validator validator;
 	
 	@InitBinder(JobSummaryForm.FORM_NAME)
@@ -137,7 +140,7 @@ log.debug(">>> " + form);
 	 * Use the previous search values from the form that was saved on the session.
 	 * @param form initialized object
 	 */
-	private static void initializeForm(JobSummaryForm form, HttpSession httpSession) {
+	public static void initializeForm(JobSummaryForm form, HttpSession httpSession) {
 		JobSummaryForm sessionForm = (JobSummaryForm) httpSession.getAttribute(WebConstants.KEY_SESSION_SUMMARY_FORM);
 		form.setItemsPerPage(JobSummaryForm.DEFAULT_ITEMS_PER_PAGE);
 		if (sessionForm == null) { 
@@ -187,14 +190,6 @@ log.debug(">>> " + form);
 		return paginatedList;
 	}
     
-//    private JobExecution createFilter(JobSummaryForm form) {
-//		JobExecution filter = new JobExecution((Long) null);
-//		filter.setStatus(form.getBatchStatus());
-//		filter.setStartTime(form.getStartTime());
-////log.debug(filter);
-//		return filter;
-//    }
-    
     /**
      * Fetch the current list (from the last filter search) of execution ID's from the session.
      * @param httpSession the users' current session
@@ -235,5 +230,21 @@ log.debug(">>> " + form);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		// Store the current JobExecution object list on session
 		saveCurrentPaginatedListOnSession(httpSession, paginatedList);
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer jobExplorer) {
+		this.jobExplorer = jobExplorer;
+	}
+	@Required
+	public void setDashboardService(DashboardService service) {
+		this.service = service;
+	}
+	@Required
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 }

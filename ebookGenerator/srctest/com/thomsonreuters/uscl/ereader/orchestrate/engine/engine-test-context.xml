@@ -8,33 +8,6 @@
   	   					   http://www.springframework.org/schema/context
   	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
-    <!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
-  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue"/>
-  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-  
-  	<bean id="environmentName" class="java.lang.String">
-  		<constructor-arg value="junitTestEnvironment"/>
-  	</bean>
-
-  	<bean id="engineContextUrl" class="java.net.URL">
-  		<constructor-arg value="http://junitHost:1234/junitEngineContext"/>
-  	</bean>
-  	
-  	<bean id="queueConnectionFactory" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueueConnectionFactory"/>
-  	<bean id="highPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
-  	<bean id="normalPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
-  	
-  	<bean id="jmsTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJmsTemplate"
-		  p:connectionFactory-ref="queueConnectionFactory"/>
-
-  	<bean id="jobRunner" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobRunner"
-  		  p:jmsTemplate-ref="jmsTemplate"
-  		  p:highPriorityQueue-ref="highPriorityQueue"
-  		  p:normalPriorityQueue-ref="normalPriorityQueue"/>
-  			
-	<bean id="jobQueueManager" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerImpl"
-  		  p:jmsTemplate-ref="jmsTemplate"
-  		  p:highPriorityQueue-ref="highPriorityQueue"
-  		  p:normalPriorityQueue-ref="normalPriorityQueue"/>
+	<!-- OBSOLETE -->
 
 </beans>

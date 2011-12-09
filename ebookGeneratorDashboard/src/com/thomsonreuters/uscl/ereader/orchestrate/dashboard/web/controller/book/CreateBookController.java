@@ -11,10 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,17 +28,16 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
+/**
+ * Controller for the Create Book page, the page used to run book generating Spring Batch jobs.
+ */
 @Controller
 public class CreateBookController {
 	private static final Logger log = Logger.getLogger(CreateBookController.class);
 	
-	@Resource(name="environmentName")
 	private String environmentName;
-	@Autowired
 	private JobRunner jobRunner;
-	@Autowired
 	private DashboardService service;
-	@Autowired
 	private MessageSourceAccessor messageSourceAccessor;
 	
 	/**
@@ -99,5 +96,21 @@ public class CreateBookController {
 		}
 		model.addAttribute(WebConstants.KEY_BOOK_CODE_OPTIONS, bookCodeOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
+	@Required
+	public void setJobRunner(JobRunner jobRunner) {
+		this.jobRunner = jobRunner;
+	}
+	@Required
+	public void setDashboardService(DashboardService service) {
+		this.service = service;
+	}
+	@Required
+	public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
+		this.messageSourceAccessor = messageSourceAccessor;
 	}
 }

@@ -5,27 +5,24 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.junit.Assert;
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
@@ -36,25 +33,28 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobi
 /**
  * Unit tests for the JobInstanceController which handles the Job Instance page.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobInstanceControllerTest {
-
-    @Autowired
+	private static final long JOB_INST_ID = 2345;
     private JobInstanceController controller;
-    @Resource(name="engineContextUrl")
-    private URL engineContextUrl;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
     public void setUp() {
-    	Assert.assertNotNull(controller);
-    	Assert.assertNotNull(engineContextUrl);
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
+    	JobInstance jobInstance = new JobInstance(JOB_INST_ID, new JobParameters(), "fooJob");
+    	EasyMock.expect(jobExplorer.getJobInstance(JOB_INST_ID)).andReturn(jobInstance);
+    	EasyMock.expect(jobExplorer.getJobExecutions(jobInstance)).andReturn(new ArrayList<JobExecution>(0));
+    	EasyMock.replay(jobExplorer);
+    	
+    	this.controller = new JobInstanceController();
+    	controller.setEnvironmentName("junitTestEnv");
+    	controller.setJobExplorer(jobExplorer);
     }
         
     /**
@@ -64,7 +64,7 @@ public class JobInstanceControllerTest {
     public void testGetJobInstanceDetails() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_INSTANCE_DETAILS);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter(WebConstants.KEY_JOB_INSTANCE_ID, "1234");
+    	request.setParameter(WebConstants.KEY_JOB_INSTANCE_ID, String.valueOf(JOB_INST_ID));
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name

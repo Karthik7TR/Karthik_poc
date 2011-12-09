@@ -10,54 +10,63 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookController;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 /**
  * Unit tests for the JobInstanceController which handles the Job Instance page.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class CreateBookControllerTest {
 	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+CreateBookForm.FORM_NAME;
-    @Autowired
+	public static final String TEST_BOOK_CODE = "testBookCode";
     private CreateBookController controller;
-    @Resource(name="engineContextUrl")
-    private URL engineContextUrl;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
     public void setUp() {
-    	Assert.assertNotNull(controller);
-    	Assert.assertNotNull(engineContextUrl);
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	DashboardService dashboardService = EasyMock.createMock(DashboardService.class);
+    	JobRunner jobRunner = EasyMock.createMock(JobRunner.class);
+    	MessageSource messageSource = EasyMock.createMock(MessageSource.class);
+    	
+    	Map<String,String> bookCodeMap = new HashMap<String,String>();
+    	EasyMock.expect(dashboardService.getBookCodes()).andReturn(bookCodeMap);
+    	EasyMock.expect(dashboardService.getBookTitle(TEST_BOOK_CODE)).andReturn("Test book title");
+    	EasyMock.replay(dashboardService);
+    	
+    	this.controller = new CreateBookController();
+    	controller.setDashboardService(dashboardService);
+    	controller.setJobRunner(jobRunner);
+    	controller.setEnvironmentName("junitEnvironment");
+    	controller.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
     }
         
     /**
@@ -67,6 +76,7 @@ public class CreateBookControllerTest {
     public void testGetJobRun() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.GET.name());
+
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name
@@ -83,8 +93,7 @@ public class CreateBookControllerTest {
     public void testPostJobSummary() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("bookCode", "testBookCode");
-    	request.setParameter("threadPriority", String.valueOf(Thread.NORM_PRIORITY));
+    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_CODE, TEST_BOOK_CODE);
     	request.setParameter("highPriorityJob", Boolean.TRUE.toString());
 
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -104,8 +113,7 @@ public class CreateBookControllerTest {
     public void testPostJobRunWithBindingError() {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("bookCode", "testBookCode");
-    	request.setParameter("bookVersion", "testVersion");
+    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_CODE, TEST_BOOK_CODE);
     	request.setParameter("highPriorityJob", "xxx");	// expects true|false
     	try {
     		handlerAdapter.handle(request, response, controller);

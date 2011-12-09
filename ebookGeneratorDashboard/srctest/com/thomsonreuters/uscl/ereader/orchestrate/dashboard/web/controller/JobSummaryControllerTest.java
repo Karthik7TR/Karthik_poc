@@ -11,56 +11,75 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.displaytag.pagination.PaginatedList;
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary.JobSummaryController;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary.JobSummaryForm;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary.JobSummaryFormValidator;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 /**
  * Unit tests for the JobSummaryController which handles the Job Execution Summary page.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "dashboard-test-context.xml" } )
 public class JobSummaryControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+JobSummaryForm.FORM_NAME;
-
-    @Autowired
     private JobSummaryController controller;
-    @Resource(name="engineContextUrl")
-    private URL engineContextUrl;
+    private DashboardService dashboardService;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private JobSummaryForm form;
 
     @Before
     public void setUp() {
-    	Assert.assertNotNull(controller);
-    	Assert.assertNotNull(engineContextUrl);
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	// Mock up the dashboard service
+    	dashboardService = EasyMock.createMock(DashboardService.class);
+    	form = new JobSummaryForm();
+    	JobSummaryController.initializeForm(form, new MockHttpSession());
+    	Long[] idArray = { 10l, 20l, 30l, 40l };
+    	EasyMock.expect(dashboardService.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK,
+    			form.getStartTime(), form.getBatchStatus())).andReturn(Arrays.asList(idArray));
+    	EasyMock.expect(dashboardService.findJobExecutionByPrimaryKey(Arrays.asList(idArray))).andReturn(new ArrayList<JobExecution>(0));
+    	EasyMock.replay(dashboardService);
+    	
+    	// Mock up the Spring Bach JobExplorer
+    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
+    	EasyMock.expect(jobExplorer.getJobNames()).andReturn(new ArrayList<String>(0));
+    	EasyMock.replay(jobExplorer);
+
+    	// Set up the controller
+    	this.controller = new JobSummaryController();
+    	controller.setDashboardService(dashboardService);
+    	controller.setEnvironmentName("junitTestEnv");
+    	controller.setJobExplorer(jobExplorer);
+    	controller.setValidator(new JobSummaryFormValidator());
     }
         
     /**
@@ -68,8 +87,13 @@ public class JobSummaryControllerTest {
      */
     @Test
     public void testGetJobSummary() throws Exception {
+
     	request.setRequestURI("/"+WebConstants.URL_JOB_SUMMARY);
     	request.setMethod(HttpMethod.GET.name());
+    	request.setParameter("status", form.getStatus());
+    	request.setParameter("startDate", form.getStartDate());
+    	
+
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
         assertNotNull(mav);
         // Verify the returned view name
@@ -86,9 +110,8 @@ public class JobSummaryControllerTest {
     public void testPostJobSummary() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_JOB_SUMMARY);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("jobName", "testJobName");
-    	request.setParameter("status", "COMPLETED");
-    	request.setParameter("startDate", "11/11/11");
+    	request.setParameter("status", form.getStatus());
+    	request.setParameter("startDate", form.getStartDate());
     	request.setParameter("itemsPerPage", "20");
 
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);

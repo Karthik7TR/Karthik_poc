@@ -5,25 +5,29 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
+import javax.jms.Queue;
+
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.jms.core.JmsTemplate;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "core-test-context.xml" } )
 public class JobRunnerTest  {
 	private static final String BOOK_CODE = "junitBook";
 	private static final String BOOK_TITLE = "Test Tile for Book Test";
-	@Autowired
-	private JobRunner jobRunner;
+	private JmsJobRunner jobRunner;
 	
 	@Before
 	public void setUp() {
-		Assert.assertNotNull(jobRunner);
+		Queue highPriorityQueue = EasyMock.createMock(Queue.class);
+		Queue normalPriorityQueue = EasyMock.createMock(Queue.class);
+		JmsTemplate jmsTemplate = EasyMock.createMock(JmsTemplate.class);
+		
+		this.jobRunner = new JmsJobRunner();
+		jobRunner.setHighPriorityQueue(highPriorityQueue);
+		jobRunner.setNormalPriorityQueue(normalPriorityQueue);
+		jobRunner.setJmsTemplate(jmsTemplate);
 	}
 	
 	@Test

@@ -8,46 +8,6 @@
   	   					   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
   	   					   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
-    <!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
-  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.orchestrate.dashboard"/>
-  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-  
-  	<bean id="environmentName" class="java.lang.String">
-  		<constructor-arg value="junitTestEnvironment"/>
-  	</bean>
-  	
-  	<!-- Define message resource bundles used by the application.  These bundle files must be on the classpath. -->
-  	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-	  <property name="basenames">
-	  	<list>
-	 		<value>messages</value>  <!-- i.e. messages.properties -->
-	  	</list>
-	  </property>
-  	</bean>
-  	<!-- Encapsulates the message source and its locale -->
- 	<bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
-  		<constructor-arg ref="messageSource" /> 
-  	</bean>
-
-  	<bean id="engineContextUrl" class="java.net.URL">
-  		<constructor-arg value="http://junitHost:1234/junitEngineContext"/>
-  	</bean>
-  	
-  	<bean id="queueConnectionFactory" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueueConnectionFactory"/>
-  	<bean id="highPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
-  	<bean id="normalPriorityQueue" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockQueue"/>
-  	<bean id="jmsTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJmsTemplate"
-		  p:connectionFactory-ref="queueConnectionFactory"/>
-  	<bean id="jobRunner" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JmsJobRunner"
-  		  p:jmsTemplate-ref="jmsTemplate"
-  		  p:highPriorityQueue-ref="highPriorityQueue"
-  		  p:normalPriorityQueue-ref="normalPriorityQueue"/>
-  	
-  	<bean id="dataSource" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockDataSource"/>
-  	<bean id="jdbcTemplate" class="com.thomsonreuters.uscl.ereader.orchestrate.core.mock.MockJdbcTemplate"
-  		  p:dataSource-ref="dataSource"/>
-  	<bean id="dashboardDao" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.MockDashboardDao"/>
-  	<bean id="jobExplorer" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockJobExplorer"/>
-  	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.service.MockDashboardService"/>
+	<!-- OBSOLETE, we now use EasyMock to unit test the controllers -->
   	  
 </beans>

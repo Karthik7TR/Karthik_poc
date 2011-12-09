@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.stepexecution;
 
 import java.util.ArrayList;
@@ -6,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -14,7 +18,7 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 
+/**
+ * Controller for the Step Execution Details page.
+ */
 @Controller
 public class StepExecutionController {
 	private static final Logger log = Logger.getLogger(StepExecutionController.class);
 	
-	@Resource(name="environmentName")
 	private String environmentName;
-	@Autowired
 	private JobExplorer jobExplorer;
 	
 	/**
@@ -76,5 +81,13 @@ log.debug(">>> jobInstanceId="+jobInstanceId + "&jobExecutionId="+jobExecutionId
 			}
 		}
 		return list;
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer jobExplorer) {
+		this.jobExplorer = jobExplorer;
 	}
 }

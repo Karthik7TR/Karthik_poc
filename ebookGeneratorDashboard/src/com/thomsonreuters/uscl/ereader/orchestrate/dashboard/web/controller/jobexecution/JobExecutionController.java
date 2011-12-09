@@ -1,15 +1,19 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution;
 
 import java.net.URL;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,13 +38,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobE
 public class JobExecutionController {
 	private static final Logger log = Logger.getLogger(JobExecutionController.class);
 	
-	@Resource(name="environmentName")
 	private String environmentName;
-	@Autowired
 	private JobExplorer jobExplorer;
-	@Resource(name="engineContextUrl")
 	private URL engineContextUrl;
-	@Resource(name="jobExecutionFormValidator")
 	private Validator validator;
 	
 	@InitBinder(JobExecutionForm.FORM_NAME)
@@ -53,7 +53,6 @@ public class JobExecutionController {
 							  @RequestParam Long jobExecutionId,
 							  @ModelAttribute(JobExecutionForm.FORM_NAME) JobExecutionForm form,
 							  Model model) throws Exception {
-//log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
 		populateModel(model, jobExecution);
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
@@ -101,5 +100,21 @@ log.debug(">>> jobExecutionId="+jobExecutionId);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION, jobExecution);
 		model.addAttribute(WebConstants.KEY_VDO, vdo);
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer jobExplorer) {
+		this.jobExplorer = jobExplorer;
+	}
+	@Required
+	public void setEngineContextUrl(URL engineContextUrl) {
+		this.engineContextUrl = engineContextUrl;
+	}
+	@Required
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 }
