@@ -36,11 +36,13 @@ public class EngineServiceImpl implements EngineService {
 	private JobLauncher jobLauncher;
 
 	/**
-	 * Immediately run a job at the specified thread execution priority.
-	 * @param jobName the name of the job as defined in Spring bean definition file(s)
-	 * @param threadPriority 1..10, but mapped to LOW (1..4), NORMAL (5), HIGH (6..10).
-	 * @return the job execution object
-	 * @throws Exception on unable to find job name, or launching the job
+	 * Immediately run a job as defined in the specified JobRunRequest.
+	 * JobParameters for the job are loaded from a database table as keyed by the book identifier.
+	 * The launch set of JobParameters also includes a set of pre-defined "well-known" parameters, things
+	 * like the username of person who started the job, the host on which the job is running, and others.
+	 * See the Job Parameters section of the Job Execution Details page of the dashboard web app.
+	 * to see the complete list for any single JobExecution.
+	 * @throws Exception on unable to find job name, or in launching the job
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -50,7 +52,7 @@ public class EngineServiceImpl implements EngineService {
 		// Lookup job object from set of defined collection of jobs 
 		Job job = jobRegistry.getJob(request.getJobName());
 		if (job == null) {
-			throw new IllegalArgumentException("Job name: " + request.getJobName() + " was not found!");
+			throw new IllegalArgumentException("Job definition: " + request.getJobName() + " was not found!");
 		}
 		
 		// Load the pre-defined set of job parameters for this specific job from a database table
@@ -91,8 +93,8 @@ public class EngineServiceImpl implements EngineService {
 	 * Combine user and database loaded job params and the standard "well-known" set of job parameters to the job launch configuration.
 	 * @return a superset of the provided jobParameters including the well-known set.
 	 */
-	private static JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
-		
+	public static JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
+
 		// Combine the user and database provided job parameters
 		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>(databaseJobParams.getParameters());
 		
@@ -104,13 +106,13 @@ public class EngineServiceImpl implements EngineService {
 		} catch (UnknownHostException uhe) {
 			hostName = null;
 		}
-		// Add the "well-known"  ken/values into the job parameters map
+		// Add the pre-defined/well-known key/values into the job parameters map
 		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(runRequest.getBookCode()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));
-		jobParamMap.put(EngineConstants.JOB_PARAM_SERIAL_NUMBER, new JobParameter(System.currentTimeMillis()));
+//		jobParamMap.put(EngineConstants.JOB_PARAM_SERIAL_NUMBER, new JobParameter(System.currentTimeMillis()));
 		return new JobParameters(jobParamMap);
 	}
 	@Required
