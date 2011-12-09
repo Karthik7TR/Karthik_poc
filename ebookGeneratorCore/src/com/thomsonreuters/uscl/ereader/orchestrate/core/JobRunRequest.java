@@ -28,12 +28,11 @@ public class JobRunRequest implements Serializable {
 	
 	private String jobName;			// job name to run
 	private String bookCode;		// Which book is to be created
-	private String bookTitle;		// Natural language name of book that will be created
 	private String userName;		// What user is requesting that the job be run
 	private String userEmail;		// What is the requestor's email address
 	
-	public static JobRunRequest create(String bookCode, String bookTitle, String userName, String userEmail) {
-		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, bookCode, bookTitle, userName, userEmail);
+	public static JobRunRequest create(String bookCode, String userName, String userEmail) {
+		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, bookCode, userName, userEmail);
 	}
 
 	public String marshal() throws JiBXException {
@@ -65,18 +64,14 @@ public class JobRunRequest implements Serializable {
 	public JobRunRequest() {
 		super();
 	}
-	private JobRunRequest(String jobName, String bookCode, String bookTitle, String userName, String userEmail) {
+	private JobRunRequest(String jobName, String bookCode, String userName, String userEmail) {
 		this.jobName = jobName;
 		this.bookCode = bookCode;
-		this.bookTitle= bookTitle;
 		this.userName = userName;
 		this.userEmail = userEmail;
 	}
 	public String getBookCode() {
 		return bookCode;
-	}
-	public String getBookTitle() {
-		return bookTitle;
 	}
 	public String getJobName() {
 		return jobName;
@@ -89,9 +84,6 @@ public class JobRunRequest implements Serializable {
 	}
 	public void setBookCode(String code) {
 		this.bookCode = code;
-	}
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
 	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;

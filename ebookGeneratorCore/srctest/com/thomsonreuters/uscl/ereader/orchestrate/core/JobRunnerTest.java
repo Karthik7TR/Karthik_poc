@@ -15,7 +15,6 @@ import org.springframework.jms.core.JmsTemplate;
 
 public class JobRunnerTest  {
 	private static final String BOOK_CODE = "junitBook";
-	private static final String BOOK_TITLE = "Test Tile for Book Test";
 	private JmsJobRunner jobRunner;
 	
 	@Before
@@ -33,7 +32,7 @@ public class JobRunnerTest  {
 	@Test
 	public void testHighPriorityJobRunRequest() {
 		try {
-			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, BOOK_TITLE, "joeh", "joeh@bogus.com");
+			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, "joeh", "joeh@bogus.com");
 			jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,7 +42,7 @@ public class JobRunnerTest  {
 	@Test
 	public void testNormalPriorityJobRunRequest() {
 		try {
-			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, BOOK_TITLE, "joen", "joen@bogus.com");
+			JobRunRequest jobRunRequest = JobRunRequest.create(BOOK_CODE, "joen", "joen@bogus.com");
 			jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 		} catch (Exception e) {
 			e.printStackTrace();

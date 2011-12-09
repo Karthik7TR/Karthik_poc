@@ -63,8 +63,7 @@ public class CreateBookController {
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
 
 		String bookCode = form.getBookCode();
-		String bookTitle = service.getBookTitle(bookCode);
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, bookTitle, userName, userEmail);
+		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, userName, userEmail);
 		try {
 			if (form.isHighPriorityJob()) {
 				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);

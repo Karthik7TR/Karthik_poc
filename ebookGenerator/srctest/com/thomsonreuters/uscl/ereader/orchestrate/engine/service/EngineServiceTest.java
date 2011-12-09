@@ -5,12 +5,13 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.easymock.EasyMock;
 import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.Job;
@@ -31,6 +32,10 @@ public class EngineServiceTest  {
 	private static Long myIntValue = Long.MAX_VALUE;
 	private static String myStrKey = "myStrKey";
 	private static String myStrValue = "myStrValue";
+	private static String BOOK_CODE = "theBookCode";
+	private static String BOOK_TITLE = "Junit book title";
+	private static String USER_NAME = "theUserName";
+	private static String USER_EMAIL = "theUserEmail";
 
 	@Autowired
 	private EngineServiceImpl service;
@@ -46,8 +51,9 @@ public class EngineServiceTest  {
 		JobExecution jobExecution = EasyMock.createMock(JobExecution.class);
 		Job job = EasyMock.createMock(Job.class);
 		
-		this.jobRunRequest = JobRunRequest.create("bookCode", "bookTitle", "userName", "userEmail");
+		this.jobRunRequest = JobRunRequest.create(BOOK_CODE, USER_NAME, USER_EMAIL);
 		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
+		paramMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(BOOK_TITLE));
 		paramMap.put(myIntKey, new JobParameter(myIntValue));
 		paramMap.put(myStrKey, new JobParameter(myStrValue));
 		this.databaseParams = new JobParameters(paramMap);
@@ -69,24 +75,14 @@ public class EngineServiceTest  {
 		service.setJobRegistry(jobRegistry);
 	}
 	@Test
-	public void testCreateCombinedJobParameters() {
-//		JobRunRequest jobRunRequest = JobRunRequest.create("bookCode", "bookTitle", "userName", "userEmail");
-//		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-//		String myIntKey = "myIntKey";
-//		Long myIntValue = Long.MAX_VALUE;
-//		String myStrKey = "myStrKey";
-//		String myStrValue = "myStrValue";
-//		paramMap.put(myIntKey, new JobParameter(myIntValue));
-//		paramMap.put(myStrKey, new JobParameter(myStrValue));
-//		JobParameters databaseParams = new JobParameters(paramMap);
-//		
+	public void testCreateCombinedJobParameters() {	
 		JobParameters combinedJobParams = EngineServiceImpl.createCombinedJobParameters(jobRunRequest, databaseParams);
 		assertEquals(myIntValue, (Long) combinedJobParams.getLong(myIntKey));
 		assertEquals(myStrValue, combinedJobParams.getString(myStrKey));
-		assertEquals("bookCode", combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_CODE));
-		assertEquals("bookTitle", combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_TITLE));
-		assertEquals("userName", combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_NAME));
-		assertEquals("userEmail", combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_EMAIL));
+		assertEquals(BOOK_CODE, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_CODE));
+		assertEquals(BOOK_TITLE, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_TITLE));
+		assertEquals(USER_NAME, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_NAME));
+		assertEquals(USER_EMAIL, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_EMAIL));
 	}
 
 	@Test

@@ -108,7 +108,7 @@ public class EngineServiceImpl implements EngineService {
 		}
 		// Add the pre-defined/well-known key/values into the job parameters map
 		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(runRequest.getBookCode()));
-		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
+//		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));

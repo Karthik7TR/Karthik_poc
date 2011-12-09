@@ -17,7 +17,7 @@ import org.springframework.jms.core.JmsTemplate;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 public class JobQueueManagerTest  {
-	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theTitle", "theUserName", "theUserEmail");
+	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theUserName", "theUserEmail");
 	private JmsTemplate jmsTemplate;
 	private TextMessage textMessage; 
 	private JobQueueManagerImpl queueManager;
