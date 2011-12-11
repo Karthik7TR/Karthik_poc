@@ -46,6 +46,7 @@ public class CreateBookControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private DashboardService mockDashboardService;
 
     @Before
     public void setUp() {
@@ -53,17 +54,16 @@ public class CreateBookControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
-    	DashboardService dashboardService = EasyMock.createMock(DashboardService.class);
+    	this.mockDashboardService = EasyMock.createMock(DashboardService.class);
     	JobRunner jobRunner = EasyMock.createMock(JobRunner.class);
     	MessageSource messageSource = EasyMock.createMock(MessageSource.class);
     	
     	Map<String,String> bookCodeMap = new HashMap<String,String>();
-    	EasyMock.expect(dashboardService.getBookCodes()).andReturn(bookCodeMap);
-    	EasyMock.expect(dashboardService.getBookTitle(TEST_BOOK_CODE)).andReturn("Test book title");
-    	EasyMock.replay(dashboardService);
+    	EasyMock.expect(mockDashboardService.getBookCodes()).andReturn(bookCodeMap);
+    	EasyMock.replay(mockDashboardService);
     	
     	this.controller = new CreateBookController();
-    	controller.setDashboardService(dashboardService);
+    	controller.setDashboardService(mockDashboardService);
     	controller.setJobRunner(jobRunner);
     	controller.setEnvironmentName("junitEnvironment");
     	controller.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
@@ -84,6 +84,8 @@ public class CreateBookControllerTest {
         
         // Check the state of the model
         validateModel(mav.getModel());
+        
+        EasyMock.verify(mockDashboardService);
     }
     
     /**
@@ -104,6 +106,7 @@ public class CreateBookControllerTest {
     	assertFalse(bindingResult.hasErrors());
     	Assert.assertEquals(WebConstants.VIEW_CREATE_BOOK, mav.getViewName());
     	validateModel(model);
+    	EasyMock.verify(mockDashboardService);
     }
     
     /**

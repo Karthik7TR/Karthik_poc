@@ -47,11 +47,12 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.Dashboa
 public class JobSummaryControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+JobSummaryForm.FORM_NAME;
     private JobSummaryController controller;
-    private DashboardService dashboardService;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     private JobSummaryForm form;
+    private DashboardService mockDashboardService;
+    private JobExplorer mockJobExplorer;
 
     @Before
     public void setUp() {
@@ -60,25 +61,25 @@ public class JobSummaryControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	// Mock up the dashboard service
-    	dashboardService = EasyMock.createMock(DashboardService.class);
-    	form = new JobSummaryForm();
+    	this.mockDashboardService = EasyMock.createMock(DashboardService.class);
+    	this.form = new JobSummaryForm();
     	JobSummaryController.initializeForm(form, new MockHttpSession());
     	Long[] idArray = { 10l, 20l, 30l, 40l };
-    	EasyMock.expect(dashboardService.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK,
+    	EasyMock.expect(mockDashboardService.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK,
     			form.getStartTime(), form.getBatchStatus())).andReturn(Arrays.asList(idArray));
-    	EasyMock.expect(dashboardService.findJobExecutionByPrimaryKey(Arrays.asList(idArray))).andReturn(new ArrayList<JobExecution>(0));
-    	EasyMock.replay(dashboardService);
+    	EasyMock.expect(mockDashboardService.findJobExecutionByPrimaryKey(Arrays.asList(idArray))).andReturn(new ArrayList<JobExecution>(0));
+    	EasyMock.replay(mockDashboardService);
     	
     	// Mock up the Spring Bach JobExplorer
-    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
-    	EasyMock.expect(jobExplorer.getJobNames()).andReturn(new ArrayList<String>(0));
-    	EasyMock.replay(jobExplorer);
+    	this.mockJobExplorer = EasyMock.createMock(JobExplorer.class);
+    	EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(new ArrayList<String>(0));
+    	EasyMock.replay(mockJobExplorer);
 
     	// Set up the controller
     	this.controller = new JobSummaryController();
-    	controller.setDashboardService(dashboardService);
+    	controller.setDashboardService(mockDashboardService);
     	controller.setEnvironmentName("junitTestEnv");
-    	controller.setJobExplorer(jobExplorer);
+    	controller.setJobExplorer(mockJobExplorer);
     	controller.setValidator(new JobSummaryFormValidator());
     }
         
@@ -101,6 +102,8 @@ public class JobSummaryControllerTest {
         
         // Check the state of the model
         validateModel(mav.getModel());
+        EasyMock.verify(mockDashboardService);
+        EasyMock.verify(mockJobExplorer);
     }
     
     /**
@@ -122,6 +125,8 @@ public class JobSummaryControllerTest {
     	assertFalse(bindingResult.hasErrors());
     	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	validateModel(model);
+    	EasyMock.verify(mockDashboardService);
+    	EasyMock.verify(mockJobExplorer);
     }
     
     /**

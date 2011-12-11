@@ -52,6 +52,7 @@ public class JobExecutionControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private JobExplorer mockJobExplorer;
 
     @Before
     public void setUp() throws Exception {
@@ -59,14 +60,14 @@ public class JobExecutionControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
-    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
-    	EasyMock.expect(jobExplorer.getJobExecution(JOB_EXEC_ID)).andReturn(new JobExecution(JOB_EXEC_ID));
-    	EasyMock.replay(jobExplorer);
+    	this.mockJobExplorer = EasyMock.createMock(JobExplorer.class);
+    	EasyMock.expect(mockJobExplorer.getJobExecution(JOB_EXEC_ID)).andReturn(new JobExecution(JOB_EXEC_ID));
+    	EasyMock.replay(mockJobExplorer);
     	
     	this.controller = new JobExecutionController();
     	controller.setEngineContextUrl(new URL("http://engineContextUrl"));
     	controller.setEnvironmentName("junitTestEnv");
-    	controller.setJobExplorer(jobExplorer);
+    	controller.setJobExplorer(mockJobExplorer);
     	controller.setValidator(new JobExecutionFormValidator());
     }
         
@@ -85,6 +86,7 @@ public class JobExecutionControllerTest {
         
         // Check the state of the model
         validateModel(mav.getModel());
+        EasyMock.verify(mockJobExplorer);
     }
     
     /**
@@ -104,6 +106,7 @@ public class JobExecutionControllerTest {
     	assertFalse(bindingResult.hasErrors());
     	Assert.assertEquals(WebConstants.VIEW_JOB_EXECUTION_DETAILS, mav.getViewName());
     	validateModel(model);
+    	EasyMock.verify(mockJobExplorer);
     }
     
     /**

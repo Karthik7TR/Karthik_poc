@@ -39,6 +39,8 @@ public class JobInstanceControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private JobInstance jobInstance;
+    private JobExplorer jobExplorer;
 
     @Before
     public void setUp() {
@@ -46,11 +48,8 @@ public class JobInstanceControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
-    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
-    	JobInstance jobInstance = new JobInstance(JOB_INST_ID, new JobParameters(), "fooJob");
-    	EasyMock.expect(jobExplorer.getJobInstance(JOB_INST_ID)).andReturn(jobInstance);
-    	EasyMock.expect(jobExplorer.getJobExecutions(jobInstance)).andReturn(new ArrayList<JobExecution>(0));
-    	EasyMock.replay(jobExplorer);
+    	this.jobExplorer = EasyMock.createMock(JobExplorer.class);
+    	this.jobInstance = new JobInstance(JOB_INST_ID, new JobParameters(), "fooJob");
     	
     	this.controller = new JobInstanceController();
     	controller.setEnvironmentName("junitTestEnv");
@@ -62,6 +61,9 @@ public class JobInstanceControllerTest {
      */
     @Test
     public void testGetJobInstanceDetails() throws Exception {
+    	EasyMock.expect(jobExplorer.getJobInstance(JOB_INST_ID)).andReturn(jobInstance);
+    	EasyMock.expect(jobExplorer.getJobExecutions(jobInstance)).andReturn(new ArrayList<JobExecution>(0));
+    	EasyMock.replay(jobExplorer);
     	request.setRequestURI("/"+WebConstants.URL_JOB_INSTANCE_DETAILS);
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter(WebConstants.KEY_JOB_INSTANCE_ID, String.valueOf(JOB_INST_ID));
@@ -72,6 +74,7 @@ public class JobInstanceControllerTest {
         
         // Check the state of the model
         validateModel(mav.getModel());
+        EasyMock.verify(jobExplorer);
     }
 
     private static void validateModel(Map<String,Object> model) {

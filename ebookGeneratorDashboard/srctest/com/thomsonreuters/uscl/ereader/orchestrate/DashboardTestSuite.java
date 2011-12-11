@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.CreateBookControllerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionControllerTest;
+import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobExecutionVdoTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobInstanceControllerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.JobSummaryControllerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.StepExecutionControllerTest;
@@ -21,7 +22,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.Step
 				 JobInstanceControllerTest.class,
 				 JobSummaryControllerTest.class,
 				 StepExecutionControllerTest.class,
-				 CreateBookControllerTest.class} )
+				 CreateBookControllerTest.class,
+				 JobExecutionVdoTest.class} )
 
 public class DashboardTestSuite {
 

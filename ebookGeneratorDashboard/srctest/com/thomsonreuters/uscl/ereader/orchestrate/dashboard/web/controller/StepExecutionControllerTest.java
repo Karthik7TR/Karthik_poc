@@ -44,6 +44,8 @@ public class StepExecutionControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private JobExplorer mockJobExplorer;
+    private JobExecution mockJobExecution;
 
     @Before
     public void setUp() {
@@ -52,15 +54,15 @@ public class StepExecutionControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	// Mock up the Spring Bach JobExplorer
-    	JobExplorer jobExplorer = EasyMock.createMock(JobExplorer.class);
-    	JobExecution jobExecution = new JobExecution(JOB_EXEC_ID);
-    	EasyMock.expect(jobExplorer.getJobInstance(JOB_INST_ID)).andReturn(new JobInstance(JOB_INST_ID, new JobParameters(), EngineConstants.JOB_DEFINITION_EBOOK));
-    	EasyMock.expect(jobExplorer.getStepExecution(JOB_EXEC_ID, STEP_EXEC_ID)).andReturn(new StepExecution("theStep", jobExecution));
-    	EasyMock.replay(jobExplorer);
+    	mockJobExplorer = EasyMock.createMock(JobExplorer.class);
+    	mockJobExecution = new JobExecution(JOB_EXEC_ID);
+    	EasyMock.expect(mockJobExplorer.getJobInstance(JOB_INST_ID)).andReturn(new JobInstance(JOB_INST_ID, new JobParameters(), EngineConstants.JOB_DEFINITION_EBOOK));
+    	EasyMock.expect(mockJobExplorer.getStepExecution(JOB_EXEC_ID, STEP_EXEC_ID)).andReturn(new StepExecution("theStep", mockJobExecution));
+    	EasyMock.replay(mockJobExplorer);
     	
     	this.controller = new StepExecutionController();
     	controller.setEnvironmentName("junitTestEnv");
-    	controller.setJobExplorer(jobExplorer);
+    	controller.setJobExplorer(mockJobExplorer);
     }
         
     /**

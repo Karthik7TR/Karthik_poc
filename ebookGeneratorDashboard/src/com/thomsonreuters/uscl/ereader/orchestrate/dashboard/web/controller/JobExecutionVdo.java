@@ -66,8 +66,9 @@ public class JobExecutionVdo {
 		if (jobExecution == null) {
 			return false;
 		}
-		return ((BatchStatus.STOPPED == jobExecution.getStatus()) ||
-				(BatchStatus.FAILED == jobExecution.getStatus()));
+		BatchStatus batchStatus = jobExecution.getStatus();
+		return ((BatchStatus.STOPPED == batchStatus) ||
+				(BatchStatus.FAILED == batchStatus));
 	}
 	
 	public boolean isStoppable() {
