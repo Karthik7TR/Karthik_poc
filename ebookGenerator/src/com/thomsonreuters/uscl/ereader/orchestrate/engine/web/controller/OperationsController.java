@@ -7,10 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.net.URL;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +29,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	
-	@Autowired
 	private EngineService engineService;
-	@Resource(name="dashboardContextUrl")
 	private URL dashboardContextUrl;
-	@Autowired
 	private MessageSourceAccessor messageSourceAccessor;
 
 	/**
@@ -53,7 +48,7 @@ log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
 log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the restarted job
-			String dashboardDetailsUrl = getDashboardJobExecutionDetailsUrl()+"?"+WebConstants.KEY_JOB_EXECUTION_ID+"="+restartedJobExecutionId;
+			String dashboardDetailsUrl = getDashboardJobExecutionDetailsUrl(restartedJobExecutionId);
 			return new ModelAndView(new RedirectView(dashboardDetailsUrl));
 		} catch (Exception e) {
 			log.error("Failed to restart job with execution ID=" + jobExecutionIdToRestart, e);
@@ -77,7 +72,7 @@ log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
 log.debug("Stopped Job: " + jobExecutionIdToStop);
 
 			// Redirect back to the Dashboard Job Execution Details page to view the details of the stopped job
-			String dashboardDetailsUrl = getDashboardJobExecutionDetailsUrl()+"?"+WebConstants.KEY_JOB_EXECUTION_ID+"="+jobExecutionIdToStop;
+			String dashboardDetailsUrl = getDashboardJobExecutionDetailsUrl(jobExecutionIdToStop);
 			return new ModelAndView(new RedirectView(dashboardDetailsUrl));
 		} catch (Exception e) {
 			log.error("Failed to stop job with execution ID=" + jobExecutionIdToStop, e);
@@ -87,8 +82,7 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 	}
 	
 	private void populateModel(Model model, Long jobExecutionId, Exception e, String action) {
-		String dashboardDetailsUrl = getDashboardJobExecutionDetailsUrl()+"?"+WebConstants.KEY_JOB_EXECUTION_ID+"=";
-		model.addAttribute("dashboardDetailsUrl", dashboardDetailsUrl+jobExecutionId);
+		model.addAttribute("dashboardDetailsUrl", getDashboardJobExecutionDetailsUrl(jobExecutionId));
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION_ID, jobExecutionId);
 		model.addAttribute(WebConstants.KEY_ERROR_MESSAGE, e.getMessage());
 		model.addAttribute(WebConstants.KEY_STACK_TRACE, EngineServiceImpl.getStackTrace(e));
@@ -99,7 +93,19 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 	 * Fetch the complete URL for the Job Execution Details page of the dashboard web application, less the required query string.
 	 * @return the Dashboard Job execution details page url with no query string.
 	 */
-	private String getDashboardJobExecutionDetailsUrl() {
-		return dashboardContextUrl.toString()+"/jobExecutionDetails.mvc";
+	private String getDashboardJobExecutionDetailsUrl(long jobExecutionId) {
+		return dashboardContextUrl.toString()+"/jobExecutionDetails.mvc?"+WebConstants.KEY_JOB_EXECUTION_ID+"="+jobExecutionId;
+	}
+	@Required
+	public void setEngineService(EngineService engineService) {
+		this.engineService = engineService;
+	}
+	@Required
+	public void setDashboardContextUrl(URL dashboardContextUrl) {
+		this.dashboardContextUrl = dashboardContextUrl;
+	}
+	@Required
+	public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
+		this.messageSourceAccessor = messageSourceAccessor;
 	}
 }
