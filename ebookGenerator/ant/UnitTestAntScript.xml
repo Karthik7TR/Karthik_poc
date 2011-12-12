@@ -90,9 +90,8 @@
 
       <formatter type="xml" usefile="yes" />
       <batchtest todir="${dir.tmpBuildDir}\JUnitTest">
-        <fileset dir="${dir.testBinaries}">
-          <!-- ************** TODO: Verify if the include matches with the name of the test classes DELETE THIS COMMENT IN THE ACTUAL SCRIPT *************** -->
-          <include name="**/*Tests.class" />
+        <fileset dir="${dir.testBinaries}">          
+          <include name="**/*Test.class" />
         </fileset>
       </batchtest>
     </junit>
