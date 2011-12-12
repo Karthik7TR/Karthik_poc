@@ -24,11 +24,12 @@ public class EngineDaoImpl implements EngineDao {
 	private static final Logger log = Logger.getLogger(EngineDaoImpl.class);
 	
 	private JdbcTemplate jdbcTemplate;
+	private String tablePrefix;
 	
 	@Override
 	public int getRunningJobExecutionCount() {
-		String sql = String.format("select count(*) from BATCH_JOB_EXECUTION where (status = '%s') or (status = '%s')",
-								BatchStatus.STARTING.toString(), BatchStatus.STARTED.toString());
+		String sql = String.format("select count(*) from %sJOB_EXECUTION where (status = '%s') or (status = '%s')",
+								tablePrefix, BatchStatus.STARTING.toString(), BatchStatus.STARTED.toString());
 		int count = jdbcTemplate.queryForInt(sql);
 		return count;
 	}
@@ -56,6 +57,10 @@ public static final String STUB_BOOK_TITLE = "TODO: DAO Stub book title - " + Sy
 	@Required
 	public void setJdbcTemplate(JdbcTemplate template) {
 		this.jdbcTemplate = template;
+	}
+	@Required
+	public void setTablePrefix(String prefix) {
+		this.tablePrefix = prefix;
 	}
 }
 

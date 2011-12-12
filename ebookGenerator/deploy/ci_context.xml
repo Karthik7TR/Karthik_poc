@@ -34,12 +34,12 @@
     -->
     
     <!-- DataSource -->
-	<Resource name="jdbc/DataSource" auth="Container"
+	<Resource name="jdbc/DataSource" auth="Container" 
               type="javax.sql.DataSource"
               factory="org.apache.commons.dbcp.BasicDataSourceFactory"
               driverClassName="oracle.jdbc.OracleDriver"
-              url="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = hasty-vip.int.westgroup.com)(PORT = 1521)) (ADDRESS = (PROTOCOL = TCP)(HOST = holly-vip.int.westgroup.com)(PORT = 1521)) (LOAD_BALANCE = yes) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = codes_sand.int.westgroup.com) (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5))))"
-              username="TODO_CI_USER" password="TODO_CI_USER"/> 
+              url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dyersville.int.westgroup.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orc212a.int.westgroup.com)))"
+              username="EBOOK_USER" password="eb00k"/> 
 
     <!-- JMS Queue Connection Factory(s) -->
     <Resource name="jms/QueueConnectionFactory" auth="Container"

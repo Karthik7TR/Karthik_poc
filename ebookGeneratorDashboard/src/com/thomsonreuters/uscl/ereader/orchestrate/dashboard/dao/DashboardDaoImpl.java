@@ -7,15 +7,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-@Component("dashboardDao")
 public class DashboardDaoImpl implements DashboardDao {
 	private static final Logger log = Logger.getLogger(DashboardDaoImpl.class);
-	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	private String tablePrefix;
 	
 	@Override
 	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus) {
@@ -23,9 +22,9 @@ public class DashboardDaoImpl implements DashboardDao {
 		int[] argTypes;
 		
 		StringBuffer sql = new StringBuffer();
-		sql.append("select bje.JOB_EXECUTION_ID from BATCH_JOB_EXECUTION bje ");
+		sql.append(String.format("select bje.JOB_EXECUTION_ID from %sJOB_EXECUTION bje ", tablePrefix));
 		if (StringUtils.isNotBlank(jobName)) {
-			sql.append(", BATCH_JOB_INSTANCE bji ");
+			sql.append(String.format(", %sJOB_INSTANCE bji ", tablePrefix));
 		}
 		
 		sql.append("where (START_TIME > ?) ");
@@ -60,23 +59,23 @@ log.debug(sql);
 		int[] argTypes = { Types.TIMESTAMP };
 		
 		List<Long> jobExecutionIds = jdbcTemplate.queryForList(
-				"select JOB_EXECUTION_ID from BATCH_JOB_EXECUTION where START_TIME < ?", args, argTypes, Long.class);
+				String.format("select JOB_EXECUTION_ID from %sJOB_EXECUTION where START_TIME < ?", tablePrefix), args, argTypes, Long.class);
 		
 		if (jobExecutionIds.size() > 0) {
 			String csvJobExecutionIds = createCsvString(jobExecutionIds);
 			List<Long> jobInstanceIds = jdbcTemplate.queryForList(
-					"select unique JOB_INSTANCE_ID from BATCH_JOB_EXECUTION where START_TIME < ?", args, argTypes, Long.class);
+					String.format("select unique JOB_INSTANCE_ID from %sJOB_EXECUTION where START_TIME < ?", tablePrefix), args, argTypes, Long.class);
 			String csvJobInstanceIds = createCsvString(jobInstanceIds);
 			List<Long> stepExecutionIds = jdbcTemplate.queryForList(
-					"select STEP_EXECUTION_ID from BATCH_STEP_EXECUTION where JOB_EXECUTION_ID in (" + csvJobExecutionIds + ")", Long.class);
+					String.format("select STEP_EXECUTION_ID from %sSTEP_EXECUTION where JOB_EXECUTION_ID in (%s)", tablePrefix, csvJobExecutionIds), Long.class);
 			String csvStepExecutionIds = createCsvString(stepExecutionIds);
 	
-			jdbcTemplate.update("delete from BATCH_JOB_PARAMS where JOB_INSTANCE_ID in (" + csvJobInstanceIds + ")");
-			jdbcTemplate.update("delete from BATCH_JOB_EXECUTION_CONTEXT where JOB_EXECUTION_ID in (" + csvJobExecutionIds + ")");
-			jdbcTemplate.update("delete from BATCH_STEP_EXECUTION_CONTEXT where STEP_EXECUTION_ID in (" + csvStepExecutionIds + ")");
-			jdbcTemplate.update("delete from BATCH_STEP_EXECUTION where JOB_EXECUTION_ID in (" + csvJobExecutionIds + ")");
-			jdbcTemplate.update("delete from BATCH_JOB_EXECUTION where JOB_EXECUTION_ID in (" + csvJobExecutionIds + ")");
-			jdbcTemplate.update("delete from BATCH_JOB_INSTANCE where JOB_INSTANCE_ID in (" + csvJobInstanceIds + ")");
+			jdbcTemplate.update(String.format("delete from %sJOB_PARAMS where JOB_INSTANCE_ID in (%s)", tablePrefix, csvJobInstanceIds));
+			jdbcTemplate.update(String.format("delete from %sJOB_EXECUTION_CONTEXT where JOB_EXECUTION_ID in (%s)", tablePrefix, csvJobExecutionIds));
+			jdbcTemplate.update(String.format("delete from %sSTEP_EXECUTION_CONTEXT where STEP_EXECUTION_ID in (%s)", tablePrefix, csvStepExecutionIds));
+			jdbcTemplate.update(String.format("delete from %sSTEP_EXECUTION where JOB_EXECUTION_ID in (%s)", tablePrefix, csvJobExecutionIds));
+			jdbcTemplate.update(String.format("delete from %sJOB_EXECUTION where JOB_EXECUTION_ID in (%s)", tablePrefix, csvJobExecutionIds));
+			jdbcTemplate.update(String.format("delete from %sJOB_INSTANCE where JOB_INSTANCE_ID in (%s)", tablePrefix, csvJobInstanceIds));
 		}
 	}
 	
@@ -91,6 +90,14 @@ log.debug(sql);
 			}
 		}
 		return csv.toString();
+	}
+	@Required
+	public void setJdbcTemplate(JdbcTemplate template) {
+		this.jdbcTemplate = template;
+	}
+	@Required
+	public void setTablePrefix(String prefix) {
+		this.tablePrefix = prefix;
 	}
 }
 

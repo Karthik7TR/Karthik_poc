@@ -12,7 +12,8 @@
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
 
 	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
-		  p:dataSource-ref="dataSource"/>
+		  p:dataSource-ref="dataSource"
+		  p:tablePrefix="${spring.batch.table.prefix}"/>
 	
 	<!--
 		The JobControl class is used to enqueue job run request messages onto either the high or normal priority

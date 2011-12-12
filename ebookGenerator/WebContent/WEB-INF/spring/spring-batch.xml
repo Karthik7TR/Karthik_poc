@@ -11,6 +11,7 @@
 
     <batch:job-repository id="jobRepository"
     			data-source="dataSource"
+    			table-prefix="${spring.batch.table.prefix}"
 				transaction-manager="transactionManager"/>
 				
 	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
@@ -20,7 +21,8 @@
 		  p:jobRegistry-ref="jobRegistry"/>
 
 	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
-		  p:dataSource-ref="dataSource"/>
+		  p:dataSource-ref="dataSource"
+		  p:tablePrefix="${spring.batch.table.prefix}"/>
 				
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository">
