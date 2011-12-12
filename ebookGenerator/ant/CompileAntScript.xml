@@ -5,7 +5,8 @@
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
   <property name="warFilename" value="ebookGenerator.war"/>
-
+  <property name="dir.ebookGeneratorCore" value="..\ebookGeneratorCore" />
+	
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
@@ -33,7 +34,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile, -createJar, -createWar">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, -createJar, -createWar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -42,7 +43,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile, -compile_unitTests, -compile_integrationTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core,-compile, -compile_unitTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
@@ -70,11 +71,25 @@
     <echo level="verbose">Compiling the source code...</echo>
     <javac destdir="${dir.binaries}" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
-      <src path="${dir.source}"/>
+      <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
   </target>
 
+	<!-- - - - - - - - - - - - - - - - - - 
+	           target: -compile                      
+	           description: Compile the source code and place the compiled libraries in the respective 
+	                        folder. The code will be compiled using version 1.6 of the SDK.
+	         - - - - - - - - - - - - - - - - - -->
+	 <target name="-compile-core">
+	    <echo level="verbose">Compiling the source code...</echo>
+	    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
+	           debug="${IsCoverageBuild}">
+	      <src path="${dir.ebookGeneratorCore}"/>	    	
+	      <classpath refid="classpath.compile"/>
+	    </javac>
+	  </target>
+	
   <!-- - - - - - - - - - - - - - - - - - 
           target: -compile_unitTests                      
           description: Compile the unit test source code and place the compiled libraries in the 
