@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerTest;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
 
@@ -13,7 +14,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.Operati
 @RunWith(Suite.class)
 @SuiteClasses( { JobQueueManagerTest.class,
 				 EngineServiceTest.class,
-				 OperationsControllerTest.class
+				 OperationsControllerTest.class,
+				 JobRunQueuePollerTest.class
 				} )
 
 public class EngineTestSuite {

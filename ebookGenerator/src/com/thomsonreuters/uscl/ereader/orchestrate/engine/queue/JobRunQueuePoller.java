@@ -6,9 +6,8 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
@@ -19,15 +18,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
  * If a message is present, and we can run the job because less than
  * the maximum number of concurrent batch jobs is running (not throttled) then the specified job will be run.
  */
-@Component
 public class JobRunQueuePoller {
 	private static final Logger log = Logger.getLogger(JobRunQueuePoller.class);
 
-	@Autowired
 	private Throttle throttle;
-	@Autowired
 	private EngineService engineService;
-	@Autowired
 	private JobQueueManager jobQueueManager;
 	
 	@Scheduled(fixedRate=15000)
@@ -49,5 +44,17 @@ public class JobRunQueuePoller {
 		} catch (Exception e) {
 			log.error(String.format("Failed to fetch job run request from launch input queue.\n\t%s", e.getMessage()));
 		}
+	}
+	@Required
+	public void setThrottle(Throttle throttle) {
+		this.throttle = throttle;
+	}
+	@Required
+	public void setEngineService(EngineService engineService) {
+		this.engineService = engineService;
+	}
+	@Required
+	public void setJobQueueManager(JobQueueManager jobQueueManager) {
+		this.jobQueueManager = jobQueueManager;
 	}
 }

@@ -5,8 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
@@ -15,10 +14,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
  * Encapsulates the number of currently executing jobs along with the maximum number of concurrent jobs
  * that can run at any point in time.
  */
-@Component
 public class JobRunThrottle implements Throttle, InitializingBean {
 	
-	@Autowired
 	private EngineDao dao;
 	private ThrottleConfig throttleConfig;
 	
@@ -82,5 +79,9 @@ public class JobRunThrottle implements Throttle, InitializingBean {
 			}
 		}
 		return null;
+	}
+	@Required
+	public void setEngineDao(EngineDao dao) {
+		this.dao = dao;
 	}
 }

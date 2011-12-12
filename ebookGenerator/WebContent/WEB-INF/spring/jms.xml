@@ -32,5 +32,14 @@
   		  p:jmsTemplate-ref="jmsTemplate"
   		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
   		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
+  		  
+  		  
+    <bean id="throttle" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.JobRunThrottle"
+    	  p:engineDao-ref="engineDao"/>
+  		  
+  	<bean id="jobQueuePoller" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueuePoller"
+  	      p:throttle-ref="throttle"
+  	      p:engineService-ref="engineService"
+  	      p:jobQueueManager-ref="jobQueueManager"/>
 	
 </beans>
