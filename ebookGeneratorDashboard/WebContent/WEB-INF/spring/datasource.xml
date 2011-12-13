@@ -9,18 +9,6 @@
 
   <!-- Data source from naming service (JNDI) -->
   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/DataSource" resource-ref="true"/>
-  
-  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-  		p:dataSource-ref="dataSource"
-  		p:maxRows="2000"/>
-  
-  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-	  	p:dataSource-ref="dataSource"/>
 	  	
-  <bean id="dashboardDao" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.DashboardDaoImpl"
-  	    p:tablePrefix="${spring.batch.table.prefix}"
-  	    p:jdbcTemplate-ref="jdbcTemplate"/>
-  	    
- 	
 </beans>
 	

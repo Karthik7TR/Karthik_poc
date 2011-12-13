@@ -9,12 +9,6 @@
 
   <!-- Data source from naming service (JNDI) -->
   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/DataSource" resource-ref="true"/>
-  
-  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-  		p:dataSource-ref="dataSource"/>
-  
-  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-	  	p:dataSource-ref="dataSource"/>
  	
 </beans>
 	

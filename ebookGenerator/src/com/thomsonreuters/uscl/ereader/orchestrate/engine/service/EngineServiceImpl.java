@@ -22,7 +22,6 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
@@ -45,7 +44,6 @@ public class EngineServiceImpl implements EngineService {
 	 * @throws Exception on unable to find job name, or in launching the job
 	 */
 	@Override
-	@Transactional(readOnly = true)
 	public JobExecution runJob(JobRunRequest request) throws Exception {
 		log.debug(String.format("Starting job: %s", request));
 

@@ -11,10 +11,6 @@
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
-		  p:jdbcTemplate-ref="jdbcTemplate"
-		  p:tablePrefix="${spring.batch.table.prefix}"/>
-		  
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
 		  p:dao-ref="engineDao"
 		  p:jobRegistry-ref="jobRegistry"
