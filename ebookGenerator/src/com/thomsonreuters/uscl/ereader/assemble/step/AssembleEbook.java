@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.assemble.step;
 import java.io.File;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepContribution;
@@ -26,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  */
 public class AssembleEbook extends AbstractSbTasklet {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	//private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
+	private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
 	private EBookAssemblyService eBookAssemblyService;
 
 	public void seteBookAssemblyService(EBookAssemblyService eBookAssemblyService) {
@@ -49,9 +50,10 @@ public class AssembleEbook extends AbstractSbTasklet {
 		long startTime = System.currentTimeMillis();
 		eBookAssemblyService.assembleEBook(eBookDirectory, eBookFile);
 		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - startTime;
 		
 		//TODO: Consider defining the time spent in assembly as a JODA-Time interval.
-		//LOG.debug("EBookAssemblyTook: " + endTime - startTime + " milliseconds");
+		LOG.debug("Assembled eBook in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}
