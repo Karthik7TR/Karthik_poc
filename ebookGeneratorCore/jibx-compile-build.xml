@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!-- 
+	ebookGeneratorCore project build
+ -->
+<project name="ebookGeneratorCore" default="jibx-bind" basedir=".">
+	
+	<property environment="env"/>
+	<property name="binding.fileset.dir" value="${basedir}/src/jibx"/>
+
+	<path id="compile.classpath">
+		<fileset dir="../ebookGenerator/WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+    <taskdef name="jibxCompiler" classname="org.jibx.binding.ant.CompileTask" classpathref="compile.classpath"/>
+
+    <target name="jibx-bind">
+        <jibxCompiler>
+            <bindingfileset dir="${binding.fileset.dir}">
+                <include name="jibx-bindings.xml"/>
+            </bindingfileset>
+            <classpath>
+            	<pathelement location="bin"/>
+            </classpath>
+	    </jibxCompiler>
+    </target>
+
+	
+</project>
