@@ -8,8 +8,6 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
  
-	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
-
 	<job id="ebookGeneratorJob">
 		<step id="define">
 			<tasklet ref="stubTask"/>
@@ -21,46 +19,23 @@
 		</step>
 		<step id="format">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="deliver"/>
+			<next on="COMPLETED" to="assembleEBook"/>
 		</step>
-		<step id="deliver">
-			<tasklet ref="stubTask"/>
+		
+		<!-- Assemble the title -->
+		<step id="assembleEBook">
+			<tasklet ref="assembleEBookTask"/>
+			<next on="COMPLETED" to="deliverEBook"/>
+		</step>
+		
+		<!-- Deliver the title to ProView -->
+		<step id="deliverEBook">
+			<tasklet ref="deliverEBookTask"/>
 		</step>
 	</job>
 	
-	<job id="stubJob2">
-		<step id="sj2_Step0">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj2_Step1"/>
-		</step>
-		<step id="sj2_Step1">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj2_Step2"/>
-		</step>
-		<step id="sj2_Step2">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj2_Step3"/>
-		</step>
-		<step id="sj2_Step3">
-			<tasklet ref="stubTask"/>
-		</step>
-	</job>	
-	
-	<job id="stubJob3">
-		<step id="sj3_Step0">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj3_Step1"/>
-		</step>
-		<step id="sj3_Step1">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj3_Step2"/>
-		</step>
-		<step id="sj3_Step2">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="sj3_Step3"/>
-		</step>
-		<step id="sj3_Step3">
-			<tasklet ref="stubTask"/>
-		</step>
-	</job>
+	<!-- Define each task here -->
+	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
+	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook"/>
+	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 </beans:beans>
