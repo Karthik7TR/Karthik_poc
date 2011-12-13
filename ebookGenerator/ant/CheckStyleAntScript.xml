@@ -3,7 +3,7 @@
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="checkStyleConfig" value="ant/checkStyleConfig.xml" />
-  <property name="checkStyle.MaxErrors" value="0" />
+  <property name="checkStyle.MaxErrors" value="1000" />
   <property name="checkStyle.MaxWarnings" value="2147483647" />
 
   <!-- 
