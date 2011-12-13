@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate;
+package com.thomsonreuters.uscl.ereader;
 
 
 import org.junit.runner.RunWith;

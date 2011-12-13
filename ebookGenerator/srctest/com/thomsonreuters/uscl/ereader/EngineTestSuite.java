@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.engine;
+package com.thomsonreuters.uscl.ereader;
 
 
 import org.junit.runner.RunWith;
