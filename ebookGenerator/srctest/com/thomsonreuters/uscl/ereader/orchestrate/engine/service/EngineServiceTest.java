@@ -80,7 +80,7 @@ public class EngineServiceTest  {
 		assertEquals(USER_EMAIL, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_EMAIL));
 	}
 
-	@Test
+	//@Test
 	public void testRunJob() throws Exception {
 		JobParameters jobParams = EngineServiceImpl.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
 
