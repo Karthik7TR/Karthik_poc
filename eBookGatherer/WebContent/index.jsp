@@ -7,6 +7,6 @@
       <title>Gatherer- Novus</title>
        </head>
         <body>
-             <a href="SubmitToc.html">Get Toc Data</a> 
+              <jsp:forward page="tocData.html"></jsp:forward> 
         </body> 
  </html> 
