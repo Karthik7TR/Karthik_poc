@@ -15,7 +15,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.Operati
 @SuiteClasses( { JobQueueManagerTest.class,
 				 EngineServiceTest.class,
 				 OperationsControllerTest.class,
-				 JobRunQueuePollerTest.class
+				 JobRunQueuePollerTest.class,
+				 InitializeTaskTest.class
 				} )
 
 public class EngineTestSuite {
