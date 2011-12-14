@@ -57,7 +57,7 @@ public class InitializeTaskTest {
 			File actualRoot = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
 			Assert.assertEquals(expectedRoot.getAbsolutePath(), actualRoot.getAbsolutePath());
 			// Verify the golden book absolute path
-			File expectedFile = new File(expectedRoot, "TODO_BOOK_TITLE_ID.gz");	// TODO: eventually a function of job parameters and book title id
+			File expectedFile = new File(expectedRoot.getParentFile(), "TODO_BOOK_TITLE_ID.gz");	// TODO: eventually a function of job parameters and book title id
 			File actualFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE_PATH));
 			Assert.assertEquals(expectedFile.getAbsolutePath(), actualFile.getAbsolutePath());
 			// Verify the transition to the next step
