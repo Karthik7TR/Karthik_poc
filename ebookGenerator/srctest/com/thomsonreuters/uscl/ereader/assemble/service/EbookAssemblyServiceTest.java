@@ -128,7 +128,7 @@ public class EbookAssemblyServiceTest
 	public void testAssembleFailsDueToDirectoryPassedAsOutputFile () throws Exception 
 	{	
 		File mockFile = EasyMock.createMock(File.class);
-		EasyMock.expect(mockFile.isFile()).andReturn(Boolean.FALSE);
+		EasyMock.expect(mockFile.isDirectory()).andReturn(Boolean.TRUE);
 		EasyMock.replay(mockFile);
 		try
 		{

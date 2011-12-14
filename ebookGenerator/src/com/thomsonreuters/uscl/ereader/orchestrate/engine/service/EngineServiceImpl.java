@@ -110,7 +110,7 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));
-//		jobParamMap.put(EngineConstants.JOB_PARAM_SERIAL_NUMBER, new JobParameter(System.currentTimeMillis()));
+		jobParamMap.put(EngineConstants.JOB_PARAM_TIMESTAMP, new JobParameter(System.currentTimeMillis()));
 		return new JobParameters(jobParamMap);
 	}
 	@Required

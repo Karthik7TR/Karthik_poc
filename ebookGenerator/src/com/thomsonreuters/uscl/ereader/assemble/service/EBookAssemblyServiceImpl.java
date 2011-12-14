@@ -42,12 +42,11 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 	@Override
 	public final void assembleEBook(final File eBookDirectory, final File eBook) throws EBookAssemblyException
 	{
-		
         if (eBookDirectory == null || !eBookDirectory.isDirectory())
         {
         	throw new IllegalArgumentException("eBookParentDirectory must be a directory, not null or a regular file.");
         }
-        if (eBook == null || !eBook.isFile())
+        if (eBook == null || eBook.isDirectory())
         {
         	throw new IllegalArgumentException("eBook must be a regular file, not null or a directory.");
         }

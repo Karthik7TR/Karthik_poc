@@ -43,8 +43,8 @@ public class InitializeTask extends AbstractSbTasklet {
 		
 		// Create the absolute path to the final ebook artifact - a GNU Zip file
 		// TODO: <titleid>.gz file basename is a function of job params, sample: "FL_2011_LOCAL.gz"
-		String bookCode = "TODO_BOOK_TITLE_ID";
-		File ebookFilePath = new File(rootEbookDirPath, bookCode + ".gz");
+		String titleId = "TODO_BOOK_TITLE_ID";
+		File ebookFilePath = new File(rootEbookDirPath.getParentFile(), titleId + ".gz");
 		
 		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, rootEbookDirPath.getAbsolutePath());
