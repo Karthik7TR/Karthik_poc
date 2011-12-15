@@ -11,11 +11,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class CreateBookForm {
 	public static final String FORM_NAME = "createBookForm";
 	
-	private String bookCode;		// Book code/id to be generated
+	private String bookId;		// Book code/id to be generated
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 
-	public String getBookCode() {
-		return bookCode;
+	public String getBookId() {
+		return bookId;
 	}
 	public boolean isHighPriorityJob() {
 		return highPriorityJob;
@@ -23,8 +23,8 @@ public class CreateBookForm {
 	public void setHighPriorityJob(boolean high) {
 		this.highPriorityJob = high;
 	}
-	public void setBookCode(String bookCode) {
-		this.bookCode = bookCode;
+	public void setBookId(String id) {
+		this.bookId = id;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

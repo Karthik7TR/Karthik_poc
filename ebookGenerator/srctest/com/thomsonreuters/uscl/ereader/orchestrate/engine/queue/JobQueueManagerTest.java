@@ -51,7 +51,7 @@ public class JobQueueManagerTest  {
 			EasyMock.replay(jmsTemplate);
 			JobRunRequest req = queueManager.getHighPriorityJobRunRequest();
 			Assert.assertNotNull(req);
-			Assert.assertEquals(RUN_REQ.getBookCode(), req.getBookCode());
+			Assert.assertEquals(RUN_REQ.getBookId(), req.getBookId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Failed to get high priority run request: " + e.getMessage());
@@ -68,7 +68,7 @@ public class JobQueueManagerTest  {
 			EasyMock.replay(jmsTemplate);
 			JobRunRequest req = queueManager.getNormalPriorityJobRunRequest();
 			Assert.assertNotNull(req);
-			Assert.assertEquals(RUN_REQ.getBookCode(), req.getBookCode());
+			Assert.assertEquals(RUN_REQ.getBookId(), req.getBookId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Failed to get normal priority run request: " + e.getMessage());

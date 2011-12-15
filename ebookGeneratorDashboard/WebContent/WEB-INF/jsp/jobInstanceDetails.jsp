@@ -35,7 +35,7 @@
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
 		<td>Book</td>
-		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitle} &nbsp; (${jobInstance.jobParameters.parameters.bookCode})</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitle} &nbsp; (${jobInstance.jobParameters.parameters.bookId})</td>
 	</tr>
 	<tr>
 		<td width="20%">Job Name</td>

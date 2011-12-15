@@ -32,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
  */
 public class JobExecutionVdoTest {
 
-	private static final String BOOK_CODE_VALUE = "theBookCode";
+	private static final String BOOK_ID_VALUE = "theBookId";
 	private static final String BOOK_TITLE_VALUE = "theBookTitle";
 	private JobExecutionVdo vdo;
 	private JobParameters jobParameters;
@@ -42,7 +42,7 @@ public class JobExecutionVdoTest {
     @Before
     public void setUp() {
     	Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-    	paramMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(BOOK_CODE_VALUE));
+    	paramMap.put(EngineConstants.JOB_PARAM_BOOK_ID, new JobParameter(BOOK_ID_VALUE));
     	paramMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(BOOK_TITLE_VALUE));
     	this.jobParameters = new JobParameters(paramMap);
     	this.mockJobInstance = EasyMock.createMock(JobInstance.class);
@@ -52,12 +52,12 @@ public class JobExecutionVdoTest {
     }
     
     @Test
-    public void testGetBookCode() {
+    public void testGetBookId() {
     	EasyMock.expect(mockJobExecution.getJobInstance()).andReturn(mockJobInstance);
     	EasyMock.expect(mockJobInstance.getJobParameters()).andReturn(jobParameters);
     	EasyMock.replay(mockJobExecution);
     	EasyMock.replay(mockJobInstance);
-    	Assert.assertEquals(BOOK_CODE_VALUE, vdo.getBookCode());
+    	Assert.assertEquals(BOOK_ID_VALUE, vdo.getBookId());
     	EasyMock.verify(mockJobExecution);
     	EasyMock.verify(mockJobInstance);
     }

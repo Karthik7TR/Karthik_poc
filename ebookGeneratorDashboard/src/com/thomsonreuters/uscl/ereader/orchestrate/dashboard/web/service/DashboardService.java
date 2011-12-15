@@ -44,12 +44,12 @@ public interface DashboardService {
 	 * Value=The natural language book name, like "Flordia Rule of Court 2011 local volume 2".
 	 * @return a map of book name strings.
 	 */
-	public Map<String,String> getBookCodes();
+	public Map<String,String> getBooks();
 	
 	/**
 	 * Returns the natural languange title of the book for a give book id.
-	 * @param bookCode the title identifier
+	 * @param bookId the title identifier
 	 * @return the descriptive title of the book or null if not found
 	 */
-	public String getBookTitle(String bookCode);
+	public String getBookTitle(String bookId);
 }

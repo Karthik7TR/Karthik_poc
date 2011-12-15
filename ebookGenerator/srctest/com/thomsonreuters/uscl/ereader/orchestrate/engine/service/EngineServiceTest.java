@@ -31,11 +31,11 @@ public class EngineServiceTest  {
 	private static Long myIntValue = Long.MAX_VALUE;
 	private static String myStrKey = "myStrKey";
 	private static String myStrValue = "myStrValue";
-	private static String BOOK_CODE = "theBookCode";
+	private static String BOOK_ID = "theBookId";
 	private static String BOOK_TITLE = "Junit book title";
 	private static String USER_NAME = "theUserName";
 	private static String USER_EMAIL = "theUserEmail";
-	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(BOOK_CODE, USER_NAME, USER_EMAIL);
+	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(BOOK_ID, USER_NAME, USER_EMAIL);
 
 	private EngineServiceImpl service;
 	private JobParameters databaseParams;
@@ -69,23 +69,32 @@ public class EngineServiceTest  {
 		service.setJobOperator(mockJobOperator);
 		service.setJobRegistry(mockJobRegistry);
 	}
+	
 	@Test
-	public void testCreateCombinedJobParameters() {	
-		JobParameters combinedJobParams = EngineServiceImpl.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
+	public void testLoadJobParameters() {
+		EasyMock.expect(mockDao.loadJobParameters(BOOK_ID)).andReturn(databaseParams);
+		EasyMock.replay(mockDao);
+		JobParameters actualDatabaseJobParams = service.loadJobParameters(BOOK_ID);
+		Assert.assertEquals(databaseParams, actualDatabaseJobParams);
+		EasyMock.verify(mockDao);
+	}
+
+	@Test
+	public void testCreateCombinedJobParameters() {
+		JobParameters combinedJobParams = service.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
 		assertEquals(myIntValue, (Long) combinedJobParams.getLong(myIntKey));
 		assertEquals(myStrValue, combinedJobParams.getString(myStrKey));
-		assertEquals(BOOK_CODE, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_CODE));
+		assertEquals(BOOK_ID, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_ID));
 		assertEquals(BOOK_TITLE, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_TITLE));
 		assertEquals(USER_NAME, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_NAME));
 		assertEquals(USER_EMAIL, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_EMAIL));
 	}
 
-	//@Test
+	@Test
 	public void testRunJob() throws Exception {
-		JobParameters jobParams = EngineServiceImpl.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
+		JobParameters combinedJobParams = service.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
 
-		EasyMock.expect(mockDao.loadJobParameters(EngineConstants.JOB_DEFINITION_EBOOK)).andReturn(jobParams);
-		EasyMock.expect(mockJobLauncher.run(mockJob, jobParams)).andReturn(mockJobExecution);
+		EasyMock.expect(mockJobLauncher.run(mockJob, combinedJobParams)).andReturn(mockJobExecution);
 		EasyMock.expect(mockJobRegistry.getJob(EngineConstants.JOB_DEFINITION_EBOOK)).andReturn(mockJob);
 		
 		EasyMock.replay(mockDao);
@@ -94,7 +103,7 @@ public class EngineServiceTest  {
 		EasyMock.replay(mockJobRegistry);
 		
 		try {
-			JobExecution jobExecution = service.runJob(JOB_RUN_REQUEST);
+			JobExecution jobExecution = service.runJob(EngineConstants.JOB_DEFINITION_EBOOK, combinedJobParams);
 			Assert.assertNotNull(jobExecution);
 		} catch (Exception e) {
 			e.printStackTrace();

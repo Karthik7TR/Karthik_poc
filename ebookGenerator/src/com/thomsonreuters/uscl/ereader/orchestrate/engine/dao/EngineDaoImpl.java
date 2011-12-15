@@ -46,7 +46,7 @@ public class EngineDaoImpl implements EngineDao {
 	}
 	
 public static final String STUB_BOOK_TITLE = "TODO: DAO Stub book title - " + System.currentTimeMillis();
-	public JobParameters loadJobParameters(String jobName) {
+	public JobParameters loadJobParameters(String bookId) {
 // TODO: implement this
 		HashMap<String,JobParameter> map = new HashMap<String,JobParameter>();
 		map.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(STUB_BOOK_TITLE));

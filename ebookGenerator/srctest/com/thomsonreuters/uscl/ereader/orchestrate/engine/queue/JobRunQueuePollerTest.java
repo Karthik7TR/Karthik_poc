@@ -9,21 +9,25 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 public class JobRunQueuePollerTest  {
-	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theUserName", "theUserEmail");
+	private static JobRunRequest RUN_REQ = JobRunRequest.create("bookTitleId", "theUserName", "theUserEmail");
 	private Throttle mockThrottle;
 	private EngineService mockEngineService;
 	private JobQueueManager mockJobQueueManager;
 	private JobExecution mockJobExecution;
 	private JobRunQueuePoller poller;  // Class being tested
+	private JobParameters jobParameters;
 	
 	@Before
 	public void setUp() throws Exception {
+		this.jobParameters = new JobParameters();
 		// Create mock collaborators
 		this.mockThrottle = EasyMock.createMock(Throttle.class);
 		this.mockEngineService = EasyMock.createMock(EngineService.class);
@@ -55,7 +59,9 @@ public class JobRunQueuePollerTest  {
 		// Record expected behavior
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);	// we are not currently restricted from consuming messages 
 		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andReturn(RUN_REQ);  // a message is sitting on high priority queue
-		EasyMock.expect(mockEngineService.runJob(RUN_REQ)).andReturn(mockJobExecution);
+		EasyMock.expect(mockEngineService.loadJobParameters(RUN_REQ.getBookId())).andReturn(jobParameters);
+		EasyMock.expect(mockEngineService.createCombinedJobParameters(RUN_REQ, jobParameters)).andReturn(jobParameters);
+		EasyMock.expect(mockEngineService.runJob(EngineConstants.JOB_DEFINITION_EBOOK, new JobParameters())).andReturn(mockJobExecution);
 		verifyPoller();
 	}
 
@@ -68,7 +74,9 @@ public class JobRunQueuePollerTest  {
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);	// we are not currently restricted from consuming messages
 		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andReturn(null);  // Pretend nothing on high queue
 		EasyMock.expect(mockJobQueueManager.getNormalPriorityJobRunRequest()).andReturn(RUN_REQ);  // but something is sitting on the normal queue
-		EasyMock.expect(mockEngineService.runJob(RUN_REQ)).andReturn(mockJobExecution);
+		EasyMock.expect(mockEngineService.loadJobParameters(RUN_REQ.getBookId())).andReturn(jobParameters);
+		EasyMock.expect(mockEngineService.createCombinedJobParameters(RUN_REQ, jobParameters)).andReturn(jobParameters);
+		EasyMock.expect(mockEngineService.runJob(EngineConstants.JOB_DEFINITION_EBOOK, jobParameters)).andReturn(mockJobExecution);
 		verifyPoller();
 	}
 	

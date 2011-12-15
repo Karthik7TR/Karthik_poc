@@ -27,7 +27,7 @@ public class JobRunRequestTest  {
 			JobRunRequest unmarshalledRequest = JobRunRequest.unmarshal(xml);
 //System.out.println("Unmarshalled: " + unmarshalledRequest);
 			Assert.assertEquals(requestToMarshal.getJobName(), unmarshalledRequest.getJobName());
-			Assert.assertEquals(requestToMarshal.getBookCode(), unmarshalledRequest.getBookCode());
+			Assert.assertEquals(requestToMarshal.getBookId(), unmarshalledRequest.getBookId());
 			Assert.assertEquals(requestToMarshal.getUserName(), unmarshalledRequest.getUserName());
 			Assert.assertEquals(requestToMarshal.getUserEmail(), unmarshalledRequest.getUserEmail());
 		} catch (Exception e) {

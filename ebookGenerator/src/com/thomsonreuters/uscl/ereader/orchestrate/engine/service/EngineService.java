@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
@@ -16,11 +17,12 @@ public interface EngineService {
 	
 	/**
 	 * Start a new e-book generating job as specified by properties of the JobRunRequest.
-	 * @param request identifies which e-book to create
+	 * @param jobName the id of the job to run
+	 * @param JobParameters the launch key/value pair set
 	 * @return the Spring Batch execution entity
 	 * @throws Exception if unable to start the job within the Spring Batch engine.
 	 */
-	public JobExecution runJob(JobRunRequest request) throws Exception;
+	public JobExecution runJob(String jobName, JobParameters jobParameters) throws Exception;
 	
 	/**
 	 * Resume a stopped batch job. Requires that it already be in a STOPPED or FAILED status,
@@ -38,5 +40,22 @@ public interface EngineService {
 	 * @throws Exception on any stop failure
 	 */
 	public void stopJob(long jobExecutionId) throws Exception;
+	
+	/**
+	 * Load the book definition data from the database, these key/value pairs become the job launch parameters for
+	 * the book generating batch job.
+	 * @param bookId which book will we be creating
+	 * @return the job parameters for the specified book
+	 */
+	public JobParameters loadJobParameters(String bookId);
+	
+	/**
+	 * Create a union of JobParameters between those loaded from the database and the "well-known" set of
+	 * standard meta-data parameters.
+	 * @param runRequest the request used to launch the job.
+	 * @param databaseJobParams those parameters loaded for a specific book from a table.
+	 * @return the union of the two sets of parmeters 
+	 */
+	public JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams);
 
 }

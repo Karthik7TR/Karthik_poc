@@ -65,11 +65,11 @@
 		<input type="submit" value="Search"/>
 
 		<!-- Pick the Book for which you want a summary -->
-<%-- TODO: since the bookCode is a JobParameter, we need to load all the entities, and then filter out the books we don't want.
+<%-- TODO: since the bookId is a JobParameter, we need to load all the entities, and then filter out the books we don't want.
 		&nbsp; Book
-		<form:select path="bookCode">
+		<form:select path="bookId">
 			<form:option label="ALL" value=""/>
-			<form:options items="${bookCodes}" itemLabel="label" itemValue="value"/>
+			<form:options items="${bookIds}" itemLabel="label" itemValue="value"/>
 		</form:select>
  --%>		
 
@@ -96,7 +96,7 @@
 			<c:otherwise><c:set var="sortImage" value="<img src='images/arrowdown.gif' alt='(desc)'/>"/></c:otherwise>
 		</c:choose>
 		<c:choose>
-			<c:when test="${paginatedList.sortCriterion == 'BOOK'}"><c:set var="bookCodeImageTag" value="${sortImage}"/></c:when>
+			<c:when test="${paginatedList.sortCriterion == 'BOOK'}"><c:set var="bookIdImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'INSTANCE_ID'}"><c:set var="instanceIdImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'BATCH_STATUS'}"><c:set var="batchStatusImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'START_TIME'}"><c:set var="startTimeImageTag" value="${sortImage}"/></c:when>
@@ -111,8 +111,8 @@
 	
 		  <%-- display:column title="Job Name ${jobNameImageTag}" property="jobExecution.jobInstance.jobName" sortable="true" sortProperty="<%=SortProperty.JOB_NAME.toString()%>" style="text-align: left"/ --%>
 		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
-		  <display:column title="Book ${bookCodeImageTag}" property="bookTitle" sortable="true" sortProperty="<%=SortProperty.BOOK.toString()%>" style="text-align: left"/>
-		  <display:column title="Book ID" property="bookCode" style="text-align: left"/>
+		  <display:column title="Book ${bookIdImageTag}" property="bookTitle" sortable="true" sortProperty="<%=SortProperty.BOOK.toString()%>" style="text-align: left"/>
+		  <display:column title="Book ID" property="bookId" style="text-align: left"/>
 		  <display:column title="Instance ${instanceIdImageTag}" sortable="true" sortProperty="<%=SortProperty.INSTANCE_ID.toString()%>">
 		  		<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 		  </display:column>

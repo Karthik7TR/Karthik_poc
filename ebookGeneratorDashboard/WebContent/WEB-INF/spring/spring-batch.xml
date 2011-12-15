@@ -25,7 +25,7 @@
 		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
 
 	<!-- The list of books created from generator job pathway. -->
-	<util:list id="bookCodes" value-type="java.lang.String">
+	<util:list id="bookIds" value-type="java.lang.String">
     	<value>book_1</value>
     	<value>book_2</value>
     	<value>book_3</value>

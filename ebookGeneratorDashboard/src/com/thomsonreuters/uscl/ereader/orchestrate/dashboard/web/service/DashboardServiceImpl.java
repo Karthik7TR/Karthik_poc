@@ -70,12 +70,12 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 	
 	@Override
-	public Map<String,String> getBookCodes() {	// TODO: implement this
+	public Map<String,String> getBooks() {	// TODO: implement this
 		return bookMap;
 	}
 	@Override
-	public String getBookTitle(String bookCode) {
-		return bookMap.get(bookCode);
+	public String getBookTitle(String bookId) {
+		return bookMap.get(bookId);
 	}
 	@Required
 	public void setDao(DashboardDao dao) {

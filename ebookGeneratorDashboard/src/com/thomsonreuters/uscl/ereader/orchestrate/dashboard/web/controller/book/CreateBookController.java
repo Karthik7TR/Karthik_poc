@@ -62,8 +62,8 @@ public class CreateBookController {
 		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
 
-		String bookCode = form.getBookCode();
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookCode, userName, userEmail);
+		String bookId = form.getBookId();
+		JobRunRequest jobRunRequest = JobRunRequest.create(bookId, userName, userEmail);
 		try {
 			if (form.isHighPriorityJob()) {
 				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
@@ -87,13 +87,13 @@ public class CreateBookController {
 
 	private void populateModel(Model model) {
 		/* Get all the unique books that can be created */
-		List<SelectOption> bookCodeOptions = new ArrayList<SelectOption>();
-		Map<String,String> bookMap = service.getBookCodes();
+		List<SelectOption> bookIdOptions = new ArrayList<SelectOption>();
+		Map<String,String> bookMap = service.getBooks();
 		Set<Entry<String,String>> entrySet = bookMap.entrySet();
 		for (Entry<String,String> book : entrySet) {
-			bookCodeOptions.add(new SelectOption(book.getValue(), book.getKey()));
+			bookIdOptions.add(new SelectOption(book.getValue(), book.getKey()));
 		}
-		model.addAttribute(WebConstants.KEY_BOOK_CODE_OPTIONS, bookCodeOptions);
+		model.addAttribute(WebConstants.KEY_BOOK_ID_OPTIONS, bookIdOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 	}
 	@Required

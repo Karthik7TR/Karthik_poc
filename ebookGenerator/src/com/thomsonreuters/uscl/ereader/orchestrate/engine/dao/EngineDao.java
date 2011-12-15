@@ -34,10 +34,10 @@ public interface EngineDao {
 	public List<ScheduleDayOfWeek> findDayOfWeekSchedule();
 	
 	/**
-	 * Load the launch parameters for a specific book from the database.
-	 * @param bookCode book whose job run parameters we want
-	 * @return a map of key=JobParameter pairs that become the job launch JobParameters
+	 * Load the job launch parameters for a specific book definition from the database.
+	 * @param bookId book title ID whose job run parameters we want
+	 * @return a map of key=JobParameter pairs that become the job launch JobParameters when the job is run
 	 */
-	public JobParameters loadJobParameters(String bookCode);
+	public JobParameters loadJobParameters(String bookId);
 
 }

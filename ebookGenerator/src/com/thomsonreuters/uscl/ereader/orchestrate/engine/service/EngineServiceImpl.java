@@ -44,23 +44,17 @@ public class EngineServiceImpl implements EngineService {
 	 * @throws Exception on unable to find job name, or in launching the job
 	 */
 	@Override
-	public JobExecution runJob(JobRunRequest request) throws Exception {
-		log.debug(String.format("Starting job: %s", request));
+	public JobExecution runJob(String jobName, JobParameters jobParameters) throws Exception {
+		log.debug(String.format("Starting job: %s", jobName));
 
 		// Lookup job object from set of defined collection of jobs 
-		Job job = jobRegistry.getJob(request.getJobName());
+		Job job = jobRegistry.getJob(jobName);
 		if (job == null) {
-			throw new IllegalArgumentException("Job definition: " + request.getJobName() + " was not found!");
+			throw new IllegalArgumentException("Job definition: " + jobName + " was not found!");
 		}
 		
-		// Load the pre-defined set of job parameters for this specific job from a database table
-		JobParameters databaseJobParameters = dao.loadJobParameters(request.getJobName()); 
-		
-		// Combine and add in the well-known set of launch parameters
-		JobParameters combinedJobParameters = createCombinedJobParameters(request, databaseJobParameters);
-		
 		// Launch the job with the specified set of JobParameters
-		JobExecution jobExecution = jobLauncher.run(job, combinedJobParameters);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		return jobExecution;
 	}
 	
@@ -87,11 +81,18 @@ public class EngineServiceImpl implements EngineService {
 		return writer.toString();
 	}
 	
+	@Override
+	public JobParameters loadJobParameters(String bookId) {
+		JobParameters databaseJobParameters = dao.loadJobParameters(bookId);
+		return databaseJobParameters;
+	}
+		
 	/**
 	 * Combine user and database loaded job params and the standard "well-known" set of job parameters to the job launch configuration.
 	 * @return a superset of the provided jobParameters including the well-known set.
 	 */
-	public static JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
+	@Override
+	public JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
 
 		// Combine the user and database provided job parameters
 		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>(databaseJobParams.getParameters());
@@ -105,7 +106,7 @@ public class EngineServiceImpl implements EngineService {
 			hostName = null;
 		}
 		// Add the pre-defined/well-known key/values into the job parameters map
-		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_CODE, new JobParameter(runRequest.getBookCode()));
+		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_ID, new JobParameter(runRequest.getBookId()));
 //		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));

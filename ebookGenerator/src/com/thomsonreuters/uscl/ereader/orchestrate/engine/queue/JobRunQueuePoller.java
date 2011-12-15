@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -38,7 +39,12 @@ public class JobRunQueuePoller {
 				}
 				// if there was a job to run, then launch it
 				if (jobRunRequest != null) {
-					engineService.runJob(jobRunRequest);
+					// Load the pre-defined set of book parameters for this specific job from a database table
+					JobParameters databaseJobParameters = engineService.loadJobParameters(jobRunRequest.getBookId()); 
+					
+					// Combine and add in the well-known set of launch parameters
+					JobParameters combinedJobParameters = engineService.createCombinedJobParameters(jobRunRequest, databaseJobParameters);
+					engineService.runJob(jobRunRequest.getJobName(), combinedJobParameters);
 				}
 			}
 		} catch (Exception e) {

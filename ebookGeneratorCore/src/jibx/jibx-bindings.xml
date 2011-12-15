@@ -7,7 +7,7 @@
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
         <value name="jobName" field="jobName" usage="required"/>
-        <value name="bookCode" field="bookCode" usage="required"/>
+        <value name="bookId" field="bookId" usage="required"/>
         <value name="userName" field="userName" usage="optional"/>
         <value name="userEmail" field="userEmail" usage="optional"/>
     </mapping>

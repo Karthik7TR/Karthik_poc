@@ -58,8 +58,8 @@
 		  <tr>
 			<td>Book</td>	<%-- Unique book discriminate --%>
 			<td>
-			  <form:select path="bookCode">
-			    <form:options items="${bookCodeOptions}" itemLabel="label" itemValue="value"/>
+			  <form:select path="bookId">
+			    <form:options items="${bookIdOptions}" itemLabel="label" itemValue="value"/>
 			  </form:select>
 			</td>
 		  <tr>

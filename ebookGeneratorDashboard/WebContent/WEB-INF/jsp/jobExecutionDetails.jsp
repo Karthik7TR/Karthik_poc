@@ -117,7 +117,7 @@
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
 		<td>Book</td>
-		<td colspan="3">${vdo.bookTitle} &nbsp; (${vdo.bookCode})</td>
+		<td colspan="3">${vdo.bookTitle} &nbsp; (${vdo.bookId})</td>
 	</tr>
 	<tr>
 		<td>Job Name</td>

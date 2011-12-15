@@ -42,8 +42,8 @@ public class JobExecutionVdo {
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
-	public String getBookCode() {
-		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_CODE);
+	public String getBookId() {
+		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_ID);
 	}
 	public String getBookTitle() {
 		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_TITLE);

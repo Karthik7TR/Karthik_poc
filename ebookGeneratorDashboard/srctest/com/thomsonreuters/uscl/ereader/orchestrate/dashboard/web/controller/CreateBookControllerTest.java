@@ -41,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.Dashboa
  */
 public class CreateBookControllerTest {
 	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+CreateBookForm.FORM_NAME;
-	public static final String TEST_BOOK_CODE = "testBookCode";
+	public static final String TEST_BOOK_ID = "testBookId";
     private CreateBookController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -58,8 +58,8 @@ public class CreateBookControllerTest {
     	JobRunner jobRunner = EasyMock.createMock(JobRunner.class);
     	MessageSource messageSource = EasyMock.createMock(MessageSource.class);
     	
-    	Map<String,String> bookCodeMap = new HashMap<String,String>();
-    	EasyMock.expect(mockDashboardService.getBookCodes()).andReturn(bookCodeMap);
+    	Map<String,String> bookIdMap = new HashMap<String,String>();
+    	EasyMock.expect(mockDashboardService.getBooks()).andReturn(bookIdMap);
     	EasyMock.replay(mockDashboardService);
     	
     	this.controller = new CreateBookController();
@@ -95,7 +95,7 @@ public class CreateBookControllerTest {
     public void testPostJobSummary() throws Exception {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_CODE, TEST_BOOK_CODE);
+    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_ID, TEST_BOOK_ID);
     	request.setParameter("highPriorityJob", Boolean.TRUE.toString());
 
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -116,7 +116,7 @@ public class CreateBookControllerTest {
     public void testPostJobRunWithBindingError() {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_CODE, TEST_BOOK_CODE);
+    	request.setParameter(EngineConstants.JOB_PARAM_BOOK_ID, TEST_BOOK_ID);
     	request.setParameter("highPriorityJob", "xxx");	// expects true|false
     	try {
     		handlerAdapter.handle(request, response, controller);
@@ -129,6 +129,6 @@ public class CreateBookControllerTest {
 
     private static void validateModel(Map<String,Object> model) {
         assertNotNull(model.get(WebConstants.KEY_ENVIRONMENT));
-        assertTrue(model.get(WebConstants.KEY_BOOK_CODE_OPTIONS) instanceof List<?>);
+        assertTrue(model.get(WebConstants.KEY_BOOK_ID_OPTIONS) instanceof List<?>);
     }
 }
