@@ -64,7 +64,7 @@ public class EngineServiceTest  {
 	public void testCreateBookDefinitionJobParameters() {
 		JobParameters jobParams = service.createBookDefinitionJobParameters(expectedBookDefinition);
 		Assert.assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
-		Assert.assertEquals(BOOK_KEY.getBookTitleId(), jobParams.getString(JobParameterKey.BOOK_TITLE_ID));
+		Assert.assertEquals(BOOK_KEY.getTitleId(), jobParams.getString(JobParameterKey.BOOK_TITLE_ID));
 	}
 
 	@Test

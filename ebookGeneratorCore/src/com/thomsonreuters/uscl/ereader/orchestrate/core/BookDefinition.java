@@ -8,13 +8,17 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+/**
+ * A book definition database table entity.
+ * Represents the various set of job parameters that are provided to the e-book generating job.
+ */
 @Table(name="BOOK_DEFINITION", schema="TODO_SCHEMA")
 public class BookDefinition {
 	
-	private BookDefinitionKey key;	// book title ID & major version number
-	private String name;			// title of the book
+	/** Compound primary key for a book definition. Comprised of the book title ID and major version number. */
+	private BookDefinitionKey key;
+	private String name;
 	private Long minorVersion;
-	private String rootTocGuid;
 	
 // TODO: other fields and properties and hibernate mapping work...
 	
@@ -29,10 +33,8 @@ public class BookDefinition {
 		return minorVersion;
 	}
 	public String getTitleId() {
-		return key.getBookTitleId();
+		return key.getTitleId();
 	}
-	
-	
 	public void setBookDefinitionKey(BookDefinitionKey key) {
 		this.key = key;
 	}

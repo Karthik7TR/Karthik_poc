@@ -138,7 +138,7 @@ public class CreateBookControllerTest {
     	Long majorVersion = 1234l;
     	form.setBookKeyString(titleId +","+majorVersion);
     	BookDefinitionKey key = form.getBookDefinitionKey();
-    	Assert.assertEquals(titleId, key.getBookTitleId());
+    	Assert.assertEquals(titleId, key.getTitleId());
     	Assert.assertEquals(majorVersion, key.getMajorVersion());
     }
 

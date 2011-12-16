@@ -76,10 +76,13 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
-		<td>Book</td>
-		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitle} &nbsp; (${jobInstance.jobParameters.parameters.bookId})</td>
+		<td>Book Name</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.bookName}</td>
 	</tr>
-	
+	<tr>
+		<td>Title ID</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitleId} &nbsp; (${jobInstance.jobParameters.parameters.bookMajorVersion})</td>
+	</tr>
 	<tr>
 		<td>Job Name</td>
 		<td colspan="3">${jobInstance.jobName}</td>
@@ -119,33 +122,32 @@
 	<tr>
 		<td>Commits</td>
 		<td>${stepExecution.commitCount}</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td>Rollbacks</td>
-		<td>${stepExecution.rollbackCount}</td>
 		<td>Filter Count</td>
 		<td>${stepExecution.filterCount}</td>
 	</tr>
 	<tr>
-		<td>Reads</td>
-		<td>${stepExecution.readCount}</td>
+		<td>Rollbacks</td>
+		<td>${stepExecution.rollbackCount}</td>
 		<td>Read Skips</td>
 		<td>${stepExecution.readSkipCount}</td>
 	</tr>
 	<tr>
-		<td>Writes</td>
-		<td>${stepExecution.writeCount}</td>
+		<td>Reads</td>
+		<td>${stepExecution.readCount}</td>
 		<td>Write Skips</td>
 		<td>${stepExecution.writeSkipCount}</td>
+	</tr>
+	<tr>
+		<td>Writes</td>
+		<td>${stepExecution.writeCount}</td>
+		<td>Process Skips</td>
+		<td>${stepExecution.processSkipCount}</td>
 	</tr>	
 	<tr>
 		<td>Status</td>
 		<td>${stepExecution.status}</td>
-		<td>Process Skips</td>
-		<td>${stepExecution.processSkipCount}</td>
-
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
 	<tr>
 	<tr>
 		<td>Exit Code</td>

@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class BookDefinitionKey implements Serializable {
 	private static final long serialVersionUID = 8902970407236193203L;
 	
-	private String 	bookTitleId;
+	private String  titleId;
 	private Long 	majorVersion;
 	
 	public BookDefinitionKey() {
@@ -25,30 +25,33 @@ public class BookDefinitionKey implements Serializable {
 	}
 	/**
 	 * Full constructor for the key
-	 * @param bookTitleId book title ID, may not be null
+	 * @param titleId book title ID, may not be null
 	 * @param majorVersion book major version number, may not be blank
 	 */
-	public BookDefinitionKey(String bookTitleId, Long majorVersion) {
-		setBookTitleId(bookTitleId);
-		setMajorVersion(majorVersion);
+	public BookDefinitionKey(String bookTitleId, Long bookMajorVersion) {
+		setTitleId(bookTitleId);
+		setMajorVersion(bookMajorVersion);
 	}
-	public String getBookTitleId() {
-		return bookTitleId;
+	public String getTitleId() {
+		return titleId;
 	}
 	public Long getMajorVersion() {
 		return majorVersion;
 	}
-	public void setBookTitleId(String bookTitleId) {
+	public void setTitleId(String bookTitleId) {
 		if (StringUtils.isBlank(bookTitleId)) {
-			throw new IllegalArgumentException("Book title ID may not be blank in key.");
+			throw new IllegalArgumentException("Book definition key may not have a blank title ID.");
 		}
-		this.bookTitleId = bookTitleId;
+		this.titleId = bookTitleId;
 	}
 	public void setMajorVersion(Long majorVersion) {
 		if (majorVersion == null) {
-			throw new IllegalArgumentException("Book major version number may not be null in key.");
+			throw new IllegalArgumentException("Book definition key may not have a null major version number.");
 		}
 		this.majorVersion = majorVersion;
+	}
+	public String toKeyString() {
+		return String.format("%s,%d", titleId, majorVersion);
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
@@ -60,6 +63,6 @@ public class BookDefinitionKey implements Serializable {
 			return false;
 		}
 		BookDefinitionKey that = (BookDefinitionKey) obj;
-		return (this.bookTitleId.equals(that.bookTitleId) && this.majorVersion.equals(that.majorVersion));
+		return (this.titleId.equals(that.titleId) && this.majorVersion.equals(that.majorVersion));
 	}
 }

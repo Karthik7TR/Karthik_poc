@@ -50,7 +50,7 @@ return bookDef;
 private static BookDefinition createStubBookDefinition(BookDefinitionKey key) {  // STUB
 	BookDefinition bookDef = new BookDefinition();
 	bookDef.setBookDefinitionKey(key);
-	bookDef.setName(String.format("Stub Book Name - %s", key.getBookTitleId()));
+	bookDef.setName(String.format("Stub Book Name - %s", key.getTitleId()));
 	return bookDef;
 }
 

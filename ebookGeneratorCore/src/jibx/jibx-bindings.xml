@@ -12,8 +12,8 @@
         <value name="userEmail" field="userEmail" usage="optional"/>
     </mapping>
     
-    <mapping name="primaryKey" class="com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey">
-        <value name="bookTitleId" field="bookTitleId" usage="required"/>
+    <mapping name="bookDefinitionKey" class="com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey">
+        <value name="titleId" field="titleId" usage="required"/>
         <value name="majorVersion" field="majorVersion" usage="required"/>
     </mapping>
     

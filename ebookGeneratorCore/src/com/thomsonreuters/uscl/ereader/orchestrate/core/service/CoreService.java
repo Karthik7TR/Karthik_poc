@@ -10,6 +10,9 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
+/**
+ * Service methods that are common to both the Spring Batch engine and dashboard web applications.
+ */
 public interface CoreService {
 	
 	/**

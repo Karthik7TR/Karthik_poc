@@ -90,8 +90,8 @@ public class CreateBookController {
 		List<BookDefinition> books = coreService.findAllBookDefinitions();
 		for (BookDefinition book : books) {
 			BookDefinitionKey key = book.getPrimaryKey();
-			String label = String.format("%s (%d)", book.getName(), key.getMajorVersion());
-			String value = String.format("%s,%d", key.getBookTitleId(), key.getMajorVersion());  // "<titleId>,<majorVersion>"
+			String label = String.format("%s - %s (%d)", book.getName(), key.getTitleId(), key.getMajorVersion());
+			String value = key.toKeyString();
 			bookOptions.add(new SelectOption(label, value));
 		}
 		model.addAttribute(WebConstants.KEY_BOOK_OPTIONS, bookOptions);
