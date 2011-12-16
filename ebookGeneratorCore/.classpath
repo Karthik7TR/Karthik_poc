@@ -51,29 +51,9 @@
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/slf4j-log4j12-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-aop-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-asm-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-batch-core-2.1.8.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-batch-infrastructure-2.1.8.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-beans-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-context-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-context-support-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-core-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-expression-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-jdbc-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-jms-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-ldap-1.3.1.RELEASE-all.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-orm-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-oxm-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-security-cas-client-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-security-config-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-security-core-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-security-taglibs-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-security-web-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-test-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-tx-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-web-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/spring-webmvc-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/standard-1.1.2.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/xstream-1.3.jar"/>
@@ -83,5 +63,25 @@
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/asm-3.3.1.jar"/>
 	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/asm-attrs-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.jms-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.core-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.beans-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.aop-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.asm-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.aspects-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.context-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.context.support-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.expression-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.instrument-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.instrument.tomcat-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.jdbc-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.orm-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.oxm-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.test-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.transaction-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.portlet-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.servlet-3.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.struts-3.1.0.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
