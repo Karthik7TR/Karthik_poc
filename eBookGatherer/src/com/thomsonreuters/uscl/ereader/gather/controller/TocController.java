@@ -6,6 +6,8 @@
 
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.Toc;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
 
 @Controller
@@ -24,11 +27,12 @@ public class TocController {
 	public TocService tocService;
 	
 	/**
-	 * this method would not get called as of now.
+	 * This method would not get called as of now.its ment to handle 
 	 * @return
 	 */
 	@RequestMapping(value = "/getTocData", method = RequestMethod.GET)
-	public ModelAndView setUpFormData() {
+	public ModelAndView setUpFormData() 
+	{
 		String message = "Dummy method nothing will get done here";
 
 		return new ModelAndView("getTocData", "message", message);
@@ -42,20 +46,26 @@ public class TocController {
 	 */
 	@RequestMapping(value = "/getTocData", method = RequestMethod.POST)
 	public String getTocData(@ModelAttribute("ebookRequest") EbookRequest ebookRequest,
-			BindingResult result) {
-		System.out.println("Content Name:" + ebookRequest.getContentType());
-		System.out.println("Guid:" + ebookRequest.getGuid());
-		System.out.println("collection:" + ebookRequest.getCollection());
-		// TODO: start calling toc service for retrieving 		
+							BindingResult result) 
+	{
+
+		List<Toc> tocGuidList = tocService.getTocData(ebookRequest.getGuid(),ebookRequest.getCollection());
+		System.out.println("tocGuidList being return in Controller :"+tocGuidList);
 		return "redirect:tocData.html";
 	}
+	
 	/**
-	 * starting point of the application is index.jsp this jsp will forward control to this method 
-	 * which will be forwarded to tocData form.  
+	 * Index.jsp is the default starting point for the web application , which will forward request to /tocData url. 
+	 * which internally mapped to this method.This method forwards populates empty form object/domain object 
+	 * EbookRequest to populate form on tocData.jsp  
 	 * @return
 	 */
-	@RequestMapping(value ="/tocData",method = RequestMethod.GET)
-	public ModelAndView showTocDataForm() {
-		return new ModelAndView("tocData", "command", new EbookRequest());
+	@RequestMapping(value ="/tocRequest",method = RequestMethod.GET)
+	public ModelAndView showTocDataForm() 
+	{
+		EbookRequest firstEbookRequest = new EbookRequest();
+		firstEbookRequest.setCollection("w_codesstawip");
+		firstEbookRequest.setGuid("N04767C6077B911DAA16E8D4AC7636430");
+		return new ModelAndView("tocRequest", "command", firstEbookRequest);
 	}
 }

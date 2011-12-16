@@ -6,8 +6,15 @@
 
 package com.thomsonreuters.uscl.ereader.gather.services;
 
-public interface TocService {
+import java.util.List;
+
+import com.thomsonreuters.uscl.ereader.gather.domain.Toc;
+
+public interface TocService 
+{
 	
-public void testTocMethod();	
+	public void getNovousConnection();
+ 	public void getDocuments();
+	public List<Toc> getTocData(String guid, String collectionName); 
 
 }
