@@ -1,10 +1,13 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.BatchStatus;
@@ -19,15 +22,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.DashboardDao;
 public class DashboardServiceImpl implements DashboardService {
 	//private static final Logger log = Logger.getLogger(DashboardServiceImpl.class);
 	private static final int MAX_JOB_INSTANCES = 1000;
-	private static Map<String,String> bookMap = new HashMap<String,String>();
-// TODO: Implement this ... fetch the book id=title lookup
-	static {
-		bookMap.put("FL_2011_LOCAL", "Flordia's Rules of court 2011");
-		bookMap.put("DC_2011_FOO", "TODO: Guide to Foo & other stuff!");
-		bookMap.put("DC_2011_BAR", "TODO: Advanced Bar & stuff!");
-	}
 
-	private DashboardDao dao;
+	private DashboardDao dashboardDao;
 	private JobExplorer jobExplorer;
 	
 	@Override
@@ -47,7 +43,7 @@ public class DashboardServiceImpl implements DashboardService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus) {
-		return dao.findJobExecutionIds(jobName, startTime, batchStatus);
+		return dashboardDao.findJobExecutionIds(jobName, startTime, batchStatus);
 	}
 	
 	@Override
@@ -66,21 +62,14 @@ public class DashboardServiceImpl implements DashboardService {
 	@Override
 	@Transactional
 	public void jobCleaner(Date jobsBefore) {
-		dao.deleteJobsBefore(jobsBefore);
+		dashboardDao.deleteJobsBefore(jobsBefore);
 	}
 	
-	@Override
-	public Map<String,String> getBooks() {	// TODO: implement this
-		return bookMap;
-	}
-	@Override
-	public String getBookTitle(String bookId) {
-		return bookMap.get(bookId);
-	}
 	@Required
-	public void setDao(DashboardDao dao) {
-		this.dao = dao;
+	public void setDashboardDao(DashboardDao dao) {
+		this.dashboardDao = dao;
 	}
+	
 	@Required
 	public void setJobExplorer(JobExplorer jobExplorer) {
 		this.jobExplorer = jobExplorer;

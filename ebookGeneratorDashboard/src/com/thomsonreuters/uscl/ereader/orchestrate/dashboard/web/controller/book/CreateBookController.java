@@ -7,9 +7,6 @@ package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.boo
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -22,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardService;
 
 /**
  * Controller for the Create Book page, the page used to run book generating Spring Batch jobs.
@@ -37,7 +36,7 @@ public class CreateBookController {
 	
 	private String environmentName;
 	private JobRunner jobRunner;
-	private DashboardService service;
+	private CoreService coreService;
 	private MessageSourceAccessor messageSourceAccessor;
 	
 	/**
@@ -62,8 +61,8 @@ public class CreateBookController {
 		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
 
-		String bookId = form.getBookId();
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookId, userName, userEmail);
+		BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
+		JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey, userName, userEmail);
 		try {
 			if (form.isHighPriorityJob()) {
 				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
@@ -87,13 +86,15 @@ public class CreateBookController {
 
 	private void populateModel(Model model) {
 		/* Get all the unique books that can be created */
-		List<SelectOption> bookIdOptions = new ArrayList<SelectOption>();
-		Map<String,String> bookMap = service.getBooks();
-		Set<Entry<String,String>> entrySet = bookMap.entrySet();
-		for (Entry<String,String> book : entrySet) {
-			bookIdOptions.add(new SelectOption(book.getValue(), book.getKey()));
+		List<SelectOption> bookOptions = new ArrayList<SelectOption>();
+		List<BookDefinition> books = coreService.findAllBookDefinitions();
+		for (BookDefinition book : books) {
+			BookDefinitionKey key = book.getPrimaryKey();
+			String label = String.format("%s (%d)", book.getName(), key.getMajorVersion());
+			String value = String.format("%s,%d", key.getBookTitleId(), key.getMajorVersion());  // "<titleId>,<majorVersion>"
+			bookOptions.add(new SelectOption(label, value));
 		}
-		model.addAttribute(WebConstants.KEY_BOOK_ID_OPTIONS, bookIdOptions);
+		model.addAttribute(WebConstants.KEY_BOOK_OPTIONS, bookOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 	}
 	@Required
@@ -105,8 +106,8 @@ public class CreateBookController {
 		this.jobRunner = jobRunner;
 	}
 	@Required
-	public void setDashboardService(DashboardService service) {
-		this.service = service;
+	public void setCoreService(CoreService service) {
+		this.coreService = service;
 	}
 	@Required
 	public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {

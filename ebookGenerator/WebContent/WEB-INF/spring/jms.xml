@@ -39,6 +39,7 @@
   		  
   	<bean id="jobRunQueuePoller" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
   	      p:throttle-ref="throttle"
+  	      p:coreService-ref="coreService"
   	      p:engineService-ref="engineService"
   	      p:jobQueueManager-ref="jobQueueManager"/>
 	

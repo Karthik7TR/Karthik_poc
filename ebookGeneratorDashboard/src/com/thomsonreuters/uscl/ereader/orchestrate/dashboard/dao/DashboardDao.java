@@ -5,7 +5,18 @@ import java.util.List;
 
 import org.springframework.batch.core.BatchStatus;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
+
 public interface DashboardDao {
+	
+	public BookDefinition findBookDefinition(BookDefinitionKey key);
+	
+	/**
+	 * Returns all the current book definitions.
+	 * @return a list of BookDefinition
+	 */
+	public List<BookDefinition> findAllBookDefinitions();
 	
 	/**
 	 * Find list of job execution ID's that match the supplied criteria. 
@@ -21,5 +32,7 @@ public interface DashboardDao {
 	 * @param jobsBefore job data before this date will be removed.
 	 */
 	public void deleteJobsBefore(Date jobsBefore);
+	
+
 
 }

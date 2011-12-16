@@ -11,7 +11,7 @@
 	<bean id="createBookController" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookController"
 		  p:environmentName-ref="environmentName"
 		  p:jobRunner-ref="jobRunner"
-		  p:dashboardService-ref="dashboardService"
+		  p:coreService-ref="coreService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
 		   	 
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobexecution.JobExecutionController"

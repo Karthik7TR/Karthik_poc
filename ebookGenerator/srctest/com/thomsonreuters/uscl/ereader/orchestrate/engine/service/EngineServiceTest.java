@@ -5,111 +5,96 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 
 public class EngineServiceTest  {
-	private static String myIntKey = "myIntKey";
-	private static Long myIntValue = Long.MAX_VALUE;
-	private static String myStrKey = "myStrKey";
-	private static String myStrValue = "myStrValue";
-	private static String BOOK_ID = "theBookId";
-	private static String BOOK_TITLE = "Junit book title";
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static String BOOK_NAME = "Junit book name";
 	private static String USER_NAME = "theUserName";
 	private static String USER_EMAIL = "theUserEmail";
-	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(BOOK_ID, USER_NAME, USER_EMAIL);
+	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(BOOK_KEY, USER_NAME, USER_EMAIL);
 
 	private EngineServiceImpl service;
-	private JobParameters databaseParams;
 	
-	private EngineDao mockDao;
+	private EngineDao mockEngineDao;
 	private JobLauncher mockJobLauncher;
 	private JobOperator mockJobOperator;
 	private JobRegistry mockJobRegistry;
 	private JobExecution mockJobExecution;
 	private Job mockJob;
+	private BookDefinition expectedBookDefinition;
 	
 	@Before
 	public void setUp() throws Exception {
 		
-		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-		paramMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(BOOK_TITLE));
-		paramMap.put(myIntKey, new JobParameter(myIntValue));
-		paramMap.put(myStrKey, new JobParameter(myStrValue));
-		this.databaseParams = new JobParameters(paramMap);
-
-		this.mockDao = EasyMock.createMock(EngineDao.class);
+		this.mockEngineDao = EasyMock.createMock(EngineDao.class);
 		this.mockJobLauncher = EasyMock.createMock(JobLauncher.class);
 		this.mockJobOperator = EasyMock.createMock(JobOperator.class);
 		this.mockJobRegistry = EasyMock.createMock(JobRegistry.class);
 		this.mockJobExecution = EasyMock.createMock(JobExecution.class);
 		this.mockJob = EasyMock.createMock(Job.class);
 		
+		// Set up an expected book definition entity
+		this.expectedBookDefinition = new BookDefinition();
+		expectedBookDefinition.setBookDefinitionKey(BOOK_KEY);
+		expectedBookDefinition.setName(BOOK_NAME);
+		
 		this.service = new EngineServiceImpl();
-		service.setDao(mockDao);
 		service.setJobLauncher(mockJobLauncher);
 		service.setJobOperator(mockJobOperator);
 		service.setJobRegistry(mockJobRegistry);
 	}
 	
 	@Test
-	public void testLoadJobParameters() {
-		EasyMock.expect(mockDao.loadJobParameters(BOOK_ID)).andReturn(databaseParams);
-		EasyMock.replay(mockDao);
-		JobParameters actualDatabaseJobParams = service.loadJobParameters(BOOK_ID);
-		Assert.assertEquals(databaseParams, actualDatabaseJobParams);
-		EasyMock.verify(mockDao);
+	public void testCreateBookDefinitionJobParameters() {
+		JobParameters jobParams = service.createBookDefinitionJobParameters(expectedBookDefinition);
+		Assert.assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
+		Assert.assertEquals(BOOK_KEY.getBookTitleId(), jobParams.getString(JobParameterKey.BOOK_TITLE_ID));
 	}
 
 	@Test
-	public void testCreateCombinedJobParameters() {
-		JobParameters combinedJobParams = service.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
-		assertEquals(myIntValue, (Long) combinedJobParams.getLong(myIntKey));
-		assertEquals(myStrValue, combinedJobParams.getString(myStrKey));
-		assertEquals(BOOK_ID, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_ID));
-		assertEquals(BOOK_TITLE, combinedJobParams.getString(EngineConstants.JOB_PARAM_BOOK_TITLE));
-		assertEquals(USER_NAME, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_NAME));
-		assertEquals(USER_EMAIL, combinedJobParams.getString(EngineConstants.JOB_PARAM_USER_EMAIL));
+	public void testCreateDynamicJobParameters() {
+		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_RUN_REQUEST);
+		Assert.assertEquals(USER_NAME, dynamicJobParams.getString(JobParameterKey.USER_NAME));
+		Assert.assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
+		Assert.assertNotNull(dynamicJobParams.getLong(JobParameterKey.JOB_TIMESTAMP));
 	}
 
 	@Test
 	public void testRunJob() throws Exception {
-		JobParameters combinedJobParams = service.createCombinedJobParameters(JOB_RUN_REQUEST, databaseParams);
+		JobParameters allJobParams = service.createDynamicJobParameters(JOB_RUN_REQUEST);
 
-		EasyMock.expect(mockJobLauncher.run(mockJob, combinedJobParams)).andReturn(mockJobExecution);
-		EasyMock.expect(mockJobRegistry.getJob(EngineConstants.JOB_DEFINITION_EBOOK)).andReturn(mockJob);
+		EasyMock.expect(mockJobLauncher.run(mockJob, allJobParams)).andReturn(mockJobExecution);
+		EasyMock.expect(mockJobRegistry.getJob(JobRunRequest.JOB_NAME_CREATE_EBOOK)).andReturn(mockJob);
 		
-		EasyMock.replay(mockDao);
+		EasyMock.replay(mockEngineDao);
 		EasyMock.replay(mockJobLauncher);
 		EasyMock.replay(mockJob);
 		EasyMock.replay(mockJobRegistry);
 		
 		try {
-			JobExecution jobExecution = service.runJob(EngineConstants.JOB_DEFINITION_EBOOK, combinedJobParams);
+			JobExecution jobExecution = service.runJob(JobRunRequest.JOB_NAME_CREATE_EBOOK, allJobParams);
 			Assert.assertNotNull(jobExecution);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Running job should not have thrown an exception");
 		}
-		EasyMock.verify(mockDao);
+		EasyMock.verify(mockEngineDao);
 		EasyMock.verify(mockJobLauncher);
 		EasyMock.verify(mockJob);
 		EasyMock.verify(mockJobRegistry);

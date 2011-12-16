@@ -7,8 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.dao;
 
 import java.util.List;
 
-import org.springframework.batch.core.JobParameters;
-
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.ScheduleCurvePoint;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.ScheduleDayOfWeek;
 
@@ -32,12 +32,5 @@ public interface EngineDao {
 	 * @return a list of the 7 days of the week, to the max concurrent jobs schedule to be applied to it for job launch throttling.
 	 */
 	public List<ScheduleDayOfWeek> findDayOfWeekSchedule();
-	
-	/**
-	 * Load the job launch parameters for a specific book definition from the database.
-	 * @param bookId book title ID whose job run parameters we want
-	 * @return a map of key=JobParameter pairs that become the job launch JobParameters when the job is run
-	 */
-	public JobParameters loadJobParameters(String bookId);
 
 }

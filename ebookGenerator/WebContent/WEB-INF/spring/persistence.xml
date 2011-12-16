@@ -42,6 +42,9 @@
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
 		 ====================================== --> 
+	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl"
+		  p:sessionFactory-ref="sessionFactory"/>
+	
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>

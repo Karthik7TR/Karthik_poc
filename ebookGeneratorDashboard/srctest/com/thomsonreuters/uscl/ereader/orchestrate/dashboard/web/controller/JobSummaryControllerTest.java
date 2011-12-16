@@ -34,7 +34,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary.JobSummaryController;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary.JobSummaryForm;
@@ -65,7 +65,7 @@ public class JobSummaryControllerTest {
     	this.form = new JobSummaryForm();
     	JobSummaryController.initializeForm(form, new MockHttpSession());
     	Long[] idArray = { 10l, 20l, 30l, 40l };
-    	EasyMock.expect(mockDashboardService.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK,
+    	EasyMock.expect(mockDashboardService.findJobExecutionIds(JobRunRequest.JOB_NAME_CREATE_EBOOK,
     			form.getStartTime(), form.getBatchStatus())).andReturn(Arrays.asList(idArray));
     	EasyMock.expect(mockDashboardService.findJobExecutionByPrimaryKey(Arrays.asList(idArray))).andReturn(new ArrayList<JobExecution>(0));
     	EasyMock.replay(mockDashboardService);

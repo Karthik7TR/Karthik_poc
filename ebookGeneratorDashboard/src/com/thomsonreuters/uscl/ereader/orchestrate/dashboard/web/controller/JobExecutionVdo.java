@@ -19,7 +19,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 
 
 /**
@@ -42,11 +42,14 @@ public class JobExecutionVdo {
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
-	public String getBookId() {
-		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_ID);
+	public Long getMajorVersion() {
+		return jobExecution.getJobInstance().getJobParameters().getLong(JobParameterKey.BOOK_MAJOR_VERSION);
 	}
-	public String getBookTitle() {
-		return jobExecution.getJobInstance().getJobParameters().getString(EngineConstants.JOB_PARAM_BOOK_TITLE);
+	public String getBookTitleId() {
+		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.BOOK_TITLE_ID);
+	}
+	public String getBookName() {
+		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.BOOK_NAME);
 	}
 	/**
 	 * Get the job execution steps in descending start time order.

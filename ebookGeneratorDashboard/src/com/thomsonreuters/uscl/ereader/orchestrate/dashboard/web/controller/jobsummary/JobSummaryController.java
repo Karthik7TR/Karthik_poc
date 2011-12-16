@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants.SortProperty;
@@ -44,7 +44,7 @@ public class JobSummaryController {
 	
 	private String environmentName;
 	private JobExplorer jobExplorer;
-	private DashboardService service;
+	private DashboardService dashboardService;
 	private Validator validator;
 	
 	@InitBinder(JobSummaryForm.FORM_NAME)
@@ -65,7 +65,7 @@ public class JobSummaryController {
 							   Model model) throws Exception {
 		initializeForm(form, httpSession);
 log.debug(">>> " + form);
-		List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, form.getStartTime(), form.getBatchStatus());
+		List<Long> filteredExecutionIds = dashboardService.findJobExecutionIds(JobRunRequest.JOB_NAME_CREATE_EBOOK, form.getStartTime(), form.getBatchStatus());
 		saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 		PaginatedList paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 														  SortProperty.START_TIME, false);
@@ -91,7 +91,7 @@ log.debug(">>> " + form);
 		PaginatedList paginatedList = null;
 		if (!bindingResult.hasErrors()) {
 			httpSession.setAttribute(WebConstants.KEY_SESSION_SUMMARY_FORM, form);  // Save the entered values
-			List<Long> filteredExecutionIds = service.findJobExecutionIds(EngineConstants.JOB_DEFINITION_EBOOK, form.getStartTime(), form.getBatchStatus());
+			List<Long> filteredExecutionIds = dashboardService.findJobExecutionIds(JobRunRequest.JOB_NAME_CREATE_EBOOK, form.getStartTime(), form.getBatchStatus());
 			saveCurrentExecutionIdListOnSession(httpSession, filteredExecutionIds);  // for use in paging/sorting
 			paginatedList = createPaginatedList(filteredExecutionIds, 1, form.getItemsPerPage(),
 											    SortProperty.START_TIME, false);
@@ -177,7 +177,7 @@ log.debug(">>> " + form);
 		
 		// Create the partial list of items as a function of the page number (using start and end indicies).
 		List<Long> executionIdSubList = filteredExecutionIds.subList(startIndex, endIndex);
-		List<JobExecution> jobExecutions = service.findJobExecutionByPrimaryKey(executionIdSubList);
+		List<JobExecution> jobExecutions = dashboardService.findJobExecutionByPrimaryKey(executionIdSubList);
 
 		// Create the paginated list of View Data Objects (wrapping JobExecution) for use by DisplayTag table on the JSP.
 		List<JobExecutionVdo> jobExecutionVdos = new ArrayList<JobExecutionVdo>();
@@ -241,7 +241,7 @@ log.debug(">>> " + form);
 	}
 	@Required
 	public void setDashboardService(DashboardService service) {
-		this.service = service;
+		this.dashboardService = service;
 	}
 	@Required
 	public void setValidator(Validator validator) {

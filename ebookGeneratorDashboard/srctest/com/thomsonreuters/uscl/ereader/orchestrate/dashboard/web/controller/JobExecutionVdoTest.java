@@ -24,7 +24,7 @@ import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 
 /**
  * Unit tests for the JobExecutionVdo (view data object) which is used on the 
@@ -32,8 +32,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
  */
 public class JobExecutionVdoTest {
 
-	private static final String BOOK_ID_VALUE = "theBookId";
-	private static final String BOOK_TITLE_VALUE = "theBookTitle";
+	private static final String BOOK_TITLE_ID_VALUE = "theBookTitleId";
+	private static final String BOOK_NAME_VALUE = "theBookName";
 	private JobExecutionVdo vdo;
 	private JobParameters jobParameters;
 	private JobInstance mockJobInstance;
@@ -42,8 +42,8 @@ public class JobExecutionVdoTest {
     @Before
     public void setUp() {
     	Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-    	paramMap.put(EngineConstants.JOB_PARAM_BOOK_ID, new JobParameter(BOOK_ID_VALUE));
-    	paramMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(BOOK_TITLE_VALUE));
+    	paramMap.put(JobParameterKey.BOOK_TITLE_ID, new JobParameter(BOOK_TITLE_ID_VALUE));
+    	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(BOOK_NAME_VALUE));
     	this.jobParameters = new JobParameters(paramMap);
     	this.mockJobInstance = EasyMock.createMock(JobInstance.class);
     	this.mockJobExecution = EasyMock.createMock(JobExecution.class);
@@ -57,7 +57,7 @@ public class JobExecutionVdoTest {
     	EasyMock.expect(mockJobInstance.getJobParameters()).andReturn(jobParameters);
     	EasyMock.replay(mockJobExecution);
     	EasyMock.replay(mockJobInstance);
-    	Assert.assertEquals(BOOK_ID_VALUE, vdo.getBookId());
+    	Assert.assertEquals(BOOK_TITLE_ID_VALUE, vdo.getBookTitleId());
     	EasyMock.verify(mockJobExecution);
     	EasyMock.verify(mockJobInstance);
     }
@@ -69,7 +69,7 @@ public class JobExecutionVdoTest {
     	EasyMock.replay(mockJobInstance);
     	
     	this.vdo = new JobExecutionVdo(mockJobExecution);
-    	Assert.assertEquals(BOOK_TITLE_VALUE, vdo.getBookTitle());
+    	Assert.assertEquals(BOOK_NAME_VALUE, vdo.getBookName());
     	EasyMock.verify(mockJobExecution);
     	EasyMock.verify(mockJobInstance);
     }

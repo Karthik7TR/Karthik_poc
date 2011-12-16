@@ -14,10 +14,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 public class JobQueueManagerTest  {
-	private static JobRunRequest RUN_REQ = JobRunRequest.create("theCode", "theUserName", "theUserEmail");
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static JobRunRequest RUN_REQ = JobRunRequest.create(BOOK_KEY, "theUserName", "theUserEmail");
 	private JmsTemplate jmsTemplate;
 	private TextMessage textMessage; 
 	private JobQueueManagerImpl queueManager;
@@ -51,7 +53,7 @@ public class JobQueueManagerTest  {
 			EasyMock.replay(jmsTemplate);
 			JobRunRequest req = queueManager.getHighPriorityJobRunRequest();
 			Assert.assertNotNull(req);
-			Assert.assertEquals(RUN_REQ.getBookId(), req.getBookId());
+			Assert.assertEquals(RUN_REQ.getBookDefinitionKey(), req.getBookDefinitionKey());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Failed to get high priority run request: " + e.getMessage());
@@ -68,7 +70,7 @@ public class JobQueueManagerTest  {
 			EasyMock.replay(jmsTemplate);
 			JobRunRequest req = queueManager.getNormalPriorityJobRunRequest();
 			Assert.assertNotNull(req);
-			Assert.assertEquals(RUN_REQ.getBookId(), req.getBookId());
+			Assert.assertEquals(RUN_REQ.getBookDefinitionKey(), req.getBookDefinitionKey());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Failed to get normal priority run request: " + e.getMessage());

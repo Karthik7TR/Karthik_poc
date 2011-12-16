@@ -23,13 +23,12 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 
 public class EngineServiceImpl implements EngineService {
 	private static Logger log = Logger.getLogger(EngineServiceImpl.class);
-	private EngineDao dao;
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
@@ -82,21 +81,18 @@ public class EngineServiceImpl implements EngineService {
 	}
 	
 	@Override
-	public JobParameters loadJobParameters(String bookId) {
-		JobParameters databaseJobParameters = dao.loadJobParameters(bookId);
-		return databaseJobParameters;
+	public JobParameters createBookDefinitionJobParameters(BookDefinition bookDefinition) {
+		Map<String, JobParameter> paramMap = new HashMap<String,JobParameter>();
+		paramMap.put(JobParameterKey.BOOK_TITLE_ID, new JobParameter(bookDefinition.getTitleId()));
+		paramMap.put(JobParameterKey.BOOK_MAJOR_VERSION, new JobParameter(bookDefinition.getPrimaryKey().getMajorVersion()));
+		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getName()));
+// TODO: there are a lot more to add here once the BookDefinition is completely defined
+		return new JobParameters(paramMap);
 	}
 		
-	/**
-	 * Combine user and database loaded job params and the standard "well-known" set of job parameters to the job launch configuration.
-	 * @return a superset of the provided jobParameters including the well-known set.
-	 */
 	@Override
-	public JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams) {
-
-		// Combine the user and database provided job parameters
-		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>(databaseJobParams.getParameters());
-		
+	public JobParameters createDynamicJobParameters(JobRunRequest runRequest) {
+		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>();
 		// What host is the job running on?
 		String hostName = null;
 		try {
@@ -105,19 +101,15 @@ public class EngineServiceImpl implements EngineService {
 		} catch (UnknownHostException uhe) {
 			hostName = null;
 		}
-		// Add the pre-defined/well-known key/values into the job parameters map
-		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_ID, new JobParameter(runRequest.getBookId()));
-//		jobParamMap.put(EngineConstants.JOB_PARAM_BOOK_TITLE, new JobParameter(runRequest.getBookTitle()));
-		jobParamMap.put(EngineConstants.JOB_PARAM_USER_NAME, new JobParameter(runRequest.getUserName()));
-		jobParamMap.put(EngineConstants.JOB_PARAM_USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
-		jobParamMap.put(EngineConstants.JOB_PARAM_HOST_NAME, new JobParameter(hostName));
-		jobParamMap.put(EngineConstants.JOB_PARAM_TIMESTAMP, new JobParameter(System.currentTimeMillis()));
+		
+		// Add the dyanamic key/value pairs into the job parameters map
+		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(runRequest.getUserName()));
+		jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
+		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
+		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(System.currentTimeMillis()));
 		return new JobParameters(jobParamMap);
 	}
-	@Required
-	public void setDao(EngineDao dao) {
-		this.dao = dao;
-	}
+
 	@Required
 	public void setJobRegistry(JobRegistry jobRegistry) {
 		this.jobRegistry = jobRegistry;

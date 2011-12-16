@@ -27,7 +27,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book.CreateBookForm;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.stepexecution.StepExecutionController;
@@ -56,7 +56,7 @@ public class StepExecutionControllerTest {
     	// Mock up the Spring Bach JobExplorer
     	mockJobExplorer = EasyMock.createMock(JobExplorer.class);
     	mockJobExecution = new JobExecution(JOB_EXEC_ID);
-    	EasyMock.expect(mockJobExplorer.getJobInstance(JOB_INST_ID)).andReturn(new JobInstance(JOB_INST_ID, new JobParameters(), EngineConstants.JOB_DEFINITION_EBOOK));
+    	EasyMock.expect(mockJobExplorer.getJobInstance(JOB_INST_ID)).andReturn(new JobInstance(JOB_INST_ID, new JobParameters(), JobRunRequest.JOB_NAME_CREATE_EBOOK));
     	EasyMock.expect(mockJobExplorer.getStepExecution(JOB_EXEC_ID, STEP_EXEC_ID)).andReturn(new StepExecution("theStep", mockJobExecution));
     	EasyMock.replay(mockJobExplorer);
     	

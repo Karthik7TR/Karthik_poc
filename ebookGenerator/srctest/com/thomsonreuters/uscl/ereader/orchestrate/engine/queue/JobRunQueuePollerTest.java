@@ -11,31 +11,42 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.engine.EngineConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 public class JobRunQueuePollerTest  {
-	private static JobRunRequest RUN_REQ = JobRunRequest.create("bookTitleId", "theUserName", "theUserEmail");
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("bookTitleId", 67898l);
+	private static JobRunRequest RUN_REQ = JobRunRequest.create(BOOK_KEY, "theUserName", "theUserEmail");
 	private Throttle mockThrottle;
+	private CoreService mockCoreService;
 	private EngineService mockEngineService;
 	private JobQueueManager mockJobQueueManager;
 	private JobExecution mockJobExecution;
 	private JobRunQueuePoller poller;  // Class being tested
-	private JobParameters jobParameters;
+	private BookDefinition bookDefinition;
+	private JobParameters bookDefinitionJobParameters;
+	private JobParameters dynamicJobParameters;
 	
 	@Before
 	public void setUp() throws Exception {
-		this.jobParameters = new JobParameters();
 		// Create mock collaborators
 		this.mockThrottle = EasyMock.createMock(Throttle.class);
+		this.mockCoreService = EasyMock.createMock(CoreService.class);
 		this.mockEngineService = EasyMock.createMock(EngineService.class);
 		this.mockJobQueueManager = EasyMock.createMock(JobQueueManager.class);
 		this.mockJobExecution = EasyMock.createMock(JobExecution.class);
 		
+		this.bookDefinition = new BookDefinition();
+		this.bookDefinitionJobParameters = new JobParameters();
+		this.dynamicJobParameters = new JobParameters();
+		
 		// Create the class to be tested and inject mock collaborators
 		this.poller = new JobRunQueuePoller();
+		poller.setCoreService(mockCoreService);
 		poller.setEngineService(mockEngineService);
 		poller.setThrottle(mockThrottle);
 		poller.setJobQueueManager(mockJobQueueManager);
@@ -46,7 +57,7 @@ public class JobRunQueuePollerTest  {
 	 * the queues.
 	 */
 	@Test
-	public void testJobRunQueueThrottled() {
+	public void testJobRunQueueThrottled() throws Exception {
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(true);
 		verifyPoller();
 	}
@@ -59,9 +70,7 @@ public class JobRunQueuePollerTest  {
 		// Record expected behavior
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);	// we are not currently restricted from consuming messages 
 		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andReturn(RUN_REQ);  // a message is sitting on high priority queue
-		EasyMock.expect(mockEngineService.loadJobParameters(RUN_REQ.getBookId())).andReturn(jobParameters);
-		EasyMock.expect(mockEngineService.createCombinedJobParameters(RUN_REQ, jobParameters)).andReturn(jobParameters);
-		EasyMock.expect(mockEngineService.runJob(EngineConstants.JOB_DEFINITION_EBOOK, new JobParameters())).andReturn(mockJobExecution);
+		recordRunExpectations();
 		verifyPoller();
 	}
 
@@ -74,9 +83,7 @@ public class JobRunQueuePollerTest  {
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);	// we are not currently restricted from consuming messages
 		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andReturn(null);  // Pretend nothing on high queue
 		EasyMock.expect(mockJobQueueManager.getNormalPriorityJobRunRequest()).andReturn(RUN_REQ);  // but something is sitting on the normal queue
-		EasyMock.expect(mockEngineService.loadJobParameters(RUN_REQ.getBookId())).andReturn(jobParameters);
-		EasyMock.expect(mockEngineService.createCombinedJobParameters(RUN_REQ, jobParameters)).andReturn(jobParameters);
-		EasyMock.expect(mockEngineService.runJob(EngineConstants.JOB_DEFINITION_EBOOK, jobParameters)).andReturn(mockJobExecution);
+		recordRunExpectations();
 		verifyPoller();
 	}
 	
@@ -86,17 +93,24 @@ public class JobRunQueuePollerTest  {
 	@Test
 	public void testJobRunQueuePollerException() throws Exception {
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);
-		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andThrow(new Exception("get message exception")); // Pretend exception getting message from high queue
+		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andThrow(new Exception("Bogus exception")); // Pretend exception getting message from high queue
 		verifyPoller();
 	}
 
-	
+	private void recordRunExpectations() throws Exception {
+		EasyMock.expect(mockCoreService.findBookDefinition(RUN_REQ.getBookDefinitionKey())).andReturn(bookDefinition);
+		EasyMock.expect(mockEngineService.createBookDefinitionJobParameters(bookDefinition)).andReturn(bookDefinitionJobParameters);
+		EasyMock.expect(mockEngineService.createDynamicJobParameters(RUN_REQ)).andReturn(dynamicJobParameters);
+		EasyMock.expect(mockEngineService.runJob(JobRunRequest.JOB_NAME_CREATE_EBOOK, dynamicJobParameters)).andReturn(mockJobExecution);
+	}
+
 	/**
 	 * Ensure that the expected methods in the mock object collaborators have been called (or not) as expected. 
 	 */
 	private void verifyPoller() {
 		EasyMock.replay(mockThrottle);
 		EasyMock.replay(mockJobQueueManager);
+		EasyMock.replay(mockCoreService);
 		EasyMock.replay(mockEngineService);
 		
 		// Invoke the poller
@@ -105,6 +119,7 @@ public class JobRunQueuePollerTest  {
 		// Verify that the proper methods were called
 		EasyMock.verify(mockThrottle);
 		EasyMock.verify(mockJobQueueManager);
+		EasyMock.verify(mockCoreService);
 		EasyMock.verify(mockEngineService);
 	}
 }

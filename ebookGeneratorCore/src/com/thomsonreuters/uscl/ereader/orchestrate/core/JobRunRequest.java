@@ -24,16 +24,18 @@ import org.jibx.runtime.JiBXException;
  */
 public class JobRunRequest implements Serializable {
 	private static final long serialVersionUID = -7285672486471302865L;
-	private static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
+	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
 	
 	private String jobName;			// job name to run
-	private String bookId;		// Which book is to be created
+	private BookDefinitionKey bookKey = new BookDefinitionKey();
 	private String userName;		// What user is requesting that the job be run
 	private String userEmail;		// What is the requestor's email address
 	
-	public static JobRunRequest create(String bookId, String userName, String userEmail) {
-		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, bookId, userName, userEmail);
+	public static JobRunRequest create(BookDefinitionKey key,
+									   String userName, String userEmail) {
+		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, key, userName, userEmail);
 	}
+	
 
 	public String marshal() throws JiBXException {
 		IBindingFactory factory = BindingDirectory.getFactory(JobRunRequest.class);
@@ -64,17 +66,21 @@ public class JobRunRequest implements Serializable {
 	public JobRunRequest() {
 		super();
 	}
-	private JobRunRequest(String jobName, String bookId, String userName, String userEmail) {
+	private JobRunRequest(String jobName, BookDefinitionKey bookKey, String userName, String userEmail) {
 		this.jobName = jobName;
-		this.bookId = bookId;
+		this.bookKey = bookKey;
 		this.userName = userName;
 		this.userEmail = userEmail;
 	}
-	public String getBookId() {
-		return bookId;
+	
+	public BookDefinitionKey getBookDefinitionKey() {
+		return bookKey;
 	}
 	public String getJobName() {
 		return jobName;
+	}
+	public Long getMajorVersion() {
+		return bookKey.getMajorVersion();
 	}
 	public String getUserName() {
 		return userName;
@@ -82,8 +88,8 @@ public class JobRunRequest implements Serializable {
 	public String getUserEmail() {
 		return userEmail;
 	}
-	public void setBookId(String id) {
-		this.bookId = id;
+	public void setBookDefinitionKey(BookDefinitionKey key) {
+		this.bookKey = key;
 	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;

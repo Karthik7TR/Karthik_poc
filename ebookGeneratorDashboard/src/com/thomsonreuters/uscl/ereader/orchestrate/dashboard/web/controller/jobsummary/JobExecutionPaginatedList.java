@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.jobsummary;
 
 import java.util.Collections;
@@ -112,8 +117,8 @@ public class JobExecutionPaginatedList implements PaginatedList {
 	class BookComparator implements Comparator<JobExecutionVdo> {
 		public int compare(JobExecutionVdo je1, JobExecutionVdo je2) {
 			int result = 0;
-					String book1 = je1.getBookTitle();
-					String book2 = je2.getBookTitle();
+					String book1 = je1.getBookName();
+					String book2 = je2.getBookName();
 					if (book1 != null) {
 						if (book2 != null) {
 							result = book1.compareTo(book2);

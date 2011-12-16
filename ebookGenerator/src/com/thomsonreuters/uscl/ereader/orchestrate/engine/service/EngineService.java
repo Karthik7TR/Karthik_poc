@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 /**
@@ -40,22 +41,20 @@ public interface EngineService {
 	 * @throws Exception on any stop failure
 	 */
 	public void stopJob(long jobExecutionId) throws Exception;
+
+	/**
+	 * Create the job parameters used to run the job from the loaded book definition.
+	 * @param bookDefinition to book properties loaded from a database table.
+	 * @return the Spring Batch Job Parameters with well-known keys created from the book definition.
+	 */
+	public JobParameters createBookDefinitionJobParameters(BookDefinition bookDefinition);
 	
 	/**
-	 * Load the book definition data from the database, these key/value pairs become the job launch parameters for
-	 * the book generating batch job.
-	 * @param bookId which book will we be creating
-	 * @return the job parameters for the specified book
+	 * Create a set of Job parameters at runtime from dynamic data.
+	 * These parameters will include the user who ran the job, their email address, and a job timestamp. 
+	 * @param jobRunRequest request used to start the book generating job
+	 * @return a set of Spring Batch job parameters used in launching a job.
 	 */
-	public JobParameters loadJobParameters(String bookId);
-	
-	/**
-	 * Create a union of JobParameters between those loaded from the database and the "well-known" set of
-	 * standard meta-data parameters.
-	 * @param runRequest the request used to launch the job.
-	 * @param databaseJobParams those parameters loaded for a specific book from a table.
-	 * @return the union of the two sets of parmeters 
-	 */
-	public JobParameters createCombinedJobParameters(JobRunRequest runRequest, JobParameters databaseJobParams);
+	public JobParameters createDynamicJobParameters(JobRunRequest jobRunRequest);
 
 }

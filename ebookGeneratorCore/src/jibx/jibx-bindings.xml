@@ -7,9 +7,14 @@
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
         <value name="jobName" field="jobName" usage="required"/>
-        <value name="bookId" field="bookId" usage="required"/>
+        <structure field="bookKey" usage="required"/>
         <value name="userName" field="userName" usage="optional"/>
         <value name="userEmail" field="userEmail" usage="optional"/>
+    </mapping>
+    
+    <mapping name="primaryKey" class="com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey">
+        <value name="bookTitleId" field="bookTitleId" usage="required"/>
+        <value name="majorVersion" field="majorVersion" usage="required"/>
     </mapping>
     
 </binding>

@@ -96,7 +96,7 @@
 			<c:otherwise><c:set var="sortImage" value="<img src='images/arrowdown.gif' alt='(desc)'/>"/></c:otherwise>
 		</c:choose>
 		<c:choose>
-			<c:when test="${paginatedList.sortCriterion == 'BOOK'}"><c:set var="bookIdImageTag" value="${sortImage}"/></c:when>
+			<c:when test="${paginatedList.sortCriterion == 'BOOK'}"><c:set var="bookImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'INSTANCE_ID'}"><c:set var="instanceIdImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'BATCH_STATUS'}"><c:set var="batchStatusImageTag" value="${sortImage}"/></c:when>
 			<c:when test="${paginatedList.sortCriterion == 'START_TIME'}"><c:set var="startTimeImageTag" value="${sortImage}"/></c:when>
@@ -111,8 +111,8 @@
 	
 		  <%-- display:column title="Job Name ${jobNameImageTag}" property="jobExecution.jobInstance.jobName" sortable="true" sortProperty="<%=SortProperty.JOB_NAME.toString()%>" style="text-align: left"/ --%>
 		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
-		  <display:column title="Book ${bookIdImageTag}" property="bookTitle" sortable="true" sortProperty="<%=SortProperty.BOOK.toString()%>" style="text-align: left"/>
-		  <display:column title="Book ID" property="bookId" style="text-align: left"/>
+		  <display:column title="Book ${bookImageTag}" property="bookName" sortable="true" sortProperty="<%=SortProperty.BOOK.toString()%>" style="text-align: left"/>
+		  <display:column title="Title ID (Ver)" style="text-align: left"> ${vdo.bookTitleId} (${vdo.majorVersion})</display:column>
 		  <display:column title="Instance ${instanceIdImageTag}" sortable="true" sortProperty="<%=SortProperty.INSTANCE_ID.toString()%>">
 		  		<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 		  </display:column>

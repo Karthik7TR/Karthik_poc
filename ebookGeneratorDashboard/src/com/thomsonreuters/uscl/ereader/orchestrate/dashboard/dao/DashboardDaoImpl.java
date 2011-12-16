@@ -6,15 +6,32 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class DashboardDaoImpl implements DashboardDao {
 	private static final Logger log = Logger.getLogger(DashboardDaoImpl.class);
+	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 	private String tablePrefix;
+	
+	@Override
+	public BookDefinition findBookDefinition(BookDefinitionKey key) {
+		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, key);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<BookDefinition> findAllBookDefinitions() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
+		return criteria.list();
+	}
 	
 	@Override
 	public List<Long> findJobExecutionIds(String jobName, Date startTime, BatchStatus batchStatus) {
@@ -90,6 +107,10 @@ log.debug(sql);
 			}
 		}
 		return csv.toString();
+	}
+	@Required
+	public void setSessionFactory(SessionFactory sessionfactory) {
+		this.sessionFactory = sessionfactory;
 	}
 	@Required
 	public void setJdbcTemplate(JdbcTemplate template) {
