@@ -1,0 +1,95 @@
+﻿<?xml version="1.0"?>
+<project name="ebookGatherer_CodeCoverage_Script" default="doNothing" basedir="..\">
+  <property environment="env" />
+  <property file="ant/ant-global.properties" />
+  <property name="cobertura.reports.dir" value="${logs.dir}\CodeCoverageReports" />
+
+  <!--- - - - - - - - - - - - - - - - -
+           Create the class path for cobertura that will be used by all targets in the script. 
+          - - - - - - - - - - - - - - - - - -->
+  <path id="classpath.cobertura">
+    <fileset dir="${env.buildextensionroot}\Cobertura">
+      <include name="cobertura.jar" />
+      <include name="lib/**/*.jar" />
+    </fileset>
+  </path>
+
+  <taskdef resource="tasks.properties" classpathref="classpath.cobertura"/>
+
+  <!-- ================================= 
+          target: doNothing
+          description: This default target forces the user to explicitly call a valid target.               
+         ================================= -->
+  <target name="doNothing">
+    <echo level="error">This target should not be called. Call either the 'coverage-instrumentation' or the 'coverage-report' target.</echo>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -clean_for_instrument                      
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-clean_for_instrument">
+    <echo level="verbose">Deleting existing cobertura data file, log folder and instrumented folder ...</echo>
+    <delete file="${cobertura.data.file}" failonerror="false"/>
+    <delete dir="${cobertura.instrumentedPath}" failonerror="false" includeemptydirs="true"/>
+    <!-- Delete the report folder to avoid confusion. If there are any reports exisitng in the 
+             directory, they would be for the older instrumented classes, which is misleading. -->
+    <delete dir="${cobertura.reports.dir}" failonerror="false" includeemptydirs="true"/>
+
+    <echo level="verbose">Creating directories for the instrumented binaries - '${cobertura.instrumentedPath}' ...</echo>
+    <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${cobertura.instrumentedPath}"/>
+  </target>
+
+  <!-- ================================= 
+          target: coverage-instrumentation    
+          description: This is the entry target for the instrumentation phase of the build. 
+                       It will instrument the compiled java classes which will be comsumed in the
+                       Unit test script.
+         ================================= -->
+  <target name="coverage-instrumentation" depends="-clean_for_instrument">
+    <echo level="verbose">Instrumenting the compiled binaries in folder - '${dir.binaries}' ...</echo>
+    <cobertura-instrument todir="${cobertura.instrumentedPath}"
+                          datafile="${cobertura.data.file}">
+      <fileset dir="${dir.binaries}" casesensitive="false">
+        <include name="**/*.class"/>
+      </fileset>
+    </cobertura-instrument>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -clean_for_report                      
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-clean_for_report">
+    <echo level="verbose">Deleting existing reports in folder '${cobertura.reports.dir}' ...</echo>
+    <delete dir="${cobertura.reports.dir}" failonerror="false"/>
+
+    <echo level="verbose">Creating folder to store the generated reports - '${cobertura.reports.dir}' ...</echo>
+    <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${logs.dir}"/>
+    <mkdir dir="${cobertura.reports.dir}"/>
+  </target>
+
+  <!-- ================================= 
+          target: coverage-report              
+          description: This is the entry target for the reporting phase of the build. 
+                       A HTML (for the end user) and XML report (which will be consumed by the 
+                       team build parser, to determine the coverage) will be created.
+         ================================= -->
+  <target name="coverage-report" depends="-clean_for_report">
+    <!-- Create an XML file so that it can be parsed -->
+    <cobertura-report datafile="${cobertura.data.file}"
+                      destdir="${dir.tmpBuildDir}" format="xml">
+      <fileset dir="${dir.source}">
+        <include name="**/*.java" />
+      </fileset>
+    </cobertura-report>
+
+    <!-- Create the HTML based report for the end users -->
+    <cobertura-report datafile="${cobertura.data.file}"
+                      destdir="${cobertura.reports.dir}" format="html">
+      <fileset dir="${dir.source}">
+        <include name="**/*.java"/>
+      </fileset>
+    </cobertura-report>
+  </target>
+</project>

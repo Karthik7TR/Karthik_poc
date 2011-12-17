@@ -1,0 +1,60 @@
+﻿<?xml version="1.0"?>
+<project name="#PROJECT_NAME#_FindBugs_Script" default="findBugsMain" basedir="..\">
+  <property environment="env" />
+  <property file="ant/ant-global.properties" />
+  <property name="log.file" value="FindBugsReport.html" />
+
+  <!-- - - - - - - - - - - - - - - - 
+	     Class path for FindBugs 
+	     - - - - - - - - - - - - - - - - -->
+  <path id="classpath.findbugs">
+    <fileset dir="${env.buildextensionroot}/FindBugs">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- - - - - - - - - - - - - - - - 
+         Class path for application, used by FindBugs while analyzing the source code 
+         - - - - - - - - - - - - - - - - -->
+  <path id="classpath.application">
+    <fileset dir="${dir.webContent}/WEB-INF/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${env.buildextensionroot}">
+      <include name="OtherLibraries/**/*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+	     Identify the external task(s) here.
+		 - - - - - - - - - - - - - - - - - -->
+  <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="classpath.findbugs" />
+
+  <!-- - - - - - - - - - - - - - - - - -
+         target: -init
+         description: Perform all initialization tasks like creating 
+                      directories that do not exist, etc.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-init">
+    <echo level="verbose">Creating temporary directory ('${dir.tmpBuildDir}') and logs directory ('${logs.dir}'), if they do not exist. ...</echo>
+    <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${logs.dir}"/>
+  </target>
+
+  <!-- ================================= 
+	     target: findBugsMain 
+	     description: This is the main entry point for the script. The target will execute the 
+	                  external "findbugs" task for finding bugs in the compiled code. 
+         ================================= -->
+  <target name="findBugsMain" depends="-init">
+    <echo level="verbose">
+      Finding coding bugs using "FindBugs" ...
+    </echo>
+    <findbugs home="${env.buildextensionroot}\FindBugs"
+			failOnError="false" output="html" outputFile="${logs.dir}/${log.file}">
+      <auxClasspath refid="classpath.application" />
+      <sourcePath path="${dir.source}" />
+      <class location="${path.jarFile}" />
+    </findbugs>
+  </target>
+</project>
