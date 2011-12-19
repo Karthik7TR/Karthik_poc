@@ -18,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
  * 
  * @author Ripu Jain U0115290 
  */
-@Repository("XSLTMapperDao")
+@Repository("xsltMapperDao")
 public class XSLTMapperDaoImpl implements XSLTMapperDao{
 
 	@Autowired
