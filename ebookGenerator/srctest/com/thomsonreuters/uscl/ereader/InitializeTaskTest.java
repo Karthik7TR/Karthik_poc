@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
@@ -5,8 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,12 +52,11 @@ public class InitializeTaskTest {
 		this.jobExecutionContext = new ExecutionContext();
 		this.task = new InitializeTask();
 		this.tempRootDir = new File(System.getProperty("java.io.tmpdir"));
-System.out.println("Temp dir: " + tempRootDir.getAbsolutePath());  // DEBUG
 		task.setRootWorkDirectory(tempRootDir);
 	}
 	
 	@Test
-	public void testExecuteStep() {
+	public void testExecuteStep() throws Exception {
 		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
 		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(TITLE_ID));
 		JobParameters jobParams = new JobParameters(paramMap);
@@ -95,7 +99,11 @@ System.out.println("Temp dir: " + tempRootDir.getAbsolutePath());  // DEBUG
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		} finally {
-			expectedWorkDirectory.delete();
+			File dateDir = new File(tempRootDir, DATE_STAMP);
+			System.out.println(dateDir); // DEBUG			
+			Assert.assertTrue("The date directory (yyyyMMdd) immediately below the root work directory exists", dateDir.exists());
+			FileUtils.deleteDirectory(dateDir);
+			Assert.assertFalse("The date directory has been recursively removed", dateDir.exists());
 			Assert.assertFalse(expectedWorkDirectory.exists());
 		}
 	}

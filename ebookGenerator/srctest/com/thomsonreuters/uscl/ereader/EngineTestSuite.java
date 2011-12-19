@@ -1,5 +1,9 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader;
-
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -9,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerT
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
-
 
 @RunWith(Suite.class)
 @SuiteClasses( { JobQueueManagerTest.class,
