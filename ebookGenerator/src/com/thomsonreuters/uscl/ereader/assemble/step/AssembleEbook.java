@@ -5,7 +5,6 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.step;
 import java.io.File;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -36,10 +35,11 @@ public class AssembleEbook extends AbstractSbTasklet {
 
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		StepContext stepContext = chunkContext.getStepContext();
-		Map<String, Object> jobParams = stepContext.getJobParameters();
 		StepExecution stepExecution = stepContext.getStepExecution();
 		JobExecution jobExecution = stepExecution.getJobExecution();
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
+//		JobInstance jobInstance = jobExecution.getJobInstance();
+//		JobParameters jobParams = jobInstance.getJobParameters();
 		
 		String eBookDirectoryPath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_DIRECTORY_PATH);
 		String eBookFilePath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE_PATH);
