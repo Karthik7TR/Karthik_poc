@@ -5,9 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/srctest"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
-        <dependent-module archiveName="spring-context-support-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-context-support-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="hibernate-3.6.1.Final.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/hibernate-3.6.1.Final.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -26,22 +23,13 @@
         <dependent-module archiveName="jstl.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/jstl.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-jdbc-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-jdbc-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="itext-2.1.7.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/itext-2.1.7.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="codes-security-3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/codes-security-3.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-web-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-web-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="jms.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/jms.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="spring-core-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-core-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="hibernate-validator-4.0.2.GA.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/hibernate-validator-4.0.2.GA.jar">
@@ -62,16 +50,10 @@
         <dependent-module archiveName="jibx-extras-1.2.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/jibx-extras-1.2.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-expression-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-expression-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="log4j-1.2.15.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/log4j-1.2.15.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="slf4j-api-1.6.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/slf4j-api-1.6.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="asm-attrs.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/asm-attrs.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="validation-api-1.0.0.GA.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/validation-api-1.0.0.GA.jar">
@@ -92,9 +74,6 @@
         <dependent-module archiveName="joda-time-2.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/joda-time-2.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="asm.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/asm.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="spring-batch-core-2.1.8.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-batch-core-2.1.8.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -104,19 +83,10 @@
         <dependent-module archiveName="commons-lang-2.5.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/commons-lang-2.5.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-jms-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-jms-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="spring-security-cas-client-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-security-cas-client-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-beans-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-beans-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="ebookGeneratorCore.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ebookGeneratorCore/ebookGeneratorCore">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="spring-oxm-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-oxm-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="ojdbc6.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/ojdbc6.jar">
@@ -125,16 +95,10 @@
         <dependent-module archiveName="spring-batch-infrastructure-2.1.8.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-batch-infrastructure-2.1.8.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-orm-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-orm-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="javassist-3.12.0.GA.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/javassist-3.12.0.GA.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="displaytag-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/displaytag-1.2.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="spring-asm-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-asm-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bcel-5.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/bcel-5.1.jar">
@@ -143,22 +107,13 @@
         <dependent-module archiveName="codes-log4jconfig.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/codes-log4jconfig.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-tx-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-tx-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="spring-security-web-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-security-web-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="spring-security-taglibs-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-security-taglibs-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-test-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-test-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="commons-collections-3.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/commons-collections-3.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="spring-webmvc-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-webmvc-3.0.5.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="activemq-core-5.5.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/activemq-core-5.5.1.jar">
@@ -170,16 +125,7 @@
         <dependent-module archiveName="antlr-2.7.6.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/antlr-2.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="spring-context-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-context-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="cas-client-core-3.1.12.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/cas-client-core-3.1.12.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="spring-aop-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-aop-3.0.5.RELEASE.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cglib-2.1.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/cglib-2.1.3.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="spring-security-config-3.0.5.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/spring-security-config-3.0.5.RELEASE.jar">
@@ -192,9 +138,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-logging.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/commons-logging.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="quartz-1.8.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/quartz-1.8.4.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="commons-pool-1.5.5.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/commons-pool-1.5.5.jar">
@@ -210,6 +153,66 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jettison-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/jettison-1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.context-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.context-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.instrument-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.instrument-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.web.servlet-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.servlet-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.beans-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.beans-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.jdbc-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.jdbc-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.web-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.transaction-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.transaction-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.web.struts-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.struts-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.web.portlet-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.web.portlet-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.test-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.test-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.context.support-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.context.support-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.expression-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.expression-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.oxm-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.oxm-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.orm-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.orm-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.aop-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.aop-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.core-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.core-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.jms-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.jms-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.instrument.tomcat-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.instrument.tomcat-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.aspects-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.aspects-3.1.0.RELEASE.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="org.springframework.asm-3.1.0.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/ebookGenerator/WebContent/WEB-INF/lib/org.springframework.asm-3.1.0.RELEASE.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/ebookGeneratorDashboard/build/classes"/>

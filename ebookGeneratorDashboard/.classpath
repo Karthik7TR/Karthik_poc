@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container/ebookGenerator"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="srctest"/>
@@ -13,9 +14,7 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container/ebookGenerator"/>
 	<classpathentry kind="lib" path="/ebookGenerator/containerLibs/servlet-api.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ebookGeneratorCore"/>
 	<classpathentry kind="output" path="build/classes"/>
