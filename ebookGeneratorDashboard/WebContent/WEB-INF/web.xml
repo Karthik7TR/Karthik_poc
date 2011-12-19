@@ -25,9 +25,6 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  <listener>
-    <listener-class>com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.listener.DashboardListener</listener-class>
-  </listener>
   <servlet>
     <display-name>SpringDispatcherServlet</display-name>
     <servlet-name>SpringDispatcherServlet</servlet-name>
