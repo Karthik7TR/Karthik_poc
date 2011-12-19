@@ -25,7 +25,7 @@
 		</property>
 		<property name="annotatedClasses">
 		  <list>
-		  	<!-- TODO -->
+		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 		  </list>
 		</property>
   	</bean>

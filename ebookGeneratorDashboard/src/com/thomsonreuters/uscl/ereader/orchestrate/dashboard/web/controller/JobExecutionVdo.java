@@ -43,10 +43,10 @@ public class JobExecutionVdo {
 		return jobExecution;
 	}
 	public Long getMajorVersion() {
-		return jobExecution.getJobInstance().getJobParameters().getLong(JobParameterKey.BOOK_MAJOR_VERSION);
+		return jobExecution.getJobInstance().getJobParameters().getLong(JobParameterKey.MAJOR_VERSION);
 	}
 	public String getBookTitleId() {
-		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.BOOK_TITLE_ID);
+		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.TITLE_ID);
 	}
 	public String getBookName() {
 		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.BOOK_NAME);

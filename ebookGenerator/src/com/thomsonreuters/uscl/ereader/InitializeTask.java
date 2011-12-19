@@ -6,15 +6,19 @@
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
@@ -25,32 +29,44 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  *
  */
 public class InitializeTask extends AbstractSbTasklet {
+	
+	public static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
+	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
+	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 								  ChunkContext chunkContext) throws Exception {
 		StepContext stepContext = chunkContext.getStepContext();
-		Map<String, Object> jobParams = stepContext.getJobParameters();
 		StepExecution stepExecution = stepContext.getStepExecution();
 		JobExecution jobExecution = stepExecution.getJobExecution();
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
+		JobInstance jobInstance = jobExecution.getJobInstance();
+		JobParameters jobParams = jobInstance.getJobParameters();
 		
-		// Create the root directory for the ebook
-		// TODO: STUB: calculate ebook dir path from job params
-		//File rootEbookDirPath = new File ("/nas/ebookbuilder/data/YYYYMMDD/ebookId/jobId");
-		File rootEbookDirPath = new File ("/nas/ebookbuilder/data/samplebook");  // STUB
-		rootEbookDirPath.mkdirs();
+		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		
-		// Create the absolute path to the final ebook artifact - a GNU Zip file
-		// TODO: <titleid>.gz file basename is a function of job params, sample: "FL_2011_LOCAL.gz"
-		String titleId = "TODO_BOOK_TITLE_ID";
-		File ebookFilePath = new File(rootEbookDirPath.getParentFile(), titleId + ".gz");
+		// Create the work directory for the ebook and create the physical directory in the filesystem
+		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
+		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
+		String dynamicPath = String.format("%s/%s/%d", DATE_FORMAT.format(new Date()), titleId, jobInstance.getId());
+		File workDirectory = new File(rootWorkDirectory, dynamicPath);
+		workDirectory.mkdirs();
+		
+		// Create the absolute path to the final e-book artifact - a GNU ZIP file
+		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
+		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 		
 		// Place data on the JobExecutionContext for use in later steps
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, rootEbookDirPath.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFilePath.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, workDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFile.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;
 	}
-
+	
+	@Required
+	public void setRootWorkDirectory(File rootDir) {
+		this.rootWorkDirectory = rootDir;
+	}
 }

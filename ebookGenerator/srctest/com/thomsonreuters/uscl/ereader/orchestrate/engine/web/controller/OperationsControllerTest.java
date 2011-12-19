@@ -88,7 +88,7 @@ public class OperationsControllerTest {
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, String.valueOf(JOB_EXEC_ID_VALUE));
     	
-    	EasyMock.expect(mockEngineService.restartJob(JOB_EXEC_ID_VALUE)).andThrow(new Exception("Description of problem starting job"));
+    	EasyMock.expect(mockEngineService.restartJob(JOB_EXEC_ID_VALUE)).andThrow(new Exception("Bogus JUnit test exception starting job"));
     	EasyMock.replay(mockEngineService);
     	EasyMock.expect(mockMessageSourceAccessor.getMessage("label.restart")).andReturn("Restart");
     	EasyMock.replay(mockMessageSourceAccessor);
@@ -131,7 +131,7 @@ public class OperationsControllerTest {
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, String.valueOf(JOB_EXEC_ID_VALUE));
     	
     	mockEngineService.stopJob(JOB_EXEC_ID_VALUE);
-    	EasyMock.expectLastCall().andThrow(new Exception("Description of problem stopping job"));
+    	EasyMock.expectLastCall().andThrow(new Exception("Bogus JUnit test exception stopping job"));
     	EasyMock.replay(mockEngineService);
     	EasyMock.expect(mockMessageSourceAccessor.getMessage("label.stop")).andReturn("Restart");
     	EasyMock.replay(mockMessageSourceAccessor);

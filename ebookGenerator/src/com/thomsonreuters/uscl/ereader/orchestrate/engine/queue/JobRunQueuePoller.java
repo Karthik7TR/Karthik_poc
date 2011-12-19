@@ -49,7 +49,7 @@ public class JobRunQueuePoller {
 					// Load the pre-defined set of book definition parameters for this specific book from a database table
 					BookDefinition bookDefinition = coreService.findBookDefinition(jobRunRequest.getBookDefinitionKey());
 					// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
-					JobParameters bookDefinitionJobParameters = engineService.createBookDefinitionJobParameters(bookDefinition); 
+					JobParameters bookDefinitionJobParameters = engineService.createJobParametersFromBookDefinition(bookDefinition); 
 					// Create the dynamic set of launch parameters, things like user name, user email, and a unique serial number
 					JobParameters dynamicJobParameters = engineService.createDynamicJobParameters(jobRunRequest);
 					// Union the two sets of job parameters (static and dynamic).
@@ -57,6 +57,7 @@ public class JobRunQueuePoller {
 					allJobParametersMap.putAll(dynamicJobParameters.getParameters());
 					JobParameters allJobParameters = new JobParameters(allJobParametersMap);
 					// Start the job that builds the ebook
+log.debug(jobRunRequest);					
 					engineService.runJob(jobRunRequest.getJobName(), allJobParameters);
 				}
 			}

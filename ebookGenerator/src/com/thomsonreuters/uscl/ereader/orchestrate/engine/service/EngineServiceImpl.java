@@ -10,8 +10,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
@@ -81,12 +84,25 @@ public class EngineServiceImpl implements EngineService {
 	}
 	
 	@Override
-	public JobParameters createBookDefinitionJobParameters(BookDefinition bookDefinition) {
+	public JobParameters createJobParametersFromBookDefinition(BookDefinition bookDefinition) {
 		Map<String, JobParameter> paramMap = new HashMap<String,JobParameter>();
-		paramMap.put(JobParameterKey.BOOK_TITLE_ID, new JobParameter(bookDefinition.getTitleId()));
-		paramMap.put(JobParameterKey.BOOK_MAJOR_VERSION, new JobParameter(bookDefinition.getPrimaryKey().getMajorVersion()));
-		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getName()));
-// TODO: there are a lot more to add here once the BookDefinition is completely defined
+		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(bookDefinition.getAuthorInfo()));
+		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getBookName()));
+		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));
+		paramMap.put(JobParameterKey.CONTENT_SUBTYPE, new JobParameter(bookDefinition.getContentSubtype()));
+		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getContentType()));
+		paramMap.put(JobParameterKey.COPYRIGHT, new JobParameter(bookDefinition.getCopyright()));
+		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
+		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
+		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
+		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getPrimaryKey().getMajorVersion()));
+		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
+		paramMap.put(JobParameterKey.MATERIAL_NO, new JobParameter(bookDefinition.getMaterialNo()));
+		paramMap.put(JobParameterKey.NORT_DOMAIN, new JobParameter(bookDefinition.getNortDomain()));
+		paramMap.put(JobParameterKey.NORT_FILTER_VIEW, new JobParameter(bookDefinition.getNortFilterView()));
+		paramMap.put(JobParameterKey.ROOT_TOC_GUID, new JobParameter(bookDefinition.getRootTocGuid()));
+		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(bookDefinition.getPrimaryKey().getTitleId()));
+		paramMap.put(JobParameterKey.TOC_COLLECTION_NAME, new JobParameter(bookDefinition.getTocCollectionName()));
 		return new JobParameters(paramMap);
 	}
 		

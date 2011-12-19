@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import org.easymock.EasyMock;
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.Job;
@@ -41,7 +42,6 @@ public class EngineServiceTest  {
 	
 	@Before
 	public void setUp() throws Exception {
-		
 		this.mockEngineDao = EasyMock.createMock(EngineDao.class);
 		this.mockJobLauncher = EasyMock.createMock(JobLauncher.class);
 		this.mockJobOperator = EasyMock.createMock(JobOperator.class);
@@ -52,7 +52,7 @@ public class EngineServiceTest  {
 		// Set up an expected book definition entity
 		this.expectedBookDefinition = new BookDefinition();
 		expectedBookDefinition.setBookDefinitionKey(BOOK_KEY);
-		expectedBookDefinition.setName(BOOK_NAME);
+		expectedBookDefinition.setBookName(BOOK_NAME);
 		
 		this.service = new EngineServiceImpl();
 		service.setJobLauncher(mockJobLauncher);
@@ -62,16 +62,17 @@ public class EngineServiceTest  {
 	
 	@Test
 	public void testCreateBookDefinitionJobParameters() {
-		JobParameters jobParams = service.createBookDefinitionJobParameters(expectedBookDefinition);
-		Assert.assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
-		Assert.assertEquals(BOOK_KEY.getTitleId(), jobParams.getString(JobParameterKey.BOOK_TITLE_ID));
+		JobParameters jobParams = service.createJobParametersFromBookDefinition(expectedBookDefinition);
+		assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
+		assertEquals(BOOK_KEY.getTitleId(), jobParams.getString(JobParameterKey.TITLE_ID));
+		assertEquals(BOOK_KEY.getMajorVersion(), new Long(jobParams.getLong(JobParameterKey.MAJOR_VERSION)));
 	}
 
 	@Test
 	public void testCreateDynamicJobParameters() {
 		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_RUN_REQUEST);
-		Assert.assertEquals(USER_NAME, dynamicJobParams.getString(JobParameterKey.USER_NAME));
-		Assert.assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
+		assertEquals(USER_NAME, dynamicJobParams.getString(JobParameterKey.USER_NAME));
+		assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
 		Assert.assertNotNull(dynamicJobParams.getLong(JobParameterKey.JOB_TIMESTAMP));
 	}
 
@@ -102,7 +103,6 @@ public class EngineServiceTest  {
 
 	@Test
 	public void testRestartJob() {
-
 		try {
 			Long jobExecutionId = new Long(1234);
 			EasyMock.expect(mockJobOperator.restart(jobExecutionId)).andReturn(jobExecutionId);

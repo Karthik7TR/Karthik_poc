@@ -22,7 +22,7 @@ public class JobRunRequestTest  {
 			final JobRunRequest requestToMarshal = JobRunRequest.create(BOOK_KEY, "jblow", "jblow@bogusaddr.com");
 //System.out.println("To Marshal: " + requestToMarshal);
 			String xml = requestToMarshal.marshal();
-System.out.println(xml);			
+//System.out.println(xml);			
 			Assert.assertNotNull(xml);
 			Assert.assertTrue(xml.length() > 0);
 			JobRunRequest unmarshalledRequest = JobRunRequest.unmarshal(xml);

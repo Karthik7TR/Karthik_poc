@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -14,6 +16,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * The primary key for a book definition.
  */
+@Embeddable
 public class BookDefinitionKey implements Serializable {
 	private static final long serialVersionUID = 8902970407236193203L;
 	
@@ -57,6 +60,10 @@ public class BookDefinitionKey implements Serializable {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
+	@Override 
+	public int hashCode() {
+		return titleId.hashCode() + majorVersion.intValue();
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof BookDefinitionKey)) {

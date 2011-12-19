@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader;
 
+
 /**
  * These are the keys used to access job launch parameters from the JobParameters object.
  * These key/value pairs have been loaded prior to the launch of the job
@@ -7,12 +8,24 @@ package com.thomsonreuters.uscl.ereader;
  */
 public class JobParameterKey {
 	
-	// ===== From BookDefinition ===============
-	public static final String BOOK_TITLE_ID = "bookTitleId";
+	// ===== Mapped from BookDefinition ===============
+	public static final String AUTHORS = "authors";
 	public static final String BOOK_NAME = "bookName";
-	public static final String BOOK_MAJOR_VERSION = "bookMajorVersion";
-	public static final String BOOK_MINOR_VERSION = "bookMinorVersion";
-	
+	public static final String CONTENT_SUBTYPE = "contentSubtype";
+	public static final String CONTENT_TYPE = "contentType";
+	public static final String COPYRIGHT = "copyright";
+	public static final String COVER_IMAGE = "coverImage";
+	public static final String DOC_COLLECTION_NAME = "docCollectionName";
+	public static final String ISBN = "isbn";
+	public static final String MAJOR_VERSION = "majorVersion";
+	public static final String MATERIAL_ID_EMBEDDED_IN_DOC_TEXT = "materialIdEmbeddedInDocText";
+	public static final String MATERIAL_NO = "materialNo";
+	public static final String MINOR_VERSION = "minorVersion";
+	public static final String NORT_DOMAIN = "nortDomain";
+	public static final String NORT_FILTER_VIEW = "nortFilterView";
+	public static final String ROOT_TOC_GUID = "rootTocGuid";
+	public static final String TITLE_ID = "titleId";
+	public static final String TOC_COLLECTION_NAME = "tocCollectionName";
 	
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */

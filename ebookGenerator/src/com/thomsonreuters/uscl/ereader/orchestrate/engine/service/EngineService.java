@@ -47,7 +47,7 @@ public interface EngineService {
 	 * @param bookDefinition to book properties loaded from a database table.
 	 * @return the Spring Batch Job Parameters with well-known keys created from the book definition.
 	 */
-	public JobParameters createBookDefinitionJobParameters(BookDefinition bookDefinition);
+	public JobParameters createJobParametersFromBookDefinition(BookDefinition bookDefinition);
 	
 	/**
 	 * Create a set of Job parameters at runtime from dynamic data.

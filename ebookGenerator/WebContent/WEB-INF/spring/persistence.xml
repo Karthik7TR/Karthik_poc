@@ -25,7 +25,7 @@
 		</property>
 		<property name="annotatedClasses">
 		  <list>
-		  	<!-- TODO: Hibernate Domain objects go here -->
+			<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  </list>
 		</property>
@@ -49,9 +49,6 @@
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
-		  
-	<bean id="xsltMapperDao" class="com.thomsonreuters.uscl.ereader.format.dao.XSLTMapperDaoImpl"
-        p:sessionFactory-ref="sessionFactory"/>	
 
 </beans>
 	

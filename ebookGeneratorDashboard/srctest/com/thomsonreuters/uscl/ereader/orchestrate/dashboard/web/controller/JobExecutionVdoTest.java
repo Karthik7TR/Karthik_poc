@@ -42,7 +42,7 @@ public class JobExecutionVdoTest {
     @Before
     public void setUp() {
     	Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-    	paramMap.put(JobParameterKey.BOOK_TITLE_ID, new JobParameter(BOOK_TITLE_ID_VALUE));
+    	paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(BOOK_TITLE_ID_VALUE));
     	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(BOOK_NAME_VALUE));
     	this.jobParameters = new JobParameters(paramMap);
     	this.mockJobInstance = EasyMock.createMock(JobInstance.class);

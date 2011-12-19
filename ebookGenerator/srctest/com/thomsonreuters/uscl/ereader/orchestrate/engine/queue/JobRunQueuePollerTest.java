@@ -93,13 +93,13 @@ public class JobRunQueuePollerTest  {
 	@Test
 	public void testJobRunQueuePollerException() throws Exception {
 		EasyMock.expect(mockThrottle.isAtMaximum()).andReturn(false);
-		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andThrow(new Exception("Bogus exception")); // Pretend exception getting message from high queue
+		EasyMock.expect(mockJobQueueManager.getHighPriorityJobRunRequest()).andThrow(new Exception("Bogus JUnit test exception getting " + JobRunRequest.class.getName() + " from high priority queue")); // Pretend exception getting message from high queue
 		verifyPoller();
 	}
 
 	private void recordRunExpectations() throws Exception {
 		EasyMock.expect(mockCoreService.findBookDefinition(RUN_REQ.getBookDefinitionKey())).andReturn(bookDefinition);
-		EasyMock.expect(mockEngineService.createBookDefinitionJobParameters(bookDefinition)).andReturn(bookDefinitionJobParameters);
+		EasyMock.expect(mockEngineService.createJobParametersFromBookDefinition(bookDefinition)).andReturn(bookDefinitionJobParameters);
 		EasyMock.expect(mockEngineService.createDynamicJobParameters(RUN_REQ)).andReturn(dynamicJobParameters);
 		EasyMock.expect(mockEngineService.runJob(JobRunRequest.JOB_NAME_CREATE_EBOOK, dynamicJobParameters)).andReturn(mockJobExecution);
 	}
