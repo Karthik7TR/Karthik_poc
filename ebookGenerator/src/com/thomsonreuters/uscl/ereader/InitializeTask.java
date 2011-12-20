@@ -57,11 +57,18 @@ public class InitializeTask extends AbstractSbTasklet {
 		//Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");
 		File docsDirectory = new File(gatherDirectory, "Docs");
-
+		File assembleDirectory = new File(workDirectory, "Assemble");
+		gatherDirectory.mkdir();
+		docsDirectory.mkdir();
+		assembleDirectory.mkdir();
+		
 		//Create format directories
 		File formatDirectory = new File(workDirectory, "Format");
 		File transformedDirectory = new File(formatDirectory, "Transformed");
 		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
+		formatDirectory.mkdir();
+		transformedDirectory.mkdir();
+		htmlWrapperDirectory.mkdir();
 		//File htmlDirectory = new File(formatDirectory, "HTML");
 		
 		// Create the absolute path to the final e-book artifact - a GNU ZIP file
