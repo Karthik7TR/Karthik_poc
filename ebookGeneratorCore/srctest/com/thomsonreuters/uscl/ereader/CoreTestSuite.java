@@ -12,10 +12,12 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequestTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunnerTest;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceTest;
 @RunWith(Suite.class)
 @SuiteClasses( { JobRunRequestTest.class,
 				 JobRunnerTest.class,
+				 CoreDaoTest.class,
 				 CoreServiceTest.class,
 				 BookDefinitionTest.class
 				} )

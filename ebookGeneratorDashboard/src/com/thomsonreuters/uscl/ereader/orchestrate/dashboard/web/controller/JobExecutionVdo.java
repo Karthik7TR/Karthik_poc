@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller;
 
 import java.util.ArrayList;
@@ -30,6 +35,8 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 public class JobExecutionVdo {
 	//private static final Logger log = Logger.getLogger(JobExecutionVdo.class);
 	private static final Comparator<StepExecution> stepStartTimeComparator = new StepStartTimeComparator();
+	/** Comparator to sort lists of properties into ascending key order */
+	private static final Comparator<Map.Entry<String,?>> mapEntryKeyComparator = new MapEntryKeyComparator();
 	private JobExecution jobExecution;
 	
 	/**
@@ -78,6 +85,19 @@ public class JobExecutionVdo {
 		return (BatchStatus.STARTED == jobExecution.getStatus());
 	}
 	
+	public BatchAndExitStatus getLastStepBatchAndExitStatus() {
+		BatchStatus batchStatus = null;
+		ExitStatus exitStatus = null;
+		List<StepExecution> stepExecutions = getSteps();
+		int size = stepExecutions.size();
+		if (size > 0) {
+			StepExecution stepExecution = stepExecutions.get(0);
+			batchStatus = stepExecution.getStatus();
+			exitStatus = stepExecution.getExitStatus();
+		}
+		return new BatchAndExitStatus(batchStatus, exitStatus);
+	}
+
 	/**
 	 * The delta between the job start time and ending time.  If the job is running
 	 * then the run time to present is calculated.
@@ -89,20 +109,6 @@ public class JobExecutionVdo {
 			ms = getExecutionDurationMs(jobExecution.getStartTime(), jobExecution.getEndTime());
 		}
 		return ms;
-	}
-	
-	public BatchAndExitStatus getLastStepBatchAndExitStatus() {
-		BatchStatus batchStatus = null;
-		ExitStatus exitStatus = null;
-		Collection<StepExecution> stepExecutions = jobExecution.getStepExecutions();
-		int size = stepExecutions.size();
-		if (size > 0) {
-			StepExecution[] stepExecutionArray = new StepExecution[size];
-			stepExecutions.toArray(stepExecutionArray);
-			batchStatus = stepExecutionArray[size-1].getStatus();
-			exitStatus = stepExecutionArray[size-1].getExitStatus();
-		}
-		return new BatchAndExitStatus(batchStatus, exitStatus);
 	}
 	
 	public static long getExecutionDurationMs(Date startTime, Date endTime) {		
@@ -143,32 +149,49 @@ public class JobExecutionVdo {
 		return periodString.toString();
 	}
 	
-	public List<Map.Entry<String,JobParameter>> getJobParameterList() {
-		List<Map.Entry<String,JobParameter>> parameterList = new ArrayList<Map.Entry<String,JobParameter>>();
+	/**
+	 * Creates a sorted list of job launch parameter map entries fetched from the current JobExecution.
+	 * This list of key/value pairs is then presented on the JSP. 
+	 * @return a sorted list of job parameter map entries, possibly empty, never null
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public List<Map.Entry<String,?>> getJobParameterMapEntryList() {
 		if (jobExecution != null) {
 			JobParameters jobParameters = jobExecution.getJobInstance().getJobParameters();
 			Map<String,JobParameter> jobParameterMap = jobParameters.getParameters();
-			Set<Map.Entry<String,JobParameter>> entrySet = jobParameterMap.entrySet();
-			// Convert the parameters to a list for presentation
-			Iterator<Map.Entry<String,JobParameter>> entryIterator = entrySet.iterator();
-			while(entryIterator.hasNext()) {
-				parameterList.add(entryIterator.next());
-			}
-		}	
-		return parameterList;
+			Set entrySet = jobParameterMap.entrySet();
+			return createMapEntryList(entrySet);
+		}
+		return Collections.EMPTY_LIST;
 	}
-	
-	public List<Map.Entry<String,Object>> getJobExecutionContextList() {
-		List<Map.Entry<String,Object>> list = new ArrayList<Map.Entry<String,Object>>();
+
+	/**
+	 * Creates a sorted list of job execution context map entries from the current JobExecution.
+	 * 	 * This list of key/value pairs is then presented on the JSP. 
+	 * @return a sorted list of job execution context map entries, possibly empty, never null
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public List<Map.Entry<String,?>> getJobExecutionContextMapEntryList() {
 		if (jobExecution != null) {
 			ExecutionContext execContext = jobExecution.getExecutionContext();
-			Set<Map.Entry<String,Object>> entrySet = execContext.entrySet();
-			Iterator<Map.Entry<String,Object>> entryIterator = entrySet.iterator();
-			while(entryIterator.hasNext()) {
-				list.add(entryIterator.next());
-			}
+			Set entrySet = execContext.entrySet();
+			return createMapEntryList(entrySet);
 		}
-		return list;
+		return Collections.EMPTY_LIST;
+	}
+	
+	/**
+	 * Create a ascending key sorted list of map entries from the specified map.
+	 * @param map the map whose entries will be extracted into a list sorted by key in ascending order. 
+	 * @return a list of map entries sorted by key.
+	 */
+	private List<Map.Entry<String,?>> createMapEntryList(Set<Map.Entry<String,?>> entrySet) {
+		List<Map.Entry<String,?>> mapEntryList = new ArrayList<Map.Entry<String,?>>();
+		Iterator<Map.Entry<String,?>> entryIterator = entrySet.iterator();
+		while(entryIterator.hasNext()) {
+			mapEntryList.add(entryIterator.next());
+		}
+		Collections.sort(mapEntryList, mapEntryKeyComparator);
+		return mapEntryList;
 	}
 }
-

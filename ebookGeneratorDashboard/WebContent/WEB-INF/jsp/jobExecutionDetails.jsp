@@ -130,7 +130,7 @@
 		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
-		<td>Instance ID</td>
+		<td>Job Instance</td>
 		<td>
 			<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}">${jobExecution.jobInstance.id}</a>
 		</td>
@@ -138,7 +138,7 @@
 		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
-		<td>Execution ID</td>
+		<td>Job Execution</td>
 		<td>${jobExecution.id}</td>
 		<td>End Time</td>
 		<td><fmt:formatDate value="${jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
@@ -221,7 +221,7 @@
 	</div>
 	
 	<div id="jobParametersDiv" class="details-expand-div">
-		<display:table id="jobParameterMapEntry" name="vdo.jobParameterList" class="displayTagTable" cellpadding="3" style="text-align: left;">
+		<display:table id="jobParameterMapEntry" name="vdo.jobParameterMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job parameters were found.</display:setProperty>
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value.value"/>
@@ -235,7 +235,7 @@
 	</div>
 	
 	<div id="jobExecutionContextDiv" class="details-expand-div">
-		<display:table id="jobExecutionContextMapEntry" name="vdo.jobExecutionContextList" class="displayTagTable" cellpadding="3" style="text-align: left;">
+		<display:table id="jobExecutionContextMapEntry" name="vdo.jobExecutionContextMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job execution context entries were found.</display:setProperty>
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value"/>

@@ -49,6 +49,13 @@ public class BookDefinition implements Serializable {
 	private String coverImage;
 	private String isbn;
 	private String materialIdEmbeddedInDocText;  // true | false
+	
+	public BookDefinition() {
+		super();
+	}
+	public BookDefinition(BookDefinitionKey key) {
+		setPrimaryKey(key);
+	}
 
 	/**
 	 * Compound primary key for an e-book definition object.

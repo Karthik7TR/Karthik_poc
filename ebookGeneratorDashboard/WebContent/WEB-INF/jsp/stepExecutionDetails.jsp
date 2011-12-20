@@ -57,11 +57,11 @@
   
 
   <body>
-  	<c:set var="DATE_FORMAT" value="MM-dd-yy HH:mm:ss.SSS"/>
+  	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
-	<h2>Step ${stepExecution.id} Execution Details</h2>
+	<h2>Step ${stepExecution.stepName} (${stepExecution.id}) Execution Details</h2>
   	
 	<%--
 		Ensure we are working with a valid StepExecution.  We may not be if they entered an execution ID that was not found.
@@ -80,8 +80,8 @@
 		<td colspan="3">${jobInstance.jobParameters.parameters.bookName}</td>
 	</tr>
 	<tr>
-		<td>Title ID</td>
-		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitleId} &nbsp; (${jobInstance.jobParameters.parameters.bookMajorVersion})</td>
+		<td>Title ID (ver)</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.titleId} (${jobInstance.jobParameters.parameters.majorVersion})</td>
 	</tr>
 	<tr>
 		<td>Job Name</td>
@@ -94,7 +94,7 @@
 		<td><fmt:formatDate value="${stepExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
-		<td>Instance ID</td>
+		<td>Job Instance</td>
 		<td>
 			<a href="<%=WebConstants.URL_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobInstance.id}">${jobInstance.id}</a>
 		</td>
@@ -102,7 +102,7 @@
 		<td><fmt:formatDate value="${stepExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
 	<tr>
 	<tr>
-		<td>Execution ID</td>
+		<td>Job Execution</td>
 		<td><a href="<%=WebConstants.URL_JOB_EXECUTION_DETAILS_GET%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${stepExecution.jobExecutionId}">${stepExecution.jobExecutionId}</a>
 		<td>Duration</td>
 		<td><%=JobExecutionVdo.getExecutionDuration(executionMs)%></td>

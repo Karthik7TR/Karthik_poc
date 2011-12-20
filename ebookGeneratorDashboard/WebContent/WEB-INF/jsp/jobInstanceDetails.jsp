@@ -25,7 +25,7 @@
   </head>
   
   <body>
-	<c:set var="DATE_FORMAT" value="MM-dd-yy HH:mm:ss.SSS"/>
+	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss.SSS"/>
   	<jsp:include page="stdHeader.jsp"/>
 	<div class="majorDiv">
 	
@@ -39,7 +39,7 @@
 	</tr>
 	<tr>
 		<td>Title ID (ver)</td>
-		<td colspan="3">${jobInstance.jobParameters.parameters.bookTitleId} (${jobInstance.jobParameters.parameters.bookMajorVersion})</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.titleId} (${jobInstance.jobParameters.parameters.majorVersion})</td>
 	</tr>
 	<tr>
 		<td width="30%">Job Name</td>
