@@ -44,7 +44,7 @@ public class TocServiceImpl implements TocService {
 	 * @param tocNodes
 	 * @return string array of toc guids.
 	 */
-	private List<Toc> extractRootTocNodes(TOCNode[] tocNodes)
+	private List<Toc> extractTocListForEbook(TOCNode[] tocNodes)
 	{
 		// TODO: add logging related stuff at start and end.
 
@@ -73,7 +73,7 @@ public class TocServiceImpl implements TocService {
 	}
 
 	@Override
-	public List<Toc> getTocData(String guid, String collectionName) {
+	public List<Toc> getTocDataFromNovus(String guid, String collectionName) {
 		Novus novusObject = null;
 		TOCNode[] tocNodes = null;
 		List<Toc> tocGuidList = null;
@@ -85,7 +85,7 @@ public class TocServiceImpl implements TocService {
 			String dateTime = novusAPIHelper.getCurrentDateTime();
 			toc.setTOCVersion(dateTime);
 			tocNodes = toc.getRootNodes();
-			tocGuidList = extractRootTocNodes(tocNodes);
+			tocGuidList = extractTocListForEbook(tocNodes);
 			
 		} catch (NovusException e) {
 			e.printStackTrace();

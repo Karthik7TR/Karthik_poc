@@ -28,7 +28,7 @@
 				<td><form:input path="collection" /></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" value="FetchData" /></td>
+				<td colspan="2"><input type="submit" value="Get Data" /></td>
 			</tr>
 		</table>
 	</form:form>

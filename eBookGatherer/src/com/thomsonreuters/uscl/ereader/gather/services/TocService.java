@@ -15,6 +15,6 @@ public interface TocService
 	
 	public void getNovousConnection();
  	public void getDocuments();
-	public List<Toc> getTocData(String guid, String collectionName); 
+	public List<Toc> getTocDataFromNovus(String guid, String collectionName); 
 
 }

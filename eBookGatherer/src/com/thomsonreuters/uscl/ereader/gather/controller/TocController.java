@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import java.util.List;
 
+import org.jibx.binding.model.ModelVisitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,14 +46,17 @@ public class TocController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getTocData", method = RequestMethod.POST)
-	public String getTocData(@ModelAttribute("ebookRequest") EbookRequest ebookRequest,
+	public ModelAndView  getTocData(@ModelAttribute("ebookRequest") EbookRequest ebookRequest,
 							BindingResult result) 
 	{
 
-		List<Toc> tocGuidList = tocService.getTocData(ebookRequest.getGuid(),ebookRequest.getCollection());
+		List<Toc> tocGuidList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
 		System.out.println("tocGuidList being return in Controller :"+tocGuidList);
-		return "redirect:tocData.html";
+		//return "redirect:tocData.html";
+		return new ModelAndView("tocRequest", "command", ebookRequest);
+
 	}
+	
 	
 	/**
 	 * Index.jsp is the default starting point for the web application , which will forward request to /tocData url. 
