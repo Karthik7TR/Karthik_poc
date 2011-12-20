@@ -9,14 +9,9 @@
 </head>
 
 <body>
-<h2>E-Book Generator Engine Home</h2>
+<h2>E-Book Generator Engine Home (${environmentName})</h2>
 
 <br/>
-
-<%-- Hudson build information --%>
-  <div style="vertical-align: middle; width:98%" align="right">
-	${environmentName} Build # @buildTag@ (@buildTime@)
-  </div>
 
 </body>
 </html>
