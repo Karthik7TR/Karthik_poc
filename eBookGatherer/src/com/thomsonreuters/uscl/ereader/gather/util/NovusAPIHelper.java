@@ -9,10 +9,6 @@ package com.thomsonreuters.uscl.ereader.gather.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.servlet.jsp.tagext.TryCatchFinally;
-
-import org.eclipse.jdt.internal.compiler.ast.TryStatement;
-
 import com.westgroup.novus.productapi.Novus;
 /**
  * Base class to reusable code for all Novus Api interaction.
