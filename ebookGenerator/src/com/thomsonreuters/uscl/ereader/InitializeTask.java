@@ -54,6 +54,16 @@ public class InitializeTask extends AbstractSbTasklet {
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
 		
+		//Create gather directories
+		File gatherDirectory = new File(workDirectory, "Gather");
+		File docsDirectory = new File(gatherDirectory, "Docs");
+
+		//Create format directories
+		File formatDirectory = new File(workDirectory, "Format");
+		File transformedDirectory = new File(formatDirectory, "Transformed");
+		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
+		//File htmlDirectory = new File(formatDirectory, "HTML");
+		
 		// Create the absolute path to the final e-book artifact - a GNU ZIP file
 		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
@@ -61,6 +71,9 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, workDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFile.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_DOCS_PATH, docsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH, transformedDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH, htmlWrapperDirectory.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;
 	}
