@@ -89,6 +89,8 @@
       <batchtest todir="${dir.tmpBuildDir}\JUnitTest">
         <fileset dir="${dir.testBinaries}">          
           <include name="**/*Test.class" />
+          <exclude name="**/*Integration*.class" />
+          <exclude name="**/*Regression*.class" />
         </fileset>
       </batchtest>
     </junit>
