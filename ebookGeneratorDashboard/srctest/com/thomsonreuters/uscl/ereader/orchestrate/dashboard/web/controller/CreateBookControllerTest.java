@@ -61,7 +61,7 @@ public class CreateBookControllerTest {
     	
     	List<BookDefinition> bookDefs = new ArrayList<BookDefinition>();
     	BookDefinition bookDef = new BookDefinition();
-    	bookDef.setBookDefinitionKey(new BookDefinitionKey("bogusId", 345l));
+    	bookDef.setBookDefinitionKey(new BookDefinitionKey("bogusId"));
     	bookDefs.add(bookDef);
     	EasyMock.expect(mockCoreService.findAllBookDefinitions()).andReturn(bookDefs);
     	EasyMock.replay(mockCoreService);
@@ -135,11 +135,9 @@ public class CreateBookControllerTest {
     public void testCreateBookForm() {
     	CreateBookForm form = new CreateBookForm();
     	String titleId = "bogusTitleId";
-    	Long majorVersion = 1234l;
-    	form.setBookKeyString(titleId +","+majorVersion);
+    	form.setTitleId(titleId);
     	BookDefinitionKey key = form.getBookDefinitionKey();
     	Assert.assertEquals(titleId, key.getTitleId());
-    	Assert.assertEquals(majorVersion, key.getMajorVersion());
     }
 
     private static void validateModel(Map<String,Object> model) {

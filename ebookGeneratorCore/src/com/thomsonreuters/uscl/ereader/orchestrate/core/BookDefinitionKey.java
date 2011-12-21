@@ -26,12 +26,7 @@ public class BookDefinitionKey implements Serializable {
 	 * The fully-qualified title ID from the book definition database that may or may not include other namespace
 	 * components with separating slashes.  Example: "uscl/cr/ak_2010_federal"
 	 */
-	private String  fullyQualifiedTitleId;
-
-	/**
-	 * The main version number of the book.
-	 */
-	private Long 	majorVersion;
+	private String fullyQualifiedTitleId;
 
 	public BookDefinitionKey() {
 		super();
@@ -39,11 +34,9 @@ public class BookDefinitionKey implements Serializable {
 	/**
 	 * Full constructor for the key
 	 * @param fullyQualifiedTitleId a full-path book title ID using slashes to separate the namespace components, may not be null
-	 * @param majorVersion book major version number, may not be blank
 	 */
-	public BookDefinitionKey(String fullyQualifiedTitleId, Long bookMajorVersion) {
+	public BookDefinitionKey(String fullyQualifiedTitleId) {
 		setFullyQualifiedTitleId(fullyQualifiedTitleId);
-		setMajorVersion(bookMajorVersion);
 	}
 	/**
 	 * Returns the fully-qualified title ID, like "uscl/cr/ak_2010_federal" 
@@ -52,9 +45,7 @@ public class BookDefinitionKey implements Serializable {
 	public String getFullyQualifiedTitleId() {
 		return fullyQualifiedTitleId;
 	}
-	public Long getMajorVersion() {
-		return majorVersion;
-	}
+
 	/**
 	 * The base title ID, without any of the leading namespace components.  Example: "ak_2010_federal".
 	 * This is a transient field because we are making the space-for-time tradeoff and
@@ -72,18 +63,13 @@ public class BookDefinitionKey implements Serializable {
 		}
 		this.fullyQualifiedTitleId = fullId;
 	}
-	public void setMajorVersion(Long majorVersion) {
-		if (majorVersion == null) {
-			throw new IllegalArgumentException("Book definition key may not have a null major version number.");
-		}
-		this.majorVersion = majorVersion;
-	}
+
 	/**
 	 * Creates a string representation of the compound key for use as the HTML select value.
 	 * @return the title id and major version separated by a single comma, like "uscl/cr/fl_2010_state,1".
 	 */
 	public String toKeyString() {
-		return String.format("%s,%d", fullyQualifiedTitleId, majorVersion);
+		return String.format("%s", getFullyQualifiedTitleId());
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
@@ -95,9 +81,6 @@ public class BookDefinitionKey implements Serializable {
 		if (StringUtils.isNotBlank(fullyQualifiedTitleId)) {
 			hashCode += fullyQualifiedTitleId.hashCode();
 		}
-		if (majorVersion != null) {
-			hashCode += majorVersion.hashCode();
-		}
 		return hashCode;
 	}
 	@Override
@@ -106,6 +89,6 @@ public class BookDefinitionKey implements Serializable {
 			return false;
 		}
 		BookDefinitionKey that = (BookDefinitionKey) obj;
-		return (this.fullyQualifiedTitleId.equals(that.fullyQualifiedTitleId) && this.majorVersion.equals(that.majorVersion));
+		return (this.fullyQualifiedTitleId.equals(that.fullyQualifiedTitleId));
 	}
 }

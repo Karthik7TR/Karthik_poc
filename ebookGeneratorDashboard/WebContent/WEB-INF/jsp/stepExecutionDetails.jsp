@@ -80,8 +80,8 @@
 		<td colspan="3">${jobInstance.jobParameters.parameters.bookName}</td>
 	</tr>
 	<tr>
-		<td>Title ID (ver)</td>
-		<td colspan="3">${jobInstance.jobParameters.parameters.titleId} (${jobInstance.jobParameters.parameters.majorVersion})</td>
+		<td>Title ID</td>
+		<td colspan="3">${jobInstance.jobParameters.parameters.titleIdFullyQualified}</td>
 	</tr>
 	<tr>
 		<td>Job Name</td>

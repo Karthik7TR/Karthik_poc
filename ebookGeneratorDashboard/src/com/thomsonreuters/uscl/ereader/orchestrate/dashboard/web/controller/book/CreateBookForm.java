@@ -5,8 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
-import java.util.StringTokenizer;
-
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -15,16 +13,14 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 public class CreateBookForm {
 	public static final String FORM_NAME = "createBookForm";
 	
-	private BookDefinitionKey bookDefinitionKey;	// A function of the bookKeyString in form: "<titleId>,<majorVersion>"
+	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
-	
-	private String bookKeyString;	// in form <fullyQualifiedTitleId>,<majorVersion>
 
 	public BookDefinitionKey getBookDefinitionKey() {
 		return bookDefinitionKey;
 	}
-	public String getBookKeyString() {
-		return bookKeyString;
+	public String getTitleId() {
+		return bookDefinitionKey.getFullyQualifiedTitleId();
 	}
 	public boolean isHighPriorityJob() {
 		return highPriorityJob;
@@ -32,12 +28,8 @@ public class CreateBookForm {
 	public void setHighPriorityJob(boolean high) {
 		this.highPriorityJob = high;
 	}
-	public void setBookKeyString(String csvKeyString) {
-		this.bookKeyString = csvKeyString;
-		StringTokenizer tokenizer = new StringTokenizer(csvKeyString, ",");
-		String fullyQualifiedTitleId = tokenizer.nextToken();
-		Long majorVersion = Long.valueOf(tokenizer.nextToken());
-		this.bookDefinitionKey = new BookDefinitionKey(fullyQualifiedTitleId, majorVersion);
+	public void setTitleId(String titleId) {
+		this.bookDefinitionKey = new BookDefinitionKey(titleId);
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

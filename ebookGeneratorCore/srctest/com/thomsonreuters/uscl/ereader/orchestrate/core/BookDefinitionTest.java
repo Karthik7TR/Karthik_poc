@@ -21,15 +21,13 @@ public class BookDefinitionTest  {
 	public void testBookDefinitionKey() {
 		String titleId = "ak_2013_state";
 		String fullyQualifiedTitleId = "uscl/cr/"+titleId;
-		Long majorVer = new Long(1245);
-		BookDefinitionKey key = new BookDefinitionKey(fullyQualifiedTitleId, majorVer);
+		//Long majorVer = new Long(1245);
+		BookDefinitionKey key = new BookDefinitionKey(fullyQualifiedTitleId);
 		Assert.assertEquals(fullyQualifiedTitleId, key.getFullyQualifiedTitleId());
 		Assert.assertEquals(titleId, key.getTitleId());
-		Assert.assertEquals(majorVer, key.getMajorVersion());
-		Assert.assertEquals(fullyQualifiedTitleId+","+majorVer, key.toKeyString());  // string representation "<titleId>,<majorVersion>"
+		Assert.assertEquals(fullyQualifiedTitleId, key.toKeyString());  // string representation "<titleId>,<majorVersion>"
 		// Check that null fields are rejected
 		try { key.setFullyQualifiedTitleId(null);} catch (IllegalArgumentException e) {Assert.assertTrue(true); }
-		try { key.setMajorVersion(null);} catch (IllegalArgumentException e) {Assert.assertTrue(true); }
 	}
 	
 	@Test

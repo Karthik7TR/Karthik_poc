@@ -33,8 +33,8 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
  * Job Summary and Job Execution Details pages as a view model object in the JSP's.
  */
 public class JobExecutionVdoTest {
-
 	private static final String BOOK_TITLE_ID_VALUE = "theBookTitleId";
+	private static final String FULLY_QUALIFIED_TITLE_ID_VALUE = "uscl/cr/foo/"+BOOK_TITLE_ID_VALUE;
 	private static final String BOOK_NAME_VALUE = "theBookName";
 	private static final Long MAJOR_VERSION_VALUE = 5l;
 	private JobExecutionVdo vdo;
@@ -46,6 +46,7 @@ public class JobExecutionVdoTest {
     public void setUp() {
     	Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
     	paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(BOOK_TITLE_ID_VALUE));
+    	paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(FULLY_QUALIFIED_TITLE_ID_VALUE));
     	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(BOOK_NAME_VALUE));
     	paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(MAJOR_VERSION_VALUE));
     	this.jobParameters = new JobParameters(paramMap);
@@ -62,7 +63,18 @@ public class JobExecutionVdoTest {
     	EasyMock.replay(mockJobExecution);
     	EasyMock.replay(mockJobInstance);
     	
-    	Assert.assertEquals(BOOK_TITLE_ID_VALUE, vdo.getBookTitleId());
+    	Assert.assertEquals(BOOK_TITLE_ID_VALUE, vdo.getTitleId());
+    	EasyMock.verify(mockJobExecution);
+    	EasyMock.verify(mockJobInstance);
+    }
+    @Test
+    public void testGetFullyQualifiedBookTitleId() {
+    	EasyMock.expect(mockJobExecution.getJobInstance()).andReturn(mockJobInstance);
+    	EasyMock.expect(mockJobInstance.getJobParameters()).andReturn(jobParameters);
+    	EasyMock.replay(mockJobExecution);
+    	EasyMock.replay(mockJobInstance);
+    	
+    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID_VALUE, vdo.getFullyQualifiedTitleId());
     	EasyMock.verify(mockJobExecution);
     	EasyMock.verify(mockJobInstance);
     }

@@ -120,8 +120,8 @@
 		<td colspan="3">${vdo.bookName}</td>
 	</tr>
 	<tr>
-		<td>Title ID (ver)</td>
-		<td colspan="3">${vdo.bookTitleId} (${vdo.majorVersion})</td>
+		<td>Title ID</td>
+		<td colspan="3">${vdo.fullyQualifiedTitleId}</td>
 	</tr>
 	<tr>
 		<td width="25%">Job Name</td>

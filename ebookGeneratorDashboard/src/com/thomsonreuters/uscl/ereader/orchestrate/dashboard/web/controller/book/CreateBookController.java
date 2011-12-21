@@ -90,7 +90,7 @@ public class CreateBookController {
 		List<BookDefinition> books = coreService.findAllBookDefinitions();
 		for (BookDefinition book : books) {
 			BookDefinitionKey key = book.getPrimaryKey();
-			String label = String.format("%s - %s (%d)", book.getBookName(), key.getFullyQualifiedTitleId(), key.getMajorVersion());
+			String label = String.format("%s - %s", book.getBookName(), key.getFullyQualifiedTitleId());
 			String value = key.toKeyString();  // "<fullyQualifiedTitleId>,<majorVersion>"
 			bookOptions.add(new SelectOption(label, value));
 		}

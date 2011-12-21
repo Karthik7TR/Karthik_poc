@@ -24,7 +24,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 
 public class EngineServiceTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static final String TITLE_ID = "titleId";
+	private static final String FULLY_QUALIFIED_TITLE_ID = "a/b/c/d/e/f/"+TITLE_ID;
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey(FULLY_QUALIFIED_TITLE_ID);
 	private static String BOOK_NAME = "Junit book name";
 	private static String USER_NAME = "theUserName";
 	private static String USER_EMAIL = "theUserEmail";
@@ -63,9 +65,9 @@ public class EngineServiceTest  {
 	@Test
 	public void testCreateBookDefinitionJobParameters() {
 		JobParameters jobParams = service.createJobParametersFromBookDefinition(expectedBookDefinition);
-		assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
+		assertEquals(BOOK_KEY.getFullyQualifiedTitleId(), jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
 		assertEquals(BOOK_KEY.getTitleId(), jobParams.getString(JobParameterKey.TITLE_ID));
-		assertEquals(BOOK_KEY.getMajorVersion(), new Long(jobParams.getLong(JobParameterKey.MAJOR_VERSION)));
+		assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
 	}
 
 	@Test

@@ -79,9 +79,6 @@ public class JobRunRequest implements Serializable {
 	public String getJobName() {
 		return jobName;
 	}
-	public Long getMajorVersion() {
-		return bookKey.getMajorVersion();
-	}
 	public String getUserName() {
 		return userName;
 	}

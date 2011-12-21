@@ -35,6 +35,7 @@ public class BookDefinition implements Serializable {
 	
 	private String bookName;
 	private Long minorVersion;
+	private Long majorVersion;
 	// TODO: KeyWords?, Type?, Value?
 	private String copyright;
 	private Long materialNo;
@@ -58,12 +59,11 @@ public class BookDefinition implements Serializable {
 	}
 
 	/**
-	 * Compound primary key for an e-book definition object.
+	 * Primary key for an e-book definition object.
 	 */
 	@EmbeddedId
 	@AttributeOverrides({
-		@AttributeOverride(name = "fullyQualifiedTitleId", column = @Column(name="TITLE_ID", length=64, nullable=false)),
-		@AttributeOverride(name = "majorVersion", column = @Column(name="MAJOR_VERSION", nullable=false))
+		@AttributeOverride(name = "fullyQualifiedTitleId", column = @Column(name="TITLE_ID", length=64, nullable=false))
 	})
 	public BookDefinitionKey getPrimaryKey() {
 		return primaryKey;
@@ -96,6 +96,10 @@ public class BookDefinition implements Serializable {
 	@Column(name="ISBN", length=64)
 	public String getIsbn() {
 		return isbn;
+	}
+	@Column(name="MAJOR_VERSION")
+	public Long getMajorVersion() {
+		return majorVersion;
 	}
 	@Column(name="MATERIAL_ID_EMBEDDED", length=8)
 	public String getMaterialIdEmbeddedInDocText() {
@@ -154,6 +158,9 @@ public class BookDefinition implements Serializable {
 	}
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
+	}
+	public void setMajorVersion(Long major) {
+		this.majorVersion = major;
 	}
 	public void setMaterialIdEmbeddedInDocText(String trueFalse) {
 		this.materialIdEmbeddedInDocText = trueFalse;

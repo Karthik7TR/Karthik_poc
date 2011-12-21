@@ -18,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDao;
 
 public class CoreServiceTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId");
 
 	private CoreServiceImpl service;
 	

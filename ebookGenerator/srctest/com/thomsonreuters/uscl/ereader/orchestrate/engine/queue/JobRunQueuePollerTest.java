@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 public class JobRunQueuePollerTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("bookTitleId", 67898l);
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("bookTitleId");
 	private static JobRunRequest RUN_REQ = JobRunRequest.create(BOOK_KEY, "theUserName", "theUserEmail");
 	private Throttle mockThrottle;
 	private CoreService mockCoreService;

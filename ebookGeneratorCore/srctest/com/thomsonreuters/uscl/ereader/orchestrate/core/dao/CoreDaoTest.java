@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class CoreDaoTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId");
 	private static final BookDefinition BOOK_DEFINITION = new BookDefinition(BOOK_KEY);
 
 	private SessionFactory mockSessionFactory;

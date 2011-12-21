@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class JobRunRequestTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("fooBook", 1965l);
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("fooBook");
 	@Test
 	public void testJobRequestMarshalling() {
 		try {

@@ -18,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 public class JobQueueManagerTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId", 1234l);
+	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId");
 	private static JobRunRequest RUN_REQ = JobRunRequest.create(BOOK_KEY, "theUserName", "theUserEmail");
 	private JmsTemplate jmsTemplate;
 	private TextMessage textMessage; 
