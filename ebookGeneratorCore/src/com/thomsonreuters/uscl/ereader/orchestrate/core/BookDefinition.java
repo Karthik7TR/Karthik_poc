@@ -62,7 +62,7 @@ public class BookDefinition implements Serializable {
 	 */
 	@EmbeddedId
 	@AttributeOverrides({
-		@AttributeOverride(name = "titleId", column = @Column(name="TITLE_ID", length=64, nullable=false)),
+		@AttributeOverride(name = "fullyQualifiedTitleId", column = @Column(name="TITLE_ID", length=64, nullable=false)),
 		@AttributeOverride(name = "majorVersion", column = @Column(name="MAJOR_VERSION", nullable=false))
 	})
 	public BookDefinitionKey getPrimaryKey() {

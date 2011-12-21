@@ -58,7 +58,7 @@
 		  <tr>
 			<td>Book</td>	<%-- Unique book discriminate --%>
 			<td>
-			  <form:select path="bookKeyString">  <%-- form: titleId,majorVersion --%>
+			  <form:select path="bookKeyString">  <%-- form: fullyQualifiedTitleId,majorVersion --%>
 			    <form:options items="${bookOptions}" itemLabel="label" itemValue="value"/>
 			  </form:select>
 			</td>

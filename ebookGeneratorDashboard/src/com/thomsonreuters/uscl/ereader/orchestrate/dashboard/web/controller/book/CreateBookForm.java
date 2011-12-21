@@ -18,7 +18,7 @@ public class CreateBookForm {
 	private BookDefinitionKey bookDefinitionKey;	// A function of the bookKeyString in form: "<titleId>,<majorVersion>"
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 	
-	private String bookKeyString;	// in form <bookTitleId>,<majorVersion>
+	private String bookKeyString;	// in form <fullyQualifiedTitleId>,<majorVersion>
 
 	public BookDefinitionKey getBookDefinitionKey() {
 		return bookDefinitionKey;
@@ -35,9 +35,9 @@ public class CreateBookForm {
 	public void setBookKeyString(String csvKeyString) {
 		this.bookKeyString = csvKeyString;
 		StringTokenizer tokenizer = new StringTokenizer(csvKeyString, ",");
-		String bookTitleId = tokenizer.nextToken();
+		String fullyQualifiedTitleId = tokenizer.nextToken();
 		Long majorVersion = Long.valueOf(tokenizer.nextToken());
-		this.bookDefinitionKey = new BookDefinitionKey(bookTitleId, majorVersion);
+		this.bookDefinitionKey = new BookDefinitionKey(fullyQualifiedTitleId, majorVersion);
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

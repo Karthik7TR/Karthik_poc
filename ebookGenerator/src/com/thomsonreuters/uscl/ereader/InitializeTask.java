@@ -9,6 +9,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.jms.IllegalStateException;
+
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -29,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  *
  */
 public class InitializeTask extends AbstractSbTasklet {
-	
+	public static final Logger log = Logger.getLogger(InitializeTask.class);
 	public static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
@@ -53,6 +56,10 @@ public class InitializeTask extends AbstractSbTasklet {
 		String dynamicPath = String.format("%s/%s/%d", DATE_FORMAT.format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
+		log.debug("workDirectory: " + workDirectory.getAbsolutePath());
+		if (!workDirectory.exists()) {
+			throw new IllegalStateException("Expected work directory was not created in the filesystem: " + workDirectory.getAbsolutePath());
+		}
 		
 		//Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");

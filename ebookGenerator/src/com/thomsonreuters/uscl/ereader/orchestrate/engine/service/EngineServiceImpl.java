@@ -102,6 +102,7 @@ public class EngineServiceImpl implements EngineService {
 		paramMap.put(JobParameterKey.NORT_FILTER_VIEW, new JobParameter(bookDefinition.getNortFilterView()));
 		paramMap.put(JobParameterKey.ROOT_TOC_GUID, new JobParameter(bookDefinition.getRootTocGuid()));
 		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(bookDefinition.getPrimaryKey().getTitleId()));
+		paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(bookDefinition.getPrimaryKey().getFullyQualifiedTitleId()));
 		paramMap.put(JobParameterKey.TOC_COLLECTION_NAME, new JobParameter(bookDefinition.getTocCollectionName()));
 		return new JobParameters(paramMap);
 	}

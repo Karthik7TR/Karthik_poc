@@ -24,7 +24,10 @@ public class JobParameterKey {
 	public static final String NORT_DOMAIN = "nortDomain";
 	public static final String NORT_FILTER_VIEW = "nortFilterView";
 	public static final String ROOT_TOC_GUID = "rootTocGuid";
+	/** The rightmost name component of a slash separated title ID fully-qualified name, like "ak_2013_state". */
 	public static final String TITLE_ID = "titleId";
+	/** The complete title ID name, like "uscl/cr/ak_2013_state" */
+	public static final String TITLE_ID_FULLY_QUALIFIED = "titleIdFullyQualified";
 	public static final String TOC_COLLECTION_NAME = "tocCollectionName";
 	
 	// ===== Standard values from job request and misc =====
@@ -40,6 +43,4 @@ public class JobParameterKey {
 	 * since it thinks that the e-book generating job has already run to completion.
 	 */
 	public static final String JOB_TIMESTAMP = "jobTimestamp";
-	
-	
 }
