@@ -41,11 +41,13 @@ public class TransformerServiceImpl implements TransformerService
      *
      * @param xmlDir the directory that contains all the Novus extracted XML files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
+     * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
+     * @param jobID the identifier of the job currently running, used to lookup appropriate document metadata
      * 
      * @throws EBookFormatException if an error occurs during the transformation process.
 	 */
 	@Override
-	public void transformXMLDocuments(File xmlDir, File transDir) throws EBookFormatException 
+	public void transformXMLDocuments(File xmlDir, File transDir, String titleID, String jobID) throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {

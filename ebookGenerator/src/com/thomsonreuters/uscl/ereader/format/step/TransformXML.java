@@ -10,6 +10,8 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -17,6 +19,7 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -44,6 +47,11 @@ public class TransformXML extends AbstractSbTasklet
 		StepExecution stepExecution = stepContext.getStepExecution();
 		JobExecution jobExecution = stepExecution.getJobExecution();
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
+		JobInstance jobInstance = jobExecution.getJobInstance();
+		JobParameters jobParams = jobInstance.getJobParameters();
+		
+		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
+		String jobId = jobInstance.getId().toString();
 
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
 		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH);
@@ -52,7 +60,7 @@ public class TransformXML extends AbstractSbTasklet
 		File transformDir = new File(transformDirectory);
 		
 		long startTime = System.currentTimeMillis();
-		transformerService.transformXMLDocuments(xmlDir, transformDir);
+		transformerService.transformXMLDocuments(xmlDir, transformDir, titleId, jobId);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

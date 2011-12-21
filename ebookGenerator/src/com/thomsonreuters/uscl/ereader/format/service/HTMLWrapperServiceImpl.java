@@ -57,10 +57,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		}
 		
 		LOG.info("Adding HTML containers around transformed files...");
-		
-		File htmlHeaderFile = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\Transformer\\HTMLHeader.txt");
-		File htmlFooterFile = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\Transformer\\HTMLFooter.txt");
-		
+				
 		for(File transFile : transformedFiles)
 		{
 			String fileName = transFile.getName();
@@ -70,9 +67,9 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 			
 			try
 			{
-				IOUtils.copy(new FileInputStream(htmlHeaderFile), new FileOutputStream(output));
+				IOUtils.copy(getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt"), new FileOutputStream(output));
 				IOUtils.copy(new FileInputStream(transFile), new FileOutputStream(output, true));
-				IOUtils.copy(new FileInputStream(htmlFooterFile), new FileOutputStream(output, true));	
+				IOUtils.copy(getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt"), new FileOutputStream(output, true));	
 			}
 			catch(IOException ioe)
 			{
