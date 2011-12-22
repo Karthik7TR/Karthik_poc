@@ -11,7 +11,8 @@ package com.thomsonreuters.uscl.ereader.assemble.exception;
  *
  */
 public class EBookAssemblyException extends Exception {
-
+	private static final long serialVersionUID = 1L;
+	
     public EBookAssemblyException(String message, Throwable cause) {
         super(message, cause);
     }
