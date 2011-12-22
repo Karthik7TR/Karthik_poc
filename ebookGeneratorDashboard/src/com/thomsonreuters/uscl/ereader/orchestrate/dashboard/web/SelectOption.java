@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * A model object used to display dynamic lists of options in HTML select components (drop-downs).
  * Populated in the controller and placed on the HttpRequest under a unique attribute key.
  */
-public class SelectOption {
+public class SelectOption implements Comparable<SelectOption> {
 	
 	private String label;
 	private String value;
@@ -26,5 +26,15 @@ public class SelectOption {
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+
+	/**
+	 * Used to sort the labels into ascending order.
+	 */
+	public int compareTo(SelectOption that) {
+		if (this.getLabel() == null) {
+			return -1;
+		}
+		return this.getLabel().compareTo(that.getLabel());
 	}
 }

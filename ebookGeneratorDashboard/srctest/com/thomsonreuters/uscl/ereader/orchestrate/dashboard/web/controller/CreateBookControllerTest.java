@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.easymock.EasyMock;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
@@ -42,12 +44,15 @@ import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book
  */
 public class CreateBookControllerTest {
 	public static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+CreateBookForm.FORM_NAME;
-	public static final String TEST_BOOK_ID = "testBookId";
+	public static final String TITLE_ID = "testBookId";
+	public static final String FQ_TITLE_ID = "uscl/cr/"+TITLE_ID;
     private CreateBookController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     private CoreService mockCoreService;
+    private MessageSource mockMessageSource;
+    private MessageSourceAccessor mockMessageSourceAccessor;
 
     @Before
     public void setUp() {
@@ -56,8 +61,9 @@ public class CreateBookControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	this.mockCoreService = EasyMock.createMock(CoreService.class);
+    	this.mockMessageSource = EasyMock.createMock(MessageSource.class);
+    	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	JobRunner jobRunner = EasyMock.createMock(JobRunner.class);
-    	MessageSource messageSource = EasyMock.createMock(MessageSource.class);
     	
     	List<BookDefinition> bookDefs = new ArrayList<BookDefinition>();
     	BookDefinition bookDef = new BookDefinition();
@@ -70,7 +76,7 @@ public class CreateBookControllerTest {
     	controller.setCoreService(mockCoreService);
     	controller.setJobRunner(jobRunner);
     	controller.setEnvironmentName("junitEnvironment");
-    	controller.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
+    	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     }
         
     /**
@@ -96,11 +102,19 @@ public class CreateBookControllerTest {
      * Test the happy path POST of a create book request
      */
     @Test
-    public void testPostPage() throws Exception {
+    public void testSubmitSuccess() throws Exception {
+    	
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("bookId", TEST_BOOK_ID);
+    	request.setParameter("fullyQualifiedTitleId", FQ_TITLE_ID);
     	request.setParameter("highPriorityJob", Boolean.TRUE.toString());
+    	
+    	String priorityLabel = "high";
+    	String successMessage = "It worked!";
+    	EasyMock.expect(mockMessageSourceAccessor.getMessage("label.high")).andReturn(priorityLabel);
+    	EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.anyObject(Object[].class))).andReturn(successMessage);
+    	EasyMock.replay(mockMessageSourceAccessor);
+    	EasyMock.replay(mockMessageSource);
 
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	assertNotNull(mav);
@@ -110,6 +124,7 @@ public class CreateBookControllerTest {
     	assertFalse(bindingResult.hasErrors());
     	Assert.assertEquals(WebConstants.VIEW_CREATE_BOOK, mav.getViewName());
     	validateModel(model);
+    	Assert.assertEquals(successMessage, model.get(WebConstants.KEY_INFO_MESSAGE));
     	EasyMock.verify(mockCoreService);
     }
     
@@ -120,7 +135,7 @@ public class CreateBookControllerTest {
     public void testPostJobRunWithBindingError() {
     	request.setRequestURI("/"+WebConstants.URL_CREATE_BOOK);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("bookId", TEST_BOOK_ID);
+    	request.setParameter("fullyQualifiedTitleId", FQ_TITLE_ID);
     	request.setParameter("highPriorityJob", "xxx");	// expects true|false
     	try {
     		handlerAdapter.handle(request, response, controller);
@@ -134,10 +149,10 @@ public class CreateBookControllerTest {
     @Test
     public void testCreateBookForm() {
     	CreateBookForm form = new CreateBookForm();
-    	String titleId = "bogusTitleId";
-    	form.setTitleId(titleId);
+    	form.setFullyQualifiedTitleId(FQ_TITLE_ID);
     	BookDefinitionKey key = form.getBookDefinitionKey();
-    	Assert.assertEquals(titleId, key.getTitleId());
+    	Assert.assertEquals(FQ_TITLE_ID, key.getFullyQualifiedTitleId());
+    	Assert.assertEquals(TITLE_ID, key.getTitleId());
     }
 
     private static void validateModel(Map<String,Object> model) {

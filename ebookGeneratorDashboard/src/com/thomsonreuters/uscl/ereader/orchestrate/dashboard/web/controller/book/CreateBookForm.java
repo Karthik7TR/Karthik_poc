@@ -19,7 +19,7 @@ public class CreateBookForm {
 	public BookDefinitionKey getBookDefinitionKey() {
 		return bookDefinitionKey;
 	}
-	public String getTitleId() {
+	public String getFullyQualifiedTitleId() {
 		return bookDefinitionKey.getFullyQualifiedTitleId();
 	}
 	public boolean isHighPriorityJob() {
@@ -28,8 +28,8 @@ public class CreateBookForm {
 	public void setHighPriorityJob(boolean high) {
 		this.highPriorityJob = high;
 	}
-	public void setTitleId(String titleId) {
-		this.bookDefinitionKey = new BookDefinitionKey(titleId);
+	public void setFullyQualifiedTitleId(String fullTitleId) {
+		this.bookDefinitionKey = new BookDefinitionKey(fullTitleId);
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

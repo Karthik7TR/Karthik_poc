@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -56,7 +57,8 @@ public class CreateBookController {
 	public ModelAndView doPost(@ModelAttribute CreateBookForm form,
 								Model model) {
 		log.debug(form);
-		String queuePriorityLabel = form.isHighPriorityJob() ? "high" : "normal";
+		String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor.getMessage("label.high") :
+															   messageSourceAccessor.getMessage("label.normal");
 		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
 		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
 		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
@@ -70,11 +72,11 @@ public class CreateBookController {
 				jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 			}
 			// Report success to user in informational message on page
-			Object[] args = { queuePriorityLabel};
+			Object[] args = { bookDefKey.getFullyQualifiedTitleId(), queuePriorityLabel};
 			String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.success", args);
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
 		} catch (Exception e) {	// Report failure on page in error message area
-			Object[] args = { queuePriorityLabel, e.getMessage()};
+			Object[] args = { bookDefKey.getFullyQualifiedTitleId(), queuePriorityLabel, e.getMessage()};
 			String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
 			log.error(errMessage, e);
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
@@ -94,6 +96,7 @@ public class CreateBookController {
 			String value = key.toKeyString();  // "<fullyQualifiedTitleId>,<majorVersion>"
 			bookOptions.add(new SelectOption(label, value));
 		}
+		Collections.sort(bookOptions);  // Display book name options alphabetically in the HTML select
 		model.addAttribute(WebConstants.KEY_BOOK_OPTIONS, bookOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 	}
