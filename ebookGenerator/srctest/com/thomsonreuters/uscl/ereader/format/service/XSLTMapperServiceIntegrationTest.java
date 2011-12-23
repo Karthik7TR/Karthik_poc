@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Integration test class that connects to the database and test the service
- * class (XSLTMapperService) functionality.
+ * class (XSLTMapperService) functionality. The service connects to the EBOOK.XSLT_MAPPER table.
  * @author Ripu Jain U0115290
  * @author Ray Cracauer U0113997
  */
@@ -33,11 +33,18 @@ public class XSLTMapperServiceIntegrationTest {
 	private static final String DOC_TYPE = "6A";
 	private static final String XSLT = "CodesStatutes.xsl";
 	
+	/**
+	 * Testing the happy path - return the expected XSLT for a given collection and doc_type.
+	 */
 	@Test
 	public void testGetXsltFromDatabase() {
 		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
 	}
 	
+	/**
+	 * Testing another happy path scenario - return the expected XSLT for given collection and
+	 * null doc_type.
+	 */
 	@Test
 	public void testGetXsltFromDatabaseNullDocType() {
 		String COLLECTION = "w_3rd_plirpub";
@@ -46,11 +53,49 @@ public class XSLTMapperServiceIntegrationTest {
 		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
 	}
 	
+	/**
+	 * Testing another happy path scenario - return the expected XSLT for given collection and
+	 * empty doc_type.
+	 */
 	@Test
-	public void testGetXsltFromDatabaseEmptryDocType() {
+	public void testGetXsltFromDatabaseEmptyDocType() {
 		String COLLECTION = "w_3rd_plirpub";
 		String DOC_TYPE = "";
 		String XSLT = "AnalyticalEaganProducts.xsl";
 		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
+	}
+	
+	/**
+	 * Testing another happy path scenario - return the expected XSLT for given collection and
+	 * white spaced doc_type.
+	 */
+	@Test
+	public void testGetXsltFromDatabaseWhiteSpaceDocType() {
+		String COLLECTION = "w_3rd_plirpub";
+		String DOC_TYPE = " ";
+		String XSLT = "AnalyticalEaganProducts.xsl";
+		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
+	}
+	
+	/**
+	 * Testing another happy path scenario - return null for a collection and doc_type that are
+	 * not present in the database.
+	 */
+	@Test
+	public void testGetXsltFromDatabaseRowNotPresent() {
+		String COLLECTION = "collection not present";
+		String DOC_TYPE = "doc type not present";
+		String XSLT = null;
+		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
+	}
+	
+	/**
+	 * Testing bad path scenario - throw an exception when trying to retrieve XSLT for null collection.
+	 */
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetXsltFromDatabaseNullCollection() throws Exception {
+		String COLLECTION = null;
+		String DOC_TYPE = "doc type not present";
+		xsltMapperService.getXSLT(COLLECTION, DOC_TYPE);
 	}
 }

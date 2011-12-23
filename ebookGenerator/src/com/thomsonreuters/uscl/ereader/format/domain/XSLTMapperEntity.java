@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -21,11 +22,17 @@ import javax.persistence.Table;
  * @author Ripu Jain U0115290
  */
 @SuppressWarnings("serial")
-@NamedQuery(
-	name = "getXSLT",
-	query = "SELECT xsltMapperEntity FROM XSLTMapperEntity xsltMapperEntity WHERE xsltMapperEntity.collection = :collection " +
-			"AND xsltMapperEntity.doc_type = :doc_type"
+@NamedQueries(
+		{
+			@NamedQuery(name = "getXSLT", 
+						query = "SELECT xsltMapperEntity FROM XSLTMapperEntity xsltMapperEntity WHERE xsltMapperEntity.collection = :collection " +
+						"AND xsltMapperEntity.doc_type = :doc_type"),
+			@NamedQuery(name = "getXSLTWhereDocTypeIsNull", 
+						query = "SELECT xsltMapperEntity FROM XSLTMapperEntity xsltMapperEntity WHERE xsltMapperEntity.collection = :collection " +
+						"AND xsltMapperEntity.doc_type is null")
+		}
 )
+
 @Entity
 @Table(schema = "EBOOK", name = "XSLT_MAPPER")
 public class XSLTMapperEntity implements Serializable{

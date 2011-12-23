@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
 
@@ -37,9 +38,23 @@ public class XSLTMapperDaoImpl implements XSLTMapperDao{
      */
 	@Override
 	public XSLTMapperEntity getXSLT(String collection, String docType) {
-		Query query = xsltSessionFactory.getCurrentSession().getNamedQuery("getXSLT");
-		query.setString("collection", collection);
-		query.setString("doc_type", docType);
-		return (XSLTMapperEntity) query.uniqueResult();
+		if (StringUtils.isBlank(collection))
+			throw new IllegalArgumentException("Failed to builed the query to retrieve XSLT. " +
+					"Collection name can not be null.");
+		
+		Query query;
+		if (StringUtils.isNotBlank(docType)) {
+			query = xsltSessionFactory.getCurrentSession().getNamedQuery("getXSLT");
+			query.setString("collection", collection);
+			query.setString("doc_type", docType);
+			
+		}
+		else {
+			query = xsltSessionFactory.getCurrentSession().getNamedQuery("getXSLTWhereDocTypeIsNull");
+			query.setString("collection", collection);
+		}
+		Object queryResult = query.uniqueResult();
+		if (queryResult == null) return null;
+		return (XSLTMapperEntity) queryResult;
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.format.dao.XSLTMapperDao;
+import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
 
 /**
  * Spring service that handles requests to retrieve XSLTMapperEntity
@@ -36,7 +37,9 @@ public class XSLTMapperServiceImpl implements XSLTMapperService {
 					"into XSLTMapperService! This is a programming error. " +
 					"Check the Spring configuration!");
 		}
-		return xsltMapperDao.getXSLT(collection, docType).getXSLT();
+		XSLTMapperEntity xslt = xsltMapperDao.getXSLT(collection, docType);
+		if (xslt == null) return null;
+		return xslt.getXSLT();
 	}
 
 	public void setXsltMapperDao(XSLTMapperDao xsltMapperDao) {
