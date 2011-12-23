@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Integration test class that connects to the database and test the service
  * class (XSLTMapperService) functionality.
  * @author Ripu Jain U0115290
+ * @author Ray Cracauer U0113997
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -34,6 +35,22 @@ public class XSLTMapperServiceIntegrationTest {
 	
 	@Test
 	public void testGetXsltFromDatabase() {
+		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
+	}
+	
+	@Test
+	public void testGetXsltFromDatabaseNullDocType() {
+		String COLLECTION = "w_3rd_plirpub";
+		String DOC_TYPE = null;
+		String XSLT = "AnalyticalEaganProducts.xsl";
+		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
+	}
+	
+	@Test
+	public void testGetXsltFromDatabaseEmptryDocType() {
+		String COLLECTION = "w_3rd_plirpub";
+		String DOC_TYPE = "";
+		String XSLT = "AnalyticalEaganProducts.xsl";
 		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
 	}
 }
