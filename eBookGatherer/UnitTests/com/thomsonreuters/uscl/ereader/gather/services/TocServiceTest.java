@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.Toc;
+import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,7 +24,7 @@ public class TocServiceTest {
 	public void testGetTocDataFromNovus( )
 	{
 	
-		List<Toc> tocList = tocService.getTocDataFromNovus("N04767C6077B911DAA16E8D4AC7636430","w_codesstawip");
+		List<EBookToc> tocList = tocService.getTocDataFromNovus("N04767C6077B911DAA16E8D4AC7636430","w_codesstawip");
 
 		assertTrue(tocList.size() > 0) ;
 	}

@@ -9,7 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 import java.util.List;
 
 
-public class Toc {
+public class EBookToc {
 	
 	String name;
 	String guid;
@@ -17,7 +17,7 @@ public class Toc {
 	String parentGuid;
 	String metadata;
 	String docGuid;
-	List<Toc> children;
+	List<EBookToc> childrenList;
 	int childrenCount;
 	
 	
@@ -26,7 +26,7 @@ public class Toc {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((children == null) ? 0 : children.hashCode());
+				+ ((childrenList == null) ? 0 : childrenList.hashCode());
 		result = prime * result + childrenCount;
 		result = prime * result + ((docGuid == null) ? 0 : docGuid.hashCode());
 		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
@@ -47,11 +47,11 @@ public class Toc {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Toc other = (Toc) obj;
-		if (children == null) {
-			if (other.children != null)
+		EBookToc other = (EBookToc) obj;
+		if (childrenList == null) {
+			if (other.childrenList != null)
 				return false;
-		} else if (!children.equals(other.children))
+		} else if (!childrenList.equals(other.childrenList))
 			return false;
 		if (childrenCount != other.childrenCount)
 			return false;
@@ -123,11 +123,11 @@ public class Toc {
 	public void setDocGuid(String docGuid) {
 		this.docGuid = docGuid;
 	}
-	public List<Toc> getChildren() {
-		return children;
+	public List<EBookToc> getChildren() {
+		return childrenList;
 	}
-	public void setChildren(List<Toc> children) {
-		this.children = children;
+	public void setChildren(List<EBookToc> children) {
+		this.childrenList = children;
 	}
 	public int getChildrenCount() {
 		return childrenCount;
@@ -139,14 +139,14 @@ public class Toc {
 	public String toString()
 	{
 		return new StringBuilder().
-		append("Name:").append(name).
+		append("  Name:").append(name).
 		append(" ,guid:").append(guid).
 		append(" ,rootGuid:").append(rootGuid).
 		append(" ,parentGuid:").append(parentGuid).
 		append(" ,metadata:").append(metadata).
 		append(" ,docGuid:").append(docGuid).
 		append(" ,childrenCount:").append(childrenCount).
-		append(" ,children:").append(children).
+		append(" ,children:").append(childrenList).
 		toString();
 	}
 

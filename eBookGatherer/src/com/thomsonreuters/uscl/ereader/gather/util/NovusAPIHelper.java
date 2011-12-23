@@ -21,7 +21,7 @@ public class NovusAPIHelper
 {
 	// TODO: method to return connection object 
 	// TODO: convert this hardcodding to read data from properties file.
-	private static final String novusEnvironment = "Prod"; //System.getProperty((String) "novusEnvironment"); //"Client" "Prod";  
+	private static final String novusEnvironment = EBConstants.NOVUSE_NVIRONMENT; //System.getProperty((String) "novusEnvironment"); //"Client" "Prod";  
 	
 	/**
 	 * Connecting to Novus system we can specify which environment connect using 

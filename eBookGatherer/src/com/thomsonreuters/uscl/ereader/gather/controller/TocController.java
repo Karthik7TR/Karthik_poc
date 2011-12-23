@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
-import com.thomsonreuters.uscl.ereader.gather.domain.Toc;
+import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
 
 @Controller
@@ -50,8 +50,8 @@ public class TocController {
 							BindingResult result) 
 	{
 
-		List<Toc> tocGuidList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
-		System.out.println("tocGuidList being return in Controller :"+tocGuidList);
+		List<EBookToc> tocGuidList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
+		//System.out.println("tocGuidList being return in Controller :"+tocGuidList);
 		//return "redirect:tocData.html";
 		return new ModelAndView("tocRequest", "command", ebookRequest);
 
@@ -68,8 +68,8 @@ public class TocController {
 	public ModelAndView showTocDataForm() 
 	{
 		EbookRequest firstEbookRequest = new EbookRequest();
-		firstEbookRequest.setCollection("w_codesstawip");
-		firstEbookRequest.setGuid("N04767C6077B911DAA16E8D4AC7636430");
+		firstEbookRequest.setCollection("w_an_rcc_cajur_toc"); //w_an_rcc_cajur_toc
+		firstEbookRequest.setGuid("I7b3ec600675a11da90ebf04471783734");//I7b3ec600675a11da90ebf04471783734
 		return new ModelAndView("tocRequest", "command", firstEbookRequest);
 	}
 }

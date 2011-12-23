@@ -8,13 +8,13 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.Toc;
+import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 
 public interface TocService 
 {
 	
 	public void getNovousConnection();
  	public void getDocuments();
-	public List<Toc> getTocDataFromNovus(String guid, String collectionName); 
+	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName); 
 
 }
