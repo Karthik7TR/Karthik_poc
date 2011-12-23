@@ -11,9 +11,9 @@
 </head>
 
 <body>
-<h2 class="arialFont20 colorRed">Job Execution <a href="${dashboardDetailsUrl}">${jobExecutionId}</a> ${action} failed</h2>
+<h2 class="arialFont20">Job Execution <a href="${dashboardDetailsUrl}">${jobExecutionId}</a> ${action} failed</h2>
 
-<div class="arialFont18 colorRed">${errorMessage}</div>
+<div class="arialFont18 mesgBox">${errorMessage}</div>
 <br/>
 <%--
 <div class="arialFont12">${stackTrace}</div>

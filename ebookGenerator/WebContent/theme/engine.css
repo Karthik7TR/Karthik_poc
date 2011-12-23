@@ -14,3 +14,7 @@
 .colorRed {
 	color: red;
 }
+.mesgBox { 
+	background-color: yellow;
+	padding: 5;
+}
