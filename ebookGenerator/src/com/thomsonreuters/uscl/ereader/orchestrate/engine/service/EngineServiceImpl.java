@@ -93,8 +93,8 @@ public class EngineServiceImpl implements EngineService {
 		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
 		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
 		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getMajorVersion()));
+		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
 		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
-		paramMap.put(JobParameterKey.MATERIAL_NO, new JobParameter(bookDefinition.getMaterialNo()));
 		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));
 		paramMap.put(JobParameterKey.NORT_DOMAIN, new JobParameter(bookDefinition.getNortDomain()));
 		paramMap.put(JobParameterKey.NORT_FILTER_VIEW, new JobParameter(bookDefinition.getNortFilterView()));

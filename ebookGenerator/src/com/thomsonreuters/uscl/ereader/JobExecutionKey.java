@@ -20,6 +20,9 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_DIRECTORY_PATH = "eBookDirectoryPath";
 	
+	/** Path to the destination directory for images files fetched from the Image Vertical REST web service. */
+	public static final String EBOOK_IMAGE_DIRECTORY_PATH = "eBookImageDirectoryPath";
+	
 	/**
 	 * The path to the assembled eBook on NAS.
 	 */

@@ -38,7 +38,7 @@ public class BookDefinition implements Serializable {
 	private Long majorVersion;
 	// TODO: KeyWords?, Type?, Value?
 	private String copyright;
-	private String materialNo;
+	private String materialId;
 	private String authorInfo;	// A pipe deliminated list of person first last names, like "Joe Blow | Bill Smith"
 	private String rootTocGuid;	// like "I1754a5c012bb11dc8c0988fbe4566386"
 	private String docCollectionName;
@@ -105,9 +105,9 @@ public class BookDefinition implements Serializable {
 	public String getMaterialIdEmbeddedInDocText() {
 		return materialIdEmbeddedInDocText;
 	}
-	@Column(name="MATERIAL_NO")
-	public String getMaterialNo() {
-		return materialNo;
+	@Column(name="MATERIAL_ID")
+	public String getMaterialId() {
+		return materialId;
 	}
 	@Column(name="MINOR_VERSION")
 	public Long getMinorVersion() {
@@ -165,8 +165,8 @@ public class BookDefinition implements Serializable {
 	public void setMaterialIdEmbeddedInDocText(String trueFalse) {
 		this.materialIdEmbeddedInDocText = trueFalse;
 	}
-	public void setMaterialNo(String materialNo) {
-		this.materialNo = materialNo;
+	public void setMaterialId(String materialId) {
+		this.materialId = materialId;
 	}
 	public void setMinorVersion(Long minorVersion) {
 		this.minorVersion = minorVersion;
