@@ -24,7 +24,7 @@ public class TocServiceTest {
 	public void testGetTocDataFromNovus( )
 	{
 	
-		List<EBookToc> tocList = tocService.getTocDataFromNovus("N04767C6077B911DAA16E8D4AC7636430","w_codesstawip");
+		List<EBookToc> tocList = tocService.getTocDataFromNovus("I7b3ec600675a11da90ebf04471783734","w_an_rcc_cajur_toc");
 
 		assertTrue(tocList.size() > 0) ;
 	}
