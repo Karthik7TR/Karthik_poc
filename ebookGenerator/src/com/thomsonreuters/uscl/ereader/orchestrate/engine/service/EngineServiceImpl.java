@@ -64,11 +64,12 @@ public class EngineServiceImpl implements EngineService {
 	 * @return the job execution ID of the restarted job
 	 * @throws Exception on restart errors
 	 */
+	@Override
 	public Long restartJob(long jobExecutionId) throws Exception {
 		Long restartedJobExecutionId = jobOperator.restart(jobExecutionId);
 		return restartedJobExecutionId;
 	}
-	
+	@Override
 	public void stopJob(long jobExecutionId) throws Exception {
 		jobOperator.stop(jobExecutionId);
 	}
@@ -107,8 +108,7 @@ public class EngineServiceImpl implements EngineService {
 	@Override
 	public JobParameters createDynamicJobParameters(JobRunRequest runRequest) {
 		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>();
-		// What host is the job running on?
-		String hostName = null;
+		String hostName = null;	// The host this job running on
 		try {
 			InetAddress host = InetAddress.getLocalHost();
 			hostName = host.getHostName();
@@ -116,7 +116,7 @@ public class EngineServiceImpl implements EngineService {
 			hostName = null;
 		}
 		
-		// Add the dyanamic key/value pairs into the job parameters map
+		// Add misc metadata, dynamic key/value pairs into the job parameters map
 		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(runRequest.getUserName()));
 		jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
