@@ -30,6 +30,7 @@ public class TocServiceImpl implements TocService {
 	@Autowired
 	public NovusAPIHelper novusAPIHelper;
 
+	public String outputTocFileName = EBConstants.COLLECTION_SET_TYPE; 
 	@Override
 	public void getNovousConnection() {
 		// TODO Auto-generated method stub
@@ -54,19 +55,17 @@ public class TocServiceImpl implements TocService {
 			TOCNode node = tocNodes[i];
 			EBookToc eBookToc = new EBookToc();
 			eBookToc.setGuid(node.getGuid());
-			eBookToc.setName(node.getName());
+			eBookToc.setName(novusAPIHelper.processName(node.getName()));
 			eBookToc.setDocGuid(node.getDocGuid());
 			eBookToc.setParentGuid(node.getParentGuid());
 			eBookToc.setMetadata(node.getMetadata());
 			eBookToc.setChildrenCount(node.getChildrenCount());
 			
+			
 			/*** process all the children if present.***/
 			if(node.getChildrenCount() > 0 )
 			{
 				//System.out.println(" TOC Node :"+eBookToc);
-				System.out.println("Name :"+eBookToc.getName());
-				System.out.println("Guid :"+eBookToc.getGuid());
-				System.out.println("ParentGuid :"+eBookToc.getParentGuid());
 				try {
 						TOCNode[] childTocList = node.getChildren();
 						eBookToc.setChildren( extractTocListForEbook(childTocList));
@@ -79,7 +78,9 @@ public class TocServiceImpl implements TocService {
 			}else {
 				if(node.getDocGuid()!= "")
 				{
-					/*** child count is zero and document Guid present i.e tocNode with document..****/
+					/*** child count is zero and document Guid present i.e tocNode with document..
+					need to add logic to collect this data and return or retain so that it would 
+					come out handy while fetching end document to ****/
 //					System.out.println("*************************************************************");
 //					System.out.println(" Toc Nodes with child count zero :"+eBookToc);
 //					System.out.println("*************************************************************");
@@ -93,7 +94,6 @@ public class TocServiceImpl implements TocService {
 		return ebTocList;
 	}
 	
-
 	@Override
 	public void getDocuments() {
 		// TODO Auto-generated method stub
@@ -156,6 +156,17 @@ public class TocServiceImpl implements TocService {
 //		toc.setTOCVersion(dateTime);
 		return toc;
 	}
+	
+	/**
+	 * Add a list of books to the list
+	 * In a production system you might populate the list from a DB
+	 */
+	private void loadData(){
+		//TODO: add mechanisum read eBookToc
+
+	}
+
+
 
 
 }

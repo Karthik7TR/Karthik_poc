@@ -20,12 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
+import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper;
 
 @Controller
 public class TocController {
 	
 	@Autowired
 	public TocService tocService;
+	@Autowired
+	public EBookTocXmlHelper eBookTocXmlHelper;
 	
 	/**
 	 * This method would not get called as of now.its ment to handle 
@@ -50,9 +53,10 @@ public class TocController {
 							BindingResult result) 
 	{
 
-		List<EBookToc> tocGuidList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
+		List<EBookToc> eBookTocList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
 		//System.out.println("tocGuidList being return in Controller :"+tocGuidList);
 		//return "redirect:tocData.html";
+		eBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList);
 		return new ModelAndView("tocRequest", "command", ebookRequest);
 
 	}

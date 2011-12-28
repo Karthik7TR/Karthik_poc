@@ -70,6 +70,21 @@ public class NovusAPIHelper
 		return dateTime;
 	}
 
+	/**
+	 * remove heading and trailing tags from TOC names.
+	 * @param nameValue
+	 * @return
+	 */
+	public String processName(String nameValue)
+	{
+		CharSequence startElement = EBConstants.HEADING_START_TAG;
+		CharSequence endElement = EBConstants.HEADING_END_TAG;
+		CharSequence replacement = "";
+		nameValue = nameValue.replace(startElement, replacement);
+		nameValue = nameValue.replace(endElement , replacement);
+		return nameValue;
+	}
+
 	// TODO some method to parse response and converting them in to usable domain object. 
 	
 	// TODO Some file operation to store toc and document data.

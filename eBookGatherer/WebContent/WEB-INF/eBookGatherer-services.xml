@@ -35,4 +35,7 @@
 	<bean id="novusAPIHelper" class="com.thomsonreuters.uscl.ereader.gather.util.NovusAPIHelper"
 	autowire="byType"/>
 	
+	<bean id="eBookTocXmlHelper" class="com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper"
+	autowire="byType"/>
+	
 </beans>
