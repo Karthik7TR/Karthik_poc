@@ -28,6 +28,16 @@
 				<td><form:input path="collection" /></td>
 			</tr>
 			<tr>
+				<td><form:label path="tocFilePath">EBook TOC File Path</form:label></td>
+				<td><form:input path="tocFilePath" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="docFilePath">EBook Documents File Path</form:label></td>
+				<td><form:input path="docFilePath" /></td>
+			</tr>
+			
+
+			<tr>
 				<td colspan="2"><input type="submit" value="Get Data" /></td>
 			</tr>
 		</table>

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
+import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper;
 
 @Controller
@@ -56,7 +57,12 @@ public class TocController {
 		List<EBookToc> eBookTocList = tocService.getTocDataFromNovus(ebookRequest.getGuid(),ebookRequest.getCollection());
 		//System.out.println("tocGuidList being return in Controller :"+tocGuidList);
 		//return "redirect:tocData.html";
-		eBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList);
+		try {
+			eBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList, ebookRequest.getTocFilePath());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("tocRequest", "command", ebookRequest);
 
 	}
@@ -74,6 +80,7 @@ public class TocController {
 		EbookRequest firstEbookRequest = new EbookRequest();
 		firstEbookRequest.setCollection("w_an_rcc_cajur_toc"); //w_an_rcc_cajur_toc
 		firstEbookRequest.setGuid("I7b3ec600675a11da90ebf04471783734");//I7b3ec600675a11da90ebf04471783734
+		firstEbookRequest.setTocFilePath(EBConstants.OUTPUT_TOC_FILE);
 		return new ModelAndView("tocRequest", "command", firstEbookRequest);
 	}
 }

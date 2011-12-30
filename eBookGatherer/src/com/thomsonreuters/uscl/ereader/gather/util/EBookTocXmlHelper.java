@@ -33,12 +33,12 @@ import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 public class EBookTocXmlHelper 
 {	
 
-	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList){
+	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, String tocFilePath) throws Exception{
 		System.out.println("Started .. ");
 		//Get a DOM object
 		Document dom =createDocument();
-		createRootElement(dom,eBookTocList);
-		printToFile(dom);
+		createTocXMLStructure(dom,eBookTocList);
+		printToFile(dom, tocFilePath);
 		System.out.println("Generated file successfully.");
 	}
 
@@ -46,8 +46,9 @@ public class EBookTocXmlHelper
 	/**
 	 * Using JAXP in implementation independent manner create a document object
 	 * using which we create a xml tree in memory
+	 * @throws Exception 
 	 */
-	private Document createDocument() {
+	private Document createDocument() throws Exception {
 
 		//get an instance of factory
 		Document dom = null;
@@ -60,9 +61,10 @@ public class EBookTocXmlHelper
 		dom = db.newDocument();
 
 		}catch(ParserConfigurationException pce) {
-			//dump it
+			
 			System.out.println("Error while trying to instantiate DocumentBuilder " + pce);
-			System.exit(1);
+			throw new Exception("Failed to create DOM object ..."+pce);
+			//System.exit(1);
 		}
 		return dom;
 
@@ -73,7 +75,7 @@ public class EBookTocXmlHelper
 	 * create detailed/nested toc structure. 
 	 * TODO: need to create this function recursive. 
 	 */
-	private void createRootElement(Document dom,List<EBookToc> eBookTocList){
+	private void createTocXMLStructure(Document dom,List<EBookToc> eBookTocList){
 
 		//create the root element <Books>
 		Element rootElement = dom.createElement("EBook");
@@ -110,7 +112,7 @@ public class EBookTocXmlHelper
 	 */
 	private Element createEBookTocElements(Document dom,EBookToc eBookToc){
 
-		Element bookEle = dom.createElement(EBConstants.TOC_ROOT_ELEMENT);
+		Element bookEle = dom.createElement(EBConstants.TOC_ELEMENT);
 
 		//create Name element and attach it to bookElement
 		Element nameElement = dom.createElement(EBConstants.NAME_ELEMENT);
@@ -145,8 +147,10 @@ public class EBookTocXmlHelper
 	/**
 	 * 
 	 * prints the XML document to file.
+	 * @param tocFilePath TODO
+	 * @throws Exception 
      */
-	private void printToFile(Document dom){
+	private void printToFile(Document dom, String tocFilePath) throws Exception{
 
 		try
 		{
@@ -155,12 +159,13 @@ public class EBookTocXmlHelper
 			format.setIndenting(true);
 
 			XMLSerializer serializer = new XMLSerializer(
-			new FileOutputStream(new File("C:/temp/ebook.xml")), format);
+			new FileOutputStream(new File(tocFilePath)), format);
 
 			serializer.serialize(dom);
 
 		} catch(IOException ie) {
 		    ie.printStackTrace();
+		    throw new Exception("Failed while printing DOM to specified path ..."+ie);
 		}
 	}
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+    <EBookToc>
+        <Name>Test Toc 1</Name>
+        <Guid>Test Guid 1Test Toc ParentGuid 1</Guid>
+        <ParentGuid/>
+        <Metadata>Test Toc Metadata 1</Metadata>
+    </EBookToc>
+    <EBookToc>
+        <Name>Test Toc 2</Name>
+        <Guid>Test Guid 2Test Toc ParentGuid 2</Guid>
+        <ParentGuid/>
+        <Metadata>Test Toc Metadata 2</Metadata>
+    </EBookToc>
+    <EBookToc>
+        <Name>Test Toc 3</Name>
+        <Guid>Test Guid 3Test Toc ParentGuid 3</Guid>
+        <ParentGuid/>
+        <Metadata>Test Toc Metadata 3</Metadata>
+        <EBookToc>
+            <Name>Test Toc 3 inner</Name>
+            <Guid>Test Guid 3 inner Test Toc ParentGuid 3 inner</Guid>
+            <ParentGuid/>
+            <Metadata>Test Toc Metadata 3 inner</Metadata>
+        </EBookToc>
+    </EBookToc>
+</EBook>

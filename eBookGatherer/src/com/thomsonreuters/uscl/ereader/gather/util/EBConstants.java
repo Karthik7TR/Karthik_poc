@@ -13,7 +13,7 @@ public class EBConstants
 	public static final String COLLECTION_TYPE = "Collection";
 	public static final String COLLECTION_SET_TYPE = "CollectionSet";
 	public static final String NOVUSE_NVIRONMENT = "Client"; //"Prod";
-	public static final String OUTPUT_TOC_FILE = "c:\\temp\\tocFile.txt";
+	public static final String OUTPUT_TOC_FILE = "C:/temp/ebook.xml";
 	
 	/*** String parsing operation ***/
 	public static final String HEADING_START_TAG = "<heading>";

@@ -11,7 +11,21 @@ public class EbookRequest {
 	String contentType;
 	String guid;
 	String collection;
+	String tocFilePath;
+	String docFilePath;
 	
+	public String getTocFilePath() {
+		return tocFilePath;
+	}
+	public void setTocFilePath(String tocFilePath) {
+		this.tocFilePath = tocFilePath;
+	}
+	public String getDocFilePath() {
+		return docFilePath;
+	}
+	public void setDocFilePath(String docFilePath) {
+		this.docFilePath = docFilePath;
+	}
 	public String getContentType() {
 		return contentType;
 	}
@@ -38,7 +52,11 @@ public class EbookRequest {
 				+ ((collection == null) ? 0 : collection.hashCode());
 		result = prime * result
 				+ ((contentType == null) ? 0 : contentType.hashCode());
+		result = prime * result
+				+ ((docFilePath == null) ? 0 : docFilePath.hashCode());
 		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+		result = prime * result
+				+ ((tocFilePath == null) ? 0 : tocFilePath.hashCode());
 		return result;
 	}
 	@Override
@@ -60,10 +78,20 @@ public class EbookRequest {
 				return false;
 		} else if (!contentType.equals(other.contentType))
 			return false;
+		if (docFilePath == null) {
+			if (other.docFilePath != null)
+				return false;
+		} else if (!docFilePath.equals(other.docFilePath))
+			return false;
 		if (guid == null) {
 			if (other.guid != null)
 				return false;
 		} else if (!guid.equals(other.guid))
+			return false;
+		if (tocFilePath == null) {
+			if (other.tocFilePath != null)
+				return false;
+		} else if (!tocFilePath.equals(other.tocFilePath))
 			return false;
 		return true;
 	}
