@@ -8,7 +8,6 @@ package com.thomsonreuters.uscl.ereader.proview;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
@@ -70,9 +69,6 @@ public class AssembleAndDeliverIntegrationTest {
 	private File documentsDirectory;
 	private File assetsDirectory;
 	private File artworkDirectory;
-	private File documentOne;
-	private File documentTwo;
-	private File documentThree;
 	
 	Doc codeOfConduct = new Doc(DOCUMENT_ONE_ID, "codeOfConduct.htm");
 	Doc plundering = new Doc(DOCUMENT_TWO_ID, "plundering.htm");
