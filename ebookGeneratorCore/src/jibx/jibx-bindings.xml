@@ -30,7 +30,9 @@
 		    	</structure>
 	    	</collection>
     	</structure>
-    	<value name="material" field="materialId" usage="optional"/>
+    	<structure name="material" usage="required">
+	    	<value style="text" field="materialId" usage="optional"/>
+    	</structure>
     	<structure field="artwork" usage="required"/>
     	<structure name="assets" usage="required">
     		<collection field="assets" usage="optional">

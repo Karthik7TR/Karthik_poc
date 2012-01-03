@@ -55,7 +55,7 @@ public class TitleMetadataTest {
 		scallywagging.setChildren(scallywaggingChildren);
 		tocEntries.add(scallywagging);
 		titleMetadata.setTocEntries(tocEntries);
-		titleMetadata.setMaterialId("12378901231023FFGa");
+		titleMetadata.setMaterialId("Plunder2");
 	}
 	
 	@Test
