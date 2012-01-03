@@ -3,13 +3,26 @@
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
 -->
+
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           
+	<!-- ******************************************************************** -->
+	<!-- Scan for service layer annotated beans -->
+	<!-- ******************************************************************** -->
+	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.service" scoped-proxy="interfaces" />
+	
+	<!-- ******************************************************************** -->
+	<!-- Mark bean transactions as annotation driven -->
+	<!-- ******************************************************************** -->
+	<tx:annotation-driven transaction-manager="transactionManager" />           
 
   	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
   		  p:coreDao-ref="coreDao"/>
