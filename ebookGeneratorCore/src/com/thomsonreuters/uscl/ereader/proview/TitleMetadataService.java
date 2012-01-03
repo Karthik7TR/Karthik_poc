@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Implementors of this interfact are responsible for marshalling & unmarshalling TitleMetadata.
+ * Implementors of this interface are responsible for marshalling & unmarshalling TitleMetadata.
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
