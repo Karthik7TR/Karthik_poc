@@ -124,6 +124,7 @@ public class AssembleAndDeliverIntegrationTest {
 		IOUtils.closeQuietly(plunderingOutputStream);
 		IOUtils.closeQuietly(landlubbersOutputStream);
 		IOUtils.closeQuietly(artworkOutputStream);
+		IOUtils.closeQuietly(styleSheetOutputStream);
 	}
 	
 	private void setUpProviewClient() {
