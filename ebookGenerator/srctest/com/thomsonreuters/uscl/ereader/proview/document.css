@@ -1,0 +1,1991 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR.
+ * Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited.
+ */
+/*************************************************/
+/* Reset CSS                                     */
+/*************************************************/
+.co_nextRed + div { color:#FF0000; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+}
+:focus { outline: 1; }
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+fieldset, img { border: 0; }
+address, caption, cite, code, dfn, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+em { font-style: italic; }
+strong { font-weight: bold; }
+ol, ul { list-style: none; }
+caption, th { text-align: left; }
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+	color:#252525;
+}
+h1 {
+	float: left;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+h2{
+	font-size:1.333em;
+	font-weight:bold;
+}
+h3{
+	font-size:1.222em;
+	font-weight:bold;
+}
+abbr, acronym { border: 0; }
+strong em { font-weight:bold;}
+  
+/* General Text Formatting */
+#coid_website_documentWidgetDiv { outline:0; }
+#co_document {
+	margin:0 80px;
+	padding-top:5px;
+	line-height:1.5em;
+	font-size:15px;
+	font-family:Arial, Sans-Serif;
+}
+.co_readingMode #co_document {
+	font-size:16px;
+	font-family:georgia, Serif;
+}
+#co_documentNotes { margin:0 80px; }
+.co_title,
+.x_hcb,
+.co_KeyRules .x_juris,
+.co_KeyRules .x_documentCategory,
+.co_KeyRules .x_documentType,
+.co_documentHead .x_til {
+	color:#252525;
+	font-family:georgia, serif;
+	font-size:18px;
+	line-height:1.5em;
+	margin:1em 0 1em 0;
+	padding:0 .5em 0 .5em;
+	text-align:center;
+}
+.co_title strong { font-weight:normal; }
+.co_documentHead .x_til, 
+.co_documentHead .x_til .co_xena_d9 { margin-bottom:0; }
+.co_title > span + span { padding-left:3px; }
+#co_document .co_title .co_headtext,
+.co_title .co_headtext strong,
+#co_document .co_title .co_partyLine,
+#co_document .co_title h2 {
+	margin:0;
+	font-weight:normal;
+	text-align:center;
+}
+.co_title .co_suit strong {
+	display:block;
+	font-weight:normal;
+}
+.co_KeyRules .x_juris { margin-bottom:0; }
+.co_KeyRules .x_documentCategory { margin:0; }
+.co_KeyRules .x_documentType { margin-top:0; }
+.co_document strong {font-weight:bold;}
+.co_document .co_underline { text-decoration: underline;}
+.co_document .co_smallCaps { text-transform: uppercase;}
+.co_document .co_uppercase { text-transform: uppercase;}
+.co_documentHead,
+.co_caselawOfficial .co_date,
+.co_cpaExhibit .co_docketDate {
+	padding-bottom:1em;
+	position:relative;
+	clear:both;
+	font-family:georgia, serif;
+	display:block;
+}
+.co_documentHead .co_genericBox,
+.co_effectiveDate { margin-bottom:1em; }
+.co_documentHead .co_genericBox .co_headtext { font-weight:normal; }
+.co_documentHead .co_widget_collapseIcon, .co_documentHead .co_widget_expandIcon { right:9px; width:0px; }
+.co_documentHead .co_prelimBlock { margin:0; }
+.co_cites, .co_caveatBlock, .co_effectiveDate {
+	text-align:center;
+	font-family:georgia, serif;
+	clear:both;
+}
+.co_blobLink,
+.co_seeCitingRefs,
+.co_automatedLink {
+	font-size:12px;
+	font-family:Arial,Helvetica,sans-serif;
+	margin-bottom:1em;
+}
+.co_automatedLink img {
+	vertical-align:middle;
+	padding-right:3px;
+}
+.co_genericBox + .co_cites + .co_title { margin:0; }
+.co_currentness,
+.co_editorialNoteBlock,
+.co_documentHead .co_center,
+.co_documentHead .x_pubName,
+.co_editorialNoteBlock + .co_message,
+.co_courtBlock,
+.co_caselawOfficial .co_date,
+.co_caselawOfficial .co_docketBlock,
+.co_trialCourtOrders .co_documentHead .co_contentBlock,
+.co_trialCourtOrders .co_documentHead .co_date,
+.co_cr {
+	font-family:georgia, serif;
+	text-align:center;
+}
+.co_editorialNoteBlock + .co_message {
+	margin-bottom:1em;
+}
+.co_docketDate {
+	text-align:center;
+	margin-bottom:1em;
+}
+.co_docketBlock { display:inline; }
+.co_docketBlock span {
+	padding-right:10px;
+	margin-right:10px;
+	border-right:1px solid #EEEEEE;
+	font-family:georgia, serif;
+}
+.co_docketBlock span.co_searchTerm,
+.co_docketBlock span.co_searchWithinTerm {
+	margin:0;
+	padding:0;
+}
+.co_date {
+	display:inline;
+	font-family:georgia, serif;
+}
+.co_juryVerdict .co_date { font-family:inherit; }
+.co_center { text-align:center; }
+.co_KeyRules .co_documentHead .co_date { display:block; }
+.co_KeyRules .x_mdFirstLineCite,
+.co_KeyRules .x_cmdFirstLineCite { display:inline; }
+.co_date > span + span, .co_cites span + span,
+.co_KeyRules .x_mdSecondLineCite,
+.co_KeyRules .x_mdThirdLineCite,
+.co_KeyRules .x_cmdSecondLineCite,
+.co_KeyRules .x_cmdThirdLineCite {
+	display:inline;
+	padding-left:10px;
+	margin-left:10px;
+	border-left:1px solid #EEEEEE;
+}
+.co_cites span + span.co_searchTerm {
+	padding:0;
+	margin:0;
+	border-width:0;
+}
+.co_KeyRules .co_documentHead .co_date,
+.co_date.co_center {
+	display:block;
+	text-align:center;
+}
+.co_headtext { font-weight:bold; }
+ins {background-color:#ccffff; text-decoration:none;} /* Used in Code Session Laws */
+.co_document h2,
+.co_notesOfDecisions .co_notesOfDecisionsHeading,
+.co_footnoteSectionTitle { font-size: 1.125em; }
+.co_footnoteSectionTitle { font-weight:bold; }
+.co_paragraph h2 { font-weight:normal; }
+.co_codesStatutes .co_prelimBlock div {
+	text-align:left;
+	margin-bottom:0;
+}
+
+#co_attorneysAndLawFirms,
+#co_opinion,
+.x_article,
+.x_head1,
+#co_Ind,
+#co_Date,
+#co_Bib,
+#co_Cit,
+.co_judge { margin-top:1em; }
+.co_preformattedTextBlock {
+	font-family: "Courier New", Courier, Monospace;
+	white-space: pre-wrap;
+}
+.co_document blockquote {margin: .25em 3em .25em 3em;} 
+
+#co_document img.co_pdfIcon {
+ 	margin:0 5px 0 0;
+ 	vertical-align:middle;
+}
+del{ padding-right:5px; }
+
+/* Paragraph Formatting */
+.co_headtext,
+.co_document h2,
+.co_paragraph + .co_paragraph,
+.co_documentHead + div,
+.x_summaryBlock .co_paragraphText,
+.x_addressBlock .co_paragraphText,
+.co_paragraph + .co_paragraphText,
+.co_paragraphText + .co_paragraph,
+ul + .co_paragraph {margin-top: 1em;}
+.co_list li .co_paragraph + .co_paragraph {display:block;}
+
+/* General Alignment Treatments */
+/* To change alignment of specific elements use specificity instead of changing these global values */
+#co_document .co_hAlign1 {text-align: left;} /*horizontal alignment */
+#co_document .co_hAlign2 {text-align: center;}
+#co_document .co_hAlign3 {text-align: right;}
+#co_document .co_vAlign1 {vertical-align: bottom;} /*vertical alignment */
+#co_document .co_vAlign2 {vertical-align: middle;}
+#co_document .co_vAlign3 {vertical-align: top;}
+
+.co_indentLeft1, .co_indentLeft {padding-left: 1em;} /* Paragraph Formating */
+.co_indentLeft2 {padding-left: 2em;}
+.co_indentLeft3 {padding-left: 3em;}
+.co_indentLeft4 {padding-left: 4em;}
+.co_indentLeft5 {padding-left: 5em;}
+.co_indentLeft6 {padding-left: 6em;}
+.co_indentLeft7 {padding-left: 7em;}
+.co_indentLeft8 {padding-left: 8em;}
+.co_indentRight1, .co_indentRight {padding-right: 1em;}
+.co_indentRight2 {padding-right: 2em;}
+.co_indentRight3 {padding-right: 3em;}
+.co_indentRight4 {padding-right: 4em;}
+.co_indentRight5 {padding-right: 5em;}
+.co_indentRight6 {padding-right: 6em;}
+.co_indentRight7 {padding-right: 7em;}
+.co_indentRight8 {padding-right: 8em;}
+.co_indentHanging,
+.co_indentHanging1,
+.co_indentHanging2,
+.co_indentHanging3,
+.co_indentHanging4,
+.co_indentHanging5 {text-indent: -1em; margin-left: 1em;}
+.co_indentFirstLine,
+.co_indentFirstLine1,
+.co_indentFirstLine2,
+.co_indentFirstLine3,
+.co_indentFirstLine4,
+.co_indentFirstLine5 {text-indent: 0;}
+.co_flush {text-align:left;}
+.co_block {text-align:justify;}
+.co_analyticalJurs .co_navLinks a { padding-right:5px; }
+.co_clear {clear:both;}
+.co_divide {width: 33%;}
+.co_documentHeadBlock {
+	text-align: center;
+	font-weight: bold;
+	margin: 2em 0 2em 0;
+}
+
+/* Links */
+a.co_linkNotHot {
+	text-decoration: none;
+	color: #252525;
+}
+.co_imageLink {text-decoration: none;}
+
+/* Images */
+.co_treatisesHeaderImage img {margin:0; }
+
+/* .co_shrunkImage {cursor: url("enlarge.cur"), pointer;} */
+
+.co_nonDisplayableImage {
+	margin: 1em 0 0 0;
+	text-indent:-9999em;
+	display:block;
+	height:111px; 
+	width:147px; 
+	background:url(../../images/v1/notDisplayable-image.gif) 0 0 no-repeat;}
+
+/* Small Content Blocks */
+.co_mainText,
+.co_source,
+.co_message,
+.co_westlawDescrip,
+.co_prelim,
+.co_prelimBlock,
+.co_actionBlock,
+.co_includeCurrencyBlock,
+.co_panelBlock,
+.co_westlawDescrip,
+.co_expertReportBlock,
+.x_abstract .co_paragraphText,
+.x_index,
+.co_remarksBlock,
+.co_attorneyBlock > div + div,
+.co_copyright {margin-top: 1em;}
+/* .co_document img, */
+.co_citation,
+.co_propBlock,
+.co_authorLine,
+.co_authorBlock {margin: 1em 0 1em 0;}
+.co_synopsis {margin: 1em 0 0 0;} /* Synopsis */
+.co_prelimHead {margin-left: 1em;}
+.co_sectionFront {
+	margin-bottom:1em;
+	font-weight:bold;
+}
+.co_sectionFront .co_contentBlock .co_paragraphText { font-weight:normal; }
+.co_prelim .co_headtext,
+#co_document .co_prelimBlock .co_headtext,
+.co_propBlock .co_headtext {
+	margin-top:0;
+	font-weight:normal;
+}
+.co_documentHead .co_genericBoxContent { padding:0 8px; }
+
+/* x content blocks */
+.x_prelimSynopsis,
+.x_copyrightLine { margin-bottom:1em; }
+.x_prelimSynopsis .co_paragraph,
+.x_indexEntry {text-align:left;}
+.co_source,
+.x_journalBlock,
+.co_propBlock,
+.co_authorLine,
+.co_authorBlock { text-align:center; }
+
+/* Document Head */
+.co_partyLine {margin: 1em 0 0 0;} 
+.co_brief .co_suit strong,
+.co_brief .co_partyLine strong,
+.co_analyticalTreatisesAndAnnoCodes .co_propBlock .co_headtext {font-weight:normal;}
+.co_brief .co_docketBlock,
+.co_brief .co_date,
+.co_brief .co_actionBlock,
+.co_trialCourtOrders .co_panelBlock { text-align:center; }
+
+/* Property */
+.co_propBlock + a {margin-right:.5em;}
+
+/* Author */
+.co_analyticalJuryInstructions .co_authorLine,
+.co_analyticalJuryInstructions .co_authorBlock { margin: 2em 0 2em 0;}
+.co_adminDecision .co_authorLine,
+.co_adminDecision .co_authorBlock {text-align:left;}
+
+/* Attorney */
+.co_attorneyBlockLabel {margin-bottom:1em;}
+
+/* Nav Links COULD BE OLD */
+.co_navigation,
+.co_navLinks {margin: 1em 0 1em 0;}
+.co_navLinks { text-align:center; }
+
+/* Appendix */
+.co_appendix {margin: 1em 0 0 0;}
+.co_appendix .hAlign2 {text-align: left;}
+
+/* Reference */
+.co_referenceTable {
+	margin: 1.5em 0;
+	border-left: 1px #D6D6D6 solid;
+	border-bottom: 1px #D6D6D6 solid;}
+.co_referenceTable td {
+	border-top: 1px #D6D6D6 solid;
+	border-right: 1px #D6D6D6 solid;
+	padding:  .15em 3em .15em .15em;}
+
+/* Tables */
+.co_leaderTableFullWidth {width:100%;}
+.co_leaderTableFullWidth div { display:inline; }
+.co_document table .co_leaderTableFullWidth {margin-top:0;}
+.co_document table {margin: 1em 0 0 0; border-collapse: collapse;}
+.co_document table td,
+.co_document table th {padding: 0 .15em 0 .15em;}
+.co_document table td,
+.co_document table th {font-size:100%;}
+.co_borderTop {border-top: 1px #D6D6D6 solid;}
+.co_borderRight {border-right: 1px #D6D6D6 solid;}
+.co_borderBottom {border-bottom: 1px #D6D6D6 solid;}
+.co_borderLeft {border-left: 1px #D6D6D6 solid;}
+.co_document table th {font-weight:bold;}
+.co_document table td > .co_paragraph {margin:.1em 0 .1em 0;}
+.co_document table th > .co_paragraph {margin:.1em 0 .1em 0;}
+.co_document table + table {margin:0;} /* remove margins if tables are adjacent */
+.x_tableTitle {margin-top:2em;}
+table {font-size:1em;}
+
+/* Headnotes */
+.co_headnotes {
+	margin-bottom:1em;
+	margin-top:1em;
+	clear:right;
+}
+.co_topicKeyContentTable table { margin-top:0; }
+.co_topicKeyContentTable td { vertical-align:top; }
+.co_headnotes #co_headnoteHeader.co_headnoteHeader,
+.co_notesOfDecisionsHeading,
+#co_document .co_footnoteSectionTitle,
+.co_displayOptionsPreviewLabel,
+.co_notesOfDecisions .co_printHeading {
+	background:#D6D6D6 url(images/co_headnote_title.png) left top repeat-x;
+	height:37px;
+	line-height:37px;
+	border:1px solid #D6D6D6;
+	padding:0 .5em;
+}
+.co_notesOfDecisions .co_printHeading { margin-top:2em; }
+.co_notesOfDecisions .co_printHeading .co_notesOfDecisionsHeading {
+	margin:0;
+	padding:0;
+	float:left;
+	border-width:0;
+}
+.co_notesOfDecisionsHeading + .co_notesOfDecisionsLink {
+	float:right;
+	font-size:.825em;
+}
+.co_headnotes #co_headnoteHeader.co_headnoteHeader {
+	cursor:pointer;
+	border-bottom-width:0;
+	padding:0;
+	position:relative;
+}
+.co_headnotes #co_headnoteHeader .co_headnoteSkipLink {
+	position:absolute;
+	top:0;
+	right:10px;
+	font-weight:normal;
+}
+.co_headnotes #co_headnoteHeader .co_headnoteHeaderSpan {
+	display:block;
+	padding-left:.5em;
+	margin-right:10px;
+	color:#252525;
+	text-decoration:none;
+}
+.co_headnotes #co_headnoteHeader .co_headnoteHeaderSpan { background:transparent url(images/co_sprite_widgetControl.png)  right 11px no-repeat; }
+.co_headnotes #co_headnoteHeader.co_headnoteInactive span { background-position:right -43px; }
+.co_headnotes #co_headnoteTools{
+	border-width:0;
+	padding:10px 0;
+	height:21px;
+}
+.co_headnotes #co_headnoteTools .co_fancyHeadnotesShowHide {
+	padding-left:26px;
+	height:21px;
+	cursor:pointer;
+	line-height:21px;
+	background:transparent url(images/co_sprite_icons.png) -49px -2878px no-repeat;
+	display:block;
+	float:right;
+}
+.co_headnotesContentContainer {
+	padding:0 1em 0 1em;
+	border:1px solid #D6D6D6;
+}
+.co_headnotes .co_headnoteRow {
+	width:100%;
+	padding-top:.5em;
+	padding-bottom:1em;
+}
+.co_headnotes .co_headnoteRow + .co_headnoteRow { border-top:1px solid #D6D6D6; }
+.co_headnotes .co_headnoteNumber {
+	background:url(images/co_sprite_icons.png) 0 -2857px no-repeat;
+	width:26px;
+	height:26px;
+	line-height:26px;
+	text-align:center;
+	font-weight:bold; 
+	display:block;
+	float:left;
+	padding-right:10px;
+}
+#co_courtHeadnotes .co_headnoteNumber {
+	display:inline;
+	padding-right:5px;
+}
+#co_document .co_headnoteLink {
+	background:url(images/co_sprite_icons.png) 0 -2883px no-repeat;
+	float:left;
+	height:17px;
+	line-height:17px;
+	margin-top:2px;
+	text-align:center;
+	width:34px;
+	margin-right:5px;
+	color:#252525;
+}
+.co_secondaryHeadnoteNodes { margin-left:36px; }
+.co_headnotes .co_headnoteNumber a {
+	text-decoration:none;
+	color:#252525;
+	width:26px;
+	display:block;
+}
+.co_headnotes .co_headnoteCitedCaseRef { margin-top:1em; }
+.co_headnotes .co_headnoteCell { float:left; }
+.co_headnotes .co_headnoteCellInner { margin-right:310px; }
+.co_headnotes.co_fancyHeadnotes .co_headnoteCellInner { margin:0; }
+.co_headnotes .co_headnoteTopicsCell {
+	width:300px;
+	float:right;
+	margin-left:-300px;
+}
+.co_headnotes .co_fancyKeyciteContainerBottom { width:300px; }
+.co_headnotes .co_headnote  { margin-left:36px; }
+.co_headnotes .co_headnoteTopics td {
+	font-size:.825em;
+	padding-top:5px;
+	line-height:18px;
+}
+.co_headnotes .co_headnoteTopics { border-left:1px solid #D6D6D6; }
+.co_headnotes.co_fancyHeadnotes .co_headnoteTopics {
+	border-width:0;
+	display:inline-block;
+	padding-left:13px;
+	padding-right:13px;
+}
+.co_headnotes .co_headnoteKeyIcon {
+	width:28px;
+	height:16px;
+	padding-left:13px;
+}
+.co_headnotes.co_fancyHeadnotes .co_headnoteKeyIcon { padding:0; }
+.co_headnotes .co_headnoteKeyIcon img { margin:0; }
+/* Fancy Headnotes */
+.co_headnotes.co_fancyHeadnotes #co_headnoteTools .co_fancyHeadnotesShowHide { background-position:-49px -2857px; }
+.co_headnotes .co_lastKeyText,
+.co_headnotes .co_hiddenKeyText,
+.co_headnotes .co_closeKeyCite,
+.co_headnotes .co_keyIcon{ display:none; }
+.co_fancyHeadnotes .co_hiddenKeyText { display:inline; }
+.co_headnotes h3 strong { line-height:26px; }
+.co_headnotes.co_fancyHeadnotes .co_headnoteCell { margin-right:0; }
+.co_headnotes.co_fancyHeadnotes .co_lastKeyText { display:inline; }
+.co_headnotes.co_fancyHeadnotes .co_keyIcon {
+	display:inline;
+	position:relative;
+}
+.co_headnotes.co_fancyHeadnotes .co_popupHeadnote { display:inline; }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive {
+	background-image:url(images/co_headnote_key_active.gif);
+	background-repeat:no-repeat;
+}
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showDown { background-position:top left; }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showUp { background-position:bottom left; }
+.co_headnotes.co_fancyHeadnotes .co_headnoteTopicsCell { display:none; }
+.co_headnotes.co_fancyHeadnotes .co_fancyKeyciteContainerBottom { display:none; }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive .co_fancyKeyciteContainer {
+	background:url('images/co_headnote_keyciteTop.gif') no-repeat;
+	padding:0 .5em .5em .5em;
+}
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive .co_fancyKeyciteContainer table { margin-top:0;  }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showDown .co_fancyKeyciteContainer { background-position:top left; }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showUp .co_fancyKeyciteContainer{ background-position:bottom left; }
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive .co_fancyKeyciteContainerBottom {
+	background:url('images/co_headnote_keyciteBottom.gif') no-repeat;
+	width:447px;
+	position:absolute;
+	display:block;
+	left:0;
+}
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showDown .co_fancyKeyciteContainerBottom {
+	background-position:bottom left;
+	top:26px;
+	padding-bottom:6px;
+}
+.co_headnotes.co_fancyHeadnotes .co_fancyHeadnotesActive.co_showUp .co_fancyKeyciteContainerBottom {
+	background-position:top left;
+	bottom:19px;
+	padding-top:6px;
+}
+.co_headnotes #co_keyCiteFilterLabel {
+	position:absolute;
+	left:-9000px;
+}
+.co_headnotes .co_headnoteKeyPair {
+	font-size:.825em;
+	padding-top:5px;
+	line-height:18px;
+}
+.co_headnoteKeyPair .co_headnoteRefNumber {
+	display:block;
+	float:left;
+	padding:0 6px;
+	width:95px;
+}
+.co_headnoteKeyPair .co_headnoteTopicKey {
+	display:block;
+	margin-left:107px;
+}
+.co_headnotes .co_keyCiteTopic { clear:left; }
+
+/* Star Pages */
+.co_document .co_starPage {
+	font-weight: bold;
+	font-style: italic;
+	color: #007236;
+	top:0;
+}
+.co_headerMenu div.co_document_starPageNavWidget_disabled { display:none; }
+
+/***** DocType Specific Declairations ****/
+/*****************************************/
+
+/* ALR TOC */
+.co_alr ol,
+.co_alr li {list-style:none}
+
+/* ALR Jurs TOC */
+.co_alrJurs .co_researchReferences { font-weight:normal; }
+
+/* ALR Jurs */
+.co_alrJurs h2 {font-weight:normal;}
+.co_document .co_footnote .co_researchReferences .co_headtext { font-weight:normal; }
+
+/* Short Topic */
+.co_analyticalShortTopic .co_authorLine,
+.co_analyticalShortTopic .co_authorBlock {margin-top:0;}
+
+/* Codes */
+.co_codesPara {margin-left:1em;}
+.co_codesPara h2 {display:inline; margin-right:.25em; font-weight:normal;}
+.co_codesPara h2 + div {display:inline;}
+
+/* Forms */
+.co_form .co_paragraph {margin-left:1em;}
+.co_form h2 {display:inline; margin-right:.25em;}
+.co_form h2 + div {display:inline;}
+.co_form .co_paragraph { display:block; }
+.co_form .co_paragraph + em {
+	padding-bottom:1em;
+	display: block;
+}
+.co_form em + .co_paragraph {
+	padding-bottom:1em;
+}
+.co_form .co_paragraph .co_paragraphText {
+	padding: .5em 0;
+	display: block;
+}
+.co_form .co_hAlign2 { padding-bottom: 1em; }
+.co_form H2 + DIV { display:block; }
+
+#co_document .co_list li { padding-left:1em;}
+.co_analyticalTreatisesAndAnnoCodes .co_list li,
+.co_sourceLine { padding-top:1em; }
+#co_document .co_bullList li {
+	list-style-type:disc;
+	list-style-position:inside;
+}
+#co_document .co_bullList li .co_paragraphText { display:inline; }
+
+/* Treatises and AnnoCodes */
+.co_analyticalTreatisesAndAnnoCodes .co_list h2 {font-weight:normal;}
+.co_analyticalTreatisesAndAnnoCodes .co_jurisdictions > div {margin-top:.5em;}
+.co_analyticalTreatisesAndAnnoCodes .co_researchReferences .co_headtext {margin-top:.5em;}
+.co_analyticalTreatisesAndAnnoCodes .co_articleDetails,
+.co_analyticalTreatisesAndAnnoCodes .co_form .co_center {
+	margin-bottom:1em;
+	margin-top:1em;
+}
+.co_analyticalTreatisesAndAnnoCodes .co_articleDetails + .co_articleDetails,
+.co_analyticalTreatisesAndAnnoCodes .co_center + .co_articleDetails,
+.co_analyticalTreatisesAndAnnoCodes .co_articleDetails + .co_center,
+.co_analyticalTreatisesAndAnnoCodes .co_center + .co_center { margin-top:0; }
+
+/* Analytical Article Based */
+.co_analyticalArticleBased .co_list li {margin-top:1em;}
+.co_list li h2,
+.co_list li h2 + .co_paragraphText {display: inline;}
+.co_list li  h2 {margin-right:.25em;}
+
+.co_analyticalArticleBased .co_dialogueItemSpeaker {margin-right:.25em;}
+.co_analyticalArticleBased .co_indexEntry {margin-left:1em;}
+.co_analyticalArticleBased .co_divide {margin:4em auto 4em auto; width:75%}
+.co_dialogueItemSpeaker {font-weight:bold;}
+.co_dialogueItemSpeaker,
+.co_dialogueItemText {display:inline;}
+.co_analyticalArticleBased .co_headtext { margin-bottom:1em; }
+.co_analyticalArticleBased .co_term {font-weight:bold; display:block;}
+.co_analyticalArticleBased .co_definitionPara {display:inline;}
+
+/* Analytical ALR */
+.co_analyticalALR .co_divide {margin:2em 0 2em 0; text-align:left;}
+
+/* Admin Decisions */
+.co_adminDecision .co_attorneyBlock { margin-top:1em; }
+.co_adminDecision .co_prelim + .x_mainTextBody > h2 + h2,
+.co_adminDecision .co_prelimBlock + .x_mainTextBody > h2 + h2 {text-align:left;}
+.co_adminDecision .x_index h2 {text-align:center;}
+.co_adminDecision .x_prelimSynopsis h2 {text-align:left;}
+.co_adminDecision .co_date + .x_prelimSynopsis h2 {text-align:center;}
+.co_adminDecision tbody {font-size: .825em;}
+.co_adminDecision .co_preFrontMatter .co_prelim .x_prelimSynopsis h2,
+.co_adminDecision .co_preFrontMatter .co_prelimBlock .x_prelimSynopsis h2,
+.co_adminDecision .co_preFrontMatter .x_mainTextBody h2,
+.co_adminDecision .co_preFrontMatter .x_prelimSynopsis h2 {text-align:center;}
+
+/*Blacks Law Dictionary*/
+.co_BlackLawDictionary .co_source { text-align:left; }
+.co_BlackLawDictionary .co_definitionPara { margin-bottom:1em; }
+
+/* Case Law */
+.co_nrsOutlineSelected {
+	outline-color:#ff9933;
+	outline-style:dotted;
+	outline-width:2px;
+}
+.co_caselawOfficial .co_headtext {
+	margin-bottom:1em;
+	text-align:center;
+}
+.co_caselawOfficial .co_headnote {margin-top:1em;}
+.co_document .co_opinionBlock table {margin:0;}
+.co_topicLine {margin-top:2em;} /* Caselaw NRS */
+.co_topicLine + .co_topicLine {margin-top:0;} /* Caselaw NRS */
+.x_leadAuthorLine {
+	margin-top: 1em;
+	margin-bottom:1em;
+} /* Caselaw NRS */
+.x_uspqTopicLine {margin-top:2em;} /* Caselaw */
+.x_uspqHeadnote {margin-top:1em;}
+.x_uspqHeadnote .co_paragraph {margin-top:0;} /* Caselaw */
+.x_concurranceAuthorLineBlock {margin-top:1em;} /* Caselaw */
+.co_document .x_bnaKeyLine strong {font-weight:normal;}  /* Caselaw BNA */
+.x_bnaHeadnote {margin-top:1em;} 
+.x_bnaHeadnote .co_headtext {margin-top:0;}
+.co_bnaHeaderImage, .co_netscan, .co_ellis, .co_newsroom, .co_almPublishing, .co_puertoRicoImage, .co_compumark, .co_treatisesHeaderImage, .co_ecriHeaderImage { float:right; }
+.co_document .co_bnaHeaderImage img,
+.co_document .co_newsroomIcon img,
+.co_document .co_newsroom img,
+.co_document .co_netscan img,
+.co_document .co_ellis img,
+.co_document .co_puertoRicoImage img,
+.co_document .co_compumark img,
+.co_document .co_treatisesHeaderImage img,
+.co_document .co_ecriHeaderImage img {margin:0;}
+.x_opinionUndesignated {margin-top:1em;}
+.co_caselawNRS .co_remarksBlock > .co_headtext {margin-bottom:1em;} /* Caselaw NRS */
+.x_voteBlock {margin-top:2em;} /* Caselaw */
+.x_voteLine {margin-top:1em;}
+.co_caselawNRS .x_opinionBody .co_headtext { margin-bottom:1em; }
+.co_caselawNRS .co_paragraphText + .co_paragraph {margin-top:1em;}
+.x_opinionCipdip,
+.x_opinionDissent {margin-top:1em;}
+.co_synopsisHolding {margin:2em 0 1em 0;} 
+.co_document .co_synopsisHolding .co_paragraph {margin-top:0;} 
+.co_section .co_headtext,
+.co_remarksBlock .co_headtext {
+	text-align:center;
+	margin-bottom:1em;
+}
+.co_tribalCourtHeadnote .co_headtext { text-align:center; } /* CTRIB */
+.co_tribalCourtHeadnote .co_expandedHeadnote .co_headnote {margin-top:1em;}
+.co_caselawNRS table {font-size:100%;}
+.co_textLine {text-align:left;}
+.x_syllabus {margin-top:1em;} /* RIA Tax */
+.co_remarksBlock .co_textLine {margin-top:2em;} /* MJ */
+.co_remarksBlock .co_textLine + .co_textLine {margin-top:0;} /* MJ */
+.co_caselawOfficial .co_attorneyBlock > div {margin-top:0;} /* Official NY */
+.co_caselawOfficial .co_opinionBlock + .co_attorneyBlock {margin-top:0;} /* Official NY */
+#co_document .co_opinionBlock .x_opinionLead .co_headtext { margin-bottom:0; } /* Official NY */
+.co_parallelCitesBlockLabel { margin:1em 0 1em 0; }
+.co_caselawPuertoRico .co_synopsis + .co_attorneyBlock { margin-top:1em; }
+/* Jury Verdict */
+.co_juryVerdict .co_docketBlock {text-align:left;}
+.co_juryVerdict .x_verdictSummaryBlock .co_headtext {text-align:left;}
+.co_juryVerdict .x_caseTopicBlock .co_paragraph {margin:0;}
+.co_juryVerdict .x_relatedDocumentsBlock .co_paragraph {margin:0;}
+.co_juryVerdict .co_attorneyBlock > div {margin:0;}
+.co_juryVerdict .x_verdictSummaryBlock > div + div {margin:0;}
+.co_juryVerdict .x_expertWitnessesBlock > div + div {margin:0;}
+.x_rangeBlock,
+.x_injuryBlock,
+.x_providerBlock,
+.x_publicationBlock,
+.x_factsBlock,
+.x_dissentAuthorLineBlock,
+.co_libraryReference,
+.co_vTMdCredit,
+.co_cmdExpandedcite,
+.co_juryVerdict .co_jurisdictions {margin-top:1em;}
+.co_titleLine {text-align:left; font-weight:normal;}
+
+/* Oral Arguments */
+.x_respondentArgumentBlock,
+.x_petitionerArgumentBlock,
+.x_rebuttalArgumentBlock {margin-top:3em;}
+.x_respondentArgumentBlock .co_headtext,
+.x_petitionerArgumentBlock .co_headtext,
+.x_rebuttalArgumentBlock .co_headtext,
+.x_cmdCurrencyDefault /* ALR */ { margin-bottom:1em; }
+
+/* Expert Docs */
+.co_representedPartyLine {margin-top:1em;}
+
+/* Jury Instructions */
+.co_juryInstructions .co_authorLine, .co_juryInstructions .co_authorBlock {margin:0;}
+.co_juryInstructions .co_section .co_headtext {text-align:left; }
+.co_juryInstructions .co_indexEntry {margin-left:2em;}
+.co_juryInstructions .co_section .co_paragraph {margin-left:2em;}
+.co_juryInstructions .co_sectionFront .co_headtext { margin-left:0; }
+.co_juryInstructions .co_headtext {margin-left:2em;}
+.x_findingAid {margin-left:2em;}
+.co_juryInstructions .x_notesBlock .co_headtext,
+.co_juryInstructions .co_researchReferences .co_headtext {text-align:center; margin-top:1em;}
+
+/* Analytical Jury Instructions */
+.co_analyticalJuryInstructions .co_section .co_headtext,
+.co_analyticalJuryInstructions .co_sectionFront .co_headtext {text-align:left; font-weight:bold;}
+
+/* Codes Statutes */
+.co_subsection {margin-top:1em;}
+
+/* Codes Court Orders */
+.x_credit {margin-top:1em;}
+.co_codesCourtOrders .x_signatureBlock {margin-top:2em;}
+.co_codesCourtOrders .x_signatureBlock .co_paragraph {margin-top:1em;}
+.co_codesCourtOrders .x_courtAuthority {margin-top:1em; text-align:center;}
+.co_codesCourtOrders .co_message {text-align:center;}
+.co_codesCourtOrders .co_headtext {text-align:center;}
+.co_codesCourtOrders .co_headtext {margin-top:1em; margin-bottom:1em;}
+.x_introPara {margin-top:1em;}
+.x_orderDateBlock {text-align:center; margin-top:1em;}
+.x_gradeHead {text-align:center; margin:1em 0 1em 0;}
+.co_codesCourtOrders .x_updateTarget + strong + .co_paragraph {margin-top:1em}
+
+/* Other Treatises */
+.co_treatises .co_authorLine,
+.co_treatises .co_authorBlock {margin:0;}
+
+/* RIA */
+#co_document.co_caselawNRS .co_headtext.co_hAlign2 {margin:2em 0 1em 0;}
+
+/* Key Rules */
+.x_juris {margin-top:1em;}
+.x_juris,
+.x_documentCategory,
+.x_documentType {text-align:center;}
+.co_KeyRules h2 {font-weight:bold; margin-bottom:1em;}
+.co_keyRulesLabelName { font-style: italic; }
+.co_KeyRules .x_checklistBlock .co_paragraph,
+.co_KeyRules .x_rulesBlock .co_paragraph,
+.co_KeyRules .x_formsBlock .co_paragraph,
+.co_KeyRules .x_documentsBlock .co_paragraph,
+.co_KeyRules .x_filingReqBlock .co_paragraph,
+.co_KeyRules .x_formatBlock .co_paragraph,
+.co_KeyRules .x_generalReqBlock .co_paragraph,
+.co_KeyRules .x_hearingsBlock .co_paragraph,
+.co_KeyRules .x_timingBlock .co_paragraph {margin-left:1em;}
+.x_checklistBlock,
+.x_formsBlock,
+.x_rulesBlock,
+.x_documentsBlock,
+.x_filingReqBlock,
+.x_formatBlock,
+.x_generalReqBlock,
+.x_hearingsBlock,
+.x_timingBlock  {margin-top:2em;}
+.co_KeyRules .co_list li .co_label * {display:inline; margin-left:0;}
+.co_KeyRules .x_checklistBlock .co_list {margin-left:1em;}
+.co_KeyRules  .co_label {display:inline;}
+
+/* MedLit */
+.x_pubName,
+.x_pubType,
+.x_pubSource,
+.x_divisionName,
+.x_editor,
+.x_author {text-align:center;}
+.x_divisionName {margin:1em 0 1em 0;}
+
+/* MedLit ECRI */
+.co_medLitECRI .co_body .co_section .co_headtext {text-align:left; font-weight:bold;} 
+.co_label {margin-right:.5em;} 
+.co_section + .co_paragraph {margin-top:2em;} 
+.x_sidebarBlock,
+.co_sidebarBlock {padding: 1em; border: solid 1px #252525; margin-top:2em;} 
+.co_sidebarTitle {text-align:center; font-weight:bold; margin-bottom:1em;}
+.co_preFrontMatter, .co_frontMatter {text-align:center;}
+.co_frontMatter > div {margin-top:1em;}
+.co_medLitECRI .co_section .co_list li {margin-top:1em;}
+.co_medLitECRI .co_authorLine, .co_medLitECRI .co_authorBlock,
+.co_preFrontMatter .co_paragraph  {text-align:left;}
+.co_medLitECRI .co_authorLine *,
+.co_medLitECRI .co_authorBlock *,
+.co_medLitECRI .co_ihtaTitle * {display:inline;}
+
+/* MedLit Lippincott */
+.co_medLitLippincott .co_section > .co_paragraph {margin-top:1em;} 
+.co_medLitLippincott .co_analysis {margin-bottom:2em;} /* TOC*/
+.co_medLitLippincott .co_section .co_headtext {text-align:left;}
+
+/* MedLit Lippincott Journal */
+.co_medLitLippincottJournal .co_titleLine {text-align:center; font-weight:bold;}
+.co_medLitLippincottJournal .co_contentBlock {margin-top:1em;}
+.co_medLitLippincottJournal .co_section .co_headtext {text-align:left; font-weight:bold;}
+.co_medLitLippincottJournal .x_notesBlock .co_paragraphText,
+.co_medLitLippincottJournal .co_section .co_paragraphText {margin-top:1em;}
+.co_medLitLippincottJournal .x_questionAnswerBlock {margin-top:2em;}
+.co_medLitLippincottJournal .x_location {margin-top:0;}
+.co_medLitLippincottJournal .x_signatureBlock {margin-bottom:2em;}
+                                                  
+/* MedLit Sci Search*/
+.co_medLitSciSearch .co_contentBlock {margin-top:1em;}
+.co_medLitSciSearch .co_titleLine, .co_titlePrefix {font-weight:bold;}
+.co_medLitSciSearch .x_abstract,
+.co_medLitSciSearch .x_addressList,
+.co_medicalLitigationSciSearch .x_addressList div,
+.co_medLitSciSearch .x_citedTitle {margin-top:0;}
+.co_authorSciSearch,
+.co_sourceBlock,
+.publicationBlockClass,
+.co_keywordsBlock,
+.co_languageBlock,
+.co_medLitSciSearch .co_referenceBlock {margin-top:1em;}
+
+/* Code Session Laws */
+.co_codesSessionLaws .co_contentBlock {margin-top:1em;}
+.x_lawSection .co_headtext + .co_paragraph {margin-top:1em;}
+.x_introPara {margin-bottom:1em;}
+.x_updateTarget {text-align:center;}
+.co_message .co_message {margin-top:0;}
+.x_updateTarget {margin-bottom:1em;}
+.co_codesSessionLaws .x_billInfo,
+.co_codesSessionLaws .x_topicalHead {margin-top:0;}
+.x_beit {text-align:center;}
+
+/* MedLit Medline, MedLit Device Definitions, MedLit Gale*/
+.co_medLitMedline .co_headtext,
+.co_medLitDeviceDefinitions .co_headtext,
+.co_medLitGale .co_headtext {margin-top:1em;margin-bottom:1em; font-weight:bold;}
+.co_medLitMedline .co_authorLine,
+.co_medLitMedline .co_authorBlock,
+.co_medLitDeviceDefinitions .co_authorLine,
+.co_medLitDeviceDefinitions .co_authorBlock {margin:1em 0 1em 0;text-align:left;}
+.co_medLitMedline .co_titleLine,
+.co_medLitDeviceDefinitions .co_titleLine,
+.co_medLitGale .co_titleLine {font-weight:bold; margin-top:1em;}
+.co_medLitGale ul.co_list {margin-left:2em; margin-top:1em;list-style-type:disc;}
+
+/* MedLit Micromedex */
+.co_medLitMicromedex .co_headtext {text-align:left; margin-top:1em; margin-bottom:1em; font-weight:bold;}
+.co_medLitMicromedex .co_section {margin-left:2em;}
+.co_medLitMicromedex .co_titleLine {font-weight:bold; margin-top:1em;}
+.co_medLitMicromedex .co_section .co_paragraphText {margin-left:2em;}
+.co_medLitMicromedex .co_section .co_footnote .co_paragraphText {margin-left:0;}
+.co_medLitMicromedex .co_section li .co_paragraphText {margin-left:0;}
+.co_medLitMicromedex .co_section .co_paragraphText .co_paragraphText {margin-left:0;}
+.co_medLitMicromedex ul.co_list {margin-left:2em; margin-top:1em; }
+.x_genericNameBlock,
+.x_activeBlock,
+.x_prodSpecsBlock,
+.x_singleSource,
+.x_maintDrugStatusBlock,
+.x_deaClassBlock,
+.x_tccBlock,
+.x_gccBlock,
+.x_gfcBlock,
+.x_phoneNumBlock,
+.x_changedDateBlock,
+.x_deactivationDateBlock,
+.x_supplementalInfoBlock, 
+.x_companyName,
+.co_medLitMicromedex .co_address{margin-top:1em;}
+.x_genericNameBlock span {font-weight:bold;}
+.x_manufacturerBlock,
+.x_historyBlock,
+.x_companyBlock,
+.x_descriptionBlock {margin-top:2em;}
+.co_medLitMicromedex .x_warningBlock {
+	margin-top:1em;
+	border:2px solid #252525;
+	padding:0 1em 1em 1em;
+	text-align:center;
+	font-weight:bold;
+}
+.co_medLitMicromedex .x_warningBlock .co_headtext{text-align:center;}
+.co_medLitMicromedex ul,
+.co_medLitMicromedex ul ul ul {list-style-type:disc;}
+#co_document.co_medLitMicromedex ul.co_list li.co_listHead{list-style-type:none;text-indent:-1.25em;margin:0;}
+#co_document.co_medLitMicromedex ul.co_list li.co_listHead li{text-indent:0;}
+.co_medLitMicromedex ul ul {margin-bottom:1em;}
+.co_medLitMicromedex ul ul,
+.co_medLitMicromedex ul ul ul ul {list-style-type:circle;}
+.co_medLitMicromedex.co_medLitMicromedexPrescripDrugs ul.co_list,.co_medLitMicromedex.co_medLitMicromedexNonPrescripDrugs ul.co_list,.co_medLitMicromedex.co_medLitMicromedexDrugDexEvals ul.co_list{list-style-type:none;}
+.co_medLitMicromedex.co_medLitMicromedexNonPrescripDrugs table{margin-top:0;}
+.co_medLitMicromedex.co_medLitMicromedexNonPrescripDrugs table th, .co_medLitMicromedex.co_medLitMicromedexNonPrescripDrugs table td{padding-right:1em;}
+
+/* AMA Atlas */
+.co_AMAAtlas .co_imageBlock {text-align:center; margin:1em 0 0 0;}
+.co_AMAAtlas .co_imageCaption {font-size:.825em;}
+.co_congMatHead {font-weight:bold; margin-top:1em;}
+.x_amaImageBlock .co_headtext {text-align:left; font-weight:bold;}
+.co_document_downloadSmartLabel {
+	margin: 3em 0;
+	text-indent:-9999em;
+	display:block;
+	height:31px; 
+	width:88px; 
+}
+.co_downloadIcon{
+	margin: 2em auto 0 auto;
+	text-align:center;
+	text-indent:-9999em;
+	display:block;
+	width:87px; 
+	height:78px; 
+}
+
+
+/* GAO */
+.co_Gao .co_prelim, .co_Gao .co_prelimBlock {text-align:center;}
+.co_Gao .co_prelimSummary {margin-top:1em;}
+.co_Gao .co_congMatHead,
+.co_Gao .co_hearingHead,
+.co_presDocInfo  {margin:2em 0 1em 0; font-weight:bold;}
+
+
+/* Compliance Advisor - Oden Forms and Oden Summary */
+.x_hcb1,
+.x_hcb2,
+.x_hcb3,
+.x_hcb4 {text-align:center;}
+.x_til {margin-top:1em;}
+.co_complianceAdvisorOdenForms .co_imageBlock {text-align:center;}
+.co_complianceAdvisorOdenSummary pre { margin:1em 0;} /* Not sure why this has to be larger */
+.co_complianceAdvisorOdenSummary .co_headtext {
+	margin-bottom:1em;
+	font-weight:bold;
+}
+.co_complianceAdvisorOdenSummary .x_brand {margin:0; font-weight:bold; text-align:center;}
+.co_complianceAdvisorOdenSummary .x_juris {margin-top:0;}
+.co_complianceAdvisorOdenSummary .x_addressBlock {margin-top:1em;}
+.x_agency {font-weight:bold;}
+.x_rcGen, .x_sol, .x_verNumber {margin-top:1em;}
+.co_complianceAdvisorOdenSummary .x_brand {margin-top:1em;}
+
+/* treatisesAll */
+.co_treatisesAll .co_authorLine, .co_treatisesAll .co_authorBlock, .co_treatisesAll .co_propBlock { margin:0; }
+.co_treatisesAll .co_propBlock .co_headtext { text-align:center; }
+.co_treatisesAll .co_paragraph, .co_treatisesAll table .co_paragraph{margin-top:1em;}
+.co_treatisesAll .co_paragraph .co_paragraph .co_paragraphText, .co_treatisesAll .co_paragraph .co_paragraph .co_paragraph{margin-left:1.3em;}
+.co_treatisesAll .co_indentHanging1{margin-left:2.3em;}
+.co_treatisesAll .co_paragraph .co_paragraph .co_paragraph .co_paragraphText, .co_treatisesAll .co_paragraph .co_paragraph .co_paragraph .co_paragraph { margin:0; }
+.co_treatisesAll table td, .co_treatisesAll table th{padding:0 1.3em 0 0;}
+.co_treatisesAll table .co_vAlign3 table{margin:0;}
+.co_treatisesAll .co_researchReferences div div .co_paragraph{margin-left:1.3em;}
+.co_treatisesAll .x_prelimSynopsis, .co_treatisesAll .co_copyright, .co_treatisesAll .co_date { text-align:center; }
+.co_treatisesAll .co_date { font-family:inherit; }
+
+/* co_newsletters */
+.co_newsletters .co_headtext { font-weight:bold; }
+.co_newsletters .co_paragraph .co_paragraph { text-indent:1.5em; }
+.co_footnote .co_paragraph .co_paragraph {text-indent:0;}
+.co_newsletters .co_paragraph .co_paragraph .co_paragraph { margin-left:1.5em; }
+.co_footnote .co_paragraph .co_paragraph .co_paragraph {margin-left:0;}
+
+/* co_caselawPucPur */
+.co_caselawPucPur .co_purHeadnoteBlock .co_purHeadnote { margin-top:1em; }
+.co_caselawPucPur .co_contentBlock.co_attorneyBlock { margin-top:1em; }
+.co_caselawPucPur .co_purKeyLine {
+	display:block;
+	margin-bottom:1em;
+}
+.co_caselawPucPur .co_paragraph { margin-top:1em; }
+.co_headnoteCourtYear + .co_paragraph { margin-top:0; }
+
+/* Context and analysis */
+#co_contextAndAnalysis ul { margin-left:25px; }
+#co_contextAndAnalysis li { list-style-type:disc; }
+#co_contextAndAnalysis li li { list-style-type:circle; }
+
+/* xena */
+.co_xena_d2, .co_xena_d3, .co_xena_d4, .co_xena_d5 { text-align:center; }
+.co_xena_d3, .co_xena_d5, .co_xena_d7, .co_xena_d9 { margin-bottom:1em; }
+.co_xena_d4, .co_xena_d5, .co_xena_d8, .co_xena_d9 { margin-top:1em; }
+.co_documentHead .co_genericBoxContent .co_xena_d3,
+.co_documentHead .co_genericBoxContent .co_xena_d4,
+.co_documentHead .co_genericBoxContent .co_xena_d5,
+.co_documentHead .co_genericBoxContent .co_xena_d7,
+.co_documentHead .co_genericBoxContent .co_xena_d8,
+.co_documentHead .co_genericBoxContent .co_xena_d9 { margin:0; }
+
+.co_tocNavigationDisabled { visibility: hidden; display: none; }
+
+/*********************************/
+/* Footnotes */
+sup {
+	height: 0;
+	line-height: 1;
+	vertical-align: baseline;
+	position: relative; 
+	bottom: 1ex;
+	padding: 0 .2em 0 .2em;
+}
+#co_document .co_footnoteNumber {
+	vertical-align:top;
+	width:75px;
+	padding: .5em 5px;
+}
+#co_document div.co_footnoteNumber {
+	float:left;
+}
+
+sup a {text-decoration:none; text-align:left; color: #4778c2;}
+#co_document .co_footnoteSection {
+	margin-top: 1em;
+	width:100%;
+}
+#co_document .co_footnoteBody { padding: .5em 0; }
+#co_document div.co_footnoteBody { margin-left:85px; }
+.co_footnote {clear:both;}
+.co_footnote .co_paragraph {margin:0 0 1em 0;clear:both;} 
+.co_footnote .co_paragraph .co_paragraphText {clear:both; width:100%;} 
+
+.co_footnoteHoverDiv {
+	position: absolute;
+	width: 390px;
+	z-index: 5;
+	display: block;
+}
+.co_footnoteHoverTitle {
+	width: 390px;
+	background: transparent url(images/co_footnoteHover.png) left top no-repeat;
+}
+.co_footnoteHoverTitle span {
+	color: #252525;
+	padding: 12px 12px 6px 12px;
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+}
+.co_footnoteHoverBody {
+	background: transparent url(images/co_footnoteHover.png) right top repeat-y;
+	color: #777777;
+	padding: 6px 3px 12px 12px;
+	border-top: 1px solid #D6D6D6;
+}
+.co_footnoteHoverContent {
+	max-height: 150px;
+	overflow: auto;
+	color: #252525;
+	font-size: 12px;
+	line-height: 1.5em;
+}
+.co_footnoteHoverContent .co_paragraph { margin: 0; }
+.co_footnoteHoverFooter {
+	width: 390px;
+	height: 3px;
+	background: transparent url(images/co_footnoteHover.png) left bottom no-repeat;
+}
+.co_footnoteHoverDivHidden { display: none; }
+
+/* Table of Contents */
+.co_tocHeading {margin-top:1em;}
+ol.co_toc li.co_tocHeading + li.co_tocHeading,
+li.co_tocHeading .co_tocHeading {margin-top:0;}
+ol.co_toc {margin-top:0;}
+ol.co_toc { margin-left:1em; }
+ol.co_toc ol {
+    padding-left:1.5em;
+}
+ol.co_toc li { background-image: none; } /* Not sure why we need this, but it was on a lot of stuff. */
+#co_document .co_leaderTable { margin:1em 0; }
+table.co_toc {width:100%;}
+table.co_toc table.co_toc{margin-top:0;}
+table.co_toc .co_tocHeading td{text-align:center;border-bottom:none;padding-top:1em;}
+table.co_toc td,
+.co_document .co_leaderDashes,
+.co_document .co_leaderDots,
+.co_document .co_leaderUnderline {
+	vertical-align:bottom;
+	padding:0;
+}
+table.co_toc td,
+.co_document .co_leaderDashes { border-bottom:1px dashed #252525; }
+.co_document .co_leaderDots { border-bottom:1px dotted #252525; }
+.co_document .co_leaderUnderline { border-bottom:1px solid #252525; }
+.co_leaderSignature {
+	float:right;
+	width:50%;
+}
+table.co_toc thead tr td,
+table.co_toc td.co_nestedTable{ border-bottom:none; }
+.co_leaderWrapper {
+	position:relative;
+	width:auto;
+	top:4px;
+	background:#FFFFFF;
+	padding-left:4px;
+}
+table.co_toc td span span.co_hl { top:0; }
+table.co_toc table.co_toc td span{padding-left:1em;}
+table.co_toc table.co_toc table.co_toc td span{padding-left:2em;}
+table.co_toc table.co_toc table.co_toc table.co_toc td span{padding-left:3em;}
+table.co_toc table.co_toc table.co_toc table.co_toc table.co_toc td span{padding-left:4em;}
+table.co_toc td.co_hAlign3 span,
+td.co_leaderDots.co_hAlign3 span{white-space:nowrap;}
+table.co_toc table.co_toc td.co_hAlign3,
+table.co_toc table.co_toc table.co_toc td.co_hAlign3 span,
+table.co_toc table.co_toc table.co_toc table.co_toc td.co_hAlign3 span,
+table.co_toc table.co_toc table.co_toc table.co_toc table.co_toc td.co_hAlign3 span{padding-left:0;}
+
+/* End of Document */
+#co_endOfDocument {
+	font-weight: bold;
+	color: #777777;
+	margin-top:2em;
+	border-top: solid 1px #BBBBBB;
+	width:100%;
+	clear:both;
+}
+#co_endOfDocument td { padding-top:5px; }
+#co_endOfDocument .co_endOfDocCopyright,
+.co_nyScopeCopyright {
+	text-align:right;
+	font-weight:normal;
+	font-size:12px;
+}
+#co_endOfDocument .co_endOfDocCopyright { width:75%; }
+.co_additionalContent {
+	font-weight: bold;
+	color: #777777;
+	padding-top:2em;
+}
+/* Navigation Section */
+#co_previousSection {
+	float:left;
+	margin-bottom:1em;
+}
+#co_nextSection {
+	float:right;
+	margin-bottom:1em;
+}
+#co_nextSection a,
+#co_previousSection a {
+	display:block;
+	height:25px; 
+	width:119px; 
+	background-image:url(images/co_sprite_button.png);
+	background-repeat:no-repeat;
+}
+#co_nextSection a { background-position:0 -1020px; }
+#co_previousSection a { background-position:0 -1090px; }
+.co_hidden { 
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden; 
+}
+.co_clearfix {clear:both; visibility:hidden;}
+
+/* Selected Text Menu */
+#co_selectedTextMenu,
+#co_highlightMenu { z-index: 1001; }
+#co_selectedTextMenu {
+	width:255px;
+	position:absolute;
+	top:0;
+	left:0;
+}
+#co_selectedTextMenu .co_dropdownBoxContentRight {
+	padding-top:8px;
+	padding-bottom:8px;
+}
+#co_pageContainer .co_selectedTextMenuList {
+	line-height:34px;
+	font-size:14px;
+	font-family:Arial,Helvetica,sans-serif;
+	color:#145da4;
+}
+.co_selectedTextMenuListItem,
+.co_selectedTextMenuListItemDisabled,
+#co_selectedTextMenuListItem_CopyWithRef {
+	padding-left:10px;
+	padding-right:10px;
+}
+.co_selectedTextMenuList li { word-wrap:break-word; }
+.co_selectedTextMenuList li + li { border-top:1px solid #D6D6D6; }
+.co_selectedTextMenuListItemDisabled a {
+	font-weight:normal;
+	color:#777777;
+	text-decoration:none !important;
+	cursor:default;
+}
+#co_selectedTextMenuListItem_CopyWithRef {
+	height:34px;
+	position:relative;
+}
+#co_copyWithRefFlash {
+	position:absolute;
+	top:0;
+	left:0;
+	height:34px;
+	overflow:hidden;
+	
+}
+.co_selectedTextMenuContentHidden {visibility:hidden;}
+.co_selectedTextMenuContent {visibility: visible;}
+/* End Selected Text Menu */
+
+/* Copy With Reference Lightbox */
+#co_copyWithRefLightbox { width:500px; }
+#co_copyWithRefLightbox .co_overlayBox_content { padding:0; }
+#co_copyWithRefLightbox p { padding:5px 0 5px 10px; }
+#co_copyWithRefLightbox .co_overlayBox_optionsBottom { padding-top:8px; }
+#co_copyWithRefLightbox .co_copyWithRefTextAreaContainer {
+	max-height:310px;
+	overflow:auto;
+	padding:4px 4px 0 10px;
+	clear:both;
+	border-top:1px solid #EEEEEE;
+}
+
+/* Copy with Reference Confirmation Box */
+#co_document #co_copyWithRefConfirmation{
+	width:27em;
+	height:5em;
+	border:solid 4px #BBBBBB;
+	background:#fef78d;
+}
+#co_document .co_copyWithRefConfirmationHidden {display:none;}
+#co_document .co_copyWithRefConfirmationDisplayed {
+	display:block;
+	position:absolute;
+	left:40%; top:30%;
+}
+#co_document div > .co_copyWithRefConfirmationDisplayed{position:fixed;}
+	
+#co_document #co_closeCopyWithRefConfirmation {cursor:pointer;}
+
+#co_document #co_copyWithRefConfirmation a{ /* Close Button */
+    float:right;
+	display:block;
+	height:16px; 
+	width:17px; 
+	background:url(images/co_button_close.png) 0 0 no-repeat;
+}
+#co_document #co_copyWithRefConfirmation p {margin:10px 0 0 10px;}
+#co_document #co_copyWithRefSuppression {
+	float:right;
+	margin:10px 10px 0 0;
+	font-size:.825em;
+	vertical-align:middle;
+}
+/* End Copy with Reference Confirmation Box */
+
+/* Copy with Reference Dropdown */
+#co_copyWithRefMenu {
+	position:absolute;
+	right:0;
+	top:5px;
+	width:140px;
+}
+#co_copyWithRefPref { font-size:12px; }
+.co_copyWithRefMenu_anchor {
+	background:transparent url(images/co_sprite_icons.png) -48px -762px no-repeat;
+	display:block;
+	height:23px;
+	position:absolute;
+	text-indent:-9000px;
+	width:22px;
+	z-index:1;
+	right:0;
+}
+.co_copyWithRefMenu_anchor.co_open { background-position:-48px -785px; }
+.co_copyWithRefMenu_container {
+	background-color:#FFFFFF;
+	border:1px solid #D6D6D6;
+	font-size:12px;
+	line-height:19px;
+	padding:3px;
+	position:absolute;
+	top:22px;
+	z-index:0;
+	display:none;
+	width:140px;
+}
+.co_copyWithRefMenu_container.co_open { display:block; }
+.co_copyWithRefMenu_container a {
+	display:block;
+	margin:0 -4px;
+	padding:2px 10px 2px 35px;
+}
+
+.co_copyWithRefMenu_container li + li {
+	border-top:1px solid #EEEEEE;
+}
+.co_copyWithRefMenu_container .co_copyWithRefMenu_selected a {
+	background:url(images/co_sprite_icons.png) 15px -1467px no-repeat;
+}
+
+/* showDeliveryByEmailDiv */
+#showDeliveryByEmailDiv{
+	font-weight:bold;
+	font-size:.825em;
+	padding:1em .63em 0 .63em;
+	background:#EEEEEE;
+	border:1px solid #252525;
+	position:absolute;
+	left:80%;
+	top:75px;
+}
+#showDeliveryByEmailDiv input, #showDeliveryByEmailDiv select{
+	margin-bottom:1em;
+}
+
+/* Grayed Out Functions */
+.co_document_readingMode_disabled {color:#BBBBBB;}
+.co_document_alert_disabled {color:#BBBBBB;}
+
+
+/*************************************************/
+/* Misc (from styles.css)                        */
+/*************************************************/
+
+/* Document Header */
+.co_document .co_header {
+	color: #777777;
+	text-align: center;
+}
+
+.co_document .co_searchTerm,
+.co_document .co_searchTerm span,
+.co_document .co_highlightPoints,
+.co_document .co_searchWithinTerm,
+.co_document .co_searchWithinTerm span {
+	top:0;
+	padding-left:0;
+}
+
+.co_searchTerm,
+.co_searchTerm span { background-color:#FFFF66 !important; }
+.co_locateTerm,
+.co_locateTerm span { background-color:#BEBEFC !important; }
+.co_searchWithinTerm,
+.co_searchWithinTerm span {
+	background-color:#99FF66 !important;
+	font-weight:bold;
+}
+.co_document .co_currentSearchTerm {
+	top:0;
+}
+.co_document.co_citingRefSearchTerms .co_searchTerm,
+.co_document.co_citingRefSearchTerms .co_highlightPoints,
+.co_document.co_citingRefSearchTerms .co_searchWithinTerm { font-weight:normal; }
+
+/* Document Links */
+a.co_invalidLink {
+	text-decoration: none;
+	color: #252525;
+}
+a.co_internalLink {
+	text-decoration: none;
+	color: #4778c2;
+}
+
+/* Document Key Numbers */
+.co_document .co_headnotes .co_expandedHeadnote .co_headnoteTopics .co_headnoteTopicKey .co_headnoteTopicKey {
+	padding-left: 2em;
+}
+.co_document .co_headnoteTopicKey img { margin:0 .125em 0 0; }
+.co_document .co_headnotePriorClassification { padding-left: 2em; }
+.co_document .co_digestKey {
+	width: 16px;
+	height: 8px;
+	vertical-align: middle; /* Fix for Firefox */
+}
+.co_document .co_referenceKey {
+	width: 16px;
+	height: 8px;
+	vertical-align: middle; /* Fix for Firefox */
+}
+.co_document img.co_referenceKey { margin:0; }
+
+/* Copy With Ref Keyboard */
+#co_selectedTextDisplay 
+{
+	position:fixed;
+	top:100px;
+	width:600px;
+	padding:16px;
+	border:1px solid #BBBBBB;
+	background:#FFFFFF;
+}
+#co_selectedTextWithReference 
+{
+	max-height:400px;
+	overflow:auto;
+}
+#co_selectedTextDisplay .co_selectedTextMenu {
+	position:relative;
+	top:0;
+	left:0;
+	margin-top:1em;
+	display:inline;
+}
+
+/* Notes of Decisions */
+.co_notesOfDecisionsHeading {
+	margin-top:2em;
+	font-weight:bold;
+}
+.co_notesOfDecisions .co_notesOfDecisionsExplaination { font-size:.825em; }
+.co_notesOfDecisions .co_headtext { text-align:left; }
+.co_notesOfDecisions .co_headtext + .co_headtext, .co_notesOfDecisions .co_notesOfDecisionsHeading + .co_headtext { margin-top:0; }
+
+/* Business Information & News */
+.co_Bin .co_journal {
+	margin:1em 0 0 0;
+	text-align:center;
+	clear:right;
+	font-family:georgia, serif;
+}
+.co_Bin .co_volumeIssue,
+.co_Bin .co_section,
+.x_citationBlock,
+.co_juryVerdict .co_message,
+.co_juryVerdict .x_publisherBlock {
+	text-align:center;
+	font-family:georgia, serif;
+}
+.co_headnoteBlock .co_headnote { margin-top:1em; }
+.co_Bin .co_publisherCopyright,
+.co_Bin .co_supplierCopyright,
+.co_Bin .co_pubDate,
+.co_Bin .co_binAuthor {
+	margin:0 0 1em 0;
+	text-align:center;
+	font-family:georgia, serif;
+}
+.co_Bin .co_indexHeader 
+{
+	font-weight:bold;
+}
+.co_Bin .co_text,
+.co_Bin .co_index div {
+	margin:0 0 1em 0;
+}
+
+.co_baselineTextRule {
+	border-bottom-style: solid;
+	display:inline-block;
+}
+.co_visibilityHidden {
+	visibility:hidden;
+}
+
+/*Highlighting*/
+.co_hl {
+	background-color:#ffffae !important;
+	cursor:pointer;
+}
+.co_hideAnnotations .co_hl,
+.co_hideAnnotations .co_hlActive .co_hl { background-color:#FFFFFF !important; }
+.co_hlActive,
+.co_hlActive .co_hl,
+.co_hideAnnotations .co_searchTerm .co_hl { background-color:#ffdaae !important; }
+.co_docDelivery_dottedLine { display:none; }
+
+/* Federal Register */
+.co_federalRegister .co_date,
+.co_federalRegister .co_body .co_flush {
+	margin-top:1em;
+}
+
+/*************************************************/
+/* Reading Mode                                  */
+/*************************************************/
+.co_lightboxOverlay .co_documentReadingModePreferences { width:800px; }
+.co_documentReadingModePreferences .co_3Column,
+.co_documentReadingModePreferences .co_4Column,
+#co_disOpt_restoreDefaults { margin-bottom:10px; }
+#co_disOpt_restoreDefaults {
+	display:block;
+	background:transparent url(images/co_sprite_icons.png) 0 -223px no-repeat;
+	line-height:20px;
+	padding-left:21px;
+	outline:0;
+}
+.co_overlayBox_displayOptionsRestore .co_button_medium { margin:0 auto; }
+.co_documentReadingModePreferences h4 {
+	font-weight:bold;
+	font-size:1.125em;
+}
+#co_displayOptionsPreview {
+	border-style:solid;
+	border-width:0 1px 1px;
+	border-color:#D6D6D6;
+	padding:10px 0;
+	font-size: 14px;
+	line-height:1.5em;
+	max-height:150px;
+	overflow:hidden;
+}
+#co_displayOptionsPreview p { margin:0 80px 1em; }
+#co_displayOptionsPreview.co_disOpt_noLinks a,
+.co_disOpt_noLinks #co_document a {
+	color:#252525;
+	text-decoration:none;
+	cursor:default;
+}
+.co_disOpt_noSearchTerms .co_searchTerm,
+.co_disOpt_noSearchTerms .co_searchTerm span {
+	background-color:transparent !important;
+	font-weight:normal;
+	padding:0;
+}
+.co_disOpt_noSearchTerms .co_searchTerm span.co_hl,
+.co_disOpt_noSearchTerms .co_searchTerm span.co_hl span { background-color:#FFFFAE !important; }
+.co_disOpt_noSearchTerms .co_searchTerm span.co_hl.co_hlActive,
+.co_disOpt_noSearchTerms .co_searchTerm span.co_hl.co_hlActive span { background-color:#FFDAAE !important; }
+.co_disOpt_textSizeSmall #co_document,
+.co_disOpt_textSizeSmall,
+#co_displayOptionsPreview.co_disOpt_textSizeSmall { font-size:11px; }
+.co_readingMode .co_disOpt_textSizeSmall #co_document,
+.co_readingMode .co_disOpt_textSizeSmall,
+.co_readingMode #co_displayOptionsPreview.co_disOpt_textSizeSmall { font-size:12px; }
+.co_disOpt_textSizeMedium #co_document,
+.co_disOpt_textSizeMedium,
+#co_displayOptionsPreview.co_disOpt_textSizeMedium { font-size:13px; }
+.co_readingMode .co_disOpt_textSizeMedium #co_document,
+.co_readingMode .co_disOpt_textSizeMedium,
+.co_readingMode #co_displayOptionsPreview.co_disOpt_textSizeMedium { font-size:14px; }
+.co_disOpt_textSizeLarge #co_document,
+.co_disOpt_textSizeLarge,
+#co_displayOptionsPreview.co_disOpt_textSizeLarge { font-size:15px; }
+.co_readingMode .co_disOpt_textSizeLarge #co_document,
+.co_readingMode .co_disOpt_textSizeLarge,
+.co_readingMode #co_displayOptionsPreview.co_disOpt_textSizeLarge { font-size:16px; }
+.co_disOpt_textSizeExtraLarge #co_document,
+.co_disOpt_textSizeExtraLarge,
+#co_displayOptionsPreview.co_disOpt_textSizeExtraLarge { font-size:18px; }
+.co_readingMode .co_disOpt_textSizeExtraLarge #co_document,
+.co_readingMode .co_disOpt_textSizeExtraLarge,
+.co_readingMode #co_displayOptionsPreview.co_disOpt_textSizeExtraLarge { font-size:19px; }
+
+.co_dipOpt_fontVerdana, .co_dipOpt_fontVerdana #co_document, .co_dipOpt_fontVerdana .co_noteArea { font-family:Verdana, Sans-Serif; }
+.co_dipOpt_fontArial, .co_dipOpt_fontArial #co_document, .co_dipOpt_fontArial .co_noteArea { font-family:Arial, Sans-Serif; }
+.co_dipOpt_fontGeorgia, .co_dipOpt_fontGeorgia #co_document, .co_dipOpt_fontGeorgia .co_noteArea { font-family:georgia, Serif; }
+.co_dipOpt_fontTimesNewRoman, .co_dipOpt_fontTimesNewRoman #co_document { font-family:'Times New Roman', times, serif; }
+.co_dipOpt_marginNarrow #co_document,
+#co_displayOptionsPreview.co_dipOpt_marginNarrow p,
+.co_dipOpt_marginNarrow #co_documentNotes,
+.co_dipOpt_marginNarrow .co_chunkPagination { margin:0 10px; }
+.co_dipOpt_marginNormal #co_document,
+#co_displayOptionsPreview.co_dipOpt_marginNormal p,
+.co_dipOpt_marginNormal #co_documentNotes,
+.co_dipOpt_marginNormal .co_chunkPagination { margin:0 40px; }
+.co_dipOpt_marginWide #co_document,
+#co_displayOptionsPreview.co_dipOpt_marginWide p,
+.co_dipOpt_marginWide #co_documentNotes,
+.co_dipOpt_marginWide .co_chunkPagination { margin:0 80px; }
+
+.co_readingMode #co_document,
+.co_readingMode #co_documentNotes,
+.co_readingMode .co_chunkPagination {
+	margin:0 auto;
+}
+.co_readingMode .co_dipOpt_marginNarrow #co_document,
+.co_readingMode .co_dipOpt_marginNarrow #co_documentNotes,
+.co_readingMode .co_dipOpt_marginNarrow .co_chunkPagination {
+	max-width:717px;
+}
+.co_readingMode .co_dipOpt_marginNormal #co_document,
+.co_readingMode .co_dipOpt_marginNormal #co_documentNotes,
+.co_readingMode .co_dipOpt_marginNormal .co_chunkPagination {
+	max-width:657px;
+}
+.co_readingMode #co_document,
+.co_readingMode #co_documentNotes,
+.co_readingMode .co_dipOpt_marginWide #co_document,
+.co_readingMode .co_dipOpt_marginWide #co_documentNotes,
+.co_readingMode .co_dipOpt_marginWide .co_chunkPagination {
+	max-width:577px;
+}
+
+.co_docDisplay #co_displayOptionsPreview p { margin-bottom:1em; }
+.co_lightboxFindNextDocumentInPlanContent {
+	border: solid 50px #FFFFFF;
+	font-size:24px;
+	margin: auto;
+	text-align:center;
+	vertical-align:middle;
+}
+#co_readingModeKC {
+	display:block;
+	font-family:Arial, Sans-Serif;
+	margin-bottom:1em;
+	text-align:left;
+	font-size:13px;
+	border-bottom:1px solid #D6D6D6;
+	padding-bottom:1em;
+}
+#co_readingModeKC.co_hideState { display:none; }
+.co_snt_treatmentPhrase, .co_relatedInfo_SNT_StaticPhrase { font-weight:bold; }
+#co_readingModeCitatorFlag,
+#co_readingModeNegativeTreatment,
+#co_readingModeNegativeTreatment OL,
+#co_readingModeNegativeTreatment LI {display:inline; }
+#co_readingModeNegativeTreatment LI span + span,
+#co_readingModeNegativeTreatment LI span + a + span {
+	border-left:1px solid #D6D6D6;
+	padding-left:5px;
+	margin-left:5px;
+}
+#co_readingModeNegativeTreatment LI + LI { display:block; }
+#co_readingModeNegativeTreatment LI span + a {
+	padding-left:5px;
+	margin-left:5px;
+}
+#co_readingModeCitatorFlag img {
+	height:20px;
+	width:17px;
+	vertical-align:middle;
+}
+#co_readingModeCitatorFlag .co_progressIndicator { text-align:left; }
+#co_readingModeNegativeTreatment img {
+	height:20px;
+	width:17px;
+	margin-right:5px;
+	vertical-align:middle;
+}
+#co_readingModeNegativeTreatment .co_sntKeyCiteFlag {
+	height:14px;
+	margin:0;
+	position:relative;
+	top:2px;
+}
+.co_readingMode #co_docToolbarMenuLeft {
+	background:transparent url(images/co_logo_readermode.png) no-repeat 15px 9px;
+	padding-left:130px;
+}
+.co_document .co_crosshatch { text-decoration: line-through; }
+.co_docketsToOrder { margin-bottom:1em; }
+.co_docketsCurrentBlock {
+	margin-bottom:1em;
+}
+.co_docketsHeading {
+	background:#D6D6D6 url(images/co_headnote_title.png) left top repeat-x;
+	border-style:solid;
+	border-color:#D6D6D6;
+	border-width:1px 1px 0;
+	height:37px;
+	line-height:37px; 
+	padding:0 0.5em;
+	position:relative;
+}
+.co_docketsHeading .co_widget_expandIcon,
+.co_docketsHeading .co_widget_collapseIcon,
+.co_docketsHeading .co_widget_toggleIcon,
+.co_dockets .co_docketSubHeading .co_widget_toggleText,
+.co_dockets .co_docketSubHeading .co_widget_toggleIcon {
+	right:10px;
+	top:10px;
+}
+.co_docketsHeading.hover .co_widget_toggleIcon,
+.co_docketSubHeading.hover .co_widget_toggleIcon  { background-position: 0 -27px; }
+.co_sectionCollapsed .co_docketsHeading.hover .co_widget_toggleIcon,
+.co_sectionCollapsed .co_docketSubHeading.hover .co_widget_toggleIcon  { background-position: 0 -81px; }
+.co_dockets .co_docketSubHeading {
+	background-color:#EEEEEE;
+	border:1px solid #D6D6D6;
+	font-size:100%;
+	line-height:35px;
+	min-height:35px;
+	padding:0 5px;
+	text-transform:uppercase;
+	position:relative;
+	font-weight:bold;
+}
+
+.co_docketsSubSection.co_sectionCollapsed .co_docketsRow { display:none; }
+.co_dockets .co_docketsTable {
+	border-style:solid;
+	border-color:#D6D6D6;
+	border-width:0 0 1px 1px;
+	margin-bottom:1em;
+}
+.co_docketsTable .co_tbButton {
+	font-size: 12px;
+	font-family: Arial,Helvetica,sans-serif;
+	width:100px;
+}
+.co_tbButton.co_sendRunnerToCourt {
+	width:165px;
+}
+.co_tbButton.co_pdfButton i,
+.co_tbButton.co_sendRunnerToCourt i,
+.co_tbButton.co_downloadButton i {
+	padding-left:21px;
+	background-image:url(images/co_sprite_icons.png);
+	background-repeat:no-repeat;
+}
+.co_tbButton.co_pdfButton i { background-position:-54px -2779px; }
+.co_tbButton.co_sendRunnerToCourt i { background-position:0 -8632px; }
+.co_tbButton.co_downloadButton i { background-position:0 -169px; }
+.co_tbButton.co_sendRunnerToCourt.co_disabled i { background-position:-54px -8632px !important; }
+.co_dockets .co_docketsSubSection .co_docketsTable {
+	margin-bottom:0;
+}
+.co_dockets table {
+	width:100%;
+	margin-top:0;
+}
+.co_dockets .co_docketsTable th,
+.co_dockets .co_docketsTable td {
+	padding:5px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	border-width:1px 1px 0 0;
+	vertical-align:top;
+}
+.co_docketsRow {
+	border-style:solid;
+	border-color:#D6D6D6;
+	border-width:0 1px 1px;
+}
+.be_internalToolbar_top,
+.be_internalToolbar_bottom {
+    padding:0 10px;
+    height:25px;
+    padding-top:4px;
+    line-height:22px;
+    font-size:12px;
+    background-color:#f4f4f4;
+}
+.be_internalToolbar_bottom.co_hideState {
+    display:block !important;
+    height:0;
+    padding:0;
+    overflow:hidden;
+}
+.be_internealContent {
+    position:relative;
+}
+.be_internealContent.co_disabled { min-height:50px; }
+.be_internealContent.co_disabled .co_progressIndicator {
+    height:0;
+    overflow:visible;
+    width:100%;
+    position:relative;
+    top:-50px;
+}
+.be_internealContent.co_disabled { color: #959595 !Important; }
+.co_navFooter_pagination {
+    float:none;
+    margin:0 200px;
+    text-align:center;   
+}
+#be_participants_Content .co_docketsHeading,
+#be_unsecuredCreditorInformation .co_docketsHeading { margin-top:0; }
+.co_docketsRow .co_prev,
+.co_docketsRow .co_next { margin-top:0; }
+.be_paginationStatus { float:left; }
+.co_docketsToUpdate + .co_docketsRow,
+.co_docketsCurrentBlock + .co_docketsRow,
+.co_docketsCurrentBlock + table { border-top:1px solid #D6D6D6; }
+.co_document .co_docketsRowLabel {
+	padding:5px;
+	width:200px;
+	font-weight:bold;
+	vertical-align:top;
+}
+.co_docketsRow_contentWrapper { padding:5px; }
+.co_document .co_docketsRowText {
+	padding:5px;
+	border-left:1px solid #D6D6D6;
+}
+/* Result Content for BKR*/
+.co_docketsRow .co_resultContent_summary {
+    padding:10px;
+    font-size:1em;
+}
+.co_docketsRow .co_resultContent_summary .co_resultContent_summary { padding:0; }
+.co_docketsRow .co_resultContent_summary h3 {
+    font-weight:bold;
+    font-size:1em;
+    color:inherit;
+}
+.co_docketsRow .co_resultContent_summary h3 span {
+    font-weight:normal;
+    padding-left:8px;
+    margin-left:8px;
+    border-left:1px solid #D6D6D6;
+}
+
+/* Survey Authority and Checklists */
+.co_surveyChecklist ul { padding-top:.5em; }
+.co_surveyChecklist li { padding-top:1em; }
+
+/* Miller Insurance */
+.co_policyNumberColumn {
+	width:7%;
+	vertical-align:top;
+}
+.co_policyDefinitionColumn {
+	width:93%;
+	vertical-align:top;
+	padding:0;
+}
+.co_policyDefinitionColumn table {
+	width:100%;
+	padding:0;
+	border-left:1px solid #D6D6D6;
+	border-top:1px solid #D6D6D6;
+}
+.co_document .co_policyDefinitionColumn td {
+	border-right:1px solid #D6D6D6;
+	padding:0 .15em;
+}
+/* Big FOrms Learn About */
+.co_analyticalALRIndex .x_indexEntry {
+	padding-left: 1em;
+    text-indent: -1em;
+}
+
+/* Big FOrms Learn About */
+.co_bigFormLearnAbout .co_list li {
+	padding-bottom:1em;
+}
+
+/* Expert Q and A */
+.co_expertQAndA .co_questionAnswer,
+.co_expertQAndA .co_answerEntry { padding-bottom:2em; }
+.co_expertQAndA .co_answer {
+    padding-top:1em;
+}
+.co_expertQAndA .co_viewExpert {
+	font-size: 12px;
+	padding-top:.5em;
+}
+
+/* Profiler */
+.co_profilerTable,
+.co_profilerTable table {
+    width:100%;
+    margin-top:0;
+}
+.co_profilerTable td { vertical-align:top; }
+.co_profilerImage {
+    overflow: hidden;
+    padding-right:10px;
+    width:200px;
+    min-width:200px;
+}
+.co_profilerTitle { border-bottom: 1px solid #252525; }
+.co_profilerContactColumn { width:50%; }
+
+/* PARSER TESTS */
+.co_parserRed { color:#0000FF; }
+.co_docDisplay #co_iPadStatusList {
+	float:right;
+}
+.co_docDisplay #co_iPadStatusList li {
+	display:inline;
+	padding-left:5px;
+}

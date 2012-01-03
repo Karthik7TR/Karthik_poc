@@ -22,6 +22,8 @@
     	<value name="id" field="titleId" usage="required"/>
     	<value name="titleversion" field="titleVersion" usage="required"/>
     	<value name="lastupdated" field="lastUpdated" usage="required"/>
+    	<value name="language" field="language" usage="required"/>
+    	<value name="status" field="status" usage="required"/>
     	<structure name="features" usage="required">
 	    	<collection field="proviewFeatures" usage="optional">
 		    	<structure name="feature" type="com.thomsonreuters.uscl.ereader.proview.Feature" usage="optional" value-style="attribute">

@@ -26,4 +26,12 @@ public class Doc {
 		this.id = id;
 		this.src = src;
 	}
+	
+	public String getSrc() {
+		return src;
+	}
+	
+	public String getId() {
+		return id;
+	}
 }

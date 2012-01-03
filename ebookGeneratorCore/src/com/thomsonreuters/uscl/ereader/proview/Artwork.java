@@ -27,4 +27,8 @@ public class Artwork {
 		}
 		this.src = src;
 	}
+	
+	public String getSrc() {
+		return src;
+	}
 }
