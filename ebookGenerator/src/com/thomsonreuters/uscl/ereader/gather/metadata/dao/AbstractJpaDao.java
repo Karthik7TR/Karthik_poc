@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 
-import org.skyway.spring.util.dao.JpaDao;
 import org.springframework.transaction.annotation.Transactional;
 
 	

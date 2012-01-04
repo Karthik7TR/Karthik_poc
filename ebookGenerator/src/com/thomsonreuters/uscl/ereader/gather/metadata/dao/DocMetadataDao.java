@@ -10,7 +10,6 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.util.Set;
 
-import org.skyway.spring.util.dao.JpaDao;
 import org.springframework.dao.DataAccessException;
 
 /**
