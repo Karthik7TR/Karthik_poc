@@ -28,7 +28,9 @@ public interface TransformerService
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup appropriate document metadata
      *
+     * @return number of documents that were transformed
+     *
      * @throws EBookFormatException if an error occurs during the process.
 	 */
-	public void transformXMLDocuments(final File xmlDir, final File transDir, final String titleID, final String jobID) throws EBookFormatException;
+	public int transformXMLDocuments(final File xmlDir, final File transDir, final String titleID, final Long jobID) throws EBookFormatException;
 }

@@ -26,7 +26,9 @@ public interface HTMLWrapperService
      * by the Transformer Service for this eBook.
      * @param htmlDir the target directory to which all the properly marked up HTML files will be written out to.
      * 
+     * @return The number of documents that had wrappers added
+     * 
      * @throws EBookFormatException if an error occurs during the process.
 	 */
-	public void addHTMLWrappers(final File transDir, final File htmlDir) throws EBookFormatException;
+	public int addHTMLWrappers(final File transDir, final File htmlDir) throws EBookFormatException;
 }

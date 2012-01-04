@@ -43,5 +43,8 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_FORMAT_HTML_WRAPPER_PATH = "eBookFormatHtmlWrapperPath";
 	
-	
+	/**
+	 * The number of documents that were initially retrieved from Novus, used as a sanity check after many SpringBatch steps.
+	 */
+	public static final String EBOOK_STATS_DOC_COUNT = "eBookStatsDocCount";
 }

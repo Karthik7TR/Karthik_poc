@@ -14,6 +14,10 @@ public class EBookFormatException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
+	public EBookFormatException(String message) {
+        super(message);
+    }
+	
 	public EBookFormatException(String message, Throwable cause) {
         super(message, cause);
     }

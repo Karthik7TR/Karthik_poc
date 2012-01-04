@@ -21,6 +21,7 @@ import org.springframework.batch.item.ExecutionContext;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook;
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
@@ -35,9 +36,9 @@ public class TransformXML extends AbstractSbTasklet
 	private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
 	private TransformerService transformerService;
 
-	public void setTransformerService(TransformerService transService) 
+	public void settransformerService(TransformerService transformerService) 
 	{
-		this.transformerService = transService;
+		this.transformerService = transformerService;
 	}
 	
 	@Override
@@ -51,18 +52,31 @@ public class TransformXML extends AbstractSbTasklet
 		JobParameters jobParams = jobInstance.getJobParameters();
 		
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
-		String jobId = jobInstance.getId().toString();
+		Long jobId = jobInstance.getId();
 
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
 		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH);
+		//TODO: Set value below based on execution context value
+		int numDocsInTOC = 0; 
 		
 		File xmlDir = new File(xmlDirectory);
 		File transformDir = new File(transformDirectory);
 		
 		long startTime = System.currentTimeMillis();
-		transformerService.transformXMLDocuments(xmlDir, transformDir, titleId, jobId);
+		int numDocsTransformed = transformerService.transformXMLDocuments(xmlDir, transformDir, titleId, jobId);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
+		
+		//TODO: Add check to make sure number of documents that were transformed equals number of documents
+		//retrieved from Novus
+		if (numDocsTransformed == 0)
+		{
+			String message = "The number of documents transformed did not match the number " +
+					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
+					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
+			LOG.error(message);
+			throw new EBookFormatException(message);
+		}
 		
 		//TODO: Improve metrics
 		LOG.debug("Transformed all XML files in " + elapsedTime + " milliseconds");

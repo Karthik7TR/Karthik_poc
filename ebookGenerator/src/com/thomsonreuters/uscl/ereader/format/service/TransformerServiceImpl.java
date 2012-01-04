@@ -20,8 +20,12 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 
 /**
  * The TransformerServiceImpl iterates through a directory of XML files, retrieves the appropriate XSLT stylesheets, 
@@ -30,9 +34,26 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  * 
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
+@Service("TransformerService")
 public class TransformerServiceImpl implements TransformerService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
+	
+	@Autowired
+	private DocMetadataService docMetadataService;
+	
+	@Autowired
+	private XSLTMapperService xsltMapperService;
+	
+	public void setdocMetadataService(DocMetadataService docMetadataService) 
+	{
+		this.docMetadataService = docMetadataService;
+	}
+	
+	public void setxsltMapperService(XSLTMapperService xsltMapperService) 
+	{
+		this.xsltMapperService = xsltMapperService;
+	}
 	
 	/**
      * Transforms all XML files found in the passed in XML directory and writes the
@@ -42,12 +63,14 @@ public class TransformerServiceImpl implements TransformerService
      * @param xmlDir the directory that contains all the Novus extracted XML files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
-     * @param jobID the identifier of the job currently running, used to lookup appropriate document metadata
+     * @param jobID the identifier of the job currently running, used to lookup document metadata
+     * 
+     * @return The number of documents that were transformed
      * 
      * @throws EBookFormatException if an error occurs during the transformation process.
 	 */
 	@Override
-	public void transformXMLDocuments(File xmlDir, File transDir, String titleID, String jobID) throws EBookFormatException 
+	public int transformXMLDocuments(File xmlDir, File transDir, String titleID, Long jobID) throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {
@@ -58,56 +81,83 @@ public class TransformerServiceImpl implements TransformerService
 		{
 			transDir.mkdirs();
 		}
-        
-        //File xslt = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\XML\\Xslt\\ContentBlocks\\SimpleContentBlocks.xsl");
-        //File xslt = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\Transformer\\Xslt\\ContentTypes\\CodesStatutes.xsl");
-        //File xslt = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\Transformer\\Xslt\\ContentTypes\\AnalyticalJurs.xsl");
-        File xslt = new File("C:\\COBALT_DW\\Warehouse\\eReader\\POC\\Transformer\\Xslt\\ContentTypes\\AnalyticalTreatisesAndAnnoCodes.xsl");
 
-        LOG.info("Transforming files using XSLT: " + xslt.getAbsolutePath() +
-        			"\n\tfrom the following XML directory: " + xmlDir.getAbsolutePath());
+        LOG.info("Transforming XML files from the following XML directory: " + xmlDir.getAbsolutePath());
         
         ArrayList<File> xmlFiles = new ArrayList<File>();
         getXMLFiles(xmlFiles, xmlDir);
         
+        int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
-            File tranFile = new File(transDir, xmlFile.getName().substring(0, xmlFile.getName().indexOf(".")) + ".transformed");
-    		
-            try
-            {        	
-    	        Source xmlSource =
-    	                new StreamSource(xmlFile);
-    	        Source xsltSource =
-    	                new StreamSource(xslt);
-    	        Result result =
-    	                new StreamResult(tranFile);
-    	 
-    	        // create an instance of TransformerFactory
-    	        TransformerFactory transFact =
-    	                TransformerFactory.newInstance();
-    	 
-    	        Transformer trans =
-    	                transFact.newTransformer(xsltSource);
-    	        
-    	        // set any Transformer properties
-    	        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-    	        
-    	        // apply the XSLT transformations to the XML file
-    	        trans.transform(xmlSource, result);
-
-    	        LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
-            }
-            catch(TransformerException te)
-            {
-            	String errMessage = "Encountered transformation issues trying to transform " + xmlFile.getName() + 
-            			" xml file using " + xslt.getName() + " xslt file.";
-            	LOG.error(errMessage, te);
-            	throw new EBookFormatException(errMessage, te);
-            }
+        	transformFile(xmlFile, transDir, titleID, jobID);
+        	docCount++;
         }
         LOG.info("Transformed all XML files");
+        
+        return docCount;
+	}
+	
+	/**
+	 * Based on the file name, retrieves the appropriate XSLT file name and
+	 * transforms the passed in XML file using it.
+	 * 
+	 * @param xmlFile XML file to be transformed
+	 * @param targetDir directory to which the ".transformed" files will be written
+	 * @param titleId the identifier of book currently being published, used to lookup appropriate document metadata
+     * @param jobId the identifier of the job currently running, used to lookup document metadata
+     * 
+	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
+	 */
+	final void transformFile(File xmlFile, File targetDir, String titleId, Long jobId) throws EBookFormatException
+	{
+		File xsltDir = new File(new File("C:\\nas", "Xslt"), "ContentTypes");
+		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
+		
+		//TODO: Dynamically retrieve XSLT using XSLT retrieval service
+		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, Integer.parseInt(jobId.toString()), fileNameUUID);
+
+		File xslt = new File(xsltDir, xsltMapperService.getXSLT(docMetadata.getCollectionName(), docMetadata.getDocType()));
+        
+        //File xslt = new File(xsltDir, "SimpleContentBlocks.xsl");
+        //File xslt = new File(xsltDir, "CodesStatutes.xsl");
+        //File xslt = new File(xsltDir, "AnalyticalJurs.xsl");
+		//File xslt = new File(xsltDir, "AnalyticalTreatisesAndAnnoCodes.xsl");
+
+		LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
+        File tranFile = new File(targetDir, fileNameUUID + ".transformed");
+		
+        try
+        {        	
+	        Source xmlSource =
+	                new StreamSource(xmlFile);
+	        Source xsltSource =
+	                new StreamSource(xslt);
+	        Result result =
+	                new StreamResult(tranFile);
+	 
+	        // create an instance of TransformerFactory
+	        TransformerFactory transFact =
+	                TransformerFactory.newInstance();
+	 
+	        Transformer trans =
+	                transFact.newTransformer(xsltSource);
+	        
+	        // set any Transformer properties
+	        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	        
+	        // apply the XSLT transformations to the XML file
+	        trans.transform(xmlSource, result);
+
+	        LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
+        }
+        catch(TransformerException te)
+        {
+        	String errMessage = "Encountered transformation issues trying to transform " + xmlFile.getName() + 
+        			" xml file using " + xslt.getName() + " xslt file.";
+        	LOG.error(errMessage, te);
+        	throw new EBookFormatException(errMessage, te);
+        }
 	}
 
 	/**
@@ -126,7 +176,7 @@ public class TransformerServiceImpl implements TransformerService
 			String errMessage = "No XML files were found in specified directory. " +
 					"Please verify that the correct XML path was specified.";
 			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage, null);
+			throw new EBookFormatException(errMessage);
 		}
 	}
 	

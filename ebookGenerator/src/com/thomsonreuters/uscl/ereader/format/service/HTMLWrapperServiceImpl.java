@@ -10,6 +10,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,10 +38,12 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
      * by the Transformer Service for this eBook.
      * @param htmlDir the target directory to which all the properly marked up HTML files will be written out to.
      * 
+     * @return The number of documents that had wrappers added
+     * 
      * @throws EBookFormatException if an error occurs during the process.
 	 */
 	@Override
-	public void addHTMLWrappers(File transDir, File htmlDir) throws EBookFormatException 
+	public int addHTMLWrappers(File transDir, File htmlDir) throws EBookFormatException 
 	{
         if (transDir == null || !transDir.isDirectory())
         {
@@ -58,28 +61,56 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		
 		LOG.info("Adding HTML containers around transformed files...");
 				
+		int numDocs = 0;
 		for(File transFile : transformedFiles)
 		{
-			String fileName = transFile.getName();
-			LOG.debug("Adding wrapper around: " + fileName);
-			
-			File output = new File(htmlDir, fileName.substring(0, fileName.indexOf(".")) + ".html");
-			
-			try
-			{
-				IOUtils.copy(getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt"), new FileOutputStream(output));
-				IOUtils.copy(new FileInputStream(transFile), new FileOutputStream(output, true));
-				IOUtils.copy(getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt"), new FileOutputStream(output, true));	
-			}
-			catch(IOException ioe)
-			{
-				String errMessage = "Failed to add HTML contrainers around the following transformed file: " + fileName;
-				LOG.error(errMessage);
-				throw new EBookFormatException(errMessage, ioe);
-			}
+			addHTMLWrapperToFile(transFile, htmlDir);
+			numDocs++;
 		}
 
 		LOG.info("HTML containers successfully added to transformed files");
+		return numDocs;
+	}
+	
+	/**
+	 * Takes in a .tranformed file and wraps it with the appropriate header and footers, the resulting file is
+	 * written to the specified HTML directory.
+	 * 
+	 * @param transformedFile source file that will be wrapped with appropriate header and footer
+	 * @param htmlDir target directory the newly created file with the wrappers will be written to
+	 * @throws EBookFormatException thrown if any IO exceptions are encountered
+	 */
+	final void addHTMLWrapperToFile(File transformedFile, File htmlDir) throws EBookFormatException
+	{
+		String fileName = transformedFile.getName();
+		LOG.debug("Adding wrapper around: " + fileName);
+		
+		File output = new File(htmlDir, fileName.substring(0, fileName.indexOf(".")) + ".html");
+		
+		try
+		{
+			FileOutputStream outputStream = new FileOutputStream(output, true);
+			
+			InputStream headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
+			IOUtils.copy(headerStream, outputStream);
+			headerStream.close();
+			
+			InputStream transFileStream = new FileInputStream(transformedFile);
+			IOUtils.copy(transFileStream, outputStream);
+			transFileStream.close();
+			
+			InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
+			IOUtils.copy(footerStream, outputStream);
+			footerStream.close();
+			
+			outputStream.close();
+		}
+		catch(IOException ioe)
+		{
+			String errMessage = "Failed to add HTML contrainers around the following transformed file: " + fileName;
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, ioe);
+		}
 	}
 	
 	/**
@@ -95,10 +126,10 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		fileList.addAll(Arrays.asList(files));
 		if(fileList.size() == 0)
 		{
-			String errMessage = "No XML files were found in specified directory. " +
-					"Please verify that the correct XML path was specified.";
+			String errMessage = "No transformed files were found in specified directory. " +
+					"Please verify that the correct path was specified.";
 			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage, null);
+			throw new EBookFormatException(errMessage);
 		}
 	}
 	
