@@ -298,7 +298,7 @@ public abstract class AbstractJpaDao<T extends Object> implements JpaDao<T>  {
 		
 		/**
 		 * Each DAO can decide whether the object passed can be merged using the .merge() method
-		 * Generally speaking, Objects whos primary keys are auto generated must be passed to the persist method
+		 * Generally speaking, Objects whose primary keys are auto generated must be passed to the persist method
 		 * in order to have their primary keys fields filled in.
 		 * 
 		 * @param o

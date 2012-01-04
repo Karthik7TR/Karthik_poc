@@ -14,8 +14,8 @@ import java.util.Set;
 import javax.persistence.Query;
 
 /**
- * The super class of Data Access Objects generated through the Spring DSL or scaffolding. This
- * class offers utility routines for quickly invoking queries and manipulating persistence objects.
+ * The super class of Data Access Objects which offers utility routines for quickly invoking 
+ * queries and manipulating persistence objects.
  * You can not only invoke {@link java.persistence.NamedQuery} that you specify in your
  * {@link java.persistence.Entity}, but can pass free form JPQL queries as well.
  * 
