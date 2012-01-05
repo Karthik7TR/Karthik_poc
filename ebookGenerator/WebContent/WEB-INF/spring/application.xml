@@ -15,7 +15,7 @@
   	<!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
   	<context:component-scan base-package="com.thomsonreuters.uscl.ereader"/>
   	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.service" scoped-proxy="interfaces" />
-  	<!--  bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/ -->
+  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
 	<!-- Application properties.
 		 Note: the "environment" property is set as a JVM argument at server start and is used to drive the loading of environment specific properties
