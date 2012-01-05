@@ -6,15 +6,20 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
+import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+
+
 
 /**
  * Concrete implementation of TitleMetadataService.
@@ -27,6 +32,12 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#writeToStream(com.thomsonreuters.uscl.ereader.proview.TitleMetadata, java.io.OutputStream)
 	 */
 	public void writeToStream(TitleMetadata titleMetadata, OutputStream outputStream) {
+		if (titleMetadata == null) {
+			throw new IllegalArgumentException("Title metadata must not be null!");
+		}
+		if (outputStream == null) {
+			throw new IllegalArgumentException("OutputStream must not be null!");
+		}
 		
 		try{
 			marshalTitleMetadata(titleMetadata, outputStream);
@@ -71,8 +82,16 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#readFromFile(java.io.File)
 	 */
 	public TitleMetadata readFromFile(File titleMetadataFile) {
-
-		return null;
+		TitleMetadata titleMetadata = null;
+		try {
+			titleMetadata = unmarshalTitleMetadata(new FileInputStream(titleMetadataFile));
+		}
+		catch (JiBXException e){
+			throw new RuntimeException("Could not unmarshal titleMetadata from file: " + titleMetadataFile.getAbsolutePath(), e);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("Could not unmarshal titleMetadata from file. ", e);
+		}
+		return titleMetadata;
 	}
 
 	private void marshalTitleMetadata(TitleMetadata titleMetadata,
@@ -82,5 +101,14 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		IMarshallingContext mctx = bfact.createMarshallingContext();
 		mctx.setIndent(2);
 		mctx.marshalDocument(titleMetadata, "UTF-8", null, outputStream);
+		
+		IOUtils.closeQuietly(outputStream);
+	}
+	
+	private TitleMetadata unmarshalTitleMetadata(InputStream inputStream) throws JiBXException{
+		IBindingFactory bfact = 
+				BindingDirectory.getFactory(TitleMetadata.class);
+		IUnmarshallingContext unmtcx = bfact.createUnmarshallingContext();
+		return (TitleMetadata) unmtcx.unmarshalDocument(inputStream, "UTF-8");
 	}
 }

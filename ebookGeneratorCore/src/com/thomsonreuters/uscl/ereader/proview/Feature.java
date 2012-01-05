@@ -19,6 +19,8 @@ public class Feature {
 	private String name;
 	private String value;
 	
+	public Feature(){}
+	
 	public Feature(String name){
 		this.name = name;
 	}

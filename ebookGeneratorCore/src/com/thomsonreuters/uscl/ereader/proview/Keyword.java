@@ -16,6 +16,8 @@ public class Keyword {
 	private String type;
 	private String text;
 	
+	public Keyword() {}
+	
 	public Keyword(String type, String text){
 		if (StringUtils.isBlank(type)) {
 			throw new IllegalArgumentException("'type' attribute required for keyword.");

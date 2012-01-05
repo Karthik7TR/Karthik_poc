@@ -16,6 +16,8 @@ public class Doc {
 	private String id;
 	private String src;
 	
+	public Doc() {}
+	
 	public Doc(String id, String src) {
 		if (StringUtils.isBlank(id)){
 			throw new IllegalArgumentException("'id' is a required field on <doc>.");

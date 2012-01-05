@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -97,5 +99,66 @@ public class TitleMetadata implements Serializable {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+	
+    @Override
+    public boolean equals(final Object obj)
+    {
+        boolean retVal;
+        if (this == obj)
+        {
+            retVal = true;
+        }
+        else if (obj instanceof TitleMetadata)
+        {
+            final TitleMetadata rhs = (TitleMetadata) obj;
+            retVal = compareFieldsForEquality(rhs);
+        }
+        else
+        {
+            retVal = false;
+        }
+        return retVal;
+    }
+
+    public String getStatus() {
+		return status;
+	}
+
+	public String getTitleId() {
+		return titleId;
+	}
+
+	public String getTitleVersion() {
+		return titleVersion;
+	}
+
+	private boolean compareFieldsForEquality(final TitleMetadata rhs)
+    {
+        final EqualsBuilder builder = new EqualsBuilder();
+        builder.append(getTitleId(), rhs.getTitleId());
+        builder.append(getTitleVersion(), rhs.getTitleVersion());
+        builder.append(getStatus(), rhs.getStatus());
+        return builder.isEquals();
+    }
+
+
+    /**
+     * Returns a hash code value for the object. This method is supported for the benefit of
+     * hashtables such as those provided by <code>java.util.Hashtable</code>.
+     *
+     * @return a hash code value for this object.
+     *
+     * @see Object#equals(Object)
+     * @see java.util.Hashtable
+     */
+    public int hashCode()
+    {
+        final HashCodeBuilder builder = new HashCodeBuilder();
+        builder.append(getTitleId());
+        builder.append(getTitleVersion());
+        builder.append(getStatus());
+
+        return builder.toHashCode();
+    }
 	
 }

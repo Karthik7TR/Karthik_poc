@@ -16,6 +16,8 @@ public class Asset {
 	private String id;
 	private String src;
 	
+	public Asset(){}
+	
 	public Asset(String id, String src){
 		if (StringUtils.isBlank(id)) {
 			throw new IllegalArgumentException("'id' is a required field.");
