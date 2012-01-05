@@ -52,11 +52,17 @@
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
     <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
 
-    <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
+    <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
+    <mkdir dir="${dir.binaries}/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
+  	
+    <copy todir="${dir.binaries}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
+      <fileset dir="${dir.resources}/StaticFiles"/>
+    </copy>
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
