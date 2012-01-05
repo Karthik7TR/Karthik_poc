@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0"?>
-<project name="ebookGatherer_Compile_Script" default="normal_build" basedir="..\">
+<project name="ebookGeneratorCore_Compile_Script" default="normal_build" basedir="..\">
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
-  <property name="warFilename" value="ebookGatherer.war"/>
-  <property name="dir.ebookGeneratorCore" value="..\ebookGeneratorCore" />
-	
+  <property name="dir.ebookGenerator" value="../ebookGenerator"/>
+  <property name="dir.ebookGeneratorCore" value="../ebookGeneratorCore"/>
+  <property name="dir.webContent" value="WebContent"/>
+
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.compile">
-    <fileset dir="${dir.webContent}/WEB-INF/lib">
+    <!-- These are the cobalt group specific libraries that all the projects should include. -->
+    <fileset dir="${dir.ebookGenerator}/${dir.webContent}/WEB-INF/lib">
       <include name="**/*.jar"/>
     </fileset>
-    <!-- These are the cobalt group specific libraries that all the projects should include. -->
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
       <include name="OtherLibraries/**/*.jar"/>
@@ -27,7 +28,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGatherer project" depends="-init, -compile-core, -compile, -createJar, -createWar, -compile_unitTests">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -36,7 +37,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGatherer project" depends="-init, -compile-core,-compile, -compile_unitTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core, -compile_unitTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
@@ -47,7 +48,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
 
@@ -62,24 +63,31 @@
            description: Compile the source code and place the compiled libraries in the respective 
                         folder. The code will be compiled using version 1.6 of the SDK.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-compile">
-    <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
-           debug="${IsCoverageBuild}">
-      <src path="${dir.source}"/>    	
-      <classpath refid="classpath.compile"/>
-    </javac>
-  </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
+  <!-- - - - - - - - - - - - - - - - - - 
 	           target: -compile                      
 	           description: Compile the source code and place the compiled libraries in the respective 
 	                        folder. The code will be compiled using version 1.6 of the SDK.
 	         - - - - - - - - - - - - - - - - - -->
-  <target name="-compile-core">
+  <target name="-compile-java-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <ant dir="${dir.ebookGeneratorCore}" antfile="ant/CompileAntScript.xml" target="normal_build" />
-    <copy file="${dir.ebookGeneratorCore}/${path.jarFile}" todir="${dir.webContent}/WEB-INF/lib" />
+    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
+           debug="${IsCoverageBuild}">
+      <src path="${dir.ebookGeneratorCore}"/>
+      <classpath refid="classpath.compile"/>
+    </javac>
+  </target>
+
+  <property name="binding.fileset.dir" value="${dir.ebookGeneratorCore}/src/jibx"/>
+  <taskdef name="jibxCompiler" classname="org.jibx.binding.ant.CompileTask" classpathref="classpath.compile"/>
+  <target name="-compile-core" depends="-compile-java-core">
+    <jibxCompiler>
+      <bindingfileset dir="${binding.fileset.dir}">
+        <include name="jibx-bindings.xml"/>
+      </bindingfileset>
+      <classpath>
+        <pathelement location="${dir.binaries}"/>
+      </classpath>
+    </jibxCompiler>
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -99,51 +107,16 @@
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
-          target: -compile_integrationTests                      
-          description: Compile the integration test source code and place the compiled libraries in the 
-                       respective binary folder. The code will be compiled using version 1.6 of the SDK.
-         - - - - - - - - - - - - - - - - - -->
-  <target name="-compile_integrationTests">
-    <echo level="verbose">Compiling the integration test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.6" target="1.6">
-      <src path="${dir.integrationTestSource}"/>
-      <classpath>
-        <pathelement path="${dir.binaries}"/>
-        <path refid="classpath.compile"/>
-      </classpath>
-    </javac>
-  </target>
-
-  <!-- - - - - - - - - - - - - - - - - - 
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
   <target name="-createJar" >
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
-         manifest="${dir.webContent}\META-INF\MANIFEST.MF">
+         manifest="${dir.source}\META-INF\MANIFEST.MF">
       <fileset dir="${dir.binaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
-  </target>
-
-  <!-- - - - - - - - - - - - - - - - - - 
-          target: -createWar                      
-          description: Package the compiled code into a WAR file, so that it can be deployed.
-         - - - - - - - - - - - - - - - - - -->
-  <target name="-createWar" depends="-createJar">
-    <echo level="verbose">Creating the WAR file...</echo>
-    <!-- Copy copiled classes over to "classes" folder in the war -->
-    <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
-    <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
-    </copy>
-
-    <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
-      <fileset dir="${dir.webContent}">
-        <exclude name="**/${jarFilename}/**"/>
-      </fileset>
-    </war>
   </target>
 </project>
