@@ -17,14 +17,14 @@
 	<!-- ******************************************************************** -->
 	<!-- Scan for service layer annotated beans -->
 	<!-- ******************************************************************** -->
-	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.service" scoped-proxy="interfaces" />
+	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.service" scoped-proxy="interfaces" /><!--
 	
-	<!-- ******************************************************************** -->
-	<!-- Mark bean transactions as annotation driven -->
-	<!-- ******************************************************************** -->
+	 ******************************************************************** 
+	 Mark bean transactions as annotation driven 
+	 ******************************************************************** 
 	<tx:annotation-driven transaction-manager="transactionManager" />           
 
-  	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
+  	--><bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
   		  p:coreDao-ref="coreDao"/>
 
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"

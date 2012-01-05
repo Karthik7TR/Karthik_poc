@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	
 	
-		<persistence-unit name="DocMetaData" transaction-type="JTA" >
+		<persistence-unit name="DocMetaData">
 			<description>generated-persistence-unit</description>
 					<provider>org.hibernate.ejb.HibernatePersistence</provider>
       			<class>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</class>
