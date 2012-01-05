@@ -51,11 +51,13 @@
     <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.dist}" failonerror="false" includeemptydirs="true"/>
 
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${dir.dist}"/>
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
