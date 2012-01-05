@@ -118,9 +118,8 @@ public class DocMetadata implements Serializable {
 
 	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	@Lob
 	@XmlElement
-	byte[] lastUpdated;
+	String lastUpdated;
 
 	/**
 	 */
@@ -232,13 +231,13 @@ public class DocMetadata implements Serializable {
 
 	/**
 	 */
-	public void setLastUpdated(byte[] lastUpdated) {
+	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
 	/**
 	 */
-	public byte[] getLastUpdated() {
+	public String getLastUpdated() {
 		return this.lastUpdated;
 	}
 
