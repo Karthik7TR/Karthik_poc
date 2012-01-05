@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -43,6 +44,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public class AssembleAndDeliverIntegrationTest {
+	private static final Logger LOG = Logger.getLogger(AssembleAndDeliverIntegrationTest.class);
+	
 	private EBookAssemblyService eBookAssemblyService;
 	private TitleMetadataService titleMetadataService;
 	private ProviewClientImpl proviewClient;
@@ -91,7 +94,7 @@ public class AssembleAndDeliverIntegrationTest {
 	public void tearDown() throws Exception {
 		FileUtils.delete(eBookDirectory);
 		FileUtils.delete(tempFile);
-		FileUtils.delete(eBook);
+		//FileUtils.delete(eBook);
 	}
 
 	private void bootstrapEbookDirectory() throws IOException {
@@ -147,7 +150,7 @@ public class AssembleAndDeliverIntegrationTest {
 
 	private void setUpTitleMetadata() {
 		titleMetadata = new TitleMetadata(TITLE_ID_PREFIX + titleId, "v" + timestamp);
-		titleMetadata.setCopyright("The High Seas Trading Company.");
+		titleMetadata.setCopyright("The High Seas Trading Company");
 		titleMetadata.setArtwork(artwork);
 		ArrayList<Asset> assets = new ArrayList<Asset>();
 		assets.add(new Asset("css", CSS_FILENAME));
@@ -157,7 +160,7 @@ public class AssembleAndDeliverIntegrationTest {
 		documents.add(plundering);
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
-		titleMetadata.setDisplayName("YARR! The Comprehensive Guide to Plundering the Seven Seas.");
+		titleMetadata.setDisplayName("YARR - The Comprehensive Guide to Plundering the Seven Seas");
 		ArrayList<String> authors = new ArrayList<String>();
 		authors.add("Christopher Schwartz");
 		titleMetadata.setAuthors(authors);
@@ -172,17 +175,20 @@ public class AssembleAndDeliverIntegrationTest {
 		tocEntries.add(new TocEntry(DOCUMENT_TWO_ID + "/plundering", "Plundering"));
 		tocEntries.add(new TocEntry(DOCUMENT_THREE_ID + "/landlubbers", "Landlubbers"));
 		titleMetadata.setTocEntries(tocEntries);
-		titleMetadata.setMaterialId("Plunder2");
+		titleMetadata.setMaterialId("1234");
 	}
 
 	@Test
 	public void publishGoldDataToProview() throws Exception {
-		//generate titleMetadata based on gold data
+		LOG.debug("Generating titleMetadata file");
 		titleMetadataService.writeToFile(titleMetadata, titleXml);
-		//assemble gold data
+		LOG.debug("Title Metadata:" + titleMetadata);
+		//titleMetadataService.writeToStream(titleMetadata, System.out);
+		LOG.debug("Assembling eBook");
 		eBookAssemblyService.assembleEBook(eBookDirectory, eBook);
-		//deliver to proview QED
+		LOG.debug("Publishing to ProView QED. This may take some time.");
 		proviewClient.publishTitle("cr", titleId, "v" + Long.toString(timestamp), eBook);
+		LOG.debug("Publishing to ProView is complete.  The <a href=\"https://proview.qed.thomsonreuters.com/title.html?titleId=" + TITLE_ID_PREFIX +  titleId + "&titleVersion=v" + timestamp +">title</a> should be available in a couple minutes.");
 	}
 	
 }
