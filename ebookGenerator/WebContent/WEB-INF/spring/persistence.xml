@@ -27,7 +27,6 @@
 		  <list>
 			<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
-		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
 		  </list>
 		</property>
   	</bean>
