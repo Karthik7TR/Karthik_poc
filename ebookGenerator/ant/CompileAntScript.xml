@@ -88,8 +88,8 @@
 	         - - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <ant dir="${dir.ebookGeneratorCore}" antfile="ant/CompileAntScript.xml" target="normal_build" />
-    <copy file="${dir.ebookGeneratorCore}/${path.jarFile}" todir="${dir.webContent}/WEB-INF/lib" />
+    <ant dir="${dir.ebookGeneratorCore}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
+    <copy file="${dir.ebookGeneratorCore}/${dir.tmpBuildDir}/ebookGeneratorCore.jar" todir="${dir.webContent}/WEB-INF/lib" />
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
