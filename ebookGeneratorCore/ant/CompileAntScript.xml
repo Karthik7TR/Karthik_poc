@@ -13,7 +13,7 @@
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.compile">
     <!-- These are the cobalt group specific libraries that all the projects should include. -->
-    <fileset dir="${dir.ebookGenerator}/${dir.webContent}/WEB-INF/lib">
+    <fileset dir="${dir.librariesPath}">
       <include name="**/*.jar"/>
     </fileset>
     <fileset dir="${env.buildextensionroot}">
