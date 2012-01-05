@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/srctest"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/IntegrationTests"/>
         <dependent-module archiveName="ebookGeneratorCore.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ebookGeneratorCore/ebookGeneratorCore">
             <dependency-type>uses</dependency-type>
         </dependent-module>

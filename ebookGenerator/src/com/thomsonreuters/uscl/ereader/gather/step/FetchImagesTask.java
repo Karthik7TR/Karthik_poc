@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook;
-import com.thomsonreuters.uscl.ereader.gather.service.ImageService;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 /**
@@ -49,7 +49,7 @@ public class FetchImagesTask extends AbstractSbTasklet {
 					  String.format("The image destination directory (%s) exists in the filesystem",
 							  		imageDestinationDirectory.getAbsolutePath()));
 
-		List<?> result = imageService.fetchImages(guid, imageDestinationDirectory);
+//TODO		imageService.fetchImages(guid);
 		
 // TODO: handle/verify response result and process non happy path scenarios
 

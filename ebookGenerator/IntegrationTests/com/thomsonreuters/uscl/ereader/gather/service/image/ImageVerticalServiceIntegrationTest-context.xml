@@ -1,0 +1,44 @@
+<!-- 
+	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Proprietary and Confidential information of TRGR. Disclosure, Use or
+	Reproduction without the written authorization of TRGR is prohibited
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+  	<!-- component-scan for @Controller, @Service, @Component, etc... annotations -->
+  	<!-- 
+  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader"/>
+  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+  	 -->
+
+	<!-- Message converters and REST template for interacting with the RESTful web services -->
+	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
+	<bean id="imageMetadataHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
+			  p:objectMapper-ref="jsonObjectMapper"/>
+	<!-- bean id="imageStreamHttpMessageConverter" class="com.thomsonreuters.uscl.ereader.gather.service.image.ImageStreamHttpMessageConverter"/ -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+      <property name="messageConverters">
+        <list>
+        	<ref bean="imageMetadataHttpMessageConverter"/>
+        </list>
+      </property>
+	</bean>
+	
+	<bean id="imageDao" class="com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoImpl">
+		<constructor-arg ref="sessionfactory"/>
+	</bean>
+	
+	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
+	  p:singletonRestTemplate-ref="restTemplate"
+	  p:imageVerticalRestServiceUrl="http://imageservice.westlan.com/image"
+	  p:urlVersion="v1"
+	  p:imageDao-ref="imageDao"/>
+	  
+</beans>

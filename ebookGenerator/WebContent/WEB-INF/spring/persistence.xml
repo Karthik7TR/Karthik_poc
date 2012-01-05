@@ -54,13 +54,15 @@
 	<!-- Scan for dao layer annotated beans -->
 	<!-- ******************************************************************** -->
 	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.dao" scoped-proxy="interfaces" />	
-	
 
-				<!-- EntityManager Factory that brings together the persistence unit, datasource, and JPA Vendor -->
-				<bean id="DocMetaData" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-					<property name="dataSource" ref="dataSource" />
-					<property name="persistenceUnitName" value="DocMetaData" />
-				</bean>	  
-
+	<!-- EntityManager Factory that brings together the persistence unit, datasource, and JPA Vendor -->
+	<bean id="DocMetaData" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="DocMetaData" />
+	</bean>
+		  
+	<bean id="imageDao" class="com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 </beans>
 	
