@@ -25,8 +25,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import sun.security.action.GetBooleanAction;
-
 /**
  * Class to run the service as a JUnit test. Each operation in the service is a separate test.
  *

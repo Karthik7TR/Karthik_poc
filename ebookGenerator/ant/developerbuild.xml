@@ -134,6 +134,8 @@
   <target name="-cleanup">
     <echo level="info">Temporary folders are being cleaned up.</echo>
     <delete dir="..\${dir.binaries}\com" failonerror="false" includeemptydirs="true" />
+  	<delete dir="..\${dir.binaries}\META-INF" failonerror="false" includeemptydirs="true" />
+  	<delete dir="..\${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${logs.dir}" failonerror="false" includeemptydirs="true" />
