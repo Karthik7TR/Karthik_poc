@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 import java.io.File;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadataResponse;
 
@@ -21,9 +22,11 @@ public interface ImageService {
 	 * @param imageGuids a list of keys for the images desired
 	 * @param imageDirectory the containing directory where the image files will be created
 	 * @param jobInstanceId the unique identifier for which book generating job we are fetching images for.
+	 * @param titleId the unique key for the book for which we are gathering images
 	 * Used to key the saved image meta-data in the database.
 	 */
-	public void fetchImages(final List<String> imageGuids, File imageDirectory, long jobInstanceId) throws Exception;
+	public void fetchImages(final List<String> imageGuids, File imageDirectory,
+							long jobInstanceId, String titleId) throws ImageException;
 	
 	/**
 	 * Get the image meta-data for a specific image by key from the Image Vertical REST web service.
@@ -43,13 +46,15 @@ public interface ImageService {
 	 * Persist the image meta-data from the REST service response to a database table
 	 * @param metadata the meta-data container returned from the Image Vertical REST service
 	 * @param jobInstanceId uniquely identifies the book generating job so meta-data can be stored in the database grouped by job
+	 * @param titleId the unique key for the book for which we are gathering images
 	 */
-	public void saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId);
+	public void saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId);
 	
 	/**
 	 * Persist a single meta-data entity to the image meta-data table.
 	 * @param metadata domain object for metadata
 	 * @param jobInstanceId used to associate metadata to a specific job run
+	 * @param titleId the unique key for the book for which we are gathering images
 	 */
-	public void saveImageMetadata(final ImageMetadataEntity metadata, long jobInstanceId);
+	public void saveImageMetadata(final ImageMetadataEntity metadata);
 }

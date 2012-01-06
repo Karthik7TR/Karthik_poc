@@ -8,10 +8,13 @@ package com.thomsonreuters.uscl.ereader.gather.image.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
+import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 
 public class ImageDaoImpl implements ImageDao {
 	//private static final Logger log = Logger.getLogger(ImageDaoImpl.class);
@@ -24,13 +27,16 @@ public class ImageDaoImpl implements ImageDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ImageMetadataEntity.class);
-		criteria.add(Restrictions.eq("jobInstanceId", jobInstanceId));
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(ImageMetadataEntity.class);
+		Criterion criterion = Restrictions.eq("primaryKey.jobInstanceId", jobInstanceId);
+		criteria.add(criterion);
 		return criteria.list();
 	}
 	
 	@Override
-	public void saveImageMetadata(ImageMetadataEntity metadata) {
-		sessionFactory.getCurrentSession().save(metadata);
+	public ImageMetadataEntityKey saveImageMetadata(ImageMetadataEntity metadata) {
+		Session session = sessionFactory.getCurrentSession();
+		return (ImageMetadataEntityKey) session.save(metadata);
 	}
 }

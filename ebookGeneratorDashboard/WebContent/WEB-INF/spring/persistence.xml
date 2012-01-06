@@ -42,8 +42,9 @@
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
 		 ====================================== --> 
-	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl"
-		  p:sessionFactory-ref="sessionFactory"/>
+	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 		 
 	<bean id="dashboardDao" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.dao.DashboardDaoImpl"
 		  p:tablePrefix="${spring.batch.table.prefix}"

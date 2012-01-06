@@ -7,7 +7,11 @@ package com.thomsonreuters.uscl.ereader.gather.image.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -16,14 +20,14 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Persisted metadata for images downloaded from the Image Vertical REST web service.
  */
+@Entity
 @Table(schema="EBOOK_AUTHORITY", name="IMAGE_METADATA")
 public class ImageMetadataEntity implements Serializable {
 	
 	private static final long serialVersionUID = -3714413519050210417L;
 	
-	private Long	jobInstanceId;	// From the Spring Batch job
-	private String	guid;	// image GUID
-	private String 	titleId;	// Indetifies the book that this is for
+	private ImageMetadataEntityKey primaryKey;  // jobInstanceId & imageGuid
+	private String 	titleId;	// Identifies the book that this is for
 	private Long	width;
 	private Long 	height;
 	private Long 	size;	// image size in bytes
@@ -34,10 +38,9 @@ public class ImageMetadataEntity implements Serializable {
 		super();
 	}
 
-	public ImageMetadataEntity(Long jobInstanceId, String guid, String titleId, 
+	public ImageMetadataEntity(ImageMetadataEntityKey key, String titleId,
 							   Long width, Long height, Long size, Long dpi, String dimUnits) {
-		this.jobInstanceId = jobInstanceId;
-		this.guid = guid;
+		this.primaryKey = key;
 		this.titleId = titleId;
 		this.width = width;
 		this.height = height;
@@ -46,18 +49,23 @@ public class ImageMetadataEntity implements Serializable {
 		this.dimUnits = dimUnits;
 	}
 	
+	/**
+	 * Primary key
+	 */
+	@EmbeddedId
+	@AttributeOverrides({
+		@AttributeOverride(name = "jobInstanceId", column = @Column(name="JOB_INSTANCE_ID", nullable=false)),
+		@AttributeOverride(name = "imageGuid", column = @Column(name="IMAGE_GUID", nullable=false))
+	})
+	public ImageMetadataEntityKey getPrimaryKey() {
+		return primaryKey;
+	}
+	
 	@Column(name = "TITLE_ID", length=64, nullable=false)
 	public String getTitleId() {
 		return titleId;
 	}
-	@Column(name = "JOB_INSTANCE_ID")
-	public Long getJobInstanceId() {
-		return jobInstanceId;
-	}
-	@Column(name = "IMAGE_GUID", length=64)
-	public String getGuid() {
-		return guid;
-	}
+
 	@Column(name = "IMAGE_WIDTH")
 	public Long getWidth() {
 		return width;
@@ -79,14 +87,11 @@ public class ImageMetadataEntity implements Serializable {
 		return dimUnits;
 	}
 
+	public void setPrimaryKey(ImageMetadataEntityKey pk) {
+		this.primaryKey = pk;
+	}
 	public void setTitleId(String titleId) {
 		this.titleId = titleId;
-	}
-	public void setJobInstanceId(Long jobInstanceId) {
-		this.jobInstanceId = jobInstanceId;
-	}
-	public void setGuid(String guid) {
-		this.guid = guid;
 	}
 	public void setWidth(Long width) {
 		this.width = width;

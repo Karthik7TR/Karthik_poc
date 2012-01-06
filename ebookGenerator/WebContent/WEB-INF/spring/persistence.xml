@@ -43,13 +43,17 @@
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
 		 ====================================== --> 
-	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl"
-		  p:sessionFactory-ref="sessionFactory"/>
-	
+	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+	<bean id="imageDao" class="com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
 		  
+
 	<!-- ******************************************************************** -->
 	<!-- Scan for dao layer annotated beans -->
 	<!-- ******************************************************************** -->
@@ -61,8 +65,5 @@
 		<property name="persistenceUnitName" value="DocMetaData" />
 	</bean>
 		  
-	<bean id="imageDao" class="com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoImpl">
-		<constructor-arg ref="sessionFactory"/>
-	</bean>
 </beans>
 	

@@ -8,10 +8,11 @@ package com.thomsonreuters.uscl.ereader.gather.image.dao;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
+import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 
 public interface ImageDao {
 	
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId);
 	
-	public void saveImageMetadata(ImageMetadataEntity metadata);
+	public ImageMetadataEntityKey saveImageMetadata(ImageMetadataEntity metadata);
 }

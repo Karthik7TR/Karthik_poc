@@ -9,18 +9,35 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import com.thomsonreuters.uscl.ereader.assemble.service.EbookAssemblyServiceTest;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewExceptionTest;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
+import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceTest;
+import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
+import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
+import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses( { JobQueueManagerTest.class,
-				 EngineServiceTest.class,
-				 OperationsControllerTest.class,
-				 JobRunQueuePollerTest.class,
-				 InitializeTaskTest.class
-				} )
+@SuiteClasses( {
+			EbookAssemblyServiceTest.class,
+			EngineServiceTest.class,
+			HTMLWrapperServiceTest.class,
+			ImageDaoTest.class,
+			ImageVerticalServiceTest.class,
+			InitializeTaskTest.class,
+			JobQueueManagerTest.class,
+			JobRunQueuePollerTest.class,
+			OperationsControllerTest.class,
+			ProviewClientImplTest.class,
+			ProviewExceptionTest.class,
+			TransformerServiceTest.class,
+			XSLTMapperServiceTest.class
+		} )
 
 public class EngineTestSuite {
 

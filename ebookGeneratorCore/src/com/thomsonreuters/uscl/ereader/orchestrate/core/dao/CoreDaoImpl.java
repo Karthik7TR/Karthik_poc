@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -17,6 +16,10 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 public class CoreDaoImpl implements CoreDao {
 	//private static final Logger log = Logger.getLogger(CoreDaoImpl.class);
 	private SessionFactory sessionFactory;
+	
+	public CoreDaoImpl(SessionFactory sessFactory) {
+		this.sessionFactory = sessFactory;
+	}
 	
 	@Override
 	public BookDefinition findBookDefinition(BookDefinitionKey key) {
@@ -29,10 +32,4 @@ public class CoreDaoImpl implements CoreDao {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
 		return criteria.list();
 	}
-
-	@Required
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 }
-
