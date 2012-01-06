@@ -8,11 +8,9 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +25,10 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageResponse;
 
 public class ImageServiceImpl implements ImageService {
 	// private static final Logger log = Logger.getLogger(ImageServiceImpl.class);
+	public static String SINGLE_IMAGE_URL_PATTERN = "{context}/{version}/images/ttype/null/guid/{imageGuid}";
+	public static String SINGLE_IMAGE_METADATA_URL_PATTERN = "{context}/{version}/images/ttype/null/guid/{imageGuid}/meta";
 	
+	private ImageVerticalRestTemplateFactory imageVerticalRestTemplateFactory;
 	/** The singleton REST template with the static message converters injected.  Used for reading the meta-data */
 	private RestTemplate singletonRestTemplate;
 	/** URL (environment specific) of the Image Vertical (REST) service. */
@@ -43,16 +44,9 @@ public class ImageServiceImpl implements ImageService {
 	@Transactional
 	public void fetchImages(final List<String> imageGuids, File imageDirectory, long jobInstanceId, String titleId)
 						throws ImageException {
-		// Set up the REST template with the message converter that reads the image bytes
-		RestTemplate customRestTemplate = new RestTemplate();
-		SingleImageResponseHttpMessageConverter imageDownloader = new SingleImageResponseHttpMessageConverter();
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>(1);
-		messageConverters.add(imageDownloader);
-		customRestTemplate.setMessageConverters(messageConverters);
-		
+
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
 		for (String imageGuid : imageGuids) {
-			
 			// First, fetch the image meta-data
 			try {
 				// Fetch the image meta-data and persist it to the database
@@ -68,16 +62,17 @@ public class ImageServiceImpl implements ImageService {
 			}
 			
 			// Second, fetch and save the image bytes to a file
-			try {
+			try { 
 				// Set up and create an empty image file to hold the bytes read from the REST service response
 				File imageFile = createEmptyImageFile(imageDirectory, imageGuid);
-				imageDownloader.setImageFile(imageFile);  // Set the image file name into the message converter that reads the image bytes			
-	
+				// Create the REST template we will use to make HTTP request to Image Vertical REST service
+				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(imageFile);
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
-				String restServiceUrl = String.format(
-						"%s/%s/images/ttype/null/guid/%s", imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
-				customRestTemplate.getForObject(restServiceUrl, SingleImageResponse.class);
+				
+				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN,
+						SingleImageResponse.class,
+						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
 				
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
 				Thread.sleep(sleepIntervalBetweenImages);
@@ -89,40 +84,50 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public SingleImageMetadataResponse fetchImageMetadata(String imageGuid) {
-		String restServiceUrl = String.format(
-		"%s/%s/images/ttype/null/guid/%s/meta", imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
-		SingleImageMetadataResponse response = singletonRestTemplate.getForObject(restServiceUrl, SingleImageMetadataResponse.class);
+		SingleImageMetadataResponse response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
+				SingleImageMetadataResponse.class, 
+				imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
 		return response;
 	}
-	
-	@Override
-	@Transactional
-	public void saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId) {
-		// Map the container data from the REST service into an entity that is persisted
-		SingleImageMetadata singleImageMetadata = metadata.getImageMetadata();
-		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, singleImageMetadata.getGuid());
-		ImageMetadataEntity entity = new ImageMetadataEntity(pk, titleId,
-															 singleImageMetadata.getWidth(),
-															 singleImageMetadata.getHeight(),
-															 singleImageMetadata.getSize(),
-															 singleImageMetadata.getDpi(),
-															 singleImageMetadata.getDimUnit());
-		// Persist the image meta-data entity
-		this.saveImageMetadata(entity);
-	}
 
-	@Override
-	@Transactional
-	public void saveImageMetadata(final ImageMetadataEntity metadata) {
-		imageDao.saveImageMetadata(metadata);
-	}
-	
 	@Override
 	@Transactional
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId) {
 		return imageDao.findImageMetadata(jobInstanceId);
 	}
 
+	/**
+	 * Map the container data from the REST service into an entity that is persisted
+	 * @param responseMetadata from the Image Vertical REST service
+	 * @return the entity to be persisted to a database table
+	 */
+	public static ImageMetadataEntity createImageMetadataEntity(SingleImageMetadataResponse responseMetadata,
+			long jobInstanceId, String titleId) {
+		SingleImageMetadata singleImageMetadata = responseMetadata.getImageMetadata();
+		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, singleImageMetadata.getGuid());
+		ImageMetadataEntity entity = new ImageMetadataEntity(pk, titleId,
+				singleImageMetadata.getWidth(),
+				singleImageMetadata.getHeight(),
+				singleImageMetadata.getSize(),
+				singleImageMetadata.getDpi(),
+				singleImageMetadata.getDimUnit());
+		return entity;
+	}
+	
+	@Override
+	@Transactional
+	public ImageMetadataEntityKey saveImageMetadata(final ImageMetadataEntity metadata) {
+		ImageMetadataEntityKey primaryKey = imageDao.saveImageMetadata(metadata);
+		return primaryKey;
+	}
+
+	@Override
+	@Transactional
+	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadataResponse, long jobInstanceId, String titleId) {
+		ImageMetadataEntity entity = createImageMetadataEntity(metadataResponse, jobInstanceId, titleId);
+		// Persist the image meta-data entity
+		return this.saveImageMetadata(entity);
+	}
 
 	/**
 	 * Create the empty image file that will hold the image bytes once the download begins.
@@ -132,7 +137,7 @@ public class ImageServiceImpl implements ImageService {
 	 * @return the File object what will hold the image bytes, created in the filesystem
 	 * @throws IOException on file creation error
 	 */
-	private static File createEmptyImageFile(File imageDir, String imageGuid) throws IOException {
+	public static File createEmptyImageFile(File imageDir, String imageGuid) throws IOException {
 		imageDir.mkdirs();
 		String imageFileBasename = imageGuid + ".png";
 		File imageFile = new File(imageDir, imageFileBasename);
@@ -142,7 +147,11 @@ public class ImageServiceImpl implements ImageService {
 		imageFile.createNewFile();	// Create a new empty file
 		return imageFile;
 	}
-	
+
+	@Required
+	public void setImageVerticalRestTemplateFactory(ImageVerticalRestTemplateFactory factory) {
+		this.imageVerticalRestTemplateFactory = factory;
+	}
 	@Required
 	public void setSingletonRestTemplate(RestTemplate template) {
 		this.singletonRestTemplate = template;

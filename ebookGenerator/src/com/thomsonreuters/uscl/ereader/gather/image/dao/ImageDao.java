@@ -12,7 +12,17 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKe
 
 public interface ImageDao {
 	
+	/**
+	 * Find from the IMAGE_METADATA table all the image meta-data for a specific book generation job run.
+	 * @param jobInstanceId unique job run identifier
+	 * @return a list of metadata for every image.
+	 */
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId);
 	
+	/**
+	 * Persist a single set of image metadata to the IMAGE_METADATA table. 
+	 * @param metadata mapped entity to save
+	 * @return the key of new newly created record
+	 */
 	public ImageMetadataEntityKey saveImageMetadata(ImageMetadataEntity metadata);
 }

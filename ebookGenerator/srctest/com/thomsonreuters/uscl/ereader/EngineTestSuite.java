@@ -16,7 +16,8 @@ import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalServiceTest;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
@@ -28,7 +29,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.Operati
 			EngineServiceTest.class,
 			HTMLWrapperServiceTest.class,
 			ImageDaoTest.class,
-			ImageVerticalServiceTest.class,
+			ImageServiceTest.class,
+			ImageVerticalJsonTest.class,
 			InitializeTaskTest.class,
 			JobQueueManagerTest.class,
 			JobRunQueuePollerTest.class,

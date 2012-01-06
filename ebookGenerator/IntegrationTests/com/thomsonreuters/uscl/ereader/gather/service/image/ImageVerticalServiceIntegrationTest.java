@@ -51,7 +51,7 @@ System.out.println(response);
 	
 	@Test
 	public void testFetchImage() {
-		File tmpImageDir = new File (System.getProperty("java.io.tmpdir"));
+		File tmpImageDir = new File(System.getProperty("java.io.tmpdir"));
 		long jobInstanceId = 1965;
 		String titleId = "bogusTitleId";
 		List<String> imageGuids = new ArrayList<String>(1);

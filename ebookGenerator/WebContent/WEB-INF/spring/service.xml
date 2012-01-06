@@ -40,10 +40,12 @@
 
 	<bean id="eBookAssemblyService" class="com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl"/>
 	
+	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
 		  p:singletonRestTemplate-ref="restTemplate"
 		  p:imageVerticalRestServiceUrl="${image.vertical.context.url}"
 		  p:sleepIntervalBetweenImages="500"
 		  p:urlVersion="v1"
-		  p:imageDao-ref="imageDao"/>
+		  p:imageDao-ref="imageDao"
+		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
 </beans>

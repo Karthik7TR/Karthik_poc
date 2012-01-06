@@ -15,7 +15,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ServiceStatus;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadata;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.TraceInformation;
 
-public class ImageVerticalServiceTest  {
+public class ImageVerticalJsonTest  {
 
 	@Before
 	public void setUp() throws Exception {
