@@ -20,7 +20,7 @@ public interface ImageService {
 	 * @param imageGuid the key of the image
 	 * @return the status and meta-data of the image.
 	 */
-	public SingleImageMetadataResponse fetchImageMetadata(String imageGuid);
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid);
 	
 	/**
 	 * Reads image bytes and meta-data from the Image Vertical REST web service for the book based on the specified image GUID's.
@@ -32,7 +32,7 @@ public interface ImageService {
 	 * 						Used to key the saved image meta-data in the database.
 	 * @param titleId The unique key for the book for which we are gathering images.
 	 */
-	public void fetchImages(final List<String> imageGuids, File imageDirectory,
+	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDirectory,
 							long jobInstanceId, String titleId) throws ImageException;
 	
 	

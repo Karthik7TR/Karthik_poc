@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.log4j.Logger;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -28,8 +27,8 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageResponse;
  */
 public class SingleImageResponseHttpMessageConverter extends
 		AbstractHttpMessageConverter<SingleImageResponse> {
-	private static final Logger log = Logger.getLogger(SingleImageResponseHttpMessageConverter.class);
-	public static final String IMAGE_SUFFIX = ".png";
+	//private static final Logger log = Logger.getLogger(SingleImageResponseHttpMessageConverter.class);
+	private static final int DOWNLOAD_BUFFER_SIZE = 2^14;
 	private static List<MediaType> SUPPORTED_MEDIA_TYPES = new ArrayList<MediaType>();
 	static {
 		SUPPORTED_MEDIA_TYPES.add(MediaType.IMAGE_PNG);
@@ -39,7 +38,6 @@ public class SingleImageResponseHttpMessageConverter extends
 	
 	public SingleImageResponseHttpMessageConverter(File imageDirectory, String imageGuid, MediaType mediaType) {
 		this.imageFile = createImageFile(imageDirectory, imageGuid, mediaType);
-log.debug("ImageFile: " + imageFile.getAbsolutePath()); // DEBUG
 	}
 	
 	@Override
@@ -68,20 +66,16 @@ log.debug("ImageFile: " + imageFile.getAbsolutePath()); // DEBUG
 	@Override
 	public SingleImageResponse readInternal(Class<? extends SingleImageResponse> clazz,
 											HttpInputMessage inputMessage) throws IOException {
-		InputStream inStream = null;
-		FileOutputStream fileStream = null;
 		if (imageFile.exists()) {
 			imageFile.delete();  // Delete any existing file
 		}
-		imageFile.createNewFile();	// Create a new empty file
+//		imageFile.createNewFile();	// Create a new empty file
+		InputStream inStream = inputMessage.getBody();
+		FileOutputStream fileStream = new FileOutputStream(imageFile);
 		try {
-			inStream = inputMessage.getBody();
-			fileStream = new FileOutputStream(imageFile);
-			byte[] contentBuffer = new byte[2^14];
-			int bytesAvailableToRead;
-			while ((bytesAvailableToRead = inStream.available()) > 0) {
-				int bytesToRead = Math.min(contentBuffer.length, bytesAvailableToRead);
-				int bytesRead = inStream.read(contentBuffer, 0, bytesToRead);
+			int bytesRead;
+			byte[] contentBuffer = new byte[DOWNLOAD_BUFFER_SIZE];
+			while ((bytesRead = inStream.read(contentBuffer, 0, DOWNLOAD_BUFFER_SIZE)) != -1) {
 				fileStream.write(contentBuffer, 0, bytesRead);
 			}
 		} finally {

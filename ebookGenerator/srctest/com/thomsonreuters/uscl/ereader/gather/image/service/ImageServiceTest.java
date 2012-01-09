@@ -61,7 +61,7 @@ public class ImageServiceTest {
 	}
 
 	@Test
-	public void testFetchImages() {
+	public void testFetchImageVerticalImages() {
 		File imageFile = null;
 		try {
 			File imageDirectory = new File(System.getProperty("java.io.tmpdir"));
@@ -87,7 +87,7 @@ public class ImageServiceTest {
 			// Invoke the object under test
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
-			imageService.fetchImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
+			imageService.fetchImageVerticalImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
 			
 			// Ensure all expected mock object methods were called in the right order
 			EasyMock.verify(mockSingletonRestTemplate);
@@ -111,7 +111,7 @@ public class ImageServiceTest {
 										)).andReturn(null);
 		EasyMock.replay(mockSingletonRestTemplate);
 		
-		imageService.fetchImageMetadata(GUID);
+		imageService.fetchImageVerticalImageMetadata(GUID);
 		
 		EasyMock.verify(mockSingletonRestTemplate);
 		

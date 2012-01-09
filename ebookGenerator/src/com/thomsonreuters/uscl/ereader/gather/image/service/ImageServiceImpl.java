@@ -43,7 +43,7 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	@Transactional
-	public void fetchImages(final List<String> imageGuids, File imageDirectory, long jobInstanceId, String titleId)
+	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDirectory, long jobInstanceId, String titleId)
 						throws ImageException {
 
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
@@ -52,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
 			SingleImageMetadata imageMetadata = null;
 			try {
 				// Fetch the image meta-data and persist it to the database
-				SingleImageMetadataResponse metadataContainer = fetchImageMetadata(imageGuid);
+				SingleImageMetadataResponse metadataContainer = fetchImageVerticalImageMetadata(imageGuid);
 				ServiceStatus serviceStatus = metadataContainer.getServiceStatus();
 				imageMetadata = metadataContainer.getImageMetadata();
 				if (serviceStatus.getStatusCode() != 0) {
@@ -85,7 +85,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public SingleImageMetadataResponse fetchImageMetadata(String imageGuid) {
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid) {
 		SingleImageMetadataResponse response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
 				SingleImageMetadataResponse.class, 
 				imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
@@ -130,25 +130,6 @@ public class ImageServiceImpl implements ImageService {
 		// Persist the image meta-data entity
 		return this.saveImageMetadata(entity);
 	}
-
-	/**
-	 * Create the empty image file (with no extension) that will hold the image bytes once the download begins.
-	 * If the file already exists, it will be deleted and recreated.
-	 * @param imageDir container directory for the image file
-	 * @param imageGuid the key for the image itself
-	 * @return the File object what will hold the image bytes, created in the filesystem
-	 * @throws IOException on file creation error
-	 */
-//	public static File createEmptyImageFile(File imageDir, String imageGuid) throws IOException {
-//		imageDir.mkdirs();
-//		String imageFileBasename = imageGuid;
-//		File imageFile = new File(imageDir, imageFileBasename);
-//		if (imageFile.exists()) {
-//			imageFile.delete();  // Delete any existing file
-//		}
-//		imageFile.createNewFile();	// Create a new empty file
-//		return imageFile;
-//	}
 
 	@Required
 	public void setImageVerticalRestTemplateFactory(ImageVerticalRestTemplateFactory factory) {

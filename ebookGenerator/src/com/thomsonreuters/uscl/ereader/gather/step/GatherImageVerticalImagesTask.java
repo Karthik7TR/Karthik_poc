@@ -68,7 +68,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		// Fetch the image metadata and file bytes
 		long jobInstanceId = jobInstance.getId();
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
-		imageService.fetchImages(imageGuids, imageDestinationDirectory, jobInstanceId, titleId);
+		imageService.fetchImageVerticalImages(imageGuids, imageDestinationDirectory, jobInstanceId, titleId);
 
 		return ExitStatus.COMPLETED;
 	}

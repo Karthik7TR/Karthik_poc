@@ -18,7 +18,6 @@
 	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
 		  p:objectMapper-ref="jsonObjectMapper"/>
-	<!--  bean id="imageDownloader" class="com.thomsonreuters.uscl.ereader.gather.image.service.SingleImageResponseHttpMessageConverter"/ -->
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>

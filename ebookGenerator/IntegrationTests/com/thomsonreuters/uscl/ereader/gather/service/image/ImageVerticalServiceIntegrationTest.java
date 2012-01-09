@@ -42,8 +42,8 @@ public class ImageVerticalServiceIntegrationTest  {
 	@Autowired ImageService imageService;
 
 	@Test
-	public void testFetchImageMetadata() {
-		SingleImageMetadataResponse response = imageService.fetchImageMetadata(GUID_TIF);
+	public void testFetchImageVerticalImageMetadata() {
+		SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF);
 		Assert.assertNotNull(response);
 System.out.println(response);
 	}
@@ -52,7 +52,7 @@ System.out.println(response);
 	public void testFetchImageMetadataBadGuid() {
 		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
 		try {
-			SingleImageMetadataResponse response = imageService.fetchImageMetadata(badGuid);
+			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid);
 			Assert.assertNotNull(response);
 			System.out.println(response);
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ System.out.println(response);
 	}
 	
 	@Test
-	public void testFetchImage() {
+	public void testFetchImageVerticalImage() {
 		File tmpImageDir = new File(System.getProperty("java.io.tmpdir"));
 		long jobInstanceId = 1965;
 		String titleId = "bogusTitleId";
@@ -69,7 +69,7 @@ System.out.println(response);
 //		imageGuids.add(GUID);
 		List<String> imageGuids = Arrays.asList(GUID_LIST);
 		try {
-			imageService.fetchImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
+			imageService.fetchImageVerticalImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
