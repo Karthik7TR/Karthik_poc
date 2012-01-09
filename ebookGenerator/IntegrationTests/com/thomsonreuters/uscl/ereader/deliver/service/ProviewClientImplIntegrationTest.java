@@ -10,7 +10,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 
-import org.apache.commons.httpclient.params.HttpParams;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
