@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -48,10 +49,12 @@ public class ImageServiceImpl implements ImageService {
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
 		for (String imageGuid : imageGuids) {
 			// First, fetch the image meta-data
+			SingleImageMetadata imageMetadata = null;
 			try {
 				// Fetch the image meta-data and persist it to the database
 				SingleImageMetadataResponse metadataContainer = fetchImageMetadata(imageGuid);
 				ServiceStatus serviceStatus = metadataContainer.getServiceStatus();
+				imageMetadata = metadataContainer.getImageMetadata();
 				if (serviceStatus.getStatusCode() != 0) {
 					throw new ImageException(String.format("Non-zero status code was returned from Image Vertical when fetching metadata: code=%d, description=%s",
 							imageGuid, serviceStatus.getStatusCode(), serviceStatus.getDescription()));
@@ -63,10 +66,9 @@ public class ImageServiceImpl implements ImageService {
 			
 			// Second, fetch and save the image bytes to a file
 			try { 
-				// Set up and create an empty image file to hold the bytes read from the REST service response
-				File imageFile = createEmptyImageFile(imageDirectory, imageGuid);
 				// Create the REST template we will use to make HTTP request to Image Vertical REST service
-				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(imageFile);
+				MediaType mediaType = MediaType.valueOf(imageMetadata.getMimeType());
+				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(imageDirectory, imageGuid, mediaType);
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
 				
@@ -130,23 +132,23 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	/**
-	 * Create the empty image file that will hold the image bytes once the download begins.
+	 * Create the empty image file (with no extension) that will hold the image bytes once the download begins.
 	 * If the file already exists, it will be deleted and recreated.
 	 * @param imageDir container directory for the image file
 	 * @param imageGuid the key for the image itself
 	 * @return the File object what will hold the image bytes, created in the filesystem
 	 * @throws IOException on file creation error
 	 */
-	public static File createEmptyImageFile(File imageDir, String imageGuid) throws IOException {
-		imageDir.mkdirs();
-		String imageFileBasename = imageGuid + ".png";
-		File imageFile = new File(imageDir, imageFileBasename);
-		if (imageFile.exists()) {
-			imageFile.delete();  // Delete any existing file
-		}
-		imageFile.createNewFile();	// Create a new empty file
-		return imageFile;
-	}
+//	public static File createEmptyImageFile(File imageDir, String imageGuid) throws IOException {
+//		imageDir.mkdirs();
+//		String imageFileBasename = imageGuid;
+//		File imageFile = new File(imageDir, imageFileBasename);
+//		if (imageFile.exists()) {
+//			imageFile.delete();  // Delete any existing file
+//		}
+//		imageFile.createNewFile();	// Create a new empty file
+//		return imageFile;
+//	}
 
 	@Required
 	public void setImageVerticalRestTemplateFactory(ImageVerticalRestTemplateFactory factory) {

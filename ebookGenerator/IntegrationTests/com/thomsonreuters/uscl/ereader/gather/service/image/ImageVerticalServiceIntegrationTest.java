@@ -7,7 +7,7 @@ package com.thomsonreuters.uscl.ereader.gather.service.image;
 
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -27,12 +27,23 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 @ContextConfiguration
 @Transactional
 public class ImageVerticalServiceIntegrationTest  {
-	private static final String GUID = "IA31BCD5F18364C9BBDCD008012AFBF02";
+	private static final String GUID_PNG = "IA31BCD5F18364C9BBDCD008012AFBF02";	// PNG image
+	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
+	private static final String[] GUID_LIST = {
+		"I8A302FE4920F47B00079B5381C71638B",
+		"I5d463990094d11e085f5891ac64a9905", // a tif image
+		"I449A045209354D19BADD202B264B3076",
+		"IA1F5243AA999498889F4D32E3D141970",
+		"IB813AED2574D4765839DD8196BBF692E",
+		"I3B6D30935B874190B99CE23DCD71F420",
+		"I8D6644A823A14778BFA4074B6D597D1D",
+		"IB815E4C168D7419AB24C4134C9E728D2" };
+	
 	@Autowired ImageService imageService;
 
 	@Test
 	public void testFetchImageMetadata() {
-		SingleImageMetadataResponse response = imageService.fetchImageMetadata(GUID);
+		SingleImageMetadataResponse response = imageService.fetchImageMetadata(GUID_TIF);
 		Assert.assertNotNull(response);
 System.out.println(response);
 	}
@@ -54,8 +65,9 @@ System.out.println(response);
 		File tmpImageDir = new File(System.getProperty("java.io.tmpdir"));
 		long jobInstanceId = 1965;
 		String titleId = "bogusTitleId";
-		List<String> imageGuids = new ArrayList<String>(1);
-		imageGuids.add(GUID);
+//		List<String> imageGuids = new java.util.ArrayList<String>(1);
+//		imageGuids.add(GUID);
+		List<String> imageGuids = Arrays.asList(GUID_LIST);
 		try {
 			imageService.fetchImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
 		} catch (Exception e) {

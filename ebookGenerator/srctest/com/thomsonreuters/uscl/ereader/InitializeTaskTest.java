@@ -83,9 +83,16 @@ public class InitializeTaskTest {
 			
 			File actualWorkDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
 			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE_PATH));
-			
+			File actualImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DIR_PATH));
+			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_STATIC_DIR_PATH));
+			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH));
+
 			Assert.assertEquals(expectedWorkDirectory.getAbsolutePath(), actualWorkDirectory.getAbsolutePath());
 			Assert.assertEquals(expectedEbookFile.getAbsolutePath(), actualEbookFile.getAbsolutePath());
+			
+			Assert.assertTrue(actualImagesDirectory.exists());
+			Assert.assertTrue(actualStaticImagesDirectory.exists());
+			Assert.assertTrue(actualDynamicImagesDirectory.exists());
 			
 			// Verify the transition to the next step
 			Assert.assertEquals(ExitStatus.COMPLETED, transition);
@@ -100,7 +107,6 @@ public class InitializeTaskTest {
 			Assert.fail(e.getMessage());
 		} finally {
 			File dateDir = new File(tempRootDir, DATE_STAMP);
-			System.out.println(dateDir); // DEBUG			
 			Assert.assertTrue("The date directory (yyyyMMdd) immediately below the root work directory exists", dateDir.exists());
 			FileUtils.deleteDirectory(dateDir);
 			Assert.assertFalse("The date directory has been recursively removed", dateDir.exists());

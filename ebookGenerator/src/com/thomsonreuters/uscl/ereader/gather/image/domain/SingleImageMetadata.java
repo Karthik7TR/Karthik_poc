@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.image.domain;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.springframework.http.MediaType;
 
 /**
  * The response object when fetching Image Vertical REST service image meta-data for a single image.
@@ -45,6 +46,9 @@ public class SingleImageMetadata {
 	@JsonProperty("Height")
 	public Long getHeight() {
 		return height;
+	}
+	public MediaType getMediaType() {
+		return MediaType.valueOf(mimeType);
 	}
 	@JsonProperty("MimeType")
 	public String getMimeType() {

@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,9 +19,8 @@ import org.springframework.web.client.RestTemplate;
  */
 public class ImageVerticalRestTemplate extends RestTemplate {
 	
-	public ImageVerticalRestTemplate(File imageFileToCreate) {
-		SingleImageResponseHttpMessageConverter imageDownloader = new SingleImageResponseHttpMessageConverter();
-		imageDownloader.setImageFile(imageFileToCreate);  // Set the image file name into the message converter that reads the image bytes
+	public ImageVerticalRestTemplate(File imageDirectory, String imageGuid, MediaType mimeType) {
+		SingleImageResponseHttpMessageConverter imageDownloader = new SingleImageResponseHttpMessageConverter(imageDirectory, imageGuid, mimeType);
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>(1);
 		messageConverters.add(imageDownloader);
 		super.setMessageConverters(messageConverters);

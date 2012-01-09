@@ -61,15 +61,21 @@ public class InitializeTask extends AbstractSbTasklet {
 			throw new IllegalStateException("Expected work directory was not created in the filesystem: " + workDirectory.getAbsolutePath());
 		}
 		
-		//Create gather directories
+		// Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");
 		File docsDirectory = new File(gatherDirectory, "Docs");
+		File imagesDirectory = new File(gatherDirectory, "Images");
+		File staticImagesDirectory = new File(imagesDirectory, "Static");
+		File dynamicImagesDirectory = new File(imagesDirectory, "Dynamic");
 		File assembleDirectory = new File(workDirectory, "Assemble");
 		gatherDirectory.mkdir();
 		docsDirectory.mkdir();
+		imagesDirectory.mkdir();		// Root directory for images
+		staticImagesDirectory.mkdir();	// Standard filesystem images
+		dynamicImagesDirectory.mkdir();	// Images from the Image Vertical REST service
 		assembleDirectory.mkdir();
 		
-		//Create format directories
+		// Create format directories
 		File formatDirectory = new File(workDirectory, "Format");
 		File transformedDirectory = new File(formatDirectory, "Transformed");
 		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
@@ -82,10 +88,17 @@ public class InitializeTask extends AbstractSbTasklet {
 		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 		
+		// File containing image GUID's one per line
+		File imageGuidsFile = new File(gatherDirectory, "image-guids.txt");
+		
 		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, workDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_DOCS_PATH, docsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_DIR_PATH, imagesDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_STATIC_DIR_PATH, staticImagesDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH, dynamicImagesDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_GUIDS_FILE_PATH, imageGuidsFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH, transformedDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH, htmlWrapperDirectory.getAbsolutePath());
 

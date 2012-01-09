@@ -10,6 +10,7 @@ import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
@@ -56,6 +57,7 @@ public class ImageServiceTest {
 		SINGLE_IMAGE_METADATA.setHeight(1234l);
 		SINGLE_IMAGE_METADATA.setSize(45678l);
 		SINGLE_IMAGE_METADATA.setWidth(999l);
+		SINGLE_IMAGE_METADATA.setMimeType(MediaType.IMAGE_PNG_VALUE);
 	}
 
 	@Test
@@ -74,8 +76,7 @@ public class ImageServiceTest {
 			EasyMock.expect(mockSingletonRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_METADATA_URL_PATTERN,
 							SingleImageMetadataResponse.class,
 							SERVICE_CONTEXT_URL.toString(), SERVICE_VERSION, GUID)).andReturn(metadataResponse);
-			imageFile = ImageServiceImpl.createEmptyImageFile(imageDirectory, GUID);
-			EasyMock.expect(mockImageVerticalRestTemplateFactory.create(imageFile)).andReturn(mockImageVerticalRestTemplate);
+			EasyMock.expect(mockImageVerticalRestTemplateFactory.create(imageDirectory, GUID, SINGLE_IMAGE_METADATA.getMediaType())).andReturn(mockImageVerticalRestTemplate);
 			EasyMock.expect(mockImageVerticalRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_URL_PATTERN,
 							SingleImageResponse.class,
 							SERVICE_CONTEXT_URL.toString(), SERVICE_VERSION, GUID)).andReturn(null);
@@ -87,7 +88,6 @@ public class ImageServiceTest {
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
 			imageService.fetchImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
-			Assert.assertTrue(imageFile.exists());
 			
 			// Ensure all expected mock object methods were called in the right order
 			EasyMock.verify(mockSingletonRestTemplate);
@@ -105,7 +105,6 @@ public class ImageServiceTest {
 
 	@Test
 	public void testFetchImageMetadata() {
-//		String url = String.format("%s/%s/images/ttype/null/guid/%s/meta", SERVICE_CONTEXT_URL, SERVICE_VERSION, GUID);
 		EasyMock.expect(mockSingletonRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_METADATA_URL_PATTERN,
 										SingleImageMetadataResponse.class,
 										SERVICE_CONTEXT_URL.toString(), SERVICE_VERSION, GUID
