@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.proview;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Implementors of this interface are responsible for marshalling & unmarshalling TitleMetadata.
@@ -19,4 +20,11 @@ public interface TitleMetadataService {
 	public void writeToFile(TitleMetadata titleMetadata, File destinationFile);
 	public TitleMetadata readFromStream(InputStream inputStream);
 	public TitleMetadata readFromFile(File titleMetadataFile);
+	
+	public ArrayList<Author> createAuthors(final String delimitedAuthorsString);
+	public ArrayList<Asset> createAssets(final File imagesDirectory);
+	public Artwork createArtwork(final File coverImage);
+	public ArrayList<Doc> createDocuments(final File gatheredDocumentsFolder);
+	public ArrayList<TocEntry> createTableOfContents(final File gatheredTableOfContents);
+	public Asset createStylesheet(final File stylesheet);
 }

@@ -20,6 +20,9 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_DIRECTORY_PATH = "eBookDirectoryPath";
 	
+	/** Path to the destination directory for images files fetched from the Image Vertical REST web service. */
+	public static final String EBOOK_IMAGE_DIRECTORY_PATH = "eBookImageDirectoryPath";
+	
 	/**
 	 * The path to the assembled eBook on NAS.
 	 */
@@ -48,6 +51,12 @@ public class JobExecutionKey {
 	 * Path to the flat text file that contatins the list (one per line) of image GUID's that represent the physical
 	 * images that will be inserted into the book. 
 	 */
+	public static final String GATHER_TOC_XML_PATH = "gatherTocXmlPath";
+	
+	/**
+	 * Path to the flat text file that contatins the list (one per line) of image GUID's that represent the physical
+	 * images that will be inserted into the book. 
+	 */
 	public static final String EBOOK_GATHER_IMAGE_GUIDS_FILE_PATH = "eBookGatherImageGuidsFilePath";
 	
 	/**
@@ -61,7 +70,29 @@ public class JobExecutionKey {
 	public static final String EBOOK_FORMAT_HTML_WRAPPER_PATH = "eBookFormatHtmlWrapperPath";
 	
 	/**
+	 * The path to the documents that are to be included in the published book. 
+	 * 
+	 * <em>The last step of format is responsible for setting this property.</em>
+	 */
+	public static final String FORMAT_DOCUMENTS_READY_DIRECTORY_PATH = "formatDocumentsReadyDirectoryPath";
+	
+	/**
 	 * The number of documents that were initially retrieved from Novus, used as a sanity check after many SpringBatch steps.
 	 */
 	public static final String EBOOK_STATS_DOC_COUNT = "eBookStatsDocCount";
+	
+	/**
+	 * The file path to the cover art on NAS.
+	 */
+	public static final String COVER_ART_PATH = "coverArtPath";
+	
+	/**
+	 * The manifest file that describes which static images are included in the eBook.
+	 */
+	public static final String STATIC_IMAGE_MANIFEST_PATH = "staticImageManifestPath";
+	
+	/**
+	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.
+	 */
+	public static final String TITLE_XML_PATH = "titleXmlPath";
 }

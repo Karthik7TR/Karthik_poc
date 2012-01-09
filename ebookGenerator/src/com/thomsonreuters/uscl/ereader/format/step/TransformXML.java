@@ -44,12 +44,9 @@ public class TransformXML extends AbstractSbTasklet
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
-		StepContext stepContext = chunkContext.getStepContext();
-		StepExecution stepExecution = stepContext.getStepExecution();
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
-		JobInstance jobInstance = jobExecution.getJobInstance();
-		JobParameters jobParams = jobInstance.getJobParameters();
+		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		JobParameters jobParams = getJobParameters(chunkContext);
+		JobInstance jobInstance = getJobInstance(chunkContext);
 		
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		Long jobId = jobInstance.getId();

@@ -53,7 +53,8 @@ public class AssembleAndDeliverIntegrationTest {
 	private TitleMetadata titleMetadata;
 	private long timestamp;
 	private String titleId;
-	private static final String publishTitleUriTemplate = "/v1/title/uscl/{contentTypeAbbreviation}/{titleId}/{eBookVersionNumber}";
+	private String titleIdFullyQualified;
+	private static final String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
 
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
 	private static final String PROVIEW_USERNAME = "publisher";
@@ -81,8 +82,8 @@ public class AssembleAndDeliverIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		timestamp = System.currentTimeMillis(); 
-		titleId = "plundering_guide";
-		
+		titleId = "regression_test";
+		titleIdFullyQualified = TITLE_ID_PREFIX + titleId;
 		setUpProviewClient();
 		titleMetadataService = new TitleMetadataServiceImpl();
 		eBookAssemblyService = new EBookAssemblyServiceImpl();
@@ -149,7 +150,7 @@ public class AssembleAndDeliverIntegrationTest {
 	}
 
 	private void setUpTitleMetadata() {
-		titleMetadata = new TitleMetadata(TITLE_ID_PREFIX + titleId, "v" + timestamp);
+		titleMetadata = new TitleMetadata(titleIdFullyQualified, "v" + timestamp);
 		titleMetadata.setCopyright("The High Seas Trading Company");
 		titleMetadata.setArtwork(artwork);
 		ArrayList<Asset> assets = new ArrayList<Asset>();
@@ -161,8 +162,8 @@ public class AssembleAndDeliverIntegrationTest {
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
 		titleMetadata.setDisplayName("YARR - The Comprehensive Guide to Plundering the Seven Seas");
-		ArrayList<String> authors = new ArrayList<String>();
-		authors.add("Christopher Schwartz");
+		ArrayList<Author> authors = new ArrayList<Author>();
+		authors.add(new Author("Christopher Schwartz"));
 		titleMetadata.setAuthors(authors);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");
@@ -187,7 +188,7 @@ public class AssembleAndDeliverIntegrationTest {
 		LOG.debug("Assembling eBook");
 		eBookAssemblyService.assembleEBook(eBookDirectory, eBook);
 		LOG.debug("Publishing to ProView QED. This may take some time.");
-		proviewClient.publishTitle("cr", titleId, "v" + Long.toString(timestamp), eBook);
+		proviewClient.publishTitle(titleIdFullyQualified, "v" + Long.toString(timestamp), eBook);
 		LOG.debug("Publishing to ProView is complete.  The <a href=\"https://proview.qed.thomsonreuters.com/title.html?titleId=" + TITLE_ID_PREFIX +  titleId + "&titleVersion=v" + timestamp +">title</a> should be available in a couple minutes.");
 	}
 	

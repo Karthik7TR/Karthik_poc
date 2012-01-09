@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * This class represents the metadata within a title.
+ * This class represents the metadata within a title. Instances of this class are mutable.
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
@@ -37,7 +37,7 @@ public class TitleMetadata implements Serializable {
 	
 	private Artwork artwork;
 
-	private ArrayList<String> authors;
+	private ArrayList<Author> authors;
 	private ArrayList<TocEntry> tocEntries;
 	private ArrayList<Doc> documents;
 	private ArrayList<Asset> assets;
@@ -45,7 +45,7 @@ public class TitleMetadata implements Serializable {
 	private ArrayList<Keyword> keywords;
 	
 	public TitleMetadata() {
-		
+		assets = new ArrayList<Asset>();
 	}
 	
 	public TitleMetadata(String titleId, String titleVersion){
@@ -54,14 +54,15 @@ public class TitleMetadata implements Serializable {
 		this.lastUpdated = DATE_FORMAT.format(new Date());
 		Feature autoUpdate = new Feature("AutoUpdate");
 		Feature searchIndex = new Feature("SearchIndex");
-		Feature onePassSSO = new Feature("OnePassSSO", "www.westlaw.com");
+		//Feature onePassSSO = new Feature("OnePassSSO", "www.westlaw.com");
 		this.proviewFeatures = new ArrayList<Feature>();
 		this.proviewFeatures.add(autoUpdate);
 		this.proviewFeatures.add(searchIndex);
-		this.proviewFeatures.add(onePassSSO);
+		//this.proviewFeatures.add(onePassSSO);
+		assets = new ArrayList<Asset>();
 	}
 	
-	public void setAuthors(ArrayList<String> authors) {
+	public void setAuthors(ArrayList<Author> authors) {
 		this.authors = authors;
 	}
 	public void setDisplayName(String displayName) {
@@ -120,15 +121,15 @@ public class TitleMetadata implements Serializable {
         return retVal;
     }
 
-    public String getStatus() {
+    String getStatus() {
 		return status;
 	}
 
-	public String getTitleId() {
+	String getTitleId() {
 		return titleId;
 	}
 
-	public String getTitleVersion() {
+	String getTitleVersion() {
 		return titleVersion;
 	}
 
@@ -160,5 +161,13 @@ public class TitleMetadata implements Serializable {
 
         return builder.toHashCode();
     }
+
+	public Artwork getCoverArt() {
+		return artwork;
+	}
+
+	public ArrayList<Asset> getAssets() {
+		return assets;
+	}
 	
 }

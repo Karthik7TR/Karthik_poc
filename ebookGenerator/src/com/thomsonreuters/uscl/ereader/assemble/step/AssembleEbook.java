@@ -34,12 +34,7 @@ public class AssembleEbook extends AbstractSbTasklet {
 	}
 
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		StepContext stepContext = chunkContext.getStepContext();
-		StepExecution stepExecution = stepContext.getStepExecution();
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
-//		JobInstance jobInstance = jobExecution.getJobInstance();
-//		JobParameters jobParams = jobInstance.getJobParameters();
+		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
 		String eBookDirectoryPath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_DIRECTORY_PATH);
 		String eBookFilePath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE_PATH);

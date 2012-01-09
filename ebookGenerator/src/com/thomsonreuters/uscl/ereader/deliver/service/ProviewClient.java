@@ -17,9 +17,9 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
  */
 public interface ProviewClient {
 	
-	public String publishTitle(final String contentTypeAbbreviation, final String titleId, final String versionNumber, final File eBook) throws ProviewException;
+	public String publishTitle(final String fullyQualifiedTitleId, final String versionNumber, final File eBook) throws ProviewException;
 
 	public String getAllPublishedTitles() throws ProviewException;
 	
-	public String getPublishingStatus(final String contentTypeAbbreviation, final String titleId) throws ProviewException;
+	public String getPublishingStatus(final String fullyQualifiedTitleId) throws ProviewException;
 }

@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 public class ProviewClientImpl implements ProviewClient {
 
 	private static final Logger LOG = Logger.getLogger(ProviewClientImpl.class);
-	private static final String USCL_PREFIX = "uscl/";
 	private RestTemplate restTemplate;
 	private String validationUriTemplate;
 	private String publishingUriTemplate;
@@ -38,24 +37,17 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle(java.lang.String, java.lang.String, java.io.File)
 	 */
 	@Override
-	public String publishTitle(final String contentTypeAbbreviation, final String titleId, final String eBookVersionNumber, final File eBook) throws ProviewException {
-		if (StringUtils.isBlank(contentTypeAbbreviation)){
-			throw new IllegalArgumentException("contentTypeAbbreviation must not be null or empty, but was [" + contentTypeAbbreviation + "].");
-		}
-		if (StringUtils.isBlank(titleId)){
-			throw new IllegalArgumentException("titleId cannot be null or empty, but was [" + titleId + "].");
+	public String publishTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber, final File eBook) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)){
+			throw new IllegalArgumentException("fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
 		}
 		if (StringUtils.isBlank(eBookVersionNumber)){
 			throw new IllegalArgumentException("eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
 		}
 		
 		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put("contentTypeAbbreviation", contentTypeAbbreviation);
-		urlParameters.put("titleId", titleId);
+		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-		
-		//ResponseEntity<String> response = restTemplate.exchange(publishingUriTemplate,
-		//  HttpMethod.PUT, new HttpEntity<File>(eBook), String.class, urlParameters);
 		
 		restTemplate.put(publishingUriTemplate, eBook, urlParameters);
 		
@@ -75,16 +67,13 @@ public class ProviewClientImpl implements ProviewClient {
 	}	
 
 	@Override
-	public String getPublishingStatus(String contentTypeAbbreviation, String titleId) throws ProviewException {
-		if (StringUtils.isBlank(titleId)) {
-			throw new IllegalArgumentException("Cannot get publishing status for titleId: " + titleId + ". The titleId must not be null or empty.");
+	public String getPublishingStatus(String fullyQualifiedTitleId) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException("Cannot get publishing status for titleId: " + fullyQualifiedTitleId + ". The titleId must not be null or empty.");
 		}
 		
-		if (StringUtils.isBlank(contentTypeAbbreviation)) {
-			throw new IllegalArgumentException("Cannot get publishing status for titleId: " + titleId + ". The contentTypeAbbreviation [cr, sc, an, ...] must not be null or empty.");
-		}
 		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put("titleId", USCL_PREFIX + contentTypeAbbreviation + "/" + titleId);
+		urlParameters.put("titleId", fullyQualifiedTitleId);
 		ResponseEntity responseEntity = restTemplate.getForEntity(publishingStatusUriTemplate, String.class, urlParameters);
 		logResponse(responseEntity);
 		

@@ -9,9 +9,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jibx.runtime.JiBXException;
 import org.junit.After;
@@ -29,14 +31,47 @@ public class TitleMetadataServiceImplTest {
 	
 	private TitleMetadataServiceImpl titleMetadataService;
 	
+	File assetsDirectory;
+	File documentsDiretory;
+	File tocXml;
+	File artwork;
+	File tempDir;
+	
+	File asset1;
+	File asset2;
+	File asset3;
+	
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception {
 		titleMetadataService = new TitleMetadataServiceImpl();
+		File tempFile = File.createTempFile("boot", "strap");
+		tempDir = tempFile.getParentFile();
 	}
 	
+	private void createAssets() throws Exception {
+		assetsDirectory = new File(tempDir, "assets");
+		assetsDirectory.mkdirs();
+		asset1 = new File(assetsDirectory, "I1111111111111111.png");
+		asset2 = new File(assetsDirectory, "I2222222222222222.svg");
+		asset3 = new File(assetsDirectory, "I3333333333333333.png");
+		createAsset(asset1);
+		createAsset(asset2);
+		createAsset(asset3);
+	}
+
+	private void createAsset(File asset) throws Exception{
+		FileOutputStream fileOutputStream = new FileOutputStream(asset);
+		fileOutputStream.write("YARR!".getBytes());
+		fileOutputStream.flush();
+		IOUtils.closeQuietly(fileOutputStream);
+	}
+
 	@After
 	public void tearDown(){
-		
+		FileUtils.deleteQuietly(assetsDirectory);
+		FileUtils.deleteQuietly(documentsDiretory);
+		FileUtils.deleteQuietly(tocXml);
+		FileUtils.deleteQuietly(artwork);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -76,6 +111,31 @@ public class TitleMetadataServiceImplTest {
 		
 		assertTrue("Title metadata objects should be equal, but weren't!", titleMetadata.equals(serializedMetadata));
 	}
+	
+	@Test
+	public void testCreateArtworkHappyPath() throws Exception {
+		File coverArt = File.createTempFile("cover", ".png");
+		Artwork artwork = titleMetadataService.createArtwork(coverArt);
+		String coverSrc = coverArt.getName();
+		FileUtils.deleteQuietly(coverArt);
+		assertTrue("Expected cover art name to match: " + coverSrc + ", but was: " + artwork.getSrc(), artwork.getSrc().equals(coverSrc));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddArtworkFailsDueToNullFile() throws Exception {
+		TitleMetadata titleMetadata = new TitleMetadata();
+		titleMetadataService.createArtwork(null);
+	}
+	
+	@Test
+	public void testAddAssetsHappyPath() throws Exception {
+		createAssets();
+		TitleMetadata titleMetadata = new TitleMetadata();
+		ArrayList<Asset> actualAssets = titleMetadataService.createAssets(assetsDirectory);
+		System.out.println(titleMetadata.toString());
+		System.out.println("Assets Directory Contains: " + assetsDirectory.listFiles());
+		assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
+	}
 
 	private TitleMetadata getTitleMetadata() {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
@@ -90,9 +150,9 @@ public class TitleMetadataServiceImplTest {
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
 		titleMetadata.setDisplayName("YARR! The Comprehensive Guide to Plundering the Seven Seas.");
-		ArrayList<String> authors = new ArrayList<String>();
-		authors.add("Captain Jack Sparrow");
-		authors.add("Davey Jones");
+		ArrayList<Author> authors = new ArrayList<Author>();
+		authors.add(new Author("Captain Jack Sparrow"));
+		authors.add(new Author("Davey Jones"));
 		titleMetadata.setAuthors(authors);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");

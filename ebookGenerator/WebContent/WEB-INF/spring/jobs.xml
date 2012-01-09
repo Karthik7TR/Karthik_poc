@@ -20,22 +20,7 @@
 		</step>
 		<step id="gather">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="gatherDynamicImages"/>
-		</step>
-		<step id="gatherDynamicImages">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="gatherStaticImages"/>
-			<fail on="FAILED"/>
-		</step>
-		<step id="gatherStaticImages">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="combineImageFiles"/>
-			<fail on="FAILED"/>
-		</step>
-		<step id="combineImageFiles">
-			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="format"/>
-			<fail on="FAILED"/>
 		</step>
 		<step id="format">
 			<tasklet ref="stubTask"/>
@@ -59,8 +44,6 @@
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask"
 				p:rootWorkDirectory="/nas/ebookbuilder/data"/>
-	<beans:bean id="gatherDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
-				p:imageService-ref="imageService"/>
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook"
 				p:eBookAssemblyService-ref="eBookAssemblyService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>

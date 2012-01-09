@@ -49,8 +49,8 @@
     	</structure>
     	<structure name="authors" usage="required">
     		<collection field="authors" usage="optional">
-    			<structure name="author" type="java.lang.String" usage="required">
-		    		<value style="text" usage="optional"/>
+    			<structure name="author" type="com.thomsonreuters.uscl.ereader.proview.Author" usage="required">
+		    		<value style="text" field="name" usage="optional"/>
     			</structure>
     		</collection>
     	</structure>

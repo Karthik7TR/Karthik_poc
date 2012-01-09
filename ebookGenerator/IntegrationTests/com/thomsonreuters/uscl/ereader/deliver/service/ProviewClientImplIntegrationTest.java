@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 
+import org.apache.commons.httpclient.params.HttpParams;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -35,7 +36,7 @@ public class ProviewClientImplIntegrationTest
 	
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
 	private String getTitlesUriTemplate = "/v1/titles/uscl/all";
-	private String publishTitleUriTemplate = "/v1/title/uscl/{contentTypeAbbreviation}/{titleId}/{eBookVersionNumber}";
+	private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
 	private String validateTitleUriTemplate = "";
 
 	private static final String PROVIEW_USERNAME = "publisher";
@@ -57,6 +58,7 @@ public class ProviewClientImplIntegrationTest
 		defaultHttpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
+		
 		requestFactory.setHttpClient(defaultHttpClient);
 		
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
@@ -75,20 +77,20 @@ public class ProviewClientImplIntegrationTest
 	public void testGetAllTitlesHappyPath() throws Exception {
 		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 		String publisherInformation = proviewClient.getAllPublishedTitles();
+		System.out.println(publisherInformation);
 		assertTrue(publisherInformation.startsWith("<titles apiversion=\"v1\" publisher=\"uscl\""));
 	}
 	
 	@Test
 	public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
 		proviewClient.setPublishingUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
-		String integrationTestTitleId = "generator_integration_test";
+		String integrationTestTitleId = "uscl/cr/generator_integration_test";
 		String eBookVersionNumber = "v2";
-		String contentTypeAbbreviation = "cr";
 
 		File eBookDirectory = new File("/nas/ebookbuilder/data/");
 		File eBook = new File(eBookDirectory, "proview_client_integration_test.gz");
 		try {
-			proviewClient.publishTitle(contentTypeAbbreviation, integrationTestTitleId, eBookVersionNumber, eBook);
+			proviewClient.publishTitle(integrationTestTitleId, eBookVersionNumber, eBook);
 			fail("Expected an exception related to the title already existing on ProView!");
 		}
 		catch (ProviewRuntimeException e) {

@@ -41,10 +41,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
-		StepContext stepContext = chunkContext.getStepContext();
-		StepExecution stepExecution = stepContext.getStepExecution();
-		JobExecution jobExecution = stepExecution.getJobExecution();
-		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
+		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
 		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH);
 		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH);

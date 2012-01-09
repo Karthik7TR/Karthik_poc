@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -46,6 +48,32 @@ public abstract class AbstractSbTasklet implements Tasklet {
 		stepExecution.setExitStatus(stepTransition);
 		
 		return RepeatStatus.FINISHED;
+	}
+	
+	/**
+	 * Retrieves the JobParameters from the Spring Batch ChunkContext.
+	 * 
+	 * <p>Job Parameters are set at job initialization time, and are immutable afterwards.</p>
+	 * @param chunkContext the Spring Batch context exposed to the step implementor (to retrieve Job Parameters from)
+	 * @return the Job Parameters
+	 */
+	protected static JobParameters getJobParameters(ChunkContext chunkContext) {
+		return chunkContext.getStepContext().getStepExecution().getJobParameters();
+	}
+	
+	/**
+	 * Retrieves the Job ExecutionContext from the Spring Batch ChunkContext.
+	 * 
+	 * <p>Job Execution Context is where we put information for later steps to use. Each value added to the Job Execution Context is< mutable.</p>
+	 * @param chunkContext the Spring Batch context exposed to the step implementor (to retrieve Job Execution Context from)
+	 * @return the Job Execution context
+	 */
+	protected static ExecutionContext getJobExecutionContext(ChunkContext chunkContext) {
+		return chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+	}
+	
+	protected static JobInstance getJobInstance(ChunkContext chunkContext) {
+		return chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance();
 	}
 	
 	/**

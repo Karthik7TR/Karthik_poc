@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Represents an asset within title.xml
@@ -27,5 +29,9 @@ public class Asset {
 		}
 		this.id = id;
 		this.src = src;
+	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }
