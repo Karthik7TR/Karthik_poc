@@ -4,7 +4,6 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -34,8 +33,38 @@
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"/>
 		  
+	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"/>
 	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
 		  p:xsltMapperDao-ref="xsltMapperDao"/>
+		  
+	<bean id="xmlFilter" class="com.thomsonreuters.uscl.ereader.util.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.xml</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="xmlFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.util.FileHandlingHelper"
+		  p:filter-ref="xmlFilter"/>
+		  
+	<bean id="transformedFileFilter" class="com.thomsonreuters.uscl.ereader.util.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.transformed</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="transformedFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.util.FileHandlingHelper"
+  		  p:filter-ref="transformedFileFilter"/>
+
+	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
+		  p:docMetadataService-ref="docMetadataService"
+		  p:xsltMapperService-ref="xsltMapperService"
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
+		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"/>
+	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 
 	<bean id="eBookAssemblyService" class="com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl"/>
 	
