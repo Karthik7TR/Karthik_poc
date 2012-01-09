@@ -8,16 +8,16 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -29,10 +29,6 @@ import static org.junit.Assert.fail;
  */
 public class TransformerServiceTest 
 {
-    /**
-     * The service being tested, injected by Spring.
-     */
-    @Autowired
     protected TransformerServiceImpl transService;
     
     protected File emptyXMLDir;
@@ -54,8 +50,14 @@ public class TransformerServiceTest
     @Before
     public void setUp() throws Exception 
     {
+    	FileExtensionFilter filter = new FileExtensionFilter();
+    	filter.setAcceptedFileExtensions(new String[]{".transformed"});
+    	FileHandlingHelper ioHelper = new FileHandlingHelper();
+    	ioHelper.setFilter(filter);
+    	
     	//create instance of service
     	transService = new TransformerServiceImpl();
+    	transService.setfileHandler(ioHelper);
     	
     	//setup static title and job identifies
     	titleId = "uscl/cr/unitTestTitle";
@@ -142,48 +144,6 @@ public class TransformerServiceTest
     	{
     		fail("EBookFormatException raised instead of IllegalArgumentException " +
     				"when XML file instead of directory was passed in");
-    	}
-    }
-    
-    /**
-     * Verify EBookFormatException is raised if no XML files are found in the specified source directory.
-     * 
-     */
-    @Test
-    public void testNoXMLFilesFromGetXMLFiles()
-    {
-    	ArrayList<File> xmlFiles = new ArrayList<File>();
-    	
-    	try
-    	{
-    		transService.getXMLFiles(xmlFiles, emptyXMLDir);
-    		fail("EBookFormatException was not raised");
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		
-    	}
-    }
-    
-    /**
-     * Verify that the getXMLFiles method only returns the files that end with the XML extension.
-     * 
-     */
-    @Test
-    public void testXMLFileRetrievalFromGetXMLFiles()
-    {
-    	ArrayList<File> xmlFiles = new ArrayList<File>();
-    	
-    	try
-    	{
-    		transService.getXMLFiles(xmlFiles, xmlDir);
-    		
-    		assertEquals(4, xmlDir.listFiles().length);
-    		assertEquals(2, xmlFiles.size());
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised instead of retrieving XML files");
     	}
     }
     

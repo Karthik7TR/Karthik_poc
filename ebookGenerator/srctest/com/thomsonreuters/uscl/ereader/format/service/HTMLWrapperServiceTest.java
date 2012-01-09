@@ -10,7 +10,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 
 /**
@@ -58,8 +59,15 @@ public class HTMLWrapperServiceTest
     @Before
     public void setUp() throws Exception 
     {
+    	FileExtensionFilter filter = new FileExtensionFilter();
+    	filter.setAcceptedFileExtensions(new String[]{".transformed"});
+    	FileHandlingHelper ioHelper = new FileHandlingHelper();
+    	ioHelper.setFilter(filter);
+    	
     	//create instance of service
     	htmlWrapperService = new HTMLWrapperServiceImpl();
+    	
+    	htmlWrapperService.setfileHandler(ioHelper);    	
     	
     	//set up Transformed directories
     	emptyTransDir = testFiles.newFolder("WrapperTestEmptyTransDir");
@@ -129,45 +137,6 @@ public class HTMLWrapperServiceTest
     	catch(EBookFormatException e)
     	{
     		fail("EBookFormatException raised instead of IllegalArgumentException");
-    	}
-    }
-    
-    /**
-     * Verify EBookFormatException is raised if no transformed files are found in the specified source directory.
-     * 
-     */
-    @Test
-    public void testGetFilesEmptyDir()
-    {
-    	try
-    	{
-        	ArrayList<File> transFiles = new ArrayList<File>();
-        	htmlWrapperService.getTransformedFiles(transFiles, emptyTransDir);
-    		fail("EBookFormatException was not raised when it was expected");
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		//Expecting exception to be thrown
-    	}
-    }
-    
-    /**
-     * Verifies only the two .transformed files are retrieved from the four file passed in directory.
-     * 
-     */
-    @Test
-    public void testGetTransformedFiles()
-    {
-    	try
-    	{
-        	ArrayList<File> transFiles = new ArrayList<File>();
-        	assertEquals(4, transDir.listFiles().length);
-        	htmlWrapperService.getTransformedFiles(transFiles, transDir);
-        	assertEquals(2, transFiles.size());
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised when it was not expected");
     	}
     }
     

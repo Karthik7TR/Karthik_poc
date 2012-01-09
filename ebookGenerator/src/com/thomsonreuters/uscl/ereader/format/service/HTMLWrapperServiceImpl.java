@@ -6,18 +6,18 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
  * The HTMLWrapperService iterates through a directory of transformed raw HTML files and 
@@ -28,6 +28,13 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 public class HTMLWrapperServiceImpl implements HTMLWrapperService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
+	
+	private FileHandlingHelper fileHandlingHelper;
+	
+	public void setfileHandler(FileHandlingHelper fileHandlingHelper)
+	{
+		this.fileHandlingHelper = fileHandlingHelper;
+	}
 
 	/**
      * Wraps all transformed files found in the passed in transformation directory and writes the
@@ -52,7 +59,18 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         
         //retrieve list of all transformed files that need HTML wrappers
 		ArrayList<File> transformedFiles = new ArrayList<File>();
-		getTransformedFiles(transformedFiles, transDir);
+		
+		try
+		{
+			fileHandlingHelper.getFileList(transDir, transformedFiles);
+		}
+        catch(FileNotFoundException e)
+        {
+        	String errMessage = "No transformed files were found in specified directory. " +
+					"Please verify that the correct transformed path was specified.";
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, e);
+		}
         
 		if(!htmlDir.exists())
 		{
@@ -87,23 +105,22 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		
 		File output = new File(htmlDir, fileName.substring(0, fileName.indexOf(".")) + ".html");
 		
+		FileOutputStream outputStream = null;
+		InputStream headerStream = null;
+		InputStream transFileStream = null;
+		InputStream footerStream = null;
 		try
 		{
-			FileOutputStream outputStream = new FileOutputStream(output, true);
+			outputStream = new FileOutputStream(output, true);
 			
-			InputStream headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
+			headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
 			IOUtils.copy(headerStream, outputStream);
-			headerStream.close();
 			
-			InputStream transFileStream = new FileInputStream(transformedFile);
+			transFileStream = new FileInputStream(transformedFile);
 			IOUtils.copy(transFileStream, outputStream);
-			transFileStream.close();
 			
-			InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
+			footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
 			IOUtils.copy(footerStream, outputStream);
-			footerStream.close();
-			
-			outputStream.close();
 		}
 		catch(IOException ioe)
 		{
@@ -111,49 +128,31 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 			LOG.error(errMessage);
 			throw new EBookFormatException(errMessage, ioe);
 		}
-	}
-	
-	/**
-	 * Builds up a transformed file list for the the specified directory.
-	 * 
-	 * @param fileList list to which all the found XML files will be appended to
-	 * @param directory specifies where the XML files reside
-	 * @throws EBookFormatException raised when no XML files have been found in the provided XML directory.
-	 */
-	final void getTransformedFiles(ArrayList<File> fileList, File directory) throws EBookFormatException
-	{
-		File[] files = directory.listFiles(new TransformedFilter());
-		fileList.addAll(Arrays.asList(files));
-		if(fileList.size() == 0)
+		finally
 		{
-			String errMessage = "No transformed files were found in specified directory. " +
-					"Please verify that the correct path was specified.";
-			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage);
-		}
-	}
-	
-	/**
-	 * File filter that only accepts the custom intermediate files with the ".transformed" extension.
-	 * 
-     * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
-	 */
-	protected final class TransformedFilter implements FileFilter
-	{
-		private final String[] acceptedFileExtensions = new String[] {".transformed"};
-		
-		@Override
-		public boolean accept(File file) 
-		{
-			for (String extension : acceptedFileExtensions)
+			try
 			{
-				if (file.isFile() && file.getName().toLowerCase().endsWith(extension))
+				if (outputStream != null)
 				{
-					return true;
+					outputStream.close();
+				}
+				if (headerStream != null)
+				{
+					headerStream.close();
+				}
+				if (transFileStream != null)
+				{
+					transFileStream.close();
+				}
+				if (footerStream != null)
+				{
+					footerStream.close();
 				}
 			}
-			
-			return false;
+			catch (IOException e)
+			{
+				LOG.error("Unable to close I/O streams.", e);
+			}
 		}
 	}
 }

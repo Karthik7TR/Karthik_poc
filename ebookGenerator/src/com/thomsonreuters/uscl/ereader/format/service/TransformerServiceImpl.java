@@ -6,9 +6,9 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
-import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -20,12 +20,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
  * The TransformerServiceImpl iterates through a directory of XML files, retrieves the appropriate XSLT stylesheets, 
@@ -34,16 +33,15 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
  * 
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-@Service("TransformerService")
 public class TransformerServiceImpl implements TransformerService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
 	
-	@Autowired
 	private DocMetadataService docMetadataService;
 	
-	@Autowired
 	private XSLTMapperService xsltMapperService;
+	
+	private FileHandlingHelper fileHandlingHelper;
 	
 	public void setdocMetadataService(DocMetadataService docMetadataService) 
 	{
@@ -53,6 +51,11 @@ public class TransformerServiceImpl implements TransformerService
 	public void setxsltMapperService(XSLTMapperService xsltMapperService) 
 	{
 		this.xsltMapperService = xsltMapperService;
+	}
+	
+	public void setfileHandler(FileHandlingHelper fileHandlingHelper)
+	{
+		this.fileHandlingHelper = fileHandlingHelper;
 	}
 	
 	/**
@@ -84,8 +87,19 @@ public class TransformerServiceImpl implements TransformerService
 
         LOG.info("Transforming XML files from the following XML directory: " + xmlDir.getAbsolutePath());
         
-        ArrayList<File> xmlFiles = new ArrayList<File>();
-        getXMLFiles(xmlFiles, xmlDir);
+        List<File> xmlFiles = new ArrayList<File>();
+        
+        try
+        {
+        	fileHandlingHelper.getFileList(xmlDir, xmlFiles);
+        }
+        catch(FileNotFoundException e)
+        {
+        	String errMessage = "No XML files were found in specified directory. " +
+					"Please verify that the correct XML path was specified.";
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, e);
+		}
         
         int docCount = 0;
         for(File xmlFile : xmlFiles)
@@ -111,18 +125,9 @@ public class TransformerServiceImpl implements TransformerService
 	 */
 	final void transformFile(File xmlFile, File targetDir, String titleId, Long jobId) throws EBookFormatException
 	{
-		File xsltDir = new File(new File("C:\\nas", "Xslt"), "ContentTypes");
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
-		//TODO: Dynamically retrieve XSLT using XSLT retrieval service
-		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, Integer.parseInt(jobId.toString()), fileNameUUID);
-
-		File xslt = new File(xsltDir, xsltMapperService.getXSLT(docMetadata.getCollectionName(), docMetadata.getDocType()));
-        
-        //File xslt = new File(xsltDir, "SimpleContentBlocks.xsl");
-        //File xslt = new File(xsltDir, "CodesStatutes.xsl");
-        //File xslt = new File(xsltDir, "AnalyticalJurs.xsl");
-		//File xslt = new File(xsltDir, "AnalyticalTreatisesAndAnnoCodes.xsl");
+		File xslt = getXSLT(titleId, jobId, fileNameUUID);
 
 		LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
         File tranFile = new File(targetDir, fileNameUUID + ".transformed");
@@ -159,48 +164,29 @@ public class TransformerServiceImpl implements TransformerService
         	throw new EBookFormatException(errMessage, te);
         }
 	}
-
-	/**
-	 * Builds up a XML file list for the the specified directory.
-	 * 
-	 * @param fileList list to which all the found XML files will be appended to
-	 * @param directory specifies where the XML files reside
-	 * @throws EBookFormatException raised when no XML files have been found in the provided XML directory.
-	 */
-	final void getXMLFiles(ArrayList<File> fileList, File directory) throws EBookFormatException
-	{
-		File[] files = directory.listFiles(new XMLFilter());
-		fileList.addAll(Arrays.asList(files));
-		if(fileList.size() == 0)
-		{
-			String errMessage = "No XML files were found in specified directory. " +
-					"Please verify that the correct XML path was specified.";
-			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage);
-		}
-	}
 	
 	/**
-	 * File filter that only accepts XML files, files that end with ".xml".
+	 * Retrieves the XSLT file that should be used to transform the XML.
 	 * 
-     * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+	 * @param title title identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
+	 * @param job job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
+	 * @param uuid document guid which is used to lookup the document metadata needed for the XSLT lookup
+	 * 
+	 * @return the XSLT file to be used by the transformer
 	 */
-	protected final class XMLFilter implements FileFilter
+	protected File getXSLT(String title, Long job, String uuid)
 	{
-		private final String[] acceptedFileExtensions = new String[] {".xml"};
+		File xsltDir = new File(new File("C:\\nas", "Xslt"), "ContentTypes");
+		//TODO: Dynamically retrieve XSLT using XSLT retrieval service
+		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), uuid);
+
+		File xslt = new File(xsltDir, xsltMapperService.getXSLT(docMetadata.getCollectionName(), docMetadata.getDocType()));
+        
+        //File xslt = new File(xsltDir, "SimpleContentBlocks.xsl");
+        //File xslt = new File(xsltDir, "CodesStatutes.xsl");
+        //File xslt = new File(xsltDir, "AnalyticalJurs.xsl");
+		//File xslt = new File(xsltDir, "AnalyticalTreatisesAndAnnoCodes.xsl");
 		
-		@Override
-		public boolean accept(File file) 
-		{
-			for (String extension : acceptedFileExtensions)
-			{
-				if (file.isFile() && file.getName().toLowerCase().endsWith(extension))
-				{
-					return true;
-				}
-			}
-			
-			return false;
-		}
+		return xslt;
 	}
 }
