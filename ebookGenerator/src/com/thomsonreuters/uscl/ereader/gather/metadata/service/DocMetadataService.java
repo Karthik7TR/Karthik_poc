@@ -50,4 +50,8 @@ public interface DocMetadataService {
 	/**
 	 */
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid);
+
+	/**
+	 */
+	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, String docUuid);
 }

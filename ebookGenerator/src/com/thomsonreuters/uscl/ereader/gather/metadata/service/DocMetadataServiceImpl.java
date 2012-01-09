@@ -28,12 +28,16 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 */
 	@Autowired
 	private DocMetadataDao docMetadataDAO;
+	
+	@Autowired
+	private DocMetaDataXMLParser docMetaXMLParser;
 
 	/**
 	 * Instantiates a new DocMetadataServiceImpl.
 	 *
 	 */
 	public DocMetadataServiceImpl() {
+		docMetaXMLParser = new DocMetaDataXMLParser();
 	}
 
 	/**
@@ -106,5 +110,12 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Transactional
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid) {
 		return docMetadataDAO.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+	}
+
+	/**
+	 */
+	@Transactional
+	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, String docUuid) {
+		 saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId, docUuid));
 	}
 }

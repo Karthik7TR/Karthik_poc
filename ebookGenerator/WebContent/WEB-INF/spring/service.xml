@@ -48,4 +48,7 @@
 		  p:urlVersion="v1"
 		  p:imageDao-ref="imageDao"
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
+		 
+	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataXMLParser"/>
+		  
 </beans>
