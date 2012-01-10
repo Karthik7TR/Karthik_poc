@@ -52,12 +52,13 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 												JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH));
 		File imageGuidFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_IMAGE_GUIDS_FILE_PATH));
 		Assert.isTrue(imageDestinationDirectory.exists(),
-						String.format("The image destination directory does not exist in the filesystem: " + imageDestinationDirectory,
+						String.format("The dynamic image destination directory does not exist in the filesystem: " + imageDestinationDirectory,
 						imageDestinationDirectory.getAbsolutePath()));
 		Assert.isTrue(imageDestinationDirectory.canWrite(),
-						String.format("The image destination directory is not writable: " + imageDestinationDirectory,
+						String.format("The dynamic image destination directory is not writable: " + imageDestinationDirectory,
 						imageDestinationDirectory.getAbsolutePath()));
-		Assert.isTrue(imageGuidFile.exists(), "Image GUID text file does not exist: " + imageGuidFile);
+		Assert.isTrue(imageGuidFile.exists(), "The dynamic image GUID list text file does not exist: " + imageGuidFile +
+						" - This file contains image GUID's, one per line, that are requested from the Image Vertical REST service.");
 		
 		// Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
 		removeAllFilesInDirectory(imageDestinationDirectory);

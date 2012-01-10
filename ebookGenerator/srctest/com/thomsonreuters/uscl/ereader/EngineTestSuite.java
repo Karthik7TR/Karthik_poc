@@ -12,8 +12,10 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.thomsonreuters.uscl.ereader.assemble.service.EbookAssemblyServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewExceptionTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLImageTagHandlerTest;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
+import com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
@@ -40,6 +42,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.Operati
 			ProviewClientImplTest.class,
 			ProviewExceptionTest.class,
 			TransformerServiceTest.class,
+			XMLImageParserServiceTest.class,
+			XMLImageTagHandlerTest.class,
 			XSLTMapperServiceTest.class
 		} )
 

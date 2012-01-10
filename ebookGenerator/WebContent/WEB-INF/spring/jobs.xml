@@ -20,18 +20,21 @@
 		</step>
 		<step id="gather">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="gatherDynamicImages"/>
+			<next on="COMPLETED" to="getDynamicImages"/>
 		</step>
-		<step id="gatherDynamicImages">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="gatherStaticImages"/>
-			<fail on="FAILED"/>
+		<!-- Fetch images from Image Vertical REST service -->
+		<step id="getDynamicImages">
+			<tasklet ref="getDynamicImagesTask"/>
+			<next on="COMPLETED" to="getStaticImages"/>
+			<next on="FAILED" to="getStaticImages"/>  <!-- TODO: eventually fail the job -->
 		</step>
-		<step id="gatherStaticImages">
+		<!-- Fetch static images from filesystem -->
+		<step id="getStaticImages">
 			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="combineImageFiles"/>
 			<fail on="FAILED"/>
 		</step>
+		<!-- Copy the dynamic and static image files into a single filesystem directory -->
 		<step id="combineImageFiles">
 			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="format"/>
@@ -76,7 +79,7 @@
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask"
 				p:rootWorkDirectory="/nas/ebookbuilder/data"/>
-	<beans:bean id="gatherDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
+	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"/>
 	<beans:bean id="formatParseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList"
 				p:xmlImageParserService-ref="xmlImageParserService"/>
