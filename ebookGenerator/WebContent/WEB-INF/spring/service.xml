@@ -37,24 +37,24 @@
 	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
 		  p:xsltMapperDao-ref="xsltMapperDao"/>
 		  
-	<bean id="xmlFilter" class="com.thomsonreuters.uscl.ereader.util.FileExtensionFilter">
+	<bean id="xmlFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
   	  <property name="acceptedFileExtensions">
         <list>
           <value>.xml</value>
         </list>
       </property>
     </bean>
-    <bean id="xmlFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.util.FileHandlingHelper"
+    <bean id="xmlFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
 		  p:filter-ref="xmlFilter"/>
 		  
-	<bean id="transformedFileFilter" class="com.thomsonreuters.uscl.ereader.util.FileExtensionFilter">
+	<bean id="transformedFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
   	  <property name="acceptedFileExtensions">
         <list>
           <value>.transformed</value>
         </list>
       </property>
     </bean>
-    <bean id="transformedFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.util.FileHandlingHelper"
+    <bean id="transformedFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
   		  p:filter-ref="transformedFileFilter"/>
 
 	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
