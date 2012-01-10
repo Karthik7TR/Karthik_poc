@@ -7,19 +7,27 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 
 import com.thomsonreuters.uscl.ereader.gather.image.domain.Header;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ServiceStatus;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadata;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.TraceInformation;
 
+/**
+ * Tests of the JSON objects returned from the Image Vertical RESTful web service and their marshaling and unmarshaling.
+ */
 public class ImageVerticalJsonTest  {
 
-	@Before
-	public void setUp() throws Exception {
-	
+	@Test
+	public void testAcceptedMediaTypes() {
+		MediaType type = MediaType.valueOf("image/png");
+		Assert.assertNotNull(type);
+		Assert.assertEquals("image", type.getType());
+		Assert.assertEquals("png", type.getSubtype());
+		type = MediaType.valueOf("image/tif");
+		Assert.assertNotNull(type);
 	}
 	
 	/**
@@ -28,9 +36,7 @@ public class ImageVerticalJsonTest  {
 	 */
 	@Test
 	public void testHeaderObject() {
-		
 		String expectedJson = "{\"AuthenticationToken\":\"authToken\",\"ContextualInformation\":\"contextInfo\",\"ProductIdentifier\":\"productId\",\"SessionToken\":null,\"SlideInformation\":null,\"UserHostIpAddress\":\"11.22.33.44\",\"Version\":\"999\"}";
-System.out.println(expectedJson); // DEBUG
 		try {
 			// Unmarshal JSON into a java object and make sure properties are correct
 			Header header = JsonUtils.fromJson(expectedJson, Header.class);
@@ -42,7 +48,6 @@ System.out.println(expectedJson); // DEBUG
 			Assert.assertEquals("11.22.33.44", header.getUserHostIpAddress());
 			Assert.assertEquals("999", header.getVersion());
 			
-
 			// Convert the object back to a JSON string and make sure it is what we started with
 			String actualJson = JsonUtils.toJson(header);
 			Assert.assertEquals(expectedJson, actualJson);
@@ -54,9 +59,7 @@ System.out.println(expectedJson); // DEBUG
 	
 	@Test
 	public void testServiceStatusObject() {
-		
 		String expectedStartTimeString = "asdfkweoasdf";
-		
 		String expectedJson = "{\"ElapsedTime\":200,\"StartTime\":\""+expectedStartTimeString+"\",\"StatusCode\":123,\"StatusDescription\":\"statusDescription\"}";
 		try {
 			ServiceStatus serviceStatus = JsonUtils.fromJson(expectedJson, ServiceStatus.class);
@@ -67,7 +70,7 @@ System.out.println(expectedJson); // DEBUG
 
 			// Convert the object back to a JSON string and make sure it is what we started with
 			String actualJson = JsonUtils.toJson(serviceStatus);
-// TODO: Assert.assertEquals(expectedJson, actualJson);// TODO: what is format of returned date? a long int or other?
+			Assert.assertEquals(expectedJson, actualJson);// TODO: what is format of returned date? a long int or other?
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -103,16 +106,12 @@ System.out.println(expectedJson); // DEBUG
 		try {
 			SingleImageMetadata metadata = JsonUtils.fromJson(expectedJson, SingleImageMetadata.class);
 			Assert.assertEquals("IA31BCD5F18364C9BBDCD008012AFBF02", metadata.getGuid());
-			Assert.assertEquals("image/png", metadata.getMimeType());
+			Assert.assertEquals(MediaType.IMAGE_PNG_VALUE, metadata.getMediaType().toString());
 			Assert.assertEquals(new Long(70790), metadata.getSize());
 			Assert.assertEquals("px", metadata.getDimUnit());
 			Assert.assertEquals(new Long(1644), metadata.getHeight());
 			Assert.assertEquals(new Long(1568), metadata.getWidth());
 			Assert.assertEquals(new Long(400), metadata.getDpi());
-
-			// Convert the object back to a JSON string and make sure it is what we started with
-			String actualJson = JsonUtils.toJson(metadata);
-			//Assert.assertEquals(expectedJson, actualJson);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

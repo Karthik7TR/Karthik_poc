@@ -9,7 +9,7 @@
 	<property name="binding.fileset.dir" value="${basedir}/src/jibx"/>
 
 	<path id="compile.classpath">
-		<fileset dir="../ebookGenerator/WebContent/WEB-INF/lib">
+		<fileset dir="./lib">
 			<include name="*.jar"/>
 		</fileset>
 	</path>

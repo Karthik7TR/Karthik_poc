@@ -9,7 +9,7 @@
            Create the Unit test class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.unitTestLibs">
-    <fileset dir="${dir.webContent}/WEB-INF/lib">
+    <fileset dir="../ebookGeneratorCore/lib">
       <include name="**/*.jar"/>
     </fileset>
     <fileset dir="${env.buildextensionroot}">

@@ -57,7 +57,7 @@ public class ImageServiceTest {
 		SINGLE_IMAGE_METADATA.setHeight(1234l);
 		SINGLE_IMAGE_METADATA.setSize(45678l);
 		SINGLE_IMAGE_METADATA.setWidth(999l);
-		SINGLE_IMAGE_METADATA.setMimeType(MediaType.IMAGE_PNG_VALUE);
+		SINGLE_IMAGE_METADATA.setMediaType(MediaType.IMAGE_PNG_VALUE);
 	}
 
 	@Test

@@ -11,13 +11,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.http.MediaType;
 
 /**
- * The response object when fetching Image Vertical REST service image meta-data for a single image.
+ * The meta-data JSON object when fetching Image Vertical REST service image meta-data for a single image.
+ * This object is part of the larger containing object: SingleImageMetadataResponse.
  */
 public class SingleImageMetadata {
 	
 	private String 	ttype;
 	private String 	guid;		// image GUID to retrieve
-	private String 	mimeType;	// image mime-type
+	private MediaType	mediaType;	// image mime-type
 	private Long 	size;		// image size in bytes
 	private String 	dimUnit;	// dimension units, like "px"
 	private Long 	height;		// image height in the dimensional units
@@ -47,12 +48,9 @@ public class SingleImageMetadata {
 	public Long getHeight() {
 		return height;
 	}
-	public MediaType getMediaType() {
-		return MediaType.valueOf(mimeType);
-	}
 	@JsonProperty("MimeType")
-	public String getMimeType() {
-		return mimeType;
+	public MediaType getMediaType() {
+		return mediaType;
 	}
 	@JsonProperty("PageCount")
 	public String getPageCount() {
@@ -90,8 +88,8 @@ public class SingleImageMetadata {
 	public void setHeight(Long height) {
 		this.height = height;
 	}
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
+	public void setMediaType(String mimeType) {
+		this.mediaType = MediaType.valueOf(mimeType);
 	}
 	public void setPageCount(String pageCount) {
 		this.pageCount = pageCount;

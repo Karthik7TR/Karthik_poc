@@ -37,17 +37,18 @@ public class ImageServiceImpl implements ImageService {
 	/** The dynamic version number, like "v1", used in the REST service request URL. */
 	private String urlVersion;
 	/** Milliseconds to sleep between each meta-data/bytes fetch */
-	private long sleepIntervalBetweenImages;  //
+	private long sleepIntervalBetweenImages;
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
 
 	@Override
 	@Transactional
-	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDirectory, long jobInstanceId, String titleId)
-						throws ImageException {
+	public void fetchImageVerticalImages(final List<String> imageGuids,
+						File imageDirectory, long jobInstanceId, String titleId) throws ImageException {
 
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
 		for (String imageGuid : imageGuids) {
+			
 			// First, fetch the image meta-data
 			SingleImageMetadata imageMetadata = null;
 			try {
@@ -64,16 +65,14 @@ public class ImageServiceImpl implements ImageService {
 				throw new ImageException(e);
 			}
 			
-			// Second, fetch and save the image bytes to a file
+			// Second, download and save the image bytes to a file
 			try { 
 				// Create the REST template we will use to make HTTP request to Image Vertical REST service
-				MediaType mediaType = MediaType.valueOf(imageMetadata.getMimeType());
-				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(imageDirectory, imageGuid, mediaType);
+				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(
+													imageDirectory, imageGuid, imageMetadata.getMediaType());
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
-				
-				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN,
-						SingleImageResponse.class,
+				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
 						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
 				
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
