@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.IOException;
+import java.io.File;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -40,11 +41,11 @@ public class DocMetaDataXMLParser extends DefaultHandler{
 	}
 	
 	public void runExample() {
-		parseDocument("Pirates", 12345, "2345678");
+		parseDocument("Pirates", 12345, new File("C:\\Users\\U0072938\\Documents\\DocMetaDataSample.xml"));
 //		printData();
 	}
 
-	public DocMetadata parseDocument(String titleId, Integer jobInstanceId, String docUuid) {
+	public DocMetadata parseDocument(String titleId, Integer jobInstanceId, File metadataFile) {
 		
 		//get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -55,10 +56,11 @@ public class DocMetaDataXMLParser extends DefaultHandler{
 			
 			this.titleId = titleId;
 			this.jobInstanceId = jobInstanceId.toString();
-			this.docUuid = docUuid;
+			
+			sp.parse(metadataFile, this);
 			
 			//parse the file and also register this class for call backs
-			sp.parse("C:\\Users\\U0072938\\Documents\\DocMetaDataSample.xml", this);
+//			sp.parse("C:\\Users\\U0072938\\Documents\\DocMetaDataSample.xml", this);
 			
 			printData();
 			

@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.util.List;
 import java.util.Set;
+import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -115,7 +116,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	/**
 	 */
 	@Transactional
-	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, String docUuid) {
-		 saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId, docUuid));
+	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, File metaDataFile) {
+		 saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId, metaDataFile));
 	}
 }

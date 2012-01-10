@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.util.List;
 import java.util.Set;
+import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
@@ -142,5 +143,19 @@ public class DocMetadataServiceTest {
 		DocMetadata response = null;
 		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
 		assertTrue(response != null) ;
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * Parse DocMetadata xml and 
+	 * persist it
+	 * 
+	 */
+	@Ignore
+	public void parseAndStoreDocMetadata() {
+		String titleId = "TEST_TILE";
+		Integer jobInstanceId = new Integer("12345");
+		String docUuid = "123456";	
+		dockMetaService.parseAndStoreDocMetadata(titleId, jobInstanceId, new File(docUuid));
 	}
 }
