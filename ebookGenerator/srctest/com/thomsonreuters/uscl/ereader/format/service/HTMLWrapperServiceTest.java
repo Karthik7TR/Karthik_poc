@@ -67,7 +67,7 @@ public class HTMLWrapperServiceTest
     	//create instance of service
     	htmlWrapperService = new HTMLWrapperServiceImpl();
     	
-    	htmlWrapperService.setfileHandler(ioHelper);    	
+    	htmlWrapperService.setfileHandlingHelper(ioHelper);    	
     	
     	//set up Transformed directories
     	emptyTransDir = testFiles.newFolder("WrapperTestEmptyTransDir");

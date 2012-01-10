@@ -31,7 +31,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 	
 	private FileHandlingHelper fileHandlingHelper;
 	
-	public void setfileHandler(FileHandlingHelper fileHandlingHelper)
+	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
 	}

@@ -70,7 +70,7 @@ public class XMLImageParserServiceTest {
     	ioHelper.setFilter(filter);
     	
     	imgParserService = new XMLImageParserServiceImpl();
-    	imgParserService.setfileHandler(ioHelper);
+    	imgParserService.setfileHandlingHelper(ioHelper);
     	
     	imgListFile = testFiles.newFile("jUnitImageListFile");
     	
