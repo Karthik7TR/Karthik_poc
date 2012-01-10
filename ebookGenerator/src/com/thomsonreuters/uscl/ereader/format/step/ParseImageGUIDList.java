@@ -43,6 +43,7 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
 		String imgGuidListFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_IMAGE_GUIDS_FILE_PATH);
 		//TODO: Retrieve expected number of document for this eBook from execution context
+		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, 5);
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		
 		File xmlDir = new File(xmlDirectory);

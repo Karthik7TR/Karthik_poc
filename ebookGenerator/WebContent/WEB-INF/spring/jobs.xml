@@ -46,14 +46,17 @@
 		<step id="formatParseImageGuids">
 			<tasklet ref="formatParseImageGuidsTask"/>
 			<next on="COMPLETED" to="formatTransformXML"/>
+			<next on="FAILED" to="formatTransformXML"/>
 		</step>
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>
 			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
+			<next on="FAILED" to="formatAddHTMLWrapper"/>
 		</step>
 		<step id="formatAddHTMLWrapper">
 			<tasklet ref="formatAddHTMLWrapperTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
+			<next on="FAILED" to="assembleEBook"/>
 		</step>
 		
 		<!-- Assemble the title -->
