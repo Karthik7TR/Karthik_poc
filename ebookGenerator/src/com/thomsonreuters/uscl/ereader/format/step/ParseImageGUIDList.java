@@ -24,9 +24,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class GenerateDynamicImageList extends AbstractSbTasklet {
+public class ParseImageGUIDList extends AbstractSbTasklet {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(GenerateDynamicImageList.class);
+	private static final Logger LOG = Logger.getLogger(ParseImageGUIDList.class);
 	
 	private XMLImageParserService xmlImageParserService;
 
