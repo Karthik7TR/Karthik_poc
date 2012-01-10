@@ -28,7 +28,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -cleanup">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -48,7 +48,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.dist}" failonerror="false" includeemptydirs="true"/>
@@ -120,5 +120,12 @@
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
+  </target>
+	
+  <target name="-cleanup">
+    <echo level="info">Temporary folders are being cleaned up.</echo>
+    <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
   </target>
 </project>
