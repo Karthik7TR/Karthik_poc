@@ -53,7 +53,7 @@ public class TransformerServiceImpl implements TransformerService
 		this.xsltMapperService = xsltMapperService;
 	}
 	
-	public void setfileHandler(FileHandlingHelper fileHandlingHelper)
+	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
 	}

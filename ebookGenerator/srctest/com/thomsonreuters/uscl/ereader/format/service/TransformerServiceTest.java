@@ -57,7 +57,7 @@ public class TransformerServiceTest
     	
     	//create instance of service
     	transService = new TransformerServiceImpl();
-    	transService.setfileHandler(ioHelper);
+    	transService.setfileHandlingHelper(ioHelper);
     	
     	//setup static title and job identifies
     	titleId = "uscl/cr/unitTestTitle";
