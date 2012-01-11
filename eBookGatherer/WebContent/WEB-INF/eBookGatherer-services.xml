@@ -32,6 +32,9 @@
 	<bean id="tocService" class="com.thomsonreuters.uscl.ereader.gather.services.TocServiceImpl" 
 	autowire="byType"/>
 	
+	<bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl" 
+	autowire="byType"/>
+	
 	<bean id="novusAPIHelper" class="com.thomsonreuters.uscl.ereader.gather.util.NovusAPIHelper"
 	autowire="byType"/>
 	

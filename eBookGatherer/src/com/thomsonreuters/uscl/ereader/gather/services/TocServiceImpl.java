@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.util.NovusAPIHelper;
 import com.westgroup.novus.productapi.Novus;
@@ -30,12 +31,9 @@ public class TocServiceImpl implements TocService {
 	@Autowired
 	public NovusAPIHelper novusAPIHelper;
 
-	public String outputTocFileName = EBConstants.COLLECTION_SET_TYPE; 
-	@Override
-	public void getNovousConnection() {
-		// TODO Auto-generated method stub
 
-	}
+	
+	List<EBookToc> eBookDocumentList = new ArrayList<EBookToc>();
 
 	
 	/**
@@ -43,8 +41,9 @@ public class TocServiceImpl implements TocService {
 	 * 
 	 * @param tocNodes
 	 * @return string array of List<EBookToc>.
+	 * @throws Exception 
 	 */
-	private List<EBookToc> extractTocListForEbook(TOCNode[] tocNodes)
+	private List<EBookToc> extractTocListForEbook(TOCNode[] tocNodes) throws GatherException
 	{
 		// TODO: add logging related stuff at start and end.
 
@@ -66,25 +65,28 @@ public class TocServiceImpl implements TocService {
 			if(node.getChildrenCount() > 0 )
 			{
 				//System.out.println(" TOC Node :"+eBookToc);
+
 				try {
 						TOCNode[] childTocList = node.getChildren();
 						eBookToc.setChildren( extractTocListForEbook(childTocList));
+
 						
 					} catch (NovusException e) {
 						// TODO need to find what kind of exception Novus can throw and 
-
-						e.printStackTrace();
+						//e.printStackTrace();
+						throw new GatherException("Failed to retrieve child element for Tocnode with guid = "+node.getGuid()+" tocName ="+node.getName() +" "+e );
 					}
-			}else {
+			}else {/** Might end up removing this block **/
 				if(node.getDocGuid()!= "")
 				{
+					/** **/
 					/*** child count is zero and document Guid present i.e tocNode with document..
 					need to add logic to collect this data and return or retain so that it would 
 					come out handy while fetching end document to ****/
 //					System.out.println("*************************************************************");
 //					System.out.println(" Toc Nodes with child count zero :"+eBookToc);
 //					System.out.println("*************************************************************");
-					
+					eBookDocumentList.add(eBookToc);
 				}
 				
 			}
@@ -95,33 +97,40 @@ public class TocServiceImpl implements TocService {
 	}
 	
 	@Override
-	public void getDocuments() {
+	public List<EBookToc> getDocuments() {
 		// TODO Auto-generated method stub
-
+		return eBookDocumentList;
 	}
 	
 	/**
 	 * 
-	 * users will alwyas provide us with collection name and not collectionSet names.
+	 * users will always provide us with collection name and not collectionSet names.
+	 * @throws Exception 
 	 */
 	@Override
-	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName) 
+	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName) throws GatherException 
 	{
 		Novus novusObject = null;
 		TOCNode[] tocNodes = null;
 		List<EBookToc> tocGuidList = null;
 		
 		/*** for ebook builder we will always get Collection.***/
-		String type = EBConstants.COLLECTION_TYPE; 
+		String type = EBConstants.COLLECTION_TYPE;
+		novusObject = novusAPIHelper.getNovusObject();
+		TOC toc = getTocObject(collectionName,type,novusObject);
+		
+
 		try {
-			novusObject = novusAPIHelper.getNovusObject();
-			TOC toc = getTocObject(collectionName,type,novusObject);
+			
 			tocNodes = toc.getRootNodes(); //getAllDocuments(guid);
 			tocGuidList = extractTocListForEbook(tocNodes);
 			
 		} catch (NovusException e) {
-			e.printStackTrace();
-		} finally {
+			//e.printStackTrace();
+			throw new GatherException("Failed to get TOC useing passed guid ="+guid +" and collection ="+collectionName+ "  " +e);
+			
+		} 
+		finally {
 			novusAPIHelper.closeNovusConnection(novusObject);
 		}
 
@@ -157,14 +166,7 @@ public class TocServiceImpl implements TocService {
 		return toc;
 	}
 	
-	/**
-	 * Add a list of books to the list
-	 * In a production system you might populate the list from a DB
-	 */
-	private void loadData(){
-		//TODO: add mechanisum read eBookToc
-
-	}
+	
 
 
 

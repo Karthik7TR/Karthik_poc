@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.util;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -24,6 +25,8 @@ import org.w3c.dom.Text;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+
 
 /**
  * class creates EBook Toc xml.
@@ -33,7 +36,8 @@ import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 public class EBookTocXmlHelper 
 {	
 
-	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, String tocFilePath) throws Exception{
+	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, String tocFilePath) throws GatherException
+	{
 		System.out.println("Started .. ");
 		//Get a DOM object
 		Document dom =createDocument();
@@ -48,22 +52,21 @@ public class EBookTocXmlHelper
 	 * using which we create a xml tree in memory
 	 * @throws Exception 
 	 */
-	private Document createDocument() throws Exception {
+	private Document createDocument() throws GatherException {
 
 		//get an instance of factory
 		Document dom = null;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
-		//get an instance of builder
-		DocumentBuilder db = dbf.newDocumentBuilder();
-
-		//create an instance of DOM
-		dom = db.newDocument();
+				//get an instance of builder
+				DocumentBuilder db = dbf.newDocumentBuilder();
+		
+				//create an instance of DOM
+				dom = db.newDocument();
 
 		}catch(ParserConfigurationException pce) {
 			
-			System.out.println("Error while trying to instantiate DocumentBuilder " + pce);
-			throw new Exception("Failed to create DOM object ..."+pce);
+			throw new GatherException("Failed to create DOM object ..."+pce);
 			//System.exit(1);
 		}
 		return dom;
@@ -130,7 +133,7 @@ public class EBookTocXmlHelper
 		//create parentGuid element and attach it to bookElement
 		Element parentGuidElement = dom.createElement(EBConstants.PARENT_GUID_ELEMENT);
 		Text parentGuidText = dom.createTextNode(eBookToc.getParentGuid());
-		guidElement.appendChild(parentGuidText);
+		parentGuidElement.appendChild(parentGuidText);
 		bookEle.appendChild(parentGuidElement);
 
 
@@ -150,23 +153,36 @@ public class EBookTocXmlHelper
 	 * @param tocFilePath TODO
 	 * @throws Exception 
      */
-	private void printToFile(Document dom, String tocFilePath) throws Exception{
+	private void printToFile(Document dom, String tocFilePath) throws GatherException
+	{
 
-		try
-		{
+//		try
+//		{
 			//print
 			OutputFormat format = new OutputFormat(dom);
+			
 			format.setIndenting(true);
+			format.setLineSeparator("\r\n");
+			format.setEncoding("UTF-8");
+			
 
-			XMLSerializer serializer = new XMLSerializer(
-			new FileOutputStream(new File(tocFilePath)), format);
+			XMLSerializer serializer = null;
+			try {
+				serializer = new XMLSerializer(
+				new FileOutputStream(new File(tocFilePath)), format);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				throw new GatherException("Failed to find specified file path ..."+e);
 
-			serializer.serialize(dom);
+			}
 
-		} catch(IOException ie) {
-		    ie.printStackTrace();
-		    throw new Exception("Failed while printing DOM to specified path ..."+ie);
-		}
+			try {
+				serializer.serialize(dom);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new GatherException("Failed while printing DOM to specified path ..."+e);
+			}
+
 	}
 
 

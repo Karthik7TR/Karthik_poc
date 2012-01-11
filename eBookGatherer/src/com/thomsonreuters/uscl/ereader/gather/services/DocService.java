@@ -9,12 +9,14 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
-import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.westgroup.novus.productapi.Document;
 
-public interface TocService 
+public interface DocService 
 {
 	
-	public List<EBookToc> getDocuments();
-	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName) throws GatherException; 
+	public List<EBookToc> getDocFromNovus(String guid, String collectionName); 
+	public void retrieveDocument(List<EBookToc> eBookTocDocumentList);
+	public Document[]  getDocFromNovus(List<EBookToc> docGuidList, String collectionName, String docFileLocationPath); 
+
 
 }
