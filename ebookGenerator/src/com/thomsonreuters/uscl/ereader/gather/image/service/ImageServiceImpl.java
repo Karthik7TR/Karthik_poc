@@ -6,12 +6,10 @@
 package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
