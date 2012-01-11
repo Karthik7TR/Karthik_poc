@@ -28,7 +28,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -cleanup">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -clean">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -47,16 +47,10 @@
                        create directories that do not exist, etc.
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
-    <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.dist}" failonerror="false" includeemptydirs="true"/>
-
+  	<antcall target="-clean"/>
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.testBinaries}"/>
-    <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.dist}"/>
   </target>
 
@@ -64,12 +58,7 @@
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
                         folder. The code will be compiled using version 1.6 of the SDK.
-         - - - - - - - - - - - - - - - - - -->
-  <!-- - - - - - - - - - - - - - - - - - 
-	           target: -compile                      
-	           description: Compile the source code and place the compiled libraries in the respective 
-	                        folder. The code will be compiled using version 1.6 of the SDK.
-	         - - - - - - - - - - - - - - - - - -->
+	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-java-core">
     <echo level="verbose">Compiling the source code...</echo>
     <javac destdir="${dir.binaries}" source="1.6" target="1.6"
@@ -79,6 +68,7 @@
     </javac>
   </target>
 
+  <!-- Perform java compilation and JiBX byte code enhancement of classes for XML marshalling. -->
   <property name="binding.fileset.dir" value="${dir.ebookGeneratorCore}/src/jibx"/>
   <taskdef name="jibxCompiler" classname="org.jibx.binding.ant.CompileTask" classpathref="classpath.compile"/>
   <target name="-compile-core" depends="-compile-java-core">
@@ -121,11 +111,15 @@
       </fileset>
     </jar>
   </target>
-	
-  <target name="-cleanup">
-    <echo level="info">Temporary folders are being cleaned up.</echo>
-    <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
+
+  <target name="-clean">
+    <echo level="info">Removing temporary work files and folders.</echo>
+    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+  </target>
+
+  <!-- Delete all work files and the artifact of the build -->
+  <target name="realclean" depends="-clean">
+  	<delete dir="${dir.dist}"/>
   </target>
 </project>

@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0"?>
-<project name="ebookGenerator_Compile_Script" default="normal_build" basedir="..\">
+<project name="ebookGenerator_Compile_Script" default="normal_build" basedir="..">
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
   <property name="warFilename" value="ebookGenerator.war"/>
-  <property name="dir.ebookGeneratorCore" value="..\ebookGeneratorCore" />
 	
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
@@ -15,8 +14,11 @@
          TODO: Make sure that the appropriate project specific libraries are include in the classpath. 
                DELETE THIS COMMENT IN THE ACTUAL SCRIPT.
          ******************* -->
-    <fileset dir="${dir.ebookGeneratorCore}/lib">
-      <include name="**/*.jar"/>
+    <fileset dir="${dir.core}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${dir.core}/dist">
+      <include name="*.jar"/>
     </fileset>
     <!-- These are the cobalt group specific libraries that all the projects should include. -->
     <fileset dir="${env.buildextensionroot}">
@@ -31,7 +33,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, -createJar, -createWar">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, createWar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -40,7 +42,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core,-compile, -compile_unitTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile, -compile_unitTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
@@ -77,7 +79,7 @@
            description: Compile the source code and place the compiled libraries in the respective 
                         folder. The code will be compiled using version 1.6 of the SDK.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-compile">
+  <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
     <javac destdir="${dir.binaries}" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
@@ -87,17 +89,17 @@
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
-	           target: -compile                      
-	           description: Compile the source code and place the compiled libraries in the respective 
-	                        folder. The code will be compiled using version 1.6 of the SDK.
-	         - - - - - - - - - - - - - - - - - -->
+  		target: -compile-core                   
+  		description: Compile helper project
+	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
-    <echo level="verbose">Compiling the source code...</echo>
-    <ant dir="${dir.ebookGeneratorCore}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-   <!-- copy file=${dir.ebookGeneratorCore}/dist/ebookGeneratorCore.jar todir=${dir.webContent}/WEB-INF/lib -->
+    <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
+  	<!--
+	<copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="./lib"/>
   	<copy todir="${dir.binaries}">
-  		<fileset dir="${dir.ebookGeneratorCore}/${dir.binaries}"/>
+  		<fileset dir="${dir.core}/${dir.binaries}"/>
   	</copy>
+  	-->
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -136,7 +138,8 @@
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-createJar" >
+<!--
+	<target name="-createJar" >
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
@@ -145,20 +148,23 @@
       </fileset>
     </jar>
   </target>
-
+-->
+	
   <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-createWar" depends="-createJar">
+  <target name="createWar" depends="-init, -compile">
     <echo level="verbose">Creating the WAR file...</echo>
-    <!-- Copy copiled classes over to "classes" folder in the war -->
-    <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
+  	<mkdir dir="${dir.artifact}"/>
+    <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true">
+      <fileset dir="${dir.core}/lib" includes="*.jar"/>
+      <fileset dir="${dir.core}/dist" includes="*.jar"/>
+    </copy>
     <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
       <fileset dir="${dir.binaries}"/>
     </copy>
-
-    <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
+    <war destfile="${dir.artifact}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.webContent}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
