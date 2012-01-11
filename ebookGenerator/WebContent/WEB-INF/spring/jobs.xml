@@ -20,7 +20,7 @@
 		</step>
 		<step id="gather">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="getDynamicImages"/>
+			<next on="COMPLETED" to="formatParseImageGuids"/>
 		</step>
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
@@ -44,12 +44,12 @@
 		<!-- Run Format Steps -->
 		<step id="format">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="formatParseImageGuids"/>
+			<next on="COMPLETED" to="formatTransformXML"/>
 		</step>
 		<step id="formatParseImageGuids">
 			<tasklet ref="formatParseImageGuidsTask"/>
-			<next on="COMPLETED" to="formatTransformXML"/>
-			<next on="FAILED" to="formatTransformXML"/>
+			<next on="COMPLETED" to="getDynamicImages"/>
+			<next on="FAILED" to="getDynamicImages"/>
 		</step>
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>

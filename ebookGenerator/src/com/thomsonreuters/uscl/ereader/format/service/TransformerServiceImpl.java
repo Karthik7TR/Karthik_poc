@@ -19,6 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -170,23 +171,42 @@ public class TransformerServiceImpl implements TransformerService
 	 * 
 	 * @param title title identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
 	 * @param job job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
-	 * @param uuid document guid which is used to lookup the document metadata needed for the XSLT lookup
+	 * @param guid document guid which is used to lookup the document metadata needed for the XSLT lookup
 	 * 
 	 * @return the XSLT file to be used by the transformer
 	 */
-	protected File getXSLT(String title, Long job, String uuid)
+	protected File getXSLT(String title, Long job, String guid) throws EBookFormatException
 	{
 		File xsltDir = new File(new File("C:\\nas", "Xslt"), "ContentTypes");
 		//TODO: Dynamically retrieve XSLT using XSLT retrieval service
-		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), uuid);
-
-		File xslt = new File(xsltDir, xsltMapperService.getXSLT(docMetadata.getCollectionName(), docMetadata.getDocType()));
-        
-        //File xslt = new File(xsltDir, "SimpleContentBlocks.xsl");
-        //File xslt = new File(xsltDir, "CodesStatutes.xsl");
-        //File xslt = new File(xsltDir, "AnalyticalJurs.xsl");
-		//File xslt = new File(xsltDir, "AnalyticalTreatisesAndAnnoCodes.xsl");
+		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), guid);
+//
+//		String collection;
+//		String docType;
+//		if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
+//		{
+//			collection = docMetadata.getCollectionName();
+//			docType = docMetadata.getDocType();
+//		}
+//		else
+//		{
+//			String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
+//					" title with " + job + " job id.";
+//        	LOG.error(errMessage);
+//        	throw new EBookFormatException(errMessage);
+//		}
+//		
+//		LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
+//		String xsltName = xsltMapperService.getXSLT(collection, docType);
 		
+		String xsltName = 
+				"CodesStatutes.xsl";
+				//"AnalyticalJurs.xsl";
+				//"AnalyticalTreatisesAndAnnoCodes.xsl";
+		File xslt = new File(xsltDir, xsltName);
+		
+		LOG.debug("Using " + xsltName + " to transform " + guid + " document.");
+        		
 		return xslt;
 	}
 }

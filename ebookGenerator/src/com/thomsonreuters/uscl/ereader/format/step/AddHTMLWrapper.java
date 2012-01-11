@@ -64,7 +64,8 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		}
 		
 		//TODO: Improve metrics
-		LOG.debug("Added HTML and ProView document wrappers in " + elapsedTime + " milliseconds");
+		LOG.debug("Added HTML and ProView document wrappers to " + numDocsWrapped + " documents in " + 
+				elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}

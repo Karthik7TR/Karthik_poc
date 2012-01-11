@@ -73,7 +73,7 @@ public class TransformXML extends AbstractSbTasklet
 		}
 		
 		//TODO: Improve metrics
-		LOG.debug("Transformed all XML files in " + elapsedTime + " milliseconds");
+		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}

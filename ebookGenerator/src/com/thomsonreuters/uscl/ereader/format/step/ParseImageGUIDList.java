@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
@@ -46,6 +48,9 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, 5);
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		
+		//TODO: Remove stubbed XML files copy
+		moveSampleDocsToGather(new File(xmlDirectory));
+		
 		File xmlDir = new File(xmlDirectory);
 		File imgGuidList = new File(imgGuidListFile);
 		
@@ -65,8 +70,29 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		}
 		
 		//TODO: Improve metrics
-		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds.");
+		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 
+				+ numDocsParsed + " xml documents.");
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	//TODO: Remove stub method that moves XML files to Gather Directory
+	public void moveSampleDocsToGather(File targetBookDir) throws IOException
+	{
+		File sourceDir = 
+				//new File("C:\\nas\\AnalyticalSample1\\XML");
+				//new File("C:\\nas\\AnalyticalSample2\\XML"); 
+				//new File("C:\\nas\\CRSample\\XML");  
+				//new File("C:\\nas\\SCSample\\XML");
+				new File("C:\\nas\\DocsWithImages\\XML");
+		
+		if (sourceDir.exists())
+		{
+			File[] xmlFileList = sourceDir.listFiles();
+			for (File xml : xmlFileList)
+			{
+				FileUtils.copyFile(xml, new File(targetBookDir, xml.getName()));
+			}
+		}
 	}
 }
