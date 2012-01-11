@@ -15,11 +15,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/ebookGenerator/lib/servlet-api.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/ebookGeneratorCore"/>
 	<classpathentry kind="lib" path="/ebookGeneratorCore/lib/activemq-core-5.5.1.jar">
 		<attributes>
