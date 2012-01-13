@@ -40,14 +40,18 @@ public class DeliverToProview extends AbstractSbTasklet {
 		String fullyQualifiedTitleId = jobParameters.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.MAJOR_VERSION);
 		
+		long startTime = System.currentTimeMillis();
+		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");
+		
 		proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
+		
+		long processingTime = System.currentTimeMillis() - startTime;
+		LOG.debug("Publishing complete. Time elapsed: " + processingTime + "ms");
 		
 		return ExitStatus.COMPLETED;
 	}
 	
-
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
 	}
-
 }

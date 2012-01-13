@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -58,10 +59,7 @@ public class ProviewClientImplTest
 		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 		String expectedResponse = "YARR!";
 		
-		EasyMock.expect(mockHeaders.toSingleValueMap()).andReturn(new HashMap<String, String>());
-		EasyMock.expect(mockResponseEntity.getBody()).andReturn(expectedResponse).anyTimes();
-		EasyMock.expect(mockResponseEntity.getHeaders()).andReturn(mockHeaders);
-		EasyMock.expect(mockRestTemplate.getForEntity("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, String.class, new HashMap<String, String>())).andReturn(mockResponseEntity);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.GET, null, null)).andReturn("YARR!");
 		
 		replayAll();
 		String response = proviewClient.getAllPublishedTitles();

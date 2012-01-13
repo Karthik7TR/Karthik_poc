@@ -58,11 +58,20 @@
 		</step>
 		<step id="formatAddHTMLWrapper">
 			<tasklet ref="formatAddHTMLWrapperTask"/>
-			<next on="COMPLETED" to="assembleEBook"/>
-			<next on="FAILED" to="assembleEBook"/>
+			<next on="COMPLETED" to="generateTitleManifest"/>
+			<next on="FAILED" to="generateTitleManifest"/>
+		</step>
+		<step id="generateTitleManifest">
+			<tasklet ref="generateTitleManifestTask"/>
+			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
+			<next on="FAILED" to="moveResourcesToAssemblyDirectory"/>
 		</step>
 		
 		<!-- Assemble the title -->
+		<step id="moveResourcesToAssemblyDirectory">
+			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="assembleEBook"/>
+		</step>
 		<step id="assembleEBook">
 			<tasklet ref="assembleEBookTask"/>
 			<next on="COMPLETED" to="deliverEBook"/>
@@ -87,7 +96,11 @@
 				p:transformerService-ref="tranformerService"/>
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper"
 				p:htmlWrapperService-ref="htmlWrapperService"/>
+	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata"
+				p:titleMetadataService-ref="titleMetadataService"
+				p:stylesheetPath="/apps/ebookbuilder/stylesheet/document.css"/>
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook"
 				p:eBookAssemblyService-ref="eBookAssemblyService"/>
-	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
+	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview"
+				p:proviewClient-ref="proviewClient"/>
 </beans:beans>

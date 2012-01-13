@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
@@ -24,6 +25,8 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
  */
 public class ProviewMessageConverter<T> extends AbstractHttpMessageConverter<File> {
 
+	private static final Logger LOG = Logger.getLogger(ProviewMessageConverter.class);
+	
 	@Override
 	protected File readInternal(Class<? extends File> arg0,
 			HttpInputMessage arg1) throws IOException,

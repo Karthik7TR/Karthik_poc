@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class InitializeTaskTest {
 	
 	private static final Long JOB_ID = System.currentTimeMillis();
 	private static final String TITLE_ID = "JunitTestTitleId";
-	private static final String DATE_STAMP = InitializeTask.DATE_FORMAT.format(new Date());
+	private static final String DATE_STAMP = new SimpleDateFormat("yyyyMMdd").format(new Date());
 	private InitializeTask task;
 	private StepContribution stepContrib;
 	private ChunkContext chunkContext;
@@ -79,15 +80,16 @@ public class InitializeTaskTest {
 			String dynamicPath = String.format("%s/%s/%d", DATE_STAMP, TITLE_ID, JOB_ID);
 			
 			expectedWorkDirectory = new File(tempRootDir, dynamicPath);
+			File expectedEbookDirectory = new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
 			File expectedEbookFile = new File(expectedWorkDirectory, TITLE_ID + InitializeTask.BOOK_FILE_TYPE_SUFFIX);
 			
-			File actualWorkDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
+			File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
 			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE_PATH));
 			File actualImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DIR_PATH));
 			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_STATIC_DIR_PATH));
 			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH));
 
-			Assert.assertEquals(expectedWorkDirectory.getAbsolutePath(), actualWorkDirectory.getAbsolutePath());
+			Assert.assertEquals(expectedEbookDirectory.getAbsolutePath(), actualEbookDirectory.getAbsolutePath());
 			Assert.assertEquals(expectedEbookFile.getAbsolutePath(), actualEbookFile.getAbsolutePath());
 			
 			Assert.assertTrue(actualImagesDirectory.exists());

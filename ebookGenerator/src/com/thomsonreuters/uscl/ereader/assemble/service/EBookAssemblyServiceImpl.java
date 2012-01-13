@@ -44,7 +44,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 	{
         if (eBookDirectory == null || !eBookDirectory.isDirectory())
         {
-        	throw new IllegalArgumentException("eBookParentDirectory must be a directory, not null or a regular file.");
+        	throw new IllegalArgumentException("eBookDirectory must be a directory, not null or a regular file.");
         }
         if (eBook == null || eBook.isDirectory())
         {

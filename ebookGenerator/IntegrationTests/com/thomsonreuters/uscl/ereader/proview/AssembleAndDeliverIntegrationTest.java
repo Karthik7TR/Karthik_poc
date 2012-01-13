@@ -133,7 +133,7 @@ public class AssembleAndDeliverIntegrationTest {
 	
 	private void setUpProviewClient() {
 		proviewClient = new ProviewClientImpl();
-		proviewClient.setPublishingUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
+		proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 		
 		defaultHttpClient = new DefaultHttpClient();
@@ -141,7 +141,6 @@ public class AssembleAndDeliverIntegrationTest {
 				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
 		requestFactory.setHttpClient(defaultHttpClient);
-		
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
 		restTemplate.getMessageConverters().add(new ProviewMessageConverter());
 		restTemplate.setErrorHandler(new ProviewHttpResponseErrorHandler());

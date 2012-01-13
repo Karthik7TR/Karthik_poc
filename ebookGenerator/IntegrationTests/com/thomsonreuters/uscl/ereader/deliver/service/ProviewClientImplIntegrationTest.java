@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -57,11 +58,10 @@ public class ProviewClientImplIntegrationTest
 		defaultHttpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
-		
 		requestFactory.setHttpClient(defaultHttpClient);
-		
+
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
-		restTemplate.getMessageConverters().add(new ProviewMessageConverter());
+		restTemplate.getMessageConverters().add(new ProviewMessageConverter<File>());
 		restTemplate.setErrorHandler(new ProviewHttpResponseErrorHandler());
 		proviewClient.setRestTemplate(restTemplate);
 	}
@@ -82,7 +82,7 @@ public class ProviewClientImplIntegrationTest
 	
 	@Test
 	public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
-		proviewClient.setPublishingUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
+		proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
 		String integrationTestTitleId = "uscl/cr/generator_integration_test";
 		String eBookVersionNumber = "v2";
 

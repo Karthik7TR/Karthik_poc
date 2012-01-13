@@ -6,18 +6,22 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.entity.FileEntity;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestOperations;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 
 /**
  * This class is responsible for interacting with ProView via their REST interface.
@@ -29,9 +33,11 @@ public class ProviewClientImpl implements ProviewClient {
 	private static final Logger LOG = Logger.getLogger(ProviewClientImpl.class);
 	private RestTemplate restTemplate;
 	private String validationUriTemplate;
-	private String publishingUriTemplate;
+	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
 	private String publishingStatusUriTemplate;
+	private ProviewRequestCallback proviewRequestCallback;
+	private ProviewResponseExtractor proviewResponseExtractor;
 	
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle(java.lang.String, java.lang.String, java.io.File)
@@ -49,7 +55,7 @@ public class ProviewClientImpl implements ProviewClient {
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 		
-		restTemplate.put(publishingUriTemplate, eBook, urlParameters);
+		restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 		
 		//logResponse(response);
 		
@@ -60,10 +66,12 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getAllPublishedTitles() throws ProviewException {
 		Map<String, String> urlVariables = new HashMap<String, String>();
 		
-		ResponseEntity responseEntity = restTemplate.getForEntity(getTitlesUriTemplate, String.class, urlVariables);
-		logResponse(responseEntity);
+		//ResponseEntity responseEntity
 		
-		return responseEntity.getBody().toString();
+		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, proviewRequestCallback, proviewResponseExtractor);
+		//logResponse(responseEntity);
+		
+		return response;
 	}	
 
 	@Override
@@ -93,8 +101,8 @@ public class ProviewClientImpl implements ProviewClient {
 		this.validationUriTemplate = validationUriTemplate;
 	}
 
-	public void setPublishingUriTemplate(String publishingUriTemplate) {
-		this.publishingUriTemplate = publishingUriTemplate;
+	public void setPublishTitleUriTemplate(String publishTitleUriTemplate) {
+		this.publishTitleUriTemplate = publishTitleUriTemplate;
 	}
 
 	public void setGetTitlesUriTemplate(String getTitlesUriTemplate) {
@@ -103,5 +111,20 @@ public class ProviewClientImpl implements ProviewClient {
 
 	public void setPublishingStatusUriTemplate(String publishingStatusUriTemplate) {
 		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
+	}
+	
+	private class ProviewResponseExtractor implements ResponseExtractor<String> {
+		@Override
+		public String extractData(ClientHttpResponse response)
+				throws IOException {
+			return IOUtils.toString(response.getBody(), "UTF-8");
+		}
+	}
+	
+	private class ProviewRequestCallback implements RequestCallback {
+		@Override
+		public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
+			clientHttpRequest.getHeaders().add("Accept", "application/xml");
+		}
 	}
 }

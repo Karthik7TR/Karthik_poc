@@ -9,9 +9,12 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">      
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           ">      
 
 	<!-- Message converters and singleton REST template for interacting with the RESTful web services -->
 	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
@@ -65,8 +68,38 @@
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"/>
 	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
-
+	
+	<bean id="titleMetadataService" class="com.thomsonreuters.uscl.ereader.proview.TitleMetadataServiceImpl"/>
 	<bean id="eBookAssemblyService" class="com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl"/>
+	
+	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
+		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
+		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
+		  p:restTemplate-ref="proviewRestTemplate"/>
+		  
+	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="requestFactory">
+			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+				<property name="httpClient" ref="basicAuthenticationHttpClient"/>
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter"/>
+			</list>
+		</property>
+		<property name="errorHandler">
+			<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler"/>
+		</property>
+	</bean>
+
+	<bean id="basicAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory">
+		<constructor-arg name="host" value="${proview.domain}"/>
+		<constructor-arg name="username" value="${proview.username}"/>
+		<constructor-arg name="password" value="${proview.password}"/>
+	</bean>
+	
+	<bean id="basicAuthenticationHttpClient" factory-bean="basicAuthenticationHttpClientFactory" factory-method="getBasicAuthenticationHttpClient"/>
 	
 	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
