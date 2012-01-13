@@ -65,6 +65,7 @@ public class InitializeTaskTest {
 		EasyMock.expect(stepContext.getStepExecution()).andReturn(stepExecution);
 		EasyMock.expect(stepExecution.getJobExecution()).andReturn(jobExecution);
 		EasyMock.expect(jobExecution.getExecutionContext()).andReturn(jobExecutionContext);
+		
 		EasyMock.expect(jobExecution.getJobInstance()).andReturn(jobInstance);
 		EasyMock.expect(jobInstance.getJobParameters()).andReturn(jobParams);
 		EasyMock.expect(jobInstance.getId()).andReturn(JOB_ID);
@@ -76,6 +77,7 @@ public class InitializeTaskTest {
 		File expectedWorkDirectory = null;
 		try {
 			ExitStatus transition = task.executeStep(stepContrib, chunkContext);
+
 			// Verify the root directory for this ebook
 			String dynamicPath = String.format("%s/%s/%d", DATE_STAMP, TITLE_ID, JOB_ID);
 			
@@ -83,8 +85,8 @@ public class InitializeTaskTest {
 			File expectedEbookDirectory = new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
 			File expectedEbookFile = new File(expectedWorkDirectory, TITLE_ID + InitializeTask.BOOK_FILE_TYPE_SUFFIX);
 			
-			File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
-			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE_PATH));
+			File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY));
+			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE));
 			File actualImagesRootDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_ROOT_DIR));
 			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
 			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));

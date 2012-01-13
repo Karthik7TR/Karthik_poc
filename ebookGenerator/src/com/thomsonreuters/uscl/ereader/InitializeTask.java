@@ -46,7 +46,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
 		JobInstance jobInstance = jobExecution.getJobInstance();
 		JobParameters jobParams = jobInstance.getJobParameters();
-		
+	
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		
 		// Create the work directory for the ebook and create the physical directory in the filesystem
@@ -95,14 +95,14 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create the absolute path to the final e-book artifact - a GNU ZIP file
 		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
-		File titleXml = new File(assembledTitleDirectory, "title.xml");
+		File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
 		
 		// File containing image GUID's one per line
 		
 		// Place data on the JobExecutionContext for use in later steps
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, assembledTitleDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFile.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_DOCS_PATH, docsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
 		
 		// Images - static and dynamic directories and files
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());
@@ -111,9 +111,9 @@ public class InitializeTask extends AbstractSbTasklet {
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_DEST_DIR, imageStaticDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
 		
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH, transformedDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH, htmlWrapperDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_PATH, titleXml.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;
 	}

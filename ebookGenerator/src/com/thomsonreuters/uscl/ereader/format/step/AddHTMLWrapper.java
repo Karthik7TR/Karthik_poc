@@ -40,8 +40,8 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
-		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH);
-		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH);
+		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
+		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_HTML_WRAPPER_DIR);
 		//TODO: Retrieve expected number of document for this eBook from execution context
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 				

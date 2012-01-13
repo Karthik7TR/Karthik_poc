@@ -48,8 +48,8 @@ public class TransformXML extends AbstractSbTasklet
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		Long jobId = jobInstance.getId();
 
-		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
-		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH);
+		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
+		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		

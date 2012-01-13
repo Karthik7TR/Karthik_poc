@@ -64,7 +64,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
-		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_PATH));
+		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 		titleMetadataService.writeToFile(titleMetadata, titleXml);
 		
 		return ExitStatus.COMPLETED;
@@ -94,7 +94,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private void addAssets(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
 		//All gathered images (dynamic and static) are expected to be here by the time this step executes.
-		File imagesDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_IMAGE_DIRECTORY_PATH));
+		File imagesDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_ROOT_DIR));
 		ArrayList<Asset> assets = titleMetadataService.createAssets(imagesDirectory);
 		titleMetadata.setAssets(assets);
 	}

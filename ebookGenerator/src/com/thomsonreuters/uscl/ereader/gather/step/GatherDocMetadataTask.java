@@ -47,7 +47,7 @@ public class GatherDocMetadataTask extends AbstractSbTasklet
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		Long jobId = jobInstance.getId();
 
-		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
+		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
