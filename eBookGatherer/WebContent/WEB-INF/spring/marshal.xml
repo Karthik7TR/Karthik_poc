@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<!-- Marshaller -->
+
+  	<bean id="jibxDocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
+        <property name="encoding" value="UTF-8"/>
+    </bean>
+
+  	<bean id="jibxTocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
+        <property name="encoding" value="UTF-8"/>
+     </bean>
+
+	<bean id="jibxResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse"/>
+        <property name="encoding" value="UTF-8"/>
+    </bean>
+
+	
+	<!-- View -->
+	<bean id ="responseView" class="org.springframework.web.servlet.view.xml.MarshallingView" >
+      <property name="marshaller" ref="jibxResponseMarshaller" />
+      <property name="modelKey" value="gatherResponse"/>
+      <property name="contentType" value="application/xml"/>
+  	</bean>
+  	
+  	
+	<!-- Converter -->
+	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxDocRequestMarshaller" />
+        <property name="unmarshaller" ref="jibxDocRequestMarshaller" />
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/xml</value>
+                <value>application/xml</value>
+            </list>
+        </property>
+    </bean>
+	    
+  	<bean id="tocRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxTocRequestMarshaller" />
+        <property name="unmarshaller" ref="jibxTocRequestMarshaller" />
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/xml</value>
+                <value>application/xml</value>
+            </list>
+        </property>
+    </bean>
+
+  	<bean id="responseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxResponseMarshaller" />
+        <property name="unmarshaller" ref="jibxResponseMarshaller" />
+    </bean>
+
+</beans> 

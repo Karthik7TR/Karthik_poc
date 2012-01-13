@@ -13,7 +13,8 @@ public class EBConstants
 	public static final String COLLECTION_TYPE = "Collection";
 	public static final String COLLECTION_SET_TYPE = "CollectionSet";
 	public static final String NOVUSE_NVIRONMENT = "Client"; //"Prod";
-	public static final String OUTPUT_TOC_FILE = "C:/temp/ebook.xml";
+	public static final String TOC_XML_BASE_NAME = "toc.xml";
+	
 	
 	/*** String parsing operation ***/
 	public static final String HEADING_START_TAG = "<heading>";
@@ -25,6 +26,20 @@ public class EBConstants
 	public static final String NAME_ELEMENT = "Name";
 	public static final String GUID_ELEMENT = "Guid";
 	public static final String PARENT_GUID_ELEMENT ="ParentGuid";
+	public static final String DOCUMENT_GUID_ELEMENT ="DocumentGuid";
 	public static final String METADATA_ELEMENT = "Metadata";
 	
+	/** general***/
+	
+	public static final String GATHER_RESPONSE_OBJECT = "gatherResponse";
+	
+	public static final String GATHER_TOC_REQUEST_OBJECT = "gatherTocRequest";
+	public static final String GATHER_DOC_REQUEST_OBJECT = "gatherDocRequest";
+	
+	public static final String VIEW_RESPONSE = "responseView";
+	
+	
+	
+	
 }
+

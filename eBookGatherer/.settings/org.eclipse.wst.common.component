@@ -6,6 +6,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/UnitTests"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/IntegrationTests"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
+        <dependent-module archiveName="ebookGeneratorCore.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ebookGeneratorCore/ebookGeneratorCore">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/eBookGatherer/build/classes"/>
         <property name="context-root" value="eBookGatherer"/>
     </wb-module>

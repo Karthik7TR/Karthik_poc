@@ -109,6 +109,10 @@
 		  p:urlVersion="v1"
 		  p:imageDao-ref="imageDao"
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
+
+	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.image.service.GatherServiceImpl"
+		  p:restTemplate-ref="restTemplate"
+		  p:gatherAppContextUrl="${gather.context.url}"/>
 		 
 	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataXMLParser"/>
 		  

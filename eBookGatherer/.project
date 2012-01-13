@@ -3,6 +3,7 @@
 	<name>eBookGatherer</name>
 	<comment></comment>
 	<projects>
+		<project>ebookGeneratorCore</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

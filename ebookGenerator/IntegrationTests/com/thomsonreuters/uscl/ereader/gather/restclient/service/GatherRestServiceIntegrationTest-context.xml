@@ -1,0 +1,60 @@
+<!-- 
+	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Proprietary and Confidential information of TRGR. Disclosure, Use or
+	Reproduction without the written authorization of TRGR is prohibited
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+           
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+      <property name="messageConverters">
+        <list>
+          <ref bean="tocRequestMessageConverter"/>
+          <ref bean="responseMessageConverter"/>
+        </list>
+      </property>
+	</bean>
+	
+	 <bean id="jibxTocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
+        <property name="encoding" value="UTF-8"/>
+     </bean>
+	
+	<bean id="jibxResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse"/>
+        <property name="encoding" value="UTF-8"/>
+    </bean>
+	
+	<bean id="tocRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxTocRequestMarshaller" />
+        <property name="unmarshaller" ref="jibxTocRequestMarshaller" />
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/xml</value>
+                <value>application/xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="responseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxResponseMarshaller" />
+        <property name="unmarshaller" ref="jibxResponseMarshaller" />
+    </bean>
+    
+	
+	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
+		  p:restTemplate-ref="restTemplate"
+		  p:gatherAppContextUrl="http://localhost:8080/eBookGatherer/"/>
+	
+	<!--bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl" 
+	autowire="byType"/-->
+	
+</beans>

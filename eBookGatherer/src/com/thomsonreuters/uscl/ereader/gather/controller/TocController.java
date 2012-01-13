@@ -6,22 +6,28 @@
 
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
-import org.jibx.binding.model.ModelVisitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
+import com.thomsonreuters.uscl.ereader.gather.domain.EbookRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.DocService;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
@@ -40,16 +46,15 @@ public class TocController {
 	@Autowired
 	public EBookTocXmlHelper eBookTocXmlHelper;
 
-	/**
-	 * This method would not get called as of now.its ment to handle
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/getTocData", method = RequestMethod.GET)
-	public ModelAndView setUpFormData() {
-		String message = "Dummy method nothing will get done here";
+	@RequestMapping(value = "/tocDummy", method = RequestMethod.POST)
+	public ModelAndView getTocDataDummy(HttpServletRequest request,@RequestBody GatherTocRequest gatherTocRequest,
+			    Model model)
+	{
+		System.out.println("In getTocData method with out ...");
+		GatherResponse gatherResponse = new GatherResponse();
+		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
+		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 
-		return new ModelAndView("getTocData", "message", message);
 	}
 
 	/**
@@ -59,9 +64,12 @@ public class TocController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "/getTocData", method = RequestMethod.POST)
-	public ModelAndView getTocData(@ModelAttribute("ebookRequest") EbookRequest ebookRequest,BindingResult result) {
-		 HttpServletResponse httpResponce;
+
+	@RequestMapping(value = "/toc", method = RequestMethod.POST)
+	public ModelAndView getTocData(HttpServletRequest request,@RequestBody GatherTocRequest gatherTocRequest,
+			    Model model)
+	{
+		GatherResponse gatherResponse = new GatherResponse();
 		
 		List<EBookToc> eBookTocList = new ArrayList<EBookToc>();
 		
@@ -69,30 +77,27 @@ public class TocController {
 		/*** retrieve TOC structure form Novus ***/
 		try {
 			
-			eBookTocList = tocService.getTocDataFromNovus(ebookRequest.getGuid(), ebookRequest.getCollection());
+			eBookTocList = tocService.getTocDataFromNovus(gatherTocRequest.getGuid(), gatherTocRequest.getCollectionName());
 			
 		} catch (GatherException e1) {
 			/**
 			 * TODO: communicate exception to response 1) Toc not found 2)
 			 * Failed to retrieve TOC child element.
 			 */
-			System.out.println("Exception in controller ="+e1);
+			//System.out.println("Exception in controller ="+e1);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_NOVUS_ERROR,e1.getMessage());
 			e1.printStackTrace();
 
 		} 
 
 		
 		
-		/*** retrieve actual document temporary  ***/
-		if (ebookRequest.getDocFilePath() != "") {
-			docService.getDocFromNovus(tocService.getDocuments(),ebookRequest.getCollection(),ebookRequest.getDocFilePath());
-		}
-		
-		
-		
 		/*** Create EBook TOC file on specified path  ***/
 		try {
-			eBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList,ebookRequest.getTocFilePath());
+
+			File tocXmlFile = new File(gatherTocRequest.getDestinationDirectory(),EBConstants.TOC_XML_BASE_NAME);
+			eBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList,tocXmlFile);
+			
 		} catch (GatherException e) {
 			/**
 			 * TODO communicate exception to response 1)Failed to create DOM
@@ -100,32 +105,31 @@ public class TocController {
 			 */
 			System.out.println("Exception in controller ="+e);
 			e.printStackTrace();
+			gatherResponse = new GatherResponse(GatherResponse.CODE_FILE_ERROR,e.getMessage());
+			
+
 		}
-//		httpResponce.sendError(HttpServletResponse.SC_ACCEPTED); //
-//		httpResponce.setStatus(404);
-//		httpResponce.
 		
+		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		 
-		// HTTP Status code 503
-		return new ModelAndView();
-		//return new ModelAndView("tocRequest", "command", ebookRequest);
+		
+		
+		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 
 	}
 
-	/**
-	 * Index.jsp is the default starting point for the web application , which
-	 * will forward request to /tocData url. which internally mapped to this
-	 * method.This method forwards populates empty form object/domain object
-	 * EbookRequest to populate form on tocData.jsp
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/tocRequest", method = RequestMethod.GET)
-	public ModelAndView showTocDataForm() {
-		EbookRequest firstEbookRequest = new EbookRequest();
-		firstEbookRequest.setCollection("w_an_rcc_cajur_toc"); 
-		firstEbookRequest.setGuid("I7b3ec600675a11da90ebf04471783734");
-		firstEbookRequest.setTocFilePath(EBConstants.OUTPUT_TOC_FILE);
-		return new ModelAndView("tocRequest", "command", firstEbookRequest);
-	}
+//	/**
+//	 * creates dynamic destination path.
+//	 * @param jobId
+//	 * @param titleId
+//	 * @return
+//	 */
+//	private static File createTocDestinationFile(int jobId, String titleId,Date jobStartDate,String rootDir) {
+//
+//		String filePath = String.format("%s/%s/%s/%d/Gather/toc/%s", rootDir, getFormatedDate("yyyyMMdd",jobStartDate),titleId,jobId,EBConstants.TOC_XML_BASE_NAME);
+//	
+//		return new File(filePath);
+//	}
+
+
 }

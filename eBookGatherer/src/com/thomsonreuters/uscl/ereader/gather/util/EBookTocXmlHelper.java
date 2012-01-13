@@ -36,13 +36,13 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 public class EBookTocXmlHelper 
 {	
 
-	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, String tocFilePath) throws GatherException
+	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, File tocFile) throws GatherException
 	{
 		System.out.println("Started .. ");
 		//Get a DOM object
 		Document dom =createDocument();
 		createTocXMLStructure(dom,eBookTocList);
-		printToFile(dom, tocFilePath);
+		printToFile(dom, tocFile);
 		System.out.println("Generated file successfully.");
 	}
 
@@ -136,6 +136,12 @@ public class EBookTocXmlHelper
 		parentGuidElement.appendChild(parentGuidText);
 		bookEle.appendChild(parentGuidElement);
 
+		//create parentGuid element and attach it to bookElement
+		Element documentGuidElement = dom.createElement(EBConstants.DOCUMENT_GUID_ELEMENT);
+		Text documentGuidText = dom.createTextNode(eBookToc.getDocGuid());
+		documentGuidElement.appendChild(documentGuidText);
+		bookEle.appendChild(documentGuidElement);
+
 
 		//create Metadata element and attach it to bookElement
 		Element metadataElement = dom.createElement(EBConstants.METADATA_ELEMENT);
@@ -150,10 +156,10 @@ public class EBookTocXmlHelper
 	/**
 	 * 
 	 * prints the XML document to file.
-	 * @param tocFilePath TODO
+	 * @param tocFile TODO
 	 * @throws Exception 
      */
-	private void printToFile(Document dom, String tocFilePath) throws GatherException
+	private void printToFile(Document dom, File tocFile) throws GatherException
 	{
 
 //		try
@@ -169,7 +175,7 @@ public class EBookTocXmlHelper
 			XMLSerializer serializer = null;
 			try {
 				serializer = new XMLSerializer(
-				new FileOutputStream(new File(tocFilePath)), format);
+				new FileOutputStream(tocFile), format);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 				throw new GatherException("Failed to find specified file path ..."+e);

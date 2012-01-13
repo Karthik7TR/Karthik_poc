@@ -4,40 +4,33 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>eBookGatherer</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/eBookGatherer-services.xml</param-value>
+		<param-value>/WEB-INF/spring/*.xml</param-value>
   	</context-param>
 
-	<listener>
-	    <listener-class>
-	          org.springframework.web.context.ContextLoaderListener
-	    </listener-class>
-	 </listener>
-
-
-	<servlet>
-		<servlet-name>eBookGatherer</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>eBookGatherer</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <servlet>
+    <display-name>SpringDispatcherServlet</display-name>
+    <servlet-name>SpringDispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring/dispatcher/dispatcher-servlet.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SpringDispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
 	<!-- ******************************************************************** -->
 	<!-- load different configuration files  -->
 	<!-- ******************************************************************** -->
+	
 
  
 

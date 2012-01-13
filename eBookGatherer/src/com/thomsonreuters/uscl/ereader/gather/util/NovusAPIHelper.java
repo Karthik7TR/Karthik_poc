@@ -37,7 +37,7 @@ public class NovusAPIHelper
 		novus.useLatestPit();
 		// need to identify E-readerBuilder with Novus api for logging
 		// purpose.
-		novus.setProductName("EReaderBuilder");
+		novus.setProductName("EBOOKGENERATOR-USCL");// EReaderBuilder
 		novus.setBusinessUnit("WestCobalt");
 		
 		return novus;

@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.util;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class EBookTocXmlHelperTest {
 		
 		//TODO: change this file path to point diffrent location other than project root.
 		//TODO: need set up test context file in right way.
-		String tocFilePath = "ebook.xml";
+		File tocFilePath = new File("ebook.xml");
 		String tocContent = null;
 		List<EBookToc> ebookTocList = new ArrayList<EBookToc>();
 		EBookToc eBookToc_1 = new EBookToc();
@@ -98,7 +99,7 @@ public class EBookTocXmlHelperTest {
 	 * @return
 	 * @throws java.io.IOException
 	 */
-	private static String readFileAsString(String filePath)
+	private static String readFileAsString(File filePath)
 			throws java.io.IOException {
 		StringBuffer fileData = new StringBuffer(1000);
 		BufferedReader reader = new BufferedReader(new FileReader(filePath));

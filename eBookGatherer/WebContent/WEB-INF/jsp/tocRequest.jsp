@@ -13,7 +13,7 @@
 </head>
 <body>
 	<h2>Get Toc Request Form</h2>
-	<form:form method="post" action="getTocData.html">
+	<form:form method="get" action="getTocData.html">
 		<table>
 			<tr>
 				<td><form:label path="contentType">ContentType</form:label></td>

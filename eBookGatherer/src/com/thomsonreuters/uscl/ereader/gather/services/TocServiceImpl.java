@@ -54,7 +54,8 @@ public class TocServiceImpl implements TocService {
 			TOCNode node = tocNodes[i];
 			EBookToc eBookToc = new EBookToc();
 			eBookToc.setGuid(node.getGuid());
-			eBookToc.setName(novusAPIHelper.processName(node.getName()));
+			//eBookToc.setName(novusAPIHelper.processName(node.getName()));
+			eBookToc.setName(node.getName());
 			eBookToc.setDocGuid(node.getDocGuid());
 			eBookToc.setParentGuid(node.getParentGuid());
 			eBookToc.setMetadata(node.getMetadata());
@@ -74,7 +75,8 @@ public class TocServiceImpl implements TocService {
 					} catch (NovusException e) {
 						// TODO need to find what kind of exception Novus can throw and 
 						//e.printStackTrace();
-						throw new GatherException("Failed to retrieve child element for Tocnode with guid = "+node.getGuid()+" tocName ="+node.getName() +" "+e );
+						throw new GatherException("Failed to retrieve child element for Tocnode with guid = "+node.getGuid()+" tocName ="+node.getName(), e);
+
 					}
 			}else {/** Might end up removing this block **/
 				if(node.getDocGuid()!= "")
@@ -127,7 +129,7 @@ public class TocServiceImpl implements TocService {
 			
 		} catch (NovusException e) {
 			//e.printStackTrace();
-			throw new GatherException("Failed to get TOC useing passed guid ="+guid +" and collection ="+collectionName+ "  " +e);
+			throw new GatherException("Failed to get TOC useing passed guid ="+guid +" and collection ="+collectionName, e);
 			
 		} 
 		finally {
