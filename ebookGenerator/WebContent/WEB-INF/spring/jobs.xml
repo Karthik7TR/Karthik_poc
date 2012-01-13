@@ -14,26 +14,32 @@
 			<next on="COMPLETED" to="define"/>
 			<fail on="FAILED"/>
 		</step>
+		
 		<step id="define">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="gather"/>
+			<next on="COMPLETED" to="parseImageGuids"/>
 		</step>
-		<step id="gather">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="formatParseImageGuids"/>
+		
+		<step id="parseImageGuids">
+			<tasklet ref="parseImageGuidsTask"/>
+			<next on="COMPLETED" to="getDynamicImages"/>
+			<next on="FAILED" to="getDynamicImages"/>
 		</step>
+		
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
 			<tasklet ref="getDynamicImagesTask"/>
 			<next on="COMPLETED" to="getStaticImages"/>
-			<next on="FAILED" to="getStaticImages"/>  <!-- TODO: eventually fail the job -->
+			<next on="FAILED" to="getStaticImages"/>	<!-- TODO: eventually fail the job -->
 		</step>
-		<!-- Fetch static images from filesystem -->
+		
+		<!-- Fetch static images from a pre-existing filesystem directory tree -->
 		<step id="getStaticImages">
-			<tasklet ref="stubTask"/>
+			<tasklet ref="getStaticImagesTask"/>
 			<next on="COMPLETED" to="combineImageFiles"/>
-			<fail on="FAILED"/>
+			<next on="FAILED" to="combineImageFiles"/>	<!-- TODO: eventually fail the job -->
 		</step>
+		
 		<!-- Copy the dynamic and static image files into a single filesystem directory -->
 		<step id="combineImageFiles">
 			<tasklet ref="stubTask"/>
@@ -46,21 +52,19 @@
 			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="formatTransformXML"/>
 		</step>
-		<step id="formatParseImageGuids">
-			<tasklet ref="formatParseImageGuidsTask"/>
-			<next on="COMPLETED" to="getDynamicImages"/>
-			<next on="FAILED" to="getDynamicImages"/>
-		</step>
+
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>
 			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
 			<next on="FAILED" to="formatAddHTMLWrapper"/>
 		</step>
+		
 		<step id="formatAddHTMLWrapper">
 			<tasklet ref="formatAddHTMLWrapperTask"/>
 			<next on="COMPLETED" to="generateTitleManifest"/>
 			<next on="FAILED" to="generateTitleManifest"/>
 		</step>
+		
 		<step id="generateTitleManifest">
 			<tasklet ref="generateTitleManifestTask"/>
 			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
@@ -72,6 +76,7 @@
 			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
 		</step>
+		
 		<step id="assembleEBook">
 			<tasklet ref="assembleEBookTask"/>
 			<next on="COMPLETED" to="deliverEBook"/>
@@ -90,7 +95,9 @@
 				p:rootWorkDirectory="/apps/ebookbuilder/data"/>
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"/>
-	<beans:bean id="formatParseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList"
+	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask"
+				p:imageService-ref="imageService"/>
+	<beans:bean id="parseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList"
 				p:xmlImageParserService-ref="xmlImageParserService"/>
 	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML"
 				p:transformerService-ref="tranformerService"/>

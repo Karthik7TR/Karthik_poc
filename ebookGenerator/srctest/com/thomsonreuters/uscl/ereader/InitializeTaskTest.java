@@ -85,14 +85,14 @@ public class InitializeTaskTest {
 			
 			File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY_PATH));
 			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE_PATH));
-			File actualImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DIR_PATH));
-			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_STATIC_DIR_PATH));
-			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH));
+			File actualImagesRootDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_ROOT_DIR));
+			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 
 			Assert.assertEquals(expectedEbookDirectory.getAbsolutePath(), actualEbookDirectory.getAbsolutePath());
 			Assert.assertEquals(expectedEbookFile.getAbsolutePath(), actualEbookFile.getAbsolutePath());
 			
-			Assert.assertTrue(actualImagesDirectory.exists());
+			Assert.assertTrue(actualImagesRootDirectory.exists());
 			Assert.assertTrue(actualStaticImagesDirectory.exists());
 			Assert.assertTrue(actualDynamicImagesDirectory.exists());
 			

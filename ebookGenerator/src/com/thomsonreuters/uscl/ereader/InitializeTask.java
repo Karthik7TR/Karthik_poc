@@ -63,16 +63,23 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");
 		File docsDirectory = new File(gatherDirectory, "Docs");
-		File imagesDirectory = new File(gatherDirectory, "Images");
-		File staticImagesDirectory = new File(imagesDirectory, "Static");
-		File dynamicImagesDirectory = new File(imagesDirectory, "Dynamic");
+		
+		// Image directories and files
+		File imageRootDirectory = new File(gatherDirectory, "Images");
+		File imageDynamicDirectory = new File(imageRootDirectory, "Dynamic");
+		File imageStaticDirectory = new File(imageRootDirectory, "Static");
+		File imageDynamicGuidsFile = new File(gatherDirectory, "dynamic-image-guids.txt");
+		File imageStaticManifestFile = new File(gatherDirectory, "static-image-manifest.txt");
+		
 		File assembleDirectory = new File(workDirectory, "Assemble");
 		File assembledTitleDirectory = new File(assembleDirectory, titleId);
+		
+		// Create required directories
 		gatherDirectory.mkdir();
 		docsDirectory.mkdir();
-		imagesDirectory.mkdir();		// Root directory for images
-		staticImagesDirectory.mkdir();	// Standard filesystem images
-		dynamicImagesDirectory.mkdir();	// Images from the Image Vertical REST service
+		imageRootDirectory.mkdir();		// Root directory for images
+		imageStaticDirectory.mkdir();	// where the copied static images go
+		imageDynamicDirectory.mkdir();	// where images from the Image Vertical REST service go
 		assembleDirectory.mkdir();
 		assembledTitleDirectory.mkdir();
 		
@@ -91,16 +98,19 @@ public class InitializeTask extends AbstractSbTasklet {
 		File titleXml = new File(assembledTitleDirectory, "title.xml");
 		
 		// File containing image GUID's one per line
-		File imageGuidsFile = new File(gatherDirectory, "image-guids.txt");
 		
 		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY_PATH, assembledTitleDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE_PATH, ebookFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_DOCS_PATH, docsDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_DIR_PATH, imagesDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_STATIC_DIR_PATH, staticImagesDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_DYNAMIC_DIR_PATH, dynamicImagesDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_GATHER_IMAGE_GUIDS_FILE_PATH, imageGuidsFile.getAbsolutePath());
+		
+		// Images - static and dynamic directories and files
+		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE, imageDynamicGuidsFile.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.IMAGE_ROOT_DIR, imageRootDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_DEST_DIR, imageStaticDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
+		
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_TRANSFORMED_PATH, transformedDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FORMAT_HTML_WRAPPER_PATH, htmlWrapperDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_PATH, titleXml.getAbsolutePath());

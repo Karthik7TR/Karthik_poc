@@ -6,7 +6,11 @@
 package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -42,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	@Transactional
 	public void fetchImageVerticalImages(final List<String> imageGuids,
-						File imageDirectory, long jobInstanceId, String titleId) throws ImageException {
+						File imageDestinationDirectory, long jobInstanceId, String titleId) throws ImageException {
 
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
 		for (String imageGuid : imageGuids) {
@@ -67,7 +71,7 @@ public class ImageServiceImpl implements ImageService {
 			try { 
 				// Create the REST template we will use to make HTTP request to Image Vertical REST service
 				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(
-													imageDirectory, imageGuid, imageMetadata.getMediaType());
+													imageDestinationDirectory, imageGuid, imageMetadata.getMediaType());
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
 				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
@@ -76,6 +80,8 @@ public class ImageServiceImpl implements ImageService {
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
 				Thread.sleep(sleepIntervalBetweenImages);
 			} catch (Exception e) {
+				// Remove all existing downloaded files on failure
+				removeAllFilesInDirectory(imageDestinationDirectory);
 				throw new ImageException(String.format("Error fetching image from Image Vertical: imageGuid=%s", imageGuid), e);
 			}
 		}
@@ -87,6 +93,26 @@ public class ImageServiceImpl implements ImageService {
 				SingleImageMetadataResponse.class, 
 				imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
 		return response;
+	}
+	
+	@Override
+	public void fetchStaticImages(final List<String> basenames, File imageDestinationDirectory) throws ImageException {
+		
+		// Iterate the list of image base names
+		for (String basename : basenames) {
+			File sourceFile = searchFileTree(basename);
+			if (sourceFile == null) {
+				throw new ImageException("Static image not found: " + basename);
+			}
+			File destFile = new File(imageDestinationDirectory, basename);
+			try {
+				copyFile(sourceFile, destFile);
+			} catch (IOException e) {
+				// Remove all existing destination dir files on failure
+				removeAllFilesInDirectory(imageDestinationDirectory);
+				throw new ImageException("Failed to copy static image file: " + sourceFile, e);
+			}
+		}
 	}
 
 	@Override
@@ -126,6 +152,47 @@ public class ImageServiceImpl implements ImageService {
 		ImageMetadataEntity entity = createImageMetadataEntity(metadataResponse, jobInstanceId, titleId);
 		// Persist the image meta-data entity
 		return this.saveImageMetadata(entity);
+	}
+	
+	/**
+	 * Search the directory tree of static images for a file with the specified basename.
+	 * @param basename the file basename of an image file
+	 * @return the absolute path the the image file, or null if it was not found in the tree
+	 */
+	private File searchFileTree(String basename) {
+		// TODO: implement this
+		return null;
+	}
+	
+	/**
+	 * Delete all files in the specified directory.
+	 * @param directory directory whose files will be removed
+	 */
+	public static void removeAllFilesInDirectory(File directory) {
+		File[] files = directory.listFiles();
+		for (File file : files) {
+			file.delete();
+		}
+	}
+	
+	private static void copyFile(File sourceFile, File destFile) throws IOException {
+		if (!destFile.exists()) {
+			destFile.createNewFile();
+		}
+		FileChannel source = null;
+		FileChannel destination = null;
+		try {
+		  source = new FileInputStream(sourceFile).getChannel();
+		  destination = new FileOutputStream(destFile).getChannel();
+		  destination.transferFrom(source, 0, source.size());
+		} finally {
+			if(source != null) {
+				source.close();
+			}
+			if(destination != null) {
+				destination.close();
+			}
+		}
 	}
 
 	@Required

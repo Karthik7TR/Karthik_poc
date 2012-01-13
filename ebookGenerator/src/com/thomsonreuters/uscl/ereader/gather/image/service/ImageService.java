@@ -26,15 +26,23 @@ public interface ImageService {
 	 * Reads image bytes and meta-data from the Image Vertical REST web service for the book based on the specified image GUID's.
 	 * Stores the image bytes to a file with a name in the form "<imageDirectory>/<imageGuid>.png".
 	 * Updates the image meta-data database table with the meta-data for each image.
-	 * @param imageGuids A list of keys for the images desired.
-	 * @param imageDirectory The filesystem directory in which the image files will be created, must already exist.
-	 * @param jobInstanceId The unique identifier for which book generating job we are fetching images for.
+	 * @param imageGuids a list of keys for the images desired.
+	 * @param imageDestinationDirectory the filesystem directory in which the image files will be created, must already exist.
+	 * @param jobInstanceId the unique identifier for which book generating job we are fetching static images for.
 	 * 						Used to key the saved image meta-data in the database.
 	 * @param titleId The unique key for the book for which we are gathering images.
 	 */
-	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDirectory,
+	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDestinationDirectory,
 							long jobInstanceId, String titleId) throws ImageException;
 	
+	
+	/**
+	 * Copy a collection of image files to the well-known static image directory for the current job instance.
+	 * @param basenames a list of image file base names (no dir path info) that are to be searched for within a filesystem tree of images.
+	 * @param imageDestinationDirectory the filesystem directory where the requested files will be copied to, not created, must already exist
+	 * @throws ImageException on an IO error copying the files, or if one of the image files does not exist
+	 */
+	public void fetchStaticImages(final List<String> basenames, File imageDestinationDirectory) throws ImageException;
 	
 	/**
 	 * Find all the images for a given job run instance from the image meta-data database table.
