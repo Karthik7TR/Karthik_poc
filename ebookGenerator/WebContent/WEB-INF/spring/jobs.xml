@@ -17,7 +17,14 @@
 		
 		<step id="define">
 			<tasklet ref="stubTask"/>
+			<next on="COMPLETED" to="getToc"/>
+		</step>
+		
+		<!-- Fetch TOC from Gather REST service -->
+		<step id="getToc">
+			<tasklet ref="getTocTask"/>
 			<next on="COMPLETED" to="parseImageGuids"/>
+			<next on="FAILED" to="parseImageGuids"/>	<!-- TODO: eventually fail the job -->
 		</step>
 		
 		<step id="parseImageGuids">
@@ -93,6 +100,8 @@
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask"
 				p:rootWorkDirectory="/apps/ebookbuilder/data"/>
+	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask"
+				p:gatherService-ref="gatherService"/>				
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"/>
 	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask"

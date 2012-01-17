@@ -52,7 +52,7 @@
 	
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="restTemplate"
-		  p:gatherAppContextUrl="http://localhost:8080/eBookGatherer/"/>
+		  p:gatherAppContextUrl="http://localhost:8080/eBookGatherer"/>
 	
 	<!--bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl" 
 	autowire="byType"/-->

@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,8 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper;
 
 @Controller
 public class TocController {
-
+	private static Logger log = Logger.getLogger(TocController.class);
+	
 	@Autowired
 	public TocService tocService;
 
@@ -69,6 +71,7 @@ public class TocController {
 	public ModelAndView getTocData(HttpServletRequest request,@RequestBody GatherTocRequest gatherTocRequest,
 			    Model model)
 	{
+		log.debug(">>> " + gatherTocRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		
 		List<EBookToc> eBookTocList = new ArrayList<EBookToc>();

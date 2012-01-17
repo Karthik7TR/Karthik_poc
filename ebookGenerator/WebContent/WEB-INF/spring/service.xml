@@ -16,16 +16,30 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
            ">      
 
-	<!-- Message converters and singleton REST template for interacting with the RESTful web services -->
-	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
-	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
-		  p:objectMapper-ref="jsonObjectMapper"/>
-	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+	<bean id="standardRestTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>
           <ref bean="jsonHttpMessageConverter"/>
+          <ref bean="tocRequestMessageConverter"/>
+          <ref bean="gatherResponseMessageConverter"/>
         </list>
       </property>
+	</bean>
+
+	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="requestFactory">
+			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+				<property name="httpClient" ref="basicAuthenticationHttpClient"/>
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter"/>
+			</list>
+		</property>
+		<property name="errorHandler">
+			<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler"/>
+		</property>
 	</bean>
 	
   	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
@@ -77,21 +91,6 @@
 		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:restTemplate-ref="proviewRestTemplate"/>
 		  
-	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
-		<property name="requestFactory">
-			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
-				<property name="httpClient" ref="basicAuthenticationHttpClient"/>
-			</bean>
-		</property>
-		<property name="messageConverters">
-			<list>
-				<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter"/>
-			</list>
-		</property>
-		<property name="errorHandler">
-			<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler"/>
-		</property>
-	</bean>
 
 	<bean id="basicAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory">
 		<constructor-arg name="host" value="${proview.domain}"/>
@@ -103,7 +102,7 @@
 	
 	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
-		  p:singletonRestTemplate-ref="restTemplate"
+		  p:singletonRestTemplate-ref="standardRestTemplate"
 		  p:imageVerticalRestServiceUrl="${image.vertical.context.url}"
 		  p:sleepIntervalBetweenImages="500"
 		  p:urlVersion="v1"
@@ -111,7 +110,7 @@
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
 
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
-		  p:restTemplate-ref="restTemplate"
+		  p:restTemplate-ref="standardRestTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
 		 
 	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>
