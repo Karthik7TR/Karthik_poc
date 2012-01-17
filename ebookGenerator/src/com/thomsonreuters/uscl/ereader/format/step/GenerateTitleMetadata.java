@@ -78,7 +78,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 
 	private void addTableOfContents(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
-		File tocXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_XML_PATH));
+		File tocXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
 		//TODO: add gathered TOC to titleMetadata.
 		ArrayList<TocEntry> tocEntries = titleMetadataService.createTableOfContents(tocXml);
 		titleMetadata.setTocEntries(tocEntries);
