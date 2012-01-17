@@ -110,7 +110,7 @@
 		  p:imageDao-ref="imageDao"
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
 
-	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.image.service.GatherServiceImpl"
+	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="restTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
 		 
