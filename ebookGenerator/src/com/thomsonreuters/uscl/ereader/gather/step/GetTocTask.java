@@ -45,7 +45,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 		String tocCollectionName = jobExecutionContext.getString(JobParameterKey.TOC_COLLECTION_NAME);
 		String tocRootGuid = jobExecutionContext.getString(JobParameterKey.ROOT_TOC_GUID);
 
-		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_GATHER_DOCS_PATH);
+		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 
 		File destinationFile = new File(xmlDirectory);
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid,tocCollectionName,destinationFile);

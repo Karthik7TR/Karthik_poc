@@ -5,9 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
+import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.HashMap;
 
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
@@ -17,21 +17,13 @@ import org.jibx.runtime.JiBXException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-
 public class JibxMarshallingTest  {
 	
 	
 	@Test
 	public void testGatherTocRequestMarshalling() {
 		try {
-			GatherTocRequest expecedRequest = new GatherTocRequest();
-			expecedRequest.setCollectionName("TestCollectionName");
-			expecedRequest.setGuid("TGuid");
-			expecedRequest.setJobId(999);
-			expecedRequest.setJobStartDate(new java.util.Date()) ;
-			expecedRequest.setRootDirectory("TestRootDir");
-			expecedRequest.setTitleId("TitleId");
+			GatherTocRequest expecedRequest = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"));
 			String strXml = marshal(expecedRequest);
 			System.out.println("strXml ="+strXml);
 			
