@@ -41,21 +41,29 @@ public class GetTocTask  extends AbstractSbTasklet {
 		
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
-		JobInstance jobInstance = getJobInstance(chunkContext);
-		String tocCollectionName = jobExecutionContext.getString(JobParameterKey.TOC_COLLECTION_NAME);
-		String tocRootGuid = jobExecutionContext.getString(JobParameterKey.ROOT_TOC_GUID);
+
+		jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME);
+		String tocCollectionName = jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME); 
+		String tocRootGuid = jobParams.getString(JobParameterKey.ROOT_TOC_GUID);
 
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 
 		File destinationFile = new File(xmlDirectory);
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid,tocCollectionName,destinationFile);
+		LOG.debug(gatherTocRequest);
 		GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
-		if(gatherResponse.getErrorCode() == 0 ){
+		if(gatherResponse.getErrorCode() != 0 ){
 			
 			taskExitStatus =  ExitStatus.FAILED;
 		}
 		
 		return taskExitStatus ;	
+	}
+
+
+
+	public void setGatherService(GatherService gatherService) {
+		this.gatherService = gatherService;
 	}
 
 }
