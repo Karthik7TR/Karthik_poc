@@ -114,6 +114,6 @@
 		  p:restTemplate-ref="restTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
 		 
-	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataXMLParser"/>
+	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>
 		  
 </beans>

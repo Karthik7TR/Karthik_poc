@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
@@ -233,5 +234,11 @@ public interface DocMetadataDao  extends JpaDao<DocMetadata>{
 	 *
 	 */
 	public Set<DocMetadata> findDocMetadataByDocType(String docType_1, int startResult, int maxRows) throws DataAccessException;
+
+	/**
+	 * JPQL Query - findDocMetadataByDocUuid
+	 *
+	 */
+	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid) throws DataAccessException;
 
 }

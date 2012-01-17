@@ -1,12 +1,13 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
-
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 
 import java.util.List;
 import java.util.Set;
 import java.io.File;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -118,5 +119,12 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Transactional
 	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, File metaDataFile) {
 		 saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId, metaDataFile));
+	}
+
+	/**
+	 */
+	@Transactional
+	public Map<String, String> findDocMetadataByDocUuid(String docUuid) {
+		return docMetadataDAO.findDocMetadataMapByDocUuid(docUuid);
 	}
 }

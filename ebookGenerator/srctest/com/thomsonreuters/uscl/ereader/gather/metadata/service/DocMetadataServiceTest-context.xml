@@ -55,6 +55,6 @@
 					<property name="persistenceUnitName" value="DocMetaData" />
 				</bean>	 
 				
-	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataXMLParser"/>
+	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>
 
 </beans>

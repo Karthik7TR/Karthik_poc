@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.gather.metadata.service;
+package com.thomsonreuters.uscl.ereader.gather.parsinghandler;
 
 import java.io.IOException;
 import java.io.File;

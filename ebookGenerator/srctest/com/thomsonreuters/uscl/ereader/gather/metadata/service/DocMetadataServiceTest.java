@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.io.File;
 
@@ -157,5 +158,17 @@ public class DocMetadataServiceTest {
 		Integer jobInstanceId = new Integer("12345");
 		String docUuid = "123456";	
 		dockMetaService.parseAndStoreDocMetadata(titleId, jobInstanceId, new File(docUuid));
+	}
+
+	/**
+	 * Operation Unit Test
+	 * Return all DocMetadata entity
+	 * 
+	 */
+	@Test
+	public void findDocFamilyUuidByDocId() { 
+		String docUuid = "123456";	
+		Map<String, String> docFamilyMap= dockMetaService.findDocMetadataByDocUuid(docUuid);
+		assertTrue(docFamilyMap.size() > 0) ;
 	}
 }

@@ -9,8 +9,11 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -477,5 +480,26 @@ public class DocMetadataDaoImpl extends AbstractJpaDao<DocMetadata> implements
 	 */
 	public boolean canBeMerged(DocMetadata entity) {
 		return true;
+	}
+
+	/**
+	 * JPQL Query - findDocMetadataByDocUuid
+	 *
+	 */
+	@Transactional
+	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid) throws DataAccessException {
+		
+		 Map<String, String> mp=new HashMap<String, String>();
+	
+		Query query = createNamedQuery("findDocMetadataMapByDocUuid", -1, -1, docUuid);
+		
+		List<String> docFamilyGuidList = query.getResultList();
+		
+		
+		for (int i=0; i < docFamilyGuidList.size(); i++) {
+			mp.put(docFamilyGuidList.get(i), docUuid);
+		}
+		   
+		return mp;
 	}
 }

@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import java.util.List;
 import java.util.Set;
 import java.io.File;
+import java.util.Map;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -50,7 +51,11 @@ public interface DocMetadataService {
 
 	/**
 	 */
-	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid);
+	public Map<String, String> findDocMetadataByDocUuid(String docUuid);
+	
+	/**
+	 */
+	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid);	
 
 	/**
 	 */

@@ -31,6 +31,7 @@ import javax.persistence.*;
 		@NamedQuery(name = "findDocMetadataByDocType", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docType = ?1"),
 		@NamedQuery(name = "findDocMetadataByDocTypeContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docType like ?1"),
 		@NamedQuery(name = "findDocMetadataByDocUuid", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docUuid = ?1"),
+		@NamedQuery(name = "findDocMetadataMapByDocUuid", query = "select myDocMetadata.docFamilyUuid from DocMetadata myDocMetadata where myDocMetadata.docUuid = ?1"),		
 		@NamedQuery(name = "findDocMetadataByDocUuidContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docUuid like ?1"),
 		@NamedQuery(name = "findDocMetadataByFindOrig", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.findOrig = ?1"),
 		@NamedQuery(name = "findDocMetadataByFindOrigContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.findOrig like ?1"),
