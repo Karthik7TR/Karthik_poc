@@ -19,9 +19,9 @@ public class BookDefinitionTest  {
 	
 	@Test
 	public void testBookDefinitionKey() {
+		String path = "uscl/cr/";
 		String titleId = "ak_2013_state";
-		String fullyQualifiedTitleId = "uscl/cr/"+titleId;
-		//Long majorVer = new Long(1245);
+		String fullyQualifiedTitleId = path + titleId;
 		BookDefinitionKey key = new BookDefinitionKey(fullyQualifiedTitleId);
 		Assert.assertEquals(fullyQualifiedTitleId, key.getFullyQualifiedTitleId());
 		Assert.assertEquals(titleId, key.getTitleId());
@@ -29,7 +29,17 @@ public class BookDefinitionTest  {
 		// Check that null fields are rejected
 		try { key.setFullyQualifiedTitleId(null);} catch (IllegalArgumentException e) {Assert.assertTrue(true); }
 	}
-	
+	@Test
+	public void testTitleIdWithBackslashDelimiters() {
+		String path = "uscl\\cr\\";
+		String rightComponent = "ak_2013_state";
+		String fullyQualifiedTitleId = path + rightComponent;
+		BookDefinitionKey key = new BookDefinitionKey(fullyQualifiedTitleId);
+		Assert.assertEquals(fullyQualifiedTitleId, key.getFullyQualifiedTitleId());
+		Assert.assertEquals(fullyQualifiedTitleId, key.getTitleId());
+		Assert.assertEquals(fullyQualifiedTitleId, key.toKeyString());  // string representation "<titleId>,<majorVersion>"
+	}
+
 	@Test
 	public void testParseAuthorNames() {
 		String obama = "Spends Toomuch";

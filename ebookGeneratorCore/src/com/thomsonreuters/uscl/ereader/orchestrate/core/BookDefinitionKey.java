@@ -5,8 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
-import java.io.File;
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
@@ -47,14 +47,20 @@ public class BookDefinitionKey implements Serializable {
 	}
 
 	/**
-	 * The base title ID, without any of the leading namespace components.  Example: "ak_2010_federal".
+	 * The base title ID, without any of the leading slash-separated namespace components.  Example: "ak_2010_federal".
 	 * This is a transient field because we are making the space-for-time tradeoff and
 	 * calculating this value once when the fullTitleId is set.  The TITLE_ID column in the database
 	 * holds the fully-qualified value.
+	 * @return the right-most component of the slash separated title ID path, or null if blank string.
 	 */
 	@Transient
 	public String getTitleId() {
-		return (new File(fullyQualifiedTitleId)).getName();
+		StringTokenizer tokenizer = new StringTokenizer(fullyQualifiedTitleId, "/");
+		String component = null;
+		while (tokenizer.hasMoreTokens()) {
+			component = tokenizer.nextToken();
+		}
+		return (component);
 	}
 
 	public void setFullyQualifiedTitleId(String fullId) {
