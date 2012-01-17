@@ -483,9 +483,14 @@ public class DocMetadataDaoImpl extends AbstractJpaDao<DocMetadata> implements
 	}
 
 	/**
-	 * JPQL Query - findDocMetadataByDocUuid
+	 * JPQL Query - findDocMetadataMapByDocUuid
+	 * @param docUuid from the document
+	 * @returns a map of the document family guids associated with the
+	 * document uuid
+	 *
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid) throws DataAccessException {
 		
@@ -493,8 +498,8 @@ public class DocMetadataDaoImpl extends AbstractJpaDao<DocMetadata> implements
 	
 		Query query = createNamedQuery("findDocMetadataMapByDocUuid", -1, -1, docUuid);
 		
-		List<String> docFamilyGuidList = query.getResultList();
 		
+		List<String> docFamilyGuidList = query.getResultList();
 		
 		for (int i=0; i < docFamilyGuidList.size(); i++) {
 			mp.put(docFamilyGuidList.get(i), docUuid);
