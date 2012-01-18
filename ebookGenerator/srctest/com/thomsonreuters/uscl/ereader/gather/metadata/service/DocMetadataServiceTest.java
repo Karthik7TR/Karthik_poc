@@ -29,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Class to run the service as a JUnit test. Each operation in the service is a separate test.
+ * @author - Nirupam Chatterjee
+ * @author - Ray Cracauer
  *
  */
 
@@ -146,6 +148,109 @@ public class DocMetadataServiceTest {
 		assertTrue(response != null) ;
 	}
 	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryKeyNegativeTitleId() {
+		String titleId = "TEST_TILE";
+		Integer jobInstanceId = new Integer("-12345");
+		String docUuid = "123456";		
+		
+		DocMetadata response = null;
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response == null) ;
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryKeyAllNulls() {
+		String titleId = null;
+		Integer jobInstanceId = null;
+		String docUuid = null;		
+		
+		DocMetadata response = null;
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response == null);
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryNullTitleId() {
+		String titleId = null;
+		Integer jobInstanceId = new Integer("12345");
+		String docUuid = "123456";		
+		
+		DocMetadata response = null;
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response == null);
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryNullJobInstanceId() {
+		String titleId = "TEST_TILE";
+		Integer jobInstanceId = null;
+		String docUuid = "123456";		
+		
+		DocMetadata response = null;
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response == null);
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryNullDocUuid() {
+		String titleId = "TEST_TILE";
+		Integer jobInstanceId = new Integer("12345");
+		String docUuid = null;		
+		
+		DocMetadata response = null;
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response == null);
+	}
+	
+	/**
+	 * Operation Unit Test
+	 * @author Ray Cracauer 
+	 */
+	@Test
+	public void findDocMetadataByPrimaryKeyObjectValues() {
+		String titleId = "TEST_TILE";
+		Integer jobInstanceId = new Integer("12345");
+		String docUuid = "123456";		
+		
+		DocMetadata response = null;
+		
+		DocMetadata expected = new DocMetadata();
+		expected.setTitleId(titleId);
+		expected.setJobInstanceId(jobInstanceId);
+		expected.setDocUuid(docUuid);
+		expected.setDocFamilyUuid("123456");
+		expected.setDocType("codes");
+		expected.setNormalizedFirstlineCite("12345");
+		expected.setFindOrig("12345");
+		expected.setSerialNumber(123);
+		expected.setCollectionName("test_collection");
+		expected.setLastUpdated("2012-1-5 16:49:26. 0");
+				
+		response = dockMetaService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+		assertTrue(response.toString().equals(expected.toString()));
+	}
+
 	/**
 	 * Operation Unit Test
 	 * Parse DocMetadata xml and 
