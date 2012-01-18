@@ -13,15 +13,24 @@
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-           ">      
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">      
 
-	<bean id="standardRestTemplate" class="org.springframework.web.client.RestTemplate">
+	<!-- Used to communicate with the Gather REST service -->
+	<bean id="gatherRestTemplate" class="org.springframework.web.client.RestTemplate">
+      <property name="messageConverters">
+        <list>
+          <ref bean="tocRequestMessageConverter"/>
+          <ref bean="gatherResponseMessageConverter"/>
+        </list>
+      </property>
+	</bean>
+	
+	<!-- REST Template used to communicate with the Image vertical REST service when fetching image metadata.
+		 A custom template is used to download image file bytes. -->
+	<bean id="imageJsonRestTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>
           <ref bean="jsonHttpMessageConverter"/>
-          <ref bean="tocRequestMessageConverter"/>
-          <ref bean="gatherResponseMessageConverter"/>
         </list>
       </property>
 	</bean>
@@ -102,7 +111,7 @@
 	
 	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
-		  p:singletonRestTemplate-ref="standardRestTemplate"
+		  p:singletonRestTemplate-ref="imageJsonRestTemplate"
 		  p:imageVerticalRestServiceUrl="${image.vertical.context.url}"
 		  p:sleepIntervalBetweenImages="500"
 		  p:urlVersion="v1"
@@ -110,7 +119,7 @@
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
 
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
-		  p:restTemplate-ref="standardRestTemplate"
+		  p:restTemplate-ref="gatherRestTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
 		 
 	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>
