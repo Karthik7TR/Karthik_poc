@@ -34,6 +34,11 @@ public class ImageDaoImpl implements ImageDao {
 		return criteria.list();
 	}
 	
+	public ImageMetadataEntity findImageMetadataByPrimaryKey(ImageMetadataEntityKey pk) {
+		Session session = sessionFactory.getCurrentSession();
+		return (ImageMetadataEntity) session.get(ImageMetadataEntity.class, pk);
+	}
+	
 	@Override
 	public ImageMetadataEntityKey saveImageMetadata(ImageMetadataEntity metadata) {
 		Session session = sessionFactory.getCurrentSession();

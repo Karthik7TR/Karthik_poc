@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 @ContextConfiguration
 @Transactional
 public class ImageVerticalServiceIntegrationTest  {
+	private static final Logger log = Logger.getLogger(ImageVerticalServiceIntegrationTest.class);
 	private static final String GUID_PNG = "IA31BCD5F18364C9BBDCD008012AFBF02";	// PNG image
 	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
 	private static final String[] GUID_LIST = {
@@ -102,5 +104,13 @@ System.out.println(response);
 		Assert.assertEquals(size, actualEntity.getSize());
 		Assert.assertEquals(dpi, actualEntity.getDpi());
 		Assert.assertEquals(dimUnit, actualEntity.getDimUnits());
+	}
+	
+	@Test
+	public void testFindImageMetadataByPrimaryKey() {
+		long jobInstanceId = 375;
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, GUID_PNG);
+		ImageMetadataEntity entity = imageService.findImageMetadata(key);
+		log.debug("Image metadata by PK: " + entity);
 	}
 }

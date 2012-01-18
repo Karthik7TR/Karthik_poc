@@ -20,6 +20,13 @@ public interface ImageDao {
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId);
 	
 	/**
+	 * Fetch image meta-data by its primary key.
+	 * @param key compount key of jobInstanceId and the image GUID.
+	 * @return the entity found, or null if not found
+	 */
+	public ImageMetadataEntity findImageMetadataByPrimaryKey(ImageMetadataEntityKey key);
+	
+	/**
 	 * Persist a single set of image metadata to the IMAGE_METADATA table. 
 	 * @param metadata mapped entity to save
 	 * @return the key of new newly created record

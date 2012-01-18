@@ -50,7 +50,14 @@ public interface ImageService {
 	 * @return a list of all image meta-data associated with a specific job.
 	 */
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId);
-	
+
+	/**
+	 * Fetch the meta-data for a specific image.
+	 * @param key the primary key of the entity.
+	 * @return the meta-data for the specified image, or null if not found
+	 */
+	public ImageMetadataEntity findImageMetadata(ImageMetadataEntityKey key);
+
 	/**
 	 * Persist a single meta-data entity to the image meta-data table.
 	 * @param metadata domain object for metadata

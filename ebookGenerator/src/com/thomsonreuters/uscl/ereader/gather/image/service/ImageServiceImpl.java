@@ -120,6 +120,12 @@ public class ImageServiceImpl implements ImageService {
 	public List<ImageMetadataEntity> findImageMetadata(long jobInstanceId) {
 		return imageDao.findImageMetadata(jobInstanceId);
 	}
+	
+	@Override
+	@Transactional
+	public ImageMetadataEntity findImageMetadata(ImageMetadataEntityKey key) {
+		return imageDao.findImageMetadataByPrimaryKey(key);
+	}
 
 	/**
 	 * Map the container data from the REST service into an entity that is persisted
