@@ -25,10 +25,13 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_FILE = "eBookFile";
 	
+	public static final String GATHER_DIR = "gatherDir";
+
 	/**
 	 * The path to the Novus gathered XML documents for this eBook on NAS.
 	 */
 	public static final String GATHER_DOCS_DIR = "gatherDocsDir";
+	
 	
 	/** The TOC XML file */
 	public static final String GATHER_TOC_FILE = "gatherTocFile";

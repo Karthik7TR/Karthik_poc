@@ -104,6 +104,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
 		
 		// Images - static and dynamic directories and files
