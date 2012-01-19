@@ -14,7 +14,9 @@
     <fileset dir="${dir.webContent}/WEB-INF/lib">
       <include name="**/*.jar"/>
     </fileset>
-    <!-- These are the cobalt group specific libraries that all the projects should include. -->
+    <fileset dir="../ebookGeneratorCore/lib">
+      <include name="**/*.jar"/>
+    </fileset> <!-- These are the cobalt group specific libraries that all the projects should include. -->
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
       <include name="OtherLibraries/**/*.jar"/>
