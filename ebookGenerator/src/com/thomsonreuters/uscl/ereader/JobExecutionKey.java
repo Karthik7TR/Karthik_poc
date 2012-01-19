@@ -96,7 +96,10 @@ public class JobExecutionKey {
 	 */
 	public static final String COVER_ART_PATH = "coverArtPath";
 	
-
+	/**
+	 * The file path to the CSS file to apply on the documents.
+	 */
+	public static final String DOCUMENT_CSS_FILE = "documentCSSFile";
 	
 	/**
 	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.

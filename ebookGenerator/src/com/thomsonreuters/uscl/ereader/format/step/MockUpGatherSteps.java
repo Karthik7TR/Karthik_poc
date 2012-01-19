@@ -6,16 +6,16 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 /**
@@ -32,38 +32,64 @@ public class MockUpGatherSteps extends AbstractSbTasklet
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		JobParameters jobParams = getJobParameters(chunkContext);
 		
-		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
+		String titleId = jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
+		
+		String sampleBook = null;
+		
+		if (titleId.equalsIgnoreCase("uscl/cr/al_2012_federal"))
+		{
+			sampleBook = "AnalyticalSample1";
+		}
+		else if (titleId.equalsIgnoreCase("uscl/cr/al_2012_state"))
+		{
+			sampleBook = "AnalyticalSample2";
+		}
+		else if (titleId.equalsIgnoreCase("uscl/an/FRCP"))
+		{
+			sampleBook = "CRSample";
+		}
+		else if (titleId.equalsIgnoreCase("uscl/an/FSLP"))
+		{
+			sampleBook = "SCSample";
+		}
+		else if (titleId.equalsIgnoreCase("uscl/an/IMPH"))
+		{
+			sampleBook = "DocsWithImages";
+		}
+		
 		//TODO: Retrieve expected number of document for this eBook from execution context
 		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, 5);
 		
-		LOG.debug("Moving sample content into gather...");
-		
-		//TODO: Remove stubbed XML files copy
-		moveSampleDocsToGather(new File(xmlDirectory));
-		
-		LOG.info("Moved all sample content into appropriate gather paths.");
-		
-		return ExitStatus.COMPLETED;
-	}
-
-	//TODO: Remove stub method that moves XML files to Gather Directory
-	public void moveSampleDocsToGather(File targetBookDir) throws IOException
-	{
-		File sourceDir = 
-				//new File("C:\\nas\\AnalyticalSample1\\XML");
-				//new File("C:\\nas\\AnalyticalSample2\\XML"); 
-				//new File("C:\\nas\\CRSample\\XML");  
-				//new File("C:\\nas\\SCSample\\XML");
-				new File("C:\\nas\\DocsWithImages\\XML");
-		
-		if (sourceDir.exists())
+		if (sampleBook != null)
 		{
-			File[] xmlFileList = sourceDir.listFiles();
-			for (File xml : xmlFileList)
-			{
-				FileUtils.copyFile(xml, new File(targetBookDir, xml.getName()));
-			}
+			LOG.info("Modifying Gather Execution Keys to point to " + sampleBook + " sample directory...");
+			
+			File staticGatherDir = 
+					new File("/nas/" + sampleBook + "/Gather");
+			
+			File staticTocSample = new File(staticGatherDir, "toc.xml");
+			File staticDocsDirectory = new File(staticGatherDir, "Docs");
+			
+			File staticCover = new File("/nas/CoverArt/coverArt.PNG");
+			File cssFile = new File("/nas/CSS/document.css");
+			
+			//TODO: Remove execution key modification
+			jobExecutionContext.putString(
+					JobExecutionKey.GATHER_DIR, staticGatherDir.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.GATHER_TOC_FILE, staticTocSample.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.GATHER_DOCS_DIR, staticDocsDirectory.getAbsolutePath());
+			jobExecutionContext.putString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH, 
+					jobExecutionContext.getString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR));
+			jobExecutionContext.putString(
+					JobExecutionKey.COVER_ART_PATH, staticCover.getAbsolutePath());
+			jobExecutionContext.putString(JobExecutionKey.DOCUMENT_CSS_FILE, cssFile.getAbsolutePath());
+			
+			LOG.info("Gather Execution Keys modified to point to " + sampleBook + " directory.");
 		}
+		return ExitStatus.COMPLETED;
 	}
 }

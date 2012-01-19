@@ -167,7 +167,7 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	private File searchFileTree(String basename) {
 		// TODO: implement this
-		return null;
+		return new File("/nas/StaticImages", basename);
 	}
 	
 	/**
