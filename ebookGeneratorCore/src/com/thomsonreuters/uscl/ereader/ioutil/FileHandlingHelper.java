@@ -48,8 +48,14 @@ public class FileHandlingHelper
 		fileList.addAll(Arrays.asList(files));
 		if(fileList.size() == 0)
 		{
-			String errMessage = "No files were found in " + directory.getAbsolutePath() + " directory. " +
-					"Please verify the source path or make sure previous step succeeded.";
+			String extensions = "";
+			for (String extension : filter.getAcceptedFileExtensions())
+			{
+				extensions = extensions + extension + " ";
+			}
+			
+			String errMessage = "No '" + extensions + "' files were found in " + directory.getAbsolutePath() + 
+					" directory. Please verify the source path or make sure previous step succeeded.";
 			LOG.error(errMessage);
 			throw new FileNotFoundException(errMessage);
 		}

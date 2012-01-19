@@ -86,9 +86,11 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create format directories
 		File formatDirectory = new File(workDirectory, "Format");
 		File transformedDirectory = new File(formatDirectory, "Transformed");
+		File postTransformDirectory = new File(formatDirectory, "PostTransform");
 		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
 		formatDirectory.mkdir();
 		transformedDirectory.mkdir();
+		postTransformDirectory.mkdir();
 		htmlWrapperDirectory.mkdir();
 		//File htmlDirectory = new File(formatDirectory, "HTML");
 		
@@ -112,6 +114,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
 		
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 

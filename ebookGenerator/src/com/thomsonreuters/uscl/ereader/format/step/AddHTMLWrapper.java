@@ -27,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 public class AddHTMLWrapper extends AbstractSbTasklet
 {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
+	private static final Logger LOG = Logger.getLogger(AddHTMLWrapper.class);
 	private HTMLWrapperService htmlWrapperService;
 
 	public void sethtmlWrapperService(HTMLWrapperService htmlWrapperService) 
@@ -40,16 +40,16 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
-		String transformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
+		String postTransformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_POST_TRANSFORM_DIR);
 		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_HTML_WRAPPER_DIR);
 		//TODO: Retrieve expected number of document for this eBook from execution context
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 				
-		File transformDir = new File(transformDirectory);
+		File postTransformDir = new File(postTransformDirectory);
 		File htmlDir = new File(htmlDirectory);
 		
 		long startTime = System.currentTimeMillis();
-		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(transformDir, htmlDir);
+		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

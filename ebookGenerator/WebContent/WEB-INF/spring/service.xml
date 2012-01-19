@@ -82,13 +82,25 @@
     </bean>
     <bean id="transformedFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
   		  p:filter-ref="transformedFileFilter"/>
+  		  
+	<bean id="postTransformFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.posttransform</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postTransformFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postTransformFileFilter"/>
 
 	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
 		  p:docMetadataService-ref="docMetadataService"
 		  p:xsltMapperService-ref="xsltMapperService"
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
-	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
+	<bean id="htmlTransformerService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl"
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"/>
+	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
+		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"/>
 	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 	

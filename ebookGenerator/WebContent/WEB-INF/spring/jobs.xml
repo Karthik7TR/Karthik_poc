@@ -36,8 +36,27 @@
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
 			<tasklet ref="getDynamicImagesTask"/>
+			<next on="COMPLETED" to="formatTransformXML"/>
+			<next on="FAILED" to="formatTransformXML"/>	<!-- TODO: eventually fail the job -->
+		</step>
+		
+		<!-- Format the XML documents -->
+		<step id="formatTransformXML">
+			<tasklet ref="formatTransformXMLTask"/>
+			<next on="COMPLETED" to="formatHTMLTransformer"/>
+			<next on="FAILED" to="formatHTMLTransformer"/>
+		</step>
+		
+		<step id="formatHTMLTransformer">
+			<tasklet ref="formatHTMLTransformerTask"/>
+			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
+			<next on="FAILED" to="formatAddHTMLWrapper"/>
+		</step>
+		
+		<step id="formatAddHTMLWrapper">
+			<tasklet ref="formatAddHTMLWrapperTask"/>
 			<next on="COMPLETED" to="getStaticImages"/>
-			<next on="FAILED" to="getStaticImages"/>	<!-- TODO: eventually fail the job -->
+			<next on="FAILED" to="getStaticImages"/>
 		</step>
 		
 		<!-- Fetch static images from a pre-existing filesystem directory tree -->
@@ -50,26 +69,8 @@
 		<!-- Copy the dynamic and static image files into a single filesystem directory -->
 		<step id="combineImageFiles">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="format"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<!-- Run Format Steps -->
-		<step id="format">
-			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="formatTransformXML"/>
-		</step>
-
-		<step id="formatTransformXML">
-			<tasklet ref="formatTransformXMLTask"/>
-			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
-			<next on="FAILED" to="formatAddHTMLWrapper"/>
-		</step>
-		
-		<step id="formatAddHTMLWrapper">
-			<tasklet ref="formatAddHTMLWrapperTask"/>
 			<next on="COMPLETED" to="generateTitleManifest"/>
-			<next on="FAILED" to="generateTitleManifest"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<step id="generateTitleManifest">
@@ -110,6 +111,8 @@
 				p:xmlImageParserService-ref="xmlImageParserService"/>
 	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML"
 				p:transformerService-ref="tranformerService"/>
+	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform"
+				p:transformerService-ref="htmlTransformerService"/>
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper"
 				p:htmlWrapperService-ref="htmlWrapperService"/>
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata"
