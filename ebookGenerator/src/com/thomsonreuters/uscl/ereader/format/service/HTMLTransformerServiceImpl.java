@@ -36,6 +36,7 @@ import org.apache.xml.serializer.SerializerFactory;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
@@ -49,6 +50,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	private static final Logger LOG = Logger.getLogger(HTMLTransformerServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
+	private ImageService imgService;
 	
 	private static final String START_WRAPPER_TAG = "<div>";
 	private static final String END_WRAPPER_TAG = "</div>";
@@ -56,6 +58,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
+	}
+	
+	public void setimgService(ImageService imgService)
+	{
+		this.imgService = imgService;
 	}
 	
 	/**
@@ -105,7 +112,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages);
+			transformHTMLFile(htmlFile, targetDir, staticImages, jobId);
 			numDocs++;
 		}
 		
@@ -123,10 +130,12 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param sourceFile source file to be transformed
 	 * @param targetDir target directory where the resulting post transformation file is to be written
 	 * @param staticImgRef set to which a list of referenced static files will be added to
+	 * @param jobIdentifier identifier of the job that will be used to retrieve the image metadata
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef) throws EBookFormatException
+	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, Long jobIdentifier) 
+			throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -147,6 +156,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			imageFilter.setParent(saxParser.getXMLReader());
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
+			anchorFilter.setimgService(imgService);
+			anchorFilter.setjobInstanceId(jobIdentifier);
 			anchorFilter.setParent(imageFilter);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
