@@ -16,7 +16,10 @@
     </fileset>
     <fileset dir="../ebookGeneratorCore/lib">
       <include name="**/*.jar"/>
-    </fileset> <!-- These are the cobalt group specific libraries that all the projects should include. -->
+    </fileset>
+    <fileset dir="../ebookGeneratorCore/dist">
+      <include name="*.jar"/>
+    </fileset>
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
       <include name="OtherLibraries/**/*.jar"/>
@@ -81,7 +84,6 @@
   <target name="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
     <ant dir="${dir.ebookGeneratorCore}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-    <copy file="${dir.ebookGeneratorCore}/dist/ebookGeneratorCore.jar" todir="${dir.webContent}/WEB-INF/lib" />
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
