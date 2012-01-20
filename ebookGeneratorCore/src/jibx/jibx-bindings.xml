@@ -4,26 +4,28 @@
  * Reproduction without the written authorization of TRGR is prohibited
 -->
 <binding>
-    <!-- Gather REST response -->
+    <!-- Gather service REST response body for Toc and Doc requests -->
     <mapping name="gatherResponse" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse">
         <value name="errorCode" field="errorCode" usage="required"/>
         <value name="errorMessage" field="errorMessage" usage="optional"/>
     </mapping>
     
-    <!-- Gather Doc REST Request -->
+    <!-- Gather Doc service REST request body -->
     <mapping name="gatherDocRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest">
-        <value name="guid" field="guid" usage="required"/>
+	    <collection field="guids" usage="required">
+			<value name="guids" type="java.lang.String"/>
+		</collection>
         <value name="collectionName" field="collectionName" usage="required"/>
-        <value name="destinationDirectory" field="destinationDirectory" usage="required"/>
+        <value name="contentDestinationDirectory" field="contentDestinationDirectory" usage="required"/>
+        <value name="metadataDestinationDirectory" field="metadataDestinationDirectory" usage="required"/>
     </mapping>
 
-	<!-- Gather Toc REST Request -->
+	<!-- Gather table of contents (toc) service REST request body -->
     <mapping name="gatherTocRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest">
         <value name="guid" field="guid" usage="required"/>
         <value name="collectionName" field="collectionName" usage="required"/>
         <value name="destinationDirectory" field="destinationDirectory" usage="required"/>
     </mapping>
-
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
         <value name="jobName" field="jobName" usage="required"/>

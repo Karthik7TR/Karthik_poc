@@ -34,16 +34,17 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
  *
  */
 public class EBookTocXmlHelper 
-{	
+{
+	private EBookTocXmlHelper() {
+		super();
+	}
 
-	public void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, File tocFile) throws GatherException
+	public static void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, File tocFile) throws GatherException
 	{
-		System.out.println("Started .. ");
 		//Get a DOM object
 		Document dom =createDocument();
 		createTocXMLStructure(dom,eBookTocList);
 		printToFile(dom, tocFile);
-		System.out.println("Generated file successfully.");
 	}
 
 
@@ -52,7 +53,7 @@ public class EBookTocXmlHelper
 	 * using which we create a xml tree in memory
 	 * @throws Exception 
 	 */
-	private Document createDocument() throws GatherException {
+	private static Document createDocument() throws GatherException {
 
 		//get an instance of factory
 		Document dom = null;
@@ -78,7 +79,7 @@ public class EBookTocXmlHelper
 	 * create detailed/nested toc structure. 
 	 * TODO: need to create this function recursive. 
 	 */
-	private void createTocXMLStructure(Document dom,List<EBookToc> eBookTocList){
+	private static void createTocXMLStructure(Document dom,List<EBookToc> eBookTocList){
 
 		//create the root element <Books>
 		Element rootElement = dom.createElement("EBook");
@@ -94,7 +95,7 @@ public class EBookTocXmlHelper
 	 * @param eBookTocList
 	 * @param rootElement
 	 */
-	private void createRecusiveDomStructure(Document dom, List<EBookToc> eBookTocList,
+	private static void createRecusiveDomStructure(Document dom, List<EBookToc> eBookTocList,
 			Element rootElement){
 		Iterator it  = eBookTocList.iterator();
 		while(it.hasNext()) {
@@ -113,7 +114,7 @@ public class EBookTocXmlHelper
 	 * @param eBookToc The book for which we need to create an xml representation
 	 * @return XML element snippet representing a book
 	 */
-	private Element createEBookTocElements(Document dom,EBookToc eBookToc){
+	private static Element createEBookTocElements(Document dom,EBookToc eBookToc){
 
 		Element bookEle = dom.createElement(EBConstants.TOC_ELEMENT);
 
@@ -159,7 +160,7 @@ public class EBookTocXmlHelper
 	 * @param tocFile TODO
 	 * @throws Exception 
      */
-	private void printToFile(Document dom, File tocFile) throws GatherException
+	private static void printToFile(Document dom, File tocFile) throws GatherException
 	{
 
 //		try

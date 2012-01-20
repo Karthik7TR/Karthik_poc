@@ -11,10 +11,8 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
-public interface TocService 
-{
+public interface TocService {
 	
-	public List<EBookToc> getDocuments();
-	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName) throws GatherException; 
+	public List<EBookToc> findTableOfContents(String guid, String collectionName) throws GatherException; 
 
 }

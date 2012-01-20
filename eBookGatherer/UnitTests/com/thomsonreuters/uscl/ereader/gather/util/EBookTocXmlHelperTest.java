@@ -16,19 +16,12 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
-import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 public class EBookTocXmlHelperTest {
 
-	@Autowired
-	private EBookTocXmlHelper eBookTocXmlHelper;
 	/**
 	 * create dummy 
 	 */
@@ -73,7 +66,7 @@ public class EBookTocXmlHelperTest {
 		ebookTocList.add(eBookToc_3);
 
 		try {
-			eBookTocXmlHelper.processTocListToCreateEBookTOC(ebookTocList,
+			EBookTocXmlHelper.processTocListToCreateEBookTOC(ebookTocList,
 					tocFilePath);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

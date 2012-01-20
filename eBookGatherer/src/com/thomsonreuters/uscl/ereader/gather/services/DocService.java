@@ -6,17 +6,23 @@
 
 package com.thomsonreuters.uscl.ereader.gather.services;
 
-import java.util.List;
+import java.io.File;
+import java.util.Collection;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
-import com.westgroup.novus.productapi.Document;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
-public interface DocService 
-{
+public interface DocService {
 	
-	public List<EBookToc> getDocFromNovus(String guid, String collectionName); 
-	public void retrieveDocument(List<EBookToc> eBookTocDocumentList);
-	public Document[]  getDocFromNovus(List<EBookToc> docGuidList, String collectionName, String docFileLocationPath); 
-
-
+	/**
+	 * Fetch documents from novus and create separate content and metadata files in separate directories.
+	 * @param docGuid the primary key of the document
+	 * @param collectionName
+	 * @param contentDestinationDirectory the filesystem directory where the content files will be created.
+	 * @param metadataDestinationDirectory the filesystem directory where the metadata files will be created.
+	 * Two files are created per docGuid, a content file, and a meta-data file.
+	 * @return a document object, or null if not found
+	 */
+	public void fetchDocuments(Collection<String> docGuids, String collectionName,
+							   File contentDestinationDirectory,
+							   File metadataDestinationDirectory) throws GatherException;
 }

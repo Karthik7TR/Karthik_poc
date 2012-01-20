@@ -4,7 +4,6 @@
  * Reproduction without the written authorization of TRGR is prohibited
  */
 
-
 package com.thomsonreuters.uscl.ereader.gather.restclient.service;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;

@@ -9,12 +9,11 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
-import com.thomsonreuters.uscl.ereader.gather.util.NovusAPIHelper;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
@@ -28,10 +27,7 @@ import com.westgroup.novus.productapi.TOCNode;
  */
 public class TocServiceImpl implements TocService {
 
-	@Autowired
-	public NovusAPIHelper novusAPIHelper;
-
-
+	private NovusFactory novusFactory;
 	
 	List<EBookToc> eBookDocumentList = new ArrayList<EBookToc>();
 
@@ -98,19 +94,13 @@ public class TocServiceImpl implements TocService {
 		return ebTocList;
 	}
 	
-	@Override
-	public List<EBookToc> getDocuments() {
-		// TODO Auto-generated method stub
-		return eBookDocumentList;
-	}
-	
 	/**
 	 * 
 	 * users will always provide us with collection name and not collectionSet names.
 	 * @throws Exception 
 	 */
 	@Override
-	public List<EBookToc> getTocDataFromNovus(String guid, String collectionName) throws GatherException 
+	public List<EBookToc> findTableOfContents(String guid, String collectionName) throws GatherException 
 	{
 		Novus novusObject = null;
 		TOCNode[] tocNodes = null;
@@ -118,27 +108,18 @@ public class TocServiceImpl implements TocService {
 		
 		/*** for ebook builder we will always get Collection.***/
 		String type = EBConstants.COLLECTION_TYPE;
-		novusObject = novusAPIHelper.getNovusObject();
+		novusObject = novusFactory.createNovus();
 		TOC toc = getTocObject(collectionName,type,novusObject);
-		
 
 		try {
-			
 			tocNodes = toc.getRootNodes(); //getAllDocuments(guid);
 			tocGuidList = extractTocListForEbook(tocNodes);
-			
 		} catch (NovusException e) {
-			//e.printStackTrace();
-			throw new GatherException("Failed to get TOC useing passed guid ="+guid +" and collection ="+collectionName, e);
-			
-		} 
-		finally {
-			novusAPIHelper.closeNovusConnection(novusObject);
+			throw new GatherException("Failed to get TOC from Novus for guid=" + guid +",collectionName=" + collectionName, e);
+		} finally {
+			novusObject.shutdownMQ();
 		}
-
 		return tocGuidList;
-
-
 	}
 	
 	/**
@@ -168,10 +149,9 @@ public class TocServiceImpl implements TocService {
 		return toc;
 	}
 	
-	
-
-
-
-
+	@Required
+	public void setNovusFactory(NovusFactory factory) {
+		this.novusFactory = factory;
+	}
 }
 

@@ -12,8 +12,8 @@ public class EBConstants
 	/*** Environment, configuration   ***/
 	public static final String COLLECTION_TYPE = "Collection";
 	public static final String COLLECTION_SET_TYPE = "CollectionSet";
-	public static final String NOVUSE_NVIRONMENT = "Client"; //"Prod";
-	public static final String TOC_XML_BASE_NAME = "toc.xml";
+	public static final String XML_FILE_EXTENSION = ".xml";
+	public static final String TOC_XML_BASE_NAME = "toc" + XML_FILE_EXTENSION;
 	
 	
 	/*** String parsing operation ***/

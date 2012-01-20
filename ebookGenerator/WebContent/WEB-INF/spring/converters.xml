@@ -11,13 +11,12 @@
 	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 
 	<!--  Marshallers (for get TOC/DOC) -->
-	<!-- 
+
   	<bean id="jibxDocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
         <property name="encoding" value="UTF-8"/>
     </bean>
-	 -->
-
+    
   	<bean id="jibxTocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
         <property name="encoding" value="UTF-8"/>
@@ -31,7 +30,7 @@
 	<!-- Converters (for use in RestTemplate(s)) -->
 	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
 		  p:objectMapper-ref="jsonObjectMapper"/>
-<!-- 
+ 
 	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="jibxDocRequestMarshaller" />
         <property name="unmarshaller" ref="jibxDocRequestMarshaller" />
@@ -42,8 +41,7 @@
             </list>
         </property>
     </bean>
- -->
-	    
+  
   	<bean id="tocRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="jibxTocRequestMarshaller" />
         <property name="unmarshaller" ref="jibxTocRequestMarshaller" />

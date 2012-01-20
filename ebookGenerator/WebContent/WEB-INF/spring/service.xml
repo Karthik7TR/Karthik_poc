@@ -19,6 +19,7 @@
 	<bean id="gatherRestTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>
+          <ref bean="docRequestMessageConverter"/>
           <ref bean="tocRequestMessageConverter"/>
           <ref bean="gatherResponseMessageConverter"/>
         </list>

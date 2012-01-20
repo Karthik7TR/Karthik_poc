@@ -64,7 +64,9 @@ public class ImageServiceImpl implements ImageService {
 				}
 				saveImageMetadata(metadataContainer, jobInstanceId, titleId);
 			} catch (Exception e) {
-				throw new ImageException(e);
+				// Remove all existing downloaded files on failure
+				removeAllFilesInDirectory(imageDestinationDirectory);
+				throw new ImageException(String.format("Error fetching image metadata from Image Vertical: imageGuid=%s", imageGuid), e);
 			}
 			
 			// Second, download and save the image bytes to a file
