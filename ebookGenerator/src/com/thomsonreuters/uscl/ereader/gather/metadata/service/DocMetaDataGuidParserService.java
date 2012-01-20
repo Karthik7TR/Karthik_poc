@@ -24,7 +24,7 @@ public interface DocMetaDataGuidParserService
 	 * @param xmlDir directory that contains the XML files to be parsed
 	 * 
 	 * @return number of documents processed to generate lists
-	 * @throws EBookFormatException if any fatal errors are encountered
+	 * @throws EBookGatherException if any fatal errors are encountered
 	 */
-	public List<String> generateDocGuidList(final File xmlDir) throws EBookGatherException;
+	public void generateDocGuidList(final File xmlDir, final File docsGuidsDir) throws EBookGatherException;
 }

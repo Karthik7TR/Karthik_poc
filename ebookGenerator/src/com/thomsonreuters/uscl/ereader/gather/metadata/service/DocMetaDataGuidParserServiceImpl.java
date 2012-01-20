@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,10 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 	 * @throws EBookGatherException if any fatal errors are encountered
 	 */
 	@Override
-	public List<String> generateDocGuidList(File xmlDir) throws EBookGatherException 
+	public void generateDocGuidList(File xmlDir, File docGuidListDir) throws EBookGatherException 
 	{
 		
-        List<String> guids = new ArrayList<String>();
+        List<String> docGuidList = new ArrayList<String>();
         if (xmlDir == null || !xmlDir.isDirectory())
         {
         	throw new IllegalArgumentException("xmlDir must be a directory, not null or a regular file.");
@@ -56,7 +58,8 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
         
         try
         {
-        	guids = parseXMLFile(xmlDir);
+        	docGuidList = parseXMLFile(xmlDir);
+        	createDocGuidListFile(docGuidListDir, docGuidList);
         }
         catch(Exception e)
         {
@@ -67,9 +70,9 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 		}
         
         
-        LOG.info("Parsed out " + guids.size() + " doc guids from the XML files in the provided directory.");
+        LOG.info("Parsed out " + docGuidList.size() + " doc guids from the XML files in the provided directory.");
 		
-		return guids;
+		return;
 	}
 	
 	/**
@@ -116,5 +119,53 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 		}
 		
 		return handler.getGuidList();
+	}
+
+	/**
+	 * Takes in a list of document guids and writes them to the specified file.
+	 * 
+	 * @param docGuidFile file to which the list will be written to
+	 * @param docGuidList list of image guids to be written
+	 */
+	protected void createDocGuidListFile(File docGuidFile, List<String> docGuidList) throws EBookGatherException
+	{
+		BufferedWriter writer = null;
+		try
+		{
+			writer = new BufferedWriter(new FileWriter(docGuidFile));
+			for (String guid : docGuidList)
+			{
+				if (guid == null || guid.length() < 32 || guid.length() >= 34)
+				{
+					String message = "Invalid GUID encountered in the Doc GUID list: " + guid;
+					LOG.error(message);
+					throw new EBookGatherException(message);
+				}
+				
+				writer.write(guid);
+				writer.newLine();
+			}
+		}
+		catch(IOException e)
+		{
+			String message = "Could not write to the docGuid list file: " + 
+			docGuidFile.getAbsolutePath();
+			LOG.error(message);
+			throw new EBookGatherException(message, e);
+		}		
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close doc GUID list file.", e);
+			}
+		}
 	}
 }

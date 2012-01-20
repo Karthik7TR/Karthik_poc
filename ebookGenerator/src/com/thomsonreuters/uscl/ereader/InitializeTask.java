@@ -63,6 +63,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");
 		File docsDirectory = new File(gatherDirectory, "Docs");
+		File docsDynamicGuidsFile = new File(gatherDirectory, "dynamic-docs-guids.txt");		
 		
 		// Image directories and files
 		File imageRootDirectory = new File(gatherDirectory, "Images");
@@ -77,6 +78,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create required directories
 		gatherDirectory.mkdir();
 		docsDirectory.mkdir();
+		docsDynamicGuidsFile.mkdir();
 		imageRootDirectory.mkdir();		// Root directory for images
 		imageStaticDirectory.mkdir();	// where the copied static images go
 		imageDynamicDirectory.mkdir();	// where images from the Image Vertical REST service go
@@ -106,6 +108,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsDynamicGuidsFile.getAbsolutePath());		
 		
 		// Images - static and dynamic directories and files
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());

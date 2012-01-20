@@ -105,4 +105,10 @@ public class JobExecutionKey {
 	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.
 	 */
 	public static final String TITLE_XML_FILE = "titleXmlFile";
+	
+	/**
+	 * Path to the flat text file that contains the list (one per line) of doc GUID's that represent the physical
+	 * docs that will be inserted into the book.  These GUID's serve as input to the Gather Vertical REST service.
+	 */
+	public static final String DOCS_DYNAMIC_GUIDS_FILE = "docsDynamicGuidsFile";	
 }
