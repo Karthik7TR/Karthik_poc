@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -102,6 +103,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 */
 	protected void parseXMLFile(File xmlFile, List<String> guidList) throws EBookFormatException
 	{		
+		FileInputStream xmlStream = null;
 		try
 		{
 			LOG.debug("Parsing following doc for image references: " + xmlFile);
@@ -112,7 +114,10 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			XMLImageTagHandler handler = new XMLImageTagHandler();
 			handler.setGuidList(guidList);
 			
-			saxParser.parse(xmlFile, handler);
+			xmlStream = new FileInputStream(xmlFile);
+			
+			saxParser.parse(xmlStream, handler);
+
 			LOG.debug("Finished parsing " + xmlFile + " list contains " + guidList.size() + " image guids.");
 		}
 		catch(IOException e)
@@ -135,6 +140,23 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 					xmlFile.getAbsolutePath();
 			LOG.error(message);
 			throw new EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (xmlStream != null)
+				{
+					xmlStream.close();
+				}				
+			}
+			catch(IOException e)
+			{
+				String message = "Unable to close the XML file: " + 
+						xmlFile.getAbsolutePath();
+				LOG.error(message);
+				throw new EBookFormatException(message, e);
+			}
 		}
 	}
 	
