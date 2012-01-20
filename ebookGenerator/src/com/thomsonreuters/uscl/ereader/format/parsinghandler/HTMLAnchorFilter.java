@@ -61,6 +61,11 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						if (!StringUtils.isEmpty(href))
 						{
 							imgGuid = href.substring(href.indexOf("/Blob/") + 6, href.indexOf(".jpg?"));
+							
+							if (imgGuid.length() > 34)
+							{
+								imgGuid = imgGuid.replace("v1/", "");
+							}
 						}
 			
 						if (imgGuid.length() >= 32 && imgGuid.length() < 34)
