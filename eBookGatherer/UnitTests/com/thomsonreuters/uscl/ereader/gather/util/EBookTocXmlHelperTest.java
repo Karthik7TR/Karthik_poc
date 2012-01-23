@@ -41,7 +41,7 @@ public class EBookTocXmlHelperTest {
 		List<EBookToc> ebookTocList = new ArrayList<EBookToc>();
 		EBookToc eBookToc_1 = new EBookToc();
 //		eBookToc_1.setName("<header>Test &quot; Toc 1</header>");
-		eBookToc_1.setName("<header>Test &quot; Toc TODO 1</header>");
+		eBookToc_1.setName("<header>Test &quot; Toc § 1</header>");
 		eBookToc_1.setGuid("Test Guid 1");
 		eBookToc_1.setParentGuid("Test Toc ParentGuid 1");
 		eBookToc_1.setMetadata("<md.term>  &lt; Test &amp; Toc Metadata 1 &gt; </md.term>");
@@ -91,7 +91,7 @@ public class EBookTocXmlHelperTest {
 		expectedTocContent.append("<EBook>\r\n");
 		expectedTocContent.append("    <EBookToc>\r\n");
 //		expectedTocContent.append("        <Name>Test &quot; Toc  1</Name>\r\n");
-		expectedTocContent.append("        <Name>Test &quot; Toc TODO 1</Name>\r\n");
+		expectedTocContent.append("        <Name>Test &quot; Toc § 1</Name>\r\n");
 		expectedTocContent.append("        <Guid>Test Guid 1</Guid>\r\n");
 		expectedTocContent.append("        <ParentGuid>Test Toc ParentGuid 1</ParentGuid>\r\n");
 		expectedTocContent.append("        <DocumentGuid/>\r\n");
