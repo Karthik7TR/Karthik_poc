@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -121,7 +124,13 @@ public class EBookTocXmlHelper
 		//create Name element and attach it to bookElement
 		Element nameElement = dom.createElement(EBConstants.NAME_ELEMENT);
 		Text nameText = dom.createTextNode(eBookToc.getName());
-		nameElement.appendChild(nameText );
+
+		if (nameText.getTextContent().indexOf("<") > -1) {
+			    String newNameTextString = nameText.getTextContent().replaceAll("\\<.*?>","");
+				nameText.setTextContent(newNameTextString);
+			}
+		
+		nameElement.appendChild(nameText);
 		bookEle.appendChild(nameElement);
 
 
@@ -147,6 +156,11 @@ public class EBookTocXmlHelper
 		//create Metadata element and attach it to bookElement
 		Element metadataElement = dom.createElement(EBConstants.METADATA_ELEMENT);
 		Text metadataText = dom.createTextNode(eBookToc.getMetadata());
+		if (metadataText.getTextContent().indexOf("<") > -1) {
+		    String newMetadataString = metadataText.getTextContent().replaceAll("\\<.*?>","");
+		    metadataText.setTextContent(newMetadataString);
+		}
+		
 		metadataElement.appendChild(metadataText);
 		bookEle.appendChild(metadataElement);
 
@@ -162,24 +176,30 @@ public class EBookTocXmlHelper
      */
 	private static void printToFile(Document dom, File tocFile) throws GatherException
 	{
-
-//		try
-//		{
-			//print
 			OutputFormat format = new OutputFormat(dom);
 			
 			format.setIndenting(true);
 			format.setLineSeparator("\r\n");
 			format.setEncoding("UTF-8");
+			// nonescaped means for example leave &apos; alone for Name and Metadata otherwise it converts to &amp;apos;
+			String[] nonEscaped = {"Name","Metadata"};
+			format.setNonEscapingElements(nonEscaped); 
 			
-
 			XMLSerializer serializer = null;
+					
 			try {
+				Writer out = new OutputStreamWriter(new FileOutputStream(tocFile), "UTF-8");
+
 				serializer = new XMLSerializer(
-				new FileOutputStream(tocFile), format);
+						out, format);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 				throw new GatherException("Failed to find specified file path ..."+e);
+
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new GatherException("UnsupportedEncodingException ..."+e);
 
 			}
 
