@@ -45,7 +45,7 @@ public class TocController {
 		try {
 			List<EBookToc> eBookTocList = tocService.findTableOfContents(tocRequest.getGuid(), tocRequest.getCollectionName());
 			// Create EBook TOC file on specified path
-			File tocXmlFile = new File(tocRequest.getDestinationDirectory(),EBConstants.TOC_XML_BASE_NAME);
+			File tocXmlFile = tocRequest.getTocFile();
 			try {
 				EBookTocXmlHelper.processTocListToCreateEBookTOC(eBookTocList, tocXmlFile);
 			} catch (GatherException e) {

@@ -23,11 +23,17 @@
 		<!-- Fetch TOC from Gather REST service -->
 		<step id="getToc">
 			<tasklet ref="getTocTask"/>
+			<next on="COMPLETED" to="getDocAndMetadata"/>
+			<next on="FAILED" to="getDocAndMetadata"/>	<!-- TODO: eventually fail the job -->
+		</step>
+		
+		<!-- Fetch document(s) and their metadata from Gather REST service using TOC info from previous step -->
+		<step id="getDocAndMetadata">
+			<tasklet ref="getDocAndMetadataTask"/>
 			<next on="COMPLETED" to="mockGatherSteps"/>
 			<next on="FAILED" to="mockGatherSteps"/>	<!-- TODO: eventually fail the job -->
 		</step>
 		
-		<!-- Fetch TOC from Gather REST service -->
 		<step id="mockGatherSteps">
 			<tasklet ref="mockGatherTask"/>
 			<next on="COMPLETED" to="parseImageGuids"/>
@@ -110,6 +116,9 @@
 				p:rootWorkDirectory="/apps/ebookbuilder/data"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask"
 				p:gatherService-ref="gatherService"/>				
+	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask"
+				p:gatherService-ref="gatherService"
+				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"/>
 	<beans:bean id="mockGatherTask" class="com.thomsonreuters.uscl.ereader.format.step.MockUpGatherSteps"/>
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"/>

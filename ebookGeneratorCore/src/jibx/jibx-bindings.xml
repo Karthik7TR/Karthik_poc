@@ -24,7 +24,7 @@
     <mapping name="gatherTocRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest">
         <value name="guid" field="guid" usage="required"/>
         <value name="collectionName" field="collectionName" usage="required"/>
-        <value name="destinationDirectory" field="destinationDirectory" usage="required"/>
+        <value name="tocFile" field="tocFile" usage="required"/>
     </mapping>
 
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">

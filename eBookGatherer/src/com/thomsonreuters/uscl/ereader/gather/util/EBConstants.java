@@ -13,8 +13,6 @@ public class EBConstants
 	public static final String COLLECTION_TYPE = "Collection";
 	public static final String COLLECTION_SET_TYPE = "CollectionSet";
 	public static final String XML_FILE_EXTENSION = ".xml";
-	public static final String TOC_XML_BASE_NAME = "toc" + XML_FILE_EXTENSION;
-	
 	
 	/*** String parsing operation ***/
 	public static final String HEADING_START_TAG = "<heading>";

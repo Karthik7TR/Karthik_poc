@@ -19,12 +19,10 @@ public interface DocMetaDataGuidParserService
 {
 	/**
 	 * Reads through all the XML files found in the provided directory and parses out 
-	 *  a list of GUIDs for the referenced docs.
-	 * 
-	 * @param xmlDir directory that contains the XML files to be parsed
-	 * 
-	 * @return number of documents processed to generate lists
+	 * a list of GUIDs for the referenced docs.
+	 * @param tocFile the source "toc.xml" table of content file
+	 * @param docGuidsFile a file of document guids, one per line used by gather service to fetch document content and metadata.
 	 * @throws EBookGatherException if any fatal errors are encountered
 	 */
-	public void generateDocGuidList(final File xmlDir, final File docsGuidsDir) throws EBookGatherException;
+	public void generateDocGuidList(final File tocFile, final File docsGuidsFile) throws EBookGatherException;
 }

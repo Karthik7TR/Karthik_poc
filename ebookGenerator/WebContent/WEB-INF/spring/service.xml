@@ -135,7 +135,9 @@
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="gatherRestTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
-		 
+		  
+	<bean id="docMetadataGuidParserService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserServiceImpl"/>
+		  
 	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>
 		  
 </beans>

@@ -63,7 +63,10 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create gather directories
 		File gatherDirectory = new File(workDirectory, "Gather");
 		File docsDirectory = new File(gatherDirectory, "Docs");
-		File docsDynamicGuidsFile = new File(gatherDirectory, "dynamic-docs-guids.txt");		
+		File tocDirectory = new File(gatherDirectory, "Toc");
+		File tocFile = new File(tocDirectory, "toc.xml");
+		File docsMetadataDirectory = new File(docsDirectory, "Metadata");
+		File docsGuidsFile = new File(gatherDirectory, "docs-guids.txt");		
 		
 		// Image directories and files
 		File imageRootDirectory = new File(gatherDirectory, "Images");
@@ -78,7 +81,8 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create required directories
 		gatherDirectory.mkdir();
 		docsDirectory.mkdir();
-		docsDynamicGuidsFile.mkdir();
+		docsMetadataDirectory.mkdir();
+		tocDirectory.mkdir();
 		imageRootDirectory.mkdir();		// Root directory for images
 		imageStaticDirectory.mkdir();	// where the copied static images go
 		imageDynamicDirectory.mkdir();	// where images from the Image Vertical REST service go
@@ -108,7 +112,11 @@ public class InitializeTask extends AbstractSbTasklet {
 		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsDynamicGuidsFile.getAbsolutePath());		
+		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_METADATA_DIR, docsMetadataDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_DIR, tocDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_FILE, tocFile.getAbsolutePath());
+		
+		jobExecutionContext.putString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());		
 		
 		// Images - static and dynamic directories and files
 		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());

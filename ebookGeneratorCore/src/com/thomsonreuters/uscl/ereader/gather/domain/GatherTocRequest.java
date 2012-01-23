@@ -7,7 +7,6 @@
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -16,56 +15,43 @@ public class GatherTocRequest {
 
 	private String guid;
 	private String collectionName;
-	private File destinationDirectory;
-	
+	private File tocFile;
 
 	public GatherTocRequest(){
-		
+		super();
 	}
 	
-	public GatherTocRequest(String guid, String collectionName,
-			File destinationDirectory) {
+	public GatherTocRequest(String guid, String collectionName, File tocFile) {
 		super();
 		this.guid = guid;
 		this.collectionName = collectionName;
-		this.destinationDirectory = destinationDirectory;
-	}
-
-
-	public String getGuid() {
-		return guid;
-	}
-
-
-	public void setGuid(String guid) {
-		this.guid = guid;
+		this.tocFile = tocFile;
 	}
 
 	public String getCollectionName() {
 		return collectionName;
+	}
+	public String getGuid() {
+		return guid;
+	}
+	public File getTocFile() {
+		return tocFile;
 	}
 
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
 
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+	public void setTocFile(File tocFile) {
+		this.tocFile = tocFile;
+	}
 
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE);
-		
 	}
-
-
-	public File getDestinationDirectory() {
-		return destinationDirectory;
-	}
-
-
-	public void setDestinationDirectory(File destinationDirectory) {
-		this.destinationDirectory = destinationDirectory;
-	}
-
 
 	@Override
 	public int hashCode() {
@@ -73,15 +59,10 @@ public class GatherTocRequest {
 		int result = 1;
 		result = prime * result
 				+ ((collectionName == null) ? 0 : collectionName.hashCode());
-		result = prime
-				* result
-				+ ((destinationDirectory == null) ? 0 : destinationDirectory
-						.hashCode());
 		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+		result = prime * result + ((tocFile == null) ? 0 : tocFile.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -97,18 +78,16 @@ public class GatherTocRequest {
 				return false;
 		} else if (!collectionName.equals(other.collectionName))
 			return false;
-		if (destinationDirectory == null) {
-			if (other.destinationDirectory != null)
-				return false;
-		} else if (!destinationDirectory.equals(other.destinationDirectory))
-			return false;
 		if (guid == null) {
 			if (other.guid != null)
 				return false;
 		} else if (!guid.equals(other.guid))
 			return false;
+		if (tocFile == null) {
+			if (other.tocFile != null)
+				return false;
+		} else if (!tocFile.equals(other.tocFile))
+			return false;
 		return true;
 	}
-
-
 }

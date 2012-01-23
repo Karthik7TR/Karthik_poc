@@ -38,7 +38,7 @@ public class GatherRestServiceIntegrationTest  {
 	@Autowired
 	private GatherService gatherService;
 	
-	//@Test
+	@Test
 	public void testGetToc() {
 		String TOC_COLLECTION_NAME = "w_an_rcc_cajur_toc";	// Client
 		String ROOT_TOC_GUID_IMPH = "I7b3ec600675a11da90ebf04471783734";
@@ -55,7 +55,7 @@ public class GatherRestServiceIntegrationTest  {
 		Assert.assertTrue(tocFile.length() > 0);
 	}
 	
-	@Test
+	//@Test
 	public void testGetDoc() {
 		String DOC_COLLECTION_NAME_PROD = "w_an_rcc_cajur";	
 		String testDocGuid_PROD = "I2e91cd8ba11611d9ad0a81db1eb1d418";

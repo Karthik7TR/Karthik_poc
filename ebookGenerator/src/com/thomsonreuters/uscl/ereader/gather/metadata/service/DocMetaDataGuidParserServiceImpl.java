@@ -44,22 +44,18 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 	 * @throws EBookGatherException if any fatal errors are encountered
 	 */
 	@Override
-	public void generateDocGuidList(File xmlDir, File docGuidListDir) throws EBookGatherException 
+	public void generateDocGuidList(File tocFile, File docGuidsFile) throws EBookGatherException 
 	{
 		
         List<String> docGuidList = new ArrayList<String>();
-        if (xmlDir == null || !xmlDir.isDirectory())
-        {
-        	throw new IllegalArgumentException("xmlDir must be a directory, not null or a regular file.");
-        }
         
         LOG.info("Parsing out the document guids from TOC xml file of the following XML directory: " + 
-        		xmlDir.getAbsolutePath());
+        		tocFile.getAbsolutePath());
         
         try
         {
-        	docGuidList = parseXMLFile(xmlDir);
-        	createDocGuidListFile(docGuidListDir, docGuidList);
+        	docGuidList = parseXMLFile(tocFile);
+        	createDocGuidListFile(docGuidsFile, docGuidList);
         }
         catch(Exception e)
         {
