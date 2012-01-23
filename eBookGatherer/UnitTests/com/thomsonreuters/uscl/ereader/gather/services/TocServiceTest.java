@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.westgroup.novus.productapi.Novus;
-import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
@@ -55,17 +54,26 @@ public class TocServiceTest {
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}
-
 	}
 	
-//	@Test (expected=GatherException.class)
-//	public void testGetTocDataFromNovus_Exception( ) throws Exception {
-//		// Record expected calls
-//		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-//		EasyMock.expect(mockNovus.getTOC()).andThrow(new NovusException("xxx"));
-//		EasyMock.replay(mockNovusFactory);
-//		EasyMock.replay(mockNovus);
-//		
-//		List<EBookToc> tocList = tocService.findTableOfContents("Dummy_Guid_for_Exception_test","Dummy_Collection_name");
-//	}
+	@Test (expected=GatherException.class)
+	public void testGetTocDataWithNovusException( ) throws Exception {
+		// Record expected calls
+		String collectionName  = "Dummy_Collection_name";
+		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
+		mockToc.setCollection(collectionName);
+		mockToc.setShowChildrenCount(true);
+		mockNovus.shutdownMQ();
+		EasyMock.expect(mockToc.getRootNodes()).andThrow(new MockNovusException());
+		EasyMock.replay(mockNovusFactory);
+		EasyMock.replay(mockNovus);
+		EasyMock.replay(mockToc);
+		
+		tocService.findTableOfContents("Dummy_Guid_for_Exception_test", collectionName);
+		
+		EasyMock.verify(mockNovusFactory);
+		EasyMock.verify(mockNovus);
+		EasyMock.verify(mockToc);
+	}
 }
