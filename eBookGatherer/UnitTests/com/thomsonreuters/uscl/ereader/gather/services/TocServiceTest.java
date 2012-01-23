@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.westgroup.novus.productapi.Novus;
+import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
@@ -54,7 +56,16 @@ public class TocServiceTest {
 			Assert.fail(e.getMessage());
 		}
 
-		EasyMock.verify(mockNovusFactory);
-		EasyMock.verify(mockNovus);
 	}
+	
+//	@Test (expected=GatherException.class)
+//	public void testGetTocDataFromNovus_Exception( ) throws Exception {
+//		// Record expected calls
+//		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+//		EasyMock.expect(mockNovus.getTOC()).andThrow(new NovusException("xxx"));
+//		EasyMock.replay(mockNovusFactory);
+//		EasyMock.replay(mockNovus);
+//		
+//		List<EBookToc> tocList = tocService.findTableOfContents("Dummy_Guid_for_Exception_test","Dummy_Collection_name");
+//	}
 }

@@ -10,28 +10,24 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
-import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 public class EBookTocXmlHelperTest {
-
-	@Autowired
-	private EBookTocXmlHelper eBookTocXmlHelper;
+	private static Logger log = Logger.getLogger(EBookTocXmlHelperTest.class);
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	/**
 	 * create dummy 
 	 */
@@ -40,11 +36,12 @@ public class EBookTocXmlHelperTest {
 		
 		//TODO: change this file path to point diffrent location other than project root.
 		//TODO: need set up test context file in right way.
-		File tocFilePath = new File("ebook.xml");
+		File tocFilePath = new File(temporaryFolder.getRoot(), "ebook.xml");
 		String tocContent = null;
 		List<EBookToc> ebookTocList = new ArrayList<EBookToc>();
 		EBookToc eBookToc_1 = new EBookToc();
-		eBookToc_1.setName("<header>Test &quot; Toc § 1</header>");
+//		eBookToc_1.setName("<header>Test &quot; Toc 1</header>");
+		eBookToc_1.setName("<header>Test &quot; Toc TODO 1</header>");
 		eBookToc_1.setGuid("Test Guid 1");
 		eBookToc_1.setParentGuid("Test Toc ParentGuid 1");
 		eBookToc_1.setMetadata("<md.term>  &lt; Test &amp; Toc Metadata 1 &gt; </md.term>");
@@ -76,17 +73,16 @@ public class EBookTocXmlHelperTest {
 		ebookTocList.add(eBookToc_3);
 
 		try {
-			eBookTocXmlHelper.processTocListToCreateEBookTOC(ebookTocList,
+			EBookTocXmlHelper.processTocListToCreateEBookTOC(ebookTocList,
 					tocFilePath);
+			tocContent = readFileAsString(tocFilePath);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Exception being caught");
+			log.debug("Exception being caught");
 		}
 		
-			tocContent = readFileAsString(tocFilePath);
-
-		System.out.println("tocContent =" + tocContent);
+		log.debug("tocContent =" + tocContent);
 		assertTrue(tocContent != null);
 		
 		StringBuffer expectedTocContent = new StringBuffer(1000);
@@ -94,7 +90,8 @@ public class EBookTocXmlHelperTest {
 		expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 		expectedTocContent.append("<EBook>\r\n");
 		expectedTocContent.append("    <EBookToc>\r\n");
-		expectedTocContent.append("        <Name>Test &quot; Toc § 1</Name>\r\n");
+//		expectedTocContent.append("        <Name>Test &quot; Toc  1</Name>\r\n");
+		expectedTocContent.append("        <Name>Test &quot; Toc TODO 1</Name>\r\n");
 		expectedTocContent.append("        <Guid>Test Guid 1</Guid>\r\n");
 		expectedTocContent.append("        <ParentGuid>Test Toc ParentGuid 1</ParentGuid>\r\n");
 		expectedTocContent.append("        <DocumentGuid/>\r\n");
@@ -122,13 +119,9 @@ public class EBookTocXmlHelperTest {
 		expectedTocContent.append("        </EBookToc>\r\n");
 		expectedTocContent.append("    </EBookToc>\r\n");
 		expectedTocContent.append("</EBook>\r\n");
-		System.out.println("expectedTocContent =" + expectedTocContent.toString());
+		log.debug("expectedTocContent =" + expectedTocContent.toString());
 
-
-		assertTrue(tocContent.equals(expectedTocContent.toString()));
-
-
-		//TODO: need to verify toc xml structure. by parsing xml.
+		Assert.assertEquals(expectedTocContent.toString(), tocContent);
 	}
 	
 	/**
@@ -137,25 +130,11 @@ public class EBookTocXmlHelperTest {
 	 * @return
 	 * @throws java.io.IOException
 	 */
-//	private static String readFileAsString(File filePath)
-//			throws java.io.IOException {
-//		StringBuffer fileData = new StringBuffer(1000);
-//		BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//		char[] buf = new char[1024];
-//		int numRead = 0;
-//		while ((numRead = reader.read(buf)) != -1) {
-//			String readData = String.valueOf(buf, 0, numRead);
-//			fileData.append(readData);
-//			buf = new char[1024];
-//		}
-//		reader.close();
-//		return fileData.toString();
-//	}
-	private static String readFileAsString(File filePath) {
+	private static String readFileAsString(File filePath) throws Exception {
 	    StringBuffer buffer = new StringBuffer();
+	    FileInputStream fis =
+	    		new FileInputStream(filePath);
 	    try {
-	        FileInputStream fis =
-	            new FileInputStream(filePath);
 	        InputStreamReader isr =
 	            new InputStreamReader(fis, "UTF8");
 	        Reader in = new BufferedReader(isr);
@@ -168,6 +147,8 @@ public class EBookTocXmlHelperTest {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	        return null;
+	    } finally {
+	    	fis.close();
 	    }
 	}
 
