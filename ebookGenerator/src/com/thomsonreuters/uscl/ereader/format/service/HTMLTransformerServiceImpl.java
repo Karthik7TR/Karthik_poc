@@ -36,6 +36,7 @@ import org.apache.xml.serializer.SerializerFactory;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
@@ -155,10 +156,13 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			imageFilter.setStaticImageRefs(staticImgRef);
 			imageFilter.setParent(saxParser.getXMLReader());
 			
+			HTMLInputFilter inputFilter = new HTMLInputFilter();
+			inputFilter.setParent(imageFilter);
+			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
 			anchorFilter.setjobInstanceId(jobIdentifier);
-			anchorFilter.setParent(imageFilter);
+			anchorFilter.setParent(inputFilter);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
