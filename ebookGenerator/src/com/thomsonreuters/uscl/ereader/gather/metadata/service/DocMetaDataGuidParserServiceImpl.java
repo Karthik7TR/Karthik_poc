@@ -131,11 +131,13 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 			writer = new BufferedWriter(new FileWriter(docGuidFile));
 			for (String guid : docGuidList)
 			{
-				if (guid == null || guid.length() < 32 || guid.length() >= 34)
-				{
+				if (guid != null) {
+					 if (guid.length() < 32 || guid.length() >= 34) {
+
 					String message = "Invalid GUID encountered in the Doc GUID list: " + guid;
 					LOG.error(message);
 					throw new EBookGatherException(message);
+					 }
 				}
 				
 				writer.write(guid);
