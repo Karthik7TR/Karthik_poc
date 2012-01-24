@@ -50,8 +50,10 @@ public class TOCXmlHandler extends DefaultHandler
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 
 		if(qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT)) {
-			//add normalized first line cite
+			if (tempVal.length() != 0) {
+			//add only if there is a guid available
 			guidList.add(tempVal);
+			}
 		}
 	}	
 	
@@ -63,56 +65,5 @@ public class TOCXmlHandler extends DefaultHandler
 	public List<String> getGuidList()
 	{
 		return guidList;
-	}
-	
-	public List<String> parseDocument(File metadataFile) {
-			
-			//get a factory
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			try {
-			
-				//get a new instance of parser
-				SAXParser sp = spf.newSAXParser();
-				
-//				sp.parse(metadataFile, this);
-				
-				//parse the file and also register this class for call backs
-				sp.parse("C:\\Users\\U0072938\\Documents\\EBookToc.xml", this);
-				
-				printData();
-				
-			}catch(SAXException se) {
-				se.printStackTrace();
-			}catch(ParserConfigurationException pce) {
-				pce.printStackTrace();
-			}catch (IOException ie) {
-				ie.printStackTrace();
-			}
-			return this.guidList;
-		}
-
-	/**
-	 * Go through the doc metadata and print
-	 * the contents
-	 */
-	private void printData(){
-		
-		System.out.println("Values of guids published are being printed out ");
-		
-		for (int i=0; i<guidList.size(); i++) {
-			System.out.println(guidList.get(i));
-		}
-
-		
-	}
-
-	public void runExample() {
-			parseDocument(new File("C:\\Users\\U0072938\\Documents\\DocMetaDataSample.xml"));
-	//		printData();
-		}
-
-	public static void main(String[] args){
-		TOCXmlHandler spe = new TOCXmlHandler();
-		spe.runExample();
-}	
+	}	
 }
