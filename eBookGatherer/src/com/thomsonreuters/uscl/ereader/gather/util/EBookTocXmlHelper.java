@@ -8,13 +8,9 @@ package com.thomsonreuters.uscl.ereader.gather.util;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -42,14 +38,15 @@ public class EBookTocXmlHelper
 		super();
 	}
 
-	public static void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, File tocFile) throws GatherException
-	{
-		//Get a DOM object
-		Document dom =createDocument();
-		createTocXMLStructure(dom,eBookTocList);
-		printToFile(dom, tocFile);
+	public static void processTocListToCreateEBookTOC(List<EBookToc> eBookTocList, File tocFile) throws GatherException {
+		try {
+			Document dom = createDocument();
+			createTocXMLStructure(dom,eBookTocList);
+			writeDocumentToFile(dom, tocFile);
+		} catch (Exception e) {
+			throw new GatherException("Error creating Table of Contents (TOC) file: " + tocFile, e);
+		}
 	}
-
 
 	/**
 	 * Using JAXP in implementation independent manner create a document object
@@ -99,15 +96,13 @@ public class EBookTocXmlHelper
 	 * @param rootElement
 	 */
 	private static void createRecusiveDomStructure(Document dom, List<EBookToc> eBookTocList,
-			Element rootElement){
-		Iterator it  = eBookTocList.iterator();
-		while(it.hasNext()) {
-			EBookToc eBookToc = (EBookToc)it.next();
+												   Element rootElement){
+		for (EBookToc eBookToc : eBookTocList) {
 			//For each toc object  create <EBookToc> element and attach it to root
-			Element bookEle = createEBookTocElements(dom,eBookToc);
-			rootElement.appendChild(bookEle);
+			Element bookElement = createEBookTocElements(dom,eBookToc);
+			rootElement.appendChild(bookElement);
 			if(eBookToc.getChildrenCount() > 0){
-				createRecusiveDomStructure(dom,eBookToc.getChildren(),bookEle);
+				createRecusiveDomStructure(dom,eBookToc.getChildren(),bookElement);
 			}
 		}
 	}
@@ -169,48 +164,26 @@ public class EBookTocXmlHelper
 	}
 
 	/**
-	 * 
 	 * prints the XML document to file.
-	 * @param tocFile TODO
-	 * @throws Exception 
+	 * @param file the TOC file to be created
+	 * @throws Exception on file creation error
      */
-	private static void printToFile(Document dom, File tocFile) throws GatherException
-	{
-			OutputFormat format = new OutputFormat(dom);
-			
-			format.setIndenting(true);
-			format.setLineSeparator("\r\n");
-			format.setEncoding("UTF-8");
-			// nonescaped means for example leave &apos; alone for Name and Metadata otherwise it converts to &amp;apos;
-			String[] nonEscaped = {"Name","Metadata"};
-			format.setNonEscapingElements(nonEscaped); 
-			
-			XMLSerializer serializer = null;
-					
-			try {
-				Writer out = new OutputStreamWriter(new FileOutputStream(tocFile), "UTF-8");
-
-				serializer = new XMLSerializer(
-						out, format);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				throw new GatherException("Failed to find specified file path ..."+e);
-
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				throw new GatherException("UnsupportedEncodingException ..."+e);
-
-			}
-
-			try {
-				serializer.serialize(dom);
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new GatherException("Failed while printing DOM to specified path ..."+e);
-			}
-
+	private static void writeDocumentToFile(Document dom, File file) throws Exception {
+		
+		OutputFormat format = new OutputFormat(dom);
+		format.setIndenting(true);
+		format.setLineSeparator("\r\n");
+		String charEncoding = "UTF-8";
+		format.setEncoding(charEncoding);
+		// nonescaped means for example leave &apos; alone for Name and Metadata otherwise it converts to &amp;apos;
+		String[] nonEscaped = {"Name","Metadata"};
+		format.setNonEscapingElements(nonEscaped); 
+		Writer out = new OutputStreamWriter(new FileOutputStream(file), charEncoding);
+		try {
+			XMLSerializer serializer = new XMLSerializer(out, format);
+			serializer.serialize(dom);
+		} finally {
+			out.close();
+		}
 	}
-
-
 }
