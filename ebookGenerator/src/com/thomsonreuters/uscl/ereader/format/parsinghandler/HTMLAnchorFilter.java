@@ -27,6 +27,9 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	
 	private ImageService imgService;
 	
+	private long imgMaxHeight = 668L;
+	private long imgMaxWidth = 648L;
+	
 	private int imgEncountered = 0;
 	
 	private long jobInstanceId;
@@ -39,6 +42,26 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	public void setjobInstanceId(long jobInstanceId)
 	{
 		this.jobInstanceId = jobInstanceId;
+	}
+	
+	public void setImgMaxHeight(long maxHeight)
+	{
+		this.imgMaxHeight = maxHeight;
+	}
+	
+	public long getImgMaxHeight()
+	{
+		return imgMaxHeight;
+	}
+	
+	public void setImgMaxWidth(long maxWidth)
+	{
+		this.imgMaxWidth = maxWidth;
+	}
+	
+	public long getImgMaxWidth()
+	{
+		return imgMaxWidth;
 	}
 	
 	@Override
@@ -77,7 +100,8 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
 							
-							if (imgMetadata.getHeight() > 668 || imgMetadata.getWidth() > 648)
+							if (imgMetadata.getHeight() > imgMaxHeight 
+									|| imgMetadata.getWidth() > imgMaxWidth)
 							{
 								newAtts.addAttribute("", "", "class", "CDATA", "tr_image");
 							}
