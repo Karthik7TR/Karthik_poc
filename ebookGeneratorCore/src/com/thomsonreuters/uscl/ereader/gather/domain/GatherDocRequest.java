@@ -80,4 +80,56 @@ public class GatherDocRequest implements Serializable {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((collectionName == null) ? 0 : collectionName.hashCode());
+		result = prime
+				* result
+				+ ((contentDestinationDirectory == null) ? 0
+						: contentDestinationDirectory.hashCode());
+		result = prime * result + ((guids == null) ? 0 : guids.hashCode());
+		result = prime
+				* result
+				+ ((metadataDestinationDirectory == null) ? 0
+						: metadataDestinationDirectory.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GatherDocRequest other = (GatherDocRequest) obj;
+		if (collectionName == null) {
+			if (other.collectionName != null)
+				return false;
+		} else if (!collectionName.equals(other.collectionName))
+			return false;
+		if (contentDestinationDirectory == null) {
+			if (other.contentDestinationDirectory != null)
+				return false;
+		} else if (!contentDestinationDirectory
+				.equals(other.contentDestinationDirectory))
+			return false;
+		if (guids == null) {
+			if (other.guids != null)
+				return false;
+		} else if (!guids.equals(other.guids))
+			return false;
+		if (metadataDestinationDirectory == null) {
+			if (other.metadataDestinationDirectory != null)
+				return false;
+		} else if (!metadataDestinationDirectory
+				.equals(other.metadataDestinationDirectory))
+			return false;
+		return true;
+	}
 }

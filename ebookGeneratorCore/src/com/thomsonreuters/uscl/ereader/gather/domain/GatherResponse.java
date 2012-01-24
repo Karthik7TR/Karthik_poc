@@ -19,13 +19,11 @@ public class GatherResponse {
 	public String errorMessage;
 	public int errorCode;
 	
-	public GatherResponse()
-	{
-		this(0,null);
+	public GatherResponse() {
+		this(0, null);
 	}
 	
-	public GatherResponse(int errorCode,String errorMessage)
-	{
+	public GatherResponse(int errorCode,String errorMessage) {
 		setErrorCode(errorCode);
 		setErrorMessage(errorMessage);
 	}
@@ -42,11 +40,37 @@ public class GatherResponse {
 	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
-	
 	public String toString()
 	{
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + errorCode;
+		result = prime * result
+				+ ((errorMessage == null) ? 0 : errorMessage.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GatherResponse other = (GatherResponse) obj;
+		if (errorCode != other.errorCode)
+			return false;
+		if (errorMessage == null) {
+			if (other.errorMessage != null)
+				return false;
+		} else if (!errorMessage.equals(other.errorMessage))
+			return false;
+		return true;
+	}
 }

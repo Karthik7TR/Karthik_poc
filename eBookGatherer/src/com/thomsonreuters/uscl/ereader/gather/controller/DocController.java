@@ -37,15 +37,19 @@ public class DocController {
 					   				  docRequest.getContentDestinationDirectory(),
 					   				  docRequest.getMetadataDestinationDirectory());
 		} catch (GatherException e) {
-			log.error(e);
 			String errorMessage = e.getMessage();
 			Throwable cause = e.getCause();
 			if (cause != null) {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
+			log.error(errorMessage);
 			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
 		}
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
+	}
+	
+	public void setDocService(DocService service) {
+		this.docService = service;
 	}
 }

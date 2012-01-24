@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
@@ -24,11 +23,11 @@ import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
 /**
- * Novus document related services.
+ * Novus document and metadata fetch.
  */
 public class DocServiceImpl implements DocService {
 	
-	private static final Logger log = Logger.getLogger(DocServiceImpl.class);
+	//private static final Logger log = Logger.getLogger(DocServiceImpl.class);
 	
 	private NovusFactory novusFactory;
 
@@ -36,10 +35,6 @@ public class DocServiceImpl implements DocService {
 	public void fetchDocuments(Collection<String> docGuids, String collectionName,
 							   File contentDestinationDirectory,
 							   File metadataDestinationDirectory) throws GatherException {
-		log.debug("docGuids: " + docGuids);
-		log.debug("collectionName=" + collectionName);
-		log.debug("contentDestinationDirectory=" + contentDestinationDirectory);
-		log.debug("metadataDestinationDirectory=" + metadataDestinationDirectory);
 		Assert.isTrue(contentDestinationDirectory.exists(), "The content destination directory for the documents does not exist: " + contentDestinationDirectory);
 		Assert.isTrue(contentDestinationDirectory.exists(), "The content destination directory for the document metadata does not exist: " + metadataDestinationDirectory);
 		
@@ -111,100 +106,8 @@ public class DocServiceImpl implements DocService {
 		}
 	}
 
-//	/**
-//	 * 
-//	 * users will alwyas provide us with collection name and not collectionSet
-//	 * names.
-//	 */
-//	public Document[] getDocFromNovus(List<EBookToc> docGuidList,
-//			String collectionName, String docFileLocationPath) 
-//	{
-//		Novus novusObject = null;
-//		Document[] documents = null;
-//
-//		/*** for ebook builder we will always get Collection. ***/
-//		try {
-//			novusObject = novusAPIHelper.getNovusObject();
-//			Find find = novusObject.getFind();
-//			for (EBookToc eBookToc : docGuidList)
-//			{
-//
-//				find.addDocumentInfo(collectionName, null,
-//						eBookToc.getDocGuid());
-//			}
-//			documents = find.getDocuments();
-//			// tocNodes = toc.getRootNodes(); //getAllDocuments(guid);
-//			// tocGuidList = extractTocListForEbook(tocNodes);
-//
-//		}catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally {
-//			novusAPIHelper.closeNovusConnection(novusObject);
-//		}
-//
-//		for (Document document : documents) {
-//			processDocument(document,docFileLocationPath);
-//		}
-//		return documents;
-//
-//	}
-
-//	private void processDocument(Document document,String docFileLocationPath) {
-//
-//		try {
-//			System.out.println();
-//			System.out.println("DOCUMENT  METADATA");
-//			System.out.println(document.getMetaData());
-//
-//			DocumentChunkRetrieval chunkRetriever = document
-//					.getDocumentChunkRetrieval();
-//			int chunkCount = chunkRetriever.getDocumentSizeInfo()
-//					.getTotalChunks();
-//			System.out.println("DOCUMENT  TEXT -  count = " + chunkCount);
-//
-//			for (int i = 1; i <= chunkCount; i++) {
-//				String docChunk = chunkRetriever.getText(i);
-//				System.out.println("DOC " + i);
-//				System.out.println((docChunk)); // really large
-//			}
-//		} catch (NovusException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//
-//	}
-//	private void printDocumentFiles(String docFileLocationPath ,DocumentChunkRetrieval chunkRetriever )
-//	{
-//
-//
-//		try
-//		{
-//			//print
-//			OutputFormat format = new OutputFormat();
-//			
-//			format.setIndenting(true);
-//			format.setLineSeparator("\r\n");
-//			format.setEncoding("UTF-8");
-//			
-//
-//			XMLSerializer serializer = new XMLSerializer(
-//			new FileOutputStream(new File(docFileLocationPath)), format);
-//
-//			//serializer.serialize(chunkRetriever);
-//
-//		} catch(IOException ie) {
-//		    ie.printStackTrace();
-//		    //throw new Exception("Failed while printing DOM to specified path ..."+ie);
-//		}
-//		
-//	}
-
-	
 	@Required
 	public void setNovusFactory(NovusFactory factory) {
 		this.novusFactory = factory;
 	}
-
 }

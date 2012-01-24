@@ -8,6 +8,9 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
@@ -23,21 +26,47 @@ public class JibxMarshallingTest  {
 	@Test
 	public void testGatherTocRequestMarshalling() {
 		try {
-			GatherTocRequest expecedRequest = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"));
-			String strXml = marshal(expecedRequest);
-			System.out.println("strXml ="+strXml);
-			
-			GatherTocRequest actual = unmarshal(strXml);
-			Assert.assertEquals(expecedRequest, actual);
-			
+			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"));
+			String xml = marshal(expected, GatherTocRequest.class);
+			GatherTocRequest actual = unmarshal(xml, GatherTocRequest.class);
+			Assert.assertEquals(expected, actual);
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGatherDocRequestMarshalling() {
+		try {
+			String[] guidArray = { "a", "b", "c" };
+			Collection<String>  guids = new ArrayList<String>(Arrays.asList(guidArray));
+			String collectionName = "bogusCollname";
+			File contentDir = new File("/foo");
+			File metadataDir = new File("/bar");
+			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);
+			String xml = marshal(expected, GatherDocRequest.class);
+			GatherDocRequest actual = unmarshal(xml, GatherDocRequest.class);
+			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 	}
 	
-	public static String marshal(GatherTocRequest expecedRequest) throws JiBXException {
-		IBindingFactory factory = BindingDirectory.getFactory(GatherTocRequest.class);
+	@Test
+	public void testGatherResponseMarshalling() {
+		try {
+			GatherResponse expected = new GatherResponse(999, "bogus error message");
+			String xml = marshal(expected, GatherResponse.class);
+			GatherResponse actual = unmarshal(xml, GatherResponse.class);
+			Assert.assertEquals(expected, actual);
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	public static <T> String marshal(T expecedRequest, Class<T> type) throws JiBXException {
+		IBindingFactory factory = BindingDirectory.getFactory(type);
 		IMarshallingContext context = factory.createMarshallingContext();
 		context.setIndent(2);
 		StringWriter stringWriter = new StringWriter();
@@ -47,12 +76,13 @@ public class JibxMarshallingTest  {
 		return xml;
 	}
 	
-	public static GatherTocRequest unmarshal(String xml) throws JiBXException {
+	@SuppressWarnings("unchecked")
+	public static <T> T unmarshal(String xml, Class<T> type) throws JiBXException {
 		StringReader stringReader = new StringReader(xml);
 		try {
-			IBindingFactory factory = BindingDirectory.getFactory(GatherTocRequest.class);
+			IBindingFactory factory = BindingDirectory.getFactory(type);
 			IUnmarshallingContext context = factory.createUnmarshallingContext();
-			GatherTocRequest request = (GatherTocRequest) context.unmarshalDocument(stringReader);
+			T request = (T) context.unmarshalDocument(stringReader);
 			return request;
 		} finally {
 			stringReader.close();

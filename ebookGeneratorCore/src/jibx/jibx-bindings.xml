@@ -12,9 +12,11 @@
     
     <!-- Gather Doc service REST request body -->
     <mapping name="gatherDocRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest">
-	    <collection field="guids" usage="required">
-			<value name="guids" type="java.lang.String"/>
-		</collection>
+	    <structure name="docGuids" usage="required">
+	    	<collection field="guids" usage="required">
+				<value name="guid" type="java.lang.String" usage="required"/>
+			</collection>
+		</structure>
         <value name="collectionName" field="collectionName" usage="required"/>
         <value name="contentDestinationDirectory" field="contentDestinationDirectory" usage="required"/>
         <value name="metadataDestinationDirectory" field="metadataDestinationDirectory" usage="required"/>

@@ -60,4 +60,8 @@ public class TocController {
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}
+	
+	public void setTocService(TocService service) {
+		this.tocService = service;
+	}
 }
