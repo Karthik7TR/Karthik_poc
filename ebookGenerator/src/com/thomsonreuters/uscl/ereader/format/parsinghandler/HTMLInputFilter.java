@@ -19,12 +19,14 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public class HTMLInputFilter extends XMLFilterImpl {
 	
 	private boolean keyCitePlaceholder = false;
+	private boolean isInputTag = false;
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
 		if (qName.equalsIgnoreCase("input"))
 		{
+			isInputTag = true;
 			if (atts != null)
 			{
 				String id = atts.getValue("id");
@@ -50,6 +52,10 @@ public class HTMLInputFilter extends XMLFilterImpl {
 		{
 			//TODO: Add KeyCite link or display generation based on NPD rules.
 		}
+		else if(isInputTag)
+		{
+			//Remove anything from within the input tags.
+		}
 		else
 		{
 			super.characters(buf, offset, len);
@@ -62,7 +68,12 @@ public class HTMLInputFilter extends XMLFilterImpl {
 		if (keyCitePlaceholder)
 		{
 			keyCitePlaceholder = false;
+			isInputTag = false;
 			//TODO: Add KeyCite link or display generation based on NPD rules.
+		}
+		else if(isInputTag)
+		{
+			isInputTag = false;
 		}
 		else
 		{
