@@ -10,7 +10,10 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.springframework.util.Assert;
+
+import com.sun.jmx.snmp.tasks.ThreadService;
 
 /**
  * Serves up configured instances of {@link DefaultHttpClient} with the provided credentials.
@@ -37,7 +40,7 @@ public class BasicAuthenticationHttpClientFactory {
 	}
 	
 	public HttpClient getBasicAuthenticationHttpClient(){
-		DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
+		DefaultHttpClient defaultHttpClient = new DefaultHttpClient(new ThreadSafeClientConnManager());
 		defaultHttpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(host, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(username, password));

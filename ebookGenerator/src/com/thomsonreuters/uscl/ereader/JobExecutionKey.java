@@ -111,5 +111,20 @@ public class JobExecutionKey {
 	 * Path to the flat text file that contains the list (one per line) of doc GUID's that represent the physical
 	 * docs that will be inserted into the book.  These GUID's serve as input to the Gather Vertical REST service.
 	 */
-	public static final String DOCS_DYNAMIC_GUIDS_FILE = "docsDynamicGuidsFile";	
+	public static final String DOCS_DYNAMIC_GUIDS_FILE = "docsDynamicGuidsFile";
+	
+	/**
+	 * Path to the final destination for assets (images, stylesheets). Used by the assembly process.
+	 */
+	public static final String ASSEMBLE_ASSETS_DIR = "assetsDir";
+	
+	/**
+	 * Path to the final destination for documents for the ebook.  Used by the assembly process.
+	 */
+	public static final String ASSEMBLE_DOCUMENTS_DIR = "documentsDir";
+	
+	/**
+	 * Path to the final destination for cover art.  Used by the assembly process.
+	 */
+	public static final String ASSEMBLE_ARTWORK_DIR = "artworkDir";
 }

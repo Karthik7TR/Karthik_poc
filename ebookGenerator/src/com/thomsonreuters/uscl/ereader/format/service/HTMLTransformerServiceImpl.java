@@ -26,17 +26,18 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
@@ -155,9 +156,12 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLImageFilter imageFilter = new HTMLImageFilter();
 			imageFilter.setStaticImageRefs(staticImgRef);
 			imageFilter.setParent(saxParser.getXMLReader());
+
+			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
+			piZapperFilter.setParent(imageFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
-			inputFilter.setParent(imageFilter);
+			inputFilter.setParent(piZapperFilter);
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);

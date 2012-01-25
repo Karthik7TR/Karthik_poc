@@ -4,7 +4,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>EBook Builder CR Sample I</title>
-		<link rel="stylesheet" type="text/css" href="https://ca.next.westlaw.com/StaticContent_13.3.1009/css/v2/document.css" />
+		<link rel="stylesheet" type="text/css" href="er:#document" />
 	</head>
 	<body class="co_t2Left co_docDisplay">
 		<section><a name="chapter"></a>

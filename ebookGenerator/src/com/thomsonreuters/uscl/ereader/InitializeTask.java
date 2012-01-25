@@ -77,6 +77,9 @@ public class InitializeTask extends AbstractSbTasklet {
 		
 		File assembleDirectory = new File(workDirectory, "Assemble");
 		File assembledTitleDirectory = new File(assembleDirectory, titleId);
+		File assembleDocumentsDirectory = new File(assembledTitleDirectory, "documents");
+		File assembleAssetsDirectory = new File(assembledTitleDirectory, "assets");
+		File assembleArtworkDirectory = new File(assembledTitleDirectory, "artwork");
 		
 		// Create required directories
 		gatherDirectory.mkdir();
@@ -88,6 +91,9 @@ public class InitializeTask extends AbstractSbTasklet {
 		imageDynamicDirectory.mkdir();	// where images from the Image Vertical REST service go
 		assembleDirectory.mkdir();
 		assembledTitleDirectory.mkdir();
+		assembleDocumentsDirectory.mkdir();
+		assembleAssetsDirectory.mkdir();
+		assembleArtworkDirectory.mkdir();
 		
 		// Create format directories
 		File formatDirectory = new File(workDirectory, "Format");
@@ -128,6 +134,10 @@ public class InitializeTask extends AbstractSbTasklet {
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
+		
+		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;

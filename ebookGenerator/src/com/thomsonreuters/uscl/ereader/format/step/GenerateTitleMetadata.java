@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
@@ -50,8 +51,9 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.MAJOR_VERSION);
 		
 		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber);
+		String materialId = jobParameters.getString(JobParameterKey.MATERIAL_ID);
 		
-		titleMetadata.setMaterialId(jobParameters.getString(JobParameterKey.MATERIAL_ID));
+		titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
 		titleMetadata.setCopyright(jobParameters.getString(JobParameterKey.COPYRIGHT));
 		titleMetadata.setDisplayName(jobParameters.getString(JobParameterKey.BOOK_NAME));
 		
@@ -60,7 +62,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		addAssets(jobExecutionContext, titleMetadata);
 		addDocuments(jobExecutionContext, titleMetadata);
 		addTableOfContents(jobExecutionContext, titleMetadata);
-		addStylesheet(titleMetadata);
+		//addStylesheet(titleMetadata);
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
@@ -81,12 +83,14 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		File tocXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
 		//TODO: add gathered TOC to titleMetadata.
 		ArrayList<TocEntry> tocEntries = titleMetadataService.createTableOfContents(tocXml);
-		titleMetadata.setTocEntries(tocEntries);
+		TableOfContents tableOfContents = new TableOfContents();
+		tableOfContents.setTocEntries(tocEntries);
+		titleMetadata.setTableOfContents(tableOfContents);
 	}
 
 	private void addDocuments(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
-		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 		ArrayList<Doc> documents = titleMetadataService.createDocuments(documentsDirectory);
 		titleMetadata.setDocuments(documents);
 	}
@@ -94,8 +98,9 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private void addAssets(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
 		//All gathered images (dynamic and static) are expected to be here by the time this step executes.
-		File imagesDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_ROOT_DIR));
+		File imagesDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR));
 		ArrayList<Asset> assets = titleMetadataService.createAssets(imagesDirectory);
+		LOG.debug(assets);
 		titleMetadata.setAssets(assets);
 	}
 
