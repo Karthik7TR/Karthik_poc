@@ -82,20 +82,21 @@
 		<!-- Copy the dynamic and static image files into a single filesystem directory -->
 		<step id="combineImageFiles">
 			<tasklet ref="stubTask"/>
-			<next on="COMPLETED" to="generateTitleManifest"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<step id="generateTitleManifest">
-			<tasklet ref="generateTitleManifestTask"/>
 			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
-			<next on="FAILED" to="moveResourcesToAssemblyDirectory"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Assemble the title -->
 		<step id="moveResourcesToAssemblyDirectory">
-			<tasklet ref="stubTask"/>
+			<tasklet ref="moveResourcesToAssemblyDirectoryTask"/>
+			<next on="COMPLETED" to="generateTitleManifest"/>
+			<next on="FAILED" to="generateTitleManifest"/>
+		</step>
+		
+		<step id="generateTitleManifest">
+			<tasklet ref="generateTitleManifestTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
+			<next on="FAILED" to="assembleEBook"/>
 		</step>
 		
 		<step id="assembleEBook">
@@ -139,4 +140,5 @@
 				p:eBookAssemblyService-ref="eBookAssemblyService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview"
 				p:proviewClient-ref="proviewClient"/>
+	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
 </beans:beans>
