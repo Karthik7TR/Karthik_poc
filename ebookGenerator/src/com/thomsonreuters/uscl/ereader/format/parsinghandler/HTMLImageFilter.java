@@ -49,6 +49,11 @@ public class HTMLImageFilter extends XMLFilterImpl {
 
 					super.startElement(uri, localName, qName, newAtts);
 				}
+				else
+				{
+					throw new SAXException("Could not retrieve src attribute for img tag. " +
+							"Code should be added to handle these.");
+				}
 			}
 			else
 			{
