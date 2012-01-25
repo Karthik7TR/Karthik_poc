@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.DocService;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 
@@ -27,28 +28,28 @@ public class DocControllerTest {
 	//private static Logger log = Logger.getLogger(DocControllerTest.class);
     private DocService mockDocService;
     private DocController controller;
-	
+    
+    private Collection<String> guids;
+	private static final String COLLECTION_NAME = "bogusCollname";
+	private static final File CONTENT_DIR = new File("docContent");
+	private static final File METADATADIR_DIR = new File("docMetadata");
+
 	@Before
 	public void setUp() {
+		String[] guidArray = { "a", "b", "c" };
+		this.guids = new ArrayList<String>(Arrays.asList(guidArray));
     	this.mockDocService = EasyMock.createMock(DocService.class);
     	this.controller = new DocController();
     	controller.setDocService(mockDocService);
 	}
 	
 	@Test
-	public void testFetchDocuments() throws Exception {
-		
-		String[] guidArray = { "a", "b", "c" };
-		Collection<String>  guids = new ArrayList<String>(Arrays.asList(guidArray));
-		String collectionName = "bogusCollname";
-		File contentDir = new File("foo");
-		File metadataDir = new File("bar");
-		
-		mockDocService.fetchDocuments(guids, collectionName, contentDir, metadataDir);
+	public void testFetchDocumentsSuccessfully() throws Exception {
+		mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
 		EasyMock.replay(mockDocService);
 
     	// Invoke the controller
-    	GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);
+    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.fetchDocuments(docRequest, model);
     	
@@ -63,5 +64,37 @@ public class DocControllerTest {
         Assert.assertNull(gatherResponse.getErrorMessage());
         
         EasyMock.verify(mockDocService);
+	}
+	
+	@Test
+	public void testFetchDocumentsWithException() {
+		int errorCode = 911;
+		String errorMesg = "bogus error";
+		GatherException expectedException = new GatherException(errorMesg);
+		expectedException.setErrorCode(errorCode);
+		try {
+			mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+			EasyMock.expectLastCall().andThrow(expectedException);
+			EasyMock.replay(mockDocService);
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+
+    	// Invoke the controller
+    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+    	Model model = new ExtendedModelMap();
+    	ModelAndView mav = controller.fetchDocuments(docRequest, model);
+
+    	// Verify the state created by the controller for the GET http request
+        assertNotNull(mav);
+        assertEquals(EBConstants.VIEW_RESPONSE, mav.getViewName());
+        Map<String,Object> modelMap = model.asMap();
+        Assert.assertNotNull(modelMap);
+        GatherResponse gatherResponse = (GatherResponse) modelMap.get(EBConstants.GATHER_RESPONSE_OBJECT);
+        Assert.assertNotNull(gatherResponse);
+        Assert.assertEquals(errorCode, gatherResponse.getErrorCode());
+        Assert.assertEquals(errorMesg, gatherResponse.getErrorMessage());
+
+    	EasyMock.verify(mockDocService);
 	}
 }
