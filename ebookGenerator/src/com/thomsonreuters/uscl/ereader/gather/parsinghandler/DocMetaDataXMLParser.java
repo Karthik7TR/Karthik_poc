@@ -129,22 +129,15 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(MD_DOC_TYPE_NAME)) {
 			docMetadata.setDocType(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_LEGACY_ID)) {
-			findOrig = tempVal;
+			docMetadata.setFindOrig(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
-			serialNumber = tempVal;
+			docMetadata.setSerialNumber(new Integer(tempVal));
 		}
 
 	}
 
 	// Event Handlers
 	public void endDocument() throws SAXException {
-		// reset
-		if (docMetadata.getDocType().equalsIgnoreCase("Statute")
-				|| docMetadata.getDocType().equalsIgnoreCase("Court Rules ")) {
-			docMetadata.setFindOrig(findOrig);
-		} else if (docMetadata.getDocType().equalsIgnoreCase("Analytica")) {
-			docMetadata.setSerialNumber(new Integer(serialNumber));
-		}
 		docMetadata.setLastUpdated(getCurrentTimeStamp());
 	}
 
@@ -157,7 +150,6 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 
 		// create a java calendar instance
 		Calendar calendar = Calendar.getInstance();
-
 		return new java.sql.Timestamp(calendar.getTime().getTime());
 
 	}
