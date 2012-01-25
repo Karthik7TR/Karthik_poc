@@ -91,12 +91,20 @@ public class InitializeTaskTest {
 			File actualStaticImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
 			File actualDynamicImagesDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 
+			File actualAssembleAssetsDirectory = new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_ASSETS_DIR));
+			File actualAssembleDocumentsDirectory = new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
+			File actualAssembleArtworkDirectory = new File(jobExecutionContext.getString(JobExecutionKey.ASSEMBLE_ARTWORK_DIR));
+			
 			Assert.assertEquals(expectedEbookDirectory.getAbsolutePath(), actualEbookDirectory.getAbsolutePath());
 			Assert.assertEquals(expectedEbookFile.getAbsolutePath(), actualEbookFile.getAbsolutePath());
 			
 			Assert.assertTrue(actualImagesRootDirectory.exists());
 			Assert.assertTrue(actualStaticImagesDirectory.exists());
 			Assert.assertTrue(actualDynamicImagesDirectory.exists());
+			Assert.assertTrue(actualAssembleAssetsDirectory.exists());
+			Assert.assertTrue(actualAssembleDocumentsDirectory.exists());
+			Assert.assertTrue(actualAssembleArtworkDirectory.exists());
+			
 			
 			// Verify the transition to the next step
 			Assert.assertEquals(ExitStatus.COMPLETED, transition);

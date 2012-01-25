@@ -174,7 +174,9 @@ public class AssembleAndDeliverIntegrationTest {
 		tocEntries.add(new TocEntry(DOCUMENT_ONE_ID + "/codeOfConduct", "Pirate Code of Conduct"));
 		tocEntries.add(new TocEntry(DOCUMENT_TWO_ID + "/plundering", "Plundering"));
 		tocEntries.add(new TocEntry(DOCUMENT_THREE_ID + "/landlubbers", "Landlubbers"));
-		titleMetadata.setTocEntries(tocEntries);
+		TableOfContents tableOfContents = new TableOfContents();
+		tableOfContents.setTocEntries(tocEntries);
+		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("1234");
 	}
 
