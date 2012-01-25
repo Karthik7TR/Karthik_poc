@@ -78,20 +78,16 @@
     			</structure>
     		</collection>
     	</structure>
-    	<structure name="keywords" usage="required">
-	    	<collection field="keywords" usage="optional">
-		    	<structure name="keyword" type="com.thomsonreuters.uscl.ereader.proview.Keyword" usage="optional" value-style="attribute">
-		    		<value name="type" field="type" usage="required"/>
-		    		<value style="text" field="text" usage="required"/>
-		    	</structure>
-	    	</collection>
-    	</structure>
+    	<collection name="keywords" field="keywords" usage="optional" >
+	    	<structure name="keyword" type="com.thomsonreuters.uscl.ereader.proview.Keyword" usage="optional" value-style="attribute">
+	    		<value name="type" field="type" usage="required"/>
+	    		<value style="text" field="text" usage="required"/>
+	    	</structure>
+    	</collection>
     	<structure name="copyright" usage="required">
 	    	<value style="text" field="copyright" usage="optional"/>
     	</structure>
-    	<structure name="toc" usage="required">
-    		<collection field="tocEntries" usage="optional"/>
-    	</structure>
+    	<structure field="tableOfContents" map-as="manifest_toc" />
     	<structure name="docs" usage="required">
     		<collection field="documents" usage="optional">
     			<structure name="doc" type="com.thomsonreuters.uscl.ereader.proview.Doc" usage="optional" value-style="attribute">
@@ -107,12 +103,36 @@
     	<value name="type" field="type"/>
     </mapping>
     
-    <mapping name="entry" class="com.thomsonreuters.uscl.ereader.proview.TocEntry" value-style="attribute">
+    <mapping class="com.thomsonreuters.uscl.ereader.proview.TableOfContents" abstract="true" type-name="manifest_toc">
+    	<structure name="toc">
+    		<collection field="tocEntries" usage="optional">
+    			<structure name="entry" map-as="manifest_toc_entry"/>
+    		</collection>
+    	</structure>
+    </mapping>
+    
+    <mapping class="com.thomsonreuters.uscl.ereader.proview.TocEntry" value-style="attribute" abstract="true" type-name="manifest_toc_entry">
 		<value name="s" field="anchorReference"/>
-		<structure name="text">	
+		<structure name="text">
 			<value style="text" field="text"/>
 		</structure>
-		<collection field="children" usage="optional"/>
+		<collection field="children" usage="optional">
+    		<structure name="entry" map-as="manifest_toc_entry"/>
+		</collection>
+	</mapping>
+	
+	<mapping name="EBook" class="com.thomsonreuters.uscl.ereader.gather.TableOfContents">
+		<collection field="tocEntries" usage="required"/>
 	</mapping>
     
+    <mapping name="EBookToc" class="com.thomsonreuters.uscl.ereader.gather.GatherTocEntry">
+		<structure name="Name">
+			<value style="text" field="text"/>
+		</structure>
+		<value name="Guid" field="anchorReference"/>
+		<structure name="ParentGuid"/>
+		<structure name="DocumentGuid"/>
+		<structure name="Metadata"/>
+		<collection field="children" usage="required"/>
+	</mapping>
 </binding>
