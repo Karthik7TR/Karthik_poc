@@ -7,8 +7,12 @@
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -87,11 +91,13 @@ public class DocServiceImpl implements DocService {
 	 * Create a file containing the specified content.
 	 */
 	private static final void createFile(String content, File destinationFile) throws IOException {
-		FileWriter writer = new FileWriter(destinationFile);
+		FileOutputStream stream = new FileOutputStream(destinationFile);
 		try {
+			String charset = "UTF-8";	// explicitly set the character set
+			Writer writer = new OutputStreamWriter(stream, charset);
 			writer.write(content);
 		} finally {
-			writer.close();
+			stream.close();
 		}
 	}
 	
