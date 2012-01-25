@@ -8,8 +8,6 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
-import java.util.List;
-import java.util.Set;
 import java.io.File;
 import java.util.Map;
 
@@ -20,28 +18,10 @@ import java.util.Map;
 public interface DocMetadataService {
 
 	/**
-	 * Return all DocMetadata entity
-	 * 
-	 */
-	public List<DocMetadata> findAllDocMetadatas(Integer startResult, Integer maxRows);
-
-	/**
 	 * Save an existing DocMetadata entity
 	 * 
 	 */
 	public void saveDocMetadata(DocMetadata docmetadata);
-
-	/**
-	 * Load an existing DocMetadata entity
-	 * 
-	 */
-	public Set<DocMetadata> loadDocMetadatas();
-
-	/**
-	 * Return a count of all DocMetadata entity
-	 * 
-	 */
-	public Integer countDocMetadatas();
 
 	/**
 	 * Delete an existing DocMetadata entity
@@ -52,12 +32,14 @@ public interface DocMetadataService {
 	/**
 	 */
 	public Map<String, String> findDocMetadataByDocUuid(String docUuid);
-	
-	/**
-	 */
-	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid);	
 
 	/**
 	 */
-	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, File metadataFile);
+	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
+			Integer jobInstanceId, String docUuid);
+
+	/**
+	 */
+	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
+			String collectionName, File metadataFile);
 }

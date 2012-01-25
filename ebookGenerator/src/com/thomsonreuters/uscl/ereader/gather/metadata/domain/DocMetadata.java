@@ -7,41 +7,20 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.domain;
 
 import java.io.Serializable;
-
 import java.lang.StringBuilder;
+import java.util.Date;
 
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
 import javax.xml.bind.annotation.*;
-
 import javax.persistence.*;
 
 /**
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
 @Entity
-@NamedQueries({
-		@NamedQuery(name = "findAllDocMetadatas", query = "select myDocMetadata from DocMetadata myDocMetadata"),
-		@NamedQuery(name = "findDocMetadataByCollectionName", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.collectionName = ?1"),
-		@NamedQuery(name = "findDocMetadataByCollectionNameContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.collectionName like ?1"),
-		@NamedQuery(name = "findDocMetadataByDocFamilyUuid", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docFamilyUuid = ?1"),
-		@NamedQuery(name = "findDocMetadataByDocFamilyUuidContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docFamilyUuid like ?1"),
-		@NamedQuery(name = "findDocMetadataByDocType", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docType = ?1"),
-		@NamedQuery(name = "findDocMetadataByDocTypeContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docType like ?1"),
-		@NamedQuery(name = "findDocMetadataByDocUuid", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docUuid = ?1"),
-		@NamedQuery(name = "findDocMetadataMapByDocUuid", query = "select myDocMetadata.docFamilyUuid from DocMetadata myDocMetadata where myDocMetadata.docUuid = ?1"),		
-		@NamedQuery(name = "findDocMetadataByDocUuidContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.docUuid like ?1"),
-		@NamedQuery(name = "findDocMetadataByFindOrig", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.findOrig = ?1"),
-		@NamedQuery(name = "findDocMetadataByFindOrigContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.findOrig like ?1"),
-		@NamedQuery(name = "findDocMetadataByJobInstanceId", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.jobInstanceId = ?1"),
-		@NamedQuery(name = "findDocMetadataByNormalizedFirstlineCite", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.normalizedFirstlineCite = ?1"),
-		@NamedQuery(name = "findDocMetadataByNormalizedFirstlineCiteContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.normalizedFirstlineCite like ?1"),
-		@NamedQuery(name = "findDocMetadataByPrimaryKey", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.titleId = ?1 and myDocMetadata.jobInstanceId = ?2 and myDocMetadata.docUuid = ?3"),
-		@NamedQuery(name = "findDocMetadataBySerialNumber", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.serialNumber = ?1"),
-		@NamedQuery(name = "findDocMetadataByTitleId", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.titleId = ?1"),
-		@NamedQuery(name = "findDocMetadataByTitleIdContaining", query = "select myDocMetadata from DocMetadata myDocMetadata where myDocMetadata.titleId like ?1") })
+@NamedQueries({ @NamedQuery(name = "findDocMetadataMapByDocUuid", query = "select myDocMetadata.docFamilyUuid from DocMetadata myDocMetadata where myDocMetadata.docUuid = :doc_uuid") })
 @Table(schema = "EBOOK_AUTHORITY", name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
@@ -117,10 +96,11 @@ public class DocMetadata implements Serializable {
 	/**
 	 */
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	String lastUpdated;
+	Date lastUpdated;
 
 	/**
 	 */
@@ -232,13 +212,13 @@ public class DocMetadata implements Serializable {
 
 	/**
 	 */
-	public void setLastUpdated(String lastUpdated) {
+	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
 	/**
 	 */
-	public String getLastUpdated() {
+	public Date getLastUpdated() {
 		return this.lastUpdated;
 	}
 
@@ -248,25 +228,8 @@ public class DocMetadata implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(DocMetadata that) {
-		setTitleId(that.getTitleId());
-		setJobInstanceId(that.getJobInstanceId());
-		setDocUuid(that.getDocUuid());
-		setDocFamilyUuid(that.getDocFamilyUuid());
-		setDocType(that.getDocType());
-		setNormalizedFirstlineCite(that.getNormalizedFirstlineCite());
-		setFindOrig(that.getFindOrig());
-		setSerialNumber(that.getSerialNumber());
-		setCollectionName(that.getCollectionName());
-		setLastUpdated(that.getLastUpdated());
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
-	 *
+	 * 
 	 */
 	public String toString() {
 
@@ -277,7 +240,8 @@ public class DocMetadata implements Serializable {
 		buffer.append("docUuid=[").append(docUuid).append("] ");
 		buffer.append("docFamilyUuid=[").append(docFamilyUuid).append("] ");
 		buffer.append("docType=[").append(docType).append("] ");
-		buffer.append("normalizedFirstlineCite=[").append(normalizedFirstlineCite).append("] ");
+		buffer.append("normalizedFirstlineCite=[")
+				.append(normalizedFirstlineCite).append("] ");
 		buffer.append("findOrig=[").append(findOrig).append("] ");
 		buffer.append("serialNumber=[").append(serialNumber).append("] ");
 		buffer.append("collectionName=[").append(collectionName).append("] ");
@@ -292,9 +256,12 @@ public class DocMetadata implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) (prime * result + ((titleId == null) ? 0 : titleId.hashCode()));
-		result = (int) (prime * result + ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode()));
-		result = (int) (prime * result + ((docUuid == null) ? 0 : docUuid.hashCode()));
+		result = (int) (prime * result + ((titleId == null) ? 0 : titleId
+				.hashCode()));
+		result = (int) (prime * result + ((jobInstanceId == null) ? 0
+				: jobInstanceId.hashCode()));
+		result = (int) (prime * result + ((docUuid == null) ? 0 : docUuid
+				.hashCode()));
 		return result;
 	}
 
@@ -306,15 +273,19 @@ public class DocMetadata implements Serializable {
 		if (!(obj instanceof DocMetadata))
 			return false;
 		DocMetadata equalCheck = (DocMetadata) obj;
-		if ((titleId == null && equalCheck.titleId != null) || (titleId != null && equalCheck.titleId == null))
+		if ((titleId == null && equalCheck.titleId != null)
+				|| (titleId != null && equalCheck.titleId == null))
 			return false;
 		if (titleId != null && !titleId.equals(equalCheck.titleId))
 			return false;
-		if ((jobInstanceId == null && equalCheck.jobInstanceId != null) || (jobInstanceId != null && equalCheck.jobInstanceId == null))
+		if ((jobInstanceId == null && equalCheck.jobInstanceId != null)
+				|| (jobInstanceId != null && equalCheck.jobInstanceId == null))
 			return false;
-		if (jobInstanceId != null && !jobInstanceId.equals(equalCheck.jobInstanceId))
+		if (jobInstanceId != null
+				&& !jobInstanceId.equals(equalCheck.jobInstanceId))
 			return false;
-		if ((docUuid == null && equalCheck.docUuid != null) || (docUuid != null && equalCheck.docUuid == null))
+		if ((docUuid == null && equalCheck.docUuid != null)
+				|| (docUuid != null && equalCheck.docUuid == null))
 			return false;
 		if (docUuid != null && !docUuid.equals(equalCheck.docUuid))
 			return false;

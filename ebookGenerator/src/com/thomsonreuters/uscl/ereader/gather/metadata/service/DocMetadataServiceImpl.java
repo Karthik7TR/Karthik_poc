@@ -2,17 +2,13 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 
-import java.util.List;
-import java.util.Set;
 import java.io.File;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 
-@Service("DocMetadataService")
 @Transactional
 public class DocMetadataServiceImpl implements DocMetadataService {
 
@@ -28,28 +23,19 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 * DAO injected by Spring that manages DocMetadata entities
 	 * 
 	 */
-	@Autowired
+
 	private DocMetadataDao docMetadataDAO;
-	
-	@Autowired
+
 	private DocMetaDataXMLParser docMetaXMLParser;
 
 	/**
 	 * Instantiates a new DocMetadataServiceImpl.
-	 *
-	 */
-	public DocMetadataServiceImpl() {
-		docMetaXMLParser = new DocMetaDataXMLParser();
-	}
-
-	/**
-	 * Return all DocMetadata entity
 	 * 
 	 */
-	@Transactional
-	public List<DocMetadata> findAllDocMetadatas(Integer startResult, Integer maxRows) {
-		return new java.util.ArrayList<DocMetadata>(docMetadataDAO.findAllDocMetadatas(startResult, maxRows));
-	}
+	/*
+	 * public DocMetadataServiceImpl() { docMetaXMLParser = new
+	 * DocMetaDataXMLParser(); }
+	 */
 
 	/**
 	 * Save an existing DocMetadata entity
@@ -57,44 +43,38 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 */
 	@Transactional
 	public void saveDocMetadata(DocMetadata docmetadata) {
-		DocMetadata existingDocMetadata = docMetadataDAO.findDocMetadataByPrimaryKey(docmetadata.getTitleId(), docmetadata.getJobInstanceId(), docmetadata.getDocUuid());
+
+		DocMetadataPK existingDocPk = new DocMetadataPK();
+		existingDocPk.setDocUuid(docmetadata.getDocUuid());
+		existingDocPk.setJobInstanceId(docmetadata.getJobInstanceId());
+		existingDocPk.setTitleId(docmetadata.getTitleId());
+
+		DocMetadata existingDocMetadata = docMetadataDAO
+				.findDocMetadataByPrimaryKey(existingDocPk);
 
 		if (existingDocMetadata != null) {
 			if (existingDocMetadata != docmetadata) {
 				existingDocMetadata.setTitleId(docmetadata.getTitleId());
-				existingDocMetadata.setJobInstanceId(docmetadata.getJobInstanceId());
+				existingDocMetadata.setJobInstanceId(docmetadata
+						.getJobInstanceId());
 				existingDocMetadata.setDocUuid(docmetadata.getDocUuid());
-				existingDocMetadata.setDocFamilyUuid(docmetadata.getDocFamilyUuid());
+				existingDocMetadata.setDocFamilyUuid(docmetadata
+						.getDocFamilyUuid());
 				existingDocMetadata.setDocType(docmetadata.getDocType());
-				existingDocMetadata.setNormalizedFirstlineCite(docmetadata.getNormalizedFirstlineCite());
+				existingDocMetadata.setNormalizedFirstlineCite(docmetadata
+						.getNormalizedFirstlineCite());
 				existingDocMetadata.setFindOrig(docmetadata.getFindOrig());
-				existingDocMetadata.setSerialNumber(docmetadata.getSerialNumber());
-				existingDocMetadata.setCollectionName(docmetadata.getCollectionName());
-				existingDocMetadata.setLastUpdated(docmetadata.getLastUpdated());
+				existingDocMetadata.setSerialNumber(docmetadata
+						.getSerialNumber());
+				existingDocMetadata.setCollectionName(docmetadata
+						.getCollectionName());
+				existingDocMetadata
+						.setLastUpdated(docmetadata.getLastUpdated());
 			}
-			docmetadata = docMetadataDAO.store(existingDocMetadata);
+			docMetadataDAO.saveMetadata(existingDocMetadata);
 		} else {
-			docmetadata = docMetadataDAO.store(docmetadata);
+			docMetadataDAO.saveMetadata(docmetadata);
 		}
-		docMetadataDAO.flush();
-	}
-
-	/**
-	 * Load an existing DocMetadata entity
-	 * 
-	 */
-	@Transactional
-	public Set<DocMetadata> loadDocMetadatas() {
-		return docMetadataDAO.findAllDocMetadatas();
-	}
-
-	/**
-	 * Return a count of all DocMetadata entity
-	 * 
-	 */
-	@Transactional
-	public Integer countDocMetadatas() {
-		return ((Long) docMetadataDAO.createQuerySingleResult("select count(*) from DocMetadata o").getSingleResult()).intValue();
 	}
 
 	/**
@@ -104,21 +84,27 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Transactional
 	public void deleteDocMetadata(DocMetadata docmetadata) {
 		docMetadataDAO.remove(docmetadata);
-		docMetadataDAO.flush();
 	}
 
 	/**
 	 */
 	@Transactional
-	public DocMetadata findDocMetadataByPrimaryKey(String titleId, Integer jobInstanceId, String docUuid) {
-		return docMetadataDAO.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docUuid);
+	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
+			Integer jobInstanceId, String docUuid) {
+		DocMetadataPK docMetaPk = new DocMetadataPK();
+		docMetaPk.setTitleId(titleId);
+		docMetaPk.setJobInstanceId(jobInstanceId);
+		docMetaPk.setDocUuid(docUuid);
+		return docMetadataDAO.findDocMetadataByPrimaryKey(docMetaPk);
 	}
 
 	/**
 	 */
 	@Transactional
-	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId, File metaDataFile) {
-		 saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId, metaDataFile));
+	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
+			String collectionName, File metaDataFile) {
+		saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId,
+				collectionName, metaDataFile));
 	}
 
 	/**
@@ -126,5 +112,15 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Transactional
 	public Map<String, String> findDocMetadataByDocUuid(String docUuid) {
 		return docMetadataDAO.findDocMetadataMapByDocUuid(docUuid);
+	}
+
+	@Required
+	public void setdocMetaXMLParser(DocMetaDataXMLParser parser) {
+		this.docMetaXMLParser = parser;
+	}
+
+	@Required
+	public void setdocMetadataDAO(DocMetadataDao dao) {
+		this.docMetadataDAO = dao;
 	}
 }

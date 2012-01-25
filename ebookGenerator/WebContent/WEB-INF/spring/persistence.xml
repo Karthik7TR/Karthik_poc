@@ -28,6 +28,7 @@
 			<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
+		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
 		  </list>
 		</property>
   	</bean>
@@ -50,21 +51,13 @@
 	<bean id="imageDao" class="com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
+	<bean id="docMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl">
+		  <constructor-arg ref="sessionFactory"/>
+	</bean>
+		 
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
-		  
-
-	<!-- ******************************************************************** -->
-	<!-- Scan for dao layer annotated beans -->
-	<!-- ******************************************************************** -->
-	<!--  context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.metadata.dao" scoped-proxy="interfaces" / -->	
-
-	<!-- EntityManager Factory that brings together the persistence unit, datasource, and JPA Vendor -->
-	<bean id="DocMetaData" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="DocMetaData" />
-	</bean>
 		  
 </beans>
 	
