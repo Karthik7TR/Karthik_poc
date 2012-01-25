@@ -128,36 +128,14 @@ public class EBookTocXmlHelper
 		nameElement.appendChild(nameText);
 		bookEle.appendChild(nameElement);
 
-
-		//create Guid element and attach it to bookElement
-		Element guidElement = dom.createElement(EBConstants.GUID_ELEMENT);
-		Text guidText = dom.createTextNode(eBookToc.getGuid());
-		guidElement.appendChild(guidText);
-		bookEle.appendChild(guidElement);
-		
-		//create parentGuid element and attach it to bookElement
-		Element parentGuidElement = dom.createElement(EBConstants.PARENT_GUID_ELEMENT);
-		Text parentGuidText = dom.createTextNode(eBookToc.getParentGuid());
-		parentGuidElement.appendChild(parentGuidText);
-		bookEle.appendChild(parentGuidElement);
-
+		if (eBookToc.getDocGuid() != null)
+		{
 		//create parentGuid element and attach it to bookElement
 		Element documentGuidElement = dom.createElement(EBConstants.DOCUMENT_GUID_ELEMENT);
 		Text documentGuidText = dom.createTextNode(eBookToc.getDocGuid());
 		documentGuidElement.appendChild(documentGuidText);
 		bookEle.appendChild(documentGuidElement);
-
-
-		//create Metadata element and attach it to bookElement
-		Element metadataElement = dom.createElement(EBConstants.METADATA_ELEMENT);
-		Text metadataText = dom.createTextNode(eBookToc.getMetadata());
-		if (metadataText.getTextContent().indexOf("<") > -1) {
-		    String newMetadataString = metadataText.getTextContent().replaceAll("\\<.*?>","");
-		    metadataText.setTextContent(newMetadataString);
 		}
-		
-		metadataElement.appendChild(metadataText);
-		bookEle.appendChild(metadataElement);
 
 		return bookEle;
 
@@ -171,7 +149,9 @@ public class EBookTocXmlHelper
 	private static void writeDocumentToFile(Document dom, File file) throws Exception {
 		
 		OutputFormat format = new OutputFormat(dom);
+		// If we want to remove indenting, it will remove newlines.
 		format.setIndenting(true);
+		format.setIndent(1);
 		format.setLineSeparator("\r\n");
 		String charEncoding = "UTF-8";
 		format.setEncoding(charEncoding);
