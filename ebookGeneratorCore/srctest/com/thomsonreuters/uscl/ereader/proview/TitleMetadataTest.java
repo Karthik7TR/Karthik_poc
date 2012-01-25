@@ -2,6 +2,11 @@ package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
 
+import junit.framework.Assert;
+
+import org.apache.activemq.util.ByteArrayInputStream;
+import org.apache.activemq.util.ByteArrayOutputStream;
+import org.apache.commons.io.IOUtils;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -9,11 +14,40 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TitleMetadataTest {
-	private TitleMetadata titleMetadata;
 	
 	@Before
 	public void setUp() {
-		titleMetadata = new TitleMetadata("yarr/pirates", "v1");
+		
+	}
+	
+	@Test
+	public void testTitleMetadataMarshallsCorrectly() throws Exception {
+		TitleMetadata titleMetadata = getTitleMetadata();
+				
+		IBindingFactory bfact = 
+			        BindingDirectory.getFactory(TitleMetadata.class);
+		IMarshallingContext mctx = bfact.createMarshallingContext();
+		mctx.setIndent(2);
+	    mctx.marshalDocument(titleMetadata, "UTF-8", null, System.out);
+	}
+	
+	@Test
+	public void testTitleMetadataDoesNotContainKeywordsXmlBlockWhenNoKeywordsExist () throws Exception {
+		TitleMetadata metadata = getTitleMetadata();
+		metadata.setKeywords(null);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		IBindingFactory bfact = 
+			        BindingDirectory.getFactory(TitleMetadata.class);
+		IMarshallingContext mctx = bfact.createMarshallingContext();
+		mctx.setIndent(2);
+	    mctx.marshalDocument(metadata, "UTF-8", null, outputStream);
+	    String titleMetadataXml = IOUtils.toString(outputStream.toByteArray(), "UTF-8");
+	    System.out.println(titleMetadataXml);
+	    Assert.assertTrue( "The marshalled XML should not contain a keywords element.", !titleMetadataXml.contains("<keywords/>"));
+	}
+	
+	private TitleMetadata getTitleMetadata() {
+		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
 		titleMetadata.setCopyright("The High Seas Trading Company.");
 		titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
 		Doc pirates = new Doc("1", "pirates.htm");
@@ -54,16 +88,10 @@ public class TitleMetadataTest {
 		scallywaggingChildren.add(new TocEntry("3.7/heading", "Wenching"));
 		scallywagging.setChildren(scallywaggingChildren);
 		tocEntries.add(scallywagging);
-		titleMetadata.setTocEntries(tocEntries);
+		TableOfContents tableOfContents = new TableOfContents();
+		tableOfContents.setTocEntries(tocEntries);
+		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
-	}
-	
-	@Test
-	public void testTitleMetadataMarshallsCorrectly() throws Exception {
-		 IBindingFactory bfact = 
-			        BindingDirectory.getFactory(TitleMetadata.class);
-		IMarshallingContext mctx = bfact.createMarshallingContext();
-		mctx.setIndent(2);
-	    mctx.marshalDocument(titleMetadata, "UTF-8", null, System.out);
+		return titleMetadata;
 	}
 }

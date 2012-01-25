@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
@@ -137,6 +138,25 @@ public class TitleMetadataServiceImplTest {
 		assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
 	}
 
+	@Test
+	public void testCreateTableOfContentsFromGatheredTocHappyPath() throws Exception  {
+		File titleXml = null;
+		try {
+			TitleMetadata titleMetadata = getTitleMetadata();
+			TableOfContents tableOfContents = new TableOfContents();
+			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered-toc-test.xml");
+			tableOfContents.setTocEntries(titleMetadataService.createTableOfContents(inputStream));
+			assertTrue(tableOfContents.getTocEntries().size() > 0);
+			titleMetadata.setTableOfContents(tableOfContents);
+			titleXml = File.createTempFile("titleMetadata", ".xml");
+			titleMetadataService.writeToFile(titleMetadata, titleXml);			
+		}
+		finally {
+			FileUtils.deleteQuietly(titleXml);
+		}
+		
+	}
+	
 	private TitleMetadata getTitleMetadata() {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
 		titleMetadata.setCopyright("The High Seas Trading Company.");
@@ -149,7 +169,7 @@ public class TitleMetadataServiceImplTest {
 		documents.add(scallywags);
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
-		titleMetadata.setDisplayName("YARR! The Comprehensive Guide to Plundering the Seven Seas.");
+		titleMetadata.setDisplayName("YARR - The Comprehensive Guide to &amp;&lt;&gt;&apos; Plundering the Seven Seas.");
 		ArrayList<Author> authors = new ArrayList<Author>();
 		authors.add(new Author("Captain Jack Sparrow"));
 		authors.add(new Author("Davey Jones"));
@@ -179,7 +199,9 @@ public class TitleMetadataServiceImplTest {
 		scallywaggingChildren.add(new TocEntry("3.7/heading", "Wenching"));
 		scallywagging.setChildren(scallywaggingChildren);
 		tocEntries.add(scallywagging);
-		titleMetadata.setTocEntries(tocEntries);
+		TableOfContents tableOfContents = new TableOfContents();
+		tableOfContents.setTocEntries(tocEntries);
+		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
 		return titleMetadata;
 	}
