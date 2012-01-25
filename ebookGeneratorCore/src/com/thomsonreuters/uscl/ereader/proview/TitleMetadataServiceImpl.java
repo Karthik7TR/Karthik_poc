@@ -24,6 +24,13 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import com.thomsonreuters.uscl.ereader.gather.TableOfContents;
+import com.thomsonreuters.uscl.ereader.jibx.EntityPreservingCharacterEscaper;
 
 
 
@@ -117,8 +124,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		IBindingFactory bfact = 
 				BindingDirectory.getFactory(TitleMetadata.class);
 		IMarshallingContext mctx = bfact.createMarshallingContext();
-		mctx.setIndent(2);
-		mctx.marshalDocument(titleMetadata, "UTF-8", null, outputStream);
+		
+		mctx.setOutput(outputStream, "UTF-8", new EntityPreservingCharacterEscaper());
+		mctx.marshalDocument(titleMetadata);
 		
 		IOUtils.closeQuietly(outputStream);
 	}
@@ -137,7 +145,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			throw new IllegalArgumentException("Images Directory must not be null and must be a directory that exists [" + imagesDirectory + "].");
 		}
 		
-		List<File> images = Arrays.asList(imagesDirectory.listFiles(IMAGE_FILTER));
+		List<File> images = Arrays.asList(imagesDirectory.listFiles());
 		ArrayList<Asset> assets = new ArrayList<Asset>();
 		for (File image : images) {
 			String filename = image.getName();
@@ -161,12 +169,12 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 
 
 	@Override
-	public ArrayList<Doc> createDocuments(final File gatheredDocumentsFolder) {
-		if (null == gatheredDocumentsFolder || !gatheredDocumentsFolder.isDirectory()) {
-			throw new IllegalArgumentException("Documents Directory must not be null and must be a directory that exists [" + gatheredDocumentsFolder + "].");
+	public ArrayList<Doc> createDocuments(final File documentsFolder) {
+		if (null == documentsFolder || !documentsFolder.isDirectory()) {
+			throw new IllegalArgumentException("Documents Directory must not be null and must be a directory that exists [" + documentsFolder + "].");
 		}
 		
-		List<File> documents = Arrays.asList(gatheredDocumentsFolder.listFiles(DOCUMENT_FILTER));
+		List<File> documents = Arrays.asList(documentsFolder.listFiles());
 		ArrayList<Doc> docs = new ArrayList<Doc>();
 		for (File document : documents) {
 			String filename = document.getName();
@@ -184,18 +192,35 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	 * @return ArrayList of Author objects.
 	 */
 	public ArrayList<Author> createAuthors(final String authorsProperty) {
-		List<String> authornameList = Arrays.asList(authorsProperty.split("|"));
+		List<String> authornameList = Arrays.asList(authorsProperty.split("\\|"));
 		ArrayList<Author> authors = new ArrayList<Author>();
 		for(String authorName : authornameList) {
-			authors.add(new Author(authorName));
+			authors.add(new Author(authorName.trim()));
 		}
 		return authors;
 	}
 
 	@Override
 	public ArrayList<TocEntry> createTableOfContents(final File gatheredTableOfContents) {
-		LOG.debug("addTableOfContents has not been implemented yet!");
-		return new ArrayList<TocEntry>();
+		TableOfContents tableOfContents = null;
+		ArrayList<TocEntry> tocEntries = null;
+		InputStream gatheredTocInputStream;
+		IUnmarshallingContext unmtcx;
+		try {
+			gatheredTocInputStream = new FileInputStream(gatheredTableOfContents);
+			IBindingFactory bfact = 
+					BindingDirectory.getFactory(TableOfContents.class);
+			unmtcx = bfact.createUnmarshallingContext();
+			tableOfContents = (TableOfContents) unmtcx.unmarshalDocument(gatheredTocInputStream, "UTF-8");
+			tocEntries = tableOfContents.getTocEntries();
+		}
+		catch(FileNotFoundException e){
+			throw new RuntimeException("The file " + gatheredTableOfContents + " did not exist!", e);
+		}
+		catch(JiBXException e){
+			throw new RuntimeException("Failed to unmarshal TocEntry objects from gathered toc file: " + gatheredTableOfContents.getAbsolutePath(), e);
+		}
+		return tocEntries;
 	}
 	
 	@Override
@@ -206,7 +231,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private class ImageFilter implements FilenameFilter {
 		@Override
 		public boolean accept(File dir, String name) {
-			boolean result = (name.endsWith("png") || name.endsWith("svg")) ? true : false;
+			boolean result = (StringUtils.endsWithIgnoreCase(name,"png") || StringUtils.endsWithIgnoreCase(name,"svg")) ? true : false;
 			return result;
 		}
 	}
@@ -214,8 +239,27 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private class DocumentFilter implements FilenameFilter {
 		@Override
 		public boolean accept(File dir, String name) {
-			boolean result = (name.endsWith("htm")) ? true : false;
+			boolean result = (StringUtils.endsWithIgnoreCase(name,"htm") || StringUtils.endsWithIgnoreCase(name,"html")) ? true : false;
 			return result;
 		}
+	}
+
+	@Override
+	public ArrayList<TocEntry> createTableOfContents(
+			InputStream gatheredTableOfContentsInputStream) {
+		TableOfContents tableOfContents = null;
+		ArrayList<TocEntry> tocEntries = null;
+		IUnmarshallingContext unmtcx;
+		try {
+			IBindingFactory bfact = 
+					BindingDirectory.getFactory(TableOfContents.class);
+			unmtcx = bfact.createUnmarshallingContext();
+			tableOfContents = (TableOfContents) unmtcx.unmarshalDocument(gatheredTableOfContentsInputStream, "UTF-8");
+			tocEntries = tableOfContents.getTocEntries();
+		}
+		catch(JiBXException e){
+			throw new RuntimeException("Failed to unmarshal TocEntry objects from input stream: " + gatheredTableOfContentsInputStream, e);
+		}
+		return tocEntries;
 	}
 }

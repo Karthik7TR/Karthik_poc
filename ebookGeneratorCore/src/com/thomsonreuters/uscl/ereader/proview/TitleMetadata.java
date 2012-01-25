@@ -37,12 +37,12 @@ public class TitleMetadata implements Serializable {
 	
 	private Artwork artwork;
 
+	private TableOfContents tableOfContents;
 	private ArrayList<Author> authors;
-	private ArrayList<TocEntry> tocEntries;
 	private ArrayList<Doc> documents;
 	private ArrayList<Asset> assets;
 	private ArrayList<Feature> proviewFeatures;
-	private ArrayList<Keyword> keywords;
+	private ArrayList<Keyword> keywords = null;
 	
 	public TitleMetadata() {
 		assets = new ArrayList<Asset>();
@@ -81,8 +81,8 @@ public class TitleMetadata implements Serializable {
 		this.materialId = materialId;
 	}
 
-	public void setTocEntries(ArrayList<TocEntry> tocEntries) {
-		this.tocEntries = tocEntries;
+	public void setTableOfContents(TableOfContents tableOfContents) {
+		this.tableOfContents = tableOfContents;
 	}
 
 	public void setCopyright(String copyright) {

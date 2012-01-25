@@ -26,5 +26,6 @@ public interface TitleMetadataService {
 	public Artwork createArtwork(final File coverImage);
 	public ArrayList<Doc> createDocuments(final File gatheredDocumentsFolder);
 	public ArrayList<TocEntry> createTableOfContents(final File gatheredTableOfContents);
+	public ArrayList<TocEntry> createTableOfContents(final InputStream gatheredTableOfContentsInputStream);
 	public Asset createStylesheet(final File stylesheet);
 }

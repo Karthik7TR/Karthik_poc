@@ -17,9 +17,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public class TocEntry {
-	private String anchorReference;
-	private String text;
-	private ArrayList<TocEntry> children;
+	protected String anchorReference;
+	protected String text;
+	protected ArrayList<TocEntry> children;
 	
 	public TocEntry(){
 		
