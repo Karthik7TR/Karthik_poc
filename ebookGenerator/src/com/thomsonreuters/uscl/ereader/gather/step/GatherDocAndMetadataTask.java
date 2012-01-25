@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -38,10 +39,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 
 	
 	@Override
-	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
-	{
-		ExitStatus taskExitStatus = ExitStatus.COMPLETED;		
-		
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 		File tocFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
@@ -49,8 +47,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		File docsMetadataDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
 		File docsGuidsFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
 		String docCollectionName = jobParams.getString(JobParameterKey.DOC_COLLECTION_NAME);
-		
-	   
+
     	docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
     	List<String> docGuids = GatherImageVerticalImagesTask.readLinesFromTextFile(docsGuidsFile);
     	
@@ -58,11 +55,13 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
 		LOG.debug(gatherResponse);
 		if (gatherResponse.getErrorCode() != 0 ) {
-			taskExitStatus =  ExitStatus.FAILED;
+			GatherException gatherException = new GatherException(
+					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
+			throw gatherException;
 		}
-	  
-		return taskExitStatus;        
+		return ExitStatus.COMPLETED;      
 	}
+
 	@Required
 	public void setDocMetadataGuidParserService(DocMetaDataGuidParserService docMetadataSvc) {
 		this.docMetaDataParserService = docMetadataSvc;

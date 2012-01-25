@@ -70,8 +70,7 @@ public class DocControllerTest {
 	public void testFetchDocumentsWithException() {
 		int errorCode = 911;
 		String errorMesg = "bogus error";
-		GatherException expectedException = new GatherException(errorMesg);
-		expectedException.setErrorCode(errorCode);
+		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
 			mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
 			EasyMock.expectLastCall().andThrow(expectedException);

@@ -10,16 +10,17 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
@@ -37,8 +38,6 @@ public class GetTocTask  extends AbstractSbTasklet {
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		
-		ExitStatus taskExitStatus = ExitStatus.COMPLETED;
-		
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 
@@ -50,18 +49,18 @@ public class GetTocTask  extends AbstractSbTasklet {
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile);
 		LOG.debug(gatherTocRequest);
 		GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
-		if(gatherResponse.getErrorCode() != 0 ){
-			
-			taskExitStatus =  ExitStatus.FAILED;
+		LOG.debug(gatherResponse);
+		if (gatherResponse.getErrorCode() != 0 ) {
+			GatherException gatherException = new GatherException(
+					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
+			throw gatherException;
 		}
 		
-		return taskExitStatus ;	
+		return ExitStatus.COMPLETED;
 	}
 
-
-
+	@Required
 	public void setGatherService(GatherService gatherService) {
 		this.gatherService = gatherService;
 	}
-
 }

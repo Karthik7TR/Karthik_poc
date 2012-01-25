@@ -75,8 +75,8 @@ public class GatherRestServiceIntegrationTest  {
 		String collectionName = DOC_COLLECTION_NAME_CLIENT1;
 		String docGuid = DOC_GUID_CLIENT1;
 		
-		File tempDir = temporaryFolder.getRoot();
-//File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you want to see the files that were created
+		//File tempDir = temporaryFolder.getRoot();
+File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you want to see the files that were created
 
 		File contentDir = new File(tempDir, "junit_content");
 		File metadataDir = new File(tempDir, "junit_metadata");

@@ -8,11 +8,9 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -55,13 +53,11 @@ public class DocServiceImpl implements DocService {
 			}
 		} catch (NovusException e) {
 			anyException = true;
-			GatherException ge = new GatherException("Novus error occurred fetching document " + docGuid, e);
-			ge.setErrorCode(GatherResponse.CODE_NOVUS_ERROR);
+			GatherException ge = new GatherException("Novus error occurred fetching document " + docGuid, e, GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
 		} catch (IOException e) {
 			anyException = true;
-			GatherException ge = new GatherException("File I/O error writing document " + docGuid, e);
-			ge.setErrorCode(GatherResponse.CODE_NOVUS_ERROR);
+			GatherException ge = new GatherException("File I/O error writing document " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 		} finally {
 			if (anyException) {
@@ -96,6 +92,7 @@ public class DocServiceImpl implements DocService {
 			String charset = "UTF-8";	// explicitly set the character set
 			Writer writer = new OutputStreamWriter(stream, charset);
 			writer.write(content);
+			writer.flush();
 		} finally {
 			stream.close();
 		}
