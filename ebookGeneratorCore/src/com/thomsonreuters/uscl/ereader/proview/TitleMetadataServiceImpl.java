@@ -24,10 +24,6 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.thomsonreuters.uscl.ereader.gather.TableOfContents;
 import com.thomsonreuters.uscl.ereader.jibx.EntityPreservingCharacterEscaper;
