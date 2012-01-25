@@ -32,10 +32,12 @@ public class GatherRestServiceIntegrationTest  {
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
-	
 	@Autowired
 	private GatherService gatherService;
 	
+	/**
+	 * Fetch a TOC by invoking the Gather REST service.
+	 */
 	@Test
 	public void testGetToc() {
 		String TOC_COLLECTION_NAME = "w_an_rcc_cajur_toc";	// Client
@@ -54,23 +56,40 @@ public class GatherRestServiceIntegrationTest  {
 		Assert.assertTrue(tocFile.length() > 0);
 	}
 	
-	//@Test
+	/**
+	 * Fetch a single DOC from Novus by invoking the Gather REST service.
+	 * Prod DOC GUIDS and collection name from S. Alic (1/20/12)
+	 *	I2e91cd8ba11611d9ad0a81db1eb1d417 - w_an_rcc_cajur
+	 *	I6df3a45ac31e11dab3bee1090045c758 - w_an_ea_texts
+	 *	NE7EFCB407E2611DA8F1DA64F3D0F013D - w_codesstaflnvdp
+	 *	N978755A0297B11E096CDBA6364A6FDC3 - w_codesstausnvdp
+	 *	NE7EFCB407E2611DA8F1DA64F3D0F013D - w_codesstaflnvdp  (Client)
+	 */
+	@Test
 	public void testGetDoc() {
-		String DOC_COLLECTION_NAME_PROD = "w_an_rcc_cajur";	
-		String DOC_GUID_PROD = "I2e91cd8ba11611d9ad0a81db1eb1d418";
+		//String DOC_COLLECTION_NAME_PROD = "w_an_rcc_cajur";	
+		//String DOC_GUID_PROD = "I2e91cd8ba11611d9ad0a81db1eb1d418";
+		String DOC_COLLECTION_NAME_CLIENT1 = "w_codesstaflnvdp";
+		String DOC_GUID_CLIENT1 = "NE7EFCB407E2611DA8F1DA64F3D0F013D"; 
+		
+		String collectionName = DOC_COLLECTION_NAME_CLIENT1;
+		String docGuid = DOC_GUID_CLIENT1;
 		
 		File tempDir = temporaryFolder.getRoot();
+//File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you want to see the files that were created
+
 		File contentDir = new File(tempDir, "junit_content");
 		File metadataDir = new File(tempDir, "junit_metadata");
 		contentDir.mkdirs();
 		metadataDir.mkdirs();
-		File contentFile = new File(contentDir, DOC_GUID_PROD+".xml");
-		File metadataFile = new File(metadataDir, DOC_GUID_PROD+".xml");
+		File contentFile = new File(contentDir, docGuid+".xml");
+		File metadataFile = new File(metadataDir, docGuid+".xml");
 		Collection<String> guids = new ArrayList<String>();
-		guids.add(DOC_GUID_PROD);
-		GatherDocRequest docRequest = new GatherDocRequest(guids, DOC_COLLECTION_NAME_PROD, contentDir, metadataDir);
+		guids.add(docGuid);
+		GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);
 		
 		GatherResponse gatherResponse = gatherService.getDoc(docRequest);
+		
 		log.debug(gatherResponse);
 		Assert.assertNotNull(gatherResponse);
 		Assert.assertEquals(0, gatherResponse.getErrorCode());

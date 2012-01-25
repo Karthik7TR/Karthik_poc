@@ -25,9 +25,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerT
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
+import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClientFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
+			BasicAuthenticationHttpClientFactoryTest.class,
 			DocMetadataServiceTest.class,
 			EbookAssemblyServiceTest.class,
 			EngineServiceTest.class,
