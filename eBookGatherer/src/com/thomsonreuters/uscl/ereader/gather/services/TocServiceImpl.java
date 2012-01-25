@@ -104,6 +104,7 @@ public class TocServiceImpl implements TocService {
 	{
 		Novus novusObject = null;
 		TOCNode[] tocNodes = null;
+		TOCNode tocNode = null;
 		List<EBookToc> tocGuidList = null;
 		
 		/*** for ebook builder we will always get Collection.***/
@@ -112,7 +113,9 @@ public class TocServiceImpl implements TocService {
 		TOC toc = getTocObject(collectionName,type,novusObject);
 
 		try {
-			tocNodes = toc.getRootNodes(); //getAllDocuments(guid);
+			tocNode = toc.getNode(guid);
+			tocNodes = new TOCNode[1];
+			tocNodes[0] =  tocNode ;
 			tocGuidList = extractTocListForEbook(tocNodes);
 		} catch (NovusException e) {
 			throw new GatherException("Failed to get TOC from Novus for guid=" + guid +",collectionName=" + collectionName, e);
