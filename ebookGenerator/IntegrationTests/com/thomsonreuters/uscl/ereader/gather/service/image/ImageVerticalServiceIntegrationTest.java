@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,29 +30,53 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 @ContextConfiguration
 @Transactional
 public class ImageVerticalServiceIntegrationTest  {
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static final Logger log = Logger.getLogger(ImageVerticalServiceIntegrationTest.class);
 	private static final String GUID_PNG = "IA31BCD5F18364C9BBDCD008012AFBF02";	// PNG image
 	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
 	private static final String[] GUID_LIST = {
-		"I8A302FE4920F47B00079B5381C71638B",
-		"I5d463990094d11e085f5891ac64a9905", // a tif image
-		"I449A045209354D19BADD202B264B3076",
-		"IA1F5243AA999498889F4D32E3D141970",
-		"IB813AED2574D4765839DD8196BBF692E",
-		"I3B6D30935B874190B99CE23DCD71F420",
-		"I8D6644A823A14778BFA4074B6D597D1D",
-		"IB815E4C168D7419AB24C4134C9E728D2" };
+		 "I03a62830fca111e0961b0000837bc6dd" };  // A PDF
+//		"I5d463990094d11e085f5891ac64a9905" };  // a tif
+//	    "Ie043fac0675a11da90ebf04471783734",
+//		"I8A302FE4920F47B00079B5381C71638B",
+//		"I449A045209354D19BADD202B264B3076",
+//		"IA1F5243AA999498889F4D32E3D141970",
+//		"IB813AED2574D4765839DD8196BBF692E",
+//		"I3B6D30935B874190B99CE23DCD71F420",
+//		"I8D6644A823A14778BFA4074B6D597D1D",
+//		"IB815E4C168D7419AB24C4134C9E728D2" };
 	
 	@Autowired ImageService imageService;
 
 	@Test
+	public void testFetchImageVerticalImage() {
+//		File tmpImageDir = temporaryFolder.getRoot();
+		File tmpImageDir = new File(System.getProperty("java.io.tmpdir")); // use this to save the image(s)
+		long jobInstanceId = 1965;
+		String titleId = "bogusTitleId";
+//		List<String> imageGuids = new java.util.ArrayList<String>(1);
+//		imageGuids.add(GUID);
+		List<String> imageGuids = Arrays.asList(GUID_LIST);
+		try {
+			System.out.println("Writing files to: " + tmpImageDir);
+			imageService.fetchImageVerticalImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		} finally {
+			
+		}
+	}
+	
+	
+//	@Test
 	public void testFetchImageVerticalImageMetadata() {
 		SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF);
 		Assert.assertNotNull(response);
-System.out.println(response);
 	}
 	
-	@Test
+//	@Test
 	public void testFetchImageMetadataBadGuid() {
 		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
 		try {
@@ -62,25 +88,9 @@ System.out.println(response);
 		}
 	}
 	
-	@Test
-	public void testFetchImageVerticalImage() {
-		File tmpImageDir = new File(System.getProperty("java.io.tmpdir"));
-		long jobInstanceId = 1965;
-		String titleId = "bogusTitleId";
-//		List<String> imageGuids = new java.util.ArrayList<String>(1);
-//		imageGuids.add(GUID);
-		List<String> imageGuids = Arrays.asList(GUID_LIST);
-		try {
-			imageService.fetchImageVerticalImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		} finally {
-			
-		}
-	}
+
 	
-	@Test
+//	@Test
 	public void testPersistImageMetadata() {
 		Long jobInstanceId = -999l;
 		String titleId = "bogusTitleId";
@@ -106,7 +116,7 @@ System.out.println(response);
 		Assert.assertEquals(dimUnit, actualEntity.getDimUnits());
 	}
 	
-	@Test
+//	@Test
 	public void testFindImageMetadataByPrimaryKey() {
 		long jobInstanceId = 375;
 		ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, GUID_PNG);
