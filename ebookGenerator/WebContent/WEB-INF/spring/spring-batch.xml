@@ -8,11 +8,20 @@
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
-
-    <batch:job-repository id="jobRepository"
-    			data-source="dataSource"
-    			table-prefix="${spring.batch.table.prefix}"
-				transaction-manager="transactionManager"/>
+	
+	
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"
+                    p:dataSource-ref="dataSource"
+                    p:tablePrefix="${spring.batch.table.prefix}"
+                    p:lobHandler-ref="oracleLobHandler"
+                    p:transactionManager-ref="transactionManager"/>
+                    
+    <bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler"
+                    p:nativeJdbcExtractor-ref="nativeJdbcExtractor"/>
+                                
+    <bean id="nativeJdbcExtractor" 
+                class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"/>
+	
 				
 	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
 	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
