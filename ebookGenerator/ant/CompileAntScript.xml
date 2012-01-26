@@ -33,7 +33,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, createWar">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, -createWar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -129,11 +129,7 @@
     </javac>
   </target>
 
-  <!-- - - - - - - - - - - - - - - - - - 
-          target: -createJar                      
-          description: Package the compiled code into a JAR.
-         - - - - - - - - - - - - - - - - - -->
-  <!-- - - - - - - - - - - - - - - - - - 
+    <!-- - - - - - - - - - - - - - - - - - 
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
