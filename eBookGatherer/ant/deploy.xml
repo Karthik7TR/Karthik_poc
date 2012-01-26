@@ -1,4 +1,4 @@
-<project name="ContentClustering CI Deploy" default="fulldeploy" basedir=".">
+<project name="eBookGatherer CI Deploy" default="fulldeploy" basedir=".">
 
   <property file="deploy.properties"/>
 
