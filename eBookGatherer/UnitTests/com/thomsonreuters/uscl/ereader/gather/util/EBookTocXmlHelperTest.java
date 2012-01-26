@@ -42,33 +42,21 @@ public class EBookTocXmlHelperTest {
 		EBookToc eBookToc_1 = new EBookToc();
 //		eBookToc_1.setName("<header>Test &quot; Toc 1</header>");
 		eBookToc_1.setName("<header>Test &quot; Toc § 1</header>");
-//		eBookToc_1.setGuid("Test Guid 1");
-//		eBookToc_1.setParentGuid("Test Toc ParentGuid 1");
-//		eBookToc_1.setMetadata("<md.term>  &lt; Test &amp; Toc Metadata 1 &gt; </md.term>");
 		ebookTocList.add(eBookToc_1);
 
 		EBookToc eBookToc_2 = new EBookToc();
 		eBookToc_2.setName("<heading><cite query='attr'/>Test Toc 2 Hawai&apos;i <bold>50</bold><eos/></heading>");
-//		eBookToc_2.setGuid("Test Guid 2");
-//		eBookToc_2.setParentGuid("Test Toc ParentGuid 2");
-//		eBookToc_2.setMetadata("Test Toc Metadata 2");
 		ebookTocList.add(eBookToc_2);
 
 		List<EBookToc> ebookTocInnerList = new ArrayList<EBookToc>();
 
 		EBookToc eBookToc_Inner = new EBookToc();
 		eBookToc_Inner.setName("<heading><cite query='attr'/>Test Toc 3 inner</heading>");
-//		eBookToc_Inner.setGuid("Test Guid 3 inner ");
-//		eBookToc_Inner.setParentGuid("Test Toc ParentGuid 3 inner");
-//		eBookToc_Inner.setMetadata("Test Toc Metadata 3 inner");
 		eBookToc_Inner.setDocGuid("docGuid");
 		ebookTocInnerList.add(eBookToc_Inner);
 		
 		EBookToc eBookToc_3 = new EBookToc();
 		eBookToc_3.setName("&lt; Test Toc &amp; 3 &gt;");
-//		eBookToc_3.setGuid("Test Guid 3");
-//		eBookToc_3.setParentGuid("Test Toc ParentGuid 3");
-//		eBookToc_3.setMetadata("Test Toc Metadata 3");
 		eBookToc_3.setChildren(ebookTocInnerList);
 		eBookToc_3.setChildrenCount(1);
 		ebookTocList.add(eBookToc_3);

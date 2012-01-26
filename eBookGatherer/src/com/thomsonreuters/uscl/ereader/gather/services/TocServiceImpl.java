@@ -49,12 +49,9 @@ public class TocServiceImpl implements TocService {
 		{
 			TOCNode node = tocNodes[i];
 			EBookToc eBookToc = new EBookToc();
-			eBookToc.setGuid(node.getGuid());
 			//eBookToc.setName(novusAPIHelper.processName(node.getName()));
 			eBookToc.setName(node.getName());
 			eBookToc.setDocGuid(node.getDocGuid());
-			eBookToc.setParentGuid(node.getParentGuid());
-			eBookToc.setMetadata(node.getMetadata());
 			eBookToc.setChildrenCount(node.getChildrenCount());
 			
 			

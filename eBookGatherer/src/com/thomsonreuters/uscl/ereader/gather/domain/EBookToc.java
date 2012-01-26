@@ -12,10 +12,6 @@ import java.util.List;
 public class EBookToc {
 	
 	String name;
-	String guid;
-	String rootGuid;
-	String parentGuid;
-	String metadata;
 	String docGuid;
 	List<EBookToc> childrenList;
 	int childrenCount;
@@ -29,14 +25,8 @@ public class EBookToc {
 				+ ((childrenList == null) ? 0 : childrenList.hashCode());
 		result = prime * result + childrenCount;
 		result = prime * result + ((docGuid == null) ? 0 : docGuid.hashCode());
-		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
-		result = prime * result
-				+ ((metadata == null) ? 0 : metadata.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((parentGuid == null) ? 0 : parentGuid.hashCode());
-		result = prime * result
-				+ ((rootGuid == null) ? 0 : rootGuid.hashCode());
+
 		return result;
 	}
 	@Override
@@ -60,31 +50,12 @@ public class EBookToc {
 				return false;
 		} else if (!docGuid.equals(other.docGuid))
 			return false;
-		if (guid == null) {
-			if (other.guid != null)
-				return false;
-		} else if (!guid.equals(other.guid))
-			return false;
-		if (metadata == null) {
-			if (other.metadata != null)
-				return false;
-		} else if (!metadata.equals(other.metadata))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (parentGuid == null) {
-			if (other.parentGuid != null)
-				return false;
-		} else if (!parentGuid.equals(other.parentGuid))
-			return false;
-		if (rootGuid == null) {
-			if (other.rootGuid != null)
-				return false;
-		} else if (!rootGuid.equals(other.rootGuid))
-			return false;
+		
 		return true;
 	}
 	public String getName() {
@@ -92,30 +63,6 @@ public class EBookToc {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getGuid() {
-		return guid;
-	}
-	public void setGuid(String guid) {
-		this.guid = guid;
-	}
-	public String getRootGuid() {
-		return rootGuid;
-	}
-	public void setRootGuid(String rootGuid) {
-		this.rootGuid = rootGuid;
-	}
-	public String getParentGuid() {
-		return parentGuid;
-	}
-	public void setParentGuid(String parentGuid) {
-		this.parentGuid = parentGuid;
-	}
-	public String getMetadata() {
-		return metadata;
-	}
-	public void setMetadata(String metadata) {
-		this.metadata = metadata;
 	}
 	public String getDocGuid() {
 		return docGuid;
@@ -140,10 +87,6 @@ public class EBookToc {
 	{
 		return new StringBuilder().
 		append("  Name:").append(name).
-		append(" ,guid:").append(guid).
-		append(" ,rootGuid:").append(rootGuid).
-		append(" ,parentGuid:").append(parentGuid).
-		append(" ,metadata:").append(metadata).
 		append(" ,docGuid:").append(docGuid).
 		append(" ,childrenCount:").append(childrenCount).
 		append(" ,children:").append(childrenList).
