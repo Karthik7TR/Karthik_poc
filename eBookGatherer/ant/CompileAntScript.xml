@@ -5,7 +5,7 @@
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
-  <property name="warFilename" value="ebookGatherer.war"/>
+  <property name="warFilename" value="eBookGatherer.war"/>
   <property name="dir.ebookGeneratorCore" value="..\ebookGeneratorCore" />
 	
   <!--- - - - - - - - - - - - - - - - -
