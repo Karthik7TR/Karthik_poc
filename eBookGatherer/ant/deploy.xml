@@ -1,0 +1,19 @@
+<project name="ContentClustering CI Deploy" default="fulldeploy" basedir=".">
+
+  <property file="deploy.properties"/>
+
+  <!-- Must pass deploy_version in from the UI. -->
+  <property name="numeric_deploy_version" value="" />
+  
+	<!-- This does all the work for deployment. -->
+	<target name="fulldeploy" description="this does the full deploy of the vertical">
+
+    <sshexec host="${DEPLOY_SERVER}"
+    username="${CURRENT_USER}"
+    password="${CURRENT_PASSWORD}"
+    trust="yes"
+    command="cd /appserver/deployment;./deployci ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
+    
+  </target>
+
+</project>
