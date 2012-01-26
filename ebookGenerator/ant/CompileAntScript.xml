@@ -133,8 +133,11 @@
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
-<!--
-	<target name="-createJar" >
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -createJar                      
+          description: Package the compiled code into a JAR.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-createJar" >
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
@@ -143,23 +146,20 @@
       </fileset>
     </jar>
   </target>
--->
-	
+
   <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
          - - - - - - - - - - - - - - - - - -->
-  <target name="createWar" depends="-init, -compile">
+  <target name="-createWar" depends="-createJar">
     <echo level="verbose">Creating the WAR file...</echo>
-  	<mkdir dir="${dir.artifact}"/>
-    <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true">
-      <fileset dir="${dir.core}/lib" includes="*.jar"/>
-      <fileset dir="${dir.core}/dist" includes="*.jar"/>
-    </copy>
+    <!-- Copy copiled classes over to "classes" folder in the war -->
+    <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
       <fileset dir="${dir.binaries}"/>
     </copy>
-    <war destfile="${dir.artifact}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
+
+    <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.webContent}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
