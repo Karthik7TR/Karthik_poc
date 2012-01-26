@@ -4,7 +4,7 @@
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
   <property name="DisplayCopiedFilesInWar" value="false"/>
-  <property name="warFilename" value="ebookGenerator.war"/>
+  <property name="warFilename" value="eBookGenerator.war"/>
 	
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
