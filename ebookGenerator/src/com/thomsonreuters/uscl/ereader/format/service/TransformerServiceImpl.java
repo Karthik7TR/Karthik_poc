@@ -177,33 +177,69 @@ public class TransformerServiceImpl implements TransformerService
 	 */
 	protected File getXSLT(String title, Long job, String guid) throws EBookFormatException
 	{
-		File xsltDir = new File(new File("C:\\nas", "Xslt"), "ContentTypes");
-		//TODO: Dynamically retrieve XSLT using XSLT retrieval service
-		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), guid);
-//
-//		String collection;
-//		String docType;
-//		if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
-//		{
-//			collection = docMetadata.getCollectionName();
-//			docType = docMetadata.getDocType();
-//		}
-//		else
-//		{
-//			String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
-//					" title with " + job + " job id.";
-//        	LOG.error(errMessage);
-//        	throw new EBookFormatException(errMessage);
-//		}
-//		
-//		LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
-//		String xsltName = xsltMapperService.getXSLT(collection, docType);
+		File xsltDir = new File(new File("/nas", "Xslt"), "ContentTypes");
+		String xsltName;
+		String collection = "";
+		String docType = "";
 		
-		String xsltName = 
-				"CodesStatutes.xsl";
-				//"AnalyticalJurs.xsl";
-				//"AnalyticalTreatisesAndAnnoCodes.xsl";
-		File xslt = new File(xsltDir, xsltName);
+		//TODO: Remove hard coded XSLT name overrides that are used for the sample books.
+		if (title.equalsIgnoreCase("crsample") || title.equalsIgnoreCase("scsample")
+				|| title.equalsIgnoreCase("staticimage"))
+		{
+			xsltName = 
+					"CodesStatutes.xsl";
+		}
+		else if(title.equalsIgnoreCase("analytical1"))
+		{
+			xsltName = 
+					"AnalyticalJurs.xsl";
+		}
+		else if(title.equalsIgnoreCase("analytical2"))
+		{
+			xsltName = 
+					"AnalyticalTreatisesAndAnnoCodes.xsl";
+		}
+		else
+		{
+			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), guid);
+
+			if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
+			{
+				collection = docMetadata.getCollectionName();
+				docType = docMetadata.getDocType();
+			}
+			else
+			{
+				String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
+						" title with " + job + " job id.";
+	        	LOG.error(errMessage);
+	        	throw new EBookFormatException(errMessage);
+			}
+			
+			LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
+			xsltName = xsltMapperService.getXSLT(collection, docType);
+		}
+		
+		File xslt;
+		if (xsltName != null)
+		{
+			xslt = new File(xsltDir, xsltName);
+			
+			if (!xslt.exists())
+			{
+				String errMessage = "Could not the following XSLT file on the file system: " + xslt.getAbsolutePath();
+	        	LOG.error(errMessage);
+	        	throw new EBookFormatException(errMessage);
+			}
+		}
+		else
+		{
+			String errMessage = "Could not retrieve xslt name through XSLTMapperService. Please make sure " +
+					"an entry for " + collection + " collection and " + docType + " doc type exist in the " +
+					"XSTL_MAPPER table on the EBook database.";
+        	LOG.error(errMessage);
+        	throw new EBookFormatException(errMessage);
+		}
 		
 		LOG.debug("Using " + xsltName + " to transform " + guid + " document.");
         		

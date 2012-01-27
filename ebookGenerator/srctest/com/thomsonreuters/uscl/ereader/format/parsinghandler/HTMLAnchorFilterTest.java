@@ -43,6 +43,7 @@ public class HTMLAnchorFilterTest {
 	private final long testJobId = 123L;
 	private final String testGuid = "NFA730F80D58A11DCBFA7F697EE59258B";
 	private final String invalidGuid = "badGuid";
+	private final String firstlineCite = "ABC";
 	
 	private ImageMetadataEntity regularImgMetadata;
 	private ImageMetadataEntity largeImgMetadata;
@@ -58,6 +59,7 @@ public class HTMLAnchorFilterTest {
 		
 		anchorFilter = new HTMLAnchorFilter();
 		anchorFilter.setjobInstanceId(testJobId);
+		anchorFilter.setFirstlineCite(firstlineCite);
 		anchorFilter.setParent(saxParser.getXMLReader());
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
@@ -154,7 +156,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -171,7 +173,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/v1/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -185,7 +187,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/v1/" + invalidGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -202,7 +204,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -219,7 +221,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -236,7 +238,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -249,7 +251,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + invalidGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -353,7 +355,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -374,7 +376,7 @@ public class HTMLAnchorFilterTest {
 		
 		String xmlTestStr = "<test><a href=\"http://www.test/Blob/" + testGuid + 
 				".jpg?\" type=\"image/jpeg\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
 				testGuid + "\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
@@ -395,8 +397,8 @@ public class HTMLAnchorFilterTest {
 				".jpg?\" type=\"image/jpeg\"/><a href=\"http://www.test/Blob/" +
 				"AFA730F80D58A11DCBFA7F697EE59258B.jpg?\" type=\"image/jpeg\"/>" +
 				"<a href=\"#\" class=\"test\"/></test>";
-		String expectedResult = "<test><img alt=\"Image 1 within document.\" src=\"er:#" + 
-				testGuid + "\"/><img alt=\"Image 2 within document.\" " +
+		String expectedResult = "<test><img alt=\"Image 1 within " + firstlineCite + " document.\" src=\"er:#" + 
+				testGuid + "\"/><img alt=\"Image 2 within " + firstlineCite + " document.\" " +
 						"src=\"er:#AFA730F80D58A11DCBFA7F697EE59258B\" class=\"tr_image\"/></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);

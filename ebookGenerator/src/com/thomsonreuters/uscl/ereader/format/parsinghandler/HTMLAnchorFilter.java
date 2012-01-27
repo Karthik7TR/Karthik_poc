@@ -34,6 +34,8 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	
 	private long jobInstanceId;
 	
+	private String firstlineCite;
+	
 	public void setimgService(ImageService imgService)
 	{
 		this.imgService = imgService;
@@ -42,6 +44,11 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	public void setjobInstanceId(long jobInstanceId)
 	{
 		this.jobInstanceId = jobInstanceId;
+	}
+	
+	public void setFirstlineCite(String firstlineCite)
+	{
+		this.firstlineCite = firstlineCite;
 	}
 	
 	public void setImgMaxHeight(long maxHeight)
@@ -94,8 +101,9 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						if (imgGuid.length() >= 32 && imgGuid.length() < 34)
 						{
 							AttributesImpl newAtts = new AttributesImpl();
+							
 							newAtts.addAttribute("", "", "alt", "CDATA", 
-									"Image " + imgEncountered + " within document.");
+									"Image " + imgEncountered + " within " + firstlineCite + " document.");
 							newAtts.addAttribute("", "", "src", "CDATA", "er:#" + imgGuid);
 							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);

@@ -54,6 +54,9 @@
 	<bean id="docMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
+	<bean id="htmlFormatDocMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl">
+		  <constructor-arg ref="sessionFactory"/>
+	</bean>
 		 
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"

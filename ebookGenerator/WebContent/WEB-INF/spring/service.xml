@@ -99,7 +99,8 @@
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 	<bean id="htmlTransformerService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl"
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
-		  p:imgService-ref="imageService"/>
+		  p:imgService-ref="imageService"
+  		  p:docMetadataService-ref="htmlFormatDocMetadataService"/>
 	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
 		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"/>
 	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
@@ -131,11 +132,16 @@
 		  p:imageDao-ref="imageDao"
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
 		  
-	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>		  
+	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>		
+	<bean id="htmlFormatDocMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/> 
 		  
 	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
-	         p:docMetadataDAO-ref="docMetaDataDao"
-	         p:docMetaXMLParser-ref="docMetaXMLParser"/>		  
+			p:docMetadataDAO-ref="docMetaDataDao"
+			p:docMetaXMLParser-ref="docMetaXMLParser"/>	
+	
+	<bean id="htmlFormatDocMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
+		    p:docMetadataDAO-ref="htmlFormatDocMetaDataDao"
+		    p:docMetaXMLParser-ref="htmlFormatDocMetaXMLParser"/>		  
 
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="gatherRestTemplate"

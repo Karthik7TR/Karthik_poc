@@ -39,6 +39,8 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
@@ -53,6 +55,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private ImageService imgService;
+	private DocMetadataService docMetadataService;
 	
 	private static final String START_WRAPPER_TAG = "<div>";
 	private static final String END_WRAPPER_TAG = "</div>";
@@ -67,6 +70,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		this.imgService = imgService;
 	}
 	
+	public void setdocMetadataService(DocMetadataService docMetadataService)
+	{
+		this.docMetadataService = docMetadataService;
+	}
+	
 	/**
 	 * This method applies multiple XMLFilters to the source HTML to apply various
 	 * post transformation rules to the HTML.
@@ -74,14 +82,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param staticImgList target file to which a list of referenced static files will be written out to
+	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final Long jobId) 
-			throws EBookFormatException
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, 
+			final String title, final Long jobId) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -114,7 +123,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages, jobId);
+			transformHTMLFile(htmlFile, targetDir, staticImages, title, jobId);
 			numDocs++;
 		}
 		
@@ -132,15 +141,17 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param sourceFile source file to be transformed
 	 * @param targetDir target directory where the resulting post transformation file is to be written
 	 * @param staticImgRef set to which a list of referenced static files will be added to
+	 * @param titleID title of the book being published
 	 * @param jobIdentifier identifier of the job that will be used to retrieve the image metadata
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, Long jobIdentifier) 
-			throws EBookFormatException
+	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, 
+			String titleID, Long jobIdentifier) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
+		String guid = fileName.substring(0, fileName.indexOf("."));
 		FileInputStream inStream = null;
 		FileOutputStream outStream = null;
 		SequenceInputStream intermediateStream = null;
@@ -148,6 +159,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		try
 		{
 			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
+			
+			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
+					titleID, Integer.parseInt(jobIdentifier.toString()), guid);
+			
+			String firstlineCite = "";
+			if (docMetadata != null)
+			{
+				firstlineCite = docMetadata.getNormalizedFirstlineCite();
+			}
 			
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setNamespaceAware(true);
@@ -166,6 +186,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
 			anchorFilter.setjobInstanceId(jobIdentifier);
+			anchorFilter.setFirstlineCite(firstlineCite);
 			anchorFilter.setParent(inputFilter);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);

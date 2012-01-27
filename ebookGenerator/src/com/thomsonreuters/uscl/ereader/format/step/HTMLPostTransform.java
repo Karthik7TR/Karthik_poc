@@ -10,11 +10,13 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -39,8 +41,10 @@ public class HTMLPostTransform extends AbstractSbTasklet
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
+		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		Long jobId = jobInstance.getId();
 
 		String transformDirectory = 
@@ -58,7 +62,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, jobId);
+				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, titleId, jobId);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

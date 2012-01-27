@@ -11,84 +11,76 @@
 	<job id="ebookGeneratorJob">
 		<step id="initializeJob">
 			<tasklet ref="initializeTask"/>
-			<next on="COMPLETED" to="define"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<step id="define">
-			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="getToc"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Fetch TOC from Gather REST service -->
 		<step id="getToc">
 			<tasklet ref="getTocTask"/>
 			<next on="COMPLETED" to="getDocAndMetadata"/>
-			<next on="FAILED" to="getDocAndMetadata"/>	<!-- TODO: eventually fail the job -->
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Fetch document(s) and their metadata from Gather REST service using TOC info from previous step -->
 		<step id="getDocAndMetadata">
 			<tasklet ref="getDocAndMetadataTask"/>
 			<next on="COMPLETED" to="persistMetadata"/>
-			<next on="FAILED" to="persistMetadata"/>	<!-- TODO: eventually fail the job -->
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Parse and Persist meta data obtained from Gather step -->
 		<step id="persistMetadata">
 			<tasklet ref="persistDocMetadataTask"/>
 			<next on="COMPLETED" to="mockGatherSteps"/>
-			<next on="FAILED" to="mockGatherSteps"/>	<!-- TODO: eventually fail the job -->
+			<fail on="FAILED"/>
 		</step>
 		
+		<!-- Mocks up the gather steps for sample static book runs -->
 		<step id="mockGatherSteps">
 			<tasklet ref="mockGatherTask"/>
 			<next on="COMPLETED" to="parseImageGuids"/>
-			<next on="FAILED" to="parseImageGuids"/>	<!-- TODO: eventually fail the job -->
+			<fail on="FAILED"/>
 		</step>
 		
+		<!-- Parses out all referenced image guids and generates a static file used to download images -->
 		<step id="parseImageGuids">
 			<tasklet ref="parseImageGuidsTask"/>
 			<next on="COMPLETED" to="getDynamicImages"/>
-			<next on="FAILED" to="getDynamicImages"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
 			<tasklet ref="getDynamicImagesTask"/>
 			<next on="COMPLETED" to="formatTransformXML"/>
-			<next on="FAILED" to="formatTransformXML"/>	<!-- TODO: eventually fail the job -->
+			<next on="FAILED" to="formatTransformXML"/> <!-- Change to fail once PDF issue has been resolved -->
 		</step>
 		
 		<!-- Format the XML documents -->
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>
 			<next on="COMPLETED" to="formatHTMLTransformer"/>
-			<next on="FAILED" to="formatHTMLTransformer"/>
+			<fail on="FAILED"/>
 		</step>
 		
+		<!-- Cleanup or modify any HTML elements that need to be changed for ProView -->
 		<step id="formatHTMLTransformer">
 			<tasklet ref="formatHTMLTransformerTask"/>
 			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
-			<next on="FAILED" to="formatAddHTMLWrapper"/>
+			<fail on="FAILED"/>
 		</step>
 		
+		<!-- Wrap HTML in required HTML header and footer -->
 		<step id="formatAddHTMLWrapper">
 			<tasklet ref="formatAddHTMLWrapperTask"/>
 			<next on="COMPLETED" to="getStaticImages"/>
-			<next on="FAILED" to="getStaticImages"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Fetch static images from a pre-existing filesystem directory tree -->
 		<step id="getStaticImages">
 			<tasklet ref="getStaticImagesTask"/>
-			<next on="COMPLETED" to="combineImageFiles"/>
-			<next on="FAILED" to="combineImageFiles"/>	<!-- TODO: eventually fail the job -->
-		</step>
-		
-		<!-- Copy the dynamic and static image files into a single filesystem directory -->
-		<step id="combineImageFiles">
-			<tasklet ref="stubTask"/>
 			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
 			<fail on="FAILED"/>
 		</step>
@@ -97,13 +89,13 @@
 		<step id="moveResourcesToAssemblyDirectory">
 			<tasklet ref="moveResourcesToAssemblyDirectoryTask"/>
 			<next on="COMPLETED" to="generateTitleManifest"/>
-			<next on="FAILED" to="generateTitleManifest"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<step id="generateTitleManifest">
 			<tasklet ref="generateTitleManifestTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
-			<next on="FAILED" to="assembleEBook"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<step id="assembleEBook">
@@ -115,6 +107,7 @@
 		<!-- Deliver the title to ProView -->
 		<step id="deliverEBook">
 			<tasklet ref="deliverEBookTask"/>
+			<fail on="FAILED"/>
 		</step>
 	</job>
 	
