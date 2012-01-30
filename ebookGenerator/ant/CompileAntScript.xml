@@ -57,6 +57,7 @@
     <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+  	<delete dir="${dir.webContent}/WEB-INF/lib" failonerror="false" includeemptydirs="true"/>
 
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
@@ -89,12 +90,7 @@
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-  	<!--
-	<copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="./lib"/>
-  	<copy todir="${dir.binaries}">
-  		<fileset dir="${dir.core}/${dir.binaries}"/>
-  	</copy>
-  	-->
+	<copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.webContent}/WEB-INF/lib"/>
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
