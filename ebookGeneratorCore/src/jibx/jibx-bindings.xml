@@ -112,7 +112,7 @@
     </mapping>
     
     <mapping class="com.thomsonreuters.uscl.ereader.proview.TocEntry" value-style="attribute" abstract="true" type-name="manifest_toc_entry">
-		<value name="s" field="anchorReference"/>
+		<value name="s" field="anchorReference" usage="optional"/>
 		<structure name="text">
 			<value style="text" field="text"/>
 		</structure>
@@ -129,10 +129,7 @@
 		<structure name="Name">
 			<value style="text" field="text"/>
 		</structure>
-		<value name="Guid" field="anchorReference"/>
-		<structure name="ParentGuid"/>
-		<structure name="DocumentGuid"/>
-		<structure name="Metadata"/>
+		<value name="DocumentGuid" field="anchorReference" usage="optional"/>
 		<collection field="children" usage="required"/>
 	</mapping>
 </binding>

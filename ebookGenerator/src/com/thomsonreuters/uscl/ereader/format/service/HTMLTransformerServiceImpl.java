@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
@@ -57,8 +58,10 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	private ImageService imgService;
 	private DocMetadataService docMetadataService;
 	
-	private static final String START_WRAPPER_TAG = "<div>";
-	private static final String END_WRAPPER_TAG = "</div>";
+	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\" class=\"\">" +
+			"<div id=\"co_document\">" +
+			"<div id=\"co_document_0\" class=\"co_document co_analyticalTreatisesAndAnnoCodes\">";
+	private static final String END_WRAPPER_TAG = "</div></div></div>";
 	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
@@ -180,8 +183,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
+			HTMLClassAttributeFilter classAttFilter = new HTMLClassAttributeFilter();
+			classAttFilter.setParent(piZapperFilter);
+			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
-			inputFilter.setParent(piZapperFilter);
+			inputFilter.setParent(classAttFilter);
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
