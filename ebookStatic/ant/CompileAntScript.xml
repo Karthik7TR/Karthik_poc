@@ -62,10 +62,7 @@
         <mkdir dir="${dir.standalone}" />
         <mkdir dir="${dir.dist}" />
 
-      <echo level="verbose">Removing EOF characters</echo>
-      <fixcrlf srcdir="Scripts" includes="**/*"
-         eol="lf" eof="remove" />
-        
+      
     </target>
 
 	<!-- =================================
@@ -76,18 +73,7 @@
 	    	<antcall target="-copyfiles">
 	    	      <param name="param-env" value="dev"/>
 	    	</antcall>
-	    	<antcall target="-copyfiles">
-	    	      <param name="param-env" value="test"/>
-	    	</antcall>
-	    	<antcall target="-copyfiles">
-	    	      <param name="param-env" value="qa"/>
-	    	</antcall>
-	    	<antcall target="-copyfiles">
-	    	      <param name="param-env" value="prod"/>
-	    	</antcall>
-	    	
-	    	<antcall target="-copyfiles_common"/>
-	    	
+	
 	    </target>
 	
 
@@ -104,10 +90,7 @@
         </resources>
       </copy>
         </target>
-	
-    <target name="-copyfiles_common">
-    <echo message="There are no Common Files"/>
-    </target>
+
     	
     <!-- - - - - - - - - - - - - - - - - - 
           target: -compress_tar
