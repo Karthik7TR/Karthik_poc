@@ -2,12 +2,7 @@
 <project name="ebookStatic_Compile_Script" default="normal_build" basedir="..\">
     <property environment="env" />
     <property name="IsCoverageBuild" value="false" />
-    <property name="devtarFile" value="Dev_SerengetiStatic.tar" />
-    <property name="prodtarFile" value="Prod_SerengetiStatic.tar" />
-    <property name="qatarFile" value="QA_SerengetiStatic.tar" />
-    <property name="testtarFile" value="Test_SerengetiStatic.tar" />
-    <property name="comparetarFile" value="Compare_SerengetiStatic.tar" />
-    <property name="commontarFile" value="Common_SerengetiStatic.tar" />
+    <property name="tarFile" value="ebookStatic.tar" />
     <property name="dir.dist" value="dist" />
     <property name="dir.standalone" value="standalone"/>
 
@@ -99,21 +94,16 @@
     <!-- Target copyfiles to dist folder  -->
     <target name="-copyfiles">
 
-      <copy todir="${dir.dist}\${param-env}\JarFiles\Serengeti\">
-        <fileset dir ="JNDI\Serengeti\${param-env}"/>
+      <copy todir="${dir.dist}">
+        <fileset dir ="Xslt"/>
       </copy>
-    
-      <copy todir="${dir.dist}\${param-env}\JNDI\Serengeti\">  
-        <fileset dir ="JNDI\Serengeti\${param-env}"/>
+
+      <copy todir="${dir.dist}">
+        <resources>
+          <file file="css\document.css"/>
+        </resources>
       </copy>
-      <copy todir="${dir.dist}\${param-env}\ParmFiles\Serengeti">
-        <fileset dir ="ParmFiles\Serengeti\${param-env}"/>
-      </copy>
-      <copy todir="${dir.dist}\${param-env}\Scripts\Serengeti\">
-        <fileset dir ="Scripts\Serengeti\${param-env}"/>
-      </copy>
-		
-    </target>
+        </target>
 	
     <target name="-copyfiles_common">
     <echo message="There are no Common Files"/>
@@ -124,8 +114,8 @@
           description: Compress the files, to be distributed, in a TAR file.
          - - - - - - - - - - - - - - - - - -->
   <target name="-dev_tar" description="Compress the deliverable into a tar ball for deployment.">
-    <tar longfile="gnu" destfile="${dir.standalone}/${devtarFile}">
-      <tarfileset filemode="777" dir="${dir.dist}\dev">
+    <tar longfile="gnu" destfile="${dir.standalone}/${tarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}">
     </tarfileset>
 	</tar>
   </target>
