@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<project name="ebookStatic_Compile_Script" default="normal_build" basedir="..\">
+    <property environment="env" />
+    <property name="IsCoverageBuild" value="false" />
+    <property name="devtarFile" value="Dev_SerengetiStatic.tar" />
+    <property name="prodtarFile" value="Prod_SerengetiStatic.tar" />
+    <property name="qatarFile" value="QA_SerengetiStatic.tar" />
+    <property name="testtarFile" value="Test_SerengetiStatic.tar" />
+    <property name="comparetarFile" value="Compare_SerengetiStatic.tar" />
+    <property name="commontarFile" value="Common_SerengetiStatic.tar" />
+    <property name="dir.dist" value="dist" />
+    <property name="dir.standalone" value="standalone"/>
+
+    <!--- - - - - - - - - - - - - - - - -
+           Create the master class path that will be used by all targets in the script. 
+          - - - - - - - - - - - - - - - - - -->
+    <path id="classpath.compile">
+        <fileset dir="${dir.librariesPath}">
+            <include name="**/*.jar" />
+        </fileset>
+
+        <!-- These are the cobalt group specific libraries that all the projects should include. -->
+        <fileset dir="${env.buildextensionroot}">
+            <include name="JUnit/*.jar" />
+            <include name="OtherLibraries/**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- =================================
+          target: normal_build
+          description: This is the entry target for a "normal" build. It will compile the main source 
+                       code and the unit tests. Integration tests will not be compiled since 
+                       it is part of the coverage build. 
+         
+         	<target name="normal_build" description="Normal build for the SearchDWStatic project" 
+	             depends="-init, -stage_files,-dev_tar, -prod_tar, -qa_tar, -test_tar, -common_tar">
+	         <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
+    		</target>
+         
+         ================================= -->
+    <target name="normal_build" description="Normal build for the SearchDWStatic project" 
+            depends="-init, -stage_files,-dev_tar">
+        <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
+    </target>
+
+    <!-- =================================
+          target: coverage_build
+          description: This is the entry target for a "coverage" build. It will compile the
+                       main source code, unit tests and integration tests.
+         ================================= -->
+    <target name="coverage_build" description="Coverage build for the SearchDWStatic project"
+            depends="-init, -stage_files, -dev_tar, -prod_tar, -qa_tar, -test_tar">
+        <echo level="info" message="Coverage build has completed." />
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - -
+          target: -init
+          description: Perform all initialization tasks like cleaning up old compiled code, 
+                       create directories that do not exist, etc.
+         - - - - - - - - - - - - - - - - - -->
+    <target name="-init">
+        <echo level="verbose">Deleting old directories, if existing...</echo>
+        <delete dir="${dir.standalone}" failonerror="false" includeemptydirs="true" />
+        <delete dir="${dir.dist}" failonerror="false" includeemptydirs="true" />
+         
+		    <echo level="verbose">Creating directories ...</echo>
+        <mkdir dir="${dir.standalone}" />
+        <mkdir dir="${dir.dist}" />
+
+      <echo level="verbose">Removing EOF characters</echo>
+      <fixcrlf srcdir="Scripts" includes="**/*"
+         eol="lf" eof="remove" />
+        
+    </target>
+
+	<!-- =================================
+	          target: stage_files
+	          description: This will stage files to the dist folder.
+	         ================================= -->
+	    <target name="-stage_files" description="Stage files">
+	    	<antcall target="-copyfiles">
+	    	      <param name="param-env" value="dev"/>
+	    	</antcall>
+	    	<antcall target="-copyfiles">
+	    	      <param name="param-env" value="test"/>
+	    	</antcall>
+	    	<antcall target="-copyfiles">
+	    	      <param name="param-env" value="qa"/>
+	    	</antcall>
+	    	<antcall target="-copyfiles">
+	    	      <param name="param-env" value="prod"/>
+	    	</antcall>
+	    	
+	    	<antcall target="-copyfiles_common"/>
+	    	
+	    </target>
+	
+
+    <!-- Target copyfiles to dist folder  -->
+    <target name="-copyfiles">
+
+      <copy todir="${dir.dist}\${param-env}\JarFiles\Serengeti\">
+        <fileset dir ="JNDI\Serengeti\${param-env}"/>
+      </copy>
+    
+      <copy todir="${dir.dist}\${param-env}\JNDI\Serengeti\">  
+        <fileset dir ="JNDI\Serengeti\${param-env}"/>
+      </copy>
+      <copy todir="${dir.dist}\${param-env}\ParmFiles\Serengeti">
+        <fileset dir ="ParmFiles\Serengeti\${param-env}"/>
+      </copy>
+      <copy todir="${dir.dist}\${param-env}\Scripts\Serengeti\">
+        <fileset dir ="Scripts\Serengeti\${param-env}"/>
+      </copy>
+		
+    </target>
+	
+    <target name="-copyfiles_common">
+    <echo message="There are no Common Files"/>
+    </target>
+    	
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: -compress_tar
+          description: Compress the files, to be distributed, in a TAR file.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-dev_tar" description="Compress the deliverable into a tar ball for deployment.">
+    <tar longfile="gnu" destfile="${dir.standalone}/${devtarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}\dev">
+    </tarfileset>
+	</tar>
+  </target>
+  <target name="-prod_tar" description="Compress the deliverable into a tar ball for deployment.">
+    <tar longfile="gnu" destfile="${dir.standalone}/${prodtarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}\prod">
+      </tarfileset>
+    </tar>
+  </target>	
+  <target name="-qa_tar" description="Compress the deliverable into a tar ball for deployment.">
+    <tar longfile="gnu" destfile="${dir.standalone}/${qatarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}\qa">
+      </tarfileset>
+    </tar>
+  </target>
+   <target name="-test_tar" description="Compress the deliverable into a tar ball for deployment.">
+    <tar longfile="gnu" destfile="${dir.standalone}/${testtarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}\test">
+      </tarfileset>
+    </tar>
+  </target>
+   <target name="-compare_tar" description="Compress the deliverable into a tar ball for deployment.">
+    <tar longfile="gnu" destfile="${dir.standalone}/${comparetarFile}">
+      <tarfileset filemode="777" dir="${dir.dist}\compare">
+      </tarfileset>
+    </tar>
+  </target>  
+   <target name="-common_tar" description="Compress the deliverable into a tar ball for deployment.">
+     <echo message="There are no Common Files"/>
+  </target>   
+      
+</project>
