@@ -7,7 +7,7 @@
   <property name="warFilename" value="eBookGenerator.war"/>
 
   <!-- Context.xml file -->
-  <property name="context.xml.dir" value="../deploy"/>
+  <property name="context.xml.dir" value="deploy"/>
 	
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
