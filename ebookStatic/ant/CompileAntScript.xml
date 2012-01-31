@@ -86,7 +86,7 @@
 
       <copy todir="${dir.dist}">
         <resources>
-          <file file="css/document.css"/>
+          <file file="\css\document.css"/>
         </resources>
       </copy>
         </target>
