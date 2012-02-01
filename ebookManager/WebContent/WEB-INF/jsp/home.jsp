@@ -11,6 +11,8 @@
 <body>
 <h2>E-Book Manager Home</h2>
 
+<a href="stub.mvc">Stub Tiles Layout Page</a>
+
 <br/>
 
 </body>
