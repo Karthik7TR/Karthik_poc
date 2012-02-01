@@ -1,1 +1,1 @@
-<div style="color:white;"><b>ebook Manager</b></div>
+<div style="color:white;"><b>&nbsp; eBook Manager</b></div>

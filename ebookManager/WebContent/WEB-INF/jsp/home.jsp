@@ -11,9 +11,11 @@
 <body>
 <h2>eBook Manager Home</h2>
 
-<a href="stub.mvc">Stub Tiles Layout Page</a><br/>
-<a href="book/library/list.mvc">Book Library List</a>
+<a href="book/library/list.mvc">Book Library List</a><br/>
 
+<a href="book/definition/view.mvc">Book Definition View</a><br/>
+
+<a href="stub.mvc">Stub Tiles Layout Page</a><br/>
 <br/>
 
 </body>

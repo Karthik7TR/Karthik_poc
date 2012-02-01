@@ -7,6 +7,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_LIST = "book/library/list.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "book/library/thumbnails.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "book/library/icons.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW = "book/definition/view.mvc";
 
 	// Logical view names
 	public static final String VIEW_HOME = "home";
@@ -14,5 +15,6 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_LIST = "_bookLibraryList";
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
+	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
 	
 }
