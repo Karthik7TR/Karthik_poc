@@ -38,23 +38,23 @@ public class MockUpGatherSteps extends AbstractSbTasklet
 		
 		String sampleBook = null;
 		
-		if (titleId.equalsIgnoreCase("testsample/analytical1"))
+		if (titleId.equalsIgnoreCase("uscl/testsample/analytical1"))
 		{
 			sampleBook = "AnalyticalSample1";
 		}
-		else if (titleId.equalsIgnoreCase("testsample/analytical2"))
+		else if (titleId.equalsIgnoreCase("uscl/testsample/analytical2"))
 		{
 			sampleBook = "AnalyticalSample2";
 		}
-		else if (titleId.equalsIgnoreCase("testsample/crsample"))
+		else if (titleId.equalsIgnoreCase("uscl/testsample/crsample"))
 		{
 			sampleBook = "CRSample";
 		}
-		else if (titleId.equalsIgnoreCase("testsample/scsample"))
+		else if (titleId.equalsIgnoreCase("uscl/testsample/scsample"))
 		{
 			sampleBook = "SCSample";
 		}
-		else if (titleId.equalsIgnoreCase("testsample/staticimage"))
+		else if (titleId.equalsIgnoreCase("uscl/testsample/staticimage"))
 		{
 			sampleBook = "DocsWithImages";
 		}

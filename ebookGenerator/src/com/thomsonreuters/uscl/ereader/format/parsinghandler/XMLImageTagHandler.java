@@ -5,7 +5,7 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import java.util.List;
+import java.util.Set;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
@@ -18,7 +18,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XMLImageTagHandler extends DefaultHandler
 {
-	private List<String> guidList;
+	private Set<String> guidList;
 	
 	public void startElement(String uri, String localName, String qName, Attributes atts)
 			throws SAXParseException
@@ -29,12 +29,12 @@ public class XMLImageTagHandler extends DefaultHandler
 		}
 	}
 	
-	public void setGuidList(List<String> aList)
+	public void setGuidList(Set<String> aList)
 	{
 		guidList = aList;
 	}
 	
-	public List<String> getGuidList()
+	public Set<String> getGuidList()
 	{
 		return guidList;
 	}

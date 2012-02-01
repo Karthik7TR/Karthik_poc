@@ -12,7 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -77,7 +78,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			throw new EBookFormatException(errMessage, e);
 		}
         
-        List<String> guids = new ArrayList<String>();
+        Set<String> guids = new HashSet<String>();
         int numDocsParsed = 0;
         for (File file : fileList)
         {
@@ -97,11 +98,11 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * supplied GUID list.
 	 * 
 	 * @param xmlFile XML file to be parsed
-	 * @param guidList List of GUIDs that new Image GUIDs should be appended to
+	 * @param guidList Set of GUIDs that new Image GUIDs should be appended to
 	 * 
 	 * @throws EBookFormatException if any parsing issues have been encountered
 	 */
-	protected void parseXMLFile(File xmlFile, List<String> guidList) throws EBookFormatException
+	protected void parseXMLFile(File xmlFile, Set<String> guidList) throws EBookFormatException
 	{		
 		FileInputStream xmlStream = null;
 		try
@@ -164,9 +165,9 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * Takes in a list of images and writes them to the specified file.
 	 * 
 	 * @param imgListFile file to which the list will be written to
-	 * @param imgList list of image guids to be written
+	 * @param imgList set of image guids to be written
 	 */
-	protected void createImageList(File imgListFile, List<String> imgList) throws EBookFormatException
+	protected void createImageList(File imgListFile, Set<String> imgList) throws EBookFormatException
 	{
 		BufferedWriter writer = null;
 		try

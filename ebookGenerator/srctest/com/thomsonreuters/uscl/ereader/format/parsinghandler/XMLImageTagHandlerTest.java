@@ -8,8 +8,8 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test the XML image tag handler.
@@ -34,8 +35,8 @@ public class XMLImageTagHandlerTest {
 	private SAXParserFactory factory;
 	private SAXParser saxParser;
 	private XMLImageTagHandler imgTagHandler;
-	private List<String> emptyGuidList;
-	private List<String> guidList;
+	private Set<String> emptyGuidList;
+	private Set<String> guidList;
 	
 	private String xmlWithImgTags = "<primary.notes><para><bop /><bos /><paratext>The Sentencing Table " +
 			"used to determine the guideline range follows:</paratext>" +
@@ -62,8 +63,8 @@ public class XMLImageTagHandlerTest {
 	public void setUp() throws Exception
 	{
 		imgTagHandler = new XMLImageTagHandler();
-		emptyGuidList = new ArrayList<String>();
-		guidList = new ArrayList<String>();
+		emptyGuidList = new HashSet<String>();
+		guidList = new HashSet<String>();
 		guidList.add("I5d463990094d11e085f5891ac64a9905");
 		guidList.add("I8A302FE4920F47B00079B5381C71638B");
 		
@@ -120,7 +121,8 @@ public class XMLImageTagHandlerTest {
 		imgTagHandler.setGuidList(guidList);
 			
 		saxParser.parse(xmlWithTags, imgTagHandler);
-		assertEquals(4, imgTagHandler.getGuidList().size());
+		//Returns 3, although there are 4 guids, two are duplicates so only the 3 distinct guids are returned
+		assertEquals(3, imgTagHandler.getGuidList().size());
 	}
 	
 	@Test
@@ -129,6 +131,14 @@ public class XMLImageTagHandlerTest {
 		imgTagHandler.setGuidList(emptyGuidList);			
 		saxParser.parse(xmlWithTagsNoTargetAtt, imgTagHandler);
 		assertEquals(2, emptyGuidList.size());
-		assertEquals(null, emptyGuidList.get(1));
+		boolean isNullInList = false;
+		for (String guid : emptyGuidList)
+		{
+			if (guid == null)
+			{
+				isNullInList = true;
+			}
+		}
+		assertTrue(isNullInList);
 	}
 }

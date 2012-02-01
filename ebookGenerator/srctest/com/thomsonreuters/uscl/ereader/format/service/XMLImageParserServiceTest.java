@@ -8,8 +8,8 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,7 +36,7 @@ public class XMLImageParserServiceTest {
     
     protected XMLImageParserServiceImpl imgParserService;
     
-    protected List<String> guidList;
+    protected Set<String> guidList;
     
     protected File xmlDir;
     
@@ -95,7 +95,7 @@ public class XMLImageParserServiceTest {
 		outputStream3.flush();
 		outputStream3.close();
     	
-    	guidList = new ArrayList<String>();
+    	guidList = new HashSet<String>();
 		guidList.add("I5d463990094d11e085f5891ac64a9905");
 		guidList.add("I8A302FE4920F47B00079B5381C71638B");
     }
