@@ -4,12 +4,20 @@
 
 <tiles-definitions>
   
-  <definition name="_stubPage" template="/WEB-INF/tiles/layouts/standard-template.jsp">
+  	<definition name="_stubPage" template="/WEB-INF/tiles/layouts/standard-template.jsp">
 	  <put-attribute name="header" value="/WEB-INF/jsp/stub/header.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/stub/left.jsp"/>
-	  <put-attribute name="top" value="/WEB-INF/jsp/stub/top.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/stub/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/stub/body.jsp"/>
 	  <put-attribute name="footer" value="/WEB-INF/jsp/stub/footer.jsp"/>
-  </definition>
+  	</definition>
+  
+	<definition name="_bookLibraryList" template="/WEB-INF/tiles/layouts/standard-template.jsp">
+	  <put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/list/body.jsp"/>
+	  <put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
+	</definition>
 
 </tiles-definitions>

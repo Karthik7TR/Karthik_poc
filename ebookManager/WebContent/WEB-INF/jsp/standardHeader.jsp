@@ -1,1 +1,1 @@
-TODO: EBook Manager - Standard Header Content
+<div style="color:white;"><b>ebook Manager</b></div>

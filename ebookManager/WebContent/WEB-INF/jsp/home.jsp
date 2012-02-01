@@ -9,9 +9,10 @@
 </head>
 
 <body>
-<h2>E-Book Manager Home</h2>
+<h2>eBook Manager Home</h2>
 
-<a href="stub.mvc">Stub Tiles Layout Page</a>
+<a href="stub.mvc">Stub Tiles Layout Page</a><br/>
+<a href="book/library/list.mvc">Book Library List</a>
 
 <br/>
 

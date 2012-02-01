@@ -3,33 +3,33 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-	<title>Ebook Manager</title>
+	<title>eBook Manager</title>
   </head>
   	
   <body>
-	<table style="width:100%;">
-	  <tr style="background:yellow;">
-	    <td colspan="2" style="height:40px;">
+	<table cellpadding="0" cellspacing="0" style="width:100%;">
+	  <tr style="background:black;">
+	    <td colspan="2">
 	      <tiles:insertAttribute name="header"/>
 	    </td>
 	  </tr>
 	  <tr>
-	    <td style="width:25%; background:cyan;">
+	    <td style="width:25%; background:#F8F8F8;">
 	      <tiles:insertAttribute name="left"/>
 	    </td>
 	    <td>
-	      <table style="width:100%;">
+	      <table cellpadding="0" cellspacing="0" style="width:100%;">
 	    	<tr>
-	      	  <td style="background:lightgray; height:100px"><tiles:insertAttribute name="top"/></td>
+	      	  <td style="background:#DBDDDD; height:100px"><tiles:insertAttribute name="title"/></td>
 	    	</tr>
 	    	<tr>
-	      	  <td style="background:orange;"><tiles:insertAttribute name="body"/></td>
+	      	  <td style="background:white;"><tiles:insertAttribute name="body"/></td>
 	    	</tr>
 	      </table>
 	    </td>
 	  </tr>
 	  <tr>
-	    <td colspan="2" style="height:40px; background:red;">
+	    <td colspan="2" style="height:40px; background:lightgray;">
 	      <tiles:insertAttribute name="footer"/>
 	    </td>
 	  </tr>

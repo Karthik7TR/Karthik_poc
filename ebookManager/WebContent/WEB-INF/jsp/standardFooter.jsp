@@ -1,1 +1,1 @@
-TODO: EBoook Manager - Standard Footer Content
+<div><b>&nbsp; &copy; 2012 Thomson Reuters</b></div>
