@@ -4,27 +4,27 @@
 
 <tiles-definitions>
   
-  
-	<definition name="_bookLibraryList" template="/WEB-INF/tiles/layouts/standard-template.jsp">
-	  <put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>
-	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/list/body.jsp"/>
-	  <put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
+	<definition name="standardDefinition" template="/WEB-INF/tiles/layouts/standard-template.jsp">
+		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionView" template="/WEB-INF/tiles/layouts/standard-template.jsp">
-	  <put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/view/left.jsp"/>
+	<definition name="_bookLibraryList" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_bookDefinitionView" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/view/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/view/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/view/body.jsp"/>
-	  <put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
 	</definition>
 
   	<definition name="_stubPage" template="/WEB-INF/tiles/layouts/standard-template.jsp">
 	  <put-attribute name="header" value="/WEB-INF/jsp/stub/header.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/stub/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/stub/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/stub/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/stub/body.jsp"/>
 	  <put-attribute name="footer" value="/WEB-INF/jsp/stub/footer.jsp"/>
   	</definition>
