@@ -1,0 +1,1 @@
+TODO: EBoook Manager - Standard Footer Content
