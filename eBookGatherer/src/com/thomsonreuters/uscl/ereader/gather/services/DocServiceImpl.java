@@ -47,7 +47,15 @@ public class DocServiceImpl implements DocService {
 			Find finder = novus.getFind();
 			for (String guid : docGuids) {
 				docGuid = guid;
-				Document document = finder.getDocument(collectionName, null, guid);
+				Document document = null;
+				if(collectionName == null)
+				{
+					document = finder.getDocument(null, guid );
+				}
+				else
+				{
+					document = finder.getDocument(collectionName, null, guid);
+				}
 				createContentFile(document, contentDestinationDirectory);
 				createMetadataFile(document, metadataDestinationDirectory);
 			}
@@ -78,7 +86,7 @@ public class DocServiceImpl implements DocService {
 
 	private static final void createMetadataFile(Document document, File destinationDirectory)
 									throws NovusException, IOException {
-		String basename = document.getGuid() + EBConstants.XML_FILE_EXTENSION;
+		String basename =  document.getCollection() + "-" + document.getGuid() + EBConstants.XML_FILE_EXTENSION;
 		File destinationFile = new File(destinationDirectory, basename);  
 		createFile(document.getMetaData(), destinationFile);
 	}

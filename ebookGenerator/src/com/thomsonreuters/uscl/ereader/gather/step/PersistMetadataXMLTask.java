@@ -44,8 +44,9 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
 		Long jobId = jobInstance.getId();
 
-		String docCollectionName = jobParams
-				.getString(JobParameterKey.DOC_COLLECTION_NAME);
+//		String docCollectionName = jobParams
+//				.getString(JobParameterKey.DOC_COLLECTION_NAME); 
+		String docCollectionName = null; 
 
 		File metaDataDirectory = new File(getRequiredStringProperty(
 				jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
@@ -60,6 +61,11 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 
 			File allFiles[] = metaDataDirectory.listFiles();
 			for (File metadataFile : allFiles) {
+				String fileName =  metadataFile.getName();
+				if (fileName.lastIndexOf("-") > -1)
+				{
+					docCollectionName = fileName.substring(0, fileName.lastIndexOf("-")); 
+				}
 				docMetadataService.parseAndStoreDocMetadata(titleId,
 						jobId.intValue(), docCollectionName, metadataFile);
 				numDocsMetaDataRun++;
@@ -69,6 +75,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 					+ " Metadata XML files from "
 					+ metaDataDirectory.getAbsolutePath());
 		}
+		// TODO: add else?
 		return ExitStatus.COMPLETED;
 	}
 

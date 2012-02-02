@@ -6,13 +6,13 @@
 
 package com.thomsonreuters.uscl.ereader.gather.services;
 
+import java.io.File;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.EBookToc;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public interface TocService {
 	
-	public List<EBookToc> findTableOfContents(String guid, String collectionName) throws GatherException; 
+	public void findTableOfContents(String guid, String collectionName, File tocFile) throws GatherException; 
 
 }

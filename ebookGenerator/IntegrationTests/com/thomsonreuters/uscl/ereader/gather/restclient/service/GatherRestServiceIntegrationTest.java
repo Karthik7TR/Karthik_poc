@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 
@@ -57,6 +58,25 @@ public class GatherRestServiceIntegrationTest  {
 	}
 	
 	/**
+	 * Fetch a TOC by invoking the Gather REST service.
+	 */
+	@Test
+	public void testGetTocNort() {
+		String NORT_DOMAIN_NAME = "w_wlbkrexp";	// Client
+		String NORT_FILTER_EXPRESSION = "BankruptcyExplorer";
+		File tempDir = temporaryFolder.getRoot();
+		File tocFile = new File(tempDir, "toc.xml");
+		Assert.assertTrue(tempDir.canWrite());
+		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile );
+		
+		GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
+		log.debug(gatherResponse);
+		Assert.assertNotNull(gatherResponse);
+		Assert.assertEquals(0, gatherResponse.getErrorCode());
+		Assert.assertTrue(tocFile.exists());
+		Assert.assertTrue(tocFile.length() > 0);
+	}
+	/**
 	 * Fetch a single DOC from Novus by invoking the Gather REST service.
 	 * Prod DOC GUIDS and collection name from S. Alic (1/20/12)
 	 *	I2e91cd8ba11611d9ad0a81db1eb1d417 - w_an_rcc_cajur
@@ -67,11 +87,11 @@ public class GatherRestServiceIntegrationTest  {
 	 */
 	@Test
 	public void testGetDoc() {
-		//String DOC_COLLECTION_NAME_PROD = "w_an_rcc_cajur";	
-		//String DOC_GUID_PROD = "I2e91cd8ba11611d9ad0a81db1eb1d418";
-		String DOC_COLLECTION_NAME_CLIENT1 = "w_codesstaflnvdp";
-		String DOC_GUID_CLIENT1 = "NE7EFCB407E2611DA8F1DA64F3D0F013D"; 
-		
+		String DOC_COLLECTION_NAME_CLIENT1 = "w_an_rcc_cajur";	// w_an_rcc_texts in prod
+		String DOC_GUID_CLIENT1 = "Iff5a5a987c8f11da9de6e47d6d5aa7a5";
+//		String DOC_COLLECTION_NAME_CLIENT1 = "w_codesstaflnvdu";
+//		String DOC_GUID_CLIENT1 = "NE7EFCB407E2611DA8F1DA64F3D0F013D"; 
+
 		String collectionName = DOC_COLLECTION_NAME_CLIENT1;
 		String docGuid = DOC_GUID_CLIENT1;
 		
@@ -83,7 +103,7 @@ File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you wa
 		contentDir.mkdirs();
 		metadataDir.mkdirs();
 		File contentFile = new File(contentDir, docGuid+".xml");
-		File metadataFile = new File(metadataDir, docGuid+".xml");
+		File metadataFile = new File(metadataDir, DOC_COLLECTION_NAME_CLIENT1 + "-"+docGuid+".xml");
 		Collection<String> guids = new ArrayList<String>();
 		guids.add(docGuid);
 		GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);

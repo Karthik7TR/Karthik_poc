@@ -10,18 +10,20 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.gather.controller.DocControllerTest;
+import com.thomsonreuters.uscl.ereader.gather.controller.NortControllerTest;
 import com.thomsonreuters.uscl.ereader.gather.controller.TocControllerTest;
 import com.thomsonreuters.uscl.ereader.gather.services.DocServiceTest;
+import com.thomsonreuters.uscl.ereader.gather.services.NortServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.services.TocServiceTest;
-import com.thomsonreuters.uscl.ereader.gather.util.EBookTocXmlHelperTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
 			DocControllerTest.class,
 			DocServiceTest.class,
-			EBookTocXmlHelperTest.class,
 			TocControllerTest.class,
-			TocServiceTest.class
+			TocServiceTest.class,
+			NortControllerTest.class,
+			NortServiceTest.class
 		} )
 
 public class GathererTestSuite {

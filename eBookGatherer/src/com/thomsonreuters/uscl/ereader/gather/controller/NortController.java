@@ -17,40 +17,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import com.thomsonreuters.uscl.ereader.gather.services.TocService;
+import com.thomsonreuters.uscl.ereader.gather.services.NortService;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 
 @Controller
-public class TocController {
-	private static Logger log = Logger.getLogger(TocController.class);
+public class NortController {
+	private static Logger LOG = Logger.getLogger(NortController.class);
 	
 	@Autowired
-	public TocService tocService;
+	public NortService nortService;
 
 	/**
 	 * Fetch the table of contents XML document.
 	 */
-	@RequestMapping(value = "/toc", method = RequestMethod.POST)
-	public ModelAndView getTableOfContents(@RequestBody GatherTocRequest tocRequest, Model model) {
-		log.debug(">>> " + tocRequest);
+	@RequestMapping(value = "/nort", method = RequestMethod.POST)
+	public ModelAndView getTableOfContents(@RequestBody GatherNortRequest nortRequest, Model model) {
+		LOG.debug(">>> " + nortRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		
-		// Retrieve TOC structure from Novus
+		// Retrieve NORT TOC structure from Novus
 		try {
-			File tocXmlFile = tocRequest.getTocFile();
-
-			tocService.findTableOfContents(tocRequest.getGuid(), tocRequest.getCollectionName(), tocXmlFile);
 			// Create EBook TOC file on specified path
+			File nortXmlFile = nortRequest.getNortFile();
+
+			nortService.findTableOfContents(nortRequest.getDomainName(), nortRequest.getExpressionFilter(), nortXmlFile);
+			
+				
 		} catch (GatherException e) {
 			String errorMessage = e.getMessage();
 			Throwable cause = e.getCause();
 			if (cause != null) {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
-			log.error(errorMessage);
+			LOG.error(errorMessage);
 			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
 			} 
 		
@@ -58,7 +60,8 @@ public class TocController {
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}
 	
-	public void setTocService(TocService service) {
-		this.tocService = service;
+	// used for the test
+	public void setNortService(NortService service) {
+		this.nortService = service;
 	}
 }

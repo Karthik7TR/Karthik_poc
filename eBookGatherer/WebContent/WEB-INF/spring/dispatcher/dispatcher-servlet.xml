@@ -17,6 +17,7 @@
 	    <property name="messageConverters">
 	      <list>
 	        <ref bean="tocRequestMessageConverter" />
+	        <ref bean="nortRequestMessageConverter" />
 	        <ref bean="docRequestMessageConverter" />
 	      </list>
 	    </property>

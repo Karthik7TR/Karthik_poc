@@ -21,24 +21,24 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
-import com.westgroup.novus.productapi.TOC;
-import com.westgroup.novus.productapi.TOCNode;
+import com.westgroup.novus.productapi.NortManager;
+import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
 /**
- * This class corresponds with novus helper and gets TOC hierarchy.
+ * This class corresponds with novus helper and gets NORT hierarchy.
  * 
  * @author Kirsten Gunn
  * 
  */
-public class TocServiceImpl implements TocService {
+public class NortServiceImpl implements NortService {
 
 	private NovusFactory novusFactory;
 	
-	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
 	
-	protected TOC _tocManager = null;
+	protected NortManager _nortManager = null;
 	protected Writer out = null;
 	private int counter;
 	private int docCounter;
@@ -47,28 +47,28 @@ public class TocServiceImpl implements TocService {
 	public void retrieveNodes() throws GatherException
 	   {
 	      
-	      TOCNode[] tocNodes = null;
+	      NortNode[] nortNodes = null;
 
 	      try
 	      {
-	          tocNodes = _tocManager.getRootNodes();
-	          printNodes(tocNodes);
+	          nortNodes = _nortManager.getRootNodes();
+	          printNodes(nortNodes);
 	      }
 	      catch (NovusException e)
 	      {
-	    	LOG.debug("Failed with Novus Exception in TOC");
-			GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+	    	LOG.debug("Failed with Novus Exception in NORT");
+			GatherException ge = new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
 	      }
 	      
 	   }
 
-	   public void printNodes(TOCNode[] nodes) throws GatherException
+	   public void printNodes(NortNode[] nodes) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
 			try {
-				for (TOCNode node : nodes) {
+				for (NortNode node : nodes) {
 					printNode(node);
 				}
 				if (iParent > 0) {
@@ -81,35 +81,35 @@ public class TocServiceImpl implements TocService {
 
 				}
 			} catch (IOException e) {
-				LOG.debug("Failed writing TOC in TOC");
+				LOG.debug("Failed writing TOC in NORT");
 				GatherException ge = new GatherException(
-						"Failed writing TOC in TOC ", e,
+						"Failed writing TOC in NORT ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;
 			} catch (NovusException e) {
-				LOG.debug("Failed with Novus Exception in TOC");
+				LOG.debug("Failed with Novus Exception in NORT");
 				GatherException ge = new GatherException(
-						"TOC Novus Exception ", e,
+						"NORT Novus Exception ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;			}
 	       }
 	   }
 	   
-	   public void printNode(TOCNode node) throws GatherException, NovusException
+	   public void printNode(NortNode node) throws GatherException, NovusException
 	   {
 	       if (node != null)
 	       {
 	          
 	           StringBuffer name = new StringBuffer();
-	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getName().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           StringBuffer tocGuid = new StringBuffer();
 	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_GUID_ELEMENT);
-
+	           
 	           StringBuffer guid = new StringBuffer();
-	           if (node.getDocGuid() != null)
+	           if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
 	           {
 	        	   docCounter++;
-	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getDocGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
+	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
 	        	   
 	           }
               
@@ -140,35 +140,44 @@ public class TocServiceImpl implements TocService {
 					out.flush();
 				} catch (IOException e) {
 					LOG.debug(e.getMessage());
-					GatherException ge = new GatherException("Failed writing to TOC TOC ", e, GatherResponse.CODE_FILE_ERROR);
+					GatherException ge = new GatherException("Failed writing to NORT TOC ", e, GatherResponse.CODE_FILE_ERROR);
 					throw ge;
 					}
-	           TOCNode[] tocNodes = node.getChildren();
+	           NortNode[] nortNodes = node.getChildren();
 	           
-	           if (tocNodes != null)
-	           {          
-	               printNodes(tocNodes);
+	           if (nortNodes != null)
+	           {
+	               for (int i = 0; i < nortNodes.length; i+=10)
+	               {
+	                  int length = (i + 10 <= nortNodes.length) ? 10 : (nortNodes.length) - i;
+	                 
+	                  _nortManager.fillNortNodes(nortNodes, i, length);
+	               }
+	               
+	               printNodes(nortNodes);
 	           }
 	       }
 	   }
 	   
 	/**
 	 * 
-	 * Get TOC using domain and expression filter.
+	 * Get NORT using domain and expression filter.
 	 * @throws Exception 
 	 */
 	@Override
-	public void findTableOfContents(String guid, String collectionName, File tocXmlFile) throws GatherException 
+	public void findTableOfContents(String domainName, String expressionFilter, File nortXmlFile) throws GatherException 
 	{
-		/*** for ebook builder we will always get Collection.***/
-		String type = EBConstants.COLLECTION_TYPE;
 		Novus novusObject = novusFactory.createNovus();
-		_tocManager = getTocObject(collectionName, type, novusObject);
+		
+	    _nortManager = novusObject.getNortManager();
+		_nortManager.setShowChildrenCount(true);
+	    _nortManager.setDomainDescriptor(domainName);
+	    _nortManager.setFilterName(expressionFilter, 0);
 
 	      try	{
 
 		out = new BufferedWriter(new OutputStreamWriter(
-		        new FileOutputStream(tocXmlFile.getPath()), "UTF8"));
+		        new FileOutputStream(nortXmlFile.getPath()), "UTF8"));
 	    out.write(EBConstants.TOC_XML_ELEMENT);
 	    out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
@@ -178,55 +187,30 @@ public class TocServiceImpl implements TocService {
 	    
         retrieveNodes();
         
-        LOG.debug(docCounter + " documents and " + counter + " nodes in the TOC hierarchy" );
+        LOG.debug(docCounter + " documents and " + counter + " nodes in the NORT hierarchy" );
 
 	    out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
         out.flush();
         out.close();
-        LOG.debug("Done with Toc.");
+        LOG.debug("Done with Nort.");
 		} catch (UnsupportedEncodingException e) {
 			LOG.debug(e.getMessage());
-			GatherException ge = new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+			GatherException ge = new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 		} catch (FileNotFoundException e) {
 			LOG.debug(e.getMessage());
-			GatherException ge = new GatherException("TOC File not found ", e, GatherResponse.CODE_FILE_ERROR);
+			GatherException ge = new GatherException("NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 		} catch (IOException e) {
 			LOG.debug(e.getMessage());
-			GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
+			GatherException ge = new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 			} finally {
 			novusObject.shutdownMQ();
 		}
 
 	}
-	/**
-	 * Sets required properties to toc object like collection/collectionSet name.
-	 * and version data if needed in future. 
-	 * as of now we are assuming all the TOC provided would be without version.
-	 * 
-	 * @param name
-	 * @param type
-	 * @param novus
-	 * @return
-	 */
-	private TOC getTocObject(String name, String type, Novus novus)
-	{
-		TOC toc = novus.getTOC();
-
-		if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_SET_TYPE))
-		{
-			toc.setCollectionSet(name);
-		} else if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_TYPE))
-		{
-			toc.setCollection(name);
-		}
-		toc.setShowChildrenCount(true);
-//		String dateTime = novusAPIHelper.getCurrentDateTime();
-//		toc.setTOCVersion(dateTime);
-		return toc;
-	}
+	
 	
 	@Required
 	public void setNovusFactory(NovusFactory factory) {

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -38,17 +39,34 @@ public class GetTocTask  extends AbstractSbTasklet {
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		
+		GatherResponse gatherResponse = null;
+			
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
+		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
 
-		jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME);
+		// TOC
 		String tocCollectionName = jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME); 
 		String tocRootGuid = jobParams.getString(JobParameterKey.ROOT_TOC_GUID);
-
-		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
+		if(tocRootGuid != null)
+		{
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile);
 		LOG.debug(gatherTocRequest);
-		GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
+	
+		gatherResponse = gatherService.getToc(gatherTocRequest);
+		}
+		
+		// NORT
+		String nortDomainName = jobParams.getString(JobParameterKey.NORT_DOMAIN); 
+		String nortExpressionFilter = jobParams.getString(JobParameterKey.NORT_FILTER_VIEW);
+		if(nortDomainName != null)
+		{
+		GatherNortRequest gatheNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile);
+		LOG.debug(gatheNortRequest);
+	
+		gatherResponse = gatherService.getNort(gatheNortRequest);
+		}
+		
 		LOG.debug(gatherResponse);
 		if (gatherResponse.getErrorCode() != 0 ) {
 			GatherException gatherException = new GatherException(

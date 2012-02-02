@@ -36,6 +36,18 @@ public class JibxMarshallingTest  {
 	}
 	
 	@Test
+	public void testGatherNortRequestMarshalling() {
+		try {
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"));
+			String xml = marshal(expected, GatherNortRequest.class);
+			GatherNortRequest actual = unmarshal(xml, GatherNortRequest.class);
+			Assert.assertEquals(expected, actual);
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
 	public void testGatherDocRequestMarshalling() {
 		try {
 			String[] guidArray = { "a", "b", "c" };

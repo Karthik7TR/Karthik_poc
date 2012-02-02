@@ -16,7 +16,7 @@ public interface DocService {
 	/**
 	 * Fetch documents from novus and create separate content and metadata files in separate directories.
 	 * @param docGuid the primary key of the document
-	 * @param collectionName
+	 * @param collectionName can be null for NORT
 	 * @param contentDestinationDirectory the filesystem directory where the content files will be created.
 	 * @param metadataDestinationDirectory the filesystem directory where the metadata files will be created.
 	 * Two files are created per docGuid, a content file, and a meta-data file.

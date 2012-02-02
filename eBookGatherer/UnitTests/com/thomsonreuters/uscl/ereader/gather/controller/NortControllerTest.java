@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -15,37 +18,37 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import com.thomsonreuters.uscl.ereader.gather.services.TocService;
+import com.thomsonreuters.uscl.ereader.gather.services.NortService;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 
-public class TocControllerTest {
-	//private static Logger log = Logger.getLogger(TocControllerTest.class);
-    private TocService mockTocService;
-    private TocController controller;
+public class NortControllerTest {
+	//private static Logger log = Logger.getLogger(NortControllerTest.class);
+    private NortService mockNortService;
+    private NortController controller;
     
-    private String guid;
-	private static final String COLLECTION_NAME = "bogusCollname";
-	private static final File TOC_DIR = new File("tocData");
+    private String domain;
+	private static final String FILTER_NAME = "bogusName";
+	private static final File NORTDIR_DIR = new File("NortData");
 
 	@Before
 	public void setUp() {
-		this.guid =  "a";
-    	this.mockTocService = EasyMock.createMock(TocService.class);
-    	this.controller = new TocController();
-    	controller.setTocService(mockTocService);
+		this.domain =  "a";
+    	this.mockNortService = EasyMock.createMock(NortService.class);
+    	this.controller = new NortController();
+    	controller.setNortService(mockNortService);
 	}
 	
 	@Test
-	public void testFetchTocumentsSuccessfully() throws Exception {
-		File tocFile = new File(TOC_DIR, "file");
-		mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile);
-		EasyMock.replay(mockTocService);
+	public void testFetchNortumentsSuccessfully() throws Exception {
+		File tocFile = new File(NORTDIR_DIR, "file");
+		mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile);
+		EasyMock.replay(mockNortService);
 
     	// Invoke the controller
-    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
     	
@@ -59,26 +62,26 @@ public class TocControllerTest {
         Assert.assertEquals(0, gatherResponse.getErrorCode());
         Assert.assertNull(gatherResponse.getErrorMessage());
         
-        EasyMock.verify(mockTocService);
+        EasyMock.verify(mockNortService);
 	}
 	
 	@Test
-	public void testFetchTocumentsWithException() {
-		File tocFile = new File(TOC_DIR, "file");
+	public void testFetchNortumentsWithException() {
+		File tocFile = new File(NORTDIR_DIR, "file");
 
 		int errorCode = 911;
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
-			mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile);
+			mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile);
 			EasyMock.expectLastCall().andThrow(expectedException);
-			EasyMock.replay(mockTocService);
+			EasyMock.replay(mockNortService);
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}
 
     	// Invoke the controller
-    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
 
@@ -92,6 +95,6 @@ public class TocControllerTest {
         Assert.assertEquals(errorCode, gatherResponse.getErrorCode());
         Assert.assertEquals(errorMesg, gatherResponse.getErrorMessage());
 
-    	EasyMock.verify(mockTocService);
+    	EasyMock.verify(mockNortService);
 	}
 }

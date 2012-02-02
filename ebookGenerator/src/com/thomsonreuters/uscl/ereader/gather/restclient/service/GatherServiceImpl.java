@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 
 public class GatherServiceImpl implements GatherService {
 
 	public static String TOC_URL_PATTERN = "{context}/toc";
+	public static String NORT_URL_PATTERN = "{context}/nort";
 	public static String DOC_URL_PATTERN = "{context}/doc";
 	
 	private RestTemplate restTemplate;
@@ -29,6 +31,13 @@ public class GatherServiceImpl implements GatherService {
 		return response;	
 	}
 
+	@Override
+	public GatherResponse getNort(GatherNortRequest nortRequest) {
+		GatherResponse response = restTemplate.postForObject(NORT_URL_PATTERN, nortRequest,
+				GatherResponse.class, gatherAppContextUrl.toString());
+		return response;	
+	}
+	
 	@Override
 	public GatherResponse getDoc(GatherDocRequest docRequest) {
 		GatherResponse response = restTemplate.postForObject(DOC_URL_PATTERN, docRequest,

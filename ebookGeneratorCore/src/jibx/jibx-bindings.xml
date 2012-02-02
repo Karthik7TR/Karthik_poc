@@ -17,7 +17,7 @@
 				<value name="guid" type="java.lang.String" usage="required"/>
 			</collection>
 		</structure>
-        <value name="collectionName" field="collectionName" usage="required"/>
+        <value name="collectionName" field="collectionName" usage="optional"/>
         <value name="contentDestinationDirectory" field="contentDestinationDirectory" usage="required"/>
         <value name="metadataDestinationDirectory" field="metadataDestinationDirectory" usage="required"/>
     </mapping>
@@ -28,7 +28,14 @@
         <value name="collectionName" field="collectionName" usage="required"/>
         <value name="tocFile" field="tocFile" usage="required"/>
     </mapping>
-
+    
+    <!-- Gather table of contents (nort) service REST request body -->
+    <mapping name="gatherNortRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest">
+        <value name="domainName" field="domainName" usage="required"/>
+        <value name="expressionFilter" field="expressionFilter" usage="required"/>
+        <value name="nortFile" field="nortFile" usage="required"/>
+    </mapping>
+    
     <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
         <value name="jobName" field="jobName" usage="required"/>
         <structure field="bookKey" usage="required"/>
