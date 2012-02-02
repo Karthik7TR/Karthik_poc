@@ -3,36 +3,32 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+  	<link rel="stylesheet" href="/ebookManager/theme/layout.css"/>
 	<title>eBook Manager</title>
   </head>
   	
   <body>
-	<table cellpadding="0" cellspacing="0" style="width:100%;">
-	  <tr style="background:black;">
-	    <td colspan="2">
-	      <tiles:insertAttribute name="header"/>
-	    </td>
-	  </tr>
-	  <tr>
-	    <td style="width:25%; background:#F8F8F8;">
-	      <tiles:insertAttribute name="left"/>
-	    </td>
-	    <td>
-	      <table cellpadding="0" cellspacing="0" style="width:100%;">
-	    	<tr>
-	      	  <td style="background:#DBDDDD; height:100px"><tiles:insertAttribute name="title"/></td>
-	    	</tr>
-	    	<tr>
-	      	  <td style="background:white;"><tiles:insertAttribute name="body"/></td>
-	    	</tr>
-	      </table>
-	    </td>
-	  </tr>
-	  <tr>
-	    <td colspan="2" style="height:40px; background:lightgray;">
-	      <tiles:insertAttribute name="footer"/>
-	    </td>
-	  </tr>
-	</table>
+  	<div class="header">
+		<tiles:insertAttribute name="header"/>
+	</div>
+	
+	<div class="bodyContainer">
+		<div class="left">
+			<tiles:insertAttribute name="left"/>
+		</div>
+		
+		<div class="title">
+			<tiles:insertAttribute name="title"/>
+		</div>
+		
+		<div class="body">
+			<tiles:insertAttribute name="body"/>
+		</div>
+	</div>
+	
+	<div class="footer">
+		<tiles:insertAttribute name="footer"/>
+	</div>
+
   </body>
 </html>
