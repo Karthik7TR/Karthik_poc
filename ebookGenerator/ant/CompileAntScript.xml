@@ -56,11 +56,11 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
   	<delete dir="${dir.webContent}/WEB-INF/lib" failonerror="false" includeemptydirs="true"/>
+    
 
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
@@ -93,10 +93,10 @@
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.webContent}/WEB-INF/lib"/>
+	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.binaries}"/>
 
     <!-- copy core lib jars-->
-    <copy todir="${dir.webContent}/WEB-INF/lib">
+    <copy todir="${dir.binaries}">
       <fileset dir="${dir.core}/lib">
         <include name="**/*.jar"/>
       </fileset>
@@ -141,7 +141,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-createJar" >
     <echo level="verbose">Packaging the code into a JAR file...</echo>
-    <jar jarfile="${path.jarFile}"
+    <jar jarfile="${dir.binaries}/${jarFilename}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
       <fileset dir="${dir.binaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
