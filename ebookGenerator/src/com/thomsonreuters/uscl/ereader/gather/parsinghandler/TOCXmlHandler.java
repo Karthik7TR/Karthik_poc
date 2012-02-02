@@ -5,21 +5,15 @@
 */
 package com.thomsonreuters.uscl.ereader.gather.parsinghandler;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 /**
  * This class defines the handler that parses the Toc xml to generate a list of GUIDs.
@@ -28,16 +22,19 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
  */
 public class TOCXmlHandler extends DefaultHandler
 {
-	private List<String> guidList = new ArrayList<String>();
+	private HashMap<String, List<String>> docGuidList = new HashMap<String, List<String>>();
+	private List<String> tocGuidList = new ArrayList<String>();	
 	private String tempVal;
 	
 
 	private static final String DOCUMENT_GUID_ELEMENT ="DocumentGuid";
+	private static final String TOC_GUID_ELEMENT =	"Guid";
 	
 	public void startElement(String uri, String localName, String qName, Attributes atts)
 			throws SAXParseException
 	{
-		if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT))
+		if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT) ||
+				qName.equalsIgnoreCase(TOC_GUID_ELEMENT))
 		{
 			tempVal = "";
 		}
@@ -52,18 +49,32 @@ public class TOCXmlHandler extends DefaultHandler
 		if(qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT)) {
 			if (tempVal.length() != 0) {
 			//add only if there is a guid available
-			guidList.add(tempVal);
+				docGuidList.put(tempVal,tocGuidList);
+				tocGuidList = new ArrayList<String>();
 			}
 		}
+		
+		if(qName.equalsIgnoreCase(TOC_GUID_ELEMENT)) {
+			if (tempVal.length() != 0) {
+			//add only if there is a guid available
+				tocGuidList.add(tempVal);
+			}
+		}		
 	}	
 	
-	public void setGuidList(List<String> aList)
-	{
-		guidList = aList;
+	public List<String> getTocGuidList() {
+		return tocGuidList;
 	}
-	
-	public List<String> getGuidList()
-	{
-		return guidList;
+
+	public void setTocGuidList(List<String> tocGuidList) {
+		this.tocGuidList = tocGuidList;
+	}
+
+	public HashMap<String, List<String>> getDocGuidList() {
+		return docGuidList;
+	}
+
+	public void setDocGuidList(HashMap<String, List<String>> docGuidList) {
+		this.docGuidList = docGuidList;
 	}	
 }

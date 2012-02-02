@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.File;
-import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.gather.exception.EBookGatherException;
 

@@ -5,9 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.gather.step;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
@@ -49,7 +54,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		String docCollectionName = jobParams.getString(JobParameterKey.DOC_COLLECTION_NAME);
 
     	docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
-    	List<String> docGuids = GatherImageVerticalImagesTask.readLinesFromTextFile(docsGuidsFile);
+    	List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
     	
 		GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir);
 		GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
@@ -69,5 +74,35 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	@Required
 	public void setGatherService(GatherService service) {
 		this.gatherService = service;
+	}
+
+	/**
+	 * Reads the contents of a text file and return the guid before the first comma
+	 * as an element in the returned list.
+	 * The file is assumed to already exist.
+	 * @file textFile the text file to process
+	 * @return a list of text strings, representing each file of the specified file
+	 */
+	public static List<String> readDocGuidsFromTextFile(File textFile) throws IOException {
+		List<String> lineList = new ArrayList<String>();
+		FileReader fileReader = new FileReader(textFile);
+		try {
+			BufferedReader reader = new BufferedReader(fileReader);
+			String textLine;
+			while ((textLine = reader.readLine()) != null) {
+				if (StringUtils.isNotBlank(textLine)) {
+					int i = textLine.indexOf(",");
+					if (i != -1){
+					textLine = textLine.substring(0, textLine.indexOf(","));
+					lineList.add(textLine.trim());
+					}
+				}
+			}
+		} finally {
+			if (fileReader != null) {
+				fileReader.close();
+			}
+		}
+		return lineList;
 	}
 }
