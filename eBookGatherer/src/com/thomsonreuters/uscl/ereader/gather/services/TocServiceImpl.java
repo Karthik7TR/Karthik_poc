@@ -44,14 +44,18 @@ public class TocServiceImpl implements TocService {
 	private int docCounter;
 	private int iParent;
 	
-	public void retrieveNodes() throws GatherException
+	public void retrieveNodes(String guid) throws GatherException
 	   {
 	      
 	      TOCNode[] tocNodes = null;
+	      TOCNode tocNode = null;
 
 	      try
 	      {
-	          tocNodes = _tocManager.getRootNodes();
+//	          tocNodes = _tocManager.getRootNodes();
+	          tocNode = _tocManager.getNode(guid);
+	          tocNodes = new TOCNode[1];
+			  tocNodes[0] =  tocNode ;
 	          printNodes(tocNodes);
 	      }
 	      catch (NovusException e)
@@ -176,7 +180,7 @@ public class TocServiceImpl implements TocService {
 	    docCounter = 0;
 	    iParent = 0;
 	    
-        retrieveNodes();
+        retrieveNodes(guid);
         
         LOG.debug(docCounter + " documents and " + counter + " nodes in the TOC hierarchy" );
 

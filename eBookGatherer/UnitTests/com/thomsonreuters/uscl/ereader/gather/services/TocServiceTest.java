@@ -31,7 +31,7 @@ public class TocServiceTest {
 	private NovusFactory mockNovusFactory;
 	private Novus mockNovus;
 	private TOC mockToc;
-	private TOCNode[] mockTocRootNode;
+	private TOCNode mockTocRootNode;
 	private TOCNode mockTocNode;
 	private TocServiceImpl tocService;
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -43,7 +43,8 @@ public class TocServiceTest {
 		this.mockNovus = EasyMock.createMock(Novus.class);
 		this.mockToc = EasyMock.createMock(TOC.class);
 		this.mockTocNode = EasyMock.createMock(TOCNode.class);
-		mockTocRootNode = new TOCNode[]{mockTocNode};
+//		mockTocRootNode = new TOCNode[]{mockTocNode};
+		this.mockTocRootNode = EasyMock.createMock(TOCNode.class);
 
 		// The object under test
 		this.tocService = new TocServiceImpl();
@@ -63,10 +64,11 @@ public class TocServiceTest {
 		mockToc.setShowChildrenCount(true);
 		TOCNode[] children = new TOCNode[]{};
 		
-		mockTocRootNode[0] = mockTocNode;
+		mockTocRootNode = mockTocNode;
 		
 		children = getChildNodes(5, 'a').toArray(new TOCNode[]{});
-		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
+//		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
+		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
 		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
@@ -88,6 +90,9 @@ public class TocServiceTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
+		}
+		finally {
+			// Temporary file will clean up after itself.
 		}
 		
 		String tocFileContents = readFileAsString(tocFile);
@@ -128,7 +133,7 @@ public class TocServiceTest {
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);
 		mockNovus.shutdownMQ();
-		EasyMock.expect(mockToc.getRootNodes()).andThrow(new MockNovusException());
+		EasyMock.expect(mockToc.getNode(TOC_GUID)).andThrow(new MockNovusException());
 
 		// Replay
 		EasyMock.replay(mockNovusFactory);

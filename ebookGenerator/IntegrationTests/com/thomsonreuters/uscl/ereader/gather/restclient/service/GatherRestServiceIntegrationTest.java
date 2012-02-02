@@ -42,12 +42,12 @@ public class GatherRestServiceIntegrationTest  {
 	@Test
 	public void testGetToc() {
 		String TOC_COLLECTION_NAME = "w_an_rcc_cajur_toc";	// Client
-		//String ROOT_TOC_GUID_IMPH = "I7b3ec600675a11da90ebf04471783734";
-		String ROOT_TOC_GUID_FSLP = "I4fa9eea0b36011dab270c8080cf3148a";
+		String ROOT_TOC_GUID_IMPH = "I0900caf0675c11da90ebf04471783734";
+//		String ROOT_TOC_GUID_FSLP = "I4fa9eea0b36011dab270c8080cf3148a";
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
-		GatherTocRequest gatherTocRequest = new GatherTocRequest(ROOT_TOC_GUID_FSLP, TOC_COLLECTION_NAME, tocFile );
+		GatherTocRequest gatherTocRequest = new GatherTocRequest(ROOT_TOC_GUID_IMPH, TOC_COLLECTION_NAME, tocFile );
 		
 		GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
 		log.debug(gatherResponse);
