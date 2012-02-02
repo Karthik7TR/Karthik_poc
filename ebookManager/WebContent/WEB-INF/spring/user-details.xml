@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   					   http://www.springframework.org/schema/util
+	   					   http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- The mapping of physical groups to logical roles/authorities used for role-base access control.
+		 The key here is a Java regular expression pattern that matches against the physical group name
+		 that comes from the user entry on the directory server.
+		 The value is the logical role/authority name that we code to in the web application.
+	-->
+	<util:map id="groupToRoleMap" map-class="java.util.HashMap">
+	  	<entry key="todo_guest.*" value="ROLE_GUEST"/>
+	  	<entry key="todo_manager.*" value="ROLE_MANAGER"/>
+    </util:map>
+    
+  	<bean id="userAttributesMapper" class="com.thomsonreuters.codes.security.userdetails.ldap.CodesUserAttributesMapper">
+      	<constructor-arg ref="groupToRoleMap"/>
+  	</bean>
+
+  	<bean id="userDetailsService" class="com.thomsonreuters.codes.security.userdetails.ldap.CodesLdapUserDetailsService">
+	  	<constructor-arg ref="ldapTemplate"/>
+	  	<constructor-arg ref="userAttributesMapper"/>
+  	</bean>
+  	 
+</beans>

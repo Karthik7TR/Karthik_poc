@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
@@ -59,9 +58,8 @@ public class CreateBookController {
 		log.debug(form);
 		String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor.getMessage("label.high") :
 															   messageSourceAccessor.getMessage("label.normal");
-		LdapUserInfo authenticatedUser = LdapUserInfo.getAuthenticatedUser();
-		String userName = (authenticatedUser != null) ? authenticatedUser.getUsername() : null;
-		String userEmail = (authenticatedUser != null) ? authenticatedUser.getEmail() : null;
+		String userName = null;  // TODO
+		String userEmail = null;	// TODO
 
 		BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
 		JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey, userName, userEmail);
