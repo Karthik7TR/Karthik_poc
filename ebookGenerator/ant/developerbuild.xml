@@ -136,10 +136,10 @@
     <delete dir="..\${dir.binaries}\com" failonerror="false" includeemptydirs="true" />
   	<delete dir="..\${dir.binaries}\META-INF" failonerror="false" includeemptydirs="true" />
   	<delete dir="..\${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true" />
+  	<delete dir="..\${dir.binaries}\lib" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${logs.dir}" failonerror="false" includeemptydirs="true" />
-  	<delete dir="${dir.webContent}/WEB-INF/lib/*.jar" failonerror="false" includeemptydirs="true"/>  	
   	<ant dir="../${dir.core}" antfile="ant/CompileAntScript.xml" target="realclean" inheritAll="false"/>
   	
   	<!-- These two folders are hard coded in the CompileAntScript.xml file -->
