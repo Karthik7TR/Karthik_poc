@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
@@ -96,12 +97,14 @@ public class DocServiceImpl implements DocService {
 	 */
 	private static final void createFile(String content, File destinationFile) throws IOException {
 		FileOutputStream stream = new FileOutputStream(destinationFile);
+		Writer writer = null;
 		try {
 			String charset = "UTF-8";	// explicitly set the character set
-			Writer writer = new OutputStreamWriter(stream, charset);
+			writer = new OutputStreamWriter(stream, charset);
 			writer.write(content);
 			writer.flush();
 		} finally {
+			writer.close();
 			stream.close();
 		}
 	}
@@ -111,10 +114,7 @@ public class DocServiceImpl implements DocService {
 	 * @param directory directory whose files will be removed
 	 */
 	public static void removeAllFilesInDirectory(File directory) {
-		File[] files = directory.listFiles();
-		for (File file : files) {
-			file.delete();
-		}
+		FileUtils.deleteQuietly(directory);
 	}
 
 	@Required
