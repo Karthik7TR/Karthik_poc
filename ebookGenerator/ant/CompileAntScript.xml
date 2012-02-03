@@ -23,6 +23,9 @@
     <fileset dir="${dir.core}/dist">
       <include name="*.jar"/>
     </fileset>
+    <fileset dir="${dir.tmpBuildDir}/lib">
+      <include name="*.jar"/>
+    </fileset>
     <!-- These are the cobalt group specific libraries that all the projects should include. -->
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
@@ -68,6 +71,7 @@
     <mkdir dir="${dir.binaries}/lib"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${dir.tmpBuildDir}/lib"/>
   	
     <copy todir="${dir.binaries}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
       <fileset dir="${dir.resources}/StaticFiles"/>
@@ -81,7 +85,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
+    <javac destdir="${dir.tmpBuildDir}" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
@@ -94,10 +98,10 @@
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.binaries}/lib"/>
+	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.tmpBuildDir}/lib"/>
 
     <!-- copy core lib jars-->
-    <copy todir="${dir.binaries}/lib">
+    <copy todir="${dir.tmpBuildDir}/lib">
       <fileset dir="${dir.core}/lib">
         <include name="**/*.jar"/>
       </fileset>
@@ -142,9 +146,9 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-createJar" >
     <echo level="verbose">Packaging the code into a JAR file...</echo>
-    <jar jarfile="${dir.binaries}/${jarFilename}"
+    <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.binaries}" casesensitive="yes">
+      <fileset dir="${dir.tmpBuildDir}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
@@ -159,12 +163,12 @@
     <!-- Copy copiled classes over to "classes" folder in the war -->
     <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
+      <fileset dir="${dir.tmpBuildDir}"/>
     </copy>
 
-    <echo level="debug">Copying jar files from ${dir.binaries} to ${dir.webContent}/WEB-INF/lib ...</echo>
+    <echo level="debug">Copying jar files from ${dir.tmpBuildDir}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}/lib"/>
+      <fileset dir="${dir.tmpBuildDir}/lib"/>
     </copy>
   	
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
