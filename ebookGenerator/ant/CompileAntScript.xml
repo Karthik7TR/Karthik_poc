@@ -162,7 +162,12 @@
       <fileset dir="${dir.binaries}"/>
     </copy>
 
-    <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
+    <echo level="debug">Copying jar files from ${dir.binaries} to ${dir.webContent}/WEB-INF/lib ...</echo>
+    <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+      <fileset dir="${dir.binaries}/lib"/>
+    </copy>
+  	
+  	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.webContent}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
