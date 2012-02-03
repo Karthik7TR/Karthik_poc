@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,12 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.SequenceInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -130,38 +129,36 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());
 		
 		File output = new File(htmlDir, guid + ".html");
+		
+		if (output.exists())
+		{
+			//delete file if it exists since the output buffer will just append on to it
+			//otherwise restarting the step would double up the file
+			output.delete();
+		}
 				
-		BufferedWriter writer = null;
-		SequenceInputStream seqStream1 = null;
-		SequenceInputStream seqStream2 = null;
-		SequenceInputStream seqStream3 = null;
+		FileOutputStream outputStream = null;
+		InputStream headerStream = null;
+		InputStream transFileStream = null;
+		InputStream footerStream = null;
 		try
-		{			
-			seqStream1 = new SequenceInputStream(
-					getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt"), anchorStream);
+		{
+			outputStream = new FileOutputStream(output, true);
 			
-			seqStream2 = new SequenceInputStream(seqStream1, 
-					new FileInputStream(transformedFile));
+			headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
+			IOUtils.copy(headerStream, outputStream);
 			
-			seqStream3 = new SequenceInputStream(seqStream2, 
-					getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt"));
+			IOUtils.copy(anchorStream, outputStream);
 			
-			writer = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(output), "UTF-8"));			
+			transFileStream = new FileInputStream(transformedFile);
+			IOUtils.copy(transFileStream, outputStream);
 			
-			int byteRead = seqStream3.read();
-			while (byteRead != -1)
-			{
-				writer.write(byteRead);
-				byteRead = seqStream3.read();
-			}
-			writer.flush();
-			writer.close();
+			footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
+			IOUtils.copy(footerStream, outputStream);
 		}
 		catch(IOException ioe)
 		{
-			String errMessage = "Failed to add HTML contrainers around the following transformed file: " 
-					+ fileName;
+			String errMessage = "Failed to add HTML contrainers around the following transformed file: " + fileName;
 			LOG.error(errMessage);
 			throw new EBookFormatException(errMessage, ioe);
 		}
@@ -169,21 +166,21 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		{
 			try
 			{
-				if (writer != null)
+				if (outputStream != null)
 				{
-					writer.close();
+					outputStream.close();
 				}
-				if (seqStream3 != null)
+				if (headerStream != null)
 				{
-					seqStream3.close();
+					headerStream.close();
 				}
-				if (seqStream2 != null)
+				if (transFileStream != null)
 				{
-					seqStream2.close();
+					transFileStream.close();
 				}
-				if (seqStream1 != null)
+				if (footerStream != null)
 				{
-					seqStream1.close();
+					footerStream.close();
 				}
 			}
 			catch (IOException e)

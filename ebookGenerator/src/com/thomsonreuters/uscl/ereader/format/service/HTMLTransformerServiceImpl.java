@@ -58,10 +58,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	private ImageService imgService;
 	private DocMetadataService docMetadataService;
 	
-	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">" +
-			"<div id=\"co_document\">" +
-			"<div id=\"co_document_0\" class=\"co_document\">";
-	private static final String END_WRAPPER_TAG = "</div></div></div>";
+	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">";
+	private static final String END_WRAPPER_TAG = "</div>";
 	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{

@@ -5,8 +5,12 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,9 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 public class TransformerServiceImpl implements TransformerService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
+	
+	private static final String START_WRAPPER_TAG = "<Document>";
+	private static final String END_WRAPPER_TAG = "</Document>";
 	
 	private DocMetadataService docMetadataService;
 	
@@ -132,11 +139,21 @@ public class TransformerServiceImpl implements TransformerService
 
 		LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
         File tranFile = new File(targetDir, fileNameUUID + ".transformed");
+        
+        SequenceInputStream inStream1 = null;
+        SequenceInputStream inStream2 = null;
 		
         try
         {        	
+        	inStream1 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
+        			new FileInputStream(xmlFile));
+         	
+        	inStream2 = new SequenceInputStream(inStream1,
+        			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
+        	
 	        Source xmlSource =
-	                new StreamSource(xmlFile);
+	                new StreamSource(inStream2);
+
 	        Source xsltSource =
 	                new StreamSource(xslt);
 	        Result result =
@@ -157,12 +174,38 @@ public class TransformerServiceImpl implements TransformerService
 
 	        LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
         }
-        catch(TransformerException te)
+        catch (TransformerException te)
         {
         	String errMessage = "Encountered transformation issues trying to transform " + xmlFile.getName() + 
         			" xml file using " + xslt.getName() + " xslt file.";
         	LOG.error(errMessage, te);
         	throw new EBookFormatException(errMessage, te);
+        }
+        catch (FileNotFoundException e)
+        {
+        	String errMessage = "Could not find the following xml file: " + xmlFile.getName();
+        	LOG.error(errMessage, e);
+        	throw new EBookFormatException(errMessage, e);
+        }
+        finally
+        {
+        	try
+        	{
+	        	if (inStream1 != null)
+	        	{
+	        		inStream1.close();
+	        	}
+	        	
+	        	if (inStream2 != null)
+	        	{
+	        		inStream2.close();
+	        	}
+        	}
+        	catch (IOException e)
+        	{
+        		LOG.error("Unable to close files related to the " + xmlFile.getAbsolutePath() 
+        				+ " file transformation.", e);
+        	}
         }
 	}
 	
