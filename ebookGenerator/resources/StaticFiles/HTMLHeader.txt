@@ -6,5 +6,5 @@
 		<title>EBook Builder CR Sample I</title>
 		<link rel="stylesheet" type="text/css" href="er:#document" />
 	</head>
-	<body class="co_t2Left co_docDisplay">
-		<section><a name="chapter"></a>
+	<body class="co_t2Left">
+		<section class="co_docDisplay">

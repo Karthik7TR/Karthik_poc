@@ -25,10 +25,13 @@ public interface HTMLWrapperService
      * @param transDir the directory that contains all the intermediate generated HTML files generated
      * by the Transformer Service for this eBook.
      * @param htmlDir the target directory to which all the properly marked up HTML files will be written out to.
+     * @param docToTocMapping location of the file that contains the document to TOC mappings that
+     * will be used to generate anchors for the TOC references
      * 
      * @return The number of documents that had wrappers added
      * 
      * @throws EBookFormatException if an error occurs during the process.
 	 */
-	public int addHTMLWrappers(final File transDir, final File htmlDir) throws EBookFormatException;
+	public int addHTMLWrappers(final File transDir, final File htmlDir, final File docToTocMapping) 
+			throws EBookFormatException;
 }

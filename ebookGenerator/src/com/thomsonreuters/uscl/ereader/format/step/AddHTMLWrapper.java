@@ -41,14 +41,16 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		
 		String postTransformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_POST_TRANSFORM_DIR);
 		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_HTML_WRAPPER_DIR);
+		String docToTocFileName = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
 		//TODO: Retrieve expected number of document for this eBook from execution context
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 				
 		File postTransformDir = new File(postTransformDirectory);
 		File htmlDir = new File(htmlDirectory);
+		File docToTocFile = new File(docToTocFileName);
 		
 		long startTime = System.currentTimeMillis();
-		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir);
+		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

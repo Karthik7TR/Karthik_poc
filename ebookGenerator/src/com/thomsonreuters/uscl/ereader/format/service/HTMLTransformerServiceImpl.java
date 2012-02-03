@@ -58,9 +58,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	private ImageService imgService;
 	private DocMetadataService docMetadataService;
 	
-	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\" class=\"\">" +
+	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">" +
 			"<div id=\"co_document\">" +
-			"<div id=\"co_document_0\" class=\"co_document co_analyticalTreatisesAndAnnoCodes\">";
+			"<div id=\"co_document_0\" class=\"co_document\">";
 	private static final String END_WRAPPER_TAG = "</div></div></div>";
 	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
@@ -267,7 +267,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param imgListFile file to which the list will be written to
 	 * @param imgFileNames a set of static image file names to be written
 	 */
-	protected void createStaticImageList(File imgListFile, Set<String> imgFileNames) throws EBookFormatException
+	protected void createStaticImageList(File imgListFile, Set<String> imgFileNames) 
+			throws EBookFormatException
 	{
 		BufferedWriter writer = null;
 		try
