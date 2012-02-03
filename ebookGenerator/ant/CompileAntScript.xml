@@ -61,15 +61,15 @@
     <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
-  	<delete dir="${dir.webContent}/WEB-INF/lib" failonerror="false" includeemptydirs="true"/>
+  	<delete dir="${dir.webContent}/WEB-INF" failonerror="false" includeemptydirs="true"/>
     
-
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.binaries}/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
     	
     <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
@@ -147,7 +147,7 @@
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.tmpBuildDir}" casesensitive="yes">
+      <fileset dir="${dir.binaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
@@ -162,7 +162,7 @@
     <!-- Copy compiled classes over to "classes" folder in the war -->
     <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
     <copy todir="${dir.tmpBuildDir}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.tmpBuildDir}"/>
+      <fileset dir="${dir.binaries}"/>
     </copy>
 
    <!--
@@ -172,7 +172,7 @@
     </copy>
     -->
   	
-  	<war destfile="${dir.tmpBuildDir}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
+  	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.webContent}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
@@ -185,11 +185,6 @@
       </fileset>
     </copy>
 	
-	<copy todir="${dir.binaries}">
-      <fileset dir="${dir.tmpBuildDir}">
-       	<include name="**/*.war"/>
-      </fileset>
-    </copy>
-    
+ 
   </target>
 </project>
