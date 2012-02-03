@@ -186,7 +186,7 @@
     </copy>
 	
 	<copy todir="${dir.binaries}">
-      <fileset dir="${tmpBuildDir}">
+      <fileset dir="${dir.tmpBuildDir}">
        	<include name="**/*.war"/>
       </fileset>
     </copy>
