@@ -177,14 +177,7 @@
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
     </war>
-	
-	<copy todir="${dir.binaries}">
-      <fileset dir="${tmpBuildDir}">
-        <include name="**/*.xml"/>
-		<include name="**/*.war"/>
-      </fileset>
-    </copy>
-
+		
     <!-- create required directory -->
     <copy todir="${dir.binaries}">
       <fileset dir="${context.xml.dir}">
