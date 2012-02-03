@@ -23,9 +23,7 @@
     <fileset dir="${dir.core}/dist">
       <include name="*.jar"/>
     </fileset>
-    <fileset dir="${dir.tmpBuildDir}/lib">
-      <include name="*.jar"/>
-    </fileset>
+   
     <!-- These are the cobalt group specific libraries that all the projects should include. -->
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
@@ -59,7 +57,8 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
   	<delete dir="${dir.webContent}/WEB-INF/lib" failonerror="false" includeemptydirs="true"/>
@@ -68,11 +67,9 @@
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.binaries}/StaticFiles"/>
-    <mkdir dir="${dir.binaries}/lib"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
-    <mkdir dir="${dir.tmpBuildDir}/lib"/>
-  	
+    	
     <copy todir="${dir.binaries}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
       <fileset dir="${dir.resources}/StaticFiles"/>
     </copy>  	
@@ -85,7 +82,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}" source="1.6" target="1.6"
+    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
@@ -148,7 +145,7 @@
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.tmpBuildDir}" casesensitive="yes">
+      <fileset dir="${dir.binaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
@@ -163,12 +160,12 @@
     <!-- Copy copiled classes over to "classes" folder in the war -->
     <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.tmpBuildDir}"/>
+      <fileset dir="${dir.binaries}"/>
     </copy>
 
-    <echo level="debug">Copying jar files from ${dir.tmpBuildDir}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
+    <echo level="debug">Copying jar files from ${dir.binaries}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.tmpBuildDir}/lib"/>
+      <fileset dir="${dir.binaries}"/>
     </copy>
   	
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
