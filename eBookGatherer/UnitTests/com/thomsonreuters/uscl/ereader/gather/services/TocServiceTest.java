@@ -140,8 +140,14 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovus);
 		EasyMock.replay(mockToc);
 		
-		tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
-		
+		try {
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+		} 
+		finally
+		{
+			tocFile.delete();
+		}
+
 		EasyMock.verify(mockNovusFactory);
 		EasyMock.verify(mockNovus);
 		EasyMock.verify(mockToc);
