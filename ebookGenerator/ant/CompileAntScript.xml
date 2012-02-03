@@ -69,8 +69,10 @@
     <mkdir dir="${dir.binaries}/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
     	
-    <copy todir="${dir.binaries}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
+    <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
       <fileset dir="${dir.resources}/StaticFiles"/>
     </copy>  	
   </target>
@@ -82,7 +84,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.binaries}" source="1.6" target="1.6"
+    <javac destdir="${dir.tmpBuildDir}" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
@@ -95,10 +97,10 @@
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.webContent}/WEB-INF/lib"/>
+	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.tmpBuildDir}/WEB-INF/lib"/>
 
     <!-- copy core lib jars-->
-    <copy todir="${dir.webContent}/WEB-INF/lib">
+    <copy todir="${dir.tmpBuildDir}/WEB-INF/lib">
       <fileset dir="${dir.core}/lib">
         <include name="**/*.jar"/>
       </fileset>
@@ -145,7 +147,7 @@
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.binaries}" casesensitive="yes">
+      <fileset dir="${dir.tmpBuildDir}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
@@ -159,8 +161,8 @@
     <echo level="verbose">Creating the WAR file...</echo>
     <!-- Copy compiled classes over to "classes" folder in the war -->
     <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
-    <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
+    <copy todir="${dir.tmpBuildDir}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+      <fileset dir="${dir.tmpBuildDir}"/>
     </copy>
 
    <!--
@@ -170,14 +172,14 @@
     </copy>
     -->
   	
-  	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
+  	<war destfile="${dir.tmpBuildDir}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.webContent}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
     </war>
 
     <!-- create required directory -->
-    <copy todir="${dir.binaries}">
+    <copy todir="${dir.tmpBuildDir}">
       <fileset dir="${context.xml.dir}">
         <include name="**/*.xml"/>
       </fileset>
