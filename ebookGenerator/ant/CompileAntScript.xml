@@ -153,7 +153,7 @@
     </jar>
   </target>
 
-  <!-- - - - - - - - - - - - - - - - - - 
+    <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
          - - - - - - - - - - - - - - - - - -->
@@ -165,6 +165,12 @@
       <fileset dir="${dir.binaries}"/>
     </copy>
 
+    <copy todir="${dir.tmpBuildDir}/WEB-INF/">
+      <fileset dir="${dir.webContent}">
+        <include name="*.xml"/>
+      </fileset>
+    </copy
+    
    <!--
     <echo level="debug">Copying jar files from ${dir.binaries}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
     <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
