@@ -169,7 +169,7 @@
       <fileset dir="${dir.webContent}">
         <include name="*.xml"/>
       </fileset>
-    </copy
+    </copy>
     
    <!--
     <echo level="debug">Copying jar files from ${dir.binaries}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
