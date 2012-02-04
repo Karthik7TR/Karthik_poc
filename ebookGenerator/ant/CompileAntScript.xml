@@ -57,15 +57,14 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
-    <delete dir="${dir.binaries}\com" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.binaries}\StaticFiles" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
   	<delete dir="${dir.webContent}/WEB-INF" failonerror="false" includeemptydirs="true"/>
     
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
-    <mkdir dir="${dir.binaries}/StaticFiles"/>
+    <mkdir dir="${dir.tmpBuildDir/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
@@ -162,27 +161,22 @@
     <!-- Copy compiled classes over to "classes" folder in the war -->
     <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
     <copy todir="${dir.tmpBuildDir}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
+      <fileset dir="${dir.tmpBuildDir}/com"/>
     </copy>
 
+    <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
     <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
       <fileset dir="${dir.webContent}/WEB-INF"/>
     </copy>
     
-   <!--
-    <echo level="debug">Copying jar files from ${dir.binaries}/lib to ${dir.webContent}/WEB-INF/lib ...</echo>
-    <copy todir="${dir.webContent}/WEB-INF/lib" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
-    </copy>
-    -->
-  	
+   
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
     </war>
 		
-    <!-- create required directory -->
+    <!-- copy context files to dir.binaries -->
     <copy todir="${dir.binaries}">
       <fileset dir="${context.xml.dir}">
         <include name="**/*.xml"/>
