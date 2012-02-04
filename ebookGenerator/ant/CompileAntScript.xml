@@ -166,9 +166,7 @@
     </copy>
 
     <copy todir="${dir.tmpBuildDir}/WEB-INF/">
-      <fileset dir="${dir.webContent}/WEB-INF/">
-        <include name="web.xml"/>
-      </fileset>
+      <fileset dir="${dir.webContent}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
     </copy>
     
    <!--
