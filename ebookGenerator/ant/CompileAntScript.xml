@@ -167,7 +167,6 @@
 
     <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
       <fileset dir="${dir.webContent}/WEB-INF"/>
-      <exclude name="**/lib"/>
     </copy>
     
    <!--
