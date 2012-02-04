@@ -165,8 +165,8 @@
       <fileset dir="${dir.binaries}"/>
     </copy>
 
-    <copy todir="${dir.tmpBuildDir}/WEB-INF/">
-      <fileset dir="${dir.webContent}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+    <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+      <fileset dir="${dir.webContent}/WEB-INF"/>
     </copy>
     
    <!--
