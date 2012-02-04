@@ -173,7 +173,7 @@
     -->
   	
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
-      <fileset dir="${dir.webContent}">
+      <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
     </war>
