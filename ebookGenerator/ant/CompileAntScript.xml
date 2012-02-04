@@ -64,7 +64,7 @@
     
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
-    <mkdir dir="${dir.tmpBuildDir/StaticFiles"/>
+    <mkdir dir="${dir.tmpBuildDir}/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
