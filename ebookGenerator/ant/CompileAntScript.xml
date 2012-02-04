@@ -166,8 +166,8 @@
     </copy>
 
     <copy todir="${dir.tmpBuildDir}/WEB-INF/">
-      <fileset dir="${dir.webContent}">
-        <include name="*.xml"/>
+      <fileset dir="${dir.webContent}/WEB-INF/">
+        <include name="web.xml"/>
       </fileset>
     </copy>
     
