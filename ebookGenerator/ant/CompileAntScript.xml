@@ -71,15 +71,17 @@
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
     	
-    <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
-      <fileset dir="${dir.resources}/StaticFiles"/>
-    </copy>  	
   </target>
+
+  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
+    <fileset dir="${dir.resources}/StaticFiles"/>
+  </copy>
 
   <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
   <copy todir="${dir.tmpBuildDir}" overwrite="true">
     <fileset dir="${dir.webContent}"/>
-    <include name="WEB-INF/web.xml"/>
+    <exclude name="**/web.xml"/>
+    </fileset>
   </copy>
 
   
@@ -171,10 +173,12 @@
       <fileset dir="${dir.tmpBuildDir}/com"/>
     </copy>
 
+    <delete dir="${dir.tmpBuildDir/com}" failonerror="false" includeemptydirs="true"/>
     
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
+        <exclude name="${dir.tmpBuildDir}/com"/>
       </fileset>
     </war>
 		
