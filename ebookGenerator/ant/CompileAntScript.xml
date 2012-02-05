@@ -77,10 +77,11 @@
   </target>
 
   <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
-  <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-    <fileset dir="${dir.webContent}/WEB-INF"/>
+  <copy todir="${dir.tmpBuildDir}" overwrite="true">
+    <fileset dir="${dir.webContent}"/>
   </copy>
 
+  
   <!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
