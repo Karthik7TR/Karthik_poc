@@ -3,7 +3,7 @@
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="IsCoverageBuild" value="false"/>
-  <property name="DisplayCopiedFilesInWar" value="false"/>
+  <property name="DisplayCopiedFilesInWar" value="true"/>
   <property name="warFilename" value="eBookGenerator.war"/>
 
   <!-- Context.xml file -->
@@ -63,14 +63,13 @@
      
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
-    <mkdir dir="${dir.tmpBuildDir}/StaticFiles"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
-    	
+ 
   </target>
 
    
@@ -81,7 +80,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}" source="1.6" target="1.6"
+    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.6" target="1.6"
            debug="${IsCoverageBuild}">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
@@ -144,22 +143,20 @@
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.binaries}" casesensitive="yes">
+      <fileset dir="${dir.tmpBuildDir}/WEB-INF/classes" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
   </target>
 
-  <!-- copy StaticFiles to TtmpBuildDir before war creation -->
-  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
+  <!-- copy StaticFiles to tmpBuildDir before war creation -->
+  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
     <fileset dir="${dir.resources}/StaticFiles"/>
   </copy>
 
-  <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
+  <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
   <copy todir="${dir.tmpBuildDir}" overwrite="true">
-    <fileset dir="${dir.webContent}">
-      <exclude name="**/web.xml"/>
-    </fileset>
+    <fileset dir="${dir.webContent}"/>
   </copy>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -174,7 +171,7 @@
       <fileset dir="${dir.tmpBuildDir}/com"/>
     </copy>
 
-    <delete dir="${dir.tmpBuildDir/com}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpBuildDir}/com" failonerror="false" includeemptydirs="true"/>
     
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
