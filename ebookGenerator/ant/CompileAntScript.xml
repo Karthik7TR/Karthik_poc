@@ -79,6 +79,7 @@
   <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
   <copy todir="${dir.tmpBuildDir}" overwrite="true">
     <fileset dir="${dir.webContent}"/>
+    <include name="WEB-INF/web.xml"/>
   </copy>
 
   
