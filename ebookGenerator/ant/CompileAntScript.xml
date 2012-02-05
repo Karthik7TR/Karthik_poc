@@ -73,18 +73,7 @@
     	
   </target>
 
-  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
-    <fileset dir="${dir.resources}/StaticFiles"/>
-  </copy>
-
-  <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
-  <copy todir="${dir.tmpBuildDir}" overwrite="true">
-    <fileset dir="${dir.webContent}">
-    <exclude name="**/web.xml"/>
-    </fileset>
-  </copy>
-
-  
+   
   <!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
@@ -161,7 +150,19 @@
     </jar>
   </target>
 
-    <!-- - - - - - - - - - - - - - - - - - 
+  <!-- copy StaticFiles to TtmpBuildDir before war creation -->
+  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into build directory">
+    <fileset dir="${dir.resources}/StaticFiles"/>
+  </copy>
+
+  <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
+  <copy todir="${dir.tmpBuildDir}" overwrite="true">
+    <fileset dir="${dir.webContent}">
+      <exclude name="**/web.xml"/>
+    </fileset>
+  </copy>
+
+  <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
          - - - - - - - - - - - - - - - - - -->
