@@ -60,8 +60,7 @@
     <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
-  	<delete dir="${dir.webContent}/WEB-INF" failonerror="false" includeemptydirs="true"/>
-    
+     
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.tmpBuildDir}/StaticFiles"/>
@@ -76,6 +75,11 @@
       <fileset dir="${dir.resources}/StaticFiles"/>
     </copy>  	
   </target>
+
+  <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
+  <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+    <fileset dir="${dir.webContent}/WEB-INF"/>
+  </copy>
 
   <!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
@@ -165,12 +169,7 @@
       <fileset dir="${dir.tmpBuildDir}/com"/>
     </copy>
 
-    <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
-    <copy todir="${dir.tmpBuildDir}/WEB-INF" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.webContent}/WEB-INF"/>
-    </copy>
     
-   
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
