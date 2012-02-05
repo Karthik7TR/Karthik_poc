@@ -156,12 +156,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-createWar" depends="-createJar">
     <echo level="verbose">Creating the WAR file...</echo>
-    <!-- Copy compiled classes over to "classes" folder in the war -->
-    <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
-    <copy todir="${dir.tmpBuildDir}/WEB-INF/classes/com" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.tmpBuildDir}/com"/>
-    </copy>
-
+    
     <!-- copy StaticFiles to tmpBuildDir before war creation -->
     <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
       <fileset dir="${dir.resources}/StaticFiles"/>
@@ -171,8 +166,7 @@
     <copy todir="${dir.tmpBuildDir}" overwrite="true">
       <fileset dir="${dir.webContent}"/>
     </copy>
-    
-    
+        
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
