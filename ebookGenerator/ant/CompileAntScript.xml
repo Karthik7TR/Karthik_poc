@@ -59,7 +59,7 @@
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
     <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpBuildDir}/WEB-INF/classes/com" failonerror="false" includeemptydirs="true"/>
      
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
@@ -149,16 +149,7 @@
     </jar>
   </target>
 
-  <!-- copy StaticFiles to tmpBuildDir before war creation -->
-  <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
-    <fileset dir="${dir.resources}/StaticFiles"/>
-  </copy>
-
-  <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
-  <copy todir="${dir.tmpBuildDir}" overwrite="true">
-    <fileset dir="${dir.webContent}"/>
-  </copy>
-
+  
   <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
@@ -171,12 +162,20 @@
       <fileset dir="${dir.tmpBuildDir}/com"/>
     </copy>
 
-    <delete dir="${dir.tmpBuildDir}/com" failonerror="false" includeemptydirs="true"/>
+    <!-- copy StaticFiles to tmpBuildDir before war creation -->
+    <copy todir="${dir.tmpBuildDir}/StaticFiles" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
+      <fileset dir="${dir.resources}/StaticFiles"/>
+    </copy>
+
+    <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
+    <copy todir="${dir.tmpBuildDir}" overwrite="true">
+      <fileset dir="${dir.webContent}"/>
+    </copy>
+    
     
   	<war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
-        <exclude name="${dir.tmpBuildDir}/com"/>
       </fileset>
     </war>
 		
