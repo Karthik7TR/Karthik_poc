@@ -79,7 +79,7 @@
 
   <!-- copy webContent/WEB-INF to TtmpBuildDir before war creation -->
   <copy todir="${dir.tmpBuildDir}" overwrite="true">
-    <fileset dir="${dir.webContent}"/>
+    <fileset dir="${dir.webContent}">
     <exclude name="**/web.xml"/>
     </fileset>
   </copy>
