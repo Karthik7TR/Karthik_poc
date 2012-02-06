@@ -12,7 +12,7 @@
     username="${CURRENT_USER}"
     password="${CURRENT_PASSWORD}"
     trust="yes"
-    command="cd /appserver/deployment;./deployci ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
+    command="cd /appserver/deployment;./deploycikp ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
     
   </target>
 
