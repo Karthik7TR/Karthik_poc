@@ -33,10 +33,13 @@ public class TransformerServiceTest
     
     protected File emptyXMLDir;
     protected File xmlDir;
+    protected File metaDir;
     protected File transDir;
     
     protected File xmlFile;
     protected File xmlFile2;
+    protected File metaFile;
+    protected File metaFile2;
     
     protected String titleId;
     
@@ -70,6 +73,9 @@ public class TransformerServiceTest
     	xmlDir = new File("TransformerTestXML");
     	xmlDir.mkdir();
     	
+    	metaDir = new File("TransformerTestMetadata");
+    	metaDir.mkdir();
+    	
     	transDir = new File("TransformerTestTransformed");
     	transDir.mkdir();
     	
@@ -84,13 +90,25 @@ public class TransformerServiceTest
 		outputStream.flush();
 		outputStream.close();
 		
-    	File xmlFile2 = new File(xmlDir, "xmlFile2.xml");
+    	xmlFile2 = new File(xmlDir, "xmlFile2.xml");
     	OutputStream outputStream2 = new FileOutputStream(xmlFile2);
     	outputStream2.write(xmlStr.getBytes());
     	outputStream2.write("2".getBytes());
     	outputStream2.write(xmlStr2.getBytes());
     	outputStream2.flush();
     	outputStream2.close();
+    	
+    	metaFile = new File(metaDir, "collection-xmlFile1.xml");
+    	OutputStream outputMeta = new FileOutputStream(metaFile);
+    	outputMeta.write("<n-metadata></n-metadata>".getBytes());
+    	outputMeta.flush();
+    	outputMeta.close();
+    	
+    	metaFile2 = new File(metaDir, "collection-xmlFile2.xml");
+    	OutputStream outputMeta2 = new FileOutputStream(metaFile2);
+    	outputMeta2.write("<n-metadata></n-metadata>".getBytes());
+    	outputMeta2.flush();
+    	outputMeta2.close();
 		
     	File txtFile = new File(xmlDir, "txtFile.txt");
     	txtFile.createNewFile();
@@ -121,7 +139,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(null, null, null, null);
+    		transService.transformXMLDocuments(null, null, null, null, null);
     	}
     	catch(EBookFormatException e)
     	{
@@ -138,7 +156,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(xmlFile, transDir, titleId, jobId);
+    		transService.transformXMLDocuments(xmlFile, metaDir, transDir, titleId, jobId);
     	}
     	catch(EBookFormatException e)
     	{
@@ -154,7 +172,7 @@ public class TransformerServiceTest
     	try
     	{
     		assertEquals(0, transDir.listFiles().length);
-    		transService.transformFile(xmlFile, transDir, titleId, jobId);
+    		transService.transformFile(xmlFile, metaDir, transDir, titleId, jobId);
     		assertEquals(1, transDir.listFiles().length);
     	}
     	catch(EBookFormatException e)
@@ -169,7 +187,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		assertEquals(2, transService.transformXMLDocuments(xmlDir, transDir, titleId, jobId));
+    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, transDir, titleId, jobId));
     	}
     	catch(EBookFormatException e)
     	{

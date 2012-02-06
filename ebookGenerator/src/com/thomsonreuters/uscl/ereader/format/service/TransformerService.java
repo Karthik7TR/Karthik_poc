@@ -24,6 +24,7 @@ public interface TransformerService
      * the service creates it.
      *
      * @param xmlDir the directory that contains all the Novus extracted XML files for this eBook.
+     * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup appropriate document metadata
@@ -32,5 +33,6 @@ public interface TransformerService
      *
      * @throws EBookFormatException if an error occurs during the process.
 	 */
-	public int transformXMLDocuments(final File xmlDir, final File transDir, final String titleID, final Long jobID) throws EBookFormatException;
+	public int transformXMLDocuments(final File xmlDir, final File metaDir, 
+			final File transDir, final String titleID, final Long jobID) throws EBookFormatException;
 }

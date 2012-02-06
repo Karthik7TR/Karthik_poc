@@ -72,6 +72,7 @@ public class TransformerServiceImpl implements TransformerService
      * the service creates it.
      *
      * @param xmlDir the directory that contains all the Novus extracted XML files for this eBook.
+     * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup document metadata
@@ -81,7 +82,8 @@ public class TransformerServiceImpl implements TransformerService
      * @throws EBookFormatException if an error occurs during the transformation process.
 	 */
 	@Override
-	public int transformXMLDocuments(File xmlDir, File transDir, String titleID, Long jobID) throws EBookFormatException 
+	public int transformXMLDocuments(File xmlDir, File metaDir, File transDir, String titleID, Long jobID) 
+			throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {
@@ -112,7 +114,7 @@ public class TransformerServiceImpl implements TransformerService
         int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	transformFile(xmlFile, transDir, titleID, jobID);
+        	transformFile(xmlFile, metaDir, transDir, titleID, jobID);
         	docCount++;
         }
         LOG.info("Transformed all XML files");
@@ -125,13 +127,15 @@ public class TransformerServiceImpl implements TransformerService
 	 * transforms the passed in XML file using it.
 	 * 
 	 * @param xmlFile XML file to be transformed
+	 * @param metadataDir directory that contains all the metadata files
 	 * @param targetDir directory to which the ".transformed" files will be written
 	 * @param titleId the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobId the identifier of the job currently running, used to lookup document metadata
      * 
 	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
 	 */
-	final void transformFile(File xmlFile, File targetDir, String titleId, Long jobId) throws EBookFormatException
+	final void transformFile(File xmlFile, File metadataDir, File targetDir, String titleId, Long jobId) 
+			throws EBookFormatException
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
@@ -142,17 +146,21 @@ public class TransformerServiceImpl implements TransformerService
         
         SequenceInputStream inStream1 = null;
         SequenceInputStream inStream2 = null;
+        SequenceInputStream inStream3 = null;
 		
         try
         {        	
         	inStream1 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
         			new FileInputStream(xmlFile));
+        	
+        	inStream2 = new SequenceInputStream(inStream1, 
+        			new FileInputStream(getMetadataFile(metadataDir, fileNameUUID)));
          	
-        	inStream2 = new SequenceInputStream(inStream1,
+        	inStream3 = new SequenceInputStream(inStream2,
         			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
         	
 	        Source xmlSource =
-	                new StreamSource(inStream2);
+	                new StreamSource(inStream3);
 
 	        Source xsltSource =
 	                new StreamSource(xslt);
@@ -191,14 +199,17 @@ public class TransformerServiceImpl implements TransformerService
         {
         	try
         	{
-	        	if (inStream1 != null)
+	        	if (inStream3 != null)
 	        	{
-	        		inStream1.close();
+	        		inStream3.close();
 	        	}
-	        	
 	        	if (inStream2 != null)
 	        	{
 	        		inStream2.close();
+	        	}
+	        	if (inStream1 != null)
+	        	{
+	        		inStream1.close();
 	        	}
         	}
         	catch (IOException e)
@@ -207,6 +218,38 @@ public class TransformerServiceImpl implements TransformerService
         				+ " file transformation.", e);
         	}
         }
+	}
+	
+	/**
+	 * Finds and returns the document metadata file associated to the passed in document guid.
+	 * 
+	 * @param metaDir directory containing all the metadata files
+	 * @param docGuid GUID of the document
+	 * @return File representing the metadata associated with the passed in document GUID
+	 * @throws EBookFormatException no metadata file was found
+	 */
+	protected File getMetadataFile(File metaDir, String docGuid)
+		throws EBookFormatException
+	{
+		File metadataFile = null;
+		
+		for (File aFile : metaDir.listFiles())
+		{
+			if (aFile.getName().endsWith(docGuid + ".xml"))
+			{
+				 metadataFile = aFile;
+			}
+		}
+		
+		if (metadataFile==null || !metadataFile.exists())
+		{
+			String errMessage = "Could not find the document metadata file for  " + docGuid + " GUID in the " 
+					+ metaDir + " metadata directory.";
+        	LOG.error(errMessage);
+        	throw new EBookFormatException(errMessage);
+		}
+		
+		return metadataFile;
 	}
 	
 	/**
