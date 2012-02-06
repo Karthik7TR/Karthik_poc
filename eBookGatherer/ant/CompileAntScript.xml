@@ -54,12 +54,17 @@
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
     <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpBuildDir}/WEB-INF/classes/com" failonerror="false" includeemptydirs="true"/>
 
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
+    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
+
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
