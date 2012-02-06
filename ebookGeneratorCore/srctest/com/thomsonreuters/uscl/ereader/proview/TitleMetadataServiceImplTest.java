@@ -144,7 +144,7 @@ public class TitleMetadataServiceImplTest {
 		try {
 			TitleMetadata titleMetadata = getTitleMetadata();
 			TableOfContents tableOfContents = new TableOfContents();
-			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered-toc-test.xml");
+			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered_toc_test.xml");
 			tableOfContents.setTocEntries(titleMetadataService.createTableOfContents(inputStream));
 			assertTrue(tableOfContents.getTocEntries().size() > 0);
 			titleMetadata.setTableOfContents(tableOfContents);

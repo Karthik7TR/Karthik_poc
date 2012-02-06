@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Represents a keyword within title.xml
@@ -27,5 +29,17 @@ public class Keyword {
 		}
 		this.type = type;
 		this.text = text;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

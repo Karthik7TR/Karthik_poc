@@ -1,12 +1,13 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.activemq.util.ByteArrayInputStream;
 import org.apache.activemq.util.ByteArrayOutputStream;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
@@ -14,6 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TitleMetadataTest {
+	
+	private static final Logger LOG = Logger.getLogger(TitleMetadataTest.class);
 	
 	@Before
 	public void setUp() {
@@ -23,12 +26,14 @@ public class TitleMetadataTest {
 	@Test
 	public void testTitleMetadataMarshallsCorrectly() throws Exception {
 		TitleMetadata titleMetadata = getTitleMetadata();
-				
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
 		IBindingFactory bfact = 
 			        BindingDirectory.getFactory(TitleMetadata.class);
 		IMarshallingContext mctx = bfact.createMarshallingContext();
 		mctx.setIndent(2);
-	    mctx.marshalDocument(titleMetadata, "UTF-8", null, System.out);
+	    mctx.marshalDocument(titleMetadata, "UTF-8", null, byteArrayOutputStream);
+	    LOG.info(new String(byteArrayOutputStream.toByteArray()));
 	}
 	
 	@Test
@@ -43,7 +48,29 @@ public class TitleMetadataTest {
 	    mctx.marshalDocument(metadata, "UTF-8", null, outputStream);
 	    String titleMetadataXml = IOUtils.toString(outputStream.toByteArray(), "UTF-8");
 	    System.out.println(titleMetadataXml);
-	    Assert.assertTrue( "The marshalled XML should not contain a keywords element.", !titleMetadataXml.contains("<keywords/>"));
+	    Assert.assertFalse( "The marshalled XML should not contain a keywords element.", titleMetadataXml.contains("<keywords/>"));
+	}
+	
+	@Test
+	public void testTitleMetadataDefaultConstructorWithExpectedDefaults() throws Exception {
+		TitleMetadata metadata = new TitleMetadata();
+		List<Keyword> keywords = metadata.getKeywords();
+		Keyword publisher = keywords.get(0);
+		Keyword jurisdiction = keywords.get(1);
+		Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);
+		Assert.assertTrue("publisher should be Thomson Reuters, but was: " + publisher, "Thomson Reuters".equals(publisher.getText()));
+		Assert.assertTrue("jurisdiction should be a period character, but was: " + jurisdiction, ".".equals(jurisdiction.getText()));
+	}
+	
+	@Test
+	public void testTitleMetadataFullConstructorWithExpectedDefaults() throws Exception {
+		TitleMetadata metadata = new TitleMetadata("1337/b00k", "v1337");
+		List<Keyword> keywords = metadata.getKeywords();
+		Keyword publisher = keywords.get(0);
+		Keyword jurisdiction = keywords.get(1);
+		Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);
+		Assert.assertTrue("publisher should be Thomson Reuters, but was: " + publisher, "Thomson Reuters".equals(publisher.getText()));
+		Assert.assertTrue("jurisdiction should be a period character, but was: " + jurisdiction, ".".equals(jurisdiction.getText()));
 	}
 	
 	private TitleMetadata getTitleMetadata() {

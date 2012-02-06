@@ -18,7 +18,7 @@ public class GatherTocUnmarshalTest {
 	
 	@Test
 	public void testTitleMetadataMarshallsCorrectly() throws Exception {
-		InputStream inputStream = GatherTocUnmarshalTest.class.getResourceAsStream("gathered-toc-test.xml");
+		InputStream inputStream = GatherTocUnmarshalTest.class.getResourceAsStream("gathered_toc_test.xml");
 		 IBindingFactory bfact = 
 					BindingDirectory.getFactory(com.thomsonreuters.uscl.ereader.gather.TableOfContents.class);
 			IUnmarshallingContext unmtcx = bfact.createUnmarshallingContext();

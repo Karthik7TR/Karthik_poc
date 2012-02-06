@@ -45,21 +45,25 @@ public class TitleMetadata implements Serializable {
 	private ArrayList<Keyword> keywords = null;
 	
 	public TitleMetadata() {
-		assets = new ArrayList<Asset>();
+		addDefaults();
 	}
 	
 	public TitleMetadata(String titleId, String titleVersion){
 		this.titleId = titleId;
 		this.titleVersion = titleVersion;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
-		Feature autoUpdate = new Feature("AutoUpdate");
-		Feature searchIndex = new Feature("SearchIndex");
-		//Feature onePassSSO = new Feature("OnePassSSO", "www.westlaw.com");
+		addDefaults();
+	}
+
+	private void addDefaults() {
 		this.proviewFeatures = new ArrayList<Feature>();
-		this.proviewFeatures.add(autoUpdate);
-		this.proviewFeatures.add(searchIndex);
-		//this.proviewFeatures.add(onePassSSO);
-		assets = new ArrayList<Asset>();
+		this.proviewFeatures.add(new Feature("AutoUpdate"));
+		this.proviewFeatures.add(new Feature("SearchIndex"));
+		this.proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));
+		
+		this.keywords = new ArrayList<Keyword>();
+		this.keywords.add(new Keyword("publisher", "Thomson Reuters"));
+		this.keywords.add(new Keyword("jurisdiction", ".")); //TODO: Confirm with the business exactly how they want to use jurisdiction.
 	}
 	
 	public void setAuthors(ArrayList<Author> authors) {
@@ -168,6 +172,10 @@ public class TitleMetadata implements Serializable {
 
 	public ArrayList<Asset> getAssets() {
 		return assets;
+	}
+	
+	public ArrayList<Keyword> getKeywords() {
+		return keywords;
 	}
 	
 }

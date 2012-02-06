@@ -136,7 +136,8 @@
 		<structure name="Name">
 			<value style="text" field="text"/>
 		</structure>
-		<value name="DocumentGuid" field="anchorReference" usage="optional"/>
+		<value name="Guid" field="anchorReference" usage="required"/>
+		<structure name="DocumentGuid" usage="optional"/>
 		<collection field="children" usage="required"/>
 	</mapping>
 </binding>
