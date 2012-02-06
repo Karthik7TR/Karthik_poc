@@ -82,19 +82,28 @@
 					+-->
 				<bean class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
 					p:httpClient-ref="httpClient" />
+
 				<!--
-					| This is the authentication handler declaration that every CAS deployer will need to change before deploying CAS 
-					| into production.  The default SimpleTestUsernamePasswordAuthenticationHandler authenticates UsernamePasswordCredentials
-					| where the username equals the password.  You will need to replace this with an AuthenticationHandler that implements your
-					| local authentication strategy.  You might accomplish this by coding a new such handler and declaring
-					| edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules.
+					| Thomson Reuters specific LDAP user search configuration using LDAP bind authentication.
+					| The filter excludes objectClass=computer because apparently in some rare cases the CN of the person/user
+					| is the same as the CN of their workstation host and we only want the person, hopefully a single result.
 					+-->
-				<bean
-					class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
+				<bean class="org.jasig.cas.adaptors.ldap.BindLdapAuthenticationHandler">
+					<property name="filter" value="(&amp;(cn=%u)(!(objectClass=computer)))"/>
+					<property name="searchBase" value="dc=TLR,dc=Thomson,dc=com"/>
+					<property name="ignorePartialResultException" value="true" />
+					<property name="contextSource" ref="ldapContextSource"/>
+				</bean>	
 			</list>
 		</property>
 	</bean>
-
+	
+	<!-- Thomson Reuters directory server/LDAP connection setup used by the TR LDAP authentication handler implementation. -->        
+	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://tlradldap.int.westgroup.com:389"/>
+		<property name="userDn" value="CN=svcCTWebSphere,OU=Service - Application Accounts,OU=Administrative Accounts,OU=West-TLRCorp Administration,OU=West-TLRCorp,DC=TLR,DC=Thomson,DC=com"/>
+		<property name="password" value="CodeDev3"/> 
+    </bean>
 
 	<!--
 	This bean defines the security roles for the Services Management application.  Simple deployments can use the in-memory version.

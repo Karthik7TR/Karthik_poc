@@ -8,12 +8,14 @@
     </description>
        
     <!-- Ticket Registry -->
-	<bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.DefaultTicketRegistry" />
-	
+	<bean id="ticketRegistry" class="com.thomsonreuters.codes.security.authentication.cas.JdbcTicketRegistry">
+	    <constructor-arg ref="ticketRegistryDao"/>
+	</bean>
 	<!--Quartz -->
 	<!-- TICKET REGISTRY CLEANER -->
-	<bean id="ticketRegistryCleaner" class="org.jasig.cas.ticket.registry.support.DefaultTicketRegistryCleaner"
-		p:ticketRegistry-ref="ticketRegistry" />
+	<bean id="ticketRegistryCleaner" class="com.thomsonreuters.codes.security.authentication.cas.JdbcTicketRegistryCleaner">
+		<property name="ticketRegistryDao" ref="ticketRegistryDao"/>
+	</bean>
 	
 	<bean id="jobDetailTicketRegistryCleaner" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 		p:targetObject-ref="ticketRegistryCleaner"
@@ -22,5 +24,5 @@
 	<bean id="triggerJobDetailTicketRegistryCleaner" class="org.springframework.scheduling.quartz.SimpleTriggerBean"
 		p:jobDetail-ref="jobDetailTicketRegistryCleaner"
 		p:startDelay="20000"
-		p:repeatInterval="5000000" />
+		p:repeatInterval="3600000" />
 </beans>

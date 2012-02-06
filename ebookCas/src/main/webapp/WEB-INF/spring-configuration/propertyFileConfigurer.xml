@@ -10,6 +10,13 @@
 		can be moved between tiers without modification.
 	</description>
        
-	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		p:location="/WEB-INF/cas.properties" />
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+       	  <list>
+       	  	<value>WEB-INF/cas.properties</value>
+          	<value>WEB-INF/properties/default-spring.properties</value>
+           	<value>WEB-INF/properties/${environment}-spring.properties</value>
+         </list>
+       </property>
+	</bean>
 </beans>
