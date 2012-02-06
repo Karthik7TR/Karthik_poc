@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<project name="#PROJECT_NAME#_Test_Script" default="JUnitTestMain" basedir="..\">
+<project name="eBookGenerator_Test_Script" default="JUnitTestMain" basedir="..\">
   <property environment="env" />
   <property file="ant/build.properties" />
   <property file="ant/ant-global.properties" />
