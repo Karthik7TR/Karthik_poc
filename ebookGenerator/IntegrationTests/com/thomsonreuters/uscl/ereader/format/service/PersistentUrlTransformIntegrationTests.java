@@ -6,8 +6,9 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,6 +17,7 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -31,12 +33,17 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
 public class PersistentUrlTransformIntegrationTests {
 
 	TransformerServiceImpl transformerService;
-	XSLTMapperService mockXsltMapperService; //doesn't really need to be mocked at the moment, but doing the right thing makes us good citizens.
+	XSLTMapperService mockXsltMapperService;
 	DocMetadata mockDocMetadata;
 	DocMetadataService mockDocMetadataService;
 	String titleId;
 	String novusXmlFilename;
+	String novusMetadataFilename;
+	
 	long jobId;
+	private static final String MOCK_DOCTYPE = "analytical";
+	private static final String MOCK_COLLECTION = "w_foo_collection";
+	private static final String CODES_STATUTES_XSLT = "CodesStatutes.xsl";
 	
 	@Rule
 	public TemporaryFolder tempDirectory = new TemporaryFolder();
@@ -47,7 +54,11 @@ public class PersistentUrlTransformIntegrationTests {
 		mockDocMetadata = EasyMock.createMock(DocMetadata.class);
 		mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
 		
-		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", new Integer(12345), "I01234567890123456789012345678901")).andReturn(mockDocMetadata);
+		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", new Integer(12345), "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5")).andReturn(mockDocMetadata);
+
+		EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
+		EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
+		EasyMock.expect(mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(CODES_STATUTES_XSLT);
 		EasyMock.replay(mockDocMetadataService);
 		EasyMock.replay(mockDocMetadata);
 		EasyMock.replay(mockXsltMapperService);
@@ -57,7 +68,8 @@ public class PersistentUrlTransformIntegrationTests {
 		transformerService.setdocMetadataService(mockDocMetadataService);
 		
 		titleId = "uscl/an/IMPH";
-		novusXmlFilename = "I01234567890123456789012345678901.xml";
+		novusXmlFilename = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.xml";
+		novusMetadataFilename = "w_an_rcc_cajur-Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.xml";
 		jobId = 12345L;
 	}
 
@@ -66,8 +78,16 @@ public class PersistentUrlTransformIntegrationTests {
 		File novusXml = new File(PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
 		File transformedDirectory = tempDirectory.newFolder("transformed");
 		
-		transformerService.transformFile(novusXml, transformedDirectory, titleId, jobId);
+		transformerService.transformFile(novusXml, novusXml.getParentFile(), transformedDirectory, titleId, jobId);
+		
 		verifyAll();
+		
+		
+		String fileContent = IOUtils.toString(new FileInputStream(new File(transformedDirectory, "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.TRANSFORMED")));
+		String expectedWlnHyperlinkText = "<a href=\"\">Some text</a>";
+		//https://a.next.westlaw.com/Link/Document/FullText?findType=l&pubNum=1077005&cite=UUID(IDD474D90A9-3611DFB1E7A-A5E642A0D53)&originationContext=document&transitionType=DocumentItem&contextData=(sc.Category)
+		//TODO: Update the assertion to detect one hyperlink within the transformed document.
+		Assert.isTrue(fileContent.contains(expectedWlnHyperlinkText), "file content should have contained a hyperlink to WLN, but did not!");
 	}
 
 	private void verifyAll() {
