@@ -149,17 +149,17 @@
     <copy todir="${dir.tmpBuildDir}" overwrite="true">
       <fileset dir="${dir.webContent}"/>
     </copy>
-    
-    <!-- Copy copiled classes over to "classes" folder in the war -->
-    <echo level="debug">Copying files from ${dir.binaries} to ${dir.webContent}/WEB-INF/classes ...</echo>
-    <copy todir="${dir.webContent}/WEB-INF/classes" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
+
+    <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
+    <copy todir="${dir.tmpBuildDir}" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
       <fileset dir="${dir.binaries}"/>
     </copy>
 
     <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
-      <fileset dir="${dir.webContent}">
+      <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
     </war>
+     
   </target>
 </project>
