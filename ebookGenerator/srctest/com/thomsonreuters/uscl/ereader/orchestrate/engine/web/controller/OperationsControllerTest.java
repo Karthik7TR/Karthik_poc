@@ -62,6 +62,11 @@ public class OperationsControllerTest {
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     	controller.setDashboardContextUrl(DASHBOARD_CONTEXT_URL);
     }
+    
+    @Test
+    public void testDummy() throws Exception {
+
+    }    
         
     @Ignore
     public void testRestartJobSuccess() throws Exception {
