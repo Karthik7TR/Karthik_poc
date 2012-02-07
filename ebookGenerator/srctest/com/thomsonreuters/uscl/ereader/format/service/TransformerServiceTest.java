@@ -13,7 +13,9 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
@@ -45,6 +47,9 @@ public class TransformerServiceTest
     
     protected Long jobId;
     
+    @Rule
+    public TemporaryFolder testFiles = new TemporaryFolder();
+    
     /**
      * Create the Transformer Service and initialize test variables.
      * 
@@ -67,17 +72,13 @@ public class TransformerServiceTest
     	jobId = 23L;
     	
     	//set up XML directories
-    	emptyXMLDir = new File("TransformerTestEmptyXMLDir");
-    	emptyXMLDir.mkdir();
+    	emptyXMLDir = testFiles.newFolder("TransformerTestEmptyXMLDir");
     	
-    	xmlDir = new File("TransformerTestXML");
-    	xmlDir.mkdir();
+    	xmlDir = testFiles.newFolder("TransformerTestXML");
     	
-    	metaDir = new File("TransformerTestMetadata");
-    	metaDir.mkdir();
+    	metaDir = testFiles.newFolder("TransformerTestMetadata");
     	
-    	transDir = new File("TransformerTestTransformed");
-    	transDir.mkdir();
+    	transDir = testFiles.newFolder("TransformerTestTransformed");
     	
     	String xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><n-docbody>";
     	String xmlStr2 = "</n-docbody>";
@@ -114,20 +115,6 @@ public class TransformerServiceTest
     	txtFile.createNewFile();
     	File htmlFile = new File(xmlDir, "htmlFile.html");
     	htmlFile.createNewFile();
-    }
-    
-    /**
-     * Cleans up after the test any intermediate files that were created
-     * 
-     * @throws Exception issue encountered during tear down
-     */
-    @After
-    public void tearDown() throws Exception
-    {
-    	FileUtils.deleteDirectory(xmlDir);
-    	FileUtils.deleteDirectory(emptyXMLDir);
-    	
-    	FileUtils.deleteDirectory(transDir);
     }
     
     /**
