@@ -111,6 +111,13 @@
         <path refid="classpath.compile"/>
       </classpath>
     </javac>
+
+    <copy todir="${dir.testBinaries}">
+      <fileset dir="${dir.core}/testBin">
+        <include name="**/*.class"/>
+      </fileset>
+    </copy>
+    
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
