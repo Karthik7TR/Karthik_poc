@@ -80,8 +80,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.6" target="1.6" debug="on"
-           debug="${IsCoverageBuild}">
+    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.6" target="1.6" debug="on">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
