@@ -48,23 +48,29 @@ public class GetTocTask  extends AbstractSbTasklet {
 		// TOC
 		String tocCollectionName = jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME); 
 		String tocRootGuid = jobParams.getString(JobParameterKey.ROOT_TOC_GUID);
-		if(tocRootGuid != null)
+		// NORT
+		String nortDomainName = jobParams.getString(JobParameterKey.NORT_DOMAIN); 
+		String nortExpressionFilter = jobParams.getString(JobParameterKey.NORT_FILTER_VIEW);
+		
+		if(tocCollectionName != null) // TOC
 		{
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile);
 		LOG.debug(gatherTocRequest);
 	
 		gatherResponse = gatherService.getToc(gatherTocRequest);
 		}
-		
-		// NORT
-		String nortDomainName = jobParams.getString(JobParameterKey.NORT_DOMAIN); 
-		String nortExpressionFilter = jobParams.getString(JobParameterKey.NORT_FILTER_VIEW);
-		if(nortDomainName != null)
+		else if(nortDomainName != null) // NORT
 		{
-		GatherNortRequest gatheNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile);
-		LOG.debug(gatheNortRequest);
+		GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile);
+		LOG.debug(gatherNortRequest);
 	
-		gatherResponse = gatherService.getNort(gatheNortRequest);
+		gatherResponse = gatherService.getNort(gatherNortRequest);
+		}
+		else
+		{
+			String errorMessage = "Neither tocCollectionName nor nortDomainName were defined for eBook" ;
+			LOG.error(errorMessage);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
 		}
 		
 		LOG.debug(gatherResponse);

@@ -25,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 
 @Controller
 public class TocController {
-	private static Logger log = Logger.getLogger(TocController.class);
+	private static Logger LOG = Logger.getLogger(TocController.class);
 	
 	@Autowired
 	public TocService tocService;
@@ -35,7 +35,7 @@ public class TocController {
 	 */
 	@RequestMapping(value = "/toc", method = RequestMethod.POST)
 	public ModelAndView getTableOfContents(@RequestBody GatherTocRequest tocRequest, Model model) {
-		log.debug(">>> " + tocRequest);
+		LOG.debug(">>> " + tocRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		
 		// Retrieve TOC structure from Novus
@@ -50,8 +50,17 @@ public class TocController {
 			if (cause != null) {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
-			log.error(errorMessage);
+			LOG.error(errorMessage);
 			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
+			} 
+		catch (Exception e) {
+			String errorMessage = e.getMessage();
+			Throwable cause = e.getCause();
+			if (cause != null) {
+				errorMessage = errorMessage + " - " + cause.getMessage();
+			}
+			LOG.error(errorMessage);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
 			} 
 		
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);

@@ -8,9 +8,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -19,6 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
@@ -69,6 +73,12 @@ public class NortServiceTest {
 		children = getChildNodes(5, 'a').toArray(new NortNode[]{});
 		
 		try {
+			Date date = new Date();
+			SimpleDateFormat formatter =
+		            new SimpleDateFormat("yyyyMMddHHmmss");				
+			String YYYYMMDDHHmmss;
+			YYYYMMDDHHmmss = formatter.format(date);
+//			String YYYYMMDDHHmmss = "20120206111111"; 
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
@@ -76,6 +86,7 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 5);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -149,6 +160,11 @@ public class NortServiceTest {
 		mockNort2NodeRoot[1] = mockNortNode2;
 
 		try {
+			Date date = new Date();
+			SimpleDateFormat formatter =
+		            new SimpleDateFormat("yyyyMMddHHmmss");				
+			String YYYYMMDDHHmmss;
+			YYYYMMDDHHmmss = formatter.format(date);
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
@@ -157,6 +173,7 @@ public class NortServiceTest {
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 5);
 			mockNortManager.fillNortNodes(rootChildren, 0, 2);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -277,6 +294,46 @@ public class NortServiceTest {
 	    } finally {
 	    	fis.close();
 	    }
+	}
+	
+	@Test (expected=GatherException.class)
+	public void testGetNortDataWithNovusException() throws Exception {
+		File workDir = temporaryFolder.getRoot();
+		File nortDir = new File(workDir, "junit_nort");
+		File nortFile = new File(nortDir, "NORT"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
+		Date date = new Date();
+		SimpleDateFormat formatter =
+	            new SimpleDateFormat("yyyyMMddHHmmss");				
+		String YYYYMMDDHHmmss;
+		YYYYMMDDHHmmss = formatter.format(date);
+		
+		// Record expected calls
+		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
+		mockNortManager.setShowChildrenCount(true);
+		mockNortManager.setDomainDescriptor(DOMAIN_NAME);
+		mockNortManager.setFilterName(FILTER, 0);
+		mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+		mockNovus.shutdownMQ();
+		EasyMock.expect(mockNortManager.getRootNodes()).andThrow(new MockNovusException());
+
+		// Replay
+		EasyMock.replay(mockNovusFactory);
+		EasyMock.replay(mockNovus);
+		EasyMock.replay(mockNortManager);
+		
+		try {
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile);
+		} 
+		finally
+		{
+			FileUtils.deleteQuietly(nortFile);
+		}
+
+		EasyMock.verify(mockNovusFactory);
+		EasyMock.verify(mockNovus);
+		EasyMock.verify(mockNortManager);
+		EasyMock.replay(mockNortNode);
 	}
 	
 }

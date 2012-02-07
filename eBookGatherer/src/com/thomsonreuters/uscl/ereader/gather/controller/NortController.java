@@ -55,7 +55,15 @@ public class NortController {
 			LOG.error(errorMessage);
 			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
 			} 
-		
+		catch (Exception e) {
+			String errorMessage = e.getMessage();
+			Throwable cause = e.getCause();
+			if (cause != null) {
+				errorMessage = errorMessage + " - " + cause.getMessage();
+			}
+			LOG.error(errorMessage);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
+			} 
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}

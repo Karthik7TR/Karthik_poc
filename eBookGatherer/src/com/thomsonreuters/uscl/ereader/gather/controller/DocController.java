@@ -23,14 +23,14 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 
 @Controller
 public class DocController {
-	private static Logger log = Logger.getLogger(DocController.class);
+	private static Logger LOG = Logger.getLogger(DocController.class);
 
 	@Autowired
 	public DocService docService;
 
 	@RequestMapping(value = "/doc", method = RequestMethod.POST)
 	public ModelAndView fetchDocuments(@RequestBody GatherDocRequest docRequest, Model model) {
-		log.debug(">>> " + docRequest);
+		LOG.debug(">>> " + docRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		try {
 			docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
@@ -42,9 +42,18 @@ public class DocController {
 			if (cause != null) {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
-			log.error(errorMessage);
+			LOG.error(errorMessage);
 			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
 		}
+		catch (Exception e) {
+			String errorMessage = e.getMessage();
+			Throwable cause = e.getCause();
+			if (cause != null) {
+				errorMessage = errorMessage + " - " + cause.getMessage();
+			}
+			LOG.error(errorMessage);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
+			} 
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}

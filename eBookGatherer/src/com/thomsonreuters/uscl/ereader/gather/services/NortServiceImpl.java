@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -169,12 +172,23 @@ public class NortServiceImpl implements NortService {
 	{
 		Novus novusObject = novusFactory.createNovus();
 		
+		Date date = new Date();
+		SimpleDateFormat formatter =
+	            new SimpleDateFormat("yyyyMMddHHmmss");
+
+	       
+		try {
+			
+		String YYYYMMDDHHmmss;
+		YYYYMMDDHHmmss = formatter.format(date);
+//		String YYYYMMDDHHmmss = "20120206111111"; 
+			
 	    _nortManager = novusObject.getNortManager();
 		_nortManager.setShowChildrenCount(true);
 	    _nortManager.setDomainDescriptor(domainName);
 	    _nortManager.setFilterName(expressionFilter, 0);
-
-	      try	{
+	    _nortManager.setNortVersion(YYYYMMDDHHmmss);
+	    
 
 		out = new BufferedWriter(new OutputStreamWriter(
 		        new FileOutputStream(nortXmlFile.getPath()), "UTF8"));
@@ -205,7 +219,7 @@ public class NortServiceImpl implements NortService {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
-			} finally {
+		} finally {
 			novusObject.shutdownMQ();
 		}
 
