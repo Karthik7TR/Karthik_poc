@@ -29,7 +29,7 @@ public class WebConstants {
 	//Miscellaneous keys and constants used throughout the application.
 	 
 	
-	public enum SortProperty { BOOK, INSTANCE_ID, BATCH_STATUS, START_TIME, EXECUTION_TIME };  // Job Summary page
+	public enum BookLibrarySortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_PATTERN);
 	public static final String JVM_PROPERTY_ENVIRONMENT = "environment";
