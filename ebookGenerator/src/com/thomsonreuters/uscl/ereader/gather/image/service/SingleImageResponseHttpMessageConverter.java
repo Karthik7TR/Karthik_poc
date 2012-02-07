@@ -31,7 +31,8 @@ public class SingleImageResponseHttpMessageConverter extends
 	private static final int DOWNLOAD_BUFFER_SIZE = 2^14;
 	private static List<MediaType> SUPPORTED_MEDIA_TYPES = new ArrayList<MediaType>();
 	static {
-		SUPPORTED_MEDIA_TYPES.add(MediaType.IMAGE_PNG);
+		SUPPORTED_MEDIA_TYPES.add(new MediaType("image"));	// Will download all image subtypes
+		SUPPORTED_MEDIA_TYPES.add(new MediaType("application", "pdf"));	// and Adobe PDF's
 	}
 	/** The destination for the downloaded image */
 	private File imageFile;
@@ -42,9 +43,17 @@ public class SingleImageResponseHttpMessageConverter extends
 	
 	@Override
 	public boolean canRead(Class<?> clazz, MediaType mediaType) {
-		if (mediaType != null) {
-			String type = mediaType.getType();  // like "image"
-			return (supports(clazz) && type.equals("image"));
+		if (!supports(clazz)) {
+			return false;
+		}
+		if (mediaType == null) {
+			return false;
+		}
+		// Is the specified media type compatible with one of the media types supported by this converter
+		for (MediaType supportedType : SUPPORTED_MEDIA_TYPES) {
+			if (mediaType.isCompatibleWith(supportedType)) {
+				return true;
+			}
 		}
 		return false;
 	}

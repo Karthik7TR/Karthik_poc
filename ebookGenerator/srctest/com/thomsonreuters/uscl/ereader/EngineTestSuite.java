@@ -40,7 +40,6 @@ import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClien
 			InitializeTaskTest.class,
 			JobQueueManagerTest.class,
 			JobRunQueuePollerTest.class,
-			OperationsControllerTest.class,
 			ProviewClientImplTest.class,
 			ProviewExceptionTest.class,
 			TransformerServiceTest.class,
