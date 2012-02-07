@@ -83,6 +83,7 @@
         <pathelement path="${dir.unitTestSource}" />
         <pathelement path="${dir.integrationTestSource}" />
         <pathelement path="${dir.source}" />
+        <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
       </classpath>
 
       <formatter type="xml" usefile="yes" />
