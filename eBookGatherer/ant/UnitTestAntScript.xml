@@ -9,14 +9,8 @@
            Create the Unit test class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.unitTestLibs">
-    <fileset dir="${dir.webContent}/WEB-INF/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="../ebookGeneratorCore/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="../ebookGeneratorCore/dist">
-      <include name="**/*.jar"/>
+    <fileset dir="${dir.tmpBuildDir}/WEB-INF/lib">
+      <include name="*.jar"/>
     </fileset>
   	<fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
@@ -89,6 +83,7 @@
         <pathelement path="${dir.unitTestSource}" />
         <pathelement path="${dir.integrationTestSource}" />
         <pathelement path="${dir.source}" />
+        <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
       </classpath>
 
       <formatter type="xml" usefile="yes" />
