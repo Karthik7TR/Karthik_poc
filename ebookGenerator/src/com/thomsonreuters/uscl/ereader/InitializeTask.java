@@ -52,12 +52,14 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
 		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
-		String dynamicPath = String.format("%s/%s/%d", new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
+		String dynamicPath = String.format("%s/%s/%d", 
+				new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
 		log.debug("workDirectory: " + workDirectory.getAbsolutePath());
 		if (!workDirectory.exists()) {
-			throw new IllegalStateException("Expected work directory was not created in the filesystem: " + workDirectory.getAbsolutePath());
+			throw new IllegalStateException("Expected work directory was not created in the filesystem: " + 
+					workDirectory.getAbsolutePath());
 		}
 		
 		// Create gather directories
@@ -104,6 +106,8 @@ public class InitializeTask extends AbstractSbTasklet {
 		transformedDirectory.mkdir();
 		postTransformDirectory.mkdir();
 		htmlWrapperDirectory.mkdir();
+		File intermediateTitleXMLFile = new File(formatDirectory, "IntermediateTitle.xml");
+		
 		//File htmlDirectory = new File(formatDirectory, "HTML");
 		
 		// Create the absolute path to the final e-book artifact - a GNU ZIP file
@@ -114,30 +118,51 @@ public class InitializeTask extends AbstractSbTasklet {
 		// File containing image GUID's one per line
 		
 		// Place data on the JobExecutionContext for use in later steps
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.GATHER_DOCS_METADATA_DIR, docsMetadataDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_DIR, tocDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.GATHER_TOC_FILE, tocFile.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.EBOOK_FILE, ebookFile.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.GATHER_DIR, gatherDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.GATHER_DOCS_DIR, docsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.GATHER_DOCS_METADATA_DIR, docsMetadataDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.GATHER_TOC_DIR, tocDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.GATHER_TOC_FILE, tocFile.getAbsolutePath());
 		
-		jobExecutionContext.putString(JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());		
+		jobExecutionContext.putString(
+				JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());		
 		
 		// Images - static and dynamic directories and files
-		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE, imageDynamicGuidsFile.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.IMAGE_ROOT_DIR, imageRootDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_DEST_DIR, imageStaticDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, imageDynamicDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE, imageDynamicGuidsFile.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_ROOT_DIR, imageRootDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_STATIC_DEST_DIR, imageStaticDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
 		
-		jobExecutionContext.putString(JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
 		
-		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.INTERMEDIATE_TITLE_XML_FILE, intermediateTitleXMLFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;

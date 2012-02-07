@@ -103,6 +103,11 @@ public class JobExecutionKey {
 	public static final String DOCUMENT_CSS_FILE = "documentCSSFile";
 	
 	/**
+	 * Initial title.xml file that does not have the updated fully qualified anchor references.
+	 */
+	public static final String INTERMEDIATE_TITLE_XML_FILE = "intermediateTitleXMLFile";
+	
+	/**
 	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.
 	 */
 	public static final String TITLE_XML_FILE = "titleXmlFile";

@@ -17,7 +17,6 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -30,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 public class TransformXML extends AbstractSbTasklet
 {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
+	private static final Logger LOG = Logger.getLogger(TransformXML.class);
 	private TransformerService transformerService;
 
 	public void settransformerService(TransformerService transformerService) 

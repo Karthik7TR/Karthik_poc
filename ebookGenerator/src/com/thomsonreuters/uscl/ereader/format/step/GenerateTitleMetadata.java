@@ -66,7 +66,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
-		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
+		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.INTERMEDIATE_TITLE_XML_FILE));
 		titleMetadataService.writeToFile(titleMetadata, titleXml);
 		
 		return ExitStatus.COMPLETED;
