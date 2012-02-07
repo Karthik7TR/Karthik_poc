@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
 
