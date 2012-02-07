@@ -28,7 +28,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -compile_unitTests, -clean">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -compile_unitTests">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
