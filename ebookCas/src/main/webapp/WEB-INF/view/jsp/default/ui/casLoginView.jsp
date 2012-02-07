@@ -32,8 +32,8 @@
     <p>You are currently accessing CAS over a non-secure connection.  Single Sign On WILL NOT WORK.  In order to have single sign on work, you MUST log in over HTTPS.</p>
 </div>
 </c:if>
-
-  <div class="box fl-panel" id="login">
+  <br/>
+  <div class="box fl-panel" id="login" style="width:97%">
 			<form:form method="post" id="fm1" cssClass="fm-v clearfix" commandName="${commandName}" htmlEscape="true">
                   <form:errors path="*" id="msg" cssClass="errors" element="div" />
                 <!-- <spring:message code="screen.welcome.welcome" /> -->
@@ -61,10 +61,12 @@
 						<spring:message code="screen.welcome.label.password.accesskey" var="passwordAccessKey" />
 						<form:password cssClass="required" cssErrorClass="error" id="password" size="25" tabindex="2" path="password"  accesskey="${passwordAccessKey}" htmlEscape="true" autocomplete="off" />
                     </div>
+<%--
                     <div class="row check">
                         <input id="warn" name="warn" value="true" tabindex="3" accesskey="<spring:message code="screen.welcome.label.warn.accesskey" />" type="checkbox" />
                         <label for="warn"><spring:message code="screen.welcome.label.warn" /></label>
                     </div>
+ --%>                    
                     <div class="row btn-row">
 						<input type="hidden" name="lt" value="${loginTicket}" />
 						<input type="hidden" name="execution" value="${flowExecutionKey}" />
@@ -76,6 +78,8 @@
             </form:form>
           </div>
             <div id="sidebar">
+<%--
+       
                 <p class="fl-panel fl-note fl-bevel-white fl-font-size-80"><spring:message code="screen.welcome.security" /></p>
                 <div id="list-languages" class="fl-panel">
                 <%final String queryString = request.getQueryString() == null ? "" : request.getQueryString().replaceAll("&locale=([A-Za-z][A-Za-z]_)?[A-Za-z][A-Za-z]|^locale=([A-Za-z][A-Za-z]_)?[A-Za-z][A-Za-z]", "");%>
@@ -131,5 +135,6 @@
                      </c:otherwise>
                    </c:choose>
                 </div>
+ --%>                     
             </div>
 <jsp:directive.include file="includes/bottom.jsp" />
