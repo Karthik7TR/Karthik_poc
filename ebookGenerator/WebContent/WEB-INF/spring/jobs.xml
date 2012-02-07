@@ -114,6 +114,7 @@
 		<step id="deliverEBook">
 			<tasklet ref="deliverEBookTask"/>
 			<fail on="FAILED"/>
+			<end on="COMPLETED"/>
 		</step>
 	</job>
 	
