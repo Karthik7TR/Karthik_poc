@@ -115,6 +115,7 @@
       <classpath>
         <pathelement path="${dir.binaries}"/>
         <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
+        <pathelement path="${dir.tmpBuildDir}/WEB-INF/lib"/>
         <path refid="classpath.compile"/>
       </classpath>
     </javac>
