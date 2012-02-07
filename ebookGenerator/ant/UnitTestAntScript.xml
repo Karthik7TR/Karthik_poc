@@ -9,10 +9,7 @@
            Create the Unit test class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.unitTestLibs">
-    <fileset dir="${dir.core}/lib">
-      <include name="*.jar"/>
-    </fileset>
-    <fileset dir="${dir.core}/dist">
+    <fileset dir="${dir.tmpBuildDir}/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
     <fileset dir="${env.buildextensionroot}">
