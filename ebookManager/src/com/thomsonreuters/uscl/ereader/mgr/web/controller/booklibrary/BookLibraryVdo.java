@@ -32,6 +32,15 @@ public class BookLibraryVdo {
 	/** Comparator to sort lists of properties into ascending key order */
 	private static final Comparator<Map.Entry<String, ?>> mapEntryKeyComparator = new MapEntryKeyComparator();
 	private BookDefinition bookDefinition;
+	private boolean isSelected =false;
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 
 	public BookDefinition getBookDefinition() {
 		return bookDefinition;
