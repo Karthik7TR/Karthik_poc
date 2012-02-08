@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -22,6 +23,11 @@ public class BookLibraryPaginatedList {
 			.getLogger(BookLibraryPaginatedList.class);
 
 	private CoreService coreService;
+
+	@Required
+	public void setCoreService(CoreService coreService) {
+		this.coreService = coreService;
+	}
 
 	/**
 	 * 
