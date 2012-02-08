@@ -14,4 +14,7 @@
   	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
   		  p:coreDao-ref="coreDao"/>
   		  
+	<bean id="bookLibraryService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService"
+  		  p:coreService-ref="coreService"/>  		  
+  		  
 </beans>
