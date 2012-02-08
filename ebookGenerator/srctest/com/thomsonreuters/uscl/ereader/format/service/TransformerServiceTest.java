@@ -8,9 +8,11 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.After;
+import javax.xml.transform.Transformer;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -159,7 +161,8 @@ public class TransformerServiceTest
     	try
     	{
     		assertEquals(0, transDir.listFiles().length);
-    		transService.transformFile(xmlFile, metaDir, transDir, titleId, jobId);
+    		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
+    		transService.transformFile(xmlFile, metaDir, transDir, titleId, jobId, xsltCache);
     		assertEquals(1, transDir.listFiles().length);
     	}
     	catch(EBookFormatException e)

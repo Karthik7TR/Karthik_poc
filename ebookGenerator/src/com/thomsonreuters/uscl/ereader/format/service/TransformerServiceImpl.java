@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -111,10 +113,12 @@ public class TransformerServiceImpl implements TransformerService
 			throw new EBookFormatException(errMessage, e);
 		}
         
+        Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
+        
         int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	transformFile(xmlFile, metaDir, transDir, titleID, jobID);
+        	transformFile(xmlFile, metaDir, transDir, titleID, jobID, xsltCache);
         	docCount++;
         }
         LOG.info("Transformed all XML files");
@@ -134,8 +138,8 @@ public class TransformerServiceImpl implements TransformerService
      * 
 	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
 	 */
-	final void transformFile(File xmlFile, File metadataDir, File targetDir, String titleId, Long jobId) 
-			throws EBookFormatException
+	final void transformFile(File xmlFile, File metadataDir, File targetDir, String titleId, 
+			Long jobId, Map<String, Transformer> stylesheetCache) throws EBookFormatException
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
@@ -147,6 +151,8 @@ public class TransformerServiceImpl implements TransformerService
         SequenceInputStream inStream1 = null;
         SequenceInputStream inStream2 = null;
         SequenceInputStream inStream3 = null;
+        
+        Transformer trans = null;
 		
         try
         {        	
@@ -161,23 +167,28 @@ public class TransformerServiceImpl implements TransformerService
         	
 	        Source xmlSource =
 	                new StreamSource(inStream3);
-
-	        Source xsltSource =
-	                new StreamSource(xslt);
+	        
+	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
+	        {
+		        Source xsltSource =
+		                new StreamSource(xslt);
+	
+		        TransformerFactory transFact =
+		                TransformerFactory.newInstance();
+		 
+		        trans = transFact.newTransformer(xsltSource);
+		        
+		        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		        stylesheetCache.put(xslt.getAbsolutePath(), trans);
+	        }
+	        else
+	        {
+	        	trans = stylesheetCache.get(xslt.getAbsolutePath());
+	        }
+	        
 	        Result result =
 	                new StreamResult(tranFile);
-	 
-	        // create an instance of TransformerFactory
-	        TransformerFactory transFact =
-	                TransformerFactory.newInstance();
-	 
-	        Transformer trans =
-	                transFact.newTransformer(xsltSource);
 	        
-	        // set any Transformer properties
-	        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	        
-	        // apply the XSLT transformations to the XML file
 	        trans.transform(xmlSource, result);
 
 	        LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());

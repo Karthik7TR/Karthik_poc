@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.easymock.EasyMock;
@@ -18,6 +20,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+
+import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -54,11 +58,13 @@ public class PersistentUrlTransformIntegrationTests {
 		mockDocMetadata = EasyMock.createMock(DocMetadata.class);
 		mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
 		
-		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", new Integer(12345), "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5")).andReturn(mockDocMetadata);
+		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", 
+						new Integer(12345), "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5")).andReturn(mockDocMetadata);
 
 		EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
 		EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
-		EasyMock.expect(mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(CODES_STATUTES_XSLT);
+		EasyMock.expect(
+				mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(CODES_STATUTES_XSLT);
 		EasyMock.replay(mockDocMetadataService);
 		EasyMock.replay(mockDocMetadata);
 		EasyMock.replay(mockXsltMapperService);
@@ -75,19 +81,24 @@ public class PersistentUrlTransformIntegrationTests {
 
 	@Test
 	public void testGenerateMudLinksUsingCodesStatutesStylesheet() throws Exception {
-		File novusXml = new File(PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
+		File novusXml = new File(
+				PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
 		File transformedDirectory = tempDirectory.newFolder("transformed");
+		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
 		
-		transformerService.transformFile(novusXml, novusXml.getParentFile(), transformedDirectory, titleId, jobId);
+		transformerService.transformFile(novusXml, novusXml.getParentFile(), 
+				transformedDirectory, titleId, jobId, xsltCache);
 		
 		verifyAll();
 		
 		
-		String fileContent = IOUtils.toString(new FileInputStream(new File(transformedDirectory, "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.TRANSFORMED")));
+		String fileContent = IOUtils.toString(new FileInputStream(
+				new File(transformedDirectory, "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.TRANSFORMED")));
 		String expectedWlnHyperlinkText = "<a href=\"\">Some text</a>";
 		//https://a.next.westlaw.com/Link/Document/FullText?findType=l&pubNum=1077005&cite=UUID(IDD474D90A9-3611DFB1E7A-A5E642A0D53)&originationContext=document&transitionType=DocumentItem&contextData=(sc.Category)
 		//TODO: Update the assertion to detect one hyperlink within the transformed document.
-		Assert.isTrue(fileContent.contains(expectedWlnHyperlinkText), "file content should have contained a hyperlink to WLN, but did not!");
+		Assert.isTrue(fileContent.contains(expectedWlnHyperlinkText), 
+				"file content should have contained a hyperlink to WLN, but did not!");
 	}
 
 	private void verifyAll() {
