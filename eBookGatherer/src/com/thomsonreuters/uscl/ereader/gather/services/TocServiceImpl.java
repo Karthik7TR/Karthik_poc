@@ -38,13 +38,7 @@ public class TocServiceImpl implements TocService {
 	
 	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
 	
-	protected TOC _tocManager = null;
-	protected Writer out = null;
-	private int counter;
-	private int docCounter;
-	private int iParent;
-	
-	public void retrieveNodes(String guid) throws GatherException
+	public void retrieveNodes(String guid, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
 	   {
 	      
 	      TOCNode[] tocNodes = null;
@@ -56,7 +50,7 @@ public class TocServiceImpl implements TocService {
 	          tocNode = _tocManager.getNode(guid);
 	          tocNodes = new TOCNode[1];
 			  tocNodes[0] =  tocNode ;
-	          printNodes(tocNodes);
+	          printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
 	      }
 	      catch (NovusException e)
 	      {
@@ -67,13 +61,13 @@ public class TocServiceImpl implements TocService {
 	      
 	   }
 
-	   public void printNodes(TOCNode[] nodes) throws GatherException
+	   public void printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
 			try {
 				for (TOCNode node : nodes) {
-					printNode(node);
+					printNode(node, _tocManager, out, counter, docCounter, iParent);
 				}
 				if (iParent > 0) {
 
@@ -99,7 +93,7 @@ public class TocServiceImpl implements TocService {
 	       }
 	   }
 	   
-	   public void printNode(TOCNode node) throws GatherException, NovusException
+	   public void printNode(TOCNode node, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException, NovusException
 	   {
 	       if (node != null)
 	       {
@@ -151,7 +145,7 @@ public class TocServiceImpl implements TocService {
 	           
 	           if (tocNodes != null)
 	           {          
-	               printNodes(tocNodes);
+	               printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
 	           }
 	       }
 	   }
@@ -164,6 +158,12 @@ public class TocServiceImpl implements TocService {
 	@Override
 	public void findTableOfContents(String guid, String collectionName, File tocXmlFile) throws GatherException 
 	{
+		TOC _tocManager = null;
+		Writer out = null;
+		int counter;
+		int docCounter;
+		int iParent;
+		
 		/*** for ebook builder we will always get Collection.***/
 		String type = EBConstants.COLLECTION_TYPE;
 		Novus novusObject = novusFactory.createNovus();
@@ -180,7 +180,7 @@ public class TocServiceImpl implements TocService {
 	    docCounter = 0;
 	    iParent = 0;
 	    
-        retrieveNodes(guid);
+        retrieveNodes(guid, _tocManager, out, counter, docCounter, iParent);
         
         LOG.debug(docCounter + " documents and " + counter + " nodes in the TOC hierarchy" );
 

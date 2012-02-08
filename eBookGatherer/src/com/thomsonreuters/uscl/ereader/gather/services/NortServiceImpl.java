@@ -41,13 +41,8 @@ public class NortServiceImpl implements NortService {
 	
 	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
 	
-	protected NortManager _nortManager = null;
-	protected Writer out = null;
-	private int counter;
-	private int docCounter;
-	private int iParent;
 	
-	public void retrieveNodes() throws GatherException
+	public void retrieveNodes(NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
 	   {
 	      
 	      NortNode[] nortNodes = null;
@@ -55,7 +50,7 @@ public class NortServiceImpl implements NortService {
 	      try
 	      {
 	          nortNodes = _nortManager.getRootNodes();
-	          printNodes(nortNodes);
+	          printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent);
 	      }
 	      catch (NovusException e)
 	      {
@@ -66,13 +61,13 @@ public class NortServiceImpl implements NortService {
 	      
 	   }
 
-	   public void printNodes(NortNode[] nodes) throws GatherException
+	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
 			try {
 				for (NortNode node : nodes) {
-					printNode(node);
+					printNode(node, _nortManager, out, counter, docCounter, iParent);
 				}
 				if (iParent > 0) {
 
@@ -98,7 +93,7 @@ public class NortServiceImpl implements NortService {
 	       }
 	   }
 	   
-	   public void printNode(NortNode node) throws GatherException, NovusException
+	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException, NovusException
 	   {
 	       if (node != null)
 	       {
@@ -157,7 +152,7 @@ public class NortServiceImpl implements NortService {
 	                  _nortManager.fillNortNodes(nortNodes, i, length);
 	               }
 	               
-	               printNodes(nortNodes);
+	               printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent);
 	           }
 	       }
 	   }
@@ -170,6 +165,12 @@ public class NortServiceImpl implements NortService {
 	@Override
 	public void findTableOfContents(String domainName, String expressionFilter, File nortXmlFile) throws GatherException 
 	{
+		NortManager _nortManager = null;
+		Writer out = null;
+		int counter;
+		int docCounter;
+		int iParent;
+		
 		Novus novusObject = novusFactory.createNovus();
 		
 		Date date = new Date();
@@ -199,7 +200,7 @@ public class NortServiceImpl implements NortService {
 	    docCounter = 0;
 	    iParent = 0;
 	    
-        retrieveNodes();
+        retrieveNodes( _nortManager,  out,  counter,  docCounter,  iParent);
         
         LOG.debug(docCounter + " documents and " + counter + " nodes in the NORT hierarchy" );
 
