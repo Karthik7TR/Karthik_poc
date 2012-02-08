@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 /**
@@ -22,8 +23,32 @@ public class BookLibraryPaginatedList {
 
 	private CoreService coreService;
 
+	/**
+	 * 
+	 * @param sortProperty
+	 * @param isAscending
+	 * @param pageNumber
+	 * @param itemsPerPage
+	 * @return
+	 */
 	public List<BookDefinitionVdo> getPageItems(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage) {
+		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
+
+		List<BookDefinition> books = coreService.findBookDefinitions(
+				sortProperty, isAscending, pageNumber, itemsPerPage);
+
+		for (BookDefinition book : books) {
+			pageItems.add(new BookDefinitionVdo(book, false));
+		}
+		return pageItems;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<BookDefinitionVdo> getAllItems() {
 		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
 
 		List<BookDefinition> books = coreService.findAllBookDefinitions();
@@ -32,6 +57,25 @@ public class BookLibraryPaginatedList {
 			pageItems.add(new BookDefinitionVdo(book, false));
 		}
 		return pageItems;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalCount() {
+		return coreService.countNumberOfBookDefinitions();
+	}
+
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+
+	public BookDefinitionVdo findSingleBookDefinition(BookDefinitionKey key) {
+		BookDefinition book = coreService.findBookDefinition(key);
+		return new BookDefinitionVdo(book, false);
 	}
 
 }
