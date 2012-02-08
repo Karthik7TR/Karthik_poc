@@ -17,5 +17,5 @@ Book Library List Body<br>
 <%-- Table of job executions for a specific Job name --%>
 		<display:table name="books" >
 			<display:column property="bookName" title="Name" />
-			<display:column property="authorInfo" title="Auther Name" />
+			<display:column property="author" title="Auther Name" />
 		</display:table>

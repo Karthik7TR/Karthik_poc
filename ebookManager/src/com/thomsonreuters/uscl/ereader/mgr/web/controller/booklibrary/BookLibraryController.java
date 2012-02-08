@@ -18,12 +18,12 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 public class BookLibraryController {
 	//private static final Logger log = Logger.getLogger(BookLibraryController.class);
 
-	private CoreService coreService;
+	private BookLibraryService bookLibraryService;
 	
 	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
 	public ModelAndView bookList(Model model) throws Exception {
 
-		List<BookDefinition> books = coreService.findAllBookDefinitions();
+		List<BookDefinitionVdo> books = bookLibraryService.getAllBooks();
 		
 		model.addAttribute("books", books);
 		
@@ -41,9 +41,14 @@ public class BookLibraryController {
 // TODO: implement this		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_ICONS);
 	}
-	
-	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+
+	public BookLibraryService getBookLibraryService() {
+		return bookLibraryService;
 	}
+
+	public void setBookLibraryService(BookLibraryService bookLibraryService) {
+		this.bookLibraryService = bookLibraryService;
+	}
+	
+	
 }
