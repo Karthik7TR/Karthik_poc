@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
@@ -35,8 +36,10 @@ public class TocServiceTest {
 	private TOCNode mockTocRootNode;
 	private TOCNode mockTocNode;
 	private TocServiceImpl tocService;
-	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static Logger LOG = Logger.getLogger(TocServiceTest.class);
+
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws Exception {
