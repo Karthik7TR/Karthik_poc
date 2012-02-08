@@ -38,7 +38,7 @@ public class TocServiceImpl implements TocService {
 	
 	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
 	
-	public void retrieveNodes(String guid, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
+	public void retrieveNodes(String guid, TOC _tocManager, Writer out, int[] counter, int[] docCounter,int[] intParent) throws GatherException
 	   {
 	      
 	      TOCNode[] tocNodes = null;
@@ -50,7 +50,7 @@ public class TocServiceImpl implements TocService {
 	          tocNode = _tocManager.getNode(guid);
 	          tocNodes = new TOCNode[1];
 			  tocNodes[0] =  tocNode ;
-	          printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
+	          printNodes(tocNodes, _tocManager, out, counter, docCounter, intParent);
 	      }
 	      catch (NovusException e)
 	      {
@@ -61,7 +61,7 @@ public class TocServiceImpl implements TocService {
 	      
 	   }
 
-	   public void printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
+	   public void printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
@@ -69,13 +69,13 @@ public class TocServiceImpl implements TocService {
 				for (TOCNode node : nodes) {
 					printNode(node, _tocManager, out, counter, docCounter, iParent);
 				}
-				if (iParent > 0) {
+				if (iParent[0] > 0) {
 
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
 					out.flush();
 
-					iParent--;
+					iParent[0]--;
 
 				}
 			} catch (IOException e) {
@@ -93,7 +93,7 @@ public class TocServiceImpl implements TocService {
 	       }
 	   }
 	   
-	   public void printNode(TOCNode node, TOC _tocManager, Writer out, int counter, int docCounter, int iParent) throws GatherException, NovusException
+	   public void printNode(TOCNode node, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
 	   {
 	       if (node != null)
 	       {
@@ -106,7 +106,7 @@ public class TocServiceImpl implements TocService {
 	           StringBuffer guid = new StringBuffer();
 	           if (node.getDocGuid() != null)
 	           {
-	        	   docCounter++;
+	        	   docCounter[0]++;
 	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getDocGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
 	        	   
 	           }
@@ -117,7 +117,7 @@ public class TocServiceImpl implements TocService {
 	           }
 	           else
 	           {
-	        	   iParent++;
+	        	   iParent[0]++;
 	           }
 
 	           // Example of output:
@@ -128,7 +128,7 @@ public class TocServiceImpl implements TocService {
 	           
 	           String payloadFormatted =( name.toString() + tocGuid.toString() + guid.toString() );
 
-	           counter++;
+	           counter[0]++;
 	   
 //	           LOG.debug(" document count : " + docCounter + " out of " + counter + " nodes" );
 
@@ -138,7 +138,7 @@ public class TocServiceImpl implements TocService {
 					out.flush();
 				} catch (IOException e) {
 					LOG.debug(e.getMessage());
-					GatherException ge = new GatherException("Failed writing to TOC TOC ", e, GatherResponse.CODE_FILE_ERROR);
+					GatherException ge = new GatherException("Failed writing to TOC ", e, GatherResponse.CODE_FILE_ERROR);
 					throw ge;
 					}
 	           TOCNode[] tocNodes = node.getChildren();
@@ -160,9 +160,9 @@ public class TocServiceImpl implements TocService {
 	{
 		TOC _tocManager = null;
 		Writer out = null;
-		int counter;
-		int docCounter;
-		int iParent;
+		int[] counter = {0};
+		int[] docCounter = {0};
+		int[] iParent = {0};
 		
 		/*** for ebook builder we will always get Collection.***/
 		String type = EBConstants.COLLECTION_TYPE;
@@ -176,10 +176,6 @@ public class TocServiceImpl implements TocService {
 	    out.write(EBConstants.TOC_XML_ELEMENT);
 	    out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-	    counter = 0;
-	    docCounter = 0;
-	    iParent = 0;
-	    
         retrieveNodes(guid, _tocManager, out, counter, docCounter, iParent);
         
         LOG.debug(docCounter + " documents and " + counter + " nodes in the TOC hierarchy" );

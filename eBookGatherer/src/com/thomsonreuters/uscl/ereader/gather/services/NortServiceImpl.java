@@ -42,7 +42,7 @@ public class NortServiceImpl implements NortService {
 	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
 	
 	
-	public void retrieveNodes(NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
+	public void retrieveNodes(NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
 	   {
 	      
 	      NortNode[] nortNodes = null;
@@ -61,7 +61,7 @@ public class NortServiceImpl implements NortService {
 	      
 	   }
 
-	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException
+	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
@@ -69,13 +69,13 @@ public class NortServiceImpl implements NortService {
 				for (NortNode node : nodes) {
 					printNode(node, _nortManager, out, counter, docCounter, iParent);
 				}
-				if (iParent > 0) {
+				if (iParent[0] > 0) {
 
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
 					out.flush();
 
-					iParent--;
+					iParent[0]--;
 
 				}
 			} catch (IOException e) {
@@ -93,7 +93,7 @@ public class NortServiceImpl implements NortService {
 	       }
 	   }
 	   
-	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int counter, int docCounter, int iParent) throws GatherException, NovusException
+	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
 	   {
 	       if (node != null)
 	       {
@@ -106,7 +106,7 @@ public class NortServiceImpl implements NortService {
 	           StringBuffer guid = new StringBuffer();
 	           if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
 	           {
-	        	   docCounter++;
+	        	   docCounter[0]++;
 	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
 	        	   
 	           }
@@ -117,7 +117,7 @@ public class NortServiceImpl implements NortService {
 	           }
 	           else
 	           {
-	        	   iParent++;
+	        	   iParent[0]++;
 	           }
 
 	           // Example of output:
@@ -128,7 +128,7 @@ public class NortServiceImpl implements NortService {
 	           
 	           String payloadFormatted =( name.toString() + tocGuid.toString() + guid.toString() );
 
-	           counter++;
+	           counter[0]++;
 	   
 //	           LOG.debug(" document count : " + docCounter + " out of " + counter + " nodes" );
 
@@ -167,9 +167,9 @@ public class NortServiceImpl implements NortService {
 	{
 		NortManager _nortManager = null;
 		Writer out = null;
-		int counter;
-		int docCounter;
-		int iParent;
+		int[] counter = {0};
+		int[] docCounter = {0};
+		int[] iParent = {0};
 		
 		Novus novusObject = novusFactory.createNovus();
 		
@@ -196,9 +196,9 @@ public class NortServiceImpl implements NortService {
 	    out.write(EBConstants.TOC_XML_ELEMENT);
 	    out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-	    counter = 0;
-	    docCounter = 0;
-	    iParent = 0;
+//	    counter = 0;
+//	    docCounter = 0;
+//	    iParent = 0;
 	    
         retrieveNodes( _nortManager,  out,  counter,  docCounter,  iParent);
         

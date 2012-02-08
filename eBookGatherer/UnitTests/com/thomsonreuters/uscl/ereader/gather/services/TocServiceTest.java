@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -125,7 +126,7 @@ public class TocServiceTest {
 	public void testGetTocDataWithNovusException() throws Exception {
 		File workDir = temporaryFolder.getRoot();
 		File tocDir = new File(workDir, "junit_toc");
-		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
+		File tocFile = new File(tocDir, "FAIL"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
@@ -145,7 +146,7 @@ public class TocServiceTest {
 		} 
 		finally
 		{
-			tocFile.delete();
+			FileUtils.deleteQuietly(tocFile);
 		}
 
 		EasyMock.verify(mockNovusFactory);
