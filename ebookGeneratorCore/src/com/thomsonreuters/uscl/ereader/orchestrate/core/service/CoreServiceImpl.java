@@ -33,9 +33,16 @@ public class CoreServiceImpl implements CoreService {
 		return coreDao.findAllBookDefinitions();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage) {
+		return coreDao.findBookDefinitions(sortProperty, isAscending, pageNumber, itemsPerPage);
+	}
+	
 	@Required
 	public void setCoreDao(CoreDao dao) {
 		this.coreDao = dao;
 	}
+	
 }
 

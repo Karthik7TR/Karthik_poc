@@ -27,5 +27,15 @@ public interface CoreService {
 	 * @return the found entity, or null if not found.
 	 */
 	public BookDefinition findBookDefinition(BookDefinitionKey key);
+	
+	/**
+	 * Returns all the current book definitions based on the search criterion
+	 * 
+	 * @return a list of BookDefinitions
+	 */
+
+	public List<BookDefinition> findBookDefinitions(
+			String sortProperty, boolean isAscending, int pageNumber,
+			int itemsPerPage);	
 
 }

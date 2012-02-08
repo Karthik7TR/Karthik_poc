@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -31,5 +32,20 @@ public class CoreDaoImpl implements CoreDao {
 	public List<BookDefinition> findAllBookDefinitions() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
 		return criteria.list();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage) {
+		
+		String namedQuery = "findBookDefnBySearchCriterion";
+		if (isAscending) {
+			namedQuery = namedQuery + " asc";
+		}
+		Query query = sessionFactory.getCurrentSession().getNamedQuery(namedQuery);
+		query.setString("sort_by", sortProperty);
+		query.setFirstResult(pageNumber);
+		query.setMaxResults(itemsPerPage);
+		return query.list();
 	}
 }

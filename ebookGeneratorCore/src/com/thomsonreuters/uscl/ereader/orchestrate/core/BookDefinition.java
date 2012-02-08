@@ -15,6 +15,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -25,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents the various set of job parameters that are provided to the e-book generating job.
  */
 @Entity
+@NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select * from BookDefinition myBook order by :sort_by") })
 @Table(name="EBOOK_DEFINITION", schema="EBOOK")
 public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = -1933004529661737219L;
