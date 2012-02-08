@@ -12,6 +12,11 @@
 		<level value="debug"/>
 		<appender-ref ref="console"/>
 	</logger>
+	
+	<logger name="com.thomsonreuters.codes.security" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="console"/>
+	</logger>
 
 	<root>
 		<level value="warn"/>
