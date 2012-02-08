@@ -18,9 +18,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 /**
  * Class to return paginated lists of book definition
  */
-public class BookLibraryPaginatedList {
+public class BookLibraryService {
 	private static final Logger log = Logger
-			.getLogger(BookLibraryPaginatedList.class);
+			.getLogger(BookLibraryService.class);
 
 	private CoreService coreService;
 
@@ -37,7 +37,7 @@ public class BookLibraryPaginatedList {
 	 * @param itemsPerPage
 	 * @return
 	 */
-	public List<BookDefinitionVdo> getPageItems(String sortProperty,
+	public List<BookDefinitionVdo> getBooksOnPage(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage) {
 		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
 
@@ -54,7 +54,7 @@ public class BookLibraryPaginatedList {
 	 * 
 	 * @return
 	 */
-	public List<BookDefinitionVdo> getAllItems() {
+	public List<BookDefinitionVdo> getAllBooks() {
 		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
 
 		List<BookDefinition> books = coreService.findAllBookDefinitions();
@@ -69,7 +69,7 @@ public class BookLibraryPaginatedList {
 	 * 
 	 * @return
 	 */
-	public int getTotalCount() {
+	public int getTotalBookCount() {
 		return coreService.countNumberOfBookDefinitions();
 	}
 
@@ -79,7 +79,7 @@ public class BookLibraryPaginatedList {
 	 * @return
 	 */
 
-	public BookDefinitionVdo findSingleBookDefinition(BookDefinitionKey key) {
+	public BookDefinitionVdo getSingleBook(BookDefinitionKey key) {
 		BookDefinition book = coreService.findBookDefinition(key);
 		return new BookDefinitionVdo(book, false);
 	}
