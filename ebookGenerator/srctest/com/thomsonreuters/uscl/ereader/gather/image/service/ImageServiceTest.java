@@ -156,7 +156,7 @@ public class ImageServiceTest {
 	@Test
 	public void testSaveImageMetadataEntity() {
 		ImageMetadataEntity entity = new ImageMetadataEntity(METADATA_PK, "titleId",
-				   									100l, 200l, 41234l, 1111l, "px");
+				   									100l, 200l, 41234l, 1111l, "px", MediaType.IMAGE_PNG);
 		EasyMock.expect(mockImageDao.saveImageMetadata(entity)).andReturn(METADATA_PK);
 		EasyMock.replay(mockImageDao);
 		

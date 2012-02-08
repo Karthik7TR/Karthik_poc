@@ -14,6 +14,7 @@ import java.nio.channels.FileChannel;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
 	private ImageDao imageDao;
 
 	@Override
-	@Transactional
+	//@Transactional
 	public void fetchImageVerticalImages(final List<String> imageGuids,
 						File imageDestinationDirectory, long jobInstanceId, String titleId) throws ImageException {
 
@@ -55,14 +56,14 @@ public class ImageServiceImpl implements ImageService {
 			SingleImageMetadata imageMetadata = null;
 			try {
 				// Fetch the image meta-data and persist it to the database
-				SingleImageMetadataResponse metadataContainer = fetchImageVerticalImageMetadata(imageGuid);
-				ServiceStatus serviceStatus = metadataContainer.getServiceStatus();
-				imageMetadata = metadataContainer.getImageMetadata();
+				SingleImageMetadataResponse metadataResponse = fetchImageVerticalImageMetadata(imageGuid);
+				ServiceStatus serviceStatus = metadataResponse.getServiceStatus();
+				imageMetadata = metadataResponse.getImageMetadata();
 				if (serviceStatus.getStatusCode() != 0) {
 					throw new ImageException(String.format("Non-zero status code was returned from Image Vertical when fetching metadata: code=%d, description=%s",
 							imageGuid, serviceStatus.getStatusCode(), serviceStatus.getDescription()));
 				}
-				saveImageMetadata(metadataContainer, jobInstanceId, titleId);
+				saveImageMetadata(metadataResponse, jobInstanceId, titleId);
 			} catch (Exception e) {
 				// Remove all existing downloaded files on failure
 				removeAllFilesInDirectory(imageDestinationDirectory);
@@ -70,10 +71,11 @@ public class ImageServiceImpl implements ImageService {
 			}
 			
 			// Second, download and save the image bytes to a file
-			try { 
+			try {
+				MediaType desiredMediaType = fetchDesiredMediaType(imageMetadata.getMediaType());
 				// Create the REST template we will use to make HTTP request to Image Vertical REST service
 				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(
-													imageDestinationDirectory, imageGuid, imageMetadata.getMediaType());
+													imageDestinationDirectory, imageGuid, desiredMediaType);
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
 				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
@@ -87,6 +89,25 @@ public class ImageServiceImpl implements ImageService {
 				throw new ImageException(String.format("Error fetching image from Image Vertical: imageGuid=%s", imageGuid), e);
 			}
 		}
+	}
+	
+	/**
+	 * If the metadata content type is an image, then return a desired type of "image/png"
+	 * otherwise return null which indicates to return it in whatever form it is sorted.
+	 * This covers the case of application/png.
+	 * @param metadataMediaType indicated content type from an image metadata request.
+	 * @return
+	 */
+	public static MediaType fetchDesiredMediaType(MediaType metadataMediaType) {
+
+		/** TODO: this is the production implementation 
+		return ("image".equals(metadataMediaType.getType())) ? 
+				MediaType.IMAGE_PNG : metadataMediaType;
+		*/
+		
+// TODO: DELETE this when TIF to PNG conversion works in the Image Vertical
+return metadataMediaType;		// DELETE 	
+	
 	}
 
 	@Override
@@ -135,15 +156,21 @@ public class ImageServiceImpl implements ImageService {
 	 * @return the entity to be persisted to a database table
 	 */
 	public static ImageMetadataEntity createImageMetadataEntity(SingleImageMetadataResponse responseMetadata,
-			long jobInstanceId, String titleId) {
+																long jobInstanceId, String titleId) {
 		SingleImageMetadata singleImageMetadata = responseMetadata.getImageMetadata();
 		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, singleImageMetadata.getGuid());
+		// Convert the media type from say "image/tif" to "image/png" which reflect the image as we want it to be converted,
+		// and as we expect it to be returned from the Image Vertical REST service.
+		MediaType desiredMediaType = fetchDesiredMediaType(singleImageMetadata.getMediaType());
+		
+		// Create the entity that will be persisted
 		ImageMetadataEntity entity = new ImageMetadataEntity(pk, titleId,
 				singleImageMetadata.getWidth(),
 				singleImageMetadata.getHeight(),
 				singleImageMetadata.getSize(),
 				singleImageMetadata.getDpi(),
-				singleImageMetadata.getDimUnit());
+				singleImageMetadata.getDimUnit(),
+				desiredMediaType);
 		return entity;
 	}
 	

@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.gather.image.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 
 public class ImageDaoImpl implements ImageDao {
-	//private static final Logger log = Logger.getLogger(ImageDaoImpl.class);
+	private static final Logger log = Logger.getLogger(ImageDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
 	public ImageDaoImpl(SessionFactory hibernateSessionFactory) {
@@ -42,6 +43,7 @@ public class ImageDaoImpl implements ImageDao {
 	@Override
 	public ImageMetadataEntityKey saveImageMetadata(ImageMetadataEntity metadata) {
 		Session session = sessionFactory.getCurrentSession();
+		log.debug(metadata);		
 		return (ImageMetadataEntityKey) session.save(metadata);
 	}
 }

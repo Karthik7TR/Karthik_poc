@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +34,13 @@ public class ImageVerticalServiceIntegrationTest  {
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static final Logger log = Logger.getLogger(ImageVerticalServiceIntegrationTest.class);
-	private static final String GUID_PNG = "IA31BCD5F18364C9BBDCD008012AFBF02";	// PNG image
 	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
 	private static final String[] GUID_LIST = {
+		"I8A302FE4920F47B00079B5381C71638B",	// PNG
 		"I03a62830fca111e0961b0000837bc6dd",	// PDF
 		"I5d463990094d11e085f5891ac64a9905",	// TIF
 	    "Ie043fac0675a11da90ebf04471783734",	// TIF
-		"I8A302FE4920F47B00079B5381C71638B",	// PNG
+
 //		"I449A045209354D19BADD202B264B3076",
 //		"IA1F5243AA999498889F4D32E3D141970",
 //		"IB813AED2574D4765839DD8196BBF692E",
@@ -71,13 +72,13 @@ public class ImageVerticalServiceIntegrationTest  {
 	}
 	
 	
-//	@Test
+	@Test
 	public void testFetchImageVerticalImageMetadata() {
 		SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF);
 		Assert.assertNotNull(response);
 	}
 	
-//	@Test
+	@Test
 	public void testFetchImageMetadataBadGuid() {
 		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
 		try {
@@ -91,7 +92,7 @@ public class ImageVerticalServiceIntegrationTest  {
 	
 
 	
-//	@Test
+	@Test
 	public void testPersistImageMetadata() {
 		Long jobInstanceId = -999l;
 		String titleId = "bogusTitleId";
@@ -100,7 +101,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		String dimUnit = "px";
 		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, guid);
 		ImageMetadataEntity expectedEntity = new ImageMetadataEntity(pk, titleId,
-																	 width, height, size, dpi, dimUnit);
+																	 width, height, size, dpi, dimUnit, MediaType.IMAGE_PNG);
 		imageService.saveImageMetadata(expectedEntity);
 		
 		// Read the meta-data entity back and verify it
@@ -117,11 +118,16 @@ public class ImageVerticalServiceIntegrationTest  {
 		Assert.assertEquals(dimUnit, actualEntity.getDimUnits());
 	}
 	
-//	@Test
-	public void testFindImageMetadataByPrimaryKey() {
-		long jobInstanceId = 375;
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, GUID_PNG);
-		ImageMetadataEntity entity = imageService.findImageMetadata(key);
-		log.debug("Image metadata by PK: " + entity);
+	@Test
+	public void testFindImageMetadataByPrimaryKey() throws Exception {
+		try {
+			long jobInstanceId = 1151;
+			String imageGuid = "I7d5ecd90675f11da90ebf04471783734";
+			ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imageGuid);
+			ImageMetadataEntity entity = imageService.findImageMetadata(key);
+			log.debug("Image metadata by PK: " + entity);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

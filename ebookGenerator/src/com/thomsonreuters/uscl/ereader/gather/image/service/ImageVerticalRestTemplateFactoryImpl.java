@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 public class ImageVerticalRestTemplateFactoryImpl implements ImageVerticalRestTemplateFactory {
 	
 	@Override
-	public ImageVerticalRestTemplate create(File imageDirectory, String imageGuid, MediaType mimeType) {
-		return new ImageVerticalRestTemplate(imageDirectory, imageGuid, mimeType);
+	public ImageVerticalRestTemplate create(File imageDirectory, String imageGuid, MediaType desiredMediaType) {
+		return new ImageVerticalRestTemplate(imageDirectory, imageGuid, desiredMediaType);
 	}
 }
