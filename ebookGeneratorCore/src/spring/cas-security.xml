@@ -17,7 +17,7 @@
 	<bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider"
 	      p:authenticationUserDetailsService-ref="userDetailsService"
 	      p:serviceProperties-ref="serviceProperties"
-	      p:key="tr_cas">
+	      p:key="uscl_cas">
 	    <property name="ticketValidator">
 	     	<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
 	        	<constructor-arg index="0" value="${cas.server.web.url}"/>
