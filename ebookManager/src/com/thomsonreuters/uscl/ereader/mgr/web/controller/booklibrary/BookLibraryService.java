@@ -16,7 +16,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 /**
- * Class to return paginated lists of book definition
+ * Class that will provide book library service methods
  */
 public class BookLibraryService {
 	private static final Logger log = Logger
