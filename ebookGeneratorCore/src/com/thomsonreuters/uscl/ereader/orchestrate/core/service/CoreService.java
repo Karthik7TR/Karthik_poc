@@ -36,6 +36,12 @@ public interface CoreService {
 
 	public List<BookDefinition> findBookDefinitions(
 			String sortProperty, boolean isAscending, int pageNumber,
-			int itemsPerPage);	
+			int itemsPerPage);
+
+	/**
+	 * Returns a count of all current book definitions.
+	 * @return an integer
+	 */
+	public int countNumberOfBookDefinitions();	
 
 }

@@ -33,4 +33,10 @@ public interface CoreDao {
 	 */
 	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage);
 
+	/**
+	 * Returns a count of the current book definitions.
+	 * @return an integer
+	 */
+	public int countNumberOfBookDefinitions();
+
 }

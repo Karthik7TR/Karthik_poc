@@ -44,8 +44,14 @@ public class CoreDaoImpl implements CoreDao {
 		}
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(namedQuery);
 		query.setString("sort_by", sortProperty);
-		query.setFirstResult(pageNumber);
+		query.setFirstResult((pageNumber-1)*(itemsPerPage) + 1);
 		query.setMaxResults(itemsPerPage);
 		return query.list();
+	}
+
+	@Override
+	public int countNumberOfBookDefinitions() {
+		Query query = sessionFactory.getCurrentSession().getNamedQuery("countBookDefinitions");
+		return query.list().size();
 	}
 }

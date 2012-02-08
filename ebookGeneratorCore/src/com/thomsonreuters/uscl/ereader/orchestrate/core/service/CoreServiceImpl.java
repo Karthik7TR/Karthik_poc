@@ -43,6 +43,12 @@ public class CoreServiceImpl implements CoreService {
 	public void setCoreDao(CoreDao dao) {
 		this.coreDao = dao;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int countNumberOfBookDefinitions() {
+		return coreDao.countNumberOfBookDefinitions();
+	}
 	
 }
 
