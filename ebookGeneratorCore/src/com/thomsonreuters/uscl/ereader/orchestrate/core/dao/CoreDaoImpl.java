@@ -44,7 +44,7 @@ public class CoreDaoImpl implements CoreDao {
 		}
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(namedQuery);
 		query.setString("sort_by", sortProperty);
-		query.setFirstResult((pageNumber-1)*(itemsPerPage) + 1);
+		query.setFirstResult((pageNumber)*(itemsPerPage) + 1);
 		query.setMaxResults(itemsPerPage);
 		return query.list();
 	}
