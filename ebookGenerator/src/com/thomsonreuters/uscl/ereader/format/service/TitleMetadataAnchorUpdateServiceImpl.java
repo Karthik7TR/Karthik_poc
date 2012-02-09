@@ -25,6 +25,8 @@ import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.TitleXMLTOCFilter;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 
 /**
  * Updates all the anchor references to include proper document prefixes.
@@ -69,13 +71,13 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
 			
 			Serializer serializer = SerializerFactory.getSerializer(props);
 			outStream = new FileOutputStream(trgTitleXML);
-			serializer.setOutputStream(outStream);
+			serializer.setOutputStream(new EntityDecodedOutputStream(outStream));
 			
 			tocFilter.setContentHandler(serializer.asContentHandler());
 			
 			inStream = new FileInputStream(srcTitleXML);
 
-			tocFilter.parse(new InputSource(inStream));
+			tocFilter.parse(new InputSource(new EntityEncodedInputStream(inStream)));
 		}
 		catch(IOException e)
 		{
