@@ -21,6 +21,10 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW = "bookDefinitionView.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
+	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
+	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
+	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
+	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
@@ -28,6 +32,10 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
+	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
+	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
+	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
+	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
 
 	// Miscellaneous keys and constants used throughout the application.
 	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

@@ -23,8 +23,17 @@
 	           ]]>
 	 </jsp:scriptlet>
 	 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"> </script>
 	<script type="text/javascript">
+		// Calculate how many checkboxes are selected
+		var howManyChecked = function() {
+			var selected = new Array();
+			$("input:checkbox[name=_chk]:checked").each(function() {
+			       selected.push($(this).val());
+			});
+				
+			return selected.length;
+		}
+		
 		$(document).ready(function() {
 			$('#selectAll').click(function () {
 				$(this).parents('#vdo').find(':checkbox').attr('checked', this.checked);
@@ -32,28 +41,44 @@
 			
 			// Post to import controller
 			$('#importButton').click(function (){
-				$('form#theForm').attr({action: ''});
-				$('form#theForm').submit();
+				location.href  = "<%= WebConstants.MVC_BOOK_DEFINITION_IMPORT%>";
 			});
 			// Post to export controller
 			$('#exportButton').click(function (){
-				$('form#theForm').attr({action: ''});
-				$('form#theForm').submit();		
+				//$('form#theForm').attr({action: ''});
+				//$('form#theForm').submit();		
 			});
 			// Post to generate
 			$('#generateButton').click(function (){
-				$('form#theForm').attr({action: ''});
+				var numberSelected = howManyChecked();
+				
+				if(numberSelected == 0) {
+					alert("Nothing selected");
+					exit();
+				} else if(numberSelected == 1) {
+					$('form#theForm').attr({action: '<%= WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>'});
+				} else {
+					$('form#theForm').attr({action: '<%= WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>'});
+				}
+				
 				$('form#theForm').submit();
 			});
 			// Post to promote
 			$('#promoteButton').click(function (){
-				$('form#theForm').attr({action: ''});
-				$('form#theForm').submit();
+				var numberSelected = howManyChecked();
+				
+				if(numberSelected == 0) {
+					alert("Nothing selected");
+					exit();
+				} else {
+					$('form#theForm').attr({action: '<%= WebConstants.MVC_BOOK_DEFINITION_PROMOTION%>'});
+					$('form#theForm').submit();	
+				}
 			});
 		});
 	</script>
   
-<form:form id="theForm" method="post">
+<form:form id="theForm" method="get">
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
 	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
@@ -69,7 +94,7 @@
 	  <display:column title="Author" property="author" sortable="true" sortName="authorInfo" style="text-align: left"/>
 	</display:table>
 	
-	<input type="button" id="importButton" value="Import" disabled="disabled" />
+	<input type="button" id="importButton" value="Import" />
 	<input type="button" id="exportButton" value="Export" disabled="disabled" />
 	<input type="button" id="generateButton" value="Generate" />
 	<input type="button" id="promoteButton" value="Promote" />

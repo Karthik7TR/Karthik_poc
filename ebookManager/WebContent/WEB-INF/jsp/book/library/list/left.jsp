@@ -19,7 +19,7 @@
 	
 	<script>
 		$(function() {
-			$( "#datepicker" ).datepicker();
+			$( ".datepicker" ).datepicker();
 		});
 	</script>
 </head>
@@ -31,8 +31,8 @@
 		<label>Name</label><br>
 		<input type="text" value=""/><br>
 		<label>Date Range</label><br>
-		&nbsp; Start Date <input id="datepicker" path="startDate"/><br>
-		&nbsp; End Date <input id="datepicker" path="endDate"/><br>
+		&nbsp; Start Date <input class="datepicker" path="startDate"/><br>
+		&nbsp; End Date <input class="datepicker" path="endDate"/><br>
 		<label>Content Type</label><br>
 		<input type="text" value=""/><br>
 		<label>User Name</label><br>

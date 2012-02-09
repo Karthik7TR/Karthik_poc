@@ -30,7 +30,7 @@ public class BookLibraryController {
 	public ModelAndView bookList(HttpSession httpSession,
 							Model model) throws Exception {
 		
-		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("bookName", false, 1, 20);
+		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("bookName", true, 1, 20);
 		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
@@ -55,7 +55,7 @@ public class BookLibraryController {
 		}
 		
 		String order = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER));
-		boolean isAscending = order != null && order.equals("1") ? true : false;
+		boolean isAscending = order != null && order.equals("2") ? false : true;
 		
 		int page = Integer.parseInt(request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 		
@@ -65,6 +65,30 @@ public class BookLibraryController {
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
+	public ModelAndView generateEbookPreview(HttpServletRequest request,
+		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
+	public ModelAndView generateBulkEbookPreview(HttpServletRequest request,
+		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_PROMOTION, method = RequestMethod.GET)
+	public ModelAndView bookDefinitionPromotion(HttpServletRequest request,
+		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION);
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_THUMBNAILS, method = RequestMethod.GET)

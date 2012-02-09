@@ -20,5 +20,31 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/view/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/view/body.jsp"/>
 	</definition>
+	
+	<definition name="_bookGeneratePreview" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/generate/single/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/generate/single/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/generate/single/body.jsp"/>
+	</definition>
+	
+	<definition name="_bookGenerateBulkPreview" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/generate/bulk/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/generate/bulk/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/generate/bulk/body.jsp"/>
+	</definition>
+	
+	<definition name="_bookDefinitionPromotion" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/promotion/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/promotion/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/promotion/body.jsp"/>
+	</definition>
+	
+	<definition name="_bookDefinitionImportView" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/import/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/import/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/import/body.jsp"/>
+	</definition>
+	
+	
  
 </tiles-definitions>
