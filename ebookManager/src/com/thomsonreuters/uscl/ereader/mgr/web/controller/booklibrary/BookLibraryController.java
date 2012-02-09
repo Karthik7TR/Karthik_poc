@@ -30,7 +30,7 @@ public class BookLibraryController {
 	public ModelAndView bookList(HttpSession httpSession,
 							Model model) throws Exception {
 		
-		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("BOOK_NAME", false, 1, 5);
+		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("bookName", false, 1, 20);
 		Integer resultSize = bookLibraryService.getTotalBookCount();
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
@@ -49,13 +49,13 @@ public class BookLibraryController {
 		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
 //log.debug(">>> " + form);
 		// Fetch the current object list from the session
-		String sort = new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT);
-		String order = new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER);
+		String sort = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT));
+		String order = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER));
 		boolean isAscending = order.equals("1") ? true:false;
 		
 		int page = Integer.parseInt(request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 		
-		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage(sort, isAscending, page, 5);
+		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage(sort, isAscending, page, 20);
 		Integer resultSize = bookLibraryService.getTotalBookCount();
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);

@@ -15,18 +15,17 @@
 
 Book Library List Body<br>
 
-
 <%-- Table of job executions for a specific Job name --%>
 	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
-				   pagesize="5"
+				   pagesize="20"
 				   partialList="true"
 				   size="resultSize"
 				   sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
-	  <display:column title="Select">
+	  <display:column title="Select ${selectAll}">
 	  	<input type="checkbox" name="id" value="${vdo.fullyQualifiedTitleId}" />
 	  </display:column>
-	  <display:column title="Book Name" property="bookName" sortable="true" sortName="BOOK_NAME" style="text-align: left"/>
+	  <display:column title="Book Name" property="bookName" sortable="true" sortName="bookName" style="text-align: left"/>
 	  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortName="author" style="text-align: left"/>
 	</display:table>
