@@ -9,7 +9,9 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -53,5 +55,32 @@ public class CoreDaoImpl implements CoreDao {
 	public int countNumberOfBookDefinitions() {
 		Query query = sessionFactory.getCurrentSession().getNamedQuery("countBookDefinitions");
 		return query.list().size();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 */
+	@Transactional
+	public void remove(BookDefinition toRemove) {
+		toRemove = (BookDefinition) sessionFactory.getCurrentSession().merge(
+				toRemove);
+		sessionFactory.getCurrentSession().delete(toRemove);
+		flush();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 */
+	@Transactional
+	public void flush() {
+		sessionFactory.getCurrentSession().flush();
+	}
+
+	@Override
+	@Transactional
+	public void saveBookDefinition(BookDefinition eBook) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(eBook);
+		session.flush();
 	}
 }

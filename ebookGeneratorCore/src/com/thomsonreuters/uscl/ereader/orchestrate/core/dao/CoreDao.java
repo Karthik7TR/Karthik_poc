@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
@@ -38,5 +40,9 @@ public interface CoreDao {
 	 * @return an integer
 	 */
 	public int countNumberOfBookDefinitions();
+
+	public void remove(BookDefinition toRemove) throws DataAccessException;
+
+	public void saveBookDefinition(BookDefinition eBook);
 
 }
