@@ -46,7 +46,7 @@ public class CoreDaoImpl implements CoreDao {
 		}
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(namedQuery);
 		query.setString("sort_by", sortProperty);
-		query.setFirstResult((pageNumber)*(itemsPerPage) + 1);
+		query.setFirstResult((pageNumber-1)*(itemsPerPage));
 		query.setMaxResults(itemsPerPage);
 		return query.list();
 	}
@@ -61,19 +61,12 @@ public class CoreDaoImpl implements CoreDao {
 	 * (non-Javadoc)
 	 */
 	@Transactional
-	public void remove(BookDefinition toRemove) {
-		toRemove = (BookDefinition) sessionFactory.getCurrentSession().merge(
-				toRemove);
-		sessionFactory.getCurrentSession().delete(toRemove);
-		flush();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public void flush() {
-		sessionFactory.getCurrentSession().flush();
+	public void removeBookDefinition(BookDefinitionKey toRemoveKey) {
+		toRemoveKey = (BookDefinitionKey) sessionFactory.getCurrentSession().merge(
+				toRemoveKey);
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(findBookDefinition(toRemoveKey));
+		session.flush();
 	}
 
 	@Override

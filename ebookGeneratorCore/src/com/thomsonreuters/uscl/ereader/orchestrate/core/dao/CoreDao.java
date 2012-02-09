@@ -40,8 +40,22 @@ public interface CoreDao {
 	 * @return an integer
 	 */
 	public int countNumberOfBookDefinitions();
+	
+	
+	/**
+	 * Removes a book definition.
+	 * @param key the primary key of the definition
+	 * @return void
+	 */
 
-	public void remove(BookDefinition toRemove) throws DataAccessException;
+	public void removeBookDefinition(BookDefinitionKey eBookKey) throws DataAccessException;
+	
+	
+	/**
+	 * Saves a book definitions.
+	 * @param a Book definition
+	 * @return void
+	 */
 
 	public void saveBookDefinition(BookDefinition eBook);
 

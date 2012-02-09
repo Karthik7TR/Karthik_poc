@@ -49,6 +49,52 @@ public class CoreServiceImpl implements CoreService {
 	public int countNumberOfBookDefinitions() {
 		return coreDao.countNumberOfBookDefinitions();
 	}
+
+	/**
+	 * Instantiates a new DocMetadataServiceImpl.
+	 * 
+	 */
+	/*
+	 * public DocMetadataServiceImpl() { docMetaXMLParser = new
+	 * DocMetaDataXMLParser(); }
+	 */
+	
+	/**
+	 * Save an existing Book Definition
+	 * 
+	 */
+	@Transactional
+	public void saveBookDefinition(BookDefinition eBook) {
+	
+		BookDefinitionKey existingBookPk = new BookDefinitionKey();
+		existingBookPk.setFullyQualifiedTitleId(eBook.getPrimaryKey().getFullyQualifiedTitleId());
+	
+		BookDefinition existingBook = coreDao.findBookDefinition(existingBookPk);
+	
+		if (existingBook != null) {
+			if (existingBook != eBook) {
+				existingBook.setAuthorInfo(eBook.getAuthorInfo());
+				existingBook.setBookName(eBook.getBookName());
+				existingBook.setContentSubtype(eBook.getContentSubtype());
+				existingBook.setContentType(eBook.getContentType());
+				existingBook.setCopyright(eBook.getCopyright());
+				existingBook.setCoverImage(eBook.getCoverImage());
+				existingBook.setDocCollectionName(eBook.getDocCollectionName());
+				existingBook.setIsbn(eBook.getIsbn());
+				existingBook.setMajorVersion(eBook.getMajorVersion());
+				existingBook.setMaterialId(eBook.getMaterialId());
+				existingBook.setMaterialIdEmbeddedInDocText(eBook.getMaterialIdEmbeddedInDocText());
+				existingBook.setMinorVersion(eBook.getMinorVersion());
+				existingBook.setNortDomain(eBook.getNortDomain());
+				existingBook.setNortFilterView(eBook.getNortFilterView());
+				existingBook.setRootTocGuid(eBook.getRootTocGuid());
+				existingBook.setTocCollectionName(eBook.getTocCollectionName());
+			}
+			coreDao.saveBookDefinition(existingBook);
+		} else {
+			coreDao.saveBookDefinition(eBook);
+		}
+	}
 	
 }
 
