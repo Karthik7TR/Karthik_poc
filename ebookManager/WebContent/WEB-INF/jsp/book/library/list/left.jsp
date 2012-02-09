@@ -16,9 +16,7 @@
 
 <html>
 <head>
-	<link rel="stylesheet" href="theme/layout.css">
-	<link rel="stylesheet" href="theme/jquery.ui.datepicker.css">
-  	
+	
 	<script>
 		$(function() {
 			$( "#datepicker" ).datepicker();
@@ -33,7 +31,7 @@
 		<label>Name</label><br>
 		<input type="text" value=""/><br>
 		<label>Date Range</label><br>
-		&nbsp; Start Date <input id="datepicker" path="startDate"/>
+		&nbsp; Start Date <input id="datepicker" path="startDate"/><br>
 		&nbsp; End Date <input id="datepicker" path="endDate"/><br>
 		<label>Content Type</label><br>
 		<input type="text" value=""/><br>
