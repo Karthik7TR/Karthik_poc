@@ -1,66 +1,71 @@
-body {
-	margin: 0px;
-	padding: 0px;
+th {
+	background: #ffffad;
 }
 
-.header {
-	  position:absolute;
-	  top:0px;
-	  width:100%; 
-	  height:30px;
-	  background:black;
-	  font-family:Arial;
-	  font-size:8pt;
+.arial14 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;	
 }
-.bodyContainer {
-	position:absolute; 
-	width:100%;
-  	top:30px; 
-  	bottom:30px;
+.arial18 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18;	
 }
-.left {
-	position:absolute; 
-	left:0px;
-  	width:25%; 
-  	height:100%;
-  	background:cyan;
+.arial20 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20;	
+}
+.majorDiv {
+	width: 96%;
+	margin-left: 10px;
+	background: white; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;
 }
 
-.title {
-	position:absolute; 
-	left:25%;
-  	width:75%; 
-  	height:120px;
-  	background:orange;
+.errorBox {
+	background: orange;
+	padding: 5px;
 }
 
-.body {
-	position:absolute; 
-	overflow:auto;
-	left:25%;
-	top:120px;
-	bottom:0px;
-  	width:75%;
-  	background:yellow;
+.stdMargin {
+	margin-left: 15;
 }
 
-.footer {
-	position:absolute; 
-	bottom:0px;
-  	width:100%; 
-  	height:30px; 
-  	background:#F4EEE9;
-  	font-family:Arial;
-  	font-size:8pt;
+.standardFont {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14;
 }
 
-/*
-#content {
-	  position:fixed; 
-	  top:105px;
-	  left:0;
-	  bottom:75px; 
-	  right:0; 
-	  overflow:auto; 
+.displayTagTable {
+	background: #f0f0f0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12;
+	text-align: center;
+	width: 100%;
 }
-*/
+
+/* DisplayTag table column alignment */
+.std-alignment {
+	text-align: right;
+}
+/* DisplayTag table column alignment */
+.left-align {
+	text-align: left;
+}
+.middle-vert-align {
+	vertical-align: middle;
+}
+.details-table-label {
+	background: #8fff8f;
+	padding: 4px;
+	font-size: 14;
+	font-weight: bold;
+	border: thin double gray;
+}
+.details-expand-div {
+	border: thin double gray;
+}
+/* DisplayTag table odd and even row configuration */
+.odd { background: #BFDFFF; }
+.even { background: white; }
+
