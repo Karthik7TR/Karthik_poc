@@ -36,6 +36,9 @@ public class NortServiceTest {
 
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
+	private File nortDir = null;
+
+	
 	private NovusFactory mockNovusFactory;
 	private Novus mockNovus;
 	private NortManager mockNortManager;
@@ -55,6 +58,8 @@ public class NortServiceTest {
 		mockNortNodeRoot = new NortNode[]{mockNortNode};
 		mockNort2NodeRoot = new NortNode[]{mockNortNode,mockNortNode2};
 		
+		nortDir = temporaryFolder.newFolder("junit_nort");
+
 		// The object under test
 		this.nortService = new NortServiceImpl();
 		
@@ -63,9 +68,7 @@ public class NortServiceTest {
 
 	@Test
 	public void testCreateNortTreeFile () throws Exception {
-		File workDir = temporaryFolder.getRoot();
-		File nortDir = new File(workDir, "junit_nort");
-		File nortFile = new File(nortDir, DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
+		File nortFile = new File(nortDir, "NORT"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
 		NortNode[] children = new NortNode[]{};
 		
 		mockNortNodeRoot[0] = mockNortNode;
@@ -147,9 +150,8 @@ public class NortServiceTest {
 
 	@Test
 	public void testCreateNort2NodeTreeFile () throws Exception {
-		File workDir = temporaryFolder.getRoot();
-		File nortDir = new File(workDir, "junit_nort");
 		File nortFile = new File(nortDir, "DblRootNode"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
+
 		NortNode[] children = new NortNode[]{};
 		NortNode[] rootChildren = new NortNode[]{};
 		
@@ -298,9 +300,8 @@ public class NortServiceTest {
 	
 	@Test (expected=GatherException.class)
 	public void testGetNortDataWithNovusException() throws Exception {
-		File workDir = temporaryFolder.getRoot();
-		File nortDir = new File(workDir, "junit_nort");
-		File nortFile = new File(nortDir, "NORT"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
+		File nortFile = new File(nortDir, "FAIL"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
+
 		Date date = new Date();
 		SimpleDateFormat formatter =
 	            new SimpleDateFormat("yyyyMMddHHmmss");				

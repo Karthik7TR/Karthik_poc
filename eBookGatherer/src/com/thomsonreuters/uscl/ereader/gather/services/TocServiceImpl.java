@@ -178,7 +178,7 @@ public class TocServiceImpl implements TocService {
 
         retrieveNodes(guid, _tocManager, out, counter, docCounter, iParent);
         
-        LOG.debug(docCounter + " documents and " + counter + " nodes in the TOC hierarchy" );
+        LOG.info(docCounter[0] + " documents and " + counter[0] + " nodes in the TOC hierarchy for guid " + guid + " collection " + collectionName );
 
 	    out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
         out.flush();
@@ -197,6 +197,13 @@ public class TocServiceImpl implements TocService {
 			GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 			} finally {
+				try {
+					out.close();
+				} catch (IOException e) {
+					LOG.debug(e.getMessage());
+					GatherException ge = new GatherException("TOC Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
+					throw ge;
+				}
 			novusObject.shutdownMQ();
 		}
 

@@ -36,6 +36,7 @@ public class TocServiceTest {
 	private TOCNode mockTocRootNode;
 	private TOCNode mockTocNode;
 	private TocServiceImpl tocService;
+	private File tocDir = null;
 	private static Logger LOG = Logger.getLogger(TocServiceTest.class);
 
 	@Rule
@@ -53,12 +54,12 @@ public class TocServiceTest {
 		// The object under test
 		this.tocService = new TocServiceImpl();
 		tocService.setNovusFactory(mockNovusFactory);
+		tocDir = temporaryFolder.newFolder("junit_toc");
 	}
 	
 	@Test
 	public void testGetTocDataFromNovus() throws Exception {
-		File workDir = temporaryFolder.getRoot();
-		File tocDir = new File(workDir, "junit_toc");
+
 		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
@@ -127,8 +128,6 @@ public class TocServiceTest {
 	
 	@Test (expected=GatherException.class)
 	public void testGetTocDataWithNovusException() throws Exception {
-		File workDir = temporaryFolder.getRoot();
-		File tocDir = new File(workDir, "junit_toc");
 		File tocFile = new File(tocDir, "FAIL"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
