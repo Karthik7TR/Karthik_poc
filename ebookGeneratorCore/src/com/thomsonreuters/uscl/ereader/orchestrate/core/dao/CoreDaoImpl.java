@@ -45,6 +45,8 @@ public class CoreDaoImpl implements CoreDao {
 		
 		if (isAscending) {
 			bookDefnQuery = bookDefnQuery + " asc";
+		} else {
+			bookDefnQuery = bookDefnQuery + " desc";			
 		}
 		Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
 		query.setFirstResult((pageNumber-1)*(itemsPerPage));
