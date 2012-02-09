@@ -31,7 +31,7 @@ public class BookLibraryController {
 							Model model) throws Exception {
 		
 		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("bookName", false, 1, 20);
-		Integer resultSize = new Integer((int) bookLibraryService.getTotalBookCount());
+		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
 		
@@ -50,8 +50,12 @@ public class BookLibraryController {
 //log.debug(">>> " + form);
 		// Fetch the current object list from the session
 		String sort = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT));
+		if(sort == null) {
+			sort = "bookName";
+		}
+		
 		String order = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER));
-		boolean isAscending = order.equals("1") ? true:false;
+		boolean isAscending = order != null && order.equals("1") ? true : false;
 		
 		int page = Integer.parseInt(request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 		
