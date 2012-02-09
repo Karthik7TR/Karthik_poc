@@ -39,7 +39,7 @@ public interface CoreDao {
 	 * Returns a count of the current book definitions.
 	 * @return an integer
 	 */
-	public int countNumberOfBookDefinitions();
+	public long countNumberOfBookDefinitions();
 	
 	
 	/**

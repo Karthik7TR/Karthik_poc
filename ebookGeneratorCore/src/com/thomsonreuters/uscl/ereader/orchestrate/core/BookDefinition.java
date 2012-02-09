@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents the various set of job parameters that are provided to the e-book generating job.
  */
 @Entity
-@NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select myBook from BookDefinition myBook order by :sort_by"),
+@NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select myBook from BookDefinition myBook "),
 @NamedQuery(name = "countBookDefinitions", query = "select count(*) from BookDefinition myBook") })
 @Table(name="EBOOK_DEFINITION", schema="EBOOK")
 public class BookDefinition implements Serializable {

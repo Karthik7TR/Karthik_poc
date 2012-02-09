@@ -40,21 +40,22 @@ public class CoreDaoImpl implements CoreDao {
 	@SuppressWarnings("unchecked")
 	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage) {
 		
-		String namedQuery = "findBookDefnBySearchCriterion";
+		String namedQuery = "findBookDefnBySearchCriterion";	
+		String bookDefnQuery =  sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by " + sortProperty;
+		
 		if (isAscending) {
-			namedQuery = namedQuery + " asc";
+			bookDefnQuery = bookDefnQuery + " asc";
 		}
-		Query query = sessionFactory.getCurrentSession().getNamedQuery(namedQuery);
-		query.setString("sort_by", sortProperty);
+		Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
 		query.setFirstResult((pageNumber-1)*(itemsPerPage));
 		query.setMaxResults(itemsPerPage);
 		return query.list();
 	}
 
 	@Override
-	public int countNumberOfBookDefinitions() {
+	public long countNumberOfBookDefinitions() {
 		Query query = sessionFactory.getCurrentSession().getNamedQuery("countBookDefinitions");
-		return query.list().size();
+		return (Long)query.uniqueResult();
 	}
 
 	/*

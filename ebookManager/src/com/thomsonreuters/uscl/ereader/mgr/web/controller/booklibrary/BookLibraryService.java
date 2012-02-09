@@ -69,7 +69,7 @@ public class BookLibraryService {
 	 * 
 	 * @return
 	 */
-	public int getTotalBookCount() {
+	public long getTotalBookCount() {
 		return coreService.countNumberOfBookDefinitions();
 	}
 

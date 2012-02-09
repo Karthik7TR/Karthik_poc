@@ -46,7 +46,7 @@ public class CoreServiceImpl implements CoreService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public int countNumberOfBookDefinitions() {
+	public long countNumberOfBookDefinitions() {
 		return coreDao.countNumberOfBookDefinitions();
 	}
 
@@ -94,12 +94,6 @@ public class CoreServiceImpl implements CoreService {
 		} else {
 			coreDao.saveBookDefinition(eBook);
 		}
-	}
-
-	@Override
-	public List<BookDefinition> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }
