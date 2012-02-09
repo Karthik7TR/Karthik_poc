@@ -9,6 +9,9 @@
 
 
 	<bean id="bookLibraryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"
-		p:bookLibraryService-ref="bookLibraryService" />
+		  p:bookLibraryService-ref="bookLibraryService" />
+
+	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"
+		  p:casUrl="${cas.server.web.url}" />
 			  
 </beans>

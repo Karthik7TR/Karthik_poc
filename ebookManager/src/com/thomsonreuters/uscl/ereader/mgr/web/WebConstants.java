@@ -14,21 +14,21 @@ public class WebConstants {
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	
 	// Page paths
+	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
-	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "book/library/thumbnails.mvc";
-	public static final String MVC_BOOK_LIBRARY_ICONS = "book/library/icons.mvc";
-	public static final String MVC_BOOK_DEFINITION_VIEW = "book/definition/view.mvc";
+	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
+	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW = "bookDefinitionView.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
 
 	// Logical view names
-	public static final String VIEW_HOME = "home";
 	public static final String VIEW_APP_EXCEPTION = "appException";
 	public static final String VIEW_BOOK_LIBRARY_LIST = "_bookLibraryList";
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
-	
+
 	// Miscellaneous keys and constants used throughout the application.
 	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 

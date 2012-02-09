@@ -43,9 +43,8 @@
 		<security:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY"/>
 		
 		<!-- Logout -->
-		<!-- 
-		<security:logout logout-success-url="/afterLogout.mvc"/>
-		 -->				
+		<security:logout logout-success-url="/afterLogout.mvc"/>	<!-- where to go after you logout -->
+					
 	</security:http>
 
 </beans>

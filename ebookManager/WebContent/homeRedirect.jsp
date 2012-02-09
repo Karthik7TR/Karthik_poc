@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <%--
 	Redirect user to the main home page controller.
@@ -7,7 +8,7 @@
 <html>
 <body>
 
-	<c:redirect url="/home.mvc"/>
+	<c:redirect url="/bookLibraryList.mvc"/>
 
 </body>
 </html>
