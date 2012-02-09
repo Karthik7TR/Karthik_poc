@@ -15,11 +15,11 @@ public class WebConstants {
 	
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
-	public static final String MVC_BOOK_LIBRARY_LIST = "book/library/list.mvc";
+	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "book/library/thumbnails.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "book/library/icons.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW = "book/definition/view.mvc";
-	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "book/library/listpaging.mvc";
+	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
 
 	// Logical view names
 	public static final String VIEW_HOME = "home";

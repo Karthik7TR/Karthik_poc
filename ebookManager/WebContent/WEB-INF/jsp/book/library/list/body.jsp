@@ -18,7 +18,7 @@ Book Library List Body<br>
 
 <%-- Table of job executions for a specific Job name --%>
 	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
+				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
 				   pagesize="5"
 				   partialList="true"
 				   size="resultSize"
