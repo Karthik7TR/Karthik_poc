@@ -43,5 +43,12 @@ public interface CoreService {
 	 * @return an integer
 	 */
 	public int countNumberOfBookDefinitions();	
+	
+	/**
+	 * Find book definitions by name. Name includes wildcard eg. %xyz
+	 * @param name
+	 * @return
+	 */
+	public List<BookDefinition> findByName(String name);
 
 }

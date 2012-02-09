@@ -95,6 +95,12 @@ public class CoreServiceImpl implements CoreService {
 			coreDao.saveBookDefinition(eBook);
 		}
 	}
+
+	@Override
+	public List<BookDefinition> findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 
