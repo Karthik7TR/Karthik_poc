@@ -5,6 +5,7 @@
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.SortProperty"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -14,8 +15,18 @@
 
 Book Library List Body<br>
 
+
 <%-- Table of job executions for a specific Job name --%>
-		<display:table name="books" >
-			<display:column property="bookName" title="Name" />
-			<display:column property="author" title="Auther Name" />
-		</display:table>
+	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
+				   requestURI="<%=WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
+				   pagesize="5"
+				   partialList="true"
+				   size="resultSize"
+				   sort="external">
+	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
+	  <display:column title="Select">
+	  	<input type="checkbox" name="id" value="${vdo.fullyQualifiedTitleId}" />
+	  </display:column>
+	  <display:column title="Book Name" property="bookName" sortable="true" sortName="BOOK_NAME" style="text-align: left"/>
+	  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortName="author" style="text-align: left"/>
+	</display:table>

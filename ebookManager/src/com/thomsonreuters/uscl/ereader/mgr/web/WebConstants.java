@@ -9,12 +9,17 @@ package com.thomsonreuters.uscl.ereader.mgr.web;
 
 public class WebConstants {
 	
+	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
+	public static final String KEY_PAGINATED_LIST = "paginatedList";
+	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
+	
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "book/library/list.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "book/library/thumbnails.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "book/library/icons.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW = "book/definition/view.mvc";
+	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "book/library/listpaging.mvc";
 
 	// Logical view names
 	public static final String VIEW_HOME = "home";
@@ -25,6 +30,6 @@ public class WebConstants {
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
 	
 	// Miscellaneous keys and constants used throughout the application.
-	public enum BookLibrarySortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
+	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 
 }
