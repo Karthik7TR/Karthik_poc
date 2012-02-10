@@ -11,6 +11,7 @@ import org.displaytag.util.ParamEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -109,6 +110,20 @@ public class BookLibraryController {
 
 	public void setBookLibraryService(BookLibraryService bookLibraryService) {
 		this.bookLibraryService = bookLibraryService;
+	}
+	
+	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
+	public ModelAndView jobSummaryGet(
+			HttpSession httpSession,
+			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm form,
+			Model model) throws Exception {
+		List<BookDefinitionVdo> paginatedList = bookLibraryService
+				.getBooksOnPage("bookName", true, 1, 20);
+		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
+		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
+
+		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 	
 }
