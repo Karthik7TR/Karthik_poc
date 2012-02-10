@@ -95,22 +95,22 @@ public class NortServiceImpl implements NortService {
 	   
 	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
 	   {
-	       if (node != null)
+		   // skip empty node or subsection node
+	       if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection"))
 	       {
-	          
 	           StringBuffer name = new StringBuffer();
-	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           StringBuffer tocGuid = new StringBuffer();
+	           StringBuffer guid = new StringBuffer();
+
+	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_GUID_ELEMENT);
 	           
-	           StringBuffer guid = new StringBuffer();
-	           if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
-	           {
+	             if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
+	             {
 	        	   docCounter[0]++;
-	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
-	        	   
-	           }
-              
+	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;   
+	             }
+
 	           if(node.getChildrenCount() == 0)
 	           {
 	        	   guid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
@@ -141,6 +141,8 @@ public class NortServiceImpl implements NortService {
 					GatherException ge = new GatherException("Failed writing to NORT TOC ", e, GatherResponse.CODE_FILE_ERROR);
 					throw ge;
 					}
+	          
+	           
 	           NortNode[] nortNodes = node.getChildren();
 	           
 	           if (nortNodes != null)
@@ -154,7 +156,11 @@ public class NortServiceImpl implements NortService {
 	               
 	               printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent);
 	           }
-	       }
+	       } 
+//       else
+//         {
+//           LOG.debug(" skipping subsection " );
+//         }
 	   }
 	   
 	/**

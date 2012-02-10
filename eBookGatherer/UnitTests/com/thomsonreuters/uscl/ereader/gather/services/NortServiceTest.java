@@ -88,13 +88,14 @@ public class NortServiceTest {
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
-			mockNortManager.fillNortNodes(children, 0, 5);
+			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
 			EasyMock.expect(mockNortNode.getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNortNode.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+			EasyMock.expect(mockNortNode.getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
 			EasyMock.expect(mockNortNode.getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNortNode.getChildren()).andReturn(children).anyTimes();
 			
@@ -173,8 +174,8 @@ public class NortServiceTest {
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
-			mockNortManager.fillNortNodes(children, 0, 5);
-			mockNortManager.fillNortNodes(rootChildren, 0, 2);
+			mockNortManager.fillNortNodes(children, 0, 6);
+			mockNortManager.fillNortNodes(rootChildren, 0, 3);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
@@ -184,6 +185,8 @@ public class NortServiceTest {
 			EasyMock.expect(mockNort2NodeRoot[1].getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[0].getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+			EasyMock.expect(mockNort2NodeRoot[0].getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
+			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildren()).andReturn(children).anyTimes();
@@ -259,6 +262,7 @@ public class NortServiceTest {
 		for (int i=0; i< maxChildren; i++) {
 			NortNode child = EasyMock.createMock(NortNode.class);
 			EasyMock.expect(child.getLabel()).andReturn("Child " + i + prefix);
+			EasyMock.expect(child.getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
 			EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn("UUID_" + i+ prefix).times(2);
 			EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
 			EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
@@ -267,6 +271,18 @@ public class NortServiceTest {
 			EasyMock.replay(child);
 			childNodes.add(child);
 		}
+		
+		// Create a child with subsection to be skipped
+		NortNode child = EasyMock.createMock(NortNode.class);
+		EasyMock.expect(child.getLabel()).andReturn("Child " + maxChildren + prefix);
+		EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+		EasyMock.expect(child.getPayloadElement("/n-nortpayload/node-type")).andReturn("subsection").anyTimes();
+		EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
+		EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
+		EasyMock.expect(child.getGuid()).andReturn("NORT_UUID_" + maxChildren+ prefix).times(2);
+	
+		EasyMock.replay(child);
+		childNodes.add(child);
 		return childNodes;
 	}
 	
