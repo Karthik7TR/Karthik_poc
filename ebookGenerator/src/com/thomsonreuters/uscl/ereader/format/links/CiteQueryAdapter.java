@@ -5,11 +5,18 @@
 */
 package com.thomsonreuters.uscl.ereader.format.links;
 
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Node;
-import org.w3c.dom.traversal.NodeIterator;
+import java.util.List;
 
-import com.sun.org.apache.xpath.internal.NodeSet;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
+
+import com.trgr.cobalt.util.urlbuilder.CiteQuery;
+import com.trgr.cobalt.util.urlbuilder.Container;
+import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
+import com.trgr.cobalt.util.urlbuilder.Parameter;
+import com.trgr.cobalt.util.urlbuilder.UrlBuilder;
+import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
+import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
 
 /**
  * This class serves as an adapter to ensure that any calls to GetCiteQueryLink, during the xslt transformation process, return a Persistent MUD URL.
@@ -19,32 +26,27 @@ import com.sun.org.apache.xpath.internal.NodeSet;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public class CiteQueryAdapter {
-	//CiteQuery citeQuery = null;
-	//UrlBuilder urlBuilder = null;
 	
-	public CiteQueryAdapter() throws Exception {
-		//this.citeQuery = new CiteQuery(Container.DEFAULT.name());
+	private static final Logger LOG = Logger.getLogger(CiteQueryAdapter.class);
+	CiteQuery citeQuery = null;
+	UrlBuilder urlBuilder = null;
+	private String hostname = "https://1.next.westlaw.com";
+	
+	public void setHostname(final String hostname){
+		this.hostname = hostname; //injected by Spring
 	}
 	
-//	public CiteQueryAdapter(UrlBuilder urlBuilder) throws Exception {
-//		this.citeQuery = new CiteQuery(Container.DEFAULT.name());
-//		this.urlBuilder = urlBuilder;
-//	}
+	public CiteQueryAdapter() throws Exception {
+		this.citeQuery = new CiteQuery(Container.COBALT.name());
+		this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject(); 
+	}
 	
-	//CiteQuery:GetCiteQueryLink($citeQueryElement, $Guid, '', $sourceCite, 'originationContext=&docDisplayOriginationContext;', $specialVersionParamVariable, $specialRequestSourceParamVariable, '&transitionTypeParamName;=&transitionTypeDocumentItem;')
-    public String getCiteQueryLink(NodeIterator link, NodeIterator originatingDoc, String keyText, DocumentFragment sourceCiteXpath, String originationContext, DocumentFragment specialVersionParamVariable, DocumentFragment specialRequestSourceParamValue, String transitionTypeParamValue)
-    {
-    	Node linkElement = link.nextNode();
-    	Node originatingDocGuid = originatingDoc.nextNode();
-    	String sourceCite = sourceCiteXpath.getNodeValue();
-        return this.getCiteQueryLinkIntermediary(linkElement.getLocalName(), originatingDocGuid.getNodeValue(), keyText, sourceCite, "EBOOK", "VR=2.0", "RS=TRAN3.0");
-    }
-
+	
     //[ExpressionContext,] #STRING, #STRING, #RTREEFRAG, #RTREEFRAG, #STRING
-    public String getCiteQueryLink(String link, String originationContext, DocumentFragment specialVersionParamVariable, DocumentFragment specialRequestSourceParamValue, String transitionTypeParamValue)
-    {
-        return this.getCiteQueryLinkIntermediary(link, "EBOOK", "VR=2.0", "RS=TRAN3.0");
-    }
+//    public String getCiteQueryLink(String link, String originationContext, DocumentFragment specialVersionParamVariable, DocumentFragment specialRequestSourceParamValue, String transitionTypeParamValue)
+//    {
+//        return this.getCiteQueryLinkIntermediary(link, "EBOOK", "VR=2.0", "RS=TRAN3.0");
+//    }
     
 	public String GetCiteQueryLink(String linkElement, String originatingDoc, String keyText, String sourceCite)
     {
@@ -68,14 +70,63 @@ public class CiteQueryAdapter {
 
     public String GetCiteQueryLink(String linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4)
     {
-        return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+    	System.out.println("Debug 99 " + linkElement);
+    	return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+    }
+    
+    public String GetCiteQueryLink(Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4)
+    {
+    	System.out.println("Node " + linkElement);
+    	return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
     }
 
     public String GetCiteQueryLink(String linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4, String param5)
     {
-        return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
+    	return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
     }
 
+   
+    
+    private String getCiteQueryLinkIntermediary(Node linkElement, String originatingDoc, String keyText, String sourceCite, String... parameters)
+    {
+    	
+    	try
+        {
+        	       	
+        	System.out.println("Debug *********** " + linkElement.getNodeName() + "  originatingDoc is " + originatingDoc +  
+        			" keyText is " + keyText + " sourceCite is " + sourceCite );
+        	
+        	LOG.debug("Debug *********** " + linkElement.getNodeName() + "  originatingDoc is " + originatingDoc +  
+        			" keyText is " + keyText + " sourceCite is " + sourceCite );
+        	
+            UrlBuilderInput input = this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite,"ebook");
+            if (input == null)
+            {
+                return "";
+            }
+            //System.out.println("Template name is " + input.getUrlTemplateName() + input.getParameters());
+            LOG.debug("Template name is " + input.getUrlTemplateName() + input.getParameters());
+
+            String response = null;
+            try
+            {
+                response = this.hostname + this.urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
+                System.out.println(input.getUrlTemplateName() + "Response is " + response);
+            }
+            catch (UrlBuilderException e)
+            {
+                response = "";
+                System.out.println("UrlBuilderException is " + e.getMessage());
+                LOG.debug("UrlBuilderException is " + e.getMessage());
+            }
+            return response;
+        }
+        catch (Exception e)
+        {
+            return "";           
+        }
+    }
+    
     /// <summary>
     /// Returns a String of the UrlBuilderInput object that contains the appropriate template Name and paramters for the given input.
     /// </summary>
@@ -86,30 +137,39 @@ public class CiteQueryAdapter {
     /// <returns>UrlBuilderInput to pass to UrlBuilder</returns>
     private String getCiteQueryLinkIntermediary(String linkElement, String originatingDoc, String keyText, String sourceCite, String... parameters)
     {
-        try
+    	
+    	try
         {
-//            UrlBuilderInput input = this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
-//            if (input == null)
-//            {
-//                return "";
-//            }
+        	System.out.println("Debug #1 "  + linkElement);
+            UrlBuilderInput input = this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
+            if (input == null)
+            {
+                return "";
+            }
+            
+            StringBuilder parametersString = new StringBuilder();
+            
+            for(String str : parameters)
+            {
+            	parametersString.append(str);
+            }
 
             // Add extra params
-            //List<String> params = this.urlBuilder.getUrlParameters(parameters);
-//            for (Parameter parameter : parameterList)
-//            {
-//                input.getParameters().add(parameter);
-//            }
+            List<Parameter> parameterList = this.urlBuilder.getUrlParameters(parametersString.toString());
+            for (Parameter parameter : parameterList)
+            {
+                input.getParameters().add(parameter);
+            }
 
             String response = null;
-//            try
-//            {
-//                //response = this.urlBuilder.createUrl(Container.DEFAULT.name(), input.getUrlTemplateName(), parameterList);
-//            }
-//            catch (UrlBuilderException e)
-//            {
-//                response = "";
-//            }
+            try
+            {
+                response = this.urlBuilder.createUrl(Container.DEFAULT.name(), input.getUrlTemplateName(), parameterList);
+            }
+            catch (UrlBuilderException e)
+            {
+                response = "";
+            }
             return response;
         }
         catch (Exception e)
@@ -117,4 +177,5 @@ public class CiteQueryAdapter {
             return "";
         }
     }
+
 }
