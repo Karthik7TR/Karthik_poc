@@ -122,8 +122,8 @@ public class BookLibraryController {
 		
 	}
 	
-	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
-	public ModelAndView bookLibraryFilterFormPost(
+	@RequestMapping(value = "bookLibraryFilter.mvc", method = RequestMethod.GET)
+	public ModelAndView bookLibraryFilterGet(
 			HttpSession httpSession,
 			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,BindingResult result,
 			Model model) throws Exception {
