@@ -26,6 +26,7 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
 import com.thomsonreuters.uscl.ereader.gather.TableOfContents;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import com.thomsonreuters.uscl.ereader.jibx.EntityPreservingCharacterEscaper;
 
 
@@ -121,7 +122,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 				BindingDirectory.getFactory(TitleMetadata.class);
 		IMarshallingContext mctx = bfact.createMarshallingContext();
 		
-		mctx.setOutput(outputStream, "UTF-8", new EntityPreservingCharacterEscaper());
+		mctx.setOutput(outputStream, "UTF-8");
 		mctx.marshalDocument(titleMetadata);
 		
 		IOUtils.closeQuietly(outputStream);

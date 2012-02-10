@@ -157,6 +157,69 @@ public class TitleMetadataServiceImplTest {
 		
 	}
 	
+	@Test
+	public void testTitleMetadataRoundTripPreservesEntities() throws Exception {
+		File titleXml = null;
+		try {
+			TitleMetadata titleMetadata = getTitleMetadata();
+			TableOfContents tableOfContents = new TableOfContents();
+			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered_nort2_test.xml");
+			tableOfContents.setTocEntries(titleMetadataService.createTableOfContents(inputStream));
+			assertTrue(tableOfContents.getTocEntries().size() > 0);
+			titleMetadata.setTableOfContents(tableOfContents);
+			titleXml = File.createTempFile("titleMetadata", ".xml");
+			titleMetadataService.writeToFile(titleMetadata, titleXml);
+			TitleMetadata unmarshalledTitleMetadata = titleMetadataService.readFromFile(titleXml);
+			String expectedText = "CA ORGANIC ACTS TREATY OF GUADALUPE HIDALGO, Refs & Annos";
+			boolean foundMatchingChildInTitleMetadataBasedOnText = findTableOfContentsNodeContainingText(expectedText, unmarshalledTitleMetadata.getTableOfContents());
+			
+			String secondText = "West's ANNOTATED CALIFORNIA CODES";
+			boolean foundFirstAposText = findTableOfContentsNodeContainingText(secondText, tableOfContents);
+			
+			if (!foundMatchingChildInTitleMetadataBasedOnText){
+				throw new RuntimeException("Expected to find a node in the unmarshalled title metadata with title: " + expectedText);
+			}
+			
+			if (!foundFirstAposText){
+				throw new RuntimeException("Expected to find a node in the unmarshalled title metadata with title: " + secondText);
+			}
+		}
+		finally {
+			FileUtils.deleteQuietly(titleXml);
+		}
+	}
+	
+	private boolean findTableOfContentsNodeContainingText(String expectedText,
+			TableOfContents tableOfContents) {
+		boolean foundChildMatchingText = Boolean.FALSE;
+		tableOfContents.getTocEntries();
+		for (TocEntry tocEntry : tableOfContents.getTocEntries()) {
+			foundChildMatchingText = checkTocEntryForMatchingText(tocEntry, expectedText);
+			if (foundChildMatchingText) {
+				return Boolean.TRUE;
+			}
+		}
+		return foundChildMatchingText;
+	}
+	
+	private boolean checkTocEntryForMatchingText(TocEntry tocEntry, String textToFind) {
+		boolean matchedText = Boolean.FALSE;
+		if (textToFind.equals(tocEntry.text)){ //did we match the current node in the traversal?
+			System.out.println("Found expected text: [" + tocEntry.text + "]");
+			return Boolean.TRUE;
+		}
+		else if (tocEntry.children != null && tocEntry.children.size() > 0){ //if we have child nodes, check those too.
+			for (TocEntry child : tocEntry.children){
+				matchedText = checkTocEntryForMatchingText(child, textToFind);
+				if (matchedText){
+					LOG.debug("Found expected text: [" + child.text + "]");
+					return Boolean.TRUE;
+				}
+			}
+		}
+		return matchedText;
+	}
+
 	private TitleMetadata getTitleMetadata() {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
 		titleMetadata.setCopyright("The High Seas Trading Company.");
@@ -205,4 +268,5 @@ public class TitleMetadataServiceImplTest {
 		titleMetadata.setMaterialId("Plunder2");
 		return titleMetadata;
 	}
+	
 }

@@ -177,5 +177,9 @@ public class TitleMetadata implements Serializable {
 	public ArrayList<Keyword> getKeywords() {
 		return keywords;
 	}
+
+	public TableOfContents getTableOfContents() {
+		return tableOfContents;
+	}
 	
 }
