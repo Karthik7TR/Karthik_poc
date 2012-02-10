@@ -59,6 +59,10 @@ public class BookLibraryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING, method = RequestMethod.GET)
 	public ModelAndView pagingAndSorting(HttpServletRequest request,
+						HttpSession httpSession,
+						@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
+						@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
+						BindingResult bindingResult,
 						Model model) throws Exception {
 //log.debug(">>> " + form);
 		// Fetch the current object list from the session

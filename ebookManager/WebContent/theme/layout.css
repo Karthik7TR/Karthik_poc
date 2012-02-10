@@ -1,6 +1,3 @@
-th {
-	background: #ffffad;
-}
 
 .arial14 {
 	font-family: Arial, Helvetica, sans-serif;
@@ -34,39 +31,6 @@ th {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14;
 }
-
-.displayTagTable {
-	background: #f0f0f0;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12;
-	text-align: center;
-	width: 100%;
-}
-
-/* DisplayTag table column alignment */
-.std-alignment {
-	text-align: right;
-}
-/* DisplayTag table column alignment */
-.left-align {
-	text-align: left;
-}
-.middle-vert-align {
-	vertical-align: middle;
-}
-.details-table-label {
-	background: #8fff8f;
-	padding: 4px;
-	font-size: 14;
-	font-weight: bold;
-	border: thin double gray;
-}
-.details-expand-div {
-	border: thin double gray;
-}
-/* DisplayTag table odd and even row configuration */
-.odd { background: #BFDFFF; }
-.even { background: white; }
 
 body {
 	margin: 0px;
