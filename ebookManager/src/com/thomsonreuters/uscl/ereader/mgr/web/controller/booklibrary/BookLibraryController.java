@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,13 +11,17 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+
 
 
 
@@ -112,10 +117,15 @@ public class BookLibraryController {
 		this.bookLibraryService = bookLibraryService;
 	}
 	
+	@InitBinder(BookLibraryFilterForm.FORM_NAME)
+	protected void initDataBinder(WebDataBinder binder) {
+		
+	}
+	
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
-	public ModelAndView jobSummaryGet(
+	public ModelAndView bookLibraryFilterFormPost(
 			HttpSession httpSession,
-			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm form,
+			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,BindingResult result,
 			Model model) throws Exception {
 		List<BookDefinitionVdo> paginatedList = bookLibraryService
 				.getBooksOnPage("bookName", true, 1, 20);
@@ -125,5 +135,8 @@ public class BookLibraryController {
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
+	
+	
+
 	
 }
