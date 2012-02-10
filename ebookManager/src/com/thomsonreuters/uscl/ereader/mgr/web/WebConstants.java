@@ -12,20 +12,20 @@ public class WebConstants {
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
-	public static final String KEY_BOOK_DEFINITION = "bookDefinition";
+	public static final String KEY_BOOK_DEFINITION = "book";
 	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
-	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
-	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
-	public static final String MVC_BOOK_DEFINITION_VIEW = "bookDefinitionView.mvc";
+	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
+	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
+	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW = "bookDefinitionView.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
-	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
