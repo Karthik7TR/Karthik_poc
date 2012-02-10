@@ -1,5 +1,6 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
+<c:if test="${book != null}">
 <table>
 <tr>
 	<td>Title ID<td>
@@ -93,3 +94,4 @@
 	<td>col4</td>
 </tr>
 </table>
+</c:if>

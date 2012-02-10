@@ -29,11 +29,9 @@ BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
 
 		// Lookup the book by its primary key
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
-		if (bookDef == null) {
-			bookDef = new BookDefinition(new BookDefinitionKey(titleId + " Not Found"));
-		}
 log.debug(bookDef);
 		
+		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}

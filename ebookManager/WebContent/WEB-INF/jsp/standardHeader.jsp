@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.ModelUtils" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
 
