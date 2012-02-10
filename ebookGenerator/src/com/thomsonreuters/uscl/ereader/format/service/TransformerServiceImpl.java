@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
@@ -170,11 +171,12 @@ public class TransformerServiceImpl implements TransformerService
 	        
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
-		        Source xsltSource =
-		                new StreamSource(xslt);
+		        Source xsltSource = new StreamSource(xslt);
 	
-		        TransformerFactory transFact =
-		                TransformerFactory.newInstance();
+		        TransformerFactory transFact = TransformerFactory.newInstance();
+		        
+		        XSLIncludeResolver resolver = new XSLIncludeResolver();
+		        transFact.setURIResolver(resolver);
 		 
 		        trans = transFact.newTransformer(xsltSource);
 		        
