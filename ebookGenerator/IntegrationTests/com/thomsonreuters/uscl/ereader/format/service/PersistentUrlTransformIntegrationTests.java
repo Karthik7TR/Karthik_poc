@@ -5,11 +5,19 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -22,8 +30,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-
-import javax.xml.transform.Transformer;
+import org.xml.sax.InputSource;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -50,6 +57,7 @@ public class PersistentUrlTransformIntegrationTests {
 	private static final String MOCK_DOCTYPE = "analytical";
 	private static final String MOCK_COLLECTION = "w_foo_collection";
 	private static final String CODES_STATUTES_XSLT = "CodesStatutes.xsl";
+	private static final String ANALYTICAL_IMPH_XSLT = "Analytical.xsl";
 	
 	@Rule
 	public TemporaryFolder tempDirectory = new TemporaryFolder();
@@ -119,6 +127,24 @@ public class PersistentUrlTransformIntegrationTests {
 		}
 		
 		verifyAll();
+	}
+	
+	@Test
+	public void testUrlBuilderAdapterForKeyciteFlagUrl () throws Exception {
+		String inputXmlFragment = "<keyCiteFlagLink.Url docGuid=\"DOC_GUID\"/>";
+		StreamSource inputSource = new StreamSource(new ByteArrayInputStream(inputXmlFragment.getBytes("UTF-8")));
+		
+		Source xsltSource =
+                new StreamSource("/nas/Xslt/ContentTypes/" + CODES_STATUTES_XSLT);
+
+        TransformerFactory transFact =
+                TransformerFactory.newInstance();
+ 
+        Transformer trans = transFact.newTransformer(xsltSource);
+        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        Result result = new StreamResult(System.out);
+        
+        trans.transform(inputSource, result);
 	}
 
 	private void setExpectationsForNovusDocumentCalls(File novusXmlDirectory) {
