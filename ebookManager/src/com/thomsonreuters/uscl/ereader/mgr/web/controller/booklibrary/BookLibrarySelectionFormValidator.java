@@ -23,8 +23,11 @@ public class BookLibrarySelectionFormValidator implements Validator {
     	}
     	BookLibrarySelectionForm form = (BookLibrarySelectionForm) obj;
     	
-    	
-		if (!(form.getSelectedEbookKeys().length > 0)) {
+    	String[] keys = form.getSelectedEbookKeys();
+    	if (keys == null) {
+    		String[] args = { "Selection" };
+			errors.reject("error.required.field", args, "Selection of book definition required");
+    	} else if (!(form.getSelectedEbookKeys().length > 0)) {
 			String[] args = { "Selection" };
 			errors.reject("error.required.field", args, "Selection of book definition required");
 		}

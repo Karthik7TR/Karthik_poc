@@ -96,14 +96,16 @@ public class BookLibraryController {
 	public ModelAndView generateEbookPreview(
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
 			BindingResult bindingResult, Model model) throws Exception {
-
-		String[] bookKeys = form.getSelectedEbookKeys();
-		BookDefinitionKey key = new BookDefinitionKey(bookKeys[0]);
-		BookDefinitionVdo bookDefinition = bookLibraryService
-				.getSingleBook(key);
-
-		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDefinition);
-
+		
+		if (!bindingResult.hasErrors()) {
+			String[] bookKeys = form.getSelectedEbookKeys();
+			BookDefinitionKey key = new BookDefinitionKey(bookKeys[0]);
+			BookDefinitionVdo bookDefinition = bookLibraryService
+					.getSingleBook(key);
+	
+			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDefinition);
+		}
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 
@@ -112,6 +114,9 @@ public class BookLibraryController {
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
 			BindingResult bindingResult, Model model) throws Exception {
 
+		if (!bindingResult.hasErrors()) {
+			
+		}
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
 
@@ -119,6 +124,10 @@ public class BookLibraryController {
 	public ModelAndView bookDefinitionPromotion(
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
 			BindingResult bindingResult, Model model) throws Exception {
+
+		if (!bindingResult.hasErrors()) {
+			
+		}
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION);
 	}

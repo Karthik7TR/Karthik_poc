@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
 import org.easymock.EasyMock;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -30,6 +33,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class BookLibraryControllerTest {
+	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+BookLibrarySelectionForm.FORM_NAME;
     private BookLibraryController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -47,14 +51,11 @@ public class BookLibraryControllerTest {
     	this.mockLibraryService = EasyMock.createMock(BookLibraryService.class);
     	this.selectionForm = new BookLibrarySelectionForm();
     	
-    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 1, 20)).andReturn(new ArrayList<BookDefinitionVdo>());
-    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 1);
-    	EasyMock.replay(mockLibraryService);
-
     	// Set up the controller
     	this.controller = new BookLibraryController();
     	controller.setBookLibraryService(mockLibraryService);
     	controller.setValidator(new BookLibrarySelectionFormValidator());
+    	
 	}
 
 	/**
@@ -65,6 +66,10 @@ public class BookLibraryControllerTest {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
     	request.setMethod(HttpMethod.GET.name());
     	
+    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 1, 20)).andReturn(new ArrayList<BookDefinitionVdo>());
+    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 1);
+    	EasyMock.replay(mockLibraryService);
+
     	ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
@@ -89,24 +94,182 @@ public class BookLibraryControllerTest {
         
 	}
 
+	/**
+     * Test the GET to the Book List paging and sorted results
+     */
 	@Test
 	public void testPagingAndSorting() {
-		fail("Not yet implemented");
+		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
+    	request.setMethod(HttpMethod.GET.name());
+    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
+    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT), "bookName");
+    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
+    	
+    	// Mock page 3
+    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 3, 20)).andReturn(new ArrayList<BookDefinitionVdo>());
+    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 61);
+    	EasyMock.replay(mockLibraryService);
+    	
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	        // Verify the returned view name
+	        assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+	        
+	        // Check the state of the model
+	        Map<String,Object> model = mav.getModel();
+
+	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
+	        String totalBookCount = model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString();
+	        assertTrue(totalBookCount.equals("61"));
+	        
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        EasyMock.verify(mockLibraryService);
 	}
 
+	/**
+     * Test the POST of one book selected to generator preview
+     */
 	@Test
 	public void testGenerateEbookPreview() {
-		fail("Not yet implemented");
+		request.setRequestURI("/"+WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+    	request.setMethod(HttpMethod.POST.name());
+    	String[] keys = {"uscl/imagedoc3"};
+    	request.setParameter("selectedEbookKeys", keys);
+
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	    	Map<String,Object> model = mav.getModel();
+	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+	    	assertNotNull(bindingResult);
+	    	assertFalse(bindingResult.hasErrors());
+	    	
+	    	Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+	    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+	}
+	
+	/**
+     * Test the POST of no book selected to generator preview
+     */
+	@Test
+	public void testGenerateEbookPreviewNoBooks() {
+		request.setRequestURI("/"+WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+    	request.setMethod(HttpMethod.POST.name());
+
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	    	Map<String,Object> model = mav.getModel();
+	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+	    	assertNotNull(bindingResult);
+	    	assertTrue(bindingResult.hasErrors());
+	    	
+	    	Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+	    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
 	}
 
+	/**
+     * Test the POST of multiple books selected to generator preview
+     */
 	@Test
 	public void testGenerateBulkEbookPreview() {
-		fail("Not yet implemented");
+		request.setRequestURI("/"+WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW);
+    	request.setMethod(HttpMethod.POST.name());
+    	String[] keys = {"uscl/imagedoc3", "uscl/imagedoc4"};
+    	request.setParameter("selectedEbookKeys", keys);
+
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	    	Map<String,Object> model = mav.getModel();
+	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+	    	assertNotNull(bindingResult);
+	    	assertFalse(bindingResult.hasErrors());
+	    	
+	    	Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW, mav.getViewName());
+	    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	/**
+     * Test the POST of one book selected to promotion
+     */
 	@Test
 	public void testBookDefinitionPromotion() {
-		fail("Not yet implemented");
+		request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_PROMOTION);
+    	request.setMethod(HttpMethod.POST.name());
+    	String[] keys = {"uscl/imagedoc3"};
+    	request.setParameter("selectedEbookKeys", keys);
+
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	    	Map<String,Object> model = mav.getModel();
+	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+	    	assertNotNull(bindingResult);
+	    	assertFalse(bindingResult.hasErrors());
+	    	
+	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION, mav.getViewName());
+	    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+     * Test the POST of no book selected to promotion
+     */
+	@Test
+	public void testBookDefinitionPromotionNoBooks() {
+		request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_PROMOTION);
+    	request.setMethod(HttpMethod.POST.name());
+
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	    	Map<String,Object> model = mav.getModel();
+	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+	    	assertNotNull(bindingResult);
+	    	assertTrue(bindingResult.hasErrors());
+	    	
+	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION, mav.getViewName());
+	    	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
 	}
 
 }
