@@ -18,7 +18,9 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -136,6 +138,24 @@ public class BookDefinition implements Serializable {
 	@Column(name="TOC_COLLECTION_NAME", length=64)
 	public String getTocCollectionName() {
 		return tocCollectionName;
+	}
+	/**
+	 * Parse pipe separated strings into their own individual components.
+	 * @return a list of names, Converts  "Joe Smith | John Galt" into { "Joe Smith", "John Galt" }
+	 */
+	@Transient
+	public List<String> getAuthorList() {
+		List<String> authors = new ArrayList<String>();
+		if (StringUtils.isNotBlank(authorInfo)) {
+			StringTokenizer tokenizer = new StringTokenizer(authorInfo, "|");
+			while (tokenizer.hasMoreTokens()) {
+				String author = tokenizer.nextToken().trim();
+				if (StringUtils.isNotBlank(author)) {
+					authors.add(author);
+				}
+			}
+		}
+		return authors;
 	}
 	
 	public void setAuthorInfo(String authorInfo) {
