@@ -1,18 +1,18 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-
-
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 
 @Controller
@@ -30,10 +29,18 @@ public class BookLibraryController {
 	//private static final Logger log = Logger.getLogger(BookLibraryController.class);
 	
 	private BookLibraryService bookLibraryService;
-
+	private Validator validator;
+	
+	@InitBinder(BookLibrarySelectionForm.FORM_NAME)
+	protected void initDataBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 	
 	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
 	public ModelAndView bookList(HttpSession httpSession,
+							@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
+							@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
+							BindingResult bindingResult,
 							Model model) throws Exception {
 		
 		List<BookDefinitionVdo> paginatedList = bookLibraryService.getBooksOnPage("bookName", true, 1, 20);
@@ -52,7 +59,7 @@ public class BookLibraryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING, method = RequestMethod.GET)
 	public ModelAndView pagingAndSorting(HttpServletRequest request,
-		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+						Model model) throws Exception {
 //log.debug(">>> " + form);
 		// Fetch the current object list from the session
 		String sort = request.getParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT));
@@ -73,25 +80,36 @@ public class BookLibraryController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 	
-	@RequestMapping(value=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateEbookPreview(HttpServletRequest request,
-		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+	@RequestMapping(value=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
+	public ModelAndView generateEbookPreview(
+						@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
+						BindingResult bindingResult,
+						Model model) throws Exception {
+		
+		String[] bookKeys = form.getSelectedEbookKeys();
+		BookDefinitionKey key = new BookDefinitionKey(bookKeys[0]);
+		BookDefinitionVdo bookDefinition = bookLibraryService.getSingleBook(key);
 
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDefinition);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 	
-	@RequestMapping(value=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateBulkEbookPreview(HttpServletRequest request,
-		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+	@RequestMapping(value=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.POST)
+	public ModelAndView generateBulkEbookPreview(
+						@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
+						BindingResult bindingResult,
+						Model model) throws Exception {
 
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
 	
-	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_PROMOTION, method = RequestMethod.GET)
-	public ModelAndView bookDefinitionPromotion(HttpServletRequest request,
-		    HttpServletResponse response, Model model) throws ServletRequestBindingException {
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_PROMOTION, method = RequestMethod.POST)
+	public ModelAndView bookDefinitionPromotion(
+						@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
+						BindingResult bindingResult,
+						Model model) throws Exception {
 
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION);
@@ -113,14 +131,17 @@ public class BookLibraryController {
 		return bookLibraryService;
 	}
 
+	@Required
 	public void setBookLibraryService(BookLibraryService bookLibraryService) {
 		this.bookLibraryService = bookLibraryService;
 	}
 	
-	@InitBinder(BookLibraryFilterForm.FORM_NAME)
-	protected void initDataBinder(WebDataBinder binder) {
-		
+	@Required
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
+	
+
 	
 	@RequestMapping(value = "bookLibraryFilter.mvc", method = RequestMethod.GET)
 	public ModelAndView bookLibraryFilterGet(
@@ -135,8 +156,5 @@ public class BookLibraryController {
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
-	
-	
-
 	
 }
