@@ -1,13 +1,12 @@
 @CHARSET "ISO-8859-1";
 
-.displayTagTable table {
-    border: 1px solid #666666;
-    margin: 20px 0 !important;
-    width: 80%;
+.displayTagTable {
+    border: 1px solid #E0E0E0;
+    margin: 10px 0 !important;
+    width: 100%;
 }
 .displayTagTable th, .displayTagTable td {
     padding: 2px 4px !important;
-    text-align: left;
     vertical-align: top;
 }
 .displayTagTable thead tr {
@@ -18,6 +17,7 @@
 }
 .displayTagTable th a, .displayTagTable th a:visited {
     color: black;
+    text-decoration: none;
 }
 .displayTagTable th a:hover {
     color: black;

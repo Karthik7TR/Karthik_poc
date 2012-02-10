@@ -5,4 +5,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-eBook Library (Count: ${resultSize})
+
+<div class="pageTitle">eBook Library (Count: ${resultSize})</div>

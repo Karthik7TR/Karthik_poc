@@ -4,9 +4,17 @@
 
 <c:set var="userFullName" value="<%=ModelUtils.getAuthenticatedUserFullName()%>"/>
 
-<div style="color:white;">
-
-<b>&nbsp; eBook Manager</b> - Welcome ${userFullName}
-&nbsp; <a href="j_spring_security_logout">Logout</a>
+<div class="leftHeader">
+	<span class="programTitle">eBook Manager</span> <span class="welcomeMessage"> - Welcome ${userFullName}</span>
+</div>
+<div class="rightHeader">
+	<ul class="navList">
+		<li><a href="">LIBRARY</a></li>
+		<li><a href="">ACTIVE/RECENT JOBS</a></li>
+		<li><a href="">CREATE eBOOK DEFINITION</a></li>
+		<li><a href="">PREFERENCES</a></li>
+		<li><a href="">SUPPORT</a></li>
+		<li><a href="j_spring_security_logout">Logout</a></li>
+	</ul>
 
 </div>
