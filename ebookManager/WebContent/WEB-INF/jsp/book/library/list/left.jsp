@@ -21,9 +21,9 @@
 
 <body>
  	<h2>Filters</h2>
-	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
+	<form:form action="bookLibraryFilter.mvc"
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="form" method="post">
-			  
+			  <form:input path="name"/>
 	</form:form>
   </div>
 </body>
