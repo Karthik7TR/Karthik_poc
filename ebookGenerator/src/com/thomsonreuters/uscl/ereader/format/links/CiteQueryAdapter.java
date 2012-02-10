@@ -70,13 +70,11 @@ public class CiteQueryAdapter {
 
     public String GetCiteQueryLink(String linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4)
     {
-    	System.out.println("Debug 99 " + linkElement);
     	return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
     }
     
     public String GetCiteQueryLink(Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4)
     {
-    	System.out.println("Node " + linkElement);
     	return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
     }
 
@@ -92,31 +90,23 @@ public class CiteQueryAdapter {
     	
     	try
         {
-        	       	
-        	System.out.println("Debug *********** " + linkElement.getNodeName() + "  originatingDoc is " + originatingDoc +  
-        			" keyText is " + keyText + " sourceCite is " + sourceCite );
-        	
-        	LOG.debug("Debug *********** " + linkElement.getNodeName() + "  originatingDoc is " + originatingDoc +  
-        			" keyText is " + keyText + " sourceCite is " + sourceCite );
-        	
-            UrlBuilderInput input = this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite,"ebook");
+        	UrlBuilderInput input = this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite,"ebook");
             if (input == null)
             {
                 return "";
             }
-            //System.out.println("Template name is " + input.getUrlTemplateName() + input.getParameters());
-            LOG.debug("Template name is " + input.getUrlTemplateName() + input.getParameters());
+            //LOG.debug("Template name is " + input.getUrlTemplateName() + input.getParameters());
 
             String response = null;
             try
             {
                 response = this.hostname + this.urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
-                System.out.println(input.getUrlTemplateName() + "Response is " + response);
+                System.out.println(response);
             }
             catch (UrlBuilderException e)
             {
                 response = "";
-                System.out.println("UrlBuilderException is " + e.getMessage());
+                
                 LOG.debug("UrlBuilderException is " + e.getMessage());
             }
             return response;

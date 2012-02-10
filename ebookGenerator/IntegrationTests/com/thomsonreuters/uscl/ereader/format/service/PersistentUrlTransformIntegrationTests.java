@@ -7,10 +7,12 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Rule;
@@ -80,7 +82,7 @@ public class PersistentUrlTransformIntegrationTests {
 	}
 
 	@Test
-	public void testGenerateMudLinksUsingCodesStatutesStylesheet() throws Exception {
+	public void testCiteQueryAdapterLinksUsingCodesStatutesStylesheet() throws Exception {
 		File novusXml = new File(
 				PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
 		File transformedDirectory = tempDirectory.newFolder("transformed");
@@ -100,10 +102,57 @@ public class PersistentUrlTransformIntegrationTests {
 		Assert.isTrue(fileContent.contains(expectedWlnHyperlinkText), 
 				"file content should have contained a hyperlink to WLN, but did not!");
 	}
+	
+	@Test
+	public void testUrlBuilderAdapterAndCiteQueryAdapterLinksUsingCodesStatutesStylesheet() throws Exception {
+		File transformedDirectory = tempDirectory.newFolder("transformed");
+		File novusXmlDirectory = new File("/nas/imph/gather/documents");
+		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
+		
+		setExpectationsForNovusDocumentCalls(novusXmlDirectory);
+		
+		for (File novusXmlDocument : novusXmlDirectory.listFiles()) {
+			if (!novusXmlDocument.isDirectory()){
+				transformerService.transformFile(novusXmlDocument, novusXmlDocument.getParentFile(), 
+					transformedDirectory, titleId, jobId, xsltCache);
+			}
+		}
+		
+		verifyAll();
+	}
+
+	private void setExpectationsForNovusDocumentCalls(File novusXmlDirectory) {
+		
+		mockXsltMapperService = EasyMock.createMock(XSLTMapperService.class);
+		mockDocMetadata = EasyMock.createMock(DocMetadata.class);
+		mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
+		
+		for (File novusXmlDocument : novusXmlDirectory.listFiles()){
+			if (!novusXmlDocument.isDirectory()){
+			
+				EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", 
+						new Integer(12345), StringUtils.substringBefore(novusXmlDocument.getName(), "."))).andReturn(mockDocMetadata);
+				
+				EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
+				EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
+				EasyMock.expect(
+						mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(CODES_STATUTES_XSLT);
+			}
+		}
+		
+		EasyMock.replay(mockDocMetadataService);
+		EasyMock.replay(mockDocMetadata);
+		EasyMock.replay(mockXsltMapperService);
+		transformerService = new TransformerServiceImpl();
+		transformerService.setxsltMapperService(mockXsltMapperService);
+		transformerService.setdocMetadataService(mockDocMetadataService);
+		
+	}
 
 	private void verifyAll() {
 		EasyMock.verify(mockDocMetadataService);
 		EasyMock.verify(mockDocMetadata);
 		EasyMock.verify(mockXsltMapperService);
 	}
+		
 }
