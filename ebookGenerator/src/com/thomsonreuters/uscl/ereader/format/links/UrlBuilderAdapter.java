@@ -5,6 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.format.links;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.w3c.dom.Node;
+
+import com.trgr.cobalt.util.urlbuilder.Container;
+import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
+import com.trgr.cobalt.util.urlbuilder.Parameter;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilder;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
 
@@ -22,8 +30,11 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
 public class UrlBuilderAdapter {
 
 	private static UrlBuilder URL_BUILDER;
+	private UrlBuilder urlBuilder;
 	
-	public UrlBuilderAdapter(){		
+	
+	public UrlBuilderAdapter() throws Exception {
+		this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject(); 		
 	}
 	
 	/**
@@ -35,79 +46,100 @@ public class UrlBuilderAdapter {
 	}
 	
 	
+	
+	
 	public String CreatePersistentUrl(String input, String param1)
     {
-        return this.persistentIntermediary(input, param1);
+		return this.persistentIntermediary(input, param1);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2)
     {
-        return this.persistentIntermediary(input, param1, param2);
+    	return this.persistentIntermediary(input, param1, param2);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3)
     {
-        return this.persistentIntermediary(input, param1, param2, param3);
+    	return this.persistentIntermediary(input, param1, param2, param3);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4)
     {
-        return this.persistentIntermediary(input, param1, param2, param3, param4);
+    	return this.persistentIntermediary(input, param1, param2, param3, param4);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5)
     {
-        return this.persistentIntermediary(input, param1, param2, param3, param4, param5);
+    	return this.persistentIntermediary(input, param1, param2, param3, param4, param5);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6)
     {
+    	
         return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7)
     {
+    	
         return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8)
     {
+    	
         return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9)
     {
+    	
         return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
     }
 
     public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9, String param10)
     {
+    	
         return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
     }
 
 	public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9, String param10, String param11)
 	{
+		
 		return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11);
 	}
 
 	public String CreatePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9, String param10, String param11, String param12)
 	{
+		
 		return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12);
 	}
-
-	private String persistentIntermediary(String input, String... parameters)
+	
+//	 public String CreatePersistentUrl(Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1, String param2, String param3, String param4)
+//	    {
+//	    	System.out.println("Node " + linkElement);
+//	    	return this.persistentIntermediary(originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+//	    }
+	
+	
+	
+	private String persistentIntermediary(String templateName, String... parameters)
 	{
-		String response = null;
-		try
-		{
-			//TODO: Determine how to map to UrlBuilder calls.
-			//response = URL_BUILDER.createPersistentUrl(input, parameters);
-		}
-		catch (UrlBuilderException e)
-		{
-			response = "";
-		}
-		return response;
+		   String response = null;
+	        try
+	        {
+	        	 
+	        	List<Parameter> paramList = createParameters(parameters);
+	        	response = this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);            
+	        	
+	        }
+	        catch (UrlBuilderException e)
+	        {
+	            response = "";
+	        }
+	        return response;
+		
+		
 	}
 
 	public String CreateRelativePersistentUrl(String input, String param1)
@@ -170,19 +202,43 @@ public class UrlBuilderAdapter {
 		return this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12);
 	}
 
-    private String relativePersistentIntermediary(String input, String... parameters)
+    private String relativePersistentIntermediary(String templateName, String... parameters)
     {
-        String response = null;
+    	String response = null;
         try
         {
-        	//TODO: Determine how to map to UrlBuilder calls.
-            //response = URL_BUILDER.createRelativePersistentUrl(input, parameters);
+        	 
+        	List<Parameter> paramList = createParameters(parameters);
+        	response = this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);            
+        	
         }
         catch (UrlBuilderException e)
         {
             response = "";
         }
         return response;
+    }
+    
+    private List<Parameter> createParameters(String... parameters) {
+    	List<Parameter> paramList = new ArrayList<Parameter>();
+    	
+    	for (String nameValuePair : parameters)
+        {
+    		System.out.println(" String Parameters are " + parameters);
+            String[] nameAndValue = nameValuePair.split("=");
+
+            String name = nameAndValue[0];
+            String value = "";
+
+            if (nameAndValue.length > 1)
+            {
+                value = nameAndValue[1];
+            }
+
+            paramList.add(new Parameter(name, value, true));
+        }
+    	return paramList;
+    	
     }
 	
 }
