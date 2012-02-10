@@ -61,7 +61,7 @@ body {
 }
 
 .title {
-	position:absolute; 
+	position:absolute;
 	left:25%;
   	width:75%; 
   	height:120px;
@@ -73,7 +73,7 @@ body {
 	overflow:auto;
 	left:25%;
 	top:120px;
-	bottom:30px;
+	bottom:0px;
   	width:75%;
   	background:white;
 }
