@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.SortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,45 +17,13 @@
 <html>
 <head>
 	
-	<script>
-		$(function() {
-			$( ".datepicker" ).datepicker();
-		});
-	</script>
 </head>
 
 <body>
-  <div class="majorDiv">
-	<h2>Filters</h2>
-	<form:form>
-		<label>Name</label><br>
-		<input type="text" value=""/><br>
-		<label>Date Range</label><br>
-		&nbsp; Start Date <input class="datepicker" path="startDate"/><br>
-		&nbsp; End Date <input class="datepicker" path="endDate"/><br>
-		<label>Content Type</label><br>
-		<input type="text" value=""/><br>
-		<label>User Name</label><br>
-		<input type="text" value=""/><br>
-		<label>eBook Def Status</label><br>
-		<input type="text" value=""/><br>
-		<label>Publishing Status</label><br>
-		<input type="text" value=""/><br>
-		<label>Title ID</label><br>
-		<input type="text" value=""/><br>
-		<label>ISBN</label><br>
-		<input type="text" value=""/><br>
-		<label>Author Name</label><br>
-		<input type="text" value=""/><br>
-		<label>Material Number</label><br>
-		<input type="text" value=""/><br>
-		<label>Publisher</label><br>
-		<input type="text" value=""/><br>
-		
-		
-		
-		<input type="submit" value="Go"/>
-		<input type="submit" value="Clear"/>
+ 	<h2>Filters</h2>
+	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
+			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="form" method="post">
+			  
 	</form:form>
   </div>
 </body>
