@@ -25,6 +25,5 @@
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="form" method="post">
 			  <form:input path="name"/>
 	</form:form>
-  </div>
 </body>
 </html>
