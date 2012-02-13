@@ -26,6 +26,4 @@ public class BookDefintionController {
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_IMPORT);
 	}
-	
-	
 }
