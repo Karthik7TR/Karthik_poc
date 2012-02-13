@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -139,6 +140,27 @@ public class BookDefinition implements Serializable {
 	public String getTocCollectionName() {
 		return tocCollectionName;
 	}
+	
+	/**
+	 * 
+	 * STUB returns until model gets finished
+	 */
+	@Transient
+	public Date getPublishDate(){
+		//TODO: update with model data
+		return new Date();
+	}
+	@Transient
+	public String getPublishStatus(){
+		//TODO: update with model data
+		return "F";
+	}
+	@Transient
+	public Date getLastEdit(){
+		//TODO: update with model data
+		return new Date();
+	}
+	
 	/**
 	 * Parse pipe separated strings into their own individual components.
 	 * @return a list of names, Converts  "Joe Smith | John Galt" into { "Joe Smith", "John Galt" }

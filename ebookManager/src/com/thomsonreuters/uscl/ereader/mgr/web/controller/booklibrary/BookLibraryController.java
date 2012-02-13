@@ -22,11 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
+import org.apache.log4j.Logger;
 
 @Controller
 public class BookLibraryController {
-	// private static final Logger log =
-	// Logger.getLogger(BookLibraryController.class);
+	private static final Logger log =
+	Logger.getLogger(BookLibraryController.class);
 
 	private BookLibraryService bookLibraryService;
 	private Validator validator;
@@ -44,8 +45,9 @@ public class BookLibraryController {
 			BindingResult bindingResult, Model model) throws Exception {
 
 		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage("bookName", true, 1, 20);
+				.getBooksOnPage("bookName", true, 1, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
 		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
+		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
 
@@ -84,7 +86,7 @@ public class BookLibraryController {
 						.encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 
 		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage(sort, isAscending, page, 20);
+				.getBooksOnPage(sort, isAscending, page, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
 		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);

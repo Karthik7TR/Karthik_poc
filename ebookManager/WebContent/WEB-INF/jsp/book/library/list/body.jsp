@@ -86,12 +86,11 @@
 		    </div>
 		    <br/>
 	    </spring:hasBindErrors>
-	    
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
 	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
-				   pagesize="20"
+				   pagesize="<%= WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN %>"
 				   partialList="true"
 				   size="resultSize"
 				   sort="external">
@@ -104,6 +103,10 @@
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW%>?titleId=${vdo.fullyQualifiedTitleId}">${vdo.bookName}</a>
 	  </display:column>
 	  <display:column title="Author" property="author" sortable="true" sortName="authorInfo" style="text-align: left"/>
+	  <display:column title="Ver" property="version" />
+	  <display:column title="Publish Date" property="publishDate" />
+	  <display:column title="Publish Status" property="publishStatus" style="text-align: center"/>
+	  <display:column title="Last eBook Def. Edited" property="lastEdit" />
 	</display:table>
 	
 	<input type="button" id="importButton" value="Import" />

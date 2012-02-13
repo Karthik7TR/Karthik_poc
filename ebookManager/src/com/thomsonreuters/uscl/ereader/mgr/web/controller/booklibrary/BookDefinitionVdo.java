@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -42,8 +44,8 @@ public class BookDefinitionVdo {
 		this.bookDefinition = bookDefinition;
 	}
 
-	public Long getMajorVersion() {
-		return bookDefinition.getMajorVersion();
+	public String getVersion() {
+		return bookDefinition.getMajorVersion().toString() +"." + bookDefinition.getMinorVersion().toString();
 	}
 
 	public String getTitleId() {
@@ -60,6 +62,18 @@ public class BookDefinitionVdo {
 
 	public String getAuthor() {
 		return bookDefinition.getAuthorInfo();
+	}
+	
+	public Date getPublishDate() {
+		return bookDefinition.getPublishDate();
+	}
+	
+	public String getPublishStatus() {
+		return bookDefinition.getPublishStatus();
+	}
+	
+	public Date getLastEdit() {
+		return bookDefinition.getLastEdit();
 	}
 
 }
