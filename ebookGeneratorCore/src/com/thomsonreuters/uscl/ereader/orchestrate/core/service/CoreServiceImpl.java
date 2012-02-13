@@ -28,6 +28,7 @@ public class CoreServiceImpl implements CoreService {
 	}
 	
 	@Override
+	@Deprecated
 	@Transactional(readOnly = true)
 	public List<BookDefinition> findAllBookDefinitions() {
 		return coreDao.findAllBookDefinitions();

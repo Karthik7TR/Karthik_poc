@@ -11,7 +11,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -30,6 +29,7 @@ public class CoreDaoImpl implements CoreDao {
 	}
 	
 	@Override
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public List<BookDefinition> findAllBookDefinitions() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
@@ -39,15 +39,9 @@ public class CoreDaoImpl implements CoreDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage) {
-		
 		String namedQuery = "findBookDefnBySearchCriterion";	
-		String bookDefnQuery =  sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by " + sortProperty;
-		
-		if (isAscending) {
-			bookDefnQuery = bookDefnQuery + " asc";
-		} else {
-			bookDefnQuery = bookDefnQuery + " desc";			
-		}
+		String bookDefnQuery = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by " + sortProperty;
+		bookDefnQuery += (isAscending) ? " asc" : " desc";	
 		Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
 		query.setFirstResult((pageNumber-1)*(itemsPerPage));
 		query.setMaxResults(itemsPerPage);
@@ -60,10 +54,7 @@ public class CoreDaoImpl implements CoreDao {
 		return (Long)query.uniqueResult();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
+	@Override
 	public void removeBookDefinition(BookDefinitionKey toRemoveKey) {
 		toRemoveKey = (BookDefinitionKey) sessionFactory.getCurrentSession().merge(
 				toRemoveKey);
@@ -73,7 +64,6 @@ public class CoreDaoImpl implements CoreDao {
 	}
 
 	@Override
-	@Transactional
 	public void saveBookDefinition(BookDefinition eBook) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(eBook);

@@ -18,6 +18,7 @@ public interface CoreDao {
 	 * Returns all the current book definitions.
 	 * @return a list of BookDefinition
 	 */
+	@Deprecated
 	public List<BookDefinition> findAllBookDefinitions();
 	
 	/**
@@ -41,15 +42,12 @@ public interface CoreDao {
 	 */
 	public long countNumberOfBookDefinitions();
 	
-	
 	/**
 	 * Removes a book definition.
 	 * @param key the primary key of the definition
 	 * @return void
 	 */
-
 	public void removeBookDefinition(BookDefinitionKey eBookKey) throws DataAccessException;
-	
 	
 	/**
 	 * Saves a book definitions.

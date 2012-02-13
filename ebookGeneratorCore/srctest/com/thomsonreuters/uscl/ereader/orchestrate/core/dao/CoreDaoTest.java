@@ -5,11 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.easymock.EasyMock;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +20,6 @@ public class CoreDaoTest  {
 
 	private SessionFactory mockSessionFactory;
 	private org.hibernate.classic.Session mockSession;
-	private Criteria mockCriteria;
 	private CoreDaoImpl dao;
 	
 	@Before
@@ -32,7 +27,6 @@ public class CoreDaoTest  {
 		
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
 		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
-		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new CoreDaoImpl(mockSessionFactory);
 	}
 	
@@ -48,22 +42,5 @@ public class CoreDaoTest  {
 		
 		EasyMock.verify(mockSessionFactory);
 		EasyMock.verify(mockSession);
-	}
-	
-	@Test
-	public void testFindAllBookDefinitions() {
-		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-		EasyMock.expect(mockSession.createCriteria(BookDefinition.class)).andReturn(mockCriteria);
-		EasyMock.expect(mockCriteria.list()).andReturn(Collections.EMPTY_LIST);
-		EasyMock.replay(mockSessionFactory);
-		EasyMock.replay(mockSession);
-		EasyMock.replay(mockCriteria);
-		
-		List<BookDefinition> actualBookDefinitions = dao.findAllBookDefinitions();
-		Assert.assertEquals(Collections.EMPTY_LIST, actualBookDefinitions);
-		
-		EasyMock.verify(mockSessionFactory);
-		EasyMock.verify(mockSession);
-		EasyMock.verify(mockCriteria);
 	}
 }

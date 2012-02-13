@@ -11,7 +11,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 /**
- * Service methods that are common to both the Spring Batch engine and dashboard web applications.
+ * Service methods that are common to both the Spring Batch generator engine and manager web applications.
  */
 public interface CoreService {
 	
@@ -19,6 +19,7 @@ public interface CoreService {
 	 * Returns all the current book definitions.
 	 * @return a list of BookDefinition
 	 */
+	@Deprecated // Remove once the dashboard Create Book functionality is retired in favor of launching books from the manager application.
 	public List<BookDefinition> findAllBookDefinitions();
 	
 	/**

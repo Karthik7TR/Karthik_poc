@@ -5,9 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,16 +36,6 @@ public class CoreServiceTest  {
 		EasyMock.replay(mockCoreDao);
 		BookDefinition actualBookDefinition = service.findBookDefinition(BOOK_KEY);
 		Assert.assertEquals(expectedBookDefinition, actualBookDefinition);
-		EasyMock.verify(mockCoreDao);
-	}
-
-	@Test
-	public void testFindBookAllDefinitions() {
-		List<BookDefinition> expectedBookDefinitions = new ArrayList<BookDefinition>(0);
-		EasyMock.expect(mockCoreDao.findAllBookDefinitions()).andReturn(expectedBookDefinitions);
-		EasyMock.replay(mockCoreDao);
-		List<BookDefinition> actualBookDefinitions = service.findAllBookDefinitions();
-		Assert.assertEquals(expectedBookDefinitions, actualBookDefinitions);
 		EasyMock.verify(mockCoreDao);
 	}
 }
