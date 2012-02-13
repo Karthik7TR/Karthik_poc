@@ -54,8 +54,8 @@
 			   &nbsp;<form:label path="publisher">Publisher</form:label><br>
 			   &nbsp;<form:input path="publisher"/><br>
 			   
-			   <form:button>Go</form:button>
-			   <form:button>Clear</form:button>
+			   <form:button disabled="true">Go</form:button>
+			   <form:button disabled="true">Clear</form:button>
 		
 	</form:form>
 </body>
