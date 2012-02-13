@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.format.links;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.trgr.cobalt.util.urlbuilder.Container;
@@ -29,11 +30,13 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
  */
 public class UrlBuilderAdapter {
 
+	private static Logger LOG = Logger.getLogger(UrlBuilderAdapter.class);
 	private static UrlBuilder URL_BUILDER;
 	private UrlBuilder urlBuilder;
 	
 	
 	public UrlBuilderAdapter() throws Exception {
+		LOG.info("XALAN Constructor: [" + this.hashCode() + "]");
 		this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject(); 		
 	}
 	
@@ -182,6 +185,20 @@ public class UrlBuilderAdapter {
 		return this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
 	}
 
+	public String CreateRelativePersistentUrl(Node input, String param1, String param2, String param3, String param4, String param5, String param6, Node param7, Node param8)
+	{
+		System.out.println("CreateRelativePersistentUrl(Node input, String param1, String param2, String param3, String param4, String param5, String param6, Node param7, Node param8)");
+		return "";
+		//this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
+	}
+		
+	public String CreateRelativePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, Node param7, Node param8)
+	{
+		LOG.debug("CreateRelativePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, Node param7, Node param8)");
+		return "";
+		//this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
+	}
+	
 	public String CreateRelativePersistentUrl(String input, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9)
 	{
 		return this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
@@ -224,7 +241,7 @@ public class UrlBuilderAdapter {
     	
     	for (String nameValuePair : parameters)
         {
-    		System.out.println(" String Parameters are " + parameters);
+    		System.out.println(" String Parameters are " + nameValuePair);
             String[] nameAndValue = nameValuePair.split("=");
 
             String name = nameAndValue[0];

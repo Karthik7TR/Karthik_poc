@@ -146,6 +146,27 @@ public class PersistentUrlTransformIntegrationTests {
         
         trans.transform(inputSource, result);
 	}
+	
+	@Test
+	public void testUrlBuilderAdapterCategoryPageLink() throws Exception {
+		String inputXmlFragment = "<categoryPageLink/>";
+		StreamSource inputSource = new StreamSource(new ByteArrayInputStream(inputXmlFragment.getBytes("UTF-8")));
+		
+		Source xsltSource =
+                new StreamSource("/nas/Xslt/ContentTypes/" + CODES_STATUTES_XSLT);
+
+        TransformerFactory transFact =
+                TransformerFactory.newInstance();
+ 
+        Transformer trans = transFact.newTransformer(xsltSource);
+        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        Result result = new StreamResult(System.out);
+        
+        trans.setParameter("databaseId", "TEST_DATABASEID");
+        trans.setParameter("id", "TEST_ID");
+        trans.setParameter("linkContents", "TEST_LINKCONTENTS");
+        trans.transform(inputSource, result);
+	}
 
 	private void setExpectationsForNovusDocumentCalls(File novusXmlDirectory) {
 		
