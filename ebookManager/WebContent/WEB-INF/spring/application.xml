@@ -28,7 +28,10 @@
          </list>
        </property>
 	</bean>
-	
+		<bean id="environmentName" class="java.lang.String">
+  		<constructor-arg value="#{systemProperties['environment']}"/>
+  	</bean>
+  	
 	<!-- Define message resource bundles used by the application.  These bundle files must be on the classpath. -->
   	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 	  <property name="basenames">
