@@ -41,4 +41,20 @@
               url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dyersville.int.westgroup.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orc212a.int.westgroup.com)))"
               username="EBOOK_USER" password="eb00k"/>
 
+    <!-- JMS Queue Connection Factory(s) -->
+    <Resource name="jms/QueueConnectionFactory" auth="Container"
+		  	  type="org.apache.activemq.ActiveMQConnectionFactory"
+       	 	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
+       	 	  brokerURL="tcp://localhost:61616" brokerName="LocalActiveMQBroker"/>
+	
+    <Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
+			  type="org.apache.activemq.command.ActiveMQQueue"
+        	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
+       	 	  physicalName="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
+       	 	  
+    <Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
+			  type="org.apache.activemq.command.ActiveMQQueue"
+        	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
+       	 	  physicalName="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY.REQ"/>
+
 </Context>
