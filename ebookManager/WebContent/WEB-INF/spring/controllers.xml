@@ -17,6 +17,12 @@
 	
 	<bean id="viewBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController"
 		  p:coreService-ref="coreService"/>
+		  
+  	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
+		  p:coreService-ref="coreService"/>
+		  
+	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
+		  p:coreService-ref="coreService"/>
 
 
 	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"

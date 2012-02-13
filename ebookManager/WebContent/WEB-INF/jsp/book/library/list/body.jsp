@@ -16,61 +16,14 @@
 
 	 
 	<script type="text/javascript">
-		// Calculate how many checkboxes are selected
-		var howManyChecked = function() {
-			var selected = new Array();
-			$("input:checkbox:checked").each(function() {
-			       selected.push($(this).val());
-			});
-				
-			return selected.length;
-		}
-		
-		$(document).ready(function() {
-			$('#selectAll').click(function () {
-				$(this).parents('#vdo').find(':checkbox').attr('checked', this.checked);
-			});
+		var submitForm = function(cmd){
+			$('#command').val(cmd);
 			
-			// Post to import controller
-			$('#importButton').click(function (){
-				location.href  = "<%= WebConstants.MVC_BOOK_DEFINITION_IMPORT%>";
-			});
-			// Post to export controller
-			$('#exportButton').click(function (){
-				//$('form#theForm').attr({action: ''});
-				//$('form#theForm').submit();		
-			});
-			// Post to generate
-			$('#generateButton').click(function (){
-				var numberSelected = howManyChecked();
-				if(numberSelected == 0) {
-					alert("Nothing selected");
-					exit();
-				} else if(numberSelected == 1) {
-					$('form#<%=BookLibrarySelectionForm.FORM_NAME%>').attr({action:'<%= WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>'});
-				} else {
-					$('form#<%=BookLibrarySelectionForm.FORM_NAME%>').attr({action:'<%= WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>'});
-				}
-				
-				$('form#<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
-			});
-			// Post to promote
-			$('#promoteButton').click(function (){
-				var numberSelected = howManyChecked();
-				
-				if(numberSelected == 0) {
-					alert("Nothing selected");
-					exit();
-				} else {
-					$('form#<%=BookLibrarySelectionForm.FORM_NAME%>').attr({action: '<%= WebConstants.MVC_BOOK_DEFINITION_PROMOTION%>'});
-					$('form#<%=BookLibrarySelectionForm.FORM_NAME%>').submit();	
-				}
-			});
-		});
+			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
+		};
 	</script>
 
-<form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" name="selectionForm" method="post">
-			   
+<form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post" action="<%= WebConstants.MVC_BOOK_LIBRARY_LIST%>">
 		<%-- Error Message Presentation --%>
 		<spring:hasBindErrors name="<%=BookLibrarySelectionForm.FORM_NAME%>">
 			<div class="errorBox">
@@ -96,7 +49,6 @@
 				   sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
 	  <display:column title="${selectAll}">
-	  		<%-- <input type="checkbox" value="${vdo.fullyQualifiedTitleId}" /> --%>
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.fullyQualifiedTitleId}"/>
 	  </display:column>
 	  <display:column title="Book Name" sortable="true" sortName="bookName" style="text-align: left">
@@ -108,9 +60,12 @@
 	  <display:column title="Publish Status" property="publishStatus" style="text-align: center"/>
 	  <display:column title="Last eBook Def. Edited" property="lastEdit" />
 	</display:table>
-	
-	<input type="button" id="importButton" value="Import" />
-	<input type="button" id="exportButton" value="Export" disabled="disabled" />
-	<input type="button" id="generateButton" value="Generate" />
-	<input type="button" id="promoteButton" value="Promote" />
+	<form:hidden path="isAscending" />
+	<form:hidden path="sort" />
+	<form:hidden path="page" />
+	<form:hidden path="command"/>
+	<input type="submit" id="importButton" value="Import" onclick="submitForm(<%= BookLibrarySelectionForm.Command.IMPORT %>)" />
+	<input type="submit" id="exportButton" value="Export" onclick="submitForm(<%= BookLibrarySelectionForm.Command.EXPORT %>)"/>
+	<input type="submit" id="generateButton" value="Generate" onclick="submitForm(<%= BookLibrarySelectionForm.Command.GENERATE %>)" />
+	<input type="submit" id="promoteButton" value="Promote" onclick="submitForm(<%= BookLibrarySelectionForm.Command.PROMOTE %>)" />
 </form:form>

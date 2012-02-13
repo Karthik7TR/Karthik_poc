@@ -1,0 +1,52 @@
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
+
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
+
+import org.apache.log4j.Logger;
+
+@Controller
+public class GenerateEbookController {
+	private static final Logger log =
+	Logger.getLogger(GenerateEbookController.class);
+
+	private CoreService coreService;
+
+
+	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
+	public ModelAndView generateEbookPreview(@RequestParam String titleId, Model model) throws Exception {
+		
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+	}
+
+	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
+	public ModelAndView generateBulkEbookPreview(@RequestParam String[] titleId, Model model) throws Exception {
+
+
+		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
+	}
+
+
+
+	public CoreService getCoreService() {
+		return coreService;
+	}
+
+	@Required
+	public void setCoreService(CoreService coreService) {
+		this.coreService = coreService;
+	}
+
+
+
+}

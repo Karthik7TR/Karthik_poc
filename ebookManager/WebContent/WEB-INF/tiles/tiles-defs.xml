@@ -21,6 +21,12 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/view/body.jsp"/>
 	</definition>
 	
+	<definition name="_bookDefinitionEdit" extends="standardDefinition">
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/edit/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
+	</definition>
+	
 	<definition name="_bookGeneratePreview" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/generate/single/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/generate/single/left.jsp"/>

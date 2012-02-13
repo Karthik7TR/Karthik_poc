@@ -14,6 +14,9 @@ public class WebConstants {
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
 	public static final String KEY_TITLE_ID = "titleId";
+	public static final String KEY_SORT_BY = "sortBy";
+	public static final String KEY_PAGE_NUMBER = "pageNumber";
+	public static final String KEY_IS_ASCENDING = "isAscending";
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
 	
 	// Page paths
@@ -22,6 +25,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
+	public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
@@ -42,6 +46,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
+	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";

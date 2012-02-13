@@ -28,7 +28,7 @@
 
 <body>
  	<h2>Filters</h2>
-	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
+<%-- 	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="bookLibraryFilterForm" method="post">
 			   &nbsp;<form:label path="name">Name </form:label><br>
 			   &nbsp;<form:input path="name"/><br>
@@ -57,6 +57,32 @@
 			   <form:button disabled="true">Go</form:button>
 			   <form:button disabled="true">Clear</form:button>
 		
-	</form:form>
+</form:form> --%>
+	&nbsp;<label>Name </label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>Date Range</label><br>
+	&nbsp;&nbsp;<label>From</label>
+	&nbsp;<input type="text" id="datepickerFrom" />
+	&nbsp;<label>To</label>
+	&nbsp;<input type="text" id="datepickerTo" /><br>
+	&nbsp;<label>Username</label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>eBook Status</label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>Publishing Status</label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>Title Id</label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>ISBN</label><br>
+	&nbsp;<input type="text"  /><br>
+	&nbsp;<label>Author Name</label><br>
+	&nbsp;<input type="text"  /><br>
+	&nbsp;<label>Material Number</label><br>
+	&nbsp;<input type="text"  /><br>
+	&nbsp;<label>Publisher</label><br>
+	&nbsp;<input type="text" /><br>
+	
+	<button disabled="disabled">Go</button>
+	<button disabled="disabled">Clear</button>
 </body>
 </html>

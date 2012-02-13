@@ -2,12 +2,15 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +29,7 @@ import org.apache.log4j.Logger;
 
 @Controller
 public class BookLibraryController {
-	private static final Logger log =
-	Logger.getLogger(BookLibraryController.class);
+	private static final Logger log = Logger.getLogger(BookLibraryController.class);
 
 	private BookLibraryService bookLibraryService;
 	private Validator validator;
@@ -36,21 +38,19 @@ public class BookLibraryController {
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
 	}
+	
+
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
 	public ModelAndView bookList(
 			HttpSession httpSession,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
+			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage("bookName", true, 1, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
-		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
 		
-		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
-
+		initializeFormAndModel(model, form, "bookName", true, 1);
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 
@@ -67,7 +67,7 @@ public class BookLibraryController {
 			HttpServletRequest request,
 			HttpSession httpSession,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
+			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
 			BindingResult bindingResult, Model model) throws Exception {
 		// log.debug(">>> " + form);
 		// Fetch the current object list from the session
@@ -85,22 +85,21 @@ public class BookLibraryController {
 				.parseInt(request.getParameter(new ParamEncoder("vdo")
 						.encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 
-		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage(sort, isAscending, page, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
-		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
-		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
+		initializeFormAndModel(model, form, sort, isAscending, page);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
-	public ModelAndView generateEbookPreview(
+	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
+	public ModelAndView postBookDefinitionSelections(
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
+			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
 			BindingResult bindingResult, Model model) throws Exception {
 		
 		if (!bindingResult.hasErrors()) {
 			String[] bookKeys = form.getSelectedEbookKeys();
+			
+			
 			BookDefinitionKey key = new BookDefinitionKey(bookKeys[0]);
 			BookDefinitionVdo bookDefinition = bookLibraryService
 					.getSingleBook(key);
@@ -108,18 +107,30 @@ public class BookLibraryController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDefinition);
 		}
 		
-		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+		initializeFormAndModel(model, form, form.getSort(), form.getIsAscending(), form.getPage());
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
-
-	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.POST)
-	public ModelAndView generateBulkEbookPreview(
-			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
-			BindingResult bindingResult, Model model) throws Exception {
-
-		if (!bindingResult.hasErrors()) {
-			
-		}
-		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
+	
+	/**
+	 * Populates the model to display the book definitions and hidden properties
+	 * @param model
+	 * @param sortBy
+	 * @param isAscending
+	 * @param pageNumber
+	 * @return
+	 */
+	private void initializeFormAndModel(Model model, BookLibrarySelectionForm form, String sortBy, boolean isAscending, int pageNumber) {
+		
+		List<BookDefinitionVdo> paginatedList = bookLibraryService
+				.getBooksOnPage(sortBy, isAscending, pageNumber, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
+		Integer resultSize = (int) bookLibraryService.getTotalBookCount();
+		
+		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
+		form.setIsAscending(isAscending);
+		form.setPage(pageNumber);
+		form.setSort(sortBy);
 	}
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_PROMOTION, method = RequestMethod.POST)
@@ -159,5 +170,6 @@ public class BookLibraryController {
 	public void setValidator(Validator validator) {
 		this.validator = validator;
 	}
+
 
 }
