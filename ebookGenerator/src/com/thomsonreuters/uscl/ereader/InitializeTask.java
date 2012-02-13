@@ -52,7 +52,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
 		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
-		String dynamicPath = String.format("%s/%s/%d", 
+		String dynamicPath = "data/" + String.format("%s/%s/%d", 
 				new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
