@@ -121,7 +121,7 @@
 	<!-- Define each task here -->
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask"
-				p:rootWorkDirectory="/apps/eBookBuilder/data"/>
+				p:rootWorkDirectory="/apps/eBookBuilder"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask"
 				p:gatherService-ref="gatherService"/>				
 	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask"
