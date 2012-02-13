@@ -100,6 +100,9 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	public static MediaType fetchDesiredMediaType(MediaType metadataMediaType) {
 
+		if (metadataMediaType == null) {
+			return null;
+		}
 		/** TODO: this is the production implementation 
 		return ("image".equals(metadataMediaType.getType())) ? 
 				MediaType.IMAGE_PNG : metadataMediaType;
