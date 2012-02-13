@@ -25,12 +25,16 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
-	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
-	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
+	public static final String MVC_BOOK_DEFINITION_CREATE_GET = "bookDefinitionCreateGet.mvc";
+	public static final String MVC_BOOK_DEFINITION_CREATE_POST = "bookDefinitionCreatePost.mvc";
 	public static final String MVC_BOOK_DEFINITION_EDIT_GET = "bookDefinitionEditGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_EDIT_POST = "bookDefinitionEditPost.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
+	public static final String MVC_PREFERENCES = "preferences.mvc";
+	public static final String MVC_SUPPORT = "support.mvc";
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
