@@ -23,22 +23,30 @@
 	</script>
 
 <form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post" action="<%= WebConstants.MVC_BOOK_LIBRARY_LIST%>">
-		<%-- Error Message Presentation --%>
-		<spring:hasBindErrors name="<%=BookLibrarySelectionForm.FORM_NAME%>">
-			<div class="errorBox">
-		      <b><spring:message code="please.fix.errors"/></b><br/>
-		      <form:errors path="*">
-		      	<ul>
-				<c:forEach items="${messages}" var="message">
-					<li style="color: black">${message}</li>
-				</c:forEach>
-		      	</ul>
-			  </form:errors>
-			  <br/>
-		    </div>
-		    <br/>
-	    </spring:hasBindErrors>
+
+	<form:hidden path="isAscending" />
+	<form:hidden path="sort" />
+	<form:hidden path="page" />
+	<form:hidden path="command"/>
+
+	<%-- Error Message Presentation --%>
+	<spring:hasBindErrors name="<%=BookLibrarySelectionForm.FORM_NAME%>">
+		<div class="errorBox">
+	      <b><spring:message code="please.fix.errors"/></b><br/>
+	      <form:errors path="*">
+	      	<ul>
+			<c:forEach items="${messages}" var="message">
+				<li style="color: black">${message}</li>
+			</c:forEach>
+	      	</ul>
+		  </form:errors>
+		  <br/>
+	    </div>
+	    <br/>
+    </spring:hasBindErrors>
+
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
+	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss"/>
 	<%-- Table of book library --%>
 	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
@@ -55,16 +63,19 @@
 	  </display:column>
 	  <display:column title="Author" property="author" sortable="true" sortName="authorInfo" style="text-align: left"/>
 	  <display:column title="Ver" property="version" />
-	  <display:column title="Publish Date" property="publishDate" />
+	  <display:column title="Publish Date">
+	  	<fmt:formatDate value="${vdo.publishDate}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
 	  <display:column title="Publish Status" property="publishStatus" style="text-align: center"/>
-	  <display:column title="Last eBook Def. Edited" property="lastEdit" />
+	  <display:column title="Last Edit">
+	  	<fmt:formatDate value="${vdo.lastEdit}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
 	</display:table>
-	<form:hidden path="isAscending" />
-	<form:hidden path="sort" />
-	<form:hidden path="page" />
-	<form:hidden path="command"/>
+	
+	<br/>	
 	<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
 	<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
 	<input type="submit" value="Generate" onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
 	<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
+
 </form:form>
