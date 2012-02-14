@@ -5,7 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,13 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookDefinitionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class BookLibraryControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+BookLibrarySelectionForm.FORM_NAME;
@@ -41,7 +43,6 @@ public class BookLibraryControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private BookLibrarySelectionForm selectionForm;
     private BookLibraryService mockLibraryService;
     
 	@Before
@@ -52,13 +53,11 @@ public class BookLibraryControllerTest {
     	
     	// Mock up the dashboard service
     	this.mockLibraryService = EasyMock.createMock(BookLibraryService.class);
-    	this.selectionForm = new BookLibrarySelectionForm();
     	
     	// Set up the controller
     	this.controller = new BookLibraryController();
     	controller.setBookLibraryService(mockLibraryService);
     	controller.setValidator(new BookLibrarySelectionFormValidator());
-    	
 	}
 
 	/**
@@ -89,10 +88,9 @@ public class BookLibraryControllerTest {
 	        assertTrue(totalBookCount.equals("1"));
 	        
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
-        
         EasyMock.verify(mockLibraryService);
         
 	}
@@ -109,8 +107,9 @@ public class BookLibraryControllerTest {
     	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
     	
     	// Mock page 3
+    	long expectedBookCount = 61;
     	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 3, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
-    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 61);
+    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn(expectedBookCount);
     	EasyMock.replay(mockLibraryService);
     	
     	ModelAndView mav;
@@ -126,13 +125,12 @@ public class BookLibraryControllerTest {
 
 	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
 	        String totalBookCount = model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString();
-	        assertTrue(totalBookCount.equals("61"));
+	        Assert.assertEquals(String.valueOf(expectedBookCount), totalBookCount);
 	        
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
-        
         EasyMock.verify(mockLibraryService);
 	}
 	
@@ -160,9 +158,8 @@ public class BookLibraryControllerTest {
 			View view = mav.getView();
 	        assertEquals(RedirectView.class, view.getClass());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
 	}
 	
@@ -190,9 +187,8 @@ public class BookLibraryControllerTest {
 			View view = mav.getView();
 	        assertEquals(RedirectView.class, view.getClass());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
 	}
 	
@@ -235,7 +231,7 @@ public class BookLibraryControllerTest {
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
 	}
 }
