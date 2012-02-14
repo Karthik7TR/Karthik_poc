@@ -57,5 +57,7 @@ public class WebConstants {
 	
 	// Miscellaneous keys and constants used throughout the application.
 	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
+	public static final String TITLE_ID="fullyQualifiedTitleId";
+	public static final String TITLE="title";
 
 }
