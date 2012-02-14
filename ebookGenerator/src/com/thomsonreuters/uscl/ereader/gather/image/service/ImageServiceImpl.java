@@ -199,7 +199,7 @@ return metadataMediaType;		// DELETE
 	 */
 	private File searchFileTree(String basename) {
 		// TODO: implement this
-		return new File("/nas/StaticImages", basename);
+		return new File("/apps/eBookBuilder/staticContent/StaticImages", basename);
 	}
 	
 	/**

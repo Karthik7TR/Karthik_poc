@@ -11,15 +11,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.SequenceInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
@@ -144,7 +149,11 @@ public class TransformerServiceImpl implements TransformerService
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
-		File xslt = getXSLT(titleId, jobId, fileNameUUID);
+		String[] metadata = new String[2];
+		
+		lookupCollectionDocType(titleId, jobId, fileNameUUID, metadata);
+
+		File xslt = getXSLT(metadata[0], metadata[1]);
 
 		LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
         File tranFile = new File(targetDir, fileNameUUID + ".transformed");
@@ -171,22 +180,14 @@ public class TransformerServiceImpl implements TransformerService
 	        
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
-		        Source xsltSource = new StreamSource(xslt);
-	
-		        TransformerFactory transFact = TransformerFactory.newInstance();
-		        
-		        XSLIncludeResolver resolver = new XSLIncludeResolver();
-		        transFact.setURIResolver(resolver);
-		 
-		        trans = transFact.newTransformer(xsltSource);
-		        
-		        trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		        stylesheetCache.put(xslt.getAbsolutePath(), trans);
+	        	trans = createTransformer(xslt, stylesheetCache);
 	        }
 	        else
 	        {
 	        	trans = stylesheetCache.get(xslt.getAbsolutePath());
 	        }
+	        
+	        setDocLvlTransParams(trans, metadata[0]);
 	        
 	        Result result =
 	                new StreamResult(tranFile);
@@ -266,67 +267,128 @@ public class TransformerServiceImpl implements TransformerService
 	}
 	
 	/**
+	 * Creates, configures and caches a transformer for the passed in XSLT file.
+	 * 
+	 * @param transformer transformer to be created and configured
+	 * @param xslt stylesheet for which the transformer will be created
+	 * @param xsltCache cache of stylesheets to be updated with new transformer
+	 * 
+	 * @return configured transformer
+	 * @throws EBookFormatException if the transformer could not be configured correctly
+	 */
+	protected Transformer createTransformer(File xslt, Map<String, Transformer> xsltCache)
+		throws EBookFormatException
+	{
+		try
+		{
+	        Source xsltSource = new StreamSource(xslt);
+	    	
+	        TransformerFactory transFact = TransformerFactory.newInstance();
+	        
+	        XSLIncludeResolver resolver = new XSLIncludeResolver();
+	        transFact.setURIResolver(resolver);
+	 
+	        Transformer transformer = transFact.newTransformer(xsltSource);
+	        
+	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	        transformer.setParameter("IsPersisted", true);
+	        transformer.setParameter("UniqueIdForBlobs", UUID.randomUUID().toString());
+	        transformer.setParameter("IsMobile", false);
+//	        transformer.setParameter("LinkColor", "");
+	        transformer.setParameter("LinkUnderline", false);
+//	        transformer.setParameter("FontSize", "");
+	        transformer.setParameter("StatutoryTextOnly", false);
+	        transformer.setParameter("ListItemIdentifier", "Target");
+	        transformer.setParameter("SpecialRequestSourceParam", "cblt1.0");
+	        transformer.setParameter("SpecialVersionParam", "3.0");
+	        transformer.setParameter("Target", "_top");
+	        transformer.setParameter("DisplayOriginalImageLink", true);
+	        //None of the highlighting parameters are set, example: 
+	        //DisplayTermHighlighting, IsSearched, Quotes, SourceSerial
+//	        transformer.setParameter("HasDocketOrdersAccess", "");
+//	        transformer.setParameter("DisplayDocketUpdateLink", false);
+//	        transformer.setParameter("DocketIsSlowCourt", "");
+//	        transformer.setParameter("DisplayFormAssembleLink", true);
+//	        transformer.setParameter("AllowLinkDragAndDrop", true);
+//	        transformer.setParameter("HasCalenderingInformation", false);
+//	        transformer.setParameter("EasyEditMode", false);
+//	        transformer.setParameter("DisplayEasyEditLink", true);
+//	        transformer.setParameter("DisplayLinksInDocument", true);
+//	        transformer.setParameter("IncludeCopyWithRefLinks", "");
+//	        transformer.setParameter("DeliveryMode", "");
+//	        transformer.setParameter("DeliveryFormat", "");
+//	        transformer.setParameter("DualColumnMode", false);
+//	        transformer.setParameter("DisplayOnlyPagesWithSearchTerms", "");
+//	        transformer.setParameter("HeadnoteDisplayOption", "");
+//	        transformer.setParameter("mediaPageWidth", "925");
+//	        transformer.setParameter("mediaPageHeight", "1 div 0");
+//	        transformer.setParameter("EffectiveStartDate", "");
+//	        transformer.setParameter("EffectiveEndDate", "");
+//	        transformer.setParameter("contextualInfo", "");
+	        //None of the search within parameters are set, example:
+	        //PrimaryTermsWordset, SecondaryTermsWordset, SearchWithinTermsWordset
+	        
+	        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+	        String year = format.format(new Date());
+	        transformer.setParameter("currentYear", year);
+	        transformer.setParameter("endOfDocumentCopyrightText", "Thomson Reuters. No claim to original " +
+	        		"U.S. Government Works.");
+	        
+	        xsltCache.put(xslt.getAbsolutePath(), transformer);
+	        
+	        return transformer;
+		}
+		catch (TransformerConfigurationException e)
+		{
+			String errMessage = "Encountered transformer configuration issues with " + xslt.getAbsolutePath() + 
+        			" xslt file.";
+        	LOG.error(errMessage, e);
+        	throw new EBookFormatException(errMessage, e);
+		}
+	}
+	
+	/**
+	 * Sets all the document specific transformation parameters on the passed in transformer.
+	 * 
+	 * @param transformer transformer to be configured
+	 * @param collection novus collection of document being processed
+	 */
+	protected void setDocLvlTransParams(Transformer transformer, String collection)
+	{
+		List<String> royaltyIdCollection = Arrays.asList("w_3rd_millann", "w_3rd_millpol", 
+				"w_lt_td_motions", "w_lt_td_ew", "w_lt_td_filings");
+		
+		if (royaltyIdCollection.contains(collection))
+		{
+			transformer.setParameter("UseBlobRoyaltyId", true);
+		}
+	}
+	
+	/**
 	 * Retrieves the XSLT file that should be used to transform the XML.
 	 * 
-	 * @param title title identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
-	 * @param job job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
-	 * @param guid document guid which is used to lookup the document metadata needed for the XSLT lookup
+	 * @param collection the novus collection of the document to be transformed
+	 * @param docType the document type as found in the metadata for the doucment to be transformed
 	 * 
 	 * @return the XSLT file to be used by the transformer
 	 */
-	protected File getXSLT(String title, Long job, String guid) throws EBookFormatException
+	protected File getXSLT(String collection, String docType) 
+			throws EBookFormatException
 	{
-		File xsltDir = new File(new File("/nas", "Xslt"), "ContentTypes");
-		String xsltName;
-		String collection = "";
-		String docType = "";
+		File xsltDir = new File("/apps/eBookBuilder/staticContent/ContentTypes");
+		String xsltName;		
 		
-		//TODO: Remove hard coded XSLT name overrides that are used for the sample books.
-		if (title.equalsIgnoreCase("crsample") || title.equalsIgnoreCase("scsample")
-				|| title.equalsIgnoreCase("staticimage"))
-		{
-			xsltName = 
-					"CodesStatutes.xsl";
-		}
-		else if(title.equalsIgnoreCase("analytical1"))
-		{
-			xsltName = 
-					"AnalyticalJurs.xsl";
-		}
-		else if(title.equalsIgnoreCase("analytical2"))
-		{
-			xsltName = 
-					"AnalyticalTreatisesAndAnnoCodes.xsl";
-		}
-		else
-		{
-			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, Integer.parseInt(job.toString()), guid);
-
-			if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
-			{
-				collection = docMetadata.getCollectionName();
-				docType = docMetadata.getDocType();
-			}
-			else
-			{
-				String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
-						" title with " + job + " job id.";
-	        	LOG.error(errMessage);
-	        	throw new EBookFormatException(errMessage);
-			}
-			
-			LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
-			xsltName = xsltMapperService.getXSLT(collection, docType);
-		}
+		File xslt = null;
+		xsltName = xsltMapperService.getXSLT(collection, docType);
 		
-		File xslt;
 		if (xsltName != null)
 		{
 			xslt = new File(xsltDir, xsltName);
 			
 			if (!xslt.exists())
 			{
-				String errMessage = "Could not the following XSLT file on the file system: " + xslt.getAbsolutePath();
+				String errMessage = "Could not the following XSLT file on the file system: " + 
+						xslt.getAbsolutePath();
 	        	LOG.error(errMessage);
 	        	throw new EBookFormatException(errMessage);
 			}
@@ -339,9 +401,46 @@ public class TransformerServiceImpl implements TransformerService
         	LOG.error(errMessage);
         	throw new EBookFormatException(errMessage);
 		}
+
+		LOG.debug("Using " + xsltName + " to transform document.");
 		
-		LOG.debug("Using " + xsltName + " to transform " + guid + " document.");
-        		
 		return xslt;
+	}
+	
+	/**
+	 * Looks up the collection and document type for the document represented by the GUID with the run
+	 * identified by the title and job composite key.
+	 * 
+	 * @param title title identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
+	 * @param job job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
+	 * @param guid document guid which is used to lookup the document metadata needed for the XSLT lookup
+	 * @param metadata used to pass back any retrieved data for the passed in GUID
+	 */
+	public void lookupCollectionDocType(String title, Long job, String guid, String[] metadata)
+		throws EBookFormatException
+	{
+		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
+				title, Integer.parseInt(job.toString()), guid);
+		
+		String collection;
+		String docType;
+
+		if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
+		{
+			collection = docMetadata.getCollectionName();
+			docType = docMetadata.getDocType();
+		}
+		else
+		{
+			String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
+					" title with " + job + " job id.";
+        	LOG.error(errMessage);
+        	throw new EBookFormatException(errMessage);
+		}
+		
+		metadata[0] = collection;
+		metadata[1] = docType;
+		
+		LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
 	}
 }
