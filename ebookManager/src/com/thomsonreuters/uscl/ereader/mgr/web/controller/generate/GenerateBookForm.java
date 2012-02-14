@@ -14,8 +14,22 @@ public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
 	
 	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
-	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
+	private boolean highPriorityJob;
+	private boolean majorVersion;
+	private boolean regenerate;
 
+	public boolean isRegenerate() {
+		return regenerate;
+	}
+	public void setRegenerate(boolean regenerate) {
+		this.regenerate = regenerate;
+	}
+	public boolean isMajorVersion() {
+		return majorVersion;
+	}
+	public void setMajorVersion(boolean majorVersion) {
+		this.majorVersion = majorVersion;
+	}
 	public BookDefinitionKey getBookDefinitionKey() {
 		return bookDefinitionKey;
 	}
