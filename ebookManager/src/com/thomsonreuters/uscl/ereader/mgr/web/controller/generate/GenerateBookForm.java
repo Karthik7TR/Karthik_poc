@@ -14,6 +14,7 @@ public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
 	
 	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
+	
 	private boolean highPriorityJob;
 	private boolean majorVersion;
 	private boolean regenerate;
