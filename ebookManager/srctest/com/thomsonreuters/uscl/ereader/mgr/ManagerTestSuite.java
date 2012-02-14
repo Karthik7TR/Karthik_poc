@@ -10,12 +10,16 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookLibraryControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
 			SecurityControllerTest.class,
 			BookLibraryControllerTest.class,
+			BookPromotionControllerTest.class,
+			GenerateEbookControllerTest.class,
 		} )
 
 public class ManagerTestSuite {

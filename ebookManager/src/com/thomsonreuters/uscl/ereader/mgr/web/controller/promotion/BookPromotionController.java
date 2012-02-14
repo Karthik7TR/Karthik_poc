@@ -32,7 +32,7 @@ public class BookPromotionController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_BULK_PROMOTION);
 	}
 	
-	
+	@Required
 	public void setCoreService(CoreService coreService) {
 		this.coreService = coreService;
 	}
