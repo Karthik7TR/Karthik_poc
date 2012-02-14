@@ -61,12 +61,12 @@
 	  <display:column title="Book Name" sortable="true" sortName="bookName" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.fullyQualifiedTitleId}">${vdo.bookName}</a>
 	  </display:column>
+	  <display:column title="Title ID" property="titleId" />
 	  <display:column title="Author" property="author" sortable="true" sortName="authorInfo" style="text-align: left"/>
 	  <display:column title="Ver" property="version" />
 	  <display:column title="Publish Date">
 	  	<fmt:formatDate value="${vdo.publishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
-	  <display:column title="Publish Status" property="publishStatus" style="text-align: center"/>
 	  <display:column title="Last Edit">
 	  	<fmt:formatDate value="${vdo.lastEdit}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
