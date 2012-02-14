@@ -23,6 +23,9 @@
 		  
 	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
 		  p:coreService-ref="coreService"/>
+		  
+	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" 
+		p:coreService-ref="coreService" />
 
 	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"
 		  p:casUrl="${cas.server.web.url}"/>

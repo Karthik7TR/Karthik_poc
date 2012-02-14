@@ -37,7 +37,7 @@ public class GenerateEbookController {
 	}
 
 
-
+	@Required
 	public CoreService getCoreService() {
 		return coreService;
 	}
