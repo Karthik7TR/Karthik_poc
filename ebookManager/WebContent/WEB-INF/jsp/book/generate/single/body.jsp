@@ -79,8 +79,8 @@
 		  
 		</table>
 		<br/>
-		<input type="submit" value="Generate"/>
-		<input type="submit" value="Cancel"/>
+		<input type="submit" value="Generate" disabled="disabled"/>
+		<input type="submit" value="Cancel" disabled="disabled"/>
 	</form:form>
   </div>
 </body>
