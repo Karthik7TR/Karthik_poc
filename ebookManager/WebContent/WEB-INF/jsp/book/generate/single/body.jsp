@@ -9,13 +9,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 <html>
 <head>
 
 <body>
   <div class="majorDiv">
-	<h2>Create Book</h2>
+	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
 			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
@@ -51,13 +52,7 @@
 	    </c:if>
 	    
 		<table>
-		  <tr>
-			<td>Title Id:</td>	<%-- Unique book discriminate --%>
-			<td>
-			 	<form:label path="fullyQualifiedTitleId"></form:label>
-			</td>
-		  
-		  <tr>
+		
 			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:select path="highPriorityJob">
