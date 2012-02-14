@@ -7,30 +7,19 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.*;
 
-import java.util.Map;
-
-
 import org.easymock.EasyMock;
-import org.eclipse.jdt.internal.compiler.ast.AssertStatement;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.AssertThrows;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
-
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
@@ -66,6 +55,7 @@ public class GenerateEbookControllerTest {
 
 		try {
 			ModelAndView mav = handlerAdapter.handle(request, response, controller);
+	    	assertNotNull(mav);
 	    	
 		} catch (Exception e) {
 			assertTrue(e.getClass() == MissingServletRequestParameterException.class);
@@ -91,9 +81,8 @@ public class GenerateEbookControllerTest {
 	    	Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 	    	
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
     	
 	}
@@ -117,9 +106,8 @@ public class GenerateEbookControllerTest {
 	    	Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW, mav.getViewName());
 	    	
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
 	}
 

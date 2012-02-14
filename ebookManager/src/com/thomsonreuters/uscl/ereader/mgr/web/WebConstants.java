@@ -17,6 +17,7 @@ public class WebConstants {
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
 	public static final String KEY_IS_ASCENDING = "isAscending";
+	public static final String KEY_VDO = "vdo";
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
 	
 	// Page paths

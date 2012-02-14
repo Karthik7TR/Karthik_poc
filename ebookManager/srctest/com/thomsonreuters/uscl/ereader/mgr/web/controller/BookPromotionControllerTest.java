@@ -7,7 +7,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.*;
 
-import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,17 +18,13 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController;
-
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 public class BookPromotionControllerTest {
     private BookPromotionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-    private CoreService mockCoreService;
     private HandlerAdapter handlerAdapter;
     
 	@Before
@@ -37,13 +32,6 @@ public class BookPromotionControllerTest {
 		request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
-    	
-    	// Mock up the dashboard service
-    	this.mockCoreService = EasyMock.createMock(CoreService.class);
-    	
-    	// Set up the controller
-    	this.controller = new BookPromotionController();
-    	controller.setCoreService(mockCoreService);
 	}
 
 	
@@ -57,7 +45,7 @@ public class BookPromotionControllerTest {
 
 		try {
 			ModelAndView mav = handlerAdapter.handle(request, response, controller);
-	    	
+			assertNotNull(mav);
 		} catch (Exception e) {
 			assertTrue(e.getClass() == MissingServletRequestParameterException.class);
 		}
@@ -82,9 +70,8 @@ public class BookPromotionControllerTest {
 	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION, mav.getViewName());
 	    	
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
     	
 	}
@@ -108,9 +95,8 @@ public class BookPromotionControllerTest {
 	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_BULK_PROMOTION, mav.getViewName());
 	    	
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			assertTrue(false);
+			Assert.fail(e.getMessage());
 		}
 	}
 

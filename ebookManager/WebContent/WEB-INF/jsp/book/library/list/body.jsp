@@ -48,7 +48,7 @@
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss"/>
 	<%-- Table of book library --%>
-	<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
+	<display:table id="<%= WebConstants.KEY_VDO %>" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
 				   pagesize="<%= WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN %>"
 				   partialList="true"

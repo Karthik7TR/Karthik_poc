@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 import org.apache.log4j.Logger;
@@ -29,7 +28,7 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 		
-		
+		log.debug("bookId passed:" + titleId);
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 

@@ -53,7 +53,6 @@ public class BookLibraryController {
 			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		
 		initializeFormAndModel(model, form, "bookName", true, 1);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
@@ -76,18 +75,18 @@ public class BookLibraryController {
 			BindingResult bindingResult, Model model) throws Exception {
 		// log.debug(">>> " + form);
 		// Fetch the current object list from the session
-		String sort = request.getParameter(new ParamEncoder("vdo")
+		String sort = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_SORT));
 		if (sort == null) {
 			sort = "bookName";
 		}
 
-		String order = request.getParameter(new ParamEncoder("vdo")
+		String order = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_ORDER));
 		boolean isAscending = order != null && order.equals("2") ? false : true;
 
 		int page = Integer
-				.parseInt(request.getParameter(new ParamEncoder("vdo")
+				.parseInt(request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
 						.encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 
 		initializeFormAndModel(model, form, sort, isAscending, page);
@@ -161,7 +160,7 @@ public class BookLibraryController {
 		Long resultSize = bookLibraryService.getTotalBookCount();
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize);
+		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
 		form.setSort(sortBy);

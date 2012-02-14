@@ -19,8 +19,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
  * Class that will provide book library service methods
  */
 public class BookLibraryService {
-	private static final Logger log = Logger
-			.getLogger(BookLibraryService.class);
+	private static final Logger log = Logger.getLogger(BookLibraryService.class);
 
 	private CoreService coreService;
 
@@ -47,6 +46,7 @@ public class BookLibraryService {
 		for (BookDefinition book : books) {
 			pageItems.add(new BookDefinitionVdo(book, false));
 		}
+		log.debug("definition count:" + pageItems.size());
 		return pageItems;
 	}
 

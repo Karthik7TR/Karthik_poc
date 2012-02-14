@@ -9,8 +9,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-
 public class BookLibrarySelectionForm {
 
 	public static final String FORM_NAME = "bookLibrarySelectionForm";

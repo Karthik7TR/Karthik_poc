@@ -84,8 +84,8 @@ public class BookLibraryControllerTest {
 	        Map<String,Object> model = mav.getModel();
 
 	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        String totalBookCount = model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString();
-	        assertTrue(totalBookCount.equals("1"));
+	        Long totalBookCount = (Long) model.get(WebConstants.KEY_TOTAL_BOOK_SIZE);
+	        assertEquals( 1l, totalBookCount.longValue());
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,9 +102,9 @@ public class BookLibraryControllerTest {
 	public void testPagingAndSorting() {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
-    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_SORT), "bookName");
-    	request.setParameter(new ParamEncoder("vdo").encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
+    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
+    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_SORT), "bookName");
+    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
     	
     	// Mock page 3
     	long expectedBookCount = 61;
