@@ -29,6 +29,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
+	public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_CREATE_GET = "bookDefinitionCreateGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_CREATE_POST = "bookDefinitionCreatePost.mvc";
 	public static final String MVC_BOOK_DEFINITION_EDIT_GET = "bookDefinitionEditGet.mvc";
@@ -51,7 +52,8 @@ public class WebConstants {
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
 	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
-
+	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
+	
 	// Miscellaneous keys and constants used throughout the application.
 	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 

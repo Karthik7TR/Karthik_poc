@@ -18,7 +18,6 @@
 	<script type="text/javascript">
 		var submitForm = function(cmd){
 			$('#command').val(cmd);
-			
 			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
 		};
 	</script>
@@ -64,8 +63,8 @@
 	<form:hidden path="sort" />
 	<form:hidden path="page" />
 	<form:hidden path="command"/>
-	<input type="submit" id="importButton" value="Import" onclick="submitForm(<%= BookLibrarySelectionForm.Command.IMPORT %>)" />
-	<input type="submit" id="exportButton" value="Export" onclick="submitForm(<%= BookLibrarySelectionForm.Command.EXPORT %>)"/>
-	<input type="submit" id="generateButton" value="Generate" onclick="submitForm(<%= BookLibrarySelectionForm.Command.GENERATE %>)" />
-	<input type="submit" id="promoteButton" value="Promote" onclick="submitForm(<%= BookLibrarySelectionForm.Command.PROMOTE %>)" />
+	<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
+	<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
+	<input type="submit" value="Generate" onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+	<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
 </form:form>

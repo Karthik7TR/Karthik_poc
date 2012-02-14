@@ -2,15 +2,12 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +19,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
 import org.apache.log4j.Logger;
 
 @Controller
@@ -40,7 +38,15 @@ public class BookLibraryController {
 	}
 	
 
-
+	/**
+	 * Handles the initial loading of the Book Definition List page
+	 * @param httpSession
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
 	public ModelAndView bookList(
 			HttpSession httpSession,
@@ -92,21 +98,50 @@ public class BookLibraryController {
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
 	public ModelAndView postBookDefinitionSelections(
+			HttpServletRequest request,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
 			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryForm,
 			BindingResult bindingResult, Model model) throws Exception {
 		
 		if (!bindingResult.hasErrors()) {
+			ModelAndView mav = null; 
 			String[] bookKeys = form.getSelectedEbookKeys();
+			StringBuilder parameters = new StringBuilder();
+			parameters.append("?");
+			for(String key : bookKeys) {
+				parameters.append("titleId=" + key + "&");
+			}
 			
+			Command command = form.getCommand();
+			switch (command) {
+				case GENERATE:
+					if (bookKeys.length > 1)
+						mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW+parameters.toString()));
+					else
+						mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW+parameters.toString()));
+					break;
+				case IMPORT:
+					//TODO:
+					//mav = new ModelAndView(new RedirectView(WebConstants.MVC_GENERATE+queryString));
+					break;
+				case EXPORT:
+					//TODO:
+					//mav = new ModelAndView(new RedirectView(WebConstants.MVC_GENERATE+queryString));
+					break;
+				case PROMOTE:
+					if (bookKeys.length > 1)
+						mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_BULK_PROMOTION+parameters.toString()));
+					else
+						mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_PROMOTION+parameters.toString()));
+					break;
+				default:
+					throw new RuntimeException("Unexpected form command: " + command);
+			}
 			
-			BookDefinitionKey key = new BookDefinitionKey(bookKeys[0]);
-			BookDefinitionVdo bookDefinition = bookLibraryService
-					.getSingleBook(key);
-	
-			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDefinition);
+			return mav;
 		}
 		
+		// TODO: fix bug where displayTags shows from page 1
 		initializeFormAndModel(model, form, form.getSort(), form.getIsAscending(), form.getPage());
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
@@ -131,18 +166,6 @@ public class BookLibraryController {
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
 		form.setSort(sortBy);
-	}
-
-	@RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_PROMOTION, method = RequestMethod.POST)
-	public ModelAndView bookDefinitionPromotion(
-			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
-			BindingResult bindingResult, Model model) throws Exception {
-
-		if (!bindingResult.hasErrors()) {
-			
-		}
-
-		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION);
 	}
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_THUMBNAILS, method = RequestMethod.GET)

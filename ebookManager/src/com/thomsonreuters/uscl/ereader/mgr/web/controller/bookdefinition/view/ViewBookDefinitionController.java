@@ -61,7 +61,7 @@ public class ViewBookDefinitionController {
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT_GET+queryString));
 				break;
 			case GENERATE:
-				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_GENERATE+queryString));
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW+queryString));
 	// TODO
 				break;
 			case AUDIT_LOG:
