@@ -13,13 +13,15 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookLibraryControllerT
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
-			SecurityControllerTest.class,
 			BookLibraryControllerTest.class,
 			BookPromotionControllerTest.class,
 			GenerateEbookControllerTest.class,
+			SecurityControllerTest.class,
+			ViewBookDefinitionControllerTest.class
 		} )
 
 public class ManagerTestSuite {
