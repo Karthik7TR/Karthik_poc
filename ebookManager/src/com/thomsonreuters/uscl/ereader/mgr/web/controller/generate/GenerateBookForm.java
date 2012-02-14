@@ -10,8 +10,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
-public class CreateBookForm {
-	public static final String FORM_NAME = "createBookForm";
+public class GenerateBookForm {
+	public static final String FORM_NAME = "generateBookForm";
 	
 	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
