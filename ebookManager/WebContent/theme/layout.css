@@ -18,8 +18,12 @@
 }
 
 .errorBox {
-	background: orange;
 	padding: 5px;
+	color:red;
+}
+
+.errorMessage {
+	color:red;
 }
 
 .stdMargin {
@@ -155,3 +159,8 @@ ul.navList a:hover {
 	text-decoration: underline;
 }
 
+.titleData {
+	margin-top:10px;
+	margin-left:10px;
+	font-family:Arial;
+}
