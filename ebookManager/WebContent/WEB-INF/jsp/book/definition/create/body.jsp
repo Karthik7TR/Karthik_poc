@@ -8,15 +8,13 @@
 	.labelCol { text-align:right; font-weight: bold;}
 </style>
 
-<%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
-<c:if test="${book != null}">
 
 <form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>"
-	action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT_POST%>" >
+	action="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE_POST%>" >
 	<table>
 		<tr>
 			<td class="labelCol">Title ID<td>
-			<td> ${editBookDefinitionForm.titleId} </td>
+			<td><form:input path="titleId" /></td>
 		</tr>
 		<tr>
 			<td class="labelCol">Name<td>
@@ -84,6 +82,5 @@
 		</tr>
 	</table>
 </form:form>
-</c:if>
 
 

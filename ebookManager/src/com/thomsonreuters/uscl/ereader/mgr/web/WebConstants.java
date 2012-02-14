@@ -49,6 +49,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
+	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
