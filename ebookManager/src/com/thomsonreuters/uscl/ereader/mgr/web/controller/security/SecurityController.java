@@ -29,8 +29,9 @@ public class SecurityController {
 	 * This is configured in the application spring security spring bean file.
 	 */
 	@RequestMapping(value=WebConstants.MVC_AFTER_LOGOUT, method = RequestMethod.GET)
-	public ModelAndView afterLogout(HttpServletRequest httpRequest, HttpSession httpSession) throws Exception {
+	public ModelAndView afterLogout(HttpSession httpSession) throws Exception {
 		log.debug(">>>");
+		httpSession.invalidate();
 		String casLogoutUrl = casUrl + "/logout";
 		RedirectView view = new RedirectView(casLogoutUrl);
 		return new ModelAndView(view);
