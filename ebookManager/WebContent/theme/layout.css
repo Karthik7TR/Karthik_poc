@@ -90,22 +90,38 @@ body {
   	font-size:8pt;
 }
 .pageTitle {
-	margin-top:20px;
-	margin-left:20px;
+	margin-top:10px;
+	margin-left:10px;
+	font-family:Arial;
 	font-size:1.5em;
 	font-weight:bold;
 }
 
+.leftFooter {
+	margin-left:10px;
+	margin-top:10px;
+	font-family:Arial;
+	color:gray;
+	float:left;
+}
 .leftHeader {
-	margin-left:20px;
+	margin-left:10px;
 	margin-top:5px;
 	float:left;
+}
+.welcomeMessage {
+	font-family:Arial;
 }
 
 .programTitle {
 	font-weight: bold;
 }
 
+.rightFooter {
+	position:relative;
+	float:right;
+	padding-right:0px;
+}
 .rightHeader {
 	position:relative;
 	float:right;
