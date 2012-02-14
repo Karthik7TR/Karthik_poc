@@ -124,8 +124,8 @@ public class BookLibraryControllerTest {
 	        Map<String,Object> model = mav.getModel();
 
 	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        String totalBookCount = model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString();
-	        Assert.assertEquals(String.valueOf(expectedBookCount), totalBookCount);
+	        Long totalBookCount = (Long) model.get(WebConstants.KEY_TOTAL_BOOK_SIZE);
+	        Assert.assertEquals(expectedBookCount, totalBookCount.longValue());
 	        
 		} catch (Exception e) {
 			e.printStackTrace();

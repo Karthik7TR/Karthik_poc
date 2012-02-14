@@ -7,18 +7,16 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
- * A View Data Object (VDO) wrapper around a Spring Batch JobExecution object
+ * A View Data Object (VDO) wrapper around a BookDefinition object
  * (Decorator/VDO patterns). Exists to provide convenience methods to expose
  * complex calculated data and values which would otherwise be very messy to
  * calculate directly within the JSP.
  */
 public class BookDefinitionVdo {
-	private static final Logger log = Logger.getLogger(BookDefinitionVdo.class);
+	//private static final Logger log = Logger.getLogger(BookDefinitionVdo.class);
 	private BookDefinition bookDefinition;
 	private boolean isSelected = false;
 
