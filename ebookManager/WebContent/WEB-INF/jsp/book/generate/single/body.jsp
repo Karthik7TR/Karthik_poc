@@ -52,7 +52,7 @@
 	    </c:if>
 	    
 		<table>
-		
+		<tr>
 			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:select path="highPriorityJob">

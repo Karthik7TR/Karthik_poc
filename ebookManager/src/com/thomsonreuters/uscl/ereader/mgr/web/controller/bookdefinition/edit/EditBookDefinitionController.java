@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,17 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class EditBookDefinitionController {
-	private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
 	

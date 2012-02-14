@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 
 import java.net.URL;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;

@@ -14,12 +14,10 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
-import org.apache.log4j.Logger;
 
 @Controller
 public class GenerateEbookController {
-	private static final Logger log = Logger
-			.getLogger(GenerateEbookController.class);
+	//private static final Logger log = Logger.getLogger(GenerateEbookController.class);
 
 	private CoreService coreService;
 

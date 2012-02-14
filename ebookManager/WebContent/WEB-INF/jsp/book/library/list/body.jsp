@@ -16,6 +16,11 @@
 
 	 
 	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#selectAll').click(function () {
+				$(this).parents('#<%= WebConstants.KEY_VDO %>').find(':checkbox').attr('checked', this.checked);
+			});
+		});
 		var submitForm = function(cmd){
 			$('#command').val(cmd);
 			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
@@ -55,7 +60,7 @@
 				   size="resultSize"
 				   sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
-	  <display:column title="${selectAll}">
+	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.fullyQualifiedTitleId}"/>
 	  </display:column>
 	  <display:column title="Book Name" sortable="true" sortName="bookName" style="text-align: left">
