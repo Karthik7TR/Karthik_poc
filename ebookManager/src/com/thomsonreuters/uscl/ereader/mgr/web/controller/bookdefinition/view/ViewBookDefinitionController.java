@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
 import org.apache.log4j.Logger;
@@ -31,7 +36,7 @@ public class ViewBookDefinitionController {
 	public ModelAndView viewBookDefintion(@RequestParam String titleId,
 				@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
 				Model model) {
-		form.setTitleId(titleId);
+		form.setTitleId(titleId);  // Keep track of the book we are viewing
 		
 		// Lookup the book by its primary key
 		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
@@ -48,29 +53,29 @@ public class ViewBookDefinitionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST, method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
-										  Model model) {
+							   Model model) {
 		ModelAndView mav = null;
 		log.debug(form);
 		String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, form.getTitleId());
 		Command command = form.getCommand();
 		switch (command) {
 			case DELETE:
-	// TODO
+	// TODO: implement this
 				break;
 			case EDIT:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT_GET+queryString));
 				break;
 			case GENERATE:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW+queryString));
-	// TODO
+	// TODO: implement this
 				break;
 			case AUDIT_LOG:
-	// TODO
+	// TODO: implement this
 				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_AUDIT_LOG_TODO+queryString));
 				break;
 			case JOB_HISTORY:
 				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_JOB_HISTORY_TODO+queryString));
-	// TODO
+	// TODO: implement this
 				break;
 			default:
 				throw new RuntimeException("Unexpected form command: " + command);

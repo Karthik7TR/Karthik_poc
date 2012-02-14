@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-View eBook Definition<br/>
+<b>View eBook Definition</b><br/>
 <br/>
 <c:choose>
 
 <c:when test="${book == null}">  <%-- if no book definition was found for the title ID --%>
-<b>Book definition for Title ID &lt;${titleId}&gt; was not found.</b><br/>
+<b style="color:red;">Book definition for Title ID &quot;${titleId}&quot; was not found.</b><br/>
 </c:when>
 
 <c:otherwise>	<%-- found the book --%>
