@@ -124,6 +124,12 @@ html, body {
 }
 .mainWrapper, .leftWrapper {
 	margin:5px;
+	position: :relative;
+}
+
+.leftWrapper input[type="text"] {
+	width: 136px;
+	margin-bottom: 5px;
 }
 
 .pageTitle {
