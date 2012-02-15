@@ -36,8 +36,6 @@ public class ProviewClientImpl implements ProviewClient {
 	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
 	private String publishingStatusUriTemplate;
-	private ProviewRequestCallback proviewRequestCallback;
-	private ProviewResponseExtractor proviewResponseExtractor;
 	
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle(java.lang.String, java.lang.String, java.io.File)
@@ -67,8 +65,7 @@ public class ProviewClientImpl implements ProviewClient {
 		Map<String, String> urlVariables = new HashMap<String, String>();
 		
 		//ResponseEntity responseEntity
-		
-		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, proviewRequestCallback, proviewResponseExtractor);
+		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, new ProviewRequestCallback() , new ProviewResponseExtractor());
 		//logResponse(responseEntity);
 		
 		return response;
