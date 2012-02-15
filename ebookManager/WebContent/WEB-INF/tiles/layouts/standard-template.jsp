@@ -19,27 +19,33 @@
   </head>
   	
   <body>
-  	<div class="header">
-		<tiles:insertAttribute name="header"/>
-	</div>
-	
-	<div class="bodyContainer">
-		<div class="left">
-			<tiles:insertAttribute name="left"/>
+  		<div id="fullContainer">
+			<div id="header">
+				<tiles:insertAttribute name="header"/>
+			</div>
+			
+			<div id="bodyContainer">
+				<div class="colright">
+					<div class="col1wrap">
+						<div class="col1">
+							<div class="title">
+								<tiles:insertAttribute name="title"/>
+							</div>
+						
+							<div class="mainContent">
+								<tiles:insertAttribute name="body"/>
+							</div>
+						</div>
+					</div>
+					<div class="col2">
+						<tiles:insertAttribute name="left"/>
+					</div>
+				</div>
+			</div>
+			
+			<div id="footer">
+				<tiles:insertAttribute name="footer"/>
+			</div>
 		</div>
-		
-		<div class="title">
-			<tiles:insertAttribute name="title"/>
-		</div>
-		
-		<div class="body">
-			<tiles:insertAttribute name="body"/>
-		</div>
-	</div>
-	
-	<div class="footer">
-		<tiles:insertAttribute name="footer"/>
-	</div>
-
   </body>
 </html>
