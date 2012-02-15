@@ -22,7 +22,10 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class TOCXmlHandler extends DefaultHandler
 {
-	private HashMap<String, List<String>> docGuidList = new HashMap<String, List<String>>();
+	private ArrayList<HashMap<String, List<String>>> finalDocGuidList = new ArrayList<HashMap<String, List<String>>>();
+	
+
+	private HashMap<String, List<String>> docGuidList = new HashMap<String, List<String>>(); 
 	private List<String> tocGuidList = new ArrayList<String>();	
 	private String tempVal;
 	
@@ -51,6 +54,9 @@ public class TOCXmlHandler extends DefaultHandler
 			//add only if there is a guid available
 				docGuidList.put(tempVal,tocGuidList);
 				tocGuidList = new ArrayList<String>();
+				finalDocGuidList.add(docGuidList);
+				docGuidList = new HashMap<String, List<String>>();
+
 			}
 		}
 		
@@ -72,6 +78,9 @@ public class TOCXmlHandler extends DefaultHandler
 
 	public HashMap<String, List<String>> getDocGuidList() {
 		return docGuidList;
+	}
+	public ArrayList<HashMap<String, List<String>>> getFinalDocGuidList() {
+		return finalDocGuidList;
 	}
 
 	public void setDocGuidList(HashMap<String, List<String>> docGuidList) {

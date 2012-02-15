@@ -16,6 +16,8 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,6 +119,18 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		return (DocMetadata) session.get(DocMetadata.class, pk);
 	}
 
+	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer JobId) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		@SuppressWarnings("unchecked")
+		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
+	    .add( Restrictions.eq("jobInstanceId", JobId))
+	    .addOrder( Order.asc("tocSeqNumber") )
+	    .list();
+	    
+		return docMetaList;
+		
+	}
 	@Override
 	@Transactional
 	public void saveMetadata(DocMetadata metadata) {

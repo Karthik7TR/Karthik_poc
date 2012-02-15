@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -32,6 +33,9 @@ public interface DocMetadataDao {
 	 */
 	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid)
 			throws DataAccessException;
+
+	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId)
+	throws DataAccessException;
 
 	public void remove(DocMetadata toRemove) throws DataAccessException;
 

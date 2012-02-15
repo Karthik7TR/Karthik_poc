@@ -103,7 +103,7 @@ File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you wa
 		contentDir.mkdirs();
 		metadataDir.mkdirs();
 		File contentFile = new File(contentDir, docGuid+".xml");
-		File metadataFile = new File(metadataDir, DOC_COLLECTION_NAME_CLIENT1 + "-"+docGuid+".xml");
+		File metadataFile = new File(metadataDir, "1-"+DOC_COLLECTION_NAME_CLIENT1 + "-"+docGuid+".xml");
 		Collection<String> guids = new ArrayList<String>();
 		guids.add(docGuid);
 		GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);

@@ -14,10 +14,11 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.io.File;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -44,7 +45,8 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 public class DocMetadataServiceTest {
-
+	private static Logger LOG = Logger.getLogger(DocMetadataServiceTest.class);
+	public Timestamp UPDATE_DATE = getCurrentTimeStamp();
 	/**
 	 * The service being tested, injected by Spring.
 	 * 
@@ -62,14 +64,15 @@ public class DocMetadataServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		// mock up the document metadata
-		saveDocMetadata();
+		
+		saveDocMetadata(new Integer("1"));
 	}
 
 	/**
 	 * Operation Unit Test Save an existing DocMetadata entity
 	 * 
 	 */
-	public void saveDocMetadata() {
+	public void saveDocMetadata(Integer seqNum) {
 		docmetadata = new com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata();
 		docmetadata.setCollectionName("test_choto_Collection");
 		docmetadata.setDocFamilyUuid("1234567890");
@@ -77,13 +80,70 @@ public class DocMetadataServiceTest {
 		docmetadata.setDocUuid("1234567890001");
 		docmetadata.setFindOrig(null);
 		docmetadata.setJobInstanceId(new Integer("123456"));
-		docmetadata.setLastUpdated(getCurrentTimeStamp());
+		docmetadata.setLastUpdated(UPDATE_DATE);
 		docmetadata.setNormalizedFirstlineCite(null);
 		docmetadata.setSerialNumber(null);
-		docmetadata.setTitleId("TL-URB");
+		docmetadata.setTitleId("TL-URB"+seqNum.toString());
+		docmetadata.setTocSeqNumber(seqNum);
 		dockMetaService.saveDocMetadata(docmetadata);
 	}
+	/**
+	 * Operation Unit Test
+	 * 
+	 * @author Kirsten Gunn
+	 */
+	@Test
+	public void findOrderedDocMetadataByJobIdTest() {
 
+		Integer seqNum = new Integer("2");
+		saveDocMetadata(seqNum);
+
+		
+		String titleId = "TL-URB";
+		Integer jobInstanceId = new Integer("123456");
+		Integer tocSeqNum = new Integer("1");
+		String docUuid = "1234567890001";
+
+		List<DocMetadata> response = null;
+		DocMetadata expected = new DocMetadata();
+		expected.setTitleId(titleId + tocSeqNum.toString());
+		expected.setJobInstanceId(jobInstanceId);
+		expected.setDocUuid(docUuid);
+		expected.setDocFamilyUuid("1234567890");
+		expected.setDocType("codes");
+		expected.setNormalizedFirstlineCite(null);
+		expected.setFindOrig(null);
+		expected.setSerialNumber(null);
+		expected.setCollectionName("test_choto_Collection");
+		expected.setLastUpdated(UPDATE_DATE);
+		expected.setTocSeqNumber(tocSeqNum);
+		
+		LOG.debug(" expected " +expected);
+		
+		DocMetadata expected2 = new DocMetadata();
+		expected2.setTitleId(titleId+seqNum.toString());
+		expected2.setJobInstanceId(jobInstanceId);
+		expected2.setDocUuid(docUuid);
+		expected2.setDocFamilyUuid("1234567890");
+		expected2.setDocType("codes");
+		expected2.setNormalizedFirstlineCite(null);
+		expected2.setFindOrig(null);
+		expected2.setSerialNumber(null);
+		expected2.setCollectionName("test_choto_Collection");
+		expected2.setLastUpdated(UPDATE_DATE);
+		expected2.setTocSeqNumber(seqNum);
+		
+		LOG.debug(" expected2 " +expected2);
+		
+		response = dockMetaService.findOrderedDocMetadataByJobId(jobInstanceId);
+		
+		LOG.debug(" response0 " + response.get(0));
+		
+		LOG.debug(" response1 " + response.get(1));
+
+		Assert.assertEquals(response.get(0).toString(),expected.toString());
+		Assert.assertEquals(response.get(1).toString(),expected2.toString());
+	}
 	/**
 	 * Operation Unit Test Delete an existing DocMetadata entity
 	 * 
@@ -197,30 +257,41 @@ public class DocMetadataServiceTest {
 	 * 
 	 * @author Ray Cracauer
 	 */
-	@Ignore
+	@Test
 	public void findDocMetadataByPrimaryKeyObjectValues() {
-		String titleId = "TEST_TILE";
-		Integer jobInstanceId = new Integer("12345");
-		String docUuid = "123456";
+	
+		String titleId = "TL-URB1";
+		Integer jobInstanceId = new Integer("123456");
+		Integer tocSeqNum = new Integer("1");
+		String docUuid = "1234567890001";
 
 		DocMetadata response = null;
 		DocMetadata expected = new DocMetadata();
 		expected.setTitleId(titleId);
 		expected.setJobInstanceId(jobInstanceId);
 		expected.setDocUuid(docUuid);
-		expected.setDocFamilyUuid("123456");
+		expected.setDocFamilyUuid("1234567890");
 		expected.setDocType("codes");
-		expected.setNormalizedFirstlineCite("12345");
-		expected.setFindOrig("12345");
-		expected.setSerialNumber(123);
-		expected.setCollectionName("test_collection");
-		expected.setLastUpdated(getCurrentTimeStamp());
+		expected.setNormalizedFirstlineCite(null);
+		expected.setFindOrig(null);
+		expected.setSerialNumber(null);
+		expected.setCollectionName("test_choto_Collection");
+		expected.setLastUpdated(UPDATE_DATE);
+		expected.setTocSeqNumber(tocSeqNum);
+		
+		LOG.debug(" expected " +expected);
+		
 
 		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
-		assertTrue(response.toString().equals(expected.toString()));
+		LOG.debug(" response " +response);
+
+	
+		Assert.assertEquals(response.toString(),expected.toString());
 	}
 
+
+	
 	/**
 	 * Operation Unit Test Parse DocMetadata xml and persist it
 	 * 
@@ -229,10 +300,11 @@ public class DocMetadataServiceTest {
 	public void parseAndStoreDocMetadata() {
 		String titleId = "TEST_TILE";
 		Integer jobInstanceId = new Integer("12345");
+		String tocSeqNum = "1";
 		String docUuid = "123456";
 		String collectionName = "collection_name";
 		dockMetaService.parseAndStoreDocMetadata(titleId, jobInstanceId,
-				collectionName, new File(docUuid));
+				collectionName, new File(docUuid), tocSeqNum);
 	}
 
 	/**

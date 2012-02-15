@@ -46,7 +46,9 @@ public class DocServiceImpl implements DocService {
 		String docGuid = null;
 		try {
 			Find finder = novus.getFind();
+			int tocSequence = 0;
 			for (String guid : docGuids) {
+				tocSequence++;
 				docGuid = guid;
 				Document document = null;
 				if(collectionName == null)
@@ -58,7 +60,7 @@ public class DocServiceImpl implements DocService {
 					document = finder.getDocument(collectionName, null, guid);
 				}
 				createContentFile(document, contentDestinationDirectory);
-				createMetadataFile(document, metadataDestinationDirectory);
+				createMetadataFile(document, metadataDestinationDirectory, tocSequence);
 			}
 		} catch (NovusException e) {
 			anyException = true;
@@ -85,9 +87,9 @@ public class DocServiceImpl implements DocService {
 		createFile(document.getText(), destinationFile);
 	}
 
-	private static final void createMetadataFile(Document document, File destinationDirectory)
+	private static final void createMetadataFile(Document document, File destinationDirectory, int tocSeqNum)
 									throws NovusException, IOException {
-		String basename =  document.getCollection() + "-" + document.getGuid() + EBConstants.XML_FILE_EXTENSION;
+		String basename =  tocSeqNum + "-" +  document.getCollection() + "-" + document.getGuid() + EBConstants.XML_FILE_EXTENSION;
 		File destinationFile = new File(destinationDirectory, basename);  
 		createFile(document.getMetaData(), destinationFile);
 	}

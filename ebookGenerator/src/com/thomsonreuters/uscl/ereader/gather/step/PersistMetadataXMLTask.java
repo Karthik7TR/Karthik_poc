@@ -47,6 +47,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 //		String docCollectionName = jobParams
 //				.getString(JobParameterKey.DOC_COLLECTION_NAME); 
 		String docCollectionName = null; 
+		String tocSequenceNum = null; 
 
 		File metaDataDirectory = new File(getRequiredStringProperty(
 				jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
@@ -64,10 +65,12 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 				String fileName =  metadataFile.getName();
 				if (fileName.lastIndexOf("-") > -1)
 				{
-					docCollectionName = fileName.substring(0, fileName.lastIndexOf("-")); 
+					tocSequenceNum = fileName.substring(0, fileName.indexOf("-")); 
+
+					docCollectionName = fileName.substring(fileName.indexOf("-")+1, fileName.lastIndexOf("-")); 
 				}
 				docMetadataService.parseAndStoreDocMetadata(titleId,
-						jobId.intValue(), docCollectionName, metadataFile);
+						jobId.intValue(), docCollectionName, metadataFile, tocSequenceNum);
 				numDocsMetaDataRun++;
 			}
 			// TODO: Improve metrics

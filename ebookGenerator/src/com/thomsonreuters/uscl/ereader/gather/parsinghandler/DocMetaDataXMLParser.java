@@ -41,13 +41,14 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private String jobInstanceId;
 	private String docUuid;
 	private String collectionName;
+	private String tocSequenceNum;
 
 	public DocMetaDataXMLParser() {
 		docMetadata = new DocMetadata();
 	}
 
 	public DocMetadata parseDocument(String titleId, Integer jobInstanceId,
-			String collectionName, File metadataFile) {
+			String collectionName, File metadataFile, String tocSequenceNum) {
 
 		// get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -59,6 +60,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			this.titleId = titleId;
 			this.jobInstanceId = jobInstanceId.toString();
 			this.collectionName = collectionName;
+			this.tocSequenceNum = tocSequenceNum;
 
 			InputStream inputStream = new FileInputStream(metadataFile);
 			Reader reader = new InputStreamReader(inputStream, "UTF-8");
@@ -108,6 +110,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			docMetadata.setJobInstanceId(new Integer(jobInstanceId));
 			docMetadata.setDocUuid(docUuid);
 			docMetadata.setCollectionName(collectionName);
+			docMetadata.setTocSeqNumber(new Integer(tocSequenceNum));
 		}
 	}
 

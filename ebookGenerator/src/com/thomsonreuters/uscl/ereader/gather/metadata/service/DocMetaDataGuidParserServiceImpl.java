@@ -55,7 +55,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 	public void generateDocGuidList(File tocFile, File docGuidsFile)
 			throws EBookGatherException {
 
-		HashMap<String, List<String>> docGuidList = new HashMap<String, List<String>>();
+		ArrayList<HashMap<String, List<String>>> docGuidList = new ArrayList<HashMap<String, List<String>>>();
 
 		LOG.info("Parsing out the document guids from TOC xml file of the following XML directory: "
 				+ tocFile.getAbsolutePath());
@@ -88,7 +88,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 	 * @throws EBookGatherException
 	 *             if any parsing issues have been encountered
 	 */
-	protected HashMap<String, List<String>> parseXMLFile(File xmlFile)
+	protected ArrayList<HashMap<String, List<String>>> parseXMLFile(File xmlFile)
 			throws EBookGatherException {
 
 		TOCXmlHandler handler = new TOCXmlHandler();
@@ -119,7 +119,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 			throw new EBookGatherException(message, e);
 		}
 
-		return handler.getDocGuidList();
+		return handler.getFinalDocGuidList();
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 	 */
 	@SuppressWarnings("rawtypes")
 	protected void createDocGuidListFile(File docGuidFile,
-			HashMap<String, List<String>> docGuidList)
+			ArrayList<HashMap<String, List<String>>> docGuidList)
 			throws EBookGatherException {
 		BufferedWriter writer = null;
 		try {
@@ -141,7 +141,9 @@ public class DocMetaDataGuidParserServiceImpl implements
 			String docGuid = "";
 			List<String> tocGuidList = new ArrayList<String>();
 
-			Iterator iterator = docGuidList.keySet().iterator();
+			for(HashMap<String, List<String>> docList : docGuidList )
+			{
+			Iterator iterator = docList.keySet().iterator();
 
 			while (iterator.hasNext()) {
 				docGuid = (String) iterator.next();
@@ -155,7 +157,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 						throw new EBookGatherException(message);
 					}
 					writer.write(docGuid + ",");
-					tocGuidList = docGuidList.get(docGuid);
+					tocGuidList = docList.get(docGuid);
 
 					for (String tocGuid : tocGuidList) {
 						if (tocGuid != null) {
@@ -173,7 +175,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 					guidCount++;
 				}
 				writer.newLine();
-
+			}
 			}
 		} catch (IOException e) {
 			String message = "Could not write to the docGuid list file: "

@@ -6,6 +6,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -70,7 +71,9 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 						.getCollectionName());
 				existingDocMetadata
 						.setLastUpdated(docmetadata.getLastUpdated());
-			}
+				existingDocMetadata
+				.setTocSeqNumber(docmetadata.getTocSeqNumber());
+				}
 			docMetadataDAO.saveMetadata(existingDocMetadata);
 		} else {
 			docMetadataDAO.saveMetadata(docmetadata);
@@ -102,9 +105,9 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 */
 	@Transactional
 	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
-			String collectionName, File metaDataFile) {
+			String collectionName, File metaDataFile, String tocSequenceNumber) {
 		saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId,
-				collectionName, metaDataFile));
+				collectionName, metaDataFile, tocSequenceNumber));
 	}
 
 	/**
@@ -122,5 +125,10 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Required
 	public void setdocMetadataDAO(DocMetadataDao dao) {
 		this.docMetadataDAO = dao;
+	}
+
+	@Override
+	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId) {
+		return docMetadataDAO.findOrderedDocMetadataByJobId(jobInstanceId);
 	}
 }

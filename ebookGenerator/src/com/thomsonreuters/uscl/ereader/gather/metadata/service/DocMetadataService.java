@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,9 +38,12 @@ public interface DocMetadataService {
 	 */
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
 			Integer jobInstanceId, String docUuid);
+	/**
+	 */
+	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId);
 
 	/**
 	 */
 	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
-			String collectionName, File metadataFile);
+			String collectionName, File metadataFile, String tocSeqNum);
 }

@@ -11,13 +11,18 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
@@ -38,7 +43,12 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final Logger LOG = Logger.getLogger(GenerateTitleMetadata.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private TitleMetadataService titleMetadataService;
-	
+	private DocMetadataService docMetadataService; 
+
+	public void setDocMetadataService(DocMetadataService docMetadataService) {
+		this.docMetadataService = docMetadataService;
+	}
+
 	private String stylesheetPath;
 	
 	@Override
@@ -60,7 +70,9 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		addAuthors(jobParameters, titleMetadata);
 		addArtwork(jobExecutionContext, titleMetadata);
 		addAssets(jobExecutionContext, titleMetadata);
-		addDocuments(jobExecutionContext, titleMetadata);
+		
+		long jobId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
+		addDocuments(jobExecutionContext, titleMetadata, new Integer((int) jobId));
 		addTableOfContents(jobExecutionContext, titleMetadata);
 		//addStylesheet(titleMetadata);
 		
@@ -89,9 +101,17 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	}
 
 	private void addDocuments(ExecutionContext jobExecutionContext,
-			TitleMetadata titleMetadata) {
+			TitleMetadata titleMetadata, Integer jobInstanceId) {
 		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
-		ArrayList<Doc> documents = titleMetadataService.createDocuments(documentsDirectory);
+		ArrayList<DocMetadata> docMetaList = (ArrayList<DocMetadata>) docMetadataService.findOrderedDocMetadataByJobId(jobInstanceId);
+
+		ArrayList<Doc> documents = new ArrayList<Doc>();
+		for (DocMetadata docDetail : docMetaList)
+		{
+			Doc doc = new Doc(docDetail.getDocUuid(), docDetail.getDocUuid()+".html");
+			documents.add(doc);	
+		}
+//		ArrayList<Doc> documents = titleMetadataService.createDocuments(documentsDirectory);
 		titleMetadata.setDocuments(documents);
 	}
 

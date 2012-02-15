@@ -111,6 +111,11 @@ public class DocMetadata implements Serializable {
 	@XmlElement
 	Date lastUpdated;
 
+	@Column(name = "TOC_SEQ_NUMBER")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer tocSeqNumber;
+
 	/**
 	 */
 	public void setTitleId(String titleId) {
@@ -230,7 +235,17 @@ public class DocMetadata implements Serializable {
 	public Date getLastUpdated() {
 		return this.lastUpdated;
 	}
+	/**
+	 */
+	
+	public Integer getTocSeqNumber() {
+		return this.tocSeqNumber;
+	}
 
+	public void setTocSeqNumber(Integer tocSeqNumber) {
+		this.tocSeqNumber = tocSeqNumber;
+	}
+	
 	/**
 	 */
 	public DocMetadata() {
@@ -255,6 +270,7 @@ public class DocMetadata implements Serializable {
 		buffer.append("serialNumber=[").append(serialNumber).append("] ");
 		buffer.append("collectionName=[").append(collectionName).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+		buffer.append("tocSeqNumber=[").append(tocSeqNumber).append("] ");
 
 		return buffer.toString();
 	}

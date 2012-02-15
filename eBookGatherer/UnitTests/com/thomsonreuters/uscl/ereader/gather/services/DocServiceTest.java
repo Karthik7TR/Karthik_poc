@@ -46,7 +46,7 @@ public class DocServiceTest {
 		File contentDir = new File(workDir, "junit_content");
 		File metadataDir = new File(workDir, "junit_metadata");
 		File contentFile = new File(contentDir, GUID+EBConstants.XML_FILE_EXTENSION); 
-		File metadataFile = new File(metadataDir, COLLECTION_NAME+"-"+GUID+EBConstants.XML_FILE_EXTENSION);
+		File metadataFile = new File(metadataDir, "1-"+COLLECTION_NAME+"-"+GUID+EBConstants.XML_FILE_EXTENSION);
 		
 		try {
 			// Record expected calls
@@ -94,7 +94,7 @@ public class DocServiceTest {
 		File contentDir = new File(workDir, "junit_content");
 		File metadataDir = new File(workDir, "junit_metadata");
 		File contentFile = new File(contentDir, GUID+EBConstants.XML_FILE_EXTENSION); 
-		File metadataFile = new File(metadataDir, COLLECTION_NAME+"-"+GUID+EBConstants.XML_FILE_EXTENSION);
+		File metadataFile = new File(metadataDir, "1-"+COLLECTION_NAME+"-"+GUID+EBConstants.XML_FILE_EXTENSION);
 		
 		try {
 			// Record expected calls
