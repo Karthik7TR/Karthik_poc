@@ -56,12 +56,12 @@
 	<Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
 			  type="com.ibm.mq.jms.MQQueue"
 			  factory="com.ibm.mq.jms.MQQueueFactory"
-			  QU="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
+			  QU="COBALT.EBOOK_BUILDER.HIGH_PRIORITY_DEV.REQ"/>
 	
 	<!-- Second queue checked for job run requests, the high priority queue is always checked first. -->
 	<Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
 			  type="com.ibm.mq.jms.MQQueue"
         	  factory="com.ibm.mq.jms.MQQueueFactory"
-       	 	  QU="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY.REQ"/>
+       	 	  QU="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY_DEV.REQ"/>
 
 </Context>
