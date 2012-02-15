@@ -19,6 +19,8 @@ public class WebConstants {
 	public static final String KEY_IS_ASCENDING = "isAscending";
 	public static final String KEY_VDO = "vdo";
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
+	public static final String KEY_INFO_MESSAGE = "infoMessage";
+	public static final String KEY_ERR_MESSAGE = "errMessage";
 	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
@@ -38,6 +40,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
+	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
