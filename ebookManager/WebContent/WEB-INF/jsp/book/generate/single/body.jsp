@@ -53,6 +53,11 @@
 	    
 		<table>
 		<tr>
+			<td>
+				<form:hidden path="fullyQualifiedTitleId"/>
+			</td>
+		</tr>
+		<tr>
 			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:select path="highPriorityJob">
@@ -70,16 +75,10 @@
 			 </td>
 		  </tr>
 		  
-		  <tr>
-		  	<td>Regenerate:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
-			<td>
-			  <form:checkbox path="regenerate"/>
-			 </td>
-		  </tr>
 		  
 		</table>
 		<br/>
-		<input type="submit" value="Generate" disabled="disabled"/>
+		<input type="submit" value="Generate"/>
 		<input type="submit" value="Cancel" disabled="disabled"/>
 	</form:form>
   </div>
