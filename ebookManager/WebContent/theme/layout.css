@@ -46,6 +46,9 @@ html, body {
 	min-height:100%;
 	position:relative;	
 	margin:0px;
+	background-image: url("./images/leftbg.png");
+	background-position: left;
+	background-repeat: repeat-y;
 }
 
 #header {
@@ -85,8 +88,6 @@ html, body {
 	right:160px;
 	width:160px;
 	height:100%;
-  	background:#F4F4F4;
-  	padding-left:5px;
   	padding-bottom: 20px;
 }
 
@@ -120,9 +121,10 @@ html, body {
 	width:100%;
 	overflow:auto;
   	background:white;
-  	margin:15px;
 }
-
+.mainWrapper, .leftWrapper {
+	margin:5px;
+}
 
 .pageTitle {
 	margin-top:10px;
@@ -155,7 +157,7 @@ html, body {
 .rightFooter {
 	position:relative;
 	float:right;
-	padding-right:0px;
+	padding-right:5px;
 }
 .rightFooter img {
 	height: 30px;

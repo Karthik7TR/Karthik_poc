@@ -33,12 +33,16 @@
 							</div>
 						
 							<div class="mainContent">
-								<tiles:insertAttribute name="body"/>
+								<div class="mainWrapper">
+									<tiles:insertAttribute name="body"/>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col2">
-						<tiles:insertAttribute name="left"/>
+						<div class="leftWrapper">
+							<tiles:insertAttribute name="left"/>
+						</div>
 					</div>
 				</div>
 			</div>
