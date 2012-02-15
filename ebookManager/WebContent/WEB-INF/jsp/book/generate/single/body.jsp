@@ -36,22 +36,7 @@
 		    <br/>
 	    </spring:hasBindErrors>
 	    
-	    <%-- Informational Messages area --%>
-	    <c:if test="${infoMessage != null}">
-	    <div style="background: lightgreen; padding: 5px 5px 5px 5px;">
-	    	${infoMessage}
-	    </div>
-	    <br/>
-	    </c:if>
-	    <%-- Error Messages area --%>
-	    <c:if test="${errMessage != null}">
-	    <div style="background: orange; padding: 5px 5px 5px 5px;">
-	    	${errMessage}
-	    </div>
-	    <br/>
-	    </c:if>
-	    
-		<table>
+	    <table>
 		<tr>
 			<td>
 				<form:hidden path="fullyQualifiedTitleId"/>
@@ -80,6 +65,22 @@
 		<br/>
 		<input type="submit" value="Generate"/>
 		<input type="submit" value="Cancel" disabled="disabled"/>
+		
+		<%-- Informational Messages area --%>
+	    <c:if test="${infoMessage != null}">
+	    <div style="background: lightgreen; padding: 5px 5px 5px 5px;">
+	    	${infoMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+	    <%-- Error Messages area --%>
+	    <c:if test="${errMessage != null}">
+	    <div style="background: orange; padding: 5px 5px 5px 5px;">
+	    	${errMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+		
 	</form:form>
   </div>
 </body>
