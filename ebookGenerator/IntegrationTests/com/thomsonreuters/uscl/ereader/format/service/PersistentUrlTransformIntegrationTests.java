@@ -57,7 +57,7 @@ public class PersistentUrlTransformIntegrationTests {
 	private static final String MOCK_DOCTYPE = "analytical";
 	private static final String MOCK_COLLECTION = "w_foo_collection";
 	private static final String CODES_STATUTES_XSLT = "CodesStatutes.xsl";
-	private static final String ANALYTICAL_IMPH_XSLT = "Analytical.xsl";
+	private static final String ANALYTICAL_XSLT = "AnalyticalEaganProducts.xsl";
 	
 	@Rule
 	public TemporaryFolder tempDirectory = new TemporaryFolder();
@@ -112,7 +112,7 @@ public class PersistentUrlTransformIntegrationTests {
 	}
 	
 	@Test
-	public void testUrlBuilderAdapterAndCiteQueryAdapterLinksUsingCodesStatutesStylesheet() throws Exception {
+	public void testUrlBuilderForImphAnalyticalProduct() throws Exception {
 		File transformedDirectory = tempDirectory.newFolder("transformed");
 		File novusXmlDirectory = new File("/nas/imph/gather/documents");
 		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
@@ -168,6 +168,13 @@ public class PersistentUrlTransformIntegrationTests {
         trans.transform(inputSource, result);
 	}
 
+	@Test
+	public void listImagesFromGatheredDirectory(){
+		for (File image : new File("/nas/imph/gather/images").listFiles()){
+			System.out.println(image.getName());
+		}
+	}
+	
 	private void setExpectationsForNovusDocumentCalls(File novusXmlDirectory) {
 		
 		mockXsltMapperService = EasyMock.createMock(XSLTMapperService.class);
@@ -183,7 +190,7 @@ public class PersistentUrlTransformIntegrationTests {
 				EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
 				EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
 				EasyMock.expect(
-						mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(CODES_STATUTES_XSLT);
+						mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE)).andReturn(ANALYTICAL_XSLT);
 			}
 		}
 		
