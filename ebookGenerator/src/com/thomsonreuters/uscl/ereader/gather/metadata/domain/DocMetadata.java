@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
 @Entity
-@NamedQueries({ @NamedQuery(name = "findDocMetadataMapByDocUuid", query = "select myDocMetadata.docFamilyUuid from DocMetadata myDocMetadata where myDocMetadata.docUuid = :doc_uuid") })
 @Table(schema = "EBOOK_AUTHORITY", name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
@@ -110,11 +107,6 @@ public class DocMetadata implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	Date lastUpdated;
-
-	@Column(name = "TOC_SEQ_NUMBER")
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Integer tocSeqNumber;
 
 	/**
 	 */
@@ -238,13 +230,6 @@ public class DocMetadata implements Serializable {
 	/**
 	 */
 	
-	public Integer getTocSeqNumber() {
-		return this.tocSeqNumber;
-	}
-
-	public void setTocSeqNumber(Integer tocSeqNumber) {
-		this.tocSeqNumber = tocSeqNumber;
-	}
 	
 	/**
 	 */
@@ -270,7 +255,6 @@ public class DocMetadata implements Serializable {
 		buffer.append("serialNumber=[").append(serialNumber).append("] ");
 		buffer.append("collectionName=[").append(collectionName).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
-		buffer.append("tocSeqNumber=[").append(tocSeqNumber).append("] ");
 
 		return buffer.toString();
 	}

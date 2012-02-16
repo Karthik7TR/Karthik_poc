@@ -110,7 +110,6 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			docMetadata.setJobInstanceId(new Integer(jobInstanceId));
 			docMetadata.setDocUuid(docUuid);
 			docMetadata.setCollectionName(collectionName);
-			docMetadata.setTocSeqNumber(new Integer(tocSequenceNum));
 		}
 	}
 

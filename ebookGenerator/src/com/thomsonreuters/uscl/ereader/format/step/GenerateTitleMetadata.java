@@ -5,8 +5,12 @@
 */
 package com.thomsonreuters.uscl.ereader.format.step;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,6 +25,7 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -101,20 +106,67 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	}
 
 	private void addDocuments(ExecutionContext jobExecutionContext,
-			TitleMetadata titleMetadata, Integer jobInstanceId) {
-		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
-		ArrayList<DocMetadata> docMetaList = (ArrayList<DocMetadata>) docMetadataService.findOrderedDocMetadataByJobId(jobInstanceId);
+			TitleMetadata titleMetadata, Integer jobInstanceId) throws EBookFormatException {
 
-		ArrayList<Doc> documents = new ArrayList<Doc>();
-		for (DocMetadata docDetail : docMetaList)
-		{
-			Doc doc = new Doc(docDetail.getDocUuid(), docDetail.getDocUuid()+".html");
-			documents.add(doc);	
-		}
-//		ArrayList<Doc> documents = titleMetadataService.createDocuments(documentsDirectory);
+		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
+		ArrayList<Doc> documents = readTOCGuidList(documentsDirectory);
+			
 		titleMetadata.setDocuments(documents);
 	}
+	/**
+	 * Reads in a list of TOC Guids that are associated to each Doc Guid to later be used
+	 * for anchor insertion and generates a map.
+	 * 
+	 * @param docGuidsFile file containing the DOC to TOC guid relationships
+	 * @return documentlist ordered by file
+	 */
+	protected ArrayList<Doc> readTOCGuidList(File docGuidsFile)
+		throws EBookFormatException
+	{
+		ArrayList<Doc> docToTocGuidList = new ArrayList<Doc>();
 
+		BufferedReader reader = null;
+		try
+		{
+			LOG.info("Reading in TOC anchor map file...");
+			int numDocs = 0;
+			
+			reader = new BufferedReader(new FileReader(docGuidsFile));
+			String input = reader.readLine();
+			while (input != null)
+			{
+				numDocs++;
+				String[] line = input.split(",", -1);
+				Doc doc = new Doc(line[0], line[0]+".html");
+				docToTocGuidList.add(doc);
+				
+				input = reader.readLine();
+			}
+			LOG.info("Generated Doc List " + numDocs );
+		}
+		catch(IOException e)
+		{
+			String message = "Could not read the DOC guid list file: " + 
+					docGuidsFile.getAbsolutePath();
+			LOG.error(message);
+			throw new EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (reader != null)
+				{
+					reader.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
+			}
+		}
+		return(docToTocGuidList);
+	}
 	private void addAssets(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
 		//All gathered images (dynamic and static) are expected to be here by the time this step executes.

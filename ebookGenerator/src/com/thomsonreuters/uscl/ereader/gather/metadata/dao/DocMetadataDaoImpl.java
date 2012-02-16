@@ -17,6 +17,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,16 +120,26 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		return (DocMetadata) session.get(DocMetadata.class, pk);
 	}
 
-	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer JobId) {
+	@SuppressWarnings("unchecked")
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer instanceJobId) {
 		Session session = sessionFactory.getCurrentSession();
 		
-		@SuppressWarnings("unchecked")
-		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
-	    .add( Restrictions.eq("jobInstanceId", JobId))
-	    .addOrder( Order.asc("tocSeqNumber") )
+		List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
+		.setProjection(Projections.distinct( (Projections.projectionList()
+				.add(Projections.property("docUuid"))
+				.add(Projections.property("docFamilyUuid")))))
+	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
 	    .list();
-	    
-		return docMetaList;
+//		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
+//	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
+//	    .list();
+		
+		Map<String, String> docMap = new HashMap<String, String>();
+		for(Object[] arr : docMetaList)
+		{
+			docMap.put(arr[0].toString(), arr[1].toString());
+		}
+		return docMap;
 		
 	}
 	@Override

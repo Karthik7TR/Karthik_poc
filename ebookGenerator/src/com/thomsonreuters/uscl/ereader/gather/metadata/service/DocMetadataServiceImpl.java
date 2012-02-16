@@ -71,8 +71,6 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 						.getCollectionName());
 				existingDocMetadata
 						.setLastUpdated(docmetadata.getLastUpdated());
-				existingDocMetadata
-				.setTocSeqNumber(docmetadata.getTocSeqNumber());
 				}
 			docMetadataDAO.saveMetadata(existingDocMetadata);
 		} else {
@@ -110,12 +108,6 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 				collectionName, metaDataFile, tocSequenceNumber));
 	}
 
-	/**
-	 */
-	@Transactional
-	public Map<String, String> findDocMetadataByDocUuid(String docUuid) {
-		return docMetadataDAO.findDocMetadataMapByDocUuid(docUuid);
-	}
 
 	@Required
 	public void setdocMetaXMLParser(DocMetaDataXMLParser parser) {
@@ -127,8 +119,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		this.docMetadataDAO = dao;
 	}
 
-	@Override
-	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId) {
-		return docMetadataDAO.findOrderedDocMetadataByJobId(jobInstanceId);
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobId) {
+		return docMetadataDAO.findDistinctFamilyGuidsByJobId(jobId);
 	}
 }

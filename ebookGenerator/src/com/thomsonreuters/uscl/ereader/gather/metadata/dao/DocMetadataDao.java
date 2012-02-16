@@ -34,7 +34,7 @@ public interface DocMetadataDao {
 	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid)
 			throws DataAccessException;
 
-	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId)
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobInstanceId)
 	throws DataAccessException;
 
 	public void remove(DocMetadata toRemove) throws DataAccessException;

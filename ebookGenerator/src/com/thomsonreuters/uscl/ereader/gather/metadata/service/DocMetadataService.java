@@ -32,15 +32,11 @@ public interface DocMetadataService {
 
 	/**
 	 */
-	public Map<String, String> findDocMetadataByDocUuid(String docUuid);
-
-	/**
-	 */
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
 			Integer jobInstanceId, String docUuid);
 	/**
 	 */
-	public List<DocMetadata> findOrderedDocMetadataByJobId(Integer jobInstanceId);
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobInstanceId);
 
 	/**
 	 */
