@@ -42,6 +42,11 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 		
+		model.addAttribute(WebConstants.KEY_STATES, form.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, form.getContentTypes());
+		model.addAttribute(WebConstants.KEY_YEARS, form.getYears());
+		model.addAttribute(WebConstants.KEY_PUB_TYPE, form.getPubTypes());
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -75,6 +80,10 @@ public class EditBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		form.initialize(bookDef);
+		model.addAttribute(WebConstants.KEY_STATES, form.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, form.getContentTypes());
+		model.addAttribute(WebConstants.KEY_YEARS, form.getYears());
+		model.addAttribute(WebConstants.KEY_PUB_TYPE, form.getPubTypes());
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("editBookDefinitionFormValidator")
@@ -21,7 +22,8 @@ public class EditBookDefinitionFormValidator implements Validator {
     	if (errors.hasErrors()) {
     		return;
     	}
-    	EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
+    	//EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
+    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required.field");
     	
 	}
 }

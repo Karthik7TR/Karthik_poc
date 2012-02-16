@@ -21,6 +21,10 @@ public class WebConstants {
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
+	public static final String KEY_CONTENT_TYPES = "contentTypes";
+	public static final String KEY_STATES = "states";
+	public static final String KEY_YEARS = "years";
+	public static final String KEY_PUB_TYPE = "pubType";
 	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";

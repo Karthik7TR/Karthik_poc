@@ -215,7 +215,8 @@ ul.navList a:hover {
 	position: relative;
 }
 
-.bookDefinitionCRUD label {
+.bookDefinitionCRUD .leftDefinitionForm label,
+.bookDefinitionCRUD .rightDefinitionForm label {
 	float:left;
 	margin-right:10px;
 	text-align:right;
@@ -232,7 +233,27 @@ ul.navList a:hover {
 	float:left;
 }
 
-.bookDefinitionCRUD input[type="text"] {
+.bookDefinitionCRUD .leftDefinitionForm input[type="text"],
+.bookDefinitionCRUD .rightDefinitionForm input[type="text"] {
 	width:250px;
 }
+
+.bookDefinitionCRUD .generateTitleID {
+	background-color: #D0E0E0;
+	border: gray 2px solid;
+	padding:10px 5px;
+	margin:10px 0px;
+	text-align: center;
+}
+
+.bookDefinitionCRUD .generateTitleID input {
+	margin: 0px 5px; 
+}
+.bookDefinitionCRUD .publishDetails {
+	margin:10px 0px 0px;
+}
+.bookDefinitionCRUD .publishDetails > div {
+	display:inline-block;
+}
+
 

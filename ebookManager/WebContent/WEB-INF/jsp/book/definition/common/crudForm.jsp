@@ -6,8 +6,115 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
-<div class="generateTitleID">
+<script type="text/javascript">
+		var contentType = "";
+		var publisher = "";
+		var state = "";
+		var year = "";
+		var pubType = "";
+		var pubInfo = "";
+		
+		var updateTitleId = function() {
+			var titleId = [];
+			
+			if (year != "") {
+				titleId.push(state, year, pubType, pubInfo);
+			} else {
+				titleId.push(state, pubType, pubInfo);
+			}
+			
+			var fullyQualifiedTitleId = [];
+			fullyQualifiedTitleId.push(publisher, contentType, titleId.join("_"));
+			
+			$('#titleId').val(fullyQualifiedTitleId.join("/"));
+		};
+		
+		var determineTOCorNORT = function() {
+			if(contentType == "Analytical") {
+				$('#displayTOC').show();
+				$('#displayNORT').hide();
+			} else if(contentType == "Random" || contentType == "Court Rules") {
+				$('#displayTOC').hide();
+				$('#displayNORT').show();
+			} else {
+				$('#displayTOC').hide();
+				$('#displayNORT').hide();
+			};
+		};
+		
+		$(document).ready(function() {
+			contentType = $('contentType').val();
+			
+			$('#contentType').change(function () {
+				contentType = $(this).val();
+				updateTitleId();
+				
+				determineTOCorNORT();
+			});
+			
+			$('#publisher').change(function () {
+				publisher = $(this).val();
+				updateTitleId();
+			});
+			
+			$('#state').change(function () {
+				state = $(this).val();
+				updateTitleId();
+			});
+			
+			$('#year').change(function () {
+				year = $(this).val();
+				updateTitleId();
+			});
+			$('#pubType').change(function () {
+				pubType = $(this).val();
+				updateTitleId();
+			});
+			$('#pubInfo').change(function () {
+				pubInfo = $(this).val();
+				updateTitleId();
+			});
+			
+			determineTOCorNORT();
+		});
+</script>
 	
+<div class="generateTitleID">
+	<div>
+		<form:label path="contentType" class="labelCol">Content Type</form:label>
+		<form:select path="contentType" >
+			<form:option value="" label="SELECT" />
+			<form:options items="${contentTypes}" />
+		</form:select>
+	</div>
+	<div class="publishDetails">
+		<div>
+			<label>Publisher</label><input type="text" id="publisher"/>
+		</div>
+		<div>
+			<form:label path="state" class="labelCol">State</form:label>
+			<form:select path="state" >
+				<form:option value="" label="SELECT" />
+				<form:options items="${states}" />
+			</form:select>
+		</div>
+		<div>
+			<form:label path="year" class="labelCol">Year</form:label>
+			<form:select path="year" >
+				<form:options items="${years}" />
+			</form:select>
+		</div>
+		<div>
+			<form:label path="pubType" class="labelCol">Pub Type</form:label>
+			<form:select path="pubType" >
+				<form:option value="" label="SELECT" />
+				<form:options items="${pubType}" />
+			</form:select>
+		</div>
+		<div>
+			<label>Pub Info</label><input type="text" id="pubInfo"/>
+		</div>
+	</div>
 </div>
 <div class="leftDefinitionForm">
 	<div class="row">
@@ -50,21 +157,25 @@
 		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
 		<form:input path="authorInfo" />
 	</div>
-	<div class="row">
-		<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
-		<form:input path="tocCollectionName" />
+	<div id="displayTOC" style="display:none">
+		<div class="row">
+			<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
+			<form:input path="tocCollectionName" />
+		</div>
+		<div class="row">
+			<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
+			<form:input path="rootTocGuid" />
+		</div>
 	</div>
-	<div class="row">
-		<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
-		<form:input path="rootTocGuid" />
-	</div>
-	<div class="row">
-		<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
-		<form:input path="nortDomain" />
-	</div>
-	<div class="row">
-		<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
-		<form:input path="nortFilterView" />
+	<div id="displayNORT" style="display:none">
+		<div class="row">
+			<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
+			<form:input path="nortDomain" />
+		</div>
+		<div class="row">
+			<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
+			<form:input path="nortFilterView" />
+		</div>
 	</div>
 </div>
 

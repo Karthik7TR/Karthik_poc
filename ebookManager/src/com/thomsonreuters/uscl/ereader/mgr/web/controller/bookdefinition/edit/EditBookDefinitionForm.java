@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -36,6 +39,9 @@ public class EditBookDefinitionForm {
 	private String nameSpacePubId;
 	private String currency;
 	private boolean isComplete;
+	private int year;
+	private String state;
+	private String pubType;
 	
 	public EditBookDefinitionForm() {
 		super();
@@ -289,7 +295,63 @@ public class EditBookDefinitionForm {
 		this.isComplete = isComplete;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPubType() {
+		return pubType;
+	}
+
+	public void setPubType(String pubType) {
+		this.pubType = pubType;
+	}
+
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	public Map<String, String> getContentTypes() {
+		Map<String,String> contentTypes = new LinkedHashMap<String,String>();
+		contentTypes.put("Analytical", "Analytical");
+		contentTypes.put("Court Rules", "Court Rules");
+		contentTypes.put("Random", "Random");
+		return contentTypes;
+	}
+	
+	public Map<String, String> getStates() {
+		Map<String,String> states = new LinkedHashMap<String,String>();
+		states.put("fl", "Florida");
+		states.put("mn", "Minnesota");
+		states.put("wi", "Wisconsin");
+		return states;
+	}
+	
+	public Map<String, String> getYears() {
+		Map<String,String> years = new LinkedHashMap<String,String>();
+		years.put("", "None");
+		years.put("2010", "2010");
+		years.put("2011", "2011");
+		years.put("2012", "2012");
+		return years;
+	}
+	
+	public Map<String, String> getPubTypes() {
+		Map<String,String> pubTypes = new LinkedHashMap<String,String>();
+		pubTypes.put("abc", "Abc");
+		pubTypes.put("def", "Def");
+		return pubTypes;
 	}
 }
