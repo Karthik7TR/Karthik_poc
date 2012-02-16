@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.Date;
-import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
