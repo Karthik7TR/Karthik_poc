@@ -58,7 +58,7 @@ public class GenerateEbookControllerTest {
 	    	assertNotNull(mav);
 	    	
 		} catch (Exception e) {
-			assertTrue(e.getClass() == MissingServletRequestParameterException.class);
+			assertEquals(e.getClass(), MissingServletRequestParameterException.class);
 		}
     	
 	}

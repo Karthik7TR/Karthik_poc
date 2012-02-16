@@ -209,3 +209,30 @@ ul.navList a:hover {
 	position:relative;
 	min-width: 1170px;
 }
+
+<!-- Styling for Book Definition CRUD -->
+.bookDefinitionCRUD {
+	position: relative;
+}
+
+.bookDefinitionCRUD label {
+	float:left;
+	margin-right:10px;
+	text-align:right;
+	width:175px;
+}
+
+.bookDefinitionCRUD .row {
+	position:relative;
+	margin:10px 5px;;
+}
+
+.bookDefinitionCRUD .leftDefinitionForm,
+.bookDefinitionCRUD .rightDefinitionForm {
+	float:left;
+}
+
+.bookDefinitionCRUD input[type="text"] {
+	width:250px;
+}
+

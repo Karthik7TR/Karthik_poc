@@ -32,6 +32,9 @@ public class BookPromotionControllerTest {
 		request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
+    	
+    	// Set up the controller
+    	this.controller = new BookPromotionController();
 	}
 
 	
@@ -47,7 +50,7 @@ public class BookPromotionControllerTest {
 			ModelAndView mav = handlerAdapter.handle(request, response, controller);
 			assertNotNull(mav);
 		} catch (Exception e) {
-			assertTrue(e.getClass() == MissingServletRequestParameterException.class);
+			assertEquals(MissingServletRequestParameterException.class, e.getClass());
 		}
     	
 	}
@@ -67,7 +70,7 @@ public class BookPromotionControllerTest {
 			
 			assertNotNull(mav);
 	    	
-	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION, mav.getViewName());
+	    	assertEquals(WebConstants.VIEW_BOOK_DEFINITION_PROMOTION, mav.getViewName());
 	    	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +95,7 @@ public class BookPromotionControllerTest {
 			
 			assertNotNull(mav);
 	    	
-	    	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_BULK_PROMOTION, mav.getViewName());
+	    	assertEquals(WebConstants.VIEW_BOOK_DEFINITION_BULK_PROMOTION, mav.getViewName());
 	    	
 		} catch (Exception e) {
 			e.printStackTrace();

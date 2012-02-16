@@ -74,7 +74,7 @@ public class ViewBookDefinitionControllerTest {
     @Test
     public void testEditPost() throws Exception {
     	testBookDefinitionViewPostCommand(Command.EDIT,
-    									  WebConstants.MVC_BOOK_DEFINITION_EDIT_GET);
+    									  WebConstants.MVC_BOOK_DEFINITION_EDIT);
     }
     @Test
     public void testGeneratePost() throws Exception {

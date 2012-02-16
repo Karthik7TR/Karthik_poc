@@ -19,7 +19,11 @@
 		  p:coreService-ref="coreService"/>
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
-		  p:coreService-ref="coreService"/>
+		  p:coreService-ref="coreService">
+		  <property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"/>
+		  </property>
+	</bean>
 		  
 	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
 		  p:coreService-ref="coreService"

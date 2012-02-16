@@ -84,7 +84,7 @@ public class BookLibraryControllerTest {
 	        Map<String,Object> model = mav.getModel();
 
 	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        Long totalBookCount = (Long) model.get(WebConstants.KEY_TOTAL_BOOK_SIZE);
+	        Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
 	        assertEquals( 1l, totalBookCount.longValue());
 	        
 		} catch (Exception e) {
@@ -124,7 +124,7 @@ public class BookLibraryControllerTest {
 	        Map<String,Object> model = mav.getModel();
 
 	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        Long totalBookCount = (Long) model.get(WebConstants.KEY_TOTAL_BOOK_SIZE);
+	        Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
 	        Assert.assertEquals(expectedBookCount, totalBookCount.longValue());
 	        
 		} catch (Exception e) {
@@ -226,8 +226,10 @@ public class BookLibraryControllerTest {
 			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
 			
 			assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        String totalBookCount = model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString();
-	        assertTrue(totalBookCount.equals("1"));
+			Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
+			assertEquals(totalBookCount, Long.valueOf(1));
+	        
+	        EasyMock.verify(mockLibraryService);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
