@@ -7,8 +7,6 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -18,6 +16,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
 /**
  * Component tests for ProviewClientImpl.
@@ -37,13 +40,24 @@ public class ProviewClientImplTest
 	private RestTemplate mockRestTemplate;
 	private ResponseEntity mockResponseEntity;
 	private HttpHeaders mockHeaders;
+	private ProviewRequestCallbackFactory mockRequestCallbackFactory;
+	private ProviewResponseExtractorFactory mockResponseExtractorFactory;
+	private ProviewRequestCallback mockRequestCallback;
+	private ProviewResponseExtractor mockResponseExtractor;
+	
 	
 	@Before
 	public void setUp() throws Exception
 	{
 		this.proviewClient = new ProviewClientImpl();
+		mockRequestCallback = new ProviewRequestCallback();
+		mockResponseExtractor = new ProviewResponseExtractor();
 		mockRestTemplate = EasyMock.createMock(RestTemplate.class);
+		mockRequestCallbackFactory = EasyMock.createMock(ProviewRequestCallbackFactory.class);
+		mockResponseExtractorFactory = EasyMock.createMock(ProviewResponseExtractorFactory.class);
 		proviewClient.setRestTemplate(mockRestTemplate);
+		proviewClient.setProviewRequestCallbackFactory(mockRequestCallbackFactory);
+		proviewClient.setProviewResponseExtractorFactory(mockResponseExtractorFactory);
 		mockResponseEntity = EasyMock.createMock(ResponseEntity.class);
 		mockHeaders = EasyMock.createMock(HttpHeaders.class);
 	}
@@ -59,7 +73,9 @@ public class ProviewClientImplTest
 		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 		String expectedResponse = "YARR!";
 		
-		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.GET, null, null)).andReturn("YARR!");
+		EasyMock.expect(mockRequestCallbackFactory.getRequestCallback()).andReturn(mockRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.GET, mockRequestCallback, mockResponseExtractor)).andReturn("YARR!");
 		
 		replayAll();
 		String response = proviewClient.getAllPublishedTitles();
@@ -72,12 +88,16 @@ public class ProviewClientImplTest
 		EasyMock.verify(mockRestTemplate);
 		EasyMock.verify(mockResponseEntity);
 		EasyMock.verify(mockHeaders);
+		EasyMock.verify(mockRequestCallbackFactory);
+		EasyMock.verify(mockResponseExtractorFactory);
 	}
 
 	private void replayAll() {
 		EasyMock.replay(mockHeaders);
 		EasyMock.replay(mockResponseEntity);
 		EasyMock.replay(mockRestTemplate);
+		EasyMock.replay(mockRequestCallbackFactory);
+		EasyMock.replay(mockResponseExtractorFactory);
 		
 	}
 	

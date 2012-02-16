@@ -6,22 +6,18 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
 /**
  * This class is responsible for interacting with ProView via their REST interface.
@@ -36,6 +32,8 @@ public class ProviewClientImpl implements ProviewClient {
 	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
 	private String publishingStatusUriTemplate;
+	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
+	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 	
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle(java.lang.String, java.lang.String, java.io.File)
@@ -65,7 +63,7 @@ public class ProviewClientImpl implements ProviewClient {
 		Map<String, String> urlVariables = new HashMap<String, String>();
 		
 		//ResponseEntity responseEntity
-		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, new ProviewRequestCallback() , new ProviewResponseExtractor());
+		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, proviewRequestCallbackFactory.getRequestCallback() , proviewResponseExtractorFactory.getResponseExtractor());
 		//logResponse(responseEntity);
 		
 		return response;
@@ -109,19 +107,14 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setPublishingStatusUriTemplate(String publishingStatusUriTemplate) {
 		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
 	}
-	
-	private class ProviewResponseExtractor implements ResponseExtractor<String> {
-		@Override
-		public String extractData(ClientHttpResponse response)
-				throws IOException {
-			return IOUtils.toString(response.getBody(), "UTF-8");
-		}
+
+	public void setProviewRequestCallbackFactory(
+			ProviewRequestCallbackFactory proviewRequestCallbackFactory) {
+		this.proviewRequestCallbackFactory = proviewRequestCallbackFactory;
 	}
-	
-	private class ProviewRequestCallback implements RequestCallback {
-		@Override
-		public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
-			clientHttpRequest.getHeaders().add("Accept", "application/xml");
-		}
-	}
+
+	public void setProviewResponseExtractorFactory(
+			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
+		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
+	}	
 }
