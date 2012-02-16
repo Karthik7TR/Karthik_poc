@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.Date;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
@@ -59,7 +60,12 @@ public class BookDefinitionVdo {
 	}
 
 	public String getAuthor() {
-		return bookDefinition.getAuthorInfo();
+		String authors = bookDefinition.getAuthorInfo();
+		
+		// Separate the author names
+		if (authors != null)
+			authors = authors.replaceAll("\\|", "<br>");
+		return authors;
 	}
 	
 	public Date getPublishDate() {
