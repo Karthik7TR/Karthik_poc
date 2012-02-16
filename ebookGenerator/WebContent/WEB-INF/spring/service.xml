@@ -114,8 +114,12 @@
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
 		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
 		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
-		  p:restTemplate-ref="proviewRestTemplate"/>
+		  p:restTemplate-ref="proviewRestTemplate"
+		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
+		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>
 		  
+	<bean id="proviewRequestCallbackFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory"/>
+	<bean id="proviewResponseExtractorFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory"/>
 
 	<bean id="basicAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory">
 		<constructor-arg name="host" value="${proview.domain}"/>
