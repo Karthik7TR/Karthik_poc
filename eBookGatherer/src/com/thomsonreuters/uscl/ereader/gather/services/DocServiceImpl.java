@@ -46,6 +46,8 @@ public class DocServiceImpl implements DocService {
 		String docGuid = null;
 		try {
 			Find finder = novus.getFind();
+			finder.setResolveIncludes(true);
+
 			int tocSequence = 0;
 			for (String guid : docGuids) {
 				tocSequence++;
