@@ -103,14 +103,9 @@ public class ImageServiceImpl implements ImageService {
 		if (metadataMediaType == null) {
 			return null;
 		}
-		/** TODO: this is the production implementation 
+		
 		return ("image".equals(metadataMediaType.getType())) ? 
 				MediaType.IMAGE_PNG : metadataMediaType;
-		*/
-		
-// TODO: DELETE this when TIF to PNG conversion works in the Image Vertical
-return metadataMediaType;		// DELETE 	
-	
 	}
 
 	@Override
