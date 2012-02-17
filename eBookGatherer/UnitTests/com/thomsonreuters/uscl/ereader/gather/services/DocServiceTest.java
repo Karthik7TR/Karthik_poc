@@ -53,6 +53,7 @@ public class DocServiceTest {
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(COLLECTION_NAME, null, GUID)).andReturn(mockDocument);
+			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
 			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");
@@ -101,6 +102,7 @@ public class DocServiceTest {
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(null, GUID)).andReturn(mockDocument);
+			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
 			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");
