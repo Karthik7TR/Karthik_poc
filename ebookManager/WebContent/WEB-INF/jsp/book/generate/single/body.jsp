@@ -55,8 +55,8 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:radiobutton path="majorVersion" value="false"/>Minor
-			  <form:radiobutton path="majorVersion" value="true"/>Major
+			  <form:radiobutton path="majorVersion"/>Minor
+			  <form:radiobutton path="majorVersion"/>Major
 			 </td>
 		  </tr>
 		  
