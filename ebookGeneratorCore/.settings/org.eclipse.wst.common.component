@@ -3,5 +3,6 @@
     <wb-module deploy-name="ebookGeneratorCore">
         <wb-resource deploy-path="/" source-path="/src"/>
         <wb-resource deploy-path="/" source-path="/srctest"/>
+        <wb-resource deploy-path="/" source-path="/IntegrationTests"/>
     </wb-module>
 </project-modules>
