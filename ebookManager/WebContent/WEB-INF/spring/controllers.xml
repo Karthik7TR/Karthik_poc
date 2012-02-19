@@ -24,15 +24,18 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"/>
 		  </property>
 	</bean>
-		  
+
 	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
 		  p:coreService-ref="coreService"
 		  p:environmentName-ref="environmentName"
 		  p:jobRunner-ref="jobRunner"
-		  p:messageSourceAccessor-ref="messageSourceAccessor"
-		  p:jobService-ref="jobService"/>
+		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
+		  
 		  
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
+	
+	<bean id="jobListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListController"
+		  p:jobService-ref="jobService"/>
 
 	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"
 		  p:casUrl="${cas.server.web.url}"/>
