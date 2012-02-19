@@ -30,10 +30,6 @@ public class JobExecutionEntity implements Serializable {
 	private BatchStatus batchStatus;
 //	private Set<JobParameterEntity> jobParameterEntities;
 	
-	// Book definition
-//	private String titleId;
-//	private String bookname;
-	
 	@Id
 	@Column(name="JOB_EXECUTION_ID")
 	public Long getJobExecutionId() {
@@ -55,16 +51,6 @@ public class JobExecutionEntity implements Serializable {
 	public BatchStatus getBatchStatus() {
 		return batchStatus;
 	}
-//	/** Title ID from the job parameters. */
-//	@Transient
-//	public String getTitleId() {
-//		return titleId;
-//	}
-//	/** Book name (title) from the job parameters. */
-//	@Transient
-//	public String getBookname() {
-//		return bookname;
-//	}
 	@Transient
 	public Long getExecutionDuration() {
 		if (endTime == null) {
@@ -94,17 +80,6 @@ public class JobExecutionEntity implements Serializable {
 	public void setBatchStatus(String statusString) {
 		this.batchStatus = (statusString != null) ? BatchStatus.valueOf(statusString) : null;
 	}
-	
-//	public void setTitleId(String titleId) {
-//		this.titleId = titleId;
-//	}
-//	public void setBookname(String bookname) {
-//		this.bookname = bookname;
-//	}
-
-//	public void setJobParameterEntities(Set<JobParameterEntity> entities) {
-//		this.jobParameterEntities = entities;
-//	}
 	
 	@Override
 	public String toString() {

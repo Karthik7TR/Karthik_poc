@@ -4,60 +4,105 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 
 public class JobDaoImpl implements JobDao {
 	
 	private static final Logger log = Logger.getLogger(JobDaoImpl.class);
-//	private static final String PARAMETER_TABLE = "parameter";
-//	private static final String EXECUTION_TABLE = "execution";
-	private static final int MAX_RESULTS = 3000;
+	private static final String PARAMETER_TABLE = "parameter";
+	private static final String EXECUTION_TABLE = "execution";
+//	private static final int MAX_RESULTS = 3000;
 	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Long> findJobExecutionIds(JobFilter jobFilter) {
-		StringBuffer hql = new StringBuffer("select execution.jobExecutionId from JobExecutionEntity execution where ");
-		if (jobFilter.getFrom() != null) {
+	@Transactional(readOnly = true)
+	public List<Long> findJobExecutions(JobFilter filter, JobSort sort) {
+		StringBuffer hql = new StringBuffer("select execution.jobExecutionId from JobExecutionEntity execution ");
+		if (filter.hasAnyJobParameters() || sort.isJobParameterSort()) {
+			hql.append(String.format(", JobParameterEntity parameter "));
+		}
+		hql.append("where ");
+		if (filter.getFrom() != null) {
 			hql.append("(execution.startTime > :fromDate) and ");
 		}
-		if (jobFilter.getTo() != null) {
+		if (filter.getTo() != null) {
 			hql.append("(execution.startTime < :toDate) and ");
 		}
-		if (jobFilter.getStatus() != null) {
-			hql.append(String.format("(execution.status = '%s') and ", jobFilter.getStatus().toString()));
+		if (filter.getStatus() != null) {
+			hql.append(String.format("(execution.status = '%s') and ", filter.getStatus().toString()));
 		}
 		
-		hql.append("(1=1) "); // to ensure proper SQL syntax
+		// Join on the job_params table if we are filtering or sorting a key from that table
+		if (filter.hasAnyJobParameters() || sort.isJobParameterSort()) {
+			hql.append("(execution.jobInstanceId = parameter.jobInstanceId) and ");
+		}
+		
+		// Filter on Title ID job parameter
+		if (StringUtils.isNotBlank(filter.getTitleId())) {
+			hql.append(createStringParamFilterClause(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, filter.getTitleId()));
+			hql.append(" and ");
+		}
+		// Filter on Book Name job parameter
+		if (StringUtils.isNotBlank(filter.getBookName())) {
+			hql.append(createStringParamFilterClause(JobParameterKey.BOOK_NAME, filter.getBookName()));
+			hql.append(" and ");
+		}
+		
+
+		// Set up the sort column  which is always "stringVal" when sorting on a job parameter key
+		// or else it is the column name from the job_execution table.
+		String table = null;
+		if (sort.isJobParameterSort()) {
+			table = PARAMETER_TABLE;
+			hql.append(String.format("(parameter.keyName = '%s') and ", sort.getJobParameterKeyName()));
+		} else {
+			table = EXECUTION_TABLE;
+		}
+		hql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
+		
+		// Configured order by clause
+		hql.append(String.format("order by %s.%s %s", table, sort.getSortProperty(), sort.getSortDirection()));
 log.debug(hql);
 
 		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());
-		if (jobFilter.getFrom() != null) {
-			query.setDate(":fromDate", jobFilter.getFrom());
+		if (filter.getFrom() != null) {
+			query.setTimestamp("fromDate", filter.getFrom());
 		}
-		if (jobFilter.getTo() != null) {
-			query.setDate(":toDate", jobFilter.getTo());
+		if (filter.getTo() != null) {
+			query.setTimestamp("toDate", filter.getTo());
 		}
 		
-		query.setMaxResults(MAX_RESULTS);
-		
-		// Invoke the query to get a list of job execution ID's
+		// Invoke the query
 		return query.list();
 	}
+	
+	
+	
+	private String createStringParamFilterClause(String paramKey, String paramValue) {
+		StringBuffer clause = new StringBuffer();
+		clause.append(String.format("(parameter.keyName = '%s') and ", paramKey));
+		clause.append(String.format("(parameter.stringVal = '%s')", paramValue));
+		return clause.toString();
+	}
+	
+
+	
 
 //	@Override
 //	@SuppressWarnings("unchecked")
@@ -126,13 +171,7 @@ log.debug(hql);
 //	}
 
 
-	
-//	private String createStringParamFilterClause(String paramKey, String paramValue) {
-//		StringBuffer clause = new StringBuffer();
-//		clause.append(String.format("(%s.%s = '%s') and ", PARAMETER_TABLE, JobParameterEntity.KEY_NAME_PROPERTY_NAME, paramKey));
-//		clause.append(String.format("(%s.%s = '%s') and ", PARAMETER_TABLE, JobParameterEntity.STRING_VAL_PROPERTY_NAME, paramValue));
-//		return clause.toString();
-//	}
+
 
 	/**
 	 * Delete records older than the specified date.

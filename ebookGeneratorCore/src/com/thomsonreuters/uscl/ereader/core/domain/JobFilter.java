@@ -12,9 +12,18 @@ import org.springframework.batch.core.BatchStatus;
  */
 public class JobFilter {
 	
+	// Execution stats
 	private Date from;
 	private Date to;
 	private BatchStatus status;
+	
+	// Job Parameters
+	private String titleId;
+	private String bookName;
+	
+	public boolean hasAnyJobParameters() {
+		return (titleId != null) || (bookName != null);
+	}
 	
 	public Date getFrom() {
 		return from;
@@ -24,6 +33,12 @@ public class JobFilter {
 	}
 	public BatchStatus getStatus() {
 		return status;
+	}	
+	public String getTitleId() {
+		return titleId;
+	}
+	public String getBookName() {
+		return bookName;
 	}
 	public void setFrom(Date from) {
 		this.from = from;
@@ -33,6 +48,12 @@ public class JobFilter {
 	}
 	public void setStatus(BatchStatus status) {
 		this.status = status;
+	}
+	public void setTitleId(String titleId) {
+		this.titleId = titleId;
+	}
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

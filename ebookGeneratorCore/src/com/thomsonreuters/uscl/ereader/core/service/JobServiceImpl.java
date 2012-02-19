@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.dao.JobDao;
-import com.thomsonreuters.uscl.ereader.core.dao.JobDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
 import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobParameterFilter;
+import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.domain.ParameterFilter;
+import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 
 public class JobServiceImpl implements JobService {
 	
@@ -43,31 +45,44 @@ public class JobServiceImpl implements JobService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<JobExecution> findJobExecutions(JobFilter jobFilter, JobParameterFilter paramFilter) {
-		// Get those executions that match the job filter
-		List<Long> jobExecutionIds = findJobExecutionIds(jobFilter);
-log.debug("jobExecution ID count="+jobExecutionIds.size());		
-		List<JobExecution> executions = findJobExecutions(jobExecutionIds);
-log.debug("executions.size="+executions.size());		
-		for (JobExecution execution : executions) {
-System.out.print(".");
-			// Include those executions that match the job parameter filter
-			if (paramFilter.matches(execution)) {
-				executions.add(execution);
-			}
-			// Limit the result size
-			if (executions.size() >= MAX_JOB_EXECUTIONS) {
-				break;
-			}
-		}
-		return executions;
+	public List<Long> findJobExecutions(JobFilter filter, JobSort sort) {
+		return dao.findJobExecutions(filter, sort);
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Long> findJobExecutionIds(JobFilter jobFilter) {
-		return dao.findJobExecutionIds(jobFilter);
-	}
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<JobExecution> findJobExecutions(JobFilter jobFilter, ParameterFilter paramFilter) {
+//		// Get those executions that match the job filter
+//		List<Long> jobExecutionIds = findJobExecutionIds(jobFilter);
+//log.debug("jobExecution ID count="+jobExecutionIds.size());		
+//		List<JobExecution> executions = findJobExecutions(jobExecutionIds);
+//log.debug("executions.size="+executions.size());
+//List<JobExecution> filteredExecutions = new ArrayList<JobExecution>();
+//		for (JobExecution execution : executions) {
+//System.out.print(".");
+//			// Include those executions that match the job parameter filter
+//			if (paramFilter.matches(execution)) {
+//				filteredExecutions.add(execution);
+//			}
+//			// Limit the result size
+//			if (filteredExecutions.size() >= MAX_JOB_EXECUTIONS) {
+//				break;
+//			}
+//		}
+//		return filteredExecutions;
+//	}
+	
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<JobExecutionEntity> findJobExecutions(ExecutionFilter jobFilter, ParameterFilter paramFilter, ExecutionSort jobSortInfo) {
+//		return dao.findJobExecutions(jobFilter, paramFilter, jobSortInfo);
+//	}
+//	
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<Long> findJobExecutionIds(ExecutionFilter jobFilter) {
+//		return dao.findJobExecutionIds(jobFilter);
+//	}
 	
 	public boolean isJobRunning(String titleId) {
 // TODO: implement this

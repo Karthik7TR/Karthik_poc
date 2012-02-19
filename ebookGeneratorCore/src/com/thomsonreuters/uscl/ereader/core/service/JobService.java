@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.batch.core.JobExecution;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
 import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobParameterFilter;
 import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
+import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.domain.ParameterFilter;
 
 public interface JobService {
 	
@@ -20,7 +21,10 @@ public interface JobService {
 	
 	public List<JobExecution> findJobExecutions(List<Long> jobExecutionIds);
 	
-	public List<JobExecution> findJobExecutions(JobFilter jobFilter, JobParameterFilter paramFilter);
+	
+	public List<Long> findJobExecutions(JobFilter filter, JobSort sort);
+	
+//	public List<JobExecutionEntity> findJobExecutions(JobFilter jobFilter, ParameterFilter paramFilter, ExecutionSort jobSortInfo);
 	
 	/**
 	 * Returns the a job with the given title id is currently running.
@@ -35,7 +39,7 @@ public interface JobService {
 	 * filter search criteria
 	 * @return a list of JobExecutionEntity matching the filter/sort/paging criteria 
 	 */
-	public List<Long> findJobExecutionIds(JobFilter jobFilter);
+//	public List<Long> findJobExecutionIds(JobFilter jobFilter);
 	
 
 }

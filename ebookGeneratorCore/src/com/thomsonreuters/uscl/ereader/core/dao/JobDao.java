@@ -3,19 +3,18 @@ package com.thomsonreuters.uscl.ereader.core.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
 import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 
 public interface JobDao {
 	
 	/**
-	 * Get the job execution ID's that match the specified criteria.
-	 * filter search criteria
-	 * @return a list of JobExecutionEntity matching the filter/sort/paging criteria 
+	 * Get the job execution ID's from the JOB_EXECUTION table that match the specified
+	 * filter criteria
+	 * @return a list of job execution IDs from the JOB_EXECUTION table.
 	 */
-	public List<Long> findJobExecutionIds(JobFilter jobFilter);
+	public List<Long> findJobExecutions(JobFilter filter, JobSort sort);
 	
-//	public List<JobExecutionEntity> findJobExecutions(JobFilter jobFilter);
 	
 	/**
 	 * Delete all job meta-data before the specified date.

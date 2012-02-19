@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.core.service;
 
 
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -14,17 +15,12 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
 import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobParameterFilter;
 import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.domain.JobSort.SortProperty;
 
@@ -39,19 +35,23 @@ public class JobServiceIntegrationTest  {
 	
 	@Test
 	public void testFindJobExecutions() {
-		JobFilter jobFilter = new JobFilter();
-		JobParameterFilter paramFilter = new JobParameterFilter();
-		paramFilter.setTitleId("FRCP");
-//		JobSort jobSortInfo = new JobSort(SortProperty.executionDuration, true);
-		List<JobExecution> executions = service.findJobExecutions(jobFilter, paramFilter);
-		Assert.assertTrue(executions.size() > 0);
+		JobFilter filter = new JobFilter();
+		//filter.setTitleId("FRCP");
+		filter.setFrom(new Date(System.currentTimeMillis() - 5*24*60*60*1000));
+		//JobSort sort = new JobSort(SortParmeterKeyName.titleIdFullyQualified, true);
+		JobSort sort = new JobSort(SortProperty.jobExecutionId, true);
+		List<Long> executions = service.findJobExecutions(filter, sort);
+//		Assert.assertTrue(executions.size() > 0);
 		log.debug("size="+executions.size());
 		
-		for (JobExecution exec : executions) {
-			Assert.assertNotNull(exec);
-			//log.debug(exec);
-			JobInstance inst = exec.getJobInstance();
-			JobParameters params = inst.getJobParameters();
+		for (Long jobExecutionId : executions) {
+			Assert.assertNotNull(jobExecutionId);
+			JobExecution exec = service.findJobExecution(jobExecutionId);
+			System.out.print(exec.getId() +",");
+			// log.debug(exec);
+			//log.debug(id);
+//			JobInstance inst = exec.getJobInstance();
+//			JobParameters params = inst.getJobParameters();
 			//log.debug(exec.getId() + "," + params.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
 		}
 	}
