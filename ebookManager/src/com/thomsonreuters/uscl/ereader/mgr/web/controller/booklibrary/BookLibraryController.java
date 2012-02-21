@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
 
@@ -161,6 +162,8 @@ public class BookLibraryController {
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
+		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
+				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
 		form.setSort(sortBy);
