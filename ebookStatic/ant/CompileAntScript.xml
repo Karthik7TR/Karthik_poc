@@ -83,7 +83,11 @@
       <copy todir="${dir.dist}">
         <fileset dir ="Xslt"/>
       </copy>
-
+      
+      <copy todir="${dir.dist}">
+        <fileset dir ="images"/>
+      </copy>
+      
       <copy todir="${dir.dist}">
         <fileset dir="css">
           <include name="document.css"/>
