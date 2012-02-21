@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,7 +41,7 @@ public class NortServiceImpl implements NortService {
 	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
 	
 	
-	public void retrieveNodes(NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
+	public void retrieveNodes(NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException
 	   {
 	      
 	      NortNode[] nortNodes = null;
@@ -50,7 +49,7 @@ public class NortServiceImpl implements NortService {
 	      try
 	      {
 	          nortNodes = _nortManager.getRootNodes();
-	          printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent);
+	          printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
 	      }
 	      catch (NovusException e)
 	      {
@@ -61,13 +60,13 @@ public class NortServiceImpl implements NortService {
 	      
 	   }
 
-	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
+	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException
 	   {
 	       if (nodes != null)
 	       {
 			try {
 				for (NortNode node : nodes) {
-					printNode(node, _nortManager, out, counter, docCounter, iParent);
+					printNode(node, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
 				}
 				if (iParent[0] > 0) {
 
@@ -93,7 +92,7 @@ public class NortServiceImpl implements NortService {
 	       }
 	   }
 	   
-	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
+	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException, NovusException
 	   {
 		   // skip empty node or subsection node
 	       if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection"))
@@ -102,6 +101,10 @@ public class NortServiceImpl implements NortService {
 	           StringBuffer tocGuid = new StringBuffer();
 	           StringBuffer guid = new StringBuffer();
 
+	           if (Long.valueOf(node.getPayloadElement("/n-nortpayload/n-end-date")) > Long.valueOf(YYYYMMDDHHmmss))
+	        	   // md.end+effective 20970101235959
+	        	   //TODO: If NOVUS api is changed add back _nortManager.setNortVersion and remove above.
+	           {
 	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_GUID_ELEMENT);
 	           
@@ -154,8 +157,14 @@ public class NortServiceImpl implements NortService {
 	                  _nortManager.fillNortNodes(nortNodes, i, length);
 	               }
 	               
-	               printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent);
+	               printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
+	            }
+	     
 	           }
+//	           else
+//		         {
+//		           LOG.debug(" skipping old nodes " + node.getLabel().replaceAll("\\<.*?>","") );
+//		         }
 	       } 
 //       else
 //         {
@@ -194,7 +203,7 @@ public class NortServiceImpl implements NortService {
 		_nortManager.setShowChildrenCount(true);
 	    _nortManager.setDomainDescriptor(domainName);
 	    _nortManager.setFilterName(expressionFilter, 0);
-	    _nortManager.setNortVersion(YYYYMMDDHHmmss);
+//	    _nortManager.setNortVersion(YYYYMMDDHHmmss);
 	    
 
 		out = new BufferedWriter(new OutputStreamWriter(
@@ -206,7 +215,7 @@ public class NortServiceImpl implements NortService {
 //	    docCounter = 0;
 //	    iParent = 0;
 	    
-        retrieveNodes( _nortManager,  out,  counter,  docCounter,  iParent);
+        retrieveNodes( _nortManager,  out,  counter,  docCounter,  iParent, YYYYMMDDHHmmss);
         
         LOG.info(docCounter[0] + " documents and " + counter[0] + " nodes in the NORT hierarchy for domain " + domainName + " and filter " + expressionFilter );
 

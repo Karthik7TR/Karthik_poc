@@ -73,14 +73,16 @@ public class NortServiceTest {
 		
 		mockNortNodeRoot[0] = mockNortNode;
 		
-		children = getChildNodes(5, 'a').toArray(new NortNode[]{});
+		Date date = new Date();
+		SimpleDateFormat formatter =
+	            new SimpleDateFormat("yyyyMMddHHmmss");				
+		String YYYYMMDDHHmmss;
+		YYYYMMDDHHmmss = formatter.format(date);
+		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
+
+		children = getChildNodes(5, 'a', YYYYM1DDHHmmss).toArray(new NortNode[]{});
 		
 		try {
-			Date date = new Date();
-			SimpleDateFormat formatter =
-		            new SimpleDateFormat("yyyyMMddHHmmss");				
-			String YYYYMMDDHHmmss;
-			YYYYMMDDHHmmss = formatter.format(date);
 //			String YYYYMMDDHHmmss = "20120206111111"; 
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
@@ -89,12 +91,13 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
-			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
 			EasyMock.expect(mockNortNode.getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNortNode.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+			EasyMock.expect(mockNortNode.getPayloadElement("/n-nortpayload/n-end-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 			EasyMock.expect(mockNortNode.getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
 			EasyMock.expect(mockNortNode.getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNortNode.getChildren()).andReturn(children).anyTimes();
@@ -156,18 +159,19 @@ public class NortServiceTest {
 		NortNode[] children = new NortNode[]{};
 		NortNode[] rootChildren = new NortNode[]{};
 		
+		Date date = new Date();
+		SimpleDateFormat formatter =
+	            new SimpleDateFormat("yyyyMMddHHmmss");				
+		String YYYYMMDDHHmmss;
+		YYYYMMDDHHmmss = formatter.format(date);
+		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
 		
-		children = getChildNodes(5, 'a').toArray(new NortNode[]{});
-		rootChildren = getChildNodes(2, 'b').toArray(new NortNode[]{});
+		children = getChildNodes(5, 'a', YYYYM1DDHHmmss).toArray(new NortNode[]{});
+		rootChildren = getChildNodes(2, 'b', YYYYM1DDHHmmss).toArray(new NortNode[]{});
 		mockNort2NodeRoot[0] = mockNortNode;
 		mockNort2NodeRoot[1] = mockNortNode2;
 
 		try {
-			Date date = new Date();
-			SimpleDateFormat formatter =
-		            new SimpleDateFormat("yyyyMMddHHmmss");				
-			String YYYYMMDDHHmmss;
-			YYYYMMDDHHmmss = formatter.format(date);
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
@@ -176,7 +180,7 @@ public class NortServiceTest {
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.fillNortNodes(rootChildren, 0, 3);
-			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -187,6 +191,8 @@ public class NortServiceTest {
 			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
+			EasyMock.expect(mockNort2NodeRoot[0].getPayloadElement("/n-nortpayload/n-end-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
+			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/n-end-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getChildrenCount()).andReturn(5).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildren()).andReturn(children).anyTimes();
@@ -256,13 +262,14 @@ public class NortServiceTest {
 	 * @return List of NortNodes with child expects set.
 	 * @throws java.io.IOException
 	 */
-	private List<NortNode> getChildNodes(int maxChildren, char prefix) throws Exception {
+	private List<NortNode> getChildNodes(int maxChildren, char prefix, String YYYYM1DDHHmmss) throws Exception {
 		List<NortNode> childNodes = new ArrayList<NortNode>();
 		
 		for (int i=0; i< maxChildren; i++) {
 			NortNode child = EasyMock.createMock(NortNode.class);
 			EasyMock.expect(child.getLabel()).andReturn("Child " + i + prefix);
 			EasyMock.expect(child.getPayloadElement("/n-nortpayload/node-type")).andReturn("").anyTimes();
+			EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-end-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 			EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn("UUID_" + i+ prefix).times(2);
 			EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
 			EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
@@ -276,11 +283,22 @@ public class NortServiceTest {
 		NortNode child = EasyMock.createMock(NortNode.class);
 		EasyMock.expect(child.getLabel()).andReturn("Child " + maxChildren + prefix);
 		EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+		EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-end-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 		EasyMock.expect(child.getPayloadElement("/n-nortpayload/node-type")).andReturn("subsection").anyTimes();
 		EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
 		EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
 		EasyMock.expect(child.getGuid()).andReturn("NORT_UUID_" + maxChildren+ prefix).times(2);
-	
+		
+		// Create a child with old date to be skipped
+		NortNode child2 = EasyMock.createMock(NortNode.class);
+		EasyMock.expect(child2.getLabel()).andReturn("Child " + maxChildren + prefix);
+		EasyMock.expect(child2.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).anyTimes();
+		EasyMock.expect(child2.getPayloadElement("/n-nortpayload/n-end-date")).andReturn("19910927235900").anyTimes();
+		EasyMock.expect(child2.getPayloadElement("/n-nortpayload/node-type")).andReturn("subsection").anyTimes();
+		EasyMock.expect(child2.getChildrenCount()).andReturn(0).anyTimes();
+		EasyMock.expect(child2.getChildren()).andReturn(null).anyTimes();
+		EasyMock.expect(child2.getGuid()).andReturn("NORT_UUID_" + maxChildren+ prefix).times(2);
+		
 		EasyMock.replay(child);
 		childNodes.add(child);
 		return childNodes;
