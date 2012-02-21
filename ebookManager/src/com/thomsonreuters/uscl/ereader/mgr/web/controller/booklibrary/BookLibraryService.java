@@ -52,21 +52,6 @@ public class BookLibraryService {
 	 * 
 	 * @return
 	 */
-	public List<BookDefinitionVdo> getAllBooks() {
-		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
-
-		List<BookDefinition> books = coreService.findAllBookDefinitions();
-
-		for (BookDefinition book : books) {
-			pageItems.add(new BookDefinitionVdo(book, false));
-		}
-		return pageItems;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public long getTotalBookCount() {
 		return coreService.countNumberOfBookDefinitions();
 	}

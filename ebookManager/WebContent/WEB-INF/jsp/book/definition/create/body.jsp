@@ -10,6 +10,10 @@
 	<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>"
 		action="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>" >
 		<jsp:include page="../common/crudForm.jsp" />
+		
+		<div class="buttons">
+			<form:button>Save</form:button>
+		</div>
 	</form:form>
 </div>
 

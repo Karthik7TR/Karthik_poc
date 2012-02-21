@@ -7,67 +7,136 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
 <script type="text/javascript">
+		// Global Variables
 		var contentType = "";
 		var publisher = "";
 		var state = "";
-		var year = "";
 		var pubType = "";
+		var pubAbbr = "";
 		var pubInfo = "";
+		var jurisdiction = "";
+		var contentTypeEnum = {
+				ANALYTICAL : 1,
+				COURT_RULES: 2,
+				SLICE_CODES : 3
+		}; 
 		
+		
+		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
 			var titleId = [];
 			
-			if (year != "") {
-				titleId.push(state, year, pubType, pubInfo);
-			} else {
+			// Set up Title ID
+			if(contentType == contentTypeEnum.ANALYTICAL) {
+				if (pubInfo) {
+					titleId.push(pubAbbr, pubInfo);
+				} else {
+					titleId.push(pubAbbr);
+				}
+			} else if(contentType == contentTypeEnum.COURT_RULES) {
 				titleId.push(state, pubType, pubInfo);
+			} else if(contentType == contentTypeEnum.SLICE_CODES) {
+				titleId.push(jurisdiction, pubInfo);
+			};
+
+			// Set up Namespace
+			if (contentType != "") {
+				var fullyQualifiedTitleIdArray = [];
+				var contentTypeAbbr = "";
+				if(contentType == contentTypeEnum.ANALYTICAL) {
+					contentTypeAbbr = "<%= WebConstants.KEY_ANALYTICAL_ABBR %>";
+				} else if (contentType == contentTypeEnum.COURT_RULES) {
+					contentTypeAbbr = "<%= WebConstants.KEY_COURT_RULES_ABBR %>";
+				} else if(contentType == contentTypeEnum.SLICE_CODES) {
+					contentTypeAbbr = "<%= WebConstants.KEY_SLICE_CODES_ABBR %>";
+				} else {
+					$('#titleId').val("##ERROR##");
+					$('#titleIdBox').val("##ERROR##");
+				}
+
+				fullyQualifiedTitleIdArray.push(publisher, contentTypeAbbr, titleId.join("_"));
+				
+				var fullyQualifiedTitleId = fullyQualifiedTitleIdArray.join("/").toLowerCase();
+				
+				$('#titleId').val(fullyQualifiedTitleId);
+				$('#titleIdBox').val(fullyQualifiedTitleId);
+			} else {
+				$('#titleId').val("");
+				$('#titleIdBox').val("");
 			}
-			
-			var fullyQualifiedTitleId = [];
-			fullyQualifiedTitleId.push(publisher, contentType, titleId.join("_"));
-			
-			$('#titleId').val(fullyQualifiedTitleId.join("/"));
 		};
 		
-		var determineTOCorNORT = function() {
-			if(contentType == "Analytical") {
+		// Function to determine which divs to show depending on the content type.
+		var determineOptions = function() {
+			$('#stateDiv').hide();
+			$('#jurisdictionDiv').hide();
+			$('#pubTypeDiv').hide();
+			$('#pubAbbrDiv').hide();
+			$('#publishDetailDiv').hide();
+			
+			if(contentType == contentTypeEnum.ANALYTICAL) {
 				$('#displayTOC').show();
 				$('#displayNORT').hide();
-			} else if(contentType == "Random" || contentType == "Court Rules") {
+
+				$('#pubAbbrDiv').show();
+				
+				$('#publishDetailDiv').show();
+			} else if(contentType == contentTypeEnum.COURT_RULES || contentType == contentTypeEnum.SLICE_CODES) {
 				$('#displayTOC').hide();
 				$('#displayNORT').show();
+				
+				if(contentType == contentTypeEnum.SLICE_CODES) {
+					$('#jurisdictionDiv').show();
+				} else {
+					$('#stateDiv').show();
+					$('#pubTypeDiv').show();
+				};
+
+				$('#publishDetailDiv').show();
 			} else {
 				$('#displayTOC').hide();
 				$('#displayNORT').hide();
 			};
 		};
 		
+		var setContentType = function(ct) {
+			if (ct == "<%= WebConstants.KEY_ANALYTICAL %>") {
+				contentType = contentTypeEnum.ANALYTICAL;
+			} else if(ct == "<%= WebConstants.KEY_COURT_RULES %>") {
+				contentType = contentTypeEnum.COURT_RULES;
+			} else if (ct == "<%= WebConstants.KEY_SLICE_CODES%>") {
+				contentType = contentTypeEnum.SLICE_CODES;
+			}
+		};
+		
 		$(document).ready(function() {
-			contentType = $('contentType').val();
 			
+			// Setup change handlers
 			$('#contentType').change(function () {
-				contentType = $(this).val();
-				updateTitleId();
+				setContentType($(this).val());
 				
-				determineTOCorNORT();
+				updateTitleId(contentType);
+				
+				determineOptions();
 			});
-			
 			$('#publisher').change(function () {
 				publisher = $(this).val();
 				updateTitleId();
 			});
-			
 			$('#state').change(function () {
 				state = $(this).val();
 				updateTitleId();
 			});
-			
-			$('#year').change(function () {
-				year = $(this).val();
+			$('#jurisdiction').change(function () {
+				jurisdiction = $(this).val();
 				updateTitleId();
 			});
 			$('#pubType').change(function () {
 				pubType = $(this).val();
+				updateTitleId();
+			});
+			$('#pubAbbr').change(function () {
+				pubAbbr = $(this).val();
 				updateTitleId();
 			});
 			$('#pubInfo').change(function () {
@@ -75,7 +144,18 @@
 				updateTitleId();
 			});
 			
-			determineTOCorNORT();
+			// Initialize Global variables
+			publisher = $('#publisher').val();
+			state = $('#state').val();
+			jurisdiction = $('#jurisdiction').val();
+			pubType = $('#pubType').val();
+			pubAbbr = $('#pubAbbr').val();
+			pubInfo = $('#pubInfo').val();
+			setContentType($('#contentType').val());
+			
+			// Setup view
+			determineOptions();
+			updateTitleId();
 		});
 </script>
 	
@@ -87,39 +167,44 @@
 			<form:options items="${contentTypes}" />
 		</form:select>
 	</div>
-	<div class="publishDetails">
+	<div id="publishDetailDiv" style="display:none">
 		<div>
-			<label>Publisher</label><input type="text" id="publisher"/>
+			<label>Publisher</label><form:input path="publisher" maxlength="4" />
 		</div>
-		<div>
+		<div id="stateDiv">
 			<form:label path="state" class="labelCol">State</form:label>
 			<form:select path="state" >
 				<form:option value="" label="SELECT" />
 				<form:options items="${states}" />
 			</form:select>
 		</div>
-		<div>
-			<form:label path="year" class="labelCol">Year</form:label>
-			<form:select path="year" >
-				<form:options items="${years}" />
+		<div id="jurisdictionDiv">
+			<form:label path="jurisdiction" class="labelCol">Juris</form:label>
+			<form:select path="jurisdiction" >
+				<form:option value="" label="SELECT" />
+				<form:options items="${jurisdictions}" />
 			</form:select>
 		</div>
-		<div>
+		<div id="pubTypeDiv">
 			<form:label path="pubType" class="labelCol">Pub Type</form:label>
 			<form:select path="pubType" >
 				<form:option value="" label="SELECT" />
-				<form:options items="${pubType}" />
+				<form:options items="${pubTypes}" />
 			</form:select>
 		</div>
+		<div id="pubAbbrDiv">
+			<label>Pub Abbreviation</label><form:input path="pubAbbr" maxlength="15"/>
+		</div>
 		<div>
-			<label>Pub Info</label><input type="text" id="pubInfo"/>
+			<label>Pub Info</label><form:input path="pubInfo" maxlength="40"/>
 		</div>
 	</div>
 </div>
 <div class="leftDefinitionForm">
 	<div class="row">
 		<form:label path="titleId" class="labelCol">Title ID</form:label>
-		<form:input path="titleId" disabled="true" />
+		<input id="titleIdBox" type="text" disabled="disabled" />
+		<form:hidden path="titleId"/>
 	</div>
 	<div class="row">
 		<form:label path="bookName" class="labelCol">Book Name</form:label>
@@ -133,18 +218,29 @@
 		<form:label path="minorVersion" class="labelCol">Minor Version</form:label>
 		<form:input path="minorVersion" />
 	</div>
-	<div class="row">
-		<form:label path="keywords" class="labelCol">Keywords</form:label>
-		<form:input path="keywords" />
-	</div>
-	<div class="row">
-		<form:label path="type" class="labelCol">Type</form:label>
-		<form:input path="type" />
-	</div>
-	<div class="row">
-		<form:label path="value" class="labelCol">Value</form:label>
-		<form:input path="value" />
-	</div>
+	<fieldset class="keywords">
+		<legend>Keywords</legend>
+		<div class="row">
+			<form:label path="typeKeyword" class="labelCol">Type</form:label>
+			<form:select path="typeKeyword" items="${typeKeywords}" multiple="true" />
+		</div>
+		
+		<div class="row">
+			<form:label path="subjectKeyword" class="labelCol">Subject</form:label>
+			<form:select path="subjectKeyword" items="${subjectKeywords}" multiple="true" />
+		</div>
+		
+		<div class="row">
+			<form:label path="publisherKeyword" class="labelCol">Publisher</form:label>
+			<form:select path="publisherKeyword" items="${publisherKeywords}" multiple="true" />
+		</div>
+		
+		<div class="row">
+			<form:label path="jurisdictionKeyword" class="labelCol">Jurisdiction</form:label>
+			<form:select path="jurisdictionKeyword" items="${jurisdictionKeywords}" multiple="true" />
+		</div>
+	</fieldset>
+
 	<div class="row">
 		<form:label path="copyright" class="labelCol">Copyright</form:label>
 		<form:input path="copyright" />
@@ -187,6 +283,11 @@
 	<div class="row">
 		<form:label path="isbn" class="labelCol">ISBN</form:label>
 		<form:input path="isbn" />
+	</div>
+	<div class="row">
+		<form:label path="materialIdEmbeddedInDocText" class="labelCol">Material ID Embedded in Doc Text</form:label>
+		<form:radiobutton path="materialIdEmbeddedInDocText" value="true" />True
+		<form:radiobutton path="materialIdEmbeddedInDocText" value="false" />False
 	</div>
 	<div class="row">
 		<form:label path="autoUpdateSupport" class="labelCol">Auto Update Support</form:label>

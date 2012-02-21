@@ -3,13 +3,19 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+//import org.apache.log4j.Logger;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class EditBookDefinitionForm {
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	public static final String FORM_NAME = "editBookDefinitionForm";
+	private static final int PUBLISHER_INDEX = 0;
+	//private static final int contentTypeIndex = 1;
+	private static final int TITLE_NAME_INDEX = 2;
 	
 	private String titleId;
 	private String bookName;
@@ -27,9 +33,13 @@ public class EditBookDefinitionForm {
 	private String coverImage;
 	private String isbn;
 	private boolean materialIdEmbeddedInDocText;
-	private String keywords;
-	private String type;
-	private String value;
+	
+	// Keywords used in Proview
+	private String[] typeKeyword;
+	private String[] subjectKeyword;
+	private String[] publisherKeyword;
+	private String[] jurisdictionKeyword;
+	
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
 	private boolean onePassSSOLinking;
@@ -39,9 +49,14 @@ public class EditBookDefinitionForm {
 	private String nameSpacePubId;
 	private String currency;
 	private boolean isComplete;
-	private int year;
+	
+	// Fully qualified title ID parts
+	private String publisher;
 	private String state;
 	private String pubType;
+	private String pubAbbr;
+	private String jurisdiction;
+	private String pubInfo;
 	
 	public EditBookDefinitionForm() {
 		super();
@@ -68,7 +83,47 @@ public class EditBookDefinitionForm {
 		this.coverImage = bookDefinition.getCoverImage();
 		this.isbn = bookDefinition.getIsbn();
 		
+		// Parse titleId
+		String[] fullyqualifiedtitleArray = this.titleId.split("/");
+		String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
+		
+		this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
+
+		if (contentType.equals(WebConstants.KEY_ANALYTICAL)) {
+			this.pubAbbr = titleIdArray[0];
+			this.pubInfo = createPubInfo(titleIdArray);
+		} else if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
+			this.state = titleIdArray[0];
+			this.pubType = titleIdArray[1];
+			this.pubInfo = createPubInfo(titleIdArray);
+		} else if (contentType.equals(WebConstants.KEY_SLICE_CODES)) {
+			this.jurisdiction = titleIdArray[0];
+			this.pubInfo = createPubInfo(titleIdArray);
+		} else {
+			
+		}
+		
 		//TODO: add initialization of other properties once in book definition model
+	}
+	
+	private String createPubInfo(String[] titleId) {
+		int index;
+		StringBuilder pubInfo = new StringBuilder();
+		
+		if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
+			index = 2;
+		} else {
+			index = 1;
+		}
+		
+		for(int i = index; i < titleId.length ; i++) {
+			pubInfo.append(titleId[i]);
+			pubInfo.append("_");
+		}
+		if (pubInfo.length() > 0)
+			pubInfo.deleteCharAt(pubInfo.length() - 1);
+		
+		return pubInfo.toString();
 	}
 	
 	public String getTitleId() {
@@ -199,28 +254,36 @@ public class EditBookDefinitionForm {
 		this.materialIdEmbeddedInDocText = materialIdEmbeddedInDocText;
 	}
 
-	public String getKeywords() {
-		return keywords;
+	public String[] getTypeKeyword() {
+		return typeKeyword;
 	}
 
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
+	public void setTypeKeyword(String[] typeKeyword) {
+		this.typeKeyword = typeKeyword;
 	}
 
-	public String getType() {
-		return type;
+	public String[] getSubjectKeyword() {
+		return subjectKeyword;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setSubjectKeyword(String[] subjectKeyword) {
+		this.subjectKeyword = subjectKeyword;
 	}
 
-	public String getValue() {
-		return value;
+	public String[] getPublisherKeyword() {
+		return publisherKeyword;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setPublisherKeyword(String[] publisherKeyword) {
+		this.publisherKeyword = publisherKeyword;
+	}
+
+	public String[] getJurisdictionKeyword() {
+		return jurisdictionKeyword;
+	}
+
+	public void setJurisdictionKeyword(String[] jurisdictionKeyword) {
+		this.jurisdictionKeyword = jurisdictionKeyword;
 	}
 
 	public boolean isAutoUpdateSupport() {
@@ -295,14 +358,6 @@ public class EditBookDefinitionForm {
 		this.isComplete = isComplete;
 	}
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
 	public String getState() {
 		return state;
 	}
@@ -319,19 +374,54 @@ public class EditBookDefinitionForm {
 		this.pubType = pubType;
 	}
 
+	public String getJurisdiction() {
+		return jurisdiction;
+	}
+
+	public void setJurisdiction(String jurisdiction) {
+		this.jurisdiction = jurisdiction;
+	}
+
+	public String getPubInfo() {
+		return pubInfo;
+	}
+
+	public void setPubInfo(String pubInfo) {
+		this.pubInfo = pubInfo;
+	}
+	
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public String getPubAbbr() {
+		return pubAbbr;
+	}
+
+	public void setPubAbbr(String pubAbbr) {
+		this.pubAbbr = pubAbbr;
+	}
+
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
-	public Map<String, String> getContentTypes() {
+	public static Map<String, String> getContentTypes() {
 		Map<String,String> contentTypes = new LinkedHashMap<String,String>();
 		contentTypes.put("Analytical", "Analytical");
 		contentTypes.put("Court Rules", "Court Rules");
-		contentTypes.put("Random", "Random");
+		contentTypes.put("Slice Codes", "Slice Codes");
 		return contentTypes;
 	}
+
 	
-	public Map<String, String> getStates() {
+	// STUB Drop down menu on Create/Edit Book Definition
+	// TODO: connect with model
+	public static Map<String, String> getStates() {
 		Map<String,String> states = new LinkedHashMap<String,String>();
 		states.put("fl", "Florida");
 		states.put("mn", "Minnesota");
@@ -339,19 +429,53 @@ public class EditBookDefinitionForm {
 		return states;
 	}
 	
-	public Map<String, String> getYears() {
-		Map<String,String> years = new LinkedHashMap<String,String>();
-		years.put("", "None");
-		years.put("2010", "2010");
-		years.put("2011", "2011");
-		years.put("2012", "2012");
-		return years;
+	public static Map<String, String> getJurisdictions() {
+		Map<String,String> jurisdictions = new LinkedHashMap<String,String>();
+		jurisdictions.put("us", "US");
+		return jurisdictions;
 	}
 	
-	public Map<String, String> getPubTypes() {
+	public static Map<String, String> getPubTypes() {
 		Map<String,String> pubTypes = new LinkedHashMap<String,String>();
-		pubTypes.put("abc", "Abc");
-		pubTypes.put("def", "Def");
+		pubTypes.put("local", "Local");
+		pubTypes.put("state", "State");
+		pubTypes.put("fed", "Fed");
+		pubTypes.put("fedrule", "FedRule");
+		pubTypes.put("feddist", "FedDist");
+		pubTypes.put("bankr", "Bankr");
 		return pubTypes;
+	}
+	
+	public static Map<String, String> getTypeKeywords() {
+		Map<String,String> typeKeywords = new LinkedHashMap<String,String>();
+		typeKeywords.put("A", "A");
+		typeKeywords.put("B", "B");
+		typeKeywords.put("C", "C");
+		typeKeywords.put("D", "D");
+		return typeKeywords;
+	}
+	public static Map<String, String> getSubjectKeywords() {
+		Map<String,String> subjectKeywords = new LinkedHashMap<String,String>();
+		subjectKeywords.put("AA", "AA");
+		subjectKeywords.put("BB", "BB");
+		subjectKeywords.put("CC", "CC");
+		subjectKeywords.put("DD", "DD");
+		return subjectKeywords;
+	}
+	public static Map<String, String> getPublisherKeywords() {
+		Map<String,String> publisherKeywords = new LinkedHashMap<String,String>();
+		publisherKeywords.put("AAA", "AAA");
+		publisherKeywords.put("BBB", "BBB");
+		publisherKeywords.put("CCC", "CCC");
+		publisherKeywords.put("DDD", "DDD");
+		return publisherKeywords;
+	}
+	public static Map<String, String> getJurisdictionKeywords() {
+		Map<String,String> jurisdictionKeywords = new LinkedHashMap<String,String>();
+		jurisdictionKeywords.put("1", "1");
+		jurisdictionKeywords.put("2", "2");
+		jurisdictionKeywords.put("3", "3");
+		jurisdictionKeywords.put("4", "4");
+		return jurisdictionKeywords;
 	}
 }

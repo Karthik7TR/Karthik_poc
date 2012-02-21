@@ -24,7 +24,18 @@ public class WebConstants {
 	public static final String KEY_CONTENT_TYPES = "contentTypes";
 	public static final String KEY_STATES = "states";
 	public static final String KEY_YEARS = "years";
-	public static final String KEY_PUB_TYPE = "pubType";
+	public static final String KEY_PUB_TYPES = "pubTypes";
+	public static final String KEY_JURISDICTIONS = "jurisdictions";
+	public static final String KEY_KEYWORDS_TYPE = "typeKeywords";
+	public static final String KEY_KEYWORDS_SUBJECT = "subjectKeywords";
+	public static final String KEY_KEYWORDS_PUBLISHER = "publisherKeywords";
+	public static final String KEY_KEYWORDS_JURISDICTION = "jurisdictionKeywords";
+	public static final String KEY_COURT_RULES = "Court Rules";
+	public static final String KEY_COURT_RULES_ABBR = "cr";
+	public static final String KEY_ANALYTICAL = "Analytical";
+	public static final String KEY_ANALYTICAL_ABBR = "an";
+	public static final String KEY_SLICE_CODES = "Slice Codes";
+	public static final String KEY_SLICE_CODES_ABBR = "sc";
 	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";

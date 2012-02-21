@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class EditBookDefinitionController {
-	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
+	private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
 	private Validator validator;
@@ -42,11 +43,7 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 		
-		model.addAttribute(WebConstants.KEY_STATES, form.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, form.getContentTypes());
-		model.addAttribute(WebConstants.KEY_YEARS, form.getYears());
-		model.addAttribute(WebConstants.KEY_PUB_TYPE, form.getPubTypes());
-		
+		initializeModel(model);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -59,7 +56,10 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			
 		}
+		log.debug(form);
 		
+		
+		initializeModel(model);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -80,10 +80,7 @@ public class EditBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		form.initialize(bookDef);
-		model.addAttribute(WebConstants.KEY_STATES, form.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, form.getContentTypes());
-		model.addAttribute(WebConstants.KEY_YEARS, form.getYears());
-		model.addAttribute(WebConstants.KEY_PUB_TYPE, form.getPubTypes());
+		initializeModel(model);
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -102,7 +99,28 @@ public class EditBookDefinitionController {
 			
 		}
 		
+		log.debug(form);
+		
+		initializeModel(model);
+		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
+		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+		
+		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+	}
+	
+	private void initializeModel(Model model) {
+		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
+		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
+		model.addAttribute(WebConstants.KEY_JURISDICTIONS, EditBookDefinitionForm.getJurisdictions());
+		
+		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, EditBookDefinitionForm.getTypeKeywords());
+		model.addAttribute(WebConstants.KEY_KEYWORDS_JURISDICTION, EditBookDefinitionForm.getJurisdictionKeywords());
+		model.addAttribute(WebConstants.KEY_KEYWORDS_SUBJECT, EditBookDefinitionForm.getSubjectKeywords());
+		model.addAttribute(WebConstants.KEY_KEYWORDS_PUBLISHER, EditBookDefinitionForm.getPublisherKeywords());
 	}
 
 	@Required
