@@ -188,13 +188,22 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	/**
-	 * Search the directory tree of static images for a file with the specified basename.
-	 * @param basename the file basename of an image file
-	 * @return the absolute path the the image file, or null if it was not found in the tree
+	 * Search the directory tree of static images for a file with the specified
+	 * basename.
+	 * 
+	 * @param basename
+	 *            the file basename of an image file
+	 * @return the absolute path the the image file, or null if it was not found
+	 *         in the tree
 	 */
 	private File searchFileTree(String basename) {
-		// TODO: implement this
-		return new File("/apps/eBookBuilder/staticContent/StaticImages", basename);
+		File staticImageFile = new File(
+				"/apps/eBookBuilder/staticContent/images", basename);
+		if (staticImageFile.exists()) {
+			return staticImageFile;
+		} else {
+			return null;
+		}
 	}
 	
 	/**
