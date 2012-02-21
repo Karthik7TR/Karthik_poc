@@ -84,7 +84,7 @@
         <fileset dir ="Xslt"/>
       </copy>
       
-      <copy todir="${dir.dist}">
+      <copy todir="${dir.dist}/images">
         <fileset dir ="images"/>
       </copy>
       
