@@ -36,6 +36,8 @@ public class WebConstants {
 	public static final String KEY_ANALYTICAL_ABBR = "an";
 	public static final String KEY_SLICE_CODES = "Slice Codes";
 	public static final String KEY_SLICE_CODES_ABBR = "sc";
+	public static final String KEY_GENERATE_BUTTON_VISIBILITY = "generateButtonVisibility";
+	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
 	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";

@@ -66,7 +66,7 @@
 		  
 		</table>
 		<br/>
-		<input type="submit" value="Generate"/>
+		<input type="submit" value="Generate" ${generateButtonVisibility} />
 		<input type="submit" value="Cancel" disabled="disabled"/>
 		
 		<%-- Informational Messages area --%>

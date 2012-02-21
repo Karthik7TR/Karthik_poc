@@ -1,7 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+import com.thomsonreuters.uscl.ereader.mgr.web.ModelUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -40,12 +45,38 @@ public class GenerateEbookController {
 
 		model.addAttribute(WebConstants.TITLE_ID, titleId);
 		model.addAttribute(WebConstants.TITLE, book.getBookName());
+		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY, isSuperUser()?"":"disabled=\"disabled\"");
 
 		form.setFullyQualifiedTitleId(titleId);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 
+	/**
+	 * Checks if the user has super user role 
+	 * @return
+	 */
+	private boolean isSuperUser()
+	{
+		boolean superUser = false;
+		
+		LdapUserInfo ldapUserInfo = ModelUtils.getAuthenticatedLDapUserInfo();
+		
+		Collection<GrantedAuthority> authorities = ldapUserInfo.getAuthorities();
+
+		
+		for (GrantedAuthority authority:authorities)
+		{
+			if (WebConstants.KEY_GENERATE_BUTTON_ROLE.equals(authority.getAuthority())){
+				superUser=true;
+				break;
+			}
+		}
+		
+		return superUser;
+
+	}
+	
 	@RequestMapping(value=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) {
@@ -79,6 +110,7 @@ public class GenerateEbookController {
 				.findBookDefinition(new BookDefinitionKey(bookDefKey.getFullyQualifiedTitleId()));
 		model.addAttribute(WebConstants.TITLE_ID, bookDefKey.getFullyQualifiedTitleId());
 		model.addAttribute(WebConstants.TITLE, book.getBookName());
+		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY, isSuperUser()?"":"disabled=\"disabled\"");
 
 		form.setFullyQualifiedTitleId(bookDefKey.getFullyQualifiedTitleId());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
