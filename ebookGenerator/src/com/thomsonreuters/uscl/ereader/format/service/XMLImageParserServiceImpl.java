@@ -12,7 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -49,12 +51,13 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * 
 	 * @param xmlDir directory that contains the XML files to be parsed
 	 * @param imgRef file which will be written that contains a list of all the referenced image GUIDs
+	 * @param docImageMap file which will be written that contains a list of images embedded in each document
 	 * 
 	 * @return number of documents processed to generate lists
 	 * @throws EBookFormatException if any fatal errors are encountered
 	 */
 	@Override
-	public int generateImageList(File xmlDir, File imgRef) throws EBookFormatException 
+	public int generateImageList(File xmlDir, File imgRef, File docImageMap) throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {
@@ -79,14 +82,16 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 		}
         
         Set<String> guids = new HashSet<String>();
+        Map<String, Set<String>> docImgMap = new HashMap<String, Set<String>>();
         int numDocsParsed = 0;
         for (File file : fileList)
         {
-        	parseXMLFile(file, guids);
+        	parseXMLFile(file, guids, docImgMap);
         	numDocsParsed++;
         }
         
         createImageList(imgRef, guids);
+        createDocToImgMap(docImageMap, docImgMap);
         
         LOG.info("Parsed out " + guids.size() + " image references from the XML files in the provided directory.");
 		
@@ -99,12 +104,15 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * 
 	 * @param xmlFile XML file to be parsed
 	 * @param guidList Set of GUIDs that new Image GUIDs should be appended to
+	 * @param docImgMap Map of image GUIDs associated to each document
 	 * 
 	 * @throws EBookFormatException if any parsing issues have been encountered
 	 */
-	protected void parseXMLFile(File xmlFile, Set<String> guidList) throws EBookFormatException
+	protected void parseXMLFile(File xmlFile, Set<String> guidList, Map<String, Set<String>> docImgMap) 
+			throws EBookFormatException
 	{		
 		FileInputStream xmlStream = null;
+		String docGuid = xmlFile.getName().substring(0, xmlFile.getName().indexOf(".")); 
 		try
 		{
 			LOG.debug("Parsing following doc for image references: " + xmlFile);
@@ -113,11 +121,15 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			SAXParser saxParser = factory.newSAXParser();
 			
 			XMLImageTagHandler handler = new XMLImageTagHandler();
-			handler.setGuidList(guidList);
+			Set<String> imgGuids = new HashSet<String>();
+			handler.setGuidList(imgGuids);
 			
 			xmlStream = new FileInputStream(xmlFile);
 			
 			saxParser.parse(xmlStream, handler);
+			
+			guidList.addAll(imgGuids);
+			docImgMap.put(docGuid, imgGuids);
 
 			LOG.debug("Finished parsing " + xmlFile + " list contains " + guidList.size() + " image guids.");
 		}
@@ -205,6 +217,69 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			catch (IOException e)
 			{
 				LOG.error("Unable to close Image GUID list file.", e);
+			}
+		}
+	}
+	
+	/**
+	 * Takes in a map of doc to image associations and writes them to the specified file.
+	 * 
+	 * @param docToImgMapFile file to which the map will be persisted
+	 * @param docToImgMap the map that contains all the document to image associations
+	 */
+	protected void createDocToImgMap(File docToImgMapFile, Map<String, Set<String>> docToImgMap) 
+			throws EBookFormatException
+	{
+		BufferedWriter writer = null;
+		try
+		{
+			writer = new BufferedWriter(new FileWriter(docToImgMapFile));
+			for (String doc : docToImgMap.keySet())
+			{
+				if (doc == null || doc.length() < 32 || doc.length() >= 34)
+				{
+					String message = "Invalid document GUID encountered in the Document to Image GUID map: " + doc;
+					LOG.error(message);
+					throw new EBookFormatException(message);
+				}
+				
+				writer.write(doc);
+				writer.write("|");
+				
+				for (String imgGuid : docToImgMap.get(doc))
+				{
+					if (imgGuid == null || imgGuid.length() < 32 || imgGuid.length() >= 34)
+					{
+						String message = "Invalid image GUID encountered in the Document to Image GUID map: " 
+								+ imgGuid;
+						LOG.error(message);
+						throw new EBookFormatException(message);
+					}
+					
+					writer.write(imgGuid + ", ");
+				}
+				writer.newLine();
+			}
+		}
+		catch(IOException e)
+		{
+			String message = "Could not write to the Document to Image GUID map file: " + 
+					docToImgMapFile.getAbsolutePath();
+			LOG.error(message);
+			throw new EBookFormatException(message, e);
+		}		
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close Document to Image GUID map file.", e);
 			}
 		}
 	}

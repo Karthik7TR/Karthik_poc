@@ -42,10 +42,15 @@ public class JobExecutionKey {
 	 */
 	public static final String IMAGE_DYNAMIC_DEST_DIR = "imageDynamicDestDir";
 	/**
-	 * Path to the flat text file that contatins the list (one per line) of image GUID's that represent the physical
+	 * Path to the flat text file that contains the list (one per line) of image GUID's that represent the physical
 	 * images that will be inserted into the book.  These GUID's serve as input to the Image Vertical REST service.
 	 */
 	public static final String IMAGE_DYNAMIC_GUIDS_FILE = "imageDynamicGuidsFile";
+	/**
+	 * Path to the flat file that contains the mapping of all images in each document. This file is
+	 * used to append image metadata to the XML file before transformation.
+	 */
+	public static final String IMAGE_TO_DOC_MANIFEST_FILE = "imageToDocManifestFile";
 	/**
 	 * Path to the root destination directory for images, both static and dynamic
 	 */

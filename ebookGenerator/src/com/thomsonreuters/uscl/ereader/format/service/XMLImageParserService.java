@@ -23,9 +23,10 @@ public interface XMLImageParserService
 	 * 
 	 * @param xmlDir directory that contains the XML files to be parsed
 	 * @param imgRef file which will be written that contains a list of all the referenced image GUIDs
+	 * @param docImageMap file which will be written that contains a list of images embedded in each document
 	 * 
 	 * @return number of documents processed to generate lists
 	 * @throws EBookFormatException if any fatal errors are encountered
 	 */
-	public int generateImageList(final File xmlDir, final File imgRef) throws EBookFormatException;
+	public int generateImageList(final File xmlDir, final File imgRef, File docImageMap) throws EBookFormatException;
 }
