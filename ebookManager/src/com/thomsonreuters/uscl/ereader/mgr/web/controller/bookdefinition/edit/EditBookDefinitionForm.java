@@ -29,26 +29,22 @@ public class EditBookDefinitionForm {
 	private String nortDomain;
 	private String nortFilterView;
 	private String contentType;
-	private String contentSubtype;
-	private String coverImage;
 	private String isbn;
-	private boolean materialIdEmbeddedInDocText;
+	private String additionalFrontMatterText;
 	
 	// Keywords used in Proview
 	private String[] typeKeyword;
 	private String[] subjectKeyword;
 	private String[] publisherKeyword;
 	private String[] jurisdictionKeyword;
-	
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
 	private boolean onePassSSOLinking;
-	private String language;
-	private boolean imageView;
 	private String imageCollectionInformation;
-	private String nameSpacePubId;
+	
 	private String currency;
 	private boolean isComplete;
+	private boolean keyCiteToplineFlag;
 	
 	// Fully qualified title ID parts
 	private String publisher;
@@ -79,8 +75,6 @@ public class EditBookDefinitionForm {
 		this.nortDomain = bookDefinition.getNortDomain();
 		this.nortFilterView = bookDefinition.getNortFilterView();
 		this.contentType = bookDefinition.getContentType();
-		this.contentSubtype = bookDefinition.getContentSubtype();
-		this.coverImage = bookDefinition.getCoverImage();
 		this.isbn = bookDefinition.getIsbn();
 		
 		// Parse titleId
@@ -222,22 +216,6 @@ public class EditBookDefinitionForm {
 		this.contentType = contentType;
 	}
 
-	public String getContentSubtype() {
-		return contentSubtype;
-	}
-
-	public void setContentSubtype(String contentSubtype) {
-		this.contentSubtype = contentSubtype;
-	}
-
-	public String getCoverImage() {
-		return coverImage;
-	}
-
-	public void setCoverImage(String coverImage) {
-		this.coverImage = coverImage;
-	}
-
 	public String getIsbn() {
 		return isbn;
 	}
@@ -246,12 +224,12 @@ public class EditBookDefinitionForm {
 		this.isbn = isbn;
 	}
 
-	public boolean isMaterialIdEmbeddedInDocText() {
-		return materialIdEmbeddedInDocText;
+	public String getAdditionalFrontMatterText() {
+		return additionalFrontMatterText;
 	}
 
-	public void setMaterialIdEmbeddedInDocText(boolean materialIdEmbeddedInDocText) {
-		this.materialIdEmbeddedInDocText = materialIdEmbeddedInDocText;
+	public void setAdditionalFrontMatterText(String additionalFrontMatterText) {
+		this.additionalFrontMatterText = additionalFrontMatterText;
 	}
 
 	public String[] getTypeKeyword() {
@@ -310,36 +288,12 @@ public class EditBookDefinitionForm {
 		this.onePassSSOLinking = onePassSSOLinking;
 	}
 
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public boolean isImageView() {
-		return imageView;
-	}
-
-	public void setImageView(boolean imageView) {
-		this.imageView = imageView;
-	}
-
 	public String getImageCollectionInformation() {
 		return imageCollectionInformation;
 	}
 
 	public void setImageCollectionInformation(String imageCollectionInformation) {
 		this.imageCollectionInformation = imageCollectionInformation;
-	}
-
-	public String getNameSpacePubId() {
-		return nameSpacePubId;
-	}
-
-	public void setNameSpacePubId(String nameSpacePubId) {
-		this.nameSpacePubId = nameSpacePubId;
 	}
 
 	public String getCurrency() {
@@ -356,6 +310,14 @@ public class EditBookDefinitionForm {
 
 	public void setComplete(boolean isComplete) {
 		this.isComplete = isComplete;
+	}
+
+	public boolean isKeyCiteToplineFlag() {
+		return keyCiteToplineFlag;
+	}
+
+	public void setKeyCiteToplineFlag(boolean keyCiteToplineFlag) {
+		this.keyCiteToplineFlag = keyCiteToplineFlag;
 	}
 
 	public String getState() {
@@ -423,7 +385,21 @@ public class EditBookDefinitionForm {
 	// TODO: connect with model
 	public static Map<String, String> getStates() {
 		Map<String,String> states = new LinkedHashMap<String,String>();
+		states.put("al", "Alabama");
+		states.put("ak", "Alaska");
+		states.put("az", "Arizona");
+		states.put("ar", "Arkansas");
+		states.put("ca", "California");
+		states.put("co", "Colorado");
+		states.put("ct", "Connecticut");
+		states.put("de", "Delaware");
 		states.put("fl", "Florida");
+		states.put("ga", "Georgia");
+		states.put("hi", "Hawaii");
+		states.put("id", "Idaho");
+		states.put("il", "Illinois");
+		states.put("in", "Indiana");
+		states.put("ia", "Iowa");
 		states.put("mn", "Minnesota");
 		states.put("wi", "Wisconsin");
 		return states;
@@ -432,6 +408,23 @@ public class EditBookDefinitionForm {
 	public static Map<String, String> getJurisdictions() {
 		Map<String,String> jurisdictions = new LinkedHashMap<String,String>();
 		jurisdictions.put("us", "US");
+		jurisdictions.put("al", "Alabama");
+		jurisdictions.put("ak", "Alaska");
+		jurisdictions.put("az", "Arizona");
+		jurisdictions.put("ar", "Arkansas");
+		jurisdictions.put("ca", "California");
+		jurisdictions.put("co", "Colorado");
+		jurisdictions.put("ct", "Connecticut");
+		jurisdictions.put("de", "Delaware");
+		jurisdictions.put("fl", "Florida");
+		jurisdictions.put("ga", "Georgia");
+		jurisdictions.put("hi", "Hawaii");
+		jurisdictions.put("id", "Idaho");
+		jurisdictions.put("il", "Illinois");
+		jurisdictions.put("in", "Indiana");
+		jurisdictions.put("ia", "Iowa");
+		jurisdictions.put("mn", "Minnesota");
+		jurisdictions.put("wi", "Wisconsin");
 		return jurisdictions;
 	}
 	
@@ -476,6 +469,12 @@ public class EditBookDefinitionForm {
 		jurisdictionKeywords.put("2", "2");
 		jurisdictionKeywords.put("3", "3");
 		jurisdictionKeywords.put("4", "4");
+		return jurisdictionKeywords;
+	}
+	
+	public static Map<String, String> getPublishers() {
+		Map<String,String> jurisdictionKeywords = new LinkedHashMap<String,String>();
+		jurisdictionKeywords.put("uscl", "US Core Legal");
 		return jurisdictionKeywords;
 	}
 }

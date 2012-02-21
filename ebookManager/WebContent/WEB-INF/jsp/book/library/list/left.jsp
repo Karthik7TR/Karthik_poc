@@ -14,19 +14,13 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 
-<html>
-<head>
-	<script type="text/javascript" src="js/jquery.js"></script>
-  	<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
   	<script>
 		$(function() {
 			$( "#datepickerFrom" ).datepicker();
 			$( "#datepickerTo" ).datepicker();
 		});
 	</script>
-</head>
 
-<body>
  	<h2>Filters</h2>
 <%-- 	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="bookLibraryFilterForm" method="post">
@@ -84,5 +78,3 @@
 	
 	<button disabled="disabled">Go</button>
 	<button disabled="disabled">Clear</button>
-</body>
-</html>

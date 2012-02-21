@@ -26,6 +26,7 @@ public class WebConstants {
 	public static final String KEY_YEARS = "years";
 	public static final String KEY_PUB_TYPES = "pubTypes";
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
+	public static final String KEY_PUBLISHERS = "publishers";
 	public static final String KEY_KEYWORDS_TYPE = "typeKeywords";
 	public static final String KEY_KEYWORDS_SUBJECT = "subjectKeywords";
 	public static final String KEY_KEYWORDS_PUBLISHER = "publisherKeywords";

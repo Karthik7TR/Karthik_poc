@@ -116,6 +116,7 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, EditBookDefinitionForm.getJurisdictions());
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());
 		
 		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, EditBookDefinitionForm.getTypeKeywords());
 		model.addAttribute(WebConstants.KEY_KEYWORDS_JURISDICTION, EditBookDefinitionForm.getJurisdictionKeywords());
