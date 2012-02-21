@@ -80,7 +80,7 @@
 	<br/>	
 	<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
 	<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
-	<input type="submit" value="Generate" onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+	<input type="submit" value="Generate" ${generateButtonVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
 	<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
 
 </form:form>
