@@ -40,7 +40,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		"I03a62830fca111e0961b0000837bc6dd",	// PDF
 		"I5d463990094d11e085f5891ac64a9905",	// TIF
 	    "Ie043fac0675a11da90ebf04471783734",	// TIF
-
+//	    "Iead82f50a28811dbb436d78163d7301d",  // From bwray
 //		"I449A045209354D19BADD202B264B3076",
 //		"IA1F5243AA999498889F4D32E3D141970",
 //		"IB813AED2574D4765839DD8196BBF692E",
@@ -72,13 +72,13 @@ public class ImageVerticalServiceIntegrationTest  {
 	}
 	
 	
-	@Test
+//	@Test
 	public void testFetchImageVerticalImageMetadata() {
 		SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF);
 		Assert.assertNotNull(response);
 	}
 	
-	@Test
+//	@Test
 	public void testFetchImageMetadataBadGuid() {
 		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
 		try {
@@ -92,7 +92,7 @@ public class ImageVerticalServiceIntegrationTest  {
 	
 
 	
-	@Test
+//	@Test
 	public void testPersistImageMetadata() {
 		Long jobInstanceId = -999l;
 		String titleId = "bogusTitleId";
@@ -118,7 +118,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		Assert.assertEquals(dimUnit, actualEntity.getDimUnits());
 	}
 	
-	@Test
+//	@Test
 	public void testFindImageMetadataByPrimaryKey() throws Exception {
 		try {
 			long jobInstanceId = 1151;

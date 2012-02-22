@@ -72,7 +72,7 @@
 	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
 	  p:singletonRestTemplate-ref="restTemplate"
-	  p:imageVerticalRestServiceUrl="http://imageservice.westlan.com/image"
+	  p:imageVerticalRestServiceUrl="http://imageservice.dev.westlaw.com/image"
 	  p:sleepIntervalBetweenImages="100"
 	  p:urlVersion="v1"
 	  p:imageDao-ref="imageDao"

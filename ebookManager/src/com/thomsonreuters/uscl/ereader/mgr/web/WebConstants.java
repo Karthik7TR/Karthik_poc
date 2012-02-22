@@ -40,6 +40,10 @@ public class WebConstants {
 	public static final String KEY_GENERATE_BUTTON_VISIBILITY = "generateButtonVisibility";
 	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
 	
+	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
+	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
+	public static final String KEY_JOB_LIST_FILTER = "jobListFilter";
+	
 	// Page paths
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
@@ -60,8 +64,9 @@ public class WebConstants {
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	
 	public static final String MVC_JOB_LIST_GET = "jobListGet.mvc";
-	public static final String MVC_JOB_LIST_PAGE_SORT = "jobListPageSort.mvc";
+	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
+	public static final String MVC_JOB_LIST_ITEMS = "jobListItems.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";

@@ -4,7 +4,8 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortForm.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
@@ -24,7 +25,7 @@
 			   
 <%-- Table of job executions for a specific Job name --%>
 		<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
-					   requestURI="<%=WebConstants.MVC_JOB_LIST_PAGE_SORT%>"
+					   requestURI="<%=WebConstants.MVC_JOB_LIST_PAGE_AND_SORT%>"
 					   sort="external">
 		  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
 	
@@ -32,8 +33,8 @@
 		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
 		  <display:column title="Book Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 		  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
-		  <display:column title="Instance/Exec" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
-		  		<%-- a href="<%=WebConstants.MVC_JOB_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a> / ${vdo.jobExecution.id}  --%>
+		  <display:column title="Job ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
+		  		<a href="<%=WebConstants.MVC_AFTER_LOGOUT%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a> / ${vdo.jobExecution.id}
 		  </display:column>
 
 		  <display:column title="Job Status" property="jobExecution.status" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
@@ -43,13 +44,20 @@
 	
 <%-- Select for how may items (rows) per page to show --%>
 		<br/>
+		
+	</form:form>
+
+	<form:form name="pageAndSortFormTPH" 
+			   commandName="<%=PageAndSortForm.FORM_NAME%>"
+			   action="<%=WebConstants.MVC_JOB_LIST_ITEMS%>"
+			   method="post">
 		Items per page: 
-		<c:set var="defaultItemsPerPage" value="<%=JobListForm.DEFAULT_ITEMS_PER_PAGE%>"/>
-		<form:select path="itemsPerPage" onchange="theForm.submit()">
+		<c:set var="defaultItemsPerPage" value="<%=PageAndSortForm.DEFAULT_ITEMS_PER_PAGE%>"/>
+		<form:select path="itemsPerPage" onchange="submit()">
 			<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
 			<form:option label="50" value="50"/>
 			<form:option label="100" value="100"/>
+			<form:option label="500" value="500"/>
 		</form:select>
 	</form:form>
-
 
