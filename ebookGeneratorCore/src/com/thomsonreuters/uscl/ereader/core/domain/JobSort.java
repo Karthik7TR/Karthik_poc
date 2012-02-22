@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -8,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class JobSort {
 	
-	public enum SortProperty { jobInstanceId, startTime, batchStatus, stringVal };
+	public enum SortProperty { jobInstanceId, jobExecutionId, startTime, batchStatus, stringVal };
 	public enum SortParmeterKeyName { bookName, titleIdFullyQualified };
 	
 	/**
@@ -27,6 +32,13 @@ public class JobSort {
 	
 	/** true if ascending sort, false if descending sort */
 	private boolean ascending;
+	
+	/**
+	 * Default sort is by job start time descending.
+	 */
+	public JobSort() {
+		this(SortProperty.startTime, false);
+	}
 	
 	/**
 	 * Used to indicate that we are sorting on a job parameter

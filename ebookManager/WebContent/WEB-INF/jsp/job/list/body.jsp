@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortForm.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm"%>
@@ -19,11 +20,26 @@
 
   	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss"/>
 
-
 	<form:form action="<%=WebConstants.MVC_JOB_LIST_POST%>"
 			   commandName="<%=JobListForm.FORM_NAME%>" name="theForm" method="post">
 			   
-<%-- Table of job executions for a specific Job name --%>
+	<%-- Error Message Presentation --%>
+		<spring:hasBindErrors name="<%=FilterForm.FORM_NAME%>">
+			<div class="errorBox">
+		      <b><spring:message code="please.fix.errors"/></b><br/>
+		      <form:errors path="*">
+		      	<ul>
+				<c:forEach items="${messages}" var="message">
+					<li style="color: black">${message}</li>
+				</c:forEach>
+		      	</ul>
+			  </form:errors>
+			  <br/>
+		    </div>
+		    <br/>
+	    </spring:hasBindErrors>
+				   
+	<%-- Table of job executions --%>
 		<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
 					   requestURI="<%=WebConstants.MVC_JOB_LIST_PAGE_AND_SORT%>"
 					   sort="external">
@@ -33,23 +49,25 @@
 		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
 		  <display:column title="Book Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 		  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
-		  <display:column title="Job ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
-		  		<a href="<%=WebConstants.MVC_AFTER_LOGOUT%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a> / ${vdo.jobExecution.id}
+		  <display:column title="Inst" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
+		  		<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAIL%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 		  </display:column>
-
+		  <display:column title="Exec" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
+		  		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAIL%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${vdo.jobExecution.id}">${vdo.jobExecution.id}</a>
+		  </display:column>
+		  
+	
 		  <display:column title="Job Status" property="jobExecution.status" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 		  <display:column title="Start Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.START_TIME.toString()%>"><fmt:formatDate value="${vdo.jobExecution.startTime}" pattern="${DATE_FORMAT}"/></display:column>
 		  
 		</display:table>
-	
-<%-- Select for how may items (rows) per page to show --%>
-		<br/>
-		
 	</form:form>
+	<br/>
 
-	<form:form name="pageAndSortFormTPH" 
+<%-- Select for how may items (rows) per page to show --%>
+	<form:form name="pageAndSortFormName" 
 			   commandName="<%=PageAndSortForm.FORM_NAME%>"
-			   action="<%=WebConstants.MVC_JOB_LIST_ITEMS%>"
+			   action="<%=WebConstants.MVC_JOB_LIST_ITEMS_PER_PAGE%>"
 			   method="post">
 		Items per page: 
 		<c:set var="defaultItemsPerPage" value="<%=PageAndSortForm.DEFAULT_ITEMS_PER_PAGE%>"/>

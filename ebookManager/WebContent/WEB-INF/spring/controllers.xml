@@ -35,8 +35,12 @@
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 	
 	<bean id="jobListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListController"
-		  p:jobService-ref="jobService"/>
-
+		  p:jobService-ref="jobService">
+		<property name="filterFormValidator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterFormValidator"/>
+		</property>
+	</bean>
+	
 	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"
 		  p:casUrl="${cas.server.web.url}"/>
 			  

@@ -22,11 +22,9 @@ public class JobDaoImpl implements JobDao {
 	private static final Logger log = Logger.getLogger(JobDaoImpl.class);
 	private static final String PARAMETER_TABLE = "parameter";
 	private static final String EXECUTION_TABLE = "execution";
-//	private static final int MAX_RESULTS = 3000;
 	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 
-	
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -42,8 +40,8 @@ public class JobDaoImpl implements JobDao {
 		if (filter.getTo() != null) {
 			hql.append("(execution.startTime < :toDate) and ");
 		}
-		if (filter.getStatus() != null) {
-			hql.append(String.format("(execution.status = '%s') and ", filter.getStatus().toString()));
+		if (filter.getBatchStatus() != null) {
+			hql.append(String.format("(execution.batchStatus = '%s') and ", filter.getBatchStatus().toString()));
 		}
 		
 		// Join on the job_params table if we are filtering or sorting a key from that table
@@ -62,7 +60,6 @@ public class JobDaoImpl implements JobDao {
 			hql.append(" and ");
 		}
 		
-
 		// Set up the sort column  which is always "stringVal" when sorting on a job parameter key
 		// or else it is the column name from the job_execution table.
 		String table = null;
@@ -92,86 +89,12 @@ log.debug(hql);
 		return query.list();
 	}
 	
-	
-	
 	private String createStringParamFilterClause(String paramKey, String paramValue) {
 		StringBuffer clause = new StringBuffer();
 		clause.append(String.format("(parameter.keyName = '%s') and ", paramKey));
 		clause.append(String.format("(parameter.stringVal = '%s')", paramValue));
 		return clause.toString();
 	}
-	
-
-	
-
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public List<JobExecutionEntity> findJobExecutions(JobFilter jobFilter) {
-//		Session session = sessionFactory.getCurrentSession();
-//		Criteria criteria = session.createCriteria(JobExecutionEntity.class);
-//		if (jobFilter.getStatus() != null) { 
-//			criteria.add(Restrictions.eq("batchStatus", jobFilter.getStatus()));
-//		}
-//		if (jobFilter.getFrom() != null) {
-//			criteria.add(Restrictions.ge("startTime", jobFilter.getFrom()));
-//		}
-//		if (jobFilter.getTo() != null) {
-//			criteria.add(Restrictions.lt("endTime", jobFilter.getTo()));
-//		}
-//		List<JobExecutionEntity> executions = criteria.list();
-//log.debug("critera executions.size="+executions.size());		
-//
-//		return executions;
-//	}
-
-	/**
-	 * Populate the book definition properties that are associated with this give job run.
-	 * @param executions a list of job executions to populate
-	 */
-//	private void populateBookProperties(List<JobExecutionEntity> executions) {
-//		for (JobExecutionEntity execution : executions) {
-//			Long jobInstanceId = execution.getJobInstanceId();
-//			String titleId = findStringJobParameter(jobInstanceId, JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
-//			String bookName = findStringJobParameter(jobInstanceId, JobParameterKey.BOOK_NAME);
-//log.debug("found: " + titleId + "/"+bookName);
-//			execution.setTitleId(titleId);
-//			execution.setBookname(bookName);
-//		}
-//	}
-	
-//	private String findStringJobParameter(Long jobInstanceId, String parameterKeyName) {
-//		String sql = String.format("select STRING_VAL from BATCH_JOB_PARAMS where (JOB_INSTANCE_ID = %d) and (TYPE_CD = 'STRING') and (KEY_NAME = '%s')",
-//									jobInstanceId, parameterKeyName);
-////log.debug(sql);		
-//		String value = null;
-//		try {
-//			value = jdbcTemplate.queryForObject(sql, String.class);
-//		} catch (DataAccessException e) {
-//			value = null;
-//		}
-//		return value;
-//	}
-	
-	/**
-	 * Strip out of the list all objects that do not match the specified filter.
-	 */
-//	private List<JobExecutionEntity> applyParameterFilter(List<JobExecutionEntity> executions, JobParameterFilter paramFilter) {
-//		List<JobExecutionEntity> filteredExecutions = new ArrayList<JobExecutionEntity>();
-//		String titleId = paramFilter.getTitleId();
-//log.debug("filter titleId="+titleId);	
-//		for (JobExecutionEntity execution : executions) {
-//			if (StringUtils.isNotBlank(titleId)) {
-//				// Statement to determines if the execution object matches the filter
-//				if (titleId.equals(execution.getTitleId())) {
-//					filteredExecutions.add(execution);
-//				}
-//			}
-//		}
-//		return filteredExecutions;
-//	}
-
-
-
 
 	/**
 	 * Delete records older than the specified date.

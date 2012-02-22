@@ -9,6 +9,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web;
 
 public class WebConstants {
 	
+	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";  // default date presentation
+	
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
@@ -41,6 +43,7 @@ public class WebConstants {
 	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
 	
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
+	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
 	public static final String KEY_JOB_LIST_FILTER = "jobListFilter";
 	
@@ -63,10 +66,13 @@ public class WebConstants {
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	
-	public static final String MVC_JOB_LIST_GET = "jobListGet.mvc";
+	public static final String MVC_JOB_LIST = "jobList.mvc";
 	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
-	public static final String MVC_JOB_LIST_ITEMS = "jobListItems.mvc";
+	public static final String MVC_JOB_LIST_FILTER_POST = "jobListFilterPost.mvc";
+	public static final String MVC_JOB_LIST_ITEMS_PER_PAGE = "jobListItemsPerPage.mvc";
+	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
+	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";

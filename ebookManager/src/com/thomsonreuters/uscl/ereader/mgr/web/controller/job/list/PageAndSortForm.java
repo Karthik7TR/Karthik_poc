@@ -11,7 +11,7 @@ public class PageAndSortForm {
 	public static final String FORM_NAME = "pageAndSortForm";
 	public static final int DEFAULT_ITEMS_PER_PAGE = 20;
 	
-	public enum DisplayTagSortProperty { TITLE_ID, BOOK_NAME, START_TIME, BATCH_STATUS, JOB_INSTANCE_ID }
+	public enum DisplayTagSortProperty { TITLE_ID, BOOK_NAME, START_TIME, BATCH_STATUS, JOB_INSTANCE_ID, JOB_EXECUTION_ID }
 
 	// Paging and sorting query string parameters sent by DisplayTag
 	private Integer pageNumber;	// page number user wants to see (integer)
@@ -25,17 +25,19 @@ public class PageAndSortForm {
 
 	public PageAndSortForm(Integer pageNumber, Integer itemsPerPage,
 						   DisplayTagSortProperty sortProperty, boolean ascendingSort) {
+		initialize(pageNumber, itemsPerPage, sortProperty, ascendingSort);
+	}
+	
+	public void copy(PageAndSortForm copy) {
+		initialize(copy.getPage(), copy.getItemsPerPage(), copy.getSort(), copy.isAscendingSort());
+	}
+	
+	public void initialize(Integer pageNumber, Integer itemsPerPage,
+			   DisplayTagSortProperty sortProperty, boolean ascendingSort) {
 		this.pageNumber = pageNumber;
 		this.itemsPerPage = itemsPerPage;
 		this.sortProperty = sortProperty;
 		this.ascendingSort = ascendingSort;
-	}
-	
-	public void copy(PageAndSortForm copy) {
-		setPage(copy.getPage());
-		setItemsPerPage(copy.getItemsPerPage());
-		setSort(copy.getSort());
-		setAscendingSort(copy.isAscendingSort());
 	}
 	
 	public static PageAndSortForm createDefault() {
