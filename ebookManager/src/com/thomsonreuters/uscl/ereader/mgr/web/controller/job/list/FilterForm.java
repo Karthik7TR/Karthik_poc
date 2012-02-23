@@ -45,7 +45,7 @@ public class FilterForm {
 		String fromDate = parseDate(cal.getTime());
 		populate(null, null, fromDate, null, null);
 	}
-	public void copy(FilterForm copy) {
+	public void copyProperties(FilterForm copy) {
 		populate(copy.getTitleId(), copy.getBookName(), copy.getFromDateString(), copy.getToDateString(), copy.getBatchStatus());
 	}
 	public void populate(String titleId, String bookName, String fromDateString, String toDateString, BatchStatus batchStatus) {

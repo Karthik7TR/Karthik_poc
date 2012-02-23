@@ -3,6 +3,9 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<%--
+	The filter form in the left side tile of the Active / Recent Jobs table.
+ --%>
 <script>
 function submitJobListFilterForm(command) {
 	var form = document.getElementById('<%=FilterForm.FORM_NAME%>');

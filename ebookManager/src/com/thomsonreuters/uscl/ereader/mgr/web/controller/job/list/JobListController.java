@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -28,7 +27,8 @@ import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
 
 
 @Controller
@@ -36,11 +36,6 @@ public class JobListController {
 	private static final Logger log = Logger.getLogger(JobListController.class);
 	private JobService jobService;
 	private FilterFormValidator filterFormValidator;
-	
-//	@InitBinder(FilterForm.FORM_NAME)
-//	protected void initDataBinder(WebDataBinder binder) {
-//		binder.setValidator(filterFormValidator);
-//	}
 
 	/**
 	 * Handle initial in-bound HTTP get request to the page.
@@ -50,19 +45,19 @@ public class JobListController {
 	public ModelAndView doGet(HttpSession httpSession, 
 							  @ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
 							  @ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
-							  @ModelAttribute(PageAndSortForm.FORM_NAME) PageAndSortForm pageAndSortForm,
 							  Model model) throws Exception {
 		
-		pageAndSortForm.initialize(1, PageAndSortForm.DEFAULT_ITEMS_PER_PAGE,
-								   DisplayTagSortProperty.START_TIME, false);
+		PageAndSort pageAndSort = jobListForm.getPageAndSort();
+		pageAndSort.initialize(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE,
+							   DisplayTagSortProperty.START_TIME, false);
 		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
-		filterForm.copy(savedFilterForm);
+		filterForm.copyProperties(savedFilterForm);
 		JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 										 filterForm.getTitleId(), filterForm.getBookName());
 		JobSort jobSort = new JobSort();
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
-		setUpModel(jobExecutionIds, filterForm, pageAndSortForm, httpSession, model);
+		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 	
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
@@ -75,42 +70,85 @@ public class JobListController {
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
 								@ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
-								@ModelAttribute(PageAndSortForm.FORM_NAME) PageAndSortForm pageAndSortForm,
 								Model model) throws Exception {
 		List<Long> jobExecutionIds = null;
 		
 		// Restore the state of the search filter form
 		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
-		filterForm.copy(savedFilterForm);
+		filterForm.copyProperties(savedFilterForm);
 		
 		// Set up the sorting/paging depending upon what the user selected
-		PageAndSortForm savedPageAndSortForm = fetchSavedPageAndSortForm(httpSession);
-		Integer nextPageNumber = pageAndSortForm.getPage();
+		
+		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort pageAndSort = jobListForm.getPageAndSort();
+		Integer nextPageNumber = pageAndSort.getPage();
 		// If there was a page=n query string parameter, then we assume we are paging since this
 		// parameter is not present on the query string when display tag sorting.
 		if (nextPageNumber != null) {
-			pageAndSortForm.copy(savedPageAndSortForm);
-			pageAndSortForm.setPage(nextPageNumber);
+			pageAndSort.copyProperties(savedPageAndSort);
+			pageAndSort.setPage(nextPageNumber);
 			jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		} else {  // SORTING
-			pageAndSortForm.setPage(1);
-			pageAndSortForm.setItemsPerPage(savedPageAndSortForm.getItemsPerPage());
+			pageAndSort.setPage(1);
+			pageAndSort.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 			// Fetch the job list model
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 					 filterForm.getTitleId(), filterForm.getBookName());
-			JobSort jobSort = createJobSort(pageAndSortForm.getSort(), pageAndSortForm.isAscendingSort());
+			JobSort jobSort = createJobSort(pageAndSort.getSort(), pageAndSort.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
 		
-		setUpModel(jobExecutionIds, filterForm, pageAndSortForm, httpSession, model);
+		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
 
+	/**
+	 * Handle operational buttons that submit a form of selected rows, or when the user changes the number of
+	 * rows displayed at one time.
+	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_LIST_POST, method = RequestMethod.POST)
-	public ModelAndView doPost(HttpSession httpSession) throws Exception {
+	public ModelAndView doPost(HttpSession httpSession,
+							   @ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
+							   @ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
+							   Model model) throws Exception {
+		log.debug(jobListForm);
+		
+		// Restore state of paging and sorting
+		PageAndSort pageAndSort = jobListForm.getPageAndSort();
+		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
+		Integer newObjectsPerPage = pageAndSort.getObjectsPerPage();	// possibly changed by user via select menu
+		pageAndSort.copyProperties(savedPageAndSort);
+		
+		Command command = jobListForm.getCommand();
+		switch (command) {
+			case CHANGE_OBJECTS_PER_PAGE:
+				pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
+				break;
+			case RESTART_JOB:
 // TODO: implement this
-		return null;
+				log.debug("TODO: implement RESTART job: " + jobListForm);	// TODO
+				jobListForm.setJobExecutionIds(null);	// uncheck all rows
+				break;
+			case STOP_JOB:
+// TODO: implement this				
+				log.debug("TODO: implement STOP job: " + jobListForm);	// TODO
+				jobListForm.setJobExecutionIds(null);	// uncheck all rows
+				break;
+			default:
+				throw new IllegalArgumentException("Unexpected job list command: " + command);
+		}
+		
+		// Restore the state of the search filter
+		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
+		filterForm.copyProperties(savedFilterForm);
+		
+		// Fetch the existing session saved list of job execution ID's
+		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
+		
+		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
+		
+		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
 
 	/**
@@ -120,57 +158,30 @@ public class JobListController {
 	public ModelAndView doFilterPost(HttpSession httpSession,
 						@ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
 						@ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
-						@ModelAttribute(PageAndSortForm.FORM_NAME) PageAndSortForm pageAndSortForm,
 						BindingResult errors,
 						Model model) throws Exception {
 log.debug(filterForm);
 		// Fetch the existing saved list of job execution ID's from the last successful query
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		
-		// Configure to sort on the same column and sort direction as user has already chose 
-		PageAndSortForm savedPageAndSortForm = fetchSavedPageAndSortForm(httpSession);
-		pageAndSortForm.copy(savedPageAndSortForm);
+		// Restore state of paging and sorting
+		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort pageAndSort = jobListForm.getPageAndSort();
+		pageAndSort.copyProperties(savedPageAndSort);
 		
 		if (FilterForm.Command.RESET.equals(filterForm.getCommand())){
 			filterForm.initialize();
 		} else {
 			filterFormValidator.validate(filterForm, errors);
 		}
-		pageAndSortForm.setPage(1);
+		pageAndSort.setPage(1);
 		if (!errors.hasErrors()) {
 			JobFilter filter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 											 filterForm.getTitleId(), filterForm.getBookName());
-			JobSort jobSort = createJobSort(savedPageAndSortForm.getSort(), savedPageAndSortForm.isAscendingSort());
+			JobSort jobSort = createJobSort(savedPageAndSort.getSort(), savedPageAndSort.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}
-		setUpModel(jobExecutionIds, filterForm, pageAndSortForm, httpSession, model);
-		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
-	}
-
-	/**
-	 * Change the number of rows displayed in the table.
-	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_LIST_ITEMS_PER_PAGE, method = RequestMethod.POST)
-	public ModelAndView doChangeItemsPerPage(HttpSession httpSession, 
-			@ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
-			@ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
-			@ModelAttribute(PageAndSortForm.FORM_NAME) PageAndSortForm pageAndSortForm,
-			Model model) throws Exception {
-		Integer itemsPerPage = pageAndSortForm.getItemsPerPage();
-		
-		// Restore the state of the search filter
-		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
-		filterForm.copy(savedFilterForm);
-		
-		// Fetch the current paging/sorting state from the session
-		PageAndSortForm sessionPageAndSortForm = fetchSavedPageAndSortForm(httpSession);
-		pageAndSortForm.copy(sessionPageAndSortForm);
-		pageAndSortForm.setItemsPerPage(itemsPerPage);	// Update the new number of items to be shown at one time
-		
-		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
-		
-		setUpModel(jobExecutionIds, filterForm, pageAndSortForm, httpSession, model);
-		
+		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
 	
@@ -182,12 +193,12 @@ log.debug(filterForm);
 	 * @param httpSession
 	 * @param model
 	 */
-	private void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSortForm pageAndSortForm,
+	private void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSort pageAndSortForm,
 							HttpSession httpSession, Model model) {
 		
 		// Save filter and paging state in the session
 		httpSession.setAttribute(FilterForm.FORM_NAME, filterForm);
-		httpSession.setAttribute(PageAndSortForm.FORM_NAME, pageAndSortForm);
+		httpSession.setAttribute(PageAndSort.class.getName(), pageAndSortForm);
 		httpSession.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
 		
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
@@ -209,10 +220,10 @@ log.debug(filterForm);
 		return jobExecutionIds;
 	}
 	
-	private PageAndSortForm fetchSavedPageAndSortForm(HttpSession httpSession) {
-		PageAndSortForm form = (PageAndSortForm) httpSession.getAttribute(PageAndSortForm.FORM_NAME);
+	private PageAndSort fetchSavedPageAndSort(HttpSession httpSession) {
+		PageAndSort form = (PageAndSort) httpSession.getAttribute(PageAndSort.class.getName());
 		if (form == null) {
-			form = PageAndSortForm.createDefault();
+			form = PageAndSort.createDefault();
 		}
 		return form;
 	}
@@ -251,11 +262,11 @@ log.debug(filterForm);
 		}
 	}
 
-    private JobPaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSortForm form) { 
+    private JobPaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) { 
 		int fullListSize = jobExecutionIds.size();
 		// Calculate begin and end index for the current page number
-		int fromIndex = (form.getPage() - 1) * form.getItemsPerPage();
-		int toIndex = fromIndex + form.getItemsPerPage();
+		int fromIndex = (pageAndSort.getPage() - 1) * pageAndSort.getObjectsPerPage();
+		int toIndex = fromIndex + pageAndSort.getObjectsPerPage();
 		toIndex = (toIndex < jobExecutionIds.size()) ? toIndex : jobExecutionIds.size();
 		
 		// Get the subset of jobExecutionIds that will be displayed on the current page
@@ -270,8 +281,8 @@ log.debug(filterForm);
 		}
 		
 		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos, fullListSize,
-						form.getPage(), form.getItemsPerPage(),
-						form.getSort(), form.isAscendingSort());
+						pageAndSort.getPage(), pageAndSort.getObjectsPerPage(),
+						pageAndSort.getSort(), pageAndSort.isAscendingSort());
 		return paginatedList;
     }	
 

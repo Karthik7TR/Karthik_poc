@@ -70,7 +70,6 @@ public class WebConstants {
 	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
 	public static final String MVC_JOB_LIST_FILTER_POST = "jobListFilterPost.mvc";
-	public static final String MVC_JOB_LIST_ITEMS_PER_PAGE = "jobListItemsPerPage.mvc";
 	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
 	
