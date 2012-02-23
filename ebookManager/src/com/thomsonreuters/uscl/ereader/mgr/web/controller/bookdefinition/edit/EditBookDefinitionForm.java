@@ -1,13 +1,16 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.log4j.Logger;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.util.AutoPopulatingList;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.Author;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class EditBookDefinitionForm {
@@ -19,11 +22,9 @@ public class EditBookDefinitionForm {
 	
 	private String titleId;
 	private String bookName;
-	private long majorVersion;
-	private long minorVersion;
 	private String copyright;
 	private String materialId;
-	private String authorInfo;
+	private AutoPopulatingList<Author> authorInfo;
 	private String rootTocGuid;
 	private String tocCollectionName;
 	private String nortDomain;
@@ -57,6 +58,7 @@ public class EditBookDefinitionForm {
 	public EditBookDefinitionForm() {
 		super();
 		
+		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 		this.onePassSSOLinking = true;
@@ -65,11 +67,8 @@ public class EditBookDefinitionForm {
 	public void initialize(BookDefinition bookDefinition) {
 		this.titleId = bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
 		this.bookName = bookDefinition.getBookName();
-		this.majorVersion = bookDefinition.getMajorVersion();
-		this.minorVersion = bookDefinition.getMinorVersion();
 		this.copyright = bookDefinition.getCopyright();
 		this.materialId = bookDefinition.getMaterialId();
-		this.authorInfo = bookDefinition.getAuthorInfo();
 		this.rootTocGuid = bookDefinition.getRootTocGuid();
 		this.tocCollectionName = bookDefinition.getTocCollectionName();
 		this.nortDomain = bookDefinition.getNortDomain();
@@ -136,22 +135,6 @@ public class EditBookDefinitionForm {
 		this.bookName = bookName;
 	}
 
-	public long getMajorVersion() {
-		return majorVersion;
-	}
-
-	public void setMajorVersion(long majorVersion) {
-		this.majorVersion = majorVersion;
-	}
-
-	public long getMinorVersion() {
-		return minorVersion;
-	}
-
-	public void setMinorVersion(long minorVersion) {
-		this.minorVersion = minorVersion;
-	}
-
 	public String getCopyright() {
 		return copyright;
 	}
@@ -168,11 +151,11 @@ public class EditBookDefinitionForm {
 		this.materialId = materialId;
 	}
 
-	public String getAuthorInfo() {
+	public AutoPopulatingList<Author> getAuthorInfo() {
 		return authorInfo;
 	}
 
-	public void setAuthorInfo(String authorInfo) {
+	public void setAuthorInfo(AutoPopulatingList<Author> authorInfo) {
 		this.authorInfo = authorInfo;
 	}
 
@@ -407,7 +390,7 @@ public class EditBookDefinitionForm {
 	
 	public static Map<String, String> getJurisdictions() {
 		Map<String,String> jurisdictions = new LinkedHashMap<String,String>();
-		jurisdictions.put("us", "US");
+		jurisdictions.put("us", "Federal");
 		jurisdictions.put("al", "Alabama");
 		jurisdictions.put("ak", "Alaska");
 		jurisdictions.put("az", "Arizona");
@@ -457,7 +440,7 @@ public class EditBookDefinitionForm {
 	}
 	public static Map<String, String> getPublisherKeywords() {
 		Map<String,String> publisherKeywords = new LinkedHashMap<String,String>();
-		publisherKeywords.put("AAA", "AAA");
+		publisherKeywords.put("Thomson Reuters Westlaw", "Thomson Reuters Westlaw");
 		publisherKeywords.put("BBB", "BBB");
 		publisherKeywords.put("CCC", "CCC");
 		publisherKeywords.put("DDD", "DDD");

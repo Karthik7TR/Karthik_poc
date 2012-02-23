@@ -222,7 +222,8 @@ ul.navList a:hover {
 	width:150px;
 }
 
-.bookDefinitionCRUD .rightDefinitionForm label {
+.bookDefinitionCRUD .rightDefinitionForm label,
+.bookDefinitionCRUD #authorName label {
 	float:left;
 	margin-right:10px;
 	text-align:right;
@@ -279,12 +280,15 @@ ul.navList a:hover {
 	padding-left:150px;
 	float:left;
 }
+.bookDefinitionCRUD #authorName {
+	float:left;
+}
 
 .bookDefinitionCRUD #accordion {
 	width:256px;
 	margin-left:160px;
 	font-size: 14px;
-	max-height: 320px;
+	max-height: 250px;
 }
 .bookDefinitionCRUD #accordion span {
 	display:block;
@@ -293,3 +297,20 @@ ul.navList a:hover {
 	float:none;
 	width:100%;
 }
+
+.bookDefinitionCRUD #authorName input.blur {
+  color:#808080;
+}
+
+.bookDefinitionCRUD #authorName .firstName,
+.bookDefinitionCRUD #authorName .middleName,
+.bookDefinitionCRUD #authorName .lastName {
+  width:75px;
+}
+
+.bookDefinitionCRUD #authorName .prefix,
+.bookDefinitionCRUD #authorName .suffix {
+  width:30px;
+}
+
+

@@ -30,6 +30,7 @@ public class EditBookDefinitionController {
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
+		binder.setAutoGrowNestedPaths(false);
 		binder.setValidator(validator);
 	}
 	
@@ -110,7 +111,7 @@ public class EditBookDefinitionController {
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
-	
+
 	private void initializeModel(Model model) {
 		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());

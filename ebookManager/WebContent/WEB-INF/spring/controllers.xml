@@ -18,6 +18,8 @@
 	<bean id="viewBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController"
 		  p:coreService-ref="coreService"/>
 		  
+	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
+		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
 		  p:coreService-ref="coreService">
 		  <property name="validator">

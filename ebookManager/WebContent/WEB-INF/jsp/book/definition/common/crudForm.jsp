@@ -66,7 +66,7 @@
 			}
 		};
 		
-		// Function to determine which divs to show depending on the content type.
+		// Function to determine which divs to show depending on the content type in Publisher Box
 		var determineOptions = function() {
 			$('#stateDiv').hide();
 			$('#jurisdictionDiv').hide();
@@ -102,6 +102,21 @@
 			};
 		};
 		
+		var updateTOCorNORT = function(status) {
+			$("#displayTOC").hide();
+			$("#displayNORT").hide();
+			
+			if(status == "TOC") {
+				$("#displayTOC").show();
+				$("#nortFilterView").val("");
+				$("#nortDomain").val("");
+			} else if (status == "NORT") {
+				$("#displayNORT").show();
+				$("#rootTocGuid").val("");
+				$("#tocCollectionName").val("");
+			};
+		};
+		
 		var clearTitleInformation = function() {
 			publisher = "";
 			$('#publisher').val("");
@@ -118,9 +133,10 @@
 		};
 		
 		$(document).ready(function() {
+			<%-- Style buttons with jquery  --%>
 			$( ".buttons input:submit,.buttons a,.buttons  button" ).button();
 			
-			// Setup change handlers
+			<%-- Setup change handlers  --%>
 			$('#contentType').change(function () {
 				// Clear out information when content type changes
 				clearTitleInformation();
@@ -154,14 +170,13 @@
 				updateTitleId();
 			});
 			
+			// Determine to show NORT or TOC fields
 			$('input:radio[name=TOCorNORT]').change(function () {
-				
+				updateTOCorNORT($(this).val());
 			});
 			
 			$( "#accordion" ).accordion({
-				collapsible: true,
 				fillSpace: true,
-				active:0
 			});
 			
 			// Initialize Global variables
@@ -176,6 +191,8 @@
 			// Setup view
 			determineOptions();
 			updateTitleId();
+			updateTOCorNORT($('input:radio[name=TOCorNORT]:checked').val());
+			textboxHint("authorName");
 		});
 </script>
 
@@ -245,15 +262,15 @@
 		<form:input path="bookName" />
 		<form:errors path="bookName" cssClass="errorMessage" />
 	</div>
-	<div class="row">
-		<form:label path="majorVersion" class="labelCol">Major Version</form:label>
-		<form:input path="majorVersion" />
-		<form:errors path="majorVersion" cssClass="errorMessage" />
+		<div class="row">
+		<form:label path="copyright" class="labelCol">Copyright</form:label>
+		<form:input path="copyright" />
+		<form:errors path="copyright" cssClass="errorMessage" />
 	</div>
 	<div class="row">
-		<form:label path="minorVersion" class="labelCol">Minor Version</form:label>
-		<form:input path="minorVersion" />
-		<form:errors path="minorVersion" cssClass="errorMessage" />
+		<form:label path="materialId" class="labelCol">Material ID</form:label>
+		<form:input path="materialId" />
+		<form:errors path="materialId" cssClass="errorMessage" />
 	</div>
 	<div class="row">
 		<label class="labelCol">TOC or NORT</label>
@@ -287,42 +304,27 @@
 	<div class="row">
 		<label class="labelCol">Keywords</label>
 		<div id="accordion">
-			<h3><a href="#">Type</a> <form:errors path="typeKeyword" cssClass="errorMessage" /></h3>
+			<h3><a href="#">Jurisdiction</a> <form:errors path="jurisdictionKeyword" cssClass="errorMessage" /></h3>
 			<div>
-				<form:checkboxes path="typeKeyword" items="${typeKeywords}" />
-			</div>
-			<h3><a href="#">Subject</a> <form:errors path="subjectKeyword" cssClass="errorMessage" /></h3>
-			<div>
-				<form:checkboxes path="subjectKeyword" items="${subjectKeywords}" multiple="true" />
+				<form:checkboxes path="jurisdictionKeyword" items="${jurisdictions}" multiple="true" />
 			</div>
 			<h3><a href="#">Publisher</a> <form:errors path="publisherKeyword" cssClass="errorMessage" /></h3>
 			<div>
 				<form:checkboxes path="publisherKeyword" items="${publisherKeywords}" multiple="true" />
 			</div>
-			<h3><a href="#">Jurisdiction</a> <form:errors path="jurisdictionKeyword" cssClass="errorMessage" /></h3>
+			<h3><a href="#">Subject</a> <form:errors path="subjectKeyword" cssClass="errorMessage" /></h3>
 			<div>
-				<form:checkboxes path="jurisdictionKeyword" items="${states}" multiple="true" />
+				<form:checkboxes path="subjectKeyword" items="${subjectKeywords}" multiple="true" />
+			</div>
+			<h3><a href="#">Type</a> <form:errors path="typeKeyword" cssClass="errorMessage" /></h3>
+			<div>
+				<form:checkboxes path="typeKeyword" items="${typeKeywords}" />
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="rightDefinitionForm">
-	<div class="row">
-		<form:label path="copyright" class="labelCol">Copyright</form:label>
-		<form:input path="copyright" />
-		<form:errors path="copyright" cssClass="errorMessage" />
-	</div>
-	<div class="row">
-		<form:label path="materialId" class="labelCol">Material ID</form:label>
-		<form:input path="materialId" />
-		<form:errors path="materialId" cssClass="errorMessage" />
-	</div>
-	<div class="row">
-		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
-		<form:input path="authorInfo" />
-		<form:errors path="authorInfo" cssClass="errorMessage" />
-	</div>
 	<div class="row">
 		<form:label path="additionalFrontMatterText" class="labelCol">Additional Front Matter Text</form:label>
 		<form:textarea path="additionalFrontMatterText" />
