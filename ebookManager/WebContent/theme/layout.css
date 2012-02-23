@@ -276,12 +276,11 @@ ul.navList a:hover {
 }
 
 .bookDefinitionCRUD .buttons {
-	padding-top:30px;
-	padding-left:150px;
 	float:left;
 }
 .bookDefinitionCRUD #authorName {
 	float:left;
+	width:700px;
 }
 
 .bookDefinitionCRUD #accordion {

@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.util.Iterator;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.Author;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
@@ -57,7 +60,12 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			
 		}
-		log.debug(form);
+		log.debug(form.getAuthorInfo().size());
+		Iterator<Author> iter = form.getAuthorInfo().iterator();
+		while(iter.hasNext()){
+			Author auth = iter.next();
+			log.debug(auth);
+		}
 		
 		
 		initializeModel(model);

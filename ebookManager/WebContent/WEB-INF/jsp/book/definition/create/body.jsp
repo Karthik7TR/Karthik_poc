@@ -38,17 +38,18 @@ function AddNew() {
 		<jsp:include page="../common/crudForm.jsp" />
 		<div id="authorName">
 			<form:label path="authorInfo" class="labelCol">Author Information</form:label>
-			<div class="row">
-				<form:input path="authorInfo[0].prefix" title="prefix" class="prefix"  />
-				<form:input path="authorInfo[0].firstName"  title="first name" class="firstName" />
-				<form:input path="authorInfo[0].middleName"  title="middle name" class="middleName" />
-				<form:input path="authorInfo[0].lastName"   title="last name" class="lastName" />
-				<form:input path="authorInfo[0].suffix"  title="suffix" class="suffix" />
-				<input type="button" value="Delete" class="rdelete" />
-			</div>
+			<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
+				<div class="row">
+					<form:input path="authorInfo[${aStatus.index}].prefix" title="prefix" class="prefix"  />
+					<form:input path="authorInfo[${aStatus.index}].firstName"  title="first name" class="firstName" />
+					<form:input path="authorInfo[${aStatus.index}].middleName"  title="middle name" class="middleName" />
+					<form:input path="authorInfo[${aStatus.index}].lastName"   title="last name" class="lastName" />
+					<form:input path="authorInfo[${aStatus.index}].suffix"  title="suffix" class="suffix" />
+					<input type="button" value="Delete" class="rdelete" />
+				</div>
+			</c:forEach>
 			<div id="addHere"></div>
 			<input type="button" onclick="AddNew();" id="addAuthor" value="add" />
-			
 		</div>
 		<div class="buttons">
 			<form:button>Validate</form:button>
