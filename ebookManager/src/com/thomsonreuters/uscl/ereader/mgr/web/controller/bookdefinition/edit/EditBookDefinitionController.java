@@ -1,10 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import java.util.Iterator;
-
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.Author;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class EditBookDefinitionController {
-	private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
 	private Validator validator;
@@ -47,7 +43,7 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 		
-		initializeModel(model);
+		initializeModel(model, form);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -60,15 +56,8 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			
 		}
-		log.debug(form.getAuthorInfo().size());
-		Iterator<Author> iter = form.getAuthorInfo().iterator();
-		while(iter.hasNext()){
-			Author auth = iter.next();
-			log.debug(auth);
-		}
 		
-		
-		initializeModel(model);
+		initializeModel(model, form);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -89,7 +78,7 @@ public class EditBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		form.initialize(bookDef);
-		initializeModel(model);
+		initializeModel(model, form);
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -108,9 +97,7 @@ public class EditBookDefinitionController {
 			
 		}
 		
-		log.debug(form);
-		
-		initializeModel(model);
+		initializeModel(model, form);
 		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
@@ -120,7 +107,11 @@ public class EditBookDefinitionController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
 
-	private void initializeModel(Model model) {
+	private void initializeModel(Model model, EditBookDefinitionForm form) {
+		// Clear out emtpy authors and determine size
+		form.removeEmptyAuthorRows();
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
+		
 		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());

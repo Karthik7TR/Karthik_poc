@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
 		// Declare Global Variables
+		var incrementVar = ${numberOfAuthors};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -28,13 +29,13 @@
 					titleId.push(pubAbbr, pubInfo);
 				} else {
 					titleId.push(pubAbbr);
-				}
+				};
 			} else if(contentType == contentTypeEnum.COURT_RULES) {
 				if (pubInfo) {
 					titleId.push(state, pubType, pubInfo);
 				} else {
 					titleId.push(state, pubType);
-				}
+				};
 			} else if(contentType == contentTypeEnum.SLICE_CODES) {
 				titleId.push(jurisdiction, pubInfo);
 			};
@@ -63,7 +64,7 @@
 			} else {
 				$('#titleId').val("");
 				$('#titleIdBox').val("");
-			}
+			};
 		};
 		
 		// Function to determine which divs to show depending on the content type in Publisher Box
@@ -90,6 +91,22 @@
 			}
 		};
 		
+		// Add another author row
+		var addAuthorRow = function() {
+			var appendTxt = "<div class='row'>";
+			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + incrementVar + ".prefix\" name=\"authorInfo[" + incrementVar + "].prefix\" type=\"text\" title=\"prefix\"/>";
+			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + incrementVar + ".firstName\" name=\"authorInfo[" + incrementVar + "].firstName\" type=\"text\" title=\"first name\"/>";
+			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + incrementVar + ".middleName\" name=\"authorInfo[" + incrementVar + "].middleName\" type=\"text\" title=\"middle name\"/>";
+			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + incrementVar + ".lastName\" name=\"authorInfo[" + incrementVar + "].lastName\" type=\"text\" title=\"last name\"/>";
+			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + incrementVar + ".suffix\" name=\"authorInfo[" + incrementVar + "].suffix\" type=\"text\" title=\"suffix\"/>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "</div>";
+			$("#addHere").before(appendTxt);
+			incrementVar = incrementVar + 1;
+			
+			textboxHint("authorName");
+		};
+		
 		var setContentType = function(ct) {
 			if (ct == "<%= WebConstants.KEY_ANALYTICAL %>") {
 				contentType = contentTypeEnum.ANALYTICAL;
@@ -99,22 +116,22 @@
 				contentType = contentTypeEnum.SLICE_CODES;
 			} else {
 				contentType = contentTypeEnum.NONE;
-			};
+			}
 		};
 		
-		var updateTOCorNORT = function(status) {
+		var updateTOCorNORT = function(isTOC) {
 			$("#displayTOC").hide();
 			$("#displayNORT").hide();
 			
-			if(status == "TOC") {
+			if(isTOC == "true") {
 				$("#displayTOC").show();
 				$("#nortFilterView").val("");
 				$("#nortDomain").val("");
-			} else if (status == "NORT") {
+			} else {
 				$("#displayNORT").show();
 				$("#rootTocGuid").val("");
 				$("#tocCollectionName").val("");
-			};
+			}
 		};
 		
 		var clearTitleInformation = function() {
@@ -171,12 +188,18 @@
 			});
 			
 			// Determine to show NORT or TOC fields
-			$('input:radio[name=TOCorNORT]').change(function () {
+			$('input:radio[name=isTOC]').change(function () {
 				updateTOCorNORT($(this).val());
 			});
 			
 			$( "#accordion" ).accordion({
 				fillSpace: true,
+			});
+			
+			$(".rdelete").live("click", function () {
+				var srow = $(this).parent();
+				srow.css("background-color", "#F0F0F0");
+				srow.fadeOut(500, function () { srow.remove(); });
 			});
 			
 			// Initialize Global variables
@@ -191,7 +214,7 @@
 			// Setup view
 			determineOptions();
 			updateTitleId();
-			updateTOCorNORT($('input:radio[name=TOCorNORT]:checked').val());
+			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			textboxHint("authorName");
 		});
 </script>
@@ -212,7 +235,9 @@
 				<form:option value="" label="SELECT" />
 				<form:options items="${publishers}" />
 			</form:select>
-			<form:errors path="publisher" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="publisher" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div id="stateDiv">
 			<form:label path="state" class="labelCol">State</form:label>
@@ -220,7 +245,9 @@
 				<form:option value="" label="SELECT" />
 				<form:options items="${states}" />
 			</form:select>
-			<form:errors path="state" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="state" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div id="jurisdictionDiv">
 			<form:label path="jurisdiction" class="labelCol">Juris</form:label>
@@ -228,7 +255,9 @@
 				<form:option value="" label="SELECT" />
 				<form:options items="${jurisdictions}" />
 			</form:select>
-			<form:errors path="jurisdiction" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="jurisdiction" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div id="pubTypeDiv">
 			<form:label path="pubType" class="labelCol">Pub Type</form:label>
@@ -236,17 +265,23 @@
 				<form:option value="" label="SELECT" />
 				<form:options items="${pubTypes}" />
 			</form:select>
-			<form:errors path="pubType" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="pubType" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div id="pubAbbrDiv">
 			<form:label path="pubAbbr" class="labelCol">Pub Abbreviation</form:label>
 			<form:input path="pubAbbr" maxlength="15"/>
-			<form:errors path="pubAbbr" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="pubAbbr" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div>
 			<form:label path="pubInfo" class="labelCol">Pub Info</form:label>
 			<form:input path="pubInfo" maxlength="40"/>
-			<form:errors path="pubInfo" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="pubInfo" cssClass="errorMessage" />
+			</div>
 		</div>
 	</div>
 </div>
@@ -255,50 +290,94 @@
 		<form:label path="titleId" class="labelCol">Title ID</form:label>
 		<input id="titleIdBox" type="text" disabled="disabled" />
 		<form:hidden path="titleId"/>
-		<form:errors path="titleId" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="titleId" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
-		<form:label path="bookName" class="labelCol">Name</form:label>
-		<form:input path="bookName" />
-		<form:errors path="bookName" cssClass="errorMessage" />
+		<form:label path="nameLine1" class="labelCol">Name Line 1</form:label>
+		<form:input path="nameLine1" />
+		<div class="errorDiv">
+			<form:errors path="nameLine1" cssClass="errorMessage" />
+		</div>
 	</div>
-		<div class="row">
+	<div class="row">
+		<form:label path="nameLine2" class="labelCol">Name Line 2</form:label>
+		<form:input path="nameLine2" />
+		<div class="errorDiv">
+			<form:errors path="nameLine2" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="nameLine3" class="labelCol">Name Line 3</form:label>
+		<form:input path="nameLine3" />
+		<div class="errorDiv">
+			<form:errors path="nameLine3" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="nameLine4" class="labelCol">Name Line 4</form:label>
+		<form:input path="nameLine4" />
+		<div class="errorDiv">
+			<form:errors path="nameLine4" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
 		<form:label path="copyright" class="labelCol">Copyright</form:label>
 		<form:input path="copyright" />
-		<form:errors path="copyright" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="copyright" cssClass="errorMessage" />
+		</div>
 	</div>
+	<div class="row">
+		<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
+		<form:textarea path="copyrightPageText" />
+		<div class="errorDiv">
+			<form:errors path="copyrightPageText" cssClass="errorMessage" />
+		</div>
+	</div>
+	
 	<div class="row">
 		<form:label path="materialId" class="labelCol">Material ID</form:label>
 		<form:input path="materialId" />
-		<form:errors path="materialId" cssClass="errorMessage" />
-	</div>
+		<div class="errorDiv">
+			<form:errors path="materialId" cssClass="errorMessage" />
+		</div>	</div>
 	<div class="row">
 		<label class="labelCol">TOC or NORT</label>
-		<input type="radio" name="TOCorNORT" value="TOC" />TOC
-		<input type="radio" name="TOCorNORT" value="NORT" />NORT
+		<form:radiobutton path="isTOC" value="true" />TOC
+		<form:radiobutton path="isTOC" value="false" />NORT
 	</div>
 	<div id="displayTOC" style="display:none">
 		<div class="row">
 			<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
 			<form:input path="tocCollectionName" />
+		<div class="errorDiv">
 			<form:errors path="tocCollectionName" cssClass="errorMessage" />
+		</div>
 		</div>
 		<div class="row">
 			<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
 			<form:input path="rootTocGuid" />
+		<div class="errorDiv">
 			<form:errors path="rootTocGuid" cssClass="errorMessage" />
+		</div>
 		</div>
 	</div>
 	<div id="displayNORT" style="display:none">
 		<div class="row">
 			<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
 			<form:input path="nortDomain" />
-			<form:errors path="nortDomain" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="nortDomain" cssClass="errorMessage" />
+			</div>
 		</div>
 		<div class="row">
 			<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
 			<form:input path="nortFilterView" />
-			<form:errors path="nortFilterView" cssClass="errorMessage" />
+			<div class="errorDiv">
+				<form:errors path="nortFilterView" cssClass="errorMessage" />
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -325,49 +404,116 @@
 </div>
 
 <div class="rightDefinitionForm">
+	<div id="authorName" class="row">
+		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
+		<input type="button" onclick="addAuthorRow();" id="addAuthor" value="add" />
+		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
+			<div class="row">
+				<form:input path="authorInfo[${aStatus.index}].prefix" title="prefix" class="prefix"  />
+				<form:input path="authorInfo[${aStatus.index}].firstName"  title="first name" class="firstName" />
+				<form:input path="authorInfo[${aStatus.index}].middleName"  title="middle name" class="middleName" />
+				<form:input path="authorInfo[${aStatus.index}].lastName"   title="last name" class="lastName" />
+				<form:input path="authorInfo[${aStatus.index}].suffix"  title="suffix" class="suffix" />
+				<input type="button" value="Delete" class="rdelete" />
+			</div>
+		</c:forEach>
+		<div id="addHere"></div>
+	</div>
 	<div class="row">
-		<form:label path="additionalFrontMatterText" class="labelCol">Additional Front Matter Text</form:label>
-		<form:textarea path="additionalFrontMatterText" />
-		<form:errors path="additionalFrontMatterText" cssClass="errorMessage" />
+		<form:label path="additionalFrontMatterHeader1" class="labelCol">Additional Front Matter Header 1</form:label>
+		<form:textarea path="additionalFrontMatterHeader1" />
+		<div class="errorDiv">
+			<form:errors path="additionalFrontMatterHeader1" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="additionalFrontMatterText1" class="labelCol">Additional Front Matter Text 1</form:label>
+		<form:textarea path="additionalFrontMatterText1" />
+		<div class="errorDiv">
+			<form:errors path="additionalFrontMatterText1" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="additionalFrontMatterHeader2" class="labelCol">Additional Front Matter Header 2</form:label>
+		<form:textarea path="additionalFrontMatterHeader2" />
+		<div class="errorDiv">
+			<form:errors path="additionalFrontMatterHeader2" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="additionalFrontMatterText2" class="labelCol">Additional Front Matter Text 2</form:label>
+		<form:textarea path="additionalFrontMatterText2" />
+		<div class="errorDiv">
+			<form:errors path="additionalFrontMatterText2" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
+		<form:input path="publishDateText" />
+		<div class="errorDiv">
+			<form:errors path="publishDateText" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="isbn" class="labelCol">ISBN</form:label>
 		<form:input path="isbn" />
-		<form:errors path="isbn" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="isbn" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="imageCollectionInformation" class="labelCol">Image Collection</form:label>
 		<form:input path="imageCollectionInformation" />
-		<form:errors path="imageCollectionInformation" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="imageCollectionInformation" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="currency" class="labelCol">Currency</form:label>
 		<form:input path="currency" />
-		<form:errors path="currency" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="currency" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="autoUpdateSupport" class="labelCol">Auto Update Support</form:label>
 		<form:radiobutton path="autoUpdateSupport" value="true" />True
 		<form:radiobutton path="autoUpdateSupport" value="false" />False
-		<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="searchIndex" class="labelCol">Search Index</form:label>
 		<form:radiobutton path="searchIndex" value="true" />True
 		<form:radiobutton path="searchIndex" value="false" />False
-		<form:errors path="searchIndex" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="searchIndex" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="onePassSSOLinking" class="labelCol">One Pass SSO Linking</form:label>
 		<form:radiobutton path="onePassSSOLinking" value="true" />True
 		<form:radiobutton path="onePassSSOLinking" value="false" />False
-		<form:errors path="onePassSSOLinking" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="onePassSSOLinking" cssClass="errorMessage" />
+		</div>
 	</div>
 	<div class="row">
 		<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
 		<form:radiobutton path="keyCiteToplineFlag" value="true" />True
 		<form:radiobutton path="keyCiteToplineFlag" value="false" />False
-		<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+		<div class="errorDiv">
+			<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
+		<form:radiobutton path="isComplete" value="true" />Complete
+		<form:radiobutton path="isComplete" value="false" />Incomplete
+		<div class="errorDiv">
+			<form:errors path="isComplete" cssClass="errorMessage" />
+		</div>
 	</div>
 </div>
 

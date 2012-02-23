@@ -21,6 +21,7 @@ public class WebConstants {
 	public static final String KEY_IS_ASCENDING = "isAscending";
 	public static final String KEY_VDO = "vdo";
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
+	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
 	public static final String KEY_CONTENT_TYPES = "contentTypes";

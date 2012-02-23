@@ -8,14 +8,14 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-
-
 public class Author {
-	private String prefix;
-	private String firstName;
-	private String middleName;
-	private String lastName;
-	private String suffix;
+	//private static final Logger log = Logger.getLogger(Author.class);
+	
+	private String prefix = "";
+	private String firstName = "";
+	private String middleName = "";
+	private String lastName = "";
+	private String suffix = "";
 	
 	public Author() {
 		super();
@@ -64,5 +64,10 @@ public class Author {
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return this.toString().equals(obj.toString());
 	}
 }

@@ -215,19 +215,12 @@ ul.navList a:hover {
 	position: relative;
 }
 
-.bookDefinitionCRUD .leftDefinitionForm label{
+.bookDefinitionCRUD .leftDefinitionForm label,
+.bookDefinitionCRUD .rightDefinitionForm label{
 	float:left;
 	margin-right:10px;
 	text-align:right;
-	width:150px;
-}
-
-.bookDefinitionCRUD .rightDefinitionForm label,
-.bookDefinitionCRUD #authorName label {
-	float:left;
-	margin-right:10px;
-	text-align:right;
-	width:250px;
+	width:180px;
 }
 
 .bookDefinitionCRUD .row {
@@ -242,6 +235,7 @@ ul.navList a:hover {
 
 .bookDefinitionCRUD .leftDefinitionForm input[type="text"],
 .bookDefinitionCRUD .rightDefinitionForm input[type="text"],
+.bookDefinitionCRUD .leftDefinitionForm textarea,
 .bookDefinitionCRUD .rightDefinitionForm textarea {
 	width:250px;
 }
@@ -260,7 +254,8 @@ ul.navList a:hover {
 .bookDefinitionCRUD #publishDetailDiv {
 	margin:10px 0px 0px;
 }
-.bookDefinitionCRUD #publishDetailDiv div {
+.bookDefinitionCRUD #publishDetailDiv > div {
+	vertical-align:top;
 	display:inline-block;
 }
 .bookDefinitionCRUD .keywords label {
@@ -277,15 +272,12 @@ ul.navList a:hover {
 
 .bookDefinitionCRUD .buttons {
 	float:left;
-}
-.bookDefinitionCRUD #authorName {
-	float:left;
-	width:700px;
+	margin:50px 0px 50px 100px;
 }
 
 .bookDefinitionCRUD #accordion {
 	width:256px;
-	margin-left:160px;
+	margin-left:190px;
 	font-size: 14px;
 	max-height: 250px;
 }
@@ -312,4 +304,15 @@ ul.navList a:hover {
   width:30px;
 }
 
+.bookDefinitionCRUD #authorName .row {
+	text-align: right;
+}
+
+.bookDefinitionCRUD #authorName .row input {
+	margin: 0px 1px;
+}
+
+.bookDefinitionCRUD .errorDiv {
+	text-align: right;
+}
 

@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 //import org.apache.log4j.Logger;
@@ -17,21 +17,29 @@ public class EditBookDefinitionForm {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	public static final String FORM_NAME = "editBookDefinitionForm";
 	private static final int PUBLISHER_INDEX = 0;
-	//private static final int contentTypeIndex = 1;
 	private static final int TITLE_NAME_INDEX = 2;
 	
 	private String titleId;
-	private String bookName;
+	private String nameLine1;
+	private String nameLine2;
+	private String nameLine3;
+	private String nameLine4;
 	private String copyright;
+	private String copyrightPageText;
 	private String materialId;
 	private AutoPopulatingList<Author> authorInfo;
+	private boolean isTOC;
 	private String rootTocGuid;
 	private String tocCollectionName;
 	private String nortDomain;
 	private String nortFilterView;
 	private String contentType;
 	private String isbn;
-	private String additionalFrontMatterText;
+	private String additionalFrontMatterHeader1;
+	private String additionalFrontMatterText1;
+	private String additionalFrontMatterHeader2;
+	private String additionalFrontMatterText2;
+	private String publishDateText;
 	
 	// Keywords used in Proview
 	private String[] typeKeyword;
@@ -62,11 +70,13 @@ public class EditBookDefinitionForm {
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 		this.onePassSSOLinking = true;
+		this.keyCiteToplineFlag = false;
+		this.isComplete = false;
 	}
 	
 	public void initialize(BookDefinition bookDefinition) {
 		this.titleId = bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
-		this.bookName = bookDefinition.getBookName();
+		this.nameLine1 = bookDefinition.getBookName();
 		this.copyright = bookDefinition.getCopyright();
 		this.materialId = bookDefinition.getMaterialId();
 		this.rootTocGuid = bookDefinition.getRootTocGuid();
@@ -127,12 +137,36 @@ public class EditBookDefinitionForm {
 		this.titleId = titleId;
 	}
 
-	public String getBookName() {
-		return bookName;
+	public String getNameLine1() {
+		return nameLine1;
 	}
 
-	public void setBookName(String bookName) {
-		this.bookName = bookName;
+	public void setNameLine1(String nameLine1) {
+		this.nameLine1 = nameLine1;
+	}
+
+	public String getNameLine2() {
+		return nameLine2;
+	}
+
+	public void setNameLine2(String nameLine2) {
+		this.nameLine2 = nameLine2;
+	}
+
+	public String getNameLine3() {
+		return nameLine3;
+	}
+
+	public void setNameLine3(String nameLine3) {
+		this.nameLine3 = nameLine3;
+	}
+
+	public String getNameLine4() {
+		return nameLine4;
+	}
+
+	public void setNameLine4(String nameLine4) {
+		this.nameLine4 = nameLine4;
 	}
 
 	public String getCopyright() {
@@ -141,6 +175,14 @@ public class EditBookDefinitionForm {
 
 	public void setCopyright(String copyright) {
 		this.copyright = copyright;
+	}
+
+	public String getCopyrightPageText() {
+		return copyrightPageText;
+	}
+
+	public void setCopyrightPageText(String copyrightPageText) {
+		this.copyrightPageText = copyrightPageText;
 	}
 
 	public String getMaterialId() {
@@ -157,6 +199,14 @@ public class EditBookDefinitionForm {
 
 	public void setAuthorInfo(AutoPopulatingList<Author> authorInfo) {
 		this.authorInfo = authorInfo;
+	}
+
+	public boolean getIsTOC() {
+		return isTOC;
+	}
+
+	public void setIsTOC(boolean isTOC) {
+		this.isTOC = isTOC;
 	}
 
 	public String getRootTocGuid() {
@@ -207,12 +257,44 @@ public class EditBookDefinitionForm {
 		this.isbn = isbn;
 	}
 
-	public String getAdditionalFrontMatterText() {
-		return additionalFrontMatterText;
+	public String getAdditionalFrontMatterHeader1() {
+		return additionalFrontMatterHeader1;
 	}
 
-	public void setAdditionalFrontMatterText(String additionalFrontMatterText) {
-		this.additionalFrontMatterText = additionalFrontMatterText;
+	public void setAdditionalFrontMatterHeader1(String additionalFrontMatterHeader1) {
+		this.additionalFrontMatterHeader1 = additionalFrontMatterHeader1;
+	}
+
+	public String getAdditionalFrontMatterText1() {
+		return additionalFrontMatterText1;
+	}
+
+	public void setAdditionalFrontMatterText1(String additionalFrontMatterText1) {
+		this.additionalFrontMatterText1 = additionalFrontMatterText1;
+	}
+
+	public String getAdditionalFrontMatterHeader2() {
+		return additionalFrontMatterHeader2;
+	}
+
+	public void setAdditionalFrontMatterHeader2(String additionalFrontMatterHeader2) {
+		this.additionalFrontMatterHeader2 = additionalFrontMatterHeader2;
+	}
+
+	public String getAdditionalFrontMatterText2() {
+		return additionalFrontMatterText2;
+	}
+
+	public void setAdditionalFrontMatterText2(String additionalFrontMatterText2) {
+		this.additionalFrontMatterText2 = additionalFrontMatterText2;
+	}
+
+	public String getPublishDateText() {
+		return publishDateText;
+	}
+
+	public void setPublishDateText(String publishDateText) {
+		this.publishDateText = publishDateText;
 	}
 
 	public String[] getTypeKeyword() {
@@ -287,11 +369,11 @@ public class EditBookDefinitionForm {
 		this.currency = currency;
 	}
 	
-	public boolean isComplete() {
+	public boolean getIsComplete() {
 		return isComplete;
 	}
 
-	public void setComplete(boolean isComplete) {
+	public void setIsComplete(boolean isComplete) {
 		this.isComplete = isComplete;
 	}
 
@@ -363,6 +445,17 @@ public class EditBookDefinitionForm {
 		return contentTypes;
 	}
 
+	public void removeEmptyAuthorRows() {
+		Author emptyAuthor = new Author();
+        synchronized(this.authorInfo) {
+            for (Iterator<Author> i = this.authorInfo.iterator(); i.hasNext();) {
+            	Author author = i.next();
+                if (author == null || author.equals(emptyAuthor)) {
+                    i.remove();
+                }
+            }
+        }
+    }
 	
 	// STUB Drop down menu on Create/Edit Book Definition
 	// TODO: connect with model
