@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 public class FilterForm {
 	
 	public static final String FORM_NAME = "jobListFilterForm";
+	public enum Command { SEARCH, RESET };
 	
 	//private static final Logger log = Logger.getLogger(FilterForm.class);
 	
@@ -32,19 +33,22 @@ public class FilterForm {
 	private String fromDateString;
 	private String toDateString;
 	private BatchStatus batchStatus;
+	private Command command;
 	
 	public FilterForm() {
+		initialize();
+	}
+	public void initialize() {
 		// Default the from date to 1 day ago
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -1);
-		setFromDateString(parseDate(cal.getTime()));
+		String fromDate = parseDate(cal.getTime());
+		populate(null, null, fromDate, null, null);
 	}
-	
 	public void copy(FilterForm copy) {
-		initialize(copy.getTitleId(), copy.getBookName(), copy.getFromDateString(), copy.getToDateString(), copy.getBatchStatus());
+		populate(copy.getTitleId(), copy.getBookName(), copy.getFromDateString(), copy.getToDateString(), copy.getBatchStatus());
 	}
-	
-	public void initialize(String titleId, String bookName, String fromDateString, String toDateString, BatchStatus batchStatus) {
+	public void populate(String titleId, String bookName, String fromDateString, String toDateString, BatchStatus batchStatus) {
 		this.titleId = titleId;
 		this.bookName = bookName;
 		this.fromDateString = fromDateString;
@@ -54,6 +58,9 @@ public class FilterForm {
 	
 	public String getBookName() {
 		return bookName;
+	}
+	public Command getCommand() {
+		return command;
 	}
 	public String getTitleId() {
 		return titleId;
@@ -75,6 +82,9 @@ public class FilterForm {
 	}
 	public void setBookName(String name) {
 		this.bookName = name;
+	}
+	public void setCommand(Command cmd) {
+		this.command = cmd;
 	}
 	public void setTitleId(String titleId) {
 		this.titleId = titleId;

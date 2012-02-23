@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSortFo
 
 @Controller
 public class JobListController {
-	//private static final Logger log = Logger.getLogger(JobListController.class);
+	private static final Logger log = Logger.getLogger(JobListController.class);
 	private JobService jobService;
 	private FilterFormValidator filterFormValidator;
 	
@@ -115,7 +116,6 @@ public class JobListController {
 	/**
 	 * Handle submit/post of a new set of filter criteria.
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value=WebConstants.MVC_JOB_LIST_FILTER_POST, method = RequestMethod.POST)
 	public ModelAndView doFilterPost(HttpSession httpSession,
 						@ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
@@ -123,21 +123,25 @@ public class JobListController {
 						@ModelAttribute(PageAndSortForm.FORM_NAME) PageAndSortForm pageAndSortForm,
 						BindingResult errors,
 						Model model) throws Exception {
-
+log.debug(filterForm);
+		// Fetch the existing saved list of job execution ID's from the last successful query
+		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
+		
 		// Configure to sort on the same column and sort direction as user has already chose 
 		PageAndSortForm savedPageAndSortForm = fetchSavedPageAndSortForm(httpSession);
 		pageAndSortForm.copy(savedPageAndSortForm);
-		pageAndSortForm.setPage(1);
 		
-		filterFormValidator.validate(filterForm, errors);
-		List<Long> jobExecutionIds = null;
+		if (FilterForm.Command.RESET.equals(filterForm.getCommand())){
+			filterForm.initialize();
+		} else {
+			filterFormValidator.validate(filterForm, errors);
+		}
+		pageAndSortForm.setPage(1);
 		if (!errors.hasErrors()) {
 			JobFilter filter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 											 filterForm.getTitleId(), filterForm.getBookName());
 			JobSort jobSort = createJobSort(savedPageAndSortForm.getSort(), savedPageAndSortForm.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
-		} else {
-			jobExecutionIds = Collections.EMPTY_LIST;
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSortForm, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);

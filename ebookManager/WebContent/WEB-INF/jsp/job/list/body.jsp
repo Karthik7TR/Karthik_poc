@@ -40,13 +40,11 @@
 	    </spring:hasBindErrors>
 				   
 	<%-- Table of job executions --%>
-		<display:table id="vdo" name="paginatedList" class="displayTagTable" cellpadding="2" 
+		<display:table id="vdo" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 					   requestURI="<%=WebConstants.MVC_JOB_LIST_PAGE_AND_SORT%>"
 					   sort="external">
 		  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
 	
-		  <%-- display:column title="Job Name ${jobNameImageTag}" property="jobExecution.jobInstance.jobName" sortable="true" sortProperty="<%=SortProperty.JOB_NAME.toString()%>" style="text-align: left"/ --%>
-		  <%-- No need to display the job name since it will always be the same.  The book code discriminates between which book the job will create. --%>
 		  <display:column title="Book Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 		  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
 		  <display:column title="Inst" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
@@ -55,11 +53,9 @@
 		  <display:column title="Exec" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
 		  		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAIL%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${vdo.jobExecution.id}">${vdo.jobExecution.id}</a>
 		  </display:column>
-		  
-	
 		  <display:column title="Job Status" property="jobExecution.status" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 		  <display:column title="Start Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.START_TIME.toString()%>"><fmt:formatDate value="${vdo.jobExecution.startTime}" pattern="${DATE_FORMAT}"/></display:column>
-		  
+		  <display:column title="Duration" property="executionDuration"/>
 		</display:table>
 	</form:form>
 	<br/>

@@ -44,7 +44,7 @@
     background-color: #FFFFFF;
 }
 .displayTagTable tr.tableRowEven, .displayTagTable tr.even {
-    background-color: #F9F9F9;
+    background-color: #BFDFFF;
 }
 .displayTagTable span.export {
     cursor: pointer;
