@@ -9,19 +9,16 @@ public class JobListForm {
 	
 	public static final String FORM_NAME = "jobListForm";
 	
-	public enum Command { STOP_JOB, RESTART_JOB, CHANGE_OBJECTS_PER_PAGE};
+	public enum JobCommand { STOP_JOB, RESTART_JOB, CHANGE_OBJECTS_PER_PAGE};
 	
-	private Command command;
+	private JobCommand command;
 	private Long[] 	jobExecutionIds;
 	
 	private PageAndSort pageAndSort = new PageAndSort();	// sort, page, dir, objectsPerPage
 
 	/** Discriminator between which post action is to be performed. */
-	public Command getCommand() {
+	public JobCommand getJobCommand() {
 		return command;
-	}
-	public String getCommandString() {
-		return (command != null) ? command.toString() : null;
 	}
 	/** Selected Job execution ID for multi-select. */
 	public Long[] getJobExecutionIds() {
@@ -42,11 +39,8 @@ public class JobListForm {
 	public PageAndSort getPageAndSort() {
 		return pageAndSort;
 	}
-	public void setCommand(Command command) {
+	public void setJobCommand(JobCommand command) {
 		this.command = command;
-	}
-	public void setCommandString(String command) {
-		this.command = Command.valueOf(command);
 	}
 	public void setJobExecutionIds(Long[] ids) {
 		this.jobExecutionIds = ids;

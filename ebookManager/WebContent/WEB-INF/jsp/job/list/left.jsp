@@ -9,7 +9,7 @@
 <script>
 function submitJobListFilterForm(command) {
 	var form = document.getElementById('<%=FilterForm.FORM_NAME%>');
-	form.command.value = command;
+	form.filterCommand.value = command;
 	form.submit();
 }
 </script>
@@ -19,7 +19,7 @@ function submitJobListFilterForm(command) {
 
 <form:form action="<%=WebConstants.MVC_JOB_LIST_FILTER_POST%>"
 		   commandName="<%=FilterForm.FORM_NAME%>" method="post">
-	<form:hidden path="command"/>
+	<form:hidden path="filterCommand"/>
 		   
 	Title ID <form:input path="titleId"/><br/>
 	From Date <form:input path="fromDateString"/><br/>
@@ -38,6 +38,6 @@ function submitJobListFilterForm(command) {
 	</form:select>
 	<br/>
 	<br/>
-	<input type="button" value="Search" onclick="submitJobListFilterForm('<%=FilterForm.Command.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitJobListFilterForm('<%=FilterForm.Command.RESET%>')"/>
+	<input type="button" value="Search" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
+	<input type="button" value="Reset" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>
 </form:form>

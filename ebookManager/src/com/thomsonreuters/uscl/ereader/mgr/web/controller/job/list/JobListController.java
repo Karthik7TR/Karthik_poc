@@ -27,7 +27,8 @@ import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm.FilterCommand;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.JobCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
 
 
@@ -120,7 +121,7 @@ public class JobListController {
 		Integer newObjectsPerPage = pageAndSort.getObjectsPerPage();	// possibly changed by user via select menu
 		pageAndSort.copyProperties(savedPageAndSort);
 		
-		Command command = jobListForm.getCommand();
+		JobCommand command = jobListForm.getJobCommand();
 		switch (command) {
 			case CHANGE_OBJECTS_PER_PAGE:
 				pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
@@ -169,7 +170,7 @@ log.debug(filterForm);
 		PageAndSort pageAndSort = jobListForm.getPageAndSort();
 		pageAndSort.copyProperties(savedPageAndSort);
 		
-		if (FilterForm.Command.RESET.equals(filterForm.getCommand())){
+		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())){
 			filterForm.initialize();
 		} else {
 			filterFormValidator.validate(filterForm, errors);

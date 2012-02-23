@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.JobCommand"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty"%>
@@ -24,11 +25,11 @@ $(document).ready(function() {
 	});
 });
 function submitChangeObjectsPerPage() {
-	submitJobListForm('<%=JobListForm.Command.CHANGE_OBJECTS_PER_PAGE%>');
+	submitJobListForm('<%=JobCommand.CHANGE_OBJECTS_PER_PAGE%>');
 }
 function submitJobListForm(command) {
 	var form = document.getElementById('<%=JobListForm.FORM_NAME%>');
-	form.commandString.value = command;
+	form.jobCommand.value = command;
 	form.submit();
 }
 </script>
@@ -37,23 +38,7 @@ function submitJobListForm(command) {
 
 	<form:form action="<%=WebConstants.MVC_JOB_LIST_POST%>"
 			   commandName="<%=JobListForm.FORM_NAME%>" name="theForm" method="post">
-		<form:hidden path="commandString"/>
-			   
-		<%-- Error Message Presentation --%>
-		<spring:hasBindErrors name="<%=FilterForm.FORM_NAME%>">
-			<div class="errorBox">
-		      <b><spring:message code="please.fix.errors"/></b><br/>
-		      <form:errors path="*">
-		      	<ul>
-				<c:forEach items="${messages}" var="message">
-					<li style="color: black">${message}</li>
-				</c:forEach>
-		      	</ul>
-			  </form:errors>
-			  <br/>
-		    </div>
-		    <br/>
-	    </spring:hasBindErrors>
+		<form:hidden path="jobCommand"/>
 				   
 	<%-- Table of job executions --%>
 		<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
@@ -78,7 +63,7 @@ function submitJobListForm(command) {
 		</display:table>
 		
 	<%-- Select for how may items (rows) per page to show --%>
-		Items per page: 
+		Rows per page: 
 		<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
 		<form:select path="objectsPerPage" onchange="submitChangeObjectsPerPage()">
 			<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
@@ -88,8 +73,8 @@ function submitJobListForm(command) {
 		</form:select>
 		&nbsp;
 	<%-- Operational buttons --%>
-		<input type="button" value="Stop Job" onclick="submitJobListForm('<%=JobListForm.Command.STOP_JOB%>')"/> &nbsp;
-		<input type="button" value="Restart Job" onclick="submitJobListForm('<%=JobListForm.Command.RESTART_JOB%>')"/>
+		<input type="button" value="Stop Job" onclick="submitJobListForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+		<input type="button" value="Restart Job" onclick="submitJobListForm('<%=JobCommand.RESTART_JOB%>')"/>
 		
 	</form:form>
 
