@@ -53,7 +53,6 @@ function submitJobListForm(command) {
 		  </form:errors>
 		  <br/>
 	    </div>
-	    <br/>
     </spring:hasBindErrors>
 	
 	<%-- Table of job executions --%>
@@ -67,10 +66,10 @@ function submitJobListForm(command) {
   	  </display:column>
 	  <display:column title="Book Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 	  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
-	  <display:column title="Inst" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
+	  <display:column title="Inst &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
 	  		<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAIL%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 	  </display:column>
-	  <display:column title="Exec" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
+	  <display:column title="Exec &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
 	  		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAIL%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${vdo.jobExecution.id}">${vdo.jobExecution.id}</a>
 	  </display:column>
 	  <display:column title="Job Status" property="jobExecution.status" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>

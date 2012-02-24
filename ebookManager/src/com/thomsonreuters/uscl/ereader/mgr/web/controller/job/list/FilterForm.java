@@ -14,7 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -27,7 +26,7 @@ public class FilterForm {
 	public static final String FORM_NAME = "jobListFilterForm";
 	public enum FilterCommand { SEARCH, RESET };
 	
-	private static final Logger log = Logger.getLogger(FilterForm.class);
+	//private static final Logger log = Logger.getLogger(FilterForm.class);
 	
 	private String titleId;
 	private String bookName;
@@ -85,7 +84,6 @@ public class FilterForm {
 		this.bookName = name;
 	}
 	public void setFilterCommand(FilterCommand cmd) {
-		log.debug(cmd);
 		this.command = cmd;
 	}
 	public void setTitleId(String titleId) {

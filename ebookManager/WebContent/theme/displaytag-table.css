@@ -33,11 +33,11 @@
     background-repeat: no-repeat;
 }
 .displayTagTable th.order1 a {
-    background-image: url("images/arrow_down.png");
+    background-image: url("images/arrow_up.png");
     background-repeat: no-repeat;
 }
 .displayTagTable th.order2 a {
-    background-image: url("images/arrow_up.png");
+    background-image: url("images/arrow_down.png");
     background-repeat: no-repeat;
 }
 .displayTagTable tr.odd {

@@ -37,11 +37,9 @@
 	
 	<bean id="jobListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListController"
 		  p:jobService-ref="jobService">
-		  <!-- 
-		<property name="filterFormValidator">
-			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterFormValidator"/>
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListValidator"/>
 		</property>
-		   -->
 	</bean>	
 	<bean id="jobListFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterController"
 		  p:jobService-ref="jobService">

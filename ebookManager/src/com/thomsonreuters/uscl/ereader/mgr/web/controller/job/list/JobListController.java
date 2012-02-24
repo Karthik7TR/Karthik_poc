@@ -8,11 +8,16 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +34,12 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.D
 @Controller
 public class JobListController extends BaseJobListController {
 	private static final Logger log = Logger.getLogger(JobListController.class);
-//	private Validator validator;
+	private Validator validator;
+
+	@InitBinder(JobListForm.FORM_NAME)
+	protected void initDataBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
 	/**
 	 * Handle initial in-bound HTTP get request to the page.
@@ -103,8 +113,8 @@ public class JobListController extends BaseJobListController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_LIST_POST, method = RequestMethod.POST)
 	public ModelAndView doPost(HttpSession httpSession,
-							   @ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
-							   @ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
+							   @ModelAttribute(JobListForm.FORM_NAME) @Valid JobListForm jobListForm,
+							   BindingResult errors,
 							   Model model) throws Exception {
 		log.debug(jobListForm);
 		
@@ -114,26 +124,29 @@ public class JobListController extends BaseJobListController {
 		Integer newObjectsPerPage = pageAndSort.getObjectsPerPage();	// possibly changed by user via select menu
 		pageAndSort.copyProperties(savedPageAndSort);
 		
-		JobCommand command = jobListForm.getJobCommand();
-		switch (command) {
-			case CHANGE_OBJECTS_PER_PAGE:
-				pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
-				break;
-			case RESTART_JOB:
-// TODO: implement this
-				log.debug("TODO: implement RESTART job: " + jobListForm);	// TODO
-				jobListForm.setJobExecutionIds(null);	// uncheck all rows
-				break;
-			case STOP_JOB:
-// TODO: implement this				
-				log.debug("TODO: implement STOP job: " + jobListForm);	// TODO
-				jobListForm.setJobExecutionIds(null);	// uncheck all rows
-				break;
-			default:
-				throw new IllegalArgumentException("Unexpected job list command: " + command);
+		if (!errors.hasErrors()) {
+			JobCommand command = jobListForm.getJobCommand();
+			switch (command) {
+				case CHANGE_OBJECTS_PER_PAGE:
+					pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
+					break;
+				case RESTART_JOB:
+	// TODO: implement this
+					log.debug("TODO: implement RESTART job: " + jobListForm);	// TODO
+					jobListForm.setJobExecutionIds(null);	// uncheck all rows
+					break;
+				case STOP_JOB:
+	// TODO: implement this				
+					log.debug("TODO: implement STOP job: " + jobListForm);	// TODO
+					jobListForm.setJobExecutionIds(null);	// uncheck all rows
+					break;
+				default:
+					throw new IllegalArgumentException("Unexpected job list command: " + command);
+			}
 		}
 		
 		// Restore the state of the search filter
+		FilterForm filterForm = new FilterForm();
 		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
 		filterForm.copyProperties(savedFilterForm);
 		
@@ -141,6 +154,7 @@ public class JobListController extends BaseJobListController {
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
+		model.addAttribute(FilterForm.FORM_NAME, filterForm);		
 		
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
@@ -149,8 +163,8 @@ public class JobListController extends BaseJobListController {
 	public void setJobService(JobService service) {
 		this.jobService = service;
 	}
-//	@Required
-//	public void setValidator(JobListValidator validator) {
-//		this.validator = validator;
-//	}
+	@Required
+	public void setValidator(JobListValidator validator) {
+		this.validator = validator;
+	}
 }

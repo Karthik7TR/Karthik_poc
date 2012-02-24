@@ -29,7 +29,6 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm.FilterCommand;
 
-
 @Controller
 public class FilterController extends BaseJobListController {
 	private static final Logger log = Logger.getLogger(FilterController.class);
@@ -37,7 +36,6 @@ public class FilterController extends BaseJobListController {
 
 	@InitBinder(FilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
-		log.debug(">>>");
 		binder.setValidator(validator);
 	}
 	
@@ -47,7 +45,6 @@ public class FilterController extends BaseJobListController {
 	@RequestMapping(value=WebConstants.MVC_JOB_LIST_FILTER_POST, method = RequestMethod.POST)
 	public ModelAndView doFilterPost(HttpSession httpSession,
 						@ModelAttribute(FilterForm.FORM_NAME) @Valid FilterForm filterForm,
-						//@ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
 						BindingResult errors,
 						Model model) throws Exception {
 log.debug(filterForm);
@@ -62,10 +59,8 @@ log.debug(filterForm);
 		
 		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())){
 			filterForm.initialize();
-		} else {
-//			validator.validate(filterForm, errors);
 		}
-log.debug("filter errors: " + errors);		
+		
 		pageAndSort.setPage(1);
 		if (!errors.hasErrors()) {
 			JobFilter filter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
@@ -74,7 +69,8 @@ log.debug("filter errors: " + errors);
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
-model.addAttribute(JobListForm.FORM_NAME, jobListForm);  // TODO: temporary?		
+		model.addAttribute(JobListForm.FORM_NAME, jobListForm);
+
 		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
 	}
 
