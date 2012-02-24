@@ -1,16 +1,23 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%--
 	The filter form in the left side tile of the Active / Recent Jobs table.
  --%>
 <script>
+<%-- Set up the jQuery To and From date picker UI widget --%>
+$(function() {
+	$("#datepickerFrom").datepicker();
+	$("#datepickerTo").datepicker();
+});
+
 function submitJobListFilterForm(command) {
-	var form = document.getElementById('<%=FilterForm.FORM_NAME%>');
-	form.filterCommand.value = command;
-	form.submit();
+	$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
+	$("#<%=FilterForm.FORM_NAME%>").submit();	// POST the HTML form
 }
 </script>
 
@@ -20,10 +27,26 @@ function submitJobListFilterForm(command) {
 <form:form action="<%=WebConstants.MVC_JOB_LIST_FILTER_POST%>"
 		   commandName="<%=FilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
+	
+	<%-- Validation Error Message Presentation (if any) --%>
+	<spring:hasBindErrors name="<%=FilterForm.FORM_NAME%>">
+		<div class="errorBox">
+	      <b><spring:message code="please.fix.errors"/>:</b><br/>
+	      <form:errors path="*">
+			<br/>
+			<c:forEach items="${messages}" var="message">
+				<span>${message}</span>
+				<br/>
+			</c:forEach>
+		  </form:errors>
+		  <br/>
+	    </div>
+	    <br/>
+    </spring:hasBindErrors>
 		   
 	Title ID <form:input path="titleId"/><br/>
-	From Date <form:input path="fromDateString"/><br/>
-	To Date <form:input path="toDateString"/><br/>
+	From Date <form:input id="datepickerFrom" path="fromDateString"/><br/>
+	To Date <form:input id="datepickerTo" path="toDateString"/><br/>
 	Job Status<br/>
 	<form:select path="batchStatus">
 		<form:option label="ALL" value=""/>

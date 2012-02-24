@@ -17,18 +17,20 @@ public class FilterFormValidator implements Validator {
 
 	@Override
     public void validate(Object obj, Errors errors) {
-    	if (errors.hasErrors()) {
+    	FilterForm form = (FilterForm) obj;
+    	// Do not validate form if we are simply resetting its values to the defaults
+    	if (FilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
     		return;
     	}
-    	FilterForm form = (FilterForm) obj;
+    	
     	Date fromDate = form.getFromDate();
     	Date toDate = form.getToDate();
 
 		if (StringUtils.isNotBlank(form.getFromDateString())) {
-			validateDate(form.getFromDateString(), fromDate, "From", errors);
+			validateDate(form.getFromDateString(), fromDate, "FROM", errors);
 		}
 		if (StringUtils.isNotBlank(form.getToDateString())) {
-			validateDate(form.getToDateString(), toDate, "To", errors);
+			validateDate(form.getToDateString(), toDate, "TO", errors);
 		}
 
 		if (fromDate != null) {
@@ -46,7 +48,7 @@ public class FilterFormValidator implements Validator {
 		}
 	}
 
-	private void validateDate(String dateString, Date parsedDate, String label, Errors errors) {
+	private static void validateDate(String dateString, Date parsedDate, String label, Errors errors) {
 		if (StringUtils.isNotBlank(dateString)) {
 			if (parsedDate == null) {
 				Object[] args = { label };

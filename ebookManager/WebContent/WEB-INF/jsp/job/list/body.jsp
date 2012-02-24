@@ -28,9 +28,8 @@ function submitChangeObjectsPerPage() {
 	submitJobListForm('<%=JobCommand.CHANGE_OBJECTS_PER_PAGE%>');
 }
 function submitJobListForm(command) {
-	var form = document.getElementById('<%=JobListForm.FORM_NAME%>');
-	form.jobCommand.value = command;
-	form.submit();
+	$("#jobCommand").val(command);  // Set the form hidden field value for the operation discriminator
+	$("#<%=JobListForm.FORM_NAME%>").submit();	// POST the HTML form
 }
 </script>
 
@@ -39,6 +38,23 @@ function submitJobListForm(command) {
 	<form:form action="<%=WebConstants.MVC_JOB_LIST_POST%>"
 			   commandName="<%=JobListForm.FORM_NAME%>" name="theForm" method="post">
 		<form:hidden path="jobCommand"/>
+		
+		<%-- Validation Error Message Presentation (if any) --%>
+		<spring:hasBindErrors name="<%=JobListForm.FORM_NAME%>">
+			<div class="errorBox">
+		      <b><spring:message code="please.fix.errors"/>:</b><br/>
+		      <form:errors path="*">
+		      	<ul>
+				<c:forEach items="${messages}" var="message">
+					<li style="color: black">${message}</li>
+				</c:forEach>
+		      	</ul>
+			  </form:errors>
+			  <br/>
+		    </div>
+		    <br/>
+	    </spring:hasBindErrors>
+		
 				   
 	<%-- Table of job executions --%>
 		<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
