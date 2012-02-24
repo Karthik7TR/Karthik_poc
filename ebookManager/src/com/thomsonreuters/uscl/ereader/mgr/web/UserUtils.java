@@ -24,17 +24,20 @@ public class UserUtils {
 
 		LdapUserInfo ldapUserInfo = ModelUtils.getAuthenticatedLDapUserInfo();
 
-		Collection<GrantedAuthority> authorities = ldapUserInfo
-				.getAuthorities();
+		if (ldapUserInfo != null) {
+			Collection<GrantedAuthority> authorities = ldapUserInfo
+					.getAuthorities();
 
-		for (GrantedAuthority authority : authorities) {
-			if (WebConstants.KEY_GENERATE_BUTTON_ROLE.equals(authority
-					.getAuthority())) {
-				superUser = true;
-				break;
+			if (authorities != null) {
+				for (GrantedAuthority authority : authorities) {
+					if (WebConstants.KEY_GENERATE_BUTTON_ROLE.equals(authority
+							.getAuthority())) {
+						superUser = true;
+						break;
+					}
+				}
 			}
 		}
-
 		return superUser;
 
 	}

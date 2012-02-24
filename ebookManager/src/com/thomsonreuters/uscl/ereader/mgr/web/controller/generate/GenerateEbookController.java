@@ -43,8 +43,10 @@ public class GenerateEbookController {
 		BookDefinition book = coreService
 				.findBookDefinition(new BookDefinitionKey(titleId));
 
+		if (book != null) {
+			model.addAttribute(WebConstants.TITLE, book.getBookName());
+		}
 		model.addAttribute(WebConstants.TITLE_ID, titleId);
-		model.addAttribute(WebConstants.TITLE, book.getBookName());
 		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 
