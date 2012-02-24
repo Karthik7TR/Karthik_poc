@@ -36,12 +36,17 @@
     	<security:authentication-provider ref="casAuthenticationProvider"/>
   	</security:authentication-manager>
 
-	<security:http entry-point-ref="casAuthenticationEntryPoint" access-denied-page="/accessDenied.mvc">
+	<security:http entry-point-ref="casAuthenticationEntryPoint" access-denied-page="/accessDenied.mvc" use-expressions="true">
    		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
    		
    		<!-- Access Control - URL/role based -->
-		<security:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY"/>
+		<security:intercept-url pattern="/**"
+			access="hasAnyRole('ROLE_DEVELOPER,ROLE_GUEST,ROLE_PUBLISHER,ROLE_SUPERUSER,ROLE_SUPPORT')
+			
+			
+or isAuthenticated()"/>	<!-- TODO: DELETE THIS clause FOR PRODUCTION DEPLOYMENT (and close off above intercept-url element) -->
 		
+	
 		<!-- Logout -->
 		<security:logout logout-success-url="/afterLogout.mvc"/>	<!-- where to go after you logout -->
 					

@@ -39,6 +39,15 @@ public class SecurityController {
 		return new ModelAndView(view);
 	}
 	
+	/**
+	 * Invoked when user attempts to access a resource for which they do not have privilege, i.e. they are
+	 * not in the proper group/role.
+	 */
+	@RequestMapping(value=WebConstants.MVC_ACCESS_DENIED, method = RequestMethod.GET)
+	public ModelAndView onAccessDenied(HttpSession httpSession) throws Exception {
+		return new ModelAndView(WebConstants.VIEW_ACCESS_DENIED);
+	}
+	
 	@Required
 	public void setCasUrl(URL url) {
 		this.casUrl = url;

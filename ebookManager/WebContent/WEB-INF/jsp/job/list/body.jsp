@@ -89,13 +89,10 @@ function submitJobListForm(command) {
 	</form:select>
 	&nbsp;
 	
-	<%-- Operational buttons 
-	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-	</sec:authorize>
-	--%>
+	<%-- Operational buttons --%> 
+	<%-- sec:authorize access="hasRole('ROLE_SUPERUSER')" --%>
 		<input type="button" value="Stop Job" onclick="submitJobListForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
 		<input type="button" value="Restart Job" onclick="submitJobListForm('<%=JobCommand.RESTART_JOB%>')"/>
 	
 </form:form>
-
 
