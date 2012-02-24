@@ -1,10 +1,10 @@
-package com.thomsonreuters.uscl.ereader.core.dao;
+package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.util.Date;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 
 public interface JobDao {
 	

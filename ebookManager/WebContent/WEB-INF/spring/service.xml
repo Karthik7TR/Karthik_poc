@@ -14,7 +14,7 @@
   	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
   		  p:coreDao-ref="coreDao"/>
   		  
-	<bean id="jobService" class="com.thomsonreuters.uscl.ereader.core.service.JobServiceImpl"
+	<bean id="jobService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobServiceImpl"
 		  p:jobDao-ref="jobDao"
 		  p:jobExplorer-ref="jobExplorer"/> 		  
   		  

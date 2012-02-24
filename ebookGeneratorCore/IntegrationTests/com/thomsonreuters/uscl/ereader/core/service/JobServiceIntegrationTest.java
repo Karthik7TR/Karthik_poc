@@ -20,9 +20,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration

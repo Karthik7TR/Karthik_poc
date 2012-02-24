@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort.SortProperty;
-import com.thomsonreuters.uscl.ereader.core.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
 

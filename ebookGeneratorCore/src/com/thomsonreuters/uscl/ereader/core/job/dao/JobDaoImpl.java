@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.core.dao;
+package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.sql.Types;
 import java.util.Date;
@@ -14,8 +14,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 
 public class JobDaoImpl implements JobDao {
 	

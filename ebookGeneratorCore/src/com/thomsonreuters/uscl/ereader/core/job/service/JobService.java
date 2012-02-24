@@ -1,11 +1,11 @@
-package com.thomsonreuters.uscl.ereader.core.service;
+package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.List;
 
 import org.springframework.batch.core.JobExecution;
 
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 
 public interface JobService {
 	

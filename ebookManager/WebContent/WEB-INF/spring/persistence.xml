@@ -26,8 +26,8 @@
 		<property name="annotatedClasses">
 		  <list>
 		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.domain.JobParameterEntity</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobParameterEntity</value>
 		  </list>
 		</property>
   	</bean>
@@ -48,7 +48,7 @@
 	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
-	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.dao.JobDaoImpl"
+	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
 		  p:sessionFactory-ref="sessionFactory"
 		  p:jdbcTemplate-ref="jdbcTemplate"/>
 

@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.core.domain;
+package com.thomsonreuters.uscl.ereader.core.job.domain;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;

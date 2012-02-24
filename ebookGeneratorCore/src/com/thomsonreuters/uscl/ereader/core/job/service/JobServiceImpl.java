@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.core.service;
+package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,11 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.core.dao.JobDao;
-import com.thomsonreuters.uscl.ereader.core.domain.JobExecutionEntity;
-import com.thomsonreuters.uscl.ereader.core.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.domain.ParameterFilter;
-import com.thomsonreuters.uscl.ereader.core.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.ParameterFilter;
 
 public class JobServiceImpl implements JobService {
 	
