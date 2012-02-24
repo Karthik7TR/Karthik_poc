@@ -1,7 +1,13 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.log4j.Logger;
@@ -9,8 +15,8 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.Author;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class EditBookDefinitionForm {
@@ -19,6 +25,7 @@ public class EditBookDefinitionForm {
 	private static final int PUBLISHER_INDEX = 0;
 	private static final int TITLE_NAME_INDEX = 2;
 	
+	private long bookdefinitionId;
 	private String titleId;
 	private String nameLine1;
 	private String nameLine2;
@@ -27,7 +34,7 @@ public class EditBookDefinitionForm {
 	private String copyright;
 	private String copyrightPageText;
 	private String materialId;
-	private AutoPopulatingList<Author> authorInfo;
+	private List<Author> authorInfo;
 	private boolean isTOC;
 	private String rootTocGuid;
 	private String tocCollectionName;
@@ -42,10 +49,8 @@ public class EditBookDefinitionForm {
 	private String publishDateText;
 	
 	// Keywords used in Proview
-	private String[] typeKeyword;
-	private String[] subjectKeyword;
-	private String[] publisherKeyword;
-	private String[] jurisdictionKeyword;
+	private String[] keywords;
+	
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
 	private boolean onePassSSOLinking;
@@ -129,6 +134,14 @@ public class EditBookDefinitionForm {
 		return pubInfo.toString();
 	}
 	
+	public long getBookdefinitionId() {
+		return bookdefinitionId;
+	}
+
+	public void setBookdefinitionId(long bookdefinitionId) {
+		this.bookdefinitionId = bookdefinitionId;
+	}
+
 	public String getTitleId() {
 		return titleId;
 	}
@@ -193,11 +206,11 @@ public class EditBookDefinitionForm {
 		this.materialId = materialId;
 	}
 
-	public AutoPopulatingList<Author> getAuthorInfo() {
+	public List<Author> getAuthorInfo() {
 		return authorInfo;
 	}
 
-	public void setAuthorInfo(AutoPopulatingList<Author> authorInfo) {
+	public void setAuthorInfo(List<Author> authorInfo) {
 		this.authorInfo = authorInfo;
 	}
 
@@ -297,36 +310,12 @@ public class EditBookDefinitionForm {
 		this.publishDateText = publishDateText;
 	}
 
-	public String[] getTypeKeyword() {
-		return typeKeyword;
+	public String[] getKeywords() {
+		return keywords;
 	}
 
-	public void setTypeKeyword(String[] typeKeyword) {
-		this.typeKeyword = typeKeyword;
-	}
-
-	public String[] getSubjectKeyword() {
-		return subjectKeyword;
-	}
-
-	public void setSubjectKeyword(String[] subjectKeyword) {
-		this.subjectKeyword = subjectKeyword;
-	}
-
-	public String[] getPublisherKeyword() {
-		return publisherKeyword;
-	}
-
-	public void setPublisherKeyword(String[] publisherKeyword) {
-		this.publisherKeyword = publisherKeyword;
-	}
-
-	public String[] getJurisdictionKeyword() {
-		return jurisdictionKeyword;
-	}
-
-	public void setJurisdictionKeyword(String[] jurisdictionKeyword) {
-		this.jurisdictionKeyword = jurisdictionKeyword;
+	public void setKeywords(String[] keywords) {
+		this.keywords = keywords;
 	}
 
 	public boolean isAutoUpdateSupport() {

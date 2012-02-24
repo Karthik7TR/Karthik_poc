@@ -21,7 +21,8 @@
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
-		  p:coreService-ref="coreService">
+		  p:coreService-ref="coreService"
+		  p:bookService-ref="bookService">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"/>
 		  </property>

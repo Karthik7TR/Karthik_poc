@@ -1,3 +1,8 @@
+/*
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.util.regex.Matcher;
@@ -28,6 +33,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	if (errors.hasErrors()) {
     		return;
     	}
+    	
     	EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
     	
     	String contentType = form.getContentType();

@@ -48,6 +48,9 @@
 	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
+	
+	<bean id="bookDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDaoImpl" />
+	
 	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
 		  p:sessionFactory-ref="sessionFactory"
 		  p:jdbcTemplate-ref="jdbcTemplate"/>

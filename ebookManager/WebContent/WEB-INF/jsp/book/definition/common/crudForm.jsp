@@ -219,72 +219,79 @@
 		});
 </script>
 
-<div class="generateTitleID">
-	<div>
-		<form:label path="contentType" class="labelCol">Content Type</form:label>
-		<form:select path="contentType" >
-			<form:option value="" label="SELECT" />
-			<form:options items="${contentTypes}" />
-		</form:select>
-		<form:errors path="contentType" cssClass="errorMessage" />
-	</div>
-	<div id="publishDetailDiv" style="display:none">
-		<div>
-			<form:label path="publisher" class="labelCol">Publisher</form:label>
-			<form:select path="publisher" >
-				<form:option value="" label="SELECT" />
-				<form:options items="${publishers}" />
-			</form:select>
-			<div class="errorDiv">
-				<form:errors path="publisher" cssClass="errorMessage" />
+<%-- Check if book has been published --%>
+<c:choose>
+	<c:when test="${!isPublished}">
+		<div class="generateTitleID">
+			<div>
+				<form:label path="contentType" class="labelCol">Content Type</form:label>
+				<form:select path="contentType" >
+					<form:option value="" label="SELECT" />
+					<form:options items="${contentTypes}" />
+				</form:select>
+				<form:errors path="contentType" cssClass="errorMessage" />
+			</div>
+			<div id="publishDetailDiv" style="display:none">
+				<div>
+					<form:label path="publisher" class="labelCol">Publisher</form:label>
+					<form:select path="publisher" >
+						<form:option value="" label="SELECT" />
+						<form:options items="${publishers}" />
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="publisher" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div id="stateDiv">
+					<form:label path="state" class="labelCol">State</form:label>
+					<form:select path="state" >
+						<form:option value="" label="SELECT" />
+						<form:options items="${states}" />
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="state" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div id="jurisdictionDiv">
+					<form:label path="jurisdiction" class="labelCol">Juris</form:label>
+					<form:select path="jurisdiction" >
+						<form:option value="" label="SELECT" />
+						<form:options items="${jurisdictions}" />
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="jurisdiction" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div id="pubTypeDiv">
+					<form:label path="pubType" class="labelCol">Pub Type</form:label>
+					<form:select path="pubType" >
+						<form:option value="" label="SELECT" />
+						<form:options items="${pubTypes}" />
+					</form:select>
+					<div class="errorDiv">
+						<form:errors path="pubType" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div id="pubAbbrDiv">
+					<form:label path="pubAbbr" class="labelCol">Pub Abbreviation</form:label>
+					<form:input path="pubAbbr" maxlength="15"/>
+					<div class="errorDiv">
+						<form:errors path="pubAbbr" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div>
+					<form:label path="pubInfo" class="labelCol">Pub Info</form:label>
+					<form:input path="pubInfo" maxlength="40"/>
+					<div class="errorDiv">
+						<form:errors path="pubInfo" cssClass="errorMessage" />
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id="stateDiv">
-			<form:label path="state" class="labelCol">State</form:label>
-			<form:select path="state" >
-				<form:option value="" label="SELECT" />
-				<form:options items="${states}" />
-			</form:select>
-			<div class="errorDiv">
-				<form:errors path="state" cssClass="errorMessage" />
-			</div>
-		</div>
-		<div id="jurisdictionDiv">
-			<form:label path="jurisdiction" class="labelCol">Juris</form:label>
-			<form:select path="jurisdiction" >
-				<form:option value="" label="SELECT" />
-				<form:options items="${jurisdictions}" />
-			</form:select>
-			<div class="errorDiv">
-				<form:errors path="jurisdiction" cssClass="errorMessage" />
-			</div>
-		</div>
-		<div id="pubTypeDiv">
-			<form:label path="pubType" class="labelCol">Pub Type</form:label>
-			<form:select path="pubType" >
-				<form:option value="" label="SELECT" />
-				<form:options items="${pubTypes}" />
-			</form:select>
-			<div class="errorDiv">
-				<form:errors path="pubType" cssClass="errorMessage" />
-			</div>
-		</div>
-		<div id="pubAbbrDiv">
-			<form:label path="pubAbbr" class="labelCol">Pub Abbreviation</form:label>
-			<form:input path="pubAbbr" maxlength="15"/>
-			<div class="errorDiv">
-				<form:errors path="pubAbbr" cssClass="errorMessage" />
-			</div>
-		</div>
-		<div>
-			<form:label path="pubInfo" class="labelCol">Pub Info</form:label>
-			<form:input path="pubInfo" maxlength="40"/>
-			<div class="errorDiv">
-				<form:errors path="pubInfo" cssClass="errorMessage" />
-			</div>
-		</div>
-	</div>
-</div>
+	</c:when>
+	<c:otherwise>
+	</c:otherwise>
+</c:choose>
 <div class="leftDefinitionForm">
 	<div class="row">
 		<form:label path="titleId" class="labelCol">Title ID</form:label>
@@ -383,22 +390,16 @@
 	<div class="row">
 		<label class="labelCol">Keywords</label>
 		<div id="accordion">
-			<h3><a href="#">Jurisdiction</a> <form:errors path="jurisdictionKeyword" cssClass="errorMessage" /></h3>
-			<div>
-				<form:checkboxes path="jurisdictionKeyword" items="${jurisdictions}" multiple="true" />
-			</div>
-			<h3><a href="#">Publisher</a> <form:errors path="publisherKeyword" cssClass="errorMessage" /></h3>
-			<div>
-				<form:checkboxes path="publisherKeyword" items="${publisherKeywords}" multiple="true" />
-			</div>
-			<h3><a href="#">Subject</a> <form:errors path="subjectKeyword" cssClass="errorMessage" /></h3>
-			<div>
-				<form:checkboxes path="subjectKeyword" items="${subjectKeywords}" multiple="true" />
-			</div>
-			<h3><a href="#">Type</a> <form:errors path="typeKeyword" cssClass="errorMessage" /></h3>
-			<div>
-				<form:checkboxes path="typeKeyword" items="${typeKeywords}" />
-			</div>
+			<c:forEach items="${typeKeywords}" var="keyword">
+				<h3><a href="#">${keyword.codeName}</a></h3>
+				<div>
+					<c:forEach items="${keyword.values}" var="value">
+						<div>
+							<form:checkbox path="keywords" value="${value.valueId}"/>${value.valueName}
+						</div>
+					</c:forEach>
+				</div>
+			</c:forEach>
 		</div>
 	</div>
 </div>

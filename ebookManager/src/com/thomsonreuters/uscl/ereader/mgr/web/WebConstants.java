@@ -33,6 +33,7 @@ public class WebConstants {
 	public static final String KEY_KEYWORDS_SUBJECT = "subjectKeywords";
 	public static final String KEY_KEYWORDS_PUBLISHER = "publisherKeywords";
 	public static final String KEY_KEYWORDS_JURISDICTION = "jurisdictionKeywords";
+	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_COURT_RULES = "Court Rules";
 	public static final String KEY_COURT_RULES_ABBR = "cr";
 	public static final String KEY_ANALYTICAL = "Analytical";
