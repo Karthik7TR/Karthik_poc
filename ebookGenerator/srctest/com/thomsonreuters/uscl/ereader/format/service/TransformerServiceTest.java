@@ -38,12 +38,15 @@ public class TransformerServiceTest
     protected File emptyXMLDir;
     protected File xmlDir;
     protected File metaDir;
+    protected File imgMetaDir;
     protected File transDir;
     
     protected File xmlFile;
     protected File xmlFile2;
     protected File metaFile;
     protected File metaFile2;
+    protected File imgMetaFile;
+    protected File imgMetaFile2;
     
     protected String titleId;
     
@@ -79,6 +82,7 @@ public class TransformerServiceTest
     	xmlDir = testFiles.newFolder("TransformerTestXML");
     	
     	metaDir = testFiles.newFolder("TransformerTestMetadata");
+    	imgMetaDir = testFiles.newFolder("TransformerTestImageMetadata");
     	
     	transDir = testFiles.newFolder("TransformerTestTransformed");
     	
@@ -112,6 +116,17 @@ public class TransformerServiceTest
     	outputMeta2.write("<n-metadata></n-metadata>".getBytes());
     	outputMeta2.flush();
     	outputMeta2.close();
+    	
+    	imgMetaFile = new File(imgMetaDir, "xmlFile1.imgMeta");
+    	OutputStream outputImgMeta = new FileOutputStream(imgMetaFile);
+    	outputImgMeta.write("<ImageMetadata></ImageMetadata>".getBytes());
+    	outputImgMeta.flush();
+    	outputImgMeta.close();
+    	imgMetaFile2 = new File(imgMetaDir, "xmlFile2.imgMeta");
+    	OutputStream outputImgMeta2 = new FileOutputStream(imgMetaFile2);
+    	outputImgMeta2.write("<ImageMetadata></ImageMetadata>".getBytes());
+    	outputImgMeta2.flush();
+    	outputImgMeta2.close();
 		
     	File txtFile = new File(xmlDir, "txtFile.txt");
     	txtFile.createNewFile();
@@ -128,7 +143,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(null, null, null, null, null);
+    		transService.transformXMLDocuments(null, null, null, null, null, null);
     	}
     	catch(EBookFormatException e)
     	{
@@ -145,7 +160,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(xmlFile, metaDir, transDir, titleId, jobId);
+    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId);
     	}
     	catch(EBookFormatException e)
     	{
@@ -162,7 +177,7 @@ public class TransformerServiceTest
     	{
     		assertEquals(0, transDir.listFiles().length);
     		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
-    		transService.transformFile(xmlFile, metaDir, transDir, titleId, jobId, xsltCache);
+    		transService.transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, xsltCache);
     		assertEquals(1, transDir.listFiles().length);
     	}
     	catch(EBookFormatException e)
@@ -177,7 +192,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, transDir, titleId, jobId));
+    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId));
     	}
     	catch(EBookFormatException e)
     	{

@@ -1,0 +1,81 @@
+/*
+* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
+package com.thomsonreuters.uscl.ereader.format.step;
+
+import java.io.File;
+
+import org.apache.log4j.Logger;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.item.ExecutionContext;
+
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.format.service.GenerateImageMetadataBlockService;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+
+/**
+ *
+ * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ */
+public class GenerateImageMetadataFiles extends AbstractSbTasklet {
+	
+	//TODO: Use logger API to get Logger instance to job-specific appender.
+	private static final Logger LOG = Logger.getLogger(GenerateImageMetadataFiles.class);
+	
+	private GenerateImageMetadataBlockService imgMetaBlockService;
+
+	public void setimgMetaBlockService(GenerateImageMetadataBlockService imgMetaBlockService) 
+	{
+		this.imgMetaBlockService = imgMetaBlockService;
+	}
+
+	@Override
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) 
+			throws Exception 
+	{
+		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		JobInstance jobInstance = getJobInstance(chunkContext);
+
+		String docToImgFileName = 
+				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE);
+		String imgMetadataDirName = 
+				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_IMAGE_METADATA_DIR);
+		
+		Long jobId = jobInstance.getId();
+		
+		//TODO: Retrieve expected number of document for this eBook from execution context
+		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
+		
+		File docToImgFile = new File(docToImgFileName);
+		File imgMetadataDir = new File(imgMetadataDirName);
+		
+		long startTime = System.currentTimeMillis();
+		int numImgMetaDocsCreated = imgMetaBlockService.generateImageMetadata(docToImgFile, 
+				imgMetadataDir, jobId);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - startTime;
+		
+		//TODO: Update to check value is equal to execution context value (numDocsInTOC)
+		if (numImgMetaDocsCreated == 0)
+		{
+			String message = "The number of ImageMetadata documents created did " +
+					"not match the number of documents retrieved from the eBook TOC. Created " + 
+					numImgMetaDocsCreated + " documents while the eBook TOC had " + 
+					numDocsInTOC + " documents.";
+			LOG.error(message);
+			throw new EBookFormatException(message);
+		}
+		
+		//TODO: Improve metrics
+		LOG.debug("Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + 
+				elapsedTime + " milliseconds");
+		
+		return ExitStatus.COMPLETED;
+	}
+}

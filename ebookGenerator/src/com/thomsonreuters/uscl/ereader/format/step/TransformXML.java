@@ -53,16 +53,19 @@ public class TransformXML extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR);
 		String transformDirectory = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
+		String imgMetadataDirectory =
+				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_IMAGE_METADATA_DIR);
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
 		File xmlDir = new File(xmlDirectory);
 		File metadataDir = new File(metadataDirectory);
 		File transformDir = new File(transformDirectory);
+		File imgMetadataDir = new File(imgMetadataDirectory);
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = transformerService.transformXMLDocuments(
-				xmlDir, metadataDir, transformDir, titleId, jobId);
+				xmlDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

@@ -256,7 +256,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 						throw new EBookFormatException(message);
 					}
 					
-					writer.write(imgGuid + ", ");
+					writer.write(imgGuid + ",");
 				}
 				writer.newLine();
 			}

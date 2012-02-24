@@ -53,11 +53,17 @@
 		<!-- Fetch images from Image Vertical REST service -->
 		<step id="getDynamicImages">
 			<tasklet ref="getDynamicImagesTask"/>
-			<next on="COMPLETED" to="formatTransformXML"/>
-			<next on="FAILED" to="formatTransformXML"/> <!-- Change to fail once PDF issue has been resolved -->
+			<next on="COMPLETED" to="generateImageMetadataFiles"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Format the XML documents -->
+		<step id="generateImageMetadataFiles">
+			<tasklet ref="generateImageMetadataTask"/>
+			<next on="COMPLETED" to="formatTransformXML"/>
+			<fail on="FAILED"/>
+		</step>
+		
 		<step id="formatTransformXML">
 			<tasklet ref="formatTransformXMLTask"/>
 			<next on="COMPLETED" to="formatHTMLTransformer"/>
@@ -136,6 +142,8 @@
 				p:imageService-ref="imageService"/>
 	<beans:bean id="parseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList"
 				p:xmlImageParserService-ref="xmlImageParserService"/>
+	<beans:bean id="generateImageMetadataTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateImageMetadataFiles"
+				p:imgMetaBlockService-ref="generateImgMetaBlockService"/>
 	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML"
 				p:transformerService-ref="tranformerService"/>
 	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform"

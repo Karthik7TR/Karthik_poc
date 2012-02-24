@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilter;
+//import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
@@ -181,11 +181,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
-			HTMLClassAttributeFilter classAttFilter = new HTMLClassAttributeFilter();
-			classAttFilter.setParent(piZapperFilter);
+//			HTMLClassAttributeFilter classAttFilter = new HTMLClassAttributeFilter();
+//			classAttFilter.setParent(piZapperFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
-			inputFilter.setParent(classAttFilter);
+			inputFilter.setParent(piZapperFilter);
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);

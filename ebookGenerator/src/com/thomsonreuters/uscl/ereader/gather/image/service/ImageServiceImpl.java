@@ -125,7 +125,12 @@ public class ImageServiceImpl implements ImageService {
 			if (sourceFile == null) {
 				throw new ImageException("Static image not found: " + basename);
 			}
-			File destFile = new File(imageDestinationDirectory, basename);
+			String destFileName = basename;
+			if (destFileName.contains("/"))
+			{
+				destFileName = destFileName.substring(destFileName.lastIndexOf("/") + 1);
+			}
+			File destFile = new File(imageDestinationDirectory, destFileName);
 			try {
 				copyFile(sourceFile, destFile);
 			} catch (IOException e) {

@@ -81,6 +81,7 @@ public class TransformerServiceImpl implements TransformerService
      *
      * @param xmlDir the directory that contains all the Novus extracted XML files for this eBook.
      * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
+     * @param imgMetaDir the directory that contains all the ImageMetadata built files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup document metadata
@@ -90,8 +91,8 @@ public class TransformerServiceImpl implements TransformerService
      * @throws EBookFormatException if an error occurs during the transformation process.
 	 */
 	@Override
-	public int transformXMLDocuments(File xmlDir, File metaDir, File transDir, String titleID, Long jobID) 
-			throws EBookFormatException 
+	public int transformXMLDocuments(final File xmlDir, final File metaDir, final File imgMetaDir,
+			final File transDir, final String titleID, final Long jobID) throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {
@@ -124,7 +125,7 @@ public class TransformerServiceImpl implements TransformerService
         int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	transformFile(xmlFile, metaDir, transDir, titleID, jobID, xsltCache);
+        	transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleID, jobID, xsltCache);
         	docCount++;
         }
         LOG.info("Transformed all XML files");
@@ -138,13 +139,14 @@ public class TransformerServiceImpl implements TransformerService
 	 * 
 	 * @param xmlFile XML file to be transformed
 	 * @param metadataDir directory that contains all the metadata files
+     * @param imgMetadataDir the directory that contains all the ImageMetadata built files for this eBook.
 	 * @param targetDir directory to which the ".transformed" files will be written
 	 * @param titleId the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobId the identifier of the job currently running, used to lookup document metadata
      * 
 	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
 	 */
-	final void transformFile(File xmlFile, File metadataDir, File targetDir, String titleId, 
+	final void transformFile(File xmlFile, File metadataDir, File imgMetadataDir, File targetDir, String titleId, 
 			Long jobId, Map<String, Transformer> stylesheetCache) throws EBookFormatException
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
@@ -161,6 +163,7 @@ public class TransformerServiceImpl implements TransformerService
         SequenceInputStream inStream1 = null;
         SequenceInputStream inStream2 = null;
         SequenceInputStream inStream3 = null;
+        SequenceInputStream inStream4 = null;
         
         Transformer trans = null;
 		
@@ -171,12 +174,15 @@ public class TransformerServiceImpl implements TransformerService
         	
         	inStream2 = new SequenceInputStream(inStream1, 
         			new FileInputStream(getMetadataFile(metadataDir, fileNameUUID)));
-         	
+        	
         	inStream3 = new SequenceInputStream(inStream2,
+        			new FileInputStream(getImageMetadataFile(imgMetadataDir, fileNameUUID)));
+         	
+        	inStream4 = new SequenceInputStream(inStream3,
         			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
         	
 	        Source xmlSource =
-	                new StreamSource(inStream3);
+	                new StreamSource(inStream4);
 	        
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
@@ -232,6 +238,40 @@ public class TransformerServiceImpl implements TransformerService
         				+ " file transformation.", e);
         	}
         }
+	}
+	
+	/**
+	 * Finds and returns the file that contains the ImageMetadata block that should be appended
+	 * to the transforming document that is identified by the passed in document guid.
+	 * 
+	 * @param imgMetaDir directory that contains all the generated ImageMetadata files
+	 * @param docGuid guid of the document being transformed
+	 * 
+	 * @return File that contains the ImageMetadata for the passed in document guid
+	 * @throws EBookFormatException if no ImageMetadata is found for the passed in document guid
+	 */
+	protected File getImageMetadataFile(File imgMetaDir, String docGuid)
+		throws EBookFormatException
+	{
+		File imgMetadata = null;
+		
+		for (File aFile : imgMetaDir.listFiles())
+		{
+			if (aFile.getName().equals(docGuid + ".imgMeta"))
+			{
+				imgMetadata = aFile;
+			}
+		}
+		
+		if (imgMetadata==null || !imgMetadata.exists())
+		{
+			String errMessage = "Could not find the ImageMetadata file for  " + docGuid + " GUID in the " 
+					+ imgMetaDir.getAbsolutePath() + " directory.";
+        	LOG.error(errMessage);
+        	throw new EBookFormatException(errMessage);
+		}
+		
+		return imgMetadata;
 	}
 	
 	/**
