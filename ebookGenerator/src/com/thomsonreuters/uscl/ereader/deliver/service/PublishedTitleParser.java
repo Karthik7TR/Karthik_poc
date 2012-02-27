@@ -23,24 +23,23 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Parse all title info from proview. Generate a map of the ProviewTitleInfo objects where the key is the title id.
- * process method must be called wit proview AllPublishedTitles response string.
+ * Parse all title info from proview.
+ * 
  * @author U0057241
- *
+ * 
  */
 public class PublishedTitleParser {
 
 	private Map<String, ProviewTitleInfo> titleMap = new HashMap<String, ProviewTitleInfo>();
 
-	public Map<String, ProviewTitleInfo> getTitleMap() {
-		return titleMap;
-	}
-
-	public void setTitleMap(Map<String, ProviewTitleInfo> titleMap) {
-		this.titleMap = titleMap;
-	}
-
-	public void process(String xml) {
+	/**
+	 * 
+	 * @param xml
+	 *            all title info from proview
+	 * @return Generate a map of the ProviewTitleInfo objects where the key is
+	 *         the title id.
+	 */
+	public Map<String, ProviewTitleInfo> process(String xml) {
 		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
 
 		try {
@@ -55,7 +54,7 @@ public class PublishedTitleParser {
 				private static final String PUBLISHER = "publisher";
 				private static final String LAST_UPDATE = "lastupdate";
 				private static final String STATUS = "status";
-			
+
 				private StringBuffer charBuffer = null;
 				private ProviewTitleInfo proviewTitleInfo;
 
@@ -126,7 +125,7 @@ public class PublishedTitleParser {
 							proviewTitleInfo.setVesrion(atts.getValue(VERSION));
 							proviewTitleInfo.setPublisher(atts
 									.getValue(PUBLISHER));
-							proviewTitleInfo.setPublisher(atts
+							proviewTitleInfo.setLastupdate(atts
 									.getValue(LAST_UPDATE));
 							proviewTitleInfo.setStatus(atts.getValue(STATUS));
 
@@ -140,6 +139,7 @@ public class PublishedTitleParser {
 				}
 			});
 			reader.parse(new InputSource(new StringReader(xml)));
+			return titleMap;
 		} catch (SAXException e) {
 			throw new RuntimeException(e);
 		} catch (ParserConfigurationException e) {
