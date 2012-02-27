@@ -7,7 +7,7 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -16,21 +16,21 @@ public class KeywordTypeCode implements Serializable {
 	private static final long serialVersionUID = -5549776655019904722L;
 	//private static final Logger log = Logger.getLogger(Author.class);
 	
-	private Integer codeId;
+	private Long codeId;
 	private String codeName;
-	private List<KeywordTypeValue> values = new ArrayList<KeywordTypeValue>();
+	private Collection<KeywordTypeValue> values = new ArrayList<KeywordTypeValue>();
 	
 	public KeywordTypeCode() {
 		super();
 	}
 	
 
-	public Integer getCodeId() {
+	public Long getCodeId() {
 		return codeId;
 	}
 
 
-	public void setCodeId(Integer codeId) {
+	public void setCodeId(Long codeId) {
 		this.codeId = codeId;
 	}
 
@@ -45,12 +45,12 @@ public class KeywordTypeCode implements Serializable {
 	}
 
 
-	public List<KeywordTypeValue> getValues() {
+	public Collection<KeywordTypeValue> getValues() {
 		return values;
 	}
 
 
-	public void setValues(List<KeywordTypeValue> values) {
+	public void setValues(Collection<KeywordTypeValue> values) {
 		this.values = values;
 	}
 

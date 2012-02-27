@@ -12,9 +12,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class KeywordTypeValue implements Serializable {
 	//private static final Logger log = Logger.getLogger(Author.class);
-
 	private static final long serialVersionUID = 3967708874931468743L;
-	private Integer valueId;
+	
+	private Long valueId;
 	private KeywordTypeCode keywordTypeCode;
 	private String valueName;
 	
@@ -23,12 +23,12 @@ public class KeywordTypeValue implements Serializable {
 	}
 	
 
-	public Integer getValueId() {
+	public Long getValueId() {
 		return valueId;
 	}
 
 
-	public void setValueId(Integer valueId) {
+	public void setValueId(Long valueId) {
 		this.valueId = valueId;
 	}
 
@@ -47,11 +47,9 @@ public class KeywordTypeValue implements Serializable {
 		return valueName;
 	}
 
-
 	public void setValueName(String valueName) {
 		this.valueName = valueName;
 	}
-
 
 	@Override
 	public String toString() {

@@ -12,42 +12,51 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
-public class EbookKeyword implements Serializable {
-	private static final long serialVersionUID = 3300480045778205483L;
+public class EbookName implements Serializable{
+	private static final long serialVersionUID = -1186228301263342819L;
 	//private static final Logger log = Logger.getLogger(Author.class);
 	
-	private Integer typeValueId;
+	private Long nameId;
 	private BookDefinition book;
+	private String nameText;
+	private Long sequenceNumber;
+
 	
-	public EbookKeyword() {
+	public EbookName() {
 		super();
 	}
 	
-
-
-	public Integer getTypeValueId() {
-		return typeValueId;
+	public Long getNameId() {
+		return nameId;
 	}
 
-
-
-	public void setTypeValueId(Integer typeValueId) {
-		this.typeValueId = typeValueId;
+	public void setNameId(Long nameId) {
+		this.nameId = nameId;
 	}
 
-
-
-	public BookDefinition getBookDefinitionId() {
+	public BookDefinition getBook() {
 		return book;
 	}
 
-
-
-	public void setBookDefinitionId(BookDefinition book) {
+	public void setBook(BookDefinition book) {
 		this.book = book;
 	}
 
+	public String getNameText() {
+		return nameText;
+	}
 
+	public void setNameText(String nameText) {
+		this.nameText = nameText;
+	}
+
+	public Long getSequenceNumber() {
+		return sequenceNumber;
+	}
+
+	public void setSequenceNumber(Long sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
 
 	@Override
 	public String toString() {

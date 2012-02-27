@@ -24,18 +24,18 @@ public class BookDaoImpl implements BookDao {
 		List<KeywordTypeCode> keywordTypeCodes = new ArrayList<KeywordTypeCode>();
 		
 		// TODO: Get data from DB when made
-		for(int i = 1; i < 5; i++) {
+		for(int i = 1; i < 41; i = i + 10) {
 			KeywordTypeCode keywordTypeCode = new KeywordTypeCode();
-			keywordTypeCode.setCodeId(i);
+			keywordTypeCode.setCodeId((long)i);
 			String codeName = "";
 			switch(i) {
 				case 1:
 					codeName = "Jurisdiction";
 					break;
-				case 2:
+				case 21:
 					codeName = "Publisher";
 					break;
-				case 3:
+				case 31:
 					codeName = "Subject";
 					break;
 				default:
@@ -45,10 +45,10 @@ public class BookDaoImpl implements BookDao {
 			keywordTypeCode.setCodeName(codeName);
 			List<KeywordTypeValue> typeValues = new ArrayList<KeywordTypeValue>();
 			
-			for(int j=1; j < 5; j++){
+			for(int j=1; j < 8; j++){
 				KeywordTypeValue kTV = new KeywordTypeValue();
 				kTV.setKeywordTypeCode(keywordTypeCode);
-				kTV.setValueId(i*j+i);
+				kTV.setValueId((long) i+j);
 				kTV.setValueName(codeName + Integer.toString(j));
 				typeValues.add(kTV);
 			}
@@ -73,8 +73,8 @@ public class BookDaoImpl implements BookDao {
 		
 		for(int i = 0; i < 4; i++) {
 			Author author = new Author();
-			author.setFirstName(Integer.toString(i));
-			author.setLastName(Integer.toString(i));
+			author.setFirstName("Example" + Integer.toString(i));
+			author.setLastName("Example" + Integer.toString(i));
 			authors.add(author);
 		}
 		

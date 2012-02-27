@@ -5,22 +5,45 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class Author {
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+
+public class Author implements Serializable {
+	private static final long serialVersionUID = -3402252702112431336L;
 	//private static final Logger log = Logger.getLogger(Author.class);
-	
+	private Long authorId;
+	private BookDefinition book;
 	private String prefix = "";
 	private String firstName = "";
 	private String middleName = "";
 	private String lastName = "";
 	private String suffix = "";
+	private String additionalText = "";
 	
 	public Author() {
 		super();
 	}
 	
+	public Long getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(Long authorId) {
+		this.authorId = authorId;
+	}
+
+	public BookDefinition getBook() {
+		return book;
+	}
+
+	public void setBook(BookDefinition book) {
+		this.book = book;
+	}
+
 	public String getPrefix() {
 		return prefix;
 	}
@@ -59,6 +82,14 @@ public class Author {
 
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	public String getAdditionalText() {
+		return additionalText;
+	}
+
+	public void setAdditionalText(String additionalText) {
+		this.additionalText = additionalText;
 	}
 
 	@Override
