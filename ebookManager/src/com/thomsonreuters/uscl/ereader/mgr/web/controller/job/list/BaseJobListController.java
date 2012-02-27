@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
@@ -40,9 +39,6 @@ public abstract class BaseJobListController {
 	@SuppressWarnings("unchecked")
 	protected List<Long> fetchSavedJobExecutionIdList(HttpSession httpSession) {
 		List<Long> jobExecutionIds = (List<Long>) httpSession.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS);
-		if (jobExecutionIds == null) {
-			jobExecutionIds = jobService.findJobExecutions(new JobFilter(), new JobSort());
-		}
 		return jobExecutionIds;
 	}
 	
