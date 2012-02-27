@@ -17,13 +17,15 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
 /**
  * Integration tests for ProviewClientImpl. These do not get run during CI builds.
@@ -47,6 +49,8 @@ public class ProviewClientImplIntegrationTest
 	
 	private ProviewClientImpl proviewClient;
 	private DefaultHttpClient defaultHttpClient;
+	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
+	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 	
 	@Before
 	public void setUp() throws Exception
@@ -64,6 +68,10 @@ public class ProviewClientImplIntegrationTest
 		restTemplate.getMessageConverters().add(new ProviewMessageConverter<File>());
 		restTemplate.setErrorHandler(new ProviewHttpResponseErrorHandler());
 		proviewClient.setRestTemplate(restTemplate);
+		proviewRequestCallbackFactory = new ProviewRequestCallbackFactory();
+		proviewResponseExtractorFactory = new ProviewResponseExtractorFactory();
+		proviewClient.setProviewRequestCallbackFactory(proviewRequestCallbackFactory);
+		proviewClient.setProviewResponseExtractorFactory(proviewResponseExtractorFactory);
 	}
 
 	@After
