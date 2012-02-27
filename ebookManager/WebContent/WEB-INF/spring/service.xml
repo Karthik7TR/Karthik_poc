@@ -22,6 +22,34 @@
 		  p:jobExplorer-ref="jobExplorer"/> 		  
   		  
 	<bean id="bookLibraryService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService"
-  		  p:coreService-ref="coreService"/>  		  
+  		  p:coreService-ref="coreService"/>  	
+  		  
+	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="requestFactory">
+			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+				<property name="httpClient" ref="basicAuthenticationHttpClient"/>
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter"/>
+			</list>
+		</property>
+		<property name="errorHandler">
+			<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler"/>
+		</property>
+	</bean>  		  
+	
+	<bean id="proviewRequestCallbackFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory"/>
+	
+	<bean id="proviewResponseExtractorFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory"/>
+	
+  		  
+	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
+		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
+		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
+		  p:restTemplate-ref="proviewRestTemplate"
+		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
+		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>  		  	  
   		  
 </beans>
