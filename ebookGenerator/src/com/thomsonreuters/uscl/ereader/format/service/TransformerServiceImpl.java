@@ -50,7 +50,9 @@ public class TransformerServiceImpl implements TransformerService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
 	
-	private static final String START_WRAPPER_TAG = "<Document>";
+	//TODO: REMOVE HARDCODED VALUES ONCE document-data BLOCK HAS BEEN BUILT
+	private static final String START_WRAPPER_TAG = "<Document>" +
+			"<document-data><datetime>20120227101701</datetime></document-data>";
 	private static final String END_WRAPPER_TAG = "</Document>";
 	
 	private DocMetadataService docMetadataService;
@@ -334,15 +336,15 @@ public class TransformerServiceImpl implements TransformerService
 	        transformer.setParameter("IsPersisted", true);
 	        transformer.setParameter("UniqueIdForBlobs", UUID.randomUUID().toString());
 	        transformer.setParameter("IsMobile", false);
-//	        transformer.setParameter("LinkColor", "");
 	        transformer.setParameter("LinkUnderline", false);
-//	        transformer.setParameter("FontSize", "");
 	        transformer.setParameter("StatutoryTextOnly", false);
 	        transformer.setParameter("ListItemIdentifier", "Target");
 	        transformer.setParameter("SpecialRequestSourceParam", "cblt1.0");
 	        transformer.setParameter("SpecialVersionParam", "3.0");
 	        transformer.setParameter("Target", "_top");
 	        transformer.setParameter("DisplayOriginalImageLink", true);
+//	        transformer.setParameter("LinkColor", "");
+//	        transformer.setParameter("FontSize", "");
 	        //None of the highlighting parameters are set, example: 
 	        //DisplayTermHighlighting, IsSearched, Quotes, SourceSerial
 //	        transformer.setParameter("HasDocketOrdersAccess", "");

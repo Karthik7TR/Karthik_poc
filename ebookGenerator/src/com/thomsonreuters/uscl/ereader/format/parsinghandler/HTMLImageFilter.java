@@ -21,6 +21,7 @@ public class HTMLImageFilter extends XMLFilterImpl {
 	
 	private Set<String> staticImageRefs;
 	private boolean isNonStaticImage = false;
+	private boolean isPDFIcon = false;
 	
 	public Set<String> getStaticImageRefs() {
 		return staticImageRefs;
@@ -38,7 +39,12 @@ public class HTMLImageFilter extends XMLFilterImpl {
 			if (atts != null)
 			{
 				String src = atts.getValue("src");
-				if ( src != null && src.startsWith("/images/"))
+				if (atts.getValue("alt") != null && atts.getValue("alt").equalsIgnoreCase("PDF"))
+				{
+					//remove PDF icon images
+					isPDFIcon = true;
+				}
+				else if (src != null && src.startsWith("/images/"))
 				{
 					staticImageRefs.add(src.substring(8));
 					src = src.replace(src.substring(0, src.lastIndexOf("/") + 1), "er:#");
@@ -75,8 +81,8 @@ public class HTMLImageFilter extends XMLFilterImpl {
 	@Override
 	public void characters(char buf[], int offset, int len) throws SAXException
 	{
-		//Remove any non static image tags
-		if (!isNonStaticImage)
+		//Remove any non static image tags and pdf icons
+		if (!isNonStaticImage && !isPDFIcon)
 		{
 			super.characters(buf, offset, len);
 		}
@@ -86,13 +92,17 @@ public class HTMLImageFilter extends XMLFilterImpl {
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
 		//Remove any non static image tags
-		if (!isNonStaticImage)
+		if (!isNonStaticImage && !isPDFIcon)
 		{
 			super.endElement(uri, localName, qName);
 		}
-		else
+		else if (isNonStaticImage)
 		{
 			isNonStaticImage = false;
+		}
+		else if (isPDFIcon)
+		{
+			isPDFIcon = false;
 		}
 	}
 }

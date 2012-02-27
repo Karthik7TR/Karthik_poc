@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 public class HTMLAnchorFilter extends XMLFilterImpl {
 	
 	private boolean isImageLink = false;
+	private boolean isPDFLink = false;
 	private boolean isEmptyAnchor = false;
 	
 	private ImageService imgService;
@@ -74,7 +75,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
-		if (!isImageLink && !isEmptyAnchor)
+		if (!isImageLink && !isEmptyAnchor && !isPDFLink)
 		{
 			if (qName.equalsIgnoreCase("a"))
 			{
@@ -121,6 +122,19 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							throw new SAXException("Could not retrieve valid image guid from an image anchor");
 						}
 					}
+					else if (atts.getValue("type") != null && atts.getValue("type").equalsIgnoreCase("application/pdf"))
+					{
+						isPDFLink = true;
+						String href = atts.getValue("href");
+						href = href.replace(href.substring(0, href.indexOf("/Link/Document/Blob/") + 20), "er:#");
+						href = href.substring(0, href.indexOf(".pdf"));
+						
+						AttributesImpl newAtts = new AttributesImpl();
+						
+						newAtts.addAttribute("", "", "href", "CDATA", href);
+						
+						super.startElement(uri, localName, qName, newAtts);
+					}
 					//remove empty anchor tags
 					else if (atts.getValue("href") != null && atts.getValue("href").equalsIgnoreCase("#"))
 					{
@@ -155,7 +169,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
-		if (!isImageLink && !isEmptyAnchor)
+		if (!isImageLink && !isEmptyAnchor && !isPDFLink)
 		{
 			super.endElement(uri, localName, qName);
 		}
@@ -167,6 +181,11 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 				{
 					qName = "img";
 					isImageLink = false;
+					super.endElement(uri, localName, qName);
+				}
+				else if (isPDFLink)
+				{
+					isPDFLink = false;
 					super.endElement(uri, localName, qName);
 				}
 				else if (isEmptyAnchor)
