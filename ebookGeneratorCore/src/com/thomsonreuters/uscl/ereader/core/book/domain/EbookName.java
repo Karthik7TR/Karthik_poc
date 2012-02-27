@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -56,6 +57,10 @@ public class EbookName implements Serializable{
 
 	public void setSequenceNumber(Long sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
+	}
+	
+	public boolean isEmpty() {
+		return StringUtils.isBlank(this.nameText) & this.sequenceNumber == null;
 	}
 
 	@Override

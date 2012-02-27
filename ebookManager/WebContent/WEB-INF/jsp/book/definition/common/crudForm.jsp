@@ -8,7 +8,9 @@
 
 <script type="text/javascript">
 		// Declare Global Variables
-		var incrementVar = ${numberOfAuthors};
+		var authorIndex = ${numberOfAuthors};
+		var nameIndex = ${numberOfNameLines};
+		var frontMatterIndex = ${numberOfFrontMatters};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -94,17 +96,53 @@
 		// Add another author row
 		var addAuthorRow = function() {
 			var appendTxt = "<div class='row'>";
-			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + incrementVar + ".prefix\" name=\"authorInfo[" + incrementVar + "].prefix\" type=\"text\" title=\"prefix\"/>";
-			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + incrementVar + ".firstName\" name=\"authorInfo[" + incrementVar + "].firstName\" type=\"text\" title=\"first name\"/>";
-			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + incrementVar + ".middleName\" name=\"authorInfo[" + incrementVar + "].middleName\" type=\"text\" title=\"middle name\"/>";
-			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + incrementVar + ".lastName\" name=\"authorInfo[" + incrementVar + "].lastName\" type=\"text\" title=\"last name\"/>";
-			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + incrementVar + ".suffix\" name=\"authorInfo[" + incrementVar + "].suffix\" type=\"text\" title=\"suffix\"/>";
+			appendTxt = appendTxt + "<input id=\"authorInfo" + authorIndex + ".authorId\" name=\"authorInfo[" + authorIndex + "].authorId\" type=\"hidden\" />";
+			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + authorIndex + ".prefix\" name=\"authorInfo[" + authorIndex + "].prefix\" type=\"text\" title=\"prefix\"/>";
+			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + authorIndex + ".firstName\" name=\"authorInfo[" + authorIndex + "].firstName\" type=\"text\" title=\"first name\"/>";
+			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + authorIndex + ".middleName\" name=\"authorInfo[" + authorIndex + "].middleName\" type=\"text\" title=\"middle name\"/>";
+			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".lastName\" name=\"authorInfo[" + authorIndex + "].lastName\" type=\"text\" title=\"last name\"/>";
+			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".suffix\" name=\"authorInfo[" + authorIndex + "].suffix\" type=\"text\" title=\"suffix\"/>";
+			appendTxt = appendTxt + "<div>";
+			appendTxt = appendTxt + "<input class=\"additionalText\" id=\"authorInfo" + authorIndex + ".additionalText\" name=\"authorInfo[" + authorIndex + "].additionalText\" type=\"text\" title=\"Additional Text\"/>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
+			appendTxt = appendTxt + "</div>";
 			$("#addHere").before(appendTxt);
-			incrementVar = incrementVar + 1;
+			authorIndex = authorIndex + 1;
 			
 			textboxHint("authorName");
+		};
+		
+		// Add another name row
+		var addNameRow = function() {
+			var appendTxt = "<div class='row'>";
+			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".nameId\" name=\"nameLines[" + nameIndex + "].nameId\" type=\"hidden\" />";
+			appendTxt = appendTxt + "<input class=\"nameText\" id=\"nameLines" + nameIndex + ".nameText\" name=\"nameLines[" + nameIndex + "].nameText\" type=\"text\" title=\"Name\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNumber\" name=\"nameLines[" + nameIndex + "].sequenceNumber\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<span>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "</span>";
+			appendTxt = appendTxt + "</div>";
+			$("#addNameHere").before(appendTxt);
+			nameIndex = nameIndex + 1;
+			
+			textboxHint("nameLine");
+		};
+		
+		// Add another front matter text row
+		var addFrontMatterRow = function() {
+			var appendTxt = "<div class='row'>";
+			appendTxt = appendTxt + "<input id=\"additionalFrontMatter" + frontMatterIndex + ".frontMatterId\" name=\"additionalFrontMatter[" + frontMatterIndex + "].frontMatterId\" type=\"hidden\" />";
+			appendTxt = appendTxt + "<input class=\"additionalFrontMatterText\" id=\"additionalFrontMatter" + frontMatterIndex + ".additionalFrontMatterText\" name=\"additionalFrontMatter[" + frontMatterIndex + "].additionalFrontMatterText\" type=\"text\" title=\"Additional Front Matter Text\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"additionalFrontMatter" + frontMatterIndex + ".sequenceNumber\" name=\"additionalFrontMatter[" + frontMatterIndex + "].sequenceNumber\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<span>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "</span>";
+			appendTxt = appendTxt + "</div>";
+			$("#addFrontMatterHere").before(appendTxt);
+			frontMatterIndex = frontMatterIndex + 1;
+			
+			textboxHint("additionalFrontMatter");
 		};
 		
 		var setContentType = function(ct) {
@@ -148,6 +186,23 @@
 			jurisdiction = "";
 			$('#jurisdiction').val("");
 		};
+		
+		// Only allow number inputs
+		$(document).on("keydown", ".sequenceNumber, #isbn", function(e) { 
+	        if (e.shiftKey || e.ctrlKey || e.altKey) { // if shift, ctrl or alt keys held down 
+	            e.preventDefault();         // Prevent character input 
+	        } else { 
+	            var n = e.keyCode; 
+	            if (!((n == 8)              // backspace 
+	            || (n == 46)                // delete 
+	            || (n >= 35 && n <= 40)     // arrow keys/home/end 
+	            || (n >= 48 && n <= 57)     // numbers on keyboard 
+	            || (n >= 96 && n <= 105))   // number on keypad 
+	            ) { 
+	                e.preventDefault();     // Prevent character input 
+	            };
+	        }; 
+	    });
 		
 		$(document).ready(function() {
 			<%-- Style buttons with jquery  --%>
@@ -197,9 +252,8 @@
 			});
 			
 			$(".rdelete").live("click", function () {
-				var srow = $(this).parent();
-				srow.css("background-color", "#F0F0F0");
-				srow.fadeOut(500, function () { srow.remove(); });
+				var srow = $(this).parent().parent();
+				srow.remove();
 			});
 			
 			// Initialize Global variables
@@ -216,10 +270,13 @@
 			updateTitleId();
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			textboxHint("authorName");
+			textboxHint("nameLine");
+			textboxHint("additionalFrontMatter");
 		});
 </script>
 
 <%-- Check if book has been published --%>
+
 <c:choose>
 	<c:when test="${!isPublished}">
 		<div class="generateTitleID">
@@ -290,8 +347,16 @@
 		</div>
 	</c:when>
 	<c:otherwise>
+		<form:hidden path="contentType"/>
+		<form:hidden path="publisher"/>
+		<form:hidden path="state"/>
+		<form:hidden path="jurisdiction"/>
+		<form:hidden path="pubType"/>
+		<form:hidden path="pubAbbr"/>
+		<form:hidden path="pubInfo"/>
 	</c:otherwise>
 </c:choose>
+<form:hidden path="bookdefinitionId" />
 <div class="leftDefinitionForm">
 	<div class="row">
 		<form:label path="titleId" class="labelCol">Title ID</form:label>
@@ -301,34 +366,28 @@
 			<form:errors path="titleId" cssClass="errorMessage" />
 		</div>
 	</div>
-	<div class="row">
-		<form:label path="nameLine1" class="labelCol">Name Line 1</form:label>
-		<form:input path="nameLine1" />
+	<div id="nameLine" class="row">
+		<form:label path="nameLines" class="labelCol">Name Line</form:label>
+		<input type="button" onclick="addNameRow();" id="addNameLine" value="add" />
 		<div class="errorDiv">
-			<form:errors path="nameLine1" cssClass="errorMessage" />
+			<form:errors path="nameLines" cssClass="errorMessage" />
 		</div>
-	</div>
-	<div class="row">
-		<form:label path="nameLine2" class="labelCol">Name Line 2</form:label>
-		<form:input path="nameLine2" />
-		<div class="errorDiv">
-			<form:errors path="nameLine2" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="nameLine3" class="labelCol">Name Line 3</form:label>
-		<form:input path="nameLine3" />
-		<div class="errorDiv">
-			<form:errors path="nameLine3" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="nameLine4" class="labelCol">Name Line 4</form:label>
-		<form:input path="nameLine4" />
-		<div class="errorDiv">
-			<form:errors path="nameLine4" cssClass="errorMessage" />
-		</div>
-	</div>
+		<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
+			<div class="row">
+				<form:hidden path="nameLines[${aStatus.index}].nameId"/>
+				<form:input path="nameLines[${aStatus.index}].nameText" title="Book Name" class="bookName"  />
+				<form:input path="nameLines[${aStatus.index}].sequenceNumber" title="Seq Num." class="sequenceNumber"  />
+				<div class="errorDiv">
+					<form:errors path="nameLines[${aStatus.index}]" cssClass="errorMessage" />
+				</div>
+				<span>
+					<input type="button" value="Delete" class="rdelete" />
+				</span>
+			</div>
+		</c:forEach>
+		<div id="addNameHere"></div>
+	</div> 
+
 	<div class="row">
 		<form:label path="copyright" class="labelCol">Copyright</form:label>
 		<form:input path="copyright" />
@@ -346,7 +405,7 @@
 	
 	<div class="row">
 		<form:label path="materialId" class="labelCol">Material ID</form:label>
-		<form:input path="materialId" />
+		<form:input path="materialId" maxlength="18" />
 		<div class="errorDiv">
 			<form:errors path="materialId" cssClass="errorMessage" />
 		</div>	</div>
@@ -410,44 +469,42 @@
 		<input type="button" onclick="addAuthorRow();" id="addAuthor" value="add" />
 		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
 			<div class="row">
+				<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
 				<form:input path="authorInfo[${aStatus.index}].prefix" title="prefix" class="prefix"  />
 				<form:input path="authorInfo[${aStatus.index}].firstName"  title="first name" class="firstName" />
 				<form:input path="authorInfo[${aStatus.index}].middleName"  title="middle name" class="middleName" />
 				<form:input path="authorInfo[${aStatus.index}].lastName"   title="last name" class="lastName" />
 				<form:input path="authorInfo[${aStatus.index}].suffix"  title="suffix" class="suffix" />
-				<input type="button" value="Delete" class="rdelete" />
+				<div>
+					<form:input path="authorInfo[${aStatus.index}].additionalText"  title="Additional Text" class="additionalText" />
+					<input type="button" value="Delete" class="rdelete" />
+				</div>
 			</div>
 		</c:forEach>
 		<div id="addHere"></div>
 	</div>
-	<div class="row">
-		<form:label path="additionalFrontMatterHeader1" class="labelCol">Additional Front Matter Header 1</form:label>
-		<form:textarea path="additionalFrontMatterHeader1" />
+	<div id="additionalFrontMatter" class="row">
+		<form:label path="additionalFrontMatter" class="labelCol">Additional Front Matter</form:label>
+		<input type="button" onclick="addFrontMatterRow();" id="addFrontMatterLine" value="add" />
 		<div class="errorDiv">
-			<form:errors path="additionalFrontMatterHeader1" cssClass="errorMessage" />
+			<form:errors path="additionalFrontMatter" cssClass="errorMessage" />
 		</div>
-	</div>
-	<div class="row">
-		<form:label path="additionalFrontMatterText1" class="labelCol">Additional Front Matter Text 1</form:label>
-		<form:textarea path="additionalFrontMatterText1" />
-		<div class="errorDiv">
-			<form:errors path="additionalFrontMatterText1" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="additionalFrontMatterHeader2" class="labelCol">Additional Front Matter Header 2</form:label>
-		<form:textarea path="additionalFrontMatterHeader2" />
-		<div class="errorDiv">
-			<form:errors path="additionalFrontMatterHeader2" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="additionalFrontMatterText2" class="labelCol">Additional Front Matter Text 2</form:label>
-		<form:textarea path="additionalFrontMatterText2" />
-		<div class="errorDiv">
-			<form:errors path="additionalFrontMatterText2" cssClass="errorMessage" />
-		</div>
-	</div>
+		<c:forEach items="${editBookDefinitionForm.additionalFrontMatter}" var="frontMatter" varStatus="aStatus">
+			<div class="row">
+				<form:hidden path="additionalFrontMatter[${aStatus.index}].frontMatterId"/>
+				<form:input path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
+				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNumber" title="Seq Num." class="sequenceNumber"  />
+				<div class="errorDiv">
+					<form:errors path="additionalFrontMatter[${aStatus.index}]" cssClass="errorMessage" />
+				</div>
+				<span>
+					<input type="button" value="Delete" class="rdelete" />
+				</span>
+			</div>
+		</c:forEach>
+		<div id="addFrontMatterHere"></div>
+	</div> 
+
 	<div class="row">
 		<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
 		<form:input path="publishDateText" />
@@ -457,7 +514,7 @@
 	</div>
 	<div class="row">
 		<form:label path="isbn" class="labelCol">ISBN</form:label>
-		<form:input path="isbn" />
+		<form:input path="isbn" maxlength="13" />
 		<div class="errorDiv">
 			<form:errors path="isbn" cssClass="errorMessage" />
 		</div>

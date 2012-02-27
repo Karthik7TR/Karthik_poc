@@ -21,6 +21,8 @@ public class WebConstants {
 	public static final String KEY_VDO = "vdo";
 	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
+	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
+	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
 	public static final String KEY_CONTENT_TYPES = "contentTypes";
@@ -42,6 +44,7 @@ public class WebConstants {
 	public static final String KEY_SLICE_CODES_ABBR = "sc";
 	public static final String KEY_GENERATE_BUTTON_VISIBILITY = "generateButtonVisibility";
 	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
+	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
 	
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";

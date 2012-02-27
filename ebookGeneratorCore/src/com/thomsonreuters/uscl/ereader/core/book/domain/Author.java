@@ -7,22 +7,23 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class Author implements Serializable {
-	private static final long serialVersionUID = -3402252702112431336L;
 	//private static final Logger log = Logger.getLogger(Author.class);
+	private static final long serialVersionUID = -3402252702112431336L;
 	private Long authorId;
 	private BookDefinition book;
-	private String prefix = "";
-	private String firstName = "";
-	private String middleName = "";
-	private String lastName = "";
-	private String suffix = "";
-	private String additionalText = "";
+	private String prefix;
+	private String firstName;
+	private String middleName;
+	private String lastName;
+	private String suffix;
+	private String additionalText;
 	
 	public Author() {
 		super();
@@ -90,6 +91,16 @@ public class Author implements Serializable {
 
 	public void setAdditionalText(String additionalText) {
 		this.additionalText = additionalText;
+	}
+	
+	public boolean isNameEmpty() {
+		
+		return StringUtils.isBlank(this.prefix) &
+		StringUtils.isBlank(this.firstName) &
+		StringUtils.isBlank(this.middleName) &
+		StringUtils.isBlank(this.lastName) &
+		StringUtils.isBlank(this.suffix) &
+		StringUtils.isBlank(this.additionalText);
 	}
 
 	@Override

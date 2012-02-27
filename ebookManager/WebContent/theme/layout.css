@@ -210,6 +210,20 @@ ul.navList a:hover {
 	min-width: 1170px;
 }
 
+#bookData > div {
+	display: inline-block;
+}
+
+#bookData .bookImage {
+	margin:0px 8px;
+}
+
+#bookData .titleData {
+	padding-top:10px;
+	vertical-align: top;
+	margin: 0px;
+}
+
 <!-- Styling for Book Definition CRUD -->
 .bookDefinitionCRUD {
 	position: relative;
@@ -289,7 +303,16 @@ ul.navList a:hover {
 	width:100%;
 }
 
-.bookDefinitionCRUD #authorName input.blur {
+.bookDefinitionCRUD #nameLine .nameText,
+.bookDefinitionCRUD #nameLine .sequenceNumber,
+.bookDefinitionCRUD #additionalFrontMatter .additionalFrontMatterText,
+.bookDefinitionCRUD #additionalFrontMatter .sequenceNumber{
+	width: 150px;
+}
+
+.bookDefinitionCRUD #authorName input.blur,
+.bookDefinitionCRUD #nameLine input.blur,
+.bookDefinitionCRUD #additionalFrontMatter input.blur {
   color:#808080;
 }
 
@@ -304,7 +327,9 @@ ul.navList a:hover {
   width:30px;
 }
 
-.bookDefinitionCRUD #authorName .row {
+.bookDefinitionCRUD #authorName .row,
+.bookDefinitionCRUD #nameLine .row,
+.bookDefinitionCRUD #additionalFrontMatter .row  {
 	text-align: right;
 }
 

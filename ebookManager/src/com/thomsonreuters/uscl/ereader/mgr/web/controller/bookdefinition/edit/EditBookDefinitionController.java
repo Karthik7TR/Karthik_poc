@@ -9,8 +9,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.AutoPopulatingList;
@@ -33,7 +34,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class EditBookDefinitionController {
-	private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
 	private BookService bookService;
@@ -42,6 +43,7 @@ public class EditBookDefinitionController {
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(false);
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		binder.setValidator(validator);
 	}
 	
@@ -84,10 +86,13 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 
-		
 		// Lookup the book by its primary key
 		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+		
+		// Check if book is scheduled or queued
+		// TODO: Update with lookup from Proview
+		boolean isInJobRequest = false;
 		
 		// Load Authors
 		List<Author> authors = new AutoPopulatingList<Author>(Author.class);
@@ -99,6 +104,7 @@ public class EditBookDefinitionController {
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -125,10 +131,9 @@ public class EditBookDefinitionController {
 	}
 
 	private void initializeModel(Model model, EditBookDefinitionForm form) {
-		// Clear out emtpy authors and determine size
-		form.removeEmptyAuthorRows();
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
-		
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getAdditionalFrontMatter().size());
 		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
@@ -139,8 +144,6 @@ public class EditBookDefinitionController {
 		
 		// TODO: Update condition to check if book definition has been published
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
-		
-		log.debug(form.getKeywords());
 	}
 
 	@Required

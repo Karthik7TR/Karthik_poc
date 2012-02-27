@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -36,10 +37,13 @@ public class EditBookDefinitionFormValidator implements Validator {
     	
     	EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
     	
+    	// Clear out emtpy rows in authors, nameLines, and additionalFrontMatters
+    	form.removeEmptyRows();
+    	
     	String contentType = form.getContentType();
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentType", "error.required");
     	
-    	if (!contentType.isEmpty()) {
+    	if (StringUtils.isNotEmpty(contentType)) {
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
     		
@@ -89,28 +93,34 @@ public class EditBookDefinitionFormValidator implements Validator {
 	}
 	
 	private void checkMaxLength(Errors errors, int maxValue ,String text, String fieldName,  Object[]  args) {
-		if(text.length() > maxValue) {
-			errors.rejectValue(fieldName, "error.max.length", args, "Must be maximum of " + maxValue + " characters or under");
+		if (StringUtils.isNotEmpty(text)) {
+			if(text.length() > maxValue) {
+				errors.rejectValue(fieldName, "error.max.length", args, "Must be maximum of " + maxValue + " characters or under");
+			}
 		}
 	}
 	
 	private void checkForSpaces(Errors errors, String text, String fieldName, String arg) {
-		Pattern pattern = Pattern.compile("\\s");
-		Matcher matcher = pattern.matcher(text);
-		
-		if(matcher.find()) {
-			errors.rejectValue(fieldName, "error.no.spaces", new Object[]{arg}, "No spaces allowed");
+		if (StringUtils.isNotEmpty(text)) {
+			Pattern pattern = Pattern.compile("\\s");
+			Matcher matcher = pattern.matcher(text);
+			
+			if(matcher.find()) {
+				errors.rejectValue(fieldName, "error.no.spaces", new Object[]{arg}, "No spaces allowed");
+			}
 		}
 	}
 	
 	private void checkSpecialCharacters(Errors errors, String text, String fieldName, boolean includeUnderscore) {
-		Pattern pattern = includeUnderscore ? Pattern.compile("[^a-z0-9_ ]", Pattern.CASE_INSENSITIVE):
-			Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-		
-		Matcher matcher = pattern.matcher(text);
-		
-		if(matcher.find()) {
-			errors.rejectValue(fieldName, "error.special.characters");
+		if (StringUtils.isNotEmpty(text)) {
+			Pattern pattern = includeUnderscore ? Pattern.compile("[^a-z0-9_ ]", Pattern.CASE_INSENSITIVE):
+				Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+			
+			Matcher matcher = pattern.matcher(text);
+			
+			if(matcher.find()) {
+				errors.rejectValue(fieldName, "error.special.characters");
+			}
 		}
 	}
 }
