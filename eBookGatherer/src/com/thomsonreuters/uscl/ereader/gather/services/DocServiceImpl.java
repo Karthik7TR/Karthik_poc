@@ -14,6 +14,8 @@ import java.io.Writer;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
@@ -29,18 +31,31 @@ import com.westgroup.novus.productapi.NovusException;
  * Novus document and metadata fetch.
  */
 public class DocServiceImpl implements DocService {
-	
-	//private static final Logger log = Logger.getLogger(DocServiceImpl.class);
-	
+
+	private static final Logger Log = Logger.getLogger(DocServiceImpl.class);
+
 	private NovusFactory novusFactory;
 
+	final Integer retryCount = NovusRetryCounter.docRetryCount;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.gather.services.DocService#fetchDocuments
+	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
+	 */
 	@Override
-	public void fetchDocuments(Collection<String> docGuids, String collectionName,
-							   File contentDestinationDirectory,
-							   File metadataDestinationDirectory) throws GatherException {
-		Assert.isTrue(contentDestinationDirectory.exists(), "The content destination directory for the documents does not exist: " + contentDestinationDirectory);
-		Assert.isTrue(contentDestinationDirectory.exists(), "The content destination directory for the document metadata does not exist: " + metadataDestinationDirectory);
-		
+	public void fetchDocuments(Collection<String> docGuids,
+			String collectionName, File contentDestinationDirectory,
+			File metadataDestinationDirectory) throws GatherException {
+		Assert.isTrue(contentDestinationDirectory.exists(),
+				"The content destination directory for the documents does not exist: "
+						+ contentDestinationDirectory);
+		Assert.isTrue(contentDestinationDirectory.exists(),
+				"The content destination directory for the document metadata does not exist: "
+						+ metadataDestinationDirectory);
+
 		Novus novus = novusFactory.createNovus();
 		boolean anyException = false;
 		String docGuid = null;
@@ -53,24 +68,50 @@ public class DocServiceImpl implements DocService {
 				tocSequence++;
 				docGuid = guid;
 				Document document = null;
-				if(collectionName == null)
-				{
-					document = finder.getDocument(null, guid );
-				}
-				else
-				{
-					document = finder.getDocument(collectionName, null, guid);
+
+				// This is the counter for checking how many Novus retries we
+				// are making
+				Integer novusRetryCounter = 0;
+				while (novusRetryCounter < retryCount) {
+					try {
+						if (collectionName == null) {
+							document = finder.getDocument(null, guid);
+						} else {
+							document = finder.getDocument(collectionName, null,
+									guid);
+						}
+						break;
+					} catch (final Exception exception) {
+						try {
+							novusRetryCounter = handleException(exception,
+									novusRetryCounter, retryCount);
+						} catch (Exception e) {
+							Log.error("Exception in handleException "
+									+ e.getMessage());
+						}
+					}
 				}
 				createContentFile(document, contentDestinationDirectory);
-				createMetadataFile(document, metadataDestinationDirectory, tocSequence);
+				createMetadataFile(document, metadataDestinationDirectory,
+						tocSequence);
 			}
 		} catch (NovusException e) {
 			anyException = true;
-			GatherException ge = new GatherException("Novus error occurred fetching document " + docGuid, e, GatherResponse.CODE_NOVUS_ERROR);
+			GatherException ge = new GatherException(
+					"Novus error occurred fetching document " + docGuid, e,
+					GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
 		} catch (IOException e) {
 			anyException = true;
-			GatherException ge = new GatherException("File I/O error writing document " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
+			GatherException ge = new GatherException(
+					"File I/O error writing document " + docGuid, e,
+					GatherResponse.CODE_FILE_ERROR);
+			throw ge;
+		} catch (NullPointerException e) {
+			anyException = true;
+			GatherException ge = new GatherException(
+					"Null document fetching guid " + docGuid, e,
+					GatherResponse.CODE_FILE_ERROR);
 			throw ge;
 		} finally {
 			if (anyException) {
@@ -81,21 +122,72 @@ public class DocServiceImpl implements DocService {
 			novus.shutdownMQ();
 		}
 	}
-	
-	private static final void createContentFile(Document document, File destinationDirectory)
-									throws NovusException, IOException {
+
+	/**
+	 * @param document
+	 * @param destinationDirectory
+	 * @throws NovusException
+	 * @throws IOException
+	 */
+	private final void createContentFile(Document document,
+			File destinationDirectory) throws NovusException, IOException {
 		String basename = document.getGuid() + EBConstants.XML_FILE_EXTENSION;
-		File destinationFile = new File(destinationDirectory, basename);  
-		createFile(document.getText(), destinationFile);
+		File destinationFile = new File(destinationDirectory, basename);
+		String docText = null;
+
+		// This is the counter for checking how many Novus retries we are making
+		// for doc retrieval
+		Integer novusDocRetryCounter = 0;
+		while (novusDocRetryCounter < retryCount) {
+			try {
+				docText = document.getText();
+				break;
+			} catch (final Exception exception) {
+				try {
+					novusDocRetryCounter = handleException(exception,
+							novusDocRetryCounter, retryCount);
+				} catch (Exception e) {
+					Log.error("Exception in handleException " + e.getMessage());
+				}
+			}
+		}
+		createFile(docText.toString(), destinationFile);
 	}
 
-	private static final void createMetadataFile(Document document, File destinationDirectory, int tocSeqNum)
-									throws NovusException, IOException {
-		String basename =  tocSeqNum + "-" +  document.getCollection() + "-" + document.getGuid() + EBConstants.XML_FILE_EXTENSION;
-		File destinationFile = new File(destinationDirectory, basename);  
-		createFile(document.getMetaData(), destinationFile);
+	/**
+	 * @param document
+	 * @param destinationDirectory
+	 * @param tocSeqNum
+	 * @throws NovusException
+	 * @throws IOException
+	 */
+	private final void createMetadataFile(Document document,
+			File destinationDirectory, int tocSeqNum) throws NovusException,
+			IOException {
+		String basename = tocSeqNum + "-" + document.getCollection() + "-"
+				+ document.getGuid() + EBConstants.XML_FILE_EXTENSION;
+		File destinationFile = new File(destinationDirectory, basename);
+
+		String docMetaData = null;
+		// This is the counter for checking how many Novus retries we are making
+		// for meta data retrieval
+		Integer novusMetaRetryCounter = 0;
+		while (novusMetaRetryCounter < retryCount) {
+			try {
+				docMetaData = document.getMetaData();
+				break;
+			} catch (final Exception exception) {
+				try {
+					novusMetaRetryCounter = handleException(exception,
+							novusMetaRetryCounter, retryCount);
+				} catch (Exception e) {
+					Log.error("Exception in handleException " + e.getMessage());
+				}
+			}
+		}
+		createFile(docMetaData.toString(), destinationFile);
 	}
-	
+
 	/**
 	 * Create a file containing the specified content.
 	 */
@@ -112,7 +204,52 @@ public class DocServiceImpl implements DocService {
 			stream.close();
 		}
 	}
-	
+
+	/**
+	 * handles the doc retrieval exception. Performs checks to see if the
+	 * exception is a novus one and check the retry count.
+	 * 
+	 * @param exception
+	 *            the exception that could be a novus one
+	 * @param novusRetryCounter
+	 *            the counter of occurred exceptions
+	 * @param retryCount
+	 *            the max retry count
+	 * @return the novusRetryCounter that is incremented
+	 * @throws Exception
+	 */
+	private Integer handleException(final Exception exception,
+			Integer novusRetryCounter, final Integer retryCount)
+			throws Exception {
+		if (isNovusException(exception)) {
+			novusRetryCounter++;
+			Log.error("Novus Exception has happened. Retry Count # is "
+					+ novusRetryCounter);
+			if (novusRetryCounter == (retryCount - 1)) {
+				throw exception;
+			}
+		} else {
+			throw exception;
+		}
+		return novusRetryCounter;
+	}
+
+	/**
+	 * check if the exception is a novus exception.
+	 * 
+	 * @param exception
+	 *            the exception that's thrown
+	 * @return Boolean if it is a novus Exception
+	 */
+	private Boolean isNovusException(final Exception exception) {
+		Boolean isNovusException = Boolean.FALSE;
+
+		if (StringUtils.containsIgnoreCase(exception.getMessage(), "NOVUS")) {
+			isNovusException = Boolean.TRUE;
+		}
+		return isNovusException;
+	}
+
 	/**
 	 * Delete all files in the specified directory.
 	 * @param directory directory whose files will be removed
