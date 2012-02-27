@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
@@ -26,7 +27,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceTest;
 				FileHandlingHelperTest.class,
 				JibxMarshallingTest.class,
 				JobRunRequestTest.class,
-				JobRunnerTest.class
+				JobRunnerTest.class,
+				JobServiceTest.class
 			} )
 public class CoreTestSuite {
 
