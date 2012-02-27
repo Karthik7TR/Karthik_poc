@@ -55,7 +55,12 @@ public class JobFilter {
 	}
 	public BatchStatus getBatchStatus() {
 		return batchStatus;
-	}	
+	}
+	/**
+	 * Get the match-anywhere title ID, where this string will be compared against
+	 * the actual definition title ID as a 'like' comparison '%titleID%'.
+	 * @return
+	 */
 	public String getTitleId() {
 		return titleId;
 	}

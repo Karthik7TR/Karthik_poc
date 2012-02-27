@@ -9,12 +9,22 @@
 	The filter form in the left side tile of the Active / Recent Jobs table.
  --%>
 <script>
-<%-- Set up the jQuery To and From date picker UI widget --%>
+$(document).ready(function() {
+	<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
+	$("form input").keyup(function(event) {
+		if (event.keyCode == 13) {
+			submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>');
+		}
+	});
+});
+
+<%-- Set up the jQuery TO and FROM date picker UI widget --%>
 $(function() {
 	$("#datepickerFrom").datepicker();
 	$("#datepickerTo").datepicker();
 });
 
+<%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>
 function submitJobListFilterForm(command) {
 	$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
 	$("#<%=FilterForm.FORM_NAME%>").submit();	// POST the HTML form
@@ -61,6 +71,7 @@ function submitJobListFilterForm(command) {
 	</form:select>
 	<br/>
 	<br/>
-	<input type="button" value="Search" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
+	<input id="jobFilterSearchButton" type="button" value="Search" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>
 </form:form>
+

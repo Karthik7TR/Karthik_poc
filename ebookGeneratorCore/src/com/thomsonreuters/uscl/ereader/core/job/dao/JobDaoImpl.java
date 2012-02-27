@@ -51,7 +51,8 @@ public class JobDaoImpl implements JobDao {
 		
 		// Filter on Title ID job parameter
 		if (StringUtils.isNotBlank(filter.getTitleId())) {
-			hql.append(createStringParamFilterClause(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, filter.getTitleId()));
+			hql.append(String.format("(parameter.keyName = '%s') and ", JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
+			hql.append(String.format("(parameter.stringVal like '%%%s%%')", filter.getTitleId()));
 			hql.append(" and ");
 		}
 		// Filter on Book Name job parameter

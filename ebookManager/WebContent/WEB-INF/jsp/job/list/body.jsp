@@ -76,6 +76,9 @@ function submitJobListForm(command) {
 	  <display:column title="Start Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.START_TIME.toString()%>"><fmt:formatDate value="${vdo.jobExecution.startTime}" pattern="${DATE_FORMAT}"/></display:column>
 	  <display:column title="Duration" property="executionDuration"/>
 	</display:table>
+
+	<%-- Only display row related UI controls if some rows are present. --%>	
+	<c:if test="${fn:length(paginatedList.list) != 0}">
 	
 	<%-- Select for how may items (rows) per page to show --%>
 	Rows per page: 
@@ -89,9 +92,10 @@ function submitJobListForm(command) {
 	&nbsp;
 	
 	<%-- Operational buttons --%> 
-	<%-- sec:authorize access="hasRole('ROLE_SUPERUSER')" --%>
+<%-- TODO sec:authorize access="hasRole('ROLE_SUPERUSER')" --%>
 		<input type="button" value="Stop Job" onclick="submitJobListForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
 		<input type="button" value="Restart Job" onclick="submitJobListForm('<%=JobCommand.RESTART_JOB%>')"/>
+	</c:if>  <%-- if rowCount > 0 --%>
 	
 </form:form>
 
