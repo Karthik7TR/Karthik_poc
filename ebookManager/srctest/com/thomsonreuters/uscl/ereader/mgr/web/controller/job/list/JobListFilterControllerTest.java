@@ -53,9 +53,6 @@ public class JobListFilterControllerTest {
     	request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
     	HttpSession session = request.getSession();
     	
-    	//FilterForm filterForm = new FilterForm();
-    	//filterForm.setTitleId(titleId);
-
     	Long JEID = 1965l;
     	List<Long> jobExecutionIds = new ArrayList<Long>();
     	jobExecutionIds.add(JEID);
@@ -71,12 +68,17 @@ public class JobListFilterControllerTest {
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
+    	validateModel(session, model);
+    	
+    	EasyMock.verify(mockJobService);
+	}
+	
+	public static void validateModel(HttpSession session, Map<String,Object> model) {
     	Assert.assertNotNull(session.getAttribute(FilterForm.FORM_NAME));
     	Assert.assertNotNull(session.getAttribute(PageAndSort.class.getName()));
     	Assert.assertNotNull(session.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS));
     	Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
+    	Assert.assertNotNull(model.get(FilterForm.FORM_NAME));
     	Assert.assertNotNull(model.get(JobListForm.FORM_NAME));
-    	
-    	EasyMock.verify(mockJobService);
 	}
 }

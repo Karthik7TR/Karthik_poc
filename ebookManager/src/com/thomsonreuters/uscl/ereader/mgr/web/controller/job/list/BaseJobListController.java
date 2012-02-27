@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -39,6 +40,9 @@ public abstract class BaseJobListController {
 	@SuppressWarnings("unchecked")
 	protected List<Long> fetchSavedJobExecutionIdList(HttpSession httpSession) {
 		List<Long> jobExecutionIds = (List<Long>) httpSession.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS);
+		if (jobExecutionIds == null) {
+			jobExecutionIds = Collections.EMPTY_LIST;
+		}
 		return jobExecutionIds;
 	}
 	

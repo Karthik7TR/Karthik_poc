@@ -14,11 +14,15 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControlle
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListFilterControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
 			BookLibraryControllerTest.class,
 			BookPromotionControllerTest.class,
+			JobListControllerTest.class,
+			JobListFilterControllerTest.class,
 			GenerateEbookControllerTest.class,
 			SecurityControllerTest.class,
 			ViewBookDefinitionControllerTest.class

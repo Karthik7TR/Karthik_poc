@@ -5,7 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -43,7 +42,6 @@ public class FilterController extends BaseJobListController {
 	/**
 	 * Handle submit/post of a new set of filter criteria.
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value=WebConstants.MVC_JOB_LIST_FILTER_POST, method = RequestMethod.POST)
 	public ModelAndView doFilterPost(HttpSession httpSession,
 						@ModelAttribute(FilterForm.FORM_NAME) @Valid FilterForm filterForm,
@@ -52,9 +50,6 @@ public class FilterController extends BaseJobListController {
 log.debug(filterForm);
 		// Fetch the existing saved list of job execution ID's from the last successful query
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
-		if (jobExecutionIds == null) {
-			jobExecutionIds = Collections.EMPTY_LIST;
-		}
 		
 		// Restore state of paging and sorting
 		JobListForm jobListForm = new JobListForm();
