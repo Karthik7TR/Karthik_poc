@@ -1,8 +1,8 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
@@ -20,9 +20,11 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactor
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
 /**
- * This class is responsible for interacting with ProView via their REST interface.
+ * This class is responsible for interacting with ProView via their REST
+ * interface.
+ * 
  * @author u0081674
- *
+ * 
  */
 public class ProviewClientImpl implements ProviewClient {
 
@@ -34,60 +36,105 @@ public class ProviewClientImpl implements ProviewClient {
 	private String publishingStatusUriTemplate;
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
-	
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle(java.lang.String, java.lang.String, java.io.File)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle
+	 * (java.lang.String, java.lang.String, java.io.File)
 	 */
 	@Override
-	public String publishTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber, final File eBook) throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)){
-			throw new IllegalArgumentException("fullyQualifiedTitleId cannot be null or empty, but was [" + fullyQualifiedTitleId + "].");
+	public String publishTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber, final File eBook)
+			throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
 		}
-		if (StringUtils.isBlank(eBookVersionNumber)){
-			throw new IllegalArgumentException("eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
 		}
-		
+
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-		
+
 		restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
-		
-		//logResponse(response);
-		
+
+		// logResponse(response);
+
 		return null;
 	}
-	
+
 	@Override
 	public String getAllPublishedTitles() throws ProviewException {
 		Map<String, String> urlVariables = new HashMap<String, String>();
-		
-		//ResponseEntity responseEntity
-		String response = restTemplate.execute(getTitlesUriTemplate, HttpMethod.GET, proviewRequestCallbackFactory.getRequestCallback() , proviewResponseExtractorFactory.getResponseExtractor());
-		//logResponse(responseEntity);
-		
+
+		// ResponseEntity responseEntity
+		String response = restTemplate.execute(getTitlesUriTemplate,
+				HttpMethod.GET,
+				proviewRequestCallbackFactory.getRequestCallback(),
+				proviewResponseExtractorFactory.getResponseExtractor());
+		// logResponse(responseEntity);
+
 		return response;
-	}	
+	}
 
 	@Override
-	public String getPublishingStatus(String fullyQualifiedTitleId) throws ProviewException {
+	public String getPublishingStatus(String fullyQualifiedTitleId)
+			throws ProviewException {
 		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException("Cannot get publishing status for titleId: " + fullyQualifiedTitleId + ". The titleId must not be null or empty.");
+			throw new IllegalArgumentException(
+					"Cannot get publishing status for titleId: "
+							+ fullyQualifiedTitleId
+							+ ". The titleId must not be null or empty.");
 		}
-		
+
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
-		ResponseEntity responseEntity = restTemplate.getForEntity(publishingStatusUriTemplate, String.class, urlParameters);
+		ResponseEntity responseEntity = restTemplate.getForEntity(
+				publishingStatusUriTemplate, String.class, urlParameters);
 		logResponse(responseEntity);
-		
+
 		return responseEntity.getBody().toString();
 	}
-	
-	private void logResponse(final ResponseEntity responseEntity){
-		LOG.debug("Response Headers: " + responseEntity.getHeaders().toSingleValueMap());
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getCurrentProviewVersionNumber(java.lang.String)
+	 */
+	@Override
+	public String getCurrentProviewVersionNumber(
+			final String fullyQualifiedTitleId) throws ProviewException {
+		String versionNumber = null;
+
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+		Map<String, ProviewTitleInfo> titleMap = parser
+				.process(allPublishedTitleResponse);
+
+		ProviewTitleInfo proviewTitleInfo = titleMap.get(fullyQualifiedTitleId);
+
+		if (proviewTitleInfo != null) {
+			versionNumber = proviewTitleInfo.getVesrion();
+		}
+
+		return versionNumber;
+	}
+
+	private void logResponse(final ResponseEntity responseEntity) {
+		LOG.debug("Response Headers: "
+				+ responseEntity.getHeaders().toSingleValueMap());
 		LOG.debug("Response Body:" + responseEntity.getBody().toString());
 	}
-	
+
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
@@ -104,7 +151,8 @@ public class ProviewClientImpl implements ProviewClient {
 		this.getTitlesUriTemplate = getTitlesUriTemplate;
 	}
 
-	public void setPublishingStatusUriTemplate(String publishingStatusUriTemplate) {
+	public void setPublishingStatusUriTemplate(
+			String publishingStatusUriTemplate) {
 		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
 	}
 
@@ -116,5 +164,5 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setProviewResponseExtractorFactory(
 			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
 		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
-	}	
+	}
 }

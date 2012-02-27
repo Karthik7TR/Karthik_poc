@@ -22,4 +22,6 @@ public interface ProviewClient {
 	public String getAllPublishedTitles() throws ProviewException;
 	
 	public String getPublishingStatus(final String fullyQualifiedTitleId) throws ProviewException;
+	
+	public String getCurrentProviewVersionNumber(final String fullyQualifiedTitleId) throws ProviewException;
 }
