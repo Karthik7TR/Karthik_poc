@@ -92,7 +92,7 @@
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
-	  <copy file="${dir.core}/dist/ebookManagerCore.jar" todir="${dir.tmpBuildDir}/WEB-INF/lib"/>
+	  <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.tmpBuildDir}/WEB-INF/lib"/>
 
     <!-- copy core lib jars-->
     <copy todir="${dir.tmpBuildDir}/WEB-INF/lib">
