@@ -3,31 +3,53 @@
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
-package com.thomsonreuters.uscl.ereader.proview;
+package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.xml.serializer.Method;
+import org.apache.xml.serializer.OutputPropertiesFactory;
+import org.apache.xml.serializer.Serializer;
+import org.apache.xml.serializer.SerializerFactory;
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.gather.TableOfContents;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
-import com.thomsonreuters.uscl.ereader.jibx.EntityPreservingCharacterEscaper;
+import com.thomsonreuters.uscl.ereader.proview.Artwork;
+import com.thomsonreuters.uscl.ereader.proview.Asset;
+import com.thomsonreuters.uscl.ereader.proview.Author;
+import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 
 
@@ -43,7 +65,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	//These FilenameFilter instances are de-facto singletons. As there is only ONE instance of TitleMetadataServiceImpl in the Spring Application Context.
 	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
 	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
-	
+	private DocMetadataService docMetadataService;
+	private UuidGenerator uuidGenerator;
+
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#writeToStream(com.thomsonreuters.uscl.ereader.proview.TitleMetadata, java.io.OutputStream)
 	 */
@@ -259,4 +283,50 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		}
 		return tocEntries;
 	}
+
+	@Override
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId) {
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+				
+		try {
+			
+			saxParserFactory.setNamespaceAware(true);
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			XMLReader xmlReader = saxParser.getXMLReader();
+			
+			Map<String, String> familyGuidMap = docMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
+			
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator);
+			titleManifestFilter.setParent(xmlReader);
+									
+			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+			props.setProperty("omit-xml-declaration", "yes");
+			
+			Serializer serializer = SerializerFactory.getSerializer(props);
+			serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest));
+			
+			titleManifestFilter.setContentHandler(serializer.asContentHandler());
+			titleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
+			
+		} 
+		catch (ParserConfigurationException e) {
+			throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
+		}
+		catch (SAXException e) {
+			throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
+		}
+		catch (IOException e) {
+			throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
+		}
+	}
+	
+	public void setUuidGenerator(UuidGenerator uuidGenerator) {
+		this.uuidGenerator = uuidGenerator;
+	}
+
+
+	public void setDocMetadataService(DocMetadataService docMetadataService) {
+		this.docMetadataService = docMetadataService;
+	}
+
 }
