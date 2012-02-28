@@ -1,0 +1,364 @@
+/*
+* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
+package com.thomsonreuters.uscl.ereader.assemble.service;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.apache.xml.serializer.Method;
+import org.apache.xml.serializer.OutputPropertiesFactory;
+import org.apache.xml.serializer.Serializer;
+import org.apache.xml.serializer.SerializerFactory;
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Difference;
+import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+
+/**
+ * Test suite for the title manifest filter.
+ * 
+ * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
+ *
+ */
+public class TitleManifestFilterTest extends TitleMetadataBaseTest {
+	private static final Logger LOG = Logger.getLogger(TitleManifestFilterTest.class);
+	UuidGenerator uuidGenerator;
+	SAXParserFactory saxParserFactory;
+	TitleManifestFilter titleManifestFilter;
+	TitleMetadata titleMetadata;
+	OutputStream titleManifestOutputStream;
+	InputStream tocXml;
+	Serializer serializer;
+	SAXParser saxParser;
+	XMLReader xmlReader;
+	ByteArrayOutputStream resultStream;
+    
+	private static final String EXPECTED_ARTWORK = "<artwork src=\"swashbuckling.gif\" type=\"cover\"/>";
+	private static final String EXPECTED_ASSETS = "<assets><asset id=\"123\" src=\"BlackPearl.png\"/><asset id=\"456\" src=\"PiratesCove.png\"/><asset id=\"789\" src=\"Tortuga.png\"/></assets>";
+	private static final String EXPECTED_AUTHORS = "<authors><author>Captain Jack Sparrow</author><author>Davey Jones</author></authors>";
+	private static final String EXPECTED_KEYWORDS = "<keywords><keyword type=\"publisher\">High Seas Trading Company</keyword><keyword type=\"jurisdiction\">International Waters</keyword></keywords>";
+	private static final String EXPECTED_COPYRIGHT = "<copyright>The High Seas Trading Company.</copyright>";
+	private static final String EXPECTED_DISPLAYNAME = "<name>YARR - The Comprehensive Guide to &amp;&lt;&gt; Plundering the Seven Seas.</name>";
+	private static final String EXPECTED_FEATURES = "<features><feature name=\"AutoUpdate\"/><feature name=\"SearchIndex\"/><feature name=\"OnePassSSO\" value=\"www.westlaw.com\"/></features>";
+	private static final String EXPECTED_MATERIAL_ID = "<material>Plunder2</material>";
+	private static final String EXPECTED_START_MANIFEST_PREFIX = "<title apiversion=\"v1\" titleversion=\"v1\" id=\"yarr/pirates\" lastupdated=\"";
+	private static final String EXPECTED_START_MANIFEST_SUFFIX = "\" language=\"eng\" status=\"Review\">";
+	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\"/>";
+	private static final String CASCADED_TOC = "<toc><entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
+	private static final String EXPECTED_DOCS = "<docs><doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
+	private static final String EXPECTED_END_MANIFEST = "</title>";
+	
+	String lastupdated = new SimpleDateFormat("yyyyMMdd").format(new Date());
+	
+	@Rule
+	public TemporaryFolder tempDirectory = new TemporaryFolder();
+	
+	@Before
+	public void setUp() throws Exception {
+		uuidGenerator = new UuidGenerator();
+		saxParserFactory = SAXParserFactory.newInstance();
+		titleMetadata = getTitleMetadata();
+		titleManifestOutputStream = new FileOutputStream(tempDirectory.newFile("title.xml"));
+		saxParserFactory.setNamespaceAware(true);
+	    saxParser = saxParserFactory.newSAXParser();
+	    xmlReader = saxParser.getXMLReader();
+	    
+	    Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+	    props.setProperty("omit-xml-declaration", "yes");
+	    
+	    serializer = SerializerFactory.getSerializer(props);
+	    resultStream = new ByteArrayOutputStream(1024);
+	    serializer.setOutputStream(resultStream);
+		
+	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
+	    
+	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator);
+	    titleManifestFilter.setParent(xmlReader);
+		titleManifestFilter.setContentHandler(serializer.asContentHandler());
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		
+	}
+	
+	@Test
+	public void testWriteAssets() throws Exception {
+		titleManifestFilter.writeAssets();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_ASSETS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteAuthors() throws Exception {
+		titleManifestFilter.writeAuthors();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_AUTHORS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteKeywords() throws Exception {
+		titleManifestFilter.writeKeywords();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_KEYWORDS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteCopyright() throws Exception {
+		titleManifestFilter.writeCopyright();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_COPYRIGHT + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testStartManifest() throws Exception {
+		titleManifestFilter.startManifest();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX_SINGLETON, resultStreamToString(resultStream));
+	}
+
+	@Test
+	public void testWriteDisplayName() throws Exception {
+		titleManifestFilter.writeDisplayName();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_DISPLAYNAME + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteFeatures() throws Exception {
+		titleManifestFilter.writeFeatures();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_FEATURES + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteMaterialId() throws Exception {
+		titleManifestFilter.writeMaterialId();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_MATERIAL_ID + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testWriteCoverArt() throws Exception {
+		titleManifestFilter.writeCoverArt();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_ARTWORK + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testStartDocument() throws Exception {
+		titleManifestFilter.startDocument();
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testEndDocumentWithoutParsingToc() throws Exception {
+		titleManifestFilter.endDocument();
+		Assert.assertEquals(EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testEndDocumentWithParsingToc() throws Exception {
+		titleManifestFilter.parse(new InputSource(tocXml));
+		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + CASCADED_TOC + EXPECTED_DOCS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+	}
+	
+	@Test
+	public void testTitleManifestFilterHappyPath() throws Exception {
+		InputStream immigrationProceduresHandbook = TitleManifestFilterTest.class.getResourceAsStream("IMPH_L1_EXTENSIONS.xml");
+		titleManifestFilter.parse(new InputSource(immigrationProceduresHandbook));
+		System.out.println(resultStreamToString(resultStream));
+		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("IMPH_L1_EXTENSIONS_EXPECTED_MANIFEST.xml"));
+		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
+		System.out.println(diff.getAllDifferences());
+		List<Difference> differences = diff.getAllDifferences();
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Difference difference = differences.iterator().next();
+		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
+		String expectedDifferenceLocation = "/title[1]/@lastupdated";
+		Assert.assertEquals(expectedDifferenceLocation, actualDifferenceLocation);
+	}
+	
+	@Test
+	public void testFamilyGuidReplacementHappyPath() throws Exception {
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID3");
+		String input = "<EBook>" +
+				"<EBookToc><Name>1</Name><Guid>TOC_GUID1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>2</Name><Guid>TOC_GUID2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
+				"</EBook>";
+		
+		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+		
+		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		filter.parse(new InputSource(inputXml));
+		System.out.println(resultStreamToString(resultStream));
+		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
+		
+		assertXMLEqual(expectedInputSource, resultInputSource);
+	}
+	
+	@Test
+	public void testDuplicateDocGuidHappyPath() throws Exception {
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID3");
+		String input = "<EBook>" +
+				"<EBookToc><Name>1</Name><Guid>TOC_GUID1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>2</Name><Guid>TOC_GUID2</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
+				"</EBook>";
+		
+		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+		
+		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		
+		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
+		EasyMock.replay(mockUuidGenerator);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		filter.parse(new InputSource(inputXml));
+				
+		System.out.println(resultStreamToString(resultStream));
+		
+		
+		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
+		
+		assertXMLEqual(expectedInputSource, resultInputSource);
+	}
+	
+	@Test
+	public void testDuplicateFamilyGuidHappyPath() throws Exception {
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
+		String input = "<EBook>" +
+				"<EBookToc><Name>1</Name><Guid>TOC_GUID1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>2</Name><Guid>TOC_GUID2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
+				"</EBook>";
+		
+		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+		
+		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		
+		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
+		EasyMock.replay(mockUuidGenerator);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		filter.parse(new InputSource(inputXml));
+				
+		System.out.println(resultStreamToString(resultStream));
+		
+		
+		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
+		
+		assertXMLEqual(expectedInputSource, resultInputSource);
+	}
+	
+	@Test
+	public void testDuplicateDocGuidAndFamilyGuidHappyPath() throws Exception {
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
+		String input = "<EBook>" +
+				"<EBookToc><Name>1</Name><Guid>TOC_GUID1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>2</Name><Guid>TOC_GUID2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>4</Name><Guid>TOC_GUID4</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"</EBook>";
+		
+		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
+		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+		
+		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		
+		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
+		EasyMock.replay(mockUuidGenerator);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		filter.parse(new InputSource(inputXml));
+				
+		System.out.println(resultStreamToString(resultStream));
+		
+		
+		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
+		
+		assertXMLEqual(expectedInputSource, resultInputSource);
+	}
+	
+	private String resultStreamToString(ByteArrayOutputStream resultStream) throws Exception {
+		return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
+	}
+	
+}
