@@ -167,15 +167,15 @@
   <!-- - - - - - - - - - - - - - - - - - 
           target: -createWar                      
           description: Package the compiled code into a WAR file, so that it can be deployed.
-         - - - - - - - - - - - - - - - - - -->
-  <target name="-createWar" depends="-createJar">
+         - - - - - - - - - - - - - - - - - -->	
+	<target name="-createWar" depends="-createJar">
     <echo level="verbose">Creating the WAR file...</echo>
     
-    <!-- copy StaticFiles to tmpBuildDir before war creation -->
+    <!-- copy StaticFiles to tmpBuildDir before war creation
     <copy todir="${dir.tmpBuildDir}/WEB-INF/classes" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
       <fileset dir="${dir.resources}"/>
     </copy>
-
+    -->
     <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
     <copy todir="${dir.tmpBuildDir}" overwrite="true">
       <fileset dir="${dir.webContent}"/>
