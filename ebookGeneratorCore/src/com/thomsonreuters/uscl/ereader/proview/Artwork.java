@@ -31,4 +31,8 @@ public class Artwork {
 	public String getSrc() {
 		return src;
 	}
+
+	public String getType() {
+		return type;
+	}
 }

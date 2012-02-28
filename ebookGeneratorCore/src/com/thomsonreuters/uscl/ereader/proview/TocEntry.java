@@ -25,6 +25,18 @@ public class TocEntry {
 		
 	}
 	
+	public String getAnchorReference() {
+		return anchorReference;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public ArrayList<TocEntry> getChildren() {
+		return children;
+	}
+
 	public TocEntry (String anchorReference, String text){
 		if (StringUtils.isBlank(anchorReference)){
 			throw new IllegalArgumentException("'anchorReference' is required.");

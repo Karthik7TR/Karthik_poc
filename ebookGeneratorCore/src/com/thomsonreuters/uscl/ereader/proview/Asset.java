@@ -34,4 +34,14 @@ public class Asset {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getSrc() {
+		return src;
+	}
+	
+	
 }

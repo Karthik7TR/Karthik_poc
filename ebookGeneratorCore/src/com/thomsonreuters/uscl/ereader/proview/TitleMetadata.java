@@ -125,15 +125,15 @@ public class TitleMetadata implements Serializable {
         return retVal;
     }
 
-    String getStatus() {
+    public String getStatus() {
 		return status;
 	}
 
-	String getTitleId() {
+	public String getTitleId() {
 		return titleId;
 	}
 
-	String getTitleVersion() {
+	public String getTitleVersion() {
 		return titleVersion;
 	}
 
@@ -180,6 +180,46 @@ public class TitleMetadata implements Serializable {
 
 	public TableOfContents getTableOfContents() {
 		return tableOfContents;
+	}
+
+	public String getApiVersion() {
+		return apiVersion;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public String getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public String getMaterialId() {
+		return materialId;
+	}
+
+	public String getCopyright() {
+		return copyright;
+	}
+
+	public Artwork getArtwork() {
+		return artwork;
+	}
+
+	public ArrayList<Author> getAuthors() {
+		return authors;
+	}
+
+	public ArrayList<Doc> getDocuments() {
+		return documents;
+	}
+
+	public ArrayList<Feature> getProviewFeatures() {
+		return proviewFeatures;
 	}
 	
 }
