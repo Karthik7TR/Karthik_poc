@@ -36,6 +36,7 @@ import org.xml.sax.SAXException;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 //import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
@@ -174,9 +175,12 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			factory.setNamespaceAware(true);
 			SAXParser saxParser = factory.newSAXParser();
 			
+			HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
+			emptyH2Filter.setParent(saxParser.getXMLReader());
+			
 			HTMLImageFilter imageFilter = new HTMLImageFilter();
 			imageFilter.setStaticImageRefs(staticImgRef);
-			imageFilter.setParent(saxParser.getXMLReader());
+			imageFilter.setParent(emptyH2Filter);
 
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
