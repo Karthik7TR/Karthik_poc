@@ -28,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
 @Controller
 public class BookLibraryController {
 	//private static final Logger log = Logger.getLogger(BookLibraryController.class);
+	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
 
 	private BookLibraryService bookLibraryService;
 	private Validator validator;
@@ -157,7 +158,7 @@ public class BookLibraryController {
 	private void initializeFormAndModel(Model model, BookLibrarySelectionForm form, String sortBy, boolean isAscending, int pageNumber) {
 		
 		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage(sortBy, isAscending, pageNumber, WebConstants.KEY_NUMBER_BOOK_DEF_SHOWN);
+				.getBooksOnPage(sortBy, isAscending, pageNumber, NUMBER_BOOK_DEF_SHOWN);
 		Long resultSize = bookLibraryService.getTotalBookCount();
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);

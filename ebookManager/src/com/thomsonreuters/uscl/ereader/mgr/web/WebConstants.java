@@ -19,7 +19,6 @@ public class WebConstants {
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
 	public static final String KEY_IS_ASCENDING = "isAscending";
 	public static final String KEY_VDO = "vdo";
-	public static final int KEY_NUMBER_BOOK_DEF_SHOWN = 10;
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
@@ -49,34 +48,33 @@ public class WebConstants {
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
-	public static final String KEY_JOB_LIST_FILTER = "jobListFilter";
 	
 	// Page paths
 	public static final String MVC_ACCESS_DENIED = "accessDenied.mvc";
 	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
+	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
-	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
-	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_CREATE = "bookDefinitionCreate.mvc";
 	public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
+	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
+	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
-	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	
+//	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
+//	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
 	public static final String MVC_JOB_LIST = "jobList.mvc";
 	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
 	public static final String MVC_JOB_LIST_FILTER_POST = "jobListFilterPost.mvc";
-	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
-	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
@@ -84,23 +82,22 @@ public class WebConstants {
 	// Logical view names
 	public static final String VIEW_ACCESS_DENIED = "accessDenied";
 	public static final String VIEW_APP_EXCEPTION = "appException";
+	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
+	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
+	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
+	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
+	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
+	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
+	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_LIBRARY_LIST = "_bookLibraryList";
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
-	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
-	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
-	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
-	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
-	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
-	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
-	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
-	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
-	
+	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_JOB_LIST = "_jobList";
 	
 	// Miscellaneous keys and constants used throughout the application.
-	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
-	public static final String TITLE_ID="fullyQualifiedTitleId";
-	public static final String TITLE="title";
+//	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
+	public static final String TITLE_ID = "fullyQualifiedTitleId";
+	public static final String TITLE = "title";
 
 }

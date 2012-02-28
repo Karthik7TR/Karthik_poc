@@ -47,10 +47,16 @@ public class JobListFilterControllerTest {
 	@Test
 	public void testJobListFilterPost() throws Exception {
     	// Set up the request URL
+		// Filter form values
 		String titleId = "uscl/junit/test/abc";
+		String fromDate = "01/01/2012";
+		String toDate = "03/01/2012";
     	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_FILTER_POST);
     	request.setMethod(HttpMethod.POST.name());
+    	// The filter values
     	request.setParameter(WebConstants.KEY_TITLE_ID, titleId);
+    	request.setParameter("fromDateString", fromDate);
+    	request.setParameter("toDateString", toDate);
     	HttpSession session = request.getSession();
     	
     	Long JEID = 1965l;
@@ -69,6 +75,12 @@ public class JobListFilterControllerTest {
     	assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
     	JobListControllerTest.validateModel(session, model);
+    	
+    	// Verify the saved filter form
+    	FilterForm filterForm = (FilterForm) model.get(FilterForm.FORM_NAME);
+    	Assert.assertEquals(titleId, filterForm.getTitleId());
+    	Assert.assertEquals(fromDate, filterForm.getFromDateString());
+    	Assert.assertEquals(toDate, filterForm.getToDateString());
     	
     	EasyMock.verify(mockJobService);
 	}
