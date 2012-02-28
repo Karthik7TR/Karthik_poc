@@ -7,26 +7,26 @@ package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
@@ -35,7 +35,6 @@ import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 
 /**
@@ -77,14 +76,19 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		addAssets(jobExecutionContext, titleMetadata);
 		
 		long jobId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
-		addDocuments(jobExecutionContext, titleMetadata, new Integer((int) jobId));
+		Integer jobInstanceId = new Integer((int) jobId);
+		addDocuments(jobExecutionContext, titleMetadata, jobInstanceId);
 		addTableOfContents(jobExecutionContext, titleMetadata);
 		//addStylesheet(titleMetadata);
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.INTERMEDIATE_TITLE_XML_FILE));
-		titleMetadataService.writeToFile(titleMetadata, titleXml);
+		//titleMetadataService.writeToFile(titleMetadata, titleXml);
+		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
+		OutputStream titleManifest = new FileOutputStream(titleXml);
+		InputStream tocXml = new FileInputStream(tocXmlFile);
+		titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId);
 		
 		return ExitStatus.COMPLETED;
 	}
