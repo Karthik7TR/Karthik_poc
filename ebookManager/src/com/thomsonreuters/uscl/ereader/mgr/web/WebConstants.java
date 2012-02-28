@@ -69,8 +69,8 @@ public class WebConstants {
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	
-//	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
-//	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
+	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
+	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
 	public static final String MVC_JOB_LIST = "jobList.mvc";
 	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
