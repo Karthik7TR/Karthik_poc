@@ -158,4 +158,26 @@ public class HTMLImageFilterTest {
 		
 		assertEquals(2, imageFilter.getStaticImageRefs().size());
 	}
+	
+	@Test
+	public void testSimplePDFImageTagRemoval() throws SAXException
+	{
+		String xmlTestStr = "<test><img alt=\"PDF\" src=\"/images/TestImage.jpg\"/></test>";
+		String expectedResult = "<test/>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testPDFImageTagRemovalWithOtherTags() throws SAXException
+	{
+		String xmlTestStr = "<test><img alt=\"PDF\" src=\"/images/TestImage.jpg\"/><div id=\"testingDiv\">Test" +
+				"<img type=\"image\" src=\"/images/TestImage2.jpg\" class=\"co_test\" /></div>" +
+				"</test>";
+		String expectedResult = "<test><div id=\"testingDiv\">Test" +
+				"<img type=\"image\" class=\"co_test\" src=\"er:#TestImage2\"/></div>" +
+				"</test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 }

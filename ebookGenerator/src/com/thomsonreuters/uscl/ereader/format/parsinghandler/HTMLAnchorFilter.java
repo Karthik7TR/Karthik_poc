@@ -132,6 +132,10 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						AttributesImpl newAtts = new AttributesImpl();
 						
 						newAtts.addAttribute("", "", "href", "CDATA", href);
+						if (atts.getValue("class") != null)
+						{
+							newAtts.addAttribute("", "", "class", "CDATA", atts.getValue("class"));
+						}
 						
 						super.startElement(uri, localName, qName, newAtts);
 					}

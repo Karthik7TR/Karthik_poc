@@ -403,4 +403,28 @@ public class HTMLAnchorFilterTest {
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
 	}
+
+	@Test
+	public void testPDFAnchor() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+		
+		String xmlTestStr = "<test><a href=\"http://www.test/Link/Document/Blob/AFA730F80D58A11DCBFA7F697EE59258B" +
+				".pdf?test=testing\" type=\"application/pdf\">TestPDF</a></test>";
+		String expectedResult = "<test><a href=\"er:#AFA730F80D58A11DCBFA7F697EE59258B\">TestPDF</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}
+
+	@Test
+	public void testPDFAnchorWithCssClass() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+		
+		String xmlTestStr = "<test><a href=\"http://www.test/Link/Document/Blob/AFA730F80D58A11DCBFA7F697EE59258B" +
+				".pdf?test=testing\" class=\"testCSS\" type=\"application/pdf\">TestPDF</a></test>";
+		String expectedResult = "<test><a href=\"er:#AFA730F80D58A11DCBFA7F697EE59258B\" class=\"testCSS\">TestPDF</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}
 }
