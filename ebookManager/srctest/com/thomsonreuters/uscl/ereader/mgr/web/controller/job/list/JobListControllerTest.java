@@ -48,11 +48,12 @@ public class JobListControllerTest {
     	controller.setValidator(new JobListValidator());
     	
     	// Set up the Job execution ID list stored in the session
-    	Long JEID = 1965l;
     	this.jobExecutionIds = new ArrayList<Long>();
-    	jobExecutionIds.add(JEID);
     	this.jobExecutions = new ArrayList<JobExecution>();
-    	jobExecutions.add(new JobExecution(JEID));
+    	for (long id = 0; id < 50; id++) {
+    		jobExecutionIds.add(id);
+    		jobExecutions.add(new JobExecution(id));
+    	}
     	request.getSession().setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
     }
     
@@ -66,7 +67,7 @@ public class JobListControllerTest {
     	// Record expected service calls
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
     	EasyMock.replay(mockJobService);
     	
     	// Invoke the controller method via the URL
@@ -76,7 +77,11 @@ public class JobListControllerTest {
     	assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
-    	JobListFilterControllerTest.validateModel(session, model);
+    	validateModel(session, model);
+    	
+    	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
+    	Assert.assertEquals(false, pageAndSort.isAscendingSort());
+    	Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSort());
     	
     	EasyMock.verify(mockJobService);
 	}
@@ -84,13 +89,17 @@ public class JobListControllerTest {
 	@Test
 	public void testJobListPaging() throws Exception {
     	// Set up the request URL
+		int newPageNumber = 2;
     	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_PAGE_AND_SORT);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter("page", "1");
+    	request.setParameter("page", String.valueOf(newPageNumber));
     	HttpSession session = request.getSession();
     	
     	// Record expected service calls
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	int startIndex = (newPageNumber - 1) * PageAndSort.DEFAULT_ITEMS_PER_PAGE;
+    	int endIndex = startIndex + PageAndSort.DEFAULT_ITEMS_PER_PAGE;
+    	EasyMock.expect(mockJobService.findJobExecutions(
+    			jobExecutionIds.subList(startIndex,endIndex))).andReturn(jobExecutions);
     	EasyMock.replay(mockJobService);
     	
        	// Invoke the controller method via the URL
@@ -100,7 +109,11 @@ public class JobListControllerTest {
     	assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
-    	JobListFilterControllerTest.validateModel(session, model);
+    	validateModel(session, model);
+    	
+       	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
+    	Assert.assertEquals(newPageNumber, pageAndSort.getPage().intValue());
+
     	EasyMock.verify(mockJobService);
 	}
 	
@@ -116,7 +129,7 @@ public class JobListControllerTest {
     	// Record expected service calls
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
     	EasyMock.replay(mockJobService);
 
        	// Invoke the controller method via the URL
@@ -126,7 +139,7 @@ public class JobListControllerTest {
     	assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
-    	JobListFilterControllerTest.validateModel(session, model);
+    	validateModel(session, model);
     	
     	EasyMock.verify(mockJobService);
 	}
@@ -146,7 +159,7 @@ public class JobListControllerTest {
     	HttpSession session = request.getSession();
 
     	// Record expected service calls
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0,EXPECTED_OBJECTS_PER_PAGE))).andReturn(jobExecutions);
     	EasyMock.replay(mockJobService);
 
        	// Invoke the controller method via the URL
@@ -156,11 +169,24 @@ public class JobListControllerTest {
     	assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
-    	JobListFilterControllerTest.validateModel(session, model);
+    	validateModel(session, model);
     	// Ensure the number of rows was changed
     	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
     	Assert.assertEquals(EXPECTED_OBJECTS_PER_PAGE, pageAndSort.getObjectsPerPage().intValue());
     	
     	EasyMock.verify(mockJobService);
+	}
+	
+	/**
+	 * Verify the state of the session and reqeust (model) as expected before the
+	 * rendering of the job list page.
+	 */
+	public static void validateModel(HttpSession session, Map<String,Object> model) {
+    	Assert.assertNotNull(session.getAttribute(FilterForm.FORM_NAME));
+    	Assert.assertNotNull(session.getAttribute(PageAndSort.class.getName()));
+    	Assert.assertNotNull(session.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS));
+    	Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
+    	Assert.assertNotNull(model.get(FilterForm.FORM_NAME));
+    	Assert.assertNotNull(model.get(JobListForm.FORM_NAME));
 	}
 }

@@ -8,7 +8,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 import java.util.Comparator;
 import java.util.Map;
 
-@Deprecated
 public class MapEntryKeyComparator implements Comparator<Map.Entry<String,?>> {
 	public int compare(Map.Entry<String,?> o1, Map.Entry<String,?> o2) {
 		if (o1 == null) {
