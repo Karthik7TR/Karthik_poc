@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewExceptionTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilterTest;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2FilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilterTest;
@@ -45,6 +46,7 @@ import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClien
 			XSLTMapperServiceTest.class,
 			HTMLAnchorFilterTest.class,
 			HTMLClassAttributeFilterTest.class,
+			HTMLEmptyHeading2FilterTest.class,
 			HTMLImageFilterTest.class,
 			HTMLInputFilterTest.class,
 			ProcessingInstructionZapperFilterTest.class,
