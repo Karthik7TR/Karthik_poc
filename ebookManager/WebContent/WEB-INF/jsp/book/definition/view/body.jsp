@@ -18,6 +18,9 @@ function submitForm(cmd)
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 <c:if test="${book != null}">
+<c:if test="${isInJobRequest}">
+	<div style="color:red;">Book Definition is scheduled or in the queue.</div>
+</c:if>
 <div style="font-family:Arial">
 	<table style="font-family:Arial">
 	<tr>
@@ -122,7 +125,9 @@ function submitForm(cmd)
 			   action="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST%>">
 		<form:hidden path="command"/>
 		<form:hidden path="<%=WebConstants.KEY_TITLE_ID%>"/>
-		<input type="submit" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+		<c:if test="${!isInJobRequest}">
+			<input type="submit" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+		</c:if>
 		<input type="submit" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 		<input type="submit" value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 		<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>

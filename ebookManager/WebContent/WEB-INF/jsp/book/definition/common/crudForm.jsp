@@ -117,7 +117,7 @@
 		var addNameRow = function() {
 			var appendTxt = "<div class='row'>";
 			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".nameId\" name=\"nameLines[" + nameIndex + "].nameId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"nameText\" id=\"nameLines" + nameIndex + ".nameText\" name=\"nameLines[" + nameIndex + "].nameText\" type=\"text\" title=\"Name\"/>";
+			appendTxt = appendTxt + "<input class=\"nameText\" id=\"nameLines" + nameIndex + ".nameText\" name=\"nameLines[" + nameIndex + "].nameText\" type=\"text\" title=\"Name Line\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNumber\" name=\"nameLines[" + nameIndex + "].sequenceNumber\" type=\"text\" title=\"Seq Num.\"/>";
 			appendTxt = appendTxt + "<span>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
@@ -188,7 +188,7 @@
 		};
 		
 		// Only allow number inputs
-		$(document).on("keydown", ".sequenceNumber, #isbn", function(e) { 
+		$(document).on("keydown", ".sequenceNumber", function(e) { 
 	        if (e.shiftKey || e.ctrlKey || e.altKey) { // if shift, ctrl or alt keys held down 
 	            e.preventDefault();         // Prevent character input 
 	        } else { 
@@ -212,6 +212,8 @@
 			$('#contentType').change(function () {
 				// Clear out information when content type changes
 				clearTitleInformation();
+				
+				$('.generateTitleID .errorDiv').hide();
 				
 				setContentType($(this).val());
 				updateTitleId(contentType);
@@ -240,6 +242,12 @@
 			$('#pubInfo').change(function () {
 				pubInfo = $(this).val();
 				updateTitleId();
+			});
+			
+			//Update formValidation field if Validation button is pressed
+			$('#validate').click(function () {
+				$('#validateForm').val(true);
+				$('<%=EditBookDefinitionForm.FORM_NAME%>').submit();
 			});
 			
 			// Determine to show NORT or TOC fields
@@ -272,11 +280,20 @@
 			textboxHint("authorName");
 			textboxHint("nameLine");
 			textboxHint("additionalFrontMatter");
+			$('#publicationCutoffDate').datepicker({
+				minDate: new Date()
+			});
+			
+			// Set validateForm
+			$('#validateForm').val(false);
 		});
 </script>
 
+<form:hidden path="validateForm" />
+<div class="validateFormDiv">
+	<h2><form:errors path="validateForm" cssClass="errorMessage" /></h2>
+</div>
 <%-- Check if book has been published --%>
-
 <c:choose>
 	<c:when test="${!isPublished}">
 		<div class="generateTitleID">
@@ -331,7 +348,7 @@
 				</div>
 				<div id="pubAbbrDiv">
 					<form:label path="pubAbbr" class="labelCol">Pub Abbreviation</form:label>
-					<form:input path="pubAbbr" maxlength="15"/>
+					<form:input path="pubAbbr" maxlength="14"/>
 					<div class="errorDiv">
 						<form:errors path="pubAbbr" cssClass="errorMessage" />
 					</div>
@@ -375,7 +392,7 @@
 		<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
 			<div class="row">
 				<form:hidden path="nameLines[${aStatus.index}].nameId"/>
-				<form:input path="nameLines[${aStatus.index}].nameText" title="Book Name" class="bookName"  />
+				<form:input path="nameLines[${aStatus.index}].nameText" title="Name Line" class="bookName"  />
 				<form:input path="nameLines[${aStatus.index}].sequenceNumber" title="Seq Num." class="sequenceNumber"  />
 				<div class="errorDiv">
 					<form:errors path="nameLines[${aStatus.index}]" cssClass="errorMessage" />
@@ -424,7 +441,7 @@
 		</div>
 		<div class="row">
 			<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
-			<form:input path="rootTocGuid" />
+			<form:input path="rootTocGuid" maxlength="33"/>
 		<div class="errorDiv">
 			<form:errors path="rootTocGuid" cssClass="errorMessage" />
 		</div>
@@ -467,6 +484,9 @@
 	<div id="authorName" class="row">
 		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
 		<input type="button" onclick="addAuthorRow();" id="addAuthor" value="add" />
+		<div class="errorDiv">
+			<form:errors path="authorInfo" cssClass="errorMessage" />
+		</div>
 		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
 			<div class="row">
 				<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
@@ -513,8 +533,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<form:label path="isbn" class="labelCol">ISBN</form:label>
-		<form:input path="isbn" maxlength="13" />
+		<form:label path="isbn" class="labelCol">ISBN-13</form:label>
+		<form:input path="isbn" maxlength="17" />
 		<div class="errorDiv">
 			<form:errors path="isbn" cssClass="errorMessage" />
 		</div>
@@ -527,34 +547,10 @@
 		</div>
 	</div>
 	<div class="row">
-		<form:label path="currency" class="labelCol">Currency</form:label>
+		<form:label path="currency" class="labelCol">Currentness Message</form:label>
 		<form:input path="currency" />
 		<div class="errorDiv">
 			<form:errors path="currency" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="autoUpdateSupport" class="labelCol">Auto Update Support</form:label>
-		<form:radiobutton path="autoUpdateSupport" value="true" />True
-		<form:radiobutton path="autoUpdateSupport" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="searchIndex" class="labelCol">Search Index</form:label>
-		<form:radiobutton path="searchIndex" value="true" />True
-		<form:radiobutton path="searchIndex" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="searchIndex" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="onePassSSOLinking" class="labelCol">One Pass SSO Linking</form:label>
-		<form:radiobutton path="onePassSSOLinking" value="true" />True
-		<form:radiobutton path="onePassSSOLinking" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="onePassSSOLinking" cssClass="errorMessage" />
 		</div>
 	</div>
 	<div class="row">
@@ -563,6 +559,13 @@
 		<form:radiobutton path="keyCiteToplineFlag" value="false" />False
 		<div class="errorDiv">
 			<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
+		<form:input path="publicationCutoffDate" />
+		<div class="errorDiv">
+			<form:errors path="publicationCutoffDate" cssClass="errorMessage" />
 		</div>
 	</div>
 	<div class="row">

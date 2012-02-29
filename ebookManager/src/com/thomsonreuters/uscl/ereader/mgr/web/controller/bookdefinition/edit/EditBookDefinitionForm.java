@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class EditBookDefinitionForm {
 	private static final int PUBLISHER_INDEX = 0;
 	private static final int TITLE_NAME_INDEX = 2;
 	
-	private long bookdefinitionId;
+	private Long bookdefinitionId;
 	private String titleId;
 	private Collection<EbookName> nameLines;
 	private String copyright;
@@ -41,17 +42,14 @@ public class EditBookDefinitionForm {
 	private String contentType;
 	private String isbn;
 	private Collection<AdditionalFrontMatter> additionalFrontMatter;
+	private String publicationCutoffDate;
 
 	private String publishDateText;
 	
 	// Keywords used in Proview
 	private String[] keywords;
 	
-	private boolean autoUpdateSupport;
-	private boolean searchIndex;
-	private boolean onePassSSOLinking;
 	private String imageCollectionInformation;
-	
 	private String currency;
 	private boolean isComplete;
 	private boolean keyCiteToplineFlag;
@@ -64,17 +62,17 @@ public class EditBookDefinitionForm {
 	private String jurisdiction;
 	private String pubInfo;
 	
+	private boolean validateForm;
+	
 	public EditBookDefinitionForm() {
 		super();
 		
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
 		this.additionalFrontMatter = new AutoPopulatingList<AdditionalFrontMatter>(AdditionalFrontMatter.class);
-		this.autoUpdateSupport = true;
-		this.searchIndex = true;
-		this.onePassSSOLinking = true;
 		this.keyCiteToplineFlag = false;
 		this.isComplete = false;
+		this.validateForm = false;
 	}
 	
 	public void initialize(BookDefinition bookDefinition) {
@@ -138,11 +136,11 @@ public class EditBookDefinitionForm {
 		return pubInfo.toString();
 	}
 	
-	public long getBookdefinitionId() {
+	public Long getBookdefinitionId() {
 		return bookdefinitionId;
 	}
 
-	public void setBookdefinitionId(long bookdefinitionId) {
+	public void setBookdefinitionId(Long bookdefinitionId) {
 		this.bookdefinitionId = bookdefinitionId;
 	}
 
@@ -259,6 +257,14 @@ public class EditBookDefinitionForm {
 		this.additionalFrontMatter = additionalFrontMatter;
 	}
 
+	public String getPublicationCutoffDate() {
+		return publicationCutoffDate;
+	}
+
+	public void setPublicationCutoffDate(String publicationCutoffDate) {
+		this.publicationCutoffDate = publicationCutoffDate;
+	}
+
 	public String getPublishDateText() {
 		return publishDateText;
 	}
@@ -273,30 +279,6 @@ public class EditBookDefinitionForm {
 
 	public void setKeywords(String[] keywords) {
 		this.keywords = keywords;
-	}
-
-	public boolean isAutoUpdateSupport() {
-		return autoUpdateSupport;
-	}
-
-	public void setAutoUpdateSupport(boolean autoUpdateSupport) {
-		this.autoUpdateSupport = autoUpdateSupport;
-	}
-
-	public boolean isSearchIndex() {
-		return searchIndex;
-	}
-
-	public void setSearchIndex(boolean searchIndex) {
-		this.searchIndex = searchIndex;
-	}
-
-	public boolean isOnePassSSOLinking() {
-		return onePassSSOLinking;
-	}
-
-	public void setOnePassSSOLinking(boolean onePassSSOLinking) {
-		this.onePassSSOLinking = onePassSSOLinking;
 	}
 
 	public String getImageCollectionInformation() {
@@ -377,6 +359,14 @@ public class EditBookDefinitionForm {
 
 	public void setPubAbbr(String pubAbbr) {
 		this.pubAbbr = pubAbbr;
+	}
+	
+	public boolean isValidateForm() {
+		return validateForm;
+	}
+
+	public void setValidateForm(boolean validateForm) {
+		this.validateForm = validateForm;
 	}
 
 	public String toString() {

@@ -247,6 +247,10 @@ ul.navList a:hover {
 	float:left;
 }
 
+.bookDefinitionCRUD .rightDefinitionForm {
+	width: 460px;
+}
+
 .bookDefinitionCRUD .leftDefinitionForm input[type="text"],
 .bookDefinitionCRUD .rightDefinitionForm input[type="text"],
 .bookDefinitionCRUD .leftDefinitionForm textarea,
@@ -337,7 +341,9 @@ ul.navList a:hover {
 	margin: 0px 1px;
 }
 
-.bookDefinitionCRUD .errorDiv {
-	text-align: right;
+.bookDefinitionCRUD .leftDefinitionForm .errorDiv,
+.bookDefinitionCRUD .rightDefinitionForm .errorDiv {
+	text-align: left;
+	margin-left:190px;
 }
 

@@ -160,6 +160,11 @@ public class BookDefinition implements Serializable {
 		//TODO: update with model data
 		return new Date();
 	}
+	@Transient
+	public boolean getPublishedOnceFlag(){
+		//TODO: update with model data
+		return false;
+	}
 	
 	/**
 	 * Parse pipe separated strings into their own individual components.

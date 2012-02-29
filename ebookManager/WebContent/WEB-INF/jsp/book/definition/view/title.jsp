@@ -8,8 +8,14 @@
 </c:when>
 
 <c:otherwise>	<%-- found the book --%>
-<div class="titleData">
-Definition Status: TODO
+<div id="bookData">
+	<div class="bookImage">
+		<img alt="${book.bookName}" src="theme/images/cover.png">
+	</div>
+	<div class="titleData">
+		Title ID: ${book.primaryKey.fullyQualifiedTitleId}<br/>
+		Name: ${book.bookName}<br/>
+	</div>
 </div>
 </c:otherwise>
 

@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookService;
@@ -57,10 +57,17 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 		
-		initializeModel(model, form);
+		initialize(model, form);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
+	/**
+	 * Handle the in-bound POST to the Book Definition create view page.
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.POST)
 	public ModelAndView createBookDefintionPost(
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
@@ -68,15 +75,16 @@ public class EditBookDefinitionController {
 				Model model) {
 		
 		if(!bindingResult.hasErrors()) {
-			
+			// TODO: Update to go to the View Book Definition page 
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
 		}
 		
-		initializeModel(model, form);
+		initialize(model, form);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
 	/**
-	 * Handle the in-bound GET to the Book Definition create view page.
+	 * Handle the in-bound GET to the Book Definition edit view page.
 	 * @param titleId the primary key of the book to be edited as a required query string parameter.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
@@ -91,7 +99,7 @@ public class EditBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		// Check if book is scheduled or queued
-		// TODO: Update with lookup from Proview
+		// TODO: Update with queue checking
 		boolean isInJobRequest = false;
 		
 		// Load Authors
@@ -100,7 +108,7 @@ public class EditBookDefinitionController {
 		form.setAuthorInfo(authors);
 		
 		form.initialize(bookDef);
-		initializeModel(model, form);
+		initialize(model, form);
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -108,7 +116,14 @@ public class EditBookDefinitionController {
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
-	
+	/**
+	 * Handle the in-bound POST to the Book Definition edit view page.
+	 * @param titleId
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.POST)
 	public ModelAndView editBookDefintionPost(
 				@RequestParam String titleId,
@@ -117,29 +132,42 @@ public class EditBookDefinitionController {
 				Model model) {
 		
 		if(!bindingResult.hasErrors()) {
-			
+			// TODO: Update to Book Definition segregate key when DB gets updated
+			String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, form.getTitleId());
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
-		initializeModel(model, form);
+		// TODO: Update with queue checking
+		boolean isInJobRequest = false;
+		
+		initialize(model, form);
 		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
-
-	private void initializeModel(Model model, EditBookDefinitionForm form) {
+	
+	/**
+	 * Initializes the model and form values for the Create/Edit Book Definition View
+	 * @param model
+	 * @param form
+	 */
+	private void initialize(Model model, EditBookDefinitionForm form) {
+		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getAdditionalFrontMatter().size());
+		
+		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, EditBookDefinitionForm.getJurisdictions());
-		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());
-				
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());		
 		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, bookService.getKeywordsTypesAndValues());
 		
 		// TODO: Update condition to check if book definition has been published
