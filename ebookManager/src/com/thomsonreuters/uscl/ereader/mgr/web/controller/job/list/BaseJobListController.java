@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
@@ -29,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.D
  */
 @Controller
 public abstract class BaseJobListController {
-	private static final Logger log = Logger.getLogger(BaseJobListController.class);
+	//private static final Logger log = Logger.getLogger(BaseJobListController.class);
 	protected JobService jobService;
 	
 	/**
@@ -130,7 +129,6 @@ public abstract class BaseJobListController {
 		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos, fullListSize,
 						pageAndSort.getPage(), pageAndSort.getObjectsPerPage(),
 						pageAndSort.getSort(), pageAndSort.isAscendingSort());
-log.debug("sort dir="+paginatedList.getSortDirection()); // DEBUG		
 		return paginatedList;
     }
 
