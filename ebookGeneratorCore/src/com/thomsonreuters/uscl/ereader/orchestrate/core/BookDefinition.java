@@ -165,6 +165,11 @@ public class BookDefinition implements Serializable {
 		//TODO: update with model data
 		return false;
 	}
+	@Transient
+	public boolean inJobRequest(){
+		//TODO: Delete and move to JobRequest
+		return false;
+	}
 	
 	/**
 	 * Parse pipe separated strings into their own individual components.
