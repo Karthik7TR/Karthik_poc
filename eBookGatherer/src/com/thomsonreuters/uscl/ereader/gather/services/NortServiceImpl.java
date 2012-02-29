@@ -39,26 +39,58 @@ public class NortServiceImpl implements NortService {
 	private NovusFactory novusFactory;
 	
 	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
-	
-	
-	public void retrieveNodes(NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException
-	   {
-	      
-	      NortNode[] nortNodes = null;
 
-	      try
-	      {
-	          nortNodes = _nortManager.getRootNodes();
-	          printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
-	      }
-	      catch (NovusException e)
-	      {
-	    	LOG.debug("Failed with Novus Exception in NORT");
-			GatherException ge = new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+	private NovusUtility novusUtility;
+
+
+	
+	
+	public void retrieveNodes(NortManager _nortManager, Writer out,
+			int[] counter, int[] docCounter, int[] iParent,
+			String YYYYMMDDHHmmss) throws GatherException {
+
+		NortNode[] nortNodes = null;
+		
+		final Integer nortRetryCount = new Integer(novusUtility.getNortRetryCount());		
+
+		try {
+			// This is the counter for checking how many Novus retries we
+			// are making
+			Integer novusNortRetryCounter = 0;
+			while (novusNortRetryCounter < nortRetryCount) {
+				try {
+					nortNodes = _nortManager.getRootNodes();
+					break;
+				} catch (final Exception exception) {
+					try {
+						novusNortRetryCounter = novusUtility.handleException(
+								exception, novusNortRetryCounter, nortRetryCount);
+					} catch (NovusException e) {
+						LOG.debug("Failed with Novus Exception in NORT");
+						GatherException ge = new GatherException(
+								"NORT Novus Exception ", e,
+								GatherResponse.CODE_NOVUS_ERROR);
+						throw ge;
+					} catch (Exception e) {
+						LOG.debug("Failed with Exception in NORT");
+						GatherException ge = new GatherException(
+								"NORT Exception ", e,
+								GatherResponse.CODE_NOVUS_ERROR);
+						throw ge;
+					}
+				}
+			}
+
+			printNodes(nortNodes, _nortManager, out, counter, docCounter,
+					iParent, YYYYMMDDHHmmss);
+		} catch (Exception e) {
+			LOG.debug("Failed with Exception in NORT");
+			GatherException ge = new GatherException("NORT Exception ", e,
+					GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
-	      }
-	      
-	   }
+		}
+
+	}
 
 	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException
 	   {
@@ -253,6 +285,11 @@ public class NortServiceImpl implements NortService {
 	@Required
 	public void setNovusFactory(NovusFactory factory) {
 		this.novusFactory = factory;
+	}
+
+	@Required
+	public void setNovusUtility(NovusUtility novusUtil) {
+		this.novusUtility = novusUtil;
 	}
 
 }

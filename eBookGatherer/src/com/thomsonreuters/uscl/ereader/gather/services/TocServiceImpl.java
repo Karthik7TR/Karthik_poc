@@ -35,31 +35,62 @@ import com.westgroup.novus.productapi.NovusException;
 public class TocServiceImpl implements TocService {
 
 	private NovusFactory novusFactory;
+
+	private NovusUtility novusUtility;
 	
 	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
 	
-	public void retrieveNodes(String guid, TOC _tocManager, Writer out, int[] counter, int[] docCounter,int[] intParent) throws GatherException
-	   {
-	      
-	      TOCNode[] tocNodes = null;
-	      TOCNode tocNode = null;
+	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
+			int[] counter, int[] docCounter, int[] intParent)
+			throws GatherException {
 
-	      try
-	      {
-//	          tocNodes = _tocManager.getRootNodes();
-	          tocNode = _tocManager.getNode(guid);
-	          tocNodes = new TOCNode[1];
-			  tocNodes[0] =  tocNode ;
-	          printNodes(tocNodes, _tocManager, out, counter, docCounter, intParent);
-	      }
-	      catch (NovusException e)
-	      {
-	    	LOG.debug("Failed with Novus Exception in TOC");
-			GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+		TOCNode[] tocNodes = null;
+		TOCNode tocNode = null;
+		
+		final Integer tocRetryCount = new Integer(novusUtility.getTocRetryCount());		
+
+		try {
+
+			// This is the counter for checking how many Novus retries we
+			// are making
+			Integer novusTocRetryCounter = 0;
+			while (novusTocRetryCounter < tocRetryCount) {
+				try {
+					tocNode = _tocManager.getNode(guid);
+					break;
+				} catch (final Exception exception) {
+					try {
+						novusTocRetryCounter = novusUtility.handleException(
+								exception, novusTocRetryCounter, tocRetryCount);
+					} catch (NovusException e) {
+						LOG.debug("Failed with Novus Exception in NORT");
+						GatherException ge = new GatherException(
+								"NORT Novus Exception ", e,
+								GatherResponse.CODE_NOVUS_ERROR);
+						throw ge;
+					} catch (Exception e) {
+						LOG.debug("Failed with Novus Exception in TOC");
+						GatherException ge = new GatherException(
+								"TOC Novus Exception ", e,
+								GatherResponse.CODE_NOVUS_ERROR);
+						throw ge;
+					}
+				}
+			}
+			// tocNodes = _tocManager.getRootNodes();
+
+			tocNodes = new TOCNode[1];
+			tocNodes[0] = tocNode;
+			printNodes(tocNodes, _tocManager, out, counter, docCounter,
+					intParent);
+		} catch (Exception e) {
+			LOG.debug("Failed with Novus Exception in TOC");
+			GatherException ge = new GatherException("TOC Novus Exception ", e,
+					GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
-	      }
-	      
-	   }
+		}
+
+	}
 
 	   public void printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
 	   {
@@ -238,6 +269,11 @@ public class TocServiceImpl implements TocService {
 	@Required
 	public void setNovusFactory(NovusFactory factory) {
 		this.novusFactory = factory;
+	}
+
+	@Required
+	public void setNovusUtility(NovusUtility novusUtil) {
+		this.novusUtility = novusUtil;
 	}
 
 }

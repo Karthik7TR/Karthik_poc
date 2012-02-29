@@ -14,7 +14,6 @@ import java.io.Writer;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
@@ -35,8 +34,9 @@ public class DocServiceImpl implements DocService {
 	private static final Logger Log = Logger.getLogger(DocServiceImpl.class);
 
 	private NovusFactory novusFactory;
+	
+	private NovusUtility novusUtility;	
 
-	final Integer retryCount = NovusRetryCounter.docRetryCount;
 
 	/*
 	 * (non-Javadoc)
@@ -57,6 +57,7 @@ public class DocServiceImpl implements DocService {
 						+ metadataDestinationDirectory);
 
 		Novus novus = novusFactory.createNovus();
+		final Integer docRetryCount = new Integer(novusUtility.getDocRetryCount());		
 		boolean anyException = false;
 		String docGuid = null;
 		try {
@@ -72,7 +73,7 @@ public class DocServiceImpl implements DocService {
 				// This is the counter for checking how many Novus retries we
 				// are making
 				Integer novusRetryCounter = 0;
-				while (novusRetryCounter < retryCount) {
+				while (novusRetryCounter < docRetryCount) {
 					try {
 						if (collectionName == null) {
 							document = finder.getDocument(null, guid);
@@ -83,17 +84,38 @@ public class DocServiceImpl implements DocService {
 						break;
 					} catch (final Exception exception) {
 						try {
-							novusRetryCounter = handleException(exception,
-									novusRetryCounter, retryCount);
+							novusRetryCounter = novusUtility.handleException(exception,
+									novusRetryCounter, docRetryCount);
+						} catch (NovusException e) {
+							anyException = true;
+							GatherException ge = new GatherException(
+									"Novus error occurred fetching document " + docGuid, e,
+									GatherResponse.CODE_NOVUS_ERROR);
+							throw ge;
+						} catch (IOException e) {
+							anyException = true;
+							GatherException ge = new GatherException(
+									"File I/O error writing document " + docGuid, e,
+									GatherResponse.CODE_FILE_ERROR);
+							throw ge;
+						} catch (NullPointerException e) {
+							anyException = true;
+							GatherException ge = new GatherException(
+									"Null document fetching guid " + docGuid, e,
+									GatherResponse.CODE_FILE_ERROR);
+							throw ge;
 						} catch (Exception e) {
-							Log.error("Exception in handleException "
-									+ e.getMessage());
-						}
+							anyException = true;
+							GatherException ge = new GatherException(
+									"Exception happened in fetching doc for " + docGuid, e,
+									GatherResponse.CODE_FILE_ERROR);
+							throw ge;
+						} 
 					}
 				}
-				createContentFile(document, contentDestinationDirectory);
+				createContentFile(document, contentDestinationDirectory, docRetryCount);
 				createMetadataFile(document, metadataDestinationDirectory,
-						tocSequence);
+						tocSequence, docRetryCount);
 			}
 		} catch (NovusException e) {
 			anyException = true;
@@ -130,21 +152,27 @@ public class DocServiceImpl implements DocService {
 	 * @throws IOException
 	 */
 	private final void createContentFile(Document document,
-			File destinationDirectory) throws NovusException, IOException {
+			File destinationDirectory, int retryCount) throws NovusException, IOException {
 		String basename = document.getGuid() + EBConstants.XML_FILE_EXTENSION;
 		File destinationFile = new File(destinationDirectory, basename);
 		String docText = null;
 
 		// This is the counter for checking how many Novus retries we are making
 		// for doc retrieval
-		Integer novusDocRetryCounter = 0;
-		while (novusDocRetryCounter < retryCount) {
+		Integer novusDocRetryCounter = 0;	
+		while (novusDocRetryCounter <= retryCount) {
 			try {
 				docText = document.getText();
-				break;
+				if (document.getErrorCode() == null) {
+					break;
+				} else {
+					Log.error("Exception happened while retreving text for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
+							+ novusDocRetryCounter);
+					novusDocRetryCounter++;					
+				}
 			} catch (final Exception exception) {
 				try {
-					novusDocRetryCounter = handleException(exception,
+					novusDocRetryCounter = novusUtility.handleException(exception,
 							novusDocRetryCounter, retryCount);
 				} catch (Exception e) {
 					Log.error("Exception in handleException " + e.getMessage());
@@ -162,7 +190,7 @@ public class DocServiceImpl implements DocService {
 	 * @throws IOException
 	 */
 	private final void createMetadataFile(Document document,
-			File destinationDirectory, int tocSeqNum) throws NovusException,
+			File destinationDirectory, int tocSeqNum, int retryCount) throws NovusException,
 			IOException {
 		String basename = tocSeqNum + "-" + document.getCollection() + "-"
 				+ document.getGuid() + EBConstants.XML_FILE_EXTENSION;
@@ -171,14 +199,20 @@ public class DocServiceImpl implements DocService {
 		String docMetaData = null;
 		// This is the counter for checking how many Novus retries we are making
 		// for meta data retrieval
-		Integer novusMetaRetryCounter = 0;
+		Integer novusMetaRetryCounter = 0;		
 		while (novusMetaRetryCounter < retryCount) {
 			try {
 				docMetaData = document.getMetaData();
-				break;
+				if (document.getErrorCode() == null) {
+					break;
+				} else {
+					Log.error("Exception happened while retreving metadata for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
+							+ novusMetaRetryCounter);
+					novusMetaRetryCounter++;
+				}
 			} catch (final Exception exception) {
 				try {
-					novusMetaRetryCounter = handleException(exception,
+					novusMetaRetryCounter = novusUtility.handleException(exception,
 							novusMetaRetryCounter, retryCount);
 				} catch (Exception e) {
 					Log.error("Exception in handleException " + e.getMessage());
@@ -206,51 +240,6 @@ public class DocServiceImpl implements DocService {
 	}
 
 	/**
-	 * handles the doc retrieval exception. Performs checks to see if the
-	 * exception is a novus one and check the retry count.
-	 * 
-	 * @param exception
-	 *            the exception that could be a novus one
-	 * @param novusRetryCounter
-	 *            the counter of occurred exceptions
-	 * @param retryCount
-	 *            the max retry count
-	 * @return the novusRetryCounter that is incremented
-	 * @throws Exception
-	 */
-	private Integer handleException(final Exception exception,
-			Integer novusRetryCounter, final Integer retryCount)
-			throws Exception {
-		if (isNovusException(exception)) {
-			novusRetryCounter++;
-			Log.error("Novus Exception has happened. Retry Count # is "
-					+ novusRetryCounter);
-			if (novusRetryCounter == (retryCount - 1)) {
-				throw exception;
-			}
-		} else {
-			throw exception;
-		}
-		return novusRetryCounter;
-	}
-
-	/**
-	 * check if the exception is a novus exception.
-	 * 
-	 * @param exception
-	 *            the exception that's thrown
-	 * @return Boolean if it is a novus Exception
-	 */
-	private Boolean isNovusException(final Exception exception) {
-		Boolean isNovusException = Boolean.FALSE;
-
-		if (StringUtils.containsIgnoreCase(exception.getMessage(), "NOVUS")) {
-			isNovusException = Boolean.TRUE;
-		}
-		return isNovusException;
-	}
-
-	/**
 	 * Delete all files in the specified directory.
 	 * @param directory directory whose files will be removed
 	 */
@@ -261,5 +250,10 @@ public class DocServiceImpl implements DocService {
 	@Required
 	public void setNovusFactory(NovusFactory factory) {
 		this.novusFactory = factory;
+	}
+
+	@Required
+	public void setNovusUtility(NovusUtility novusUtil) {
+		this.novusUtility = novusUtil;
 	}
 }

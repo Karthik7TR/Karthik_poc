@@ -12,13 +12,21 @@
 		  p:novusEnvironment="${novus.environment}"    
 		  p:productName="EBOOKGENERATOR-USCL"
 		  p:businessUnit="WestCobalt"/>
+		  
+	<bean id="novusUtility" class="com.thomsonreuters.uscl.ereader.gather.services.NovusUtility"
+		  p:docRetryCount="3"    
+		  p:tocRetryCount="3"
+		  p:nortRetryCount="3"/>		  
 
 	<bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl"
-		  p:novusFactory-ref="novusFactory"/>
+		  p:novusFactory-ref="novusFactory"
+		  p:novusUtility-ref="novusUtility"/>
 
 	<bean id="tocService" class="com.thomsonreuters.uscl.ereader.gather.services.TocServiceImpl"
-		  p:novusFactory-ref="novusFactory"/>
+		  p:novusFactory-ref="novusFactory"
+		  p:novusUtility-ref="novusUtility"/>
 	
 	<bean id="nortService" class="com.thomsonreuters.uscl.ereader.gather.services.NortServiceImpl"
-		  p:novusFactory-ref="novusFactory"/>
+		  p:novusFactory-ref="novusFactory"
+		  p:novusUtility-ref="novusUtility"/>
 </beans>
