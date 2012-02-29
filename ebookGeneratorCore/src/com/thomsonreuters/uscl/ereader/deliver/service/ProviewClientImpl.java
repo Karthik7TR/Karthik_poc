@@ -107,12 +107,11 @@ public class ProviewClientImpl implements ProviewClient {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getCurrentProviewVersionNumber(java.lang.String)
+	 * getCurrentProviewTitleInfo(java.lang.String)
 	 */
 	@Override
-	public String getCurrentProviewVersionNumber(
+	public ProviewTitleInfo getCurrentProviewTitleInfo(
 			final String fullyQualifiedTitleId) throws ProviewException {
-		String versionNumber = null;
 
 		String allPublishedTitleResponse = getAllPublishedTitles();
 
@@ -120,13 +119,8 @@ public class ProviewClientImpl implements ProviewClient {
 		Map<String, ProviewTitleInfo> titleMap = parser
 				.process(allPublishedTitleResponse);
 
-		ProviewTitleInfo proviewTitleInfo = titleMap.get(fullyQualifiedTitleId);
+		return titleMap.get(fullyQualifiedTitleId);
 
-		if (proviewTitleInfo != null) {
-			versionNumber = proviewTitleInfo.getVesrion();
-		}
-
-		return versionNumber;
 	}
 
 	private void logResponse(final ResponseEntity responseEntity) {
