@@ -24,6 +24,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl;
+import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
