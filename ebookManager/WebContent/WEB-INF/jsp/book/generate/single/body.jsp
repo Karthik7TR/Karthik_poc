@@ -20,16 +20,28 @@
   	
   function changeMajorVersion(){
 	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
-	  var currentVersionFloat = parseFloat (currentVersion.substr(1));
-	  var newVersion= Math.floor(currentVersionFloat)+1;
+	  
+	  if (currentVersion=="Not published"){
+		  newVersion=1;
+	  }
+	  else{
+	  	var currentVersionFloat = parseFloat (currentVersion.substr(1));
+	  	var newVersion= Math.floor(currentVersionFloat)+1;
+	  }
 	  
 	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
   }
   
   function changeMinorVersion(){	
 	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
-	  var currentVersionFloat = parseFloat (currentVersion.substr(1));
-	  var newVersion= currentVersionFloat+0.10;
+	  
+	  if (currentVersion=="Not published"){
+		  newVersion=1;
+	  }
+	  else{
+	  	var currentVersionFloat = parseFloat (currentVersion.substr(1));
+	  	var newVersion= currentVersionFloat+0.10;
+	  }
 	  
 	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
   }
