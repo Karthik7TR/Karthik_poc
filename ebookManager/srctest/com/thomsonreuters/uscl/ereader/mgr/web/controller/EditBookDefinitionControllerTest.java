@@ -15,7 +15,6 @@ import java.util.Map;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -214,21 +213,22 @@ public class EditBookDefinitionControllerTest {
      * Test the POST to the Create Book Definition page when titleId is complete and Definition in incomplete state
      */
 	@Test
-	@Ignore
 	public void testCreateBookDefintionPostCompleteStateSuccess() {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_CREATE);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("contentType", WebConstants.KEY_ANALYTICAL_ABBR);
+    	request.setParameter("ProviewDisplayName", "Name in Proview");
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", "uscl/an/abcd");
-    	//request.setParameter("nameLines", "EbookName[nameId=<null>,book=<null>,nameText=qwe,sequenceNumber=1]");
+    	request.setParameter("nameLines[0].nameText", "title name");
+    	request.setParameter("nameLines[0].sequenceNumber", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
-    	request.setParameter("isbn", "978-193-518235-1");
+    	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
     	request.setParameter("validateForm", "false");
 
@@ -351,16 +351,16 @@ public class EditBookDefinitionControllerTest {
      * Test the POST to the Edit Book Definition page
      */
 	@Test
-	@Ignore
 	public void testEditBookDefintionPOST() {
 		String fullyQualifiedTitleId = "uscl/an/abcd";
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_EDIT);
+		request.setParameter("ProviewDisplayName", "Name in Proview");
 		request.setParameter("contentType", WebConstants.KEY_ANALYTICAL_ABBR);
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", fullyQualifiedTitleId);
-    	//TODO: fix
-    	//request.setParameter("nameLines", "EbookName[nameId=<null>,book=<null>,nameText=qwe,sequenceNumber=1]");
+    	request.setParameter("nameLines[0].nameText", "title name");
+    	request.setParameter("nameLines[0].sequenceNumber", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
@@ -389,8 +389,9 @@ public class EditBookDefinitionControllerTest {
 			mav = handlerAdapter.handle(request, response, controller);
 			
 			assertNotNull(mav);
-	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_EDIT, mav.getViewName());
+			// Verify mav is a RedirectView
+			View view = mav.getView();
+	        assertEquals(RedirectView.class, view.getClass());
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
@@ -410,7 +411,8 @@ public class EditBookDefinitionControllerTest {
 	}
 	
 	/**
-     * Test the POST to the Edit Book Definition page
+     * Test the POST to the Edit Book Definition
+     * Saving in Complete state with no name line
      */
 	@Test
 	public void testEditBookDefintionPOSTFailed() {
@@ -420,7 +422,6 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", fullyQualifiedTitleId);
-    	//request.setParameter("nameLines", "EbookName[nameId=<null>,book=<null>,nameText=qwe,sequenceNumber=1]");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");

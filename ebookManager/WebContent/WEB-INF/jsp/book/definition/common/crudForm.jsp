@@ -383,6 +383,14 @@
 			<form:errors path="titleId" cssClass="errorMessage" />
 		</div>
 	</div>
+	<div class="row">
+		<form:label path="proviewDisplayName" class="labelCol">Proview Display Name</form:label>
+		<input id="proviewDisplayName" type="text" disabled="disabled" />
+		<form:hidden path="proviewDisplayName"/>
+		<div class="errorDiv">
+			<form:errors path="proviewDisplayName" cssClass="errorMessage" />
+		</div>
+	</div>
 	<div id="nameLine" class="row">
 		<form:label path="nameLines" class="labelCol">Name Line</form:label>
 		<input type="button" onclick="addNameRow();" id="addNameLine" value="add" />

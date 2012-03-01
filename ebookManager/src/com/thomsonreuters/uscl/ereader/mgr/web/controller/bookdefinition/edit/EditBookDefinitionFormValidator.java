@@ -103,7 +103,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     			}
     		} else {
     			// This is from the book definition create
-    			checkUniqueTitleId(errors, form.getTitleId());
+    			checkUniqueTitleId(errors, titleId);
     		}
     		// Validate Title ID
     		checkMaxLength(errors, MAXIMUM_TITLE_ID_LENGTH, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_TITLE_ID_LENGTH});
@@ -116,6 +116,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	
     	
     	if(form.getIsComplete() || validateForm) {
+    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
@@ -146,6 +147,8 @@ public class EditBookDefinitionFormValidator implements Validator {
 			}
 			checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
+			
+			//TODO: check if cover image is on the server. Need server location.
 		}
 	}
 	

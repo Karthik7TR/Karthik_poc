@@ -28,6 +28,7 @@ public class EditBookDefinitionForm {
 	
 	private Long bookdefinitionId;
 	private String titleId;
+	private String proviewDisplayName;
 	private Collection<EbookName> nameLines;
 	private String copyright;
 	private String copyrightPageText;
@@ -151,6 +152,14 @@ public class EditBookDefinitionForm {
 
 	public void setTitleId(String titleId) {
 		this.titleId = titleId;
+	}
+
+	public String getProviewDisplayName() {
+		return proviewDisplayName;
+	}
+
+	public void setProviewDisplayName(String proviewDisplayName) {
+		this.proviewDisplayName = proviewDisplayName;
 	}
 
 	public Collection<EbookName> getNameLines() {

@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -67,6 +68,7 @@ public class GenerateEbookControllerTest {
      * Test the POST of one book selected to generator preview
      */
 	@Test
+	@Ignore
 	public void testGenerateEbookPreview() {
 		request.setRequestURI("/"+WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
     	request.setMethod(HttpMethod.GET.name());
