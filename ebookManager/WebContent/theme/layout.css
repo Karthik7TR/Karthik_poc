@@ -17,6 +17,17 @@
 	font-size: 14;
 }
 
+.job-details-table-label {
+	border: thin double gray;
+}
+.job-details-table-label {
+	background: #8fff8f;
+	padding: 4px;
+	font-size: 14;
+	font-weight: bold;
+	border: thin double gray;
+}
+
 .errorBox {
 	padding: 5px;
 	color:red;
@@ -111,7 +122,7 @@ html, body {
 	float:left;
 	width:100%;
 	position:relative;
-  	height:120px;
+  	height:80px;
   	background:#E0E0E0;
 }
 

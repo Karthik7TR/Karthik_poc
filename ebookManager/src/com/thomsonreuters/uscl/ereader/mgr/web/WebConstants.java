@@ -9,7 +9,11 @@ package com.thomsonreuters.uscl.ereader.mgr.web;
 
 public class WebConstants {
 	
-	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";  // default date presentation
+	// Date/Time formatting patterns
+	public static final String DATE_FORMAT_PATTERN = "MM/dd/yy";  // default date presentation
+	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss.SSS";
+	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
+	
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
@@ -46,9 +50,15 @@ public class WebConstants {
 	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
 	public static final String KEY_VERSION_NUMBER="versionNumber";
 	
-	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
+	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
+	public static final String KEY_JOB_EXECUTIONS = "jobExecutions";
+	public static final String KEY_JOB_STEP_EXECUTION = "jobStepExecution";
+	public static final String KEY_JOB_STEP_EXECUTION_ID = "stepExecutionId";
+	public static final String KEY_JOB_STEP_EXECUTIONS = "jobStepExecutions";
+	public static final String KEY_JOB_INSTANCE = "jobInstance";
+	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	
 	// Page paths
 	public static final String MVC_ACCESS_DENIED = "accessDenied.mvc";
@@ -70,12 +80,16 @@ public class WebConstants {
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	
-	public static final String MVC_JOB_EXECUTION_DETAIL = "jobExecutionDetail.mvc";
-	public static final String MVC_JOB_INSTANCE_DETAIL = "jobInstanceDetail.mvc";
+	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
+	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
+	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
 	public static final String MVC_JOB_LIST = "jobList.mvc";
 	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
 	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
 	public static final String MVC_JOB_LIST_FILTER_POST = "jobListFilterPost.mvc";
+	public static final String MVC_JOB_RESTART = "jobRestart.mvc";
+	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
+	public static final String MVC_JOB_STOP = "jobStop.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
@@ -94,7 +108,9 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
-	public static final String VIEW_JOB_LIST = "_jobList";
+	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
+	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
+	public static final String VIEW_JOB_SUMMARY = "_jobSummary";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

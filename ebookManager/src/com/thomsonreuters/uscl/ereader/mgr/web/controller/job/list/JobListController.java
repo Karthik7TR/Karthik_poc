@@ -63,7 +63,7 @@ public class JobListController extends BaseJobListController {
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 	
-		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
+		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class JobListController extends BaseJobListController {
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		
-		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
+		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class JobListController extends BaseJobListController {
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		model.addAttribute(FilterForm.FORM_NAME, filterForm);		
 		
-		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
+		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 
 	@Required

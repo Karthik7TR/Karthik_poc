@@ -75,7 +75,7 @@ public class JobListControllerTest {
     	
     	// Verify
     	assertNotNull(mav);
-    	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
+    	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	
@@ -107,7 +107,7 @@ public class JobListControllerTest {
     	
     	// Verify
     	assertNotNull(mav);
-    	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
+    	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	
@@ -137,7 +137,7 @@ public class JobListControllerTest {
     	
     	// Verify
     	assertNotNull(mav);
-    	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
+    	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	
@@ -167,7 +167,7 @@ public class JobListControllerTest {
     	
     	// Verify
     	assertNotNull(mav);
-    	Assert.assertEquals(WebConstants.VIEW_JOB_LIST, mav.getViewName());
+    	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	// Ensure the number of rows was changed

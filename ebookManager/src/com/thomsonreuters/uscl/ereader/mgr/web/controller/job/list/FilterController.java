@@ -71,7 +71,7 @@ log.debug(filterForm);
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		model.addAttribute(JobListForm.FORM_NAME, jobListForm);
 
-		return new ModelAndView(WebConstants.VIEW_JOB_LIST);
+		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 
 	@Required

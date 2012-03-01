@@ -1,2 +1,2 @@
 
-<div class="pageTitle">Active / Recent Jobs</div>
+<div class="pageTitle">Job Summary</div>

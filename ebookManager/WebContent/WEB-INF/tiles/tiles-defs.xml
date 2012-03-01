@@ -62,11 +62,21 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/import/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/import/body.jsp"/>
 	</definition>
-	<definition name="_jobList" extends="standardDefinition">
+
+	<definition name="_jobExecutionDetails" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/job/execution/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/job/execution/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/job/execution/jobExecutionDetails.jsp"/>
+	</definition>
+	<definition name="_jobInstanceDetails" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/job/instance/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/job/instance/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/job/instance/jobInstanceDetails.jsp"/>
+	</definition>	
+	<definition name="_jobSummary" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/list/left.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/job/list/body.jsp"/>
-	</definition>	
-	
+	  <put-attribute name="body" value="/WEB-INF/jsp/job/list/jobSummary.jsp"/>
+	</definition>
  
 </tiles-definitions>
