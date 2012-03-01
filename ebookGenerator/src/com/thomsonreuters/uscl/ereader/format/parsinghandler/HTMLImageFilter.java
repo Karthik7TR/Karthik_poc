@@ -14,6 +14,9 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * Filter that handles various Anchor "<img>" tags and transforms them as needed.
+ * 
+ * Please reference com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilterTest for
+ * detailed test scenarios that this filter covers.
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
@@ -56,7 +59,7 @@ public class HTMLImageFilter extends XMLFilterImpl {
 
 					super.startElement(uri, localName, qName, newAtts);
 				}
-				else if (src != null && src.startsWith("/Link/Document/Blob"))
+				else if (src != null && src.contains("/Link/Document/Blob"))
 				{
 					//remove actual images since the link anchors will be transformed into image tags
 					isNonStaticImage = true;

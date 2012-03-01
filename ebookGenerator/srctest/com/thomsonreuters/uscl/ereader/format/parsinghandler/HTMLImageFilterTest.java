@@ -180,4 +180,45 @@ public class HTMLImageFilterTest {
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
+	
+	@Test
+	public void testImageRemovalAnchorBecomesImage() throws SAXException
+	{
+		String xmlTestStr = "<test><img src=\"https://1.next.westlaw.com/Link/Document/Blob/" +
+				"Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;" +
+				"transitionType=DocumentImage\" alt=\"Image 2 within \" height=\"1201\" width=\"925\" " +
+				"class=\"co_shrunkImage\"/></test>";
+		String expectedResult = "<test/>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testImageRemovalDiffDomainAnchorBecomesImage() throws SAXException
+	{
+		String xmlTestStr = "<test><img src=\"https://test.com/Link/Document/Blob/" +
+				"Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;" +
+				"transitionType=DocumentImage\" alt=\"Image 2 within \" height=\"1201\" width=\"925\" " +
+				"class=\"co_shrunkImage\"/></test>";
+		String expectedResult = "<test/>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testImageRemovalNestedInAnchor() throws SAXException
+	{
+		String xmlTestStr = "<test><a type=\"image/jpeg\" href=\"https://1.next.westlaw.com/Link/Document/" +
+				"Blob/Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;" +
+				"transitionType=DocumentImage\" class=\"co_imageLink\">" +
+				"<img src=\"https://1.next.westlaw.com/Link/Document/Blob/" +
+				"Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;" +
+				"transitionType=DocumentImage\" alt=\"Image 2 within \" height=\"1201\" width=\"925\" " +
+				"class=\"co_shrunkImage\"/></a></test>";
+		String expectedResult = "<test><a type=\"image/jpeg\" href=\"https://1.next.westlaw.com/Link/Document/" +
+				"Blob/Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;" +
+				"transitionType=DocumentImage\" class=\"co_imageLink\"/></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 }
