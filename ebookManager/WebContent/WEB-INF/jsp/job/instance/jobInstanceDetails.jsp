@@ -25,17 +25,11 @@
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 <tr>
 	<td style="padding-right:20px;">Book Name</td>
-	<td colspan="3">${jobInstance.jobParameters.parameters.bookName}</td>
+	<td>${jobInstance.jobParameters.parameters.bookName}</td>
 </tr>
 <tr>
 	<td>Title ID</td>
-	<td colspan="3">${jobInstance.jobParameters.parameters.titleIdFullyQualified}</td>
-</tr>
-<tr>
-	<td>Job Instance</td>
-	<td>${jobInstance.id}</td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
+	<td>${jobInstance.jobParameters.parameters.titleIdFullyQualified}</td>
 </tr>
 </table>
 </div>
@@ -63,7 +57,6 @@
   		<display:column title="Step ID">
   			<a href="<%=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobInstance.id}&<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${step.jobExecutionId}&<%=WebConstants.KEY_JOB_STEP_EXECUTION_ID%>=${step.id}">${step.id}</a>
   		</display:column>
-  		<display:column title="Job Status" property="status"/>
   		<display:column title="Exit Code" property="exitStatus.exitCode"/>
   		<display:column title="Start Time"><fmt:formatDate value="${step.startTime}" pattern="${DATE_FORMAT}"/></display:column>
   		<display:column title="Duration"><%= JobExecutionVdo.getExecutionDuration(executionDurationMs)%></display:column>

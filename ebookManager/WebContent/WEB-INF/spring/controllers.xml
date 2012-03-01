@@ -39,7 +39,6 @@
 		  
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 
-
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
 		  p:jobExplorer-ref="jobExplorer">
 		  <property name="validator">
@@ -48,11 +47,8 @@
 	</bean>
 	<bean id="jobInstanceController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobInstanceController"
 		  p:jobExplorer-ref="jobExplorer"/>
-		  
-<!-- 
-	<bean id="stepExecutionController" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.stepexecution.StepExecutionController"
+	<bean id="jobStepExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.StepExecutionController"
 		  p:jobExplorer-ref="jobExplorer"/>	
- -->	
 	<bean id="jobSummaryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListController"
 		  p:jobService-ref="jobService">
 		<property name="validator">

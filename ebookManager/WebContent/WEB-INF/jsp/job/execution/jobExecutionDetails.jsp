@@ -99,7 +99,7 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
-		<td>Book Title</td>
+		<td style="padding-right:35px;">Book Name</td>
 		<td colspan="3">${vdo.bookName}</td>
 	</tr>
 	<tr>
@@ -107,25 +107,25 @@
 		<td colspan="3">${vdo.fullyQualifiedTitleId}</td>
 	</tr>
 	<tr>
-		<td width="25%">Job Name</td>
-		<td width="35%">${jobExecution.jobInstance.jobName}</td>
-		<td>Create Time</td>
-		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
-	</tr>
-	<tr>
 		<td>Job Instance</td>
-		<td>
+		<td style="padding-right:120px">
 			<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}">${jobExecution.jobInstance.id}</a>
 		</td>
-		<td>Start Time</td>
-		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
+		<td style="padding-right:30px;">Create Time</td>
+		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
 		<td>Job Execution</td>
 		<td>${jobExecution.id}</td>
+		<td>Start Time</td>
+		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
+	<tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
 		<td>End Time</td>
 		<td><fmt:formatDate value="${jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
-	<tr>
+	</tr>
 	<tr>
 		<td>Running</td>
 		<td>${jobExecution.running}</td>
@@ -177,7 +177,6 @@
 	  		<display:column title="Step ID">
 	  			<a href="<%=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}&<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}&<%=WebConstants.KEY_JOB_STEP_EXECUTION_ID%>=${step.id}">${step.id}</a>
 	  		</display:column>
-	  		<display:column title="Job Status" property="status"/>
 	  		<display:column title="Exit Code" property="exitStatus.exitCode"/>
 	  		<display:column title="Start Time"><fmt:formatDate value="${step.startTime}" pattern="${DATE_FORMAT}"/></display:column>
 	  		<display:column title="Duration"><%= JobExecutionVdo.getExecutionDuration(executionDurationMs)%></display:column>

@@ -1,2 +1,2 @@
 
-<div class="pageTitle">Job Instance Details</div>
+<div class="pageTitle">Job Instance (${jobInstance.id}) Details</div>

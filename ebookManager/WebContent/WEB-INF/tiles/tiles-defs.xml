@@ -72,7 +72,12 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/instance/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/instance/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/instance/jobInstanceDetails.jsp"/>
-	</definition>	
+	</definition>
+	<definition name="_jobStepDetails" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/job/step/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/job/step/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/job/step/jobStepExecutionDetails.jsp"/>
+	</definition>			
 	<definition name="_jobSummary" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/list/left.jsp"/>

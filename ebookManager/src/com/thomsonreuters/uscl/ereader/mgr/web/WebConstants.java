@@ -11,7 +11,7 @@ public class WebConstants {
 	
 	// Date/Time formatting patterns
 	public static final String DATE_FORMAT_PATTERN = "MM/dd/yy";  // default date presentation
-	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss.SSS";
+	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss";
 	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
 	
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
@@ -55,6 +55,7 @@ public class WebConstants {
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
 	public static final String KEY_JOB_EXECUTIONS = "jobExecutions";
 	public static final String KEY_JOB_STEP_EXECUTION = "jobStepExecution";
+	public static final String KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES = "jobStepExecutionContextMapEntries";
 	public static final String KEY_JOB_STEP_EXECUTION_ID = "stepExecutionId";
 	public static final String KEY_JOB_STEP_EXECUTIONS = "jobStepExecutions";
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
@@ -110,6 +111,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
+	public static final String VIEW_JOB_STEP_EXECUTION_DETAILS = "_jobStepDetails";
 	public static final String VIEW_JOB_SUMMARY = "_jobSummary";
 	
 	// Miscellaneous keys and constants used throughout the application.
