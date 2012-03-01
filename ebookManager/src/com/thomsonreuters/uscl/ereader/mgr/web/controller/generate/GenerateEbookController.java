@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -39,9 +40,21 @@ public class GenerateEbookController {
 		BookDefinition book = coreService
 				.findBookDefinition(new BookDefinitionKey(titleId));
 
+		ProviewTitleInfo proviewTitleInfo = proviewClient
+				.getCurrentProviewTitleInfo(titleId);
+
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getBookName());
+
 		}
+
+		if (proviewTitleInfo == null) {
+			model.addAttribute(WebConstants.KEY_VERSION_NUMBER, "Not published");
+		} else {
+			model.addAttribute(WebConstants.KEY_VERSION_NUMBER,
+					proviewTitleInfo.getVesrion());
+		}
+
 		model.addAttribute(WebConstants.TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");

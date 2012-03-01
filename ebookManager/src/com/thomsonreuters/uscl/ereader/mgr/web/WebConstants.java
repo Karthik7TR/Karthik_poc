@@ -44,6 +44,7 @@ public class WebConstants {
 	public static final String KEY_GENERATE_BUTTON_VISIBILITY = "generateButtonVisibility";
 	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
 	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
+	public static final String KEY_VERSION_NUMBER="versionNumber";
 	
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";

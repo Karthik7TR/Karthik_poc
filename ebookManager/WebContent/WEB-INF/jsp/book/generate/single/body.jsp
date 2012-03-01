@@ -61,7 +61,8 @@
 		  </tr>
 		  
 		  <tr>
-		  	<td>Version No:
+		  	<td>Current Proview Version No:
+		  	${versionNumber}
 		  </tr>
 		  
 		</table>
