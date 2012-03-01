@@ -54,7 +54,7 @@ public class TocServiceImpl implements TocService {
 			// This is the counter for checking how many Novus retries we
 			// are making
 			Integer novusTocRetryCounter = 0;
-			while (novusTocRetryCounter < tocRetryCount) {
+			while (novusTocRetryCounter <= tocRetryCount) {
 				try {
 					tocNode = _tocManager.getNode(guid);
 					break;

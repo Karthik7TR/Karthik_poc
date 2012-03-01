@@ -47,11 +47,14 @@ public class NortServiceTest {
 	private NortNode[] mockNort2NodeRoot;
 	private NortNode mockNortNode;
 	private NortNode mockNortNode2;
+	private NovusUtility mockNovusUtility;	
+	
 	
 	@Before
 	public void setUp() {
 		this.mockNovusFactory = EasyMock.createMock(NovusFactory.class);
 		this.mockNovus = EasyMock.createMock(Novus.class);
+		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);		
 		this.mockNortManager = EasyMock.createMock(NortManager.class);
 		this.mockNortNode = EasyMock.createMock(NortNode.class);
 		this.mockNortNode2 = EasyMock.createMock(NortNode.class);
@@ -64,6 +67,7 @@ public class NortServiceTest {
 		this.nortService = new NortServiceImpl();
 		
 		nortService.setNovusFactory(mockNovusFactory);
+		nortService.setNovusUtility(mockNovusUtility);		
 	}
 
 	@Test
@@ -86,6 +90,9 @@ public class NortServiceTest {
 //			String YYYYMMDDHHmmss = "20120206111111"; 
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -113,6 +120,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNovus);
 			EasyMock.replay(mockNortManager);
 			EasyMock.replay(mockNortNode);
+			EasyMock.replay(mockNovusUtility);				
 			
 			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile);
 			
@@ -174,6 +182,9 @@ public class NortServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -210,6 +221,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortManager);
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNortNode2);
+			EasyMock.replay(mockNovusUtility);			
 			
 			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile);
 			
@@ -344,6 +356,9 @@ public class NortServiceTest {
 		
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);		
 		EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 		mockNortManager.setShowChildrenCount(true);
 		mockNortManager.setDomainDescriptor(DOMAIN_NAME);
@@ -356,6 +371,7 @@ public class NortServiceTest {
 		EasyMock.replay(mockNovusFactory);
 		EasyMock.replay(mockNovus);
 		EasyMock.replay(mockNortManager);
+		EasyMock.replay(mockNovusUtility);		
 		
 		try {
 			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile);

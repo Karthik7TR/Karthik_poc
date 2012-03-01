@@ -57,7 +57,7 @@ public class NortServiceImpl implements NortService {
 			// This is the counter for checking how many Novus retries we
 			// are making
 			Integer novusNortRetryCounter = 0;
-			while (novusNortRetryCounter < nortRetryCount) {
+			while (novusNortRetryCounter <= nortRetryCount) {
 				try {
 					nortNodes = _nortManager.getRootNodes();
 					break;

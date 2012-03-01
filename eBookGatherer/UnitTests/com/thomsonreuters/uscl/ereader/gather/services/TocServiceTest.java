@@ -38,6 +38,7 @@ public class TocServiceTest {
 	private TocServiceImpl tocService;
 	private File tocDir = null;
 	private static Logger LOG = Logger.getLogger(TocServiceTest.class);
+	private NovusUtility mockNovusUtility;
 
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -50,10 +51,12 @@ public class TocServiceTest {
 		this.mockTocNode = EasyMock.createMock(TOCNode.class);
 //		mockTocRootNode = new TOCNode[]{mockTocNode};
 		this.mockTocRootNode = EasyMock.createMock(TOCNode.class);
+		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);		
 
 		// The object under test
 		this.tocService = new TocServiceImpl();
 		tocService.setNovusFactory(mockNovusFactory);
+		tocService.setNovusUtility(mockNovusUtility);		
 		tocDir = temporaryFolder.newFolder("junit_toc");
 	}
 	
@@ -64,6 +67,9 @@ public class TocServiceTest {
 
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);
@@ -90,6 +96,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovus);
 		EasyMock.replay(mockToc);
 		EasyMock.replay(mockTocNode);
+		EasyMock.replay(mockNovusUtility);		
 		try {
 			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
 		} catch (Exception e) {
@@ -132,6 +139,9 @@ public class TocServiceTest {
 
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);
@@ -142,6 +152,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusFactory);
 		EasyMock.replay(mockNovus);
 		EasyMock.replay(mockToc);
+		EasyMock.replay(mockNovusUtility);		
 		
 		try {
 			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);

@@ -27,6 +27,7 @@ public class DocServiceTest {
 	private Find mockFinder;
 	private Document mockDocument;
 	private DocServiceImpl docService;
+	private NovusUtility mockNovusUtility;	
 	
 	@Before
 	public void setUp() {
@@ -34,10 +35,12 @@ public class DocServiceTest {
 		this.mockNovus = EasyMock.createMock(Novus.class);
 		this.mockFinder = EasyMock.createMock(Find.class);
 		this.mockDocument = EasyMock.createMock(Document.class);
+		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);
 		
 		// The object under test
 		this.docService = new DocServiceImpl();
 		docService.setNovusFactory(mockNovusFactory);
+		docService.setNovusUtility(mockNovusUtility);
 	}
 	
 	@Test
@@ -51,17 +54,22 @@ public class DocServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(COLLECTION_NAME, null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
-			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");
+			EasyMock.expect(mockDocument.getErrorCode()).andReturn(null).times(2);		
+			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");			
 			EasyMock.expect(mockDocument.getCollection()).andReturn(COLLECTION_NAME);
 			mockNovus.shutdownMQ();
 	
 			// Set up for replay
 			EasyMock.replay(mockNovusFactory);
+			EasyMock.replay(mockNovusUtility);			
 			EasyMock.replay(mockNovus);
 			EasyMock.replay(mockFinder);
 			EasyMock.replay(mockDocument);
@@ -82,7 +90,7 @@ public class DocServiceTest {
 			EasyMock.verify(mockNovusFactory);
 			EasyMock.verify(mockNovus);
 			EasyMock.verify(mockFinder);
-			EasyMock.verify(mockDocument);
+			EasyMock.verify(mockDocument);		
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		} finally {
@@ -100,17 +108,22 @@ public class DocServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
+			EasyMock.expect(mockDocument.getErrorCode()).andReturn(null).times(2);			
 			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");
 			EasyMock.expect(mockDocument.getCollection()).andReturn(COLLECTION_NAME);
 			mockNovus.shutdownMQ();
 	
 			// Set up for replay
 			EasyMock.replay(mockNovusFactory);
+			EasyMock.replay(mockNovusUtility);				
 			EasyMock.replay(mockNovus);
 			EasyMock.replay(mockFinder);
 			EasyMock.replay(mockDocument);
