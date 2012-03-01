@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -18,6 +19,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 /**
@@ -32,33 +35,51 @@ public class JobRunQueuePoller {
 	private CoreService coreService;
 	private EngineService engineService;
 	private JobQueueManager jobQueueManager;
+	private JobStartupThrottleService jobStartupThrottleService;
 	
+
+
+
 	@Scheduled(fixedRate=15000)
 	public void run() {
 		try {
 			// If the engine will accept the start of another job and is not at the max concurrent jobs upper limit
 			if (!throttle.isAtMaximum()) {
-				// then look to see if there is a job run request sitting on the high priority queue
-				JobRunRequest jobRunRequest = jobQueueManager.getHighPriorityJobRunRequest();
-				// if not, then check the normal priority queue
-				if (jobRunRequest == null) {
-					jobRunRequest = jobQueueManager.getNormalPriorityJobRunRequest();
-				}
-				// if there was a job to run, then launch it
-				if (jobRunRequest != null) {
-					// Load the pre-defined set of book definition parameters for this specific book from a database table
-					BookDefinition bookDefinition = coreService.findBookDefinition(jobRunRequest.getBookDefinitionKey());
-					// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
-					JobParameters bookDefinitionJobParameters = engineService.createJobParametersFromBookDefinition(bookDefinition); 
-					// Create the dynamic set of launch parameters, things like user name, user email, and a unique serial number
-					JobParameters dynamicJobParameters = engineService.createDynamicJobParameters(jobRunRequest);
-					// Union the two sets of job parameters (static and dynamic).
-					Map<String,JobParameter> allJobParametersMap = new HashMap<String,JobParameter>(bookDefinitionJobParameters.getParameters());
-					allJobParametersMap.putAll(dynamicJobParameters.getParameters());
-					JobParameters allJobParameters = new JobParameters(allJobParametersMap);
-					// Start the job that builds the ebook
-log.debug(jobRunRequest);					
-					engineService.runJob(jobRunRequest.getJobName(), allJobParameters);
+				
+				// check if number of jobs running are bellow throttl limit.
+				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
+					// then look to see if there is a job run request sitting on the high priority queue
+					JobRunRequest jobRunRequest = jobQueueManager
+							.getHighPriorityJobRunRequest();
+					// if not, then check the normal priority queue
+					if (jobRunRequest == null) {
+						jobRunRequest = jobQueueManager
+								.getNormalPriorityJobRunRequest();
+					}
+					// if there was a job to run, then launch it
+					if (jobRunRequest != null) {
+						// Load the pre-defined set of book definition parameters for this specific book from a database table
+						BookDefinition bookDefinition = coreService
+								.findBookDefinition(jobRunRequest
+										.getBookDefinitionKey());
+						// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
+						JobParameters bookDefinitionJobParameters = engineService
+								.createJobParametersFromBookDefinition(bookDefinition);
+						// Create the dynamic set of launch parameters, things like user name, user email, and a unique serial number
+						JobParameters dynamicJobParameters = engineService
+								.createDynamicJobParameters(jobRunRequest);
+						// Union the two sets of job parameters (static and dynamic).
+						Map<String, JobParameter> allJobParametersMap = new HashMap<String, JobParameter>(
+								bookDefinitionJobParameters.getParameters());
+						allJobParametersMap.putAll(dynamicJobParameters
+								.getParameters());
+						JobParameters allJobParameters = new JobParameters(
+								allJobParametersMap);
+						// Start the job that builds the ebook
+						log.debug(jobRunRequest);
+						engineService.runJob(jobRunRequest.getJobName(),
+								allJobParameters);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -82,5 +103,11 @@ log.debug(jobRunRequest);
 	@Required
 	public void setJobQueueManager(JobQueueManager jobQueueManager) {
 		this.jobQueueManager = jobQueueManager;
+	}
+	
+	@Required
+	public void setJobStartupThrottleService(
+			JobStartupThrottleService jobStartupThrottleService) {
+		this.jobStartupThrottleService = jobStartupThrottleService;
 	}
 }

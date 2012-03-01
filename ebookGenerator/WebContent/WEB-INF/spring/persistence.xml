@@ -29,6 +29,7 @@
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
+		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.JobStartupThrottle</value>
 		  </list>
 		</property>
   	</bean>
@@ -55,6 +56,10 @@
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
 	<bean id="htmlFormatDocMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl">
+		  <constructor-arg ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="jobStartupThrottleDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
 		 
