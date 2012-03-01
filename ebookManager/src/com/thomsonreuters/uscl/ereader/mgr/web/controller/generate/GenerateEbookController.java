@@ -1,10 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
-import java.util.Collection;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
-import com.thomsonreuters.uscl.ereader.mgr.web.ModelUtils;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -22,8 +19,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
-
-import org.apache.log4j.Logger;
 
 @Controller
 public class GenerateEbookController {
@@ -34,6 +29,7 @@ public class GenerateEbookController {
 	private String environmentName;
 	private JobRunner jobRunner;
 	private MessageSourceAccessor messageSourceAccessor;
+	private ProviewClient proviewClient;
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
 	public ModelAndView generateEbookPreview(@RequestParam String titleId,
@@ -149,4 +145,12 @@ public class GenerateEbookController {
 		this.coreService = coreService;
 	}
 
+	@Required
+	public ProviewClient getProviewClient() {
+		return proviewClient;
+	}
+
+	public void setProviewClient(ProviewClient proviewClient) {
+		this.proviewClient = proviewClient;
+	}
 }
