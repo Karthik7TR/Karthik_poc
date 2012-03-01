@@ -1,0 +1,44 @@
+<ImageMetadata>
+ <n-metadata guid="Ie0435e80675a11da90ebf04471783734" ttype="">
+ <md.block>
+  <md.image.format>image/tif</md.image.format> 
+ <md.tiff.block>
+  <md.image.bytes>1878238</md.image.bytes> 
+  <md.image.dpi>300</md.image.dpi> 
+  <md.image.height>4416</md.image.height> 
+  <md.image.width>3400</md.image.width> 
+  <md.image.units>px</md.image.units> 
+  <md.image.compression.type>CCIT4</md.image.compression.type> 
+  </md.tiff.block>
+  </md.block>
+  <md.image.renderType>Image</md.image.renderType> 
+  </n-metadata>
+ <n-metadata guid="Ie043aca0675a11da90ebf04471783734" ttype="">
+ <md.block>
+  <md.image.format>image/tif</md.image.format> 
+ <md.tiff.block>
+  <md.image.bytes>1878238</md.image.bytes> 
+  <md.image.dpi>300</md.image.dpi> 
+  <md.image.height>4416</md.image.height> 
+  <md.image.width>3400</md.image.width> 
+  <md.image.units>px</md.image.units> 
+  <md.image.compression.type>CCIT4</md.image.compression.type> 
+  </md.tiff.block>
+  </md.block>
+  <md.image.renderType>Image</md.image.renderType> 
+  </n-metadata>
+ <n-metadata guid="Ie043fac0675a11da90ebf04471783734" ttype="">
+ <md.block>
+  <md.image.format>image/tif</md.image.format> 
+ <md.tiff.block>
+  <md.image.bytes>1878238</md.image.bytes> 
+  <md.image.dpi>300</md.image.dpi> 
+  <md.image.height>4416</md.image.height> 
+  <md.image.width>3400</md.image.width> 
+  <md.image.units>px</md.image.units> 
+  <md.image.compression.type>CCIT4</md.image.compression.type> 
+  </md.tiff.block>
+  </md.block>
+  <md.image.renderType>Image</md.image.renderType> 
+  </n-metadata>
+  </ImageMetadata>

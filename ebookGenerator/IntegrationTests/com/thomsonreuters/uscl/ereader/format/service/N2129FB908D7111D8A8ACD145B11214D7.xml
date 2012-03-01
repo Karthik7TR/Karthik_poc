@@ -1,0 +1,1186 @@
+<Document>
+    <document-data>
+        <collection>w_codesstacanvdp</collection>
+        <datetime>20120228113255</datetime>
+        <versioned>False</versioned>
+        <doc-type>Codes - Statutes</doc-type>
+        <doc-type-id>48</doc-type-id>
+        <cite>CA PENAL § 190.05</cite>
+        <title>§ 190.05. Penalty for second degree murder for defendants who have served a prior
+            prison term for murder</title>
+    </document-data>
+    <n-metadata>
+        <metadata.block>
+            <md.identifiers>
+                <md.cites>
+                    <md.first.line.cite>CA PENAL § 190.05</md.first.line.cite>
+                    <md.second.line.cite>West's Ann.Cal.Penal Code § 190.05</md.second.line.cite>
+                    <md.normalizedcite>CAPES190.05</md.normalizedcite>
+                    <md.original.first.line.cite>CA PENAL § 190.05</md.original.first.line.cite>
+                    <md.current.normalizedcite>CAPES190.05</md.current.normalizedcite>
+                    <md.expandedcite>West's Ann. Cal. Penal Code § 190.05, CA PENAL
+                        § 190.05</md.expandedcite>
+                </md.cites>
+                <md.uuid>N2129FB908D7111D8A8ACD145B11214D7</md.uuid>
+                <md.legacy.id>CAPES190.05</md.legacy.id>
+                <md.wip.version.num>32</md.wip.version.num>
+                <md.legacy.heading.id>001290312</md.legacy.heading.id>
+                <md.hyphenated.uuid>N2129FB908D-7111D8A8ACD-145B11214D7</md.hyphenated.uuid>
+            </md.identifiers>
+            <md.infotype subtype="doctype">Statute</md.infotype>
+            <md.sortkeys>
+                <md.rankvalue>01288165</md.rankvalue>
+                <md.browse>CALIFORNIA</md.browse>
+                <md.sequencenumber>00030</md.sequencenumber>
+                <md.volsnumber>1083</md.volsnumber>
+                <md.insertnumber>000000</md.insertnumber>
+                <md.rankingsequencenumber>03c5b40a019a03c230000000000000000000000000000000</md.rankingsequencenumber>
+            </md.sortkeys>
+            <md.hierarchies>
+                <md.outline.block>
+                    <md.entry refid="IFC766602379811E1A8AECE27C688C691">
+                        <md.head>Text</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3D0580022311DFAAB2F323B67BC090">
+                        <md.head>(a) The penalty for a defendant found guilty of murder in the
+                            second</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3D2C90022311DFAAB2F323B67BC090">
+                        <md.head>(b) A prior prison term for murder for purposes of this section
+                            includes</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3DC8D0022311DFAAB2F323B67BC090">
+                        <md.head>(c) The fact of a prior prison term for murder in the first or
+                            second</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3DEFE0022311DFAAB2F323B67BC090">
+                        <md.head>(d) In case of a reasonable doubt as to whether the defendant
+                            served a</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3E16F0022311DFAAB2F323B67BC090">
+                        <md.head>(e) If the trier of fact finds that the defendant has served a
+                            prior</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3E6510022311DFAAB2F323B67BC090">
+                        <md.head>(f) If the defendant was convicted by the court sitting without a
+                            jury,</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3EB330022311DFAAB2F323B67BC090">
+                        <md.head>(g) Evidence presented at any prior phase of the trial, including
+                            any</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB3EDA40022311DFAAB2F323B67BC090">
+                        <md.head>(h) In the proceeding on the question of penalty, evidence may
+                            be</md.head>
+                    </md.entry>
+                    <md.entry refid="IEB420E90022311DFAAB2F323B67BC090">
+                        <md.head>(i) Nothing in this section shall be construed to prohibit the
+                            charging of</md.head>
+                    </md.entry>
+                    <md.entry refid="IFCD3A130379811E1A8AECE27C688C691">
+                        <md.head>Credit(s)</md.head>
+                    </md.entry>
+                    <md.entry refid="IFCD500C0379811E1A8AECE27C688C691">
+                        <md.head>References</md.head>
+                    </md.entry>
+                    <md.entry refid="IFD4F60E1379811E1A8AECE27C688C691">
+                        <md.head>Notes of Decisions</md.head>
+                    </md.entry>
+                </md.outline.block>
+            </md.hierarchies>
+            <md.descriptions>
+                <md.title>§ 190.05. Penalty for second degree murder for defendants who have served
+                    a prior prison term for murder</md.title>
+                <md.westlawdescrip>
+                    <md.wl.message.num>1VER</md.wl.message.num>
+                    <md.wl.message.num>3VER</md.wl.message.num>
+                    <md.pubseries>Penal Code (Refs   Annos)</md.pubseries>
+                </md.westlawdescrip>
+                <md.doc.family.uuid>I0C8DE950108311DD98BCE49E3FA5957E</md.doc.family.uuid>
+                <md.doc.level.update.number>1080</md.doc.level.update.number>
+                <md.codes.category.id>14</md.codes.category.id>
+                <md.parent.hid>006607895</md.parent.hid>
+                <md.parent.hid>001290044</md.parent.hid>
+                <md.parent.hid>001290085</md.parent.hid>
+                <md.parent.hid>001290305</md.parent.hid>
+                <md.parent.hid>001290306</md.parent.hid>
+                <md.parent.toc>N4BAAF270D8EF11DC994300123F3DC9E3</md.parent.toc>
+                <md.parent.toc>Ne30605e0d40511dcb846e04bd075d680</md.parent.toc>
+                <md.parent.toc>Na6386130d40511dc81918c7818c06073</md.parent.toc>
+                <md.parent.toc>N90B4C190D0DD11DCB05200123F3DC9E3</md.parent.toc>
+                <md.parent.toc>NFEC17A409A0B11D8B0FAAA2C37E6174B</md.parent.toc>
+                <md.parent.toc>ND29CE602BD2A4EDABEC6CE13DEA8112A</md.parent.toc>
+                <md.parent.toc>N32555B9DF66545AAB43E4EEEBA37B899</md.parent.toc>
+                <md.parent.toc>N048BCFFA498E489AA9CE1A5273909C9F</md.parent.toc>
+                <md.parent.toc>NC43256DFA6E442A0B45DF550111274B5</md.parent.toc>
+                <md.parent.versions.toc>N4BAAF270D8EF11DC994300123F3DC9E3</md.parent.versions.toc>
+                <md.parent.versions.toc>N4BAAF270D8-EF11DC99430-0123F3DC9E3</md.parent.versions.toc>
+                <md.parent.versions.toc>Ne30605e0d40511dcb846e04bd075d680</md.parent.versions.toc>
+                <md.parent.versions.toc>Ne30605e0d4-0511dcb846e-04bd075d680</md.parent.versions.toc>
+                <md.parent.versions.toc>Na6386130d40511dc81918c7818c06073</md.parent.versions.toc>
+                <md.parent.versions.toc>Na6386130d4-0511dc81918-c7818c06073</md.parent.versions.toc>
+                <md.parent.versions.toc>N90B4C190D0DD11DCB05200123F3DC9E3</md.parent.versions.toc>
+                <md.parent.versions.toc>N90B4C190D0-DD11DCB0520-0123F3DC9E3</md.parent.versions.toc>
+                <md.parent.versions.toc>N35E4E1A07E9C11D8A245DB4E59A75DA0</md.parent.versions.toc>
+                <md.parent.versions.toc>N35E4E1A07E-9C11D8A245D-B4E59A75DA0</md.parent.versions.toc>
+                <md.parent.versions.toc>NFEC17A409A0B11D8B0FAAA2C37E6174B</md.parent.versions.toc>
+                <md.parent.versions.toc>NFEC17A409A-0B11D8B0FAA-A2C37E6174B</md.parent.versions.toc>
+                <md.parent.versions.toc>ND29CE602BD2A4EDABEC6CE13DEA8112A</md.parent.versions.toc>
+                <md.parent.versions.toc>ND29CE602BD-2A4EDABEC6C-E13DEA8112A</md.parent.versions.toc>
+                <md.parent.versions.toc>N32555B9DF66545AAB43E4EEEBA37B899</md.parent.versions.toc>
+                <md.parent.versions.toc>N32555B9DF6-6545AAB43E4-EEEBA37B899</md.parent.versions.toc>
+                <md.parent.versions.toc>N048BCFFA498E489AA9CE1A5273909C9F</md.parent.versions.toc>
+                <md.parent.versions.toc>N048BCFFA49-8E489AA9CE1-A5273909C9F</md.parent.versions.toc>
+                <md.parent.versions.toc>NC43256DFA6E442A0B45DF550111274B5</md.parent.versions.toc>
+                <md.parent.versions.toc>NC43256DFA6-E442A0B45DF-550111274B5</md.parent.versions.toc>
+                <md.parent.versions.toc>N2713E3BFCAA3452B8CEB4A61F47A0F99</md.parent.versions.toc>
+                <md.parent.versions.toc>N2713E3BFCA-A3452B8CEB4-A61F47A0F99</md.parent.versions.toc>
+                <md.publishing.style.format>2</md.publishing.style.format>
+                <md.doc.status>Live</md.doc.status>
+            </md.descriptions>
+            <md.dates>
+                <md.starteffective>19990101000000</md.starteffective>
+                <md.endeffective>20970101235959</md.endeffective>
+                <md.publisheddate>20120105052352</md.publisheddate>
+                <md.loaddate>20120105052352</md.loaddate>
+                <md.extractdate>20120105052352</md.extractdate>
+            </md.dates>
+            <md.references>
+                <md.legacy.references>
+                    <md.historical.link.record>0015lk(CAPES190.05)</md.historical.link.record>
+                    <md.statute.legis.update>lk(CAPES190.05)  
+                        sec("190.05")</md.statute.legis.update>
+                    <md.gm.link.record>0028lk(CASTERR) lk(CAPEPT1T8C1R)</md.gm.link.record>
+                    <md.gm.link.record level="2">0011lk(CASTERR)</md.gm.link.record>
+                    <md.link.separator/>
+                    <md.gm.link.record level="6">0016lk(CAPEPT1T8C1R)</md.gm.link.record>
+                </md.legacy.references>
+            </md.references>
+            <md.subjects>
+                <md.subject>
+                    <md.keywords>
+                        <md.keyword>ADDTERM</md.keyword>
+                    </md.keywords>
+                    <md.pubtype.name>WGR</md.pubtype.name>
+                    <md.doctype.name>6A</md.doctype.name>
+                    <md.doctype.rank>0002</md.doctype.rank>
+                    <md.view>CA</md.view>
+                </md.subject>
+            </md.subjects>
+            <md.jurisdictions>
+                <md.jurisdiction>
+                    <md.jurisstate>CA</md.jurisstate>
+                </md.jurisdiction>
+            </md.jurisdictions>
+            <md.publications>
+                <md.publication>
+                    <md.pubid>1000217</md.pubid>
+                    <md.pubname>California Penal Code</md.pubname>
+                    <md.pubvolume>1083</md.pubvolume>
+                </md.publication>
+                <md.sourcepubid>1000217</md.sourcepubid>
+                <md.pub.environment>PROD</md.pub.environment>
+            </md.publications>
+        </metadata.block>
+        <version.tree.metadata.block>
+            <v.t.md.effective>Effective:</v.t.md.effective>
+            <v.t.md.display.starteffective/>
+            <v.t.md.display.endeffective/>
+            <v.t.md.amendment.ref>1VER</v.t.md.amendment.ref>
+            <v.t.md.display.cite>
+                <cite.query w-ref-type="VQ" w-normalized-cite="N2129FB908D-7111D8A8ACD-145B11214D7"
+                    w-pub-number="1000217" ID="Iec75bb6037c111e18e76eac6d7da8f26">CA PENAL
+                    § 190.05</cite.query>
+            </v.t.md.display.cite>
+            <v.t.md.credit>Added by Stats.1985, c. 1510, § 1</v.t.md.credit>
+        </version.tree.metadata.block>
+        <tndx.metadata.block>
+            <tndx.md.ranking.jurisstate>CA</tndx.md.ranking.jurisstate>
+            <tndx.md.legacy.heading.id>001290312</tndx.md.legacy.heading.id>
+            <tndx.md.uuid>N2129FB908D7111D8A8ACD145B11214D7</tndx.md.uuid>
+            <tndx.md.normalizedcite>CAPES190.05</tndx.md.normalizedcite>
+            <tndx.md.current.normalizedcite>CAPES190.05</tndx.md.current.normalizedcite>
+        </tndx.metadata.block>
+        <minor.link.metadata.block>
+            <mlmd.annotations>Y</mlmd.annotations>
+            <mlmd.law.rev>Y</mlmd.law.rev>
+            <mlmd.alr.ref>N</mlmd.alr.ref>
+            <mlmd.txt.tre.frm.ref>N</mlmd.txt.tre.frm.ref>
+            <mlmd.credit>Y</mlmd.credit>
+            <mlmd.hist.note>N</mlmd.hist.note>
+            <mlmd.cross.ref>Y</mlmd.cross.ref>
+            <mlmd.adc.ref>N</mlmd.adc.ref>
+            <mlmd.topic.key.ref>Y</mlmd.topic.key.ref>
+            <mlmd.authority>N</mlmd.authority>
+        </minor.link.metadata.block>
+        <n-tocview>ND29CE602BD2A4EDABEC6CE13DEA8112A N32555B9DF66545AAB43E4EEEBA37B899
+            N048BCFFA498E489AA9CE1A5273909C9F NC43256DFA6E442A0B45DF550111274B5
+            N2129FB908D7111D8A8ACD145B11214D7</n-tocview>
+        <n-tocview>N4BAAF270D8EF11DC994300123F3DC9E3 Ne30605e0d40511dcb846e04bd075d680
+            Na6386130d40511dc81918c7818c06073 N90B4C190D0DD11DCB05200123F3DC9E3
+            ND29CE602BD2A4EDABEC6CE13DEA8112A N32555B9DF66545AAB43E4EEEBA37B899
+            N048BCFFA498E489AA9CE1A5273909C9F NC43256DFA6E442A0B45DF550111274B5
+            N2129FB908D7111D8A8ACD145B11214D7</n-tocview>
+        <n-view>CA</n-view>
+        <n-view>TAX</n-view>
+        <n-view>WlStaCa</n-view>
+        <prism-clipdate>20120105052352</prism-clipdate>
+    </n-metadata>
+    <n-docbody>
+        <section ID="IEB3B57D0022311DFAAB2F323B67BC090" legacy.identifier="001290312">
+            <content.metadata.block>
+                <cmd.identifiers>
+                    <cmd.cites>
+                        <cmd.first.line.cite>
+                            <bop/>
+                            <bos/> CA PENAL § 190.05 <eos/>
+                            <eop/>
+                        </cmd.first.line.cite>
+                        <cmd.second.line.cite>
+                            <bop/>
+                            <bos/> West's Ann.Cal.Penal Code § 190.05 <eos/>
+                            <eop/>
+                        </cmd.second.line.cite>
+                    </cmd.cites>
+                </cmd.identifiers>
+            </content.metadata.block>
+            <prelim.block>
+                <bop/>
+                <prelim.head>
+                    <head ID="IFC6F8830379811E1A8AECE27C688C691" ampexmnem="0.sb1">
+                        <bos/>
+                        <head.info>
+                            <headtext> West's Annotated California Codes <hide.historical.version>
+                                    <internal.reference refid="IFC702470379811E1A8AECE27C688C691"
+                                        >Currentness</internal.reference>
+                                </hide.historical.version>
+                            </headtext>
+                        </head.info>
+                        <eos/>
+                    </head>
+                    <prelim.head>
+                        <head ID="IFC707290379811E1A8AECE27C688C691" ampexmnem="1.sb2">
+                            <bos/>
+                            <head.info>
+                                <headtext> Penal Code <hide.historical.version>
+                                        <cite.query w-seq-number="00001" w-ref-type="CM"
+                                            w-normalized-cite="lk(CASTERR)"
+                                            ID="Iee1895f137c111e196ce875438ad52f0">(Refs  
+                                            Annos)</cite.query>
+                                    </hide.historical.version>
+                                </headtext>
+                            </head.info>
+                            <eos/>
+                        </head>
+                        <prelim.head>
+                            <head ID="IFC724750379811E1A8AECE27C688C691" ampexmnem="2.sb4">
+                                <bos/>
+                                <head.info>
+                                    <headtext>
+                                        <cite.query w-seq-number="00002" w-ref-type="SB"
+                                            w-normalized-cite="PRT_001290085"
+                                            ID="Iee18e41137c111e196ce875438ad52f0">
+                                            <n-private-char charName="TLRbrowse"></n-private-char>
+                                            Part 1 </cite.query> . Of Crimes and Punishments
+                                    </headtext>
+                                </head.info>
+                                <eos/>
+                            </head>
+                            <prelim.head>
+                                <head ID="IFC7358C0379811E1A8AECE27C688C691" ampexmnem="3.sb5">
+                                    <bos/>
+                                    <head.info>
+                                        <headtext>
+                                            <cite.query w-seq-number="00003" w-ref-type="SB"
+                                                w-normalized-cite="PRT_001290305"
+                                                ID="Iee19594137c111e196ce875438ad52f0">
+                                                <n-private-char charName="TLRbrowse"
+                                                  ></n-private-char> Title 8 </cite.query> . Of
+                                            Crimes Against the Person </headtext>
+                                    </head.info>
+                                    <eos/>
+                                </head>
+                                <prelim.head>
+                                    <head ID="IFC746A30379811E1A8AECE27C688C691" ampexmnem="4.sb6">
+                                        <bos/>
+                                        <head.info>
+                                            <headtext>
+                                                <cite.query w-seq-number="00004" w-ref-type="SB"
+                                                  w-normalized-cite="PRT_001290306"
+                                                  ID="Iee19a76137c111e196ce875438ad52f0">
+                                                  <n-private-char charName="TLRbrowse"
+                                                  ></n-private-char> Chapter 1 </cite.query> .
+                                                Homicide <hide.historical.version>
+                                                  <cite.query w-seq-number="00005" w-ref-type="CM"
+                                                  w-normalized-cite="lk(CAPEPT1T8C1R)"
+                                                  ID="Iee19ce7137c111e196ce875438ad52f0">(Refs  
+                                                  Annos)</cite.query>
+                                                </hide.historical.version>
+                                            </headtext>
+                                        </head.info>
+                                        <eos/>
+                                    </head>
+                                </prelim.head>
+                            </prelim.head>
+                        </prelim.head>
+                    </prelim.head>
+                </prelim.head>
+                <eop/>
+            </prelim.block>
+            <include.sb.currency.block>
+                <include.sb.currency n-include_collection="w_codes_stamsgp"
+                    n-include_guid="IEEF4B1110E2311DCBBDCA89FF00F5D65">Current with urgency
+                    legislation through Ch. 4 of 2012 Reg.Sess.</include.sb.currency>
+                <message.code>8CAS</message.code>
+            </include.sb.currency.block>
+            <doc.title>
+                <head ID="IEB3BA5F0022311DFAAB2F323B67BC090" ampexmnem="5.snl">
+                    <bop/>
+                    <bos/>
+                    <head.info>
+                        <headtext>
+                            <cite.query w-ref-type="LK" w-normalized-cite="CA001290306"
+                                w-pinpoint-page="S190.05" ID="Iec81f06037c111e18e76eac6d7da8f26">
+                                <bold>§ 190.05. Penalty for second degree murder for defendants who
+                                    have served a prior prison term for murder</bold>
+                            </cite.query>
+                        </headtext>
+                    </head.info>
+                    <eos/>
+                    <eop/>
+                </head>
+            </doc.title>
+            <body ID="IFC766602379811E1A8AECE27C688C691">
+                <subsection ID="IEB3D0580022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F1022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="8b3b0000958a4"/> (a) The penalty for a
+                            defendant found guilty of murder in the second degree, who has served a
+                            prior prison term for murder in the first or second degree, shall be
+                            confinement in the state prison for a term of life without the
+                            possibility of parole or confinement in the state prison for a term of
+                            15 years to life. <eos/>
+                            <bos/>  For purposes of this section, a prior prison term for murder of
+                            the first or second degree is that time period in which a defendant has
+                            spent actually incarcerated for his or her offense prior to release on
+                            parole. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3D2C90022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F2022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="a83b000018c76"/> (b) A prior prison term for
+                            murder for purposes of this section includes either of the following: <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <subsection ID="IEB3D53A0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BA5F3022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="3fed000053a85"/> (1) A prison term served
+                                in any state prison or federal penal institution, including
+                                confinement in a hospital or other institution or facility credited
+                                as service of prison time in the jurisdiction of confinement, as
+                                punishment for the commission of an offense which includes all of
+                                the elements of murder in the first or second degree as defined
+                                under California law. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB3DA1C0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BA5F4022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="c0ae00006c482"/> (2) Incarceration at a
+                                facility operated by the Youth Authority for murder of the first or
+                                second degree when the person was subject to the custody, control,
+                                and discipline of the Director of Corrections. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                </subsection>
+                <subsection ID="IEB3DC8D0022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F5022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="4b24000003ba5"/> (c) The fact of a prior
+                            prison term for murder in the first or second degree shall be alleged in
+                            the accusatory pleading, and either admitted by the defendant in open
+                            court, or found to be true by the jury trying the issue of guilt or by
+                            the court where guilt is established by a plea of guilty or nolo
+                            contendere or by trial by the court sitting without a jury. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3DEFE0022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F6022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="5ba1000067d06"/> (d) In case of a reasonable
+                            doubt as to whether the defendant served a prior prison term for murder
+                            in the first or second degree, the defendant is entitled to a finding
+                            that the allegation is not true. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3E16F0022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F7022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="7fdd00001ca15"/> (e) If the trier of fact
+                            finds that the defendant has served a prior prison term for murder in
+                            the first or second degree, there shall be a separate penalty hearing
+                            before the same trier of fact, except as provided in subdivision (f). <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3E6510022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5F8022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="ae0d0000c5150"/> (f) If the defendant was
+                            convicted by the court sitting without a jury, the trier of fact at the
+                            penalty hearing shall be a jury unless a jury is waived by the defendant
+                            and the people, in which case the trier of fact shall be the court. <eos/>
+                            <bos/>  If the defendant was convicted by a plea of guilty or nolo
+                            contendere, the trier of fact shall be a jury unless a jury is waived by
+                            the defendant and the people. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <para ID="IEB3BA5F9022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/> If the trier of fact is a jury and has been unable to reach a
+                            unanimous verdict as to what the penalty shall be, the court shall
+                            dismiss the jury and shall order a new jury impaneled to try the issue
+                            as to what the penalty shall be. <eos/>
+                            <bos/>  If the new jury is unable to reach a unanimous verdict as to
+                            what the penalty shall be, the court in its discretion shall either
+                            order a new jury or impose a punishment of confinement in the state
+                            prison for a term of 15 years to life. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3EB330022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5FA022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="16f4000091d86"/> (g) Evidence presented at
+                            any prior phase of the trial, including any proceeding under a plea of
+                            not guilty by reason of insanity pursuant to <cite.query
+                                w-seq-number="00006" w-ref-type="LQ" w-normalized-cite="CAPES1026"
+                                w-pub-number="1000217" ID="Iee1d29d037c111e18e76eac6d7da8f26"
+                                >Section 1026</cite.query> , shall be considered at any subsequent
+                            phase of the trial, if the trier of fact of the prior phase is the same
+                            trier of fact at the subsequent phase. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+                <subsection ID="IEB3EDA40022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BA5FB022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="f383000077b35"/> (h) In the proceeding on the
+                            question of penalty, evidence may be presented by both the people and
+                            the defendant as to any matter relevant to aggravation, mitigation, and
+                            sentence, including, but not limited to, the nature and circumstances of
+                            the present offense, any prior felony conviction or convictions whether
+                            or not such conviction or convictions involved a crime of violence, the
+                            presence or absence of other criminal activity by the defendant which
+                            involved the use or attempted use of force or violence or which involved
+                            the express or implied threat to use force or violence, and the
+                            defendant's character, background, history, mental condition, and
+                            physical condition. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <para ID="IEB3BA5FC022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/> However, no evidence shall be admitted regarding other criminal
+                            activity by the defendant which did not involve the use or attempted use
+                            of force or violence or which did not involve the express or implied
+                            threat to use force or violence. <eos/>
+                            <bos/>  As used in this section, criminal activity does not require a
+                            conviction. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <para ID="IEB3BCD00022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/> However, in no event shall evidence of prior criminal activity be
+                            admitted for an offense for which the defendant was prosecuted and
+                            acquitted. <eos/>
+                            <bos/>  The restriction on the use of this evidence is intended to apply
+                            only to proceedings pursuant to this section and is not intended to
+                            affect statutory or decisional law allowing such evidence to be used in
+                            any other proceedings. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <para ID="IEB3BCD01022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/> Except for evidence in proof of the offense or the prior prison
+                            term for murder of the first or second degree which subjects a defendant
+                            to the punishment of life without the possibility of parole, no evidence
+                            may be presented by the prosecution in aggravation unless notice of the
+                            evidence to be introduced has been given to the defendant within a
+                            reasonable period of time as determined by the court, prior to trial. <eos/>
+                            <bos/>  Evidence may be introduced without such notice in rebuttal to
+                            evidence introduced by the defendant in mitigation. <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <para ID="IEB3BCD02022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/> In determining the penalty, the trier of fact shall take into
+                            account any of the following factors if relevant: <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                    <subsection ID="IEB3FC4A0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD03022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="b4e500006fdf6"/> (1) The circumstances of
+                                the crime of which the defendant was convicted in the present
+                                proceeding and the existence of the prior prison term for murder. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB4012C0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD04022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="1d410000745d2"/> (2) The presence or
+                                absence of criminal activity by the defendant which involved the use
+                                or attempted use of force or violence or the express or implied
+                                threat to use force or violence. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB4039D0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD05022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="9d43000088150"/> (3) The presence or
+                                absence of any prior felony conviction. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB4060E0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD06022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="bd100000313c1"/> (4) Whether or not the
+                                offense was committed while the defendant was under the influence of
+                                extreme mental or emotional disturbance. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB4087F0022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD07022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="65770000e78a4"/> (5) Whether or not the
+                                victim was a participant in the defendant's homicidal conduct or
+                                consented to the homicidal act. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB40AF00022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD08022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="c3d0000000ab5"/> (6) Whether or not the
+                                offense was committed under circumstances which the defendant
+                                reasonably believed to be a moral justification or extenuation for
+                                his or her conduct. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB40D610022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD09022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="02f0000020391"/> (7) Whether or not the
+                                defendant acted under extreme duress or under the substantial
+                                domination of another person. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB412430022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD0A022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="fb01000061864"/> (8) Whether or not at
+                                the time of the offense the ability of the defendant to appreciate
+                                the criminality of his or her conduct or to conform his or her
+                                conduct to the requirements of law was impaired as a result of
+                                mental disease or defect, or the effects of intoxication. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB414B40022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD0B022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="17eb00000f9b4"/> (9) The age of the
+                                defendant at the time of the crime. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB417250022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD0C022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="188200004a000"/> (10) Whether or not the
+                                defendant was an accomplice to the offense and his or her
+                                participation in the commission of the offense was relatively minor. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                    <subsection ID="IEB419960022311DFAAB2F323B67BC090">
+                        <para ID="IEB3BCD0D022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/>
+                                <pinpoint.anchor hashcode="2a0a0000a6ce6"/> (11) Any other
+                                circumstance which extenuates the gravity of the crime even though
+                                it is not a legal excuse for the crime. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                        <para ID="IEB3BCD0E022311DFAAB2F323B67BC090" ampexmnem="smp">
+                            <paratext>
+                                <bop/>
+                                <bos/> After having heard and received all of the evidence, and
+                                after having heard and considered the arguments of counsel, the
+                                trier of fact shall consider, take into account, and be guided by
+                                the aggravating and mitigating circumstances referred to in this
+                                section, and shall impose a sentence of life without the possibility
+                                of parole if the trier of fact concludes that the aggravating
+                                circumstances outweigh the mitigating circumstances. <eos/>
+                                <bos/>  If the trier of fact determines that the mitigating
+                                circumstances outweigh the aggravating circumstances, the trier of
+                                fact shall impose a sentence of confinement in the state prison for
+                                15 years to life. <eos/>
+                                <eop/>
+                            </paratext>
+                        </para>
+                    </subsection>
+                </subsection>
+                <subsection ID="IEB420E90022311DFAAB2F323B67BC090">
+                    <para ID="IEB3BF410022311DFAAB2F323B67BC090" ampexmnem="smp">
+                        <paratext>
+                            <bop/>
+                            <bos/>
+                            <pinpoint.anchor hashcode="17a3000024864"/> (i) Nothing in this section
+                            shall be construed to prohibit the charging of finding of any special
+                            circumstance pursuant to <cite.query w-seq-number="00007"
+                                w-ref-type="LQ" w-normalized-cite="CAPES190.1"
+                                w-pub-number="1000217" ID="Iee23445037c111e18e76eac6d7da8f26"
+                                >Sections 190.1</cite.query> , <cite.query w-seq-number="00008"
+                                w-ref-type="LQ" w-normalized-cite="CAPES190.2"
+                                w-pub-number="1000217" ID="Iee23445137c111e18e76eac6d7da8f26"
+                                >190.2</cite.query> , <cite.query w-seq-number="00009"
+                                w-ref-type="LQ" w-normalized-cite="CAPES190.3"
+                                w-pub-number="1000217" ID="Iee23445237c111e18e76eac6d7da8f26"
+                                >190.3</cite.query> , <cite.query w-seq-number="00010"
+                                w-ref-type="LQ" w-normalized-cite="CAPES190.4"
+                                w-pub-number="1000217" ID="Iee23445337c111e18e76eac6d7da8f26"
+                                >190.4</cite.query> , and <cite.query w-seq-number="00011"
+                                w-ref-type="LQ" w-normalized-cite="CAPES190.5"
+                                w-pub-number="1000217" ID="Iee23445437c111e18e76eac6d7da8f26"
+                                >190.5</cite.query> . <eos/>
+                            <eop/>
+                        </paratext>
+                    </para>
+                </subsection>
+            </body>
+            <credit ID="IFCD3A130379811E1A8AECE27C688C691">
+                <bop/>
+                <head ID="IFCD4B2A0379811E1A8AECE27C688C691" ampexmnem="sclh">
+                    <headtext>CREDIT(S)</headtext>
+                </head>
+                <para ID="IEB3BF411022311DFAAB2F323B67BC090" ampexmnem="scl">
+                    <paratext>
+                        <bos/> (Added by Stats.1985, c. 1510, § 1.) <eos/>
+                    </paratext>
+                </para>
+                <eop/>
+            </credit>
+            <annotations>
+                <reference.block ID="IFCD500C0379811E1A8AECE27C688C691">
+                    <bref/>
+                    <cross.reference.block>
+                        <head ID="IEB432000022311DFAAB2F323B67BC090" ampexmnem="xcr">
+                            <bop/>
+                            <bos/>
+                            <headtext>CROSS REFERENCES</headtext>
+                            <eos/>
+                            <eop/>
+                        </head>
+                        <cross.reference.body>
+                            <cross.reference ID="IEB434710022311DFAAB2F323B67BC090"
+                                ampexmnem="xcr.crl">
+                                <bop/>
+                                <bos/>
+                                <reference.text indent-left="3"> Felonies, definition and penalties,
+                                    see <cite.query w-seq-number="00012" w-ref-type="LQ"
+                                        w-normalized-cite="CAPES17" w-pub-number="1000217"
+                                        ID="Iee2678a037c111e18e76eac6d7da8f26">Penal Code
+                                        §§ 17</cite.query> and <cite.query w-seq-number="00013"
+                                        w-ref-type="LQ" w-normalized-cite="CAPES18"
+                                        w-pub-number="1000217"
+                                        ID="Iee2678a137c111e18e76eac6d7da8f26">18</cite.query> . </reference.text>
+                                <eos/>
+                                <eop/>
+                            </cross.reference>
+                            <cross.reference ID="IEB434711022311DFAAB2F323B67BC090"
+                                ampexmnem="xcr.crl">
+                                <bop/>
+                                <bos/>
+                                <reference.text indent-left="3"> Indigent defendants, payment of
+                                    investigators, experts and others for defense, see <cite.query
+                                        w-seq-number="00014" w-ref-type="LQ"
+                                        w-normalized-cite="CAPES987.9" w-pub-number="1000217"
+                                        ID="Iee26edd037c111e18e76eac6d7da8f26">Penal Code
+                                        § 987.9</cite.query> . </reference.text>
+                                <eos/>
+                                <eop/>
+                            </cross.reference>
+                            <cross.reference ID="I95C873C16FE911E09DB58753B8692EFF"
+                                ampexmnem="xcr.crl">
+                                <bop/>
+                                <bos/>
+                                <reference.text indent-left="3"> Prison or state prison defined for
+                                    purposes of this Code, see <cite.query w-seq-number="00015"
+                                        w-ref-type="LQ" w-normalized-cite="CAPES6081"
+                                        w-pub-number="1000217"
+                                        ID="Iee273bf037c111e18e76eac6d7da8f26">Penal Code
+                                        § 6081</cite.query> . </reference.text>
+                                <eos/>
+                                <eop/>
+                            </cross.reference>
+                        </cross.reference.body>
+                    </cross.reference.block>
+                    <law.review.reference.block>
+                        <head ID="IEB436E20022311DFAAB2F323B67BC090" ampexmnem="xlrm">
+                            <bop/>
+                            <bos/>
+                            <headtext>LAW REVIEW AND JOURNAL COMMENTARIES</headtext>
+                            <eos/>
+                            <eop/>
+                        </head>
+                        <law.review.reference ID="IEB436E21022311DFAAB2F323B67BC090"
+                            ampexmnem="xlrm.gnp">
+                            <bop/>
+                            <reference.text>
+                                <bos/> How the abolition of diminished <cite.query
+                                    w-seq-number="00016" w-ref-type="LR"
+                                    w-serial-number="0116772171" w-pub-number="0001244"
+                                    ID="Iee28e9a137c111e18e76eac6d7da8f26">capacity affected parity
+                                    of sentencing in murder cases under the California Determinate
+                                    Sentencing Law.  Joan Comparet-Cassani, 29 Sw. U. L. Rev. 51
+                                    (1999)</cite.query> . <eos/>
+                            </reference.text>
+                            <eop/>
+                        </law.review.reference>
+                        <law.review.reference ID="IEB436E22022311DFAAB2F323B67BC090"
+                            ampexmnem="xlrm.gnp">
+                            <bop/>
+                            <reference.text>
+                                <bos/> The social benefits of confining habitual criminals. <eos/>
+                                <bos/>  Kent Scheidegger   Michael Rushford, 11:1 Stanford L.  
+                                Policy Rev. 59 (2001). <eos/>
+                            </reference.text>
+                            <eop/>
+                        </law.review.reference>
+                        <law.review.reference ID="I96430EF98A8311DF8A37F49F98E0ECB2"
+                            ampexmnem="xlrm.gnp">
+                            <bop/>
+                            <reference.text>
+                                <bos/> Thwarting <cite.query w-seq-number="00017" w-ref-type="LR"
+                                    w-serial-number="0353451940" w-pub-number="0001228"
+                                    ID="Iee29acf137c111e18e76eac6d7da8f26">California’s presumptive
+                                    LWOP penalty for adolescents:  Psychology’s and neuroscience’s
+                                    message for the California justice system.  Ashley N. Johndro,
+                                    83 S. Cal. L. Rev. 341 (2010)</cite.query> . <eos/>
+                            </reference.text>
+                            <eop/>
+                        </law.review.reference>
+                    </law.review.reference.block>
+                    <library.reference.block>
+                        <head ID="IEB43BC40022311DFAAB2F323B67BC090" ampexmnem="xlr">
+                            <bop/>
+                            <bos/>
+                            <head.info>
+                                <headtext>LIBRARY REFERENCES</headtext>
+                            </head.info>
+                            <eos/>
+                            <eop/>
+                        </head>
+                        <library.reference.body>
+                            <mv.source.head ID="IFD2088B1379811E1A8AECE27C688C691"
+                                ampexmnem="xlr.mv">
+                                <headtext>2008 Main Volume</headtext>
+                            </mv.source.head>
+                            <library.reference ID="IEB43BC41022311DFAAB2F323B67BC090"
+                                type="Key.Number" category="Key.Number" ampexmnem="xlr.key">
+                                <bop/>
+                                <bos/>
+                                <reference.text indent-left="2">
+                                    <cite.query w-seq-number="00018" w-ref-type="KW"
+                                        w-normalized-cite="203"
+                                        ID="Iee2b339037c111e18e76eac6d7da8f26">Homicide</cite.query>
+                                    <n-private-char charName="TLRkey"></n-private-char>
+                                    <cite.query w-seq-number="00019" w-ref-type="KW"
+                                        w-normalized-cite="203k1567"
+                                        ID="Iee2b339137c111e18e76eac6d7da8f26">1567</cite.query> ,
+                                        <cite.query w-seq-number="00020" w-ref-type="KW"
+                                        w-normalized-cite="203k1572"
+                                        ID="Iee2b339237c111e18e76eac6d7da8f26">1572</cite.query> . </reference.text>
+                                <eos/>
+                                <eop/>
+                            </library.reference>
+                            <library.reference ID="IEB43BC42022311DFAAB2F323B67BC090"
+                                type="WL.Topic.Number" category="Key.Number" ampexmnem="xlr.wlt">
+                                <bop/>
+                                <bos/>
+                                <reference.text indent-left="2"> Westlaw Topic No. <cite.query
+                                        w-seq-number="00021" w-ref-type="KW" w-normalized-cite="203"
+                                        ID="Iee2ba8c037c111e18e76eac6d7da8f26">203</cite.query> . </reference.text>
+                                <eos/>
+                                <eop/>
+                            </library.reference>
+                        </library.reference.body>
+                    </library.reference.block>
+                    <research.reference.block>
+                        <head ID="I82DEAD00488011E0852BA090F00FCE75" ampexmnem="xaar">
+                            <bop/>
+                            <bos/>
+                            <headtext>RESEARCH REFERENCES</headtext>
+                            <eos/>
+                            <eop/>
+                        </head>
+                        <research.reference.body>
+                            <head ID="I82DEAD01488011E0852BA090F00FCE75" ampexmnem="xaar.gnh">
+                                <bop/>
+                                <bos/>
+                                <headtext>Encyclopedias</headtext>
+                                <eos/>
+                                <eop/>
+                            </head>
+                            <research.reference ID="I82DEAD02488011E0852BA090F00FCE75"
+                                ampexmnem="xaar.caj">
+                                <bop/>
+                                <bos/>
+                                <reference.text>
+                                    <cite.query w-seq-number="00022" w-ref-type="SA"
+                                        w-serial-number="0284180445" w-pub-number="0143168"
+                                        ID="IFD4EC4A0379811E1A8AECE27C688C691">CA Jur. 3d Criminal
+                                        Law: Post-Trial Proceedings § 85</cite.query> , Defendant
+                                    Convicted of Second-Degree Murder Who Has Served Prior Prison
+                                    Term for Murder. </reference.text>
+                                <eos/>
+                                <eop/>
+                            </research.reference>
+                            <research.reference ID="I82DEAD03488011E0852BA090F00FCE75"
+                                ampexmnem="xaar.caj">
+                                <bop/>
+                                <bos/>
+                                <reference.text>
+                                    <cite.query w-seq-number="00023" w-ref-type="SA"
+                                        w-serial-number="0284180446" w-pub-number="0143168"
+                                        ID="IFD4EC4A1379811E1A8AECE27C688C691">CA Jur. 3d Criminal
+                                        Law: Post-Trial Proceedings § 86</cite.query> , Defendant
+                                    Convicted of Second-Degree Murder Who Has Served Prior Prison
+                                    Term for Murder--Factors to be Considered in Determining
+                                    Penalty. </reference.text>
+                                <eos/>
+                                <eop/>
+                            </research.reference>
+                            <research.reference ID="I82DEAD04488011E0852BA090F00FCE75"
+                                ampexmnem="xaar.caj">
+                                <bop/>
+                                <bos/>
+                                <reference.text>
+                                    <cite.query w-seq-number="00024" w-ref-type="SA"
+                                        w-serial-number="0284180448" w-pub-number="0143168"
+                                        ID="IFD4EEBB0379811E1A8AECE27C688C691">CA Jur. 3d Criminal
+                                        Law: Post-Trial Proceedings § 87</cite.query> , Defendant
+                                    Convicted of Second-Degree Murder Who Has Served Prior Prison
+                                    Term for Murder--Evidence at Proceeding to Determine Penalty. </reference.text>
+                                <eos/>
+                                <eop/>
+                            </research.reference>
+                        </research.reference.body>
+                        <research.reference.body>
+                            <head ID="I82DEAD05488011E0852BA090F00FCE75" ampexmnem="xaar.gnh">
+                                <bop/>
+                                <bos/>
+                                <headtext>Treatises and Practice Aids</headtext>
+                                <eos/>
+                                <eop/>
+                            </head>
+                            <research.reference ID="I82DEAD06488011E0852BA090F00FCE75"
+                                ampexmnem="xaar.witc">
+                                <bop/>
+                                <bos/>
+                                <reference.text>
+                                    <cite.query w-seq-number="00025" w-ref-type="SA"
+                                        w-serial-number="0289478460" w-pub-number="0155405"
+                                        ID="IFD4F39D0379811E1A8AECE27C688C691">1 Witkin Cal. Crim.
+                                        L. 3d Crimes Against the Person § 164</cite.query> , (S 164)
+                                    Punishment. </reference.text>
+                                <eos/>
+                                <eop/>
+                            </research.reference>
+                            <research.reference ID="I82DEAD07488011E0852BA090F00FCE75"
+                                ampexmnem="xaar.witc">
+                                <bop/>
+                                <bos/>
+                                <reference.text>
+                                    <cite.query w-seq-number="00026" w-ref-type="SA"
+                                        w-serial-number="0289480376" w-pub-number="0155426"
+                                        ID="IFD4F60E0379811E1A8AECE27C688C691">4 Witkin Cal. Crim.
+                                        L. 3d Intro. to Crim. Proc. § 53</cite.query> , Collection
+                                    of Forensic Information. </reference.text>
+                                <eos/>
+                                <eop/>
+                            </research.reference>
+                        </research.reference.body>
+                    </research.reference.block>
+                    <eref/>
+                </reference.block>
+                <bnod/>
+                <nod.block ID="IFD4F60E1379811E1A8AECE27C688C691">
+                    <head ID="IF27AA8C3022311DFB662F5E23CBEE809" ampexmnem="xnd">
+                        <bop/>
+                        <bos/>
+                        <head.info>
+                            <headtext>NOTES OF DECISIONS</headtext>
+                        </head.info>
+                        <eos/>
+                        <eop/>
+                    </head>
+                    <nod.body>
+                        <analysis ID="IF27ACFD4022311DFB662F5E23CBEE809">
+                            <bop/>
+                            <analysis.entry ID="IF27ACFD2022311DFB662F5E23CBEE809"
+                                ampexmnem="xnd.nal">
+                                <analysis.line indent-left="1">
+                                    <bos/>
+                                    <analysis.text>Construction with other laws</analysis.text>   <label.designator>
+                                        <internal.reference
+                                            refid="IF27B6C10022311DFB662F5E23CBEE809"
+                                            >2</internal.reference>
+                                    </label.designator>
+                                    <eos/>
+                                </analysis.line>
+                            </analysis.entry>
+                            <analysis.entry ID="IF27ACFD3022311DFB662F5E23CBEE809"
+                                ampexmnem="xnd.nal">
+                                <analysis.line indent-left="1">
+                                    <bos/>
+                                    <analysis.text>Validity</analysis.text>   <label.designator>
+                                        <internal.reference
+                                            refid="IF27B4500022311DFB662F5E23CBEE809"
+                                            >1</internal.reference>
+                                    </label.designator>
+                                    <eos/>
+                                </analysis.line>
+                            </analysis.entry>
+                            <eop/>
+                        </analysis>
+                        <nod.body>
+                            <head ID="IF27B4500022311DFB662F5E23CBEE809" ampexmnem="xnd.bl">
+                                <bop/>
+                                <bos/>
+                                <head.info indent-left="1">
+                                    <label.designator>
+                                        <internal.reference
+                                            refid="IF27ACFD3022311DFB662F5E23CBEE809"
+                                            >1</internal.reference>
+                                    </label.designator> .  <headtext>Validity</headtext>
+                                </head.info>
+                                <eos/>
+                                <eop/>
+                            </head>
+                            <nod.note>
+                                <para ID="IF27B4501022311DFB662F5E23CBEE809" ampexmnem="xnd.gnp">
+                                    <paratext>
+                                        <bop/>
+                                        <bos/> Denial of trial on mitigating circumstances for
+                                        defendant, who pleaded guilty to second degree murder of
+                                        peace officer with use of firearm and was subject to life
+                                        imprisonment without possibility of parole, did not violate
+                                        equal protection or due process, even though defendants who
+                                        plead guilty to second degree murder with prior murder may
+                                        be entitled to weighing process; crimes had distinct
+                                        elements, and rational basis existed to treat different
+                                        second degree murders differently. <eos/>
+                                        <bos/>   <cite.query w-seq-number="00027" w-ref-type="RP"
+                                            w-serial-number="2006254474" w-pub-number="0007047"
+                                            ID="Iee319c3137c111e18e76eac6d7da8f26">People v. Rhodes
+                                            (App. 1 Dist. 2005) 24 Cal.Rptr.3d 834, 126 Cal.App.4th
+                                            1374</cite.query> , <case.history>review
+                                            denied</case.history> , <case.history>habeas corpus
+                                            denied</case.history>
+                                        <cite.query w-seq-number="00028" w-ref-type="RP"
+                                            w-serial-number="2021221186" w-pub-number="0000999"
+                                            ID="Iee319c3437c111e18e76eac6d7da8f26">2010 WL
+                                            291781</cite.query> . <eos/>
+                                        <topic.key.ref>
+                                            <bos/>   <cite.query w-ref-type="KW"
+                                                w-normalized-cite="92k3809"
+                                                ID="IFD60ED11379811E1A8AECE27C688C691">
+                                                Constitutional Law <n-private-char charName="TLRkey"
+                                                  ></n-private-char> 3809 </cite.query> ;  
+                                                <cite.query w-ref-type="KW"
+                                                w-normalized-cite="92k4714"
+                                                ID="IFD60ED12379811E1A8AECE27C688C691">
+                                                Constitutional Law <n-private-char charName="TLRkey"
+                                                  ></n-private-char> 4714 </cite.query> ;  
+                                                <cite.query w-ref-type="KW"
+                                                w-normalized-cite="350Hk331"
+                                                ID="IFD60ED13379811E1A8AECE27C688C691"> Sentencing
+                                                And Punishment <n-private-char charName="TLRkey"
+                                                  ></n-private-char> 331 </cite.query>
+                                            <eos/>
+                                        </topic.key.ref>
+                                        <eop/>
+                                    </paratext>
+                                </para>
+                            </nod.note>
+                        </nod.body>
+                        <nod.body>
+                            <head ID="IF27B6C10022311DFB662F5E23CBEE809" ampexmnem="xnd.bl">
+                                <bop/>
+                                <bos/>
+                                <head.info indent-left="1">
+                                    <label.designator>
+                                        <internal.reference
+                                            refid="IF27ACFD2022311DFB662F5E23CBEE809"
+                                            >2</internal.reference>
+                                    </label.designator> .  <headtext>Construction with other
+                                        laws</headtext>
+                                </head.info>
+                                <eos/>
+                                <eop/>
+                            </head>
+                            <nod.note>
+                                <para ID="IF27B6C11022311DFB662F5E23CBEE809" ampexmnem="xnd.gnp">
+                                    <paratext>
+                                        <bop/>
+                                        <bos/> Statute providing that persons who commit specified
+                                        crimes while 14 years of age or older shall be prosecuted
+                                        under general law in criminal courts was not vague or
+                                        ambiguous, and thus could be used, when harmonized with
+                                        other statutes, to impose term of 25 years to life with
+                                        possibility of parole on defendant who committed two special
+                                        circumstance murders when he was 15; under statutory
+                                        exceptions for juvenile offenders, term of 25 years to life
+                                        with possibility of parole was only possible term. <eos/>
+                                        <bos/>   <cite.query w-seq-number="00029" w-ref-type="RP"
+                                            w-serial-number="2010509425" w-pub-number="0007047"
+                                            ID="Iee32ada137c111e18e76eac6d7da8f26">People v.
+                                            Demirdjian (App. 2 Dist. 2006) 50 Cal.Rptr.3d 184, 144
+                                            Cal.App.4th 10</cite.query> , <case.history>rehearing
+                                            denied</case.history> , review denied. <eos/>
+                                        <topic.key.ref>
+                                            <bos/>   <cite.query w-ref-type="KW"
+                                                w-normalized-cite="211k68.2"
+                                                ID="IFD613B31379811E1A8AECE27C688C691"> Infants
+                                                  <n-private-char charName="TLRkey"
+                                                  ></n-private-char> 68.2 </cite.query> ;  
+                                                <cite.query w-ref-type="KW"
+                                                w-normalized-cite="211k69(1)"
+                                                ID="IFD613B32379811E1A8AECE27C688C691"> Infants
+                                                  <n-private-char charName="TLRkey"
+                                                  ></n-private-char> 69(1) </cite.query>
+                                            <eos/>
+                                        </topic.key.ref>
+                                        <eop/>
+                                    </paratext>
+                                </para>
+                            </nod.note>
+                        </nod.body>
+                    </nod.body>
+                </nod.block>
+                <enod/>
+            </annotations>
+            <content.metadata.block>
+                <cmd.identifiers>
+                    <cmd.cites>
+                        <cmd.expandedcite>
+                            <bop/>
+                            <bos/> West's Ann. Cal. Penal Code § 190.05, CA PENAL § 190.05 <eos/>
+                            <eop/>
+                        </cmd.expandedcite>
+                    </cmd.cites>
+                </cmd.identifiers>
+            </content.metadata.block>
+            <include.currency.block>
+                <currency.id ID="IFC702470379811E1A8AECE27C688C691"/>
+                <include.currency n-include_collection="w_codes_stamsgp"
+                    n-include_guid="IEEF4B1100E2311DCBBDCA89FF00F5D65">Current with urgency
+                    legislation through Ch. 4 of 2012 Reg.Sess.</include.currency>
+                <message.code>8CAS</message.code>
+            </include.currency.block>
+            <include.copyright.block>
+                <include.copyright n-include_collection="w_codes_stamsgp"
+                    n-include_guid="I71B984800FAB11DCBBDCA89FF00F5D65">(C) 2012 Thomson Reuters. No
+                    Claim to Orig. US Gov. Works.</include.copyright>
+                <message.code>8CAX</message.code>
+            </include.copyright.block>
+        </section>
+    </n-docbody>
+</Document>

@@ -1,0 +1,15 @@
+<ImageMetadata>
+ <n-metadata guid="I048904e05ef211e082e00000837bc6dd" ttype="">
+ <md.block>
+  <md.image.format>application/pdf</md.image.format> 
+ <md.pdf.block>
+  <md.image.bytes>616247</md.image.bytes> 
+  <md.image.dpi>400</md.image.dpi> 
+  <md.image.height>4400</md.image.height> 
+  <md.image.width>3400</md.image.width> 
+  <md.image.units>px</md.image.units> 
+  </md.pdf.block>
+  </md.block>
+  <md.image.renderType>PDFLink</md.image.renderType> 
+  </n-metadata>
+  </ImageMetadata>

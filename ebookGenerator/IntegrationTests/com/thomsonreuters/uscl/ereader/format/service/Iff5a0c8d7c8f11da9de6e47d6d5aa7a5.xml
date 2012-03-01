@@ -1,0 +1,866 @@
+<document-data>
+  <collection>w_an_rcc_texts</collection> 
+  <datetime>20120217142455</datetime> 
+  <versioned>False</versioned> 
+  <doc-type>Analytical Treatise - other</doc-type> 
+  <doc-type-id>14</doc-type-id> 
+  <cite>Immigr. Proc. Handbook § 5:27</cite> 
+  <title>§ 5:27. Form I-907 and $1,225 fee in premium processing cases</title> 
+</document-data>
+<n-metadata>
+<metadata.block>
+<md.identifiers>
+<md.cites>
+  <md.first.line.cite>IMPH § 5:27</md.first.line.cite> 
+  <md.second.line.cite>Immigr. Proc. Handbook § 5:27</md.second.line.cite> 
+  <md.normalizedcite>IMPH§5:27</md.normalizedcite> 
+  </md.cites>
+<md.westlawids>
+  <md.dmsserial>283704077</md.dmsserial> 
+  <md.case.slug>IMPH</md.case.slug> 
+  <md.case.slug.code>10021</md.case.slug.code> 
+  </md.westlawids>
+  <md.uuid>Iff5a0c8d7c8f11da9de6e47d6d5aa7a5</md.uuid> 
+  </md.identifiers>
+<md.sortkeys>
+  <md.volsequence>IMPH</md.volsequence> 
+  <md.ordersequence>0839000102190</md.ordersequence> 
+  </md.sortkeys>
+<md.descriptions>
+  <md.doc.family.uuid>Ief633867b3d611d8ab979fe6cf43003e</md.doc.family.uuid> 
+  </md.descriptions>
+<md.dates>
+  <md.publisheddate>20111028</md.publisheddate> 
+  <md.revisiondate>20111101</md.revisiondate> 
+  <md.currency.default>Database updated November 2011</md.currency.default> 
+  <md.pubyear /> 
+  <md.vol.year /> 
+  </md.dates>
+<md.subjects>
+<md.subject>
+<md.keywords>
+  <md.keyword>ADDTERM</md.keyword> 
+  </md.keywords>
+  <md.pubtype.name>WGR</md.pubtype.name> 
+  <md.doctype.name>3A</md.doctype.name> 
+  <md.doctype.rank>0022</md.doctype.rank> 
+  <md.view>FE</md.view> 
+  <md.view>INT</md.view> 
+  <md.view>IMM</md.view> 
+  <md.view>LAB</md.view> 
+  <md.view>RTX</md.view> 
+  <md.view>RTA</md.view> 
+  <md.view>IMP</md.view> 
+  </md.subject>
+  </md.subjects>
+<md.jurisdictions>
+<md.jurisdiction>
+  <md.jurisnum>2612</md.jurisnum> 
+  <md.jurisstate>FE</md.jurisstate> 
+  </md.jurisdiction>
+  </md.jurisdictions>
+<md.publications>
+<md.publication>
+  <md.pubid>135081</md.pubid> 
+  <md.pubname>IMPH</md.pubname> 
+  <md.pubpage>s 5:27</md.pubpage> 
+  </md.publication>
+<md.publication>
+  <md.pubid>135081</md.pubid> 
+  <md.pubname>IMPH</md.pubname> 
+  <md.pubpage>s 5:27</md.pubpage> 
+  </md.publication>
+<md.publication>
+  <md.pubid>999</md.pubid> 
+  <md.pubname>WL</md.pubname> 
+  <md.pubvolume>2001</md.pubvolume> 
+  <md.pubpage>437301</md.pubpage> 
+  </md.publication>
+  <md.sourcepubid>135081</md.sourcepubid> 
+  </md.publications>
+<md.royalty>
+  <md.royalty.code>17267</md.royalty.code> 
+  <md.copyright>Westlaw. © 2011 Thomson Reuters. No Claim to Orig. U.S. Govt. Works.</md.copyright> 
+  </md.royalty>
+  </metadata.block>
+  <n-tocview>Iff5a0c8c7c8f11da9de6e47d6d5aa7a5 Iea7482c0675b11da90ebf04471783734 Ie937bd00675b11da90ebf04471783734 Id19775a0675b11da90ebf04471783734 I7b3ec600675a11da90ebf04471783734</n-tocview> 
+  <n-view>FE</n-view> 
+  <n-view>INT</n-view> 
+  <n-view>IMM</n-view> 
+  <n-view>LAB</n-view> 
+  <n-view>RTX</n-view> 
+  <n-view>RTA</n-view> 
+  <n-view>IMP</n-view> 
+  <prism-clipdate>20111028050928</prism-clipdate> 
+  </n-metadata>
+<n-docbody>
+<doc bill="Y">
+<content.metadata.block>
+<cmd.identifiers>
+<cmd.cites>
+<cmd.second.line.cite>
+  <bop /> 
+  <bos /> 
+  Immigr. Proc. Handbook § 5:27 
+  <eos /> 
+  <eop /> 
+  </cmd.second.line.cite>
+  </cmd.cites>
+  </cmd.identifiers>
+  </content.metadata.block>
+<prop.block>
+<prop.head toc-guid="">
+  <bop /> 
+  <bos /> 
+  <headtext>Immigration Procedures Handbook</headtext> 
+  <eos /> 
+  <eop /> 
+  </prop.head>
+<content.metadata.block>
+<cmd.dates>
+<cmd.currency.default iso.d="20111101">
+  <bop /> 
+  <bos /> 
+  Database updated November 2011 
+  <eos /> 
+  <eop /> 
+  </cmd.currency.default>
+  </cmd.dates>
+  </content.metadata.block>
+<author.line>
+  <bop /> 
+  <bos /> 
+  <author>Austin T. Fragomen, Jr., Careen Shannon, and Daniel Montalvo</author> 
+  <eos /> 
+  <eop /> 
+  </author.line>
+<prop.head toc-guid="Id19775a0675b11da90ebf04471783734">
+  <bop /> 
+  <bos /> 
+  <label.name>Chapter</label.name> 
+  <label.designator>5.</label.designator> 
+  <headtext>The L-1 Visa Category</headtext> 
+  <eos /> 
+  <eop /> 
+  </prop.head>
+<prop.head toc-guid="Ie937bd00675b11da90ebf04471783734">
+  <bop /> 
+  <bos /> 
+  <label.designator>IV.</label.designator> 
+  <headtext>Procedures for Obtaining L-1 Status</headtext> 
+  <eos /> 
+  <eop /> 
+  </prop.head>
+<prop.head toc-guid="Iea7482c0675b11da90ebf04471783734">
+  <bop /> 
+  <bos /> 
+  <label.designator>B.</label.designator> 
+  <headtext>Preparation of the USCIS Petition</headtext> 
+  <eos /> 
+  <eop /> 
+  </prop.head>
+  </prop.block>
+<message.block>
+  <include.copyright n-include_collection="w_wlnv_msg" n-include_guid="I1DA35ED81DD211B281BAD200220BDFCA">Current through MR 11.27 11/17/2011</include.copyright> 
+  </message.block>
+<nav.links>
+  <cite.query w-ref-type="DA" w-normalized-cite="IMPHDMYREFCH5" w-pub-number="135162" ID="I98527450014411e184750000837bc6dd">References</cite.query> 
+  </nav.links>
+<section>
+<section.front>
+<doc.title toc-guid="Iff5a0c8c7c8f11da9de6e47d6d5aa7a5">
+<head parent="doc.title">
+  <bop /> 
+  <bos /> 
+  <label.name>§</label.name> 
+  <label.designator>5:27.</label.designator> 
+  <headtext>Form I-907 and $1,225 fee in premium processing cases</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+  </doc.title>
+  </section.front>
+<section.body>
+<para>
+  <bop /> 
+  <bos /> 
+<paratext>
+  Under the premium processing program, business petitioners may choose to pay a $1,225 fee to obtain expedited processing of their cases. 
+  <eos /> 
+  <bos /> 
+  Such cases must be adjudicated within 15 days. 
+  <eos /> 
+  <bos /> 
+  L-1 petitions filed on Form I-129 are eligible for expedited processing. 
+  <eos /> 
+  <bos /> 
+  Petitioners requesting premium processing must submit Form I-907 and the $1,225 fee required for such requests. 
+  <eos /> 
+  <bos /> 
+  The fee is separate from the standard filing fee for the I-129 petition described above. 
+  <eos /> 
+  <bos /> 
+  Form I-907, Request for Premium Processing Service, may be filed with a new application or petition, or filed separately for a pending application or petition. 
+  <eos /> 
+  <bos /> 
+  The premium processing fee must be paid by separate check or money order; do not include it in the same check as the usual filing fee for the I-129. 
+  <eos /> 
+  <bos /> 
+  If the I-907 is filed after the petition or application is filed, the 15 days will start to run when USCIS receives the form. 
+  <eos /> 
+  <bos /> 
+  When submitting a Form I-907 after a related petition, a copy of the receipt notice (Form I-797) should be included. 
+  <eos /> 
+  </paratext>
+  <eop /> 
+  </para>
+<para>
+  <bop /> 
+  <bos /> 
+<paratext>
+  Note that cases that are eligible for premium processing (such as L-1 cases) will not be processed on an expedited basis unless the petitioner utilizes the premium processing program (and pays the required $1,225 fee). 
+  <eos /> 
+  <bos /> 
+  The only exception to this rule is with regard to nonprofit L-1 petitioners who may continue to utilize the informal expedite request procedures without payment of the premium processing fee. 
+  <eos /> 
+  <bos /> 
+  The standards and procedures for handling such requests are discussed in Ch 23, below. 
+  <eos /> 
+  </paratext>
+  <eop /> 
+  </para>
+<para>
+  <bop /> 
+  <bos /> 
+<paratext>
+  Also note that there is a designated premium processing address at each center with a distinct Post Office box number, zip code, or other special designation. 
+  <eos /> 
+  <bos /> 
+  If the regular Service Center address is used, the 15-day period for premium processing will not start to run until USCIS identifies the case as a premium processing case. 
+  <eos /> 
+  <bos /> 
+  To minimize delays, therefore, petitioners should ensure that the designated address is used. 
+  <eos /> 
+  <bos /> 
+  E-mail addresses and telephone numbers are also available for each of the Service Centers to be used exclusively for inquiries about premium processing cases. 
+  <eos /> 
+  <bos /> 
+  The special addresses and phone numbers for each of the centers are listed in Ch 23, below. 
+  <eos /> 
+  </paratext>
+  <eop /> 
+  </para>
+<para>
+  <bop /> 
+  <bos /> 
+<paratext>
+  <bold>Form I-907 illustrated</bold> 
+  . 
+  <eos /> 
+  <bos /> 
+  Form I-907, Request for Premium Processing Service, follows as Sample Form 5-2. 
+  <eos /> 
+  <bos /> 
+  A line-by-line analysis of the form follows the illustration. 
+  <eos /> 
+  <bos /> 
+  The latest version of Form I-907 is dated 11/23/10. 
+  <eos /> 
+  <bos /> 
+  An earlier version of the form dated 08/10/09 remains acceptable until further notice. 
+  <eos /> 
+  </paratext>
+  <eop /> 
+  </para>
+<para>
+  <bop /> 
+  <bos /> 
+<form ID="I72e1aff0debe11dfa6a0ca55fecf593e">
+<form.body>
+<form.head>
+<form.headtext>
+  <bold>(a). Sample Form 5-2: Form I-907 request for premium process service</bold> 
+  </form.headtext>
+  </form.head>
+<image.block>
+  <image.link target="I048904e05ef211e082e00000837bc6dd" /> 
+  </image.block>
+<form.para>
+<form.display.quote>
+<form.head style="c">
+<form.headtext>
+<bold>
+  <underscore>Analysis of Sample Form 5-2</underscore> 
+  </bold>
+  </form.headtext>
+  </form.head>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0001" /> 
+  Individual name. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  This field should be completed only if the person seeking premium processing is filing the request in conjunction with an “application” for immigration benefits. 
+  <eos /> 
+  <bos /> 
+  In those cases, the name of the individual applicant must be included here. 
+  <eos /> 
+  <bos /> 
+  If premium processing is being sought for a “petition,” the name of the employer/petitioner must be included in the second line (“Company or Business”) and the employer should type “N/A” in these spaces. 
+  <eos /> 
+  <bos /> 
+  Individual alien beneficiaries listed on petitions (e.g., I-129 or I-140) cannot file requests for premium processing and their names should not be included here. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0001" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0002" /> 
+  The government has designated only certain I-129 and I-140 cases for premium processing. 
+  <eos /> 
+  <bos /> 
+  Nonimmigrant classes that are eligible for premium processing include I-129 petitions for: (1) E-1 Treaty Traders; (2) E-2 Treaty Investors; (3) H-1B Temporary Workers in Specialty Occupations; (4) H-2B Temporary Workers; (5) H-3 Trainees; (6) L-1 Intra-company Transferees; (7) O-1 and O-2 Aliens of Extraordinary Ability or Achievement; (8) P-1, P-2, and P-3 Athletes and Entertainers; (9) Q-1 International Cultural Exchange Aliens; and (10) TN NAFTA Professionals. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0002" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0003" /> 
+  Form I-140 premium processing had been largely suspended since June 2007 and was available only with regard to I-140 petitions for certain beneficiaries who required an approved employment-based petition in order to extend their H-1B status beyond the normal six-year limit. 
+  <eos /> 
+  <bos /> 
+  Premium processing service was resumed, however, for most Form I-140 immigrant worker petitions as of June 29, 2009. 
+  <eos /> 
+  <bos /> 
+  USCIS currently accepts requests for premium processing service of I-140s in the following employment-based categories: (1) the EB-1 category for foreign nationals of extraordinary ability; (2) the EB-1 category for outstanding professors and researchers; (3) the EB-2 category for advanced degree professionals and foreign nationals of exceptional ability, unless the petitioner is requesting a waiver of the labor certification requirement in the national interest; and (4) the EB-3 category for professionals, skilled workers and other workers. 
+  <eos /> 
+  <bos /> 
+  Premium service is not available for Forms I-140 in the EB-1 category for multinational managers and executives or in the EB-2 category where a national interest waiver of the labor certification requirement is requested. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0003" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0004" /> 
+  In all I-129 and I-140 cases, the employer should indicate “N/A” in this first line and include their business name in the second line (“Company or Business”). 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0004" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0005" /> 
+  Company or Business Name. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  In cases involving “petitions” (e.g., I-129 and I-140 petitions) include in this line the name of the business entity that is listed as the petitioner on Form I-129. 
+  <eos /> 
+  <bos /> 
+  In cases involving “applications” (e.g., employment-based I-485s), type “N/A” here. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0005" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0006" /> 
+  The government has designated only certain I-129 and I-140 cases for premium processing. 
+  <eos /> 
+  <bos /> 
+  Nonimmigrant classes that are eligible for premium processing include I-129 petitions for: (1) E-1 Treaty Traders; (2) E-2 Treaty Investors; (3) H-1B Temporary Workers in Specialty Occupations; (4) H-2B Temporary Workers; (5) H-3 Trainees; (6) L-1 Intra-company Transferees; (7) O-1 and O-2 Aliens of Extraordinary Ability or Achievement; (8) P-1, P-2, and P-3 Athletes and Entertainers; (9) Q-1 International Cultural Exchange Aliens; and (10) TN NAFTA Professionals. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0006" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0007" /> 
+  Form I-140 premium processing had been largely suspended since June 2007 and was available only with regard to I-140 petitions for certain beneficiaries who required an approved employment-based petition in order to extend their H-1B status beyond the normal six-year limit. 
+  <eos /> 
+  <bos /> 
+  Premium processing service was resumed, however, for most Form I-140 immigrant worker petitions as of June 29, 2009. 
+  <eos /> 
+  <bos /> 
+  USCIS currently accepts requests for premium processing service of I-140s in the following employment-based categories: (1) the EB-1 category for foreign nationals of extraordinary ability; (2) the EB-1 category for outstanding professors and researchers; (3) the EB-2 category for advanced degree professionals and foreign nationals of exceptional ability, unless the petitioner is requesting a waiver of the labor certification requirement in the national interest; and (4) the EB-3 category for professionals, skilled workers and other workers. 
+  <eos /> 
+  <bos /> 
+  Premium service is not available for Forms I-140 in the EB-1 category for multinational managers and executives or in the EB-2 category where a national interest waiver of the labor certification requirement is requested. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0007" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0008" /> 
+  In all I-129 and I-140 cases, the name of the business entity filing the petition must be included here. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0008" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0009" /> 
+  Mailing address. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  List the mailing address for the petitioner or applicant filing this request for premium processing. 
+  <eos /> 
+  <bos /> 
+  In I-129 cases, this will be the mailing address for the employer. 
+  <eos /> 
+  <bos /> 
+  The mailing address may be a street address or post office box. 
+  <eos /> 
+  <bos /> 
+  If the employer is requesting response by mail, USCIS will contact the employer at this address unless the employer is represented by counsel who submits Form G-28, Notice of Appearance. 
+  <eos /> 
+  <bos /> 
+  In the latter cases, any communications relating to the request will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0009" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0010" /> 
+  Name and title of contact person. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  This item provides space to denote a person at the company to whose attention communications regarding this request may be sent. 
+  <eos /> 
+  <bos /> 
+  The employer should designate a name here in order to assure prompt receipt of communications. 
+  <eos /> 
+  <bos /> 
+  Where the employer is represented by counsel who submits Form G-28, Notice of Appearance, any correspondence will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0010" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0011" /> 
+  Completion of mailing address. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  Complete the mailing address for the petitioner or applicant filing this request for premium processing by including the city, state, zip code, and country. 
+  <eos /> 
+  <bos /> 
+  In I-129 and I-140 cases, this information relates to the employer filing the petition. 
+  <eos /> 
+  <bos /> 
+  If the employer is requesting response by mail, USCIS will contact the employer at this address unless the employer is represented by counsel who submits Form G-28, Notice of Appearance. 
+  <eos /> 
+  <bos /> 
+  In the latter cases, any communications relating to the request will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0011" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0012" /> 
+  IRS Tax #. 
+  </bold>
+  All employers filing requests for premium processing, individuals as well as organizations, should have an employer identification number from the IRS for tax withholding purposes. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0012" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0013" /> 
+  The government has designated only certain I-129 and I-140 cases for premium processing. 
+  <eos /> 
+  <bos /> 
+  Nonimmigrant classes that are eligible for premium processing include I-129 petitions for: (1) E-1 Treaty Traders; (2) E-2 Treaty Investors; (3) H-1B Temporary Workers in Specialty Occupations; (4) H-2B Temporary Workers; (5) H-3 Trainees; (6) L-1 Intra-company Transferees; (7) O-1 and O-2 Aliens of Extraordinary Ability or Achievement; (8) P-1, P-2, and P-3 Athletes and Entertainers; (9) Q-1 International Cultural Exchange Aliens; and (10) TN NAFTA Professionals. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0013" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0014" /> 
+  Form I-140 premium processing had been largely suspended since June 2007 and was available only with regard to I-140 petitions for certain beneficiaries who required an approved employment-based petition in order to extend their H-1B status beyond the normal six-year limit. 
+  <eos /> 
+  <bos /> 
+  Premium processing service was resumed, however, for most Form I-140 immigrant worker petitions as of June 29, 2009. 
+  <eos /> 
+  <bos /> 
+  USCIS currently accepts requests for premium processing service of I-140s in the following employment-based categories: (1) the EB-1 category for foreign nationals of extraordinary ability; (2) the EB-1 category for outstanding professors and researchers; (3) the EB-2 category for advanced degree professionals and foreign nationals of exceptional ability, unless the petitioner is requesting a waiver of the labor certification requirement in the national interest; and (4) the EB-3 category for professionals, skilled workers and other workers. 
+  <eos /> 
+  <bos /> 
+  Premium service is not available for Forms I-140 in the EB-1 category for multinational managers and executives or in the EB-2 category where a national interest waiver of the labor certification requirement is requested. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0014" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0015" /> 
+  In all I-129 and I-140 situations, the employer should have an IRS tax number. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0015" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0016" /> 
+  Attorney information. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  If the petitioner or applicant is filing this request without an attorney, this space can be left blank. 
+  <eos /> 
+  <bos /> 
+  If an attorney is being used, the box should be checked indicating that Form G-28, the notice of the appearance for the attorney, is being filed with the petition. 
+  <eos /> 
+  <bos /> 
+  The attorney state license number should be included if an attorney is representing the employer; of course, some states, such as New York, do not have attorney state license numbers, and therefore “none” should be written in this space. 
+  <eos /> 
+  <bos /> 
+  If the petitioner/applicant is represented by counsel who submits Form G-28, Notice of Appearance, any communication relating to the request will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0016" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0017" /> 
+  Person filing request. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  Check one and only one box in this part. 
+  <eos /> 
+  <bos /> 
+  Check the first box (“petitioner who is filing or has filed”) if premium processing is being requested by the petitioner and an attorney is not involved in the case. 
+  <eos /> 
+  <bos /> 
+  Check the second box (“attorney/accredited representative for the petitioner”) if the petitioner is represented by counsel who submits Form G-28, Notice of Appearance. 
+  <eos /> 
+  <bos /> 
+  In the latter cases, any communication relating to the request will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  With regard to a pending petition, a G-28 form must be submitted with the Form I-907 if a notice of appearance had not been submitted with the petition. 
+  <eos /> 
+  <bos /> 
+  Check the third box (“applicant who is filing or has filed”) if premium processing is being requested by an applicant and an attorney is not involved in the case. 
+  <eos /> 
+  <bos /> 
+  Check the fourth box (“attorney/accredited representative for the applicant”) if the applicant is represented by counsel who submits Form G-28, Notice of Appearance. 
+  <eos /> 
+  <bos /> 
+  In the latter cases, any communication relating to the request will be sent to counsel. 
+  <eos /> 
+  <bos /> 
+  With regard to a pending application, a G-28 form must be submitted with the Form I-907 if a notice of appearance had not been submitted with the application. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0017" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0018" /> 
+  The government has designated only certain I-129 and I-140 cases for premium processing. 
+  <eos /> 
+  <bos /> 
+  Nonimmigrant classes that are eligible for premium processing include I-129 petitions for: (1) E-1 Treaty Traders; (2) E-2 Treaty Investors; (3) H-1B Temporary Workers in Specialty Occupations; (4) H-2B Temporary Workers; (5) H-3 Trainees; (6) L-1 Intra-company Transferees; (7) O-1 and O-2 Aliens of Extraordinary Ability or Achievement; (8) P-1, P-2, and P-3 Athletes and Entertainers; (9) Q-1 International Cultural Exchange Aliens; and (10) TN NAFTA Professionals. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0018" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0019" /> 
+  Form I-140 premium processing had been largely suspended since June 2007 and was available only with regard to I-140 petitions for certain beneficiaries who required an approved employment-based petition in order to extend their H-1B status beyond the normal six-year limit. 
+  <eos /> 
+  <bos /> 
+  Premium processing service was resumed, however, for most Form I-140 immigrant worker petitions as of June 29, 2009. 
+  <eos /> 
+  <bos /> 
+  USCIS currently accepts requests for premium processing service of I-140s in the following employment-based categories: (1) the EB-1 category for foreign nationals of extraordinary ability; (2) the EB-1 category for outstanding professors and researchers; (3) the EB-2 category for advanced degree professionals and foreign nationals of exceptional ability, unless the petitioner is requesting a waiver of the labor certification requirement in the national interest; and (4) the EB-3 category for professionals, skilled workers and other workers. 
+  <eos /> 
+  <bos /> 
+  Premium service is not available for Forms I-140 in the EB-1 category for multinational managers and executives or in the EB-2 category where a national interest waiver of the labor certification requirement is requested. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0019" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0020" /> 
+  In all I-129 and I-140 situations, therefore, the first box would be checked unless the employer is represented by an attorney. 
+  <eos /> 
+  <bos /> 
+  If the employer is represented by an attorney, the second box should be checked (remember that the attorney must submit Form G-28 if a notice of appearance had not been submitted with the petition). 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0020" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0021" /> 
+  Contact information. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  The person who is submitting this request (applicant, petitioner or attorney) should list in this part his or her phone number, fax number, and e-mail address, if any. 
+  <eos /> 
+  <bos /> 
+  The person submitting this request should complete all of the information in this section. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0021" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0022" /> 
+  Form number. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  Indicate here the form number (e.g., Form I-129 or Form I-140) of the petition or application for which premium processing is being requested. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0022" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0023" /> 
+  Receipt number. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  If the request for premium processing relates to a petition/application that is already pending with USCIS, indicate here the receipt number listed on Form I-797C relating to the pending petition/application. 
+  <eos /> 
+  <bos /> 
+  Form I-907 may be filed separately for a pending application or petition. 
+  <eos /> 
+  <bos /> 
+  In these cases, the 15 days will start to run when USCIS receives the form. 
+  <eos /> 
+  <bos /> 
+  When submitting a Form I-907 after a related petition has already been filed, a copy of the receipt notice (Form I-797C) should be included. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0023" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0024" /> 
+  Classification type. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  Indicate the type of nonimmigrant or immigrant classification requested as listed in the related petition or application (e.g., E-1 Treaty Trader, L-1 Intra-company Transferee, EB-3 skilled worker, EB-3 professional, etc.). 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0024" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0025" /> 
+  Petitioner. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  If the form for which premium processing is being requested is a petition, such as Form I-129 or Form I-140, indicate the name of the petitioner. 
+  <eos /> 
+  <bos /> 
+  In I-129 cases, the name of the petitioner will be listed in Part 1 of these forms. 
+  <eos /> 
+  <bos /> 
+  If this request relates to an application, e.g., Form I-485 for employment-based immigrant, type “N/A” here. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0025" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0026" /> 
+  Beneficiary. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  If the form for which premium processing is being requested is a petition, such as Forms I-129 or I-140, indicate the name of the beneficiary. 
+  <eos /> 
+  <bos /> 
+  In I-129 and I-140 cases, the name of the beneficiary will be listed in Part 3 of these forms. 
+  <eos /> 
+  <bos /> 
+  If this request relates to an application, e.g., Form I-485 for employment-based immigrant, type “N/A” here. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0026" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0027" /> 
+  Signature of petitioner or applicant 
+  </bold>
+  . 
+  <eos /> 
+  <bos /> 
+  In I-129 and I-140 cases, the form will normally be signed by the employer filing the request, i.e., the person authorized to sign the petition or application. 
+  <eos /> 
+  <bos /> 
+  List the date of signature in the format requested (e.g., 08/01/2001). 
+  <eos /> 
+  <bos /> 
+  Space has also been provided here to enter the name and title of the person who is signing the form, and that person's business address and daytime phone number. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0027" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0028" /> 
+  USCIS has clarified its policy concerning attorneys signing Form I-907 premium processing requests on behalf of I-129 and I-140 petitioners. 
+  <eos /> 
+  <bos /> 
+  USCIS Service Centers will accept a Form I-907 that is signed by the attorney on behalf of the petitioner, provided that the underlying filing contains a properly signed I-129 and I-140 petition and a G-28 that is signed by the petitioner. 
+  <eos /> 
+  <bos /> 
+  No power of attorney is required in this situation. 
+  <eos /> 
+  <bos /> 
+  In contrast, a copy of a power of attorney must be included where the attorney is signing a petition or application as the petitioner or applicant. 
+  <eos /> 
+  <bos /> 
+  USCIS will reject petitions and applications that are signed by the attorney on behalf of the petitioner or applicant but that do not include a current power of attorney. 
+  <eos /> 
+  <bos /> 
+  <end.quote refid="QT_0028" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+<bold>
+  <begin.quote ID="QT_0029" /> 
+  Signature of attorney/accredited representative. 
+  <eos /> 
+  <bos /> 
+  </bold>
+  If the petitioner or applicant requesting premium processing is represented by an attorney/accredited representative and this person also signed the I-907 in Part 3 (as the authorized representative of the petitioner/applicant), check the box in Part 4 (“Same individual as signing above in Part 3”). 
+  <eos /> 
+  <bos /> 
+  If this box is checked, then the attorney is not required to sign in Part 4 but the attorney must provide his or her firm name, address, and a daytime phone number. 
+  <eos /> 
+  <bos /> 
+  If the box in Part 4 is not checked but the attorney prepared the form on behalf of the petitioner/applicant, the attorney must sign and date this part and provide his or her firm name, address, and a daytime phone number. 
+  <eos /> 
+  <bos /> 
+  The instructions to the form state that this part must be signed if a G-28 is attached to this request unless the attorney has already signed the form in Part 3. 
+  <end.quote refid="QT_0029" /> 
+  </form.text>
+  </form.para>
+<form.para>
+<form.text>
+  <begin.quote ID="QT_0030" /> 
+  Under 1996 legislation it is a criminal offense to fail disclose a role in preparing or assisting in preparing an immigration-related document that is “falsely made”—that is, with knowledge or a reckless disregard of the fact that the document contains a false statement or material misrepresentation or has no basis in law or fact. 
+  <eos /> 
+  <bos /> 
+  Considering the significant penalty involved (five years of imprisonment and/or a substantial fine), the most cautious course of action is for any person who assisted in preparation of the form to include his or her name here (if more than one person assisted, an attachment can be included with the signatures of the other persons). 
+  <eos /> 
+  <bos /> 
+  Even when an attorney submits a notice of appearance on Form G-28 with the form, it is appropriate for the attorney to sign the form here as well. 
+  <eos /> 
+  <bos /> 
+  The preparer should also print his or her name, date the form, provide the name of his or her firm and address, and a daytime phone number. 
+  <eos /> 
+  <bos /> 
+  If the petitioner/applicant is represented by counsel who submits Form G-28, Notice of Appearance, any communications relating to the request will be sent to counsel. 
+  <eos /> 
+  <end.quote refid="QT_0030" /> 
+  </form.text>
+  </form.para>
+  </form.display.quote>
+  </form.para>
+  </form.body>
+  </form>
+  <eop /> 
+  </para>
+  </section.body>
+  </section>
+<content.metadata.block>
+<cmd.royalty>
+<cmd.copyright>
+  <bop /> 
+  <bos /> 
+  Westlaw. © 2011 Thomson Reuters. 
+  <eos /> 
+  <bos /> 
+  No Claim to Orig. U.S. Govt. 
+  <eos /> 
+  <bos /> 
+  Works. 
+  <eos /> 
+  <eop /> 
+  </cmd.copyright>
+  </cmd.royalty>
+<cmd.identifiers>
+<cmd.cites>
+ <cmd.first.line.cite>
+  <bop /> 
+  <bos /> 
+  IMPH § 5:27 
+  <eos /> 
+  <eop /> 
+  </cmd.first.line.cite>
+  </cmd.cites>
+  </cmd.identifiers>
+  </content.metadata.block>
+  </doc>
+  </n-docbody> 

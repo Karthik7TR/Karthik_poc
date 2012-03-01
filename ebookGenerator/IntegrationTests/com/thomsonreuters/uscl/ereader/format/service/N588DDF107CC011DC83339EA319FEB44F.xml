@@ -1,0 +1,599 @@
+ <Document>
+ <documentdata>
+  <collection>w_codesstacanvdp</collection> 
+  <doctype>Codes  Statutes</doctype> 
+  <doctypeid>48</doctypeid> 
+  </documentdata>
+ <nmetadata>
+ <metadata.block>
+ <md.identifiers>
+ <md.cites>
+  <md.first.line.cite>CA PENAL § 290.002</md.first.line.cite> 
+  <md.second.line.cite>West's Ann.Cal.Penal Code § 290.002</md.second.line.cite> 
+  <md.normalizedcite>CAPES290.002</md.normalizedcite> 
+  <md.original.first.line.cite>CA PENAL § 290.002</md.original.first.line.cite> 
+  <md.current.normalizedcite>CAPES290.002</md.current.normalizedcite> 
+  <md.expandedcite>West's Ann. Cal. Penal Code § 290.002, CA PENAL § 290.002</md.expandedcite> 
+  </md.cites>
+  <md.uuid>N588DDF107CC011DC83339EA319FEB44F</md.uuid> 
+  <md.legacy.id>CAPES290.002</md.legacy.id> 
+  <md.wip.version.num>30</md.wip.version.num> 
+  <md.legacy.heading.id>019077065</md.legacy.heading.id> 
+  <md.hyphenated.uuid>N588DDF107CC011DC83339EA319FEB44F</md.hyphenated.uuid> 
+  </md.identifiers>
+  <md.infotype subtype="doctype">Statute</md.infotype> 
+ <md.sortkeys>
+  <md.rankvalue>01288916</md.rankvalue> 
+  <md.browse>CALIFORNIA</md.browse> 
+  <md.sequencenumber>00285</md.sequencenumber> 
+  <md.volsnumber>1090</md.volsnumber> 
+  <md.insertnumber>000000</md.insertnumber> 
+  <md.rankingsequencenumber>03c5b40a01cc19a09e000000000000000000000000000000</md.rankingsequencenumber> 
+  </md.sortkeys>
+ <md.hierarchies>
+ <md.outline.block>
+ <md.entry refid="I3E0C5640379B11E1A8AECE27C688C691">
+  <md.head>Text</md.head> 
+  </md.entry>
+ <md.entry refid="I3E0FFFC2379B11E1A8AECE27C688C691">
+  <md.head>Credit(s)</md.head> 
+  </md.entry>
+ <md.entry refid="I3E13A940379B11E1A8AECE27C688C691">
+  <md.head>Historical Notes</md.head> 
+  </md.entry>
+ <md.entry refid="I3E2D24B0379B11E1A8AECE27C688C691">
+  <md.head>References</md.head> 
+  </md.entry>
+  </md.outline.block>
+  </md.hierarchies>
+ <md.descriptions>
+  <md.title>§ 290.002. Registration of outofstate residents working or attending school in California</md.title> 
+ <md.westlawdescrip>
+  <md.wl.message.num /> 
+  <md.pubseries>Penal Code (Refs   Annos)</md.pubseries> 
+  </md.westlawdescrip>
+  <md.doc.family.uuid>IBC700430108711DD98BCE49E3FA5957E</md.doc.family.uuid> 
+  <md.doc.level.update.number>1080</md.doc.level.update.number> 
+  <md.codes.category.id>14</md.codes.category.id> 
+  <md.parent.hid>006607895</md.parent.hid> 
+  <md.parent.hid>001290044</md.parent.hid> 
+  <md.parent.hid>001290085</md.parent.hid> 
+  <md.parent.hid>001290429</md.parent.hid> 
+  <md.parent.hid>017869724</md.parent.hid> 
+  <md.parent.toc>N4BAAF270D8EF11DC994300123F3DC9E3</md.parent.toc> 
+  <md.parent.toc>Ne30605e0d40511dcb846e04bd075d680</md.parent.toc> 
+  <md.parent.toc>Na6386130d40511dc81918c7818c06073</md.parent.toc> 
+  <md.parent.toc>N90B4C190D0DD11DCB05200123F3DC9E3</md.parent.toc> 
+  <md.parent.toc>NFEC17A409A0B11D8B0FAAA2C37E6174B</md.parent.toc> 
+  <md.parent.toc>ND29CE602BD2A4EDABEC6CE13DEA8112A</md.parent.toc> 
+  <md.parent.toc>N32555B9DF66545AAB43E4EEEBA37B899</md.parent.toc> 
+  <md.parent.toc>NA85E022513E744719B7E71EE320789AC</md.parent.toc> 
+  <md.parent.toc>N943E3F804A7811DB937EE1F39E2922D5</md.parent.toc> 
+  <md.parent.versions.toc>N4BAAF270D8EF11DC994300123F3DC9E3</md.parent.versions.toc> 
+  <md.parent.versions.toc>N4BAAF270D8EF11DC994300123F3DC9E3</md.parent.versions.toc> 
+  <md.parent.versions.toc>Ne30605e0d40511dcb846e04bd075d680</md.parent.versions.toc> 
+  <md.parent.versions.toc>Ne30605e0d40511dcb846e04bd075d680</md.parent.versions.toc> 
+  <md.parent.versions.toc>Na6386130d40511dc81918c7818c06073</md.parent.versions.toc> 
+  <md.parent.versions.toc>Na6386130d40511dc81918c7818c06073</md.parent.versions.toc> 
+  <md.parent.versions.toc>N90B4C190D0DD11DCB05200123F3DC9E3</md.parent.versions.toc> 
+  <md.parent.versions.toc>N90B4C190D0DD11DCB05200123F3DC9E3</md.parent.versions.toc> 
+  <md.parent.versions.toc>N35E4E1A07E9C11D8A245DB4E59A75DA0</md.parent.versions.toc> 
+  <md.parent.versions.toc>N35E4E1A07E9C11D8A245DB4E59A75DA0</md.parent.versions.toc> 
+  <md.parent.versions.toc>NFEC17A409A0B11D8B0FAAA2C37E6174B</md.parent.versions.toc> 
+  <md.parent.versions.toc>NFEC17A409A0B11D8B0FAAA2C37E6174B</md.parent.versions.toc> 
+  <md.parent.versions.toc>ND29CE602BD2A4EDABEC6CE13DEA8112A</md.parent.versions.toc> 
+  <md.parent.versions.toc>ND29CE602BD2A4EDABEC6CE13DEA8112A</md.parent.versions.toc> 
+  <md.parent.versions.toc>N32555B9DF66545AAB43E4EEEBA37B899</md.parent.versions.toc> 
+  <md.parent.versions.toc>N32555B9DF66545AAB43E4EEEBA37B899</md.parent.versions.toc> 
+  <md.parent.versions.toc>NA85E022513E744719B7E71EE320789AC</md.parent.versions.toc> 
+  <md.parent.versions.toc>NA85E022513E744719B7E71EE320789AC</md.parent.versions.toc> 
+  <md.parent.versions.toc>N943E3F804A7811DB937EE1F39E2922D5</md.parent.versions.toc> 
+  <md.parent.versions.toc>N943E3F804A7811DB937EE1F39E2922D5</md.parent.versions.toc> 
+  <md.parent.versions.toc>N54ADBEB07CC011DC83339EA319FEB44F</md.parent.versions.toc> 
+  <md.parent.versions.toc>N54ADBEB07CC011DC83339EA319FEB44F</md.parent.versions.toc> 
+  <md.publishing.style.format>2</md.publishing.style.format> 
+  <md.doc.status>Live</md.doc.status> 
+  </md.descriptions>
+ <md.dates>
+  <md.starteffective>20071013000000</md.starteffective> 
+  <md.endeffective>20970101235959</md.endeffective> 
+  <md.publisheddate>20120105052352</md.publisheddate> 
+  <md.loaddate>20120105052352</md.loaddate> 
+  <md.extractdate>20120105052352</md.extractdate> 
+  </md.dates>
+ <md.references>
+ <md.legacy.references>
+  <md.historical.link.record>0016lk(CAPES290.002)</md.historical.link.record> 
+  <md.statute.legis.update>lk(CAPES290.002)   sec("290.002")</md.statute.legis.update> 
+  <md.gm.link.record>0045lk(CASTERR) lk(CAPEPT1T9R) lk(CAPEPT1T9C5.5R)</md.gm.link.record> 
+  <md.gm.link.record level="2">0011lk(CASTERR)</md.gm.link.record> 
+  <md.link.separator /> 
+  <md.gm.link.record level="5">0014lk(CAPEPT1T9R)</md.gm.link.record> 
+  <md.link.separator /> 
+  <md.gm.link.record level="6">0018lk(CAPEPT1T9C5.5R)</md.gm.link.record> 
+  <md.wordphrase>employed or carries on a vocation</md.wordphrase> 
+  </md.legacy.references>
+  </md.references>
+ <md.subjects>
+ <md.subject>
+ <md.keywords>
+  <md.keyword>ADDTERM</md.keyword> 
+  </md.keywords>
+  <md.pubtype.name>WGR</md.pubtype.name> 
+  <md.doctype.name>6A</md.doctype.name> 
+  <md.doctype.rank>0002</md.doctype.rank> 
+  <md.view>CA</md.view> 
+  </md.subject>
+  </md.subjects>
+ <md.jurisdictions>
+ <md.jurisdiction>
+  <md.jurisstate>CA</md.jurisstate> 
+  </md.jurisdiction>
+  </md.jurisdictions>
+ <md.publications>
+ <md.publication>
+  <md.pubid>1000217</md.pubid> 
+  <md.pubname>California Penal Code</md.pubname> 
+  <md.pubvolume>1090</md.pubvolume> 
+  </md.publication>
+  <md.sourcepubid>1000217</md.sourcepubid> 
+  <md.pub.environment>PROD</md.pub.environment> 
+  </md.publications>
+  </metadata.block>
+ <version.tree.metadata.block>
+  <v.t.md.effective>Effective:</v.t.md.effective> 
+  <v.t.md.display.starteffective>October 13, 2007</v.t.md.display.starteffective> 
+  <v.t.md.display.endeffective /> 
+ <v.t.md.display.cite>
+  <cite.query wreftype="VQ" wnormalizedcite="N588DDF107CC011DC83339EA319FEB44F" wpubnumber="1000217" ID="I909c36e037c411e18e76eac6d7da8f26">CA PENAL § 290.002</cite.query> 
+  </v.t.md.display.cite>
+ <v.t.md.credit>
+  Added by 
+  <cite.query wseqnumber="00001" wreftype="SL" wnormalizedcite="I7CBEDA107C0711DC8A44F1BDF7382198" wpubnumber="1077005" ID="I915f5fd137c411e196ce875438ad52f0">Stats.2007, c. 579 (S.B.172), § 10, eff. Oct. 13, 2007</cite.query> 
+  </v.t.md.credit>
+  </version.tree.metadata.block>
+ <tndx.metadata.block>
+  <tndx.md.ranking.jurisstate>CA</tndx.md.ranking.jurisstate> 
+  <tndx.md.legacy.heading.id>019077065</tndx.md.legacy.heading.id> 
+  <tndx.md.uuid>N588DDF107CC011DC83339EA319FEB44F</tndx.md.uuid> 
+  <tndx.md.normalizedcite>CAPES290.002</tndx.md.normalizedcite> 
+  <tndx.md.current.normalizedcite>CAPES290.002</tndx.md.current.normalizedcite> 
+  </tndx.metadata.block>
+ <minor.link.metadata.block>
+  <mlmd.annotations>N</mlmd.annotations> 
+  <mlmd.law.rev>Y</mlmd.law.rev> 
+  <mlmd.alr.ref>N</mlmd.alr.ref> 
+  <mlmd.txt.tre.frm.ref>N</mlmd.txt.tre.frm.ref> 
+  <mlmd.credit>Y</mlmd.credit> 
+  <mlmd.hist.note>Y</mlmd.hist.note> 
+  <mlmd.cross.ref>N</mlmd.cross.ref> 
+  <mlmd.adc.ref>Y</mlmd.adc.ref> 
+  <mlmd.topic.key.ref>Y</mlmd.topic.key.ref> 
+  <mlmd.authority>N</mlmd.authority> 
+  </minor.link.metadata.block>
+  <ntocview>ND29CE602BD2A4EDABEC6CE13DEA8112A N32555B9DF66545AAB43E4EEEBA37B899 NA85E022513E744719B7E71EE320789AC N943E3F804A7811DB937EE1F39E2922D5 N588DDF107CC011DC83339EA319FEB44F</ntocview> 
+  <ntocview>N4BAAF270D8EF11DC994300123F3DC9E3 Ne30605e0d40511dcb846e04bd075d680 Na6386130d40511dc81918c7818c06073 N90B4C190D0DD11DCB05200123F3DC9E3 ND29CE602BD2A4EDABEC6CE13DEA8112A N32555B9DF66545AAB43E4EEEBA37B899 NA85E022513E744719B7E71EE320789AC N943E3F804A7811DB937EE1F39E2922D5 N588DDF107CC011DC83339EA319FEB44F</ntocview> 
+  <nview>CA</nview> 
+  <nview>TAX</nview> 
+  <nview>WlStaCa</nview> 
+  <prismclipdate>20120105052352</prismclipdate> 
+  </nmetadata>
+ <ndocbody>
+ <section legacy.identifier="019077065" ID="I9AF7DA90022E11DF8617C88064A413A7">
+ <content.metadata.block>
+ <cmd.identifiers>
+ <cmd.cites>
+ <cmd.first.line.cite>
+  <bop /> 
+  <bos /> 
+  CA PENAL § 290.002 
+  <eos /> 
+  <eop /> 
+  </cmd.first.line.cite>
+ <cmd.second.line.cite>
+  <bop /> 
+  <bos /> 
+  West's Ann.Cal.Penal Code § 290.002 
+  <eos /> 
+  <eop /> 
+  </cmd.second.line.cite>
+  </cmd.cites>
+  </cmd.identifiers>
+  </content.metadata.block>
+ <prelim.block>
+  <bop /> 
+ <prelim.head>
+ <head ID="I3E021D10379B11E1A8AECE27C688C691" ampexmnem="0.sb1">
+  <bos /> 
+ <head.info>
+ <headtext>
+  West's Annotated California Codes 
+ <hide.historical.version>
+  <internal.reference refid="I3E02B950379B11E1A8AECE27C688C691">Currentness</internal.reference> 
+  </hide.historical.version>
+  </headtext>
+  </head.info>
+  <eos /> 
+  </head>
+ <prelim.head>
+ <head ID="I3E032E80379B11E1A8AECE27C688C691" ampexmnem="1.sb2">
+  <bos /> 
+ <head.info>
+ <headtext>
+  Penal Code 
+ <hide.historical.version>
+  <cite.query wseqnumber="00002" wreftype="CM" wnormalizedcite="lk(CASTERR)" ID="I9160232137c411e196ce875438ad52f0">(Refs   Annos)</cite.query> 
+  </hide.historical.version>
+  </headtext>
+  </head.info>
+  <eos /> 
+  </head>
+ <prelim.head>
+ <head ID="I3E074D30379B11E1A8AECE27C688C691" ampexmnem="2.sb4">
+  <bos /> 
+ <head.info>
+ <headtext>
+ <cite.query wseqnumber="00003" wreftype="SB" wnormalizedcite="PRT_001290085" ID="I9160714137c411e196ce875438ad52f0">
+  <nprivatechar charName="TLRbrowse"></nprivatechar> 
+  Part 1 
+  </cite.query>
+  . Of Crimes and Punishments 
+  </headtext>
+  </head.info>
+  <eos /> 
+  </head>
+ <prelim.head>
+ <head ID="I3E0885B0379B11E1A8AECE27C688C691" ampexmnem="3.sb5">
+  <bos /> 
+ <head.info>
+ <headtext>
+ <cite.query wseqnumber="00004" wreftype="SB" wnormalizedcite="PRT_001290429" ID="I9160e67137c411e196ce875438ad52f0">
+  <nprivatechar charName="TLRbrowse"></nprivatechar> 
+  Title 9 
+  </cite.query>
+  . Of Crimes Against the Person Involving Sexual Assault, and Crimes Against Public Decency and Good Morals 
+ <hide.historical.version>
+  <cite.query wseqnumber="00005" wreftype="CM" wnormalizedcite="lk(CAPEPT1T9R)" ID="I9160e67337c411e196ce875438ad52f0">(Refs   Annos)</cite.query> 
+  </hide.historical.version>
+  </headtext>
+  </head.info>
+  <eos /> 
+  </head>
+ <prelim.head>
+ <head ID="I3E0A3360379B11E1A8AECE27C688C691" ampexmnem="4.sb6">
+  <bos /> 
+ <head.info>
+ <headtext>
+ <cite.query wseqnumber="00006" wreftype="SB" wnormalizedcite="PRT_017869724" ID="I91615ba137c411e196ce875438ad52f0">
+  <nprivatechar charName="TLRbrowse"></nprivatechar> 
+  Chapter 5.5 
+  </cite.query>
+  . Sex Offenders 
+ <hide.historical.version>
+  <cite.query wseqnumber="00007" wreftype="CM" wnormalizedcite="lk(CAPEPT1T9C5.5R)" ID="I91615ba337c411e196ce875438ad52f0">(Refs   Annos)</cite.query> 
+  </hide.historical.version>
+  </headtext>
+  </head.info>
+  <eos /> 
+  </head>
+  </prelim.head>
+  </prelim.head>
+  </prelim.head>
+  </prelim.head>
+  </prelim.head>
+  <eop /> 
+  </prelim.block>
+ <include.sb.currency.block>
+  <include.sb.currency ninclude_collection="w_codes_stamsgp" ninclude_guid="IEEF4B1110E2311DCBBDCA89FF00F5D65">Current with urgency legislation through Ch. 4 of 2012 Reg.Sess.</include.sb.currency> 
+  <message.code>8CAS</message.code> 
+  </include.sb.currency.block>
+ <doc.title>
+ <head ID="I9AF801A0022E11DF8617C88064A413A7" ampexmnem="5.snl">
+  <bop /> 
+  <bos /> 
+ <head.info>
+ <headtext>
+ <cite.query wreftype="LK" wnormalizedcite="CA017869724" wpinpointpage="S290.002" ID="I90aa40a037c411e18e76eac6d7da8f26">
+  <bold>§ 290.002. Registration of outofstate residents working or attending school in California</bold> 
+  </cite.query>
+  </headtext>
+  </head.info>
+  <eos /> 
+  <eop /> 
+  </head>
+  </doc.title>
+ <body ID="I3E0C5640379B11E1A8AECE27C688C691">
+ <para ID="I9AF801A1022E11DF8617C88064A413A7" ampexmnem="smp">
+ <paratext>
+  <bop /> 
+  <bos /> 
+  Persons required to register in their state of residence who are outofstate residents employed, or carrying on a vocation in California on a fulltime or parttime basis, with or without compensation, for more than 14 days, or for an aggregate period exceeding 30 days in a calendar year, shall register in accordance with the Act. 
+  <eos /> 
+  <bos /> 
+   Persons described in the Act who are outofstate residents enrolled in any educational institution in California, as defined in 
+  <cite.query wseqnumber="00008" wreftype="LQ" wnormalizedcite="CAEDS22129" wpubnumber="1000205" ID="I9161a9c037c411e18e76eac6d7da8f26">Section 22129 of the Education Code</cite.query> 
+  , on a fulltime or parttime basis, shall register in accordance with the Act. 
+  <eos /> 
+  <bos /> 
+   The place where the outofstate resident is located, for purposes of registration, shall be the place where the person is employed, carrying on a vocation, or attending school. 
+  <eos /> 
+  <bos /> 
+   The outofstate resident subject to this section shall, in addition to the information required pursuant to 
+  <cite.query wseqnumber="00009" wreftype="LQ" wnormalizedcite="CAPES290.015" wpubnumber="1000217" ID="I9161a9c137c411e18e76eac6d7da8f26">Section 290.015</cite.query> 
+  , provide the registering authority with the name of his or her place of employment or the name of the school attended in California, and his or her address or location in his or her state of residence. 
+  <eos /> 
+  <bos /> 
+   The registration requirement for persons subject to this section shall become operative on November 25, 2000. 
+  <eos /> 
+  <bos /> 
+   The terms “ 
+  <wordphrase>employed or carries on a vocation</wordphrase> 
+  ” include employment whether or not financially compensated, volunteered, or performed for government or educational benefit. 
+  <eos /> 
+  <eop /> 
+  </paratext>
+  </para>
+  </body>
+ <credit ID="I3E0FFFC2379B11E1A8AECE27C688C691">
+  <bop /> 
+ <head ID="I3E133410379B11E1A8AECE27C688C691" ampexmnem="sclh">
+  <headtext>CREDIT(S)</headtext> 
+  </head>
+ <para ID="I9AF828B0022E11DF8617C88064A413A7" ampexmnem="scl">
+ <paratext>
+  <bos /> 
+  (Added by 
+  <cite.query wseqnumber="00010" wreftype="SL" wnormalizedcite="I7CBEDA107C0711DC8A44F1BDF7382198" wpubnumber="1077005" ID="I9163306137c411e196ce875438ad52f0">Stats.2007, c. 579 (S.B.172), § 10, eff. Oct. 13, 2007</cite.query> 
+  .) 
+  <eos /> 
+  </paratext>
+  </para>
+  <eop /> 
+  </credit>
+ <annotations>
+ <hist.note.block ID="I3E13A940379B11E1A8AECE27C688C691">
+ <head ID="I9AF91310022E11DF8617C88064A413A7" ampexmnem="xhs">
+  <bop /> 
+  <bos /> 
+ <head.info>
+  <headtext>HISTORICAL AND STATUTORY NOTES</headtext> 
+  </head.info>
+  <eos /> 
+  <eop /> 
+  </head>
+ <hist.note.body>
+ <mv.source.head ID="I3E21B302379B11E1A8AECE27C688C691" ampexmnem="xhs.mv">
+  <bop /> 
+  <bos /> 
+  <headtext>2008 Main Volume</headtext> 
+  <eos /> 
+  <eop /> 
+  </mv.source.head>
+ <hist.note type="Uncodified.Note">
+ <para ID="I9AF91311022E11DF8617C88064A413A7" ampexmnem="xhs.gnp">
+ <paratext>
+  <bop /> 
+  <bos /> 
+  For legislative intent and urgency effective provisions relating to Stats.2007, c. 579 (S.B.172), see Historical and Statutory Notes under 
+  <cite.query wseqnumber="00011" wreftype="LQ" wnormalizedcite="CAPES290" wpubnumber="1000217" ID="I91648ff037c411e18e76eac6d7da8f26">Penal Code § 290</cite.query> 
+  . 
+  <eos /> 
+  <eop /> 
+  </paratext>
+  </para>
+  </hist.note>
+  </hist.note.body>
+ <hist.note.body>
+ <head ID="I9AF91312022E11DF8617C88064A413A7" ampexmnem="xhs.gnh">
+  <bop /> 
+  <bos /> 
+ <head.info>
+  <headtext>Derivation</headtext> 
+  </head.info>
+  <eos /> 
+  <eop /> 
+  </head>
+ <hist.note type="Derivation">
+ <para ID="I9AF91313022E11DF8617C88064A413A7" ampexmnem="xhs.gnp">
+ <paratext>
+  <bop /> 
+  <bos /> 
+  Former § 290, added by Stats.1985, c. 1474, § 2, operative Jan. 1, 1988, amended by Stats.1986, c. 1299, § 7;  Stats.1987, c. 753, § 3;  Stats.1987, c. 1418, § 3.1;  Stats.1989, c. 1316, § 2;  Stats.1989, c. 1402, § 5;  Stats.1989, c. 1407, § 4;  Stats.1992, c. 197 (A.B.2297), § 1;  Stats.1992, c. 695 (S.B.97), § 9, eff. Sept. 15, 1992;  Stats.1993, c. 555 (A.B.191), § 1, eff. Sept. 28, 1993;  Stats.1993, c. 
+  <eos /> 
+  <bos /> 
+  589 (A.B.2211), § 109;  Stats.1993, c. 595 (A.B.595), § 8;  Stats.1994, c. 
+  <eos /> 
+  <bos /> 
+  863 (A.B.3456), § 1;  Stats.1994, c. 864 (A.B.1211), § 1;  Stats.1994, c. 
+  <eos /> 
+  <bos /> 
+  865 (A.B.3513), § 1;  Stats.1994, c. 867 (A.B.2500), § 2.7;  Stats.1995, c. 
+  <eos /> 
+  <bos /> 
+  91 (S.B.975), § 120;  Stats.1995, c. 85 (A.B.173), § 1;  Stats.1995, c. 840 (S.B.295), § 2;  Stats.1996, c. 908 (A.B.1562), § 2, eff. Sept. 25, 1996;  Stats.1996, c. 909 (S.B.1378), § 2;  Stats.1997, c. 17 (S.B.947), § 96;  Stats.1997, c. 80 (A.B.213), § 1;  Stats.1997, c. 817 (A.B.59), § 3;  Stats.1997, c. 818 (A.B.1303), § 4;  Stats.1997, c. 819 (S.B.314), § 1;  Stats.1997, c. 820 (S.B.882), § 1;  Stats.1997, c. 821 (A.B.290), § 3, eff. Oct. 9, 1997;  Stats.1997, c. 821 (A.B.290), § 3.5, eff. Oct. 9, 1997, operative Jan. 1, 1998;  Stats.1998, c. 485 (A.B.2803), § 128129;  Stats.1998, c. 927 (A.B.796), § 1;  Stats.1998, c. 928 (A.B.1927), § 1;  Stats.1998, c. 929 (A.B.1745), § 1;  Stats.1998, c. 930 (A.B.1078), § 1;  Stats.1999, c. 83 (S.B.966), § 138;  Stats.1999, c. 576 (A.B.1193), § 1;  Stats.1999, c. 730 (S.B.1275), § 1;  Stats.1999, c. 901 (S.B.341), § 1.5;  Stats.2000, c. 240 (A.B.2502), § 1;  Stats.2000, c. 287 (S.B.1955), § 7;  Stats.2000, c. 648 (A.B.1340), § 1;  Stats.2000, c. 649 (S.B.446), § 2.5;  Stats.2001, c. 485 (A.B.1004), § 1;  Stats.2001, c. 544 (A.B.4), § 1;  Stats.2001, c. 843 (A.B.349), § 1.3;  Stats.2002, c. 664 (A.B.3034), § 171;  Stats.2002, c. 17 (S.B.836), § 1, eff. March 28, 2002;  Stats.2003, c. 538 (S.B.356), § 1;  Stats.2003, c. 540 (S.B.879), § 1;  Stats.2003, c. 
+  <eos /> 
+  <bos /> 
+  634 (A.B.1313), § 1.3, eff. Sept. 30, 2003;  Stats.2004, c. 429 (A.B.2527), § 1;  Stats.2004, c. 731 (S.B.1289), § 1;  Stats.2004, c. 761 (A.B.2395), § 1.3;  Stats.2005, c. 704 (A.B.439), § 1;  Stats.2005, c. 722 (A.B.1323), § 3, eff. Oct. 7, 2005;  Stats.2005, c. 722 (A.B.1323), § 3.5, eff. Oct. 7, 2005, operative Jan. 1, 2006;  Stats.2006, c. 538 (S.B.1852), § 500;  Stats.2006, c. 337 (S.B.1128), § 11, eff. Sept. 20, 2006. 
+  <eos /> 
+  <eop /> 
+  </paratext>
+  </para>
+  </hist.note>
+ <hist.note type="Derivation">
+ <para ID="I9AF91314022E11DF8617C88064A413A7" ampexmnem="xhs.gnp">
+ <paratext>
+  <bop /> 
+  <bos /> 
+  Former § 290, added by Stats.1947, c. 1124, § 1, amended by Stats.1949, 1st Ex.Sess., c. 13, § 1;  Stats.1950, 1st Ex.Sess., c. 70, § 1;  Stats.1953, c. 400, § 1;  Stats.1955, c. 169, § 1;  Stats.1961, c. 
+  <eos /> 
+  <bos /> 
+  560, § 3;  Stats.1961, c. 2147, § 8;  Stats.1967, c. 716, § 1;  Stats.1970, c. 1301, § 4;  Stats.1972, c. 944, § 8;  Stats.1984, c. 1419, § 1;  Stats.1985, c. 929, § 4;  Stats.1985, c. 1474, § 1. 
+  <eos /> 
+  <eop /> 
+  </paratext>
+  </para>
+  </hist.note>
+  </hist.note.body>
+  </hist.note.block>
+ <reference.block ID="I3E2D24B0379B11E1A8AECE27C688C691">
+  <bref /> 
+ <admin.code.reference.block>
+ <head ID="IC3581C70967011E087088B1A803FD2CB" ampexmnem="xacr">
+  <bop /> 
+  <bos /> 
+  <headtext>CODE OF REGULATIONS REFERENCES</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+ <admin.code.reference ID="IC3581C71967011E087088B1A803FD2CB" ampexmnem="xacr.crl">
+  <bop /> 
+  <bos /> 
+ <reference.text indentleft="3">
+  Reentry Court Program exclusionary criteria, see 
+  <cite.query wseqnumber="00012" wreftype="LQ" wnormalizedcite="15CAADCS3769.2" wpubnumber="1000937" ID="I9167762037c411e18e76eac6d7da8f26">15 Cal. Code of Regs. § 3769.2</cite.query> 
+  . 
+  </reference.text>
+  <eos /> 
+  <eop /> 
+  </admin.code.reference>
+  </admin.code.reference.block>
+ <law.review.reference.block>
+ <head ID="I9AFA2480022E11DF8617C88064A413A7" ampexmnem="xlrm">
+  <bop /> 
+  <bos /> 
+  <headtext>LAW REVIEW AND JOURNAL COMMENTARIES</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+ <law.review.reference ID="I9AFA2481022E11DF8617C88064A413A7" ampexmnem="xlrm.gnp">
+  <bop /> 
+ <reference.text>
+  <bos /> 
+  Megan's Law or Sarah's Law? 
+  <eos /> 
+  <bos /> 
+   A comparative analysis of public notification statutes in the United States and England. 
+  <eos /> 
+  <bos /> 
+    
+  <cite.query wseqnumber="00013" wreftype="LR" wserialnumber="0289568418" wpubnumber="0126161" ID="I916923d137c411e18e76eac6d7da8f26">Meghann J. Dugan, 23 Loy.L.A.Int'l   Comp.L.Rev. 617 (2001)</cite.query> 
+  . 
+  <eos /> 
+  </reference.text>
+  <eop /> 
+  </law.review.reference>
+  </law.review.reference.block>
+ <library.reference.block>
+ <head ID="I9AFA72A0022E11DF8617C88064A413A7" ampexmnem="xlr">
+  <bop /> 
+  <bos /> 
+ <head.info>
+  <headtext>LIBRARY REFERENCES</headtext> 
+  </head.info>
+  <eos /> 
+  <eop /> 
+  </head>
+ <library.reference.body>
+ <mv.source.head ID="I3E7159A2379B11E1A8AECE27C688C691" ampexmnem="xlr.mv">
+  <headtext>2008 Main Volume</headtext> 
+  </mv.source.head>
+ <library.reference type="Key.Number" category="Key.Number" ID="I9AFA72A1022E11DF8617C88064A413A7" ampexmnem="xlr.key">
+  <bop /> 
+  <bos /> 
+ <reference.text indentleft="2">
+  <cite.query wseqnumber="00014" wreftype="KW" wnormalizedcite="257A" ID="I916aaa7037c411e18e76eac6d7da8f26">Mental Health</cite.query> 
+  <nprivatechar charName="TLRkey"></nprivatechar> 
+  <cite.query wseqnumber="00015" wreftype="KW" wnormalizedcite="257Ak469(2)" ID="I916aaa7137c411e18e76eac6d7da8f26">469(2)</cite.query> 
+  . 
+  </reference.text>
+  <eos /> 
+  <eop /> 
+  </library.reference>
+ <library.reference type="WL.Topic.Number" category="Key.Number" ID="I9AFA72A2022E11DF8617C88064A413A7" ampexmnem="xlr.wlt">
+  <bop /> 
+  <bos /> 
+ <reference.text indentleft="2">
+  Westlaw Topic No. 
+  <cite.query wseqnumber="00016" wreftype="KW" wnormalizedcite="257A" ID="I916b1fa037c411e18e76eac6d7da8f26">257A</cite.query> 
+  . 
+  </reference.text>
+  <eos /> 
+  <eop /> 
+  </library.reference>
+  </library.reference.body>
+  </library.reference.block>
+ <research.reference.block>
+ <head ID="I884F8A10488111E0852BA090F00FCE75" ampexmnem="xaar">
+  <bop /> 
+  <bos /> 
+  <headtext>RESEARCH REFERENCES</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+ <research.reference.body>
+ <head ID="I884F8A11488111E0852BA090F00FCE75" ampexmnem="xaar.gnh">
+  <bop /> 
+  <bos /> 
+  <headtext>Encyclopedias</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+ <research.reference ID="I884F8A12488111E0852BA090F00FCE75" ampexmnem="xaar.caj">
+  <bop /> 
+  <bos /> 
+ <reference.text>
+  <cite.query wseqnumber="00017" wreftype="SA" wserialnumber="0284180398" wpubnumber="0143168" ID="I3EAB5560379B11E1A8AECE27C688C691">CA Jur. 3d Criminal Law: PostTrial Proceedings § 46</cite.query> 
+  , Who Must Register. 
+  </reference.text>
+  <eos /> 
+  <eop /> 
+  </research.reference>
+  </research.reference.body>
+ <research.reference.body>
+ <head ID="I884F8A13488111E0852BA090F00FCE75" ampexmnem="xaar.gnh">
+  <bop /> 
+  <bos /> 
+  <headtext>Treatises and Practice Aids</headtext> 
+  <eos /> 
+  <eop /> 
+  </head>
+ <research.reference ID="I884F8A14488111E0852BA090F00FCE75" ampexmnem="xaar.witc">
+  <bop /> 
+  <bos /> 
+ <reference.text>
+  <cite.query wseqnumber="00018" wreftype="SA" wserialnumber="0289479826" wpubnumber="0155424" ID="I3EABA380379B11E1A8AECE27C688C691">3 Witkin Cal. Crim. L. 3d Punishment § 184</cite.query> 
+  , Nature and Purpose. 
+  </reference.text>
+  <eos /> 
+  <eop /> 
+  </research.reference>
+  </research.reference.body>
+  </research.reference.block>
+  <eref /> 
+  </reference.block>
+  </annotations>
+ <content.metadata.block>
+ <cmd.identifiers>
+ <cmd.cites>
+ <cmd.expandedcite>
+  <bop /> 
+  <bos /> 
+  West's Ann. Cal. Penal Code § 290.002, CA PENAL § 290.002 
+  <eos /> 
+  <eop /> 
+  </cmd.expandedcite>
+  </cmd.cites>
+  </cmd.identifiers>
+  </content.metadata.block>
+ <include.currency.block>
+  <currency.id ID="I3E02B950379B11E1A8AECE27C688C691" /> 
+  <include.currency ninclude_collection="w_codes_stamsgp" ninclude_guid="IEEF4B1100E2311DCBBDCA89FF00F5D65">Current with urgency legislation through Ch. 4 of 2012 Reg.Sess.</include.currency> 
+  <message.code>8CAS</message.code> 
+  </include.currency.block>
+ <include.copyright.block>
+  <include.copyright ninclude_collection="w_codes_stamsgp" ninclude_guid="I71B984800FAB11DCBBDCA89FF00F5D65">(C) 2012 Thomson Reuters. No Claim to Orig. US Gov. Works.</include.copyright> 
+  <message.code>8CAX</message.code> 
+  </include.copyright.block>
+  </section>
+  </ndocbody>
+  </Document>
