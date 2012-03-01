@@ -108,7 +108,6 @@ public class InitializeTask extends AbstractSbTasklet {
 		formatImageMetadataDirectory.mkdir();
 		postTransformDirectory.mkdir();
 		htmlWrapperDirectory.mkdir();
-		File intermediateTitleXMLFile = new File(formatDirectory, "IntermediateTitle.xml");
 		File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 		
 		//File htmlDirectory = new File(formatDirectory, "HTML");
@@ -168,8 +167,6 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
-		jobExecutionContext.putString(
-				JobExecutionKey.INTERMEDIATE_TITLE_XML_FILE, intermediateTitleXMLFile.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 
 		return ExitStatus.COMPLETED;

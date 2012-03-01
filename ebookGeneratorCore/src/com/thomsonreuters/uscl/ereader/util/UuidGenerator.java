@@ -24,4 +24,8 @@ public class UuidGenerator {
 		UUID rawUuid = uuidFactory.getUUID();
 		return (rawUuid != null && StringUtils.isNotBlank(rawUuid.toString())) ? rawUuid.toString() : "";
 	}
+
+	public void setUuidFactory(UUIDFactory uuidFactory) {
+		this.uuidFactory = uuidFactory;
+	}
 }

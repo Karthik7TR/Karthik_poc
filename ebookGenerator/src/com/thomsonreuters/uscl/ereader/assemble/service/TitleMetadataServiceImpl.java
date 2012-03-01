@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -66,6 +67,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
 	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
 	private DocMetadataService docMetadataService;
+	private FileUtils fileUtils;
 	private UuidGenerator uuidGenerator;
 
 	/* (non-Javadoc)
@@ -285,7 +287,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 	@Override
-	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId) {
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId, final File documentsDirectory) {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 				
 		try {
@@ -296,7 +298,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			
 			Map<String, String> familyGuidMap = docMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
 			
-			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator);
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtils);
 			titleManifestFilter.setParent(xmlReader);
 									
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -327,6 +329,11 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 
 	public void setDocMetadataService(DocMetadataService docMetadataService) {
 		this.docMetadataService = docMetadataService;
+	}
+
+
+	public void setFileUtils(FileUtils fileUtils) {
+		this.fileUtils = fileUtils;
 	}
 
 }

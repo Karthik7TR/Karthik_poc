@@ -77,18 +77,19 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		
 		long jobId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		Integer jobInstanceId = new Integer((int) jobId);
-		addDocuments(jobExecutionContext, titleMetadata, jobInstanceId);
-		addTableOfContents(jobExecutionContext, titleMetadata);
+		//addDocuments(jobExecutionContext, titleMetadata, jobInstanceId);
+		//addTableOfContents(jobExecutionContext, titleMetadata);
 		//addStylesheet(titleMetadata);
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
-		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.INTERMEDIATE_TITLE_XML_FILE));
+		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 		//titleMetadataService.writeToFile(titleMetadata, titleXml);
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		OutputStream titleManifest = new FileOutputStream(titleXml);
 		InputStream tocXml = new FileInputStream(tocXmlFile);
-		titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId);
+		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
+		titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
 		
 		return ExitStatus.COMPLETED;
 	}

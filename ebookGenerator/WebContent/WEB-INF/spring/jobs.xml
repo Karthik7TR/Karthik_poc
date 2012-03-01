@@ -100,12 +100,6 @@
 		
 		<step id="generateTitleManifest">
 			<tasklet ref="generateTitleManifestTask"/>
-			<next on="COMPLETED" to="titleMetadataAnchorUpdate"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<step id="titleMetadataAnchorUpdate">
-			<tasklet ref="titleMetadataAnchorUpdateTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
 			<fail on="FAILED"/>
 		</step>
@@ -154,8 +148,6 @@
 				p:titleMetadataService-ref="titleMetadataService"
 				p:docMetadataService-ref="docMetadataService"							
 				p:stylesheetPath="/apps/ebookbuilder/stylesheet/document.css"/>
-	<beans:bean id="titleMetadataAnchorUpdateTask" class="com.thomsonreuters.uscl.ereader.format.step.TitleMetadataAnchorUpdate"
-				p:anchorUpdateService-ref="titleMetadataAnchorUpdateService"/>
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook"
 				p:eBookAssemblyService-ref="eBookAssemblyService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview"

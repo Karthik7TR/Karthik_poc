@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +21,7 @@ import java.util.Properties;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -59,6 +61,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 	SAXParser saxParser;
 	XMLReader xmlReader;
 	ByteArrayOutputStream resultStream;
+	FileUtils mockFileUtils;
     
 	private static final String EXPECTED_ARTWORK = "<artwork src=\"swashbuckling.gif\" type=\"cover\"/>";
 	private static final String EXPECTED_ASSETS = "<assets><asset id=\"123\" src=\"BlackPearl.png\"/><asset id=\"456\" src=\"PiratesCove.png\"/><asset id=\"789\" src=\"Tortuga.png\"/></assets>";
@@ -79,9 +82,11 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 	
 	@Rule
 	public TemporaryFolder tempDirectory = new TemporaryFolder();
+	File temporaryDirectory;
 	
 	@Before
 	public void setUp() throws Exception {
+		temporaryDirectory = tempDirectory.newFolder("temp");
 		uuidGenerator = new UuidGenerator();
 		saxParserFactory = SAXParserFactory.newInstance();
 		titleMetadata = getTitleMetadata();
@@ -89,7 +94,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 		saxParserFactory.setNamespaceAware(true);
 	    saxParser = saxParserFactory.newSAXParser();
 	    xmlReader = saxParser.getXMLReader();
-	    
+	    mockFileUtils = EasyMock.createMock(FileUtils.class);
 	    Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 	    props.setProperty("omit-xml-declaration", "yes");
 	    
@@ -99,7 +104,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 		
 	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
 	    
-	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator);
+	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtils);
 	    titleManifestFilter.setParent(xmlReader);
 		titleManifestFilter.setContentHandler(serializer.asContentHandler());
 	}
@@ -231,7 +236,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
 		
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtils);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -265,7 +270,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -303,7 +308,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -343,7 +348,7 @@ public class TitleManifestFilterTest extends TitleMetadataBaseTest {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));

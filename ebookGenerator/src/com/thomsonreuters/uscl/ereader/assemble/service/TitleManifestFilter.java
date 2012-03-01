@@ -5,13 +5,15 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -19,7 +21,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
@@ -47,6 +48,8 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 class TitleManifestFilter extends XMLFilterImpl {
 
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
+	private FileUtils fileUtils;
+	private File documentsDirectory;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
 	private Map<String, String> familyGuidMap;
@@ -105,7 +108,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ID_ATTRIBUTE = "id";
 	private static final String TOC_ELEMENT = "toc";
 	
-	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator) {
+	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtils fileUtils) {
 		if (titleMetadata == null) {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
 		}
@@ -113,12 +116,20 @@ class TitleManifestFilter extends XMLFilterImpl {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without a valid familyGuidMap");
 		}
 		if (uuidGenerator == null) {
-			throw new IllegalArgumentException("Ccannot instantiate TitleManifestFilter without a UuidGenerator.");
+			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without a UuidGenerator.");
+		}
+		if (documentsDirectory == null || !documentsDirectory.isDirectory()) {
+			throw new IllegalArgumentException("Documents directory must not be null and must be a directory.");
+		}
+		if (fileUtils == null) {
+			throw new IllegalArgumentException("FileUtils must not be null.");
 		}
 		validateTitleMetadata(titleMetadata);
 		this.titleMetadata = titleMetadata;
 		this.familyGuidMap = familyGuidMap;
 		this.uuidGenerator = uuidGenerator;
+		this.documentsDirectory = documentsDirectory;
+		this.fileUtils = fileUtils;
 	}
 
 	/**
@@ -146,7 +157,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		LOG.debug("StartElement: " + qName);
 		if (EBOOK.equals(qName)){
 			super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
 		}
@@ -162,7 +172,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 		else if (NAME.equals(qName)) {
 			bufferingText = Boolean.TRUE;
 		}
-		//super.startElement(uri, localName, qName, attributes);
 	}
 
 	/**
@@ -254,19 +263,19 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 * 
 	 * <p>Delegates to another service to copy html documents.</p>
 	 */
-	private void handleDuplicates() {
-		if (uniqueDocumentIds.contains(docGuid.toString())) {
+	private void handleDuplicates() throws SAXException {
+		String documentGuid = docGuid.toString();
+		if (uniqueDocumentIds.contains(documentGuid)) {
 			// We've already seen this document, it's a duplicate.
 			// Generate a new guid for it and add that to the list.
 			String uniqueGuid = uuidGenerator.generateUuid();
 			LOG.debug("encountered a duplicate uuid [" + docGuid.toString() + "]. Generating a new uuid [" + uniqueGuid + "] and copying the HTML file.");
-			uniqueDocumentIds.add(uniqueGuid); //TODO: generate a GUID.
-			copyHtmlDocument(docGuid.toString(), uniqueGuid); //copy and rename the html file identified by the GUID listed in the gathered toc.
+			uniqueDocumentIds.add(uniqueGuid);
+			copyHtmlDocument(documentGuid, uniqueGuid); //copy and rename the html file identified by the GUID listed in the gathered toc.
 			orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION));
 		}
 		else {
-			//TODO: Replace docGuid with the corresponding family Guid.
-			String documentGuid = docGuid.toString();
+			//Replace docGuid with the corresponding family Guid.
 			if (familyGuidMap.containsKey(documentGuid)) {
 				docGuid = new StringBuilder();
 				String familyGuid = familyGuidMap.get(documentGuid);
@@ -274,6 +283,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 					LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
 					familyGuid = uuidGenerator.generateUuid();
 					orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION));
+					copyHtmlDocument(documentGuid, familyGuid);
 				}
 				else {
 					orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION));
@@ -289,13 +299,20 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Duplicates the corresponding text document in order to conform to ProView structural requirements.
+	 * Duplicates the corresponding document in order to conform to ProView structural requirements.
 	 * 
 	 * @param sourceDocId the file to be copied.
 	 * @param destDocId the "new" copy of the file.
 	 */
-	private void copyHtmlDocument(String sourceDocId, String destDocId){
+	private void copyHtmlDocument(String sourceDocId, String destDocId) throws SAXException {
 		LOG.debug("Copying " + sourceDocId + " to " + destDocId);
+		File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
+		File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
+		try {
+			fileUtils.copyFile(sourceFile, destFile);
+		} catch (IOException e) {
+			throw new SAXException("Could not make copy of duplicate HTML document referenced in the TOC: " + sourceDocId, e);
+		}
 	}
 
 	/**

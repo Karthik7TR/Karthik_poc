@@ -94,7 +94,17 @@
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 	<bean id="titleMetadataAnchorUpdateService" class="com.thomsonreuters.uscl.ereader.format.service.TitleMetadataAnchorUpdateServiceImpl"/>
 	
-	<bean id="titleMetadataService" class="com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl"/>
+	<bean id="titleMetadataService" class="com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl"
+		  p:docMetadataService-ref="docMetadataService"
+		  p:uuidGenerator-ref="uuidGenerator"
+		  p:fileUtils-ref="fileUtils"/>
+	
+	<bean id="fileUtils" class="org.apache.commons.io.FileUtils"/>
+	
+	<bean id="uuidGenerator" class="com.thomsonreuters.uscl.ereader.util.UuidGenerator"
+		  p:uuidFactory-ref="uuidFactory"/>
+	<bean id="uuidFactory" class="com.westgroup.publishingservices.uuidgenerator.UUIDFactory"/>
+	
 	<bean id="eBookAssemblyService" class="com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl"/>
 	
 	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>

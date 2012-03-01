@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FileUtils;
+
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
@@ -42,5 +44,5 @@ public interface TitleMetadataService {
 	 * @param titleManifest the title manifest (title.xml) to create.
 	 * @param tocXml the TOC structure from which the &lt;toc&gt; &amp; &lt;docs&gt; portions of the manifest are to be derived.
 	 */
-	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId);
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId, final File documentsDirectory);
 }
