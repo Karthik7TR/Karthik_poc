@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -76,41 +75,43 @@ public class EditBookDefinitionForm {
 	}
 	
 	public void initialize(BookDefinition bookDefinition) {
-		this.titleId = bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
-		this.copyright = bookDefinition.getCopyright();
-		this.materialId = bookDefinition.getMaterialId();
-		this.rootTocGuid = bookDefinition.getRootTocGuid();
-		this.tocCollectionName = bookDefinition.getTocCollectionName();
-		this.nortDomain = bookDefinition.getNortDomain();
-		this.nortFilterView = bookDefinition.getNortFilterView();
-		this.contentType = bookDefinition.getContentType();
-		this.isbn = bookDefinition.getIsbn();
-		
-		// TODO: update to get from bookDefinition
-		EbookName ebookName = new EbookName();
-		ebookName.setBook(bookDefinition);
-		ebookName.setNameText(bookDefinition.getBookName());
-		ebookName.setSequenceNumber((long) 1);
-		this.nameLines.add(ebookName);
-		
-		// Parse titleId
-		String[] fullyqualifiedtitleArray = this.titleId.split("/");
-		String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
-		
-		this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
-
-		if (contentType.equals(WebConstants.KEY_ANALYTICAL)) {
-			this.pubAbbr = titleIdArray[0];
-			this.pubInfo = createPubInfo(titleIdArray);
-		} else if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
-			this.state = titleIdArray[0];
-			this.pubType = titleIdArray[1];
-			this.pubInfo = createPubInfo(titleIdArray);
-		} else if (contentType.equals(WebConstants.KEY_SLICE_CODES)) {
-			this.jurisdiction = titleIdArray[0];
-			this.pubInfo = createPubInfo(titleIdArray);
-		} else {
+		if(bookDefinition != null) {
+			this.titleId = bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
+			this.copyright = bookDefinition.getCopyright();
+			this.materialId = bookDefinition.getMaterialId();
+			this.rootTocGuid = bookDefinition.getRootTocGuid();
+			this.tocCollectionName = bookDefinition.getTocCollectionName();
+			this.nortDomain = bookDefinition.getNortDomain();
+			this.nortFilterView = bookDefinition.getNortFilterView();
+			this.contentType = bookDefinition.getContentType();
+			this.isbn = bookDefinition.getIsbn();
 			
+			// TODO: update to get from bookDefinition
+			EbookName ebookName = new EbookName();
+			ebookName.setBook(bookDefinition);
+			ebookName.setNameText(bookDefinition.getBookName());
+			ebookName.setSequenceNumber((long) 1);
+			this.nameLines.add(ebookName);
+			
+			// Parse titleId
+			String[] fullyqualifiedtitleArray = this.titleId.split("/");
+			String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
+			
+			this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
+	
+			if (contentType.equals(WebConstants.KEY_ANALYTICAL)) {
+				this.pubAbbr = titleIdArray[0];
+				this.pubInfo = createPubInfo(titleIdArray);
+			} else if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
+				this.state = titleIdArray[0];
+				this.pubType = titleIdArray[1];
+				this.pubInfo = createPubInfo(titleIdArray);
+			} else if (contentType.equals(WebConstants.KEY_SLICE_CODES)) {
+				this.jurisdiction = titleIdArray[0];
+				this.pubInfo = createPubInfo(titleIdArray);
+			} else {
+				
+			}
 		}
 		
 		//TODO: add initialization of other properties once in book definition model

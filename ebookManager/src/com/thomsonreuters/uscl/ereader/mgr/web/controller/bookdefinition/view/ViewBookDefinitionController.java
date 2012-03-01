@@ -43,7 +43,7 @@ public class ViewBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		// TODO: Update with queue checking
-		boolean isInJobRequest = false;
+		boolean isInJobRequest = (bookDef != null) ? bookDef.inJobRequest() : false;
 		
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);

@@ -58,6 +58,8 @@ public class EditBookDefinitionController {
 				Model model) {
 		
 		initialize(model, form);
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
+
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -80,6 +82,8 @@ public class EditBookDefinitionController {
 		}
 		
 		initialize(model, form);
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
+				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
 	
@@ -94,25 +98,35 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 
+		boolean isInJobRequest;
+		boolean isPublished;
+		
 		// Lookup the book by its primary key
 		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
 		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
 		
 		// Check if book is scheduled or queued
 		// TODO: Update with queue checking
-		boolean isInJobRequest = false;
+		if (bookDef != null) {
+			isInJobRequest = bookDef.inJobRequest();
+			isPublished = bookDef.getPublishedOnceFlag();
+			
+			form.initialize(bookDef);
+			// Load Authors TODO: update when model is complete
+			List<Author> authors = new AutoPopulatingList<Author>(Author.class);
+			authors.addAll(bookService.getAuthors(1));
+			form.setAuthorInfo(authors);
+		} else {
+			isInJobRequest = false;
+			isPublished = false;
+		}
 		
-		// Load Authors
-		List<Author> authors = new AutoPopulatingList<Author>(Author.class);
-		authors.addAll(bookService.getAuthors(1));
-		form.setAuthorInfo(authors);
-		
-		form.initialize(bookDef);
 		initialize(model, form);
 		
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -130,23 +144,35 @@ public class EditBookDefinitionController {
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) {
+		boolean isInJobRequest;
+		boolean isPublished;
 		
-		if(!bindingResult.hasErrors()) {
+		initialize(model, form);
+		
+		// Lookup the book by its primary key
+		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
+		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+		
+		// Check if book is scheduled or queued
+		// TODO: Update with queue checking
+		if (bookDef != null) {
+			isInJobRequest = bookDef.inJobRequest();
+			isPublished = bookDef.getPublishedOnceFlag();
+		} else {
+			isInJobRequest = false;
+			isPublished = false;
+		}
+		
+		if(!bindingResult.hasErrors() && !isInJobRequest) {
 			// TODO: Update to Book Definition segregate key when DB gets updated
 			String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, form.getTitleId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
-		
-		// TODO: Update with queue checking
-		boolean isInJobRequest = false;
-		
-		initialize(model, form);
-		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
-		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
-		
+
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -170,8 +196,6 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());		
 		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, bookService.getKeywordsTypesAndValues());
 		
-		// TODO: Update condition to check if book definition has been published
-		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
 	}
 
 	@Required

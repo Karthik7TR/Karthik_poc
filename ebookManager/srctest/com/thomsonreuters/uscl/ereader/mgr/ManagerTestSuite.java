@@ -11,6 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookLibraryControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
@@ -25,7 +27,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListFilter
 			JobListFilterControllerTest.class,
 			GenerateEbookControllerTest.class,
 			SecurityControllerTest.class,
-			ViewBookDefinitionControllerTest.class
+			ViewBookDefinitionControllerTest.class,
+			EditBookDefinitionControllerTest.class,
+			EditBookDefinitionFormValidatorTest.class
 		} )
 
 public class ManagerTestSuite {

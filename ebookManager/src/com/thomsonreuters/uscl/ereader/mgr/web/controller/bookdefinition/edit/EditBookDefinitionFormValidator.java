@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -25,7 +24,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator implements Validator {
-	private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_TITLE_ID_LENGTH = 40;
 	private static final int ISBN_LENGTH = 13;
 	private CoreService coreService;
@@ -56,10 +55,12 @@ public class EditBookDefinitionFormValidator implements Validator {
 		}
     	
     	String contentType = form.getContentType();
+    	String titleId = form.getTitleId();
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentType", "error.required");
+    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
     	
     	// Validate publication and title ID
-    	if (StringUtils.isNotEmpty(contentType)) {
+    	if (StringUtils.isNotEmpty(contentType) && StringUtils.isNotEmpty(titleId)) {
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
     		
@@ -87,19 +88,17 @@ public class EditBookDefinitionFormValidator implements Validator {
     			BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
     			
     			String oldTitleId = bookDef.getPrimaryKey().getFullyQualifiedTitleId();
-				String newTitleId = form.getTitleId();
 				
     			// This is from the book definition edit
     			if(bookDef.getPublishedOnceFlag()) {
     				// Been published to Proview and set to F
-    				if (!oldTitleId.equals(newTitleId)) {
+    				if (!oldTitleId.equals(titleId)) {
     					errors.rejectValue("titleId", "error.titleid.changed");
     				}
     			} else {
     				// Check new TitleId is unique if it changed
-    				//TODO: need to update to surrogate key
-    				if (!oldTitleId.equals(newTitleId)) {
-    					checkUniqueTitleId(errors, newTitleId);
+    				if (!oldTitleId.equals(titleId)) {
+    					checkUniqueTitleId(errors, titleId);
     				}
     			}
     		} else {
@@ -107,7 +106,6 @@ public class EditBookDefinitionFormValidator implements Validator {
     			checkUniqueTitleId(errors, form.getTitleId());
     		}
     		// Validate Title ID
-    		String titleId = form.getTitleId();
     		checkMaxLength(errors, MAXIMUM_TITLE_ID_LENGTH, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_TITLE_ID_LENGTH});
     		
     		// Validate Publication Information
@@ -122,8 +120,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
 			//TODO: check if length is exactly 18 characters for materialId
-			
-			
+
 			if (form.getIsTOC()) {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");

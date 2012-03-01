@@ -11,7 +11,7 @@
 	<c:when test="${book != null}">
 		<%-- Check if book is already in the queue or scheduled --%>
 		<c:choose>
-			<c:when test="${isInJobRequest != true}">
+			<c:when test="${!isInJobRequest}">
 				<div class="bookDefinitionCRUD">
 					<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>"
 						action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT%>" >
