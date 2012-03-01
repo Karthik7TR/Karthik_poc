@@ -54,15 +54,13 @@ public class DocServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(COLLECTION_NAME, null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
-			EasyMock.expect(mockDocument.getErrorCode()).andReturn(null).times(2);		
+			EasyMock.expect(mockDocument.getErrorCode()).andReturn("1200").times(2);		
 			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");			
 			EasyMock.expect(mockDocument.getCollection()).andReturn(COLLECTION_NAME);
 			mockNovus.shutdownMQ();
@@ -108,15 +106,13 @@ public class DocServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);			
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
-			EasyMock.expect(mockDocument.getErrorCode()).andReturn(null).times(2);			
+			EasyMock.expect(mockDocument.getErrorCode()).andReturn("1200").times(2);			
 			EasyMock.expect(mockDocument.getMetaData()).andReturn("This is document metadata");
 			EasyMock.expect(mockDocument.getCollection()).andReturn(COLLECTION_NAME);
 			mockNovus.shutdownMQ();
