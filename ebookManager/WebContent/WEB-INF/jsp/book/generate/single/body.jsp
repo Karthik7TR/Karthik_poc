@@ -15,6 +15,28 @@
 <head>
 
 <body>
+
+  <script type="text/javascript">
+  	
+  function changeMajorVersion(){
+	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
+	  var currentVersionFloat = parseFloat (currentVersion.substr(1));
+	  var newVersion= Math.floor(currentVersionFloat)+1;
+	  
+	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
+  }
+  
+  function changeMinorVersion(){	
+	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
+	  var currentVersionFloat = parseFloat (currentVersion.substr(1));
+	  var newVersion= currentVersionFloat+0.10;
+	  
+	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
+  }
+  
+  </script>
+  
+  
   <div class="majorDiv">
 	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
@@ -55,20 +77,26 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:radiobutton path="majorVersion"/>Minor
-			  <form:radiobutton path="majorVersion"/>Major
+			  <form:radiobutton path="majorVersion" onclick='changeMinorVersion()'/>Minor
+			  <form:radiobutton path="majorVersion" onclick='changeMajorVersion()'/>Major
 			 </td>
 		  </tr>
 		  
 		  <tr>
-		  	<td>Current Proview Version No:
-		  	${versionNumber}
+		  	<td>Proview Version Current:
+		  	<td id="currentVersionNumber">${versionNumber}</td>
+		  </tr>
+		  
+		  <tr>
+		  	<td>Proview Version New:
+		  	<td id="newVersionNumber"></td>
 		  </tr>
 		  
 		</table>
 		<br/>
 		<input type="submit" value="Generate" ${generateButtonVisibility} />
 		<input type="submit" value="Cancel" disabled="disabled"/>
+		
 		
 		<%-- Informational Messages area --%>
 	    <c:if test="${infoMessage != null}">
