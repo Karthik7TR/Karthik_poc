@@ -163,7 +163,7 @@ public class DocServiceImpl implements DocService {
 		while (novusDocRetryCounter <= retryCount) {
 			try {
 				docText = document.getText();
-				if (document.getErrorCode().endsWith("00")) {
+				if((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
 					break;
 				} else {
 					Log.error("Exception happened while retreving text for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
@@ -203,7 +203,7 @@ public class DocServiceImpl implements DocService {
 		while (novusMetaRetryCounter < retryCount) {
 			try {
 				docMetaData = document.getMetaData();
-				if (document.getErrorCode().endsWith("00")) {
+				if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) { 
 					break;
 				} else {
 					Log.error("Exception happened while retreving metadata for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
