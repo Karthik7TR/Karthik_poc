@@ -27,6 +27,9 @@
 	font-weight: bold;
 	border: thin double gray;
 }
+.job-details-refresh-button {
+	margin-left: 20px;
+}
 
 .errorBox {
 	padding: 5px;
@@ -122,7 +125,7 @@ html, body {
 	float:left;
 	width:100%;
 	position:relative;
-  	height:80px;
+  	height:110px;
   	background:#E0E0E0;
 }
 

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -26,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 
@@ -36,7 +37,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 public class StepExecutionController {
 	private static final Logger log = Logger.getLogger(StepExecutionController.class);
 	
-	private JobExplorer jobExplorer;
+	private JobService jobService;
 	
 	/**
 	 * Set up model for viewing a specific job step.
@@ -51,15 +52,18 @@ public class StepExecutionController {
 							  @RequestParam Long stepExecutionId,	// step execution ID
 							  Model model) throws Exception {
 log.debug(">>> jobInstanceId="+jobInstanceId + "&jobExecutionId="+jobExecutionId + "&stepExecutionId="+stepExecutionId);
-		JobInstance jobInstance = jobExplorer.getJobInstance(jobInstanceId);
-		StepExecution stepExecution = jobExplorer.getStepExecution(jobExecutionId, stepExecutionId);
-		populateModel(model, jobInstance, stepExecution);
+		JobInstance jobInstance = jobService.findJobInstance(jobInstanceId);
+		JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(jobInstance.getId());
+		StepExecution stepExecution = jobService.findStepExecution(jobExecutionId, stepExecutionId);
+		populateModel(model, jobInstance, bookInfo, stepExecution);
 		return new ModelAndView(WebConstants.VIEW_JOB_STEP_EXECUTION_DETAILS);
 	}
 	
-	private void populateModel(Model model, final JobInstance jobInstance, final StepExecution stepExecution) {
+	private void populateModel(Model model, final JobInstance jobInstance,
+							   final JobInstanceBookInfo bookInfo, final StepExecution stepExecution) {
 		List<Map.Entry<String,Object>> mapEntryList = createStepExecutionContextMapEntryList(stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
+		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION, stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES, mapEntryList);
 	}
@@ -82,7 +86,7 @@ log.debug(">>> jobInstanceId="+jobInstanceId + "&jobExecutionId="+jobExecutionId
 		return list;
 	}
 	@Required
-	public void setJobExplorer(JobExplorer jobExplorer) {
-		this.jobExplorer = jobExplorer;
+	public void setJobService(JobService jobService) {
+		this.jobService = jobService;
 	}
 }

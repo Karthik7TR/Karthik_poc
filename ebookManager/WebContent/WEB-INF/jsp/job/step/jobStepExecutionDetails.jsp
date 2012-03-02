@@ -31,18 +31,18 @@
 <div id="statsDiv">
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 <tr>
-	<td style="padding-right:50px;">Step Name</td>
+	<td style="padding-right:80px;">Step Name</td>
 	<td>${jobStepExecution.stepName}</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 </tr>
 <tr>
 	<td>Book Name</td>
-	<td colspan="3">${jobInstance.jobParameters.parameters.bookName}</td>
+	<td colspan="3">${bookInfo.bookName}</td>
 </tr>
 <tr>
 	<td>Title ID</td>
-	<td colspan="3">${jobInstance.jobParameters.parameters.titleIdFullyQualified}</td>
+	<td colspan="3">${bookInfo.titleId}</td>
 
 </tr>
 <tr>
@@ -107,16 +107,19 @@
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 </tr>
+
+<%-- Only display the exit message if there was indeed some error --%>
+<c:if test="${not empty jobStepExecution.exitStatus.exitDescription}">
 <tr>
 	<td>Exit Message </td>
-	<td colspan="3">${jobStepExecution.exitStatus.exitDescription}</td>
+	<td colspan="3"  style="border-width:2;border-style:solid;border-color:red;">${jobStepExecution.exitStatus.exitDescription}</td>
 </tr>
+</c:if>
 </table>
 </div>
 <br/>
 
 <%-- Step Execution Context map entries (key/value pairs) --%>
-
 <div id="stepExecutionContextDiv" class="job-details-expand-div">
 	<display:table id="stepExecutionContextMapEntry" name="<%=WebConstants.KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES %>" class="displayTagTable" cellpadding="3" style="text-align: left;">
   		<display:setProperty name="basic.msg.empty_list">No step execution context entries were found.</display:setProperty>

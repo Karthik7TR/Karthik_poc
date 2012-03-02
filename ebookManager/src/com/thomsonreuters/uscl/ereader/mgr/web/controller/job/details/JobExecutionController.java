@@ -10,7 +10,6 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobExecutionVdo;
 
@@ -35,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobExecutionV
 public class JobExecutionController {
 	private static final Logger log = Logger.getLogger(JobExecutionController.class);
 	
-	private JobExplorer jobExplorer;
+	private JobService jobService;
 	private Validator validator;
 	
 	@InitBinder(JobExecutionForm.FORM_NAME)
@@ -48,7 +49,7 @@ public class JobExecutionController {
 							  @RequestParam Long jobExecutionId,
 							  @ModelAttribute(JobExecutionForm.FORM_NAME) JobExecutionForm form,
 							  Model model) throws Exception {
-		JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
 		populateModel(model, jobExecution);
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
 	}
@@ -57,10 +58,9 @@ public class JobExecutionController {
 	public ModelAndView doPost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
 							   BindingResult bindingResult,
 							   Model model) throws Exception {
-log.debug(form);
 		JobExecution jobExecution = null;
 		if (!bindingResult.hasErrors()) {
-			jobExecution = jobExplorer.getJobExecution(form.getJobExecutionId());
+			jobExecution = jobService.findJobExecution(form.getJobExecutionId());
 			if (jobExecution == null) {
 				String[] args = { form.getJobExecutionId().toString() };
 				bindingResult.reject("executionId.not.found", args, "Job execution not found");
@@ -90,13 +90,16 @@ log.debug(">>> STOP jobExecutionId="+jobExecutionId);
 	}
 	
 	private void populateModel(Model model, JobExecution jobExecution) {
-		JobExecutionVdo vdo = new JobExecutionVdo(jobExecution);
+		JobInstanceBookInfo bookInfo = (jobExecution != null) ? 
+				jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+		JobExecutionVdo vdo = new JobExecutionVdo(jobExecution, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION, jobExecution);
 		model.addAttribute(WebConstants.KEY_VDO, vdo);
 	}
+
 	@Required
-	public void setJobExplorer(JobExplorer jobExplorer) {
-		this.jobExplorer = jobExplorer;
+	public void setJobService(JobService jobService) {
+		this.jobService = jobService;
 	}
 	@Required
 	public void setValidator(Validator validator) {

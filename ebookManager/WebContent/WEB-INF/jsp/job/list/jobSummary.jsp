@@ -36,7 +36,7 @@ function submitJobListForm(command) {
 
  <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
-<form:form action="<%=WebConstants.MVC_JOB_LIST_POST%>"
+<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_POST%>"
 		   commandName="<%=JobListForm.FORM_NAME%>" name="theForm" method="post">
 	<form:hidden path="jobCommand"/>
 	
@@ -58,19 +58,21 @@ function submitJobListForm(command) {
 	<%-- Table of job executions --%>
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<display:table id="vdo" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_JOB_LIST_PAGE_AND_SORT%>"
+				   requestURI="<%=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT%>"
 				   sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
 	  <display:column title="${selectAllElement}"  style="text-align: center">
   		<form:checkbox path="jobExecutionIds" value="${vdo.jobExecution.id}"/>
   	  </display:column>
-	  <display:column title="Book Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
-	  <display:column title="Title ID" property="fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
+	  <display:column title="Book Name" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left">
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.bookInfo.titleId}">${vdo.bookInfo.bookName}</a>
+	  </display:column>
+	  <display:column title="Title ID" property="bookInfo.titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left"/>
 	  <display:column title="Inst &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
-	  		<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
+	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobExecution.jobInstance.id}">${vdo.jobExecution.jobInstance.id}</a>
 	  </display:column>
 	  <display:column title="Exec &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
-	  		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${vdo.jobExecution.id}">${vdo.jobExecution.id}</a>
+		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${vdo.jobExecution.id}">${vdo.jobExecution.id}</a>
 	  </display:column>
 	  <display:column title="Job Status" property="jobExecution.status" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 	  <display:column title="Start Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.START_TIME.toString()%>"><fmt:formatDate value="${vdo.jobExecution.startTime}" pattern="${DATE_FORMAT}"/></display:column>

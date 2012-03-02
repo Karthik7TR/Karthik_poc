@@ -42,7 +42,7 @@ public class FilterController extends BaseJobListController {
 	/**
 	 * Handle submit/post of a new set of filter criteria.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_LIST_FILTER_POST, method = RequestMethod.POST)
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_FILTER_POST, method = RequestMethod.POST)
 	public ModelAndView doFilterPost(HttpSession httpSession,
 						@ModelAttribute(FilterForm.FORM_NAME) @Valid FilterForm filterForm,
 						BindingResult errors,

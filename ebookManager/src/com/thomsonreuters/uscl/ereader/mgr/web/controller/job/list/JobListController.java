@@ -45,7 +45,7 @@ public class JobListController extends BaseJobListController {
 	 * Handle initial in-bound HTTP get request to the page.
 	 * No query string parameters are expected.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_LIST, method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView doGet(HttpSession httpSession, 
 							  @ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
 							  @ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
@@ -70,7 +70,7 @@ public class JobListController extends BaseJobListController {
 	 * Handle paging and sorting of job list.
 	 * Handles clicking of column headers to sort, or use of page number navigation links, like prev/next.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_LIST_PAGE_AND_SORT, method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT, method = RequestMethod.GET)
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
 								@ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
@@ -111,7 +111,7 @@ public class JobListController extends BaseJobListController {
 	 * Handle operational buttons that submit a form of selected rows, or when the user changes the number of
 	 * rows displayed at one time.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_LIST_POST, method = RequestMethod.POST)
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_POST, method = RequestMethod.POST)
 	public ModelAndView doPost(HttpSession httpSession,
 							   @ModelAttribute(JobListForm.FORM_NAME) @Valid JobListForm jobListForm,
 							   BindingResult errors,

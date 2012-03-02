@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.StepStartTimeComparator;
 
@@ -34,7 +35,7 @@ public class JobInstanceController {
 	private static final Logger log = Logger.getLogger(JobInstanceController.class);
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
-	private JobExplorer jobExplorer;
+	private JobService jobService;
 	
 	/**
 	 * Create a aggregated list of StepExecution's from all JobInstance's specified by id.
@@ -47,24 +48,30 @@ public class JobInstanceController {
 	public ModelAndView doGet(@RequestParam Long jobInstanceId,
 							  Model model) throws Exception {
 		log.debug(">>> jobInstanceId="+jobInstanceId);
-		JobInstance jobInstance = jobExplorer.getJobInstance(jobInstanceId);
-		List<JobExecution> jobExecutions = jobExplorer.getJobExecutions(jobInstance);
-		List<StepExecution> allJobInstanceSteps = new ArrayList<StepExecution>();
-		for (JobExecution je : jobExecutions) {
-			Collection<StepExecution> stepExecutions = je.getStepExecutions();
-			allJobInstanceSteps.addAll(stepExecutions);
+		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
+		if (jobInstance != null) {
+			JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(jobInstance.getId());
+			List<JobExecution> jobExecutions = jobService.findJobExecutions(jobInstance);
+			List<StepExecution> allJobInstanceSteps = new ArrayList<StepExecution>();
+			for (JobExecution je : jobExecutions) {
+				Collection<StepExecution> stepExecutions = je.getStepExecutions();
+				allJobInstanceSteps.addAll(stepExecutions);
+			}
+			Collections.sort(allJobInstanceSteps, stepStartTimeComparator);  // Descending sort
+			populateModel(model, jobInstance, bookInfo, allJobInstanceSteps);
 		}
-		Collections.sort(allJobInstanceSteps, stepStartTimeComparator);  // Descending sort
-		populateModel(model, jobInstance, allJobInstanceSteps);
 		return new ModelAndView(WebConstants.VIEW_JOB_INSTANCE_DETAILS);
 	}
 
-	private void populateModel(Model model, JobInstance jobInstance, List<StepExecution> allJobInstanceSteps) {
+	private void populateModel(Model model, final JobInstance jobInstance,
+							   final JobInstanceBookInfo bookInfo,
+							   final List<StepExecution> allJobInstanceSteps) {
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
+		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTIONS, allJobInstanceSteps);
 	}
 	@Required
-	public void setJobExplorer(JobExplorer jobExplorer) {
-		this.jobExplorer = jobExplorer;
+	public void setJobService(JobService jobService) {
+		this.jobService = jobService;
 	}
 }

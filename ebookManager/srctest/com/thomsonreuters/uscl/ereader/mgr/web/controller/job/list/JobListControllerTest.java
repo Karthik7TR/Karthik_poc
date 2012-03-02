@@ -60,7 +60,7 @@ public class JobListControllerTest {
 	@Test
 	public void testJobListGet() throws Exception {
     	// Set up the request URL
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY);
     	request.setMethod(HttpMethod.GET.name());
     	HttpSession session = request.getSession();
     	
@@ -90,7 +90,7 @@ public class JobListControllerTest {
 	public void testJobListPaging() throws Exception {
     	// Set up the request URL
 		int newPageNumber = 2;
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_PAGE_AND_SORT);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter("page", String.valueOf(newPageNumber));
     	HttpSession session = request.getSession();
@@ -120,7 +120,7 @@ public class JobListControllerTest {
 	@Test
 	public void testJobListSorting() throws Exception {
     	// Set up the request URL
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_PAGE_AND_SORT);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter("sort", DisplayTagSortProperty.BATCH_STATUS.toString());
     	request.setParameter("dir", "asc");
@@ -152,7 +152,7 @@ public class JobListControllerTest {
 	public void testChangeObjectsPerPage() throws Exception {
 		int EXPECTED_OBJECTS_PER_PAGE = 33;
     	// Set up the request URL
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_POST);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_POST);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("jobCommand", JobListForm.JobCommand.CHANGE_OBJECTS_PER_PAGE.toString());
     	request.setParameter("objectsPerPage", String.valueOf(EXPECTED_OBJECTS_PER_PAGE));

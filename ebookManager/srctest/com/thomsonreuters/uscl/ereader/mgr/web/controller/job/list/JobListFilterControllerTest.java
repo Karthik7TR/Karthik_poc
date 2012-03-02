@@ -51,7 +51,7 @@ public class JobListFilterControllerTest {
 		String titleId = "uscl/junit/test/abc";
 		String fromDate = "01/01/2012";
 		String toDate = "03/01/2012";
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_LIST_FILTER_POST);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_FILTER_POST);
     	request.setMethod(HttpMethod.POST.name());
     	// The filter values
     	request.setParameter(WebConstants.KEY_TITLE_ID, titleId);

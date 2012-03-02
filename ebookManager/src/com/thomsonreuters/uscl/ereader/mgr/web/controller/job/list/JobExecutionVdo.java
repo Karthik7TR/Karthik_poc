@@ -23,8 +23,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
-
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 
 /**
  * A View Data Object (VDO) wrapper around a Spring Batch JobExecution object (Decorator/VDO patterns).
@@ -36,29 +35,24 @@ public class JobExecutionVdo {
 	private static final Comparator<StepExecution> stepStartTimeComparator = new StepStartTimeComparator();
 	/** Comparator to sort lists of properties into ascending key order */
 	private static final Comparator<Map.Entry<String,?>> mapEntryKeyComparator = new MapEntryKeyComparator();
-	private JobExecution jobExecution;
 	
+	private JobExecution jobExecution;
+	private JobInstanceBookInfo bookInfo;
 	/**
-	 * @param jobExecution may be null
-	 * @param jobExecutions the list of executions that have run as the above job instance.
+	 * @param jobExecution the Spring Batch job execution object.
+	 * May be null, but no null checks are made in the convenience methods that use it so clients must first check
+	 * that the jobExecution property is not null.
+	 * @param bookInfo book data needed for presentation that is associated with this instance.
 	 */
-	public JobExecutionVdo(JobExecution jobExecution) {
+	public JobExecutionVdo(JobExecution jobExecution, JobInstanceBookInfo bookInfo) {
 		this.jobExecution = jobExecution;
+		this.bookInfo = bookInfo;
 	}
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
-	public Long getMajorVersion() {
-		return jobExecution.getJobInstance().getJobParameters().getLong(JobParameterKey.MAJOR_VERSION);
-	}
-	public String getTitleId() {
-		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.TITLE_ID);
-	}
-	public String getFullyQualifiedTitleId() {
-		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
-	}
-	public String getBookName() {
-		return jobExecution.getJobInstance().getJobParameters().getString(JobParameterKey.BOOK_NAME);
+	public JobInstanceBookInfo getBookInfo() {
+		return bookInfo;
 	}
 	/**
 	 * Get the job execution steps in descending start time order.
@@ -72,12 +66,9 @@ public class JobExecutionVdo {
 	
 	/**
 	 * Used to determine if the "Restart" button should be displayed on the details page.
-	 * @return true if the job is restartable by Spring Batch definition.
+	 * @return true if the job is restartable by verifying the Spring Batch rules.
 	 */
 	public boolean isRestartable() {
-		if (jobExecution == null) {
-			return false;
-		}
 		BatchStatus batchStatus = jobExecution.getStatus();
 		return ((BatchStatus.STOPPED == batchStatus) ||
 				(BatchStatus.FAILED == batchStatus));

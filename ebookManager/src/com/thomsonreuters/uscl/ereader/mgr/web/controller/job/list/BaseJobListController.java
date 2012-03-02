@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
@@ -108,8 +109,14 @@ public abstract class BaseJobListController {
 		}
 	}
 	
-    private JobPaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) { 
-		int fullListSize = jobExecutionIds.size();
+	/**
+	 * Create the partial paginated list used by DisplayTag to render to current page number of 
+	 * list list of objects.
+	 * @param jobExecutionIds primary key for the set of job executions to fetch/display.
+	 * @param pageAndSort current page number, sort column, and sort direction (asc/desc).
+	 * @return an implemented DisplayTag paginated list interface
+	 */
+    private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) { 
 		// Calculate begin and end index for the current page number
 		int fromIndex = (pageAndSort.getPage() - 1) * pageAndSort.getObjectsPerPage();
 		int toIndex = fromIndex + pageAndSort.getObjectsPerPage();
@@ -123,12 +130,15 @@ public abstract class BaseJobListController {
 		// Create the paginated list of View Data Objects (wrapping JobExecution) for use by DisplayTag table on the JSP.
 		List<JobExecutionVdo> jobExecutionVdos = new ArrayList<JobExecutionVdo>();
 		for (JobExecution je : jobExecutions) {
-			jobExecutionVdos.add(new JobExecutionVdo(je));
+			JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(je.getJobId());
+			jobExecutionVdos.add(new JobExecutionVdo(je, bookInfo));
 		}
-		
-		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos, fullListSize,
-						pageAndSort.getPage(), pageAndSort.getObjectsPerPage(),
-						pageAndSort.getSort(), pageAndSort.isAscendingSort());
+
+		// Instantiate the object used by DisplayTag to render a partial list
+		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos,
+								jobExecutionIds.size(),
+								pageAndSort.getPage(), pageAndSort.getObjectsPerPage(),
+								pageAndSort.getSort(), pageAndSort.isAscendingSort());
 		return paginatedList;
     }
 

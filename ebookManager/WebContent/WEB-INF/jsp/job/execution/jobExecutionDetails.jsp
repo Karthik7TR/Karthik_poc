@@ -65,46 +65,22 @@
 </script>
 
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
-	<form:form action="<%=WebConstants.MVC_JOB_EXECUTION_DETAILS_POST%>"
-			   	   commandName="<%=JobExecutionForm.FORM_NAME%>" name="theForm" method="post">
-			   	   
-<%-- Error Message Presentation --%>
-		<spring:hasBindErrors name="<%=JobExecutionForm.FORM_NAME%>">
-			<div class="errorBox">
-		      <b><spring:message code="please.fix.errors"/></b><br/>
-		      <form:errors path="*">
-		      	<ul>
-				<c:forEach items="${messages}" var="message">
-					<li style="color: black">${message}</li>
-				</c:forEach>
-		      	</ul>
-			  </form:errors>
-			  <br/>
-		    </div>
-		    <br/>
-	    </spring:hasBindErrors>
-	    
-  		Job Execution ID &nbsp; <form:input path="jobExecutionId"/> &nbsp;
-  		<input type="submit" value="Find"/> &nbsp;
-  		<input type="button" value="Refresh"
-  			onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/>
-	</form:form>
+
 	<%--
 		Ensure we are working with a valid JobExecution.  We may not be if they entered an execution ID that was not found.
 	 --%>
 	<c:if test="${jobExecution != null}">
-	<br/>
 	
 <%-- Execution statistics --%>	
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
-		<td style="padding-right:35px;">Book Name</td>
-		<td colspan="3">${vdo.bookName}</td>
+		<td style="padding-right:40px;">Book Name</td>
+		<td colspan="3">${vdo.bookInfo.bookName}</td>
 	</tr>
 	<tr>
 		<td>Title ID</td>
-		<td colspan="3">${vdo.fullyQualifiedTitleId}</td>
+		<td colspan="3">${vdo.bookInfo.titleId}</td>
 	</tr>
 	<tr>
 		<td>Job Instance</td>

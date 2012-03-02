@@ -7,6 +7,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web;
 
 
+
 public class WebConstants {
 	
 	// Date/Time formatting patterns
@@ -59,6 +60,7 @@ public class WebConstants {
 	public static final String KEY_JOB_STEP_EXECUTION_ID = "stepExecutionId";
 	public static final String KEY_JOB_STEP_EXECUTIONS = "jobStepExecutions";
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
+	public static final String KEY_JOB_INSTANCE_BOOK_INFO = "bookInfo";
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	
 	// Page paths
@@ -84,10 +86,10 @@ public class WebConstants {
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
 	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
-	public static final String MVC_JOB_LIST = "jobList.mvc";
-	public static final String MVC_JOB_LIST_PAGE_AND_SORT = "jobListPageAndSort.mvc";
-	public static final String MVC_JOB_LIST_POST = "jobListPost.mvc";
-	public static final String MVC_JOB_LIST_FILTER_POST = "jobListFilterPost.mvc";
+	public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
+	public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
+	public static final String MVC_JOB_SUMMARY_POST = "jobSummaryPost.mvc";
+	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
 	public static final String MVC_JOB_RESTART = "jobRestart.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
 	public static final String MVC_JOB_STOP = "jobStop.mvc";

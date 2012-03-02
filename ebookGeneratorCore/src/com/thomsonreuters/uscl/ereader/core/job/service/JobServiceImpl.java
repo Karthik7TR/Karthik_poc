@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 
 public class JobServiceImpl implements JobService {
@@ -21,7 +24,7 @@ public class JobServiceImpl implements JobService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public JobExecution findJobExecution(Long jobExecutionId) {
+	public JobExecution findJobExecution(long jobExecutionId) {
 		return jobExplorer.getJobExecution(jobExecutionId);
 	}
 	
@@ -39,9 +42,36 @@ public class JobServiceImpl implements JobService {
 	}
 	
 	@Override
+	public List<JobExecution> findJobExecutions(JobInstance jobInstance) {
+		List<JobExecution> jobExecutions = jobExplorer.getJobExecutions(jobInstance);
+		return jobExecutions;
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public List<Long> findJobExecutions(JobFilter filter, JobSort sort) {
 		return dao.findJobExecutions(filter, sort);
+	}
+	
+	@Override
+	public JobInstance findJobInstance(long jobInstanceId) {
+		return jobExplorer.getJobInstance(jobInstanceId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId) {
+		
+// TODO: implement this once table and domain object work is complete	
+		
+return new JobInstanceBookInfo(String.format("TODO_BOOK_NAME_%d", jobInstanceId),
+							   String.format("TODO_BOOK_TITLE_ID_%d", jobInstanceId));
+	}
+	
+	@Override
+	public StepExecution findStepExecution(long jobExecutionId, long stepExecutionId) {
+		StepExecution stepExecution = jobExplorer.getStepExecution(jobExecutionId, stepExecutionId);
+		return stepExecution;
 	}
 	
 	public boolean isJobRunning(String titleId) {
