@@ -34,7 +34,7 @@ function submitJobListFilterForm(command) {
 <b>Job Filters</b><br/>
 <br/>
 
-<form:form action="<%=WebConstants.MVC_JOB_LIST_FILTER_POST%>"
+<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_FILTER_POST%>"
 		   commandName="<%=FilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
 	
