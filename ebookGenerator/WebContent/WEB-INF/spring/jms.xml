@@ -33,11 +33,7 @@
   		  p:highPriorityQueue-ref="highPriorityJobRunRequestQueue"
   		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
   		  
-    <bean id="throttle" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.JobRunThrottle"
-    	  p:engineDao-ref="engineDao"/>
-  		  
   	<bean id="jobRunQueuePoller" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
-  	      p:throttle-ref="throttle"
   	      p:coreService-ref="coreService"
   	      p:engineService-ref="engineService"
   	      p:jobStartupThrottleService-ref="jobStartupThrottleService"

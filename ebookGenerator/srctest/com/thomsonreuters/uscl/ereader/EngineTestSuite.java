@@ -28,8 +28,6 @@ import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobQueueManagerTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePollerTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClientFactoryTest;
 
@@ -57,8 +55,6 @@ import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClien
 			ImageServiceTest.class,
 			ImageVerticalJsonTest.class,
 			InitializeTaskTest.class,
-			JobQueueManagerTest.class,
-			JobRunQueuePollerTest.class,
 			ProviewClientImplTest.class,
 			ProviewExceptionTest.class
 		} )

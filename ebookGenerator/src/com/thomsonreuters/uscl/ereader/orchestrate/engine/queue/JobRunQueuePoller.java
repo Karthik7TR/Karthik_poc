@@ -11,7 +11,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -20,8 +19,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 
 /**
  * A regularly scheduled task to check the batch job run request queue(s) for new job run request messages.
@@ -31,7 +28,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.throttle.Throttle;
 public class JobRunQueuePoller {
 	private static final Logger log = Logger.getLogger(JobRunQueuePoller.class);
 
-	private Throttle throttle;
 	private CoreService coreService;
 	private EngineService engineService;
 	private JobQueueManager jobQueueManager;
@@ -43,8 +39,6 @@ public class JobRunQueuePoller {
 	@Scheduled(fixedRate=15000)
 	public void run() {
 		try {
-			// If the engine will accept the start of another job and is not at the max concurrent jobs upper limit
-			if (!throttle.isAtMaximum()) {
 				
 				// check if number of jobs running are bellow throttl limit.
 				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
@@ -81,16 +75,11 @@ public class JobRunQueuePoller {
 								allJobParameters);
 					}
 				}
-			}
 		} catch (Exception e) {
 			
 			log.error(String.format("Failed to fetch job run request from launch input queue.\n\t%s", e.getMessage()));
 			e.printStackTrace();
 		}
-	}
-	@Required
-	public void setThrottle(Throttle throttle) {
-		this.throttle = throttle;
 	}
 	@Required
 	public void setCoreService(CoreService coreService) {
