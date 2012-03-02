@@ -31,12 +31,53 @@ public class GenerateEbookController {
 	private JobRunner jobRunner;
 	private MessageSourceAccessor messageSourceAccessor;
 	private ProviewClient proviewClient;
+	String newMajorVersion;
+	String newMinorVersion;
+	String currentVersion;
 
+	/**
+	 * 
+	 * @param currentVersion
+	 * @param model
+	 */
+	private void calculateVersionNumbers(Model model) {
+
+		if (currentVersion.equals("Not published")) {
+			newMajorVersion = "v1";
+			newMinorVersion = "v1";
+		} else {
+			Double currentVersionFloat = Double.parseDouble(currentVersion
+					.substring(1));
+			Integer newMajorVersionDouble = (int) (Math
+					.floor(currentVersionFloat) + 1);
+			Double newMinorVersionDouble = Math.floor(currentVersionFloat) + 0.10;
+
+			newMajorVersion = "v" + newMajorVersionDouble;
+			newMinorVersion = "v" + newMinorVersionDouble;
+
+		}
+		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
+		model.addAttribute(WebConstants.KEY_NEW_MAJOR_VERSION_NUMBER,
+				newMajorVersion);
+		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
+				newMinorVersion);
+
+	}
+
+	/**
+	 * 
+	 * @param titleId
+	 * @param form
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
 	public ModelAndView generateEbookPreview(@RequestParam String titleId,
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
+		String currentVersion;
 		BookDefinition book = coreService
 				.findBookDefinition(new BookDefinitionKey(titleId));
 
@@ -49,11 +90,13 @@ public class GenerateEbookController {
 		}
 
 		if (proviewTitleInfo == null) {
-			model.addAttribute(WebConstants.KEY_VERSION_NUMBER, "Not published");
+			currentVersion = "Not published";
+
 		} else {
-			model.addAttribute(WebConstants.KEY_VERSION_NUMBER,
-					proviewTitleInfo.getVesrion());
+			currentVersion = proviewTitleInfo.getVesrion();
+
 		}
+		calculateVersionNumbers(model);
 
 		model.addAttribute(WebConstants.TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
@@ -64,6 +107,12 @@ public class GenerateEbookController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 
+	/**
+	 * 
+	 * @param form
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
 	public ModelAndView doPost(
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,

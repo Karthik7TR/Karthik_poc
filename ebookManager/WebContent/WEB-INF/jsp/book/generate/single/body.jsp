@@ -14,36 +14,12 @@
 <html>
 <head>
 
-<body>
+<body onload='changeVersion("${newMinorVersionNumber}")'>
 
   <script type="text/javascript">
   	
-  function changeMajorVersion(){
-	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
-	  
-	  if (currentVersion=="Not published"){
-		  newVersion=1;
-	  }
-	  else{
-	  	var currentVersionFloat = parseFloat (currentVersion.substr(1));
-	  	var newVersion= Math.floor(currentVersionFloat)+1;
-	  }
-	  
-	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
-  }
-  
-  function changeMinorVersion(){	
-	  var currentVersion =  document.getElementById('currentVersionNumber').innerHTML;
-	  
-	  if (currentVersion=="Not published"){
-		  newVersion=1;
-	  }
-	  else{
-	  	var currentVersionFloat = parseFloat (currentVersion.substr(1));
-	  	var newVersion= currentVersionFloat+0.10;
-	  }
-	  
-	  document.getElementById('newVersionNumber').innerHTML = 'v'+newVersion;
+   function changeVersion(newVersion){
+	  document.getElementById('newVersionNumber').innerHTML = newVersion;
   }
   
   </script>
@@ -89,8 +65,8 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:radiobutton path="majorVersion" onclick='changeMinorVersion()'/>Minor
-			  <form:radiobutton path="majorVersion" onclick='changeMajorVersion()'/>Major
+			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMinorVersionNumber}")' value="false"/>Minor
+			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMajorVersionNumber}")'/>Major
 			 </td>
 		  </tr>
 		  
