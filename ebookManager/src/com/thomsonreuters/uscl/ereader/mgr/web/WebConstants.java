@@ -50,6 +50,8 @@ public class WebConstants {
 	public static final String KEY_GENERATE_BUTTON_ROLE="ROLE_SUPERUSER";
 	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
 	public static final String KEY_VERSION_NUMBER="versionNumber";
+	public static final String KEY_NEW_MAJOR_VERSION_NUMBER="newMajorVersionNumber";
+	public static final String KEY_NEW_MINOR_VERSION_NUMBER="newMinorVersionNumber";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
