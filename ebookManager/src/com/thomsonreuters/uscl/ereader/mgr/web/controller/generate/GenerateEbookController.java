@@ -77,7 +77,6 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		String currentVersion;
 		BookDefinition book = coreService
 				.findBookDefinition(new BookDefinitionKey(titleId));
 
