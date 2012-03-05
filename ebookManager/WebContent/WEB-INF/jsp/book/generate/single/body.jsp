@@ -98,10 +98,11 @@
 		  	<td>Proview Version New:
 		  	<td id="newVersionNumber"></td>
 		  </tr>
-		  
-		  <p id="publishingCutOffDate" hidden="true">${publishingCutOffDate}</p>
-		  <p id="isbn" hidden="true">${isbn}</p>
-		  <p id="materialId" hidden="true" >${materialId}</p>
+		  <div style="visibility: hidden"> 
+		  	<text id="publishingCutOffDate">${publishingCutOffDate}</text>
+		  	<text id="isbn">${isbn}</text>
+		  	<text id="materialId">${materialId}</text>
+		  </div>	
 		</table>
 		<br/>
 		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />
