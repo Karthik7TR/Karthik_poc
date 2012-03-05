@@ -18,17 +18,24 @@
 
   <script type="text/javascript">
   	
-   function changeVersion(newVersion){
+  function changeVersion(newVersion){
 	  document.getElementById('newVersionNumber').innerHTML = newVersion;
   }
   
+  function confirmValues(){
+	  var newVersion = document.getElementById('newVersionNumber').innerHTML
+	  var confirmed = confirm("Generate version number: "+newVersion+"?");
+	  return confirmed;
+  }
+  
+    
   </script>
   
   
   <div class="majorDiv">
 	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
-			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
+			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post" onsubmit='return confirmValues();'>
 			   
 		<%-- Validation error Message Presentation --%>
 		<spring:hasBindErrors name="<%=GenerateBookForm.FORM_NAME%>">
@@ -82,7 +89,7 @@
 		  
 		</table>
 		<br/>
-		<input type="submit" value="Generate" ${generateButtonVisibility} />
+		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />
 		<input type="submit" value="Cancel" disabled="disabled"/>
 		
 		
