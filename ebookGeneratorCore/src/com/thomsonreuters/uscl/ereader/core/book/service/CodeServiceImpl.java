@@ -36,8 +36,8 @@ public class CodeServiceImpl implements CodeService {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public StateCode getStateCode(Long stateCodeId) {
-		return dao.getStateCode(stateCodeId);
+	public StateCode getStateCodeById(Long stateCodeId) {
+		return dao.getStateCodeById(stateCodeId);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param pubTypeCodeId
 	 * @return
 	 */
-	public PubTypeCode getPubTypeCode(Long pubTypeCodeId){
+	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId){
 		return dao.getPubTypeCode(pubTypeCodeId);
 	}
 	
@@ -84,6 +84,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @return
 	 */
 	public void savePubTypeCode(PubTypeCode pubTypeCode){
+		pubTypeCode.setLastUpdated(new Date());
 		dao.savePubTypeCode(pubTypeCode);
 	}
 	
@@ -110,7 +111,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param JurisTypeCodeId
 	 * @return
 	 */
-	public JurisTypeCode getJurisTypeCode(Long jurisTypeCodeId){
+	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId){
 		return dao.getJurisTypeCode(jurisTypeCodeId);
 	}
 	
@@ -120,6 +121,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @return
 	 */
 	public void saveJurisTypeCode(JurisTypeCode jurisTypeCode){
+		jurisTypeCode.setLastUpdated(new Date());
 		dao.saveJurisTypeCode(jurisTypeCode);
 	}
 	

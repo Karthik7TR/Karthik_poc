@@ -40,7 +40,7 @@ public class CodeDaoImpl implements CodeDao {
 	 * @return
 	 */
 	@Override
-	public StateCode getStateCode(Long stateCodeId) {
+	public StateCode getStateCodeById(Long stateCodeId) {
 		return (StateCode) sessionFactory.getCurrentSession().get(StateCode.class, stateCodeId);
 	}
 	

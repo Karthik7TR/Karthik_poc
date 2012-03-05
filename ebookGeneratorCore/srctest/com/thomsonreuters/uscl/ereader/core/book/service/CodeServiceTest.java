@@ -49,9 +49,9 @@ public class CodeServiceTest  {
 	
 	@Test
 	public void testGetStateCode() {
-		EasyMock.expect(mockCodeDao.getStateCode(STATE_CODES_ID)).andReturn(STATE_CODE);
+		EasyMock.expect(mockCodeDao.getStateCodeById(STATE_CODES_ID)).andReturn(STATE_CODE);
 		EasyMock.replay(mockCodeDao);
-		StateCode actual = service.getStateCode(STATE_CODES_ID);
+		StateCode actual = service.getStateCodeById(STATE_CODES_ID);
 		Assert.assertEquals(STATE_CODE, actual);
 		EasyMock.verify(mockCodeDao);
 	}
@@ -73,7 +73,7 @@ public class CodeServiceTest  {
 	public void testGetPubTypeCode() {
 		EasyMock.expect(mockCodeDao.getPubTypeCode(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
 		EasyMock.replay(mockCodeDao);
-		PubTypeCode actual = service.getPubTypeCode(PUB_TYPE_CODES_ID);
+		PubTypeCode actual = service.getPubTypeCodeById(PUB_TYPE_CODES_ID);
 		Assert.assertEquals(PUB_TYPE_CODE, actual);
 		EasyMock.verify(mockCodeDao);
 	}
@@ -95,7 +95,7 @@ public class CodeServiceTest  {
 	public void testGetJurisTypeCode() {
 		EasyMock.expect(mockCodeDao.getJurisTypeCode(JURIS_TYPE_CODES_ID)).andReturn(JURIS_TYPE_CODE);
 		EasyMock.replay(mockCodeDao);
-		JurisTypeCode actual = service.getJurisTypeCode(JURIS_TYPE_CODES_ID);
+		JurisTypeCode actual = service.getJurisTypeCodeById(JURIS_TYPE_CODES_ID);
 		Assert.assertEquals(JURIS_TYPE_CODE, actual);
 		EasyMock.verify(mockCodeDao);
 	}

@@ -11,7 +11,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,8 +32,9 @@ public class StateCode implements Serializable {
 	private static final long serialVersionUID = -6419698127062095582L;
 	
 	@Id
-	@GeneratedValue
 	@Column(name="STATE_CODES_ID")
+	@SequenceGenerator(name="stateCodesIdSequence", sequenceName="STATE_CODES_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stateCodesIdSequence")
 	private Long id;
 	
 	@Column(name="STATE_CODES_NAME", nullable = false, length = 1024)
@@ -52,7 +55,7 @@ public class StateCode implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}

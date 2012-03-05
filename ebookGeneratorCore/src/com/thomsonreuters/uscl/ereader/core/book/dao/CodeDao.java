@@ -25,7 +25,7 @@ public interface CodeDao {
 	 * @param stateCode
 	 * @return
 	 */
-	public StateCode getStateCode(Long stateCodeId);
+	public StateCode getStateCodeById(Long stateCodeId);
 	
 	/**
 	 * Create or Update a State Code to the STATE_CODES table

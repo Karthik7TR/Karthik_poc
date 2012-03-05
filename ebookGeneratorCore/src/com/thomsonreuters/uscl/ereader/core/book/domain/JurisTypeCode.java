@@ -11,7 +11,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,8 +32,9 @@ public class JurisTypeCode implements Serializable {
 	private static final long serialVersionUID = -3118292918077264082L;
 
 	@Id
-	@GeneratedValue
 	@Column(name="JURIS_TYPE_CODES_ID")
+	@SequenceGenerator(name="jurisTypeCodesIdSequence", sequenceName="JURIS_TYPE_CODES_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="jurisTypeCodesIdSequence")
 	private Long id;
 	
 	@Column(name="JURIS_TYPE_CODES_NAME", nullable = false, length = 1024)

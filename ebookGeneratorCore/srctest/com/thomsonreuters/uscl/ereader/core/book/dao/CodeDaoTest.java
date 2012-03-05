@@ -59,7 +59,7 @@ public class CodeDaoTest  {
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
 		
-		StateCode actualStateCode = dao.getStateCode(STATE_CODES_ID);
+		StateCode actualStateCode = dao.getStateCodeById(STATE_CODES_ID);
 		StateCode expected = new StateCode();
 		expected.setId(STATE_CODES_ID);
 		

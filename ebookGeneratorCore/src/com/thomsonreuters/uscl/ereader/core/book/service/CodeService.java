@@ -25,7 +25,7 @@ public interface CodeService {
 	 * @param stateCodeId
 	 * @return
 	 */
-	public StateCode getStateCode(Long stateCodeId);
+	public StateCode getStateCodeById(Long stateCodeId);
 	
 	/**
 	 * Create or Update a State Code to the STATE_CODES table
@@ -52,7 +52,7 @@ public interface CodeService {
 	 * @param pubTypeCodeId
 	 * @return
 	 */
-	public PubTypeCode getPubTypeCode(Long pubTypeCodeId);
+	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId);
 	
 	/**
 	 * Create or Update a PubType Code to the PUB_TYPE_CODES table
@@ -79,7 +79,7 @@ public interface CodeService {
 	 * @param JurisTypeCodeId
 	 * @return
 	 */
-	public JurisTypeCode getJurisTypeCode(Long jurisTypeCodeId);
+	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId);
 	
 	/**
 	 * Create or Update a JurisType Code to the Juris_TYPE_CODES table
