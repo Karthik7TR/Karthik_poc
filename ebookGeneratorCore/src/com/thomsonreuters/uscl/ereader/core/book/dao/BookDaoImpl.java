@@ -73,9 +73,9 @@ public class BookDaoImpl implements BookDao {
 		
 		for(int i = 0; i < 4; i++) {
 			Author author = new Author();
-			author.setAuthorId((long) i);
-			author.setFirstName("Example" + Integer.toString(i));
-			author.setLastName("Example" + Integer.toString(i));
+			author.setAuthorId(new Integer(i).longValue());
+			author.setAuthorFirstName("Example" + Integer.toString(i));
+			author.setAuthorLastName("Example" + Integer.toString(i));
 			authors.add(author);
 		}
 		

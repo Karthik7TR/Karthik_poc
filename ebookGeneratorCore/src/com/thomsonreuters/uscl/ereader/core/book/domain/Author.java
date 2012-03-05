@@ -1,115 +1,266 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
+/**
+ */
+@IdClass(com.thomsonreuters.uscl.ereader.core.book.domain.AuthorPK.class)
+@Entity
+@NamedQueries({
+		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinitionId = :eBookDefId")})
+@Table(schema = "EBOOK", name = "AUTHOR")
 public class Author implements Serializable {
-	//private static final Logger log = Logger.getLogger(Author.class);
-	private static final long serialVersionUID = -3402252702112431336L;
-	private Long authorId;
-	private BookDefinition book;
-	private String prefix;
-	private String firstName;
-	private String middleName;
-	private String lastName;
-	private String suffix;
-	private String additionalText;
-	
-	public Author() {
-		super();
-	}
-	
-	public Long getAuthorId() {
-		return authorId;
-	}
+	private static final long serialVersionUID = 1L;
 
+	/**
+	 */
+
+	@Column(name = "AUTHOR_ID", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	@Id
+	Long authorId;
+	/**
+	 */
+
+	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	@Id
+	Long ebookDefinitionId;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_NAME_PREFIX", length = 40)
+	@Basic(fetch = FetchType.EAGER)
+	String authorNamePrefix;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_NAME_SUFFIX", length = 40)
+	@Basic(fetch = FetchType.EAGER)
+	String authorNameSuffix;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_FIRST_NAME", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String authorFirstName;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_MIDDLE_NAME", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+
+	String authorMiddleName;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_LAST_NAME", length = 1024, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String authorLastName;
+	/**
+	 */
+
+	@Column(name = "AUTHOR_ADDL_TEXT", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String authorAddlText;
+
+	/**
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false, insertable = false, updatable = false) })
+	BookDefinition ebookDefinition;
+
+	/**
+	 */
 	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
 
-	public BookDefinition getBook() {
-		return book;
+	/**
+	 */
+	public Long getAuthorId() {
+		return this.authorId;
 	}
 
-	public void setBook(BookDefinition book) {
-		this.book = book;
+	/**
+	 */
+	public void setEbookDefinitionId(Long ebookDefinitionId) {
+		this.ebookDefinitionId = ebookDefinitionId;
 	}
 
-	public String getPrefix() {
-		return prefix;
+	/**
+	 */
+	public Long getEbookDefinitionId() {
+		return this.ebookDefinitionId;
 	}
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
+	/**
+	 */
+	public void setAuthorNamePrefix(String authorNamePrefix) {
+		this.authorNamePrefix = authorNamePrefix;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	/**
+	 */
+	public String getAuthorNamePrefix() {
+		return this.authorNamePrefix;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	/**
+	 */
+	public void setAuthorNameSuffix(String authorNameSuffix) {
+		this.authorNameSuffix = authorNameSuffix;
 	}
 
-	public String getMiddleName() {
-		return middleName;
+	/**
+	 */
+	public String getAuthorNameSuffix() {
+		return this.authorNameSuffix;
 	}
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
+	/**
+	 */
+	public void setAuthorFirstName(String authorFirstName) {
+		this.authorFirstName = authorFirstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	/**
+	 */
+	public String getAuthorFirstName() {
+		return this.authorFirstName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	/**
+	 */
+	public void setAuthorMiddleName(String authorMiddleName) {
+		this.authorMiddleName = authorMiddleName;
 	}
 
-	public String getSuffix() {
-		return suffix;
+	/**
+	 */
+	public String getAuthorMiddleName() {
+		return this.authorMiddleName;
 	}
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
+	/**
+	 */
+	public void setAuthorLastName(String authorLastName) {
+		this.authorLastName = authorLastName;
 	}
 
-	public String getAdditionalText() {
-		return additionalText;
+	/**
+	 */
+	public String getAuthorLastName() {
+		return this.authorLastName;
 	}
 
-	public void setAdditionalText(String additionalText) {
-		this.additionalText = additionalText;
-	}
-	
-	public boolean isNameEmpty() {
-		
-		return StringUtils.isBlank(this.prefix) &
-		StringUtils.isBlank(this.firstName) &
-		StringUtils.isBlank(this.middleName) &
-		StringUtils.isBlank(this.lastName) &
-		StringUtils.isBlank(this.suffix) &
-		StringUtils.isBlank(this.additionalText);
+	/**
+	 */
+	public void setAuthorAddlText(String authorAddlText) {
+		this.authorAddlText = authorAddlText;
 	}
 
-	@Override
+	/**
+	 */
+	public String getAuthorAddlText() {
+		return this.authorAddlText;
+	}
+
+	/**
+	 */
+	public void setEbookDefinition(BookDefinition ebookDefinition) {
+		this.ebookDefinition = ebookDefinition;
+	}
+
+	/**
+	 */
+	public BookDefinition getEbookDefinition() {
+		return ebookDefinition;
+	}
+
+	/**
+	 */
+	public Author() {
+	}
+
+	/**
+	 * Copies the contents of the specified bean into this bean.
+	 *
+	 */
+	public void copy(Author that) {
+		setAuthorId(that.getAuthorId());
+		setEbookDefinitionId(that.getEbookDefinitionId());
+		setAuthorNamePrefix(that.getAuthorNamePrefix());
+		setAuthorNameSuffix(that.getAuthorNameSuffix());
+		setAuthorFirstName(that.getAuthorFirstName());
+		setAuthorMiddleName(that.getAuthorMiddleName());
+		setAuthorLastName(that.getAuthorLastName());
+		setAuthorAddlText(that.getAuthorAddlText());
+		setEbookDefinition(that.getEbookDefinition());
+	}
+
+	/**
+	 * Returns a textual representation of a bean.
+	 *
+	 */
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append("authorId=[").append(authorId).append("] ");
+		buffer.append("ebookDefinitionId=[").append(ebookDefinitionId).append("] ");
+		buffer.append("authorNamePrefix=[").append(authorNamePrefix).append("] ");
+		buffer.append("authorNameSuffix=[").append(authorNameSuffix).append("] ");
+		buffer.append("authorFirstName=[").append(authorFirstName).append("] ");
+		buffer.append("authorMiddleName=[").append(authorMiddleName).append("] ");
+		buffer.append("authorLastName=[").append(authorLastName).append("] ");
+		buffer.append("authorAddlText=[").append(authorAddlText).append("] ");
+
+		return buffer.toString();
 	}
-	
+
+	/**
+	 */
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (int) (prime * result + ((authorId == null) ? 0 : authorId.hashCode()));
+		result = (int) (prime * result + ((ebookDefinitionId == null) ? 0 : ebookDefinitionId.hashCode()));
+		return result;
+	}
+
+	/**
+	 */
 	public boolean equals(Object obj) {
-		return this.toString().equals(obj.toString());
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Author))
+			return false;
+		Author equalCheck = (Author) obj;
+		if ((authorId == null && equalCheck.authorId != null) || (authorId != null && equalCheck.authorId == null))
+			return false;
+		if (authorId != null && !authorId.equals(equalCheck.authorId))
+			return false;
+		if ((ebookDefinitionId == null && equalCheck.ebookDefinitionId != null) || (ebookDefinitionId != null && equalCheck.ebookDefinitionId == null))
+			return false;
+		if (ebookDefinitionId != null && !ebookDefinitionId.equals(equalCheck.ebookDefinitionId))
+			return false;
+		return true;
 	}
 }
