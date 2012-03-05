@@ -24,7 +24,19 @@
   
   function confirmValues(){
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML
-	  var confirmed = confirm("Generate version number: "+newVersion+"?");
+	  var confirmed = confirm("Generate with new version number: "+ newVersion);
+	  
+	  if (confirmed){
+		var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML; 
+		confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
+			if (confirmed){
+				var isbn =document.getElementById("isbn").innerHTML;
+				var  materialId=document.getElementById("materialId").innerHTML;
+				confirmed=confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
+			}
+			
+	  }
+	  
 	  return confirmed;
   }
   
@@ -87,6 +99,9 @@
 		  	<td id="newVersionNumber"></td>
 		  </tr>
 		  
+		  <p id="publishingCutOffDate" hidden="true">${publishingCutOffDate}</p>
+		  <p id="isbn" hidden="true">${isbn}</p>
+		  <p id="materialId" hidden="true" >${materialId}</p>
 		</table>
 		<br/>
 		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />

@@ -85,7 +85,9 @@ public class GenerateEbookController {
 
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getBookName());
-
+			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE, "00/00/0000");
+			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
+			model.addAttribute(WebConstants.KEY_MATERIAL_ID, book.getMaterialId());
 		}
 
 		if (proviewTitleInfo == null) {

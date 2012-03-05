@@ -52,6 +52,10 @@ public class WebConstants {
 	public static final String KEY_VERSION_NUMBER="versionNumber";
 	public static final String KEY_NEW_MAJOR_VERSION_NUMBER="newMajorVersionNumber";
 	public static final String KEY_NEW_MINOR_VERSION_NUMBER="newMinorVersionNumber";
+	public static final String KEY_PUBLISHING_CUT_OFF_DATE="publishingCutOffDate";
+	public static final String KEY_ISBN="isbn";
+	public static final String KEY_MATERIAL_ID="materialId";
+	
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
