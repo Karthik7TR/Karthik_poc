@@ -22,29 +22,29 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * A state code database table entity.
- * Represents all the state code id and names used for Book Definition
+ * A publisher code database table entity.
+ * Represents all the publisher code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="STATE_CODES")
-public class StateCode implements Serializable {
-	//private static final Logger log = Logger.getLogger(StateCode.class);
-	private static final long serialVersionUID = -6419698127062095582L;
-	
+@Table(schema="EBOOK", name="PUBLISHER_CODES")
+public class PublisherCode implements Serializable {
+	//private static final Logger log = Logger.getLogger(PublisherCode.class);
+	private static final long serialVersionUID = -2270804278406061488L;
+
 	@Id
-	@Column(name="STATE_CODES_ID")
-	@SequenceGenerator(name="stateCodesIdSequence", sequenceName="STATE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stateCodesIdSequence")
+	@Column(name="PUBLISHER_CODES_ID")
+	@SequenceGenerator(name="publisherCodesIdSequence", sequenceName="PUBLISHER_CODES_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="publisherCodesIdSequence")
 	private Long id;
 	
-	@Column(name="STATE_CODES_NAME", nullable = false, length = 1024)
+	@Column(name="PUBLISHER_NAME", nullable = false, length = 1024)
 	private String name;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
 	
-	public StateCode() {
+	public PublisherCode() {
 		super();
 	}
 	
@@ -76,7 +76,7 @@ public class StateCode implements Serializable {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -96,7 +96,7 @@ public class StateCode implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StateCode other = (StateCode) obj;
+		PublisherCode other = (PublisherCode) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -114,4 +114,5 @@ public class StateCode implements Serializable {
 			return false;
 		return true;
 	}
+	
 }

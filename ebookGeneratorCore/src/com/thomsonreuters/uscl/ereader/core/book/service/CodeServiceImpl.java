@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 //@Service
@@ -75,7 +77,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @return
 	 */
 	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId){
-		return dao.getPubTypeCode(pubTypeCodeId);
+		return dao.getPubTypeCodeById(pubTypeCodeId);
 	}
 	
 	/**
@@ -112,7 +114,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @return
 	 */
 	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId){
-		return dao.getJurisTypeCode(jurisTypeCodeId);
+		return dao.getJurisTypeCodeById(jurisTypeCodeId);
 	}
 	
 	/**
@@ -132,6 +134,80 @@ public class CodeServiceImpl implements CodeService {
 	 */
 	public void deleteJurisTypeCode(JurisTypeCode jurisTypeCode) {
 		dao.deleteJurisTypeCode(jurisTypeCode);
+	}
+	
+	
+	/**
+	 * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
+	 * @return a list of DocumentTypeCode objects
+	 */
+	public List<DocumentTypeCode> getAllDocumentTypeCodes() {
+		return dao.getAllDocumentTypeCodes();
+	}
+	
+	/**
+	 * Get a DocumentType Code from the DOCUMENT_TYPE_CODES table that match DOCUMENT_TYPE_CODES_ID
+	 * @param DocumentTypeCodeId
+	 * @return
+	 */
+	public DocumentTypeCode getDocumentTypeCodeById(Long documentTypeCodeId){
+		return dao.getDocumentTypeCodeById(documentTypeCodeId);
+	}
+	
+	/**
+	 * Create or Update a DocumentType Code to the DOCUMENT_TYPE_CODES table
+	 * @param DocumentTypeCode
+	 * @return
+	 */
+	public void saveDocumentTypeCode(DocumentTypeCode documentTypeCode){
+		documentTypeCode.setLastUpdated(new Date());
+		dao.saveDocumentTypeCode(documentTypeCode);
+	}
+	
+	/**
+	 * Delete a DocumentType Code in the DOCUMENT_TYPE_CODES table
+	 * @param DocumentTypeCode
+	 * @return
+	 */
+	public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode) {
+		dao.deleteDocumentTypeCode(documentTypeCode);
+	}
+	
+	
+	/**
+	 * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table
+	 * @return a list of PublisherCode objects
+	 */
+	public List<PublisherCode> getAllPublisherCodes() {
+		return dao.getAllPublisherCodes();
+	}
+	
+	/**
+	 * Get a Publisher Code from the PUBLISHER_TYPE_CODES table that match PUBLISHER_TYPE_CODES_ID
+	 * @param PublisherCodeId
+	 * @return
+	 */
+	public PublisherCode getPublisherCodeById(Long publisherCodeId){
+		return dao.getPublisherCodeById(publisherCodeId);
+	}
+	
+	/**
+	 * Create or Update a Publisher Code to the PUBLISHER_TYPE_CODES table
+	 * @param PublisherCode
+	 * @return
+	 */
+	public void savePublisherCode(PublisherCode publisherCode){
+		publisherCode.setLastUpdated(new Date());
+		dao.savePublisherCode(publisherCode);
+	}
+	
+	/**
+	 * Delete a Publisher Code in the PUBLISHER_TYPE_CODES table
+	 * @param PublisherCode
+	 * @return
+	 */
+	public void deletePublisherCode(PublisherCode publisherCode) {
+		dao.deletePublisherCode(publisherCode);
 	}
 	
 	@Required

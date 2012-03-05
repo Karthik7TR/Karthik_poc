@@ -18,8 +18,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 
@@ -132,6 +134,78 @@ public class CodeServiceIntegrationTest  {
 		// Delete
 		service.deletePubTypeCode(readCode);
 		readCode = service.getPubTypeCodeById(createCode.getId());
+		Assert.assertEquals(null, readCode);
+	}
+	
+	@Test
+	public void testGetAllDocumentType() {
+		List<DocumentTypeCode> codes = service.getAllDocumentTypeCodes();
+		log.debug(codes);
+		Assert.assertEquals(3, codes.size());
+	}
+	
+	@Test
+	public void testDocumentTypeCodeCRUD() {
+		
+		// Create StateCode
+		DocumentTypeCode createCode = new DocumentTypeCode();
+		createCode.setName("Test");
+		createCode.setAbbreviation("t");
+		service.saveDocumentTypeCode(createCode);
+
+		// Get
+		DocumentTypeCode readCode = service.getDocumentTypeCodeById(createCode.getId());
+		Assert.assertEquals(createCode, readCode);
+		Assert.assertEquals("Test", readCode.getName());
+		Assert.assertEquals("t", readCode.getAbbreviation());
+		
+		// Update
+		readCode.setName("Test2");
+		readCode.setAbbreviation("t2");
+		service.saveDocumentTypeCode(readCode);
+		
+		// Get 2
+		readCode = service.getDocumentTypeCodeById(createCode.getId());
+		Assert.assertEquals("Test2", readCode.getName());
+		Assert.assertEquals("t2", readCode.getAbbreviation());
+		
+		// Delete
+		service.deleteDocumentTypeCode(readCode);
+		readCode = service.getDocumentTypeCodeById(createCode.getId());
+		Assert.assertEquals(null, readCode);
+	}
+	
+	@Test
+	public void testGetAllPublisher() {
+		List<PublisherCode> codes = service.getAllPublisherCodes();
+		log.debug(codes);
+		Assert.assertEquals(1, codes.size());
+	}
+	
+	@Test
+	public void testPublisherCodeCRUD() {
+		
+		// Create StateCode
+		PublisherCode createCode = new PublisherCode();
+		createCode.setName("Test");
+		service.savePublisherCode(createCode);
+
+		// Get
+		PublisherCode readCode = service.getPublisherCodeById(createCode.getId());
+		Assert.assertEquals(createCode, readCode);
+		Assert.assertEquals("Test", readCode.getName());
+		
+		// Update
+		readCode.setName("Test2");
+		service.savePublisherCode(readCode);
+		
+		// Get 2
+		readCode = service.getPublisherCodeById(createCode.getId());
+		Assert.assertEquals("Test2", readCode.getName());
+		
+		// Delete
+		service.deletePublisherCode(readCode);
+		readCode = service.getPublisherCodeById(createCode.getId());
 		Assert.assertEquals(null, readCode);
 	}
 }

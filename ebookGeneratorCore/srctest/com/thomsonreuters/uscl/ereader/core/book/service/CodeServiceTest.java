@@ -14,8 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 public class CodeServiceTest  {
@@ -24,12 +26,20 @@ public class CodeServiceTest  {
 	private static final Long STATE_CODES_ID = new Long("1");
 	
 	private static final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
-	private static final Long JURIS_TYPE_CODES_ID = new Long("1");
+	private static final Long JURIS_TYPE_CODES_ID = new Long("2");
 	private static final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<JurisTypeCode>();
 	
 	private static final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
-	private static final Long PUB_TYPE_CODES_ID = new Long("1");
+	private static final Long PUB_TYPE_CODES_ID = new Long("3");
 	private static final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<PubTypeCode>();
+	
+	private static final DocumentTypeCode DOCUMENT_TYPE_CODE = new DocumentTypeCode();
+	private static final Long DOCUMENT_TYPE_CODES_ID = new Long("4");
+	private static final List<DocumentTypeCode> ALL_DOCUMENT_TYPE_CODES = new ArrayList<DocumentTypeCode>();
+	
+	private static final PublisherCode PUBLISHER_CODE = new PublisherCode();
+	private static final Long PUBLISHER_CODES_ID = new Long("5");
+	private static final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
 	
 	private CodeServiceImpl service;
 	private CodeDao mockCodeDao;
@@ -45,6 +55,8 @@ public class CodeServiceTest  {
 		STATE_CODE.setId(STATE_CODES_ID);
 		JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
 		PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
+		DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
+		PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
 	}
 	
 	@Test
@@ -71,7 +83,7 @@ public class CodeServiceTest  {
 	
 	@Test
 	public void testGetPubTypeCode() {
-		EasyMock.expect(mockCodeDao.getPubTypeCode(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
+		EasyMock.expect(mockCodeDao.getPubTypeCodeById(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
 		EasyMock.replay(mockCodeDao);
 		PubTypeCode actual = service.getPubTypeCodeById(PUB_TYPE_CODES_ID);
 		Assert.assertEquals(PUB_TYPE_CODE, actual);
@@ -93,7 +105,7 @@ public class CodeServiceTest  {
 	
 	@Test
 	public void testGetJurisTypeCode() {
-		EasyMock.expect(mockCodeDao.getJurisTypeCode(JURIS_TYPE_CODES_ID)).andReturn(JURIS_TYPE_CODE);
+		EasyMock.expect(mockCodeDao.getJurisTypeCodeById(JURIS_TYPE_CODES_ID)).andReturn(JURIS_TYPE_CODE);
 		EasyMock.replay(mockCodeDao);
 		JurisTypeCode actual = service.getJurisTypeCodeById(JURIS_TYPE_CODES_ID);
 		Assert.assertEquals(JURIS_TYPE_CODE, actual);
@@ -108,6 +120,52 @@ public class CodeServiceTest  {
 		List<JurisTypeCode> actual = service.getAllJurisTypeCodes();
 		List<JurisTypeCode> expected = new ArrayList<JurisTypeCode>();
 		expected.add(JURIS_TYPE_CODE);
+		
+		Assert.assertEquals(expected, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	
+	@Test
+	public void testGetDocumentTypeCode() {
+		EasyMock.expect(mockCodeDao.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID)).andReturn(DOCUMENT_TYPE_CODE);
+		EasyMock.replay(mockCodeDao);
+		DocumentTypeCode actual = service.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID);
+		Assert.assertEquals(DOCUMENT_TYPE_CODE, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	@Test
+	public void testGetAllDocumentTypeCodes() {
+		ALL_DOCUMENT_TYPE_CODES.add(DOCUMENT_TYPE_CODE);
+		EasyMock.expect(mockCodeDao.getAllDocumentTypeCodes()).andReturn(ALL_DOCUMENT_TYPE_CODES);
+		EasyMock.replay(mockCodeDao);
+		List<DocumentTypeCode> actual = service.getAllDocumentTypeCodes();
+		List<DocumentTypeCode> expected = new ArrayList<DocumentTypeCode>();
+		expected.add(DOCUMENT_TYPE_CODE);
+		
+		Assert.assertEquals(expected, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	
+	@Test
+	public void testGetPublisherCode() {
+		EasyMock.expect(mockCodeDao.getPublisherCodeById(PUBLISHER_CODES_ID)).andReturn(PUBLISHER_CODE);
+		EasyMock.replay(mockCodeDao);
+		PublisherCode actual = service.getPublisherCodeById(PUBLISHER_CODES_ID);
+		Assert.assertEquals(PUBLISHER_CODE, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	@Test
+	public void testGetAllPublisherCodes() {
+		ALL_PUBLISHER_CODES.add(PUBLISHER_CODE);
+		EasyMock.expect(mockCodeDao.getAllPublisherCodes()).andReturn(ALL_PUBLISHER_CODES);
+		EasyMock.replay(mockCodeDao);
+		List<PublisherCode> actual = service.getAllPublisherCodes();
+		List<PublisherCode> expected = new ArrayList<PublisherCode>();
+		expected.add(PUBLISHER_CODE);
 		
 		Assert.assertEquals(expected, actual);
 		EasyMock.verify(mockCodeDao);

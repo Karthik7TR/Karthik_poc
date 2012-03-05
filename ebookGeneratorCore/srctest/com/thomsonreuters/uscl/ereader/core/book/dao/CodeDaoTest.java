@@ -16,8 +16,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 
@@ -33,6 +35,14 @@ public class CodeDaoTest  {
 	private static final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
 	private static final Long PUB_TYPE_CODES_ID = new Long("1");
 	private static final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<PubTypeCode>();
+	
+	private static final DocumentTypeCode DOCUMENT_TYPE_CODE = new DocumentTypeCode();
+	private static final Long DOCUMENT_TYPE_CODES_ID = new Long("4");
+	private static final List<DocumentTypeCode> ALL_DOCUMENT_TYPE_CODES = new ArrayList<DocumentTypeCode>();
+	
+	private static final PublisherCode PUBLISHER_CODE = new PublisherCode();
+	private static final Long PUBLISHER_CODES_ID = new Long("5");
+	private static final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
 	
 	private SessionFactory mockSessionFactory;
 	private Session mockSession;
@@ -50,6 +60,8 @@ public class CodeDaoTest  {
 		STATE_CODE.setId(STATE_CODES_ID);
 		JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
 		PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
+		DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
+		PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
 	}
 	
 	@Test
@@ -96,7 +108,7 @@ public class CodeDaoTest  {
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
 		
-		PubTypeCode actual = dao.getPubTypeCode(PUB_TYPE_CODES_ID);
+		PubTypeCode actual = dao.getPubTypeCodeById(PUB_TYPE_CODES_ID);
 		PubTypeCode expected = new PubTypeCode();
 		expected.setId(PUB_TYPE_CODES_ID);
 		
@@ -133,7 +145,7 @@ public class CodeDaoTest  {
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
 		
-		JurisTypeCode actual = dao.getJurisTypeCode(JURIS_TYPE_CODES_ID);
+		JurisTypeCode actual = dao.getJurisTypeCodeById(JURIS_TYPE_CODES_ID);
 		JurisTypeCode expected = new JurisTypeCode();
 		expected.setId(PUB_TYPE_CODES_ID);
 		
@@ -156,6 +168,81 @@ public class CodeDaoTest  {
 		List<JurisTypeCode> actual = dao.getAllJurisTypeCodes();
 		List<JurisTypeCode> expected = new ArrayList<JurisTypeCode>();
 		expected.add(JURIS_TYPE_CODE);
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+		EasyMock.verify(mockCriteria);
+	}
+	
+	@Test
+	public void testGetDocumentTypeCode() {
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.get(DocumentTypeCode.class, DOCUMENT_TYPE_CODES_ID)).andReturn(DOCUMENT_TYPE_CODE);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		
+		DocumentTypeCode actual = dao.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID);
+		DocumentTypeCode expected = new DocumentTypeCode();
+		expected.setId(DOCUMENT_TYPE_CODES_ID);
+		
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+	}
+	
+	@Test
+	public void testGetAllDocumentTypeCodes() {
+		ALL_DOCUMENT_TYPE_CODES.add(DOCUMENT_TYPE_CODE);
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.createCriteria(DocumentTypeCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.list()).andReturn(ALL_DOCUMENT_TYPE_CODES);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		EasyMock.replay(mockCriteria);
+		
+		List<DocumentTypeCode> actual = dao.getAllDocumentTypeCodes();
+		List<DocumentTypeCode> expected = new ArrayList<DocumentTypeCode>();
+		expected.add(DOCUMENT_TYPE_CODE);
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+		EasyMock.verify(mockCriteria);
+	}
+	
+	
+	@Test
+	public void testGetPublisherCode() {
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.get(PublisherCode.class, PUBLISHER_CODES_ID)).andReturn(PUBLISHER_CODE);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		
+		PublisherCode actual = dao.getPublisherCodeById(PUBLISHER_CODES_ID);
+		PublisherCode expected = new PublisherCode();
+		expected.setId(PUBLISHER_CODES_ID);
+		
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+	}
+	
+	@Test
+	public void testGetAllPublisherCodes() {
+		ALL_PUBLISHER_CODES.add(PUBLISHER_CODE);
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.createCriteria(PublisherCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.list()).andReturn(ALL_PUBLISHER_CODES);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		EasyMock.replay(mockCriteria);
+		
+		List<PublisherCode> actual = dao.getAllPublisherCodes();
+		List<PublisherCode> expected = new ArrayList<PublisherCode>();
+		expected.add(PUBLISHER_CODE);
 		Assert.assertEquals(expected, actual);
 		
 		EasyMock.verify(mockSessionFactory);

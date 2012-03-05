@@ -22,29 +22,32 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * A state code database table entity.
- * Represents all the state code id and names used for Book Definition
+ * A publisher code database table entity.
+ * Represents all the publisher code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="STATE_CODES")
-public class StateCode implements Serializable {
-	//private static final Logger log = Logger.getLogger(StateCode.class);
-	private static final long serialVersionUID = -6419698127062095582L;
-	
+@Table(schema="EBOOK", name="DOCUMENT_TYPE_CODES")
+public class DocumentTypeCode implements Serializable {
+	//private static final Logger log = Logger.getLogger(DocumentTypeCode.class);
+	private static final long serialVersionUID = -401472676661960713L;
+
 	@Id
-	@Column(name="STATE_CODES_ID")
-	@SequenceGenerator(name="stateCodesIdSequence", sequenceName="STATE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stateCodesIdSequence")
+	@Column(name="DOCUMENT_TYPE_CODES_ID")
+	@SequenceGenerator(name="documentTypeCodesIdSequence", sequenceName="DOC_TYPE_CODES_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="documentTypeCodesIdSequence")
 	private Long id;
 	
-	@Column(name="STATE_CODES_NAME", nullable = false, length = 1024)
+	@Column(name="DOCUMENT_TYPE_CODES_NAME", nullable = false, length = 1024)
 	private String name;
+	
+	@Column(name="DOCUMENT_TYPE_CODES_ABBRV", nullable = false, length = 32)
+	private String abbreviation;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
 	
-	public StateCode() {
+	public DocumentTypeCode() {
 		super();
 	}
 	
@@ -64,6 +67,14 @@ public class StateCode implements Serializable {
 		this.name = name;
 	}
 
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
@@ -76,11 +87,13 @@ public class StateCode implements Serializable {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((abbreviation == null) ? 0 : abbreviation.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
@@ -96,7 +109,12 @@ public class StateCode implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StateCode other = (StateCode) obj;
+		DocumentTypeCode other = (DocumentTypeCode) obj;
+		if (abbreviation == null) {
+			if (other.abbreviation != null)
+				return false;
+		} else if (!abbreviation.equals(other.abbreviation))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -114,4 +132,5 @@ public class StateCode implements Serializable {
 			return false;
 		return true;
 	}
+
 }

@@ -11,8 +11,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 
@@ -88,7 +90,7 @@ public class CodeDaoImpl implements CodeDao {
 	 * @return
 	 */
 	@Override
-	public PubTypeCode getPubTypeCode(Long pubTypeCodeId) {
+	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId) {
 		return (PubTypeCode) sessionFactory.getCurrentSession().get(PubTypeCode.class, pubTypeCodeId);
 	}
 	
@@ -136,7 +138,7 @@ public class CodeDaoImpl implements CodeDao {
 	 * @return
 	 */
 	@Override
-	public JurisTypeCode getJurisTypeCode(Long jurisTypeCodeId) {
+	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId) {
 		return (JurisTypeCode) sessionFactory.getCurrentSession().get(JurisTypeCode.class, jurisTypeCodeId);
 	}
 	
@@ -164,6 +166,103 @@ public class CodeDaoImpl implements CodeDao {
 				jurisTypeCode);
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(jurisTypeCode);
+		session.flush();
+	}
+	
+	/**
+	 * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
+	 * @return a list of DocumentTypeCode objects
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<DocumentTypeCode> getAllDocumentTypeCodes() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DocumentTypeCode.class);
+		return criteria.list();
+	}
+	
+	/**
+	 * Get a DocumentType Code from the DOCUMENT_TYPE_CODES table that match DOCUMENT_TYPE_CODES_ID
+	 * @param documentTypeCodeId
+	 * @return
+	 */
+	@Override
+	public DocumentTypeCode getDocumentTypeCodeById(Long documentTypeCodeId) {
+		return (DocumentTypeCode) sessionFactory.getCurrentSession().get(DocumentTypeCode.class, documentTypeCodeId);
+	}
+	
+	/**
+	 * Create or Update a DocumentType Code to the DOCUMENT_TYPE_CODES table
+	 * @param documentTypeCode
+	 * @return
+	 */
+	@Override
+	public void saveDocumentTypeCode(DocumentTypeCode documentTypeCode) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(documentTypeCode);
+		session.flush();
+	}
+	
+
+	/**
+	 * Delete a DocumentType Code in the DOCUMENT_TYPE_CODES table
+	 * @param documentTypeCode
+	 * @return
+	 */
+	@Override
+	public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode) {
+		documentTypeCode = (DocumentTypeCode) sessionFactory.getCurrentSession().merge(
+				documentTypeCode);
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(documentTypeCode);
+		session.flush();
+	}
+	
+	
+	/**
+	 * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table
+	 * @return a list of PublisherCode objects
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<PublisherCode> getAllPublisherCodes() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PublisherCode.class);
+		return criteria.list();
+	}
+	
+	/**
+	 * Get a Publisher Code from the PUBLISHER_TYPE_CODES table that match PUBLISHER_TYPE_CODES_ID
+	 * @param publisherCodeId
+	 * @return
+	 */
+	@Override
+	public PublisherCode getPublisherCodeById(Long publisherCodeId) {
+		return (PublisherCode) sessionFactory.getCurrentSession().get(PublisherCode.class, publisherCodeId);
+	}
+	
+	/**
+	 * Create or Update a Publisher Code to the PUBLISHER_TYPE_CODES table
+	 * @param publisherCode
+	 * @return
+	 */
+	@Override
+	public void savePublisherCode(PublisherCode publisherCode) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(publisherCode);
+		session.flush();
+	}
+	
+
+	/**
+	 * Delete a Publisher Code in the PUBLISHER_TYPE_CODES table
+	 * @param publisherCode
+	 * @return
+	 */
+	@Override
+	public void deletePublisherCode(PublisherCode publisherCode) {
+		publisherCode = (PublisherCode) sessionFactory.getCurrentSession().merge(
+				publisherCode);
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(publisherCode);
 		session.flush();
 	}
 
