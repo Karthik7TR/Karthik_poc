@@ -1,11 +1,11 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
-public class JobListForm {
+public class JobSummaryForm {
 	
 	public static final String FORM_NAME = "jobListForm";
 	

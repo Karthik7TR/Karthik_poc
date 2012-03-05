@@ -1,22 +1,22 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.JobCommand;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
 
-public class JobListValidator implements Validator {
+public class JobSummaryValidator implements Validator {
 	
 	//private static final Logger log = Logger.getLogger(FilterFormValidator.class);
 	@SuppressWarnings("rawtypes")
 	@Override
     public boolean supports(Class clazz) {
-		return (JobListForm.class.isAssignableFrom(clazz));
+		return (JobSummaryForm.class.isAssignableFrom(clazz));
     }
 
 	@Override
     public void validate(Object obj, Errors errors) {
-		JobListForm form = (JobListForm) obj;
+		JobSummaryForm form = (JobSummaryForm) obj;
 		
 		if ((form.getJobCommand() == JobCommand.STOP_JOB) ||
 			(form.getJobCommand() == JobCommand.RESTART_JOB)) {

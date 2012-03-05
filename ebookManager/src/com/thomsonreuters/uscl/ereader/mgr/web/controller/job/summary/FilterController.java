@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.List;
 
@@ -27,10 +27,10 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm.FilterCommand;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 
 @Controller
-public class FilterController extends BaseJobListController {
+public class FilterController extends BaseJobSummaryController {
 	private static final Logger log = Logger.getLogger(FilterController.class);
 	private Validator validator;
 
@@ -52,7 +52,7 @@ log.debug(filterForm);
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		
 		// Restore state of paging and sorting
-		JobListForm jobListForm = new JobListForm();
+		JobSummaryForm jobListForm = new JobSummaryForm();
 		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
 		PageAndSort pageAndSort = jobListForm.getPageAndSort();
 		pageAndSort.copyProperties(savedPageAndSort);
@@ -69,7 +69,7 @@ log.debug(filterForm);
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
-		model.addAttribute(JobListForm.FORM_NAME, jobListForm);
+		model.addAttribute(JobSummaryForm.FORM_NAME, jobListForm);
 
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}

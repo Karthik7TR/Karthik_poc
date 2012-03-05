@@ -4,11 +4,11 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm.JobCommand"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,22 +26,22 @@ $(document).ready(function() {
 	});
 });
 function submitChangeObjectsPerPage() {
-	submitJobListForm('<%=JobCommand.CHANGE_OBJECTS_PER_PAGE%>');
+	submitJobSummaryForm('<%=JobCommand.CHANGE_OBJECTS_PER_PAGE%>');
 }
-function submitJobListForm(command) {
+function submitJobSummaryForm(command) {
 	$("#jobCommand").val(command);  // Set the form hidden field value for the operation discriminator
-	$("#<%=JobListForm.FORM_NAME%>").submit();	// POST the HTML form
+	$("#<%=JobSummaryForm.FORM_NAME%>").submit();	// POST the HTML form
 }
 </script>
 
  <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
 <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_POST%>"
-		   commandName="<%=JobListForm.FORM_NAME%>" name="theForm" method="post">
+		   commandName="<%=JobSummaryForm.FORM_NAME%>" name="theForm" method="post">
 	<form:hidden path="jobCommand"/>
 	
 	<%-- Validation Error Message Presentation (if any) --%>
-	<spring:hasBindErrors name="<%=JobListForm.FORM_NAME%>">
+	<spring:hasBindErrors name="<%=JobSummaryForm.FORM_NAME%>">
 		<div class="errorBox">
 	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
@@ -109,8 +109,8 @@ function submitJobListForm(command) {
 	
 	<%-- Operational buttons --%> 
 <%-- TODO sec:authorize access="hasRole('ROLE_SUPERUSER')" --%>
-		<input type="button" value="Stop Job" onclick="submitJobListForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
-		<input type="button" value="Restart Job" onclick="submitJobListForm('<%=JobCommand.RESTART_JOB%>')"/>
+		<input type="button" value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+		<input type="button" value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
 	</c:if>  <%-- if rowCount > 0 --%>
 	
 </form:form>

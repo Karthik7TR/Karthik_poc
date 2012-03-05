@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
@@ -22,12 +21,12 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
 /**
  * Methods common to, and needed by both the JobListController and the FilterFormController.
  */
-public abstract class BaseJobListController {
+public abstract class BaseJobSummaryController {
 	//private static final Logger log = Logger.getLogger(BaseJobListController.class);
 	protected JobService jobService;
 	
@@ -75,6 +74,8 @@ public abstract class BaseJobListController {
 		httpSession.setAttribute(FilterForm.FORM_NAME, filterForm);
 		httpSession.setAttribute(PageAndSort.class.getName(), pageAndSortForm);
 		httpSession.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
+		
+		model.addAttribute(FilterForm.FORM_NAME, filterForm);
 		
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
 		PaginatedList paginatedList = createPaginatedList(jobExecutionIds, pageAndSortForm);

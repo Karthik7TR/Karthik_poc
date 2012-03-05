@@ -28,11 +28,16 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
 public class JobListControllerTest {
 	public static final int JOB_EXEC_ID_COUNT = 50;
-	private JobListController controller;
+	private JobSummaryController controller;
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobService mockJobService;
@@ -49,9 +54,9 @@ public class JobListControllerTest {
     	this.mockBookInfo = new JobInstanceBookInfo("bookName", "uscl/a/b/c/d");
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
-    	controller = new JobListController();
+    	controller = new JobSummaryController();
     	controller.setJobService(mockJobService);
-    	controller.setValidator(new JobListValidator());
+    	controller.setValidator(new JobSummaryValidator());
     	
     	// Set up the Job execution ID list stored in the session
     	this.jobExecutionIds = new ArrayList<Long>();
@@ -166,7 +171,7 @@ public class JobListControllerTest {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_POST);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("jobCommand", JobListForm.JobCommand.CHANGE_OBJECTS_PER_PAGE.toString());
+    	request.setParameter("jobCommand", JobSummaryForm.JobCommand.CHANGE_OBJECTS_PER_PAGE.toString());
     	request.setParameter("objectsPerPage", String.valueOf(EXPECTED_OBJECTS_PER_PAGE));
     	HttpSession session = request.getSession();
 
@@ -200,6 +205,6 @@ public class JobListControllerTest {
     	Assert.assertNotNull(session.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS));
     	Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
     	Assert.assertNotNull(model.get(FilterForm.FORM_NAME));
-    	Assert.assertNotNull(model.get(JobListForm.FORM_NAME));
+    	Assert.assertNotNull(model.get(JobSummaryForm.FORM_NAME));
 	}
 }

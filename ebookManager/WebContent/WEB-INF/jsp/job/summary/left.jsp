@@ -1,4 +1,4 @@
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.FilterForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,7 +13,7 @@ $(document).ready(function() {
 	<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
 	$("form input").keyup(function(event) {
 		if (event.keyCode == 13) {
-			submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>');
+			submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.SEARCH%>');
 		}
 	});
 });
@@ -25,7 +25,7 @@ $(function() {
 });
 
 <%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>
-function submitJobListFilterForm(command) {
+function submitJobSummaryFilterForm(command) {
 	$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
 	$("#<%=FilterForm.FORM_NAME%>").submit();	// POST the HTML form
 }
@@ -72,7 +72,7 @@ function submitJobListFilterForm(command) {
 	</form:select>
 	<br/>
 	<br/>
-	<input id="jobFilterSearchButton" type="button" value="Search" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitJobListFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>
+	<input id="jobFilterSearchButton" type="button" value="Search" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
+	<input type="button" value="Reset" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>
 </form:form>
 

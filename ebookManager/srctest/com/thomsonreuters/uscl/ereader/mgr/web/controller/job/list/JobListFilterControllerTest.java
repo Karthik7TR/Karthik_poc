@@ -26,6 +26,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterFormValidator;
 
 public class JobListFilterControllerTest {
 	private FilterController controller;

@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="java.util.Date"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobExecutionVdo"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

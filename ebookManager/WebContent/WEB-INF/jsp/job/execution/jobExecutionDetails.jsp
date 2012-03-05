@@ -4,7 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobExecutionVdo"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
