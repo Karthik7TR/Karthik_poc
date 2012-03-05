@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
@@ -85,9 +87,11 @@ public class GenerateEbookController {
 
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getBookName());
-			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE, "00/00/0000");
+			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
+					"00/00/0000");
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
-			model.addAttribute(WebConstants.KEY_MATERIAL_ID, book.getMaterialId());
+			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
+					book.getMaterialId());
 		}
 
 		if (proviewTitleInfo == null) {
@@ -120,47 +124,68 @@ public class GenerateEbookController {
 			Model model) {
 
 		log.debug(form);
-		String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor
-				.getMessage("label.high") : messageSourceAccessor
-				.getMessage("label.normal");
-		String userName = null; // TODO
-		String userEmail = null; // TODO
 
-		BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey,
-				userName, userEmail);
-		try {
-			if (form.isHighPriorityJob()) {
-				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
-			} else {
-				jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
+		ModelAndView mav = null;
+		String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID,
+				form.getFullyQualifiedTitleId());
+		Command command = form.getCommand();
+
+		switch (command) {
+
+		case GENERATE: {
+
+			String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor
+					.getMessage("label.high") : messageSourceAccessor
+					.getMessage("label.normal");
+			String userName = null; // TODO
+			String userEmail = null; // TODO
+
+			BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
+			JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey,
+					userName, userEmail);
+			try {
+				if (form.isHighPriorityJob()) {
+					jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
+				} else {
+					jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
+				}
+				// Report success to user in informational message on page
+				Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
+						queuePriorityLabel };
+				String infoMessage = messageSourceAccessor.getMessage(
+						"mesg.job.enqueued.success", args);
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
+			} catch (Exception e) { // Report failure on page in error message
+									// area
+				Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
+						queuePriorityLabel, e.getMessage() };
+				String errMessage = messageSourceAccessor.getMessage(
+						"mesg.job.enqueued.fail", args);
+				log.error(errMessage, e);
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 			}
-			// Report success to user in informational message on page
-			Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
-					queuePriorityLabel };
-			String infoMessage = messageSourceAccessor.getMessage(
-					"mesg.job.enqueued.success", args);
-			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
-		} catch (Exception e) { // Report failure on page in error message area
-			Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
-					queuePriorityLabel, e.getMessage() };
-			String errMessage = messageSourceAccessor.getMessage(
-					"mesg.job.enqueued.fail", args);
-			log.error(errMessage, e);
-			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+
+			BookDefinition book = coreService
+					.findBookDefinition(new BookDefinitionKey(bookDefKey
+							.getFullyQualifiedTitleId()));
+			model.addAttribute(WebConstants.TITLE_ID,
+					bookDefKey.getFullyQualifiedTitleId());
+			model.addAttribute(WebConstants.TITLE, book.getBookName());
+			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
+					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
+
+			form.setFullyQualifiedTitleId(bookDefKey.getFullyQualifiedTitleId());
+			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+			break;
+		}
+		case EDIT: {
+			mav = new ModelAndView(new RedirectView(
+					WebConstants.MVC_BOOK_DEFINITION_EDIT + queryString));
+			break;
 		}
 
-		BookDefinition book = coreService
-				.findBookDefinition(new BookDefinitionKey(bookDefKey
-						.getFullyQualifiedTitleId()));
-		model.addAttribute(WebConstants.TITLE_ID,
-				bookDefKey.getFullyQualifiedTitleId());
-		model.addAttribute(WebConstants.TITLE, book.getBookName());
-		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
-				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
-
-		form.setFullyQualifiedTitleId(bookDefKey.getFullyQualifiedTitleId());
-		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+		}
+		return mav;
 	}
 
 	@Required

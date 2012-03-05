@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -17,6 +18,15 @@ public class GenerateBookForm {
 
 	private boolean highPriorityJob;
 	private boolean majorVersion;
+	private Command command;
+
+	public Command getCommand() {
+		return command;
+	}
+
+	public void setCommand(Command command) {
+		this.command = command;
+	}
 
 	public boolean isMajorVersion() {
 		return majorVersion;

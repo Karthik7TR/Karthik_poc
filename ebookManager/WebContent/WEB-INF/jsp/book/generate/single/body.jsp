@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -20,6 +21,13 @@
   	
   function changeVersion(newVersion){
 	  document.getElementById('newVersionNumber').innerHTML = newVersion;
+  }
+  
+  function submitForm(cmd)
+  {
+  	$('#command').val(cmd);
+  	theForm.submit();
+  	return true;
   }
   
   function confirmValues(){
@@ -69,6 +77,7 @@
 		<tr>
 			<td>
 				<form:hidden path="fullyQualifiedTitleId"/>
+				<form:hidden path="command"/>
 			</td>
 		</tr>
 		<tr>
@@ -106,7 +115,7 @@
 		</table>
 		<br/>
 		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />
-		<input type="submit" value="Cancel" disabled="disabled"/>
+		<input type="button" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		
 		<%-- Informational Messages area --%>
