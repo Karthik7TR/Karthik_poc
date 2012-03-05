@@ -60,6 +60,7 @@ public class JobStartupThrottleServiceTest  {
 		service.setJobExplorer(mockJobExplorer);
 		service.setJobRepository(mockJobRepository);
 		service.setJobStartupThrottleDao(mockJobStartupThrottleDao);
+		service.setThrottleStepCheck(THROTTLE_STEP);
 		
 		
 	}
