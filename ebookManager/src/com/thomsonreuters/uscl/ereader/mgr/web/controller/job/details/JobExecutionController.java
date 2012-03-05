@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -42,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
  */
 @Controller
 public class JobExecutionController {
-	private static final Logger log = Logger.getLogger(JobExecutionController.class);
+	//private static final Logger log = Logger.getLogger(JobExecutionController.class);
 	
 	private JobService jobService;
 	private ManagerService managerService;
@@ -87,10 +86,9 @@ public class JobExecutionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession, @RequestParam Long jobExecutionId, Model model) throws Exception {
-log.debug(">>> RESTART jobExecutionId="+jobExecutionId);
-		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
-		handleJobOperationResponse(jobOperationResponse, messages, "job.restart.success", "job.restart.fail");
+		Thread.sleep(1);
+		List<InfoMessage> messages = handleRestartJobOperationResponse(jobExecutionId, jobOperationResponse);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
 		return jobSummaryController.doGet(httpSession, model);
@@ -102,27 +100,43 @@ log.debug(">>> RESTART jobExecutionId="+jobExecutionId);
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession, @RequestParam Long jobExecutionId, Model model) throws Exception {
-log.debug(">>> STOP jobExecutionId="+jobExecutionId);
-		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-		handleJobOperationResponse(jobOperationResponse, messages, "job.stop.success", "job.stop.fail");
+		Thread.sleep(1);
+		List<InfoMessage> messages = handleStopJobOperationResponse(jobOperationResponse);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
 		return jobSummaryController.doGet(httpSession, model);
 	}
 	
-	private void handleJobOperationResponse(JobOperationResponse jobOperationResponse, List<InfoMessage> messages,
-											String successCode, String failCode) {
+	private List<InfoMessage> handleRestartJobOperationResponse(Long jobExecutionIdToRestart,
+												   JobOperationResponse jobOperationResponse) {
 		String execId = jobOperationResponse.getJobExecutionId().toString();
+		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		if (jobOperationResponse.isSuccess()) {
-			Object[] args = { execId };
+			Object[] args = { jobExecutionIdToRestart.toString(), jobOperationResponse.getJobExecutionId().toString() };
 			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
-						 messageSourceAccessor.getMessage(successCode, args)));
+						 messageSourceAccessor.getMessage("job.restart.success", args)));
 		} else {
 			Object[] args = { execId, jobOperationResponse.getMessage() };
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
-					 messageSourceAccessor.getMessage(failCode, args)));
+							messageSourceAccessor.getMessage("job.restart.fail", args)));
 		}
+		return messages;
+	}
+
+	private List<InfoMessage> handleStopJobOperationResponse(JobOperationResponse jobOperationResponse) {
+		String execId = jobOperationResponse.getJobExecutionId().toString();
+		List<InfoMessage> messages = new ArrayList<InfoMessage>();
+		if (jobOperationResponse.isSuccess()) {
+			Object[] args = { execId };
+			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
+						 messageSourceAccessor.getMessage("job.stop.success", args)));
+		} else {
+			Object[] args = { execId, jobOperationResponse.getMessage() };
+			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
+							messageSourceAccessor.getMessage("job.stop.fail", args)));
+		}
+		return messages;
 	}
 	
 	private void populateModel(Model model, JobExecution jobExecution) {

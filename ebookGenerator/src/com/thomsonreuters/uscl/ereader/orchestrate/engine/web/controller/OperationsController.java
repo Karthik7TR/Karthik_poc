@@ -43,12 +43,13 @@ public class OperationsController {
 	@RequestMapping(value=WebConstants.URI_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(@PathVariable Long jobExecutionId, Model model) throws Exception {
 		Long jobExecutionIdToRestart = jobExecutionId;
-log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
+		log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
 		JobOperationResponse opResponse = null;
 		try {
 			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
 			opResponse = new JobOperationResponse(restartedJobExecutionId);
 		} catch (Exception e) {
+			log.debug("Job RESTART exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
@@ -62,12 +63,13 @@ log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
 	 */
 	@RequestMapping(value=WebConstants.URI_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(@PathVariable Long jobExecutionId, Model model) {
-log.debug("jobExecutionIdToStop="+jobExecutionId);		
+		log.debug("jobExecutionIdToStop="+jobExecutionId);		
 		JobOperationResponse opResponse = null;
 		try {
 			engineService.stopJob(jobExecutionId);
 			opResponse = new JobOperationResponse(jobExecutionId);
 		} catch (Exception e) {
+			log.debug("Job STOP exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionId, false, e.getMessage());
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
