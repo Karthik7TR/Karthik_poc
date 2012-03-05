@@ -28,6 +28,7 @@ public class WebConstants {
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
+	public static final String KEY_INFO_MESSAGES = "infoMessages";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
 	public static final String KEY_CONTENT_TYPES = "contentTypes";
 	public static final String KEY_STATES = "states";

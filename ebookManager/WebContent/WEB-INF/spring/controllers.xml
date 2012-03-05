@@ -40,7 +40,10 @@
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
-		  p:jobService-ref="jobService">
+		  p:jobService-ref="jobService"
+		  p:managerService-ref="managerService"
+		  p:messageSourceAccessor-ref="messageSourceAccessor"
+		  p:jobSummaryController-ref="jobSummaryController">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionFormValidator"/>
 		  </property>

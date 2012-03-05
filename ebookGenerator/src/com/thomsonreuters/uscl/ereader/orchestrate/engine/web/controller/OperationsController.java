@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
@@ -34,13 +36,53 @@ public class OperationsController {
 	private MessageSourceAccessor messageSourceAccessor;
 
 	/**
+	 * Handle REST request to restart an currently stopped or failed job.
+	 * @param jobExecutionId the job execution ID of the job to restart (required).
+	 * @return the view name which will marshal and return the JobOperationResponse object.
+	 */
+	@RequestMapping(value=WebConstants.URI_JOB_RESTART, method = RequestMethod.GET)
+	public ModelAndView restartJob(@PathVariable Long jobExecutionId, Model model) throws Exception {
+		Long jobExecutionIdToRestart = jobExecutionId;
+log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
+		JobOperationResponse opResponse = null;
+		try {
+			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
+			opResponse = new JobOperationResponse(restartedJobExecutionId);
+		} catch (Exception e) {
+			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
+		}
+		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
+		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+	}
+	
+	/**
+	 * Handle REST request to stop an currently execution job.
+	 * @param jobExecutionId the job execution ID of the job to stop (required).
+	 * @return the view name which will marshal and return the JobOperationResponse object.
+	 */
+	@RequestMapping(value=WebConstants.URI_JOB_STOP, method = RequestMethod.GET)
+	public ModelAndView stopJob(@PathVariable Long jobExecutionId, Model model) {
+log.debug("jobExecutionIdToStop="+jobExecutionId);		
+		JobOperationResponse opResponse = null;
+		try {
+			engineService.stopJob(jobExecutionId);
+			opResponse = new JobOperationResponse(jobExecutionId);
+		} catch (Exception e) {
+			opResponse = new JobOperationResponse(jobExecutionId, false, e.getMessage());
+		}
+		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
+		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+	}
+
+	/**
 	 * Attempt to restart a currently stopped job execution.
 	 * Makes no attempt to verify that the specified jobExecutionId is in a state that allows it to be restarted.
 	 * If the job cannot be restarted due to an improper state, the user is directed to an error page describing the reason for the failure.
 	 * @param jobExecutionId id of the job execution to restart
 	 */
+	@Deprecated	// In favor of Manager app
 	@RequestMapping(value=WebConstants.URL_JOB_RESTART, method = RequestMethod.GET)
-	public ModelAndView restartJobExecution(@RequestParam Long jobExecutionId, Model model) throws Exception {
+	public ModelAndView DEPRECATED_restartJobExecution(@RequestParam Long jobExecutionId, Model model) throws Exception {
 		Long jobExecutionIdToRestart = jobExecutionId;
 log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);		
 		try {
@@ -63,8 +105,9 @@ log.debug("restartedJobExecutionId="+restartedJobExecutionId);
 	 * If the job cannot be stopped due to an improper state, the user is directed to an error page describing the reason for the failure.
 	 * @param jobExecutionId id of the job execution to stop
 	 */
+	@Deprecated // In favor of Manager app
 	@RequestMapping(value=WebConstants.URL_JOB_STOP, method = RequestMethod.GET)
-	public ModelAndView stopJobExecution(@RequestParam Long jobExecutionId, Model model) {
+	public ModelAndView DEPRECATED_stopJobExecution(@RequestParam Long jobExecutionId, Model model) {
 		Long jobExecutionIdToStop = jobExecutionId;
 log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
 		try {

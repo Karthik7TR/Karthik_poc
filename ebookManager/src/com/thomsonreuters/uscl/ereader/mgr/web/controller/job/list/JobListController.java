@@ -47,10 +47,10 @@ public class JobListController extends BaseJobListController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView doGet(HttpSession httpSession, 
-							  @ModelAttribute(FilterForm.FORM_NAME) FilterForm filterForm,
-							  @ModelAttribute(JobListForm.FORM_NAME) JobListForm jobListForm,
 							  Model model) throws Exception {
 		
+		FilterForm filterForm = new FilterForm();
+		JobListForm jobListForm = new JobListForm();
 		PageAndSort pageAndSort = jobListForm.getPageAndSort();
 		pageAndSort.initialize(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE,
 							   DisplayTagSortProperty.START_TIME, false);
@@ -62,6 +62,8 @@ public class JobListController extends BaseJobListController {
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
+		model.addAttribute(FilterForm.FORM_NAME, filterForm);
+		model.addAttribute(JobListForm.FORM_NAME, jobListForm);
 	
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}

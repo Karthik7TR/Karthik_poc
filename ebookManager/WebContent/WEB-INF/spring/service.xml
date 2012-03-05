@@ -22,6 +22,26 @@
 		  p:jobExplorer-ref="jobExplorer"/> 		  
   		  
 	<bean id="bookLibraryService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService"
-  		  p:coreService-ref="coreService"/>  	
+  		  p:coreService-ref="coreService"/>
+
+
+    <!-- Response to job restart and stop requests -->
+    <bean id="jibxJobOperationResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse"/>
+    </bean>
+    	<bean id="jobOperationResponseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+    	<property name="marshaller" ref="jibxJobOperationResponseMarshaller" />
+        <property name="unmarshaller" ref="jibxJobOperationResponseMarshaller" />
+    </bean>
+	<bean id="managerRestTemplate" class="org.springframework.web.client.RestTemplate">
+      <property name="messageConverters">
+        <list>
+          <ref bean="jobOperationResponseMessageConverter"/>
+        </list>
+      </property>
+	</bean>  		  
+  	<bean id="managerService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl"
+  		  p:generatorContextUrl="${generator.context.url}"
+  		  p:restTemplate-ref="managerRestTemplate"/>
   		  
 </beans>

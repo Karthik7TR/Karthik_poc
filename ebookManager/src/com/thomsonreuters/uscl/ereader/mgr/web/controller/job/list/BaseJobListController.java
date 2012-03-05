@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.PageAndSort.D
 /**
  * Methods common to, and needed by both the JobListController and the FilterFormController.
  */
-@Controller
 public abstract class BaseJobListController {
 	//private static final Logger log = Logger.getLogger(BaseJobListController.class);
 	protected JobService jobService;

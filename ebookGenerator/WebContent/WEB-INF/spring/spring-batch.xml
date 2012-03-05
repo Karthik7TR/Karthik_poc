@@ -15,14 +15,7 @@
                     p:tablePrefix="${spring.batch.table.prefix}"
                     p:lobHandler-ref="oracleLobHandler"
                     p:transactionManager-ref="transactionManager"/>
-                    
-    <bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler"
-                    p:nativeJdbcExtractor-ref="nativeJdbcExtractor"/>
-                                
-    <bean id="nativeJdbcExtractor" 
-                class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"/>
-	
-				
+
 	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
 	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
 	<!-- This is a bean post-processor that can register all jobs as they are created. -->

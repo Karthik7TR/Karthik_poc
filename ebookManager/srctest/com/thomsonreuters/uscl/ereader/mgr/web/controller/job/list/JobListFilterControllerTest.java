@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +12,8 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -63,16 +64,20 @@ public class JobListFilterControllerTest {
     	List<Long> jobExecutionIds = new ArrayList<Long>();
     	jobExecutionIds.add(JEID);
     	List<JobExecution> jobExecutions = new ArrayList<JobExecution>();
-    	jobExecutions.add(new JobExecution(JEID));
+    	JobExecution jobExecution = new JobExecution(JEID);
+    	jobExecution.setJobInstance(new JobInstance(3456l, new JobParameters(), "bogusJobName"));
+    	jobExecutions.add(jobExecution);
     	
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
     	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(new JobInstanceBookInfo("bookName", "uscl/x/y/z"));
+    	
     	EasyMock.replay(mockJobService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
-    	assertNotNull(mav);
+    	Assert.assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
     	JobListControllerTest.validateModel(session, model);
     	

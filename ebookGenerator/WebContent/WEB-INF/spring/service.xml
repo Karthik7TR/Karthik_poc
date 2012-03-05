@@ -23,6 +23,7 @@
           <ref bean="tocRequestMessageConverter"/>
           <ref bean="nortRequestMessageConverter"/>
           <ref bean="gatherResponseMessageConverter"/>
+          <ref bean="jobOperationResponseMessageConverter"/>
         </list>
       </property>
 	</bean>

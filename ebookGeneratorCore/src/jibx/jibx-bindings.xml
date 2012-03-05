@@ -4,6 +4,14 @@
  * Reproduction without the written authorization of TRGR is prohibited
 -->
 <binding>
+
+	<!-- Response to a REST request to the generator for job restart and stop requests -->
+    <mapping name="jobOperationResponse" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse">
+        <value name="jobExecutionId" field="jobExecutionId" usage="required"/>
+        <value name="success" field="success" usage="required"/>
+        <value name="message" field="message" usage="optional"/>
+    </mapping>
+    
     <!-- Gather service REST response body for Toc and Doc requests -->
     <mapping name="gatherResponse" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse">
         <value name="errorCode" field="errorCode" usage="required"/>

@@ -54,6 +54,20 @@ function submitJobListForm(command) {
 		  <br/>
 	    </div>
     </spring:hasBindErrors>
+
+    <%-- Informational messages --%>
+ 	<ul>
+ 	<c:forEach items="${infoMessages}" var="message">
+ 		<c:if test="${message.type == 'SUCCESS'}">
+ 			<c:set var="cssStyle" value="color:green;"/>
+ 		</c:if>
+ 		 <c:if test="${message.type == 'FAIL'}">
+ 			<c:set var="cssStyle" value="color:red;"/>
+ 		</c:if>
+		<li style="${cssStyle}">${message.text}</li>
+	</c:forEach>
+ 	</ul>
+	
 	
 	<%-- Table of job executions --%>
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
