@@ -562,6 +562,22 @@
 		</div>
 	</div>
 	<div class="row">
+		<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
+		<form:radiobutton path="autoUpdateSupport" value="true" />True
+		<form:radiobutton path="autoUpdateSupport" value="false" />False
+		<div class="errorDiv">
+			<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="searchIndex" class="labelCol">Search Index</form:label>
+		<form:radiobutton path="searchIndex" value="true" />True
+		<form:radiobutton path="searchIndex" value="false" />False
+		<div class="errorDiv">
+			<form:errors path="searchIndex" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
 		<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
 		<form:radiobutton path="keyCiteToplineFlag" value="true" />True
 		<form:radiobutton path="keyCiteToplineFlag" value="false" />False

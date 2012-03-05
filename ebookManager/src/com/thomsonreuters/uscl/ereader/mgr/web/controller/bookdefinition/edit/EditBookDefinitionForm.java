@@ -53,6 +53,8 @@ public class EditBookDefinitionForm {
 	private String currency;
 	private boolean isComplete;
 	private boolean keyCiteToplineFlag;
+	private boolean autoUpdateSupport;
+	private boolean searchIndex;
 	
 	// Fully qualified title ID parts
 	private String publisher;
@@ -73,6 +75,8 @@ public class EditBookDefinitionForm {
 		this.keyCiteToplineFlag = false;
 		this.isComplete = false;
 		this.validateForm = false;
+		this.autoUpdateSupport = true;
+		this.searchIndex = true;
 	}
 	
 	public void initialize(BookDefinition bookDefinition) {
@@ -321,6 +325,22 @@ public class EditBookDefinitionForm {
 
 	public void setKeyCiteToplineFlag(boolean keyCiteToplineFlag) {
 		this.keyCiteToplineFlag = keyCiteToplineFlag;
+	}
+
+	public boolean isAutoUpdateSupport() {
+		return autoUpdateSupport;
+	}
+
+	public void setAutoUpdateSupport(boolean autoUpdateSupport) {
+		this.autoUpdateSupport = autoUpdateSupport;
+	}
+
+	public boolean isSearchIndex() {
+		return searchIndex;
+	}
+
+	public void setSearchIndex(boolean searchIndex) {
+		this.searchIndex = searchIndex;
 	}
 
 	public String getState() {
