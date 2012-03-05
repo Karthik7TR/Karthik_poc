@@ -115,7 +115,7 @@
 		</table>
 		<br/>
 		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />
-		<input type="button" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+		<input type="button" value="Edit Book Definition" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		
 		<%-- Informational Messages area --%>

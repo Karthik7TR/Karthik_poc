@@ -92,6 +92,7 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
 			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
 					book.getMaterialId());
+			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 		}
 
 		if (proviewTitleInfo == null) {
