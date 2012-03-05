@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
-@Service
+//@Service
 public class CodeServiceImpl implements CodeService {
 	private CodeDao dao;
 	
