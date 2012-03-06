@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
@@ -212,6 +215,21 @@ public class Author implements Serializable {
 		setAuthorLastName(that.getAuthorLastName());
 		setAuthorAddlText(that.getAuthorAddlText());
 		setEbookDefinition(that.getEbookDefinition());
+	}
+	
+	/**
+	 * Returns boolean whether all the name fields are empty.
+	 * Used in EditBookDefinitionForm to delete List of authors.
+	 * @return
+	 */
+	@Transient
+	public boolean isNameEmpty () {
+		return StringUtils.isBlank(this.authorFirstName) &&
+				StringUtils.isBlank(this.authorMiddleName) &&
+				StringUtils.isBlank(this.authorLastName) &&
+				StringUtils.isBlank(this.authorNamePrefix) &&
+				StringUtils.isBlank(this.authorNameSuffix) &&
+				StringUtils.isBlank(this.authorAddlText);
 	}
 
 	/**

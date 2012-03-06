@@ -140,7 +140,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 			
 			Collection<Author> authors = form.getAuthorInfo();
 			for(Author author : authors) {
-				if(StringUtils.isEmpty(author.getLastName())) {
+				if(StringUtils.isEmpty(author.getAuthorLastName())) {
 					errors.rejectValue("authorInfo", "error.author.last.name");
 					break;
 				}
