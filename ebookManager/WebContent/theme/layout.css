@@ -177,7 +177,7 @@ html, body {
 .rightFooter {
 	position:relative;
 	float:right;
-	padding-right:5px;
+	padding-right:2px;
 }
 .rightFooter img {
 	height: 30px;
