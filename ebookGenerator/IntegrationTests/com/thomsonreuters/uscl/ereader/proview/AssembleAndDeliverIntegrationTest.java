@@ -181,18 +181,10 @@ public class AssembleAndDeliverIntegrationTest {
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("1234");
 	}
-
+	
 	@Test
-	public void publishGoldDataToProview() throws Exception {
-		LOG.debug("Generating titleMetadata file");
-		titleMetadataService.writeToFile(titleMetadata, titleXml);
-		LOG.debug("Title Metadata:" + titleMetadata);
-		//titleMetadataService.writeToStream(titleMetadata, System.out);
-		LOG.debug("Assembling eBook");
-		eBookAssemblyService.assembleEBook(eBookDirectory, eBook);
-		LOG.debug("Publishing to ProView QED. This may take some time.");
-		proviewClient.publishTitle(titleIdFullyQualified, "v" + Long.toString(timestamp), eBook);
-		LOG.debug("Publishing to ProView is complete.  The <a href=\"https://proview.qed.thomsonreuters.com/title.html?titleId=" + TITLE_ID_PREFIX +  titleId + "&titleVersion=v" + timestamp +">title</a> should be available in a couple minutes.");
+	public void testPublishGoldDataToProView() throws Exception {
+		
 	}
 	
 }
