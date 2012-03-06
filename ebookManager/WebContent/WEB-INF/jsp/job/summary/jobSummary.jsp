@@ -61,7 +61,7 @@ function submitJobSummaryForm(command) {
  		<c:if test="${message.type == 'SUCCESS'}">
  			<c:set var="cssStyle" value="color:darkgreen;"/>
  		</c:if>
- 		 <c:if test="${message.type == 'FAIL'}">
+ 		 <c:if test="${message.type == 'FAIL' || message.type == 'ERROR'}">
  			<c:set var="cssStyle" value="color:red;"/>
  		</c:if>
 		<li style="${cssStyle}">${message.text}</li>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
@@ -41,7 +43,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
  */
 @Controller
 public class JobExecutionController {
-	//private static final Logger log = Logger.getLogger(JobExecutionController.class);
+	private static final Logger log = Logger.getLogger(JobExecutionController.class);
 	
 	private JobService jobService;
 	private ManagerService managerService;
@@ -74,7 +76,7 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS_POST, method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
 							   BindingResult bindingResult,
-							   Model model) throws Exception {
+							   Model model) {
 		JobExecution jobExecution = null;
 		JobInstanceBookInfo bookInfo = null;
 		if (!bindingResult.hasErrors()) {
@@ -97,9 +99,15 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession,
 								   @RequestParam Long jobExecutionId, Model model) throws Exception {
-		JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+		try {
+			JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
+			handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+			Thread.sleep(1);
+		} catch (HttpClientErrorException e) {
+			log.error("REST error restarting job: " + jobExecutionId, e);
+			messages.add(JobSummaryController.createRestExceptionMessage(e));
+		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
 		return jobSummaryController.doInboundGet(httpSession, model);
@@ -112,10 +120,15 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession,
 								@RequestParam Long jobExecutionId, Model model) throws Exception {
-		JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-		Thread.sleep(1);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
+		try {
+			JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
+			handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
+			Thread.sleep(1);
+		} catch (HttpClientErrorException e) {
+			log.error("REST error stopping job: " + jobExecutionId, e);
+			messages.add(JobSummaryController.createRestExceptionMessage(e));
+		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
 		return jobSummaryController.doInboundGet(httpSession, model);

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
@@ -30,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
@@ -54,7 +56,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView doInboundGet(HttpSession httpSession, 
-							  			Model model) throws Exception {
+							  			Model model) {
 		
 		FilterForm filterForm = new FilterForm();
 		JobSummaryForm jobListForm = new JobSummaryForm();
@@ -81,7 +83,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT, method = RequestMethod.GET)
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm jobListForm,
-								Model model) throws Exception {
+								Model model) {
 		List<Long> jobExecutionIds = null;
 		
 		// Restore the state of the search filter form
@@ -120,7 +122,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	public ModelAndView doStopOrRestartJob(HttpSession httpSession,
 							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm jobListForm,
 							   BindingResult errors,
-							   Model model) throws Exception {
+							   Model model) {
 		log.debug(jobListForm);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		
@@ -132,24 +134,29 @@ public class JobSummaryController extends BaseJobSummaryController {
 		
 		if (!errors.hasErrors()) {
 			JobCommand command = jobListForm.getJobCommand();
+			try {
 			switch (command) {
 				case CHANGE_OBJECTS_PER_PAGE:
 					pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
 					break;
 				case RESTART_JOB:
-					for (long jobExecutionId : jobListForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : jobListForm.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
 						JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 					}
 					break;
 				case STOP_JOB:
-					for (long jobExecutionId : jobListForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : jobListForm.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
 						JobExecutionController.handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
 					}
 					break;
 				default:
 					throw new IllegalArgumentException("Unexpected command: " + command);
+			}
+			} catch (HttpClientErrorException e) {
+				messages.add(createRestExceptionMessage(e));
+				log.error("Could not complete ebookGenerator REST request", e);
 			}
 		}
 		
@@ -165,6 +172,12 @@ public class JobSummaryController extends BaseJobSummaryController {
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);	// Informational messages related to success/fail of job stop or restart
 		
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
+	}
+	
+	public static InfoMessage createRestExceptionMessage(Throwable t) {
+		return new InfoMessage(Type.ERROR, String.format(
+		"Job operation(s) failed. %s - This is probably because the ebookGenerator web application is not running.",
+					 t.getMessage()));
 	}
 
 	@Required
