@@ -24,7 +24,7 @@ import com.thomsonreuters.uscl.ereader.proview.TocEntry;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
-public abstract class TitleMetadataBaseTest extends XMLTestCase {
+public abstract class TitleMetadataTestBase extends XMLTestCase {
 
 	protected TitleMetadata getTitleMetadata() {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");

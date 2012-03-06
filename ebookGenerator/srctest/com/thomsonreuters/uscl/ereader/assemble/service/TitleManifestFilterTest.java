@@ -49,7 +49,7 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
-public class TitleManifestFilterTest extends TitleMetadataBaseTest {
+public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilterTest.class);
 	UuidGenerator uuidGenerator;
 	SAXParserFactory saxParserFactory;

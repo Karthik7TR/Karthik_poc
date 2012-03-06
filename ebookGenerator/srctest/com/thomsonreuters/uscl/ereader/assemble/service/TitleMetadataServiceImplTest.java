@@ -10,33 +10,25 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.jibx.runtime.JiBXException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
-import com.thomsonreuters.uscl.ereader.proview.Doc;
-import com.thomsonreuters.uscl.ereader.proview.Keyword;
-import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 
 /**
  * Tests for the TitleMetadataServiceImpl
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TitleMetadataServiceImplTest extends TitleMetadataBaseTest {
+public class TitleMetadataServiceImplTest {
 
 	private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImplTest.class);
 	
@@ -85,44 +77,6 @@ public class TitleMetadataServiceImplTest extends TitleMetadataBaseTest {
 		FileUtils.deleteQuietly(artwork);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testTitleMetadataServiceThrowsExceptionWhenNullMetadataPassed() throws Exception {
-		titleMetadataService.writeToStream(null, System.out);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testTitleMetadataServiceThrowsExceptionWhenNullOutputStreamPassed() throws Exception {
-		titleMetadataService.writeToStream(new TitleMetadata(), null);
-	}
-	
-	@Test
-	public void testTitleMetadataServiceFailsToMarshalWhenRequiredInformationHasNotBeenSupplied() throws Exception {
-		try {
-			titleMetadataService.writeToStream(new TitleMetadata(), System.out);
-			fail("Expected a RuntimeException to be thrown, but none was!");
-		}
-		catch (RuntimeException e){
-			assertTrue("Expected a JiBXException to be the cause of the RuntimeException thrown when the title metadata is incomplete.", e.getCause().getClass().equals(JiBXException.class));
-		}
-	}
-	
-	@Test
-	public void testTitleMetadataServiceHappyPath() throws Exception {
-		
-		File tempFile = File.createTempFile("titleMetadataService", ".test");
-		
-		TitleMetadata titleMetadata = getTitleMetadata();
-		titleMetadataService.writeToFile(titleMetadata, tempFile);
-		TitleMetadata serializedMetadata = titleMetadataService.readFromFile(tempFile);
-		
-		FileUtils.deleteQuietly(tempFile);
-		
-		LOG.debug(" Input: " + titleMetadata.toString());
-		LOG.debug("Output: " + serializedMetadata.toString());
-		
-		assertTrue("Title metadata objects should be equal, but weren't!", titleMetadata.equals(serializedMetadata));
-	}
-	
 	@Test
 	public void testCreateArtworkHappyPath() throws Exception {
 		File coverArt = File.createTempFile("cover", ".png");
@@ -132,8 +86,8 @@ public class TitleMetadataServiceImplTest extends TitleMetadataBaseTest {
 		assertTrue("Expected cover art name to match: " + coverSrc + ", but was: " + artwork.getSrc(), artwork.getSrc().equals(coverSrc));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddArtworkFailsDueToNullFile() throws Exception {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddArtworkFailsDueToNullFile() throws Exception {		
 		TitleMetadata titleMetadata = new TitleMetadata();
 		titleMetadataService.createArtwork(null);
 	}
@@ -147,87 +101,4 @@ public class TitleMetadataServiceImplTest extends TitleMetadataBaseTest {
 		System.out.println("Assets Directory Contains: " + assetsDirectory.listFiles());
 		assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
 	}
-
-	@Test
-	public void testCreateTableOfContentsFromGatheredTocHappyPath() throws Exception  {
-		File titleXml = null;
-		try {
-			TitleMetadata titleMetadata = getTitleMetadata();
-			TableOfContents tableOfContents = new TableOfContents();
-			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered_toc_test.xml");
-			tableOfContents.setTocEntries(titleMetadataService.createTableOfContents(inputStream));
-			assertTrue(tableOfContents.getTocEntries().size() > 0);
-			titleMetadata.setTableOfContents(tableOfContents);
-			titleXml = File.createTempFile("titleMetadata", ".xml");
-			titleMetadataService.writeToFile(titleMetadata, titleXml);			
-		}
-		finally {
-			FileUtils.deleteQuietly(titleXml);
-		}
-		
-	}
-	
-	@Test
-	public void testTitleMetadataRoundTripPreservesEntities() throws Exception {
-		File titleXml = null;
-		try {
-			TitleMetadata titleMetadata = getTitleMetadata();
-			TableOfContents tableOfContents = new TableOfContents();
-			InputStream inputStream = TitleMetadataServiceImplTest.class.getResourceAsStream("gathered_nort2_test.xml");
-			tableOfContents.setTocEntries(titleMetadataService.createTableOfContents(inputStream));
-			assertTrue(tableOfContents.getTocEntries().size() > 0);
-			titleMetadata.setTableOfContents(tableOfContents);
-			titleXml = File.createTempFile("titleMetadata", ".xml");
-			titleMetadataService.writeToFile(titleMetadata, titleXml);
-			TitleMetadata unmarshalledTitleMetadata = titleMetadataService.readFromFile(titleXml);
-			String expectedText = "CA ORGANIC ACTS TREATY OF GUADALUPE HIDALGO, Refs & Annos";
-			boolean foundMatchingChildInTitleMetadataBasedOnText = findTableOfContentsNodeContainingText(expectedText, unmarshalledTitleMetadata.getTableOfContents());
-			
-			String secondText = "West's ANNOTATED CALIFORNIA CODES";
-			boolean foundFirstAposText = findTableOfContentsNodeContainingText(secondText, tableOfContents);
-			
-			if (!foundMatchingChildInTitleMetadataBasedOnText){
-				throw new RuntimeException("Expected to find a node in the unmarshalled title metadata with title: " + expectedText);
-			}
-			
-			if (!foundFirstAposText){
-				throw new RuntimeException("Expected to find a node in the unmarshalled title metadata with title: " + secondText);
-			}
-		}
-		finally {
-			FileUtils.deleteQuietly(titleXml);
-		}
-	}
-	
-	private boolean findTableOfContentsNodeContainingText(String expectedText,
-			TableOfContents tableOfContents) {
-		boolean foundChildMatchingText = Boolean.FALSE;
-		tableOfContents.getTocEntries();
-		for (TocEntry tocEntry : tableOfContents.getTocEntries()) {
-			foundChildMatchingText = checkTocEntryForMatchingText(tocEntry, expectedText);
-			if (foundChildMatchingText) {
-				return Boolean.TRUE;
-			}
-		}
-		return foundChildMatchingText;
-	}
-	
-	private boolean checkTocEntryForMatchingText(TocEntry tocEntry, String textToFind) {
-		boolean matchedText = Boolean.FALSE;
-		if (textToFind.equals(tocEntry.getText())){ //did we match the current node in the traversal?
-			System.out.println("Found expected text: [" + tocEntry.getText() + "]");
-			return Boolean.TRUE;
-		}
-		else if (tocEntry.getChildren() != null && tocEntry.getChildren().size() > 0){ //if we have child nodes, check those too.
-			for (TocEntry child : tocEntry.getChildren()){
-				matchedText = checkTocEntryForMatchingText(child, textToFind);
-				if (matchedText){
-					LOG.debug("Found expected text: [" + child.getText() + "]");
-					return Boolean.TRUE;
-				}
-			}
-		}
-		return matchedText;
-	}
-
 }
