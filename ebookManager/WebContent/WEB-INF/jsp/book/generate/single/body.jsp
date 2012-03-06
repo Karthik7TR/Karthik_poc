@@ -94,7 +94,7 @@
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMinorVersionNumber}")' value="false"/>Minor
-			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMajorVersionNumber}")'/>Major
+			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMajorVersionNumber}")' value="true"/>Major
 			 </td>
 		  </tr>
 		  
