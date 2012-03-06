@@ -28,7 +28,6 @@ public class JobExecutionEntity implements Serializable {
 	private Date startTime;
 	private Date endTime;
 	private BatchStatus batchStatus;
-//	private Set<JobParameterEntity> jobParameterEntities;
 	
 	@Id
 	@Column(name="JOB_EXECUTION_ID")
@@ -58,10 +57,6 @@ public class JobExecutionEntity implements Serializable {
 		}
 		return endTime.getTime() - startTime.getTime();
 	}
-//	@OneToMany(mappedBy="jobInstanceId")
-//	public Set<JobParameterEntity> getJobParameterEntities() {
-//		return jobParameterEntities;
-//	}
 	public void setJobExecutionId(Long jobExecutionId) {
 		this.jobExecutionId = jobExecutionId;
 	}

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+@Deprecated
 @Entity
 @Table(name="BATCH_JOB_PARAMS", schema="EBOOK_SPRINGBATCH")
 public class JobParameterEntity implements Serializable {

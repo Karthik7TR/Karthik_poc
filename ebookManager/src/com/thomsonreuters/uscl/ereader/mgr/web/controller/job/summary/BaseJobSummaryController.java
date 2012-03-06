@@ -101,9 +101,9 @@ public abstract class BaseJobSummaryController {
 			case START_TIME:
 				return new JobSort(SortProperty.startTime, ascendingSort);
 			case BOOK_NAME:
-				return new JobSort(JobSort.SortParmeterKeyName.bookName, ascendingSort);
+				return new JobSort(SortProperty.bookName, ascendingSort);
 			case TITLE_ID:
-				return new JobSort(JobSort.SortParmeterKeyName.titleIdFullyQualified, ascendingSort);
+				return new JobSort(SortProperty.titleId, ascendingSort);
 			default:
 				throw new IllegalArgumentException("Unexpected DisplayTag sort property: " + dtSortProperty);
 		}

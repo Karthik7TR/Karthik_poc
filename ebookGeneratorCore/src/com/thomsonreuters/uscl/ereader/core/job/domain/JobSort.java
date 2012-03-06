@@ -7,68 +7,53 @@ package com.thomsonreuters.uscl.ereader.core.job.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.util.Assert;
 
 /**
- * Holds sorting and paging data used in queries.
+ * Holds sorting data used in Spring Batch job queries.
  */
 public class JobSort {
 	
-	public enum SortProperty { jobInstanceId, jobExecutionId, startTime, batchStatus, stringVal };
-	public enum SortParmeterKeyName { bookName, titleIdFullyQualified };
-	
 	/**
-	 * Java bean property on which sorting should occur - entity maps this to the phsical database column.
-	 * For a job execution the value set would be one of the properties of class JobExecutionEntity;
-	 * For job parameters the value set would be one of the value properties of class JobParameterEntity. 
+	 * The property names in the entities job execution and book audit tables that are sorted on for presentation.  
 	 */
+	public enum SortProperty { jobInstanceId, jobExecutionId, startTime, batchStatus,	// Job properties
+							   titleId, bookName };  // Book properties
+	
+	/** Java bean property on which sorting should occur - entity maps this to the physical database column. */
 	private SortProperty sortProperty;
-		
-	/**
-	 * If sorting on one of the job parameters, what is the key name for the value to sort on.
-	 * This is one of the constant key values within the JobParameterKey class.
-	 * Works in concert with sortProperty which indicates which column in the JOB_PARAMS table or order by.
-	 */
-	private SortParmeterKeyName jobParameterKeyName;  // like "titleIdFullyQualified"
-	
 	/** true if ascending sort, false if descending sort */
 	private boolean ascending;
 	
 	/**
-	 * Default sort is by job start time descending.
+	 * Default Job sort is by job start time, descending order.
 	 */
 	public JobSort() {
 		this(SortProperty.startTime, false);
 	}
 	
 	/**
-	 * Used to indicate that we are sorting on a job parameter
-	 * @param keyName key_name in the job_params table
-	 * @param ascending true for an ascending direction sort
-	 */
-	public JobSort(SortParmeterKeyName keyName, boolean ascending) {
-		this(SortProperty.stringVal, ascending);
-		this.jobParameterKeyName = keyName;
-	}
-	
-	/**
 	 * Used to indicate that we are sorting on a job execution property.
-	 * @param sortProperty which property in the job execution
+	 * @param sortProperty which job/book property to sort on, not null. 
 	 * @param ascending true for an ascending direction sort
 	 */
 	public JobSort(SortProperty sortProperty, boolean ascending) {
+		Assert.notNull(sortProperty);
 		this.sortProperty = sortProperty;
 		this.ascending = ascending;
 	}
 	
-	public boolean isJobParameterSort() {
-		return (jobParameterKeyName != null); 
+	/**
+	 * Returns true if we are sorting the job data by either the titleId or the bookName properties.
+	 * Returning false implies that we are sorting on some column in the Spring Batch job execution table.
+	 */
+	public boolean isBookPropertySort() {
+		return (SortProperty.titleId.equals(sortProperty) ||
+				SortProperty.bookName.equals(sortProperty)); 
 	}
 
 	public String getSortProperty() {
 		return sortProperty.toString();
-	}
-	public SortParmeterKeyName getJobParameterKeyName() {
-		return jobParameterKeyName;
 	}
 	public boolean isAscending() {
 		return ascending;
@@ -79,7 +64,6 @@ public class JobSort {
 	public static String getSortDirection(boolean anAsendingSort) {
 		return (anAsendingSort) ? "asc" : "desc";
 	}
-	
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

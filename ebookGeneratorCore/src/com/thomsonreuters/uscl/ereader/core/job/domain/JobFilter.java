@@ -19,11 +19,11 @@ import org.springframework.batch.core.BatchStatus;
 public class JobFilter {
 	
 	// Job Execution properties
-	private Date from;
-	private Date to;
+	private Date from;	// start date on and after (inclusive)
+	private Date to;	// start date on and before (inclusive).
 	private BatchStatus batchStatus;
 	
-	// Job Parameters
+	// Book properties
 	private String titleId;
 	private String bookName;
 	
@@ -39,17 +39,18 @@ public class JobFilter {
 	}
 	
 	/**
-	 * Returns true if a filter to be applied is against a Job Parameter.
+	 * Returns true if a filter to be applied is against a book property.
 	 * Needed because we need to join on the JOB_PARAMS table if there is any job parameter
 	 * being filtered on and the DAO needs to know if it should add the join clause to the query.
 	 */
-	public boolean hasAnyJobParameters() {
+	public boolean hasAnyBookProperties() {
 		return (StringUtils.isNotBlank(titleId)) || (StringUtils.isNotBlank(bookName));
 	}
-	
+	/** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
 	public Date getFrom() {
 		return from;
 	}
+	/** Include executions with a start time up to the end of day (23:59:29) on this calendar date and before. */
 	public Date getTo() {
 		return to;
 	}
