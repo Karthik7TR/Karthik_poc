@@ -221,8 +221,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", "uscl/an/abcd");
-    	request.setParameter("nameLines[0].nameText", "title name");
-    	request.setParameter("nameLines[0].sequenceNumber", "1");
+    	request.setParameter("nameLines[0].bookNameText", "title name");
+    	request.setParameter("nameLines[0].sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
@@ -359,8 +359,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", fullyQualifiedTitleId);
-    	request.setParameter("nameLines[0].nameText", "title name");
-    	request.setParameter("nameLines[0].sequenceNumber", "1");
+    	request.setParameter("nameLines[0].bookNameText", "title name");
+    	request.setParameter("nameLines[0].sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
