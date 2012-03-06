@@ -109,6 +109,8 @@
       <fileset dir="${dir.binaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
+      <fileset dir="${dir.ebookGeneratorCore}/src/jibx" casesensitive="yes"/>
+      <fileset dir="${dir.ebookGeneratorCore}/src/spring" casesensitive="yes"/>
     </jar>
   </target>
 
