@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -35,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
-public class JobListControllerTest {
+public class JobSummaryControllerTest {
 	public static final int JOB_EXEC_ID_COUNT = 50;
 	private JobSummaryController controller;
 	private MockHttpServletRequest request;

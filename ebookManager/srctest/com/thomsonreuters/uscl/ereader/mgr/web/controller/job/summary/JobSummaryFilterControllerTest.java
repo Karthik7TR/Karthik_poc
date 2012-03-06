@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterCont
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterFormValidator;
 
-public class JobListFilterControllerTest {
+public class JobSummaryFilterControllerTest {
 	private FilterController controller;
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
@@ -82,7 +82,7 @@ public class JobListFilterControllerTest {
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
-    	JobListControllerTest.validateModel(session, model);
+    	JobSummaryControllerTest.validateModel(session, model);
     	
     	// Verify the saved filter form
     	FilterForm filterForm = (FilterForm) model.get(FilterForm.FORM_NAME);

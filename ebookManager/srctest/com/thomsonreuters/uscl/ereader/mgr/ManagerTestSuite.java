@@ -16,15 +16,17 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionForm
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.list.JobListFilterControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryFilterControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
 			BookLibraryControllerTest.class,
 			BookPromotionControllerTest.class,
-			JobListControllerTest.class,
-			JobListFilterControllerTest.class,
+			JobExecutionControllerTest.class,
+			JobSummaryControllerTest.class,
+			JobSummaryFilterControllerTest.class,
 			GenerateEbookControllerTest.class,
 			SecurityControllerTest.class,
 			ViewBookDefinitionControllerTest.class,

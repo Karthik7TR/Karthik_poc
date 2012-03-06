@@ -60,10 +60,11 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS, method = RequestMethod.GET)
 	public ModelAndView doDisplayJobExecutionDetails(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
-							  @ModelAttribute(JobExecutionForm.FORM_NAME) JobExecutionForm form,
 							  Model model) throws Exception {
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
-		populateModel(model, jobExecution);
+		JobInstanceBookInfo bookInfo = (jobExecution != null) ? jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+		populateModel(model, jobExecution, bookInfo);
+		model.addAttribute(JobExecutionForm.FORM_NAME, new JobExecutionForm());
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
 	}
 	
@@ -75,14 +76,17 @@ public class JobExecutionController {
 							   BindingResult bindingResult,
 							   Model model) throws Exception {
 		JobExecution jobExecution = null;
+		JobInstanceBookInfo bookInfo = null;
 		if (!bindingResult.hasErrors()) {
 			jobExecution = jobService.findJobExecution(form.getJobExecutionId());
-			if (jobExecution == null) {
+			if (jobExecution != null) {
+				bookInfo = (jobExecution != null) ? jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+			} else {
 				String[] args = { form.getJobExecutionId().toString() };
 				bindingResult.reject("executionId.not.found", args, "Job execution not found");
 			}
 		}
-		populateModel(model, jobExecution);
+		populateModel(model, jobExecution, bookInfo);
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
 	}
 	
@@ -116,7 +120,9 @@ public class JobExecutionController {
 		// Forward to to the job summary controller
 		return jobSummaryController.doInboundGet(httpSession, model);
 	}
-	
+
+	public static final String CODE_JOB_RESTART_SUCCESS = "job.restart.success";
+	public static final String CODE_JOB_RESTART_FAIL = "job.restart.fail";
 	public static void handleRestartJobOperationResponse(List<InfoMessage> messages,
 														 Long jobExecutionIdToRestart,
 														 JobOperationResponse jobOperationResponse,
@@ -125,14 +131,16 @@ public class JobExecutionController {
 		if (jobOperationResponse.isSuccess()) {
 			Object[] args = { jobExecutionIdToRestart.toString(), jobOperationResponse.getJobExecutionId().toString() };
 			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
-						 messageSourceAccessor.getMessage("job.restart.success", args)));
+						 messageSourceAccessor.getMessage(CODE_JOB_RESTART_SUCCESS, args)));
 		} else {
 			Object[] args = { execId, jobOperationResponse.getMessage() };
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
-							messageSourceAccessor.getMessage("job.restart.fail", args)));
+							messageSourceAccessor.getMessage(CODE_JOB_RESTART_FAIL, args)));
 		}
 	}
 
+	public static final String CODE_JOB_STOP_SUCCESS = "job.stop.success";
+	public static final String CODE_JOB_STOP_FAIL = "job.stop.fail";
 	public static void handleStopJobOperationResponse(List<InfoMessage> messages,
 													  JobOperationResponse jobOperationResponse,
 													  MessageSourceAccessor messageSourceAccessor) {
@@ -140,17 +148,15 @@ public class JobExecutionController {
 		if (jobOperationResponse.isSuccess()) {
 			Object[] args = { execId };
 			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
-						 messageSourceAccessor.getMessage("job.stop.success", args)));
+						 messageSourceAccessor.getMessage(CODE_JOB_STOP_SUCCESS, args)));
 		} else {
 			Object[] args = { execId, jobOperationResponse.getMessage() };
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
-							messageSourceAccessor.getMessage("job.stop.fail", args)));
+							messageSourceAccessor.getMessage(CODE_JOB_STOP_FAIL, args)));
 		}
 	}
 	
-	private void populateModel(Model model, JobExecution jobExecution) {
-		JobInstanceBookInfo bookInfo = (jobExecution != null) ? 
-				jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+	private void populateModel(Model model, JobExecution jobExecution, JobInstanceBookInfo bookInfo) {
 		JobExecutionVdo vdo = new JobExecutionVdo(jobExecution, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION, jobExecution);
 		model.addAttribute(WebConstants.KEY_VDO, vdo);
