@@ -387,9 +387,9 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setNortFilterView("1234");
 		Collection<EbookName> nameLines = new ArrayList<EbookName>();
 		EbookName nameLine = new EbookName();
-		nameLine.setNameId(Long.parseLong("1"));
-		nameLine.setNameText("Book Title");
-		nameLine.setSequenceNumber(Long.parseLong("1"));
+		nameLine.setEbookNameId(1);
+		nameLine.setBookNameText("Book Title");
+		nameLine.setSequenceNum(1);
 		nameLines.add(nameLine);
 		form.setNameLines(nameLines);
 		
@@ -415,9 +415,9 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setRootTocGuid("i12345678123456781234567812345678");
 		Collection<EbookName> nameLines = new ArrayList<EbookName>();
 		EbookName nameLine = new EbookName();
-		nameLine.setNameId(Long.parseLong("1"));
-		nameLine.setNameText("Book Title");
-		nameLine.setSequenceNumber(Long.parseLong("1"));
+		nameLine.setEbookNameId(1);
+		nameLine.setBookNameText("Book Title");
+		nameLine.setSequenceNum(1);
 		nameLines.add(nameLine);
 		form.setNameLines(nameLines);
 		

@@ -2,8 +2,6 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,21 +21,19 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "findAllEbookNames", query = "select myEbookName from EbookName myEbookName"),
-		@NamedQuery(name = "findEbookNameByPrimaryKey", query = "select myEbookName from EbookName myEbookName where myEbookName.ebookNameId = ?1") })
-@Table(schema = "EBOOK", name = "EBOOK_NAME")
-
-public class EbookName implements Serializable {
+		@NamedQuery(name = "findAllFrontMatters", query = "select myFrontMatter from FrontMatter myFrontMatter"),
+		@NamedQuery(name = "findFrontMatterByPrimaryKey", query = "select myFrontMatter from FrontMatter myFrontMatter where myFrontMatter.frontMatterId = ?1") })
+@Table(schema = "EBOOK", name = "FRONT_MATTER")
+public class FrontMatter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 */
 
-	@Column(name = "EBOOK_NAME_ID", nullable = false)
+	@Column(name = "FRONT_MATTER_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-
-	Integer ebookNameId;
+	Integer frontMatterId;
 	/**
 	 */
 
@@ -59,14 +55,14 @@ public class EbookName implements Serializable {
 
 	/**
 	 */
-	public void setEbookNameId(Integer ebookNameId) {
-		this.ebookNameId = ebookNameId;
+	public void setFrontMatterId(Integer frontMatterId) {
+		this.frontMatterId = frontMatterId;
 	}
 
 	/**
 	 */
-	public Integer getEbookNameId() {
-		return this.ebookNameId;
+	public Integer getFrontMatterId() {
+		return this.frontMatterId;
 	}
 
 	/**
@@ -107,22 +103,33 @@ public class EbookName implements Serializable {
 
 	/**
 	 */
-	public EbookName() {
+	public FrontMatter() {
 	}
 
 	/**
 	 * Copies the contents of the specified bean into this bean.
 	 *
 	 */
-	public void copy(EbookName that) {
-		setEbookNameId(that.getEbookNameId());
+	public void copy(FrontMatter that) {
+		setFrontMatterId(that.getFrontMatterId());
 		setBookNameText(that.getBookNameText());
 		setSequenceNum(that.getSequenceNum());
 		setEbookDefinition(that.getEbookDefinition());
 	}
-	
-	public boolean isEmpty() {
-		return StringUtils.isBlank(this.bookNameText) & this.sequenceNum == null;
+
+	/**
+	 * Returns a textual representation of a bean.
+	 *
+	 */
+	public String toString() {
+
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append("frontMatterId=[").append(frontMatterId).append("] ");
+		buffer.append("bookNameText=[").append(bookNameText).append("] ");
+		buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
+
+		return buffer.toString();
 	}
 
 	/**
@@ -131,7 +138,7 @@ public class EbookName implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) (prime * result + ((ebookNameId == null) ? 0 : ebookNameId.hashCode()));
+		result = (int) (prime * result + ((frontMatterId == null) ? 0 : frontMatterId.hashCode()));
 		return result;
 	}
 
@@ -140,12 +147,12 @@ public class EbookName implements Serializable {
 	public boolean equals(Object obj) {
 		if (obj == this)
 			return true;
-		if (!(obj instanceof EbookName))
+		if (!(obj instanceof FrontMatter))
 			return false;
-		EbookName equalCheck = (EbookName) obj;
-		if ((ebookNameId == null && equalCheck.ebookNameId != null) || (ebookNameId != null && equalCheck.ebookNameId == null))
+		FrontMatter equalCheck = (FrontMatter) obj;
+		if ((frontMatterId == null && equalCheck.frontMatterId != null) || (frontMatterId != null && equalCheck.frontMatterId == null))
 			return false;
-		if (ebookNameId != null && !ebookNameId.equals(equalCheck.ebookNameId))
+		if (frontMatterId != null && !frontMatterId.equals(equalCheck.frontMatterId))
 			return false;
 		return true;
 	}

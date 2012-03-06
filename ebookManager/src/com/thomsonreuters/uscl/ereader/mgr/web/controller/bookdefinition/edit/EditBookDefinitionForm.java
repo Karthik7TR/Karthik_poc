@@ -93,9 +93,9 @@ public class EditBookDefinitionForm {
 			
 			// TODO: update to get from bookDefinition
 			EbookName ebookName = new EbookName();
-			ebookName.setBook(bookDefinition);
-			ebookName.setNameText(bookDefinition.getBookName());
-			ebookName.setSequenceNumber((long) 1);
+			ebookName.setEbookDefinition(bookDefinition);
+			ebookName.setBookNameText(bookDefinition.getBookName());
+			ebookName.setSequenceNum(1);
 			this.nameLines.add(ebookName);
 			
 			// Parse titleId
