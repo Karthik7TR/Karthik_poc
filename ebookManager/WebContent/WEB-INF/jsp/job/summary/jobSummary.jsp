@@ -55,11 +55,11 @@ function submitJobSummaryForm(command) {
 	    </div>
     </spring:hasBindErrors>
 
-    <%-- Informational messages --%>
+    <%-- Informational messages - used to report status of job stop and/or restart operations. --%>
  	<ul>
  	<c:forEach items="${infoMessages}" var="message">
  		<c:if test="${message.type == 'SUCCESS'}">
- 			<c:set var="cssStyle" value="color:green;"/>
+ 			<c:set var="cssStyle" value="color:darkgreen;"/>
  		</c:if>
  		 <c:if test="${message.type == 'FAIL'}">
  			<c:set var="cssStyle" value="color:red;"/>

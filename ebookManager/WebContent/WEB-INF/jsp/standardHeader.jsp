@@ -1,8 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.ModelUtils" %>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.UserUtils" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
 
-<c:set var="userFullName" value="<%=ModelUtils.getAuthenticatedUserFullName()%>"/>
+<c:set var="userFullName" value="<%=UserUtils.getAuthenticatedUserFullName()%>"/>
 
 <div class="leftHeader">
 	<span class="programTitle">THOMSON REUTERS</span> <span class="programTitle" style="color:orange">eBook Manager</span> <span class="welcomeMessage"> - Welcome ${userFullName}</span>

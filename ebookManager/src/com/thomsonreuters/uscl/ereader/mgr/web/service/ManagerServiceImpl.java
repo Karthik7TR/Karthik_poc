@@ -9,9 +9,12 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 
 public class ManagerServiceImpl implements ManagerService {
 	
-	public static String GENERATOR_REST_STOP_JOB_URL_PATTERN = "{context}/service/stop/job/{jobInstanceId}";
-	public static String GENERATOR_REST_RESTART_JOB_URL_PATTERN = "{context}/service/restart/job/{jobInstanceId}";
+	private static String GENERATOR_REST_STOP_JOB_URL_PATTERN =
+							"{context}/service/stop/job/{jobExecutionId}";
+	private static String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
+							"{context}/service/restart/job/{jobExecutionId}";
 	
+	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
 	private RestTemplate restTemplate;
 	/** The root web application context URL for the ebook generator. */
 	private URL generatorContextUrl;

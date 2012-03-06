@@ -54,6 +54,9 @@ public class JobExecutionController {
 		binder.setValidator(validator);
 	}
 	
+	/**
+	 * Inbound GET to initially display the page.
+	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS, method = RequestMethod.GET)
 	public ModelAndView doDisplayJobExecutionDetails(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
@@ -64,6 +67,9 @@ public class JobExecutionController {
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
 	}
 	
+	/**
+	 * Handle the submit/post of a new job execution ID whose details are to be viewed.
+	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS_POST, method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
 							   BindingResult bindingResult,
@@ -85,9 +91,9 @@ public class JobExecutionController {
 	 * restart operation built into the ebook generator web application.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_RESTART, method = RequestMethod.GET)
-	public ModelAndView restartJob(HttpSession httpSession, @RequestParam Long jobExecutionId, Model model) throws Exception {
+	public ModelAndView restartJob(HttpSession httpSession,
+								   @RequestParam Long jobExecutionId, Model model) throws Exception {
 		JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
-		Thread.sleep(1);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
@@ -100,7 +106,8 @@ public class JobExecutionController {
 	 * stop operation built into the ebook generator web application.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_STOP, method = RequestMethod.GET)
-	public ModelAndView stopJob(HttpSession httpSession, @RequestParam Long jobExecutionId, Model model) throws Exception {
+	public ModelAndView stopJob(HttpSession httpSession,
+								@RequestParam Long jobExecutionId, Model model) throws Exception {
 		JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
 		Thread.sleep(1);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();

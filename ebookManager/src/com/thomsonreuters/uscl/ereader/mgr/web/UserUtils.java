@@ -13,6 +13,18 @@ import org.springframework.security.core.GrantedAuthority;
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 
 public class UserUtils {
+	
+	/**
+	 * Returns the full name, like "John Galt", of the currently authenticated
+	 * user.
+	 * 
+	 * @return user's full name, or null if not authenticated.
+	 */
+	public static String getAuthenticatedUserFullName() {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		String fullName = (user != null) ? user.getFullName() : null;
+		return fullName;
+	}
 
 	/**
 	 * Checks if the user has super user role
@@ -22,7 +34,7 @@ public class UserUtils {
 	public static boolean isSuperUser() {
 		boolean superUser = false;
 
-		LdapUserInfo ldapUserInfo = ModelUtils.getAuthenticatedLDapUserInfo();
+		LdapUserInfo ldapUserInfo = LdapUserInfo.getAuthenticatedUser();
 
 		if (ldapUserInfo != null) {
 			Collection<GrantedAuthority> authorities = ldapUserInfo
@@ -39,6 +51,5 @@ public class UserUtils {
 			}
 		}
 		return superUser;
-
 	}
 }
