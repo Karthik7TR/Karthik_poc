@@ -69,7 +69,7 @@ public class JobSummaryControllerTest {
     }
     
 	@Test
-	public void testJobListGet() throws Exception {
+	public void testJobSummaryGet() throws Exception {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY);
     	request.setMethod(HttpMethod.GET.name());
@@ -100,7 +100,7 @@ public class JobSummaryControllerTest {
 	}
 	
 	@Test
-	public void testJobListPaging() throws Exception {
+	public void testJobSummaryPaging() throws Exception {
     	// Set up the request URL
 		int newPageNumber = 2;
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
@@ -132,7 +132,7 @@ public class JobSummaryControllerTest {
 	}
 	
 	@Test
-	public void testJobListSorting() throws Exception {
+	public void testJobSummarySorting() throws Exception {
 		log.debug(">>>");
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
@@ -196,7 +196,7 @@ public class JobSummaryControllerTest {
 	
 	/**
 	 * Verify the state of the session and reqeust (model) as expected before the
-	 * rendering of the job list page.
+	 * rendering of the job Summary page.
 	 */
 	public static void validateModel(HttpSession session, Map<String,Object> model) {
     	Assert.assertNotNull(session.getAttribute(FilterForm.FORM_NAME));

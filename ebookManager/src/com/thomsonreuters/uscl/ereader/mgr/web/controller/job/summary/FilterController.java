@@ -53,8 +53,8 @@ public class FilterController extends BaseJobSummaryController {
 		
 		// Restore state of paging and sorting
 		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
-		JobSummaryForm jobListForm = new JobSummaryForm();
-		jobListForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		JobSummaryForm jobSummaryForm = new JobSummaryForm();
+		jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 		
 		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
 			filterForm.initialize();
@@ -68,7 +68,7 @@ public class FilterController extends BaseJobSummaryController {
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
-		model.addAttribute(JobSummaryForm.FORM_NAME, jobListForm);
+		model.addAttribute(JobSummaryForm.FORM_NAME, jobSummaryForm);
 
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}

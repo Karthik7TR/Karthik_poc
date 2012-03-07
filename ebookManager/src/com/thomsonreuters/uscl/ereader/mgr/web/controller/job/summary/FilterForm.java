@@ -23,7 +23,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
  */
 public class FilterForm {
 	
-	public static final String FORM_NAME = "jobListFilterForm";
+	public static final String FORM_NAME = "jobSummaryFilterForm";
 	public enum FilterCommand { SEARCH, RESET };
 	
 	//private static final Logger log = Logger.getLogger(FilterForm.class);

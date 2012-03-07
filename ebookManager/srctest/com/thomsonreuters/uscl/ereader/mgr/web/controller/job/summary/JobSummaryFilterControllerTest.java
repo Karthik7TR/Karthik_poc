@@ -49,7 +49,7 @@ public class JobSummaryFilterControllerTest {
     	controller.setValidator(new FilterFormValidator());
     }
 	@Test
-	public void testJobListFilterPost() throws Exception {
+	public void testJobSummaryFilterPost() throws Exception {
     	// Set up the request URL
 		// Filter form values
 		String titleId = "uscl/junit/test/abc";

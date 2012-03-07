@@ -24,10 +24,10 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
 /**
- * Methods common to, and needed by both the JobListController and the FilterFormController.
+ * Methods common to, and needed by both the JobSummaryController and the FilterFormController.
  */
 public abstract class BaseJobSummaryController {
-	//private static final Logger log = Logger.getLogger(BaseJobListController.class);
+	//private static final Logger log = Logger.getLogger(BaseJobSummaryController.class);
 	protected JobService jobService;
 	
 	/**
@@ -119,7 +119,7 @@ public abstract class BaseJobSummaryController {
 	 * @param pageAndSort current page number, sort column, and sort direction (asc/desc).
 	 * @return an implemented DisplayTag paginated list interface
 	 */
-    private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) { 
+    private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) {
 		// Calculate begin and end index for the current page number
 		int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
 		int toIndex = fromIndex + pageAndSort.getObjectsPerPage();

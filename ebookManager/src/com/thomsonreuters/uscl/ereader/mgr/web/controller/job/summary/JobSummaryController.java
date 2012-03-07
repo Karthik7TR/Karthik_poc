@@ -128,6 +128,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 			try {
 			switch (command) {
 				case CHANGE_OBJECTS_PER_PAGE:
+					pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
 					pageAndSort.setObjectsPerPage(jobSummaryForm.getObjectsPerPage());	// Update the new number of items to be shown at one time
 					break;
 				case RESTART_JOB:

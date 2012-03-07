@@ -7,7 +7,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSor
 
 public class JobSummaryForm {
 	
-	public static final String FORM_NAME = "jobListForm";
+	public static final String FORM_NAME = "jobSummaryForm";
 	
 	public enum JobCommand { STOP_JOB, RESTART_JOB, CHANGE_OBJECTS_PER_PAGE};
 	
