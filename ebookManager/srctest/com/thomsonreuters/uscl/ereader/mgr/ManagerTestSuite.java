@@ -24,14 +24,14 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 @SuiteClasses( {
 			BookLibraryControllerTest.class,
 			BookPromotionControllerTest.class,
+			EditBookDefinitionControllerTest.class,
+			EditBookDefinitionFormValidatorTest.class,
+			GenerateEbookControllerTest.class,
 			JobExecutionControllerTest.class,
 			JobSummaryControllerTest.class,
 			JobSummaryFilterControllerTest.class,
-			GenerateEbookControllerTest.class,
 			SecurityControllerTest.class,
-			ViewBookDefinitionControllerTest.class,
-			EditBookDefinitionControllerTest.class,
-			EditBookDefinitionFormValidatorTest.class
+			ViewBookDefinitionControllerTest.class
 		} )
 
 public class ManagerTestSuite {
