@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,14 +29,10 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryValidator;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
 public class JobSummaryControllerTest {
+	private static final Logger log = Logger.getLogger(JobSummaryControllerTest.class);
 	public static final int JOB_EXEC_ID_COUNT = 50;
 	private JobSummaryController controller;
 	private MockHttpServletRequest request;
@@ -45,6 +42,7 @@ public class JobSummaryControllerTest {
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
 	private List<JobExecution> jobExecutions;
+
     @Before
     public void setUp() throws Exception {
     	this.request = new MockHttpServletRequest();
@@ -96,7 +94,7 @@ public class JobSummaryControllerTest {
     	
     	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
     	Assert.assertEquals(false, pageAndSort.isAscendingSort());
-    	Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSort());
+    	Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSortProperty());
     	
     	EasyMock.verify(mockJobService);
 	}
@@ -128,13 +126,14 @@ public class JobSummaryControllerTest {
     	validateModel(session, model);
     	
        	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
-    	Assert.assertEquals(newPageNumber, pageAndSort.getPage().intValue());
+    	Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
 
     	EasyMock.verify(mockJobService);
 	}
 	
 	@Test
 	public void testJobListSorting() throws Exception {
+		log.debug(">>>");
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
     	request.setMethod(HttpMethod.GET.name());

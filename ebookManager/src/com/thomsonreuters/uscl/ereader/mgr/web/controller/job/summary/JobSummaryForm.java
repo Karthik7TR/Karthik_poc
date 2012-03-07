@@ -13,7 +13,6 @@ public class JobSummaryForm {
 	
 	private JobCommand command;
 	private Long[] 	jobExecutionIds;
-	
 	private PageAndSort pageAndSort = new PageAndSort();	// sort, page, dir, objectsPerPage
 
 	/** Discriminator between which post action is to be performed. */
@@ -25,19 +24,19 @@ public class JobSummaryForm {
 		return jobExecutionIds;
 	}
 	public String getDir() {
-		return pageAndSort.getDir();
+		return (pageAndSort.isAscendingSort()) ? "asc" : "desc";
 	}
 	public Integer getPage() {
-		return pageAndSort.getPage();
+		return pageAndSort.getPageNumber();
 	}
 	public DisplayTagSortProperty getSort() {
-		return pageAndSort.getSort();
+		return pageAndSort.getSortProperty();
 	}
 	public Integer getObjectsPerPage() {
 		return pageAndSort.getObjectsPerPage();
 	}
-	public PageAndSort getPageAndSort() {
-		return pageAndSort;
+	public boolean isAscendingSort() {
+		return pageAndSort.isAscendingSort();
 	}
 	public void setJobCommand(JobCommand command) {
 		this.command = command;
@@ -46,16 +45,16 @@ public class JobSummaryForm {
 		this.jobExecutionIds = ids;
 	}
 	public void setDir(String direction) {
-		pageAndSort.setDir(direction);
+		pageAndSort.setAscendingSort("asc".equals(direction));
 	}
 	public void setObjectsPerPage(Integer objectsPerPage) {
 		pageAndSort.setObjectsPerPage(objectsPerPage);
 	}
 	public void setPage(Integer pageNumber) {
-		pageAndSort.setPage(pageNumber);
+		pageAndSort.setPageNumber(pageNumber);
 	}
 	public void setSort(DisplayTagSortProperty sortProperty) {
-		pageAndSort.setSort(sortProperty);
+		pageAndSort.setSortProperty(sortProperty);
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this,

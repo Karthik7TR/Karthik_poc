@@ -44,12 +44,15 @@ public abstract class BaseJobSummaryController {
 		return jobExecutionIds;
 	}
 	
+	/**
+	 * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
+	 */
 	protected PageAndSort fetchSavedPageAndSort(HttpSession httpSession) {
-		PageAndSort form = (PageAndSort) httpSession.getAttribute(PageAndSort.class.getName());
-		if (form == null) {
-			form = PageAndSort.createDefault();
+		PageAndSort pageAndSort = (PageAndSort) httpSession.getAttribute(PageAndSort.class.getName());
+		if (pageAndSort == null) {
+			pageAndSort = new PageAndSort(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.START_TIME, false);
 		}
-		return form;
+		return pageAndSort;
 	}
 	protected FilterForm fetchSavedFilterForm(HttpSession httpSession) {
 		FilterForm form = (FilterForm) httpSession.getAttribute(FilterForm.FORM_NAME);
@@ -67,18 +70,18 @@ public abstract class BaseJobSummaryController {
 	 * @param httpSession
 	 * @param model
 	 */
-	protected void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSort pageAndSortForm,
+	protected void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSort pageAndSort,
 							  HttpSession httpSession, Model model) {
 		
 		// Save filter and paging state in the session
 		httpSession.setAttribute(FilterForm.FORM_NAME, filterForm);
-		httpSession.setAttribute(PageAndSort.class.getName(), pageAndSortForm);
+		httpSession.setAttribute(PageAndSort.class.getName(), pageAndSort);
 		httpSession.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
 		
 		model.addAttribute(FilterForm.FORM_NAME, filterForm);
 		
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
-		PaginatedList paginatedList = createPaginatedList(jobExecutionIds, pageAndSortForm);
+		PaginatedList paginatedList = createPaginatedList(jobExecutionIds, pageAndSort);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 	}
 	
@@ -118,7 +121,7 @@ public abstract class BaseJobSummaryController {
 	 */
     private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) { 
 		// Calculate begin and end index for the current page number
-		int fromIndex = (pageAndSort.getPage() - 1) * pageAndSort.getObjectsPerPage();
+		int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
 		int toIndex = fromIndex + pageAndSort.getObjectsPerPage();
 		toIndex = (toIndex < jobExecutionIds.size()) ? toIndex : jobExecutionIds.size();
 		
@@ -137,8 +140,8 @@ public abstract class BaseJobSummaryController {
 		// Instantiate the object used by DisplayTag to render a partial list
 		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos,
 								jobExecutionIds.size(),
-								pageAndSort.getPage(), pageAndSort.getObjectsPerPage(),
-								pageAndSort.getSort(), pageAndSort.isAscendingSort());
+								pageAndSort.getPageNumber(), pageAndSort.getObjectsPerPage(),
+								pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());
 		return paginatedList;
     }
 

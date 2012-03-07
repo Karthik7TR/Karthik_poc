@@ -34,7 +34,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 
@@ -56,22 +55,21 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView doInboundGet(HttpSession httpSession, 
-							  			Model model) {
+							  		 Model model) {
 		
-		FilterForm filterForm = new FilterForm();
-		JobSummaryForm jobListForm = new JobSummaryForm();
-		PageAndSort pageAndSort = jobListForm.getPageAndSort();
-		pageAndSort.initialize(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE,
-							   DisplayTagSortProperty.START_TIME, false);
-		FilterForm savedFilterForm = fetchSavedFilterForm(httpSession);
-		filterForm.copyProperties(savedFilterForm);
+		FilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
+		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
+		
+		JobSummaryForm jobSummaryForm = new JobSummaryForm();
+		jobSummaryForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
+		
 		JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
-										 filterForm.getTitleId(), filterForm.getBookName());
+										 	filterForm.getTitleId(), filterForm.getBookName());
 		JobSort jobSort = new JobSort();
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
-		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
-		model.addAttribute(JobSummaryForm.FORM_NAME, jobListForm);
+		setUpModel(jobExecutionIds, filterForm, savedPageAndSort, httpSession, model);
+		model.addAttribute(JobSummaryForm.FORM_NAME, jobSummaryForm);
 	
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
@@ -82,30 +80,28 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT, method = RequestMethod.GET)
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
-								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm jobListForm,
+								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm jobSummaryForm,
 								Model model) {
+		log.debug(jobSummaryForm);
 		List<Long> jobExecutionIds = null;
-		
-		// Restore the state of the search filter form
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
-		
-		// Set up the sorting/paging depending upon what the user selected
-		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
-		PageAndSort pageAndSort = jobListForm.getPageAndSort();
-		Integer nextPageNumber = pageAndSort.getPage();
+		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		Integer nextPageNumber = jobSummaryForm.getPage();
+
 		// If there was a page=n query string parameter, then we assume we are paging since this
 		// parameter is not present on the query string when display tag sorting.
-		if (nextPageNumber != null) {
-			pageAndSort.copyProperties(savedPageAndSort);
-			pageAndSort.setPage(nextPageNumber);
+		if (nextPageNumber != null) {  // PAGING
+			pageAndSort.setPageNumber(nextPageNumber);
 			jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		} else {  // SORTING
-			pageAndSort.setPage(1);
-			pageAndSort.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
+			pageAndSort.setPageNumber(1);
+			pageAndSort.setSortProperty(jobSummaryForm.getSort());
+			pageAndSort.setAscendingSort(jobSummaryForm.isAscendingSort());
 			// Fetch the job list model
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 					 filterForm.getTitleId(), filterForm.getBookName());
-			JobSort jobSort = createJobSort(pageAndSort.getSort(), pageAndSort.isAscendingSort());
+			JobSort jobSort = createJobSort(jobSummaryForm.getSort(), jobSummaryForm.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
 		
@@ -120,33 +116,28 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_POST, method = RequestMethod.POST)
 	public ModelAndView doStopOrRestartJob(HttpSession httpSession,
-							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm jobListForm,
+							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm jobSummaryForm,
 							   BindingResult errors,
 							   Model model) {
-		log.debug(jobListForm);
+		log.debug(jobSummaryForm);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		
-		// Restore state of paging and sorting
-		PageAndSort pageAndSort = jobListForm.getPageAndSort();
-		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
-		Integer newObjectsPerPage = pageAndSort.getObjectsPerPage();	// possibly changed by user via select menu
-		pageAndSort.copyProperties(savedPageAndSort);
+		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
 		
 		if (!errors.hasErrors()) {
-			JobCommand command = jobListForm.getJobCommand();
+			JobCommand command = jobSummaryForm.getJobCommand();
 			try {
 			switch (command) {
 				case CHANGE_OBJECTS_PER_PAGE:
-					pageAndSort.setObjectsPerPage(newObjectsPerPage);	// Update the new number of items to be shown at one time
+					pageAndSort.setObjectsPerPage(jobSummaryForm.getObjectsPerPage());	// Update the new number of items to be shown at one time
 					break;
 				case RESTART_JOB:
-					for (Long jobExecutionId : jobListForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : jobSummaryForm.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
 						JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 					}
 					break;
 				case STOP_JOB:
-					for (Long jobExecutionId : jobListForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : jobSummaryForm.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
 						JobExecutionController.handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
 					}
@@ -155,7 +146,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 					throw new IllegalArgumentException("Unexpected command: " + command);
 			}
 			} catch (HttpClientErrorException e) {
-				messages.add(createRestExceptionMessage(e));
+				messages.add(createRestExceptionMessage(e, messageSourceAccessor));
 				log.error("Could not complete ebookGenerator REST request", e);
 			}
 		}
@@ -166,7 +157,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 		// Fetch the existing session saved list of job execution ID's
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		// Uncheck all of the form checkboxes
-		jobListForm.setJobExecutionIds(null);
+		jobSummaryForm.setJobExecutionIds(null);
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);	// Informational messages related to success/fail of job stop or restart
@@ -174,10 +165,16 @@ public class JobSummaryController extends BaseJobSummaryController {
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 	
-	public static InfoMessage createRestExceptionMessage(Throwable t) {
-		return new InfoMessage(Type.ERROR, String.format(
-		"Job operation(s) failed. %s - This is probably because the ebookGenerator web application is not running.",
-					 t.getMessage()));
+	/**
+	 * Create an new informational message object that encapsulates the error that came from making
+	 * an job operation request to the ebookGenerator REST service job operations.
+	 * @param cause the exception thrown
+	 * @return a new informational message suitable for display
+	 */
+	public static InfoMessage createRestExceptionMessage(Throwable cause, MessageSourceAccessor messageSourceAccessor) {
+		String[] args = { cause.getMessage() };
+		String messageText = messageSourceAccessor.getMessage("job.operation.fail", args);
+		return new InfoMessage(Type.ERROR, messageText);
 	}
 
 	@Required

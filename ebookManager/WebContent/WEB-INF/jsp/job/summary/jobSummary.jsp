@@ -97,7 +97,7 @@ function submitJobSummaryForm(command) {
 	<c:if test="${fn:length(paginatedList.list) != 0}">
 	
 	<%-- Select for how may items (rows) per page to show --%>
-	Rows per page: 
+	Rows displayed: 
 	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
 	<form:select path="objectsPerPage" onchange="submitChangeObjectsPerPage()">
 		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
@@ -107,10 +107,13 @@ function submitJobSummaryForm(command) {
 	</form:select>
 	&nbsp;
 	
-	<%-- Operational buttons --%> 
-<%-- TODO sec:authorize access="hasRole('ROLE_SUPERUSER')" --%>
-		<input type="button" value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
-		<input type="button" value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
+	<%-- STOP and RESTART buttons are only available to a user in a SUPERUSER role --%> 
+	<c:set var="jobOperationsDisabled" value="disabled"/>
+	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<c:set var="isDisabled" value=""/>
+	</sec:authorize>
+	<input type="button" ${jobOperationsDisabled} value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+	<input type="button" ${jobOperationsDisabled} value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
 	</c:if>  <%-- if rowCount > 0 --%>
 	
 </form:form>

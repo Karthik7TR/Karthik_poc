@@ -15,6 +15,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 	
 <script>
 	$(document).ready(function() {
@@ -65,7 +66,13 @@
 </script>
 
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
-
+	
+	<%-- Only a user in the superuser role can stop or restart a job --%>
+	<c:set var="jobOperationsDisabled" value="disabled"/>
+	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<c:set var="jobOperationsDisabled" value=""/>
+	</sec:authorize>
+	
 	<%--
 		Ensure we are working with a valid JobExecution.  We may not be if they entered an execution ID that was not found.
 	 --%>
@@ -113,13 +120,13 @@
 		<td>${jobExecution.status}</td>
 		<c:choose>
 		<c:when test="${vdo.restartable}">
-		<td><input type="button" value="Restart"
+		<td><input type="button" value="Restart" ${jobOperationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
   		<c:when test="${vdo.stoppable}">
-		<td><input type="button" value="Stop"
+		<td><input type="button" value="Stop" ${jobOperationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>

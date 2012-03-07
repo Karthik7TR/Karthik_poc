@@ -38,6 +38,10 @@ public class FilterForm {
 	public FilterForm() {
 		initialize();
 	}
+	/**
+	 * Set all values back to defaults.
+	 * Used in resetting the form.
+	 */
 	public void initialize() {
 		// Default the from date to 1 day ago
 		Calendar cal = Calendar.getInstance();
@@ -45,9 +49,7 @@ public class FilterForm {
 		String fromDate = parseDate(cal.getTime());
 		populate(null, null, fromDate, null, null);
 	}
-	public void copyProperties(FilterForm copy) {
-		populate(copy.getTitleId(), copy.getBookName(), copy.getFromDateString(), copy.getToDateString(), copy.getBatchStatus());
-	}
+
 	public void populate(String titleId, String bookName, String fromDateString, String toDateString, BatchStatus batchStatus) {
 		this.titleId = titleId;
 		this.bookName = bookName;

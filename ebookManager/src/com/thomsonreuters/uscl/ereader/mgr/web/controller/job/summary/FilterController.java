@@ -47,25 +47,24 @@ public class FilterController extends BaseJobSummaryController {
 						@ModelAttribute(FilterForm.FORM_NAME) @Valid FilterForm filterForm,
 						BindingResult errors,
 						Model model) throws Exception {
-log.debug(filterForm);
+		log.debug(filterForm);
 		// Fetch the existing saved list of job execution ID's from the last successful query
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		
 		// Restore state of paging and sorting
+		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
 		JobSummaryForm jobListForm = new JobSummaryForm();
-		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);
-		PageAndSort pageAndSort = jobListForm.getPageAndSort();
-		pageAndSort.copyProperties(savedPageAndSort);
+		jobListForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 		
-		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())){
+		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
 			filterForm.initialize();
 		}
 		
-		pageAndSort.setPage(1);
+		pageAndSort.setPageNumber(1);
 		if (!errors.hasErrors()) {
 			JobFilter filter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 											 filterForm.getTitleId(), filterForm.getBookName());
-			JobSort jobSort = createJobSort(savedPageAndSort.getSort(), savedPageAndSort.isAscendingSort());
+			JobSort jobSort = createJobSort(pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
