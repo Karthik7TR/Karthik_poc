@@ -26,14 +26,15 @@ public class ProviewTitleContainer {
 	 * @return the latest version of the title
 	 */
 	public ProviewTitleInfo getLatestVersion() {
-		
+
 		Double latestVersion = 0.0;
 		ProviewTitleInfo latestProviewTitleInfo = null;
-		
+
 		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
-			Double proviewTitleInfoDouble = Double.parseDouble(proviewTitleInfo.getVesrion().substring(1));
-			if (latestVersion<proviewTitleInfoDouble) {
-				latestVersion = proviewTitleInfoDouble;
+			Double proviewTitleInfoVersionDouble = Double
+					.parseDouble(proviewTitleInfo.getVesrion().substring(1));
+			if (proviewTitleInfoVersionDouble >= latestVersion) {
+				latestVersion = proviewTitleInfoVersionDouble;
 				latestProviewTitleInfo = proviewTitleInfo;
 
 			}
