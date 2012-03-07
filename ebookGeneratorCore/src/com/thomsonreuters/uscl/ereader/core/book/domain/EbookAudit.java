@@ -45,10 +45,10 @@ public class EbookAudit implements Serializable {
 	Date timestamp;
 	/**
 	 */
-
-	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	String titleId;
+	@Id
+	Long ebookDefinitionId;
 	/**
 	 */
 
@@ -234,6 +234,13 @@ public class EbookAudit implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
 	BookDefinition ebookDefinition;
+
+	/**
+	 */
+
+	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String titleId;
 
 	/**
 	 */
@@ -729,5 +736,13 @@ public class EbookAudit implements Serializable {
 		if (auditId != null && !auditId.equals(equalCheck.auditId))
 			return false;
 		return true;
+	}
+
+	public Long getEbookDefinitionId() {
+		return ebookDefinitionId;
+	}
+
+	public void setEbookDefinitionId(Long ebookDefinitionId) {
+		this.ebookDefinitionId = ebookDefinitionId;
 	}
 }
