@@ -48,11 +48,11 @@ public class GenerateEbookController {
 			newMajorVersion = "v1";
 			newMinorVersion = "v1";
 		} else {
-			Double currentVersionFloat = Double.parseDouble(currentVersion
+			Double currentVersionDouble = Double.parseDouble(currentVersion
 					.substring(1));
 			Integer newMajorVersionDouble = (int) (Math
-					.floor(currentVersionFloat) + 1);
-			Double newMinorVersionDouble = Math.floor(currentVersionFloat) + 0.10;
+					.floor(currentVersionDouble) + 1);
+			Double newMinorVersionDouble = Math.floor(currentVersionDouble) + 0.10;
 
 			newMajorVersion = "v" + newMajorVersionDouble;
 			newMinorVersion = "v" + newMinorVersionDouble;
@@ -83,7 +83,7 @@ public class GenerateEbookController {
 				.findBookDefinition(new BookDefinitionKey(titleId));
 
 		ProviewTitleInfo proviewTitleInfo = proviewClient
-				.getCurrentProviewTitleInfo(titleId);
+				.getLatestProviewTitleInfo(titleId);
 
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getBookName());

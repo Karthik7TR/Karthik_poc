@@ -110,16 +110,25 @@ public class ProviewClientImpl implements ProviewClient {
 	 * getCurrentProviewTitleInfo(java.lang.String)
 	 */
 	@Override
-	public ProviewTitleInfo getCurrentProviewTitleInfo(
+	public ProviewTitleInfo getLatestProviewTitleInfo(
 			final String fullyQualifiedTitleId) throws ProviewException {
+
+		ProviewTitleInfo latestProviewVersion = null;
 
 		String allPublishedTitleResponse = getAllPublishedTitles();
 
 		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleInfo> titleMap = parser
+		Map<String, ProviewTitleContainer> titleMap = parser
 				.process(allPublishedTitleResponse);
 
-		return titleMap.get(fullyQualifiedTitleId);
+		ProviewTitleContainer proviewTitleContainer = titleMap
+				.get(fullyQualifiedTitleId);
+
+		if (proviewTitleContainer != null) {
+			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+		}
+
+		return latestProviewVersion;
 
 	}
 

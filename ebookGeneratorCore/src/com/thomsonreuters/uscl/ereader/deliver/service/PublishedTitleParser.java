@@ -30,16 +30,16 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PublishedTitleParser {
 
-	private Map<String, ProviewTitleInfo> titleMap = new HashMap<String, ProviewTitleInfo>();
+	private Map<String, ProviewTitleContainer> titleMap = new HashMap<String, ProviewTitleContainer>();
 
 	/**
 	 * 
 	 * @param xml
 	 *            all title info from proview
-	 * @return Generate a map of the ProviewTitleInfo objects where the key is
-	 *         the title id.
+	 * @return Generate a map of the ProviewTitleContainer objects where the key
+	 *         is the title id.
 	 */
-	public Map<String, ProviewTitleInfo> process(String xml) {
+	public Map<String, ProviewTitleContainer> process(String xml) {
 		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
 
 		try {
@@ -90,8 +90,15 @@ public class PublishedTitleParser {
 						if (TITLE_TAG.equals(qName)) {
 
 							proviewTitleInfo.setTitle(value);
-							titleMap.put(proviewTitleInfo.getTitleId(),
-									proviewTitleInfo);
+
+							if (titleMap.get(proviewTitleInfo.getTitleId()) == null) {
+								titleMap.put(proviewTitleInfo.getTitleId(),
+										new ProviewTitleContainer());
+							}
+
+							titleMap.get(proviewTitleInfo.getTitleId())
+									.getProviewTitleInfos()
+									.add(proviewTitleInfo);
 
 						}
 
