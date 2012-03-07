@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
@@ -26,7 +27,7 @@ public class BookDaoImpl implements BookDao {
 		// TODO: Get data from DB when made
 		for(int i = 1; i < 41; i = i + 10) {
 			KeywordTypeCode keywordTypeCode = new KeywordTypeCode();
-			keywordTypeCode.setCodeId((long)i);
+			keywordTypeCode.setId((long)i);
 			String codeName = "";
 			switch(i) {
 				case 1:
@@ -42,14 +43,14 @@ public class BookDaoImpl implements BookDao {
 					codeName = "Type";
 					break;
 			}
-			keywordTypeCode.setCodeName(codeName);
-			List<KeywordTypeValue> typeValues = new ArrayList<KeywordTypeValue>();
+			keywordTypeCode.setName(codeName);
+			Collection<KeywordTypeValue> typeValues = new ArrayList<KeywordTypeValue>();
 			
 			for(int j=1; j < 8; j++){
 				KeywordTypeValue kTV = new KeywordTypeValue();
 				kTV.setKeywordTypeCode(keywordTypeCode);
-				kTV.setValueId((long) i+j);
-				kTV.setValueName(codeName + Integer.toString(j));
+				kTV.setId((long) i+j);
+				kTV.setName(codeName + Integer.toString(j));
 				typeValues.add(kTV);
 			}
 			keywordTypeCode.setValues(typeValues);

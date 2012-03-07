@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
@@ -207,5 +211,101 @@ public class CodeServiceIntegrationTest  {
 		service.deletePublisherCode(readCode);
 		readCode = service.getPublisherCodeById(createCode.getId());
 		Assert.assertEquals(null, readCode);
+	}
+	
+	@Test
+	public void testGetAllKeywordCodes() {
+		List<KeywordTypeCode> codes = service.getAllKeywordTypeCodes();
+		log.debug(codes);
+		Assert.assertEquals(4, codes.size());
+	}
+	
+	@Test
+	public void testGetKeywordCodeCRUD() {
+		// Create StateCode
+		KeywordTypeCode createCode = new KeywordTypeCode();
+		createCode.setName("Test");
+		service.saveKeywordTypeCode(createCode);
+		
+		Collection<KeywordTypeValue> values = new ArrayList<KeywordTypeValue>();
+		for(int i = 0; i < 5 ; i++) {
+			KeywordTypeValue value = new KeywordTypeValue();
+			value.setName(String.valueOf(i));
+			value.setKeywordTypeCode(createCode);
+			values.add(value);
+			service.saveKeywordTypeValue(value);
+		}
+		createCode.setValues(values);
+		//service.saveKeywordTypeCode(createCode);
+		
+		// Get
+		KeywordTypeCode readCode = service.getKeywordTypeCodeById(createCode.getId());
+		Assert.assertEquals(values, readCode.getValues());
+		Assert.assertEquals(createCode, readCode);
+		Assert.assertEquals("Test", readCode.getName());
+		
+		
+		// Update
+		readCode.setName("Test2");
+		service.saveKeywordTypeCode(readCode);
+		
+		// Get 2
+		readCode = service.getKeywordTypeCodeById(createCode.getId());
+		Assert.assertEquals("Test2", readCode.getName());
+		
+		// Delete
+		service.deleteKeywordTypeCode(readCode);
+		readCode = service.getKeywordTypeCodeById(createCode.getId());
+		List<KeywordTypeValue> emptyValues = service.getAllKeywordTypeValues(createCode.getId());
+		Assert.assertEquals(null, readCode);
+		Assert.assertEquals(new ArrayList<KeywordTypeValue>(), emptyValues);
+	}
+	
+	@Test
+	public void testGetAllKeywordValues() {
+		List<KeywordTypeValue> codes = service.getAllKeywordTypeValues();
+		log.debug(codes);
+		Assert.assertEquals(9, codes.size());
+	}
+	
+	@Test
+	public void testGetAllKeywordValuesByCodeId() {
+		List<KeywordTypeValue> codes = service.getAllKeywordTypeValues(Long.parseLong("1"));
+		log.debug(codes);
+		Assert.assertEquals(2, codes.size());
+	}
+	
+	@Test
+	public void testGetKeywordValueCRUD() {
+		// Create StateCode
+		KeywordTypeCode createCode = new KeywordTypeCode();
+		createCode.setName("Test");
+		service.saveKeywordTypeCode(createCode);
+		
+		Collection<KeywordTypeValue> createValues = new ArrayList<KeywordTypeValue>();
+		for(int i = 0; i < 5 ; i++) {
+			KeywordTypeValue value = new KeywordTypeValue();
+			value.setName(String.valueOf(i));
+			value.setKeywordTypeCode(createCode);
+			createValues.add(value);
+			service.saveKeywordTypeValue(value);
+		}
+		
+		List<KeywordTypeValue> values = service.getAllKeywordTypeValues(createCode.getId());
+		Assert.assertEquals(createValues, values);
+
+		int size = values.size();
+		for(KeywordTypeValue value : values) {
+			service.deleteKeywordTypeValue(value);
+			size--;
+			List<KeywordTypeValue> newValues = service.getAllKeywordTypeValues(createCode.getId());
+			Assert.assertEquals(size , newValues.size());
+			Assert.assertFalse(newValues.contains(value));
+			
+		}
+
+		// Delete
+		List<KeywordTypeValue> emptyValues = service.getAllKeywordTypeValues(createCode.getId());
+		Assert.assertEquals(new ArrayList<KeywordTypeValue>(), emptyValues);
 	}
 }

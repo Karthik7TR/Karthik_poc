@@ -18,6 +18,8 @@ import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
@@ -44,6 +46,14 @@ public class CodeDaoTest  {
 	private static final Long PUBLISHER_CODES_ID = new Long("5");
 	private static final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
 	
+	private static final KeywordTypeCode KEYWORD_TYPE_CODE = new KeywordTypeCode();
+	private static final Long KEYWORD_TYPE_CODES_ID = new Long("6");
+	private static final List<KeywordTypeCode> ALL_KEYWORD_TYPE_CODES = new ArrayList<KeywordTypeCode>();
+	
+	private static final KeywordTypeValue KEYWORD_TYPE_VALUE = new KeywordTypeValue();
+	private static final Long KEYWORD_TYPE_VALUES_ID = new Long("7");
+	private static final List<KeywordTypeValue> ALL_KEYWORD_TYPE_VALUES = new ArrayList<KeywordTypeValue>();
+	
 	private SessionFactory mockSessionFactory;
 	private Session mockSession;
 	private Criteria mockCriteria;
@@ -62,6 +72,8 @@ public class CodeDaoTest  {
 		PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
 		DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
 		PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
+		KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
+		KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
 	}
 	
 	@Test
@@ -249,4 +261,81 @@ public class CodeDaoTest  {
 		EasyMock.verify(mockSession);
 		EasyMock.verify(mockCriteria);
 	}
+	
+	
+	@Test
+	public void testGetKeywordTypeCode() {
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.get(KeywordTypeCode.class, KEYWORD_TYPE_CODES_ID)).andReturn(KEYWORD_TYPE_CODE);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		
+		KeywordTypeCode actual = dao.getKeywordTypeCodeById(KEYWORD_TYPE_CODES_ID);
+		KeywordTypeCode expected = new KeywordTypeCode();
+		expected.setId(KEYWORD_TYPE_CODES_ID);
+		
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+	}
+	
+	@Test
+	public void testGetAllKeywordTypeCodes() {
+		ALL_KEYWORD_TYPE_CODES.add(KEYWORD_TYPE_CODE);
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.createCriteria(KeywordTypeCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.list()).andReturn(ALL_KEYWORD_TYPE_CODES);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		EasyMock.replay(mockCriteria);
+		
+		List<KeywordTypeCode> actual = dao.getAllKeywordTypeCodes();
+		List<KeywordTypeCode> expected = new ArrayList<KeywordTypeCode>();
+		expected.add(KEYWORD_TYPE_CODE);
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+		EasyMock.verify(mockCriteria);
+	}
+	
+	
+	@Test
+	public void testGetKeywordTypeValue() {
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.get(KeywordTypeValue.class, KEYWORD_TYPE_VALUES_ID)).andReturn(KEYWORD_TYPE_VALUE);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		
+		KeywordTypeValue actual = dao.getKeywordTypeValueById(KEYWORD_TYPE_VALUES_ID);
+		KeywordTypeValue expected = new KeywordTypeValue();
+		expected.setId(KEYWORD_TYPE_VALUES_ID);
+		
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+	}
+	
+	@Test
+	public void testGetAllKeywordTypeValues() {
+		ALL_KEYWORD_TYPE_VALUES.add(KEYWORD_TYPE_VALUE);
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.createCriteria(KeywordTypeValue.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.list()).andReturn(ALL_KEYWORD_TYPE_VALUES);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		EasyMock.replay(mockCriteria);
+		
+		List<KeywordTypeValue> actual = dao.getAllKeywordTypeValues();
+		List<KeywordTypeValue> expected = new ArrayList<KeywordTypeValue>();
+		expected.add(KEYWORD_TYPE_VALUE);
+		Assert.assertEquals(expected, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+		EasyMock.verify(mockCriteria);
+	}
+
 }

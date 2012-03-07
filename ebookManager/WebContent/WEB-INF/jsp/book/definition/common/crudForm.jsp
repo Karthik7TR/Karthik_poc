@@ -475,11 +475,11 @@
 		<label class="labelCol">Keywords</label>
 		<div id="accordion">
 			<c:forEach items="${typeKeywords}" var="keyword">
-				<h3><a href="#">${keyword.codeName}</a></h3>
+				<h3><a href="#">${keyword.name}</a></h3>
 				<div>
 					<c:forEach items="${keyword.values}" var="value">
 						<div>
-							<form:checkbox path="keywords" value="${value.valueId}"/>${value.valueName}
+							<form:checkbox path="keywords" value="${value.id}"/>${value.name}
 						</div>
 					</c:forEach>
 				</div>

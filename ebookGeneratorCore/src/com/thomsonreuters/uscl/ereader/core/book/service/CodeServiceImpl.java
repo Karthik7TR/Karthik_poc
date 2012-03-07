@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
@@ -67,6 +69,7 @@ public class CodeServiceImpl implements CodeService {
 	 * Get all the PubType codes from the PUB_TYPE_CODES table
 	 * @return a list of pubTypeCode objects
 	 */
+	@Transactional(readOnly = true)
 	public List<PubTypeCode> getAllPubTypeCodes() {
 		return dao.getAllPubTypeCodes();
 	}
@@ -76,6 +79,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param pubTypeCodeId
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId){
 		return dao.getPubTypeCodeById(pubTypeCodeId);
 	}
@@ -85,6 +89,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param pubTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void savePubTypeCode(PubTypeCode pubTypeCode){
 		pubTypeCode.setLastUpdated(new Date());
 		dao.savePubTypeCode(pubTypeCode);
@@ -95,6 +100,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param pubTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void deletePubTypeCode(PubTypeCode pubTypeCode) {
 		dao.deletePubTypeCode(pubTypeCode);
 	}
@@ -104,6 +110,7 @@ public class CodeServiceImpl implements CodeService {
 	 * Get all the JurisType codes from the Juris_TYPE_CODES table
 	 * @return a list of JurisTypeCode objects
 	 */
+	@Transactional(readOnly = true)
 	public List<JurisTypeCode> getAllJurisTypeCodes() {
 		return dao.getAllJurisTypeCodes();
 	}
@@ -113,6 +120,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param JurisTypeCodeId
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId){
 		return dao.getJurisTypeCodeById(jurisTypeCodeId);
 	}
@@ -122,6 +130,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param JurisTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void saveJurisTypeCode(JurisTypeCode jurisTypeCode){
 		jurisTypeCode.setLastUpdated(new Date());
 		dao.saveJurisTypeCode(jurisTypeCode);
@@ -132,6 +141,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param JurisTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void deleteJurisTypeCode(JurisTypeCode jurisTypeCode) {
 		dao.deleteJurisTypeCode(jurisTypeCode);
 	}
@@ -141,6 +151,7 @@ public class CodeServiceImpl implements CodeService {
 	 * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
 	 * @return a list of DocumentTypeCode objects
 	 */
+	@Transactional(readOnly = true)
 	public List<DocumentTypeCode> getAllDocumentTypeCodes() {
 		return dao.getAllDocumentTypeCodes();
 	}
@@ -150,6 +161,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param DocumentTypeCodeId
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public DocumentTypeCode getDocumentTypeCodeById(Long documentTypeCodeId){
 		return dao.getDocumentTypeCodeById(documentTypeCodeId);
 	}
@@ -159,6 +171,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param DocumentTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void saveDocumentTypeCode(DocumentTypeCode documentTypeCode){
 		documentTypeCode.setLastUpdated(new Date());
 		dao.saveDocumentTypeCode(documentTypeCode);
@@ -169,6 +182,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param DocumentTypeCode
 	 * @return
 	 */
+	@Transactional
 	public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode) {
 		dao.deleteDocumentTypeCode(documentTypeCode);
 	}
@@ -178,6 +192,7 @@ public class CodeServiceImpl implements CodeService {
 	 * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table
 	 * @return a list of PublisherCode objects
 	 */
+	@Transactional(readOnly = true)
 	public List<PublisherCode> getAllPublisherCodes() {
 		return dao.getAllPublisherCodes();
 	}
@@ -187,6 +202,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param PublisherCodeId
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public PublisherCode getPublisherCodeById(Long publisherCodeId){
 		return dao.getPublisherCodeById(publisherCodeId);
 	}
@@ -196,6 +212,7 @@ public class CodeServiceImpl implements CodeService {
 	 * @param PublisherCode
 	 * @return
 	 */
+	@Transactional
 	public void savePublisherCode(PublisherCode publisherCode){
 		publisherCode.setLastUpdated(new Date());
 		dao.savePublisherCode(publisherCode);
@@ -206,8 +223,101 @@ public class CodeServiceImpl implements CodeService {
 	 * @param PublisherCode
 	 * @return
 	 */
+	@Transactional
 	public void deletePublisherCode(PublisherCode publisherCode) {
 		dao.deletePublisherCode(publisherCode);
+	}
+	
+	
+	/**
+	 * Get all the KeywordType codes from the KEYWORD_TYPE_CODES table
+	 * @return a list of KeywordTypeCode objects
+	 */
+	@Transactional(readOnly = true)
+	public List<KeywordTypeCode> getAllKeywordTypeCodes() {
+		return dao.getAllKeywordTypeCodes();
+	}
+	
+	/**
+	 * Get a KeywordType Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_ID
+	 * @param KeywordTypeCodeId
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public KeywordTypeCode getKeywordTypeCodeById(Long keywordTypeCodeId){
+		return dao.getKeywordTypeCodeById(keywordTypeCodeId);
+	}
+	
+	/**
+	 * Create or Update a KeywordType Code to the KEYWORD_TYPE_CODES table
+	 * @param KeywordTypeCode
+	 * @return
+	 */
+	@Transactional
+	public void saveKeywordTypeCode(KeywordTypeCode keywordTypeCode){
+		keywordTypeCode.setLastUpdated(new Date());
+		dao.saveKeywordTypeCode(keywordTypeCode);
+	}
+	
+	/**
+	 * Delete a KeywordType Code in the KEYWORD_TYPE_CODES table
+	 * @param KeywordTypeCode
+	 * @return
+	 */
+	@Transactional
+	public void deleteKeywordTypeCode(KeywordTypeCode keywordTypeCode) {
+		dao.deleteKeywordTypeCode(keywordTypeCode);
+	}
+	
+	
+	/**
+	 * Get all the KeywordType codes from the KEYWORD_TYPE_VALUES table
+	 * @return a list of KeywordTypeValue objects
+	 */
+	@Transactional(readOnly = true)
+	public List<KeywordTypeValue> getAllKeywordTypeValues() {
+		return dao.getAllKeywordTypeValues();
+	}
+	
+	/**
+	 * Get all the KeywordTypeValue codes from the KEYWORD_TYPE_VALUES table
+	 * that has keywordTypeCodeId
+	 * @return a list of KeywordTypeValue objects
+	 */
+	@Transactional(readOnly = true)
+	public List<KeywordTypeValue> getAllKeywordTypeValues(Long keywordTypeCodeId) {
+		return dao.getAllKeywordTypeValues(keywordTypeCodeId);
+	}
+	
+	/**
+	 * Get a KeywordType Value from the KEYWORD_TYPE_VALUES table that match KEYWORD_TYPE_VALUES_ID
+	 * @param KeywordTypeValueId
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public KeywordTypeValue getKeywordTypeValueById(Long keywordTypeValueId){
+		return dao.getKeywordTypeValueById(keywordTypeValueId);
+	}
+	
+	/**
+	 * Create or Update a KeywordType Value to the KEYWORD_TYPE_VALUES table
+	 * @param KeywordTypeValue
+	 * @return
+	 */
+	@Transactional
+	public void saveKeywordTypeValue(KeywordTypeValue keywordTypeValue){
+		keywordTypeValue.setLastUpdated(new Date());
+		dao.saveKeywordTypeValue(keywordTypeValue);
+	}
+	
+	/**
+	 * Delete a KeywordType Value in the KEYWORD_TYPE_VALUES table
+	 * @param KeywordTypeValue
+	 * @return
+	 */
+	@Transactional
+	public void deleteKeywordTypeValue(KeywordTypeValue keywordTypeValue) {
+		dao.deleteKeywordTypeValue(keywordTypeValue);
 	}
 	
 	@Required

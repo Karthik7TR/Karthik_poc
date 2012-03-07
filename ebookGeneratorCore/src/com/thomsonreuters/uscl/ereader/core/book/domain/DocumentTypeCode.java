@@ -22,8 +22,8 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * A publisher code database table entity.
- * Represents all the publisher code id and names used for Book Definition
+ * A DocumentType code database table entity.
+ * Represents all the DocumentType code id and names used for Book Definition
  */
 @Entity
 @Table(schema="EBOOK", name="DOCUMENT_TYPE_CODES")

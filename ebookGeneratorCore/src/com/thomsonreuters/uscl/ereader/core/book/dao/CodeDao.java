@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
@@ -152,5 +154,68 @@ public interface CodeDao {
 	 * @return
 	 */
 	public void deletePublisherCode(PublisherCode publisherCode);
+	
+	
+	/**
+	 * Get all the KeywordTypeCode codes from the KEYWORD_TYPE_CODES table
+	 * @return a list of KeywordTypeCode objects
+	 */
+	public List<KeywordTypeCode> getAllKeywordTypeCodes();
+	
+	/**
+	 * Get a KeywordTypeCode Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_ID
+	 * @param keywordTypeCodeId
+	 * @return
+	 */
+	public KeywordTypeCode getKeywordTypeCodeById(Long keywordTypeCodeId);
+	
+	/**
+	 * Create or Update a KeywordTypeCode Code to the KEYWORD_TYPE_CODES table
+	 * @param keywordTypeCode
+	 * @return
+	 */
+	public void saveKeywordTypeCode(KeywordTypeCode keywordTypeCode);
+	
+	/**
+	 * Delete a KeywordTypeCode Code in the KEYWORD_TYPE_CODES table
+	 * @param keywordTypeCode
+	 * @return
+	 */
+	public void deleteKeywordTypeCode(KeywordTypeCode keywordTypeCode);
+	
+	
+	/**
+	 * Get all the KeywordTypeValue codes from the KEYWORD_TYPE_VALUES table
+	 * @return a list of KeywordTypeValue objects
+	 */
+	public List<KeywordTypeValue> getAllKeywordTypeValues();
+	
+	/**
+	 * Get all the KeywordTypeValue codes from the KEYWORD_TYPE_VALUES table
+	 * that has keywordTypeCodeId
+	 * @return a list of KeywordTypeValue objects
+	 */
+	public List<KeywordTypeValue> getAllKeywordTypeValues(Long keywordTypeCodeId);
+	
+	/**
+	 * Get a KeywordTypeValue Value from the KEYWORD_TYPE_VALUES table that match KEYWORD_TYPE_VALUES_ID
+	 * @param keywordTypeValueId
+	 * @return
+	 */
+	public KeywordTypeValue getKeywordTypeValueById(Long keywordTypeValueId);
+	
+	/**
+	 * Create or Update a KeywordTypeValue Value to the KEYWORD_TYPE_VALUES table
+	 * @param keywordTypeValue
+	 * @return
+	 */
+	public void saveKeywordTypeValue(KeywordTypeValue keywordTypeValue);
+	
+	/**
+	 * Delete a KeywordTypeValue Value in the KEYWORD_TYPE_VALUES table
+	 * @param keywordTypeValue
+	 * @return
+	 */
+	public void deleteKeywordTypeValue(KeywordTypeValue keywordTypeValue);
 
 }

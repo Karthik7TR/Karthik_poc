@@ -16,6 +16,8 @@ import org.junit.Test;
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
@@ -41,6 +43,14 @@ public class CodeServiceTest  {
 	private static final Long PUBLISHER_CODES_ID = new Long("5");
 	private static final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
 	
+	private static final KeywordTypeCode KEYWORD_TYPE_CODE = new KeywordTypeCode();
+	private static final Long KEYWORD_TYPE_CODES_ID = new Long("6");
+	private static final List<KeywordTypeCode> ALL_KEYWORD_TYPE_CODES = new ArrayList<KeywordTypeCode>();
+	
+	private static final KeywordTypeValue KEYWORD_TYPE_VALUE = new KeywordTypeValue();
+	private static final Long KEYWORD_TYPE_VALUES_ID = new Long("7");
+	private static final List<KeywordTypeValue> ALL_KEYWORD_TYPE_VALUES = new ArrayList<KeywordTypeValue>();
+	
 	private CodeServiceImpl service;
 	private CodeDao mockCodeDao;
 	
@@ -57,6 +67,8 @@ public class CodeServiceTest  {
 		PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
 		DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
 		PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
+		KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
+		KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
 	}
 	
 	@Test
@@ -166,6 +178,51 @@ public class CodeServiceTest  {
 		List<PublisherCode> actual = service.getAllPublisherCodes();
 		List<PublisherCode> expected = new ArrayList<PublisherCode>();
 		expected.add(PUBLISHER_CODE);
+		
+		Assert.assertEquals(expected, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	
+	@Test
+	public void testGetKeywordTypeCode() {
+		EasyMock.expect(mockCodeDao.getKeywordTypeCodeById(KEYWORD_TYPE_CODES_ID)).andReturn(KEYWORD_TYPE_CODE);
+		EasyMock.replay(mockCodeDao);
+		KeywordTypeCode actual = service.getKeywordTypeCodeById(KEYWORD_TYPE_CODES_ID);
+		Assert.assertEquals(KEYWORD_TYPE_CODE, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	@Test
+	public void testGetAllKeywordTypeCodes() {
+		ALL_KEYWORD_TYPE_CODES.add(KEYWORD_TYPE_CODE);
+		EasyMock.expect(mockCodeDao.getAllKeywordTypeCodes()).andReturn(ALL_KEYWORD_TYPE_CODES);
+		EasyMock.replay(mockCodeDao);
+		List<KeywordTypeCode> actual = service.getAllKeywordTypeCodes();
+		List<KeywordTypeCode> expected = new ArrayList<KeywordTypeCode>();
+		expected.add(KEYWORD_TYPE_CODE);
+		
+		Assert.assertEquals(expected, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	@Test
+	public void testGetKeywordTypeValue() {
+		EasyMock.expect(mockCodeDao.getKeywordTypeValueById(KEYWORD_TYPE_VALUES_ID)).andReturn(KEYWORD_TYPE_VALUE);
+		EasyMock.replay(mockCodeDao);
+		KeywordTypeValue actual = service.getKeywordTypeValueById(KEYWORD_TYPE_VALUES_ID);
+		Assert.assertEquals(KEYWORD_TYPE_VALUE, actual);
+		EasyMock.verify(mockCodeDao);
+	}
+	
+	@Test
+	public void testGetAllKeywordTypeValues() {
+		ALL_KEYWORD_TYPE_VALUES.add(KEYWORD_TYPE_VALUE);
+		EasyMock.expect(mockCodeDao.getAllKeywordTypeValues()).andReturn(ALL_KEYWORD_TYPE_VALUES);
+		EasyMock.replay(mockCodeDao);
+		List<KeywordTypeValue> actual = service.getAllKeywordTypeValues();
+		List<KeywordTypeValue> expected = new ArrayList<KeywordTypeValue>();
+		expected.add(KEYWORD_TYPE_VALUE);
 		
 		Assert.assertEquals(expected, actual);
 		EasyMock.verify(mockCodeDao);
