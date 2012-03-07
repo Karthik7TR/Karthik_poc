@@ -29,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -45,6 +46,7 @@ public class EditBookDefinitionControllerTest {
     private HandlerAdapter handlerAdapter;
     private CoreService mockCoreService;
     private BookService mockBookService;
+    private ProviewClient mockProviewClient;
     private EditBookDefinitionFormValidator validator;
     
 	@Before
@@ -56,17 +58,17 @@ public class EditBookDefinitionControllerTest {
     	// Mock up the dashboard service
     	this.mockCoreService = EasyMock.createMock(CoreService.class);
     	this.mockBookService = EasyMock.createMock(BookService.class);
+    	this.mockProviewClient = EasyMock.createMock(ProviewClient.class);
     	
     	// Set up the controller
     	this.controller = new EditBookDefinitionController();
     	controller.setBookService(mockBookService);
     	controller.setCoreService(mockCoreService);
+    	controller.setProviewClient(mockProviewClient);
     	
     	validator = new EditBookDefinitionFormValidator();
     	validator.setCoreService(mockCoreService);
-    	controller.setValidator(validator);
-    	
-    	
+    	controller.setValidator(validator);	
 	}
 
 	/**
@@ -292,11 +294,15 @@ public class EditBookDefinitionControllerTest {
     	EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(book);
     	EasyMock.expect(mockBookService.getAuthors(EasyMock.anyInt())).andReturn(new ArrayList<Author>());
     	EasyMock.expect(mockBookService.getKeywordsTypesAndValues()).andReturn(new ArrayList<KeywordTypeCode>());
+    	
     	EasyMock.replay(mockCoreService);
     	EasyMock.replay(mockBookService);
     	
     	ModelAndView mav;
 		try {
+			EasyMock.expect(mockProviewClient.hasTitleIdBeenPublished(EasyMock.anyObject(String.class))).andReturn(false);
+			EasyMock.replay(mockProviewClient);
+			
 			mav = handlerAdapter.handle(request, response, controller);
 			
 			assertNotNull(mav);
@@ -314,6 +320,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockCoreService);
 		EasyMock.verify(mockBookService);
+		EasyMock.verify(mockProviewClient);
 	}
 	
 	/**

@@ -129,7 +129,26 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		return latestProviewVersion;
+	}
+	
+	@Override
+	public boolean hasTitleIdBeenPublished(
+			final String fullyQualifiedTitleId) throws ProviewException {
 
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+		Map<String, ProviewTitleContainer> titleMap = parser
+				.process(allPublishedTitleResponse);
+
+		ProviewTitleContainer proviewTitleContainer = titleMap
+				.get(fullyQualifiedTitleId);
+
+		if (proviewTitleContainer != null) {
+			return proviewTitleContainer.hasBeenPublished();
+		} else {
+			return false;
+		}
 	}
 
 	private void logResponse(final ResponseEntity responseEntity) {

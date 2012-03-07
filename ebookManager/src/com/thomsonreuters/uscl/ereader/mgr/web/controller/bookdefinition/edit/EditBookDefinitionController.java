@@ -27,6 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookService;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
@@ -38,6 +39,7 @@ public class EditBookDefinitionController {
 
 	private CoreService coreService;
 	private BookService bookService;
+	private ProviewClient proviewClient;
 	private Validator validator;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
@@ -96,7 +98,7 @@ public class EditBookDefinitionController {
 				@RequestParam String titleId,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
-				Model model) {
+				Model model) throws Exception {
 
 		boolean isInJobRequest;
 		boolean isPublished;
@@ -108,8 +110,16 @@ public class EditBookDefinitionController {
 		// Check if book is scheduled or queued
 		// TODO: Update with queue checking
 		if (bookDef != null) {
-			isInJobRequest = bookDef.inJobRequest();
 			isPublished = bookDef.getPublishedOnceFlag();
+			isInJobRequest = bookDef.inJobRequest();
+			
+			// Check proview if book went to final state if isPublished is false
+			if(!isPublished) {
+				if(proviewClient.hasTitleIdBeenPublished(titleId)) {
+					isPublished = true;
+					//TODO: update book definition in db with isPublished to true
+				}
+			}
 			
 			form.initialize(bookDef);
 			// Load Authors TODO: update when model is complete
@@ -206,6 +216,11 @@ public class EditBookDefinitionController {
 	@Required
 	public void setBookService(BookService service) {
 		this.bookService = service;
+	}
+	
+	@Required
+	public void setProviewClient(ProviewClient proviewClient) {
+		this.proviewClient = proviewClient;
 	}
 	
 	@Required

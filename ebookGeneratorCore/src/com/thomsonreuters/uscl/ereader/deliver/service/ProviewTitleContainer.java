@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProviewTitleContainer {
-
+	private static final String PROVIEW_STATUS_FINAL = "final";
 	List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<ProviewTitleInfo>();
 
 	public List<ProviewTitleInfo> getProviewTitleInfos() {
@@ -41,5 +41,21 @@ public class ProviewTitleContainer {
 		}
 		return latestProviewTitleInfo;
 	}
-
+	
+	/**
+	 * Determine if this title has been published to public
+	 * @return boolean
+	 */
+	public boolean hasBeenPublished() {
+		
+		boolean isPublished = false;
+		
+		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
+			if (proviewTitleInfo.getStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL)) {
+				isPublished = true;
+				break;
+			}
+		}
+		return isPublished;
+	}
 }

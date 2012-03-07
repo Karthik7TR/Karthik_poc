@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
@@ -32,7 +33,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceTest;
 				JobRunnerTest.class,
 				JobServiceTest.class,
 				CodeDaoTest.class,
-				CodeServiceTest.class
+				CodeServiceTest.class,
+				ProviewClientImplTest.class
 			} )
 public class CoreTestSuite {
 

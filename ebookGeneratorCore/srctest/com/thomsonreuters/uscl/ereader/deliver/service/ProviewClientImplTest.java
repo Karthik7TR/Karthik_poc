@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
@@ -82,6 +83,21 @@ public class ProviewClientImplTest
 		verifyAll();
 		
 		assertTrue("Response did not match expected result!", response.equals(expectedResponse));
+	}
+	
+	@Test
+	public void testHasTitleIdBeenPublished() throws Exception {
+		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
+		String expectedResponse = "<title id='example' version='v1' publisher='uscl' lastupdate='20100205' status='Final'>Title</title>";
+		
+		EasyMock.expect(mockRequestCallbackFactory.getRequestCallback()).andReturn(mockRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.GET, mockRequestCallback, mockResponseExtractor)).andReturn(expectedResponse);
+		replayAll();
+		
+		boolean reponse = proviewClient.hasTitleIdBeenPublished("example");
+		Assert.assertEquals(true, reponse);
+		verifyAll();
 	}
 	
 	private void verifyAll() {
