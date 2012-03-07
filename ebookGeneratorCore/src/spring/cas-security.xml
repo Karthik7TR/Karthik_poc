@@ -40,12 +40,18 @@
    		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
    		
    		<!-- Access Control - URL/role based -->
-		<security:intercept-url pattern="/**"
+		<security:intercept-url pattern="/"
 			access="hasAnyRole('ROLE_DEVELOPER,ROLE_GUEST,ROLE_PUBLISHER,ROLE_SUPERUSER,ROLE_SUPPORT')
-			
-			
+
 or isAuthenticated()"/>	<!-- TODO: DELETE THIS clause FOR PRODUCTION DEPLOYMENT (and close off above intercept-url element) -->
+
+		<!-- Secure the ebookGenerator URL's -->
+		<security:intercept-url pattern="/service/stop/job/*" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/service/restart/job/*" access="hasRole('ROLE_SUPERUSER')"/>
 		
+		<!-- Secure the ebookManager URL's -->
+		<security:intercept-url pattern="/jobStop.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/jobRestart.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 	
 		<!-- Logout -->
 		<security:logout logout-success-url="/afterLogout.mvc"/>	<!-- where to go after you logout -->
