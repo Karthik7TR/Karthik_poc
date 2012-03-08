@@ -46,7 +46,6 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 				existingAudit.setCurrency(eBookAudit.getCurrency());
 				existingAudit.setDocCollectionName(eBookAudit.getDocCollectionName());
 				existingAudit.setDocumentTypeCodesId(eBookAudit.getDocumentTypeCodesId());
-				existingAudit.setEbookDefinition(eBookAudit.getEbookDefinition());
 				existingAudit.setFrontMatterConcat(eBookAudit.getFrontMatterConcat());
 				existingAudit.setIsbn(eBookAudit.getIsbn());
 				existingAudit.setIsTocFlag(eBookAudit.getIsTocFlag());

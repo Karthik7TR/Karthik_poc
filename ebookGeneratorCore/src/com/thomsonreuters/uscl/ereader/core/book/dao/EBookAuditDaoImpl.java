@@ -80,16 +80,17 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 
 	@Override
 	@Transactional
-	public void saveAudit(EbookAudit author) {
+	public void saveAudit(EbookAudit audit) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(author);
+		session.save(audit);
 		session.flush();
 	}
 
 	@Override
 	public EbookAudit findEbookAuditByPrimaryKey(Long auditId)
 			throws DataAccessException {
-		Session session = sessionFactory.getCurrentSession();
-		return (EbookAudit) session.get(EbookAudit.class, auditId);
+		Query query = createNamedQuery("findEbookAuditByPrimaryKey");
+		query.setLong("auditId", auditId);
+		return (EbookAudit)query.uniqueResult();
 	}
 }

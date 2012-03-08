@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,6 +27,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
  */
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "findEbookAuditByPrimaryKey", query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId") })
 @Table(schema = "EBOOK", name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -67,42 +71,36 @@ public class EbookAudit implements Serializable {
 
 	@Column(name = "MATERIAL_ID", length = 64, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-
 	String materialId;
 	/**
 	 */
 
 	@Column(name = "IS_TOC_FLAG", length = 1, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-
 	String isTocFlag;
 	/**
 	 */
 
 	@Column(name = "ROOT_TOC_GUID", length = 64)
 	@Basic(fetch = FetchType.EAGER)
-
 	String rootTocGuid;
 	/**
 	 */
 
 	@Column(name = "DOC_COLLECTION_NAME", length = 64)
 	@Basic(fetch = FetchType.EAGER)
-
 	String docCollectionName;
 	/**
 	 */
 
 	@Column(name = "TOC_COLLECTION_NAME", length = 64)
 	@Basic(fetch = FetchType.EAGER)
-
 	String tocCollectionName;
 	/**
 	 */
 
 	@Column(name = "NORT_DOMAIN", length = 64)
 	@Basic(fetch = FetchType.EAGER)
-
 	String nortDomain;
 	/**
 	 */
@@ -229,12 +227,6 @@ public class EbookAudit implements Serializable {
 	@Column(name = "AUDIT_TYPE", length = 10)
 	@Basic(fetch = FetchType.EAGER)
 	String auditType;
-
-	/**
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
-	BookDefinition ebookDefinition;
 
 	/**
 	 */
@@ -645,18 +637,6 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setEbookDefinition(BookDefinition ebookDefinition) {
-		this.ebookDefinition = ebookDefinition;
-	}
-
-	/**
-	 */
-	public BookDefinition getEbookDefinition() {
-		return ebookDefinition;
-	}
-
-	/**
-	 */
 	public EbookAudit() {
 	}
 
@@ -696,7 +676,6 @@ public class EbookAudit implements Serializable {
 		setUpdatedBy(that.getUpdatedBy());
 		setAuditNote(that.getAuditNote());
 		setAuditType(that.getAuditType());
-		setEbookDefinition(that.getEbookDefinition());
 	}
 
 	/**
