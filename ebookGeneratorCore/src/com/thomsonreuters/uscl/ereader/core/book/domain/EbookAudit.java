@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -40,9 +41,9 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "TIMESTAMP", nullable = false)
+	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	Date timestamp;
+	Date lastUpdated;
 	/**
 	 */
 	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
@@ -244,6 +245,34 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
+	
+	@Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String proviewDisplayName;
+
+	/**
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PUBLISH_CUTOFF_DATE")
+	@Basic(fetch = FetchType.EAGER)
+	Calendar publishCutoffDate;
+
+	/**
+	 */
+	
+	@Column(name = "IS_DELETED_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isDeletedFlag;
+
+	/**
+	 */
+	
+	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isProviewTableViewFlag;
+
+	/**
+	 */
 	public void setAuditId(Long auditId) {
 		this.auditId = auditId;
 	}
@@ -256,14 +285,14 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 	/**
 	 */
-	public Date getTimestamp() {
-		return this.timestamp;
+	public Date getLastUpdated() {
+		return this.lastUpdated;
 	}
 
 	/**
@@ -637,7 +666,7 @@ public class EbookAudit implements Serializable {
 	 */
 	public void copy(EbookAudit that) {
 		setAuditId(that.getAuditId());
-		setTimestamp(that.getTimestamp());
+		setLastUpdated(that.getLastUpdated());
 		setTitleId(that.getTitleId());
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
@@ -679,7 +708,7 @@ public class EbookAudit implements Serializable {
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append("auditId=[").append(auditId).append("] ");
-		buffer.append("timestamp=[").append(timestamp).append("] ");
+		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
 		buffer.append("titleId=[").append(titleId).append("] ");
 		buffer.append("copyright=[").append(copyright).append("] ");
 		buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
@@ -744,5 +773,53 @@ public class EbookAudit implements Serializable {
 
 	public void setEbookDefinitionId(Long ebookDefinitionId) {
 		this.ebookDefinitionId = ebookDefinitionId;
+	}
+
+	/**
+	 */
+	public void setProviewDisplayName(String proviewDisplayName) {
+		this.proviewDisplayName = proviewDisplayName;
+	}
+
+	/**
+	 */
+	public String getProviewDisplayName() {
+		return this.proviewDisplayName;
+	}
+
+	/**
+	 */
+	public void setPublishCutoffDate(Calendar publishCutoffDate) {
+		this.publishCutoffDate = publishCutoffDate;
+	}
+
+	/**
+	 */
+	public Calendar getPublishCutoffDate() {
+		return this.publishCutoffDate;
+	}
+
+	/**
+	 */
+	public void setIsDeletedFlag(boolean isDeletedFlag) {
+		this.isDeletedFlag =( (isDeletedFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean getIsDeletedFlag() {
+		return( (this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	/**
+	 */
+	public void setIsProviewTableViewFlag(boolean isProviewTableViewFlag) {
+		this.isProviewTableViewFlag =( (isProviewTableViewFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean IsProviewTableViewFlag() {
+		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 }
