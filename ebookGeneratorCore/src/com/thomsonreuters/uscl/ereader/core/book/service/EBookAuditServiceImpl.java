@@ -61,7 +61,7 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 				existingAudit.setPublisherCodesId(eBookAudit.getPublisherCodesId());
 				existingAudit.setRootTocGuid(eBookAudit.getRootTocGuid());
 				existingAudit.setSearchIndexFlag(eBookAudit.getSearchIndexFlag());
-				existingAudit.setTimestamp(eBookAudit.getTimestamp());
+				existingAudit.setLastUpdated(eBookAudit.getLastUpdated());
 				existingAudit.setTitleId(eBookAudit.getTitleId());
 				existingAudit.setTocCollectionName(eBookAudit.getTocCollectionName());
 				existingAudit.setUpdatedBy(eBookAudit.getUpdatedBy());
