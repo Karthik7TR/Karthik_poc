@@ -68,9 +68,9 @@
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
 	
 	<%-- Only a user in the superuser role can stop or restart a job --%>
-	<c:set var="jobOperationsDisabled" value="disabled"/>
+	<c:set var="operationsDisabled" value="disabled"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-		<c:set var="jobOperationsDisabled" value=""/>
+		<c:set var="operationsDisabled" value=""/>
 	</sec:authorize>
 	
 	<%--
@@ -120,13 +120,13 @@
 		<td>${jobExecution.status}</td>
 		<c:choose>
 		<c:when test="${vdo.restartable}">
-		<td><input type="button" value="Restart" ${jobOperationsDisabled}
+		<td><input type="button" value="Restart" ${operationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
   		<c:when test="${vdo.stoppable}">
-		<td><input type="button" value="Stop" ${jobOperationsDisabled}
+		<td><input type="button" value="Stop" ${operationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>

@@ -25,6 +25,23 @@ public class UserUtils {
 		String fullName = (user != null) ? user.getFullName() : null;
 		return fullName;
 	}
+	
+	public static String getUserRolesAsCsv() {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		StringBuffer buffer = new StringBuffer();
+		if (user != null) {
+			Collection<GrantedAuthority> gas = user.getAuthorities();
+			for (GrantedAuthority ga : gas) {
+				buffer.append(ga);
+				buffer.append(",");
+			}
+		}
+		String csv = buffer.toString();
+		if (csv.length() > 0) {
+			csv = csv.substring(0, csv.length()-1);  // strip off last ","
+		}
+		return csv;
+	}
 
 	/**
 	 * Checks if the user has super user role
