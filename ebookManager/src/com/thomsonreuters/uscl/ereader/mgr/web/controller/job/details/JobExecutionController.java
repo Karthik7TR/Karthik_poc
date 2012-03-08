@@ -63,6 +63,7 @@ public class JobExecutionController {
 	public ModelAndView doDisplayJobExecutionDetails(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
 							  Model model) throws Exception {
+		log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
 		JobInstanceBookInfo bookInfo = (jobExecution != null) ? jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
 		populateModel(model, jobExecution, bookInfo);
@@ -96,7 +97,7 @@ public class JobExecutionController {
 	 * Attempts to restart a stopped or failed Spring Batch job execution via invoking the REST service
 	 * restart operation built into the ebook generator web application.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_RESTART, method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession,
 								   @RequestParam Long jobExecutionId, Model model) throws Exception {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
@@ -106,18 +107,18 @@ public class JobExecutionController {
 			Thread.sleep(1);
 		} catch (HttpClientErrorException e) {
 			log.error("REST error restarting job: " + jobExecutionId, e);
-			messages.add(JobSummaryController.createRestExceptionMessage(e));
+			messages.add(JobSummaryController.createRestExceptionMessage(e, messageSourceAccessor));
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
-		return jobSummaryController.doInboundGet(httpSession, model);
+		return jobSummaryController.inboundGet(httpSession, model);
 	}
 	
 	/**
 	 * Attempts to stop a running Spring Batch job execution via invoking the REST service
 	 * stop operation built into the ebook generator web application.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_STOP, method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession,
 								@RequestParam Long jobExecutionId, Model model) throws Exception {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
@@ -127,11 +128,11 @@ public class JobExecutionController {
 			Thread.sleep(1);
 		} catch (HttpClientErrorException e) {
 			log.error("REST error stopping job: " + jobExecutionId, e);
-			messages.add(JobSummaryController.createRestExceptionMessage(e));
+			messages.add(JobSummaryController.createRestExceptionMessage(e, messageSourceAccessor));
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
 		// Forward to to the job summary controller
-		return jobSummaryController.doInboundGet(httpSession, model);
+		return jobSummaryController.inboundGet(httpSession, model);
 	}
 
 	public static final String CODE_JOB_RESTART_SUCCESS = "job.restart.success";
