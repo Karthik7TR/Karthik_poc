@@ -35,10 +35,10 @@ import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
-//import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -91,7 +91,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, 
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList,final boolean isTableViewRequired, 
 			final String title, final Long jobId) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
@@ -125,7 +125,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages, title, jobId);
+			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId);
 			numDocs++;
 		}
 		
@@ -148,7 +148,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, 
+	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
 			String titleID, Long jobIdentifier) throws EBookFormatException
 	{
 
@@ -177,10 +177,25 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			
 			HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
 			emptyH2Filter.setParent(saxParser.getXMLReader());
+			HTMLTableFilter tableFilter =null;
+			
+			if (isTableViewRequired)
+			{
+				tableFilter = new HTMLTableFilter();
+			    tableFilter.setParent(emptyH2Filter);			
+			}
 			
 			HTMLImageFilter imageFilter = new HTMLImageFilter();
 			imageFilter.setStaticImageRefs(staticImgRef);
-			imageFilter.setParent(emptyH2Filter);
+			
+			if (isTableViewRequired && tableFilter != null)
+			{
+			    imageFilter.setParent(tableFilter);
+			}
+			else 
+			{
+				imageFilter.setParent(emptyH2Filter);
+			}
 
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);

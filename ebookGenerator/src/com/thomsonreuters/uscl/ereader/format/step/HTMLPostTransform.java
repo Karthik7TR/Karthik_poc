@@ -56,13 +56,16 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
+		//TODO: BookDefination method will be used to update 'isTableViewRequired' value.
+		boolean isTableViewRequired = false;
+		
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
 		File staticImgFile = new File(staticImagePath);
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, titleId, jobId);
+				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

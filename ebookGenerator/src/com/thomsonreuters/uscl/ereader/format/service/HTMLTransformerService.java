@@ -24,12 +24,13 @@ public interface HTMLTransformerService {
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param staticImg target file to which a list of referenced static files will be written out to
+	 * @param isTableViewRequired will decide to apply TableView or not.
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, 
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final boolean isTableViewRequired,
 			final String title, final Long jobId) throws EBookFormatException;
 }
