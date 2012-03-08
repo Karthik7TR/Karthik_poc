@@ -54,8 +54,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 * No query string parameters are expected.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
-	public ModelAndView doInboundGet(HttpSession httpSession, 
-							  		 Model model) {
+	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
 		
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
 		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
@@ -80,14 +79,14 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT, method = RequestMethod.GET)
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
-								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm jobSummaryForm,
+								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm form,
 								Model model) {
-		log.debug(jobSummaryForm);
+		log.debug(form);
 		List<Long> jobExecutionIds = null;
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
 		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
-		jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-		Integer nextPageNumber = jobSummaryForm.getPage();
+		form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		Integer nextPageNumber = form.getPage();
 
 		// If there was a page=n query string parameter, then we assume we are paging since this
 		// parameter is not present on the query string when display tag sorting.
@@ -96,12 +95,12 @@ public class JobSummaryController extends BaseJobSummaryController {
 			jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		} else {  // SORTING
 			pageAndSort.setPageNumber(1);
-			pageAndSort.setSortProperty(jobSummaryForm.getSort());
-			pageAndSort.setAscendingSort(jobSummaryForm.isAscendingSort());
+			pageAndSort.setSortProperty(form.getSort());
+			pageAndSort.setAscendingSort(form.isAscendingSort());
 			// Fetch the job list model
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 					 filterForm.getTitleId(), filterForm.getBookName());
-			JobSort jobSort = createJobSort(jobSummaryForm.getSort(), jobSummaryForm.isAscendingSort());
+			JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
 		
@@ -114,31 +113,26 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 * Handle operational buttons that submit a form of selected rows, or when the user changes the number of
 	 * rows displayed at one time.
 	 */
-	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_POST, method = RequestMethod.POST)
-	public ModelAndView doStopOrRestartJob(HttpSession httpSession,
-							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm jobSummaryForm,
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION, method = RequestMethod.POST)
+	public ModelAndView stopOrRestartJob(HttpSession httpSession,
+							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm form,
 							   BindingResult errors,
 							   Model model) {
-		log.debug(jobSummaryForm);
+		log.debug(form);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
-		
+
 		if (!errors.hasErrors()) {
-			JobCommand command = jobSummaryForm.getJobCommand();
+			JobCommand command = form.getJobCommand();
 			try {
 			switch (command) {
-				case CHANGE_OBJECTS_PER_PAGE:
-					pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
-					pageAndSort.setObjectsPerPage(jobSummaryForm.getObjectsPerPage());	// Update the new number of items to be shown at one time
-					break;
 				case RESTART_JOB:
-					for (Long jobExecutionId : jobSummaryForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : form.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
 						JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 					}
 					break;
 				case STOP_JOB:
-					for (Long jobExecutionId : jobSummaryForm.getJobExecutionIds()) {
+					for (Long jobExecutionId : form.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
 						JobExecutionController.handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
 					}
@@ -152,17 +146,37 @@ public class JobSummaryController extends BaseJobSummaryController {
 			}
 		}
 		
+		// Restore state of paging and sorting
+		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
 		// Restore the state of the search filter
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
-		
 		// Fetch the existing session saved list of job execution ID's
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		// Uncheck all of the form checkboxes
-		jobSummaryForm.setJobExecutionIds(null);
+		form.setJobExecutionIds(null);
 		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);	// Informational messages related to success/fail of job stop or restart
 		
+		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
+	}
+	
+	/**
+	 * Handle URL request that the number of rows displayed in the job summary table be changed.
+	 */
+	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT, method = RequestMethod.POST)
+	public ModelAndView changeDisplayedRowCount(HttpSession httpSession,
+							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm form,
+							   Model model) {
+		log.debug(form);
+		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
+		pageAndSort.setObjectsPerPage(form.getObjectsPerPage());	// Update the new number of items to be shown at one time
+		// Restore the state of the search filter
+		FilterForm filterForm = fetchSavedFilterForm(httpSession);
+		// Fetch the existing session saved list of job execution ID's
+		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
+		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
 	}
 	

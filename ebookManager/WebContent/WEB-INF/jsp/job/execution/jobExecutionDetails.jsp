@@ -121,13 +121,13 @@
 		<c:choose>
 		<c:when test="${vdo.restartable}">
 		<td><input type="button" value="Restart" ${jobOperationsDisabled}
-  				   onclick="location.href='<%=WebConstants.MVC_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
   		<c:when test="${vdo.stoppable}">
 		<td><input type="button" value="Stop" ${jobOperationsDisabled}
-  				   onclick="location.href='<%=WebConstants.MVC_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>

@@ -25,18 +25,16 @@ $(document).ready(function() {
 		$(this).parents('#<%= WebConstants.KEY_VDO %>').find(':checkbox').attr('checked', this.checked);
 	});
 });
-function submitChangeObjectsPerPage() {
-	submitJobSummaryForm('<%=JobCommand.CHANGE_OBJECTS_PER_PAGE%>');
-}
+
 function submitJobSummaryForm(command) {
 	$("#jobCommand").val(command);  // Set the form hidden field value for the operation discriminator
 	$("#<%=JobSummaryForm.FORM_NAME%>").submit();	// POST the HTML form
 }
 </script>
 
- <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
-<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_POST%>"
+<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
 		   commandName="<%=JobSummaryForm.FORM_NAME%>" name="theForm" method="post">
 	<form:hidden path="jobCommand"/>
 	
@@ -67,8 +65,7 @@ function submitJobSummaryForm(command) {
 		<li style="${cssStyle}">${message.text}</li>
 	</c:forEach>
  	</ul>
-	
-	
+
 	<%-- Table of job executions --%>
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<display:table id="vdo" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
@@ -96,17 +93,6 @@ function submitJobSummaryForm(command) {
 	<%-- Only display row related UI controls if some rows are present. --%>	
 	<c:if test="${fn:length(paginatedList.list) != 0}">
 	
-	<%-- Select for how may items (rows) per page to show --%>
-	Rows displayed: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submitChangeObjectsPerPage()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
-		<form:option label="50" value="50"/>
-		<form:option label="100" value="100"/>
-		<form:option label="500" value="500"/>
-	</form:select>
-	&nbsp;
-	
 	<%-- STOP and RESTART buttons are only available to a user in a SUPERUSER role --%> 
 	<c:set var="jobOperationsDisabled" value="disabled"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
@@ -115,6 +101,18 @@ function submitJobSummaryForm(command) {
 	<input type="button" ${jobOperationsDisabled} value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
 	<input type="button" ${jobOperationsDisabled} value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
 	</c:if>  <%-- if rowCount > 0 --%>
-	
 </form:form>
 
+<br/>
+<%-- Select for how may items (rows) per page to show --%>
+<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
+		   commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="250" value="250"/>
+	</form:select>
+</form:form>

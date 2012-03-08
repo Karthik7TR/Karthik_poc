@@ -10,13 +10,13 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -26,18 +26,23 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 public class JobSummaryControllerTest {
-	private static final Logger log = Logger.getLogger(JobSummaryControllerTest.class);
+	//private static final Logger log = Logger.getLogger(JobSummaryControllerTest.class);
 	public static final int JOB_EXEC_ID_COUNT = 50;
 	private JobSummaryController controller;
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobService mockJobService;
+	private ManagerService mockManagerService;
+	private MessageSourceAccessor mockMessageSourceAccessor;
 	private JobInstanceBookInfo mockBookInfo;
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
@@ -49,12 +54,16 @@ public class JobSummaryControllerTest {
     	this.response = new MockHttpServletResponse();
     	
     	this.mockJobService = EasyMock.createMock(JobService.class);
+    	this.mockManagerService = EasyMock.createMock(ManagerService.class);
+    	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	this.mockBookInfo = new JobInstanceBookInfo("bookName", "uscl/a/b/c/d");
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobSummaryController();
     	controller.setJobService(mockJobService);
     	controller.setValidator(new JobSummaryValidator());
+    	controller.setManagerService(mockManagerService);
+    	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     	
     	// Set up the Job execution ID list stored in the session
     	this.jobExecutionIds = new ArrayList<Long>();
@@ -69,7 +78,7 @@ public class JobSummaryControllerTest {
     }
     
 	@Test
-	public void testJobSummaryGet() throws Exception {
+	public void testJobSummaryInboundGet() throws Exception {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY);
     	request.setMethod(HttpMethod.GET.name());
@@ -133,7 +142,6 @@ public class JobSummaryControllerTest {
 	
 	@Test
 	public void testJobSummarySorting() throws Exception {
-		log.debug(">>>");
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
     	request.setMethod(HttpMethod.GET.name());
@@ -160,17 +168,75 @@ public class JobSummaryControllerTest {
     	EasyMock.verify(mockJobService);
 	}
 	
+	@Test
+	public void testRestartJob() throws Exception {
+		Long id = 2002l;
+		
+    	// Set up the request URL
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION);
+    	request.setMethod(HttpMethod.POST.name());
+    	request.setParameter("jobCommand", JobSummaryForm.JobCommand.RESTART_JOB.toString());
+    	request.setParameter("jobExecutionIds", id.toString());
+    	HttpSession session = request.getSession();
+    	session.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
+    	// Record
+    	JobOperationResponse jobOperationResponse = new JobOperationResponse(id+1);
+    	EasyMock.expect(mockManagerService.restartJob(id)).andReturn(jobOperationResponse);
+
+    	verifyJobOperation();
+	}
+	
+	@Test
+	public void testStopJob() throws Exception {
+		Long id = 2003l;
+		
+    	// Set up the request URL
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION);
+    	request.setMethod(HttpMethod.POST.name());
+    	request.setParameter("jobCommand", JobSummaryForm.JobCommand.STOP_JOB.toString());
+    	request.setParameter("jobExecutionIds", id.toString());
+    	HttpSession session = request.getSession();
+    	session.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
+    	// Record
+    	JobOperationResponse jobOperationResponse = new JobOperationResponse(id);
+    	EasyMock.expect(mockManagerService.stopJob(id)).andReturn(jobOperationResponse);
+
+    	verifyJobOperation();
+	}
+	
+    private void verifyJobOperation() throws Exception {
+    	// Common recordings for stop and restart
+    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(JOB_EXEC_ID_COUNT);
+    	// Replay
+    	EasyMock.replay(mockManagerService);
+    	EasyMock.replay(mockJobService);
+    	
+       	// Invoke the controller method via the URL
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
+    	Map<String,Object> model = mav.getModel();
+    	@SuppressWarnings("unchecked")
+    	List<InfoMessage> messages = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
+    	Assert.assertEquals(1, messages.size());
+    	Assert.assertEquals(InfoMessage.Type.SUCCESS, messages.get(0).getType());
+    	
+    	// Verify calls to the mock methods
+    	EasyMock.verify(mockManagerService);
+    	EasyMock.verify(mockJobService);
+	}
+	
 	/**
 	 * Test the submission of the multi-selected rows, or changing the number of objects displayed per page.
 	 * @throws Exception
 	 */
 	@Test
-	public void testChangeObjectsPerPage() throws Exception {
+	public void testChangeDisplayedRowsPerPage() throws Exception {
 		int EXPECTED_OBJECTS_PER_PAGE = 33;
     	// Set up the request URL
-    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_POST);
+    	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("jobCommand", JobSummaryForm.JobCommand.CHANGE_OBJECTS_PER_PAGE.toString());
     	request.setParameter("objectsPerPage", String.valueOf(EXPECTED_OBJECTS_PER_PAGE));
     	HttpSession session = request.getSession();
 

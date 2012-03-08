@@ -9,7 +9,7 @@ public class JobSummaryForm {
 	
 	public static final String FORM_NAME = "jobSummaryForm";
 	
-	public enum JobCommand { STOP_JOB, RESTART_JOB, CHANGE_OBJECTS_PER_PAGE};
+	public enum JobCommand { STOP_JOB, RESTART_JOB };
 	
 	private JobCommand command;
 	private Long[] 	jobExecutionIds;

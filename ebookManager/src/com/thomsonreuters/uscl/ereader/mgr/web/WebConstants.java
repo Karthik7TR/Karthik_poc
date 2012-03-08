@@ -92,14 +92,15 @@ public class WebConstants {
 	
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
+	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc";	// SECURED: job restart button on Job Execution Details page
+	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc";	// SECURED: job stop button on Job Excution Details page
 	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
 	public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
 	public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
-	public static final String MVC_JOB_SUMMARY_POST = "jobSummaryPost.mvc";
+	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";	// SECURED: job stop or restart button on the Job Summary page
+	public static final String MVC_JOB_SUMMARY_CHANGE_ROW_COUNT = "jobSummaryChangeRowCount.mvc";
 	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
-	public static final String MVC_JOB_RESTART = "jobRestart.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
-	public static final String MVC_JOB_STOP = "jobStop.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
