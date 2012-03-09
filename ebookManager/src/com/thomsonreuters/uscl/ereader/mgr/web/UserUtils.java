@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
+import com.thomsonreuters.uscl.ereader.Security.SecurityRole;
 
 public class UserUtils {
 	
@@ -44,29 +45,10 @@ public class UserUtils {
 	}
 
 	/**
-	 * Checks if the user has super user role
-	 * 
-	 * @return
+	 * Returns true if the currently authenticated use is an application super-user.
 	 */
 	public static boolean isSuperUser() {
-		boolean superUser = false;
-
-		LdapUserInfo ldapUserInfo = LdapUserInfo.getAuthenticatedUser();
-
-		if (ldapUserInfo != null) {
-			Collection<GrantedAuthority> authorities = ldapUserInfo
-					.getAuthorities();
-
-			if (authorities != null) {
-				for (GrantedAuthority authority : authorities) {
-					if (WebConstants.KEY_GENERATE_BUTTON_ROLE.equals(authority
-							.getAuthority())) {
-						superUser = true;
-						break;
-					}
-				}
-			}
-		}
-		return superUser;
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		return (user != null) ? user.isInRole(SecurityRole.ROLE_SUPERUSER.toString()) : false;
 	}
 }
