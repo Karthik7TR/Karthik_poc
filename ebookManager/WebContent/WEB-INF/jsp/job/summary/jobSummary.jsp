@@ -54,6 +54,7 @@ function submitJobSummaryForm(command) {
     </spring:hasBindErrors>
 
     <%-- Informational messages - used to report status of job stop and/or restart operations. --%>
+    <c:if test="${fn:length(infoMessages) > 0}">
  	<ul>
  	<c:forEach items="${infoMessages}" var="message">
  		<c:if test="${message.type == 'SUCCESS'}">
@@ -65,6 +66,7 @@ function submitJobSummaryForm(command) {
 		<li style="${cssStyle}">${message.text}</li>
 	</c:forEach>
  	</ul>
+    </c:if>
 
 	<%-- Table of job executions --%>
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
