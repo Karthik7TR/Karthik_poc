@@ -16,17 +16,19 @@ import com.thomsonreuters.uscl.ereader.Security.SecurityRole;
 public class UserUtils {
 	
 	/**
-	 * Returns the full name, like "John Galt", of the currently authenticated
-	 * user.
-	 * 
-	 * @return user's full name, or null if not authenticated.
+	 * Returns the full name of the currently authenticated user.
+	 * @return user's full name, like "John Galt", or null if not authenticated.
 	 */
 	public static String getAuthenticatedUserFullName() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
-		String fullName = (user != null) ? user.getFullName() : null;
-		return fullName;
+		return (user != null) ? user.getFullName() : null;
 	}
-	
+
+	/**
+	 * Returns the list of roles for the currently authenticated user as a comma-separated
+	 * list.  Used currently for trouble-shooting presentation.
+	 * @return a CSV list of user roles
+	 */
 	public static String getUserRolesAsCsv() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		StringBuffer buffer = new StringBuffer();
@@ -38,14 +40,15 @@ public class UserUtils {
 			}
 		}
 		String csv = buffer.toString();
-		if (csv.length() > 0) {
-			csv = csv.substring(0, csv.length()-1);  // strip off last ","
+		int len = csv.length();
+		if (len > 0) {
+			csv = csv.substring(0, len-1);  // strip off last ","
 		}
 		return csv;
 	}
 
 	/**
-	 * Returns true if the currently authenticated use is an application super-user.
+	 * Returns true if the currently authenticated user is an application super-user.
 	 */
 	public static boolean isSuperUser() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
