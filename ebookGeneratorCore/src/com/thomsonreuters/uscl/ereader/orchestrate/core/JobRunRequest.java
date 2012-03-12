@@ -27,13 +27,13 @@ public class JobRunRequest implements Serializable {
 	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
 	
 	private String jobName;			// job name to run
-	private BookDefinitionKey bookKey = new BookDefinitionKey();
+	private String titleId;
 	private String userName;		// What user is requesting that the job be run
 	private String userEmail;		// What is the requestor's email address
 	
-	public static JobRunRequest create(BookDefinitionKey key,
+	public static JobRunRequest create(String title,
 									   String userName, String userEmail) {
-		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, key, userName, userEmail);
+		return new JobRunRequest(JOB_NAME_CREATE_EBOOK, title, userName, userEmail);
 	}
 	
 
@@ -66,16 +66,13 @@ public class JobRunRequest implements Serializable {
 	public JobRunRequest() {
 		super();
 	}
-	private JobRunRequest(String jobName, BookDefinitionKey bookKey, String userName, String userEmail) {
+	private JobRunRequest(String jobName, String titleId, String userName, String userEmail) {
 		this.jobName = jobName;
-		this.bookKey = bookKey;
+		this.titleId = titleId;
 		this.userName = userName;
 		this.userEmail = userEmail;
 	}
 	
-	public BookDefinitionKey getBookDefinitionKey() {
-		return bookKey;
-	}
 	public String getJobName() {
 		return jobName;
 	}
@@ -84,9 +81,6 @@ public class JobRunRequest implements Serializable {
 	}
 	public String getUserEmail() {
 		return userEmail;
-	}
-	public void setBookDefinitionKey(BookDefinitionKey key) {
-		this.bookKey = key;
 	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
@@ -99,5 +93,15 @@ public class JobRunRequest implements Serializable {
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+
+
+	public String getTitleId() {
+		return titleId;
+	}
+
+
+	public void setTitleId(String titleId) {
+		this.titleId = titleId;
 	}
 }

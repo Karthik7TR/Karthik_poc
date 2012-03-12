@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,12 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.*;
 
 /**
  * Controller for the Create Book page, the page used to run book generating Spring Batch jobs.
@@ -59,10 +62,10 @@ public class CreateBookController {
 		String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor.getMessage("label.high") :
 															   messageSourceAccessor.getMessage("label.normal");
 		String userName = null;  // TODO
-		String userEmail = null;	// TODO
-
-		BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
-		JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey, userName, userEmail);
+		String userEmail = null;	// TODO 
+		
+		String fullyQaulifiedtitleId = form.getFullyQualifiedTitleId();
+		JobRunRequest jobRunRequest = JobRunRequest.create(fullyQaulifiedtitleId, userName, userEmail);
 		try {
 			if (form.isHighPriorityJob()) {
 				jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
@@ -70,11 +73,11 @@ public class CreateBookController {
 				jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 			}
 			// Report success to user in informational message on page
-			Object[] args = { bookDefKey.getFullyQualifiedTitleId(), queuePriorityLabel};
+			Object[] args = { fullyQaulifiedtitleId, queuePriorityLabel};
 			String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.success", args);
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
 		} catch (Exception e) {	// Report failure on page in error message area
-			Object[] args = { bookDefKey.getFullyQualifiedTitleId(), queuePriorityLabel, e.getMessage()};
+			Object[] args = { fullyQaulifiedtitleId, queuePriorityLabel, e.getMessage()};
 			String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
 			log.error(errMessage, e);
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
@@ -86,18 +89,26 @@ public class CreateBookController {
 
 	private void populateModel(Model model) {
 		/* Get all the unique books that can be created */
+		
 		List<SelectOption> bookOptions = new ArrayList<SelectOption>();
 		List<BookDefinition> books = coreService.findAllBookDefinitions();
 		for (BookDefinition book : books) {
-			BookDefinitionKey key = book.getPrimaryKey();
-			String label = String.format("%s - %s", book.getBookName(), key.getFullyQualifiedTitleId());
-			String value = key.toKeyString();  // "<fullyQualifiedTitleId>,<majorVersion>"
-			bookOptions.add(new SelectOption(label, value));
+			
+			String concatBookNames = "";
+	        Iterator<EbookName> bookNameIt= book.getEbookNames().iterator();
+	        while(bookNameIt.hasNext())
+	        {
+	        	EbookName eBookName=(EbookName)bookNameIt.next();
+	        	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
+	        }		
+			String label = String.format("%s - %s", concatBookNames.trim(), book.getFullyQualifiedTitleId());
+			bookOptions.add(new SelectOption(label, book.getFullyQualifiedTitleId()));
 		}
 		Collections.sort(bookOptions);  // Display book name options alphabetically in the HTML select
 		model.addAttribute(WebConstants.KEY_BOOK_OPTIONS, bookOptions);
 		model.addAttribute(WebConstants.KEY_ENVIRONMENT, environmentName);
 	}
+	
 	@Required
 	public void setEnvironmentName(String environmentName) {
 		this.environmentName = environmentName;

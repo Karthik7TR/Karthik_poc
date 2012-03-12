@@ -11,11 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDao;
 
 public class CoreServiceTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId");
+	private static final String BOOK_KEY = "titleId";
 
 	private CoreServiceImpl service;
 	
@@ -32,9 +31,9 @@ public class CoreServiceTest  {
 	
 	@Test
 	public void testFindBookDefinition() {
-		EasyMock.expect(mockCoreDao.findBookDefinition(BOOK_KEY)).andReturn(expectedBookDefinition);
+		EasyMock.expect(mockCoreDao.findBookDefinitionByTitle(BOOK_KEY)).andReturn(expectedBookDefinition);
 		EasyMock.replay(mockCoreDao);
-		BookDefinition actualBookDefinition = service.findBookDefinition(BOOK_KEY);
+		BookDefinition actualBookDefinition = service.findBookDefinitionByTitle(BOOK_KEY);
 		Assert.assertEquals(expectedBookDefinition, actualBookDefinition);
 		EasyMock.verify(mockCoreDao);
 	}

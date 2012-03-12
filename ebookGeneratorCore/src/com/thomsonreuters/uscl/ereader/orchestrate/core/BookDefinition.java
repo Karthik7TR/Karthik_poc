@@ -1,270 +1,797 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 
 /**
- * A book definition database table entity.
- * Represents the various set of job parameters that are provided to the e-book generating job.
  */
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select myBook from BookDefinition myBook "),
 @NamedQuery(name = "countBookDefinitions", query = "select count(*) from BookDefinition myBook") })
 @Table(name="EBOOK_DEFINITION", schema="EBOOK")
 public class BookDefinition implements Serializable {
-	private static final long serialVersionUID = -1933004529661737219L;
-	
-	/** Compound primary key for a book definition. Comprised of the book title ID and major version number. */
-
-	private BookDefinitionKey primaryKey;
-	
-	private String bookName;
-	private Long minorVersion;
-	private Long majorVersion;
-	// TODO: KeyWords?, Type?, Value?
-	private String copyright;
-	private String materialId;
-	private String authorInfo;	// A pipe deliminated list of person first last names, like "Joe Blow | Bill Smith"
-	private String rootTocGuid;	// like "I1754a5c012bb11dc8c0988fbe4566386"
-	private String docCollectionName;
-	private String tocCollectionName;
-	private String nortDomain;
-	private String nortFilterView;
-	private String contentType;
-	private String contentSubtype;
-	private String coverImage;
-	private String isbn;
-	private String materialIdEmbeddedInDocText;  // true | false
-	
-	public BookDefinition() {
-		super();
-	}
-	public BookDefinition(BookDefinitionKey key) {
-		setPrimaryKey(key);
-	}
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Primary key for an e-book definition object.
 	 */
-	@EmbeddedId
-	@AttributeOverrides({
-		@AttributeOverride(name = "fullyQualifiedTitleId", column = @Column(name="TITLE_ID", length=64, nullable=false))
-	})
-	public BookDefinitionKey getPrimaryKey() {
-		return primaryKey;
-	}
+
+	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	@Id
+	Long ebookDefinitionId;
+	/**
+	 */
+
+	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String fullyQualifiedTitleId;
+	/**
+	 */
+
+	@Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String proviewDisplayName;
+	/**
+	 */
+
+	@Column(name = "COPYRIGHT", length = 1024, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String copyright;
+	/**
+	 */
+
+	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String copyrightPageText;
+	/**
+	 */
+
+	@Column(name = "MATERIAL_ID", length = 64, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String materialId;
+	/**
+	 */
+
+	@Column(name = "IS_TOC_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isTocFlag;
+	/**
+	 */
+
+	@Column(name = "ROOT_TOC_GUID", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String rootTocGuid;
+	/**
+	 */
+
+	@Column(name = "DOC_COLLECTION_NAME", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String docCollectionName;
+	/**
+	 */
+
+	@Column(name = "TOC_COLLECTION_NAME", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String tocCollectionName;
+	/**
+	 */
+
+	@Column(name = "NORT_DOMAIN", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String nortDomain;
+	/**
+	 */
+
+	@Column(name = "NORT_FILTER_VIEW", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String nortFilterView;
+	/**
+	 */
+
+	@Column(name = "COVER_IMAGE", length = 256)
+	@Basic(fetch = FetchType.EAGER)
+	String coverImage;
+	/**
+	 */
+
+	@Column(name = "ISBN", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String isbn;
+	/**
+	 */
+
+	@Column(name = "PUBLISH_DATE_TEXT", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String publishDateText;
+	/**
+	 */
+
+	@Column(name = "CURRENCY", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String currency;
+	/**
+	 */
+
+	@Column(name = "KEYCITE_TOPLINE_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String keyciteToplineFlag;
+	/**
+	 */
+
+	@Column(name = "AUTO_UPDATE_SUPPORT_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String autoUpdateSupportFlag;
+	/**
+	 */
+
+	@Column(name = "SEARCH_INDEX_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String searchIndexFlag;
+	/**
+	 */
+
+	@Column(name = "ONE_PASS_SSO_LINK_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String onePassSsoLinkFlag;
+	/**
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PUBLISH_CUTOFF_DATE")
+	@Basic(fetch = FetchType.EAGER)
+	Calendar publishCutoffDate;
+	/**
+	 */
+
+	@Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String ebookDefinitionCompleteFlag;
+	/**
+	 */
+
+	@Column(name = "PUBLISHED_ONCE_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String publishedOnceFlag;
+	/**
+	 */
+
+	@Column(name = "IS_DELETED_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isDeletedFlag;
 	
-	@Column(name="AUTHOR_INFO", length=1024)
-	public String getAuthorInfo() {
-		return authorInfo;
-	}
-	@Column(name="CONTENT_SUBTYPE", length=64)
-	public String getContentSubtype() {
-		return contentSubtype;
-	}
-	@Column(name="CONTENT_TYPE", length=64)
-	public String getContentType() {
-		return contentType;
-	}
-	@Column(name="COPYRIGHT", length=1024)
-	public String getCopyright() {
-		return copyright;
-	}
-	@Column(name="COVER_IMAGE", length=256)
-	public String getCoverImage() {
-		return coverImage;
-	}
-	@Column(name="DOC_COLLECTION_NAME", length=64)
-	public String getDocCollectionName() {
-		return docCollectionName;
-	}
-	@Column(name="ISBN", length=64)
-	public String getIsbn() {
-		return isbn;
-	}
-	@Column(name="MAJOR_VERSION")
-	public Long getMajorVersion() {
-		return majorVersion;
-	}
-	@Column(name="MATERIAL_ID_EMBEDDED", length=8)
-	public String getMaterialIdEmbeddedInDocText() {
-		return materialIdEmbeddedInDocText;
-	}
-	@Column(name="MATERIAL_ID")
-	public String getMaterialId() {
-		return materialId;
-	}
-	@Column(name="MINOR_VERSION")
-	public Long getMinorVersion() {
-		return minorVersion;
-	}
-	@Column(name="BOOK_NAME", length=1024)
-	public String getBookName() {
-		return bookName;
-	}
-	@Column(name="NORT_DOMAIN", length=64)
-	public String getNortDomain() {
-		return nortDomain;
-	}
-	@Column(name="NORT_FILTER_VIEW", length=64)
-	public String getNortFilterView() {
-		return nortFilterView;
-	}
-	@Column(name="ROOT_TOC_GUID", length=64)
-	public String getRootTocGuid() {
-		return rootTocGuid;
-	}
-	@Column(name="TOC_COLLECTION_NAME", length=64)
-	public String getTocCollectionName() {
-		return tocCollectionName;
-	}
 	
 	/**
-	 * 
-	 * STUB returns until model gets finished
 	 */
-	@Transient
-	public Date getPublishDate(){
-		//TODO: update with model data
-		return new Date();
-	}
-	@Transient
-	public String getPublishStatus(){
-		//TODO: update with model data
-		return "F";
-	}
-	@Transient
-	public Date getLastEdit(){
-		//TODO: update with model data
-		return new Date();
-	}
-	@Transient
-	public boolean getPublishedOnceFlag(){
-		//TODO: update with model data
-		return false;
-	}
-	@Transient
-	public boolean inJobRequest(){
-		//TODO: Delete and move to JobRequest
-		return false;
-	}
+
+	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isProviewTableViewFlag;	
+	
 	
 	/**
-	 * Parse pipe separated strings into their own individual components.
-	 * @return a list of names, Converts  "Joe Smith | John Galt" into { "Joe Smith", "John Galt" }
 	 */
-	@Transient
-	public List<String> getAuthorList() {
-		List<String> authors = new ArrayList<String>();
-		if (StringUtils.isNotBlank(authorInfo)) {
-			StringTokenizer tokenizer = new StringTokenizer(authorInfo, "|");
-			while (tokenizer.hasMoreTokens()) {
-				String author = tokenizer.nextToken().trim();
-				if (StringUtils.isNotBlank(author)) {
-					authors.add(author);
-				}
-			}
-		}
-		return authors;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_UPDATED", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	Date lastUpdated;
+
+	/**
+	 */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumns({ @JoinColumn(name = "PUBLISHER_CODES_ID", referencedColumnName = "PUBLISHER_CODES_ID") })
+	PublisherCode publisherCodes;
+	/**
+	 */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumns({ @JoinColumn(name = "DOCUMENT_TYPE_CODES_ID", referencedColumnName = "DOCUMENT_TYPE_CODES_ID") })
+	DocumentTypeCode documentTypeCodes;
+	/**
+	 */
+/*	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	java.util.Set<JobRequest> jobRequests;*/
+	/**
+	 */
+/*	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	java.util.Set<EbookAudit> ebookAudits;*/
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	java.util.Set<FrontMatter> frontMatters;
+	/**
+	 */
+/*	@ManyToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	java.util.Set<KeywordTypeValue> keywordTypeValues;*/
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	java.util.Set<Author> authors;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	java.util.Set<EbookName> ebookNames;
+
+	/**
+	 */
+	public void setEbookDefinitionId(Long ebookDefinitionId) {
+		this.ebookDefinitionId = ebookDefinitionId;
 	}
-	
-	public void setAuthorInfo(String authorInfo) {
-		this.authorInfo = authorInfo;
+
+	/**
+	 */
+	public Long getEbookDefinitionId() {
+		return this.ebookDefinitionId;
 	}
-	public void setBookDefinitionKey(BookDefinitionKey key) {
-		this.primaryKey = key;
+
+	/**
+	 */
+	public void setFullyQualifiedTitleId(String fullyQualifiedTitleId) {
+		this.fullyQualifiedTitleId = fullyQualifiedTitleId;
 	}
-	
-	public void setContentSubtype(String contentSubtype) {
-		this.contentSubtype = contentSubtype;
+
+	/**
+	 */
+	public String getFullyQualifiedTitleId() {
+		return this.fullyQualifiedTitleId;
 	}
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+
+	/**
+	 */
+	public void setProviewDisplayName(String proviewDisplayName) {
+		this.proviewDisplayName = proviewDisplayName;
 	}
+
+	/**
+	 */
+	public String getProviewDisplayName() {
+		return this.proviewDisplayName;
+	}
+
+	/**
+	 */
 	public void setCopyright(String copyright) {
 		this.copyright = copyright;
 	}
-	public void setCoverImage(String coverImage) {
-		this.coverImage = coverImage;
+
+	/**
+	 */
+	public String getCopyright() {
+		return this.copyright;
 	}
-	public void setDocCollectionName(String docCollectionName) {
-		this.docCollectionName = docCollectionName;
+
+	/**
+	 */
+	public void setCopyrightPageText(String copyrightPageText) {
+		this.copyrightPageText = copyrightPageText;
 	}
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+
+	/**
+	 */
+	public String getCopyrightPageText() {
+		return this.copyrightPageText;
 	}
-	public void setMajorVersion(Long major) {
-		this.majorVersion = major;
-	}
-	public void setMaterialIdEmbeddedInDocText(String trueFalse) {
-		this.materialIdEmbeddedInDocText = trueFalse;
-	}
+
+	/**
+	 */
 	public void setMaterialId(String materialId) {
 		this.materialId = materialId;
 	}
-	public void setMinorVersion(Long minorVersion) {
-		this.minorVersion = minorVersion;
+
+	/**
+	 */
+	public String getMaterialId() {
+		return this.materialId;
 	}
-	public void setBookName(String name) {
-		this.bookName = name;
+
+	/**
+	 */
+	public void setIsTocFlag(boolean isTocFlag) {
+		this.isTocFlag = ( (isTocFlag) ? "Y" : "N");		
 	}
-	public void setNortDomain(String nortDomain) {
-		this.nortDomain = nortDomain;
+
+	/**
+	 */
+	public boolean getIsTocFlag() {
+		return ((this.isTocFlag.equalsIgnoreCase("Y") ? true : false));		
 	}
-	public void setNortFilterView(String nortFilterView) {
-		this.nortFilterView = nortFilterView;
-	}
-	public void setPrimaryKey(BookDefinitionKey key) {
-		this.primaryKey = key;
-	}
+
+	/**
+	 */
 	public void setRootTocGuid(String rootTocGuid) {
 		this.rootTocGuid = rootTocGuid;
 	}
+
+	/**
+	 */
+	public String getRootTocGuid() {
+		return this.rootTocGuid;
+	}
+
+	/**
+	 */
+	public void setDocCollectionName(String docCollectionName) {
+		this.docCollectionName = docCollectionName;
+	}
+
+	/**
+	 */
+	public String getDocCollectionName() {
+		return this.docCollectionName;
+	}
+
+	/**
+	 */
 	public void setTocCollectionName(String tocCollectionName) {
 		this.tocCollectionName = tocCollectionName;
 	}
+
+	/**
+	 */
+	public String getTocCollectionName() {
+		return this.tocCollectionName;
+	}
+
+	/**
+	 */
+	public void setNortDomain(String nortDomain) {
+		this.nortDomain = nortDomain;
+	}
+
+	/**
+	 */
+	public String getNortDomain() {
+		return this.nortDomain;
+	}
+
+	/**
+	 */
+	public void setNortFilterView(String nortFilterView) {
+		this.nortFilterView = nortFilterView;
+	}
+
+	/**
+	 */
+	public String getNortFilterView() {
+		return this.nortFilterView;
+	}
+
+	/**
+	 */
+	public void setCoverImage(String coverImage) {
+		this.coverImage = coverImage;
+	}
+
+	/**
+	 */
+	public String getCoverImage() {
+		return this.coverImage;
+	}
+
+	/**
+	 */
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+	/**
+	 */
+	public String getIsbn() {
+		return this.isbn;
+	}
+
+	/**
+	 */
+	public void setPublishDateText(String publishDateText) {
+		this.publishDateText = publishDateText;
+	}
+
+	/**
+	 */
+	public String getPublishDateText() {
+		return this.publishDateText;
+	}
+
+	/**
+	 */
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 */
+	public String getCurrency() {
+		return this.currency;
+	}
+
+	/**
+	 */
+	public void setKeyciteToplineFlag(boolean keyciteToplineFlag) {
+		this.keyciteToplineFlag = ( (keyciteToplineFlag) ? "Y" : "N");		
+	}
+
+	/**
+	 */
+	public boolean IsKeyciteToplineFlag() {
+		return ((this.keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));		
+	}
+
+	/**
+	 */
+	public void setAutoUpdateSupportFlag(String autoUpdateSupportFlag) {
+		this.autoUpdateSupportFlag = autoUpdateSupportFlag;
+	}
+
+	/**
+	 */
+	public String getAutoUpdateSupportFlag() {
+		return this.autoUpdateSupportFlag;
+	}
+
+	/**
+	 */
+	public void setSearchIndexFlag(boolean searchIndexFlag) {
+		this.searchIndexFlag = ( (searchIndexFlag) ? "Y" : "N");		
+	}
+
+	/**
+	 */
+	public boolean IsSearchIndexFlag() {
+		return ((this.searchIndexFlag.equalsIgnoreCase("Y") ? true : false));		
+	}
+
+	/**
+	 */
+	public void setOnePassSsoLinkFlag(boolean onePassSsoLinkFlag) {
+		this.onePassSsoLinkFlag = ( (onePassSsoLinkFlag) ? "Y" : "N");		
+	}
+
+	/**
+	 */
+	public boolean IsOnePassSsoLinkFlag() {
+		return ((this.onePassSsoLinkFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	/**
+	 */
+	public void setPublishCutoffDate(Calendar publishCutoffDate) {
+		this.publishCutoffDate = publishCutoffDate;
+	}
+
+	/**
+	 */
+	public Calendar getPublishCutoffDate() {
+		return this.publishCutoffDate;
+	}
+
+	/**
+	 */
+	public void setEbookDefinitionCompleteFlag(boolean ebookDefinitionCompleteFlag) {
+		this.ebookDefinitionCompleteFlag = ( (ebookDefinitionCompleteFlag) ? "Y" : "N");		
+	}
+
+	/**
+	 */
+	public boolean IsEbookDefinitionCompleteFlag() {
+		return ((this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	/**
+	 */
+	public void setPublishedOnceFlag(boolean publishedOnceFlag) {
+		this.publishedOnceFlag = ( (publishedOnceFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean IsPublishedOnceFlag() {
+		return( (this.publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	/**
+	 */
+	public void setIsDeletedFlag(boolean isDeletedFlag) {
+		this.isDeletedFlag =( (isDeletedFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean getIsDeletedFlag() {
+		return( (this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	/**
+	 */
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	/**
+	 */
+	public Date getLastUpdated() {
+		return this.lastUpdated;
+	}
+
+	/**
+	 */
+	public void setPublisherCodes(PublisherCode publisherCodes) {
+		this.publisherCodes = publisherCodes;
+	}
+
+	/**
+	 */
+	public PublisherCode getPublisherCodes() {
+		return publisherCodes;
+	}
+
+	/**
+	 */
+	public void setDocumentTypeCodes(DocumentTypeCode documentTypeCodes) {
+		this.documentTypeCodes = documentTypeCodes;
+	}
+
+	/**
+	 */
+	public DocumentTypeCode getDocumentTypeCodes() {
+		return documentTypeCodes;
+	}
+
+/*	*//**
+	 *//*
+	public void setJobRequests(Set<JobRequest> jobRequests) {
+		this.jobRequests = jobRequests;
+	}
+
+	*//**
+	 *//*
+	public Set<JobRequest> getJobRequests() {
+		if (jobRequests == null) {
+			jobRequests = new java.util.LinkedHashSet<com.thomsonreuters.uscl.ereader.orchestrate.core.JobRequest>();
+		}
+		return jobRequests;
+	}*/
+
+	/**
+	 */
+/*	public void setEbookAudits(Set<EbookAudit> ebookAudits) {
+		this.ebookAudits = ebookAudits;
+	}
+
+	*//**
+	 *//*
+	public Set<EbookAudit> getEbookAudits() {
+		if (ebookAudits == null) {
+			ebookAudits = new java.util.LinkedHashSet<EbookAudit>();
+		}
+		return ebookAudits;
+	}*/
+
+	/**
+	 */
+	public void setFrontMatters(Set<FrontMatter> frontMatters) {
+		this.frontMatters = frontMatters;
+	}
+
+	/**
+	 */
+	public Set<FrontMatter> getFrontMatters() {
+		if (frontMatters == null) {
+			frontMatters = new java.util.LinkedHashSet<FrontMatter>();
+		}
+		return frontMatters;
+	}
+
+/*	*//**
+	 *//*
+	public void setKeywordTypeValueses(Set<KeywordTypeValue> keywordTypeValueses) {
+		this.keywordTypeValues = keywordTypeValueses;
+	}
+
+	*//**
+	 *//*
+	public Set<KeywordTypeValue> getKeywordTypeValueses() {
+		if (keywordTypeValues == null) {
+			keywordTypeValues = new java.util.LinkedHashSet<KeywordTypeValue>();
+		}
+		return keywordTypeValues;
+	}*/
+
+	/**
+	 */
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
+	}
+
+	/**
+	 */
+	public Set<Author> getAuthors() {
+		if (authors == null) {
+			authors = new java.util.LinkedHashSet<Author>();
+		}
+		return authors;
+	}
+
+	/**
+	 */
+	public void setEbookNames(Set<EbookName> ebookNames) {
+		this.ebookNames = ebookNames;
+	}
+
+	/**
+	 */
+	public Set<EbookName> getEbookNames() {
+		if (ebookNames == null) {
+			ebookNames = new java.util.LinkedHashSet<EbookName>();
+		}
+		return ebookNames;
+	}
+
+	/**
+	 */
+	public BookDefinition() {
+	}
+
+	/**
+	 * Copies the contents of the specified bean into this bean.
+	 *
+	 */
+	public void copy(BookDefinition that) {
+		setEbookDefinitionId(that.getEbookDefinitionId());
+		setFullyQualifiedTitleId(that.getFullyQualifiedTitleId());
+		setProviewDisplayName(that.getProviewDisplayName());
+		setCopyright(that.getCopyright());
+		setCopyrightPageText(that.getCopyrightPageText());
+		setMaterialId(that.getMaterialId());
+		setIsTocFlag(that.getIsTocFlag());
+		setRootTocGuid(that.getRootTocGuid());
+		setDocCollectionName(that.getDocCollectionName());
+		setTocCollectionName(that.getTocCollectionName());
+		setNortDomain(that.getNortDomain());
+		setNortFilterView(that.getNortFilterView());
+		setCoverImage(that.getCoverImage());
+		setIsbn(that.getIsbn());
+		setPublishDateText(that.getPublishDateText());
+		setCurrency(that.getCurrency());
+		setKeyciteToplineFlag(that.IsKeyciteToplineFlag());
+		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
+		setSearchIndexFlag(that.IsSearchIndexFlag());
+		setOnePassSsoLinkFlag(that.IsOnePassSsoLinkFlag());
+		setPublishCutoffDate(that.getPublishCutoffDate());
+		setEbookDefinitionCompleteFlag(that.IsEbookDefinitionCompleteFlag());
+		setPublishedOnceFlag(that.IsPublishedOnceFlag());
+		setIsDeletedFlag(that.getIsDeletedFlag());
+		setLastUpdated(that.getLastUpdated());
+		setPublisherCodes(that.getPublisherCodes());
+		setDocumentTypeCodes(that.getDocumentTypeCodes());
+//		setJobRequests(new java.util.LinkedHashSet<com.thomsonreuters.uscl.ereader.orchestrate.core.JobRequest>(that.getJobRequests()));
+//		setEbookAudits(new java.util.LinkedHashSet<EbookAudit>(that.getEbookAudits()));
+		setFrontMatters(new java.util.LinkedHashSet<FrontMatter>(that.getFrontMatters()));
+//		setKeywordTypeValueses(new java.util.LinkedHashSet<KeywordTypeValue>(that.getKeywordTypeValueses()));
+		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
+		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
+	}
+
+	/**
+	 * Returns a textual representation of a bean.
+	 *
+	 */
+	public String toString() {
+
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append("ebookDefinitionId=[").append(ebookDefinitionId).append("] ");
+		buffer.append("fullyQualifiedTitleId=[").append(fullyQualifiedTitleId).append("] ");
+		buffer.append("proviewDisplayName=[").append(proviewDisplayName).append("] ");
+		buffer.append("copyright=[").append(copyright).append("] ");
+		buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
+		buffer.append("materialId=[").append(materialId).append("] ");
+		buffer.append("isTocFlag=[").append(isTocFlag).append("] ");
+		buffer.append("rootTocGuid=[").append(rootTocGuid).append("] ");
+		buffer.append("docCollectionName=[").append(docCollectionName).append("] ");
+		buffer.append("tocCollectionName=[").append(tocCollectionName).append("] ");
+		buffer.append("nortDomain=[").append(nortDomain).append("] ");
+		buffer.append("nortFilterView=[").append(nortFilterView).append("] ");
+		buffer.append("coverImage=[").append(coverImage).append("] ");
+		buffer.append("isbn=[").append(isbn).append("] ");
+		buffer.append("publishDateText=[").append(publishDateText).append("] ");
+		buffer.append("currency=[").append(currency).append("] ");
+		buffer.append("keyciteToplineFlag=[").append(keyciteToplineFlag).append("] ");
+		buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
+		buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
+		buffer.append("onePassSsoLinkFlag=[").append(onePassSsoLinkFlag).append("] ");
+		buffer.append("publishCutoffDate=[").append(publishCutoffDate).append("] ");
+		buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
+		buffer.append("publishedOnceFlag=[").append(publishedOnceFlag).append("] ");
+		buffer.append("isDeletedFlag=[").append(isDeletedFlag).append("] ");
+		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+
+		return buffer.toString();
+	}
+
+	/**
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (int) (prime * result + ((ebookDefinitionId == null) ? 0 : ebookDefinitionId.hashCode()));
+		return result;
+	}
+
+	/**
+	 */
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		if (!(obj instanceof BookDefinition))
+			return false;
+		BookDefinition equalCheck = (BookDefinition) obj;
+		if ((ebookDefinitionId == null && equalCheck.ebookDefinitionId != null) || (ebookDefinitionId != null && equalCheck.ebookDefinitionId == null))
+			return false;
+		if (ebookDefinitionId != null && !ebookDefinitionId.equals(equalCheck.ebookDefinitionId))
+			return false;
+		return true;
+	}
+
+	/**
+	 */
+	public void setIsProviewTableViewFlag(boolean isProviewTableViewFlag) {
+		this.isProviewTableViewFlag =( (isProviewTableViewFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean IsProviewTableViewFlag() {
+		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
 	
 	/**
-	 * Parse the pipe character separated list of author names into a list of names.
-	 * @param pipeSeparatedListOfNames the input string in form "name1 | name2 | name3 | ... ", may be null, in which case an empty list will be returned
-	 * @return the parsed list of names, possibly empty, never null
+	 * The base title ID, without any of the leading slash-separated namespace components.  Example: "ak_2010_federal".
+	 * This is a transient field because we are making the space-for-time tradeoff and
+	 * calculating this value once when the fullTitleId is set.  The TITLE_ID column in the database
+	 * holds the fully-qualified value.
+	 * @return the right-most component of the slash separated title ID path, or null if blank string.
 	 */
-	public static List<String> parseAuthorNames(String pipeSeparatedListOfNames) {
-		List<String> names = new ArrayList<String>();
-		if (pipeSeparatedListOfNames != null) {
-			StringTokenizer tokenizer = new StringTokenizer(pipeSeparatedListOfNames, "|");
-			while (tokenizer.hasMoreTokens()) {
-				String name = tokenizer.nextToken().trim();
-				names.add(name);
-			}
+	@Transient
+	public String getTitleId() {
+		StringTokenizer tokenizer = new StringTokenizer(fullyQualifiedTitleId, "/");
+		String component = null;
+		while (tokenizer.hasMoreTokens()) {
+			component = tokenizer.nextToken();
 		}
-		return names;
-	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+		return (component);
+	}	
 }

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class DashboardDaoImpl implements DashboardDao {
 	private static final Logger log = Logger.getLogger(DashboardDaoImpl.class);
@@ -22,8 +21,8 @@ public class DashboardDaoImpl implements DashboardDao {
 	private String tablePrefix;
 	
 	@Override
-	public BookDefinition findBookDefinition(BookDefinitionKey key) {
-		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, key);
+	public BookDefinition findBookDefinition(String titleId) {
+		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, titleId);
 	}
 	
 	@Override

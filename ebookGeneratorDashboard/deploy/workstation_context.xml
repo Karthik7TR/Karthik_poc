@@ -38,7 +38,7 @@
               type="javax.sql.DataSource"
               factory="org.apache.commons.dbcp.BasicDataSourceFactory"
               driverClassName="oracle.jdbc.OracleDriver"
-              url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=c111wuyctdbux-vip.int.westgroup.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ebook_dev.int.westgroup.com)))"
+              url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c111cujctdbux-vip.int.westgroup.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=c111wuyctdbux-vip.int.westgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_dev.int.westgroup.com)))"
               username="EBOOK_USER" password="eb00k"/>
 
     <!-- JMS Queue Connection Factory(s) -->

@@ -11,9 +11,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class CoreDaoImpl implements CoreDao {
 	//private static final Logger log = Logger.getLogger(CoreDaoImpl.class);
@@ -24,16 +24,40 @@ public class CoreDaoImpl implements CoreDao {
 	}
 	
 	@Override
-	public BookDefinition findBookDefinition(BookDefinitionKey key) {
-		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, key);
+	public BookDefinition findBookDefinitionByTitle(String titleId) {
+		@SuppressWarnings("unchecked")
+		List<BookDefinition> bookDef = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
+		 .add( Restrictions.eq("fullyQualifiedTitleId", titleId)).list();
+
+		if (bookDef == null)
+		{
+			return null;
+		}
+		return bookDef.get(0);
+	}
+	
+	@Override
+	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId) {
+		@SuppressWarnings("unchecked")
+		List<BookDefinition> bookDef = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
+		 .add( Restrictions.eq("eBookDefinitionId", ebookDefId)).list();
+
+		if (bookDef == null)
+		{
+			return null;
+		}
+		return bookDef.get(0);
+
 	}
 	
 	@Override
 	@Deprecated
 	@SuppressWarnings("unchecked")
 	public List<BookDefinition> findAllBookDefinitions() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
-		return criteria.list();
+		String namedQuery = "findBookDefnBySearchCriterion";	
+		String bookDefnQuery = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
+		Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);				
+		return query.list();
 	}
 
 	@Override
@@ -55,11 +79,10 @@ public class CoreDaoImpl implements CoreDao {
 	}
 
 	@Override
-	public void removeBookDefinition(BookDefinitionKey toRemoveKey) {
-		toRemoveKey = (BookDefinitionKey) sessionFactory.getCurrentSession().merge(
-				toRemoveKey);
+	public void removeBookDefinition(String titleId) {
+		
 		Session session = sessionFactory.getCurrentSession();
-		session.delete(findBookDefinition(toRemoveKey));
+		session.delete(findBookDefinitionByTitle(titleId));
 		session.flush();
 	}
 
@@ -69,4 +92,6 @@ public class CoreDaoImpl implements CoreDao {
 		session.save(eBook);
 		session.flush();
 	}
+
+
 }

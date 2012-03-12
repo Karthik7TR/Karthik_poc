@@ -10,7 +10,6 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public interface CoreDao {
 	
@@ -26,8 +25,16 @@ public interface CoreDao {
 	 * @param key the primary key of the definition
 	 * @return the found entity, or null if not found.
 	 */
-	public BookDefinition findBookDefinition(BookDefinitionKey key);
+	public BookDefinition findBookDefinitionByTitle(String fullyQualifiedTitleId);
 	
+	
+	/**
+	 * Find a book definition by its primary key.
+	 * @param key the primary key of the definition
+	 * @return the found entity, or null if not found.
+	 */
+	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId);
+
 	
 	/**
 	 * Returns all the current book definitions based on the search criterion
@@ -47,7 +54,7 @@ public interface CoreDao {
 	 * @param key the primary key of the definition
 	 * @return void
 	 */
-	public void removeBookDefinition(BookDefinitionKey eBookKey) throws DataAccessException;
+	public void removeBookDefinition(String fullyQualifiedTitleId) throws DataAccessException;
 	
 	/**
 	 * Saves a book definitions.

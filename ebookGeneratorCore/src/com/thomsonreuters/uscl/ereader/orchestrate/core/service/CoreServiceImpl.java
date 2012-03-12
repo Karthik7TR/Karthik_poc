@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDao;
 
 /**
@@ -23,8 +22,14 @@ public class CoreServiceImpl implements CoreService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public BookDefinition findBookDefinition(BookDefinitionKey key) {
-		return coreDao.findBookDefinition(key);
+	public BookDefinition findBookDefinitionByTitle(String titleId) {
+		return coreDao.findBookDefinitionByTitle(titleId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId) {
+		return coreDao.findBookDefinitionByEbookDefId(ebookDefId);
 	}
 	
 	@Override
@@ -59,7 +64,8 @@ public class CoreServiceImpl implements CoreService {
 	 * public DocMetadataServiceImpl() { docMetaXMLParser = new
 	 * DocMetaDataXMLParser(); }
 	 */
-	
+
+
 	/**
 	 * Save an existing Book Definition
 	 * 
@@ -67,33 +73,24 @@ public class CoreServiceImpl implements CoreService {
 	@Transactional
 	public void saveBookDefinition(BookDefinition eBook) {
 	
-		BookDefinitionKey existingBookPk = new BookDefinitionKey();
-		existingBookPk.setFullyQualifiedTitleId(eBook.getPrimaryKey().getFullyQualifiedTitleId());
 	
-		BookDefinition existingBook = coreDao.findBookDefinition(existingBookPk);
+		BookDefinition existingBook = coreDao.findBookDefinitionByTitle(eBook.getTitleId());
 	
-		if (existingBook != null) {
+		existingBook.setFullyQualifiedTitleId(eBook.getFullyQualifiedTitleId());
+
+		{
 			if (existingBook != eBook) {
-				existingBook.setAuthorInfo(eBook.getAuthorInfo());
-				existingBook.setBookName(eBook.getBookName());
-				existingBook.setContentSubtype(eBook.getContentSubtype());
-				existingBook.setContentType(eBook.getContentType());
 				existingBook.setCopyright(eBook.getCopyright());
 				existingBook.setCoverImage(eBook.getCoverImage());
 				existingBook.setDocCollectionName(eBook.getDocCollectionName());
 				existingBook.setIsbn(eBook.getIsbn());
-				existingBook.setMajorVersion(eBook.getMajorVersion());
 				existingBook.setMaterialId(eBook.getMaterialId());
-				existingBook.setMaterialIdEmbeddedInDocText(eBook.getMaterialIdEmbeddedInDocText());
-				existingBook.setMinorVersion(eBook.getMinorVersion());
 				existingBook.setNortDomain(eBook.getNortDomain());
 				existingBook.setNortFilterView(eBook.getNortFilterView());
 				existingBook.setRootTocGuid(eBook.getRootTocGuid());
 				existingBook.setTocCollectionName(eBook.getTocCollectionName());
 			}
 			coreDao.saveBookDefinition(existingBook);
-		} else {
-			coreDao.saveBookDefinition(eBook);
 		}
 	}
 	

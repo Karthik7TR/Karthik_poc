@@ -35,8 +35,20 @@
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.PublishingStats</value>
+<!--		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.PublishingStats</value>-->
 		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.JobStartupThrottle</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>			    	
 		  </list>
 		</property>
   	</bean>
@@ -72,6 +84,10 @@
 	<bean id="jobStartupThrottleDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
+	
+	<bean id="eBookAuditDAO" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
+		  <constructor-arg ref="sessionFactory"/>
+	</bean>	
 		 
 	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"

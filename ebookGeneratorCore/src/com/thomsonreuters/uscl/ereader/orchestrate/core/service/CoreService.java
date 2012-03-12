@@ -8,7 +8,6 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.service;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 /**
  * Service methods that are common to both the Spring Batch generator engine and manager web applications.
@@ -27,7 +26,9 @@ public interface CoreService {
 	 * @param key the primary key of the definition
 	 * @return the found entity, or null if not found.
 	 */
-	public BookDefinition findBookDefinition(BookDefinitionKey key);
+	public BookDefinition findBookDefinitionByTitle(String titleId);
+	
+	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId);
 	
 	/**
 	 * Returns all the current book definitions based on the search criterion

@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class JobRunRequestTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("fooBook");
+	private static final  String BOOK_TITLE = "fooBook";
 	@Test
 	public void testJobRequestMarshalling() {
 		try {
@@ -19,7 +19,7 @@ public class JobRunRequestTest  {
 			HashMap<String,String> params = new HashMap<String,String>();
 			params.put("foo", "abc");
 			params.put("bar", "def");
-			final JobRunRequest requestToMarshal = JobRunRequest.create(BOOK_KEY, "jblow", "jblow@bogusaddr.com");
+			final JobRunRequest requestToMarshal = JobRunRequest.create(BOOK_TITLE, "jblow", "jblow@bogusaddr.com");
 //System.out.println("To Marshal: " + requestToMarshal);
 			String xml = requestToMarshal.marshal();
 //System.out.println(xml);			
@@ -28,7 +28,7 @@ public class JobRunRequestTest  {
 			JobRunRequest unmarshalledRequest = JobRunRequest.unmarshal(xml);
 //System.out.println("Unmarshalled: " + unmarshalledRequest);
 			Assert.assertEquals(requestToMarshal.getJobName(), unmarshalledRequest.getJobName());
-			Assert.assertEquals(requestToMarshal.getBookDefinitionKey(), unmarshalledRequest.getBookDefinitionKey());
+			Assert.assertEquals(requestToMarshal.getTitleId(), unmarshalledRequest.getTitleId());
 			Assert.assertEquals(requestToMarshal.getUserName(), unmarshalledRequest.getUserName());
 			Assert.assertEquals(requestToMarshal.getUserEmail(), unmarshalledRequest.getUserEmail());
 		} catch (Exception e) {

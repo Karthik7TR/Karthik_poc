@@ -6,11 +6,10 @@ import java.util.List;
 import org.springframework.batch.core.BatchStatus;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public interface DashboardDao {
 	
-	public BookDefinition findBookDefinition(BookDefinitionKey key);
+	public BookDefinition findBookDefinition(String titleID);
 	
 	/**
 	 * Returns all the current book definitions.

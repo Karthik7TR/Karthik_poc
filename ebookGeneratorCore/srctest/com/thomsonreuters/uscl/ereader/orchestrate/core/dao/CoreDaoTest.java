@@ -12,11 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class CoreDaoTest  {
-	private static final BookDefinitionKey BOOK_KEY = new BookDefinitionKey("titleId");
-	private static final BookDefinition BOOK_DEFINITION = new BookDefinition(BOOK_KEY);
+	private static final long BOOK_KEY = 1;
+	private static final BookDefinition BOOK_DEFINITION = new BookDefinition();
 
 	private SessionFactory mockSessionFactory;
 	private org.hibernate.classic.Session mockSession;
@@ -37,7 +36,7 @@ public class CoreDaoTest  {
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
 		
-		BookDefinition actualBookDefinition = dao.findBookDefinition(BOOK_KEY);
+		BookDefinition actualBookDefinition = dao.findBookDefinitionByEbookDefId(BOOK_KEY);
 		Assert.assertEquals(BOOK_DEFINITION, actualBookDefinition);
 		
 		EasyMock.verify(mockSessionFactory);

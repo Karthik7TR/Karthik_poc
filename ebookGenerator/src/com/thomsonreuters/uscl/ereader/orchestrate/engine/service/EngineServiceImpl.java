@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -24,6 +25,8 @@ import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
@@ -84,23 +87,65 @@ public class EngineServiceImpl implements EngineService {
 	@Override
 	public JobParameters createJobParametersFromBookDefinition(BookDefinition bookDefinition) {
 		Map<String, JobParameter> paramMap = new HashMap<String,JobParameter>();
-		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(bookDefinition.getAuthorInfo()));
-		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getBookName()));
-		paramMap.put(JobParameterKey.CONTENT_SUBTYPE, new JobParameter(bookDefinition.getContentSubtype()));
-		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getContentType()));
+		
+		
+		String concatAuthor = " ";
+        Iterator<Author> authorIt= bookDefinition.getAuthors().iterator();
+        while(authorIt.hasNext())
+        {
+            Author author=(Author)authorIt.next();
+            
+            if (author.getAuthorNamePrefix() != null) {
+            	concatAuthor = concatAuthor + author.getAuthorNamePrefix() + " ";
+            }
+            if (author.getAuthorFirstName() != null) {
+            	concatAuthor = concatAuthor + author.getAuthorFirstName() + " ";
+            }
+            if (author.getAuthorMiddleName() != null) {
+            	concatAuthor = concatAuthor + author.getAuthorMiddleName() + " ";
+            }
+            if (author.getAuthorLastName() != null) {
+            	concatAuthor = concatAuthor + author.getAuthorLastName() + " ";
+            }
+            if (author.getAuthorNameSuffix() != null) {
+            	concatAuthor = concatAuthor + author.getAuthorNameSuffix() + " ";
+            }            
+            
+            concatAuthor = concatAuthor +  "|";
+        }
+        
+        concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
+        
+        
+		String concatBookNames = " ";
+        Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
+        while(bookNameIt.hasNext())
+        {
+        	EbookName eBookName=(EbookName)bookNameIt.next();
+        	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
+        }   
+        
+        concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
+        
+		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
+		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
+ 
+		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getDocumentTypeCodes().getName()));
 		paramMap.put(JobParameterKey.COPYRIGHT, new JobParameter(bookDefinition.getCopyright()));
 		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
 		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
 		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
-		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getMajorVersion()));
+		//Hard coded major version for now
+		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter("1"));		
+//		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getMajorVersion()));
 		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
-		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
-		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));
+/*		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
+		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));*/
 		paramMap.put(JobParameterKey.NORT_DOMAIN, new JobParameter(bookDefinition.getNortDomain()));
 		paramMap.put(JobParameterKey.NORT_FILTER_VIEW, new JobParameter(bookDefinition.getNortFilterView()));
 		paramMap.put(JobParameterKey.ROOT_TOC_GUID, new JobParameter(bookDefinition.getRootTocGuid()));
-		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(bookDefinition.getPrimaryKey().getTitleId()));
-		paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(bookDefinition.getPrimaryKey().getFullyQualifiedTitleId()));
+		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(bookDefinition.getTitleId()));
+		paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(bookDefinition.getFullyQualifiedTitleId()));
 		paramMap.put(JobParameterKey.TOC_COLLECTION_NAME, new JobParameter(bookDefinition.getTocCollectionName()));
 		return new JobParameters(paramMap);
 	}

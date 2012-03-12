@@ -142,7 +142,8 @@
 			p:jobStartupThrottleDao-ref="jobStartupThrottleDao"
 			p:throttleStepCheck="${throttle.step.check}"
 			p:jobExplorer-ref="jobExplorer"/>
-				
-
-		  
+			
+  	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
+  		  p:eBookAuditDAO-ref="eBookAuditDAO"/>			
+				  
 </beans>

@@ -8,19 +8,15 @@ package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.boo
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
-
 public class CreateBookForm {
 	public static final String FORM_NAME = "createBookForm";
 	
-	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
+	private String fullyQualifiedTitleId;
 	private boolean highPriorityJob;	// if true, job request will be placed on the high priority run queue
 
-	public BookDefinitionKey getBookDefinitionKey() {
-		return bookDefinitionKey;
-	}
+
 	public String getFullyQualifiedTitleId() {
-		return bookDefinitionKey.getFullyQualifiedTitleId();
+		return fullyQualifiedTitleId;
 	}
 	public boolean isHighPriorityJob() {
 		return highPriorityJob;
@@ -29,7 +25,7 @@ public class CreateBookForm {
 		this.highPriorityJob = high;
 	}
 	public void setFullyQualifiedTitleId(String fullTitleId) {
-		this.bookDefinitionKey = new BookDefinitionKey(fullTitleId);
+		this.fullyQualifiedTitleId = fullTitleId;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

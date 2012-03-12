@@ -53,9 +53,7 @@ public class JobRunQueuePoller {
 					// if there was a job to run, then launch it
 					if (jobRunRequest != null) {
 						// Load the pre-defined set of book definition parameters for this specific book from a database table
-						BookDefinition bookDefinition = coreService
-								.findBookDefinition(jobRunRequest
-										.getBookDefinitionKey());
+						BookDefinition bookDefinition = coreService.findBookDefinitionByTitle(jobRunRequest.getTitleId());
 						// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
 						JobParameters bookDefinitionJobParameters = engineService
 								.createJobParametersFromBookDefinition(bookDefinition);

@@ -30,6 +30,8 @@ public class JobParameterKey {
 	public static final String TITLE_ID_FULLY_QUALIFIED = "titleIdFullyQualified";
 	public static final String TOC_COLLECTION_NAME = "tocCollectionName";
 	
+	public static final String BOOK_DEFINITION = "bookDefinition";
+	
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */
 	public static final String USER_NAME = "userName";
