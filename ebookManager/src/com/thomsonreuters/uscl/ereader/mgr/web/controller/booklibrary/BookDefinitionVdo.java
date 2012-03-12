@@ -6,7 +6,11 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.Date;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
@@ -16,7 +20,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
  * calculate directly within the JSP.
  */
 public class BookDefinitionVdo {
-	//private static final Logger log = Logger.getLogger(BookDefinitionVdo.class);
+	// private static final Logger log =
+	// Logger.getLogger(BookDefinitionVdo.class);
 	private BookDefinition bookDefinition;
 	private boolean isSelected = false;
 
@@ -41,42 +46,35 @@ public class BookDefinitionVdo {
 	public void setBookDefinition(BookDefinition bookDefinition) {
 		this.bookDefinition = bookDefinition;
 	}
-
-	public String getVersion() {
-		return bookDefinition.getMajorVersion().toString() +"." + bookDefinition.getMinorVersion().toString();
+	
+	public Long getBookDefinitionId() {
+		return bookDefinition.getEbookDefinitionId();
 	}
 
 	public String getTitleId() {
-		return bookDefinition.getPrimaryKey().getTitleId();
-	}
-
-	public String getFullyQualifiedTitleId() {
-		return bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
+		return bookDefinition.getTitleId();
 	}
 
 	public String getBookName() {
-		return bookDefinition.getBookName();
+		return bookDefinition.getProviewDisplayName();
 	}
 
 	public String getAuthor() {
-		String authors = bookDefinition.getAuthorInfo();
-		
-		// Separate the author names
-		if (authors != null)
-			authors = authors.replaceAll("\\|", "<br>");
-		return authors;
+		Set<Author> authors = bookDefinition.getAuthors();
+
+		return StringUtils.join(authors, "<br>");
 	}
-	
+
 	public Date getPublishDate() {
-		return bookDefinition.getPublishDate();
+		return new Date();
 	}
-	
+
 	public String getPublishStatus() {
-		return bookDefinition.getPublishStatus();
+		return "";
 	}
-	
+
 	public Date getLastEdit() {
-		return bookDefinition.getLastEdit();
+		return bookDefinition.getLastUpdated();
 	}
 
 }

@@ -25,26 +25,13 @@ function submitForm(cmd)
 	<table style="font-family:Arial">
 	<tr>
 		<td class="labelCol">Title ID<td>
-		<td>${book.primaryKey.fullyQualifiedTitleId}</td>
+		<td>${book.titleId}</td>
 		<td class="labelCol">&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="labelCol">Name<td>
-		<td>${book.bookName}</td>
-		<td class="labelCol">&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	
-	<tr>
-		<td class="labelCol">Major Version<td>
-		<td>${book.majorVersion}</td>
-		<td class="labelCol">&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="labelCol">Minor Version<td>
-		<td>${book.minorVersion}</td>
+		<td>${book.proviewDisplayName}</td>
 		<td class="labelCol">&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -62,8 +49,8 @@ function submitForm(cmd)
 	</tr>
 	<tr>
 		<td class="labelCol">Author(s)<td>
-		<td><c:forEach var="author" items="${book.authorList}">
-				${author}<br/>
+		<td><c:forEach var="author" items="${book.authors}">
+				${author.fullName}<br/>
 			</c:forEach>
 		</td>
 		<td class="labelCol">&nbsp;</td>
@@ -100,18 +87,6 @@ function submitForm(cmd)
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="labelCol">Content Type<td>
-		<td>${book.contentType}</td>
-		<td class="labelCol">&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="labelCol">Content Subtype<td>
-		<td>${book.contentSubtype}</td>
-		<td class="labelCol">&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
 		<td class="labelCol">ISBN<td>
 		<td>${book.isbn}</td>
 		<td class="labelCol">&nbsp;</td>
@@ -124,7 +99,7 @@ function submitForm(cmd)
 	<form:form name="theForm" commandName="<%=ViewBookDefinitionForm.FORM_NAME%>"
 			   action="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST%>">
 		<form:hidden path="command"/>
-		<form:hidden path="<%=WebConstants.KEY_TITLE_ID%>"/>
+		<form:hidden path="<%=WebConstants.KEY_BOOK_DEFINITION_ID%>"/>
 		<c:if test="${!isInJobRequest}">
 			<input type="submit" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		</c:if>

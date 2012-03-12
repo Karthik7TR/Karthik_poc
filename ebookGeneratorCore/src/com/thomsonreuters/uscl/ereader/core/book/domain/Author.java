@@ -231,25 +231,32 @@ public class Author implements Serializable {
 				StringUtils.isBlank(this.authorNameSuffix) &&
 				StringUtils.isBlank(this.authorAddlText);
 	}
+	
+	@Transient
+	public String getFullName() {
+		StringBuilder buffer = new StringBuilder();
 
+		if(!StringUtils.isBlank(authorNamePrefix))
+			buffer.append(authorNamePrefix).append(" ");
+		if(!StringUtils.isBlank(authorFirstName))
+			buffer.append(authorFirstName).append(" ");
+		if(!StringUtils.isBlank(authorMiddleName))
+			buffer.append(authorMiddleName).append(" ");
+		if(!StringUtils.isBlank(authorLastName))
+			buffer.append(authorLastName).append(" ");
+		if(!StringUtils.isBlank(authorNameSuffix))
+			buffer.append(authorNameSuffix);
+
+		return StringUtils.trim(buffer.toString());
+	}
+	
 	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
 	public String toString() {
 
-		StringBuilder buffer = new StringBuilder();
-
-		buffer.append("authorId=[").append(authorId).append("] ");
-		buffer.append("ebookDefinitionId=[").append(ebookDefinitionId).append("] ");
-		buffer.append("authorNamePrefix=[").append(authorNamePrefix).append("] ");
-		buffer.append("authorNameSuffix=[").append(authorNameSuffix).append("] ");
-		buffer.append("authorFirstName=[").append(authorFirstName).append("] ");
-		buffer.append("authorMiddleName=[").append(authorMiddleName).append("] ");
-		buffer.append("authorLastName=[").append(authorLastName).append("] ");
-		buffer.append("authorAddlText=[").append(authorAddlText).append("] ");
-
-		return buffer.toString();
+		return getFullName();
 	}
 
 	/**

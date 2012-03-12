@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,15 +21,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
@@ -38,7 +38,7 @@ public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
-	private BookService bookService;
+	private CodeService codeService;
 	private ProviewClient proviewClient;
 	private Validator validator;
 
@@ -95,48 +95,15 @@ public class EditBookDefinitionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
 	public ModelAndView editBookDefintionGet(
-				@RequestParam String titleId,
+				@RequestParam Long id,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {
 
-		boolean isInJobRequest;
-		boolean isPublished;
-		
 		// Lookup the book by its primary key
-		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
-		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
-		
-		// Check if book is scheduled or queued
-		// TODO: Update with queue checking
-		if (bookDef != null) {
-			isPublished = bookDef.getPublishedOnceFlag();
-			isInJobRequest = bookDef.inJobRequest();
-			
-			// Check proview if book went to final state if isPublished is false
-			if(!isPublished) {
-				if(proviewClient.hasTitleIdBeenPublished(titleId)) {
-					isPublished = true;
-					//TODO: update book definition in db with isPublished to true
-				}
-			}
-			
-			form.initialize(bookDef);
-			// Load Authors TODO: update when model is complete
-			List<Author> authors = new AutoPopulatingList<Author>(Author.class);
-			authors.addAll(bookService.getAuthors(1));
-			form.setAuthorInfo(authors);
-		} else {
-			isInJobRequest = false;
-			isPublished = false;
-		}
-		
-		initialize(model, form);
-		
-		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
-		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
-		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
-		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		form.initialize(bookDef);
+		setupEditFormAndModel(bookDef, form, model);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -150,41 +117,61 @@ public class EditBookDefinitionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.POST)
 	public ModelAndView editBookDefintionPost(
-				@RequestParam String titleId,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
-				Model model) {
-		boolean isInJobRequest;
-		boolean isPublished;
+				Model model) throws Exception {
 		
-		initialize(model, form);
+		if(!bindingResult.hasErrors()) {
+			// TODO: Update to go to the View Book Definition page 
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+		}
 		
 		// Lookup the book by its primary key
-		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
-		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
+		setupEditFormAndModel(bookDef, form, model);
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+	}
+	
+	private void setupEditFormAndModel(BookDefinition bookDef, EditBookDefinitionForm form, Model model) throws Exception {
+		boolean isInJobRequest;
+		boolean isPublished;
 		
 		// Check if book is scheduled or queued
 		// TODO: Update with queue checking
 		if (bookDef != null) {
-			isInJobRequest = bookDef.inJobRequest();
-			isPublished = bookDef.getPublishedOnceFlag();
+			isPublished = bookDef.IsPublishedOnceFlag();
+			isInJobRequest = false;
+			
+			// Check proview if book went to final state if isPublished is false
+			if(!isPublished) {
+				if(proviewClient.hasTitleIdBeenPublished(bookDef.getTitleId())) {
+					isPublished = true;
+					//TODO: update book definition in db with isPublished to true
+				}
+			}
 		} else {
 			isInJobRequest = false;
 			isPublished = false;
 		}
 		
-		if(!bindingResult.hasErrors() && !isInJobRequest) {
-			// TODO: Update to Book Definition segregate key when DB gets updated
-			String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, form.getTitleId());
-			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
-		}
-
-		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
+		initialize(model, form);
+		
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_ID, form.getBookdefinitionId());
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
-		
-		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+	}
+	
+	/**
+	 * 
+	 * @param contentTypeId
+	 * @return String of Content Type abbreviation
+	 */
+	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE_ABBR, method = RequestMethod.GET)
+	public @ResponseBody DocumentTypeCode getContentTypeAbbr(@RequestParam Long contentTypeId) {
+		DocumentTypeCode code = codeService.getDocumentTypeCodeById(contentTypeId);
+	    return code;
 	}
 	
 	/**
@@ -200,11 +187,11 @@ public class EditBookDefinitionController {
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getContentTypes());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getDocumentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, EditBookDefinitionForm.getJurisdictions());
-		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());		
-		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, bookService.getKeywordsTypesAndValues());
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());
+		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, EditBookDefinitionForm.getKeywordCodes());
 		
 	}
 
@@ -214,8 +201,8 @@ public class EditBookDefinitionController {
 	}
 	
 	@Required
-	public void setBookService(BookService service) {
-		this.bookService = service;
+	public void setCodeService(CodeService service) {
+		this.codeService = service;
 	}
 	
 	@Required

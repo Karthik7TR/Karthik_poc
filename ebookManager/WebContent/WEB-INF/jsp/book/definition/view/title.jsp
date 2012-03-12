@@ -3,18 +3,18 @@
 <div class="pageTitle">View eBook Definition</div>
 <c:choose>
 
-<c:when test="${book == null}">  <%-- if no book definition was found for the title ID --%>
-<div class="errorMessage"><b>Book definition for Title ID &quot;${titleId}&quot; was not found.</b></div><br/>
+<c:when test="${book == null}">  <%-- if no book definition was found for BookDefinitionId --%>
+<div class="errorMessage"><b>Book definition was not found.</b></div><br/>
 </c:when>
 
 <c:otherwise>	<%-- found the book --%>
 <div id="bookData">
 	<div class="bookImage">
-		<img alt="${book.bookName}" src="theme/images/cover.png">
+		<img alt="${book.proviewDisplayName}" src="theme/images/cover.png">
 	</div>
 	<div class="titleData">
-		Title ID: ${book.primaryKey.fullyQualifiedTitleId}<br/>
-		Name: ${book.bookName}<br/>
+		Title ID: ${book.titleId}<br/>
+		Name: ${book.proviewDisplayName}<br/>
 	</div>
 </div>
 </c:otherwise>

@@ -50,13 +50,13 @@ public class ViewBookDefinitionControllerTest {
     public void testBookDefinitionViewGet() throws Exception {
     	// Set up the request URL
 
-    	BookDefinitionKey pk = new BookDefinitionKey(TITLE_ID);
-    	BookDefinition bookDef = new BookDefinition(pk);
+    	BookDefinition bookDef = new BookDefinition();
+    	bookDef.setTitleId(TITLE_ID);
     	request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
     	request.setMethod(HttpMethod.GET.name());
     	request.addParameter(WebConstants.KEY_TITLE_ID, TITLE_ID);
     	
-    	EasyMock.expect(mockCoreService.findBookDefinition(pk)).andReturn(bookDef);
+    	EasyMock.expect(mockCoreService.findBookDefinitionByTitle(TITLE_ID)).andReturn(bookDef);
     	EasyMock.replay(mockCoreService);
 
     	// Invoke the controller method via the URL

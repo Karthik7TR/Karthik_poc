@@ -12,21 +12,21 @@ public class ViewBookDefinitionForm {
 	public static final String FORM_NAME = "viewBookDefinitionForm";
 	
 	public enum Command { EDIT, GENERATE, DELETE, AUDIT_LOG, JOB_HISTORY };
-	
+
 	private Command command;
-	private String titleId;
+	private Long id;
 
 	public Command getCommand() {
 		return command;
 	}
-	public String getTitleId() {
-		return titleId;
-	}
 	public void setCommand(Command cmd) {
 		this.command = cmd;
 	}
-	public void setTitleId(String titleId) {
-		this.titleId = titleId;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

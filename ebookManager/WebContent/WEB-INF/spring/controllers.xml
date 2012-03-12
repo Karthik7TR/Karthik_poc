@@ -22,11 +22,12 @@
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
 		  p:coreService-ref="coreService"
-		  p:bookService-ref="bookService"
+		  p:codeService-ref="codeService"
 		  p:proviewClient-ref="proviewClient">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
-		  	p:coreService-ref="coreService" />
+		  	p:coreService-ref="coreService" 
+		  	p:codeService-ref="codeService"/>
 		  </property>
 	</bean>
 

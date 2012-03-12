@@ -14,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
@@ -39,7 +41,7 @@ public class FrontMatter implements Serializable {
 
 	@Column(name = "BOOK_NAME_TEXT", length = 1024)
 	@Basic(fetch = FetchType.EAGER)
-	String bookNameText;
+	String additionalFrontMatterText;
 	/**
 	 */
 
@@ -67,14 +69,14 @@ public class FrontMatter implements Serializable {
 
 	/**
 	 */
-	public void setBookNameText(String bookNameText) {
-		this.bookNameText = bookNameText;
+	public void setAdditionalFrontMatterText(String bookNameText) {
+		this.additionalFrontMatterText = bookNameText;
 	}
 
 	/**
 	 */
-	public String getBookNameText() {
-		return this.bookNameText;
+	public String getAdditionalFrontMatterText() {
+		return this.additionalFrontMatterText;
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class FrontMatter implements Serializable {
 	 */
 	public void copy(FrontMatter that) {
 		setFrontMatterId(that.getFrontMatterId());
-		setBookNameText(that.getBookNameText());
+		setAdditionalFrontMatterText(that.getAdditionalFrontMatterText());
 		setSequenceNum(that.getSequenceNum());
 		setEbookDefinition(that.getEbookDefinition());
 	}
@@ -126,7 +128,7 @@ public class FrontMatter implements Serializable {
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append("frontMatterId=[").append(frontMatterId).append("] ");
-		buffer.append("bookNameText=[").append(bookNameText).append("] ");
+		buffer.append("bookNameText=[").append(additionalFrontMatterText).append("] ");
 		buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
 
 		return buffer.toString();
@@ -140,6 +142,12 @@ public class FrontMatter implements Serializable {
 		int result = 1;
 		result = (int) (prime * result + ((frontMatterId == null) ? 0 : frontMatterId.hashCode()));
 		return result;
+	}
+	
+	/**
+	 */
+	public boolean isEmpty() {
+		return StringUtils.isBlank(this.additionalFrontMatterText) & this.sequenceNum == null;
 	}
 
 	/**

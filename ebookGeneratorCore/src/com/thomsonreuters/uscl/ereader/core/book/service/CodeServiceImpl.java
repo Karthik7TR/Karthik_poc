@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
-//import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
@@ -21,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
-//@Service
+@Service
 public class CodeServiceImpl implements CodeService {
 	private CodeDao dao;
 	

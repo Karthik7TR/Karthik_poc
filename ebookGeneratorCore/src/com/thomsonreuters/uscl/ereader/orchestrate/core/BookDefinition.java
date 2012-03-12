@@ -19,6 +19,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -233,8 +234,12 @@ public class BookDefinition implements Serializable {
 	java.util.Set<FrontMatter> frontMatters;
 	/**
 	 */
-/*	@ManyToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
-	java.util.Set<KeywordTypeValue> keywordTypeValues;*/
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "EBOOK_KEYWORDS", schema="EBOOK", joinColumns = { 
+			@JoinColumn(name = "EBOOK_DEFINITION_ID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "KEYWORD_TYPE_VALUES_ID", 
+					nullable = false, updatable = false) })
+	java.util.Set<KeywordTypeValue> keywordTypeValues;
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
@@ -450,14 +455,14 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setAutoUpdateSupportFlag(String autoUpdateSupportFlag) {
-		this.autoUpdateSupportFlag = autoUpdateSupportFlag;
+	public void setAutoUpdateSupportFlag(boolean autoUpdateSupportFlag) {
+		this.autoUpdateSupportFlag = ( (autoUpdateSupportFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getAutoUpdateSupportFlag() {
-		return this.autoUpdateSupportFlag;
+	public boolean getAutoUpdateSupportFlag() {
+		return ((this.autoUpdateSupportFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -613,20 +618,20 @@ public class BookDefinition implements Serializable {
 		return frontMatters;
 	}
 
-/*	*//**
-	 *//*
+	//**
+	//*
 	public void setKeywordTypeValueses(Set<KeywordTypeValue> keywordTypeValueses) {
 		this.keywordTypeValues = keywordTypeValueses;
 	}
 
-	*//**
-	 *//*
+	//**
+	//*
 	public Set<KeywordTypeValue> getKeywordTypeValueses() {
 		if (keywordTypeValues == null) {
 			keywordTypeValues = new java.util.LinkedHashSet<KeywordTypeValue>();
 		}
 		return keywordTypeValues;
-	}*/
+	}
 
 	/**
 	 */

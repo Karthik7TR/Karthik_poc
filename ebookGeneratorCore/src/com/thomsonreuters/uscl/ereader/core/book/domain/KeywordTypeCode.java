@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +23,10 @@ import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(schema="EBOOK", name="KEYWORD_TYPE_CODES")
@@ -63,7 +67,9 @@ public class KeywordTypeCode implements Serializable {
 	}
 
 
-	@OneToMany(mappedBy="keywordTypeCode", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="keywordTypeCode", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
+	@Cascade({CascadeType.ALL})
 	public Collection<KeywordTypeValue> getValues() {
 		return values;
 	}

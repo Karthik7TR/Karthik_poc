@@ -19,7 +19,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
@@ -33,20 +32,18 @@ public class ViewBookDefinitionController {
 	 * @param titleId the primary key of the book to be viewed as a required query string parameter.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
-	public ModelAndView viewBookDefintion(@RequestParam String titleId,
+	public ModelAndView viewBookDefintion(@RequestParam Long id,
 				@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
 				Model model) {
-		form.setTitleId(titleId);  // Keep track of the book we are viewing
-		
+
 		// Lookup the book by its primary key
-		BookDefinitionKey bookDefKey = new BookDefinitionKey(titleId);
-		BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		form.setId(id);
 		
 		// TODO: Update with queue checking
-		boolean isInJobRequest = (bookDef != null) ? bookDef.inJobRequest() : false;
+		boolean isInJobRequest = false;
 		
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
-		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}
@@ -60,7 +57,7 @@ public class ViewBookDefinitionController {
 							   Model model) {
 		ModelAndView mav = null;
 		log.debug(form);
-		String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, form.getTitleId());
+		String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, form.getId());
 		Command command = form.getCommand();
 		switch (command) {
 			case DELETE:

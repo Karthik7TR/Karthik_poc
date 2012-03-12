@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -31,6 +32,8 @@ public class EditBookDefinitionFormValidatorTest {
     private EditBookDefinitionFormValidator validator;
     private Errors errors;
     
+    private DocumentTypeCode analyticalCode;
+    
 	@Before
 	public void setUp() throws Exception {
     	// Mock up the dashboard service
@@ -42,6 +45,11 @@ public class EditBookDefinitionFormValidatorTest {
     	form = new EditBookDefinitionForm();
     	
     	errors = new BindException(form, "form");
+    	
+    	analyticalCode = new DocumentTypeCode();
+    	analyticalCode.setId(Long.parseLong("1"));
+    	analyticalCode.setAbbreviation(WebConstants.KEY_ANALYTICAL_ABBR);
+    	analyticalCode.setName(WebConstants.KEY_ANALYTICAL);
 	}
 
 	/**
@@ -61,7 +69,7 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testAnalyticalTitleId() {
-		setupPublisherAndTitleId("uscl/an/abcd", WebConstants.KEY_ANALYTICAL, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -82,7 +90,13 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testCourtRuleTitleId() {
-		setupPublisherAndTitleId("uscl/cr/tx_state", WebConstants.KEY_COURT_RULES, 2);
+		
+		DocumentTypeCode courtRulesCode = new DocumentTypeCode();
+    	courtRulesCode.setId(Long.parseLong("1"));
+    	courtRulesCode.setAbbreviation(WebConstants.KEY_COURT_RULES_ABBR);
+    	courtRulesCode.setName(WebConstants.KEY_COURT_RULES);
+    	
+		setupPublisherAndTitleId("uscl/cr/tx_state", courtRulesCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -105,7 +119,13 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testSliceCodeTitleId() {
-		setupPublisherAndTitleId("uscl/sc/us_abcd", WebConstants.KEY_SLICE_CODES, 2);
+		
+		DocumentTypeCode sliceCodesCode = new DocumentTypeCode();
+    	sliceCodesCode.setId(Long.parseLong("1"));
+    	sliceCodesCode.setAbbreviation(WebConstants.KEY_SLICE_CODES_ABBR);
+    	sliceCodesCode.setName(WebConstants.KEY_SLICE_CODES);
+    	
+		setupPublisherAndTitleId("uscl/sc/us_abcd", sliceCodesCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -129,7 +149,7 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testSpecialCharacters() {
-		setupPublisherAndTitleId("uscl/an/abcd", WebConstants.KEY_ANALYTICAL, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -151,7 +171,7 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testNoSpaces() {
-		setupPublisherAndTitleId("uscl/an/abcd", WebConstants.KEY_ANALYTICAL, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -172,7 +192,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testUniquTitleIdWhenCreating() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalNort();
@@ -190,7 +210,7 @@ public class EditBookDefinitionFormValidatorTest {
 	@Ignore
 	public void testUniquTitleIdWhenEditing() {
 		//TODO: Need to implement when surrogate keys are made in Book Definition
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalNort();
@@ -208,7 +228,7 @@ public class EditBookDefinitionFormValidatorTest {
 	@Ignore
 	public void testTitleDoesNotChange() {
 		//TODO: Need to implement when surrogate keys are made in Book Definition
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalNort();
@@ -224,7 +244,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testMaxLengthTitleId() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalNort();
@@ -241,7 +261,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testAllRequiredFieldsNort() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null).times(2);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(2);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalNort();
@@ -273,7 +293,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testAllRequiredFieldsToc() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null).times(2);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(2);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalToc();
@@ -305,7 +325,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testGuidFormat() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null).times(1);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalToc();
@@ -323,7 +343,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testIsbnFormat() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null).times(1);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalToc();
@@ -341,7 +361,7 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testPublicationCutoffDateFormat() {
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(null).times(1);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
     	EasyMock.replay(mockCoreService);
     	
     	populateFormDataAnalyticalToc();
@@ -354,16 +374,15 @@ public class EditBookDefinitionFormValidatorTest {
 		EasyMock.verify(mockCoreService);
 	}
 	
-	private void setupPublisherAndTitleId(String titleId, String contentType, int mockReplayTimes) {
+	private void setupPublisherAndTitleId(String titleId, DocumentTypeCode contentType, int mockReplayTimes) {
 		BookDefinition book = new BookDefinition();
-		book.setContentType(contentType);
-		BookDefinitionKey key = new BookDefinitionKey(titleId);
-		book.setBookDefinitionKey(key);
+		book.setDocumentTypeCodes(contentType);
+		book.setTitleId(titleId);
 		form.initialize(book);
 		form.setIsComplete(false);
 		form.setBookdefinitionId(Long.parseLong("1"));
 		
-		EasyMock.expect(mockCoreService.findBookDefinition(EasyMock.anyObject(BookDefinitionKey.class))).andReturn(book).times(mockReplayTimes);
+		EasyMock.expect(mockCoreService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(book).times(mockReplayTimes);
     	EasyMock.replay(mockCoreService);
 	}
 	
@@ -371,9 +390,8 @@ public class EditBookDefinitionFormValidatorTest {
 	private BookDefinition populateFormDataAnalyticalNort() {
 		String titleId = "uscl/an/abcd";
 		BookDefinition book = new BookDefinition();
-		book.setContentType(WebConstants.KEY_ANALYTICAL);
-		BookDefinitionKey key = new BookDefinitionKey(titleId);
-		book.setBookDefinitionKey(key);
+		book.setDocumentTypeCodes(analyticalCode);
+		book.setTitleId(titleId);
 		form.initialize(book);
 		form.setProviewDisplayName("Proview Display Name");
 		form.setCopyright("copyright");
@@ -399,9 +417,8 @@ public class EditBookDefinitionFormValidatorTest {
 	private BookDefinition populateFormDataAnalyticalToc() {
 		String titleId = "uscl/an/abcd";
 		BookDefinition book = new BookDefinition();
-		book.setContentType(WebConstants.KEY_ANALYTICAL);
-		BookDefinitionKey key = new BookDefinitionKey(titleId);
-		book.setBookDefinitionKey(key);
+		book.setDocumentTypeCodes(analyticalCode);
+		book.setTitleId(titleId);
 		form.initialize(book);
 		form.setProviewDisplayName("Proview Display Name");
 		form.setCopyright("copyright");

@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 /**
@@ -62,8 +61,8 @@ public class BookLibraryService {
 	 * @return
 	 */
 
-	public BookDefinitionVdo getSingleBook(BookDefinitionKey key) {
-		BookDefinition book = coreService.findBookDefinition(key);
+	public BookDefinitionVdo getSingleBook(Long key) {
+		BookDefinition book = coreService.findBookDefinitionByEbookDefId(key);
 		return new BookDefinitionVdo(book, false);
 	}
 

@@ -18,46 +18,36 @@
 		var pubAbbr = "";
 		var pubInfo = "";
 		var jurisdiction = "";
-		var contentTypeEnum = {NONE : 0, ANALYTICAL : 1, COURT_RULES: 2, SLICE_CODES : 3}; 
 		
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
+
 			var titleId = [];
 			
 			// Set up Title ID
-			if(contentType == contentTypeEnum.ANALYTICAL) {
+			if(contentType == "<%= WebConstants.KEY_ANALYTICAL_ABBR%>") {
 				if (pubInfo) {
 					titleId.push(pubAbbr, pubInfo);
 				} else {
 					titleId.push(pubAbbr);
 				};
-			} else if(contentType == contentTypeEnum.COURT_RULES) {
+			} else if(contentType == "<%= WebConstants.KEY_COURT_RULES_ABBR%>") {
 				if (pubInfo) {
 					titleId.push(state, pubType, pubInfo);
 				} else {
 					titleId.push(state, pubType);
 				};
-			} else if(contentType == contentTypeEnum.SLICE_CODES) {
+			} else if(contentType == "<%= WebConstants.KEY_SLICE_CODES_ABBR%>") {
 				titleId.push(jurisdiction, pubInfo);
+			} else {
+				titleId.push(pubInfo);
 			};
 
 			// Set up Namespace
-			if (contentType != contentTypeEnum.NONE) {
+			if (contentType) {
 				var fullyQualifiedTitleIdArray = [];
-				var contentTypeAbbr = "";
-				if(contentType == contentTypeEnum.ANALYTICAL) {
-					contentTypeAbbr = "<%= WebConstants.KEY_ANALYTICAL_ABBR %>";
-				} else if (contentType == contentTypeEnum.COURT_RULES) {
-					contentTypeAbbr = "<%= WebConstants.KEY_COURT_RULES_ABBR %>";
-				} else if(contentType == contentTypeEnum.SLICE_CODES) {
-					contentTypeAbbr = "<%= WebConstants.KEY_SLICE_CODES_ABBR %>";
-				} else {
-					$('#titleId').val("");
-					$('#titleIdBox').val("");
-				}
-
-				fullyQualifiedTitleIdArray.push(publisher, contentTypeAbbr, titleId.join("_"));
+				fullyQualifiedTitleIdArray.push(publisher, contentType, titleId.join("_"));
 				
 				var fullyQualifiedTitleId = fullyQualifiedTitleIdArray.join("/").toLowerCase();
 				
@@ -76,20 +66,19 @@
 			$('#pubTypeDiv').hide();
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
-			
-			if(contentType == contentTypeEnum.ANALYTICAL) {
+			if(contentType == "<%= WebConstants.KEY_ANALYTICAL_ABBR %>") {
 				$('#pubAbbrDiv').show();
-			} else if(contentType == contentTypeEnum.COURT_RULES) {
+			} else if(contentType == "<%= WebConstants.KEY_COURT_RULES_ABBR %>") {
 				$('#stateDiv').show();
 				$('#pubTypeDiv').show();
-			} else if(contentType == contentTypeEnum.SLICE_CODES) {
+			} else if(contentType == "<%= WebConstants.KEY_SLICE_CODES_ABBR %>") {
 				$('#jurisdictionDiv').show();
 			}
 			
-			if (contentType == contentTypeEnum.NONE) {
-				$('#publishDetailDiv').hide();
-			} else {
+			if (contentType) {
 				$('#publishDetailDiv').show();
+			} else {
+				$('#publishDetailDiv').hide();
 			}
 		};
 		
@@ -97,13 +86,14 @@
 		var addAuthorRow = function() {
 			var appendTxt = "<div class='row'>";
 			appendTxt = appendTxt + "<input id=\"authorInfo" + authorIndex + ".authorId\" name=\"authorInfo[" + authorIndex + "].authorId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + authorIndex + ".prefix\" name=\"authorInfo[" + authorIndex + "].prefix\" type=\"text\" title=\"prefix\"/>";
-			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + authorIndex + ".firstName\" name=\"authorInfo[" + authorIndex + "].firstName\" type=\"text\" title=\"first name\"/>";
-			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + authorIndex + ".middleName\" name=\"authorInfo[" + authorIndex + "].middleName\" type=\"text\" title=\"middle name\"/>";
-			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".lastName\" name=\"authorInfo[" + authorIndex + "].lastName\" type=\"text\" title=\"last name\"/>";
-			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".suffix\" name=\"authorInfo[" + authorIndex + "].suffix\" type=\"text\" title=\"suffix\"/>";
+			appendTxt = appendTxt + "<input id=\"authorInfo" + authorIndex + ".ebookDefinitionId\" name=\"authorInfo[" + authorIndex + "].ebookDefinitionId\" type=\"hidden\" />";
+			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + authorIndex + ".authorNamePrefix\" name=\"authorInfo[" + authorIndex + "].authorNamePrefix\" type=\"text\" title=\"prefix\"/>";
+			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + authorIndex + ".authorFirstName\" name=\"authorInfo[" + authorIndex + "].authorFirstName\" type=\"text\" title=\"first name\"/>";
+			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + authorIndex + ".authorMiddleName\" name=\"authorInfo[" + authorIndex + "].authorMiddleName\" type=\"text\" title=\"middle name\"/>";
+			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".authorLastName\" name=\"authorInfo[" + authorIndex + "].authorLastName\" type=\"text\" title=\"last name\"/>";
+			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".authorNameSuffix\" name=\"authorInfo[" + authorIndex + "].authorNameSuffix\" type=\"text\" title=\"suffix\"/>";
 			appendTxt = appendTxt + "<div>";
-			appendTxt = appendTxt + "<input class=\"additionalText\" id=\"authorInfo" + authorIndex + ".additionalText\" name=\"authorInfo[" + authorIndex + "].additionalText\" type=\"text\" title=\"Additional Text\"/>";
+			appendTxt = appendTxt + "<input class=\"additionalText\" id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" type=\"text\" title=\"Additional Text\"/>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			appendTxt = appendTxt + "</div>";
@@ -116,9 +106,9 @@
 		// Add another name row
 		var addNameRow = function() {
 			var appendTxt = "<div class='row'>";
-			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".nameId\" name=\"nameLines[" + nameIndex + "].nameId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"nameText\" id=\"nameLines" + nameIndex + ".nameText\" name=\"nameLines[" + nameIndex + "].nameText\" type=\"text\" title=\"Name Line\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNumber\" name=\"nameLines[" + nameIndex + "].sequenceNumber\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".ebookNameId\" name=\"nameLines[" + nameIndex + "].ebookNameId\" type=\"hidden\" />";
+			appendTxt = appendTxt + "<input class=\"bookName\" id=\"nameLines" + nameIndex + ".bookNameText\" name=\"nameLines[" + nameIndex + "].bookNameText\" type=\"text\" title=\"Name Line\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNum\" name=\"nameLines[" + nameIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
 			appendTxt = appendTxt + "<span>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</span>";
@@ -134,7 +124,7 @@
 			var appendTxt = "<div class='row'>";
 			appendTxt = appendTxt + "<input id=\"additionalFrontMatter" + frontMatterIndex + ".frontMatterId\" name=\"additionalFrontMatter[" + frontMatterIndex + "].frontMatterId\" type=\"hidden\" />";
 			appendTxt = appendTxt + "<input class=\"additionalFrontMatterText\" id=\"additionalFrontMatter" + frontMatterIndex + ".additionalFrontMatterText\" name=\"additionalFrontMatter[" + frontMatterIndex + "].additionalFrontMatterText\" type=\"text\" title=\"Additional Front Matter Text\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"additionalFrontMatter" + frontMatterIndex + ".sequenceNumber\" name=\"additionalFrontMatter[" + frontMatterIndex + "].sequenceNumber\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"additionalFrontMatter" + frontMatterIndex + ".sequenceNum\" name=\"additionalFrontMatter[" + frontMatterIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
 			appendTxt = appendTxt + "<span>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</span>";
@@ -143,18 +133,6 @@
 			frontMatterIndex = frontMatterIndex + 1;
 			
 			textboxHint("additionalFrontMatter");
-		};
-		
-		var setContentType = function(ct) {
-			if (ct == "<%= WebConstants.KEY_ANALYTICAL %>") {
-				contentType = contentTypeEnum.ANALYTICAL;
-			} else if(ct == "<%= WebConstants.KEY_COURT_RULES %>") {
-				contentType = contentTypeEnum.COURT_RULES;
-			} else if (ct == "<%= WebConstants.KEY_SLICE_CODES%>") {
-				contentType = contentTypeEnum.SLICE_CODES;
-			} else {
-				contentType = contentTypeEnum.NONE;
-			}
 		};
 		
 		var updateTOCorNORT = function(isTOC) {
@@ -204,20 +182,36 @@
 	        }; 
 	    });
 		
+		var getContentTypeAbbr = function() {
+			var contentIndex = $('#contentTypeId option:selected').val();
+			if(contentIndex) {
+			    $.getJSON("<%= WebConstants.MVC_GET_CONTENT_TYPE_ABBR %>",
+			    		{contentTypeId : contentIndex},
+			    		function(data) { 
+			    			contentType = data.abbreviation;
+					    	updateTitleId();
+							determineOptions();
+			    		}).error(function(jqXHR, textStatus, errorThrown) {
+			    		    alert("Error: " + textStatus + " errorThrown: " + errorThrown);
+			    		});
+			} else {
+				contentType = "";
+				updateTitleId();
+				determineOptions();
+			};
+		};
+		
 		$(document).ready(function() {
 			<%-- Style buttons with jquery  --%>
 			$( ".buttons input:submit,.buttons a,.buttons  button" ).button();
 			
 			<%-- Setup change handlers  --%>
-			$('#contentType').change(function () {
+			$('#contentTypeId').change(function () {
 				// Clear out information when content type changes
 				clearTitleInformation();
-				
 				$('.generateTitleID .errorDiv').hide();
 				
-				setContentType($(this).val());
-				updateTitleId(contentType);
-				determineOptions();
+				getContentTypeAbbr();
 			});
 			$('#publisher').change(function () {
 				publisher = $(this).val();
@@ -247,7 +241,7 @@
 			//Update formValidation field if Validation button is pressed
 			$('#validate').click(function () {
 				$('#validateForm').val(true);
-				$('<%=EditBookDefinitionForm.FORM_NAME%>').submit();
+				$('<%= EditBookDefinitionForm.FORM_NAME %>').submit();
 			});
 			
 			// Determine to show NORT or TOC fields
@@ -271,7 +265,7 @@
 			pubType = $('#pubType').val();
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
-			setContentType($('#contentType').val());
+			getContentTypeAbbr();
 			
 			// Setup view
 			determineOptions();
@@ -298,12 +292,12 @@
 	<c:when test="${!isPublished}">
 		<div class="generateTitleID">
 			<div>
-				<form:label path="contentType" class="labelCol">Content Type</form:label>
-				<form:select path="contentType" >
+				<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
+				<form:select path="contentTypeId" >
 					<form:option value="" label="SELECT" />
 					<form:options items="${contentTypes}" />
 				</form:select>
-				<form:errors path="contentType" cssClass="errorMessage" />
+				<form:errors path="contentTypeId" cssClass="errorMessage" />
 			</div>
 			<div id="publishDetailDiv" style="display:none">
 				<div>
@@ -364,7 +358,7 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-		<form:hidden path="contentType"/>
+		<form:hidden path="contentTypeId"/>
 		<form:hidden path="publisher"/>
 		<form:hidden path="state"/>
 		<form:hidden path="jurisdiction"/>
@@ -385,8 +379,7 @@
 	</div>
 	<div class="row">
 		<form:label path="proviewDisplayName" class="labelCol">Proview Display Name</form:label>
-		<input id="proviewDisplayName" type="text" disabled="disabled" />
-		<form:hidden path="proviewDisplayName"/>
+		<form:input path="proviewDisplayName" />
 		<div class="errorDiv">
 			<form:errors path="proviewDisplayName" cssClass="errorMessage" />
 		</div>
@@ -399,9 +392,9 @@
 		</div>
 		<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
 			<div class="row">
-				<form:hidden path="nameLines[${aStatus.index}].nameId"/>
-				<form:input path="nameLines[${aStatus.index}].nameText" title="Name Line" class="bookName"  />
-				<form:input path="nameLines[${aStatus.index}].sequenceNumber" title="Seq Num." class="sequenceNumber"  />
+				<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
+				<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
+				<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
 				<div class="errorDiv">
 					<form:errors path="nameLines[${aStatus.index}]" cssClass="errorMessage" />
 				</div>
@@ -498,13 +491,14 @@
 		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
 			<div class="row">
 				<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-				<form:input path="authorInfo[${aStatus.index}].prefix" title="prefix" class="prefix"  />
-				<form:input path="authorInfo[${aStatus.index}].firstName"  title="first name" class="firstName" />
-				<form:input path="authorInfo[${aStatus.index}].middleName"  title="middle name" class="middleName" />
-				<form:input path="authorInfo[${aStatus.index}].lastName"   title="last name" class="lastName" />
-				<form:input path="authorInfo[${aStatus.index}].suffix"  title="suffix" class="suffix" />
+				<form:hidden path="authorInfo[${aStatus.index}].ebookDefinitionId"/>
+				<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" title="prefix" class="prefix"  />
+				<form:input path="authorInfo[${aStatus.index}].authorFirstName"  title="first name" class="firstName" />
+				<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
+				<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
+				<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
 				<div>
-					<form:input path="authorInfo[${aStatus.index}].additionalText"  title="Additional Text" class="additionalText" />
+					<form:input path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
 					<input type="button" value="Delete" class="rdelete" />
 				</div>
 			</div>
@@ -521,7 +515,7 @@
 			<div class="row">
 				<form:hidden path="additionalFrontMatter[${aStatus.index}].frontMatterId"/>
 				<form:input path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
-				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNumber" title="Seq Num." class="sequenceNumber"  />
+				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNum"  />
 				<div class="errorDiv">
 					<form:errors path="additionalFrontMatter[${aStatus.index}]" cssClass="errorMessage" />
 				</div>
@@ -545,13 +539,6 @@
 		<form:input path="isbn" maxlength="17" />
 		<div class="errorDiv">
 			<form:errors path="isbn" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="imageCollectionInformation" class="labelCol">Image Collection</form:label>
-		<form:input path="imageCollectionInformation" />
-		<div class="errorDiv">
-			<form:errors path="imageCollectionInformation" cssClass="errorMessage" />
 		</div>
 	</div>
 	<div class="row">

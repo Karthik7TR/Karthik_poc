@@ -5,11 +5,14 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -17,17 +20,19 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
+	private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_TITLE_ID_LENGTH = 40;
 	private static final int ISBN_LENGTH = 13;
 	private CoreService coreService;
+	private CodeService codeService;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -47,34 +52,34 @@ public class EditBookDefinitionFormValidator implements Validator {
     	
     	// Clear out empty rows in authors, nameLines, and additionalFrontMatters before validation
     	form.removeEmptyRows();
-    	
+    	log.debug(form);
     	// Set validate error to prevent saving the form
 		boolean validateForm = form.isValidateForm();
 		if(validateForm) {
 			errors.rejectValue("validateForm", "mesg.validate.form");
 		}
-    	
-    	String contentType = form.getContentType();
+    	Long contentTypeId = form.getContentTypeId();
+		DocumentTypeCode contentType = (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
     	String titleId = form.getTitleId();
-    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentType", "error.required");
+    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
     	
     	// Validate publication and title ID
-    	if (StringUtils.isNotEmpty(contentType) && StringUtils.isNotEmpty(titleId)) {
+    	if (contentType != null && StringUtils.isNotEmpty(titleId)) {
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
-    		
-    		if(contentType.equals(WebConstants.KEY_ANALYTICAL)) {
+    		String contentTypeName = contentType.getName();
+    		if(contentTypeName.equalsIgnoreCase(WebConstants.KEY_ANALYTICAL)) {
     			// Validate Analytical fields are filled out
     			String pubAbbr = form.getPubAbbr();
         		checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
         		checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
-        	} else if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
         		// Validate Court Rules fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
-        	} else if (contentType.equals(WebConstants.KEY_SLICE_CODES)) {
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
         		// Validate Slice Codes fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
@@ -83,14 +88,12 @@ public class EditBookDefinitionFormValidator implements Validator {
     		Long bookDefinitionId = form.getBookdefinitionId();
     		if(bookDefinitionId != null) {
     			// Lookup the book by its primary key
-    			// TODO: lookup with surrogate key
-    			BookDefinitionKey bookDefKey = new BookDefinitionKey(form.getTitleId());
-    			BookDefinition bookDef = coreService.findBookDefinition(bookDefKey);
+    			BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
     			
-    			String oldTitleId = bookDef.getPrimaryKey().getFullyQualifiedTitleId();
+    			String oldTitleId = bookDef.getTitleId();
 				
     			// This is from the book definition edit
-    			if(bookDef.getPublishedOnceFlag()) {
+    			if(bookDef.IsPublishedOnceFlag()) {
     				// Been published to Proview and set to F
     				if (!oldTitleId.equals(titleId)) {
     					errors.rejectValue("titleId", "error.titleid.changed");
@@ -153,8 +156,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 	}
 	
 	private void checkUniqueTitleId(Errors errors, String titleId) {
-		BookDefinitionKey newBookDefKey = new BookDefinitionKey(titleId);
-		BookDefinition newBookDef = coreService.findBookDefinition(newBookDefKey);
+		BookDefinition newBookDef = coreService.findBookDefinitionByTitle(titleId);
 		
 		if (newBookDef != null) {
 			errors.rejectValue("titleId", "error.titleid.exist");
@@ -182,10 +184,9 @@ public class EditBookDefinitionFormValidator implements Validator {
 	
 	private void checkGuidFormat(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
-			Matcher matcher = pattern.matcher(text);
-			
-			if(!matcher.find()) {
+			try {
+				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
+			} catch (Exception  e) {
 				errors.rejectValue(fieldName, "error.guid.format");
 			}
 		}
@@ -247,5 +248,10 @@ public class EditBookDefinitionFormValidator implements Validator {
 	@Required
 	public void setCoreService(CoreService service) {
 		this.coreService = service;
+	}
+	
+	@Required
+	public void setCodeService(CodeService service) {
+		this.codeService = service;
 	}
 }

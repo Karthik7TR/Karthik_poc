@@ -80,13 +80,13 @@ public class GenerateEbookController {
 			Model model) throws Exception {
 
 		BookDefinition book = coreService
-				.findBookDefinition(new BookDefinitionKey(titleId));
+				.findBookDefinitionByTitle(titleId);
 
 		ProviewTitleInfo proviewTitleInfo = proviewClient
 				.getLatestProviewTitleInfo(titleId);
 
 		if (book != null) {
-			model.addAttribute(WebConstants.TITLE, book.getBookName());
+			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
 					"00/00/0000");
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
@@ -142,7 +142,10 @@ public class GenerateEbookController {
 			String userEmail = null; // TODO
 
 			BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
-			JobRunRequest jobRunRequest = JobRunRequest.create(bookDefKey,
+			BookDefinition book = coreService
+					.findBookDefinitionByTitle(bookDefKey.getFullyQualifiedTitleId());
+			
+			JobRunRequest jobRunRequest = JobRunRequest.create(book,
 					userName, userEmail);
 			try {
 				if (form.isHighPriorityJob()) {
@@ -166,12 +169,9 @@ public class GenerateEbookController {
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 			}
 
-			BookDefinition book = coreService
-					.findBookDefinition(new BookDefinitionKey(bookDefKey
-							.getFullyQualifiedTitleId()));
 			model.addAttribute(WebConstants.TITLE_ID,
 					bookDefKey.getFullyQualifiedTitleId());
-			model.addAttribute(WebConstants.TITLE, book.getBookName());
+			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 

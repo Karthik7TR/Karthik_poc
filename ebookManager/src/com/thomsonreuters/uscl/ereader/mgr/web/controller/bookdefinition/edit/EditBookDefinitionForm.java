@@ -5,26 +5,42 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.AutoPopulatingList;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class EditBookDefinitionForm {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	public static final String FORM_NAME = "editBookDefinitionForm";
+	
 	private static final int PUBLISHER_INDEX = 0;
 	private static final int TITLE_NAME_INDEX = 2;
+	
+	private static CodeService codeService;
 	
 	private Long bookdefinitionId;
 	private String titleId;
@@ -39,17 +55,16 @@ public class EditBookDefinitionForm {
 	private String tocCollectionName;
 	private String nortDomain;
 	private String nortFilterView;
-	private String contentType;
+	private Long contentTypeId;
 	private String isbn;
-	private Collection<AdditionalFrontMatter> additionalFrontMatter;
+	private Collection<FrontMatter> additionalFrontMatter;
 	private String publicationCutoffDate;
 
 	private String publishDateText;
 	
 	// Keywords used in Proview
-	private String[] keywords;
+	private Collection<Long> keywords;
 	
-	private String imageCollectionInformation;
 	private String currency;
 	private boolean isComplete;
 	private boolean keyCiteToplineFlag;
@@ -68,10 +83,10 @@ public class EditBookDefinitionForm {
 	
 	public EditBookDefinitionForm() {
 		super();
-		
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
-		this.additionalFrontMatter = new AutoPopulatingList<AdditionalFrontMatter>(AdditionalFrontMatter.class);
+		this.additionalFrontMatter = new AutoPopulatingList<FrontMatter>(FrontMatter.class);
+		this.keywords = new ArrayList<Long>();
 		this.keyCiteToplineFlag = false;
 		this.isComplete = false;
 		this.validateForm = false;
@@ -79,54 +94,76 @@ public class EditBookDefinitionForm {
 		this.searchIndex = true;
 	}
 	
-	public void initialize(BookDefinition bookDefinition) {
-		if(bookDefinition != null) {
-			this.titleId = bookDefinition.getPrimaryKey().getFullyQualifiedTitleId();
-			this.copyright = bookDefinition.getCopyright();
-			this.materialId = bookDefinition.getMaterialId();
-			this.rootTocGuid = bookDefinition.getRootTocGuid();
-			this.tocCollectionName = bookDefinition.getTocCollectionName();
-			this.nortDomain = bookDefinition.getNortDomain();
-			this.nortFilterView = bookDefinition.getNortFilterView();
-			this.contentType = bookDefinition.getContentType();
-			this.isbn = bookDefinition.getIsbn();
+	public void initialize(BookDefinition book) {
+		if(book != null) {
+			this.bookdefinitionId = book.getEbookDefinitionId();
+			this.titleId = book.getTitleId();
+			this.proviewDisplayName = book.getProviewDisplayName();
+			this.copyright = book.getCopyright();
+			this.copyrightPageText = book.getCopyrightPageText();
+			this.materialId = book.getMaterialId();
+			this.rootTocGuid = book.getRootTocGuid();
+			this.tocCollectionName = book.getTocCollectionName();
+			this.nortDomain = book.getNortDomain();
+			this.nortFilterView = book.getNortFilterView();
+			this.isbn = book.getIsbn();
+			this.authorInfo = book.getAuthors();
+			this.nameLines = book.getEbookNames();
+			this.additionalFrontMatter = book.getFrontMatters();
+			this.publishDateText = book.getPublishDateText();
+			this.currency = book.getCurrency();
+			this.isTOC = book.getIsTocFlag();
+			this.isComplete = book.IsEbookDefinitionCompleteFlag();
+			this.keyCiteToplineFlag = book.IsKeyciteToplineFlag();
+			this.autoUpdateSupport = book.getAutoUpdateSupportFlag();
+			this.searchIndex = book.IsSearchIndexFlag();
 			
-			// TODO: update to get from bookDefinition
-			EbookName ebookName = new EbookName();
-			ebookName.setEbookDefinition(bookDefinition);
-			ebookName.setBookNameText(bookDefinition.getBookName());
-			ebookName.setSequenceNum(1);
-			this.nameLines.add(ebookName);
-			
-			// Parse titleId
-			String[] fullyqualifiedtitleArray = this.titleId.split("/");
-			String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
-			
-			this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
-	
-			if (contentType.equals(WebConstants.KEY_ANALYTICAL)) {
-				this.pubAbbr = titleIdArray[0];
-				this.pubInfo = createPubInfo(titleIdArray);
-			} else if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
-				this.state = titleIdArray[0];
-				this.pubType = titleIdArray[1];
-				this.pubInfo = createPubInfo(titleIdArray);
-			} else if (contentType.equals(WebConstants.KEY_SLICE_CODES)) {
-				this.jurisdiction = titleIdArray[0];
-				this.pubInfo = createPubInfo(titleIdArray);
-			} else {
-				
+			Calendar date = book.getPublishCutoffDate();
+			if (date != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+				this.publicationCutoffDate = sdf.format(date.getTime());
 			}
+			
+			
+			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValueses();
+			for(KeywordTypeValue value : keywordValues) {
+				this.keywords.add(value.getId());
+			}
+			
+			parseTitleId(book);
 		}
-		
-		//TODO: add initialization of other properties once in book definition model
 	}
 	
-	private String createPubInfo(String[] titleId) {
+	private void parseTitleId(BookDefinition book) {
+		DocumentTypeCode documentType = book.getDocumentTypeCodes(); 
+		this.contentTypeId = documentType.getId();
+		
+		// Parse titleId
+		String[] fullyqualifiedtitleArray = this.titleId.split("/");
+		String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
+		
+		this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
+	
+		if (documentType.getName().equals(WebConstants.KEY_ANALYTICAL)) {
+			this.pubAbbr = titleIdArray[0];
+			this.pubInfo = createPubInfo(documentType, titleIdArray);
+		} else if (documentType.getName().equals(WebConstants.KEY_COURT_RULES)) {
+			this.state = titleIdArray[0];
+			this.pubType = titleIdArray[1];
+			this.pubInfo = createPubInfo(documentType, titleIdArray);
+		} else if (documentType.getName().equals(WebConstants.KEY_SLICE_CODES)) {
+			this.jurisdiction = titleIdArray[0];
+			this.pubInfo = createPubInfo(documentType, titleIdArray);
+		} else {
+			this.pubInfo = createPubInfo(documentType, titleIdArray);
+		}
+	}
+	
+	private String createPubInfo(DocumentTypeCode documentType, String[] titleId) {
 		int index;
 		StringBuilder pubInfo = new StringBuilder();
 		
-		if (contentType.equals(WebConstants.KEY_COURT_RULES)) {
+		if (documentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
 			index = 2;
 		} else {
 			index = 1;
@@ -246,12 +283,12 @@ public class EditBookDefinitionForm {
 		this.nortFilterView = nortFilterView;
 	}
 
-	public String getContentType() {
-		return contentType;
+	public Long getContentTypeId() {
+		return contentTypeId;
 	}
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+	public void setContentTypeId(Long contentTypeId) {
+		this.contentTypeId = contentTypeId;
 	}
 
 	public String getIsbn() {
@@ -262,12 +299,12 @@ public class EditBookDefinitionForm {
 		this.isbn = isbn;
 	}
 
-	public Collection<AdditionalFrontMatter> getAdditionalFrontMatter() {
+	public Collection<FrontMatter> getAdditionalFrontMatter() {
 		return additionalFrontMatter;
 	}
 
 	public void setAdditionalFrontMatter(
-			Collection<AdditionalFrontMatter> additionalFrontMatter) {
+			Collection<FrontMatter> additionalFrontMatter) {
 		this.additionalFrontMatter = additionalFrontMatter;
 	}
 
@@ -287,20 +324,12 @@ public class EditBookDefinitionForm {
 		this.publishDateText = publishDateText;
 	}
 
-	public String[] getKeywords() {
+	public Collection<Long> getKeywords() {
 		return keywords;
 	}
 
-	public void setKeywords(String[] keywords) {
+	public void setKeywords(Collection<Long> keywords) {
 		this.keywords = keywords;
-	}
-
-	public String getImageCollectionInformation() {
-		return imageCollectionInformation;
-	}
-
-	public void setImageCollectionInformation(String imageCollectionInformation) {
-		this.imageCollectionInformation = imageCollectionInformation;
 	}
 
 	public String getCurrency() {
@@ -403,140 +432,94 @@ public class EditBookDefinitionForm {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
-	public static Map<String, String> getContentTypes() {
-		Map<String,String> contentTypes = new LinkedHashMap<String,String>();
-		contentTypes.put("Analytical", "Analytical");
-		contentTypes.put("Court Rules", "Court Rules");
-		contentTypes.put("Slice Codes", "Slice Codes");
-		return contentTypes;
-	}
-
 	public void removeEmptyRows() {
 		//Clear out empty author
-        synchronized(this.authorInfo) {
-            for (Iterator<Author> i = this.authorInfo.iterator(); i.hasNext();) {
-            	Author author = i.next();
-                if (author == null || author.isNameEmpty()) {
-                    i.remove();
-                }
+        for (Iterator<Author> i = this.authorInfo.iterator(); i.hasNext();) {
+        	Author author = i.next();
+            if (author == null || author.isNameEmpty()) {
+                i.remove();
             }
         }
         
         //Clear out empty name line
-        synchronized(this.nameLines) {
-            for (Iterator<EbookName> i = this.nameLines.iterator(); i.hasNext();) {
-            	EbookName nameLine = i.next();
-                if (nameLine == null || nameLine.isEmpty()) {
-                    i.remove();
-                }
+        for (Iterator<EbookName> i = this.nameLines.iterator(); i.hasNext();) {
+        	EbookName nameLine = i.next();
+            if (nameLine == null || nameLine.isEmpty()) {
+                i.remove();
             }
         }
         
         //Clear out empty additional front matter
-        synchronized(this.additionalFrontMatter) {
-            for (Iterator<AdditionalFrontMatter> i = this.additionalFrontMatter.iterator(); i.hasNext();) {
-            	AdditionalFrontMatter frontMatter = i.next();
-                if (frontMatter == null || frontMatter.isEmpty()) {
-                    i.remove();
-                }
+        for (Iterator<FrontMatter> i = this.additionalFrontMatter.iterator(); i.hasNext();) {
+        	FrontMatter frontMatter = i.next();
+            if (frontMatter == null || frontMatter.isEmpty()) {
+                i.remove();
             }
         }
     }
 	
-	// STUB Drop down menu on Create/Edit Book Definition
-	// TODO: connect with model
+
+	public static Map<Long, String> getDocumentTypes() {
+		List<DocumentTypeCode> codes = codeService.getAllDocumentTypeCodes();
+		Map<Long,String> documentTypes = new LinkedHashMap<Long,String>();
+		
+		for(DocumentTypeCode code : codes) {
+			documentTypes.put(code.getId(), code.getName());
+		}
+
+		return documentTypes;
+	}
+	
 	public static Map<String, String> getStates() {
-		Map<String,String> states = new LinkedHashMap<String,String>();
-		states.put("al", "Alabama");
-		states.put("ak", "Alaska");
-		states.put("az", "Arizona");
-		states.put("ar", "Arkansas");
-		states.put("ca", "California");
-		states.put("co", "Colorado");
-		states.put("ct", "Connecticut");
-		states.put("de", "Delaware");
-		states.put("fl", "Florida");
-		states.put("ga", "Georgia");
-		states.put("hi", "Hawaii");
-		states.put("id", "Idaho");
-		states.put("il", "Illinois");
-		states.put("in", "Indiana");
-		states.put("ia", "Iowa");
-		states.put("mn", "Minnesota");
-		states.put("wi", "Wisconsin");
+		List<StateCode> codes = codeService.getAllStateCodes();
+		Map<String ,String> states = new LinkedHashMap<String, String>();
+		
+		for(StateCode code : codes) {
+			states.put(code.getName().toLowerCase(), code.getName());
+		}
+		
 		return states;
 	}
 	
 	public static Map<String, String> getJurisdictions() {
+		List<JurisTypeCode> codes = codeService.getAllJurisTypeCodes();
 		Map<String,String> jurisdictions = new LinkedHashMap<String,String>();
-		jurisdictions.put("us", "Federal");
-		jurisdictions.put("al", "Alabama");
-		jurisdictions.put("ak", "Alaska");
-		jurisdictions.put("az", "Arizona");
-		jurisdictions.put("ar", "Arkansas");
-		jurisdictions.put("ca", "California");
-		jurisdictions.put("co", "Colorado");
-		jurisdictions.put("ct", "Connecticut");
-		jurisdictions.put("de", "Delaware");
-		jurisdictions.put("fl", "Florida");
-		jurisdictions.put("ga", "Georgia");
-		jurisdictions.put("hi", "Hawaii");
-		jurisdictions.put("id", "Idaho");
-		jurisdictions.put("il", "Illinois");
-		jurisdictions.put("in", "Indiana");
-		jurisdictions.put("ia", "Iowa");
-		jurisdictions.put("mn", "Minnesota");
-		jurisdictions.put("wi", "Wisconsin");
+		
+		for(JurisTypeCode code : codes) {
+			jurisdictions.put(code.getName().toLowerCase(), code.getName());
+		}
+		
 		return jurisdictions;
 	}
 	
 	public static Map<String, String> getPubTypes() {
+		List<PubTypeCode> codes = codeService.getAllPubTypeCodes();
 		Map<String,String> pubTypes = new LinkedHashMap<String,String>();
-		pubTypes.put("local", "Local");
-		pubTypes.put("state", "State");
-		pubTypes.put("fed", "Fed");
-		pubTypes.put("fedrule", "FedRule");
-		pubTypes.put("feddist", "FedDist");
-		pubTypes.put("bankr", "Bankr");
+
+		for(PubTypeCode code : codes) {
+			pubTypes.put(code.getName().toLowerCase(), code.getName());
+		}
+		
 		return pubTypes;
 	}
 	
-	public static Map<String, String> getTypeKeywords() {
-		Map<String,String> typeKeywords = new LinkedHashMap<String,String>();
-		typeKeywords.put("A", "A");
-		typeKeywords.put("B", "B");
-		typeKeywords.put("C", "C");
-		typeKeywords.put("D", "D");
-		return typeKeywords;
-	}
-	public static Map<String, String> getSubjectKeywords() {
-		Map<String,String> subjectKeywords = new LinkedHashMap<String,String>();
-		subjectKeywords.put("AA", "AA");
-		subjectKeywords.put("BB", "BB");
-		subjectKeywords.put("CC", "CC");
-		subjectKeywords.put("DD", "DD");
-		return subjectKeywords;
-	}
-	public static Map<String, String> getPublisherKeywords() {
-		Map<String,String> publisherKeywords = new LinkedHashMap<String,String>();
-		publisherKeywords.put("Thomson Reuters Westlaw", "Thomson Reuters Westlaw");
-		publisherKeywords.put("BBB", "BBB");
-		publisherKeywords.put("CCC", "CCC");
-		publisherKeywords.put("DDD", "DDD");
-		return publisherKeywords;
-	}
-	public static Map<String, String> getJurisdictionKeywords() {
-		Map<String,String> jurisdictionKeywords = new LinkedHashMap<String,String>();
-		jurisdictionKeywords.put("1", "1");
-		jurisdictionKeywords.put("2", "2");
-		jurisdictionKeywords.put("3", "3");
-		jurisdictionKeywords.put("4", "4");
-		return jurisdictionKeywords;
+	public static Map<String, String> getPublishers() {
+		List<PublisherCode> codes = codeService.getAllPublisherCodes();
+		Map<String,String> publishers = new LinkedHashMap<String,String>();
+		
+		for(PublisherCode code : codes) {
+			publishers.put(code.getName().toLowerCase(), code.getName());
+		}
+		
+		return publishers;
 	}
 	
-	public static Map<String, String> getPublishers() {
-		Map<String,String> jurisdictionKeywords = new LinkedHashMap<String,String>();
-		jurisdictionKeywords.put("uscl", "US Core Legal");
-		return jurisdictionKeywords;
+	public static List<KeywordTypeCode> getKeywordCodes() {
+		return codeService.getAllKeywordTypeCodes();
+	}
+	
+	@Required
+	public static void setCodeService(CodeService service) {
+		codeService = service;
 	}
 }

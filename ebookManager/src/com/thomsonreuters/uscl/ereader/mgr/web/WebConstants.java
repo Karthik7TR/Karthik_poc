@@ -19,6 +19,7 @@ public class WebConstants {
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
+	public static final String KEY_BOOK_DEFINITION_ID = "id";
 	public static final String KEY_TITLE_ID = "titleId";
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
@@ -88,6 +89,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
+	public static final String MVC_GET_CONTENT_TYPE_ABBR = "getContentTypeAbbr.mvc";
 	
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";

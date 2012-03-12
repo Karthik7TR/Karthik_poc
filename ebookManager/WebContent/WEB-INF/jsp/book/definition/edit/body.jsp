@@ -13,14 +13,12 @@
 		<c:choose>
 			<c:when test="${!isInJobRequest}">
 				<div class="bookDefinitionCRUD">
-					<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>"
-						action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT%>" >
+					<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>" action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT%>" >
 						<jsp:include page="../common/crudForm.jsp" />
-						
 						<div class="buttons">
 							<form:button id="validate">Validate</form:button>
 							<form:button>Save</form:button>
-							<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_TITLE_ID%>=${book.primaryKey.fullyQualifiedTitleId}">Cancel</a>
+							<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_BOOK_DEFINITION_ID%>=${book.ebookDefinitionId}">Cancel</a>
 						</div>
 					</form:form>
 				</div>
