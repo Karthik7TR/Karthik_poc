@@ -45,5 +45,8 @@ public interface CoreService {
 	 * @return an integer
 	 */
 	public long countNumberOfBookDefinitions();	
+	
+	public void saveBookDefinition(BookDefinition eBook);
+
 
 }
