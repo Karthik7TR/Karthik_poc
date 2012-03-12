@@ -89,7 +89,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
-	public static final String MVC_GET_CONTENT_TYPE_ABBR = "getContentTypeAbbr.mvc";
+	public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
 	
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";

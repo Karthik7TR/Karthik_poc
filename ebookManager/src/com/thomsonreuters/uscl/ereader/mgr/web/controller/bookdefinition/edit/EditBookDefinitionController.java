@@ -5,8 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -26,8 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -38,7 +34,7 @@ public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
-	private CodeService codeService;
+	private EditBookDefinitionService editBookDefinitionService;
 	private ProviewClient proviewClient;
 	private Validator validator;
 
@@ -168,10 +164,9 @@ public class EditBookDefinitionController {
 	 * @param contentTypeId
 	 * @return String of Content Type abbreviation
 	 */
-	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE_ABBR, method = RequestMethod.GET)
-	public @ResponseBody DocumentTypeCode getContentTypeAbbr(@RequestParam Long contentTypeId) {
-		DocumentTypeCode code = codeService.getDocumentTypeCodeById(contentTypeId);
-	    return code;
+	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE, method = RequestMethod.GET)
+	public @ResponseBody DocumentTypeCode getContentType(@RequestParam Long contentTypeId) {
+	    return editBookDefinitionService.getContentTypeById(contentTypeId);
 	}
 	
 	/**
@@ -186,12 +181,12 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getAdditionalFrontMatter().size());
 		
 		// Set drop down lists
-		model.addAttribute(WebConstants.KEY_STATES, EditBookDefinitionForm.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, EditBookDefinitionForm.getDocumentTypes());
-		model.addAttribute(WebConstants.KEY_PUB_TYPES, EditBookDefinitionForm.getPubTypes());
-		model.addAttribute(WebConstants.KEY_JURISDICTIONS, EditBookDefinitionForm.getJurisdictions());
-		model.addAttribute(WebConstants.KEY_PUBLISHERS, EditBookDefinitionForm.getPublishers());
-		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, EditBookDefinitionForm.getKeywordCodes());
+		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
+		model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
+		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
+		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, editBookDefinitionService.getKeywordCodes());
 		
 	}
 
@@ -201,8 +196,8 @@ public class EditBookDefinitionController {
 	}
 	
 	@Required
-	public void setCodeService(CodeService service) {
-		this.codeService = service;
+	public void setEditBookDefinitionService(EditBookDefinitionService service) {
+		this.editBookDefinitionService = service;
 	}
 	
 	@Required

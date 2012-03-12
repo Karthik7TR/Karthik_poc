@@ -24,11 +24,11 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 public class ViewBookDefinitionControllerTest {
 	private static final String TITLE_ID = "a/b/c/d";
+	private static final Long BOOK_DEFINITION_ID = new Long(1);
     private ViewBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -51,12 +51,12 @@ public class ViewBookDefinitionControllerTest {
     	// Set up the request URL
 
     	BookDefinition bookDef = new BookDefinition();
-    	bookDef.setTitleId(TITLE_ID);
+    	bookDef.setFullyQualifiedTitleId(TITLE_ID);
     	request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
     	request.setMethod(HttpMethod.GET.name());
-    	request.addParameter(WebConstants.KEY_TITLE_ID, TITLE_ID);
+    	request.addParameter(WebConstants.KEY_BOOK_DEFINITION_ID, "1");
     	
-    	EasyMock.expect(mockCoreService.findBookDefinitionByTitle(TITLE_ID)).andReturn(bookDef);
+    	EasyMock.expect(mockCoreService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDef);
     	EasyMock.replay(mockCoreService);
 
     	// Invoke the controller method via the URL
@@ -64,7 +64,6 @@ public class ViewBookDefinitionControllerTest {
     	
     	Map<String,Object> model = mav.getModel();
     	Assert.assertNotNull(mav);
-    	Assert.assertEquals(TITLE_ID, model.get(WebConstants.KEY_TITLE_ID));
     	Assert.assertEquals(bookDef, model.get(WebConstants.KEY_BOOK_DEFINITION));
     	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_VIEW, mav.getViewName());
     	
@@ -88,7 +87,7 @@ public class ViewBookDefinitionControllerTest {
     	request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_VIEW_POST);
     	request.setMethod(HttpMethod.POST.name());
     	request.addParameter("command", command.name());
-    	request.addParameter(WebConstants.KEY_TITLE_ID, TITLE_ID);
+    	request.addParameter("id", BOOK_DEFINITION_ID.toString());
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -96,7 +95,7 @@ public class ViewBookDefinitionControllerTest {
     	View view = mav.getView();
     	Assert.assertTrue(view instanceof RedirectView);
     	RedirectView rView = (RedirectView) view;
-    	String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID, TITLE_ID);
+    	String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, BOOK_DEFINITION_ID);
     	Assert.assertEquals(viewUri+queryString, rView.getUrl());
     }
 }

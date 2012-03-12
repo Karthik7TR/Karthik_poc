@@ -65,7 +65,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
     	
     	// Validate publication and title ID
-    	if (contentType != null && StringUtils.isNotEmpty(titleId)) {
+    	if (form.getContentTypeId() != null && StringUtils.isNotEmpty(titleId)) {
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
     		String contentTypeName = contentType.getName();
@@ -90,7 +90,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     			// Lookup the book by its primary key
     			BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
     			
-    			String oldTitleId = bookDef.getTitleId();
+    			String oldTitleId = bookDef.getFullyQualifiedTitleId();
 				
     			// This is from the book definition edit
     			if(bookDef.IsPublishedOnceFlag()) {
@@ -173,10 +173,9 @@ public class EditBookDefinitionFormValidator implements Validator {
 	
 	private void checkDateFormat(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("^[01]{1}[0-9]{1}/[0-3]{1}[0-9]{1}/[0-9]{4}$");
-			Matcher matcher = pattern.matcher(text);
-			
-			if(!matcher.find()) {
+			try {
+				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
+			} catch (Exception  e) {
 				errors.rejectValue(fieldName, "error.date.format");
 			}
 		}
@@ -184,9 +183,10 @@ public class EditBookDefinitionFormValidator implements Validator {
 	
 	private void checkGuidFormat(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
-			try {
-				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
-			} catch (Exception  e) {
+			Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
+			Matcher matcher = pattern.matcher(text);
+			
+			if(!matcher.find()) {
 				errors.rejectValue(fieldName, "error.guid.format");
 			}
 		}

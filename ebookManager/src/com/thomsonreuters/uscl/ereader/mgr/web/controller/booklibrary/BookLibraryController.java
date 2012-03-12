@@ -80,7 +80,7 @@ public class BookLibraryController {
 		String sort = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_SORT));
 		if (sort == null) {
-			sort = "bookName";
+			sort = "proviewDisplayName";
 		}
 
 		String order = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)

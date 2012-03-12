@@ -10,26 +10,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.AutoPopulatingList;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
-import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
@@ -39,9 +29,7 @@ public class EditBookDefinitionForm {
 	
 	private static final int PUBLISHER_INDEX = 0;
 	private static final int TITLE_NAME_INDEX = 2;
-	
-	private static CodeService codeService;
-	
+
 	private Long bookdefinitionId;
 	private String titleId;
 	private String proviewDisplayName;
@@ -97,7 +85,7 @@ public class EditBookDefinitionForm {
 	public void initialize(BookDefinition book) {
 		if(book != null) {
 			this.bookdefinitionId = book.getEbookDefinitionId();
-			this.titleId = book.getTitleId();
+			this.titleId = book.getFullyQualifiedTitleId();
 			this.proviewDisplayName = book.getProviewDisplayName();
 			this.copyright = book.getCopyright();
 			this.copyrightPageText = book.getCopyrightPageText();
@@ -458,68 +446,4 @@ public class EditBookDefinitionForm {
         }
     }
 	
-
-	public static Map<Long, String> getDocumentTypes() {
-		List<DocumentTypeCode> codes = codeService.getAllDocumentTypeCodes();
-		Map<Long,String> documentTypes = new LinkedHashMap<Long,String>();
-		
-		for(DocumentTypeCode code : codes) {
-			documentTypes.put(code.getId(), code.getName());
-		}
-
-		return documentTypes;
-	}
-	
-	public static Map<String, String> getStates() {
-		List<StateCode> codes = codeService.getAllStateCodes();
-		Map<String ,String> states = new LinkedHashMap<String, String>();
-		
-		for(StateCode code : codes) {
-			states.put(code.getName().toLowerCase(), code.getName());
-		}
-		
-		return states;
-	}
-	
-	public static Map<String, String> getJurisdictions() {
-		List<JurisTypeCode> codes = codeService.getAllJurisTypeCodes();
-		Map<String,String> jurisdictions = new LinkedHashMap<String,String>();
-		
-		for(JurisTypeCode code : codes) {
-			jurisdictions.put(code.getName().toLowerCase(), code.getName());
-		}
-		
-		return jurisdictions;
-	}
-	
-	public static Map<String, String> getPubTypes() {
-		List<PubTypeCode> codes = codeService.getAllPubTypeCodes();
-		Map<String,String> pubTypes = new LinkedHashMap<String,String>();
-
-		for(PubTypeCode code : codes) {
-			pubTypes.put(code.getName().toLowerCase(), code.getName());
-		}
-		
-		return pubTypes;
-	}
-	
-	public static Map<String, String> getPublishers() {
-		List<PublisherCode> codes = codeService.getAllPublisherCodes();
-		Map<String,String> publishers = new LinkedHashMap<String,String>();
-		
-		for(PublisherCode code : codes) {
-			publishers.put(code.getName().toLowerCase(), code.getName());
-		}
-		
-		return publishers;
-	}
-	
-	public static List<KeywordTypeCode> getKeywordCodes() {
-		return codeService.getAllKeywordTypeCodes();
-	}
-	
-	@Required
-	public static void setCodeService(CodeService service) {
-		codeService = service;
-	}
 }

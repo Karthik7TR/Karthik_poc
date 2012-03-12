@@ -68,7 +68,7 @@ public class BookLibraryControllerTest {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
     	request.setMethod(HttpMethod.GET.name());
     	
-    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
+    	EasyMock.expect(mockLibraryService.getBooksOnPage("proviewDisplayName", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
     	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 1);
     	EasyMock.replay(mockLibraryService);
 
