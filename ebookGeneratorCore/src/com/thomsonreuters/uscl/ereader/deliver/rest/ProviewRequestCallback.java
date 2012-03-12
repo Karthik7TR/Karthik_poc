@@ -20,6 +20,8 @@ public class ProviewRequestCallback implements RequestCallback {
 	private static final Logger LOG = Logger.getLogger(ProviewRequestCallback.class);
 	private static final String ACCEPT_HEADER = "Accept";
 	private static final String APPLICATION_XML_MIMETYPE = "application/xml";
+	private static final String AUTHORIZATION_HEADER = "Authorization";
+	private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
 
 	@Override
 	public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
@@ -29,6 +31,6 @@ public class ProviewRequestCallback implements RequestCallback {
 		 * Once the root cause is identified remove this workaround. It is possible that registering a callback
 		 * with the RestTemplate prevents the underlying, concrete HttpClient headers (if any are present) to be ignored.
 		 */
-		clientHttpRequest.getHeaders().add("Authorization", "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=");
+		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
 	}
 }
