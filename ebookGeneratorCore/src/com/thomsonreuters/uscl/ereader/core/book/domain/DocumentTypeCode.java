@@ -43,7 +43,7 @@ public class DocumentTypeCode implements Serializable {
 	@Column(name="DOCUMENT_TYPE_CODES_ABBRV", nullable = false, length = 32)
 	private String abbreviation;
 	
-	@Column(name="USE_PUBLISH_CUTOFF_FLAG", nullable = false, length = 1)
+	@Column(name="USE_PUBLISH_CUTOFF_DATE_FLAG", nullable = false, length = 1)
 	private String usePublishCutoffFlag;
 	
 

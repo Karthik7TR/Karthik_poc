@@ -7,7 +7,6 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,29 +24,13 @@ public class CoreDaoImpl implements CoreDao {
 	
 	@Override
 	public BookDefinition findBookDefinitionByTitle(String titleId) {
-		@SuppressWarnings("unchecked")
-		List<BookDefinition> bookDef = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
-		 .add( Restrictions.eq("fullyQualifiedTitleId", titleId)).list();
-
-		if (bookDef == null)
-		{
-			return null;
-		}
-		return bookDef.get(0);
+		return (BookDefinition) sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
+		 .add( Restrictions.eq("fullyQualifiedTitleId", titleId)).uniqueResult();
 	}
 	
 	@Override
 	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId) {
-		@SuppressWarnings("unchecked")
-		List<BookDefinition> bookDef = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
-		 .add( Restrictions.eq("eBookDefinitionId", ebookDefId)).list();
-
-		if (bookDef == null)
-		{
-			return null;
-		}
-		return bookDef.get(0);
-
+		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, ebookDefId);
 	}
 	
 	@Override
