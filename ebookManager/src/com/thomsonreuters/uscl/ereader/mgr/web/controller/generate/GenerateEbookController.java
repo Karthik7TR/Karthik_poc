@@ -18,7 +18,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
@@ -141,11 +140,10 @@ public class GenerateEbookController {
 			String userName = null; // TODO
 			String userEmail = null; // TODO
 
-			BookDefinitionKey bookDefKey = form.getBookDefinitionKey();
 			BookDefinition book = coreService
-					.findBookDefinitionByTitle(bookDefKey.getFullyQualifiedTitleId());
+					.findBookDefinitionByTitle(form.getFullyQualifiedTitleId());
 			
-			JobRunRequest jobRunRequest = JobRunRequest.create(book,
+			JobRunRequest jobRunRequest = JobRunRequest.create(book.getTitleId(),
 					userName, userEmail);
 			try {
 				if (form.isHighPriorityJob()) {
@@ -154,14 +152,14 @@ public class GenerateEbookController {
 					jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 				}
 				// Report success to user in informational message on page
-				Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
+				Object[] args = { book.getTitleId(),
 						queuePriorityLabel };
 				String infoMessage = messageSourceAccessor.getMessage(
 						"mesg.job.enqueued.success", args);
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
 			} catch (Exception e) { // Report failure on page in error message
 									// area
-				Object[] args = { bookDefKey.getFullyQualifiedTitleId(),
+				Object[] args = { book.getTitleId(),
 						queuePriorityLabel, e.getMessage() };
 				String errMessage = messageSourceAccessor.getMessage(
 						"mesg.job.enqueued.fail", args);
@@ -170,12 +168,12 @@ public class GenerateEbookController {
 			}
 
 			model.addAttribute(WebConstants.TITLE_ID,
-					bookDefKey.getFullyQualifiedTitleId());
+					book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 
-			form.setFullyQualifiedTitleId(bookDefKey.getFullyQualifiedTitleId());
+			form.setFullyQualifiedTitleId(book.getTitleId());
 			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 			break;
 		}

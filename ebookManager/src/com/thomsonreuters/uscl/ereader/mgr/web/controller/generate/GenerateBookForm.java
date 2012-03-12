@@ -9,15 +9,13 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionKey;
 
 public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
-
-	private BookDefinitionKey bookDefinitionKey = new BookDefinitionKey();
-
+	
 	private boolean highPriorityJob;
 	private boolean majorVersion;
+	private String fullTitleId;
 	private Command command;
 
 	public Command getCommand() {
@@ -36,12 +34,9 @@ public class GenerateBookForm {
 		this.majorVersion = majorVersion;
 	}
 
-	public BookDefinitionKey getBookDefinitionKey() {
-		return bookDefinitionKey;
-	}
 
 	public String getFullyQualifiedTitleId() {
-		return bookDefinitionKey.getFullyQualifiedTitleId();
+		return this.fullTitleId;
 	}
 
 	public boolean isHighPriorityJob() {
@@ -53,7 +48,7 @@ public class GenerateBookForm {
 	}
 
 	public void setFullyQualifiedTitleId(String fullTitleId) {
-		this.bookDefinitionKey = new BookDefinitionKey(fullTitleId);
+		this.fullTitleId = fullTitleId;
 	}
 
 	public String toString() {
