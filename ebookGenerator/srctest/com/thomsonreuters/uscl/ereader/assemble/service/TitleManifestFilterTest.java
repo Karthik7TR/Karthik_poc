@@ -21,7 +21,6 @@ import java.util.Properties;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -34,6 +33,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -41,6 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 /**
@@ -61,7 +62,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	SAXParser saxParser;
 	XMLReader xmlReader;
 	ByteArrayOutputStream resultStream;
-	FileUtils mockFileUtils;
+	FileUtilsFacade mockFileUtilsFacade;
     
 	private static final String EXPECTED_ARTWORK = "<artwork src=\"swashbuckling.gif\" type=\"cover\"/>";
 	private static final String EXPECTED_ASSETS = "<assets><asset id=\"123\" src=\"BlackPearl.png\"/><asset id=\"456\" src=\"PiratesCove.png\"/><asset id=\"789\" src=\"Tortuga.png\"/></assets>";
@@ -94,7 +95,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		saxParserFactory.setNamespaceAware(true);
 	    saxParser = saxParserFactory.newSAXParser();
 	    xmlReader = saxParser.getXMLReader();
-	    mockFileUtils = EasyMock.createMock(FileUtils.class);
+	    mockFileUtilsFacade = EasyMock.createMock(FileUtilsFacade.class);
 	    Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 	    props.setProperty("omit-xml-declaration", "yes");
 	    
@@ -104,7 +105,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		
 	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
 	    
-	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtils);
+	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade);
 	    titleManifestFilter.setParent(xmlReader);
 		titleManifestFilter.setContentHandler(serializer.asContentHandler());
 	}
@@ -236,7 +237,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
 		
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtils);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtilsFacade);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -270,7 +271,10 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
+		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+	    EasyMock.replay(mockFileUtilsFacade);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -305,10 +309,13 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
 		
 		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		
+		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
+	    EasyMock.replay(mockFileUtilsFacade);
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -343,12 +350,17 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
 		
+
+		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
+	    mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+	    EasyMock.replay(mockFileUtilsFacade);
+		
 		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtils);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -360,6 +372,44 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
 		
 		assertXMLEqual(expectedInputSource, resultInputSource);
+	}
+	
+	/**
+	 * If this test does not pass something has gone seriously wrong with the filter.
+	 */
+	@Test
+	@Ignore
+	public void cascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception {
+		InputStream caFedRules2012 = TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012.xml");
+		titleManifestFilter.parse(new InputSource(caFedRules2012));
+		System.out.println(resultStreamToString(resultStream));
+		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_EXPECTED_MANIFEST.xml"));
+		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
+		System.out.println(diff.getAllDifferences());
+		List<Difference> differences = diff.getAllDifferences();
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Difference difference = differences.iterator().next();
+		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
+		String expectedDifferenceLocation = "/title[1]/@lastupdated";
+		Assert.assertEquals(expectedDifferenceLocation, actualDifferenceLocation);
+	}
+	
+	@Test
+	public void testCaFedRules2012WithoutDeletedNodes() throws Exception {
+		InputStream caFedRules2012 = TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_WITHOUT_DELETED_NODES.xml");
+		titleManifestFilter.parse(new InputSource(caFedRules2012));
+		System.out.println(resultStreamToString(resultStream));
+		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_EXPECTED_MANIFEST_WITHOUT_DELETED_NODES.xml"));
+		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
+		System.out.println(diff.getAllDifferences());
+		List<Difference> differences = diff.getAllDifferences();
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Difference difference = differences.iterator().next();
+		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
+		String expectedDifferenceLocation = "/title[1]/@lastupdated";
+		Assert.assertEquals(expectedDifferenceLocation, actualDifferenceLocation);
 	}
 	
 	private String resultStreamToString(ByteArrayOutputStream resultStream) throws Exception {
