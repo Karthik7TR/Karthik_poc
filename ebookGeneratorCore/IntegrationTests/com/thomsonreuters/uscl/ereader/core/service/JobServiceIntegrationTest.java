@@ -40,7 +40,7 @@ public class JobServiceIntegrationTest  {
 		//filter.setTitleId("FRCP");
 		filter.setFrom(new Date(System.currentTimeMillis() - 5*24*60*60*1000));
 		//JobSort sort = new JobSort(SortParmeterKeyName.titleIdFullyQualified, true);
-		JobSort sort = new JobSort(SortProperty.jobInstanceId, false);
+		JobSort sort = new JobSort(SortProperty.JOB_INSTANCE_ID, false);
 		List<Long> executions = service.findJobExecutions(filter, sort);
 //		Assert.assertTrue(executions.size() > 0);
 		log.debug("size="+executions.size());

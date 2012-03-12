@@ -17,8 +17,8 @@ public class JobSort {
 	/**
 	 * The property names in the entities job execution and book audit tables that are sorted on for presentation.  
 	 */
-	public enum SortProperty { jobInstanceId, jobExecutionId, startTime, batchStatus,	// Job properties
-							   titleId, bookName };  // Book properties
+	public enum SortProperty { JOB_INSTANCE_ID, JOB_EXECUTION_ID, START_TIME, BATCH_STATUS,	// Job properties
+							   TITLE_ID, BOOK_NAME };  // Book properties
 	
 	/** Java bean property on which sorting should occur - entity maps this to the physical database column. */
 	private SortProperty sortProperty;
@@ -29,7 +29,7 @@ public class JobSort {
 	 * Default Job sort is by job start time, descending order.
 	 */
 	public JobSort() {
-		this(SortProperty.startTime, false);
+		this(SortProperty.START_TIME, false);
 	}
 	
 	/**
@@ -43,17 +43,22 @@ public class JobSort {
 		this.ascending = ascending;
 	}
 	
+	public boolean isSortingOnBookProperty() {
+		return (SortProperty.TITLE_ID.equals(sortProperty) ||
+				SortProperty.BOOK_NAME.equals(sortProperty));
+	}
+	
 	/**
 	 * Returns true if we are sorting the job data by either the titleId or the bookName properties.
 	 * Returning false implies that we are sorting on some column in the Spring Batch job execution table.
 	 */
 	public boolean isBookPropertySort() {
-		return (SortProperty.titleId.equals(sortProperty) ||
-				SortProperty.bookName.equals(sortProperty)); 
+		return (SortProperty.TITLE_ID.equals(sortProperty) ||
+				SortProperty.BOOK_NAME.equals(sortProperty)); 
 	}
 
-	public String getSortProperty() {
-		return sortProperty.toString();
+	public SortProperty getSortProperty() {
+		return sortProperty;
 	}
 	public boolean isAscending() {
 		return ascending;
@@ -61,8 +66,8 @@ public class JobSort {
 	public String getSortDirection() {
 		return getSortDirection(ascending);
 	}
-	public static String getSortDirection(boolean anAsendingSort) {
-		return (anAsendingSort) ? "asc" : "desc";
+	public static String getSortDirection(boolean anAscendingSort) {
+		return (anAscendingSort) ? "asc" : "desc";
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

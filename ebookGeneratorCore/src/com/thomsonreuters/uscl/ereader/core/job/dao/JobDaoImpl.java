@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,17 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 
 public class JobDaoImpl implements JobDao {
 	
-	//private static final Logger log = Logger.getLogger(JobDaoImpl.class);
+	private static final Logger log = Logger.getLogger(JobDaoImpl.class);
 	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 
-	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Long> findJobExecutions(JobFilter filter, JobSort sort) {
+	public List<Long> STUB_findJobExecutions(JobFilter filter, JobSort sort) {
 		
 // TODO: Implement filtering and sorting against new tables
 //			see WORK_IN_PROGRESS below once table are implemented
@@ -46,12 +47,17 @@ public class JobDaoImpl implements JobDao {
 		return query.list();
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Long> WORK_IN_PROGRESS_findJobExecutions(JobFilter filter, JobSort sort) {
+	public List<Long> findJobExecutions(JobFilter filter, JobSort sort) {
 		
 		StringBuffer hql = new StringBuffer("select execution.jobExecutionId from ");
-		hql.append("JobExecutionEntity execution, PublishingHistory ph, EbookAudit audit where ");
+		hql.append("JobExecutionEntity execution ");
+		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
+			hql.append(", PublishingStats stats, EbookAudit audit ");
+		}
+		hql.append("where ");
 		if (filter.getFrom() != null) {
 			hql.append("(execution.startTime > :fromDate) and ");
 		}
@@ -61,22 +67,24 @@ public class JobDaoImpl implements JobDao {
 		if (filter.getBatchStatus() != null) {
 			hql.append(String.format("(execution.batchStatus = '%s') and ", filter.getBatchStatus().toString()));
 		}
-		if (filter.hasAnyBookProperties()) {
-			hql.append("(execution.jobInstanceId = ph.jobInstanceId) and ");
-			hql.append("(ph.auditId = audit.auditId) and ");
+		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
+			hql.append("(execution.jobInstanceId = stats.jobInstanceId) and ");
+			hql.append("(stats.auditId = audit.auditId) and ");
 			
 			if (StringUtils.isNotBlank(filter.getBookName())) {
-				hql.append(String.format("(audit.bookName = '%s'", filter.getBookName()));
+				hql.append(String.format("(audit.bookNamesConcat like '%%%s%%') and ", filter.getBookName()));
 			}
 			if (StringUtils.isNotBlank(filter.getTitleId())) {
-				hql.append(String.format("(audit.titleId = '%s'", filter.getTitleId()));
+				hql.append(String.format("(audit.titleId like '%%%s%%') and ", filter.getTitleId()));
 			}
 		}
 		hql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
-		hql.append(String.format("order by %s %s", sort.getSortProperty().toString(), sort.getSortDirection()));
+		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
+		hql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
 		
 		// Create query and populate it with where clause values
+		log.debug("HQL: " + hql.toString());
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());
 		
@@ -89,6 +97,29 @@ public class JobDaoImpl implements JobDao {
 		}
 		// Invoke the query
 		return query.list();
+	}
+
+	/**
+	 * Map the sort column enumeration into the actual column identifier used in the HQL query.
+	 * @param sortProperty enumerated value that reflects the database table sort column.
+	 */
+	private String getOrderByColumnName(SortProperty sortProperty) {
+		switch (sortProperty) {
+			case JOB_EXECUTION_ID:
+				return "execution.jobExecutionId";
+			case JOB_INSTANCE_ID:
+				return "execution.jobInstanceId";
+			case BATCH_STATUS:
+				return "execution.batchStatus";
+			case START_TIME:
+				return "execution.startTime";
+			case BOOK_NAME:
+				return "audit.bookNamesConcat";
+			case TITLE_ID:
+				return "audit.titleId";
+			default:
+				throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
+		}
 	}
 
 //	@SuppressWarnings("unchecked")

@@ -10,16 +10,19 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class JobServiceImpl implements JobService {
 	
 	//private static final Logger log = Logger.getLogger(JobServiceImpl.class);
 	private JobDao dao;
 	private JobExplorer jobExplorer;
+	private PublishingStatsService publishingStatsService;
 	
 	
 	@Override
@@ -61,11 +64,12 @@ public class JobServiceImpl implements JobService {
 	@Override
 	@Transactional(readOnly = true)
 	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId) {
-		
-// TODO: implement this once table and domain object work is complete	
-		
-return new JobInstanceBookInfo(String.format("TODO_BOOK_NAME_%d", jobInstanceId),
-							   String.format("TODO_BOOK_TITLE_ID_%d", jobInstanceId));
+		EbookAudit audit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
+		if (audit == null) {
+			audit = new EbookAudit();
+		}
+		JobInstanceBookInfo bookInfo = new JobInstanceBookInfo(audit.getBookNamesConcat(), audit.getTitleId());
+		return bookInfo;
 	}
 	
 	@Override
@@ -86,5 +90,9 @@ return new JobInstanceBookInfo(String.format("TODO_BOOK_NAME_%d", jobInstanceId)
 	@Required
 	public void setJobExplorer(JobExplorer explorer) {
 		this.jobExplorer = explorer;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService service) {
+		this.publishingStatsService = service;
 	}
 }
