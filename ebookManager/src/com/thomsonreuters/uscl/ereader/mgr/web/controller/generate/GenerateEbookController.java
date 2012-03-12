@@ -78,20 +78,23 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		BookDefinition book = coreService
-				.findBookDefinitionByTitle(titleId);
+		BookDefinition book = coreService.findBookDefinitionByTitle(titleId);
 
 		ProviewTitleInfo proviewTitleInfo = proviewClient
 				.getLatestProviewTitleInfo(titleId);
 
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
-					"00/00/0000");
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
 			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
 					book.getMaterialId());
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
+			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
+					book.getPublishCutoffDate());
+			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
+					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
+			
+			
 		}
 
 		if (proviewTitleInfo == null) {
@@ -140,11 +143,11 @@ public class GenerateEbookController {
 			String userName = null; // TODO
 			String userEmail = null; // TODO
 
-			BookDefinition book = coreService
-					.findBookDefinitionByTitle(form.getFullyQualifiedTitleId());
-			
-			JobRunRequest jobRunRequest = JobRunRequest.create(book.getTitleId(),
-					userName, userEmail);
+			BookDefinition book = coreService.findBookDefinitionByTitle(form
+					.getFullyQualifiedTitleId());
+
+			JobRunRequest jobRunRequest = JobRunRequest.create(
+					book.getTitleId(), userName, userEmail);
 			try {
 				if (form.isHighPriorityJob()) {
 					jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
@@ -152,23 +155,21 @@ public class GenerateEbookController {
 					jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
 				}
 				// Report success to user in informational message on page
-				Object[] args = { book.getTitleId(),
-						queuePriorityLabel };
+				Object[] args = { book.getTitleId(), queuePriorityLabel };
 				String infoMessage = messageSourceAccessor.getMessage(
 						"mesg.job.enqueued.success", args);
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
 			} catch (Exception e) { // Report failure on page in error message
 									// area
-				Object[] args = { book.getTitleId(),
-						queuePriorityLabel, e.getMessage() };
+				Object[] args = { book.getTitleId(), queuePriorityLabel,
+						e.getMessage() };
 				String errMessage = messageSourceAccessor.getMessage(
 						"mesg.job.enqueued.fail", args);
 				log.error(errMessage, e);
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 			}
 
-			model.addAttribute(WebConstants.TITLE_ID,
-					book.getTitleId());
+			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
