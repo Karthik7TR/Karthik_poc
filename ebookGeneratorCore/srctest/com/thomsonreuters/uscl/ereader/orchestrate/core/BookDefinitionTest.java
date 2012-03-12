@@ -17,6 +17,11 @@ public class BookDefinitionTest  {
 	public void setUp() throws Exception {
 	}
 	
+	@Test
+	public void dummyTest(){
+		return;
+	}
+	
 /*	@Test
 	public void testBookDefinitionKey() {
 		String path = "uscl/cr/";
@@ -38,9 +43,9 @@ public class BookDefinitionTest  {
 		Assert.assertEquals(fullyQualifiedTitleId, key.getFullyQualifiedTitleId());
 		Assert.assertEquals(fullyQualifiedTitleId, key.getTitleId());
 		Assert.assertEquals(fullyQualifiedTitleId, key.toKeyString());  // string representation "<titleId>,<majorVersion>"
-	}*/
+	}
 
-/*	@Test
+	@Test
 	public void testParseAuthorNames() {
 		String obama = "Spends Toomuch";
 		String bush = "George Bush";
