@@ -25,6 +25,8 @@ public interface EbookAuditDao {
 
 	public void remove(EbookAudit toRemove) throws DataAccessException;
 
-	public void saveAudit(EbookAudit eBookAuditRecord);;
+	public void saveAudit(EbookAudit eBookAuditRecord);
+	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)
+			throws DataAccessException;
 
 }

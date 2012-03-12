@@ -35,7 +35,6 @@
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
-<!--		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.PublishingStats</value>-->
 		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.JobStartupThrottle</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
@@ -48,6 +47,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
+			<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>			    	
 		  </list>
 		</property>

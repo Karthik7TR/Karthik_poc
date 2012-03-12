@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 
@@ -38,6 +39,7 @@ public class StatsServiceIntegrationTest {
 
 	protected PublishingStats jobStats;
 	
+	@Autowired
 	protected EBookAuditService ebookAuditService;
 	protected EbookAudit ebookAudit;
 	/**
@@ -49,8 +51,10 @@ public class StatsServiceIntegrationTest {
 	public void setUp() throws Exception {
 		// mock up the job stats
 		
-		savePublishingStats(new Integer("1"));
-//		saveAuditId();
+		saveAuditId();
+		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
+		savePublishingStats(new Integer("1"), ebookMax);
+
 	}
 	/**
 	 * Operation Unit Test Delete an existing Publishing Stats entity
@@ -60,23 +64,23 @@ public class StatsServiceIntegrationTest {
 	public void deleteJobStats() {
 		jobStatsService.deleteJobStats(jobStats);
 	}
-//	/**
-//	 * Operation Unit Test Delete an existing DocMetadata entity
-//	 * 
-//	 */
-//	@After
-//	public void deleteEbookAudit() {
-//		ebookAuditService.deleteEBookAudit(ebookAudit);
-//	}
+	/**
+	 * Operation Unit Test Delete an existing DocMetadata entity
+	 * 
+	 */
+	@After
+	public void deleteEbookAudit() {
+		ebookAuditService.deleteEBookAudit(ebookAudit);
+	}
 
 	/**
 	 * Operation Unit Test Save an existing Publishing Stats entity
 	 * 
 	 */
-	public void savePublishingStats(Integer seqNum) {
+	public void savePublishingStats(Integer seqNum, Long auditId) {
 		jobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		jobStats.setEbookDefId((long) 1);
-		jobStats.setAuditId((long) 999);
+		jobStats.setAuditId(auditId);
 		jobStats.setJobInstanceId( (long) jobInstanceId+seqNum);
 		jobStats.setBookVersionSubmitted( "1.1");
 		jobStats.setJobHostName("jobHostName Integration test");
@@ -91,18 +95,26 @@ public class StatsServiceIntegrationTest {
 	 * Operation Unit Test Save an existing Audit entity
 	 * 
 	 */
-//	public void saveAuditId() {
-//		ebookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
-//		ebookAudit.setEbookDefinitionId((long) 1);
-//		ebookAudit.setAuditId((long) 999);
-//		ebookAudit.setTitleId("Integration\\Test\\Title");
-//		ebookAudit.setCopyright("copyright");
-//		ebookAudit.setMaterialId("1234");
-//		ebookAudit.setAuditType("ADD");
-//		ebookAudit.setUpdatedBy("StatsServiceIntegrationTest");
-//		ebookAudit.setLastUpdated(UPDATE_DATE);
-//		ebookAuditService.saveEBookAudit(ebookAudit);
-//	}
+	public void saveAuditId() {
+		ebookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
+		ebookAudit.setEbookDefinitionId((long) 1);
+		ebookAudit.setAuditId((long) 999);
+		ebookAudit.setTitleId("Integration\\Test\\Title");
+		ebookAudit.setCopyright("copyright");
+		ebookAudit.setMaterialId("1234");
+		ebookAudit.setAuditType("ADD");
+		ebookAudit.setIsTocFlag("Y");
+		ebookAudit.setAutoUpdateSupportFlag("Y");
+		ebookAudit.setEbookDefinitionCompleteFlag("Y");
+		ebookAudit.setIsDeletedFlag(false);
+		ebookAudit.setIsProviewTableViewFlag(false);
+		ebookAudit.setKeyciteToplineFlag("Y");
+		ebookAudit.setOnePassSsoLinkFlag("Y");
+		ebookAudit.setSearchIndexFlag("Y");
+		ebookAudit.setUpdatedBy("StatsServiceIntegrationTest");
+		ebookAudit.setLastUpdated(UPDATE_DATE);
+		ebookAuditService.saveEBookAudit(ebookAudit);
+	}
 
 
 	/**
@@ -124,7 +136,9 @@ public class StatsServiceIntegrationTest {
 		
 		Assert.assertEquals(updateCount,1);
 		
+		
 		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(jobInstanceId+1);
+
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
 		expectedJobStats.setAuditId((long) 999);
@@ -144,20 +158,68 @@ public class StatsServiceIntegrationTest {
 		Assert.assertEquals(responseJobStats,expectedJobStats);
 	}
 	
+	@Test
+	public void findJobStatsByPubStatsPKTest() {
+
+
+		PublishingStats jobstats = new PublishingStats();
+		jobstats.setJobInstanceId(jobInstanceId+1);
+		jobstats.setGatherDocExpectedCount(1);
+		jobstats.setGatherDocRetrievedCount(1);
+		jobstats.setGatherDocRetryCount(0);
+
+		int updateCount = jobStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERDOC);
+		
+		Assert.assertEquals(updateCount,1);
+		
+		PublishingStatsPK pubPK = new PublishingStatsPK();
+		pubPK.setJobInstanceId(jobInstanceId+1);
+		PublishingStats responseJobStats =  jobStatsService.findJobStatsByPubStatsPK(pubPK);
+		
+		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
+		expectedJobStats.setEbookDefId((long) 1);
+		expectedJobStats.setAuditId((long) 999);
+		expectedJobStats.setJobInstanceId( (long) jobInstanceId+1);
+		expectedJobStats.setBookVersionSubmitted( "1.1");
+		expectedJobStats.setJobHostName("jobHostName Integration test");
+		expectedJobStats.setJobSubmitterName("jobSubmitterName Integration test");
+		expectedJobStats.setJobSubmitTimestamp(UPDATE_DATE);
+		expectedJobStats.setPublishStartTimestamp(UPDATE_DATE);
+		expectedJobStats.setLastUpdated(UPDATE_DATE);
+		expectedJobStats.setGatherDocExpectedCount(1);
+		expectedJobStats.setGatherDocRetrievedCount(1);
+		expectedJobStats.setGatherDocRetryCount(0);
+
+		LOG.debug(" response " + responseJobStats); //12345678900011
+
+		Assert.assertEquals(responseJobStats,expectedJobStats);
+	}
+	
+	
 	/**
 	 * Operation Unit Test
 	 * 
 	 * @author Kirsten Gunn
 	 */
-	@Ignore
+//	@Ignore
 	@Test
 	public void findJobStatsAuditByEbookDefTest() 
 	{
+		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(jobInstanceId+1);
+		LOG.debug("responseJobStats audit_id is " + responseJobStats.getAuditId());
+	
+		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
+		LOG.debug(" ebookMax " + ebookMax); 
 		
-		EbookAudit responseEbookAudit = jobStatsService.findAuditInfoByJobId((long) 1);
+		EbookAudit ebookData =  ebookAuditService.findEBookAuditByPrimaryKey(responseJobStats.getAuditId());
+		LOG.debug("ebookAudit audit_id is " + ebookData.getAuditId());
+
+	
+
+		EbookAudit responseEbookAudit = jobStatsService.findAuditInfoByJobId((long) jobInstanceId+1);
 		EbookAudit expectedEbookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
 //		expectedEbookAudit.setEbookDefinition(1);
-		expectedEbookAudit.setAuditId((long) 1);
+		expectedEbookAudit.setAuditId(ebookMax);
 
 		LOG.debug(" response " + responseEbookAudit); //12345678900011
 

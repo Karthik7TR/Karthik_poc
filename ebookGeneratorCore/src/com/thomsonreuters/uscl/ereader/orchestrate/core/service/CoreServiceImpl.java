@@ -75,10 +75,10 @@ public class CoreServiceImpl implements CoreService {
 	
 	
 		BookDefinition existingBook = coreDao.findBookDefinitionByTitle(eBook.getTitleId());
-	
-		existingBook.setFullyQualifiedTitleId(eBook.getFullyQualifiedTitleId());
 
-		{
+		if (existingBook != null) {
+			existingBook.setFullyQualifiedTitleId(eBook.getTitleId());
+
 			if (existingBook != eBook) {
 				existingBook.setCopyright(eBook.getCopyright());
 				existingBook.setCoverImage(eBook.getCoverImage());
@@ -91,6 +91,9 @@ public class CoreServiceImpl implements CoreService {
 				existingBook.setTocCollectionName(eBook.getTocCollectionName());
 			}
 			coreDao.saveBookDefinition(existingBook);
+		} 
+		else {
+			coreDao.saveBookDefinition(eBook);
 		}
 	}
 	

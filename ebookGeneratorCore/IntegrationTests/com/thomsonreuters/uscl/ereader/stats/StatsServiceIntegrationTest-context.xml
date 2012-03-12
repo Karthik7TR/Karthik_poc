@@ -45,12 +45,22 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats
-				</value>
-				<!-- value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit
-				</value>
-				<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition
-				</value-->
+			<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
+			<!--value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookKeyword</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value-->			    	
+				
 			</list>
 		</property>
 	</bean>
@@ -71,11 +81,11 @@
 	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
 			p:publishingStatsDAO-ref="publishingStatsDao"/>	
 
-	<!-- bean id="ebookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
+	<bean id="ebookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
 
 	<bean id="ebookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
-			p:eBookAuditDAO-ref="ebookAuditDao"/-->	
+			p:eBookAuditDAO-ref="ebookAuditDao"/>	
 
 </beans>

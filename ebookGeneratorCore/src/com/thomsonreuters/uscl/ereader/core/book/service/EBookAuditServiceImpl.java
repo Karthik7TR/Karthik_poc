@@ -84,6 +84,10 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	public EbookAudit findEBookAuditByPrimaryKey(Long auditId) {
 		return eBookAuditDAO.findEbookAuditByPrimaryKey(auditId);
 	}
+	
+	public Long findEbookAuditByEbookDefId(Long ebookDefId) {
+		return eBookAuditDAO.findEbookAuditIdByEbookDefId(ebookDefId);
+	}
 
 	@Required
 	/**
@@ -99,4 +103,7 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	public EbookAuditDao geteBookAuditDAO() {
 		return eBookAuditDAO;
 	}
+	
+	
+
 }

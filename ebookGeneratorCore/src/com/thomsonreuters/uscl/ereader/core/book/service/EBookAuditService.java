@@ -6,6 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 
 /**
@@ -29,4 +30,12 @@ public interface EBookAuditService {
 	/**
 	 */
 	public EbookAudit findEBookAuditByPrimaryKey(Long auditId);
+
+
+	/**
+	 * Find max audit id for ebook Definition Id
+	 * 
+	 */
+	public Long findEbookAuditByEbookDefId(Long ebookDefId);
+
 }

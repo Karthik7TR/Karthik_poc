@@ -32,6 +32,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 
 	@Override
+	@Transactional
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -39,23 +40,16 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 		
 	@Override
+	@Transactional
 	public PublishingStats findJobStatsByJobId(Long JobId) {
 		
 		Session session = sessionFactory.getCurrentSession();
 
-		@SuppressWarnings("unchecked")
-		List<PublishingStats> pubStats = session.createCriteria(PublishingStats.class)
-		.add( Restrictions.eq("jobInstanceId", JobId))
-	    .list();
+		PublishingStats pubStats = (PublishingStats) session.createCriteria(PublishingStats.class)
+		.add( Restrictions.eq("jobInstanceId", JobId)).uniqueResult();
 		
-		if (pubStats != null)
-		{
-			return (pubStats.get(0));
-		}
-		return null;
+		return(pubStats);
 	}
-
-
 
 	@Override
 	@Transactional
@@ -76,6 +70,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 
 	@Override
+	@Transactional
 	public int updateJobStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType) {
 		StringBuffer hql = new StringBuffer("update PublishingStats set   ");
 		if (updateType.equals(StatsUpdateTypeEnum.GATHERTOC))
@@ -135,20 +130,15 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());
 
-		@SuppressWarnings("unchecked")
-		List<EbookAudit> auditList = (List<EbookAudit>) query.list();
+		EbookAudit auditResult =  (EbookAudit) query.uniqueResult();
+		return(auditResult);
 		
-		if (auditList != null)
-		{
-			return (EbookAudit) auditList.get(0);
-
-		}
-		return null;
 		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<EbookAudit> findJobStatsAuditByEbookDef(Long EbookDefId) {
 		StringBuffer hql = new StringBuffer("select ea from PublishingStats ps, EbookAudit ea  ");
 

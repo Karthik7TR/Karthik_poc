@@ -6,9 +6,16 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,10 +94,25 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 	}
 
 	@Override
+	@Transactional
 	public EbookAudit findEbookAuditByPrimaryKey(Long auditId)
 			throws DataAccessException {
 		Query query = createNamedQuery("findEbookAuditByPrimaryKey");
 		query.setLong("auditId", auditId);
 		return (EbookAudit)query.uniqueResult();
+	}
+	
+	@Transactional
+	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)
+	throws DataAccessException {
+		Session session = sessionFactory.getCurrentSession();
+
+		Long ebookAuditMax = (Long) session.createCriteria(EbookAudit.class)
+		.setProjection( Projections.projectionList()
+				.add(  Projections.max("auditId"))  )
+		.add( Restrictions.eq("ebookDefinitionId", ebookDefId))
+	    .uniqueResult();
+		return(ebookAuditMax);
+		
 	}
 }
