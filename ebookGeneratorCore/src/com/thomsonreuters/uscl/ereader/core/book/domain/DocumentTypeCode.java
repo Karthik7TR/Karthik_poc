@@ -44,7 +44,7 @@ public class DocumentTypeCode implements Serializable {
 	private String abbreviation;
 	
 	@Column(name="USE_PUBLISH_CUTOFF_DATE_FLAG", nullable = false, length = 1)
-	private String usePublishCutoffFlag;
+	private String usePublishCutoffDateFlag;
 	
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -79,12 +79,12 @@ public class DocumentTypeCode implements Serializable {
 		this.abbreviation = abbreviation;
 	}
 	
-	public String getUsePublishCutoffFlag() {
-		return usePublishCutoffFlag;
+	public String getUsePublishCutoffDateFlag() {
+		return usePublishCutoffDateFlag;
 	}
 
-	public void setUsePublishCutoffFlag(String usePublishCutoffFlag) {
-		this.usePublishCutoffFlag = usePublishCutoffFlag;
+	public void setUsePublishCutoffDateFlag(String usePublishCutoffDateFlag) {
+		this.usePublishCutoffDateFlag = usePublishCutoffDateFlag;
 	}
 
 	public Date getLastUpdated() {
@@ -127,10 +127,10 @@ public class DocumentTypeCode implements Serializable {
 				return false;
 		} else if (!abbreviation.equals(other.abbreviation))
 			return false;
-		if (usePublishCutoffFlag == null) {
-			if (other.usePublishCutoffFlag != null)
+		if (usePublishCutoffDateFlag == null) {
+			if (other.usePublishCutoffDateFlag != null)
 				return false;
-		} else if (!usePublishCutoffFlag.equals(other.usePublishCutoffFlag))
+		} else if (!usePublishCutoffDateFlag.equals(other.usePublishCutoffDateFlag))
 			return false;
 		if (id == null) {
 			if (other.id != null)
