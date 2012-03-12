@@ -16,8 +16,8 @@ public interface JobDao {
 	public List<Long> findJobExecutions(JobFilter filter, JobSort sort);
 	
 	/**
-	 * Delete all job meta-data before the specified date.
-	 * @param jobsBefore job data before this date will be removed.
+	 * Delete all Spring Batch job data before the specified date.
+	 * @param deleteJobDataBefore job data before this point in time will be removed.
 	 */
-	public void deleteJobsBefore(Date jobsBefore);
+	public void deleteJobsBefore(Date deleteJobDataBefore);
 }

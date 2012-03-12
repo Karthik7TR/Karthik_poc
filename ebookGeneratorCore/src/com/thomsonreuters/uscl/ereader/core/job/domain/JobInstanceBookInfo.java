@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Properties of the book that are needed for presentation when presenting job instance and job execution data.
- * These are derived from the publishing history of the job.
+ * These are derived from the publishing statistics of the job.
  */
 public class JobInstanceBookInfo {
 

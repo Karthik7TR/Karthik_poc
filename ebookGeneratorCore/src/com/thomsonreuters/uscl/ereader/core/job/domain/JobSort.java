@@ -17,8 +17,8 @@ public class JobSort {
 	/**
 	 * The property names in the entities job execution and book audit tables that are sorted on for presentation.  
 	 */
-	public enum SortProperty { JOB_INSTANCE_ID, JOB_EXECUTION_ID, START_TIME, BATCH_STATUS,	// Job properties
-							   TITLE_ID, BOOK_NAME };  // Book properties
+	public enum SortProperty { JOB_INSTANCE_ID, JOB_EXECUTION_ID, START_TIME, BATCH_STATUS,	// Job properties so sort on
+							   TITLE_ID, BOOK_NAME };  // Book properties that can be sorted on
 	
 	/** Java bean property on which sorting should occur - entity maps this to the physical database column. */
 	private SortProperty sortProperty;
@@ -43,20 +43,15 @@ public class JobSort {
 		this.ascending = ascending;
 	}
 	
+	/**
+	 * Returns true if we are sorting the job data by either the titleId or the bookName properties.
+	 * Returning false implies that we are sorting on some column in the Spring Batch job execution table.
+	 */
 	public boolean isSortingOnBookProperty() {
 		return (SortProperty.TITLE_ID.equals(sortProperty) ||
 				SortProperty.BOOK_NAME.equals(sortProperty));
 	}
 	
-	/**
-	 * Returns true if we are sorting the job data by either the titleId or the bookName properties.
-	 * Returning false implies that we are sorting on some column in the Spring Batch job execution table.
-	 */
-	public boolean isBookPropertySort() {
-		return (SortProperty.TITLE_ID.equals(sortProperty) ||
-				SortProperty.BOOK_NAME.equals(sortProperty)); 
-	}
-
 	public SortProperty getSortProperty() {
 		return sortProperty;
 	}

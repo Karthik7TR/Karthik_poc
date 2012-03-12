@@ -27,7 +27,6 @@
 		  <list>
 		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobParameterEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
