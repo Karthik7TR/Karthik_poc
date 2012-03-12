@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -29,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 
@@ -42,13 +42,12 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  * <li>Replacing document guids with family guids.</li>
  * </ul>
  * </p>
- * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
- *
+ * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 class TitleManifestFilter extends XMLFilterImpl {
 
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
-	private FileUtils fileUtils;
+	private FileUtilsFacade fileUtilsFacade;
 	private File documentsDirectory;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
@@ -108,7 +107,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ID_ATTRIBUTE = "id";
 	private static final String TOC_ELEMENT = "toc";
 	
-	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtils fileUtils) {
+	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade) {
 		if (titleMetadata == null) {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
 		}
@@ -121,15 +120,15 @@ class TitleManifestFilter extends XMLFilterImpl {
 		if (documentsDirectory == null || !documentsDirectory.isDirectory()) {
 			throw new IllegalArgumentException("Documents directory must not be null and must be a directory.");
 		}
-		if (fileUtils == null) {
-			throw new IllegalArgumentException("FileUtils must not be null.");
+		if (fileUtilsFacade == null) {
+			throw new IllegalArgumentException("fileUtilsFacade must not be null.");
 		}
 		validateTitleMetadata(titleMetadata);
 		this.titleMetadata = titleMetadata;
 		this.familyGuidMap = familyGuidMap;
 		this.uuidGenerator = uuidGenerator;
 		this.documentsDirectory = documentsDirectory;
-		this.fileUtils = fileUtils;
+		this.fileUtilsFacade = fileUtilsFacade;
 	}
 
 	/**
@@ -309,7 +308,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
 		File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
 		try {
-			fileUtils.copyFile(sourceFile, destFile);
+			fileUtilsFacade.copyFile(sourceFile, destFile);
 		} catch (IOException e) {
 			throw new SAXException("Could not make copy of duplicate HTML document referenced in the TOC: " + sourceDocId, e);
 		}

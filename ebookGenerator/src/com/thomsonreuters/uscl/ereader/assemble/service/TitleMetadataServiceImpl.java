@@ -6,9 +6,6 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,33 +20,24 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
-import org.jibx.runtime.BindingDirectory;
-import org.jibx.runtime.IBindingFactory;
-import org.jibx.runtime.IMarshallingContext;
-import org.jibx.runtime.IUnmarshallingContext;
-import org.jibx.runtime.JiBXException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.thomsonreuters.uscl.ereader.gather.TableOfContents;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
-import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 
@@ -67,100 +55,8 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
 	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
 	private DocMetadataService docMetadataService;
-	private FileUtils fileUtils;
+	private FileUtilsFacade fileUtilsFacade;
 	private UuidGenerator uuidGenerator;
-
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#writeToStream(com.thomsonreuters.uscl.ereader.proview.TitleMetadata, java.io.OutputStream)
-	 */
-	public void writeToStream(TitleMetadata titleMetadata, OutputStream outputStream) {
-		if (titleMetadata == null) {
-			throw new IllegalArgumentException("Title metadata must not be null!");
-		}
-		if (outputStream == null) {
-			throw new IllegalArgumentException("OutputStream must not be null!");
-		}
-		
-		try{
-			marshalTitleMetadata(titleMetadata, outputStream);
-		}
-		catch(JiBXException e) {
-			throw new RuntimeException("An error occurred while marshalling titleMetadata to output stream.", e);
-		}
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#writeToFile(com.thomsonreuters.uscl.ereader.proview.TitleMetadata, java.io.File)
-	 */
-	public void writeToFile(TitleMetadata titleMetadata, File destinationFile) {
-		if (null == destinationFile) {
-			throw new IllegalArgumentException("destinationFile must not be null!");
-		}
-		if (null == titleMetadata) {
-			throw new IllegalArgumentException("titleMetadata must not be null!");
-		}
-		
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
-			marshalTitleMetadata(titleMetadata, fileOutputStream);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("An error occurred while writing TitleMetadata to destination file: " + destinationFile.getName(), e);
-		} catch(JiBXException e) {
-			throw new RuntimeException("An error occurred while marshalling titleMetadata to output stream.", e);
-		}
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#readFromStream(java.io.InputStream)
-	 */
-	public TitleMetadata readFromStream(InputStream inputStream) {
-		TitleMetadata titleMetadata = null;
-		try {
-			titleMetadata = unmarshalTitleMetadata(inputStream);
-		}
-		catch (JiBXException e){
-			throw new RuntimeException("Could not unmarshal titleMetadata from inputStream: " + inputStream, e);
-		}
-		return titleMetadata;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.proview.TitleMetadataService#readFromFile(java.io.File)
-	 */
-	public TitleMetadata readFromFile(File titleMetadataFile) {
-		TitleMetadata titleMetadata = null;
-		try {
-			titleMetadata = unmarshalTitleMetadata(new FileInputStream(titleMetadataFile));
-		}
-		catch (JiBXException e){
-			throw new RuntimeException("Could not unmarshal titleMetadata from file: " + titleMetadataFile.getAbsolutePath(), e);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Could not unmarshal titleMetadata from file. ", e);
-		}
-		return titleMetadata;
-	}
-
-	private void marshalTitleMetadata(TitleMetadata titleMetadata,
-			OutputStream outputStream) throws JiBXException {
-		IBindingFactory bfact = 
-				BindingDirectory.getFactory(TitleMetadata.class);
-		IMarshallingContext mctx = bfact.createMarshallingContext();
-		
-		mctx.setOutput(outputStream, "UTF-8");
-		mctx.marshalDocument(titleMetadata);
-		
-		IOUtils.closeQuietly(outputStream);
-	}
-	
-	private TitleMetadata unmarshalTitleMetadata(InputStream inputStream) throws JiBXException{
-		IBindingFactory bfact = 
-				BindingDirectory.getFactory(TitleMetadata.class);
-		IUnmarshallingContext unmtcx = bfact.createUnmarshallingContext();
-		return (TitleMetadata) unmtcx.unmarshalDocument(inputStream, "UTF-8");
-	}
-
 
 	@Override
 	public ArrayList<Asset> createAssets(final File imagesDirectory) {
@@ -191,29 +87,12 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 
-	@Override
-	public ArrayList<Doc> createDocuments(final File documentsFolder) {
-		if (null == documentsFolder || !documentsFolder.isDirectory()) {
-			throw new IllegalArgumentException("Documents Directory must not be null and must be a directory that exists [" + documentsFolder + "].");
-		}
-		
-		List<File> documents = Arrays.asList(documentsFolder.listFiles());
-		ArrayList<Doc> docs = new ArrayList<Doc>();
-		for (File document : documents) {
-			String filename = document.getName();
-			Doc doc = new Doc(StringUtils.substringBeforeLast(filename, "."), filename);
-			docs.add(doc);
-		}
-		
-		return docs;
-		
-	}
-
 	/**
 	 * Returns an ArrayList of Author objects created based on values taken from a tokenized String.
 	 * @param authors the tokenized String that represents one or more authors
 	 * @return ArrayList of Author objects.
 	 */
+	@Override
 	public ArrayList<Author> createAuthors(final String authorsProperty) {
 		List<String> authornameList = Arrays.asList(authorsProperty.split("\\|"));
 		ArrayList<Author> authors = new ArrayList<Author>();
@@ -223,29 +102,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		return authors;
 	}
 
-	@Override
-	public ArrayList<TocEntry> createTableOfContents(final File gatheredTableOfContents) {
-		TableOfContents tableOfContents = null;
-		ArrayList<TocEntry> tocEntries = null;
-		InputStream gatheredTocInputStream;
-		IUnmarshallingContext unmtcx;
-		try {
-			gatheredTocInputStream = new FileInputStream(gatheredTableOfContents);
-			IBindingFactory bfact = 
-					BindingDirectory.getFactory(TableOfContents.class);
-			unmtcx = bfact.createUnmarshallingContext();
-			tableOfContents = (TableOfContents) unmtcx.unmarshalDocument(gatheredTocInputStream, "UTF-8");
-			tocEntries = tableOfContents.getTocEntries();
-		}
-		catch(FileNotFoundException e){
-			throw new RuntimeException("The file " + gatheredTableOfContents + " did not exist!", e);
-		}
-		catch(JiBXException e){
-			throw new RuntimeException("Failed to unmarshal TocEntry objects from gathered toc file: " + gatheredTableOfContents.getAbsolutePath(), e);
-		}
-		return tocEntries;
-	}
-	
 	@Override
 	public Asset createStylesheet(final File stylesheet) {
 		return new Asset(STYLESHEET_ID, stylesheet.getName());
@@ -268,25 +124,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 	@Override
-	public ArrayList<TocEntry> createTableOfContents(
-			InputStream gatheredTableOfContentsInputStream) {
-		TableOfContents tableOfContents = null;
-		ArrayList<TocEntry> tocEntries = null;
-		IUnmarshallingContext unmtcx;
-		try {
-			IBindingFactory bfact = 
-					BindingDirectory.getFactory(TableOfContents.class);
-			unmtcx = bfact.createUnmarshallingContext();
-			tableOfContents = (TableOfContents) unmtcx.unmarshalDocument(gatheredTableOfContentsInputStream, "UTF-8");
-			tocEntries = tableOfContents.getTocEntries();
-		}
-		catch(JiBXException e){
-			throw new RuntimeException("Failed to unmarshal TocEntry objects from input stream: " + gatheredTableOfContentsInputStream, e);
-		}
-		return tocEntries;
-	}
-
-	@Override
 	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId, final File documentsDirectory) {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 				
@@ -298,7 +135,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			
 			Map<String, String> familyGuidMap = docMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
 			
-			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtils);
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade);
 			titleManifestFilter.setParent(xmlReader);
 									
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -332,8 +169,8 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 
-	public void setFileUtils(FileUtils fileUtils) {
-		this.fileUtils = fileUtils;
+	public void setFileUtilsFacade(FileUtilsFacade fileUtilsFacade) {
+		this.fileUtilsFacade = fileUtilsFacade;
 	}
 
 }

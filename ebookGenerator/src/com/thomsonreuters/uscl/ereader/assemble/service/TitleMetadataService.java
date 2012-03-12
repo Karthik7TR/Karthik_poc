@@ -10,14 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import org.apache.commons.io.FileUtils;
-
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
-import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 
 /**
  * Implementors of this interface are responsible for marshalling & unmarshalling TitleMetadata.
@@ -25,17 +21,10 @@ import com.thomsonreuters.uscl.ereader.proview.TocEntry;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public interface TitleMetadataService {
-	public void writeToStream(TitleMetadata titleMetadata, OutputStream outputStream);
-	public void writeToFile(TitleMetadata titleMetadata, File destinationFile);
-	public TitleMetadata readFromStream(InputStream inputStream);
-	public TitleMetadata readFromFile(File titleMetadataFile);
 	
 	public ArrayList<Author> createAuthors(final String delimitedAuthorsString);
 	public ArrayList<Asset> createAssets(final File imagesDirectory);
 	public Artwork createArtwork(final File coverImage);
-	public ArrayList<Doc> createDocuments(final File gatheredDocumentsFolder);
-	public ArrayList<TocEntry> createTableOfContents(final File gatheredTableOfContents);
-	public ArrayList<TocEntry> createTableOfContents(final InputStream gatheredTableOfContentsInputStream);
 	public Asset createStylesheet(final File stylesheet);
 	
 	/**
