@@ -38,6 +38,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>	
 		  </list>
@@ -68,6 +69,10 @@
 	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
 		  p:sessionFactory-ref="sessionFactory"
 		  p:jdbcTemplate-ref="jdbcTemplate"/>
+		  
+	<bean id="publishingStatsDao" class="com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 
 </beans>
 	

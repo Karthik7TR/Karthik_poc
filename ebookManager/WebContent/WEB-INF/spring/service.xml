@@ -17,9 +17,12 @@
   	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
   		  p:codeDao-ref="codeDao"/>
   
+	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
+		  p:publishingStatsDAO-ref="publishingStatsDao"/>
 	<bean id="jobService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobServiceImpl"
 		  p:jobDao-ref="jobDao"
-		  p:jobExplorer-ref="jobExplorer"/> 		  
+		  p:jobExplorer-ref="jobExplorer"
+		  p:publishingStatsService-ref="publishingStatsService"/> 		  
   		  
 	<bean id="bookLibraryService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService"
   		  p:coreService-ref="coreService"/>

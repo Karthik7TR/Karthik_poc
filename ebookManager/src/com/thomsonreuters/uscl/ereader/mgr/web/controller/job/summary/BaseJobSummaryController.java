@@ -86,7 +86,7 @@ public abstract class BaseJobSummaryController {
 	}
 	
 	/**
-	 * Map the sort property name returned by display tag to the busines object property name
+	 * Map the sort property name returned by display tag to the business object property name
 	 * for sort used in the service.
 	 * I.e. map a PageAndSortForm.DisplayTagSortProperty to a JobSort.SortProperty
 	 * @param dtSortProperty display tag sort property key from the JSP
@@ -94,22 +94,24 @@ public abstract class BaseJobSummaryController {
 	 * @return a job sort business object used by the service to fetch the job execution entities.
 	 */
 	protected static JobSort createJobSort(DisplayTagSortProperty dtSortProperty, boolean ascendingSort) {
-		switch (dtSortProperty) {
-			case JOB_EXECUTION_ID:
-				return new JobSort(SortProperty.jobExecutionId, ascendingSort);
-			case JOB_INSTANCE_ID:
-				return new JobSort(SortProperty.jobInstanceId, ascendingSort);
-			case BATCH_STATUS:
-				return new JobSort(SortProperty.batchStatus, ascendingSort);
-			case START_TIME:
-				return new JobSort(SortProperty.startTime, ascendingSort);
-			case BOOK_NAME:
-				return new JobSort(SortProperty.bookName, ascendingSort);
-			case TITLE_ID:
-				return new JobSort(SortProperty.titleId, ascendingSort);
-			default:
-				throw new IllegalArgumentException("Unexpected DisplayTag sort property: " + dtSortProperty);
-		}
+		
+		return new JobSort(SortProperty.valueOf(dtSortProperty.toString()), ascendingSort);
+//		switch (dtSortProperty) {
+//			case JOB_EXECUTION_ID:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.JOB_EXECUTION_ID.toString()), ascendingSort);
+//			case JOB_INSTANCE_ID:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.JOB_INSTANCE_ID.toString()), ascendingSort);
+//			case BATCH_STATUS:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.BATCH_STATUS.toString()), ascendingSort);
+//			case START_TIME:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.START_TIME.toString()), ascendingSort);
+//			case BOOK_NAME:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.BOOK_NAME.toString()), ascendingSort);
+//			case TITLE_ID:
+//				return new JobSort(SortProperty.valueOf(dtSortProperty.TITLE_ID.toString()), ascendingSort);
+//			default:
+//				throw new IllegalArgumentException("Unexpected DisplayTag sort property: " + dtSortProperty);
+//		}
 	}
 	
 	/**

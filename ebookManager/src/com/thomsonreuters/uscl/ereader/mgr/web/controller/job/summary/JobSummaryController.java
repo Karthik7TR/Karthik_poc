@@ -81,7 +81,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm form,
 								Model model) {
-		log.debug(form);
+		//log.debug(form);
 		List<Long> jobExecutionIds = null;
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
 		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
