@@ -30,18 +30,39 @@
   	return true;
   }
   
+  function checkPublishingCutoffDate(){
+	  
+	  	var usePublishingCutOffDate = document.getElementById("usePublishingCutOffDate").innerHTML; 
+		
+		if (usePublishingCutOffDate=="Y"){
+			var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
+			
+			if (publishingCutOffDate==null)
+				{
+					alert("Publishing cut off date is required to publish this book. Please edit the definition to enter it.");
+					return false;
+				}
+		}
+	  return true;
+  }
+  
   function confirmValues(){
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML
 	  var confirmed = confirm("Generate with new version number: "+ newVersion);
 	  
 	  if (confirmed){
-		var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML; 
-		confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
+		
+		confirmed = checkPublishingCutoffDate();
+		
+		if (confirmed){
+			confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
+		
 			if (confirmed){
 				var isbn =document.getElementById("isbn").innerHTML;
 				var  materialId=document.getElementById("materialId").innerHTML;
 				confirmed=confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
 			}
+		}
 			
 	  }
 	  
@@ -111,6 +132,7 @@
 		  	<text id="publishingCutOffDate">${publishingCutOffDate}</text>
 		  	<text id="isbn">${isbn}</text>
 		  	<text id="materialId">${materialId}</text>
+		  	<text id="usePublishingCutOffDate">${usePublishingCutOffDate}</text>
 		  </div>	
 		</table>
 		<br/>
