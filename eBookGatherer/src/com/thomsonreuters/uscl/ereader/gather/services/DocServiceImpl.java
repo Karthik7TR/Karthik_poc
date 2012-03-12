@@ -27,7 +27,10 @@ import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
 /**
- * Novus document and metadata fetch.
+ * NOVUS document and metadata fetch.
+ * @author Nirupam Chatterjee
+ * @author Ray Cracauer
+ * @modified 3/9/2012 - Retry looping fix was added to prevent infinite loops. 
  */
 public class DocServiceImpl implements DocService {
 
@@ -176,6 +179,7 @@ public class DocServiceImpl implements DocService {
 							novusDocRetryCounter, retryCount);
 				} catch (Exception e) {
 					Log.error("Exception in handleException " + e.getMessage());
+					novusDocRetryCounter++;
 				}
 			}
 		}
@@ -216,6 +220,7 @@ public class DocServiceImpl implements DocService {
 							novusMetaRetryCounter, retryCount);
 				} catch (Exception e) {
 					Log.error("Exception in handleException " + e.getMessage());
+					novusMetaRetryCounter++;
 				}
 			}
 		}
