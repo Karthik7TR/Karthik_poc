@@ -43,6 +43,10 @@ public class DocumentTypeCode implements Serializable {
 	@Column(name="DOCUMENT_TYPE_CODES_ABBRV", nullable = false, length = 32)
 	private String abbreviation;
 	
+	@Column(name="USE_PUBLISH_CUTOFF_FLAG", nullable = false, length = 1)
+	private String usePublishCutoffFlag;
+	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
@@ -73,6 +77,14 @@ public class DocumentTypeCode implements Serializable {
 
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
+	}
+	
+	public String getUsePublishCutoffFlag() {
+		return usePublishCutoffFlag;
+	}
+
+	public void setUsePublishCutoffFlag(String usePublishCutoffFlag) {
+		this.usePublishCutoffFlag = usePublishCutoffFlag;
 	}
 
 	public Date getLastUpdated() {
@@ -114,6 +126,11 @@ public class DocumentTypeCode implements Serializable {
 			if (other.abbreviation != null)
 				return false;
 		} else if (!abbreviation.equals(other.abbreviation))
+			return false;
+		if (usePublishCutoffFlag == null) {
+			if (other.usePublishCutoffFlag != null)
+				return false;
+		} else if (!usePublishCutoffFlag.equals(other.usePublishCutoffFlag))
 			return false;
 		if (id == null) {
 			if (other.id != null)
