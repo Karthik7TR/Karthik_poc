@@ -7,9 +7,10 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.sun.xml.internal.bind.util.AttributesImpl;
+
 
 
 /**
