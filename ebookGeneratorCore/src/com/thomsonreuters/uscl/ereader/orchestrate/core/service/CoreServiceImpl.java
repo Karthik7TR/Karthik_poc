@@ -73,8 +73,9 @@ public class CoreServiceImpl implements CoreService {
 	 */
 	@Transactional
 	public void saveBookDefinition(BookDefinition eBook) {
-	
-	
+		// Update Date
+		eBook.setLastUpdated(new Date());
+		
 		BookDefinition existingBook = coreDao.findBookDefinitionByTitle(eBook.getFullyQualifiedTitleId());
 
 		if (existingBook != null) {
@@ -97,7 +98,7 @@ public class CoreServiceImpl implements CoreService {
 				existingBook.setIsProviewTableViewFlag(eBook.IsProviewTableViewFlag());
 				existingBook.setIsTocFlag(eBook.getIsTocFlag());
 				existingBook.setKeyciteToplineFlag(eBook.IsKeyciteToplineFlag());
-				existingBook.setLastUpdated(new Date());
+				existingBook.setLastUpdated(eBook.getLastUpdated());
 				existingBook.setMaterialId(eBook.getMaterialId());
 				existingBook.setNortDomain(eBook.getNortDomain());
 				existingBook.setNortFilterView(eBook.getNortFilterView());

@@ -27,6 +27,8 @@ public class CoreServiceTest  {
 		
 		this.service = new CoreServiceImpl();
 		service.setCoreDao(mockCoreDao);
+		
+		expectedBookDefinition.setFullyQualifiedTitleId(BOOK_KEY);
 	}
 	
 	@Test
@@ -35,6 +37,16 @@ public class CoreServiceTest  {
 		EasyMock.replay(mockCoreDao);
 		BookDefinition actualBookDefinition = service.findBookDefinitionByTitle(BOOK_KEY);
 		Assert.assertEquals(expectedBookDefinition, actualBookDefinition);
+		EasyMock.verify(mockCoreDao);
+	}
+	
+	@Test
+	public void testSaveBookDefinition() {
+		EasyMock.expect(mockCoreDao.findBookDefinitionByTitle(BOOK_KEY)).andReturn(expectedBookDefinition);
+		mockCoreDao.saveBookDefinition(expectedBookDefinition);
+		EasyMock.replay(mockCoreDao);
+		
+		service.saveBookDefinition(expectedBookDefinition);
 		EasyMock.verify(mockCoreDao);
 	}
 }
