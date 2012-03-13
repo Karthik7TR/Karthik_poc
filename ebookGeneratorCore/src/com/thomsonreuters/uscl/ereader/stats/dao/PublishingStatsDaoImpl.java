@@ -86,14 +86,54 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		}
 		else if (updateType.equals(StatsUpdateTypeEnum.GATHERDOC))
 		{
-			//TODO: update switches.
 			hql.append("gatherDocExpectedCount = " );
 			hql.append(jobstats.getGatherDocExpectedCount());
 			hql.append(", gatherDocRetrievedCount = " );
 			hql.append(jobstats.getGatherDocRetrievedCount());
 			hql.append(", gatherDocRetryCount = " );
 			hql.append(jobstats.getGatherDocRetryCount());
-
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.GATHERMETA))
+		{
+			hql.append("gatherMetaExpectedCount = " );
+			hql.append(jobstats.getGatherMetaExpectedCount());
+			hql.append(", gatherMetaRetrievedCount = " );
+			hql.append(jobstats.getGatherMetaRetrievedCount());
+			hql.append(", gatherMetaRetryCount = " );
+			hql.append(jobstats.getGatherMetaRetryCount());
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.GATHERIMAGE))
+		{
+			hql.append("gatherImageExpectedCount = " );
+			hql.append(jobstats.getGatherImageExpectedCount());
+			hql.append(", gatherImageRetrievedCount = " );
+			hql.append(jobstats.getGatherImageRetrievedCount());
+			hql.append(", gatherImageRetryCount = " );
+			hql.append(jobstats.getGatherImageRetryCount());
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.TITLEDOC))
+		{
+			hql.append("titleDocCount = " );
+			hql.append(jobstats.getTitleDocCount());
+			hql.append(", titleDupDocCount = " );
+			hql.append(jobstats.getTitleDupDocCount());
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.FORMATDOC))
+		{
+			hql.append("formatDocCount = " );
+			hql.append(jobstats.getFormatDocCount());
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.ASSEMBLEDOC))
+		{
+			hql.append("assembleDocCount = " );
+			hql.append(jobstats.getAssembleDocCount());
+		}
+		else if (updateType.equals(StatsUpdateTypeEnum.FINALPUBLISH))
+		{
+			hql.append("publishEndTimestamp = " );
+			hql.append(jobstats.getPublishEndTimestamp());
+			hql.append(", publishStatus = " );
+			hql.append(jobstats.getPublishStatus());
 		}
 		else
 		{
