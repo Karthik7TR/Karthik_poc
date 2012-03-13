@@ -144,6 +144,9 @@
 			p:jobExplorer-ref="jobExplorer"/>
 			
   	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
-  		  p:eBookAuditDAO-ref="eBookAuditDAO"/>			
+  		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	
+  		  
+  	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
+  		  p:codeDao-ref="codeDao"/>
 				  
 </beans>

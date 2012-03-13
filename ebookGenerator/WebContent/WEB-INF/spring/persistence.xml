@@ -92,5 +92,9 @@
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
 		  
+	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>		  
+		  
 </beans>
 	
