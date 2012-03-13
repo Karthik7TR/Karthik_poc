@@ -57,7 +57,7 @@ public class ViewBookDefinitionController {
 							   Model model) {
 		ModelAndView mav = null;
 		log.debug(form);
-		String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, form.getId());
+		String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
 		Command command = form.getCommand();
 		switch (command) {
 			case DELETE:

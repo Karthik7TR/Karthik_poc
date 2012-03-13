@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
@@ -25,7 +26,7 @@
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 <tr>
 	<td style="padding-right:20px;">Book Name</td>
-	<td>${bookInfo.bookName}</td>
+	<td>${bookInfo.bookNamesConcat}</td>
 </tr>
 <tr>
 	<td>Title ID</td>
@@ -45,7 +46,7 @@
 			StepExecution stepExecution = (StepExecution)pageContext.getAttribute("step");
 			long executionDurationMs = -1; 
 			if (stepExecution != null) {
-				executionDurationMs = JobExecutionVdo.getExecutionDurationMs(
+				executionDurationMs = JobSummary.getExecutionDuration(
 					stepExecution.getStartTime(), stepExecution.getEndTime());
 			}
 		%>
@@ -59,7 +60,7 @@
   		</display:column>
   		<display:column title="Exit Code" property="exitStatus.exitCode"/>
   		<display:column title="Start Time"><fmt:formatDate value="${step.startTime}" pattern="${DATE_FORMAT}"/></display:column>
-  		<display:column title="Duration"><%= JobExecutionVdo.getExecutionDuration(executionDurationMs)%></display:column>
+  		<display:column title="Duration"><%= JobSummary.getExecutionDuration(executionDurationMs)%></display:column>
   		<display:column title="Exit Message" property="exitStatus.exitDescription" style="text-align:left"/>
 	</display:table>
 </div>	

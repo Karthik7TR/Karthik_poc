@@ -54,7 +54,7 @@ public class ViewBookDefinitionControllerTest {
     	bookDef.setFullyQualifiedTitleId(TITLE_ID);
     	request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
     	request.setMethod(HttpMethod.GET.name());
-    	request.addParameter(WebConstants.KEY_BOOK_DEFINITION_ID, "1");
+    	request.addParameter(WebConstants.KEY_ID, "1");
     	
     	EasyMock.expect(mockCoreService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDef);
     	EasyMock.replay(mockCoreService);
@@ -95,7 +95,7 @@ public class ViewBookDefinitionControllerTest {
     	View view = mav.getView();
     	Assert.assertTrue(view instanceof RedirectView);
     	RedirectView rView = (RedirectView) view;
-    	String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, BOOK_DEFINITION_ID);
+    	String queryString = String.format("?%s=%s", WebConstants.KEY_ID, BOOK_DEFINITION_ID);
     	Assert.assertEquals(viewUri+queryString, rView.getUrl());
     }
 }

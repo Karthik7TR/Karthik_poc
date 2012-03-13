@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.Period;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
@@ -23,7 +21,8 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 /**
  * A View Data Object (VDO) wrapper around a Spring Batch JobExecution object (Decorator/VDO patterns).
@@ -37,21 +36,21 @@ public class JobExecutionVdo {
 	private static final Comparator<Map.Entry<String,?>> mapEntryKeyComparator = new MapEntryKeyComparator();
 	
 	private JobExecution jobExecution;
-	private JobInstanceBookInfo bookInfo;
+	private EbookAudit bookInfo;
 	/**
 	 * @param jobExecution the Spring Batch job execution object.
 	 * May be null, but no null checks are made in the convenience methods that use it so clients must first check
 	 * that the jobExecution property is not null.
 	 * @param bookInfo book data needed for presentation that is associated with this instance.
 	 */
-	public JobExecutionVdo(JobExecution jobExecution, JobInstanceBookInfo bookInfo) {
+	public JobExecutionVdo(JobExecution jobExecution, EbookAudit bookInfo) {
 		this.jobExecution = jobExecution;
 		this.bookInfo = bookInfo;
 	}
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
-	public JobInstanceBookInfo getBookInfo() {
+	public EbookAudit getBookInfo() {
 		return bookInfo;
 	}
 	/**
@@ -77,57 +76,65 @@ public class JobExecutionVdo {
 	public boolean isStoppable() {
 		return (BatchStatus.STARTED == jobExecution.getStatus());
 	}
-
-	/**
-	 * The delta between the job start time and ending time.  If the job is running
-	 * then the run time to present is calculated.
-	 * @return the integer execution time total if finished, or current if still running
-	 */
-	public long getExecutionDurationMs() {
-		long ms = -1;
+	
+	public String getDuration() {
+		String duration = null;
 		if (jobExecution != null) {
-			ms = getExecutionDurationMs(jobExecution.getStartTime(), jobExecution.getEndTime());
+			duration = JobSummary.getExecutionDuration(JobSummary.getExecutionDuration(jobExecution.getStartTime(), jobExecution.getEndTime()));
 		}
-		return ms;
+		return duration;
 	}
+
+//	/**
+//	 * The delta between the job start time and ending time.  If the job is running
+//	 * then the run time to present is calculated.
+//	 * @return the integer execution time total if finished, or current if still running
+//	 */
+//	public long getExecutionDurationMs() {
+//		long ms = -1;
+//		if (jobExecution != null) {
+//			ms = getExecutionDurationMs(jobExecution.getStartTime(), jobExecution.getEndTime());
+//		}
+//		return ms;
+//	}
+//	
+//	public static long getExecutionDurationMs(Date startTime, Date endTime) {		
+//		long execTimeMs = -1;
+//		if (startTime != null) {
+//			if (endTime == null) {
+//				endTime = new Date();
+//			}
+//			execTimeMs = endTime.getTime() - startTime.getTime();
+//		}
+//		return execTimeMs;
+//	}
 	
-	public static long getExecutionDurationMs(Date startTime, Date endTime) {		
-		long execTimeMs = -1;
-		if (startTime != null) {
-			if (endTime == null) {
-				endTime = new Date();
-			}
-			execTimeMs = endTime.getTime() - startTime.getTime();
-		}
-		return execTimeMs;
-	}
-	
-	/**
-	 * @return  the execution time period in the fomat mm:hh:ss.SSS
-	 */
-	public String getExecutionDuration() {
-		return getExecutionDuration(getExecutionDurationMs());
-	}
-	
-	public static String getExecutionDuration(long durationMs) {
-		StringBuffer periodString = new StringBuffer();
-		if (durationMs > -1) {
-			Period period = new Period(durationMs);
-			periodString.append((period.getHours() < 10) ? "0" : "");
-			periodString.append(period.getHours());
-			periodString.append(":");
-			periodString.append((period.getMinutes() < 10) ? "0" : "");
-			periodString.append(period.getMinutes());
-			periodString.append(":");
-			periodString.append((period.getSeconds() < 10) ? "0" : "");
-			periodString.append(period.getSeconds());
-			periodString.append(".");
-			periodString.append((period.getMillis() < 10) ? "0" : "");
-			periodString.append((period.getMillis() < 100) ? "0" : "");
-			periodString.append(period.getMillis());
-		}
-		return periodString.toString();
-	}
+//	/**
+//	 * @return  the execution time period in the fomat mm:hh:ss.SSS
+//	 */
+//	public String getExecutionDuration() {
+//		return getExecutionDuration(getExecutionDurationMs());
+//	}
+//	
+//	public static String getExecutionDuration(long durationMs) {
+//		StringBuffer periodString = new StringBuffer();
+//		if (durationMs > -1) {
+//			Period period = new Period(durationMs);
+//			periodString.append((period.getHours() < 10) ? "0" : "");
+//			periodString.append(period.getHours());
+//			periodString.append(":");
+//			periodString.append((period.getMinutes() < 10) ? "0" : "");
+//			periodString.append(period.getMinutes());
+//			periodString.append(":");
+//			periodString.append((period.getSeconds() < 10) ? "0" : "");
+//			periodString.append(period.getSeconds());
+//			periodString.append(".");
+//			periodString.append((period.getMillis() < 10) ? "0" : "");
+//			periodString.append((period.getMillis() < 100) ? "0" : "");
+//			periodString.append(period.getMillis());
+//		}
+//		return periodString.toString();
+//	}
 	
 	/**
 	 * Creates a sorted list of job launch parameter map entries fetched from the current JobExecution.

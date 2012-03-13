@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.core.service;
 
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,8 +35,17 @@ public class JobServiceIntegrationTest  {
 	@Autowired
 	private JobService service;
 	
-	
 	@Test
+	public void testFindJobSummary() {
+		Long[] idArray = { 46l, 9999l, 47l, 48l, 49l };
+		List<Long> ids = Arrays.asList(idArray);
+		List<JobSummary> js = service.findJobSummary(ids);
+		Assert.assertNotNull(js);
+		Assert.assertTrue(js.size() > 0);
+		log.debug(js);
+	}
+	
+	//@Test
 	public void testFindJobExecutions() {
 		JobFilter filter = new JobFilter();
 		//filter.setTitleId("FRCP");

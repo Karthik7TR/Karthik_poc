@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
@@ -26,7 +27,7 @@
 <%-- Execution statistics --%>
 <%	// Calculate how long it took to execute the step (milliseconds)
 	StepExecution stepExecutionObj = (StepExecution) request.getAttribute(WebConstants.KEY_JOB_STEP_EXECUTION);
-	long executionMs = JobExecutionVdo.getExecutionDurationMs(stepExecutionObj.getStartTime(), stepExecutionObj.getEndTime());
+	long executionMs = JobSummary.getExecutionDuration(stepExecutionObj.getStartTime(), stepExecutionObj.getEndTime());
 %>	
 <div id="statsDiv">
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
@@ -38,7 +39,7 @@
 </tr>
 <tr>
 	<td>Book Name</td>
-	<td colspan="3">${bookInfo.bookName}</td>
+	<td colspan="3">${bookInfo.bookNamesConcat}</td>
 </tr>
 <tr>
 	<td>Title ID</td>
@@ -63,7 +64,7 @@
 	<td>Step ID</td>
 	<td>${jobStepExecution.id}</td>
 	<td>Duration</td>
-	<td><%=JobExecutionVdo.getExecutionDuration(executionMs)%></td>
+	<td><%=JobSummary.getExecutionDuration(executionMs)%></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>

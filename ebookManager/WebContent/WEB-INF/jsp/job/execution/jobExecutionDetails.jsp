@@ -4,6 +4,7 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
@@ -83,11 +84,11 @@
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
 		<td style="padding-right:40px;">Book Name</td>
-		<td colspan="3">${vdo.bookInfo.bookName}</td>
+		<td colspan="3">${job.bookInfo.bookNamesConcat}</td>
 	</tr>
 	<tr>
 		<td>Title ID</td>
-		<td colspan="3">${vdo.bookInfo.titleId}</td>
+		<td colspan="3">${job.bookInfo.titleId}</td>
 	</tr>
 	<tr>
 		<td>Job Instance</td>
@@ -113,19 +114,19 @@
 		<td>Running</td>
 		<td>${jobExecution.running}</td>
 		<td>Duration</td>
-		<td>${vdo.executionDuration}</td>
+		<td>${job.duration}</td>
 	</tr>
 	<tr>
 		<td>Job Status</td>
 		<td>${jobExecution.status}</td>
 		<c:choose>
-		<c:when test="${vdo.restartable}">
+		<c:when test="${job.restartable}">
 		<td><input type="button" value="Restart" ${operationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
-  		<c:when test="${vdo.stoppable}">
+  		<c:when test="${job.stoppable}">
 		<td><input type="button" value="Stop" ${operationsDisabled}
   				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
   		</td>
@@ -146,12 +147,12 @@
 		<input id="stepsImage" type="image" src="theme/images/wf_minus.gif"/> Job Steps
 	</div>
 	<div id="jobStepsDiv" class="job-details-expand-div">
-		<display:table id="step" name="vdo.steps" class="displayTagTable" cellpadding="3">
+		<display:table id="step" name="job.steps" class="displayTagTable" cellpadding="3">
 			<%	// Calculate how long it took to execute the step (milliseconds)
 				StepExecution stepExecutionObj = (StepExecution)pageContext.getAttribute("step");
 				long executionDurationMs = -1; 
 				if (stepExecutionObj != null) {
-					executionDurationMs = JobExecutionVdo.getExecutionDurationMs(
+					executionDurationMs = JobSummary.getExecutionDuration(
 						stepExecutionObj.getStartTime(), stepExecutionObj.getEndTime());
 				}
 			%>
@@ -162,7 +163,7 @@
 	  		</display:column>
 	  		<display:column title="Exit Code" property="exitStatus.exitCode"/>
 	  		<display:column title="Start Time"><fmt:formatDate value="${step.startTime}" pattern="${DATE_FORMAT}"/></display:column>
-	  		<display:column title="Duration"><%= JobExecutionVdo.getExecutionDuration(executionDurationMs)%></display:column>
+	  		<display:column title="Duration"><%= JobSummary.getExecutionDuration(executionDurationMs)%></display:column>
 	  		<display:column title="Exit Message" property="exitStatus.exitDescription" style="text-align:left"/>
 		</display:table>
 	</div>	
@@ -174,7 +175,7 @@
 	</div>
 	<br/>
 	<div id="jobExecutionContextDiv" class="job-details-expand-div">
-		<display:table id="jobExecutionContextMapEntry" name="vdo.jobExecutionContextMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
+		<display:table id="jobExecutionContextMapEntry" name="job.jobExecutionContextMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job execution context entries were found.</display:setProperty>
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value"/>
@@ -186,7 +187,7 @@
 		<input id="parametersImage" type="image" src="theme/images/wf_plus.gif"/> Job Parameters
 	</div>
 	<div id="jobParametersDiv" class="job-details-expand-div">
-		<display:table id="jobParameterMapEntry" name="vdo.jobParameterMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
+		<display:table id="jobParameterMapEntry" name="job.jobParameterMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job parameters were found.</display:setProperty>
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value.value"/>

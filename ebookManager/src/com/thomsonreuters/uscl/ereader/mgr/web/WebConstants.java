@@ -19,12 +19,13 @@ public class WebConstants {
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
-	public static final String KEY_BOOK_DEFINITION_ID = "id";
+	public static final String KEY_ID = "id";
 	public static final String KEY_TITLE_ID = "titleId";
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
 	public static final String KEY_IS_ASCENDING = "isAscending";
 	public static final String KEY_VDO = "vdo";
+	public static final String KEY_JOB = "job";
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";

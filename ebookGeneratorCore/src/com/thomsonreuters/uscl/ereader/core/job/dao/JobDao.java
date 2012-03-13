@@ -5,8 +5,12 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 public interface JobDao {
+	
+	
+	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds);
 	
 	/**
 	 * Get the job execution ID's from the JOB_EXECUTION table that match the specified

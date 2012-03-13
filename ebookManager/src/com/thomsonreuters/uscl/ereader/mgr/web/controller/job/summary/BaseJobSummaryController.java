@@ -5,20 +5,18 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
@@ -96,22 +94,6 @@ public abstract class BaseJobSummaryController {
 	protected static JobSort createJobSort(DisplayTagSortProperty dtSortProperty, boolean ascendingSort) {
 		
 		return new JobSort(SortProperty.valueOf(dtSortProperty.toString()), ascendingSort);
-//		switch (dtSortProperty) {
-//			case JOB_EXECUTION_ID:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.JOB_EXECUTION_ID.toString()), ascendingSort);
-//			case JOB_INSTANCE_ID:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.JOB_INSTANCE_ID.toString()), ascendingSort);
-//			case BATCH_STATUS:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.BATCH_STATUS.toString()), ascendingSort);
-//			case START_TIME:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.START_TIME.toString()), ascendingSort);
-//			case BOOK_NAME:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.BOOK_NAME.toString()), ascendingSort);
-//			case TITLE_ID:
-//				return new JobSort(SortProperty.valueOf(dtSortProperty.TITLE_ID.toString()), ascendingSort);
-//			default:
-//				throw new IllegalArgumentException("Unexpected DisplayTag sort property: " + dtSortProperty);
-//		}
 	}
 	
 	/**
@@ -130,17 +112,18 @@ public abstract class BaseJobSummaryController {
 		// Get the subset of jobExecutionIds that will be displayed on the current page
 		List<Long> jobExecutionIdSubList = jobExecutionIds.subList(fromIndex, toIndex);
 		// Lookup all the JobExecution objects by their primary key
-		List<JobExecution> jobExecutions = jobService.findJobExecutions(jobExecutionIdSubList);
+		List<JobSummary> jobs = jobService.findJobSummary(jobExecutionIdSubList);
+		//List<JobExecution> jobExecutions = jobService.findJobExecutions(jobExecutionIdSubList);
 		
 		// Create the paginated list of View Data Objects (wrapping JobExecution) for use by DisplayTag table on the JSP.
-		List<JobExecutionVdo> jobExecutionVdos = new ArrayList<JobExecutionVdo>();
-		for (JobExecution je : jobExecutions) {
-			JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(je.getJobId());
-			jobExecutionVdos.add(new JobExecutionVdo(je, bookInfo));
-		}
+//		List<JobExecutionVdo> jobExecutionVdos = new ArrayList<JobExecutionVdo>();
+//		for (JobExecution je : jobExecutions) {
+//			JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(je.getJobId());
+//			jobExecutionVdos.add(new JobExecutionVdo(je, bookInfo));
+//		}
 
 		// Instantiate the object used by DisplayTag to render a partial list
-		JobPaginatedList paginatedList = new JobPaginatedList(jobExecutionVdos,
+		JobPaginatedList paginatedList = new JobPaginatedList(jobs,
 								jobExecutionIds.size(),
 								pageAndSort.getPageNumber(), pageAndSort.getObjectsPerPage(),
 								pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());

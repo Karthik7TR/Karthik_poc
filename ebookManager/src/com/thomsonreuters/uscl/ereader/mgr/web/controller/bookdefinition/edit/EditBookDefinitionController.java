@@ -81,7 +81,7 @@ public class EditBookDefinitionController {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
 			coreService.saveBookDefinition(book);
-			String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, book.getEbookDefinitionId());
+			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
@@ -127,7 +127,7 @@ public class EditBookDefinitionController {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
 			coreService.saveBookDefinition(book);
-			String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, book.getEbookDefinitionId());
+			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
@@ -162,7 +162,7 @@ public class EditBookDefinitionController {
 		
 		initialize(model, form);
 		
-		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_ID, form.getBookdefinitionId());
+		model.addAttribute(WebConstants.KEY_ID, form.getBookdefinitionId());
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);

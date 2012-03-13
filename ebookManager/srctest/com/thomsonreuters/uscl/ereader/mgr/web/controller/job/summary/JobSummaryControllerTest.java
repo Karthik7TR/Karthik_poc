@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import junit.framework.Assert;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -25,9 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -43,10 +45,12 @@ public class JobSummaryControllerTest {
 	private JobService mockJobService;
 	private ManagerService mockManagerService;
 	private MessageSourceAccessor mockMessageSourceAccessor;
-	private JobInstanceBookInfo mockBookInfo;
+	private JobSummary mockJobSummary;
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
+	private List<Long> jobExecutionIdSubList;
 	private List<JobExecution> jobExecutions;
+	private List<JobSummary> JOB_SUMMARY_LIST = new ArrayList<JobSummary>();
 
     @Before
     public void setUp() throws Exception {
@@ -56,7 +60,7 @@ public class JobSummaryControllerTest {
     	this.mockJobService = EasyMock.createMock(JobService.class);
     	this.mockManagerService = EasyMock.createMock(ManagerService.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
-    	this.mockBookInfo = new JobInstanceBookInfo("bookName", "uscl/a/b/c/d");
+    	this.mockJobSummary = new JobSummary(1l, "bogusBook", "titleId", 111l, 222l, BatchStatus.COMPLETED, new Date(), new Date());
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobSummaryController();
@@ -74,6 +78,7 @@ public class JobSummaryControllerTest {
     		jobExecution.setJobInstance(new JobInstance(id+100, new JobParameters(), "bogusJobName"));
     		jobExecutions.add(jobExecution);
     	}
+    	this.jobExecutionIdSubList = jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE);
     	request.getSession().setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
     }
     
@@ -87,8 +92,9 @@ public class JobSummaryControllerTest {
     	// Record expected service calls
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(JOB_EXEC_ID_COUNT);
+    	
+    	
+    	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
 
     	
@@ -120,9 +126,8 @@ public class JobSummaryControllerTest {
     	// Record expected service calls
     	int startIndex = (newPageNumber - 1) * PageAndSort.DEFAULT_ITEMS_PER_PAGE;
     	int endIndex = startIndex + PageAndSort.DEFAULT_ITEMS_PER_PAGE;
-    	EasyMock.expect(mockJobService.findJobExecutions(
-    			jobExecutionIds.subList(startIndex,endIndex))).andReturn(jobExecutions);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(JOB_EXEC_ID_COUNT);
+    	List<Long> subList = jobExecutionIds.subList(startIndex, endIndex);
+    	EasyMock.expect(mockJobService.findJobSummary(subList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
     	
        	// Invoke the controller method via the URL
@@ -152,8 +157,7 @@ public class JobSummaryControllerTest {
     	// Record expected service calls
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(JOB_EXEC_ID_COUNT);
+    	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
 
        	// Invoke the controller method via the URL
@@ -206,8 +210,7 @@ public class JobSummaryControllerTest {
 	
     private void verifyJobOperation() throws Exception {
     	// Common recordings for stop and restart
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE))).andReturn(jobExecutions);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(JOB_EXEC_ID_COUNT);
+    	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	// Replay
     	EasyMock.replay(mockManagerService);
     	EasyMock.replay(mockJobService);
@@ -241,8 +244,8 @@ public class JobSummaryControllerTest {
     	HttpSession session = request.getSession();
 
     	// Record expected service calls
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds.subList(0,EXPECTED_OBJECTS_PER_PAGE))).andReturn(jobExecutions.subList(0,EXPECTED_OBJECTS_PER_PAGE));
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(mockBookInfo).times(EXPECTED_OBJECTS_PER_PAGE);
+    	//EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIdSubList)).andReturn(jobExecutions.subList(0,EXPECTED_OBJECTS_PER_PAGE));
+    	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds.subList(0, EXPECTED_OBJECTS_PER_PAGE))).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
 
        	// Invoke the controller method via the URL

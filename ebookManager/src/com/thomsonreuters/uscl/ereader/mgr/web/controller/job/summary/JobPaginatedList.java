@@ -10,6 +10,7 @@ import java.util.List;
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
 
 
@@ -21,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSor
 public class JobPaginatedList implements PaginatedList {
 	//private static final Logger log = Logger.getLogger(JobPaginatedList.class);
 	
-	private List<JobExecutionVdo> partialList;
+	private List<JobSummary> partialList;
 	private int pageNumber;		// Which page number of data is this
 	private int fullListSize;   // The size of the entire population of elements that are to be displayed in a paginated fashion
 	private int itemsPerPage;	// How many rows are to be shown on each page
@@ -32,7 +33,7 @@ public class JobPaginatedList implements PaginatedList {
 	 * Create the PaginatedList used for paging and sorting operations by DisplayTag.
 	 * None the parameters may be null.
 	 */
-	public JobPaginatedList(List<JobExecutionVdo> partialList, int fullListSize,
+	public JobPaginatedList(List<JobSummary> partialList, int fullListSize,
 							int pageNumber, int itemsPerPage,
 							DisplayTagSortProperty sortProperty, boolean ascending) {
 		this.partialList = partialList;
@@ -49,7 +50,7 @@ public class JobPaginatedList implements PaginatedList {
 	}
 
 	@Override
-	public List<JobExecutionVdo> getList() {
+	public List<JobSummary> getList() {
 		return partialList;
 	}
 

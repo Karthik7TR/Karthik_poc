@@ -64,7 +64,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 		
 		JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 										 	filterForm.getTitleId(), filterForm.getBookName());
-		JobSort jobSort = new JobSort();
+		JobSort jobSort = createJobSort(savedPageAndSort.getSortProperty(), savedPageAndSort.isAscendingSort());
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
 		setUpModel(jobExecutionIds, filterForm, savedPageAndSort, httpSession, model);
@@ -81,7 +81,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(JobSummaryForm.FORM_NAME) JobSummaryForm form,
 								Model model) {
-		//log.debug(form);
+		log.debug(form);
 		List<Long> jobExecutionIds = null;
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
 		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
@@ -101,9 +101,9 @@ public class JobSummaryController extends BaseJobSummaryController {
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 					 filterForm.getTitleId(), filterForm.getBookName());
 			JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
+log.debug("NEW: " + jobSort);		
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
-		
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 		
 		return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);

@@ -20,13 +20,14 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class JobExecutionControllerTest {
 	private static final Long JEID = 1936l;
@@ -42,7 +43,8 @@ public class JobExecutionControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobService mockJobService;
-	private JobInstanceBookInfo mockJobInstanceBookInfo;
+	private PublishingStatsService mockPublishingStatsService;
+	private EbookAudit mockJobInstanceBookInfo;
 	private MessageSourceAccessor mockMessageSourceAccessor;
 	private HandlerAdapter handlerAdapter;
 	
@@ -51,12 +53,14 @@ public class JobExecutionControllerTest {
     	this.request = new MockHttpServletRequest();
     	this.response = new MockHttpServletResponse();
     	this.mockJobService = EasyMock.createMock(JobService.class);
-    	this.mockJobInstanceBookInfo = EasyMock.createMock(JobInstanceBookInfo.class);
+    	this.mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
+    	this.mockJobInstanceBookInfo = EasyMock.createMock(EbookAudit.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobExecutionController();
     	controller.setJobService(mockJobService);
+    	controller.setPublishingStatsService(mockPublishingStatsService);
     	controller.setValidator(new JobExecutionFormValidator());
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     }
@@ -72,17 +76,18 @@ public class JobExecutionControllerTest {
     	request.setMethod(HttpMethod.GET.name());
     	
     	EasyMock.expect(mockJobService.findJobExecution(JEID)).andReturn(JOB_EXECUTION);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(JOB_EXECUTION.getJobId())).andReturn(mockJobInstanceBookInfo);
+    	EasyMock.expect(mockPublishingStatsService.findAuditInfoByJobId(JOB_EXECUTION.getJobId())).andReturn(mockJobInstanceBookInfo);
     	EasyMock.replay(mockJobService);
+    	EasyMock.replay(mockPublishingStatsService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
     	Map<String,Object> model = mav.getModel();
-    	JobExecutionVdo vdo = (JobExecutionVdo) model.get(WebConstants.KEY_VDO);
-    	Assert.assertNotNull(vdo);
-    	Assert.assertEquals(JOB_EXECUTION, vdo.getJobExecution());
-    	Assert.assertEquals(mockJobInstanceBookInfo,vdo.getBookInfo());
+    	JobExecutionVdo job = (JobExecutionVdo) model.get(WebConstants.KEY_JOB);
+    	Assert.assertNotNull(job);
+    	Assert.assertEquals(JOB_EXECUTION, job.getJobExecution());
+    	Assert.assertEquals(mockJobInstanceBookInfo, job.getBookInfo());
     	Assert.assertNotNull(model.get(WebConstants.KEY_JOB_EXECUTION));
     	
     	EasyMock.verify(mockJobService);

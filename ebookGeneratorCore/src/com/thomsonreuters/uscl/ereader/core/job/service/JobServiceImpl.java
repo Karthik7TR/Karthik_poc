@@ -15,15 +15,18 @@ import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 public class JobServiceImpl implements JobService {
 	
 	//private static final Logger log = Logger.getLogger(JobServiceImpl.class);
 	private JobDao dao;
 	private JobExplorer jobExplorer;
-	private PublishingStatsService publishingStatsService;
 	
+	
+	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds) {
+		return dao.findJobSummary(jobExecutionIds);
+	}
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -61,16 +64,16 @@ public class JobServiceImpl implements JobService {
 		return jobExplorer.getJobInstance(jobInstanceId);
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId) {
-		EbookAudit audit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
-		if (audit == null) {
-			audit = new EbookAudit();
-		}
-		JobInstanceBookInfo bookInfo = new JobInstanceBookInfo(audit.getBookNamesConcat(), audit.getTitleId());
-		return bookInfo;
-	}
+//	@Override
+//	@Transactional(readOnly = true)
+//	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId) {
+//		EbookAudit audit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
+//		if (audit == null) {
+//			audit = new EbookAudit();
+//		}
+//		JobInstanceBookInfo bookInfo = new JobInstanceBookInfo(audit.getBookNamesConcat(), audit.getTitleId());
+//		return bookInfo;
+//	}
 	
 	@Override
 	public StepExecution findStepExecution(long jobExecutionId, long stepExecutionId) {
@@ -90,9 +93,5 @@ public class JobServiceImpl implements JobService {
 	@Required
 	public void setJobExplorer(JobExplorer explorer) {
 		this.jobExplorer = explorer;
-	}
-	@Required
-	public void setPublishingStatsService(PublishingStatsService service) {
-		this.publishingStatsService = service;
 	}
 }

@@ -99,7 +99,7 @@ function submitForm(cmd)
 	<form:form name="theForm" commandName="<%=ViewBookDefinitionForm.FORM_NAME%>"
 			   action="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST%>">
 		<form:hidden path="command"/>
-		<form:hidden path="<%=WebConstants.KEY_BOOK_DEFINITION_ID%>"/>
+		<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 		<c:if test="${!isInJobRequest}">
 			<input type="submit" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		</c:if>

@@ -22,10 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.StepStartTimeComparator;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * Controller for the Job Instance Details page.
@@ -36,6 +37,7 @@ public class JobInstanceController {
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
 	private JobService jobService;
+	private PublishingStatsService publishingStatsService;
 	
 	/**
 	 * Create a aggregated list of StepExecution's from all JobInstance's specified by id.
@@ -50,7 +52,7 @@ public class JobInstanceController {
 		log.debug(">>> jobInstanceId="+jobInstanceId);
 		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
 		if (jobInstance != null) {
-			JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(jobInstance.getId());
+			EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
 			List<JobExecution> jobExecutions = jobService.findJobExecutions(jobInstance);
 			List<StepExecution> allJobInstanceSteps = new ArrayList<StepExecution>();
 			for (JobExecution je : jobExecutions) {
@@ -64,7 +66,7 @@ public class JobInstanceController {
 	}
 
 	private void populateModel(Model model, final JobInstance jobInstance,
-							   final JobInstanceBookInfo bookInfo,
+							   final EbookAudit bookInfo,
 							   final List<StepExecution> allJobInstanceSteps) {
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
@@ -73,5 +75,9 @@ public class JobInstanceController {
 	@Required
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService service) {
+		this.publishingStatsService = service;
 	}
 }

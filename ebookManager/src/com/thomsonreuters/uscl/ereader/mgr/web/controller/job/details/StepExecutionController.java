@@ -25,9 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 
 /**
@@ -38,6 +39,7 @@ public class StepExecutionController {
 	private static final Logger log = Logger.getLogger(StepExecutionController.class);
 	
 	private JobService jobService;
+	private PublishingStatsService publishingStatsService;
 	
 	/**
 	 * Set up model for viewing a specific job step.
@@ -53,14 +55,14 @@ public class StepExecutionController {
 							  Model model) throws Exception {
 		log.debug(">>> jobInstanceId="+jobInstanceId + "&jobExecutionId="+jobExecutionId + "&stepExecutionId="+stepExecutionId);
 		JobInstance jobInstance = jobService.findJobInstance(jobInstanceId);
-		JobInstanceBookInfo bookInfo = jobService.findJobInstanceBookInfo(jobInstance.getId());
+		EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
 		StepExecution stepExecution = jobService.findStepExecution(jobExecutionId, stepExecutionId);
 		populateModel(model, jobInstance, bookInfo, stepExecution);
 		return new ModelAndView(WebConstants.VIEW_JOB_STEP_EXECUTION_DETAILS);
 	}
 	
 	private void populateModel(Model model, final JobInstance jobInstance,
-							   final JobInstanceBookInfo bookInfo, final StepExecution stepExecution) {
+							   final EbookAudit bookInfo, final StepExecution stepExecution) {
 		List<Map.Entry<String,Object>> mapEntryList = createStepExecutionContextMapEntryList(stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
@@ -88,5 +90,9 @@ public class StepExecutionController {
 	@Required
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService service) {
+		this.publishingStatsService = service;
 	}
 }

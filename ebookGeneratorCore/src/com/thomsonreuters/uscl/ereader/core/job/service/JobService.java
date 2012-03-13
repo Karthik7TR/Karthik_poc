@@ -7,11 +7,13 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 public interface JobService {
 	
+	
+
 	/**
 	 * Find a job execution by its primary key.
 	 * @param jobExecutionId primary key
@@ -32,7 +34,9 @@ public interface JobService {
 	 * @param jobInstanceId primary key for the job instance.
 	 * @return subset of the book definition properties used for a specific job instance.
 	 */
-	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId);
+//	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId);
+	
+	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds);
 	
 	public StepExecution findStepExecution(long jobExecutionId, long stepExecutionId);
 	

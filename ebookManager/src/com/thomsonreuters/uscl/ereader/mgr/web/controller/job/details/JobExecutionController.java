@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -37,6 +37,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * Controller for the Job Execution Details page.
@@ -47,6 +48,7 @@ public class JobExecutionController {
 	
 	private JobService jobService;
 	private ManagerService managerService;
+	private PublishingStatsService publishingStatsService;
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobSummaryController jobSummaryController;
@@ -65,7 +67,7 @@ public class JobExecutionController {
 							  Model model) throws Exception {
 		log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
-		JobInstanceBookInfo bookInfo = (jobExecution != null) ? jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+		EbookAudit bookInfo = (jobExecution != null) ? publishingStatsService.findAuditInfoByJobId(jobExecution.getJobId()) : null;
 		populateModel(model, jobExecution, bookInfo);
 		model.addAttribute(JobExecutionForm.FORM_NAME, new JobExecutionForm());
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
@@ -79,11 +81,11 @@ public class JobExecutionController {
 							   BindingResult bindingResult,
 							   Model model) {
 		JobExecution jobExecution = null;
-		JobInstanceBookInfo bookInfo = null;
+		EbookAudit bookInfo = null;
 		if (!bindingResult.hasErrors()) {
 			jobExecution = jobService.findJobExecution(form.getJobExecutionId());
 			if (jobExecution != null) {
-				bookInfo = (jobExecution != null) ? jobService.findJobInstanceBookInfo(jobExecution.getJobId()) : null;
+				bookInfo = (jobExecution != null) ? publishingStatsService.findAuditInfoByJobId(jobExecution.getJobId()) : null;
 			} else {
 				String[] args = { form.getJobExecutionId().toString() };
 				bindingResult.reject("executionId.not.found", args, "Job execution not found");
@@ -170,10 +172,10 @@ public class JobExecutionController {
 		}
 	}
 	
-	private void populateModel(Model model, JobExecution jobExecution, JobInstanceBookInfo bookInfo) {
-		JobExecutionVdo vdo = new JobExecutionVdo(jobExecution, bookInfo);
+	private void populateModel(Model model, JobExecution jobExecution, EbookAudit bookInfo) {
+		JobExecutionVdo job = new JobExecutionVdo(jobExecution, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_EXECUTION, jobExecution);
-		model.addAttribute(WebConstants.KEY_VDO, vdo);
+		model.addAttribute(WebConstants.KEY_JOB, job);
 	}
 
 	@Required
@@ -195,5 +197,9 @@ public class JobExecutionController {
 	@Required
 	public void setJobSummaryController(JobSummaryController controller) {
 		this.jobSummaryController = controller;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService service) {
+		this.publishingStatsService = service;
 	}
 }

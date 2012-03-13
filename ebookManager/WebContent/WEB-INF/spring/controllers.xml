@@ -44,6 +44,7 @@
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
 		  p:jobService-ref="jobService"
 		  p:managerService-ref="managerService"
+		  p:publishingStatsService-ref="publishingStatsService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor"
 		  p:jobSummaryController-ref="jobSummaryController">
 		  <property name="validator">
@@ -51,9 +52,11 @@
 		  </property>
 	</bean>
 	<bean id="jobInstanceController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobInstanceController"
-		  p:jobService-ref="jobService"/>
+		  p:jobService-ref="jobService"
+		  p:publishingStatsService-ref="publishingStatsService"/>
 	<bean id="jobStepExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.StepExecutionController"
-		  p:jobService-ref="jobService"/>	
+		  p:jobService-ref="jobService"
+		  p:publishingStatsService-ref="publishingStatsService"/>	
 	<bean id="jobSummaryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController"
 		  p:jobService-ref="jobService"
 		  p:managerService-ref="managerService"

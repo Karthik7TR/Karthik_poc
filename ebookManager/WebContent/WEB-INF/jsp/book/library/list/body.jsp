@@ -64,7 +64,7 @@
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
 	  <display:column title="Book Name" sortable="true" sortName="bookName" style="text-align: left">
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_BOOK_DEFINITION_ID%>=${vdo.bookDefinitionId}">${vdo.bookName}</a>
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.bookName}</a>
 	  </display:column>
 	  <display:column title="Title ID" property="titleId" />
 	  <display:column title="Author" property="author" sortable="true" sortName="authorInfo" style="text-align: left"/>

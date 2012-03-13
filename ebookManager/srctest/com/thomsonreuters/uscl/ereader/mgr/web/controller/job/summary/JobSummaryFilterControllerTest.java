@@ -22,13 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterController;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterFormValidator;
 
 public class JobSummaryFilterControllerTest {
 	private FilterController controller;
@@ -72,9 +69,9 @@ public class JobSummaryFilterControllerTest {
     	jobExecutions.add(jobExecution);
     	
     	EasyMock.expect(mockJobService.findJobExecutions(
-    				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
-    	EasyMock.expect(mockJobService.findJobInstanceBookInfo(EasyMock.anyLong())).andReturn(new JobInstanceBookInfo("bookName", "uscl/x/y/z"));
+   				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
+//    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
+    	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds)).andReturn(new ArrayList<JobSummary>());
     	
     	EasyMock.replay(mockJobService);
     	
