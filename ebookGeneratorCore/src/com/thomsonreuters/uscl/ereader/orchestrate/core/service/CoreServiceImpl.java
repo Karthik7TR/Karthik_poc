@@ -73,50 +73,16 @@ public class CoreServiceImpl implements CoreService {
 	 */
 	@Transactional
 	public void saveBookDefinition(BookDefinition eBook) {
+		BookDefinition existingBook = coreDao.findBookDefinitionByTitle(eBook.getFullyQualifiedTitleId());
+		
+		if(existingBook != null) {
+			eBook.setEbookDefinitionId(existingBook.getEbookDefinitionId());
+		}
+		
 		// Update Date
 		eBook.setLastUpdated(new Date());
 		
-		BookDefinition existingBook = coreDao.findBookDefinitionByTitle(eBook.getFullyQualifiedTitleId());
-
-		if (existingBook != null) {
-			existingBook.setFullyQualifiedTitleId(eBook.getFullyQualifiedTitleId());
-
-			if (existingBook != eBook) {
-				existingBook.setAuthors(eBook.getAuthors());
-				existingBook.setAutoUpdateSupportFlag(eBook.getAutoUpdateSupportFlag());
-				existingBook.setCopyright(eBook.getCopyright());
-				existingBook.setCopyrightPageText(eBook.getCopyrightPageText());
-				existingBook.setCoverImage(eBook.getCoverImage());
-				existingBook.setCurrency(eBook.getCurrency());
-				existingBook.setDocCollectionName(eBook.getDocCollectionName());
-				existingBook.setDocumentTypeCodes(eBook.getDocumentTypeCodes());
-				existingBook.setEbookDefinitionCompleteFlag(eBook.IsEbookDefinitionCompleteFlag());
-				existingBook.setEbookNames(eBook.getEbookNames());
-				existingBook.setFrontMatters(eBook.getFrontMatters());
-				existingBook.setIsbn(eBook.getIsbn());
-				existingBook.setIsDeletedFlag(eBook.getIsDeletedFlag());
-				existingBook.setIsProviewTableViewFlag(eBook.IsProviewTableViewFlag());
-				existingBook.setIsTocFlag(eBook.getIsTocFlag());
-				existingBook.setKeyciteToplineFlag(eBook.IsKeyciteToplineFlag());
-				existingBook.setLastUpdated(eBook.getLastUpdated());
-				existingBook.setMaterialId(eBook.getMaterialId());
-				existingBook.setNortDomain(eBook.getNortDomain());
-				existingBook.setNortFilterView(eBook.getNortFilterView());
-				existingBook.setOnePassSsoLinkFlag(eBook.IsOnePassSsoLinkFlag());
-				existingBook.setProviewDisplayName(eBook.getProviewDisplayName());
-				existingBook.setPublishCutoffDate(eBook.getPublishCutoffDate());
-				existingBook.setPublishDateText(eBook.getPublishDateText());
-				existingBook.setPublishedOnceFlag(eBook.IsPublishedOnceFlag());
-				existingBook.setPublisherCodes(eBook.getPublisherCodes());
-				existingBook.setRootTocGuid(eBook.getRootTocGuid());
-				existingBook.setSearchIndexFlag(eBook.IsSearchIndexFlag());
-				existingBook.setTocCollectionName(eBook.getTocCollectionName());
-			}
-			coreDao.saveBookDefinition(existingBook);
-		} 
-		else {
-			coreDao.saveBookDefinition(eBook);
-		}
+		coreDao.saveBookDefinition(eBook);
 	}
 	
 }

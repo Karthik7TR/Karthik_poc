@@ -137,7 +137,7 @@ public class EditBookDefinitionForm {
 		}
 		book.setAuthors(authors);
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
-		book.setCopyright(copyright != null ? copyright : "asdf");
+		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
 		book.setCurrency(currency);
 		
@@ -175,7 +175,7 @@ public class EditBookDefinitionForm {
 			book.setKeywordTypeValueses(keywordValues);
 		}
 		
-		book.setMaterialId(materialId != null ? materialId : "asdf");
+		book.setMaterialId(materialId);
 		book.setNortDomain(nortDomain);
 		book.setNortFilterView(nortFilterView);
 		book.setProviewDisplayName(proviewDisplayName);
