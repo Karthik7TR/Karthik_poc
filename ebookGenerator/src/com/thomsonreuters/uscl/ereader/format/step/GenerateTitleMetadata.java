@@ -47,11 +47,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final Logger LOG = Logger.getLogger(GenerateTitleMetadata.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private TitleMetadataService titleMetadataService;
-	private DocMetadataService docMetadataService; 
-
-	public void setDocMetadataService(DocMetadataService docMetadataService) {
-		this.docMetadataService = docMetadataService;
-	}
 
 	private String stylesheetPath;
 	
@@ -100,24 +95,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadata.getAssets().add(stylesheet);
 	}
 
-	private void addTableOfContents(ExecutionContext jobExecutionContext,
-			TitleMetadata titleMetadata) {
-		File tocXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
-		//TODO: add gathered TOC to titleMetadata.
-		ArrayList<TocEntry> tocEntries = titleMetadataService.createTableOfContents(tocXml);
-		TableOfContents tableOfContents = new TableOfContents();
-		tableOfContents.setTocEntries(tocEntries);
-		titleMetadata.setTableOfContents(tableOfContents);
-	}
-
-	private void addDocuments(ExecutionContext jobExecutionContext,
-			TitleMetadata titleMetadata, Integer jobInstanceId) throws EBookFormatException {
-
-		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
-		ArrayList<Doc> documents = readTOCGuidList(documentsDirectory);
-			
-		titleMetadata.setDocuments(documents);
-	}
 	/**
 	 * Reads in a list of TOC Guids that are associated to each Doc Guid to later be used
 	 * for anchor insertion and generates a map.
