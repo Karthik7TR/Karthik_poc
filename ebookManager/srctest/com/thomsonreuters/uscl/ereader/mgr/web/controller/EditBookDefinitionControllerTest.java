@@ -167,6 +167,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", "uscl/an/abcd");
 
+    	mockCoreService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
     	setupMockServices(null, 1);
     	
     	ModelAndView mav;
@@ -262,6 +263,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("isComplete", "true");
     	request.setParameter("validateForm", "false");
 
+    	mockCoreService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
     	setupMockServices(null, 1);
     	
     	ModelAndView mav;
@@ -395,7 +397,7 @@ public class EditBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	
     	BookDefinition book = createBookDef(fullyQualifiedTitleId);
-    	
+    	mockCoreService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
     	EasyMock.expect(mockCoreService.findBookDefinitionByEbookDefId(EasyMock.anyObject(Long.class))).andReturn(book);
     	EasyMock.replay(mockCoreService);
     	

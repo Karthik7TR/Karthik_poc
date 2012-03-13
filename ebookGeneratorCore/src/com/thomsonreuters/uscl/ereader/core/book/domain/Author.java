@@ -6,13 +6,15 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,28 +24,20 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
  */
-@IdClass(com.thomsonreuters.uscl.ereader.core.book.domain.AuthorPK.class)
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinitionId = :eBookDefId")})
+		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinition = :eBookDef")})
 @Table(schema = "EBOOK", name = "AUTHOR")
 public class Author implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 7962657038385328632L;
 	/**
 	 */
-
 	@Column(name = "AUTHOR_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "AuthorSequence")
+	@SequenceGenerator(name="AuthorSequence", sequenceName = "AUTHOR_ID_SEQ")
 	Long authorId;
-	/**
-	 */
-
-	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@Id
-	Long ebookDefinitionId;
 	/**
 	 */
 
@@ -84,8 +78,8 @@ public class Author implements Serializable {
 
 	/**
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false, insertable = false, updatable = false) })
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
 	BookDefinition ebookDefinition;
 
 	/**
@@ -98,18 +92,6 @@ public class Author implements Serializable {
 	 */
 	public Long getAuthorId() {
 		return this.authorId;
-	}
-
-	/**
-	 */
-	public void setEbookDefinitionId(Long ebookDefinitionId) {
-		this.ebookDefinitionId = ebookDefinitionId;
-	}
-
-	/**
-	 */
-	public Long getEbookDefinitionId() {
-		return this.ebookDefinitionId;
 	}
 
 	/**
@@ -207,7 +189,6 @@ public class Author implements Serializable {
 	 */
 	public void copy(Author that) {
 		setAuthorId(that.getAuthorId());
-		setEbookDefinitionId(that.getEbookDefinitionId());
 		setAuthorNamePrefix(that.getAuthorNamePrefix());
 		setAuthorNameSuffix(that.getAuthorNameSuffix());
 		setAuthorFirstName(that.getAuthorFirstName());
@@ -266,12 +247,12 @@ public class Author implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = (int) (prime * result + ((authorId == null) ? 0 : authorId.hashCode()));
-		result = (int) (prime * result + ((ebookDefinitionId == null) ? 0 : ebookDefinitionId.hashCode()));
 		return result;
 	}
 
 	/**
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)
 			return true;
@@ -281,10 +262,6 @@ public class Author implements Serializable {
 		if ((authorId == null && equalCheck.authorId != null) || (authorId != null && equalCheck.authorId == null))
 			return false;
 		if (authorId != null && !authorId.equals(equalCheck.authorId))
-			return false;
-		if ((ebookDefinitionId == null && equalCheck.ebookDefinitionId != null) || (ebookDefinitionId != null && equalCheck.ebookDefinitionId == null))
-			return false;
-		if (ebookDefinitionId != null && !ebookDefinitionId.equals(equalCheck.ebookDefinitionId))
 			return false;
 		return true;
 	}

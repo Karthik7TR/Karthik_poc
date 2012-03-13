@@ -30,7 +30,7 @@ public interface AuthorService {
 
 	/**
 	 */
-	public Author findAuthorByPrimaryKey(Long authorId, Long eBookDefnId);
+	public Author findAuthorById(Long authorId);
 	/**
 	 */
 	public List<Author> findAuthorsByEBookDefnId(Long eBookDefnId);

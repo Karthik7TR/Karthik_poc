@@ -15,7 +15,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.domain.AuthorPK;
 
 /**
  * DAO to manage DocMetadata entities.
@@ -97,9 +96,9 @@ public class AuthorDaoImpl implements AuthorDao {
 	}
 
 	@Override
-	public Author findAuthorByPrimaryKey(AuthorPK authorPk)
+	public Author findAuthorById(Long authorId)
 			throws DataAccessException {
 		Session session = sessionFactory.getCurrentSession();
-		return (Author) session.get(Author.class, authorPk);
+		return (Author) session.get(Author.class, authorId);
 	}
 }

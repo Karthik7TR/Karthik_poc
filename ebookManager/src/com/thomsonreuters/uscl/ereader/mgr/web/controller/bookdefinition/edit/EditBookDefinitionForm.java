@@ -5,11 +5,16 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -20,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
@@ -58,6 +64,7 @@ public class EditBookDefinitionForm {
 	private boolean keyCiteToplineFlag;
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
+	private boolean isProviewTableView;
 	
 	// Fully qualified title ID parts
 	private String publisher;
@@ -75,9 +82,10 @@ public class EditBookDefinitionForm {
 		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
 		this.additionalFrontMatter = new AutoPopulatingList<FrontMatter>(FrontMatter.class);
 		this.keywords = new ArrayList<Long>();
-		this.keyCiteToplineFlag = false;
+		this.isProviewTableView = false;
 		this.isComplete = false;
 		this.validateForm = false;
+		this.keyCiteToplineFlag = true;
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 	}
@@ -120,6 +128,75 @@ public class EditBookDefinitionForm {
 			
 			parseTitleId(book);
 		}
+	}
+	
+	public void loadBookDefinition(BookDefinition book) throws ParseException {
+		Set<Author> authors = new HashSet<Author>(authorInfo);
+		for(Author author : authors) {
+			author.setEbookDefinition(book);
+		}
+		book.setAuthors(authors);
+		book.setAutoUpdateSupportFlag(autoUpdateSupport);
+		book.setCopyright(copyright != null ? copyright : "asdf");
+		book.setCopyrightPageText(copyrightPageText);
+		book.setCurrency(currency);
+		
+		DocumentTypeCode dtc = new DocumentTypeCode();
+		dtc.setId(contentTypeId);
+		book.setDocumentTypeCodes(dtc);
+		
+		book.setEbookDefinitionCompleteFlag(isComplete);
+		book.setEbookDefinitionId(bookdefinitionId);
+		
+		Set<EbookName> ebookNames = new HashSet<EbookName>(nameLines);
+		for(EbookName name : ebookNames) {
+			name.setEbookDefinition(book);
+		}
+		book.setEbookNames(ebookNames);
+		
+		Set<FrontMatter> frontMatters = new HashSet<FrontMatter>(additionalFrontMatter);
+		for(FrontMatter frontMatter : frontMatters) {
+			frontMatter.setEbookDefinition(book);
+		}
+		book.setFrontMatters(frontMatters);
+		book.setFullyQualifiedTitleId(titleId);
+		book.setIsbn(isbn);
+		book.setIsProviewTableViewFlag(isProviewTableView);
+		book.setIsTocFlag(isTOC);
+		book.setKeyciteToplineFlag(keyCiteToplineFlag);
+		
+		if(keywords != null) {
+			Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
+			for(Long id : keywords) {
+				KeywordTypeValue keywordValue = new KeywordTypeValue();
+				keywordValue.setId(id);
+				keywordValues.add(keywordValue);
+			}
+			book.setKeywordTypeValueses(keywordValues);
+		}
+		
+		book.setMaterialId(materialId != null ? materialId : "asdf");
+		book.setNortDomain(nortDomain);
+		book.setNortFilterView(nortFilterView);
+		book.setProviewDisplayName(proviewDisplayName);
+		
+		if(publicationCutoffDate != null) {
+			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+			Date date = (Date)formatter.parse(publicationCutoffDate); 
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			book.setPublishCutoffDate(cal);
+		}
+		
+		book.setPublishDateText(publishDateText);
+		
+		PublisherCode publishercode = new PublisherCode();
+		publishercode.setName(publisher);
+		book.setPublisherCodes(publishercode);
+		
+		book.setRootTocGuid(rootTocGuid);
+		book.setSearchIndexFlag(searchIndex);
+		book.setTocCollectionName(tocCollectionName);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -334,6 +411,14 @@ public class EditBookDefinitionForm {
 
 	public void setIsComplete(boolean isComplete) {
 		this.isComplete = isComplete;
+	}
+
+	public boolean getIsProviewTableView() {
+		return isProviewTableView;
+	}
+
+	public void setIsProviewTableView(boolean isProviewTableView) {
+		this.isProviewTableView = isProviewTableView;
 	}
 
 	public boolean isKeyCiteToplineFlag() {

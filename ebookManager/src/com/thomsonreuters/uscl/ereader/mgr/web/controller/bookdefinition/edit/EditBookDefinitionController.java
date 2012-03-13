@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.text.ParseException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -67,16 +69,20 @@ public class EditBookDefinitionController {
 	 * @param bindingResult
 	 * @param model
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.POST)
 	public ModelAndView createBookDefintionPost(
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
-				Model model) {
+				Model model) throws ParseException {
 		
 		if(!bindingResult.hasErrors()) {
-			// TODO: Update to go to the View Book Definition page 
-			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+			BookDefinition book = new BookDefinition();
+			form.loadBookDefinition(book);
+			coreService.saveBookDefinition(book);
+			String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, book.getEbookDefinitionId());
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
 		initialize(model, form);
@@ -118,8 +124,11 @@ public class EditBookDefinitionController {
 				Model model) throws Exception {
 		
 		if(!bindingResult.hasErrors()) {
-			// TODO: Update to go to the View Book Definition page 
-			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+			BookDefinition book = new BookDefinition();
+			form.loadBookDefinition(book);
+			coreService.saveBookDefinition(book);
+			String queryString = String.format("?%s=%s", WebConstants.KEY_BOOK_DEFINITION_ID, book.getEbookDefinitionId());
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
 		// Lookup the book by its primary key

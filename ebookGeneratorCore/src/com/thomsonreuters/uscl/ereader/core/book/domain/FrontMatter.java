@@ -6,12 +6,15 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +38,8 @@ public class FrontMatter implements Serializable {
 	@Column(name = "FRONT_MATTER_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "FrontMatterSequence")
+	@SequenceGenerator(name="FrontMatterSequence", sequenceName = "FRONT_MATTER_ID_SEQ")	
 	Integer frontMatterId;
 	/**
 	 */
@@ -152,6 +157,7 @@ public class FrontMatter implements Serializable {
 
 	/**
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)
 			return true;

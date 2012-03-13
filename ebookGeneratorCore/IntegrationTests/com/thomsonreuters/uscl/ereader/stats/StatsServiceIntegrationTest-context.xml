@@ -49,7 +49,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
 			<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>	

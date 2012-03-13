@@ -12,10 +12,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -25,10 +26,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -54,6 +59,8 @@ public class BookDefinition implements Serializable {
 	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
+	@SequenceGenerator(name="bookDefinitionIdSequence", sequenceName="EBOOK_DEFINITION_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bookDefinitionIdSequence")
 	Long ebookDefinitionId;
 	/**
 	 */
@@ -230,7 +237,8 @@ public class BookDefinition implements Serializable {
 	java.util.Set<EbookAudit> ebookAudits;*/
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@Cascade({CascadeType.ALL})
 	java.util.Set<FrontMatter> frontMatters;
 	/**
 	 */
@@ -242,12 +250,16 @@ public class BookDefinition implements Serializable {
 	java.util.Set<KeywordTypeValue> keywordTypeValues;
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@Cascade({CascadeType.ALL})
 	java.util.Set<Author> authors;
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@Cascade({CascadeType.ALL})
 	java.util.Set<EbookName> ebookNames;
+	
+
 
 	/**
 	 */
@@ -666,6 +678,9 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 	public BookDefinition() {
+		this.setIsDeletedFlag(false);
+		this.setPublishedOnceFlag(false);
+		this.setOnePassSsoLinkFlag(true);
 	}
 
 	/**

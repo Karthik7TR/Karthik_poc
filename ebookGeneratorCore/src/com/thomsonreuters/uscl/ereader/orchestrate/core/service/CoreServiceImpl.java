@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.core.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -96,7 +97,7 @@ public class CoreServiceImpl implements CoreService {
 				existingBook.setIsProviewTableViewFlag(eBook.IsProviewTableViewFlag());
 				existingBook.setIsTocFlag(eBook.getIsTocFlag());
 				existingBook.setKeyciteToplineFlag(eBook.IsKeyciteToplineFlag());
-				existingBook.setLastUpdated(eBook.getLastUpdated());
+				existingBook.setLastUpdated(new Date());
 				existingBook.setMaterialId(eBook.getMaterialId());
 				existingBook.setNortDomain(eBook.getNortDomain());
 				existingBook.setNortFilterView(eBook.getNortFilterView());

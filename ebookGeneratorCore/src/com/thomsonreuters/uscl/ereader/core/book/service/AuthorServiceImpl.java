@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.AuthorDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.domain.AuthorPK;
 
 /**
  * Spring service that handles CRUD requests for Author entities
@@ -32,12 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
 	@Transactional
 	public void saveAuthor(Author author) {
 
-		AuthorPK existingAuthorPk = new AuthorPK();
-		existingAuthorPk.setAuthorId(author.getAuthorId());
-		existingAuthorPk.setEbookDefinitionId(author.getEbookDefinitionId());
-
-
-		Author existingAuthor = authorDAO.findAuthorByPrimaryKey(existingAuthorPk);
+		Author existingAuthor = authorDAO.findAuthorById(author.getAuthorId());
 
 		if (existingAuthor != null) {
 			if (existingAuthor != author) {
@@ -49,7 +43,6 @@ public class AuthorServiceImpl implements AuthorService {
 				existingAuthor.setAuthorNamePrefix(author.getAuthorNamePrefix());
 				existingAuthor.setAuthorNameSuffix(author.getAuthorNameSuffix());
 				existingAuthor.setEbookDefinition(author.getEbookDefinition());
-				existingAuthor.setEbookDefinitionId(author.getEbookDefinitionId());
 				}
 			authorDAO.saveAuthor(existingAuthor);
 		} else {
@@ -67,11 +60,8 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
-	public Author findAuthorByPrimaryKey(Long authorId, Long ebookDefinitionId) {
-		AuthorPK authorPk = new AuthorPK();
-		authorPk.setAuthorId(authorId);
-		authorPk.setEbookDefinitionId(ebookDefinitionId);
-		return authorDAO.findAuthorByPrimaryKey(authorPk);
+	public Author findAuthorById(Long authorId) {
+		return authorDAO.findAuthorById(authorId);
 	}
 
 	@Override

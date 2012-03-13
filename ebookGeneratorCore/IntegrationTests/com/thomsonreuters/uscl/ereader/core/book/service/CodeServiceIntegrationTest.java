@@ -8,7 +8,9 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -21,12 +23,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 
 
@@ -37,6 +42,9 @@ public class CodeServiceIntegrationTest  {
 	private static final Logger log = Logger.getLogger(CodeServiceIntegrationTest.class);
 	@Autowired
 	private CodeService service;
+	
+	@Autowired
+	private CoreService coreService;
 	
 	
 	@Test
@@ -155,6 +163,7 @@ public class CodeServiceIntegrationTest  {
 		DocumentTypeCode createCode = new DocumentTypeCode();
 		createCode.setName("Test");
 		createCode.setAbbreviation("t");
+		createCode.setUsePublishCutoffDateFlag("F");
 		service.saveDocumentTypeCode(createCode);
 
 		// Get
@@ -308,4 +317,75 @@ public class CodeServiceIntegrationTest  {
 		List<KeywordTypeValue> emptyValues = service.getAllKeywordTypeValues(createCode.getId());
 		Assert.assertEquals(new ArrayList<KeywordTypeValue>(), emptyValues);
 	}
+	
+	@Test
+	public void testKeywordTypeValues() {
+		List<KeywordTypeValue> allValues = service.getAllKeywordTypeValues();
+		int keywordValueSize = allValues.size();
+		String titleId = "uscl/an/abcd1234_test";
+		setupBookDef(titleId);
+		
+		BookDefinition book = coreService.findBookDefinitionByTitle(titleId);
+		log.debug(book);
+		Set<KeywordTypeValue> values = book.getKeywordTypeValueses(); 
+		Assert.assertEquals(3, values.size());
+		
+		values.clear();
+		book.setKeywordTypeValueses(values);
+		coreService.saveBookDefinition(book);
+		
+		book = coreService.findBookDefinitionByTitle(titleId);
+		values = book.getKeywordTypeValueses(); 
+		Assert.assertEquals(0, values.size());
+		
+		Assert.assertEquals(keywordValueSize, service.getAllKeywordTypeValues().size());
+		
+	}
+	
+	private void setupBookDef(String titleId) {
+		BookDefinition book = new BookDefinition();
+    	book.setFullyQualifiedTitleId(titleId);
+    	DocumentTypeCode dtc = new DocumentTypeCode();
+    	dtc.setId(Long.parseLong("1"));
+    	book.setDocumentTypeCodes(dtc);
+    	
+    	EbookName bookName = new EbookName();
+    	bookName.setBookNameText("Test book name");
+    	bookName.setSequenceNum(Integer.parseInt("1"));
+    	bookName.setEbookDefinition(book);
+    	book.getEbookNames().add(bookName);
+    	
+    	PublisherCode publisherCode = new PublisherCode();
+    	publisherCode.setId(Long.parseLong("1"));
+    	book.setPublisherCodes(publisherCode);
+    	
+    	book.setMaterialId("random");
+    	book.setCopyright("something");
+    	book.setIsTocFlag(false);
+    	book.setIsDeletedFlag(false);
+    	book.setIsProviewTableViewFlag(false);
+    	book.setEbookDefinitionCompleteFlag(false);
+    	book.setAutoUpdateSupportFlag(true);
+    	book.setSearchIndexFlag(true);
+    	book.setPublishedOnceFlag(false);
+    	book.setOnePassSsoLinkFlag(true);
+    	book.setKeyciteToplineFlag(true);
+		
+    	Set<KeywordTypeValue> values = new HashSet<KeywordTypeValue>();
+    	for(int i = 1; i < 4; i++) {
+    		KeywordTypeValue value = new KeywordTypeValue();
+    		value.setId(Long.parseLong(Integer.toString(i)));
+    		values.add(value);
+    	}
+		book.setKeywordTypeValueses(values);
+		
+		coreService.saveBookDefinition(book);
+	}
+	
+	
+	
+	
+	
+	
+	
 }

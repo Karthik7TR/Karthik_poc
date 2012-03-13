@@ -185,7 +185,7 @@
 		var getContentTypeAbbr = function() {
 			var contentIndex = $('#contentTypeId option:selected').val();
 			if(contentIndex) {
-			    $.getJSON("<%= WebConstants.MVC_GET_CONTENT_TYPE_ABBR %>",
+			    $.getJSON("<%= WebConstants.MVC_GET_CONTENT_TYPE %>",
 			    		{contentTypeId : contentIndex},
 			    		function(data) { 
 			    			contentType = data.abbreviation;
@@ -491,7 +491,6 @@
 		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
 			<div class="row">
 				<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-				<form:hidden path="authorInfo[${aStatus.index}].ebookDefinitionId"/>
 				<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" title="prefix" class="prefix"  />
 				<form:input path="authorInfo[${aStatus.index}].authorFirstName"  title="first name" class="firstName" />
 				<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
@@ -546,6 +545,14 @@
 		<form:input path="currency" />
 		<div class="errorDiv">
 			<form:errors path="currency" cssClass="errorMessage" />
+		</div>
+	</div>
+	<div class="row">
+		<form:label path="isProviewTableView" class="labelCol">Use Proview Table View</form:label>
+		<form:radiobutton path="isProviewTableView" value="true" />True
+		<form:radiobutton path="isProviewTableView" value="false" />False
+		<div class="errorDiv">
+			<form:errors path="isProviewTableView" cssClass="errorMessage" />
 		</div>
 	</div>
 	<div class="row">

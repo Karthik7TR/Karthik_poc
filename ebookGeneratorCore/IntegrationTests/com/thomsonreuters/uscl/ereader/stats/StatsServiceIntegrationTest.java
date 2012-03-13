@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
@@ -65,8 +64,9 @@ public class StatsServiceIntegrationTest {
 		// mock up the job stats
 		
 		saveBook(); // book will continue to exist and only be updated subsequently
-		saveAuditId();
-		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
+		eBook = coreService.findBookDefinitionByTitle(BOOK_TITLE);
+		saveAuditId(eBook.getEbookDefinitionId());
+		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId(eBook.getEbookDefinitionId());
 		savePublishingStats(new Integer("1"), ebookMax);
 
 	}
@@ -95,7 +95,7 @@ public class StatsServiceIntegrationTest {
 	public void savePublishingStats(Integer seqNum, Long auditId) {
 		jobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		BookDefinition bookDef = coreService.findBookDefinitionByTitle(BOOK_TITLE);
-		jobStats.setEbookDefId((long) bookDef.getEbookDefinitionId());
+		jobStats.setEbookDefId(bookDef.getEbookDefinitionId());
 		jobStats.setAuditId(auditId);
 		jobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+seqNum);
 		jobStats.setBookVersionSubmitted( "1.1");
@@ -114,7 +114,7 @@ public class StatsServiceIntegrationTest {
 	public void saveBook() {
 		eBook = new com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition();
 
-		eBook.setEbookDefinitionId((long) 10000);
+		//eBook.setEbookDefinitionId((long) 10000);
 		eBook.setFullyQualifiedTitleId(BOOK_TITLE);
 		eBook.setProviewDisplayName("Integration Test Book");
 		eBook.setCopyright("2012 Copyright Integration Test");
@@ -136,15 +136,19 @@ public class StatsServiceIntegrationTest {
 
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
+		
+		PublisherCode publisherCode = codeService.getPublisherCodeById((long) 1);
+		eBook.setPublisherCodes(publisherCode);
+		
 		coreService.saveBookDefinition(eBook);
 	}
 	/**
 	 * Operation Unit Test Save an existing Audit entity
 	 * 
 	 */
-	public void saveAuditId() {
+	public void saveAuditId(Long eBookDefinitionId) {
 		ebookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
-		ebookAudit.setEbookDefinitionId((long) 10000);
+		ebookAudit.setEbookDefinitionId(eBookDefinitionId);
 		ebookAudit.setAuditId((long) 999);
 		ebookAudit.setTitleId(BOOK_TITLE);
 		ebookAudit.setCopyright("2012 Copyright Integration Test");
@@ -239,7 +243,7 @@ public class StatsServiceIntegrationTest {
 
 		LOG.debug(" response " + responseJobStats); //12345678900011
 
-		Assert.assertEquals(responseJobStats,expectedJobStats);
+		Assert.assertEquals(expectedJobStats, responseJobStats);
 	}
 	
 	
@@ -255,7 +259,7 @@ public class StatsServiceIntegrationTest {
 		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(JOB_INSTANCE_ID+1);
 		LOG.debug("responseJobStats audit_id is " + responseJobStats.getAuditId());
 	
-		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
+		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId(eBook.getEbookDefinitionId());
 		LOG.debug(" ebookMax " + ebookMax); 
 		
 		EbookAudit ebookData =  ebookAuditService.findEBookAuditByPrimaryKey(responseJobStats.getAuditId());

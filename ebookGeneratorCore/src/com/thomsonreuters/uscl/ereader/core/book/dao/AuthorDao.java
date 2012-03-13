@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.domain.AuthorPK;
 
 /**
  * DAO to manage Author entities.
@@ -23,7 +22,7 @@ public interface AuthorDao {
 	 * Query - findAuthorByPrimaryKey
 	 * 
 	 */
-	public Author findAuthorByPrimaryKey(AuthorPK authorPk)
+	public Author findAuthorById(Long authorId)
 			throws DataAccessException;
 
 	/**

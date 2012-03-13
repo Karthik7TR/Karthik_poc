@@ -7,12 +7,13 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class CoreDaoImpl implements CoreDao {
@@ -25,7 +26,6 @@ public class CoreDaoImpl implements CoreDao {
 	
 	@Override
 	public BookDefinition findBookDefinitionByTitle(String titleId) {
-		@SuppressWarnings("unchecked")
 		BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
 		 .add( Restrictions.eq("fullyQualifiedTitleId", titleId)).uniqueResult();
 
@@ -34,13 +34,7 @@ public class CoreDaoImpl implements CoreDao {
 	
 	@Override
 	public BookDefinition findBookDefinitionByEbookDefId(Long ebookDefId) {
-		@SuppressWarnings("unchecked")
-		BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession().createCriteria(BookDefinition.class)
-		 .add( Restrictions.eq("eBookDefinitionId", ebookDefId)).list();
-
-		return bookDef;
-
-
+		return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, ebookDefId);
 	}
 	
 	@Override
@@ -82,7 +76,21 @@ public class CoreDaoImpl implements CoreDao {
 	@Override
 	public void saveBookDefinition(BookDefinition eBook) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(eBook);
+		
+		// Attach Publisher Code
+		eBook.setPublisherCodes( (PublisherCode) session.createCriteria(PublisherCode.class)
+		 .add( Restrictions.eq("name", eBook.getPublisherCodes().getName())).uniqueResult());
+		
+		// Attach DocumentTypeCode
+		eBook.setDocumentTypeCodes((DocumentTypeCode) session.get(DocumentTypeCode.class, 
+				eBook.getDocumentTypeCodes().getId()));
+		
+		if(eBook.getEbookDefinitionId() != null) {
+			eBook = (BookDefinition) session.merge(eBook);
+		} else {
+			
+			session.save(eBook);
+		}
 		session.flush();
 	}
 
