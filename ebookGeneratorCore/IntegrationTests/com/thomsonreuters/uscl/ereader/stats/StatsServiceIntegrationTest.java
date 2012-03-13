@@ -18,8 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -31,8 +36,9 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 @Transactional
 public class StatsServiceIntegrationTest {
 	private static Logger LOG = Logger.getLogger(StatsServiceIntegrationTest.class);
-	public Timestamp UPDATE_DATE = getCurrentTimeStamp();
-	private Long jobInstanceId = (long) 1234567890;
+	private Timestamp UPDATE_DATE = getCurrentTimeStamp();
+	private static Long JOB_INSTANCE_ID = (long) 1234567890;
+	private static String BOOK_TITLE = "uscl/an/TEST";
 	
 	@Autowired
 	protected PublishingStatsService jobStatsService;
@@ -42,6 +48,13 @@ public class StatsServiceIntegrationTest {
 	@Autowired
 	protected EBookAuditService ebookAuditService;
 	protected EbookAudit ebookAudit;
+	
+	@Autowired
+	protected CoreService coreService;
+	protected BookDefinition eBook;
+	
+	@Autowired
+	protected CodeService codeService;
 	/**
 	 * Mock up the DAO and the Entity.
 	 * 
@@ -51,6 +64,7 @@ public class StatsServiceIntegrationTest {
 	public void setUp() throws Exception {
 		// mock up the job stats
 		
+		saveBook(); // book will continue to exist and only be updated subsequently
 		saveAuditId();
 		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
 		savePublishingStats(new Integer("1"), ebookMax);
@@ -64,6 +78,7 @@ public class StatsServiceIntegrationTest {
 	public void deleteJobStats() {
 		jobStatsService.deleteJobStats(jobStats);
 	}
+
 	/**
 	 * Operation Unit Test Delete an existing DocMetadata entity
 	 * 
@@ -79,9 +94,10 @@ public class StatsServiceIntegrationTest {
 	 */
 	public void savePublishingStats(Integer seqNum, Long auditId) {
 		jobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
-		jobStats.setEbookDefId((long) 1);
+		BookDefinition bookDef = coreService.findBookDefinitionByTitle(BOOK_TITLE);
+		jobStats.setEbookDefId((long) bookDef.getEbookDefinitionId());
 		jobStats.setAuditId(auditId);
-		jobStats.setJobInstanceId( (long) jobInstanceId+seqNum);
+		jobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+seqNum);
 		jobStats.setBookVersionSubmitted( "1.1");
 		jobStats.setJobHostName("jobHostName Integration test");
 		jobStats.setJobSubmitterName("jobSubmitterName Integration test");
@@ -95,13 +111,44 @@ public class StatsServiceIntegrationTest {
 	 * Operation Unit Test Save an existing Audit entity
 	 * 
 	 */
+	public void saveBook() {
+		eBook = new com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition();
+
+		eBook.setEbookDefinitionId((long) 10000);
+		eBook.setFullyQualifiedTitleId(BOOK_TITLE);
+		eBook.setProviewDisplayName("Integration Test Book");
+		eBook.setCopyright("2012 Copyright Integration Test");
+		eBook.setDocCollectionName("invalidCollection");
+		eBook.setRootTocGuid("roottocguid");
+		eBook.setTocCollectionName("invalidTocCollection");
+		eBook.setIsbn("1234");
+		eBook.setMaterialId("12345");
+		eBook.setIsTocFlag(true);
+		eBook.setAutoUpdateSupportFlag(true);
+		eBook.setEbookDefinitionCompleteFlag(true);
+		eBook.setIsDeletedFlag(false);
+		eBook.setIsProviewTableViewFlag(false);
+		eBook.setKeyciteToplineFlag(true);
+		eBook.setOnePassSsoLinkFlag(true);
+		eBook.setSearchIndexFlag(true);
+		eBook.setPublishedOnceFlag(false);
+		eBook.setLastUpdated(UPDATE_DATE);
+
+		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
+		eBook.setDocumentTypeCodes(dc);
+		coreService.saveBookDefinition(eBook);
+	}
+	/**
+	 * Operation Unit Test Save an existing Audit entity
+	 * 
+	 */
 	public void saveAuditId() {
 		ebookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
-		ebookAudit.setEbookDefinitionId((long) 1);
+		ebookAudit.setEbookDefinitionId((long) 10000);
 		ebookAudit.setAuditId((long) 999);
-		ebookAudit.setTitleId("Integration\\Test\\Title");
-		ebookAudit.setCopyright("copyright");
-		ebookAudit.setMaterialId("1234");
+		ebookAudit.setTitleId(BOOK_TITLE);
+		ebookAudit.setCopyright("2012 Copyright Integration Test");
+		ebookAudit.setMaterialId("12345");
 		ebookAudit.setAuditType("ADD");
 		ebookAudit.setIsTocFlag("Y");
 		ebookAudit.setAutoUpdateSupportFlag("Y");
@@ -116,7 +163,7 @@ public class StatsServiceIntegrationTest {
 		ebookAuditService.saveEBookAudit(ebookAudit);
 	}
 
-
+	
 	/**
 	 * Operation Unit Test
 	 * 
@@ -127,7 +174,7 @@ public class StatsServiceIntegrationTest {
 
 
 		PublishingStats jobstats = new PublishingStats();
-		jobstats.setJobInstanceId(jobInstanceId+1);
+		jobstats.setJobInstanceId(JOB_INSTANCE_ID+1);
 		jobstats.setGatherDocExpectedCount(1);
 		jobstats.setGatherDocRetrievedCount(1);
 		jobstats.setGatherDocRetryCount(0);
@@ -137,12 +184,12 @@ public class StatsServiceIntegrationTest {
 		Assert.assertEquals(updateCount,1);
 		
 		
-		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(jobInstanceId+1);
+		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(JOB_INSTANCE_ID+1);
 
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
 		expectedJobStats.setAuditId((long) 999);
-		expectedJobStats.setJobInstanceId( (long) jobInstanceId+1);
+		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");
 		expectedJobStats.setJobSubmitterName("jobSubmitterName Integration test");
@@ -163,7 +210,7 @@ public class StatsServiceIntegrationTest {
 
 
 		PublishingStats jobstats = new PublishingStats();
-		jobstats.setJobInstanceId(jobInstanceId+1);
+		jobstats.setJobInstanceId(JOB_INSTANCE_ID+1);
 		jobstats.setGatherDocExpectedCount(1);
 		jobstats.setGatherDocRetrievedCount(1);
 		jobstats.setGatherDocRetryCount(0);
@@ -173,13 +220,13 @@ public class StatsServiceIntegrationTest {
 		Assert.assertEquals(updateCount,1);
 		
 		PublishingStatsPK pubPK = new PublishingStatsPK();
-		pubPK.setJobInstanceId(jobInstanceId+1);
+		pubPK.setJobInstanceId(JOB_INSTANCE_ID+1);
 		PublishingStats responseJobStats =  jobStatsService.findJobStatsByPubStatsPK(pubPK);
 		
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
 		expectedJobStats.setAuditId((long) 999);
-		expectedJobStats.setJobInstanceId( (long) jobInstanceId+1);
+		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");
 		expectedJobStats.setJobSubmitterName("jobSubmitterName Integration test");
@@ -205,7 +252,7 @@ public class StatsServiceIntegrationTest {
 	@Test
 	public void findJobStatsAuditByEbookDefTest() 
 	{
-		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(jobInstanceId+1);
+		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(JOB_INSTANCE_ID+1);
 		LOG.debug("responseJobStats audit_id is " + responseJobStats.getAuditId());
 	
 		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId((long) 1);
@@ -216,7 +263,7 @@ public class StatsServiceIntegrationTest {
 
 	
 
-		EbookAudit responseEbookAudit = jobStatsService.findAuditInfoByJobId((long) jobInstanceId+1);
+		EbookAudit responseEbookAudit = jobStatsService.findAuditInfoByJobId((long) JOB_INSTANCE_ID+1);
 		EbookAudit expectedEbookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
 //		expectedEbookAudit.setEbookDefinition(1);
 		expectedEbookAudit.setAuditId(ebookMax);

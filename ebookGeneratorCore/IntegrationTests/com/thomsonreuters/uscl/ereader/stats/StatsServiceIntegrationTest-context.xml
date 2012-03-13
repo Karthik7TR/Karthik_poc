@@ -47,11 +47,10 @@
 			<list>
 			<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
-			<!--value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
+			<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookKeyword</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
@@ -59,8 +58,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value-->			    	
-				
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>			    	
 			</list>
 		</property>
 	</bean>
@@ -87,5 +85,19 @@
 
 	<bean id="ebookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
 			p:eBookAuditDAO-ref="ebookAuditDao"/>	
-
+  		  
+  	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+		
+  	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
+  		  p:coreDao-ref="coreDao"/>
+  	
+  	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+  		  
+  	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
+  		  p:codeDao-ref="codeDao"/>
+  		  
 </beans>

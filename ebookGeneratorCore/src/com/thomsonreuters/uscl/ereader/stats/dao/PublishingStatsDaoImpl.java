@@ -32,7 +32,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -40,7 +40,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 		
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public PublishingStats findJobStatsByJobId(Long JobId) {
 		
 		Session session = sessionFactory.getCurrentSession();
