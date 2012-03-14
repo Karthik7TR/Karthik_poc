@@ -7,8 +7,10 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
+/**
+ * Queries for fetching Spring Batch job information.
+ */
 public interface JobDao {
-	
 	
 	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds);
 	

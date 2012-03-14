@@ -39,13 +39,11 @@ public class JobDaoImpl implements JobDao {
 			sql.append(String.format("(execution.JOB_EXECUTION_ID = %d) and ", jobExecutionId));
 			sql.append("(execution.JOB_INSTANCE_ID = stats.JOB_INSTANCE_ID(+)) and ");
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+))");
-//log.debug("SQL: " + sql.toString());
 			List<JobSummary> rows = jdbcTemplate.query(sql.toString(), JOB_SUMMARY_ROW_MAPPER);
 			if (rows.size() == 0) {
 				log.debug(String.format("Job Execution ID %d was not found", jobExecutionId));
 			} else if (rows.size() == 1) {
 				JobSummary summary = rows.get(0);
-//log.debug("SUMMARY: " + summary);
 				list.add(summary);
 			} else {
 				log.error(String.format("%d rows were unexpectedly returned!", rows.size()));
@@ -90,7 +88,6 @@ public class JobDaoImpl implements JobDao {
 		sql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
 		
 log.debug("SQL: " + sql.toString());
-log.debug("from: " + filter.getFrom() + "  to: " + filter.getToInclusive());
 		Object[] args = null;
 		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
 			args = new Object[2];
@@ -110,59 +107,7 @@ log.debug("from: " + filter.getFrom() + "  to: " + filter.getToInclusive());
 			jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER);
 		}
 		return jobExecutionIds;
-	}	
-	
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	@Transactional(readOnly = true)
-//	public List<Long> OLD_findJobExecutions(JobFilter filter, JobSort sort) {
-//		
-//		StringBuffer hql = new StringBuffer("select execution.jobExecutionId from ");
-//		hql.append("JobExecutionEntity execution ");
-//		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
-//			hql.append(", PublishingStats stats, EbookAudit audit ");
-//		}
-//		hql.append("where ");
-//		if (filter.getFrom() != null) {
-//			hql.append("(execution.startTime > :fromDate) and ");
-//		}
-//		if (filter.getTo() != null) {
-//			hql.append("(execution.startTime <= :toDate) and ");
-//		}
-//		if (filter.getBatchStatus() != null) {
-//			hql.append(String.format("(execution.batchStatus = '%s') and ", filter.getBatchStatus().toString()));
-//		}
-//		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
-//			hql.append("(execution.jobInstanceId = stats.jobInstanceId) and ");
-//			hql.append("(stats.auditId = audit.auditId) and ");
-//			
-//			if (StringUtils.isNotBlank(filter.getBookName())) {
-//				hql.append(String.format("(audit.bookNamesConcat like '%%%s%%') and ", filter.getBookName()));
-//			}
-//			if (StringUtils.isNotBlank(filter.getTitleId())) {
-//				hql.append(String.format("(audit.titleId like '%%%s%%') and ", filter.getTitleId()));
-//			}
-//		}
-//		hql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
-//		
-//		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
-//		hql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
-//		
-//		// Create query and populate it with where clause values
-//		log.debug("HQL: " + hql.toString());
-//		Session session = sessionFactory.getCurrentSession();
-//		Query query = session.createQuery(hql.toString());
-//		
-//		// Plug in the missing date values in the query
-//		if (filter.getFrom() != null) {
-//			query.setTimestamp("fromDate", filter.getFrom());
-//		}
-//		if (filter.getTo() != null) {
-//			query.setTimestamp("toDate", filter.getTo());
-//		}
-//		// Invoke the query
-//		return query.list();
-//	}
+	}
 
 	/**
 	 * Map the sort column enumeration into the actual column identifier used in the HQL query.

@@ -47,9 +47,8 @@ public class JobServiceIntegrationTest  {
 	
 	//@Test
 	public void testFindJobExecutions() {
-		JobFilter filter = new JobFilter();
+		JobFilter filter = new JobFilter(new Date(System.currentTimeMillis() - 5*24*60*60*1000), null, null, null, null);
 		//filter.setTitleId("FRCP");
-		filter.setFrom(new Date(System.currentTimeMillis() - 5*24*60*60*1000));
 		//JobSort sort = new JobSort(SortParmeterKeyName.titleIdFullyQualified, true);
 		JobSort sort = new JobSort(SortProperty.JOB_INSTANCE_ID, false);
 		List<Long> executions = service.findJobExecutions(filter, sort);
@@ -67,17 +66,4 @@ public class JobServiceIntegrationTest  {
 			//log.debug(exec.getId() + "," + params.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
 		}
 	}
-	
-//	@Test
-//	public void testFetchJobExecutions() {
-//		
-//		int pageNumber = 1;
-//		int expectedItems = 20;
-//		JobFilter filter = new JobFilter();
-//		SortAndPage sap = new SortAndPage("titleId", true, pageNumber, expectedItems);
-//		List<JobExecutionEntity> jobExecs = service.findJobExecutions(filter, sap);
-//		Assert.assertNotNull(jobExecs);
-//		Assert.assertEquals(expectedItems, jobExecs.size());
-//		System.out.println(jobExecs);
-//	}
 }

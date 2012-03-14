@@ -10,10 +10,8 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobInstanceBookInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
@@ -63,17 +61,6 @@ public class JobServiceImpl implements JobService {
 	public JobInstance findJobInstance(long jobInstanceId) {
 		return jobExplorer.getJobInstance(jobInstanceId);
 	}
-	
-//	@Override
-//	@Transactional(readOnly = true)
-//	public JobInstanceBookInfo findJobInstanceBookInfo(long jobInstanceId) {
-//		EbookAudit audit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
-//		if (audit == null) {
-//			audit = new EbookAudit();
-//		}
-//		JobInstanceBookInfo bookInfo = new JobInstanceBookInfo(audit.getBookNamesConcat(), audit.getTitleId());
-//		return bookInfo;
-//	}
 	
 	@Override
 	public StepExecution findStepExecution(long jobExecutionId, long stepExecutionId) {
