@@ -37,7 +37,6 @@ import org.hibernate.annotations.CascadeType;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
@@ -237,7 +236,7 @@ public class BookDefinition implements Serializable {
 	java.util.Set<EbookAudit> ebookAudits;*/
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	java.util.Set<FrontMatter> frontMatters;
 	/**
@@ -250,12 +249,12 @@ public class BookDefinition implements Serializable {
 	java.util.Set<KeywordTypeValue> keywordTypeValues;
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	java.util.Set<Author> authors;
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	java.util.Set<EbookName> ebookNames;
 	

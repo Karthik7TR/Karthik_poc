@@ -183,7 +183,7 @@
 	    });
 		
 		var getContentTypeAbbr = function() {
-			var contentIndex = $('#contentTypeId option:selected').val();
+			var contentIndex = $('#contentTypeId').val();
 			if(contentIndex) {
 			    $.getJSON("<%= WebConstants.MVC_GET_CONTENT_TYPE %>",
 			    		{contentTypeId : contentIndex},

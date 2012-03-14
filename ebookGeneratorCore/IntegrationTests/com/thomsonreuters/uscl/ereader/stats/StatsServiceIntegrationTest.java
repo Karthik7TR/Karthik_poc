@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.stats;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.HashSet;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -17,8 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -133,7 +137,10 @@ public class StatsServiceIntegrationTest {
 		eBook.setSearchIndexFlag(true);
 		eBook.setPublishedOnceFlag(false);
 		eBook.setLastUpdated(UPDATE_DATE);
-
+		eBook.setAuthors(new HashSet<Author>());
+		eBook.setEbookNames(new HashSet<EbookName>());
+		eBook.setFrontMatters(new HashSet<FrontMatter>());
+		
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
 		
