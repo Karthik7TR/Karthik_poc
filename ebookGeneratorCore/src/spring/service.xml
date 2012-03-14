@@ -42,6 +42,10 @@
 	<bean id="proviewRequestCallbackFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory"/>
 	<bean id="proviewResponseExtractorFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory"/>	
 	
+	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"/>	
+	
+	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl"/>	
+	
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
 		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
 		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
