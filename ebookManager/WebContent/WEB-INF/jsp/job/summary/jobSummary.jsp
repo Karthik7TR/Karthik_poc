@@ -101,13 +101,15 @@ function submitJobSummaryForm(command) {
 		<c:set var="operationsDisabled" value=""/>
 	</sec:authorize>
 	<input type="button" ${operationsDisabled} value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+
 	<input type="button" ${operationsDisabled} value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
-	</c:if>  <%-- if rowCount > 0 --%>
+	</c:if>  <%-- if (table row count > 0) --%>
 </form:form>
 
 <br/>
 <%-- Select for how may items (rows) per page to show --%>
-<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
 		   commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
 	Items to display: 
 	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
@@ -117,4 +119,5 @@ function submitJobSummaryForm(command) {
 		<form:option label="100" value="100"/>
 		<form:option label="250" value="250"/>
 	</form:select>
-</form:form>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>
