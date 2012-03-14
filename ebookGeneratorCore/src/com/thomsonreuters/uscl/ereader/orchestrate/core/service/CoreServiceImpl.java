@@ -77,6 +77,8 @@ public class CoreServiceImpl implements CoreService {
 		
 		if(existingBook != null) {
 			eBook.setEbookDefinitionId(existingBook.getEbookDefinitionId());
+			eBook.setPublishedOnceFlag(existingBook.IsPublishedOnceFlag());
+			eBook.setIsDeletedFlag(existingBook.getIsDeletedFlag());
 		}
 		
 		// Update Date
