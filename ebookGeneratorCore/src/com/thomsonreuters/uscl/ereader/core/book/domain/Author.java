@@ -265,4 +265,32 @@ public class Author implements Serializable {
 			return false;
 		return true;
 	}
+	
+
+	/**
+	 * The full name of the author
+	 * @return the concat of prefix, first Name, middle Name, Last Name and suffix
+	 */
+	@Transient
+	public String getAuthorFullName() {
+		
+		String authorFullName = "";
+		
+        if (authorNamePrefix != null) {
+        	authorFullName = authorFullName + authorNamePrefix + " ";
+        }
+        if (authorFirstName != null) {
+        	authorFullName = authorFullName + authorFirstName + " ";
+        }
+        if (authorMiddleName != null) {
+        	authorFullName = authorFullName + authorMiddleName + " ";
+        }
+        if (authorLastName != null) {
+        	authorFullName = authorFullName + authorLastName + " ";
+        }
+        if (authorNameSuffix != null) {
+        	authorFullName = authorFullName + authorNameSuffix + " ";
+        }
+		return (authorFullName.trim());
+	}	
 }
