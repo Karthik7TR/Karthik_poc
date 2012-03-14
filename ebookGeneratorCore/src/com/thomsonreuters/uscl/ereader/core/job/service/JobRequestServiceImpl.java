@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -25,7 +26,6 @@ public class JobRequestServiceImpl implements JobRequestService{
 
 	private static final Logger log = Logger.getLogger(JobRequestServiceImpl.class);
 
-	@Autowired
 	public JobRequestDao jobRequestDao;
 	
 	
@@ -145,7 +145,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 		return status;
 	}
 	
-
+	@Required
 	public void setJobRequestDao(JobRequestDao jobRequestDao) {
 		this.jobRequestDao = jobRequestDao;
 	}
