@@ -6,13 +6,13 @@
 
 package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
-
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * DAO to manage DocMetadata entities.
@@ -39,6 +39,14 @@ public interface DocMetadataDao {
 
 	public void remove(DocMetadata toRemove) throws DataAccessException;
 
-	public void saveMetadata(DocMetadata metadata);;
+	public void saveMetadata(DocMetadata metadata);
+
+	/**
+	 * Retrieves all document metadata records for a given jobId.
+	 * 
+	 * @param jobInstanceId the job for which to retrieve the document metadata
+	 * @return the {@link DocumentMetadataAuthority} representing the full set of {@link DocMetadata} for the job.
+	 */
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId);
 
 }

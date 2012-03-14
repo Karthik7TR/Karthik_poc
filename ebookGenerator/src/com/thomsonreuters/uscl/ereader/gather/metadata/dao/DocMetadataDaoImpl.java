@@ -6,21 +6,23 @@
 
 package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
-
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * DAO to manage DocMetadata entities.
@@ -148,5 +150,21 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(metadata);
 		session.flush();
+	}
+
+	@Override
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Set<DocMetadata> documentMetadataSet = new HashSet<DocMetadata>();
+		
+		@SuppressWarnings("unchecked")
+		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
+	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
+	    .list();
+		
+		documentMetadataSet.addAll(docMetaList);
+		DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
+		return documentMetadataAuthority;
 	}
 }
