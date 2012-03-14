@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
@@ -58,12 +61,27 @@ public class ProviewClientImpl implements ProviewClient {
 					"eBookVersionNumber must not be null or empty, but was ["
 							+ eBookVersionNumber + "].");
 		}
-
+		FileInputStream ebookInputStream;
+		
+		try {
+			ebookInputStream = new FileInputStream(eBook);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("Cannot send a null or empty File to ProView.", e);
+		}
+		
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
-		restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getRequestCallback();
+		proviewRequestCallback.setEbookInputStream(ebookInputStream);
+		
+		restTemplate.execute(publishTitleUriTemplate,
+				HttpMethod.PUT,
+				proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
+		
+		//restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 
 		// logResponse(response);
 
@@ -107,48 +125,26 @@ public class ProviewClientImpl implements ProviewClient {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getCurrentProviewTitleInfo(java.lang.String)
+	 * getCurrentProviewVersionNumber(java.lang.String)
 	 */
 	@Override
-	public ProviewTitleInfo getLatestProviewTitleInfo(
+	public String getCurrentProviewVersionNumber(
 			final String fullyQualifiedTitleId) throws ProviewException {
-
-		ProviewTitleInfo latestProviewVersion = null;
+		String versionNumber = null;
 
 		String allPublishedTitleResponse = getAllPublishedTitles();
 
 		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleContainer> titleMap = parser
+		Map<String, ProviewTitleInfo> titleMap = parser
 				.process(allPublishedTitleResponse);
 
-		ProviewTitleContainer proviewTitleContainer = titleMap
-				.get(fullyQualifiedTitleId);
+		ProviewTitleInfo proviewTitleInfo = titleMap.get(fullyQualifiedTitleId);
 
-		if (proviewTitleContainer != null) {
-			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+		if (proviewTitleInfo != null) {
+			versionNumber = proviewTitleInfo.getVesrion();
 		}
 
-		return latestProviewVersion;
-	}
-	
-	@Override
-	public boolean hasTitleIdBeenPublished(
-			final String fullyQualifiedTitleId) throws ProviewException {
-
-		String allPublishedTitleResponse = getAllPublishedTitles();
-
-		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleContainer> titleMap = parser
-				.process(allPublishedTitleResponse);
-
-		ProviewTitleContainer proviewTitleContainer = titleMap
-				.get(fullyQualifiedTitleId);
-
-		if (proviewTitleContainer != null) {
-			return proviewTitleContainer.hasBeenPublished();
-		} else {
-			return false;
-		}
+		return versionNumber;
 	}
 
 	private void logResponse(final ResponseEntity responseEntity) {

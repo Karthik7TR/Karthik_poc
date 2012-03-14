@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
@@ -22,6 +24,11 @@ public class ProviewRequestCallback implements RequestCallback {
 	private static final String APPLICATION_XML_MIMETYPE = "application/xml";
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
+	private InputStream ebookInputStream;
+
+	public void setEbookInputStream(InputStream ebookInputStream) {
+		this.ebookInputStream = ebookInputStream;
+	}
 
 	@Override
 	public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
@@ -32,5 +39,12 @@ public class ProviewRequestCallback implements RequestCallback {
 		 * with the RestTemplate prevents the underlying, concrete HttpClient headers (if any are present) to be ignored.
 		 */
 		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
+		if (ebookInputStream != null) {
+			long startTime = System.currentTimeMillis();
+			IOUtils.copy(ebookInputStream, clientHttpRequest.getBody());
+			long duration = System.currentTimeMillis() - startTime;
+			System.out.println("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
+		}
+		System.out.println("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
 	}
 }
