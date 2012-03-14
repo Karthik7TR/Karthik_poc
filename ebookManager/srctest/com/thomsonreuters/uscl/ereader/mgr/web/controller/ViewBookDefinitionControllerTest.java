@@ -20,6 +20,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
@@ -34,6 +35,7 @@ public class ViewBookDefinitionControllerTest {
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     private CoreService mockCoreService;
+    private JobRequestService mockJobRequestService;
 
    
     @Before
@@ -42,8 +44,10 @@ public class ViewBookDefinitionControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	mockCoreService = EasyMock.createMock(CoreService.class);
+    	mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	controller = new ViewBookDefinitionController();
     	controller.setCoreService(mockCoreService);
+    	controller.setJobRequestService(mockJobRequestService);
     }
     
     @Test
@@ -52,12 +56,16 @@ public class ViewBookDefinitionControllerTest {
 
     	BookDefinition bookDef = new BookDefinition();
     	bookDef.setFullyQualifiedTitleId(TITLE_ID);
+    	bookDef.setEbookDefinitionId(BOOK_DEFINITION_ID);
     	request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
     	request.setMethod(HttpMethod.GET.name());
-    	request.addParameter(WebConstants.KEY_ID, "1");
+    	request.addParameter(WebConstants.KEY_ID, Long.toString(BOOK_DEFINITION_ID));
     	
     	EasyMock.expect(mockCoreService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDef);
     	EasyMock.replay(mockCoreService);
+    	
+    	EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
+		EasyMock.replay(mockJobRequestService);
 
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -68,6 +76,7 @@ public class ViewBookDefinitionControllerTest {
     	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_VIEW, mav.getViewName());
     	
     	EasyMock.verify(mockCoreService);
+    	EasyMock.verify(mockJobRequestService);
     }
     
     @Test

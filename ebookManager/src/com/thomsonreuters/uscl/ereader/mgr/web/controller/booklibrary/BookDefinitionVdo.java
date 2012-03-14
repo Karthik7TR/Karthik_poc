@@ -52,7 +52,7 @@ public class BookDefinitionVdo {
 	}
 
 	public String getTitleId() {
-		return bookDefinition.getTitleId();
+		return bookDefinition.getFullyQualifiedTitleId();
 	}
 
 	public String getBookName() {
@@ -69,8 +69,8 @@ public class BookDefinitionVdo {
 		return new Date();
 	}
 
-	public String getPublishStatus() {
-		return "";
+	public String getBookStatus() {
+		return bookDefinition.getBookStatus();
 	}
 
 	public Date getLastEdit() {

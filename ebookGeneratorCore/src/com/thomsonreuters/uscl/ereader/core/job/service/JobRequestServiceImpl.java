@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -30,6 +31,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	
 	
 	@Override
+	@Transactional(readOnly = true)
 	public JobRequest getNextJobToExecute() {
 
 		JobRequest jobRequest = jobRequestDao.getNextJobToExecute();
@@ -38,6 +40,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteJobByJobId(long jobRequestId) {
 		
 		jobRequestDao.deleteJobByJobId(jobRequestId);
@@ -45,6 +48,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	}
 
 	@Override
+	@Transactional
 	public void updateJobPriority(long jobRequestId, String jobPriority) {
 		
 		jobRequestDao.updateJobPriority(jobRequestId, convertJobPriorityToInt(jobPriority));
@@ -52,6 +56,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean isBookInJobRequest(long ebookDefinaitionId) {
 		boolean isBookInRequest = false; 
 		JobRequest jobRequest = jobRequestDao.getJobRequestByBookDefinationId(ebookDefinaitionId);
@@ -63,11 +68,13 @@ public class JobRequestServiceImpl implements JobRequestService{
 
 
 	@Override
+	@Transactional(readOnly = true)
 	public JobRequest getJobRequestByBookDefinationId(long ebookDefinitionId) {
 		return jobRequestDao.getJobRequestByBookDefinationId(ebookDefinitionId);
 	}
 
 	@Override
+	@Transactional
 	public void saveJobRequest(long ebookDefinitionId,
 			String ebookVersionSubmitted, String jobStatus, String jobPriority,
 			Timestamp jobScheduledTime, String jobSubmittersName) {
@@ -91,6 +98,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<JobRequest> getAllJobRequests() {
 		
 		List<JobRequest> jobRequestList = null;
@@ -100,6 +108,7 @@ public class JobRequestServiceImpl implements JobRequestService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<JobRequest> getAllJobRequestsBy(String jobStatus,
 			String jobPriority, Date jobScheduledTime, String jobSubmittersName) {
 		

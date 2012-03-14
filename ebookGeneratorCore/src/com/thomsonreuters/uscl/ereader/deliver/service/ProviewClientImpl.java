@@ -62,28 +62,26 @@ public class ProviewClientImpl implements ProviewClient {
 							+ eBookVersionNumber + "].");
 		}
 		FileInputStream ebookInputStream;
-
+		
 		try {
 			ebookInputStream = new FileInputStream(eBook);
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException(
-					"Cannot send a null or empty File to ProView.", e);
+			throw new RuntimeException("Cannot send a null or empty File to ProView.", e);
 		}
-
+		
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getRequestCallback();
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getRequestCallback();
 		proviewRequestCallback.setEbookInputStream(ebookInputStream);
-
-		restTemplate.execute(publishTitleUriTemplate, HttpMethod.PUT,
+		
+		restTemplate.execute(publishTitleUriTemplate,
+				HttpMethod.PUT,
 				proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
+				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
+		
+		//restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 
 		// logResponse(response);
 
@@ -150,6 +148,26 @@ public class ProviewClientImpl implements ProviewClient {
 
 		return latestProviewVersion;
 	}
+	
+	@Override
+	public boolean hasTitleIdBeenPublished(
+			final String fullyQualifiedTitleId) throws ProviewException {
+
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+		Map<String, ProviewTitleContainer> titleMap = parser
+				.process(allPublishedTitleResponse);
+
+		ProviewTitleContainer proviewTitleContainer = titleMap
+				.get(fullyQualifiedTitleId);
+
+		if (proviewTitleContainer != null) {
+			return proviewTitleContainer.hasBeenPublished();
+		} else {
+			return false;
+		}
+	}
 
 	private void logResponse(final ResponseEntity responseEntity) {
 		LOG.debug("Response Headers: "
@@ -186,12 +204,5 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setProviewResponseExtractorFactory(
 			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
 		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
-	}
-
-	@Override
-	public boolean hasTitleIdBeenPublished(String fullyQualifiedTitleId)
-			throws ProviewException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

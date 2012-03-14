@@ -62,7 +62,7 @@ public class BookPromotionControllerTest {
 	public void testpromoteOneEbook() {
 		request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_PROMOTION);
     	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter("titleId", "uscl/imagedoc3");
+    	request.setParameter("id", "1");
 
     	ModelAndView mav;
 		try {
@@ -86,8 +86,8 @@ public class BookPromotionControllerTest {
 	public void testpromoteBulkEbook() {
 		request.setRequestURI("/"+WebConstants.MVC_BOOK_DEFINITION_BULK_PROMOTION);
     	request.setMethod(HttpMethod.GET.name());
-    	String[] keys = {"uscl/imagedoc3", "uscl/imagedoc4"};
-    	request.setParameter("titleId", keys);
+    	String[] keys = {"1", "2"};
+    	request.setParameter("id", keys);
 
     	ModelAndView mav;
 		try {

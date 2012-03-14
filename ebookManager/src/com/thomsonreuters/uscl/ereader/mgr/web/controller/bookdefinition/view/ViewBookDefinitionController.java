@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -26,6 +27,7 @@ public class ViewBookDefinitionController {
 	private static final Logger log = Logger.getLogger(ViewBookDefinitionController.class);
 
 	private CoreService coreService;
+	private JobRequestService jobRequestService;
 	
 	/**
 	 * Handle the in-bound GET to the Book Definition read-only view page.
@@ -40,10 +42,7 @@ public class ViewBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
 		form.setId(id);
 		
-		// TODO: Update with queue checking
-		boolean isInJobRequest = false;
-		
-		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
+		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}
@@ -87,5 +86,10 @@ public class ViewBookDefinitionController {
 	@Required
 	public void setCoreService(CoreService service) {
 		this.coreService = service;
+	}
+	
+	@Required
+	public void setJobRequestService(JobRequestService service) {
+		this.jobRequestService = service;
 	}
 }

@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
@@ -36,6 +37,7 @@ public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 
 	private CoreService coreService;
+	private JobRequestService jobRequestService;
 	private EditBookDefinitionService editBookDefinitionService;
 	private ProviewClient proviewClient;
 	private Validator validator;
@@ -57,7 +59,7 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) {
 		
-		initialize(model, form);
+		initializeModel(model, form);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
@@ -85,7 +87,7 @@ public class EditBookDefinitionController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
-		initialize(model, form);
+		initializeModel(model, form);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
@@ -139,28 +141,26 @@ public class EditBookDefinitionController {
 	}
 	
 	private void setupEditFormAndModel(BookDefinition bookDef, EditBookDefinitionForm form, Model model) throws Exception {
-		boolean isInJobRequest;
-		boolean isPublished;
+		boolean isInJobRequest = false;
+		boolean isPublished = false;
 		
 		// Check if book is scheduled or queued
-		// TODO: Update with queue checking
 		if (bookDef != null) {
 			isPublished = bookDef.IsPublishedOnceFlag();
-			isInJobRequest = false;
+			isInJobRequest =  jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId());
 			
 			// Check proview if book went to final state if isPublished is false
 			if(!isPublished) {
-				if(proviewClient.hasTitleIdBeenPublished(bookDef.getTitleId())) {
+				if(proviewClient.hasTitleIdBeenPublished(bookDef.getFullyQualifiedTitleId())) {
+					// Save new Publish State if Title ID is found in ProView as Final 
 					isPublished = true;
-					//TODO: update book definition in db with isPublished to true
+					bookDef.setPublishedOnceFlag(true);
+					coreService.saveBookDefinition(bookDef);
 				}
 			}
-		} else {
-			isInJobRequest = false;
-			isPublished = false;
 		}
 		
-		initialize(model, form);
+		initializeModel(model, form);
 		
 		model.addAttribute(WebConstants.KEY_ID, form.getBookdefinitionId());
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -179,11 +179,11 @@ public class EditBookDefinitionController {
 	}
 	
 	/**
-	 * Initializes the model and form values for the Create/Edit Book Definition View
+	 * Initializes the model for the Create/Edit Book Definition View
 	 * @param model
 	 * @param form
 	 */
-	private void initialize(Model model, EditBookDefinitionForm form) {
+	private void initializeModel(Model model, EditBookDefinitionForm form) {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
@@ -212,6 +212,11 @@ public class EditBookDefinitionController {
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
+	}
+	
+	@Required
+	public void setJobRequestService(JobRequestService service) {
+		this.jobRequestService = service;
 	}
 	
 	@Required

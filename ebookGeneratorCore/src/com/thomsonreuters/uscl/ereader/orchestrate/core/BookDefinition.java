@@ -801,4 +801,23 @@ public class BookDefinition implements Serializable {
 		keywords.add(new Keyword("publisher", "Thomson Reuters"));
 		return (keywords);
 	}	
+	
+	/**
+	 * Provides the status of the book definition
+	 * @return String indicating the status
+	 */
+	@Transient
+	public String getBookStatus() {
+		String status;
+		if (getIsDeletedFlag()) {
+			status = "Deleted";
+		} else { 
+			if (IsEbookDefinitionCompleteFlag()) {
+				status = "Complete";
+			} else {
+				status = "Incomplete";
+			}
+		}
+		return status;
+	}
 }

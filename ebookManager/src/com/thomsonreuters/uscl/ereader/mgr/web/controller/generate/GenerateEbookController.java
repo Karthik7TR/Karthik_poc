@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -74,17 +76,17 @@ public class GenerateEbookController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateEbookPreview(@RequestParam String bookDefId,
+	public ModelAndView generateEbookPreview(@RequestParam Long id,
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		Long ebookDefId = Long.parseLong(bookDefId);
-		BookDefinition book = coreService.findBookDefinitionByEbookDefId(ebookDefId);
+		BookDefinition book = coreService.findBookDefinitionByEbookDefId(id);
 
-		ProviewTitleInfo proviewTitleInfo = proviewClient
-				.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
 
 		if (book != null) {
+			ProviewTitleInfo proviewTitleInfo = proviewClient
+					.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
+			
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
 			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
@@ -95,16 +97,15 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
 			
-			
+			if (proviewTitleInfo == null) {
+				currentVersion = "Not published";
+
+			} else {
+				currentVersion = proviewTitleInfo.getVesrion();
+
+			}
 		}
-
-		if (proviewTitleInfo == null) {
-			currentVersion = "Not published";
-
-		} else {
-			currentVersion = proviewTitleInfo.getVesrion();
-
-		}
+		
 		calculateVersionNumbers(model);
 
 		model.addAttribute(WebConstants.TITLE_ID, book.getFullyQualifiedTitleId());
@@ -219,7 +220,7 @@ public class GenerateEbookController {
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
 	public ModelAndView generateBulkEbookPreview(
-			@RequestParam String[] titleId, Model model) throws Exception {
+			@RequestParam List<Long> id, Model model) throws Exception {
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
