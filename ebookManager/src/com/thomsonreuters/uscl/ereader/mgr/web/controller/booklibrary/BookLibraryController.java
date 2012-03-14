@@ -109,7 +109,7 @@ public class BookLibraryController {
 			StringBuilder parameters = new StringBuilder();
 			parameters.append("?");
 			for(String key : bookKeys) {
-				parameters.append("titleId=" + key + "&");
+				parameters.append("bookDefId=" + key + "&");
 			}
 			
 			Command command = form.getCommand();
