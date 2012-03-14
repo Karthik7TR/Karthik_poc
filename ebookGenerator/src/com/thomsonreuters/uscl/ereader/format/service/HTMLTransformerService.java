@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * Applies any post transformation on the HTML that need to be done to cleanup or make

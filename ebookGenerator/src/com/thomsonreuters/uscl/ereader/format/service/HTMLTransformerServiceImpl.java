@@ -39,9 +39,11 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Fi
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.InternalLinkResolverFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
@@ -122,10 +124,13 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		LOG.info("Applying post transformations on transformed files...");
 		
 		Set<String> staticImages = new HashSet<String>();
+		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId.intValue());
+		//TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
+		//There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId);
+			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority);
 			numDocs++;
 		}
 		
@@ -145,11 +150,12 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param staticImgRef set to which a list of referenced static files will be added to
 	 * @param titleID title of the book being published
 	 * @param jobIdentifier identifier of the job that will be used to retrieve the image metadata
+	 * @param documentMetadataAuthority 
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
 	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
-			String titleID, Long jobIdentifier) throws EBookFormatException
+			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -200,11 +206,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
-//			HTMLClassAttributeFilter classAttFilter = new HTMLClassAttributeFilter();
-//			classAttFilter.setParent(piZapperFilter);
+			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority);
+			internalLinkResolverFilter.setParent(piZapperFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
-			inputFilter.setParent(piZapperFilter);
+			inputFilter.setParent(internalLinkResolverFilter);
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);

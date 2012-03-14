@@ -8,13 +8,11 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import static org.junit.Assert.assertTrue;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -22,14 +20,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * Class to run the service as a JUnit test. Each operation in the service is a
@@ -52,7 +51,7 @@ public class DocMetadataServiceTest {
 	 * 
 	 */
 	@Autowired
-	protected DocMetadataService dockMetaService;
+	protected DocMetadataService documentMetadataService;
 
 	protected DocMetadata docmetadata;
 
@@ -84,7 +83,7 @@ public class DocMetadataServiceTest {
 		docmetadata.setNormalizedFirstlineCite(null);
 		docmetadata.setSerialNumber(null);
 		docmetadata.setTitleId("TL-URB"+seqNum.toString());
-		dockMetaService.saveDocMetadata(docmetadata);
+		documentMetadataService.saveDocMetadata(docmetadata);
 	}
 	/**
 	 * Operation Unit Test
@@ -113,7 +112,7 @@ public class DocMetadataServiceTest {
 		
 		LOG.debug(" expected2 " +expected2);
 		
-		response = dockMetaService.findDistinctFamilyGuidsByJobId(jobInstanceId);
+		response = documentMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
 				
 		LOG.debug(" response " + response); //12345678900011
 
@@ -127,7 +126,7 @@ public class DocMetadataServiceTest {
 	 */
 	@After
 	public void deleteDocMetadata() {
-		dockMetaService.deleteDocMetadata(docmetadata);
+		documentMetadataService.deleteDocMetadata(docmetadata);
 	}
 
 	/**
@@ -139,7 +138,7 @@ public class DocMetadataServiceTest {
 		Integer jobInstanceId = docmetadata.getJobInstanceId();
 		String docUuid = docmetadata.getDocUuid();
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response != null);
 	}
@@ -156,7 +155,7 @@ public class DocMetadataServiceTest {
 		String docUuid = "123456";
 
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response == null);
 	}
@@ -173,7 +172,7 @@ public class DocMetadataServiceTest {
 		String docUuid = null;
 
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response == null);
 	}
@@ -190,7 +189,7 @@ public class DocMetadataServiceTest {
 		String docUuid = "123456";
 
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response == null);
 	}
@@ -207,7 +206,7 @@ public class DocMetadataServiceTest {
 		String docUuid = "123456";
 
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response == null);
 	}
@@ -224,7 +223,7 @@ public class DocMetadataServiceTest {
 		String docUuid = null;
 
 		DocMetadata response = null;
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		assertTrue(response == null);
 	}
@@ -257,7 +256,7 @@ public class DocMetadataServiceTest {
 		LOG.debug(" expected " +expected);
 		
 
-		response = dockMetaService.findDocMetadataByPrimaryKey(titleId,
+		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		LOG.debug(" response " +response);
 
@@ -276,11 +275,40 @@ public class DocMetadataServiceTest {
 		String tocSeqNum = "1";
 		String docUuid = "123456";
 		String collectionName = "collection_name";
-		dockMetaService.parseAndStoreDocMetadata(titleId, jobInstanceId,
+		documentMetadataService.parseAndStoreDocMetadata(titleId, jobInstanceId,
 				collectionName, new File(docUuid), tocSeqNum);
 	}
 
+	
+	@Test
+	public void testFindAllDocumentMetadataForTitleByJobInstanceId() throws Exception {
+		Integer jobInstanceId = new Integer("99123456");
+		saveDocMetadata(2);
+		saveDocMetadata(3);
+		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(jobInstanceId);
+		System.out.println(documentMetadataAuthority.toString());
+		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 3);
+	}
 
+	@Test
+	public void testFindAllDocumentMetadataForTitleByJobInstanceIdDoesNotReturnNullSet() throws Exception {
+		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(0);
+		Assert.assertTrue(documentMetadataAuthority != null);
+		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 0);
+	}
+
+	@Test
+	@Ignore
+	/**
+	 * This test is here to validate a previously run book's set of document metadata can be retrieved.
+	 * If job 1804 gets cleaned up, point this at whichever job you like (for your database environment). Change the second assert (and this javadoc) accordingly.
+	 */
+	public void testFindAllDocumentMetadataForTitleIdByJobInstanceIdIntegrationTest() throws Exception {
+		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(1804);
+		Assert.assertTrue(documentMetadataAuthority != null);
+		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 6962);
+	}
+	
 	/**
 	 * Get the current timestamp
 	 * 
@@ -290,6 +318,5 @@ public class DocMetadataServiceTest {
 		// create a java calendar instance
 		Calendar calendar = Calendar.getInstance();
 		return new java.sql.Timestamp(calendar.getTime().getTime());
-
 	}
 }
