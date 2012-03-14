@@ -67,6 +67,8 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 		
 		if(runningJobExecutions != null && runningJobExecutions.size() >= throttleLimit )
 		{
+			//log.debug("********************************************************************************************  jobExecutions.size = "+runningJobExecutions.size());
+
 			// find out how many jobs are done with key steps like Novus... 
 			for (JobExecution jobExecution : runningJobExecutions) {
 				
@@ -98,6 +100,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 			// Safe to start new job as number of jobs currently running is less than throttle limit. 
 			jobPullFlag = true;
 		}
+		//log.debug("******************************************************************************************** jobPullFlag "+jobPullFlag);
 		return jobPullFlag;
 	}
 	
