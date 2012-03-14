@@ -1,2 +1,2 @@
 
-<div class="pageTitle">Step Execution (${jobStepExecution.id}) Details - ${jobStepExecution.stepName}</div>
+<div class="pageTitle">Step Execution Details (${jobStepExecution.id}) - ${jobStepExecution.stepName}</div>
