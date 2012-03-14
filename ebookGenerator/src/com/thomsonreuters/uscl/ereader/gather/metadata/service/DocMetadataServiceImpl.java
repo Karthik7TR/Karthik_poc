@@ -1,16 +1,16 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
-import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
-
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
+import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -99,6 +99,11 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		return docMetadataDAO.findDocMetadataByPrimaryKey(docMetaPk);
 	}
 
+	@Transactional
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(Integer jobInstanceId){
+		return docMetadataDAO.findAllDocMetadataForTitleByJobId(jobInstanceId);
+	}
+	
 	/**
 	 */
 	@Transactional

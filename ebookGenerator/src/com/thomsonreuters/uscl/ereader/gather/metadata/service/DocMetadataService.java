@@ -6,11 +6,12 @@
 
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-
 import java.io.File;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -42,4 +43,14 @@ public interface DocMetadataService {
 	 */
 	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
 			String collectionName, File metadataFile, String tocSeqNum);
+	
+	/**
+	 * Retrieves the full set of document metadata for a given title.
+	 * 
+	 * <p>This method will return an empty {@link Set} in cases where there is no {@link DocMetadata} for a given job instance.</p>
+	 * 
+	 * @param jobInstanceId the jobInstanceId of the publishing run.
+	 * @return the {@link Set} of {@link DocMetadata} for the documents contained in the title.
+	 */
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId);
 }
