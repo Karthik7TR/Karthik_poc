@@ -189,6 +189,7 @@ public class StatsServiceIntegrationTest {
 		jobstats.setGatherDocExpectedCount(1);
 		jobstats.setGatherDocRetrievedCount(1);
 		jobstats.setGatherDocRetryCount(0);
+		jobstats.setPublishStatus("Complete");
 
 		int updateCount = jobStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERDOC);
 		
@@ -210,6 +211,7 @@ public class StatsServiceIntegrationTest {
 		expectedJobStats.setGatherDocExpectedCount(1);
 		expectedJobStats.setGatherDocRetrievedCount(1);
 		expectedJobStats.setGatherDocRetryCount(0);
+		expectedJobStats.setPublishStatus("Complete");
 
 		LOG.debug(" response " + responseJobStats); //12345678900011
 
@@ -222,11 +224,10 @@ public class StatsServiceIntegrationTest {
 
 		PublishingStats jobstats = new PublishingStats();
 		jobstats.setJobInstanceId(JOB_INSTANCE_ID+1);
-		jobstats.setGatherDocExpectedCount(1);
-		jobstats.setGatherDocRetrievedCount(1);
-		jobstats.setGatherDocRetryCount(0);
+		jobstats.setPublishEndTimestamp(UPDATE_DATE);
+		jobstats.setPublishStatus("Complete");
 
-		int updateCount = jobStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERDOC);
+		int updateCount = jobStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FINALPUBLISH);
 		
 		Assert.assertEquals(updateCount,1);
 		
@@ -244,9 +245,8 @@ public class StatsServiceIntegrationTest {
 		expectedJobStats.setJobSubmitTimestamp(UPDATE_DATE);
 		expectedJobStats.setPublishStartTimestamp(UPDATE_DATE);
 		expectedJobStats.setLastUpdated(UPDATE_DATE);
-		expectedJobStats.setGatherDocExpectedCount(1);
-		expectedJobStats.setGatherDocRetrievedCount(1);
-		expectedJobStats.setGatherDocRetryCount(0);
+		expectedJobStats.setPublishEndTimestamp(UPDATE_DATE);
+		expectedJobStats.setPublishStatus("Complete");
 
 		LOG.debug(" response " + responseJobStats); //12345678900011
 

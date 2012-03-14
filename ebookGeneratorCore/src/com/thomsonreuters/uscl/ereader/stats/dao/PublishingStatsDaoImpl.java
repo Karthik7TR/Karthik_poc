@@ -130,17 +130,16 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		}
 		else if (updateType.equals(StatsUpdateTypeEnum.FINALPUBLISH))
 		{
-			hql.append("publishEndTimestamp = " );
-			hql.append(jobstats.getPublishEndTimestamp());
-			hql.append(", publishStatus = " );
-			hql.append(jobstats.getPublishStatus());
+			hql.append("publishEndTimestamp = sysdate" );
 		}
 		else
 		{
 			LOG.error("Unknown StatsUpdateTypeEnum");
 //TODO: failure logic
 		}			
-		hql.append(", lastUpdated = sysdate ");
+		hql.append(", publishStatus = '" );
+		hql.append(jobstats.getPublishStatus());
+		hql.append("', lastUpdated = sysdate ");
 
 		hql.append(" where jobInstanceId =  "); //  WHERE clause
 		hql.append(jobstats.getJobInstanceId()); 

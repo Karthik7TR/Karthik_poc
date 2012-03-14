@@ -368,7 +368,11 @@ public class PublishingStats implements Serializable {
 		return publishStatus;
 	}
 
+	/** Automatically set to sysdate
+	 * 	
+	 * */
 	public void setPublishStatus(String publishStatus) {
+	 
 		this.publishStatus = publishStatus;
 	}
 
@@ -465,16 +469,13 @@ public class PublishingStats implements Serializable {
 	public Date getJobSubmitTimestamp() {
 		return this.jobSubmitTimestamp;
 	}
-	/**
-	 */
-	
 
-
-	/**
+	/**  Automatically set to sysdate
+	 * 	
 	 */
-	public void setLastUpdated(Date lastUpdated) {
+	  public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
-	}
+	  }
 
 	/**
 	 */
