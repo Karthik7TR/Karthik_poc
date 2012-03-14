@@ -30,9 +30,11 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
@@ -57,7 +59,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
 		
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
-		PageAndSort savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
+		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
 		
 		JobSummaryForm jobSummaryForm = new JobSummaryForm();
 		jobSummaryForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
@@ -84,7 +86,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 		log.debug(form);
 		List<Long> jobExecutionIds = null;
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
-		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
 		form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 		Integer nextPageNumber = form.getPage();
 
@@ -169,7 +171,7 @@ log.debug("NEW: " + jobSort);
 							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm form,
 							   Model model) {
 		log.debug(form);
-		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
 		pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
 		pageAndSort.setObjectsPerPage(form.getObjectsPerPage());	// Update the new number of items to be shown at one time
 		// Restore the state of the search filter

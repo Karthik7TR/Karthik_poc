@@ -27,7 +27,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 
 @Controller
 public class FilterController extends BaseJobSummaryController {
@@ -52,7 +54,7 @@ public class FilterController extends BaseJobSummaryController {
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		
 		// Restore state of paging and sorting
-		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
 		JobSummaryForm jobSummaryForm = new JobSummaryForm();
 		jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 		

@@ -6,23 +6,23 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Base class that holds the sorting, paging, and displayed row count presentation information.
  */
-public abstract class BasePageAndSort {
+public class PageAndSort<SortProperty> {
 	public static final int DEFAULT_ITEMS_PER_PAGE = 20;
 	
 	private Integer pageNumber;		// page number user wants to see (integer)
 	private Integer objectsPerPage;	// number of table rows displayed at one time on a page
-	private String 	columnId;		// identifier for the table column the user wants to sort on
+	private SortProperty sortProperty;		// identifier for the table column the user wants to sort on
 	private boolean ascendingSort;	// true for an ascending order sort on the selected column
 
-	public BasePageAndSort() {
+	public PageAndSort() {
 		super();
 	}
 
-	public BasePageAndSort(Integer pageNumber, Integer itemsPerPage,
-					   String columnId, boolean ascendingSort) {
+	public PageAndSort(Integer pageNumber, Integer itemsPerPage,
+					   SortProperty sortProperty, boolean ascendingSort) {
 		this.pageNumber = pageNumber;
 		this.objectsPerPage = itemsPerPage;
-		this.columnId = columnId;
+		this.sortProperty = sortProperty;
 		this.ascendingSort = ascendingSort;
 	}
 	/**
@@ -40,8 +40,8 @@ public abstract class BasePageAndSort {
 	/**
 	 * Returns the identifier for the table column the user wants to sort on
 	 */
-	public String getColumnId() {
-		return columnId;
+	public SortProperty getSortProperty() {
+		return sortProperty;
 	}
 	/**
 	 * Returns true to indicate ascending order sort on the selected column, false for descending sort order.
@@ -59,8 +59,8 @@ public abstract class BasePageAndSort {
 	public void setPageNumber(Integer page) {
 		this.pageNumber = page;
 	}
-	public void setColumnId(String columnId) {
-		this.columnId = columnId;
+	public void setSortProperty(SortProperty columnId) {
+		this.sortProperty = columnId;
 	}
 
 	public String toString() {

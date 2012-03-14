@@ -19,7 +19,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 
 /**
  * Methods common to, and needed by both the JobSummaryController and the FilterFormController.
@@ -45,10 +46,10 @@ public abstract class BaseJobSummaryController {
 	/**
 	 * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
 	 */
-	protected PageAndSort fetchSavedPageAndSort(HttpSession httpSession) {
-		PageAndSort pageAndSort = (PageAndSort) httpSession.getAttribute(PageAndSort.class.getName());
+	protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(HttpSession httpSession) {
+		PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PageAndSort.class.getName());
 		if (pageAndSort == null) {
-			pageAndSort = new PageAndSort(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.START_TIME, false);
+			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.START_TIME, false);
 		}
 		return pageAndSort;
 	}
@@ -126,7 +127,8 @@ public abstract class BaseJobSummaryController {
 		JobPaginatedList paginatedList = new JobPaginatedList(jobs,
 								jobExecutionIds.size(),
 								pageAndSort.getPageNumber(), pageAndSort.getObjectsPerPage(),
-								pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());
+								(DisplayTagSortProperty) pageAndSort.getSortProperty(),
+								pageAndSort.isAscendingSort());
 		return paginatedList;
     }
 

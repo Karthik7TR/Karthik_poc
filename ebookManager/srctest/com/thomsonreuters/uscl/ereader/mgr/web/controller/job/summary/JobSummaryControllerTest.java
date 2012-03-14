@@ -31,7 +31,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 public class JobSummaryControllerTest {
@@ -100,7 +101,7 @@ public class JobSummaryControllerTest {
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	
-    	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
+    	PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
     	Assert.assertEquals(false, pageAndSort.isAscendingSort());
     	Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSortProperty());
     	
@@ -132,7 +133,7 @@ public class JobSummaryControllerTest {
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	
-       	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
+       	PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
     	Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
 
     	EasyMock.verify(mockJobService);
@@ -250,7 +251,7 @@ public class JobSummaryControllerTest {
     	Map<String,Object> model = mav.getModel();
     	validateModel(session, model);
     	// Ensure the number of rows was changed
-    	PageAndSort pageAndSort = (PageAndSort) session.getAttribute(PageAndSort.class.getName());
+    	PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
     	Assert.assertEquals(EXPECTED_OBJECTS_PER_PAGE, pageAndSort.getObjectsPerPage().intValue());
     	
     	EasyMock.verify(mockJobService);

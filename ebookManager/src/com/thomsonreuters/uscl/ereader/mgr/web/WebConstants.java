@@ -100,6 +100,8 @@ public class WebConstants {
 	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc";	// SECURED: job restart button on Job Execution Details page
 	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc";	// SECURED: job stop button on Job Excution Details page
 	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
+	public static final String MVC_JOB_QUEUE = "jobQueue.mvc";
+	public static final String MVC_JOB_QUEUE_PAGE_AND_SORT = "jobQueuePageAndSort.mvc";
 	public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
 	public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
 	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";	// SECURED: job stop or restart button on the Job Summary page
@@ -126,6 +128,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
+	public static final String VIEW_JOB_QUEUE = "_jobQueue";
 	public static final String VIEW_JOB_STEP_EXECUTION_DETAILS = "_jobStepDetails";
 	public static final String VIEW_JOB_SUMMARY = "_jobSummary";
 	

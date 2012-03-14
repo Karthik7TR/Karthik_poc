@@ -4,10 +4,10 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.PageAndSort.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
