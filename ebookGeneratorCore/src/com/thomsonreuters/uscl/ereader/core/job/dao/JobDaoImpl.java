@@ -65,10 +65,10 @@ public class JobDaoImpl implements JobDao {
 		}
 		sql.append("where ");
 		if (filter.getFrom() != null) {
-			sql.append("(execution.START_TIME > ?) and ");
+			sql.append("(execution.START_TIME >= ?) and ");
 		}
 		if (filter.getTo() != null) {
-			sql.append("(execution.START_TIME <= ?) and ");
+			sql.append("(execution.START_TIME < ?) and ");
 		}
 		if (filter.getBatchStatus() != null) {
 			sql.append(String.format("(execution.STATUS = '%s') and ", filter.getBatchStatus().toString()));
@@ -90,19 +90,19 @@ public class JobDaoImpl implements JobDao {
 		sql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
 		
 log.debug("SQL: " + sql.toString());
-
+log.debug("from: " + filter.getFrom() + "  to: " + filter.getToInclusive());
 		Object[] args = null;
 		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
 			args = new Object[2];
 			args[0] = filter.getFrom();
-			args[1] = filter.getTo();
+			args[1] = filter.getToInclusive();
 		}
 		else if (filter.getFrom() != null) {
 			args = new Object[1];
 			args[0] = filter.getFrom();
-		} else if (filter.getTo() != null) {
+		} else if (filter.getToInclusive() != null) {
 			args = new Object[1];
-			args[0] = filter.getTo();
+			args[0] = filter.getToInclusive();
 		}
 		if (args != null) {
 			jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER, args);
