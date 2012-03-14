@@ -74,11 +74,11 @@ public class GenerateEbookController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateEbookPreview(@RequestParam String titleId,
+	public ModelAndView generateEbookPreview(@RequestParam String bookDefId,
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		Long ebookDefId = Long.parseLong(titleId);
+		Long ebookDefId = Long.parseLong(bookDefId);
 		BookDefinition book = coreService.findBookDefinitionByEbookDefId(ebookDefId);
 
 		ProviewTitleInfo proviewTitleInfo = proviewClient
