@@ -78,10 +78,11 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		BookDefinition book = coreService.findBookDefinitionByTitle(titleId);
+		Long ebookDefId = Long.parseLong(titleId);
+		BookDefinition book = coreService.findBookDefinitionByEbookDefId(ebookDefId);
 
 		ProviewTitleInfo proviewTitleInfo = proviewClient
-				.getLatestProviewTitleInfo(titleId);
+				.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
 
 		if (book != null) {
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
@@ -106,11 +107,11 @@ public class GenerateEbookController {
 		}
 		calculateVersionNumbers(model);
 
-		model.addAttribute(WebConstants.TITLE_ID, titleId);
+		model.addAttribute(WebConstants.TITLE_ID, book.getFullyQualifiedTitleId());
 		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 
-		form.setFullyQualifiedTitleId(titleId);
+		form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
