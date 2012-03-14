@@ -47,7 +47,8 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
 			<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>			    	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>	
 		  </list>
 		</property>
   	</bean>
@@ -95,6 +96,11 @@
 	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>		  
+	
+	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>		
+	
 		  
 </beans>
 	
