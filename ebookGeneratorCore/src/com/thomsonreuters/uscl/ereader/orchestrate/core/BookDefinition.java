@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -41,6 +42,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.proview.Feature;
+import com.thomsonreuters.uscl.ereader.proview.Keyword;
 
 /**
  */
@@ -226,14 +229,7 @@ public class BookDefinition implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "DOCUMENT_TYPE_CODES_ID", referencedColumnName = "DOCUMENT_TYPE_CODES_ID") })
 	DocumentTypeCode documentTypeCodes;
-	/**
-	 */
-/*	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
-	java.util.Set<JobRequest> jobRequests;*/
-	/**
-	 */
-/*	@OneToMany(mappedBy = "ebookDefinition", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
-	java.util.Set<EbookAudit> ebookAudits;*/
+
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
@@ -584,36 +580,6 @@ public class BookDefinition implements Serializable {
 		return documentTypeCodes;
 	}
 
-/*	*//**
-	 *//*
-	public void setJobRequests(Set<JobRequest> jobRequests) {
-		this.jobRequests = jobRequests;
-	}
-
-	*//**
-	 *//*
-	public Set<JobRequest> getJobRequests() {
-		if (jobRequests == null) {
-			jobRequests = new java.util.LinkedHashSet<com.thomsonreuters.uscl.ereader.orchestrate.core.JobRequest>();
-		}
-		return jobRequests;
-	}*/
-
-	/**
-	 */
-/*	public void setEbookAudits(Set<EbookAudit> ebookAudits) {
-		this.ebookAudits = ebookAudits;
-	}
-
-	*//**
-	 *//*
-	public Set<EbookAudit> getEbookAudits() {
-		if (ebookAudits == null) {
-			ebookAudits = new java.util.LinkedHashSet<EbookAudit>();
-		}
-		return ebookAudits;
-	}*/
-
 	/**
 	 */
 	public void setFrontMatters(Set<FrontMatter> frontMatters) {
@@ -629,14 +595,14 @@ public class BookDefinition implements Serializable {
 		return frontMatters;
 	}
 
-	//**
-	//*
+	/**
+	 */
 	public void setKeywordTypeValueses(Set<KeywordTypeValue> keywordTypeValueses) {
 		this.keywordTypeValues = keywordTypeValueses;
 	}
 
-	//**
-	//*
+	/**
+	 */
 	public Set<KeywordTypeValue> getKeywordTypeValueses() {
 		if (keywordTypeValues == null) {
 			keywordTypeValues = new java.util.LinkedHashSet<KeywordTypeValue>();
@@ -714,10 +680,7 @@ public class BookDefinition implements Serializable {
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
-//		setJobRequests(new java.util.LinkedHashSet<com.thomsonreuters.uscl.ereader.orchestrate.core.JobRequest>(that.getJobRequests()));
-//		setEbookAudits(new java.util.LinkedHashSet<EbookAudit>(that.getEbookAudits()));
 		setFrontMatters(new java.util.LinkedHashSet<FrontMatter>(that.getFrontMatters()));
-//		setKeywordTypeValueses(new java.util.LinkedHashSet<KeywordTypeValue>(that.getKeywordTypeValueses()));
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 	}
@@ -812,5 +775,30 @@ public class BookDefinition implements Serializable {
 			component = tokenizer.nextToken();
 		}
 		return (component);
+	}
+
+	/**
+	 * The proview features as derived from the book definition.
+	 * @return List of Feature.
+	 */
+	@Transient
+	public ArrayList<Feature> getProviewFeatures() {
+
+		ArrayList<Feature> proviewFeatures = new ArrayList<Feature>();
+		proviewFeatures.add(new Feature("AutoUpdate"));
+		if (IsSearchIndexFlag()) proviewFeatures.add(new Feature("SearchIndex"));
+		if (IsOnePassSsoLinkFlag()) proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));		
+		return (proviewFeatures);
+	}
+
+	/**
+	 * The proview keywords as derived from the book definition.
+	 * @return List of keywords.
+	 */
+	@Transient
+	public ArrayList<Keyword> getKeyWords() {
+		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
+		keywords.add(new Keyword("publisher", "Thomson Reuters"));
+		return (keywords);
 	}	
 }
