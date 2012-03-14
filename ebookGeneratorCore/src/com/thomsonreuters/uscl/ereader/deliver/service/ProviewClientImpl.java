@@ -62,26 +62,28 @@ public class ProviewClientImpl implements ProviewClient {
 							+ eBookVersionNumber + "].");
 		}
 		FileInputStream ebookInputStream;
-		
+
 		try {
 			ebookInputStream = new FileInputStream(eBook);
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Cannot send a null or empty File to ProView.", e);
+			throw new RuntimeException(
+					"Cannot send a null or empty File to ProView.", e);
 		}
-		
+
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getRequestCallback();
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getRequestCallback();
 		proviewRequestCallback.setEbookInputStream(ebookInputStream);
-		
-		restTemplate.execute(publishTitleUriTemplate,
-				HttpMethod.PUT,
+
+		restTemplate.execute(publishTitleUriTemplate, HttpMethod.PUT,
 				proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
-		
-		//restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 
 		// logResponse(response);
 
@@ -125,26 +127,28 @@ public class ProviewClientImpl implements ProviewClient {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getCurrentProviewVersionNumber(java.lang.String)
+	 * getCurrentProviewTitleInfo(java.lang.String)
 	 */
 	@Override
-	public String getCurrentProviewVersionNumber(
+	public ProviewTitleInfo getLatestProviewTitleInfo(
 			final String fullyQualifiedTitleId) throws ProviewException {
-		String versionNumber = null;
+
+		ProviewTitleInfo latestProviewVersion = null;
 
 		String allPublishedTitleResponse = getAllPublishedTitles();
 
 		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleInfo> titleMap = parser
+		Map<String, ProviewTitleContainer> titleMap = parser
 				.process(allPublishedTitleResponse);
 
-		ProviewTitleInfo proviewTitleInfo = titleMap.get(fullyQualifiedTitleId);
+		ProviewTitleContainer proviewTitleContainer = titleMap
+				.get(fullyQualifiedTitleId);
 
-		if (proviewTitleInfo != null) {
-			versionNumber = proviewTitleInfo.getVesrion();
+		if (proviewTitleContainer != null) {
+			latestProviewVersion = proviewTitleContainer.getLatestVersion();
 		}
 
-		return versionNumber;
+		return latestProviewVersion;
 	}
 
 	private void logResponse(final ResponseEntity responseEntity) {
@@ -182,5 +186,12 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setProviewResponseExtractorFactory(
 			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
 		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
+	}
+
+	@Override
+	public boolean hasTitleIdBeenPublished(String fullyQualifiedTitleId)
+			throws ProviewException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
