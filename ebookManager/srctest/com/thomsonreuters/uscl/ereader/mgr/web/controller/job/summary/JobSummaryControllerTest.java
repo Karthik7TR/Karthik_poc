@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,6 @@ import junit.framework.Assert;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -45,7 +43,6 @@ public class JobSummaryControllerTest {
 	private JobService mockJobService;
 	private ManagerService mockManagerService;
 	private MessageSourceAccessor mockMessageSourceAccessor;
-	private JobSummary mockJobSummary;
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
 	private List<Long> jobExecutionIdSubList;
@@ -60,7 +57,6 @@ public class JobSummaryControllerTest {
     	this.mockJobService = EasyMock.createMock(JobService.class);
     	this.mockManagerService = EasyMock.createMock(ManagerService.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
-    	this.mockJobSummary = new JobSummary(1l, "bogusBook", "titleId", 111l, 222l, BatchStatus.COMPLETED, new Date(), new Date());
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobSummaryController();
@@ -92,11 +88,8 @@ public class JobSummaryControllerTest {
     	// Record expected service calls
     	EasyMock.expect(mockJobService.findJobExecutions(
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-    	
-    	
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
-
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);

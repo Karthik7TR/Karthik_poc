@@ -70,7 +70,6 @@ public class JobSummaryFilterControllerTest {
     	
     	EasyMock.expect(mockJobService.findJobExecutions(
    				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
-//    	EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIds)).andReturn(jobExecutions);
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds)).andReturn(new ArrayList<JobSummary>());
     	
     	EasyMock.replay(mockJobService);
