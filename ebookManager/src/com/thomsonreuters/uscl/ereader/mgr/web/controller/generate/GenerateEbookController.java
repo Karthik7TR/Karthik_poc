@@ -145,7 +145,7 @@ public class GenerateEbookController {
 			BookDefinition book = coreService.findBookDefinitionByEbookDefId(form.getId());
 
 			JobRunRequest jobRunRequest = JobRunRequest.create(
-					book.getTitleId(), userName, userEmail);
+					book.getFullyQualifiedTitleId(), userName, userEmail);
 			try {
 				if (form.isHighPriorityJob()) {
 					jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
