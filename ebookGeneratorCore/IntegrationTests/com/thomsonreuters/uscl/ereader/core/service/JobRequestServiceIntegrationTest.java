@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.core.service;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -64,55 +65,32 @@ public class JobRequestServiceIntegrationTest  {
 		
 		long testEbookDefinitionId = 1014L;
 		String testEbookVersionSubmitted = "next";
-		String testJobStatus = "Queued";
-		String testJobPriority = "normal";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 1;
 		String testJobSubmittersName = "Isaac_Newton";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
 		testEbookDefinitionId = 1015L;
 		 testEbookVersionSubmitted = "next";
-		testJobStatus = null;
-		testJobPriority = "normal";
-		testScheduledTime = getCurrentTimeStamp();
+		testJobPriority = 2;
 		testJobSubmittersName = "Archimedes";
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
 
 		testEbookDefinitionId = 1016L;
 		 testEbookVersionSubmitted = "next";
-		testJobStatus = "Queued";
-		testJobPriority = "high";
-		testScheduledTime = getCurrentTimeStamp();
+		testJobPriority = 3;
 		testJobSubmittersName = "Albert_Einstein";
 
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 		
 		testEbookDefinitionId = 1017L;
 		 testEbookVersionSubmitted = "next";
-		testJobStatus = null;
-		testJobPriority = "high";
-		testScheduledTime = getCurrentTimeStamp();
+		testJobPriority = 4;
 		testJobSubmittersName = "Galileo_Galilei";
 		
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-
-		List<JobRequest> jobRequestList_1 =jobRequestService.getAllJobRequestsBy(null, "high", null, "Isaac_Newton");
-		if(jobRequestList_1 != null){
-			jobRequestTest = jobRequestList_1.get(0);
-		}
-		
-		Assert.assertEquals("Isaac_Newton", jobRequestTest.getJobSubmittersName());
-		
-		List<JobRequest> jobRequestList_2 =jobRequestService.getAllJobRequestsBy(null, "high", testScheduledTime, "Archimedes");
-		if(jobRequestList_2 != null){
-			jobRequestTest = jobRequestList_2.get(0);
-		}
-
-		Assert.assertEquals(testScheduledTime, jobRequestTest.getJobScheduleTimeStamp());
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 		
 	}
 	
@@ -124,52 +102,41 @@ public class JobRequestServiceIntegrationTest  {
 		
 		long testEbookDefinitionId = 1010L;
 		String testEbookVersionSubmitted = "next";
-		String testJobStatus = "Queued";
-		String testJobPriority = "normal";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 1;
+		Date testScheduledTime = getCurrentTimeStamp();
 		String testJobSubmittersName = "nextJobToRun_1";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 
 		testEbookDefinitionId = 1011L;
-		 testEbookVersionSubmitted = "next";
-		testJobStatus = null;
-		testJobPriority = "normal";
+		testEbookVersionSubmitted = "next";
+		testJobPriority = 2;
 		testScheduledTime = getCurrentTimeStamp();
 		testJobSubmittersName = "nextJobToRun_2";
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
 
 		testEbookDefinitionId = 1012L;
 		 testEbookVersionSubmitted = "next";
-		testJobStatus = "Queued";
-		testJobPriority = "high";
+		testJobPriority = 3;
 		testScheduledTime = getCurrentTimeStamp();
 		testJobSubmittersName = "nextJobToRun_3";
 
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 		testEbookDefinitionId = 1013L;
 		 testEbookVersionSubmitted = "next";
-		testJobStatus = null;
-		testJobPriority = "high";
+		testJobPriority = 4;
 		testScheduledTime = getCurrentTimeStamp();
 		testJobSubmittersName = "nextJobToRun_4";
 		
-		
+		Long pk = jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
-		
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
-		JobRequest jobRequestToExecute = jobRequestService.getNextJobToExecute();
-		
-		int priority = jobRequestToExecute.getJobPriority();
+		JobRequest jobRequestToExecute = jobRequestService.findByPrimaryKey(pk);
 		Assert.assertNotNull(jobRequestToExecute);
-		Assert.assertEquals(priority, 1);
-		
-		
-		
+		Assert.assertEquals(pk, jobRequestToExecute.getPrimaryKey());
+		Assert.assertEquals(testJobPriority, jobRequestToExecute.getPriority());
 	}
 	
 	@Test
@@ -178,34 +145,28 @@ public class JobRequestServiceIntegrationTest  {
 		
 		long testEbookDefinitionId_1 = 1006L;
 		String testEbookVersionSubmitted = "update1";
-		String testJobStatus = "Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 100;
 		String testJobSubmittersName = "testSubmitter";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId_1, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId_1, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 
 		long testEbookDefinitionId_2 = 1007L;
 		 testEbookVersionSubmitted = "update1";
-		testJobStatus = "Queued";
-		testJobPriority = "high";
-		testScheduledTime = getCurrentTimeStamp();
+		testJobPriority = 101;
 		testJobSubmittersName = "testSubmitter";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId_2, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId_2, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
 
 		long testEbookDefinitionId_3 = 1008L;
 		 testEbookVersionSubmitted = "update1";
-		testJobStatus = "Queued";
-		testJobPriority = "high";
-		testScheduledTime = getCurrentTimeStamp();
+		testJobPriority = 102;
 		testJobSubmittersName = "testSubmitter";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId_3, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId_3, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
-		List<JobRequest> jobRequestList = jobRequestService.getAllJobRequests();
+		List<JobRequest> jobRequestList = jobRequestService.findAllJobRequests();
 		Assert.assertTrue(jobRequestList.size()> 2);
 		boolean contiansFlag= false;
 		for (JobRequest jobRequest : jobRequestList) {
@@ -224,9 +185,9 @@ public class JobRequestServiceIntegrationTest  {
 		JobRequest jobRequest_2 = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId_2);
 		JobRequest jobRequest_3 = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId_3);
 
-		Assert.assertEquals(jobRequest_1.getEbookDefinitionId(),1006L );
-		Assert.assertEquals(jobRequest_2.getEbookDefinitionId(),1007L );
-		Assert.assertEquals(jobRequest_3.getEbookDefinitionId(),1008L );
+		Assert.assertEquals(new Long(1006L), jobRequest_1.getEbookDefinitionId());
+		Assert.assertEquals(new Long(1007L),jobRequest_2.getEbookDefinitionId());
+		Assert.assertEquals(new Long(1008L),jobRequest_3.getEbookDefinitionId());
 		
 		
 	}
@@ -237,17 +198,16 @@ public class JobRequestServiceIntegrationTest  {
 		
 		long testEbookDefinitionId = 1009L;
 		String testEbookVersionSubmitted = "update1";
-		String testJobStatus = "Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 15;
 		String testJobSubmittersName = "deleteByJobId";
 		
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 		JobRequest jobRequestRerieved = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
 		Assert.assertNotNull(jobRequestRerieved);
 		
 		
-		jobRequestService.deleteJobByJobId(jobRequestRerieved.getJobRequestId());
+		jobRequestService.deleteJobByJobId(jobRequestRerieved.getPrimaryKey());
 		
 		JobRequest jobRequestRerieved_2 = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
 		Assert.assertNull(jobRequestRerieved_2);
@@ -261,20 +221,18 @@ public class JobRequestServiceIntegrationTest  {
 
 		long testEbookDefinitionId = 1003L;
 		String testEbookVersionSubmitted = "update1";
-		String testJobStatus = "Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 34;
 		String testJobSubmittersName = "testSubmitter";
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 		JobRequest jobRequestObj = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
 		
-		long jobRequestId = jobRequestObj.getJobRequestId();
+		long jobRequestId = jobRequestObj.getPrimaryKey();
 		
-		String jobPriority = "normal";	
+		int jobPriority = 95;	
 		jobRequestService.updateJobPriority(jobRequestId, jobPriority);
 		JobRequest jobRequestUpdatedObj = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
-		Assert.assertTrue(jobRequestUpdatedObj.getJobPriority() ==2);
+		Assert.assertEquals(jobPriority, jobRequestUpdatedObj.getPriority());
 	}
 	
 	@Test
@@ -283,14 +241,13 @@ public class JobRequestServiceIntegrationTest  {
 
 		long testEbookDefinitionId = 101L;
 		String testEbookVersionSubmitted = "EBVersion1";
-		String testJobStatus = "Queued";
-		String testJobPriority = "HIGH";
+		int testJobPriority = 945;
 		Timestamp testScheduledTime = getCurrentTimeStamp();
 		String testJobSubmittersName = "testSubmitter";
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
 
 		JobRequest jobRequestUpdatedObj = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
-		Assert.assertTrue(jobRequestUpdatedObj.getJobPriority() ==1);
+		Assert.assertEquals(testJobPriority, jobRequestUpdatedObj.getPriority());
 
 		
 	}
@@ -304,40 +261,17 @@ public class JobRequestServiceIntegrationTest  {
 		//test data
 		long testEbookDefinitionId = 1004L;
 		String testEbookVersionSubmitted = "EBVersion1";
-		String testJobStatus = null;//"Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 1024;
 		String testJobSubmittersName = "Scheduled Job";
 		//Save test data
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
-		
-		JobRequest jobRequestRetrieved = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
-		String jobStatusRetrieved = jobRequestRetrieved.getJobStatus();
-		Assert.assertTrue(jobStatusRetrieved.equals("Scheduled"));
-		
-	}
-	/**
-	 * test if scheduled time is not provided job is maked for queue. 
-	 */
-	@Test
-	@Rollback
-	public void testIfjobMarkedforQueue(){
-		//test data
-		long testEbookDefinitionId = 1005L;
-		String testEbookVersionSubmitted = "EBVersion1";
-		String testJobStatus = null;//"Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = null;
-		String testJobSubmittersName = "Queued Job";
-		//Save test data
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 		
 		JobRequest jobRequestRetrieved = jobRequestService.getJobRequestByBookDefinationId(testEbookDefinitionId);
-		String jobStatusRetrieved = jobRequestRetrieved.getJobStatus();
-		Assert.assertTrue(jobStatusRetrieved.equals("Queue"));
+		Assert.assertTrue(jobRequestRetrieved.isQueuedRequest());
+		Assert.assertFalse(jobRequestRetrieved.isScheduledRequest());
 	}
+
 	
 	@Test
 	public void tesIsBookInJobRequestNegative(){
@@ -353,12 +287,10 @@ public class JobRequestServiceIntegrationTest  {
 	public void tesIsBookInJobRequestPositive(){
 		long testEbookDefinitionId = 1002L;  // some fake book id
 		String testEbookVersionSubmitted = "isBook";
-		String testJobStatus = "Queued";
-		String testJobPriority = "high";
-		Timestamp testScheduledTime = getCurrentTimeStamp();
+		int testJobPriority = 938;
 		String testJobSubmittersName = "isEbookInRequestPositiveTest";
-		jobRequestService.saveJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobStatus, testJobPriority, testScheduledTime, testJobSubmittersName);
-		
+		jobRequestService.saveQueuedJobRequest(testEbookDefinitionId, testEbookVersionSubmitted, testJobPriority, testJobSubmittersName);
+
 		boolean isBookFlag = false; 
 		isBookFlag = jobRequestService.isBookInJobRequest(testEbookDefinitionId);
 		Assert.assertTrue(isBookFlag);

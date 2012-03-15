@@ -49,7 +49,8 @@
 		p:sessionFactory-ref="sessionFactory" />    
    
 		  
-	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"/>	
+	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
+			p:jobRequestDao-ref="jobRequestDao"/>	
 	
 	<bean id="jobRequestDao"
 		class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">

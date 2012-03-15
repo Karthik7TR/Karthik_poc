@@ -6,12 +6,9 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +20,26 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
  * @author U0105927
  *
  */
-public class JobRequestServiceImpl implements JobRequestService{
+public class JobRequestServiceImpl implements JobRequestService {
 
-	private static final Logger log = Logger.getLogger(JobRequestServiceImpl.class);
+	//private static final Logger log = Logger.getLogger(JobRequestServiceImpl.class);
 
 	public JobRequestDao jobRequestDao;
 	
+	@Override
+	@Transactional(readOnly = true)
+	public List<JobRequest> findAllJobRequests() {
+		List<JobRequest> jobRequestList = jobRequestDao.findAllJobRequests();
+		return jobRequestList;
+	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public JobRequest findByPrimaryKey(long id) {
+		JobRequest jobRequest = jobRequestDao.findByPrimaryKey(id);
+		return jobRequest;
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public JobRequest getNextJobToExecute() {
@@ -49,9 +59,9 @@ public class JobRequestServiceImpl implements JobRequestService{
 
 	@Override
 	@Transactional
-	public void updateJobPriority(long jobRequestId, String jobPriority) {
+	public void updateJobPriority(long jobRequestId, int jobPriority) {
 		
-		jobRequestDao.updateJobPriority(jobRequestId, convertJobPriorityToInt(jobPriority));
+		jobRequestDao.updateJobPriority(jobRequestId, jobPriority);
 		
 	}
 
@@ -75,52 +85,28 @@ public class JobRequestServiceImpl implements JobRequestService{
 
 	@Override
 	@Transactional
-	public void saveJobRequest(long ebookDefinitionId,
-			String ebookVersionSubmitted, String jobStatus, String jobPriority,
-			Timestamp jobScheduledTime, String jobSubmittersName) {
-		
-		jobStatus = jobStatusSetup(jobScheduledTime);
-		int jobPrioriyInt = convertJobPriorityToInt(jobPriority);
-		JobRequest jobRequest = new JobRequest();
-		jobRequest.setBookVersionSubmited(ebookVersionSubmitted);
-		jobRequest.setEbookDefinitionId(ebookDefinitionId);
-		jobRequest.setJobStatus(jobStatus);
-		jobRequest.setJobPriority(jobPrioriyInt);
-		jobRequest.setJobSubmittersName(jobSubmittersName);
-
-		java.util.Date date= new java.util.Date();
-
-		jobRequest.setJobSubmitTimestamp(new Timestamp(date.getTime()));
-		jobRequest.setJobScheduleTimeStamp(jobScheduledTime);
-		jobRequestDao.saveJobRequest(jobRequest);
-		
+	public Long saveQueuedJobRequest(long ebookDefinitionId, String version, int priority, String submittedBy) {
+		JobRequest jobRequest = JobRequest.createQueuedJobRequest(ebookDefinitionId, version, priority, submittedBy);
+		jobRequest.setJobSubmitTime(new Date());
+		return jobRequestDao.saveJobRequest(jobRequest);
 	}
 	
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<JobRequest> getAllJobRequests() {
-		
-		List<JobRequest> jobRequestList = null;
-		jobRequestList = jobRequestDao.getAllJobRequests();
-		return jobRequestList;
-		
-	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<JobRequest> getAllJobRequestsBy(String jobStatus,
-			String jobPriority, Date jobScheduledTime, String jobSubmittersName) {
-		
-		List<JobRequest> jobRequestList = null;
-		int jobPriorityInt = convertJobPriorityToInt(jobPriority);
-		
-		jobRequestList = jobRequestDao.getAllJobRequestsBy(jobStatus,
-				jobPriorityInt,  jobScheduledTime, jobSubmittersName);
-		
-		return jobRequestList;
-		
-	}
+
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<JobRequest> getAllJobRequestsBy(int jobPriority, Date jobScheduledTime, String jobSubmittersName) {
+//		
+//		List<JobRequest> jobRequestList = null;
+//		int jobPriorityInt = convertJobPriorityToInt(jobPriority);
+//		
+//		jobRequestList = jobRequestDao.getAllJobRequestsBy(jobStatus,
+//				jobPriorityInt,  jobScheduledTime, jobSubmittersName);
+//		
+//		return jobRequestList;
+//		
+//	}
 
 	
 	/**
@@ -128,31 +114,19 @@ public class JobRequestServiceImpl implements JobRequestService{
 	 * @param jobPriority
 	 * @return
 	 */
-	private int convertJobPriorityToInt(String jobPriority){
-		int jobPriorityInt = 2; // default priority.
-		
-		if(jobPriority.equalsIgnoreCase("high")){
-			jobPriorityInt = 1;
-		}
-		
-		if(jobPriority.equalsIgnoreCase("normal")){
-			jobPriorityInt = 2;
-		}
-		
-		return jobPriorityInt;
-	}
-	
-	private String jobStatusSetup(Date scheduledDate){
-		String status = "Queue";
-		if(scheduledDate == null ){
-			status = "Queue";
-		}
-		if(scheduledDate  != null ){
-			status = "Scheduled";
-		}
-		
-		return status;
-	}
+//	private int convertJobPriorityToInt(String jobPriority){
+//		int jobPriorityInt = 2; // default priority.
+//		
+//		if(jobPriority.equalsIgnoreCase("high")){
+//			jobPriorityInt = 1;
+//		}
+//		
+//		if(jobPriority.equalsIgnoreCase("normal")){
+//			jobPriorityInt = 2;
+//		}
+//		
+//		return jobPriorityInt;
+//	}
 	
 	@Required
 	public void setJobRequestDao(JobRequestDao jobRequestDao) {
@@ -161,24 +135,16 @@ public class JobRequestServiceImpl implements JobRequestService{
 	
 	
 	
-	public enum Priority {
-		High, Normal ;
-
-		int eval(String jobPriority){
-		switch(this) {
-		case High: return 1;
-		case Normal: return 2;
-		}
-		throw new AssertionError("Unknown job priority value " + this);
-		}
-	}
-
-
-
-
-
-
-
-
+//	public enum Priority {
+//		High, Normal ;
+//
+//		int eval(String jobPriority){
+//		switch(this) {
+//		case High: return 1;
+//		case Normal: return 2;
+//		}
+//		throw new AssertionError("Unknown job priority value " + this);
+//		}
+//	}
 
 }
