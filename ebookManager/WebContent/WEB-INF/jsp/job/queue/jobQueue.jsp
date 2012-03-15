@@ -28,8 +28,8 @@
 	  <display:column title="Title ID" property="book.titleId"/>
 	  <display:column title="Version" property="job.bookVersion"/>
 	  <display:column title="Priority" property="job.priority"/>
-	  <display:column title="Submitter" property="job.submittedBy"/>
-	  <display:column title="Submit Time">
+	  <display:column title="Submitted By" property="job.submittedBy"/>
+	  <display:column title="Submitted At">
 		<fmt:formatDate value="${row.job.submittedAt}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>

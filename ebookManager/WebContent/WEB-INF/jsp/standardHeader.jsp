@@ -11,7 +11,8 @@
 	<ul class="navList">
 		<li><a href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
-		<li><a href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE eBOOK DEFINITION</a></li>
+		<li><a href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
+		<li><a href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE BOOK</a></li>
 		<li><a href="<%=WebConstants.MVC_PREFERENCES%>">PREFERENCES</a></li>
 		<li><a href="<%=WebConstants.MVC_SUPPORT%>">SUPPORT</a></li>
 		<li><a href="j_spring_security_logout">Logout</a></li>
