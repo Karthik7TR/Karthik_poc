@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
   	<link rel="stylesheet" href="theme/jquery-ui-1.8.17.custom.css" />
-	<link rel="stylesheet" href="/ebookManager/theme/layout.css"/>
-	<link rel="stylesheet" href="/ebookManager/theme/displaytag-table.css"/>
+	<link rel="stylesheet" href="theme/layout.css"/>
+	<link rel="stylesheet" href="theme/displaytag-table.css"/>
   	
   	<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
   	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.js"></script>
