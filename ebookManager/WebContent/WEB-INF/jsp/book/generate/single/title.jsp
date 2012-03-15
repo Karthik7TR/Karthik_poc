@@ -4,7 +4,7 @@
 <c:choose>
 
 <c:when test="${book == null}">  <%-- if no book definition was found for the title ID --%>
-<div class="errorMessage"><b>Book definition for Title ID &quot;${titleId}&quot; was not found.</b></div><br/>
+<div class="errorMessage"><b>Book definition was not found.</b></div><br/>
 </c:when>
 
 <c:otherwise>	<%-- found the book --%>

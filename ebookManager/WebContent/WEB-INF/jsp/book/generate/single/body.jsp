@@ -72,7 +72,9 @@
     
   </script>
   
-  
+ <c:choose>
+ <c:when test="${book != null}">
+ 
   <div class="majorDiv">
 	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
@@ -99,6 +101,7 @@
 			<td>
 				<form:hidden path="fullyQualifiedTitleId"/>
 				<form:hidden path="command"/>
+				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>
 		<tr>
@@ -137,7 +140,7 @@
 		</table>
 		<br/>
 		<input type="button" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${generateButtonVisibility} />
-		<input type="button" value="Edit Book Definition" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')" disabled="disabled"/>
+		<input type="button" value="Edit Book Definition" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		
 		<%-- Informational Messages area --%>
@@ -157,5 +160,11 @@
 		
 	</form:form>
   </div>
+  </c:when>
+  <c:otherwise>
+  	No book found
+  </c:otherwise>
+  </c:choose>
+  
 </body>
 </html>

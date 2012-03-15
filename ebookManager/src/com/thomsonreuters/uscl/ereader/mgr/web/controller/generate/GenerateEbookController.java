@@ -82,11 +82,10 @@ public class GenerateEbookController {
 
 		BookDefinition book = coreService.findBookDefinitionByEbookDefId(id);
 
-
 		if (book != null) {
 			ProviewTitleInfo proviewTitleInfo = proviewClient
 					.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
-			
+
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
 			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
@@ -96,7 +95,7 @@ public class GenerateEbookController {
 					book.getPublishCutoffDate());
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
-			
+
 			if (proviewTitleInfo == null) {
 				currentVersion = "Not published";
 
@@ -104,15 +103,12 @@ public class GenerateEbookController {
 				currentVersion = proviewTitleInfo.getVesrion();
 
 			}
-		}
-		
-		calculateVersionNumbers(model);
+			calculateVersionNumbers(model);
 
-		model.addAttribute(WebConstants.TITLE_ID, book.getFullyQualifiedTitleId());
+		}
+
 		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
-
-		form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
@@ -131,8 +127,8 @@ public class GenerateEbookController {
 		log.debug(form);
 
 		ModelAndView mav = null;
-		String queryString = String.format("?%s=%s", WebConstants.KEY_TITLE_ID,
-				form.getFullyQualifiedTitleId());
+		String queryString = String.format("?%s=%s", WebConstants.KEY_ID,
+				form.getId());
 		Command command = form.getCommand();
 
 		switch (command) {
@@ -219,8 +215,8 @@ public class GenerateEbookController {
 	}
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateBulkEbookPreview(
-			@RequestParam List<Long> id, Model model) throws Exception {
+	public ModelAndView generateBulkEbookPreview(@RequestParam List<Long> id,
+			Model model) throws Exception {
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
