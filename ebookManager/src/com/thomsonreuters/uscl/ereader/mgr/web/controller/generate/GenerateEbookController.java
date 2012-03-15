@@ -141,8 +141,7 @@ public class GenerateEbookController {
 			String userName = null; // TODO
 			String userEmail = null; // TODO
 
-			BookDefinition book = coreService.findBookDefinitionByTitle(form
-					.getFullyQualifiedTitleId());
+			BookDefinition book = coreService.findBookDefinitionByEbookDefId(form.getId());
 
 			JobRunRequest jobRunRequest = JobRunRequest.create(
 					book.getTitleId(), userName, userEmail);
@@ -171,6 +170,7 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
 					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
+			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
 			form.setFullyQualifiedTitleId(book.getTitleId());
 			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
