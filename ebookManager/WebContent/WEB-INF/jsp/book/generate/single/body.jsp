@@ -136,7 +136,7 @@
 		  </div>	
 		</table>
 		<br/>
-		<input id="generateButton" type="submit" value="Generate" ${generateButtonVisibility} />
+		<input type="button" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${generateButtonVisibility} />
 		<input type="button" value="Edit Book Definition" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')" disabled="disabled"/>
 		
 		
