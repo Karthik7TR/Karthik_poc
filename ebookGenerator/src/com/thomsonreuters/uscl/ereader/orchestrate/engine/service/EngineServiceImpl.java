@@ -94,24 +94,7 @@ public class EngineServiceImpl implements EngineService {
         while(authorIt.hasNext())
         {
             Author author=(Author)authorIt.next();
-            
-            if (author.getAuthorNamePrefix() != null) {
-            	concatAuthor = concatAuthor + author.getAuthorNamePrefix() + " ";
-            }
-            if (author.getAuthorFirstName() != null) {
-            	concatAuthor = concatAuthor + author.getAuthorFirstName() + " ";
-            }
-            if (author.getAuthorMiddleName() != null) {
-            	concatAuthor = concatAuthor + author.getAuthorMiddleName() + " ";
-            }
-            if (author.getAuthorLastName() != null) {
-            	concatAuthor = concatAuthor + author.getAuthorLastName() + " ";
-            }
-            if (author.getAuthorNameSuffix() != null) {
-            	concatAuthor = concatAuthor + author.getAuthorNameSuffix() + " ";
-            }            
-            
-            concatAuthor = concatAuthor +  "|";
+            concatAuthor = concatAuthor + author.getFullName() + "|";
         }
         
         concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
