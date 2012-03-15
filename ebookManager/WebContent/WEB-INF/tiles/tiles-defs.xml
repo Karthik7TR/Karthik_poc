@@ -27,6 +27,12 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/create/title.jsp"/>
 	</definition>
 	
+	<definition name="_bookDefinitionCopy" extends="standardDefinition">
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/copy/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/copy/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/copy/title.jsp"/>
+	</definition>
+	
 	<definition name="_bookDefinitionEdit" extends="standardDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/edit/body.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>

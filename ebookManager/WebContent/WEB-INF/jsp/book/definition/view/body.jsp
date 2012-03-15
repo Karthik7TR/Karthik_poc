@@ -8,7 +8,7 @@
 function submitForm(cmd)
 {
 	$('#command').val(cmd);
-	theForm.submit();
+	$('#<%=ViewBookDefinitionForm.FORM_NAME%>').submit();
 	return true;
 }
 </script>
@@ -103,6 +103,7 @@ function submitForm(cmd)
 		<c:if test="${!isInJobRequest}">
 			<input type="submit" value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		</c:if>
+		<input type="submit" value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
 		<input type="submit" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 		<input type="submit" value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 		<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>

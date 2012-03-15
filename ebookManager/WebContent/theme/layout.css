@@ -272,6 +272,10 @@ ul.navList a:hover {
 	width:250px;
 }
 
+.bookDefinitionCRUD #additionalFrontMatter .additionalFrontMatterText {
+	width:420px;
+}
+
 .bookDefinitionCRUD .generateTitleID {
 	background-color: #D0E0E0;
 	border: gray 2px solid;
@@ -323,7 +327,6 @@ ul.navList a:hover {
 
 .bookDefinitionCRUD #nameLine .nameText,
 .bookDefinitionCRUD #nameLine .sequenceNumber,
-.bookDefinitionCRUD #additionalFrontMatter .additionalFrontMatterText,
 .bookDefinitionCRUD #additionalFrontMatter .sequenceNumber{
 	width: 150px;
 }

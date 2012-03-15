@@ -42,7 +42,9 @@ public class ViewBookDefinitionController {
 		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
 		form.setId(id);
 		
-		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
+		if(bookDef != null){
+			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
+		}
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}
@@ -76,6 +78,9 @@ public class ViewBookDefinitionController {
 			case JOB_HISTORY:
 				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_JOB_HISTORY_TODO+queryString));
 	// TODO: implement this
+				break;
+			case COPY:
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY+queryString));
 				break;
 			default:
 				throw new RuntimeException("Unexpected form command: " + command);

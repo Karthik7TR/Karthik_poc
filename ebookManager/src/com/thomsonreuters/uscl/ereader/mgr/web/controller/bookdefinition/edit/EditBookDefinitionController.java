@@ -35,12 +35,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 @Controller
 public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
-
-	private CoreService coreService;
-	private JobRequestService jobRequestService;
-	private EditBookDefinitionService editBookDefinitionService;
-	private ProviewClient proviewClient;
-	private Validator validator;
+	protected CoreService coreService;
+	protected JobRequestService jobRequestService;
+	protected EditBookDefinitionService editBookDefinitionService;
+	protected Validator validator;
+	protected ProviewClient proviewClient;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -48,6 +47,7 @@ public class EditBookDefinitionController {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		binder.setValidator(validator);
 	}
+	
 	
 	/**
 	 * Handle the in-bound GET to the Book Definition create view page.
@@ -60,7 +60,6 @@ public class EditBookDefinitionController {
 				Model model) {
 		
 		initializeModel(model, form);
-		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
@@ -88,7 +87,6 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
-		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, false);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
@@ -140,6 +138,63 @@ public class EditBookDefinitionController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
 	
+	/**
+	 * Handle the in-bound GET to the Book Definition copy view page.
+	 * @param titleId the primary key of the book to be edited as a required query string parameter.
+	 */
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
+	public ModelAndView copyBookDefintionGet(
+				@RequestParam Long id,
+				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
+				BindingResult bindingResult,
+				Model model) throws Exception {
+		
+		// Lookup the book by its primary key
+		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		bookDef.setEbookDefinitionId(null);
+		form.initialize(bookDef);
+		initializeModel(model, form);
+
+		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
+	}
+	
+	/**
+	 * Handle the in-bound POST to the Book Definition copy view page.
+	 * @param form
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.POST)
+	public ModelAndView copyBookDefintionPost(
+				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
+				BindingResult bindingResult,
+				Model model) throws ParseException {
+		
+		if(!bindingResult.hasErrors()) {
+			BookDefinition book = new BookDefinition();
+			form.loadBookDefinition(book);
+			coreService.saveBookDefinition(book);
+			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
+			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
+		}
+		
+		initializeModel(model, form);
+				
+		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
+	}
+	
+	/**
+	 * AJAX call to get the DocumentTypeCode object as JSON
+	 * @param contentTypeId
+	 * @return String of Content Type abbreviation
+	 */
+	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE, method = RequestMethod.GET)
+	public @ResponseBody DocumentTypeCode getContentType(@RequestParam Long contentTypeId) {
+	    return editBookDefinitionService.getContentTypeById(contentTypeId);
+	}
+	
 	private void setupEditFormAndModel(BookDefinition bookDef, EditBookDefinitionForm form, Model model) throws Exception {
 		boolean isInJobRequest = false;
 		boolean isPublished = false;
@@ -169,21 +224,11 @@ public class EditBookDefinitionController {
 	}
 	
 	/**
-	 * 
-	 * @param contentTypeId
-	 * @return String of Content Type abbreviation
-	 */
-	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE, method = RequestMethod.GET)
-	public @ResponseBody DocumentTypeCode getContentType(@RequestParam Long contentTypeId) {
-	    return editBookDefinitionService.getContentTypeById(contentTypeId);
-	}
-	
-	/**
 	 * Initializes the model for the Create/Edit Book Definition View
 	 * @param model
 	 * @param form
 	 */
-	private void initializeModel(Model model, EditBookDefinitionForm form) {
+	protected void initializeModel(Model model, EditBookDefinitionForm form) {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
@@ -210,11 +255,6 @@ public class EditBookDefinitionController {
 	}
 	
 	@Required
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
-	}
-	
-	@Required
 	public void setJobRequestService(JobRequestService service) {
 		this.jobRequestService = service;
 	}
@@ -223,4 +263,10 @@ public class EditBookDefinitionController {
 	public void setValidator(Validator validator) {
 		this.validator = validator;
 	}
+	
+	@Required
+	public void setProviewClient(ProviewClient proviewClient) {
+		this.proviewClient = proviewClient;
+	}
+
 }

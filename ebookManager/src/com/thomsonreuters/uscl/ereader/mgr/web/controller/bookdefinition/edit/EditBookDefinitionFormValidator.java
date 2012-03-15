@@ -174,6 +174,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 	private void checkDateFormat(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
 			try {
+				@SuppressWarnings("unused")
 				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
 			} catch (Exception  e) {
 				errors.rejectValue(fieldName, "error.date.format");

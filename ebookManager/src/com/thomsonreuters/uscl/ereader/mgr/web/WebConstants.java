@@ -89,6 +89,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_CREATE = "bookDefinitionCreate.mvc";
 	public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
+	public static final String MVC_BOOK_DEFINITION_COPY = "bookDefinitionCopy.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
@@ -120,6 +121,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
+	public static final String VIEW_BOOK_DEFINITION_COPY = "_bookDefinitionCopy";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";

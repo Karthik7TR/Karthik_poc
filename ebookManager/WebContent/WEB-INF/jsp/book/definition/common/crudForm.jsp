@@ -123,7 +123,7 @@
 		var addFrontMatterRow = function() {
 			var appendTxt = "<div class='row'>";
 			appendTxt = appendTxt + "<input id=\"additionalFrontMatter" + frontMatterIndex + ".frontMatterId\" name=\"additionalFrontMatter[" + frontMatterIndex + "].frontMatterId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"additionalFrontMatterText\" id=\"additionalFrontMatter" + frontMatterIndex + ".additionalFrontMatterText\" name=\"additionalFrontMatter[" + frontMatterIndex + "].additionalFrontMatterText\" type=\"text\" title=\"Additional Front Matter Text\"/>";
+			appendTxt = appendTxt + "<textarea class=\"additionalFrontMatterText\" id=\"additionalFrontMatter" + frontMatterIndex + ".additionalFrontMatterText\" name=\"additionalFrontMatter[" + frontMatterIndex + "].additionalFrontMatterText\" title=\"Additional Front Matter Text\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"additionalFrontMatter" + frontMatterIndex + ".sequenceNum\" name=\"additionalFrontMatter[" + frontMatterIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
 			appendTxt = appendTxt + "<span>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
@@ -513,7 +513,7 @@
 		<c:forEach items="${editBookDefinitionForm.additionalFrontMatter}" var="frontMatter" varStatus="aStatus">
 			<div class="row">
 				<form:hidden path="additionalFrontMatter[${aStatus.index}].frontMatterId"/>
-				<form:input path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
+				<form:textarea path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
 				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNum"  />
 				<div class="errorDiv">
 					<form:errors path="additionalFrontMatter[${aStatus.index}]" cssClass="errorMessage" />

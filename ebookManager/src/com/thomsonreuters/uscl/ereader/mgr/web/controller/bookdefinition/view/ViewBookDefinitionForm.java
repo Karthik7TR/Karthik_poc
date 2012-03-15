@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class ViewBookDefinitionForm {
 	public static final String FORM_NAME = "viewBookDefinitionForm";
 	
-	public enum Command { EDIT, GENERATE, DELETE, AUDIT_LOG, JOB_HISTORY };
+	public enum Command { EDIT, GENERATE, DELETE, AUDIT_LOG, JOB_HISTORY, COPY };
 
 	private Command command;
 	private Long id;
