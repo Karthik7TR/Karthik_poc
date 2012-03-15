@@ -23,6 +23,15 @@ public class UserUtils {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		return (user != null) ? user.getFullName() : null;
 	}
+	
+	/**
+	 * Returns the full name of the currently authenticated user.
+	 * @return user's email, like "John Galt", or null if not authenticated.
+	 */
+	public static String getAuthenticatedUserEmail() {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		return (user != null) ? user.getEmail() : null;
+	}
 
 	/**
 	 * Returns the list of roles for the currently authenticated user as a comma-separated

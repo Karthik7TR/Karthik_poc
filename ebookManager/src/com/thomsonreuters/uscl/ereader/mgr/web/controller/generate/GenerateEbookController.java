@@ -138,8 +138,9 @@ public class GenerateEbookController {
 			String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
-			String userName = null; // TODO
-			String userEmail = null; // TODO
+			
+		    String userName = UserUtils.getAuthenticatedUserFullName();
+			String userEmail = UserUtils.getAuthenticatedUserEmail();
 
 			BookDefinition book = coreService.findBookDefinitionByEbookDefId(form.getId());
 
