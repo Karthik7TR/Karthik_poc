@@ -87,7 +87,7 @@ public class JobRequestServiceImpl implements JobRequestService {
 	@Transactional
 	public Long saveQueuedJobRequest(long ebookDefinitionId, String version, int priority, String submittedBy) {
 		JobRequest jobRequest = JobRequest.createQueuedJobRequest(ebookDefinitionId, version, priority, submittedBy);
-		jobRequest.setJobSubmitTime(new Date());
+		jobRequest.setSubmittedAt(new Date());
 		return jobRequestDao.saveJobRequest(jobRequest);
 	}
 	

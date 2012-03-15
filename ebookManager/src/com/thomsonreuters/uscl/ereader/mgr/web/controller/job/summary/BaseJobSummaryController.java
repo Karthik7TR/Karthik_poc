@@ -46,6 +46,7 @@ public abstract class BaseJobSummaryController {
 	/**
 	 * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
 	 */
+	@SuppressWarnings("unchecked")
 	protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(HttpSession httpSession) {
 		PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PageAndSort.class.getName());
 		if (pageAndSort == null) {
@@ -69,7 +70,7 @@ public abstract class BaseJobSummaryController {
 	 * @param httpSession
 	 * @param model
 	 */
-	protected void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSort pageAndSort,
+	protected void setUpModel(List<Long> jobExecutionIds, FilterForm filterForm, PageAndSort<DisplayTagSortProperty> pageAndSort,
 							  HttpSession httpSession, Model model) {
 		
 		// Save filter and paging state in the session
@@ -104,7 +105,7 @@ public abstract class BaseJobSummaryController {
 	 * @param pageAndSort current page number, sort column, and sort direction (asc/desc).
 	 * @return an implemented DisplayTag paginated list interface
 	 */
-    private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort pageAndSort) {
+    private PaginatedList createPaginatedList(List<Long> jobExecutionIds, PageAndSort<DisplayTagSortProperty> pageAndSort) {
 		// Calculate begin and end index for the current page number
 		int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
 		int toIndex = fromIndex + pageAndSort.getObjectsPerPage();

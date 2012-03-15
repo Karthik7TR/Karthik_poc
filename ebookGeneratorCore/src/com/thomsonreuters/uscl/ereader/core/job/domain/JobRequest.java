@@ -18,140 +18,132 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-@Table(schema="EBOOK", name="JOB_REQUEST")
+@Table(schema = "EBOOK", name = "JOB_REQUEST")
 @NamedQueries({
-//	@NamedQuery(name = "findAllJobRequests", query = "Select myJobRequest from JobRequest myJobRequest"),
-	
-				@NamedQuery(name = "findJobRequestBookDefinitionId", query = "select myJobRequest from JobRequest myJobRequest where myJobRequest.ebookDefinitionId = :ebookDefinitionId"),
-				@NamedQuery(name = "findJobRequestByGivenCriteria", query="select myJobRequest from JobRequest myJobRequest"),
-				@NamedQuery(name = "findNextJobRequestToRun", query = "select myJobRequest from JobRequest myJobRequest order by jobSubmitTime asc, priority desc")
-				})
+		@NamedQuery(name = "findJobRequestBookDefinitionId", query = "select myJobRequest from JobRequest myJobRequest where myJobRequest.ebookDefinitionId = :ebookDefinitionId"),
+		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "select myJobRequest from JobRequest myJobRequest"),
+		@NamedQuery(name = "findNextJobRequestToRun", query = "select myJobRequest from JobRequest myJobRequest order by jobSubmitTime asc, priority desc") })
+public class JobRequest implements Serializable {
 
-public class JobRequest implements Serializable{
-	
-	private static final long serialVersionUID = 5207493496108658705L;
-	
-	public enum JobStatus { QUEUED, SCHEDULED };
-	
-	@Id
-	@Column (name = "JOB_REQUEST_ID" ,nullable = false)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "JobRequestIdSeq")
-	@SequenceGenerator (schema="EBOOK", name = "JobRequestIdSeq",sequenceName="JOB_REQUEST_ID_SEQ")
-	private Long jobRequestId;
-
-	@Column (name = "EBOOK_DEFINITION_ID", nullable = false)
-	private Long ebookDefinitionId;
-
-	@Column (name = "BOOK_VERISON_SUBMITTED" ,nullable = false)
-	private String bookVersionSubmited;
-	
-	@Deprecated  // Unneeded, to be removed
-	@Column (name = "JOB_STATUS", nullable = false )
-	private String jobStatus;
-	
-	@Column (name = "JOB_PRIORITY" ,nullable = false)
-	private int priority;
-
-	@Column (name = "JOB_SCHEDULE_TIMESTAMP" ,nullable = true)
-	private Date jobScheduleTime;
-	
-	@Column (name = "JOB_SUBMITTER_NAME" ,nullable = false)
-	private String jobSubmittersName;
-	
-	@Column (name = "JOB_SUBMIT_TIMESTAMP" ,nullable = false)
-	private Date jobSubmitTime;
-
-	public static JobRequest createQueuedJobRequest(long ebookDefinitionId, String version,
-													int priority, String submittedBy) {
-		return new JobRequest(null, version, ebookDefinitionId, priority, null, submittedBy, null);
+	@Deprecated
+	public enum JobStatus {
+		QUEUED, SCHEDULED
 	}
-	
+
+	private static final long serialVersionUID = 5207493496108658705L;;
+
+	public static JobRequest createQueuedJobRequest(long ebookDefinitionId,
+			String version, int priority, String submittedBy) {
+		return new JobRequest(null, version, ebookDefinitionId, priority, null,
+				submittedBy, null);
+	}
+
+	private Long jobRequestId;
+	private Long ebookDefinitionId;
+	private String bookVersion;
+	@Deprecated
+	private String jobStatus;// Unneeded, to be removed
+	private int priority;
+	private Date scheduledAt;
+	private String submittedBy;
+	private Date submittedAt;
+
 	public JobRequest() {
 		super();
 	}
-	
-	private JobRequest(Long jobRequestId, String version, long ebookDefinitionId, int priority,
-					  Date scheduledAt, String submittedBy, Date submitDate) {
+
+	private JobRequest(Long jobRequestId, String version,
+			long ebookDefinitionId, int priority, Date scheduledAt,
+			String submittedBy, Date submitDate) {
 		setPrimaryKey(jobRequestId);
-		setBookVersionSubmited(version);
+		setBookVersion(version);
 		setEbookDefinitionId(ebookDefinitionId);
 		setPriority(priority);
-		setJobScheduleTime(scheduledAt);
-		setJobSubmittersName(submittedBy);
-		setJobSubmitTime(submitDate);
-		setJobStatus(JobStatus.QUEUED.toString()); // OBSOLETE, to be deleted as unneeded
+		setScheduledAt(scheduledAt);
+		setSubmittedBy(submittedBy);
+		setSubmittedAt(submitDate);
+		setJobStatus(JobStatus.QUEUED.toString()); // OBSOLETE, to be deleted since unneeded
 	}
-	
+
+	@Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
+	public String getBookVersion() {
+		return bookVersion;
+	}
+	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
+	public Long getEbookDefinitionId() {
+		return ebookDefinitionId;
+	}
+	@Column(name = "JOB_SCHEDULE_TIMESTAMP", nullable = true)
+	public Date getScheduledAt() {
+		return scheduledAt;
+	}
+	@Deprecated
+	@Column(name = "JOB_STATUS", nullable = false)
+	public String getJobStatus() {
+		return jobStatus;
+	}
+	@Column(name = "JOB_SUBMITTER_NAME", nullable = false)
+	public String getSubmittedBy() {
+		return submittedBy;
+	}
+	@Column(name = "JOB_SUBMIT_TIMESTAMP", nullable = false)
+	public Date getSubmittedAt() {
+		return submittedAt;
+	}
+
+	@Id
+	@Column(name = "JOB_REQUEST_ID", nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "JobRequestIdSeq")
+	@SequenceGenerator(schema = "EBOOK", name = "JobRequestIdSeq", sequenceName = "JOB_REQUEST_ID_SEQ")
+	public Long getPrimaryKey() {
+		return jobRequestId;
+	}
+	@Column(name = "JOB_PRIORITY", nullable = false)
+	public int getPriority() {
+		return priority;
+	}
+
+	@Transient
 	public boolean isQueuedRequest() {
-		return (jobScheduleTime == null);
+		return (scheduledAt == null);
 	}
+	@Transient
 	public boolean isScheduledRequest() {
 		return !isQueuedRequest();
 	}
 
-	public Date getJobScheduleTime() {
-		return jobScheduleTime;
-	}
-
-	public void setJobScheduleTime(Date jobScheduleTime) {
-		this.jobScheduleTime = jobScheduleTime;
-	}
-
-	public String getJobSubmittersName() {
-		return jobSubmittersName;
-	}
-
-	public void setJobSubmittersName(String jobSubmittersName) {
-		this.jobSubmittersName = jobSubmittersName;
-	}
-
-	public Date getJobSubmitTime() {
-		return jobSubmitTime;
-	}
-
-	public void setJobSubmitTime(Date submitTime) {
-		this.jobSubmitTime = submitTime;
-	}
-
-	public Long getPrimaryKey() {
-		return jobRequestId;
-	}
-
-	public void setPrimaryKey(Long jobRequestId) {
-		this.jobRequestId = jobRequestId;
-	}
-
-	public Long getEbookDefinitionId() {
-		return ebookDefinitionId;
+	public void setBookVersion(String bookVersionSubmited) {
+		this.bookVersion = bookVersionSubmited;
 	}
 
 	public void setEbookDefinitionId(Long ebookDefinitionId) {
 		this.ebookDefinitionId = ebookDefinitionId;
 	}
 
-	public String getBookVersionSubmited() {
-		return bookVersionSubmited;
+	public void setScheduledAt(Date jobScheduleTime) {
+		this.scheduledAt = jobScheduleTime;
 	}
-
-	public void setBookVersionSubmited(String bookVersionSubmited) {
-		this.bookVersionSubmited = bookVersionSubmited;
-	}
-	
-	
-	public String getJobStatus() {
-		return jobStatus;
-	}
+	@Deprecated
 	public void setJobStatus(String status) {
 		this.jobStatus = status;
 	}
 
-	public int getPriority() {
-		return priority;
+	public void setSubmittedBy(String jobSubmittersName) {
+		this.submittedBy = jobSubmittersName;
+	}
+
+	public void setSubmittedAt(Date submitTime) {
+		this.submittedAt = submitTime;
+	}
+
+	public void setPrimaryKey(Long jobRequestId) {
+		this.jobRequestId = jobRequestId;
 	}
 
 	public void setPriority(int jobPriority) {
@@ -159,75 +151,8 @@ public class JobRequest implements Serializable{
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((bookVersionSubmited == null) ? 0 : bookVersionSubmited
-						.hashCode());
-		result = prime * result
-				+ (int) (ebookDefinitionId ^ (ebookDefinitionId >>> 32));
-		result = prime * result + priority;
-		result = prime * result + (int) (jobRequestId ^ (jobRequestId >>> 32));
-		result = prime
-				* result
-				+ ((jobScheduleTime == null) ? 0 : jobScheduleTime
-						.hashCode());
-		result = prime
-				* result
-				+ ((jobSubmitTime == null) ? 0 : jobSubmitTime
-						.hashCode());
-		result = prime
-				* result
-				+ ((jobSubmittersName == null) ? 0 : jobSubmittersName.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		JobRequest other = (JobRequest) obj;
-		if (bookVersionSubmited == null) {
-			if (other.bookVersionSubmited != null)
-				return false;
-		} else if (!bookVersionSubmited.equals(other.bookVersionSubmited))
-			return false;
-		if (ebookDefinitionId != other.ebookDefinitionId)
-			return false;
-		if (priority != other.priority)
-			return false;
-		if (jobRequestId != other.jobRequestId)
-			return false;
-		if (jobScheduleTime == null) {
-			if (other.jobScheduleTime != null)
-				return false;
-		} else if (!jobScheduleTime.equals(other.jobScheduleTime))
-			return false;
-		if (jobSubmitTime == null) {
-			if (other.jobSubmitTime != null)
-				return false;
-		} else if (!jobSubmitTime.equals(other.jobSubmitTime))
-			return false;
-		if (jobSubmittersName == null) {
-			if (other.jobSubmittersName != null)
-				return false;
-		} else if (!jobSubmittersName.equals(other.jobSubmittersName))
-			return false;
-		return true;
-	}
-
-	public String toString(){
-		return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE);
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }
-
-//class RunOrderComparator implements Comparator<JobRequest> {
-//	 public  int compare(JobRequest paramT1, JobRequest paramT2);
-//		
-//	}
-//}

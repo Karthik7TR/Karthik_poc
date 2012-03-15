@@ -73,6 +73,11 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/instance/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/instance/jobInstanceDetails.jsp"/>
 	</definition>
+	<definition name="_jobQueue" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/job/queue/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/job/queue/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/job/queue/jobQueue.jsp"/>
+	</definition>	
 	<definition name="_jobStepDetails" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/step/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/step/left.jsp"/>

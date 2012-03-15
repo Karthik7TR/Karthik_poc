@@ -5,6 +5,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Base class that holds the sorting, paging, and displayed row count presentation information.
+ * The SortProperty parameterized type is an enumeration that identifies the column to be sorted on.
  */
 public class PageAndSort<SortProperty> {
 	public static final int DEFAULT_ITEMS_PER_PAGE = 20;
@@ -18,6 +19,17 @@ public class PageAndSort<SortProperty> {
 		super();
 	}
 
+	/**
+	 * 3-arg constructor, omits the items per page
+	 */
+	public PageAndSort(Integer pageNumber,
+			   		   SortProperty sortProperty, boolean ascendingSort) {
+		this(pageNumber, DEFAULT_ITEMS_PER_PAGE, sortProperty, ascendingSort);
+	}
+
+	/**
+	 * 4-arg full constructor.
+	 */
 	public PageAndSort(Integer pageNumber, Integer itemsPerPage,
 					   SortProperty sortProperty, boolean ascendingSort) {
 		this.pageNumber = pageNumber;

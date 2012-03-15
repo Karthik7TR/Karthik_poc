@@ -149,7 +149,7 @@ log.debug("NEW: " + jobSort);
 		}
 		
 		// Restore state of paging and sorting
-		PageAndSort pageAndSort = fetchSavedPageAndSort(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
 		// Restore the state of the search filter
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);
 		// Fetch the existing session saved list of job execution ID's
