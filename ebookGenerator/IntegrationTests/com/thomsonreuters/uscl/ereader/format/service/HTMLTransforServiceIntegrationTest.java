@@ -27,6 +27,7 @@ import org.w3c.dom.NodeList;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
@@ -38,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public class HTMLTransforServiceIntegerationTest
+public class HTMLTransforServiceIntegrationTest
 {
     private static final String preRenderedInput = "NADB029C0880F11D881E9FEF4A4D44D69";
     String titleId;
@@ -50,6 +51,7 @@ public class HTMLTransforServiceIntegerationTest
     HTMLTransformerServiceImpl htmlTransforService;
     DocMetadata mockDocMetadata;
     DocMetadataService mockDocMetadataService;
+    DocumentMetadataAuthority mockDocumentMetadataAuthority;
     private final String testExtension = ".html";
     @Rule
     public TemporaryFolder tempDirectory = new TemporaryFolder();
@@ -67,6 +69,8 @@ public class HTMLTransforServiceIntegerationTest
         fileHandlingHelper.setFilter(fileExtFilter);
         htmlTransforService = new HTMLTransformerServiceImpl();
         htmlTransforService.setfileHandlingHelper(fileHandlingHelper);
+        
+        mockDocumentMetadataAuthority = EasyMock.createMock(DocumentMetadataAuthority.class);
         EasyMock.replay(mockDocMetadataService);
         EasyMock.replay(fileExtFilter);
         EasyMock.replay(fileHandlingHelper);
@@ -82,7 +86,7 @@ public class HTMLTransforServiceIntegerationTest
     {
         int count = getTableViewInfo(false);
 
-        Assert.isTrue(count != 0, "Unable to find  table in document");
+        Assert.isTrue(count == 0, "Unable to find  table in document");
     }
 
     @Test
@@ -145,9 +149,9 @@ public class HTMLTransforServiceIntegerationTest
 
         File novusXml =
             new File(
-                HTMLTransforServiceIntegerationTest.class.getResource(novusXmlFilename).getFile());
+                HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, isTableViewRequired, titleId, jobId);
+            novusXml, transformedDirectory, staticImages, isTableViewRequired, titleId, jobId,mockDocumentMetadataAuthority);
 
         String renderedOutput =
             IOUtils.toString(
