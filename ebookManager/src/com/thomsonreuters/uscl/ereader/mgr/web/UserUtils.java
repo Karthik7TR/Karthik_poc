@@ -25,8 +25,8 @@ public class UserUtils {
 	}
 	
 	/**
-	 * Returns the full name of the currently authenticated user.
-	 * @return user's email, like "John Galt", or null if not authenticated.
+	 * Returns the email of the currently authenticated user.
+	 * @return user's email, like "xyz@thomsonreuters.com", or null if not authenticated.
 	 */
 	public static String getAuthenticatedUserEmail() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
