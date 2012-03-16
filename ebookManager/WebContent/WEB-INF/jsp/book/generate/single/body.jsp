@@ -48,18 +48,16 @@
   
   function checkPublishingCutoffDate(){
 	  
-	  	var usePublishingCutOffDate = document.getElementById("usePublishingCutOffDate").innerHTML; 
-		
-		if (usePublishingCutOffDate=="Y"){
-			var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
+	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
 			
-			if (publishingCutOffDate==null)
-				{
-					alert("Publishing cut off date is required to publish this book. Please edit the definition to enter it.");
-					return false;
-				}
+		if (publishingCutOffDate==""){
+			alert("Publishing cut off date is required to publish this book. Please edit book definition to enter publishing cut off date.");
+			document.getElementById("generateButton").disabled = true;
+			return false;
 		}
-	  return true;
+		else{
+	  		return true;
+		}
   }
   
   function confirmValues(){
@@ -67,19 +65,20 @@
 	  var confirmed = confirm("Generate with new version number: "+ newVersion);
 	  
 	  if (confirmed){
-		
-		confirmed = checkPublishingCutoffDate();
-		
-		if (confirmed){
-			confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
+			var usePublishingCutOffDate = document.getElementById("usePublishingCutOffDate").innerHTML; 
+			if (usePublishingCutOffDate=="Y"){
+				var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
+				confirmed = checkPublishingCutoffDate();
+				if (confirmed){
+					confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
+				}
+			}
 		
 			if (confirmed){
 				var isbn =document.getElementById("isbn").innerHTML;
 				var  materialId=document.getElementById("materialId").innerHTML;
 				confirmed=confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
 			}
-		}
-			
 	  }
 	  
 	  return confirmed;
