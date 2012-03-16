@@ -23,11 +23,26 @@
 	  document.getElementById('newVersionNumber').innerHTML = newVersion;
   }
   
-  function submitForm(cmd)
-  {
-  	$('#command').val(cmd);
+  function submitForm(cmd){
+	$('#command').val(cmd);
   	theForm.submit();
-  	return true;
+  	return true; 
+  }
+  
+  function submitEdit(cmd){
+	  return submitForm(cmd);
+	  
+  }
+  
+  function submitGenerate(cmd){
+	var confirmed = confirmValues();
+	
+	if (confirmed){
+		confirmed = submitForm(cmd);
+	}
+	
+	return confirmed;
+	
   }
   
   function checkPublishingCutoffDate(){
@@ -78,7 +93,7 @@
   <div class="majorDiv">
 	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
-			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post" onsubmit='return confirmValues();'>
+			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
 		<%-- Validation error Message Presentation --%>
 		<spring:hasBindErrors name="<%=GenerateBookForm.FORM_NAME%>">
@@ -139,8 +154,8 @@
 		  </div>	
 		</table>
 		<br/>
-		<input type="button" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${generateButtonVisibility} />
-		<input type="button" value="Edit Book Definition" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+		<input id="generateButton" type="button" value="Generate" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${generateButtonVisibility} />
+		<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		
 		<%-- Informational Messages area --%>
