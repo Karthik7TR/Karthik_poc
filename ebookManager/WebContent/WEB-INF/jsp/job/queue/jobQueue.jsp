@@ -4,7 +4,6 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Command"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm"%>
