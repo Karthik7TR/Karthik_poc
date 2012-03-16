@@ -13,7 +13,7 @@ public interface JobRequestDao {
 	public List<JobRequest> findAllJobRequests();
 	public JobRequest findByPrimaryKey(long jobRequestId);
 	
-	public JobRequest getNextJobToExecute();
+//	public JobRequest getNextJobToExecute();
 	public void deleteJobByJobId(long jobRequestId);
 	public void updateJobPriority(long jobRequestId, int jobPriority); 
 	public Long saveJobRequest(JobRequest jobRequest);

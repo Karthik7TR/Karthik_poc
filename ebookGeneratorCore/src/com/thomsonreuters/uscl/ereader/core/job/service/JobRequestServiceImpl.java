@@ -6,6 +6,8 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
 
 /**
  * 
@@ -23,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 public class JobRequestServiceImpl implements JobRequestService {
 
 	//private static final Logger log = Logger.getLogger(JobRequestServiceImpl.class);
+	private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
 
 	public JobRequestDao jobRequestDao;
 	
@@ -30,6 +34,7 @@ public class JobRequestServiceImpl implements JobRequestService {
 	@Transactional(readOnly = true)
 	public List<JobRequest> findAllJobRequests() {
 		List<JobRequest> jobRequestList = jobRequestDao.findAllJobRequests();
+		Collections.sort(jobRequestList, RUN_ORDER_COMPARATOR);
 		return jobRequestList;
 	}
 	
@@ -43,9 +48,9 @@ public class JobRequestServiceImpl implements JobRequestService {
 	@Override
 	@Transactional(readOnly = true)
 	public JobRequest getNextJobToExecute() {
-
-		JobRequest jobRequest = jobRequestDao.getNextJobToExecute();
-		
+		List<JobRequest> jobs = findAllJobRequests();
+		// It is assumed that the findAll...() returns the job requests is ascending run order.
+		JobRequest jobRequest = (jobs.size() > 0) ? jobs.get(0) : null; 
 		return jobRequest;
 	}
 

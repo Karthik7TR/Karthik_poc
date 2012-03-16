@@ -27,8 +27,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @Table(schema = "EBOOK", name = "JOB_REQUEST")
 @NamedQueries({
 		@NamedQuery(name = "findJobRequestBookDefinitionId", query = "select myJobRequest from JobRequest myJobRequest where myJobRequest.ebookDefinitionId = :ebookDefinitionId"),
-		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "select myJobRequest from JobRequest myJobRequest"),
-		@NamedQuery(name = "findNextJobRequestToRun", query = "select myJobRequest from JobRequest myJobRequest order by jobSubmitTime asc, priority desc") })
+		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "select myJobRequest from JobRequest myJobRequest") })
+//		@NamedQuery(name = "findNextJobRequestToRun", query = "select myJobRequest from JobRequest myJobRequest order by jobSubmitTime asc, priority desc") })
 public class JobRequest implements Serializable {
 
 	@Deprecated

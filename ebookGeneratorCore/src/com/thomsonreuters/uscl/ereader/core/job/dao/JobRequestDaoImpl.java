@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -31,28 +30,28 @@ public class JobRequestDaoImpl implements JobRequestDao {
 //		return query.list();
 	}
 	
-	@Override
-	public JobRequest getNextJobToExecute() {
-		String namedQuery = "findNextJobRequestToRun";	
-		String nextJobRequests = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
-		Query query = sessionFactory.getCurrentSession().createQuery(nextJobRequests);
-		
-		JobRequest jobRequestToRun = null;
-		if (query == null)
-		{
-			jobRequestToRun= null;
-		}else{
-			if(query.list().size() > 0){
-				jobRequestToRun= (JobRequest)query.list().get(0);	
-			}else{
-				jobRequestToRun= null;
-			}
-				
-		}
-		
-		return jobRequestToRun;
-	
-	}
+//	@Override
+//	public JobRequest getNextJobToExecute() {
+//		String namedQuery = "findNextJobRequestToRun";	
+//		String nextJobRequests = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
+//		Query query = sessionFactory.getCurrentSession().createQuery(nextJobRequests);
+//		
+//		JobRequest jobRequestToRun = null;
+//		if (query == null)
+//		{
+//			jobRequestToRun= null;
+//		}else{
+//			if(query.list().size() > 0){
+//				jobRequestToRun= (JobRequest)query.list().get(0);	
+//			}else{
+//				jobRequestToRun= null;
+//			}
+//				
+//		}
+//		
+//		return jobRequestToRun;
+//	
+//	}
 	
 //	@Override
 //	public List<JobRequest> getAllJobRequestsBy(String jobStatus,
