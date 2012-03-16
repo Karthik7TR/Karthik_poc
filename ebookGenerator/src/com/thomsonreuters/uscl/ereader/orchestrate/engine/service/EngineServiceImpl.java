@@ -29,7 +29,8 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+
 
 public class EngineServiceImpl implements EngineService {
 	private static Logger log = Logger.getLogger(EngineServiceImpl.class);
@@ -119,11 +120,12 @@ public class EngineServiceImpl implements EngineService {
 		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
 		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
 		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
-		paramMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(bookDefinition.getEbookDefinitionId()));
-		paramMap.put(JobParameterKey.PUB_CUTOFF_DATE, new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT.format(bookDefinition.getPublishCutoffDate())));		
-		//Hard coded major version for now
-		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter("1"));		
-//		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getMajorVersion()));
+		if (bookDefinition.getPublishCutoffDate() != null) {
+			paramMap.put(
+					JobParameterKey.PUB_CUTOFF_DATE,
+					new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT
+							.format(bookDefinition.getPublishCutoffDate())));
+		}
 		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
 /*		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
 		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));*/
@@ -137,7 +139,7 @@ public class EngineServiceImpl implements EngineService {
 	}
 		
 	@Override
-	public JobParameters createDynamicJobParameters(JobRunRequest runRequest) {
+	public JobParameters createDynamicJobParameters(JobRequest jobRequest) {
 		Map<String,JobParameter> jobParamMap = new HashMap<String,JobParameter>();
 		String hostName = null;	// The host this job running on
 		try {
@@ -148,8 +150,10 @@ public class EngineServiceImpl implements EngineService {
 		}
 		
 		// Add misc metadata, dynamic key/value pairs into the job parameters map
-		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(runRequest.getUserName()));
-		jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(runRequest.getUserEmail()));
+		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
+		jobParamMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(jobRequest.getEbookDefinitionId()));
+		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
+		//jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(jobRequest.getUserEmail()));
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(System.currentTimeMillis()));
 		return new JobParameters(jobParamMap);

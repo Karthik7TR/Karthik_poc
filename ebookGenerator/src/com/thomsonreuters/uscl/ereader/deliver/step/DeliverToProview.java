@@ -38,7 +38,7 @@ public class DeliverToProview extends AbstractSbTasklet {
 		
 		File eBook = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE));
 		String fullyQualifiedTitleId = jobParameters.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
-		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.MAJOR_VERSION);
+		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERISON_SUBMITTED);
 		
 		long startTime = System.currentTimeMillis();
 		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");

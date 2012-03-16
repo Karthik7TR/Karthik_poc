@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -30,7 +30,6 @@ public interface JobRequestService {
 	 * @return a job request, or null if there are no jobs to run.
 	 */
 	public JobRequest getNextJobToExecute();
-	
 	public void deleteJobByJobId(long jobRequestId);
 	public void updateJobPriority(long jobRequestId, int priority);
 	public Long saveQueuedJobRequest(long ebookDefinitionId, String version, int priority, String submittedBy);

@@ -17,7 +17,7 @@ public class JobParameterKey {
 	public static final String COVER_IMAGE = "coverImage";
 	public static final String DOC_COLLECTION_NAME = "docCollectionName";
 	public static final String ISBN = "isbn";
-	public static final String MAJOR_VERSION = "majorVersion";
+	public static final String BOOK_VERISON_SUBMITTED = "bookVerisonSubmitted";
 	public static final String MATERIAL_ID = "materialId";
 	public static final String MATERIAL_ID_EMBEDDED_IN_DOC_TEXT = "materialIdEmbeddedInDocText";
 	public static final String MINOR_VERSION = "minorVersion";

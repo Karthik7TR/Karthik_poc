@@ -1,15 +1,28 @@
+/*
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
+/**
+ * 
+ * @author Mahendra Survase U0105927
+ * 
+ */
 public class JobRequestDaoImpl implements JobRequestDao {
 	
 	//private static final Logger log = Logger.getLogger(JobRequestDaoImpl.class);
@@ -20,38 +33,36 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		
 	}
 	
+	@Transactional
 	@SuppressWarnings("unchecked")
 	public List<JobRequest> findAllJobRequests() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JobRequest.class);
 		return criteria.list();
-//		String namedQuery = "findAllJobRequests";	
-//		String allJobRequests = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
-//		Query query = sessionFactory.getCurrentSession().createQuery(allJobRequests);				
-//		return query.list();
 	}
 	
-//	@Override
-//	public JobRequest getNextJobToExecute() {
-//		String namedQuery = "findNextJobRequestToRun";	
-//		String nextJobRequests = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
-//		Query query = sessionFactory.getCurrentSession().createQuery(nextJobRequests);
-//		
-//		JobRequest jobRequestToRun = null;
-//		if (query == null)
-//		{
-//			jobRequestToRun= null;
-//		}else{
-//			if(query.list().size() > 0){
-//				jobRequestToRun= (JobRequest)query.list().get(0);	
-//			}else{
-//				jobRequestToRun= null;
-//			}
-//				
-//		}
-//		
-//		return jobRequestToRun;
-//	
-//	}
+	@Transactional
+	@Override
+	public JobRequest getNextJobToExecute() {
+		String namedQuery = "findNextJobRequestToRun";	
+		String nextJobRequests = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
+		Query query = sessionFactory.getCurrentSession().createQuery(nextJobRequests);
+		
+		JobRequest jobRequestToRun = null;
+		if (query == null)
+		{
+			jobRequestToRun= null;
+		}else{
+			if(query.list().size() > 0){
+				jobRequestToRun= (JobRequest)query.list().get(0);	
+			}else{
+				jobRequestToRun= null;
+			}
+				
+		}
+		
+		return jobRequestToRun;
+	
+	}
 	
 //	@Override
 //	public List<JobRequest> getAllJobRequestsBy(String jobStatus,
@@ -108,7 +119,8 @@ public class JobRequestDaoImpl implements JobRequestDao {
 //		}
 //		return flag;
 //	}
-
+	
+	@Transactional
 	public JobRequest getJobRequestByBookDefinationId(long ebookDefinitionId){
 		@SuppressWarnings("unchecked")
 		List<JobRequest> jobRequestList = sessionFactory.getCurrentSession().createCriteria(JobRequest.class)
@@ -127,7 +139,7 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		}
 	}
 	
-
+	@Transactional
 	@Override
 	public JobRequest findByPrimaryKey(long jobRequestId) throws DataAccessException {
 		Session session = sessionFactory.getCurrentSession();
@@ -136,6 +148,7 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		return jobRequest;  
 	}
 	
+	@Transactional
 	@Override
 	public void deleteJobByJobId(long jobRequestId) {
 		Session session = sessionFactory.getCurrentSession();
@@ -144,6 +157,7 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		
 	}
 	
+	@Transactional
 	@Override
 	public void updateJobPriority(long jobRequestId, int jobPriority) {
 		JobRequest jobRequest = findByPrimaryKey(jobRequestId);
@@ -151,7 +165,8 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(jobRequest);
 	}
-
+	
+	@Transactional
 	@Override
 	public Long saveJobRequest(JobRequest jobRequest) {		
 		Session session = sessionFactory.getCurrentSession();

@@ -36,7 +36,7 @@ public class JobExecutionVdoTest {
 	private static final String BOOK_TITLE_ID_VALUE = "theBookTitleId";
 	private static final String FULLY_QUALIFIED_TITLE_ID_VALUE = "uscl/cr/foo/"+BOOK_TITLE_ID_VALUE;
 	private static final String BOOK_NAME_VALUE = "theBookName";
-	private static final Long MAJOR_VERSION_VALUE = 5l;
+	private static final Long BOOK_VERISON_SUBMITTED = 5l;
 	private JobExecutionVdo vdo;
 	private JobParameters jobParameters;
 	private JobInstance mockJobInstance;
@@ -48,7 +48,7 @@ public class JobExecutionVdoTest {
     	paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(BOOK_TITLE_ID_VALUE));
     	paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(FULLY_QUALIFIED_TITLE_ID_VALUE));
     	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(BOOK_NAME_VALUE));
-    	paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(MAJOR_VERSION_VALUE));
+    	paramMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(BOOK_VERISON_SUBMITTED));
     	this.jobParameters = new JobParameters(paramMap);
     	this.mockJobInstance = EasyMock.createMock(JobInstance.class);
     	this.mockJobExecution = EasyMock.createMock(JobExecution.class);
@@ -96,7 +96,7 @@ public class JobExecutionVdoTest {
     	EasyMock.replay(mockJobExecution);
     	EasyMock.replay(mockJobInstance);
     	
-    	Assert.assertEquals(MAJOR_VERSION_VALUE, vdo.getMajorVersion());
+    	Assert.assertEquals(BOOK_VERISON_SUBMITTED, vdo.getMajorVersion());
     	EasyMock.verify(mockJobExecution);
     	EasyMock.verify(mockJobInstance);
     }

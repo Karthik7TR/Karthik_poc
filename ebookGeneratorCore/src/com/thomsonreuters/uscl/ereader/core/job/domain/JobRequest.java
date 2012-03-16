@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -23,6 +23,11 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+/**
+ * 
+ * @author Mahendra Survase U0105927
+ * 
+ */
 @Entity
 @Table(schema = "EBOOK", name = "JOB_REQUEST")
 @NamedQueries({
@@ -36,7 +41,8 @@ public class JobRequest implements Serializable {
 		QUEUED, SCHEDULED
 	}
 
-	private static final long serialVersionUID = 5207493496108658705L;;
+	private static final long serialVersionUID = 5207493496108658705L;
+	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
 
 	public static JobRequest createQueuedJobRequest(long ebookDefinitionId,
 			String version, int priority, String submittedBy) {

@@ -8,8 +8,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 /**
  * Utilities for interacting with the Spring Batch engine used in starting, restarting, and stopping jobs.
@@ -52,9 +52,9 @@ public interface EngineService {
 	/**
 	 * Create a set of Job parameters at runtime from dynamic data.
 	 * These parameters will include the user who ran the job, their email address, and a job timestamp. 
-	 * @param jobRunRequest request used to start the book generating job
+	 * @param jobRequest request used to start the book generating job
 	 * @return a set of Spring Batch job parameters used in launching a job.
 	 */
-	public JobParameters createDynamicJobParameters(JobRunRequest jobRunRequest);
+	public JobParameters createDynamicJobParameters(JobRequest jobRequest);
 
 }
