@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
@@ -30,8 +31,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 
 
@@ -44,7 +43,7 @@ public class CodeServiceIntegrationTest  {
 	private CodeService service;
 	
 	@Autowired
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	
 	
 	@Test
@@ -325,16 +324,16 @@ public class CodeServiceIntegrationTest  {
 		String titleId = "uscl/an/abcd1234_test";
 		setupBookDef(titleId);
 		
-		BookDefinition book = coreService.findBookDefinitionByTitle(titleId);
+		BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(titleId);
 		log.debug(book);
 		Set<KeywordTypeValue> values = book.getKeywordTypeValueses(); 
 		Assert.assertEquals(3, values.size());
 		
 		values.clear();
 		book.setKeywordTypeValueses(values);
-		coreService.saveBookDefinition(book);
+		bookDefinitionService.saveBookDefinition(book);
 		
-		book = coreService.findBookDefinitionByTitle(titleId);
+		book = bookDefinitionService.findBookDefinitionByTitle(titleId);
 		values = book.getKeywordTypeValueses(); 
 		Assert.assertEquals(0, values.size());
 		
@@ -379,7 +378,7 @@ public class CodeServiceIntegrationTest  {
     	}
 		book.setKeywordTypeValueses(values);
 		
-		coreService.saveBookDefinition(book);
+		bookDefinitionService.saveBookDefinition(book);
 	}
 	
 	

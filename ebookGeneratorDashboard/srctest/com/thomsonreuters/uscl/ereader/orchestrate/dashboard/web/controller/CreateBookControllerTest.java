@@ -17,7 +17,7 @@ public class CreateBookControllerTest {
 //    private MockHttpServletRequest request;
 //    private MockHttpServletResponse response;
 //    private HandlerAdapter handlerAdapter;
-//    private CoreService mockCoreService;
+//    private bookDefinitionService mockBookDefinitionService;
 //    private MessageSource mockMessageSource;
 //    private MessageSourceAccessor mockMessageSourceAccessor;
 //
@@ -27,7 +27,7 @@ public class CreateBookControllerTest {
 //    	response = new MockHttpServletResponse();
 //    	handlerAdapter = new AnnotationMethodHandlerAdapter();
 //    	
-//    	this.mockCoreService = EasyMock.createMock(CoreService.class);
+//    	this.mockBookDefinitionService = EasyMock.createMock(bookDefinitionService.class);
 //    	this.mockMessageSource = EasyMock.createMock(MessageSource.class);
 //    	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
 //    	JobRunner jobRunner = EasyMock.createMock(JobRunner.class);
@@ -36,11 +36,11 @@ public class CreateBookControllerTest {
 //    	BookDefinition bookDef = new BookDefinition();
 //    	bookDef.setBookDefinitionKey(new BookDefinitionKey("bogusId"));
 //    	bookDefs.add(bookDef);
-//    	EasyMock.expect(mockCoreService.findAllBookDefinitions()).andReturn(bookDefs);
-//    	EasyMock.replay(mockCoreService);
+//    	EasyMock.expect(mockBookDefinitionService.findAllBookDefinitions()).andReturn(bookDefs);
+//    	EasyMock.replay(mockBookDefinitionService);
 //    	
 //    	this.controller = new CreateBookController();
-//    	controller.setCoreService(mockCoreService);
+//    	controller.setBookDefinitionService(mockBookDefinitionService);
 //    	controller.setJobRunner(jobRunner);
 //    	controller.setEnvironmentName("junitEnvironment");
 //    	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
@@ -62,7 +62,7 @@ public class CreateBookControllerTest {
 //        // Check the state of the model
 //        validateModel(mav.getModel());
 //        
-//        EasyMock.verify(mockCoreService);
+//        EasyMock.verify(mockBookDefinitionService);
 //    }
 //    
 //    /**
@@ -92,7 +92,7 @@ public class CreateBookControllerTest {
 //    	Assert.assertEquals(WebConstants.VIEW_CREATE_BOOK, mav.getViewName());
 //    	validateModel(model);
 //    	Assert.assertEquals(successMessage, model.get(WebConstants.KEY_INFO_MESSAGE));
-//    	EasyMock.verify(mockCoreService);
+//    	EasyMock.verify(mockBookDefinitionService);
 //    }
 //    
 //    /**

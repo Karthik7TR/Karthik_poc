@@ -23,13 +23,13 @@
 	<display:table id="row" name="<%=WebConstants.KEY_PAGINATED_LIST%>"
 				   requestURI="<%=WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT%>" class="displayTagTable"> 
 	  <display:setProperty name="basic.msg.empty_list">No jobs are queued to run.</display:setProperty>
-	  <display:column title="Seq" property="sequence"/>
-	  <display:column title="Book Name" property="book.ebookNames"/>
-	  <display:column title="Title ID" property="book.titleId"/>
-	  <display:column title="Version" property="job.bookVersion"/>
-	  <display:column title="Priority" property="job.priority"/>
-	  <display:column title="Submitted By" property="job.submittedBy"/>
-	  <display:column title="Submitted At">
+	  <display:column title="Seq &nbsp;" property="sequence" sortable="true" sortProperty="<%=DisplayTagSortProperty.SEQUENCE.toString()%>"/>
+	  <display:column title="Book Name" property="book.ebookNames" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
+	  <display:column title="Title ID" property="book.titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"/>
+	  <display:column title="Version &nbsp;" property="job.bookVersion" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_VERSION.toString()%>"/>
+	  <display:column title="Priority &nbsp;" property="job.priority" sortable="true" sortProperty="<%=DisplayTagSortProperty.PRIORITY.toString()%>"/>
+	  <display:column title="Submitted By" property="job.submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
+	  <display:column title="Submitted At" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_AT.toString()%>">
 		<fmt:formatDate value="${row.job.submittedAt}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>

@@ -20,7 +20,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
  */

@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
+package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.List;
 
@@ -12,15 +12,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
-public class CoreDaoImpl implements CoreDao {
-	//private static final Logger log = Logger.getLogger(CoreDaoImpl.class);
+public class BookDefinitionDaoImpl implements BookDefinitionDao {
+	//private static final Logger log = Logger.getLogger(BookDefinitionDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
-	public CoreDaoImpl(SessionFactory sessFactory) {
+	public BookDefinitionDaoImpl(SessionFactory sessFactory) {
 		this.sessionFactory = sessFactory;
 	}
 	

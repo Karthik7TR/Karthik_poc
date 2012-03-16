@@ -19,7 +19,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 

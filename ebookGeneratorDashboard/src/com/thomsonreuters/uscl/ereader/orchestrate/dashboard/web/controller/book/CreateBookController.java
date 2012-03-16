@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.controller.book;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -21,14 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.SelectOption;
 import com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.WebConstants;
-
-import com.thomsonreuters.uscl.ereader.core.book.domain.*;
 
 /**
  * Controller for the Create Book page, the page used to run book generating Spring Batch jobs.
@@ -39,7 +37,7 @@ public class CreateBookController {
 	
 	private String environmentName;
 	private JobRunner jobRunner;
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private MessageSourceAccessor messageSourceAccessor;
 	
 	/**
@@ -91,7 +89,7 @@ public class CreateBookController {
 		/* Get all the unique books that can be created */
 		
 		List<SelectOption> bookOptions = new ArrayList<SelectOption>();
-		List<BookDefinition> books = coreService.findAllBookDefinitions();
+		List<BookDefinition> books = bookDefinitionService.findAllBookDefinitions();
 		for (BookDefinition book : books) {
 			
 			String concatBookNames = "";
@@ -118,8 +116,8 @@ public class CreateBookController {
 		this.jobRunner = jobRunner;
 	}
 	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 	@Required
 	public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {

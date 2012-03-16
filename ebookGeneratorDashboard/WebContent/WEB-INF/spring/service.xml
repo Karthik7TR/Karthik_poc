@@ -11,8 +11,8 @@
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
         				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-  	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
-  		  p:coreDao-ref="coreDao"/>
+  	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
+  		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
   		  
   	<bean id="dashboardService" class="com.thomsonreuters.uscl.ereader.orchestrate.dashboard.web.service.DashboardServiceImpl"
   		  p:dashboardDao-ref="dashboardDao"

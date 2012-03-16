@@ -16,25 +16,25 @@
 	</bean>
 	
 	<bean id="viewBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController"
-		  p:coreService-ref="coreService"
+		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:jobRequestService-ref="jobRequestService"/>
 		  
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
-		  p:coreService-ref="coreService"
+		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:proviewClient-ref="proviewClient"
 		  p:editBookDefinitionService-ref="editBookDefinitionService"
 		  p:jobRequestService-ref="jobRequestService">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
-		  	p:coreService-ref="coreService" 
+		  	p:bookDefinitionService-ref="bookDefinitionService" 
 		  	p:codeService-ref="codeService"/>
 		  </property>
 	</bean>
 
 	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
-		  p:coreService-ref="coreService"
+		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:environmentName-ref="environmentName"
 		  p:jobRunner-ref="jobRunner"
 		  p:messageSourceAccessor-ref="messageSourceAccessor"
@@ -76,7 +76,7 @@
 	
 	<bean id="jobQueueController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueController"
 		  p:jobRequestService-ref="jobRequestService"
-		  p:coreService-ref="coreService">
+		  p:bookDefinitionService-ref="bookDefinitionService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueFormValidator"/>
 		</property>

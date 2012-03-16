@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
+package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import org.easymock.EasyMock;
 import org.hibernate.SessionFactory;
@@ -12,21 +12,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
-public class CoreDaoTest  {
+public class BookDefinitionDaoTest  {
 	private static final long BOOK_KEY = 1L;
 	private static final BookDefinition BOOK_DEFINITION = new BookDefinition();
 
 	private SessionFactory mockSessionFactory;
 	private org.hibernate.classic.Session mockSession;
-	private CoreDaoImpl dao;
+	private BookDefinitionDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
 		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
-		this.dao = new CoreDaoImpl(mockSessionFactory);
+		this.dao = new BookDefinitionDaoImpl(mockSessionFactory);
 	}
 	
 	@Ignore

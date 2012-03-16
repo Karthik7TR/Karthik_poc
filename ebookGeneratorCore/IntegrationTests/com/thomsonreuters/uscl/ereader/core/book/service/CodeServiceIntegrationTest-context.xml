@@ -44,7 +44,7 @@
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
-		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
 		  </list>
 		</property>
   	</bean>
@@ -61,11 +61,11 @@
 	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
 		  p:codeDao-ref="codeDao"/>
 		  
-	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
+	<bean id="bookDefinitionDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl">
 		<constructor-arg ref="testSessionFactory" />
 	</bean>
 
-	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
-		  p:coreDao-ref="coreDao"/>
+	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
+		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
 	
 </beans>

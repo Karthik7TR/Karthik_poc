@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.core;
+package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,12 +36,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 

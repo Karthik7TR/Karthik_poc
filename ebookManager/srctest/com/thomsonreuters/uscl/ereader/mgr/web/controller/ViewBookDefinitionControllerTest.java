@@ -20,12 +20,12 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 public class ViewBookDefinitionControllerTest {
 	private static final String TITLE_ID = "a/b/c/d";
@@ -34,7 +34,7 @@ public class ViewBookDefinitionControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private CoreService mockCoreService;
+    private BookDefinitionService mockBookDefinitionService;
     private JobRequestService mockJobRequestService;
 
    
@@ -43,10 +43,10 @@ public class ViewBookDefinitionControllerTest {
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
-    	mockCoreService = EasyMock.createMock(CoreService.class);
+    	mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
     	mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	controller = new ViewBookDefinitionController();
-    	controller.setCoreService(mockCoreService);
+    	controller.setBookDefinitionService(mockBookDefinitionService);
     	controller.setJobRequestService(mockJobRequestService);
     }
     
@@ -61,8 +61,8 @@ public class ViewBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.GET.name());
     	request.addParameter(WebConstants.KEY_ID, Long.toString(BOOK_DEFINITION_ID));
     	
-    	EasyMock.expect(mockCoreService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDef);
-    	EasyMock.replay(mockCoreService);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDef);
+    	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
 		EasyMock.replay(mockJobRequestService);
@@ -75,7 +75,7 @@ public class ViewBookDefinitionControllerTest {
     	Assert.assertEquals(bookDef, model.get(WebConstants.KEY_BOOK_DEFINITION));
     	Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_VIEW, mav.getViewName());
     	
-    	EasyMock.verify(mockCoreService);
+    	EasyMock.verify(mockBookDefinitionService);
     	EasyMock.verify(mockJobRequestService);
     }
     

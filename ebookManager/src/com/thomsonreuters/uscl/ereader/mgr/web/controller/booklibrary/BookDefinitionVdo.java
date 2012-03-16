@@ -11,7 +11,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 /**
  * A View Data Object (VDO) wrapper around a BookDefinition object

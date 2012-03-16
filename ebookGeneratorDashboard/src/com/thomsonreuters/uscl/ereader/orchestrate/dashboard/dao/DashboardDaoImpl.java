@@ -12,7 +12,7 @@ import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 public class DashboardDaoImpl implements DashboardDao {
 	private static final Logger log = Logger.getLogger(DashboardDaoImpl.class);

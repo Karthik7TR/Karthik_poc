@@ -3,15 +3,15 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.core.dao;
+package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
-public interface CoreDao {
+public interface BookDefinitionDao {
 	
 	/**
 	 * Returns all the current book definitions.

@@ -38,8 +38,8 @@
       </property>
 	</bean>
 
-  	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceImpl"
-  		  p:coreDao-ref="coreDao"/>
+  	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
+  		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
 
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
 		  p:jobRegistry-ref="jobRegistry"

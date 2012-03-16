@@ -10,7 +10,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
+import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
@@ -19,13 +21,11 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinitionTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequestTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunnerTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreServiceTest;
 @RunWith(Suite.class)
 @SuiteClasses( { 
 				BookDefinitionTest.class,
-				CoreDaoTest.class,
-				CoreServiceTest.class,
+				BookDefinitionDaoTest.class,
+				BookDefinitionServiceTest.class,
 				FileExtensionFilterTest.class,
 				FileHandlingHelperTest.class,
 				JibxMarshallingTest.class,

@@ -16,18 +16,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -53,7 +52,7 @@ public class StatsServiceIntegrationTest {
 	protected EbookAudit ebookAudit;
 	
 	@Autowired
-	protected CoreService coreService;
+	protected BookDefinitionService bookDefinitionService;
 	protected BookDefinition eBook;
 	
 	@Autowired
@@ -68,7 +67,7 @@ public class StatsServiceIntegrationTest {
 		// mock up the job stats
 		
 		saveBook(); // book will continue to exist and only be updated subsequently
-		eBook = coreService.findBookDefinitionByTitle(BOOK_TITLE);
+		eBook = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 		saveAuditId(eBook.getEbookDefinitionId());
 		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId(eBook.getEbookDefinitionId());
 		savePublishingStats(new Integer("1"), ebookMax);
@@ -98,7 +97,7 @@ public class StatsServiceIntegrationTest {
 	 */
 	public void savePublishingStats(Integer seqNum, Long auditId) {
 		jobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
-		BookDefinition bookDef = coreService.findBookDefinitionByTitle(BOOK_TITLE);
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 		jobStats.setEbookDefId(bookDef.getEbookDefinitionId());
 		jobStats.setAuditId(auditId);
 		jobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+seqNum);
@@ -116,7 +115,7 @@ public class StatsServiceIntegrationTest {
 	 * 
 	 */
 	public void saveBook() {
-		eBook = new com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition();
+		eBook = new com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition();
 
 		//eBook.setEbookDefinitionId((long) 10000);
 		eBook.setFullyQualifiedTitleId(BOOK_TITLE);
@@ -147,7 +146,7 @@ public class StatsServiceIntegrationTest {
 		PublisherCode publisherCode = codeService.getPublisherCodeById((long) 1);
 		eBook.setPublisherCodes(publisherCode);
 		
-		coreService.saveBookDefinition(eBook);
+		bookDefinitionService.saveBookDefinition(eBook);
 	}
 	/**
 	 * Operation Unit Test Save an existing Audit entity

@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class GenerateEbookController {
 	private static final Logger log = Logger
 			.getLogger(GenerateEbookController.class);
 
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private String environmentName;
 	private JobRunner jobRunner;
 	private MessageSourceAccessor messageSourceAccessor;
@@ -80,7 +80,7 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		BookDefinition book = coreService.findBookDefinitionByEbookDefId(id);
+		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
 		if (book != null) {
 			ProviewTitleInfo proviewTitleInfo = proviewClient
@@ -142,7 +142,7 @@ public class GenerateEbookController {
 		    String userName = UserUtils.getAuthenticatedUserFullName();
 			String userEmail = UserUtils.getAuthenticatedUserEmail();
 
-			BookDefinition book = coreService.findBookDefinitionByEbookDefId(form.getId());
+			BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
 
 			JobRunRequest jobRunRequest = JobRunRequest.create(
 					book.getFullyQualifiedTitleId(), userName, userEmail);
@@ -223,13 +223,8 @@ public class GenerateEbookController {
 	}
 
 	@Required
-	public CoreService getCoreService() {
-		return coreService;
-	}
-
-	@Required
-	public void setCoreService(CoreService coreService) {
-		this.coreService = coreService;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 
 	@Required

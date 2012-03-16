@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
-	protected CoreService coreService;
+	protected BookDefinitionService bookDefinitionService;
 	protected JobRequestService jobRequestService;
 	protected EditBookDefinitionService editBookDefinitionService;
 	protected Validator validator;
@@ -81,7 +81,7 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			coreService.saveBookDefinition(book);
+			bookDefinitionService.saveBookDefinition(book);
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
@@ -103,7 +103,7 @@ public class EditBookDefinitionController {
 				Model model) throws Exception {
 
 		// Lookup the book by its primary key
-		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		form.initialize(bookDef);
 		setupEditFormAndModel(bookDef, form, model);
 		
@@ -126,13 +126,13 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			coreService.saveBookDefinition(book);
+			bookDefinitionService.saveBookDefinition(book);
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
 		// Lookup the book by its primary key
-		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
 		setupEditFormAndModel(bookDef, form, model);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
@@ -150,7 +150,7 @@ public class EditBookDefinitionController {
 				Model model) throws Exception {
 		
 		// Lookup the book by its primary key
-		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		bookDef.setEbookDefinitionId(null);
 		form.initialize(bookDef);
 		initializeModel(model, form);
@@ -175,7 +175,7 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			coreService.saveBookDefinition(book);
+			bookDefinitionService.saveBookDefinition(book);
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
@@ -210,7 +210,7 @@ public class EditBookDefinitionController {
 					// Save new Publish State if Title ID is found in ProView as Final 
 					isPublished = true;
 					bookDef.setPublishedOnceFlag(true);
-					coreService.saveBookDefinition(bookDef);
+					bookDefinitionService.saveBookDefinition(bookDef);
 				}
 			}
 		}
@@ -245,8 +245,8 @@ public class EditBookDefinitionController {
 	}
 
 	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 	
 	@Required

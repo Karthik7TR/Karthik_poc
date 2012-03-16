@@ -5,7 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -20,10 +21,10 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
 
 public class GenerateEbookControllerTest {
 	private GenerateEbookController controller;
@@ -38,12 +39,12 @@ public class GenerateEbookControllerTest {
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
 
 		// Mock up services
-		CoreService mockCoreService = EasyMock.createMock(CoreService.class);
+		BookDefinitionService mockBookDefinitionServiceService = EasyMock.createMock(BookDefinitionService.class);
 		ProviewClient proviewClient = EasyMock.createMock(ProviewClient.class);
 
 		// Set up the controller
 		this.controller = new GenerateEbookController();
-		controller.setCoreService(mockCoreService);
+		controller.setBookDefinitionService(mockBookDefinitionServiceService);
 		controller.setProviewClient(proviewClient);
 	}
 

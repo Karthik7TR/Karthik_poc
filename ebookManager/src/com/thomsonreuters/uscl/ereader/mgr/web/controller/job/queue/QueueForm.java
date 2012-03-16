@@ -13,7 +13,8 @@ public class QueueForm {
 	
 	public static final String FORM_NAME = "queueForm";
 	public enum Command { TODO_AAA, TODO_BBB };
-	public enum DisplayTagSortProperty { RUN_ORDER, BOOK_NAME, TITLE_ID }
+	/** Sortable columns on the Job Queue page */
+	public enum DisplayTagSortProperty { SEQUENCE, BOOK_NAME, TITLE_ID, BOOK_VERSION, PRIORITY, SUBMITTED_BY, SUBMITTED_AT };
 	
 	private Command command;
 	private Long[] 	ids;

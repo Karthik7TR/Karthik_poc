@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 
 /**
  * Class that will provide book library service methods
@@ -19,11 +19,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 public class BookLibraryService {
 	//private static final Logger log = Logger.getLogger(BookLibraryService.class);
 
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 
 	@Required
-	public void setCoreService(CoreService coreService) {
-		this.coreService = coreService;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class BookLibraryService {
 			boolean isAscending, int pageNumber, int itemsPerPage) {
 		List<BookDefinitionVdo> pageItems = new ArrayList<BookDefinitionVdo>();
 
-		List<BookDefinition> books = coreService.findBookDefinitions(
+		List<BookDefinition> books = bookDefinitionService.findBookDefinitions(
 				sortProperty, isAscending, pageNumber, itemsPerPage);
 
 		for (BookDefinition book : books) {
@@ -52,7 +52,7 @@ public class BookLibraryService {
 	 * @return
 	 */
 	public long getTotalBookCount() {
-		return coreService.countNumberOfBookDefinitions();
+		return bookDefinitionService.countNumberOfBookDefinitions();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class BookLibraryService {
 	 */
 
 	public BookDefinitionVdo getSingleBook(Long key) {
-		BookDefinition book = coreService.findBookDefinitionByEbookDefId(key);
+		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(key);
 		return new BookDefinitionVdo(book, false);
 	}
 

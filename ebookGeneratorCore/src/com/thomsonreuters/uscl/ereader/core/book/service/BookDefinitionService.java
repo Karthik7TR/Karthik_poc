@@ -3,16 +3,16 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.orchestrate.core.service;
+package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 /**
  * Service methods that are common to both the Spring Batch generator engine and manager web applications.
  */
-public interface CoreService {
+public interface BookDefinitionService {
 	
 	/**
 	 * Returns all the current book definitions.

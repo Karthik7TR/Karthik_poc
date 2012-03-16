@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Controller
 public class ViewBookDefinitionController {
 	private static final Logger log = Logger.getLogger(ViewBookDefinitionController.class);
 
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private JobRequestService jobRequestService;
 	
 	/**
@@ -39,7 +39,7 @@ public class ViewBookDefinitionController {
 				Model model) {
 
 		// Lookup the book by its primary key
-		BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(id);
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		form.setId(id);
 		
 		if(bookDef != null){
@@ -89,8 +89,8 @@ public class ViewBookDefinitionController {
 	}
 	
 	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 	
 	@Required

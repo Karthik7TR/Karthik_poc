@@ -19,7 +19,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
  */

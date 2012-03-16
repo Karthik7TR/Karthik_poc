@@ -49,14 +49,8 @@
         <value name="titleId" field="titleId" usage="required"/>
         <value name="userName" field="userName" usage="optional"/>
         <value name="userEmail" field="userEmail" usage="optional"/>
-    </mapping><!--
-    
-    <mapping name="bookDefinition" class="com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition">
-        <value name="fullyQualifiedTitleId" field="fullyQualifiedTitleId" usage="required"/>
     </mapping>
-    
-     title.xml 
-    --><mapping name="title" class="com.thomsonreuters.uscl.ereader.proview.TitleMetadata" value-style="attribute">
+    <mapping name="title" class="com.thomsonreuters.uscl.ereader.proview.TitleMetadata" value-style="attribute">
     	<value name="apiversion" field="apiVersion" usage="required"/>
     	<value name="id" field="titleId" usage="required"/>
     	<value name="titleversion" field="titleVersion" usage="required"/>

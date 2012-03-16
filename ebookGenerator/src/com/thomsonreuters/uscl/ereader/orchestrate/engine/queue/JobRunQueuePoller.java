@@ -14,9 +14,9 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 
@@ -28,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThro
 public class JobRunQueuePoller {
 	private static final Logger log = Logger.getLogger(JobRunQueuePoller.class);
 
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private EngineService engineService;
 	private JobQueueManager jobQueueManager;
 	private JobStartupThrottleService jobStartupThrottleService;
@@ -53,7 +53,7 @@ public class JobRunQueuePoller {
 					// if there was a job to run, then launch it
 					if (jobRunRequest != null) {
 						// Load the pre-defined set of book definition parameters for this specific book from a database table
-						BookDefinition bookDefinition = coreService.findBookDefinitionByTitle(jobRunRequest.getTitleId());
+						BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByTitle(jobRunRequest.getTitleId());
 						// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
 						JobParameters bookDefinitionJobParameters = engineService
 								.createJobParametersFromBookDefinition(bookDefinition);
@@ -80,8 +80,8 @@ public class JobRunQueuePoller {
 		}
 	}
 	@Required
-	public void setCoreService(CoreService coreService) {
-		this.coreService = coreService;
+	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
+		this.bookDefinitionService = bookDefinitionService;
 	}
 	@Required
 	public void setEngineService(EngineService engineService) {

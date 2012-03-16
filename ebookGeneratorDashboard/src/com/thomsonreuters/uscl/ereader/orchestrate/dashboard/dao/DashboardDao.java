@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.batch.core.BatchStatus;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 public interface DashboardDao {
 	

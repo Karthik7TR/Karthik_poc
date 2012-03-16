@@ -2,8 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 
 import java.util.Comparator;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 /**
  * A view data object (VDO) used to hold data presented in a table of job requests.
@@ -42,10 +42,24 @@ class SequenceComparator implements Comparator<JobRequestRow> {
 	public SequenceComparator(boolean ascending) {
 		this.ascending = ascending;
 	}
-	public int compare(JobRequestRow row1, JobRequestRow row2) {
-		Integer r1 = new Integer(row1.getSequence());
-		Integer r2 = new Integer(row2.getSequence());
-		int result = r1.compareTo(r2);
+	public int compare(JobRequestRow job1, JobRequestRow job2) {
+		Integer seq1 = new Integer(job1.getSequence());
+		Integer seq2 = new Integer(job2.getSequence());
+		int result = seq1.compareTo(seq2);
 		return (ascending) ? result : -result;
 	 }
 }
+//class BookNameComparator implements Comparator<JobRequestRow> {
+//	private boolean ascending;
+//	public BookNameComparator(boolean ascending) {
+//		this.ascending = ascending;
+//	}
+//	public int compare(JobRequestRow job1, JobRequestRow job2) {
+//		Integer b1 = new Integer(job1.getBook().getBookName());
+//		if (b1 != null) {
+//			Integer b2 = new Integer(job2.getBook().getBookName());
+//			int result = b1.compareTo(b2);
+//		} 
+//		return (ascending) ? result : -result;
+//	 }
+//}

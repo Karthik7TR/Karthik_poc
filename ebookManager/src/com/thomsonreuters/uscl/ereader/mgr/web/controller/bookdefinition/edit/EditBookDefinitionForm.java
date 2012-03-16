@@ -21,13 +21,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
 
 public class EditBookDefinitionForm {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);

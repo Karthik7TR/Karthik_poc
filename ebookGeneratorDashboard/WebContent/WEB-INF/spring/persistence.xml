@@ -25,7 +25,7 @@
 		</property>
 		<property name="annotatedClasses">
 		  <list>
-		  	<value>com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.AdditionalFrontMatter</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
@@ -54,7 +54,7 @@
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
 		 ====================================== --> 
-	<bean id="coreDao" class="com.thomsonreuters.uscl.ereader.orchestrate.core.dao.CoreDaoImpl">
+	<bean id="bookDefinitionDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
 		 

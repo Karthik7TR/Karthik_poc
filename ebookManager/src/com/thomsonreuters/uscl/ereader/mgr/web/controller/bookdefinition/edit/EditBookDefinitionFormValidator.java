@@ -20,18 +20,18 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator implements Validator {
 	private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_TITLE_ID_LENGTH = 40;
 	private static final int ISBN_LENGTH = 13;
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
 	
 	@SuppressWarnings("rawtypes")
@@ -88,7 +88,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     		Long bookDefinitionId = form.getBookdefinitionId();
     		if(bookDefinitionId != null) {
     			// Lookup the book by its primary key
-    			BookDefinition bookDef = coreService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
+    			BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
     			
     			String oldTitleId = bookDef.getFullyQualifiedTitleId();
 				
@@ -156,7 +156,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 	}
 	
 	private void checkUniqueTitleId(Errors errors, String titleId) {
-		BookDefinition newBookDef = coreService.findBookDefinitionByTitle(titleId);
+		BookDefinition newBookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
 		
 		if (newBookDef != null) {
 			errors.rejectValue("titleId", "error.titleid.exist");
@@ -247,8 +247,8 @@ public class EditBookDefinitionFormValidator implements Validator {
 	}
 	
 	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 	
 	@Required

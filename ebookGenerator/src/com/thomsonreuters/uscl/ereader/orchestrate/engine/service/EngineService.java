@@ -8,7 +8,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 
 /**

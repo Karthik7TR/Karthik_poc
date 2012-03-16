@@ -25,14 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.BookDefinition;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 
 /**
  * Creates the model of book generating jobs that are queued up to run, or that are scheduled to run
@@ -42,7 +42,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.service.CoreService;
 public class QueueController {
 	private static final Logger log = Logger.getLogger(QueueController.class);
 	private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
-	private CoreService coreService;
+	private BookDefinitionService bookDefinitionService;
 	private JobRequestService jobRequestService;
 	private Validator validator;
 
@@ -92,7 +92,7 @@ log.debug(allQueuedJobs); // DEBUG
 	private PageAndSort<DisplayTagSortProperty> fetchSavedQueuedPageAndSort(HttpSession httpSession) {
 		PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
 		if (pageAndSort == null) {
-			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.RUN_ORDER, true);
+			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SEQUENCE, true);
 		}
 		return pageAndSort;
 	}
@@ -124,7 +124,6 @@ log.debug(allQueuedJobs); // DEBUG
 											  PageAndSort<DisplayTagSortProperty> queuedPageAndSort) {
 
 		List<JobRequestRow> onePageOfRows = createOnePageOfRows(allQueuedJobs, queuedPageAndSort);
-log.debug("ONE PAGE: "  + onePageOfRows);		
 		// Instantiate the object used by DisplayTag to render a partial list
 		QueuePaginatedList<DisplayTagSortProperty> paginatedList =
 							new QueuePaginatedList<DisplayTagSortProperty>(onePageOfRows,
@@ -150,7 +149,7 @@ log.debug("ONE PAGE: "  + onePageOfRows);
 		List<JobRequestRow> rows = new ArrayList<JobRequestRow>();
 		int sequence = 1;
 		for (JobRequest job : allQueuedJobs) {
-			BookDefinition book = coreService.findBookDefinitionByEbookDefId(job.getEbookDefinitionId());
+			BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(job.getEbookDefinitionId());
 			rows.add(new JobRequestRow(sequence++, job, book));
 		}
 		
@@ -172,8 +171,8 @@ log.debug("ONE PAGE: "  + onePageOfRows);
 		this.jobRequestService = service;
 	}
 	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 	@Required
 	public void setValidator(QueueFormValidator validator) {
