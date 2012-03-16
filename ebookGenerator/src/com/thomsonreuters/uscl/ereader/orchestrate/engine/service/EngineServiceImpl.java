@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -118,6 +119,8 @@ public class EngineServiceImpl implements EngineService {
 		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
 		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
 		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
+		paramMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(bookDefinition.getEbookDefinitionId()));
+		paramMap.put(JobParameterKey.PUB_CUTOFF_DATE, new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT.format(bookDefinition.getPublishCutoffDate())));		
 		//Hard coded major version for now
 		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter("1"));		
 //		paramMap.put(JobParameterKey.MAJOR_VERSION, new JobParameter(bookDefinition.getMajorVersion()));

@@ -32,6 +32,10 @@ public class JobParameterKey {
 	
 	public static final String BOOK_DEFINITION = "bookDefinition";
 	
+	public static final String BOOK_DEFINITION_ID = "bookDefinitionId";	
+	
+	public static final String PUB_CUTOFF_DATE= "publishCutoffDate";		
+	
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */
 	public static final String USER_NAME = "userName";
