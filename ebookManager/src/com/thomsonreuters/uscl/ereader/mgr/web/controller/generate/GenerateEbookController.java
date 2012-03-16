@@ -80,7 +80,8 @@ public class GenerateEbookController {
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
-		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+		BookDefinition book = bookDefinitionService
+				.findBookDefinitionByEbookDefId(id);
 
 		if (book != null) {
 			ProviewTitleInfo proviewTitleInfo = proviewClient
@@ -138,11 +139,12 @@ public class GenerateEbookController {
 			String queuePriorityLabel = form.isHighPriorityJob() ? messageSourceAccessor
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
-			
-		    String userName = UserUtils.getAuthenticatedUserFullName();
+
+			String userName = UserUtils.getAuthenticatedUserFullName();
 			String userEmail = UserUtils.getAuthenticatedUserEmail();
 
-			BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
+			BookDefinition book = bookDefinitionService
+					.findBookDefinitionByEbookDefId(form.getId());
 
 			JobRunRequest jobRunRequest = JobRunRequest.create(
 					book.getFullyQualifiedTitleId(), userName, userEmail);
@@ -170,7 +172,7 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
-					UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
+					"disabled=\"disabled\"");
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
 			form.setFullyQualifiedTitleId(book.getTitleId());

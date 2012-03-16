@@ -35,10 +35,11 @@
   }
   
   function submitGenerate(cmd){
-	var confirmed = confirmValues();
 	
+	var confirmed = confirmValues();
 	if (confirmed){
 		confirmed = submitForm(cmd);
+		
 	}
 	
 	return confirmed;
