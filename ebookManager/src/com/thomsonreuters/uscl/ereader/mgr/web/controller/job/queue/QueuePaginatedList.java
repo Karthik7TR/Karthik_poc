@@ -17,7 +17,8 @@ import org.displaytag.properties.SortOrderEnum;
 public class QueuePaginatedList<SortProperty> implements PaginatedList {
 	//private static final Logger log = Logger.getLogger(JobPaginatedList.class);
 	
-	private List<JobRequestRow> list;
+	private List<JobRequestRow> partialList;
+	private int fullListSize;
 	private int pageNumber;		// Which page number of data is this
 	private int objectsPerPage;	// How many rows are to be shown on each page
 	private SortProperty sortProperty;		// Indicates the column that we want to sort by
@@ -27,11 +28,13 @@ public class QueuePaginatedList<SortProperty> implements PaginatedList {
 	 * Create the PaginatedList used for paging and sorting operations by DisplayTag.
 	 * None the parameters may be null.
 	 */
-	public QueuePaginatedList(List<JobRequestRow> list,
+	public QueuePaginatedList(List<JobRequestRow> partialList,
+								int fullListSize,
 								int pageNumber, int objectsPerPage,
 								SortProperty sortProperty,
 								boolean ascending) {
-		this.list = list;
+		this.partialList = partialList;
+		this.fullListSize = fullListSize;
 		this.pageNumber = pageNumber;
 		this.objectsPerPage = objectsPerPage;
 		this.sortProperty = sortProperty;
@@ -40,11 +43,11 @@ public class QueuePaginatedList<SortProperty> implements PaginatedList {
 	
 	@Override
 	public int getFullListSize() {
-		return list.size();
+		return fullListSize;
 	}
 	@Override
 	public List<JobRequestRow> getList() {
-		return list;
+		return partialList;
 	}
 	@Override
 	public int getObjectsPerPage() {

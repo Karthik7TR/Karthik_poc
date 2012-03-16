@@ -2,8 +2,6 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -154,3 +154,20 @@ public class EbookName implements Serializable {
 		return true;
 	}
 }
+
+/**
+ * For sorting the name components into sequence order (1...n).
+ */
+//class SequenceComparator implements Comparator<EbookName> {
+//	 public int compare(EbookName b1, EbookName b2) {
+//		 int result = 0;
+//		 String name1 = b1.getBookNameText();
+//		 String name2 = b1.getBookNameText();
+//		 if (StringUtils.isNotBlank(name1)) {
+//			 result = name1.compareTo(name2);
+//		 } else if (StringUtils.isNotBlank(name2)) {  // name1 is null and name2 is not null
+//			 result = -1;
+//		 }
+//		 return result;
+//	 }
+//}

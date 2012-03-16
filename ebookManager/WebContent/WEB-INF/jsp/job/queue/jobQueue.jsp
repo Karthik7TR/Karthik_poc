@@ -23,8 +23,7 @@
 	<display:table id="row" name="<%=WebConstants.KEY_PAGINATED_LIST%>"
 				   requestURI="<%=WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT%>" class="displayTagTable"> 
 	  <display:setProperty name="basic.msg.empty_list">No jobs are queued to run.</display:setProperty>
-	  <display:column title="Seq &nbsp;" property="sequence" sortable="true" sortProperty="<%=DisplayTagSortProperty.SEQUENCE.toString()%>"/>
-	  <display:column title="Book Name" property="book.ebookNames" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
+	  <display:column title="Book Name" property="book.fullBookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
 	  <display:column title="Title ID" property="book.titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"/>
 	  <display:column title="Version &nbsp;" property="job.bookVersion" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_VERSION.toString()%>"/>
 	  <display:column title="Priority &nbsp;" property="job.priority" sortable="true" sortProperty="<%=DisplayTagSortProperty.PRIORITY.toString()%>"/>

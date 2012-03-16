@@ -8,7 +8,9 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
@@ -41,10 +42,18 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
 @Controller
 public class QueueController {
 	private static final Logger log = Logger.getLogger(QueueController.class);
-	private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
 	private BookDefinitionService bookDefinitionService;
 	private JobRequestService jobRequestService;
 	private Validator validator;
+	private static Map<DisplayTagSortProperty, Comparator<JobRequestRow>> comparators = new HashMap<DisplayTagSortProperty, Comparator<JobRequestRow>>();
+	static {
+		comparators.put(DisplayTagSortProperty.BOOK_NAME, new JobRequestRowComparators.BookNameComparator());
+		comparators.put(DisplayTagSortProperty.BOOK_VERSION, new JobRequestRowComparators.BookVersionComparator());
+		comparators.put(DisplayTagSortProperty.PRIORITY, new JobRequestRowComparators.PriorityComparator());
+		comparators.put(DisplayTagSortProperty.SUBMITTED_AT, new JobRequestRowComparators.SubmittedAtComparator());
+		comparators.put(DisplayTagSortProperty.SUBMITTED_BY, new JobRequestRowComparators.SubmittedByComparator());
+		comparators.put(DisplayTagSortProperty.TITLE_ID, new JobRequestRowComparators.TitleIdComparator());
+	}
 
 	@InitBinder(QueueForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -92,7 +101,7 @@ log.debug(allQueuedJobs); // DEBUG
 	private PageAndSort<DisplayTagSortProperty> fetchSavedQueuedPageAndSort(HttpSession httpSession) {
 		PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
 		if (pageAndSort == null) {
-			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SEQUENCE, true);
+			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.PRIORITY, true);
 		}
 		return pageAndSort;
 	}
@@ -126,9 +135,9 @@ log.debug(allQueuedJobs); // DEBUG
 		List<JobRequestRow> onePageOfRows = createOnePageOfRows(allQueuedJobs, queuedPageAndSort);
 		// Instantiate the object used by DisplayTag to render a partial list
 		QueuePaginatedList<DisplayTagSortProperty> paginatedList =
-							new QueuePaginatedList<DisplayTagSortProperty>(onePageOfRows,
-							queuedPageAndSort.getPageNumber(), queuedPageAndSort.getObjectsPerPage(),
-							queuedPageAndSort.getSortProperty(), queuedPageAndSort.isAscendingSort());
+					new QueuePaginatedList<DisplayTagSortProperty>(onePageOfRows, allQueuedJobs.size(),
+					queuedPageAndSort.getPageNumber(), queuedPageAndSort.getObjectsPerPage(),
+					queuedPageAndSort.getSortProperty(), queuedPageAndSort.isAscendingSort());
 		return paginatedList;
 	}
 	
@@ -142,20 +151,19 @@ log.debug(allQueuedJobs); // DEBUG
 	private List<JobRequestRow> createOnePageOfRows(List<JobRequest> allQueuedJobs,
 			  								PageAndSort<DisplayTagSortProperty> queuedPageAndSort) {
 
-		// Sort into the order/sequence that the jobs will actually run
-		Collections.sort(allQueuedJobs, RUN_ORDER_COMPARATOR);
-
 		// Create a presentation row VDO for each JobRequest and assign the run sequence number into it
 		List<JobRequestRow> rows = new ArrayList<JobRequestRow>();
-		int sequence = 1;
 		for (JobRequest job : allQueuedJobs) {
 			BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(job.getEbookDefinitionId());
-			rows.add(new JobRequestRow(sequence++, job, book));
+			rows.add(new JobRequestRow(job, book));
 		}
-		
-		// Sort the row VDO's by the currently select sort
-//TODO		Comparator<JobRequestRow> rowComparator = getCurrentComparator(queuedPageAndSort.getSortProperty(), queuedPageAndSort.isAscendingSort());
-//		Collections.sort(rows, rowComparator);
+
+		// Sort into the order/sequence that the jobs will actually appear on the page
+		Comparator<JobRequestRow> rowComparator = comparators.get(queuedPageAndSort.getSortProperty());
+		Collections.sort(rows, rowComparator);
+		if (!queuedPageAndSort.isAscendingSort()) {
+			Collections.reverse(rows);
+		}
 		
 		// Get the subset of objects that will be displayed on the current page.
 		int fromIndex = (queuedPageAndSort.getPageNumber() - 1) * queuedPageAndSort.getObjectsPerPage();
