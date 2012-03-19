@@ -34,7 +34,6 @@
   		  p:normalPriorityQueue-ref="normalPriorityJobRunRequestQueue"/>
   		  
   	<bean id="jobRunQueuePoller" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
-  	      p:bookDefinitionService-ref="bookDefinitionService"
   	      p:engineService-ref="engineService"
   	      p:jobRequestService-ref="jobRequestService"
   	      p:jobStartupThrottleService-ref="jobStartupThrottleService"/>
