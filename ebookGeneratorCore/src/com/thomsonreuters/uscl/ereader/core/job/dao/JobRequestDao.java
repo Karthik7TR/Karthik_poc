@@ -10,27 +10,23 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
-/**
- * 
- * @author Mahendra Survase U0105927
- * 
- */
 public interface JobRequestDao {
-	
+
 	/**
-	 * gets next job to execute , order by job priority ,job subSubmited date 
-	 * @return
+	 * Returns all rows of the job request table, in no particular order.
 	 */
 	public List<JobRequest> findAllJobRequests();
+
+	/**
+	 * Find a job request object by its primary key
+	 * @param jobRequestId the primary key
+	 * @return the object found or null if not found
+	 */
 	public JobRequest findByPrimaryKey(long jobRequestId);
 	
-	public JobRequest getNextJobToExecute();
 	public void deleteJobByJobId(long jobRequestId);
 	public void updateJobPriority(long jobRequestId, int jobPriority); 
 	public Long saveJobRequest(JobRequest jobRequest);
 	
-	public JobRequest getJobRequestByBookDefinationId(long ebookDefinitionId);
-//	public List<JobRequest> getAllJobRequestsBy(String jobStatus,
-//			int jobPriority, Date jobScheduledTime, String jobSubmittersName);
-
+	public JobRequest getJobRequestByBookDefinitionId(long ebookDefinitionId);
 }
