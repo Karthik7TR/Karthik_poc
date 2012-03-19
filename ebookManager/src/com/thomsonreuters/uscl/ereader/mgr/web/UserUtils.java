@@ -14,19 +14,22 @@ import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 import com.thomsonreuters.uscl.ereader.Security.SecurityRole;
 
 public class UserUtils {
-	
+
 	/**
 	 * Returns the full name of the currently authenticated user.
+	 * 
 	 * @return user's full name, like "John Galt", or null if not authenticated.
 	 */
 	public static String getAuthenticatedUserFullName() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		return (user != null) ? user.getFullName() : null;
 	}
-	
+
 	/**
 	 * Returns the email of the currently authenticated user.
-	 * @return user's email, like "xyz@thomsonreuters.com", or null if not authenticated.
+	 * 
+	 * @return user's email, like "xyz@thomsonreuters.com", or null if not
+	 *         authenticated.
 	 */
 	public static String getAuthenticatedUserEmail() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
@@ -34,8 +37,19 @@ public class UserUtils {
 	}
 
 	/**
-	 * Returns the list of roles for the currently authenticated user as a comma-separated
-	 * list.  Used currently for trouble-shooting presentation.
+	 * Returns the username of the currently authenticated user.
+	 * 
+	 * @return username, like U1234567, or null if not authenticated.
+	 */
+	public static String getAuthenticatedUserName() {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		return (user != null) ? user.getUsername() : null;
+	}
+
+	/**
+	 * Returns the list of roles for the currently authenticated user as a
+	 * comma-separated list. Used currently for trouble-shooting presentation.
+	 * 
 	 * @return a CSV list of user roles
 	 */
 	public static String getUserRolesAsCsv() {
@@ -51,16 +65,18 @@ public class UserUtils {
 		String csv = buffer.toString();
 		int len = csv.length();
 		if (len > 0) {
-			csv = csv.substring(0, len-1);  // strip off last ","
+			csv = csv.substring(0, len - 1); // strip off last ","
 		}
 		return csv;
 	}
 
 	/**
-	 * Returns true if the currently authenticated user is an application super-user.
+	 * Returns true if the currently authenticated user is an application
+	 * super-user.
 	 */
 	public static boolean isSuperUser() {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
-		return (user != null) ? user.isInRole(SecurityRole.ROLE_SUPERUSER.toString()) : false;
+		return (user != null) ? user.isInRole(SecurityRole.ROLE_SUPERUSER
+				.toString()) : false;
 	}
 }

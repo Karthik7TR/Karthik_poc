@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -32,9 +33,10 @@ public class GenerateEbookController {
 
 	private BookDefinitionService bookDefinitionService;
 	private String environmentName;
-	private JobRunner jobRunner;
 	private MessageSourceAccessor messageSourceAccessor;
 	private ProviewClient proviewClient;
+	private JobRequestService jobRequestService;
+
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			"MM/dd/yyyy");
 	String newMajorVersion;
@@ -150,20 +152,29 @@ public class GenerateEbookController {
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
 
-			String userName = UserUtils.getAuthenticatedUserFullName();
-			String userEmail = UserUtils.getAuthenticatedUserEmail();
+			String version;
+			Integer priority;
+			String submittedBy = UserUtils.getAuthenticatedUserName();
 
 			BookDefinition book = bookDefinitionService
 					.findBookDefinitionByEbookDefId(form.getId());
 
-			JobRunRequest jobRunRequest = JobRunRequest.create(
-					book.getFullyQualifiedTitleId(), userName, userEmail);
 			try {
 				if (form.isHighPriorityJob()) {
-					jobRunner.enqueueHighPriorityJobRunRequest(jobRunRequest);
+					priority = 10;
 				} else {
-					jobRunner.enqueueNormalPriorityJobRunRequest(jobRunRequest);
+					priority = 5;
 				}
+
+				if (form.isMajorVersion()) {
+					version = newMajorVersion;
+				} else {
+					version = newMinorVersion;
+				}
+
+				jobRequestService.saveQueuedJobRequest(form.getId(), version,
+						priority, submittedBy);
+
 				// Report success to user in informational message on page
 				Object[] args = { book.getTitleId(), queuePriorityLabel };
 				String infoMessage = messageSourceAccessor.getMessage(
@@ -209,15 +220,6 @@ public class GenerateEbookController {
 	}
 
 	@Required
-	public JobRunner getJobRunner() {
-		return jobRunner;
-	}
-
-	public void setJobRunner(JobRunner jobRunner) {
-		this.jobRunner = jobRunner;
-	}
-
-	@Required
 	public MessageSourceAccessor getMessageSourceAccessor() {
 		return messageSourceAccessor;
 	}
@@ -246,5 +248,14 @@ public class GenerateEbookController {
 
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
+	}
+
+	@Required
+	public JobRequestService getJobRequestService() {
+		return jobRequestService;
+	}
+
+	public void setJobRequestService(JobRequestService jobRequestService) {
+		this.jobRequestService = jobRequestService;
 	}
 }
