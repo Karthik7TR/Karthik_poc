@@ -102,7 +102,7 @@ public class EngineServiceImpl implements EngineService {
         concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
         
         
-		String concatBookNames = " ";
+		String concatBookNames = null;
         Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
         while(bookNameIt.hasNext())
         {
@@ -110,7 +110,11 @@ public class EngineServiceImpl implements EngineService {
         	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
         }   
         
-        concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
+        if (concatBookNames != null) {
+        	concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
+        } else {
+        	concatBookNames = bookDefinition.getProviewDisplayName();
+        }
         
 		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
 		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
