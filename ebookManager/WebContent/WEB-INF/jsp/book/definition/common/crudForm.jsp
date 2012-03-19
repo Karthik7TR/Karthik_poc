@@ -534,7 +534,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<form:label path="isbn" class="labelCol">ISBN-13</form:label>
+		<form:label path="isbn" class="labelCol">ISBN</form:label>
 		<form:input path="isbn" maxlength="17" />
 		<div class="errorDiv">
 			<form:errors path="isbn" cssClass="errorMessage" />
