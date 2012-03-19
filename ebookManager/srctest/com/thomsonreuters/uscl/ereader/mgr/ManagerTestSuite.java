@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControlle
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryFilterControllerTest;
 
@@ -30,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			JobExecutionControllerTest.class,
 			JobSummaryControllerTest.class,
 			JobSummaryFilterControllerTest.class,
+			QueueControllerTest.class,
 			SecurityControllerTest.class,
 			ViewBookDefinitionControllerTest.class
 		} )

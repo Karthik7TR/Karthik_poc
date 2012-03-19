@@ -4,6 +4,12 @@ import java.util.Comparator;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
 
+/**
+ * Comparators used in the sorting of the JobRequestRow view data object (VDO).
+ * The list of queue jobs to run can be sorted by book name and title ID as well as job related parameters.
+ * @author c114868
+ *
+ */
 public class JobRequestRowComparators {
 	
 	public static class BookNameComparator implements Comparator<JobRequestRow> {
@@ -47,13 +53,4 @@ public class JobRequestRowComparators {
 		}
 		return result;
 	}
-//	private static int compareIntegers(Integer i1, Integer i2) {
-//		int result = 0;
-//		if (i1 != null) {
-//			result = (i2 != null) ? i1.compareTo(i2) : 1;
-//		} else {  // i1 is null
-//			result = (i2 != null) ? -1 : 0;
-//		}
-//		return result;
-//	}
 }

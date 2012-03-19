@@ -108,7 +108,7 @@ log.debug(allQueuedJobs); // DEBUG
 	
 	@SuppressWarnings("unchecked")
 	private List<JobRequest> fetchSavedQueuedJobs(HttpSession httpSession) {
-		List<JobRequest> queuedJobs = (List<JobRequest>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED);
+		List<JobRequest> queuedJobs = (List<JobRequest>) httpSession.getAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED);
 		if (queuedJobs == null) {
 			queuedJobs = Collections.EMPTY_LIST;
 		}
@@ -117,7 +117,7 @@ log.debug(allQueuedJobs); // DEBUG
 
 	private void setUpModel(List<JobRequest> allQueuedJobs, PageAndSort<DisplayTagSortProperty> queuedPageAndSort, 
 							HttpSession httpSession, Model model) {
-		httpSession.setAttribute(WebConstants.KEY_JOB_QUEUED, allQueuedJobs);
+		httpSession.setAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED, allQueuedJobs);
 		httpSession.setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, queuedPageAndSort);
 		
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers list
