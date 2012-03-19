@@ -20,6 +20,7 @@ import org.springframework.batch.core.launch.JobOperator;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 
@@ -29,7 +30,12 @@ public class EngineServiceTest  {
 	private static String BOOK_NAME = "Junit book name";
 	private static String USER_NAME = "theUserName";
 	private static String USER_EMAIL = "theUserEmail";
+	private static Long EBOOK_DEFINITION_ID = 101L;
+	private static String VERSION ="testVersion";
+	private static int PRIORITY = 1;
+	private static String SUBMITTED_BY ="testSubmittedBy";
 	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(FULLY_QUALIFIED_TITLE_ID, USER_NAME, USER_EMAIL);
+	private static JobRequest JOB_REQUEST =	JobRequest.createQueuedJobRequest(EBOOK_DEFINITION_ID, VERSION, PRIORITY, SUBMITTED_BY);
 
 	private EngineServiceImpl service;
 	
@@ -69,15 +75,15 @@ public class EngineServiceTest  {
 
 	@Test
 	public void testCreateDynamicJobParameters() {
-		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_RUN_REQUEST);
-		assertEquals(USER_NAME, dynamicJobParams.getString(JobParameterKey.USER_NAME));
-		assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
+		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);
+		assertEquals(SUBMITTED_BY, dynamicJobParams.getString(JobParameterKey.USER_NAME));
+		//assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
 		Assert.assertNotNull(dynamicJobParams.getLong(JobParameterKey.JOB_TIMESTAMP));
 	}
 
 	@Test
 	public void testRunJob() throws Exception {
-		JobParameters allJobParams = service.createDynamicJobParameters(JOB_RUN_REQUEST);
+		JobParameters allJobParams = service.createDynamicJobParameters(JOB_REQUEST);
 
 		EasyMock.expect(mockJobLauncher.run(mockJob, allJobParams)).andReturn(mockJobExecution);
 		EasyMock.expect(mockJobRegistry.getJob(JobRunRequest.JOB_NAME_CREATE_EBOOK)).andReturn(mockJob);
