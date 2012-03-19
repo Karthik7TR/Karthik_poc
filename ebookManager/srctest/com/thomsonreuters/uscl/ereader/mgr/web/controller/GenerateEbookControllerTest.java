@@ -73,7 +73,6 @@ public class GenerateEbookControllerTest {
 	 * Test the POST of one book selected to generator preview
 	 */
 	@Test
-	@Ignore
 	public void testGenerateEbookPreview() {
 		request.setRequestURI("/"
 				+ WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);

@@ -153,6 +153,17 @@ public class EbookName implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append("ebookNameId=[").append(ebookNameId).append("] ");
+		buffer.append("bookNameText=[").append(bookNameText).append("] ");
+		buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
+
+		return buffer.toString();
+	}
 }
 
 /**

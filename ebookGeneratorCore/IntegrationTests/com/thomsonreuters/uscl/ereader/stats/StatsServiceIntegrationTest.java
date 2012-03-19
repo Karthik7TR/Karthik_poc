@@ -155,19 +155,18 @@ public class StatsServiceIntegrationTest {
 	public void saveAuditId(Long eBookDefinitionId) {
 		ebookAudit = new com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit();
 		ebookAudit.setEbookDefinitionId(eBookDefinitionId);
-		ebookAudit.setAuditId((long) 999);
 		ebookAudit.setTitleId(BOOK_TITLE);
 		ebookAudit.setCopyright("2012 Copyright Integration Test");
 		ebookAudit.setMaterialId("12345");
 		ebookAudit.setAuditType("ADD");
-		ebookAudit.setIsTocFlag("Y");
-		ebookAudit.setAutoUpdateSupportFlag("Y");
-		ebookAudit.setEbookDefinitionCompleteFlag("Y");
+		ebookAudit.setIsTocFlag(true);
+		ebookAudit.setAutoUpdateSupportFlag(true);
+		ebookAudit.setEbookDefinitionCompleteFlag(true);
 		ebookAudit.setIsDeletedFlag(false);
 		ebookAudit.setIsProviewTableViewFlag(false);
-		ebookAudit.setKeyciteToplineFlag("Y");
-		ebookAudit.setOnePassSsoLinkFlag("Y");
-		ebookAudit.setSearchIndexFlag("Y");
+		ebookAudit.setKeyciteToplineFlag(true);
+		ebookAudit.setOnePassSsoLinkFlag(true);
+		ebookAudit.setSearchIndexFlag(true);
 		ebookAudit.setUpdatedBy("StatsServiceIntegrationTest");
 		ebookAudit.setLastUpdated(UPDATE_DATE);
 		ebookAuditService.saveEBookAudit(ebookAudit);
@@ -199,7 +198,7 @@ public class StatsServiceIntegrationTest {
 
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
-		expectedJobStats.setAuditId((long) 999);
+		expectedJobStats.setAuditId(ebookAudit.getAuditId());
 		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");
@@ -236,7 +235,7 @@ public class StatsServiceIntegrationTest {
 		
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
-		expectedJobStats.setAuditId((long) 999);
+		expectedJobStats.setAuditId(ebookAudit.getAuditId());
 		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");

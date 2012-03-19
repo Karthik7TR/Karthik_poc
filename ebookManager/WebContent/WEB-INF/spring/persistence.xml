@@ -75,6 +75,10 @@
 	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
+	
+	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
 
 </beans>
 	

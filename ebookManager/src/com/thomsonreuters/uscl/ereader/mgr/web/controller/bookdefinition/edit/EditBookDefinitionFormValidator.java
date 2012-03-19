@@ -12,7 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -24,15 +23,17 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator implements Validator {
-	private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_TITLE_ID_LENGTH = 40;
 	private static final int ISBN_LENGTH = 13;
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
+	private JobRequestService jobRequestService;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -52,7 +53,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	
     	// Clear out empty rows in authors, nameLines, and additionalFrontMatters before validation
     	form.removeEmptyRows();
-    	log.debug(form);
+    	
     	// Set validate error to prevent saving the form
 		boolean validateForm = form.isValidateForm();
 		if(validateForm) {
@@ -91,6 +92,13 @@ public class EditBookDefinitionFormValidator implements Validator {
     			BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
     			
     			String oldTitleId = bookDef.getFullyQualifiedTitleId();
+    			
+    			// Check if Book Definition is in JobRequest if set as complete
+    			if(bookDef.IsEbookDefinitionCompleteFlag()) {
+    				if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
+    					errors.rejectValue("validateForm", "error.job.request");
+    				}
+    			}
 				
     			// This is from the book definition edit
     			if(bookDef.IsPublishedOnceFlag()) {
@@ -254,5 +262,10 @@ public class EditBookDefinitionFormValidator implements Validator {
 	@Required
 	public void setCodeService(CodeService service) {
 		this.codeService = service;
+	}
+	
+	@Required
+	public void setJobRequestService(JobRequestService service) {
+		this.jobRequestService = service;
 	}
 }

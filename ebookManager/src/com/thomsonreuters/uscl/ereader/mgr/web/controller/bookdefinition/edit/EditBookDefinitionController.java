@@ -27,9 +27,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
@@ -38,6 +41,7 @@ public class EditBookDefinitionController {
 	protected BookDefinitionService bookDefinitionService;
 	protected JobRequestService jobRequestService;
 	protected EditBookDefinitionService editBookDefinitionService;
+	private EBookAuditService auditService;
 	protected Validator validator;
 	protected ProviewClient proviewClient;
 
@@ -82,6 +86,13 @@ public class EditBookDefinitionController {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
 			bookDefinitionService.saveBookDefinition(book);
+			
+			// Save in Audit
+			EbookAudit audit = new EbookAudit();
+			audit.loadBookDefinition(book, EbookAudit.AUDIT_TYPE.CREATE, UserUtils.getAuthenticatedUserName(), form.getComment());
+			auditService.saveEBookAudit(audit);
+			
+			// Redirect user
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
@@ -127,6 +138,13 @@ public class EditBookDefinitionController {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
 			bookDefinitionService.saveBookDefinition(book);
+			
+			// Save in Audit
+			EbookAudit audit = new EbookAudit();
+			audit.loadBookDefinition(book, EbookAudit.AUDIT_TYPE.EDIT, UserUtils.getAuthenticatedUserName(), form.getComment());
+			auditService.saveEBookAudit(audit);
+			
+			// Redirect user
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
@@ -176,6 +194,13 @@ public class EditBookDefinitionController {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
 			bookDefinitionService.saveBookDefinition(book);
+			
+			// Save in Audit
+			EbookAudit audit = new EbookAudit();
+			audit.loadBookDefinition(book, EbookAudit.AUDIT_TYPE.CREATE, UserUtils.getAuthenticatedUserName(), form.getComment());
+			auditService.saveEBookAudit(audit);
+			
+			// Redirect user
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
@@ -262,6 +287,11 @@ public class EditBookDefinitionController {
 	@Required
 	public void setValidator(Validator validator) {
 		this.validator = validator;
+	}
+	
+	@Required
+	public void setAuditService(EBookAuditService service) {
+		this.auditService = service;
 	}
 	
 	@Required

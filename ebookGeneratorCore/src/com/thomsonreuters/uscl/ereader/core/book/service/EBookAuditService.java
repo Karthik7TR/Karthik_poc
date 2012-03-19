@@ -6,7 +6,6 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
-import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 
 /**

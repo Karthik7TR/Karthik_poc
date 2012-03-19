@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -28,6 +30,7 @@ import javax.persistence.TemporalType;
 @Table(schema = "EBOOK", name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static enum AUDIT_TYPE {DELETE, CREATE, EDIT};
 
 	/**
 	 */
@@ -109,7 +112,7 @@ public class EbookAudit implements Serializable {
 
 	@Column(name = "DOCUMENT_TYPE_CODES_ID")
 	@Basic(fetch = FetchType.EAGER)
-	Integer documentTypeCodesId;
+	Long documentTypeCodesId;
 	/**
 	 */
 
@@ -134,7 +137,7 @@ public class EbookAudit implements Serializable {
 	@Column(name = "PUBLISHER_CODES_ID")
 	@Basic(fetch = FetchType.EAGER)
 
-	Integer publisherCodesId;
+	Long publisherCodesId;
 	/**
 	 */
 
@@ -333,14 +336,14 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setIsTocFlag(String isTocFlag) {
-		this.isTocFlag = isTocFlag;
+	public void setIsTocFlag(boolean isTocFlag) {
+		this.isTocFlag =( (isTocFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getIsTocFlag() {
-		return this.isTocFlag;
+	public boolean getIsTocFlag() {
+		return((this.isTocFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -405,13 +408,13 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setDocumentTypeCodesId(Integer documentTypeCodesId) {
+	public void setDocumentTypeCodesId(Long documentTypeCodesId) {
 		this.documentTypeCodesId = documentTypeCodesId;
 	}
 
 	/**
 	 */
-	public Integer getDocumentTypeCodesId() {
+	public Long getDocumentTypeCodesId() {
 		return this.documentTypeCodesId;
 	}
 
@@ -453,13 +456,13 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setPublisherCodesId(Integer publisherCodesId) {
+	public void setPublisherCodesId(Long publisherCodesId) {
 		this.publisherCodesId = publisherCodesId;
 	}
 
 	/**
 	 */
-	public Integer getPublisherCodesId() {
+	public Long getPublisherCodesId() {
 		return this.publisherCodesId;
 	}
 
@@ -477,74 +480,74 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setKeyciteToplineFlag(String keyciteToplineFlag) {
-		this.keyciteToplineFlag = keyciteToplineFlag;
+	public void setKeyciteToplineFlag(boolean keyciteToplineFlag) {
+		this.keyciteToplineFlag =( (keyciteToplineFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getKeyciteToplineFlag() {
-		return this.keyciteToplineFlag;
+	public boolean getKeyciteToplineFlag() {
+		return( (this.keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
 	 */
-	public void setAutoUpdateSupportFlag(String autoUpdateSupportFlag) {
-		this.autoUpdateSupportFlag = autoUpdateSupportFlag;
+	public void setAutoUpdateSupportFlag(boolean autoUpdateSupportFlag) {
+		this.autoUpdateSupportFlag =( (autoUpdateSupportFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getAutoUpdateSupportFlag() {
-		return this.autoUpdateSupportFlag;
+	public boolean getAutoUpdateSupportFlag() {
+		return( (this.autoUpdateSupportFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
 	 */
-	public void setSearchIndexFlag(String searchIndexFlag) {
-		this.searchIndexFlag = searchIndexFlag;
+	public void setSearchIndexFlag(boolean searchIndexFlag) {
+		this.searchIndexFlag =( (searchIndexFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getSearchIndexFlag() {
-		return this.searchIndexFlag;
+	public boolean getSearchIndexFlag() {
+		return( (this.searchIndexFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
 	 */
-	public void setOnePassSsoLinkFlag(String onePassSsoLinkFlag) {
-		this.onePassSsoLinkFlag = onePassSsoLinkFlag;
+	public void setOnePassSsoLinkFlag(boolean onePassSsoLinkFlag) {
+		this.onePassSsoLinkFlag =( (onePassSsoLinkFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getOnePassSsoLinkFlag() {
-		return this.onePassSsoLinkFlag;
+	public boolean getOnePassSsoLinkFlag() {
+		return( (this.onePassSsoLinkFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
 	 */
-	public void setEbookDefinitionCompleteFlag(String ebookDefinitionCompleteFlag) {
-		this.ebookDefinitionCompleteFlag = ebookDefinitionCompleteFlag;
+	public void setEbookDefinitionCompleteFlag(boolean ebookDefinitionCompleteFlag) {
+		this.ebookDefinitionCompleteFlag =( (ebookDefinitionCompleteFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getEbookDefinitionCompleteFlag() {
-		return this.ebookDefinitionCompleteFlag;
+	public boolean getEbookDefinitionCompleteFlag() {
+		return( (this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
 	 */
-	public void setPublishedOnceFlag(String publishedOnceFlag) {
-		this.publishedOnceFlag = publishedOnceFlag;
+	public void setPublishedOnceFlag(boolean publishedOnceFlag) {
+		this.publishedOnceFlag =( (publishedOnceFlag) ? "Y" : "N");
 	}
 
 	/**
 	 */
-	public String getPublishedOnceFlag() {
-		return this.publishedOnceFlag;
+	public boolean getPublishedOnceFlag() {
+		return( (this.publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -635,15 +638,17 @@ public class EbookAudit implements Serializable {
 	 */
 	public EbookAudit() {
 	}
-
+	
 	/**
 	 * Copies the contents of the specified bean into this bean.
 	 *
 	 */
 	public void copy(EbookAudit that) {
 		setAuditId(that.getAuditId());
+		setEbookDefinitionId(that.getEbookDefinitionId());
 		setLastUpdated(that.getLastUpdated());
 		setTitleId(that.getTitleId());
+		setProviewDisplayName(that.getProviewDisplayName());
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
 		setMaterialId(that.getMaterialId());
@@ -663,6 +668,8 @@ public class EbookAudit implements Serializable {
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
 		setSearchIndexFlag(that.getSearchIndexFlag());
 		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
+		setIsProviewTableViewFlag(that.IsProviewTableViewFlag());
+		setPublishCutoffDate(that.getPublishCutoffDate());
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setAuthorNamesConcat(that.getAuthorNamesConcat());
@@ -672,19 +679,77 @@ public class EbookAudit implements Serializable {
 		setUpdatedBy(that.getUpdatedBy());
 		setAuditNote(that.getAuditNote());
 		setAuditType(that.getAuditType());
+		setIsDeletedFlag(that.getIsDeletedFlag());
+	}
+
+	/**
+	 * Copies the contents of the BookDefinition into this bean.
+	 *
+	 */
+	@Transient
+	public void loadBookDefinition(BookDefinition that, AUDIT_TYPE auditType, String user, String note) {
+		setEbookDefinitionId(that.getEbookDefinitionId());
+		setTitleId(that.getTitleId());
+		setProviewDisplayName(that.getProviewDisplayName());
+		setCopyright(that.getCopyright());
+		setCopyrightPageText(that.getCopyrightPageText());
+		setMaterialId(that.getMaterialId());
+		setIsTocFlag(that.getIsTocFlag());
+		setRootTocGuid(that.getRootTocGuid());
+		setDocCollectionName(that.getDocCollectionName());
+		setTocCollectionName(that.getTocCollectionName());
+		setNortDomain(that.getNortDomain());
+		setNortFilterView(that.getNortFilterView());
+		setDocumentTypeCodesId(that.getDocumentTypeCodes().getId());
+		setCoverImage(that.getCoverImage());
+		setIsbn(that.getIsbn());
+		setPublishDateText(that.getPublishDateText());
+		setPublisherCodesId(that.getPublisherCodes().getId());
+		setCurrency(that.getCurrency());
+		setKeyciteToplineFlag(that.IsKeyciteToplineFlag());
+		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
+		setSearchIndexFlag(that.IsSearchIndexFlag());
+		setOnePassSsoLinkFlag(that.IsOnePassSsoLinkFlag());
+		setIsProviewTableViewFlag(that.IsProviewTableViewFlag());
+		setPublishCutoffDate(that.getPublishCutoffDate());
+		setEbookDefinitionCompleteFlag(that.IsEbookDefinitionCompleteFlag());
+		setPublishedOnceFlag(that.IsPublishedOnceFlag());
+		setAuthorNamesConcat(concatString(that.getAuthors()));
+		setBookNamesConcat(concatString(that.getEbookNames()));
+		setKeywordsConcat(concatString(that.getKeywordTypeValueses()));
+		setFrontMatterConcat(concatString(that.getFrontMatters()));
+		setAuditNote(note);
+		setAuditType(auditType.toString());
+		setUpdatedBy(user);
+		setIsDeletedFlag(that.getIsDeletedFlag());
+		setLastUpdated(that.getLastUpdated());
+	}
+	
+	@Transient
+	private String concatString(Set<?> set) {
+		StringBuilder buffer = new StringBuilder();
+		for(Object item : set) {
+			buffer.append(item.toString());
+			buffer.append(", ");
+		}
+		
+		return buffer.toString();
 	}
 
 	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
+	@Override
 	public String toString() {
 
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append("auditId=[").append(auditId).append("] ");
+		buffer.append("ebookDefinitionId=[").append(ebookDefinitionId).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
 		buffer.append("titleId=[").append(titleId).append("] ");
+		buffer.append("proviewDisplayName=[").append(proviewDisplayName).append("] ");
 		buffer.append("copyright=[").append(copyright).append("] ");
 		buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
 		buffer.append("materialId=[").append(materialId).append("] ");
@@ -704,6 +769,8 @@ public class EbookAudit implements Serializable {
 		buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
 		buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
 		buffer.append("onePassSsoLinkFlag=[").append(onePassSsoLinkFlag).append("] ");
+		buffer.append("isProviewTableViewFlag=[").append(isProviewTableViewFlag).append("] ");
+		buffer.append("publishCutoffDate=[").append(publishCutoffDate).append("] ");
 		buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
 		buffer.append("publishedOnceFlag=[").append(publishedOnceFlag).append("] ");
 		buffer.append("authorNamesConcat=[").append(authorNamesConcat).append("] ");
@@ -713,6 +780,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("updatedBy=[").append(updatedBy).append("] ");
 		buffer.append("auditNote=[").append(auditNote).append("] ");
 		buffer.append("auditType=[").append(auditType).append("] ");
+		buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");
 
 		return buffer.toString();
 	}

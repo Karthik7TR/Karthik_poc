@@ -6,14 +6,9 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -89,7 +84,13 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 	@Transactional
 	public void saveAudit(EbookAudit audit) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(audit);
+		
+		if (audit.getAuditId() != null) {
+			audit = (EbookAudit) session.merge(audit);
+		} else {
+			session.save(audit);
+		}
+		
 		session.flush();
 	}
 

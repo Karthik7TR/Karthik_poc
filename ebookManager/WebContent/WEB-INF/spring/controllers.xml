@@ -25,11 +25,13 @@
 		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:proviewClient-ref="proviewClient"
 		  p:editBookDefinitionService-ref="editBookDefinitionService"
-		  p:jobRequestService-ref="jobRequestService">
+		  p:jobRequestService-ref="jobRequestService"
+		  p:auditService-ref="eBookAuditService">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
 		  	p:bookDefinitionService-ref="bookDefinitionService" 
-		  	p:codeService-ref="codeService"/>
+		  	p:codeService-ref="codeService"
+		  	p:jobRequestService-ref="jobRequestService"/>
 		  </property>
 	</bean>
 

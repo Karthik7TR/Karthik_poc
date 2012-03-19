@@ -28,47 +28,7 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	 */
 	@Transactional
 	public void saveEBookAudit(EbookAudit eBookAudit) {
-
-
-		EbookAudit existingAudit = eBookAuditDAO.findEbookAuditByPrimaryKey(eBookAudit.getAuditId());
-
-		if (existingAudit != null) {
-			if (existingAudit != eBookAudit) {
-				existingAudit.setAuditId(eBookAudit.getAuditId());
-				existingAudit.setAuditNote(eBookAudit.getAuditNote());
-				existingAudit.setAuditType(eBookAudit.getAuditType());
-				existingAudit.setAuthorNamesConcat(eBookAudit.getAuthorNamesConcat());
-				existingAudit.setAutoUpdateSupportFlag(eBookAudit.getAutoUpdateSupportFlag());
-				existingAudit.setBookNamesConcat(eBookAudit.getBookNamesConcat());
-				existingAudit.setCopyright(eBookAudit.getCopyright());
-				existingAudit.setCopyrightPageText(eBookAudit.getCopyrightPageText());
-				existingAudit.setCoverImage(eBookAudit.getCoverImage());
-				existingAudit.setCurrency(eBookAudit.getCurrency());
-				existingAudit.setDocCollectionName(eBookAudit.getDocCollectionName());
-				existingAudit.setDocumentTypeCodesId(eBookAudit.getDocumentTypeCodesId());
-				existingAudit.setFrontMatterConcat(eBookAudit.getFrontMatterConcat());
-				existingAudit.setIsbn(eBookAudit.getIsbn());
-				existingAudit.setIsTocFlag(eBookAudit.getIsTocFlag());
-				existingAudit.setKeyciteToplineFlag(eBookAudit.getKeyciteToplineFlag());
-				existingAudit.setKeywordsConcat(eBookAudit.getKeywordsConcat());
-				existingAudit.setMaterialId(eBookAudit.getMaterialId());
-				existingAudit.setNortDomain(eBookAudit.getNortDomain());
-				existingAudit.setNortFilterView(eBookAudit.getNortFilterView());
-				existingAudit.setOnePassSsoLinkFlag(eBookAudit.getOnePassSsoLinkFlag());
-				existingAudit.setPublishDateText(eBookAudit.getPublishDateText());
-				existingAudit.setPublishedOnceFlag(eBookAudit.getPublishedOnceFlag());
-				existingAudit.setPublisherCodesId(eBookAudit.getPublisherCodesId());
-				existingAudit.setRootTocGuid(eBookAudit.getRootTocGuid());
-				existingAudit.setSearchIndexFlag(eBookAudit.getSearchIndexFlag());
-				existingAudit.setLastUpdated(eBookAudit.getLastUpdated());
-				existingAudit.setTitleId(eBookAudit.getTitleId());
-				existingAudit.setTocCollectionName(eBookAudit.getTocCollectionName());
-				existingAudit.setUpdatedBy(eBookAudit.getUpdatedBy());
-				}
-			eBookAuditDAO.saveAudit(existingAudit);
-		} else {
-			eBookAuditDAO.saveAudit(eBookAudit);
-		}
+		eBookAuditDAO.saveAudit(eBookAudit);
 	}
 
 	/**

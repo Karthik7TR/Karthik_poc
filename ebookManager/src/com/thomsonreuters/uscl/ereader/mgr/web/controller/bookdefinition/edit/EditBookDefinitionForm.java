@@ -74,6 +74,7 @@ public class EditBookDefinitionForm {
 	private String jurisdiction;
 	private String pubInfo;
 	
+	private String comment;
 	private boolean validateForm;
 	
 	public EditBookDefinitionForm() {
@@ -493,6 +494,14 @@ public class EditBookDefinitionForm {
 		this.pubAbbr = pubAbbr;
 	}
 	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public boolean isValidateForm() {
 		return validateForm;
 	}
