@@ -23,8 +23,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunner;
 
 @Controller
 public class GenerateEbookController {
@@ -172,7 +170,7 @@ public class GenerateEbookController {
 					version = newMinorVersion;
 				}
 
-				jobRequestService.saveQueuedJobRequest(form.getId(), version,
+				jobRequestService.saveQueuedJobRequest(book, version,
 						priority, submittedBy);
 
 				// Report success to user in informational message on page

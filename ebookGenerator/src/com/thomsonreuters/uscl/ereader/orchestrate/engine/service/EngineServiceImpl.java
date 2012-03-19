@@ -155,7 +155,7 @@ public class EngineServiceImpl implements EngineService {
 		
 		// Add misc metadata, dynamic key/value pairs into the job parameters map
 		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
-		jobParamMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(jobRequest.getEbookDefinitionId()));
+		jobParamMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
 		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
 		//jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(jobRequest.getUserEmail()));
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));

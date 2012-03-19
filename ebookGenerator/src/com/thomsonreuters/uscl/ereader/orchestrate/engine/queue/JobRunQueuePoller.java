@@ -13,11 +13,10 @@ import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 
@@ -29,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThro
 public class JobRunQueuePoller {
 	private static final Logger log = Logger.getLogger(JobRunQueuePoller.class);
 
-	private BookDefinitionService bookDefinitionService;
+//	private BookDefinitionService bookDefinitionService;
 	private EngineService engineService;
 	private JobStartupThrottleService jobStartupThrottleService;
 	private JobRequestService jobRequestService;
@@ -52,7 +51,7 @@ public class JobRunQueuePoller {
 					
 					if (jobRequest != null) {
 						// Load the pre-defined set of book definition parameters for this specific book from a database table
-						BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(jobRequest.getEbookDefinitionId());
+						BookDefinition bookDefinition = jobRequest.getBookDefinition();
 						// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
 						JobParameters bookDefinitionJobParameters = engineService
 								.createJobParametersFromBookDefinition(bookDefinition);
@@ -70,7 +69,7 @@ public class JobRunQueuePoller {
 						log.debug(jobRequest);
 						engineService.runJob(jobRequest.JOB_NAME_CREATE_EBOOK,
 								allJobParameters);
-						jobRequestService.deleteJobByJobId(jobRequest.getPrimaryKey());
+						jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
 					}
 				}
 		} catch (Exception e) {
@@ -79,10 +78,10 @@ public class JobRunQueuePoller {
 			e.printStackTrace();
 		}
 	}
-	@Required
-	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
-		this.bookDefinitionService = bookDefinitionService;
-	}
+//	@Required
+//	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
+//		this.bookDefinitionService = bookDefinitionService;
+//	}
 	@Required
 	public void setEngineService(EngineService engineService) {
 		this.engineService = engineService;

@@ -14,47 +14,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-/**
- * 
- * @author Mahendra Survase U0105927
- * 
- */
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+
+
 @Entity
 @Table(schema = "EBOOK", name = "JOB_REQUEST")
-@NamedQueries({
-		@NamedQuery(name = "findJobRequestBookDefinitionId", query = "select myJobRequest from JobRequest myJobRequest where myJobRequest.ebookDefinitionId = :ebookDefinitionId"),
-		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "select myJobRequest from JobRequest myJobRequest") })
-//		@NamedQuery(name = "findNextJobRequestToRun", query = "select myJobRequest from JobRequest myJobRequest order by jobSubmitTime asc, priority desc") })
+//@NamedQueries({
+//		@NamedQuery(name = "findJobRequestBookDefinitionId", query = "from JobRequest myJobRequest where myJobRequest.bookDefinition.ebookDefinitionId = :ebookDefinitionId"),
+//		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "from JobRequest myJobRequest") })
 public class JobRequest implements Serializable {
 
 	@Deprecated
-	public enum JobStatus {
-		QUEUED, SCHEDULED
-	}
+	public enum JobStatus { QUEUED, SCHEDULED }
 
 	private static final long serialVersionUID = 5207493496108658705L;
 	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
 
-	public static JobRequest createQueuedJobRequest(long ebookDefinitionId,
-			String version, int priority, String submittedBy) {
-		return new JobRequest(null, version, ebookDefinitionId, priority, null,
+	public static JobRequest createQueuedJobRequest(BookDefinition bookDefinition,
+									String version, int priority, String submittedBy) {
+		return new JobRequest(null, version, bookDefinition, priority, null,
 				submittedBy, null);
 	}
 
 	private Long jobRequestId;
-	private Long ebookDefinitionId;
+	private BookDefinition bookDefinition;
 	private String bookVersion;
-	@Deprecated
-	private String jobStatus;// Unneeded, to be removed
+	@Deprecated private String jobStatus;
 	private int priority;
 	private Date scheduledAt;
 	private String submittedBy;
@@ -65,25 +61,28 @@ public class JobRequest implements Serializable {
 	}
 
 	private JobRequest(Long jobRequestId, String version,
-			long ebookDefinitionId, int priority, Date scheduledAt,
-			String submittedBy, Date submitDate) {
+					   BookDefinition bookDefinition,
+					   int priority, Date scheduledAt,
+					   String submittedBy, Date submitDate) {
 		setPrimaryKey(jobRequestId);
 		setBookVersion(version);
-		setEbookDefinitionId(ebookDefinitionId);
+		setBookDefinition(bookDefinition);
 		setPriority(priority);
 		setScheduledAt(scheduledAt);
 		setSubmittedBy(submittedBy);
 		setSubmittedAt(submitDate);
-		setJobStatus(JobStatus.QUEUED.toString()); // OBSOLETE, to be deleted since unneeded
+		setJobStatus(JobStatus.QUEUED.toString());
 	}
 
 	@Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
 	public String getBookVersion() {
 		return bookVersion;
 	}
-	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
-	public Long getEbookDefinitionId() {
-		return ebookDefinitionId;
+	@OneToOne
+	@Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "EBOOK_DEFINITION_ID")
+	public BookDefinition getBookDefinition() { 
+		return bookDefinition;
 	}
 	@Column(name = "JOB_SCHEDULE_TIMESTAMP", nullable = true)
 	public Date getScheduledAt() {
@@ -114,7 +113,6 @@ public class JobRequest implements Serializable {
 	public int getPriority() {
 		return priority;
 	}
-
 	@Transient
 	public boolean isQueuedRequest() {
 		return (scheduledAt == null);
@@ -127,11 +125,9 @@ public class JobRequest implements Serializable {
 	public void setBookVersion(String bookVersionSubmited) {
 		this.bookVersion = bookVersionSubmited;
 	}
-
-	public void setEbookDefinitionId(Long ebookDefinitionId) {
-		this.ebookDefinitionId = ebookDefinitionId;
+	public void setBookDefinition(BookDefinition definition) {
+		this.bookDefinition = definition;
 	}
-
 	public void setScheduledAt(Date jobScheduleTime) {
 		this.scheduledAt = jobScheduleTime;
 	}

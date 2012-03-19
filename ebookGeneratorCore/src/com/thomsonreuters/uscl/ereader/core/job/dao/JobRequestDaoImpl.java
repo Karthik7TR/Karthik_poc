@@ -12,6 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -21,31 +22,21 @@ public class JobRequestDaoImpl implements JobRequestDao {
 	//private static final Logger log = Logger.getLogger(JobRequestDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
-	public JobRequestDaoImpl(SessionFactory sessionFactory){
+	public JobRequestDaoImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+	
+	@Override
+	public void deleteJobRequest(long jobRequestId) {
+		Session session = sessionFactory.getCurrentSession();
+		session.delete(findByPrimaryKey(jobRequestId));
+		session.flush();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<JobRequest> findAllJobRequests() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JobRequest.class);
 		return criteria.list();
-	}
-	
-	public JobRequest getJobRequestByBookDefinitionId(long ebookDefinitionId){
-		@SuppressWarnings("unchecked")
-		List<JobRequest> jobRequestList = sessionFactory.getCurrentSession().createCriteria(JobRequest.class)
-		 .add( Restrictions.eq("ebookDefinitionId", ebookDefinitionId)).list();
-
-		if (jobRequestList == null)
-		{
-			return null;
-		}else{
-			if(jobRequestList.size() > 0){
-				return jobRequestList.get(0);	
-			}else{
-				return null;
-			}
-		}
 	}
 	
 	@Override
@@ -57,19 +48,15 @@ public class JobRequestDaoImpl implements JobRequestDao {
 	}
 	
 	@Override
-	public void deleteJobByJobId(long jobRequestId) {
-		Session session = sessionFactory.getCurrentSession();
-		session.delete(findByPrimaryKey(jobRequestId));
-		session.flush();
-		
-	}
-	
-	@Override
-	public void updateJobPriority(long jobRequestId, int jobPriority) {
-		JobRequest jobRequest = findByPrimaryKey(jobRequestId);
-		jobRequest.setPriority(jobPriority);
-		Session session = sessionFactory.getCurrentSession();
-		session.save(jobRequest);
+	public JobRequest findJobRequestByBookDefinitionId(long ebookDefinitionId){
+		@SuppressWarnings("unchecked")
+		List<JobRequest> jobRequestList = sessionFactory.getCurrentSession().createCriteria(JobRequest.class)
+		 .add(Restrictions.eq("bookDefinition.ebookDefinitionId", ebookDefinitionId)).list();
+
+		if (jobRequestList.size() > 0) {
+			return jobRequestList.get(0);	
+		}
+		return null;
 	}
 	
 	@Override
@@ -78,8 +65,13 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		return (Long) session.save(jobRequest);
 	}
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	
+	@Override
+	public void updateJobPriority(long jobRequestId, int jobPriority) {
+		JobRequest jobRequest = findByPrimaryKey(jobRequestId);
+		jobRequest.setPriority(jobPriority);
+		Session session = sessionFactory.getCurrentSession();
+		session.save(jobRequest);
 	}
 }
 

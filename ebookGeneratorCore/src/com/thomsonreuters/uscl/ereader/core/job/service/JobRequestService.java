@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public interface JobRequestService {
@@ -30,19 +31,18 @@ public interface JobRequestService {
 	 * @return a job request, or null if there are no jobs to run.
 	 */
 	public JobRequest getNextJobToExecute();
-	public void deleteJobByJobId(long jobRequestId);
+	public void deleteJobRequest(long jobRequestId);
 	public void updateJobPriority(long jobRequestId, int priority);
-	public Long saveQueuedJobRequest(long ebookDefinitionId, String version, int priority, String submittedBy);
-	public boolean isBookInJobRequest(long ebookDefinaitionId);
 	
-	public JobRequest getJobRequestByBookDefinationId(long ebookDefinitionId);
+	public Long saveQueuedJobRequest(BookDefinition bookDefinition, String version, int priority, String submittedBy);
+	/**
+	 * Returns true if there is any job run request that is for the specified book definition.
+	 * @param bookDefinitionId primary key of a book definition
+	 * @return true if there is a queued publishing job that is for the specified book definition, false otherwise.
+	 */
+	public boolean isBookInJobRequest(long bookDefinitionId);
 	
-//    public List<JobRequest> getAllJobRequestsBy(String jobStatus, int jobPriority, Date jobScheduledTime, String jobSubmittersName);
-
-    
-	
-	
-	
+	public JobRequest findJobRequestByBookDefinitionId(long ebookDefinitionId);
 
 }
 

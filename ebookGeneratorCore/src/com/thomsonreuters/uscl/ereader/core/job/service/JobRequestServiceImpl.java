@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
@@ -51,9 +52,9 @@ public class JobRequestServiceImpl implements JobRequestService {
 
 	@Override
 	@Transactional
-	public void deleteJobByJobId(long jobRequestId) {
+	public void deleteJobRequest(long jobRequestId) {
 		
-		jobRequestDao.deleteJobByJobId(jobRequestId);
+		jobRequestDao.deleteJobRequest(jobRequestId);
 		
 	}
 
@@ -61,30 +62,24 @@ public class JobRequestServiceImpl implements JobRequestService {
 	@Transactional
 	public void updateJobPriority(long jobRequestId, int jobPriority) {
 		jobRequestDao.updateJobPriority(jobRequestId, jobPriority);
-		
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean isBookInJobRequest(long ebookDefinitionId) {
-		boolean isBookInRequest = false; 
-		JobRequest jobRequest = jobRequestDao.getJobRequestByBookDefinitionId(ebookDefinitionId);
-		if(jobRequest != null ){
-			isBookInRequest = true;
-		}
-		return isBookInRequest;
+	public boolean isBookInJobRequest(long bookDefinitionId) {
+		return (findJobRequestByBookDefinitionId(bookDefinitionId) != null);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public JobRequest getJobRequestByBookDefinationId(long ebookDefinitionId) {
-		return jobRequestDao.getJobRequestByBookDefinitionId(ebookDefinitionId);
+	public JobRequest findJobRequestByBookDefinitionId(long bookDefinitionId) {
+		return jobRequestDao.findJobRequestByBookDefinitionId(bookDefinitionId);
 	}
 
 	@Override
 	@Transactional
-	public Long saveQueuedJobRequest(long ebookDefinitionId, String version, int priority, String submittedBy) {
-		JobRequest jobRequest = JobRequest.createQueuedJobRequest(ebookDefinitionId, version, priority, submittedBy);
+	public Long saveQueuedJobRequest(BookDefinition bookDefinition, String version, int priority, String submittedBy) {
+		JobRequest jobRequest = JobRequest.createQueuedJobRequest(bookDefinition, version, priority, submittedBy);
 		jobRequest.setSubmittedAt(new Date());
 		return jobRequestDao.saveJobRequest(jobRequest);
 	}

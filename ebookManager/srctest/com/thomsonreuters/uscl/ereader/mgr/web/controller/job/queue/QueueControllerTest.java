@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -40,20 +39,21 @@ public class QueueControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobRequestService mockJobRequestService;
-	private BookDefinitionService mockBookDefinitionService;
+	//private BookDefinitionService mockBookDefinitionService;
 	private HandlerAdapter handlerAdapter;
 	
 	static {
 		JOB_REQUESTS = new ArrayList<JobRequest>();
 		for (long pk = 0; pk < JOB_REQUEST_COUNT; pk++) {
+			BOOK_DEF.setEbookDefinitionId(pk+345);
 			int priority = (int) pk;
-			JobRequest jr = JobRequest.createQueuedJobRequest(pk+100, "ver"+pk, priority, "auser");
+			JobRequest jr = JobRequest.createQueuedJobRequest(BOOK_DEF, "ver"+pk, priority, "auser");
 			jr.setSubmittedAt(new Date(System.currentTimeMillis()-(pk*1000)));
 			jr.setPrimaryKey(pk);
 			JOB_REQUESTS.add(jr);
 		}
 	}
-	
+
     @Before
     public void setUp() throws Exception {
     	this.request = new MockHttpServletRequest();
@@ -61,13 +61,13 @@ public class QueueControllerTest {
     	request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT);
     	
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
-    	this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
+    	//this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new QueueController();
     	controller.setJobRequestService(mockJobRequestService);
-    	controller.setBookDefinitionService(mockBookDefinitionService);
+    	//controller.setBookDefinitionService(mockBookDefinitionService);
     	controller.setValidator(new QueueFormValidator());
     }
 
@@ -82,9 +82,7 @@ public class QueueControllerTest {
     	HttpSession httpSession = request.getSession();
     	
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyLong())).andReturn(BOOK_DEF).times(JOB_REQUEST_COUNT);
     	EasyMock.replay(mockJobRequestService);
-    	EasyMock.replay(mockBookDefinitionService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -94,9 +92,8 @@ public class QueueControllerTest {
     	Map<String,Object> model = mav.getModel();
     	verifyModel(model, httpSession); 
     	EasyMock.verify(mockJobRequestService);
-    	EasyMock.verify(mockBookDefinitionService);
 	}
-	
+
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testPaging() throws Exception {
@@ -110,9 +107,6 @@ public class QueueControllerTest {
     	// Place the test job requests on the session
     	httpSession.setAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED, JOB_REQUESTS);
     	
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyLong())).andReturn(BOOK_DEF).times(JOB_REQUEST_COUNT);
-    	EasyMock.replay(mockBookDefinitionService);
-
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
@@ -123,10 +117,8 @@ public class QueueControllerTest {
     	PageAndSort<DisplayTagSortProperty> actualPageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
     	Assert.assertEquals(pageNumber, actualPageAndSort.getPageNumber());
     	verifyModel(model, httpSession); 
-    	EasyMock.verify(mockBookDefinitionService);
 	}
-	
-	
+
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testSorting() throws Exception {
@@ -138,10 +130,8 @@ public class QueueControllerTest {
     	HttpSession httpSession = request.getSession();
     	
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyLong())).andReturn(BOOK_DEF).times(JOB_REQUEST_COUNT);
     	
     	EasyMock.replay(mockJobRequestService);
-    	EasyMock.replay(mockBookDefinitionService);
 
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -154,18 +144,16 @@ public class QueueControllerTest {
     	PageAndSort<DisplayTagSortProperty> actualPageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
 
     	PaginatedList paginatedList = (PaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-    	List<JobRequestRow> actualJobRequestRows = (List<JobRequestRow>) paginatedList.getList();
+    	List<JobRequest> actualJobRequestRows = (List<JobRequest>) paginatedList.getList();
     	// Verify that the job request priorities are in ascending order or run (highest to lowest is considered ascending in this case). 
     	int lastPriority = Integer.MAX_VALUE;
     	for (int i=0; i < actualPageAndSort.getObjectsPerPage(); i++) {
-    		JobRequestRow row = actualJobRequestRows.get(i);
-    		JobRequest jr = row.getJob();
-    		int priority = jr.getPriority(); 
+    		JobRequest row = actualJobRequestRows.get(i);
+    		int priority = row.getPriority(); 
     		Assert.assertTrue(priority < lastPriority);
 			lastPriority = priority;
     	}
     	EasyMock.verify(mockJobRequestService);
-    	EasyMock.verify(mockBookDefinitionService);
 	}
 
 	private void verifyModel(Map<String,Object> model, HttpSession httpSession) {

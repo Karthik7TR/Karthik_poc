@@ -12,6 +12,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public interface JobRequestDao {
 
+	public void deleteJobRequest(long jobRequestId);
+
 	/**
 	 * Returns all rows of the job request table, in no particular order.
 	 */
@@ -24,9 +26,9 @@ public interface JobRequestDao {
 	 */
 	public JobRequest findByPrimaryKey(long jobRequestId);
 	
-	public void deleteJobByJobId(long jobRequestId);
-	public void updateJobPriority(long jobRequestId, int jobPriority); 
+	public JobRequest findJobRequestByBookDefinitionId(long ebookDefinitionId); 
+	
 	public Long saveJobRequest(JobRequest jobRequest);
 	
-	public JobRequest getJobRequestByBookDefinitionId(long ebookDefinitionId);
+	public void updateJobPriority(long jobRequestId, int jobPriority);
 }
