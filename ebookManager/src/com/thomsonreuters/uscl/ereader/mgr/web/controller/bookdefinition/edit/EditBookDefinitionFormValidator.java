@@ -125,6 +125,15 @@ public class EditBookDefinitionFormValidator implements Validator {
     		checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
     	}
     	
+    	// Require last name to be filled if there are authors
+    	Collection<Author> authors = form.getAuthorInfo();
+		for(Author author : authors) {
+			if(StringUtils.isEmpty(author.getAuthorLastName())) {
+				errors.rejectValue("authorInfo", "error.author.last.name");
+				break;
+			}
+		}
+    	
     	
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
@@ -149,13 +158,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 				errors.rejectValue("nameLines", "error.at.least.one", new Object[] {"Name Line"}, "At Least 1 Name Line is required");
 			}
 			
-			Collection<Author> authors = form.getAuthorInfo();
-			for(Author author : authors) {
-				if(StringUtils.isEmpty(author.getAuthorLastName())) {
-					errors.rejectValue("authorInfo", "error.author.last.name");
-					break;
-				}
-			}
 			checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
