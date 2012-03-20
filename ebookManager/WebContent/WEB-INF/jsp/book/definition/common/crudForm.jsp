@@ -436,12 +436,13 @@
 				<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
 				<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
 				<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
-				<div class="errorDiv">
-					<form:errors path="nameLines[${aStatus.index}]" cssClass="errorMessage" />
-				</div>
 				<span>
 					<input type="button" value="Delete" class="rdelete" />
 				</span>
+				<div class="errorDiv2">
+					<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
+					<form:errors path="nameLines[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+				</div>
 			</div>
 		</c:forEach>
 		<div id="addNameHere"></div>
@@ -541,6 +542,14 @@
 					<form:input path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
 					<input type="button" value="Delete" class="rdelete" />
 				</div>
+				<div class="errorDiv2">
+					<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
+					<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
+					<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
+					<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
+					<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
+					<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
+				</div>
 			</div>
 		</c:forEach>
 		<div id="addHere"></div>
@@ -555,13 +564,14 @@
 			<div class="row">
 				<form:hidden path="additionalFrontMatter[${aStatus.index}].frontMatterId"/>
 				<form:textarea path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
-				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNum"  />
-				<div class="errorDiv">
-					<form:errors path="additionalFrontMatter[${aStatus.index}]" cssClass="errorMessage" />
-				</div>
+				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
 				<span>
 					<input type="button" value="Delete" class="rdelete" />
 				</span>
+				<div class="errorDiv2">
+					<form:errors path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" cssClass="errorMessage" />
+					<form:errors path="additionalFrontMatter[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+				</div>
 			</div>
 		</c:forEach>
 		<div id="addFrontMatterHere"></div>
@@ -641,6 +651,7 @@
     <div id="dialog" class="window">
         <div class="modelTitle">Comments</div>
         <form:textarea path="comment"/>
+        <form:errors path="comment" cssClass="errorMessage" />
         <div class="modalButtons">
         	<form:button>Save</form:button>
         	<a href="#" class="cancel">Cancel</a>

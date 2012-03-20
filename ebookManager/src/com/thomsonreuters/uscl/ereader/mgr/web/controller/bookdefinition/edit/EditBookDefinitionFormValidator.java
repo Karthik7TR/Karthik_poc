@@ -21,6 +21,8 @@ import org.springframework.validation.Validator;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -29,7 +31,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator implements Validator {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
-	private static final int MAXIMUM_TITLE_ID_LENGTH = 40;
+	private static final int MAXIMUM_CHARACTER_40 = 40;
+	private static final int MAXIMUM_CHARACTER_64 = 64;
+	private static final int MAXIMUM_CHARACTER_1024 = 1024;
 	private static final int ISBN_LENGTH = 13;
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
@@ -43,11 +47,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 
 	@Override
     public void validate(Object obj, Errors errors) {
-    	// Do not validate inputs if there were binding errors since you cannot validate garbage 
-		// (like "abc" entered instead of a valid integer).
-    	if (errors.hasErrors()) {
-    		return;
-    	}
     	
     	EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
     	
@@ -117,31 +116,64 @@ public class EditBookDefinitionFormValidator implements Validator {
     			// This is from the book definition create
     			checkUniqueTitleId(errors, titleId);
     		}
-    		// Validate Title ID
-    		checkMaxLength(errors, MAXIMUM_TITLE_ID_LENGTH, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_TITLE_ID_LENGTH});
-    		
+
     		// Validate Publication Information
     		String pubInfo = form.getPubInfo();
     		checkForSpaces(errors, pubInfo, "pubInfo", "Pub Info");
     		checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
     	}
     	
-    	// Require last name to be filled if there are authors
+		// MaxLength Validations
+		checkMaxLength(errors, MAXIMUM_CHARACTER_40, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getProviewDisplayName(), "proviewDisplayName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCopyright(), "copyright", new Object[] {"Copyright", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCopyrightPageText(), "copyrightPageText", new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getMaterialId(), "materialId", new Object[] {"Material ID", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getRootTocGuid(), "rootTocGuid", new Object[] {"Root TOC Guid", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getTocCollectionName(), "tocCollectionName", new Object[] {"TOC Collection", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortDomain(), "nortDomain", new Object[] {"NORT Domain", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortFilterView(), "nortFilterView", new Object[] {"NORT Filter View", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getPublishDateText(), "publishDateText", new Object[] {"Publish Date Text", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
+		
+		int i = 0;
+		for(EbookName name: form.getNameLines()) {
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_1024});
+			i++;
+		}
+		
+		i = 0;
+		for(FrontMatter frontMatter: form.getAdditionalFrontMatter()) {
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, frontMatter.getAdditionalFrontMatterText(), "additionalFrontMatter["+ i +"].additionalFrontMatterText", new Object[] {"Front Matter", MAXIMUM_CHARACTER_1024});
+			i++;
+		}
+		
+		// Require last name to be filled if there are authors
+		// Also check max character length for all the fields
     	Collection<Author> authors = form.getAuthorInfo();
+    	i = 0;
 		for(Author author : authors) {
 			if(StringUtils.isEmpty(author.getAuthorLastName())) {
-				errors.rejectValue("authorInfo", "error.author.last.name");
-				break;
+				errors.rejectValue("authorInfo["+ i +"].authorLastName", "error.author.last.name");
 			}
+			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNamePrefix(), "authorInfo["+ i +"].authorNamePrefix", new Object[] {"Prefix", MAXIMUM_CHARACTER_40});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNameSuffix(), "authorInfo["+ i +"].authorNameSuffix", new Object[] {"Suffix", MAXIMUM_CHARACTER_40});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorFirstName(), "authorInfo["+ i +"].authorFirstName", new Object[] {"First name", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorMiddleName(), "authorInfo["+ i +"].authorMiddleName", new Object[] {"Middle name", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorLastName(), "authorInfo["+ i +"].authorLastName", new Object[] {"Last name", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_1024});
+			i++;
 		}
-    	
-    	
+		
+		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
+		
+		
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
-			//TODO: check if length is exactly 18 characters for materialId
 
 			if (form.getIsTOC()) {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
@@ -159,7 +191,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 				errors.rejectValue("nameLines", "error.at.least.one", new Object[] {"Name Line"}, "At Least 1 Name Line is required");
 			}
 			
-			checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
 			//TODO: check if cover image is on the server. Need server location.
