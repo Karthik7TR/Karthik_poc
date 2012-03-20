@@ -76,8 +76,7 @@ public class ViewBookDefinitionController {
 				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_AUDIT_LOG_TODO+queryString));
 				break;
 			case JOB_HISTORY:
-				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_JOB_HISTORY_TODO+queryString));
-	// TODO: implement this
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_JOB_HISTORY+queryString));
 				break;
 			case COPY:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY+queryString));
