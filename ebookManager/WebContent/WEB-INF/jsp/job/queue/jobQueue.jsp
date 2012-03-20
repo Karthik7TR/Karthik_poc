@@ -26,7 +26,7 @@
 	  <display:column title="Title ID" property="bookDefinition.fullyQualifiedTitleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"/>
 	  <display:column title="Version &nbsp;" property="bookVersion" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_VERSION.toString()%>"/>
 	  <display:column title="Priority &nbsp;" property="priority" sortable="true" sortProperty="<%=DisplayTagSortProperty.PRIORITY.toString()%>"/>
-	  <display:column title="Submitted By" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
+	  <display:column title="Submitted By &nbsp;" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
 	  <display:column title="Submitted At" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_AT.toString()%>">
 		<fmt:formatDate value="${jobRequest.submittedAt}" pattern="${DATE_FORMAT}"/>
 	  </display:column>

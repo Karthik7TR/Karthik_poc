@@ -12,6 +12,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core;
  * Exceptions from these methods are related to interaction (placing messages on) with a queue,
  * not exceptions from job run operations themselves which are carried out from the remote engine web application.
  */
+@Deprecated // Delete when Dashboard web app is retired
 public interface JobRunner {
 	
 	/**

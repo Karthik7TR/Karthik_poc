@@ -29,13 +29,10 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 
 @Entity
-@Table(schema = "EBOOK", name = "JOB_REQUEST")
-//@NamedQueries({
-//		@NamedQuery(name = "findJobRequestBookDefinitionId", query = "from JobRequest myJobRequest where myJobRequest.bookDefinition.ebookDefinitionId = :ebookDefinitionId"),
-//		@NamedQuery(name = "findJobRequestByGivenCriteria", query = "from JobRequest myJobRequest") })
+@Table(name = "JOB_REQUEST")
 public class JobRequest implements Serializable {
 
-	@Deprecated
+	@Deprecated  // Currently supporting only QUEUED jobs
 	public enum JobStatus { QUEUED, SCHEDULED }
 
 	private static final long serialVersionUID = 5207493496108658705L;

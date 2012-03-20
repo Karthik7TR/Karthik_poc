@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 /**
  * Comparators used in the sorting of the JobRequest object properties.
- * We do in-memory sorting of the full list of JobRequest objects for tabular presentation in the Job Queue page.
- * We do not rely on database query with and ORDER BY clause.
+ * We do in-memory sorting of the full list of JobRequest objects for
+ * tabular presentation paging/sorting on the Job Queue page.
  */
 public class JobRequestComparators {
 	
@@ -15,11 +15,11 @@ public class JobRequestComparators {
 				 return 1;
 			 } else if (r1.getPriority() > (r2.getPriority())) {
 				 return -1;
-			 } else {  // same priority, use submit time
+			 } else {  // same priority, compare submit time
 				 if (r1.getSubmittedAt().before(r2.getSubmittedAt())) {
-					 return 1;
-				 } else if (r1.getSubmittedAt().after(r2.getSubmittedAt())) {
 					 return -1;
+				 } else if (r1.getSubmittedAt().after(r2.getSubmittedAt())) {
+					 return 1;
 				 }
 			 }
 			 return 0;

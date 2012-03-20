@@ -45,7 +45,8 @@ public class JobRequestServiceImpl implements JobRequestService {
 	@Transactional(readOnly = true)
 	public JobRequest getNextJobToExecute() {
 		List<JobRequest> jobs = findAllJobRequests();
-		// It is assumed that the findAll...() returns the job requests is ascending run order.
+		// It is assumed that the findAllJobRequests() returns the job requests in the order in which they will run.
+		// So take advantage of this and return the first one, which should be the next job to be launched.
 		JobRequest jobRequest = (jobs.size() > 0) ? jobs.get(0) : null; 
 		return jobRequest;
 	}

@@ -15,7 +15,7 @@ import org.springframework.batch.core.BatchStatus;
 
 /**
  * The filter criteria used when searching for jobs to display in the Job Summary table.
- * A null property value indicates that it is to be ignored.
+ * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
 public class JobFilter {
 	
@@ -24,7 +24,7 @@ public class JobFilter {
 	private Date to;	// start date on and before this calendar date (inclusive)
 	private BatchStatus batchStatus;
 	
-	// Book properties
+	// Book Definition properties
 	private String titleId;
 	private String bookName;
 	
@@ -35,8 +35,8 @@ public class JobFilter {
 		this.from = from;
 		this.to = to;
 		this.batchStatus = batchStatus;
-		this.titleId = titleId;
-		this.bookName = bookName;
+		this.titleId = titleId.trim();
+		this.bookName = bookName.trim();
 	}
 	
 	/**
@@ -56,8 +56,8 @@ public class JobFilter {
 		return to;
 	}
 	/**
-	 * Get the point in time that is one day prior to the to time, used for a less-than comparison of to date
-	 * to ensure that the specifed 'TO' date is included in the range of dates searched.
+	 * Get the point in time that is one day prior to the 'TO' time, used for a less-than comparison of 'TO' date
+	 * to ensure that the specified 'TO' date is included in the range of dates searched.
 	 */
 	public Date getToInclusive() {
 		if (to == null) {

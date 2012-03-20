@@ -22,6 +22,7 @@ import org.jibx.runtime.JiBXException;
  * This object is JiBX marshalled and sent as the XML JMS message payload to one of the
  * job run queues (high or normal priority) that the batch engine is periodically polling for new run requests.
  */
+@Deprecated // Delete when Dashboard web app is retired
 public class JobRunRequest implements Serializable {
 	private static final long serialVersionUID = -7285672486471302865L;
 	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";

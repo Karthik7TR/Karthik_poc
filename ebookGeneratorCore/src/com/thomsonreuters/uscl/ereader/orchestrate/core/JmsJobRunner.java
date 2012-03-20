@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
+@Deprecated // Delete when Dashboard web app is retired
 public class JmsJobRunner implements JobRunner {
 	
 	private JmsTemplate jmsTemplate;
