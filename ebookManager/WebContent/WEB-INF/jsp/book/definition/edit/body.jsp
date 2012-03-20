@@ -17,7 +17,7 @@
 						<jsp:include page="../common/crudForm.jsp" />
 						<div class="buttons">
 							<form:button id="validate">Validate</form:button>
-							<form:button>Save</form:button>
+							<form:button id="save">Save</form:button>
 							<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}">Cancel</a>
 						</div>
 					</form:form>

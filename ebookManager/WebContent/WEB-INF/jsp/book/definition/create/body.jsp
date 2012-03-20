@@ -13,7 +13,7 @@
 		<jsp:include page="../common/crudForm.jsp" />
 		<div class="buttons">
 			<form:button id="validate">Validate</form:button>
-			<form:button>Save</form:button>
+			<form:button id="save">Save</form:button>
 			<a href="<%= WebConstants.MVC_BOOK_LIBRARY_LIST %>">Cancel</a>
 		</div>
 		

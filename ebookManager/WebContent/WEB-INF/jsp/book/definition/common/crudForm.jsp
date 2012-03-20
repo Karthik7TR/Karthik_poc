@@ -203,7 +203,7 @@
 		
 		$(document).ready(function() {
 			<%-- Style buttons with jquery  --%>
-			$( ".buttons input:submit,.buttons a,.buttons  button" ).button();
+			$( ".buttons input:submit,.buttons a,.buttons button,.modalButtons button,.modalButtons a" ).button();
 			
 			<%-- Setup change handlers  --%>
 			$('#contentTypeId').change(function () {
@@ -243,6 +243,48 @@
 				$('#validateForm').val(true);
 				$('<%= EditBookDefinitionForm.FORM_NAME %>').submit();
 			});
+			
+			// Add Comment
+			$('#save').click(function(e) {
+		        //Cancel the link behavior
+		        e.preventDefault();
+		     
+		        //Get the screen height and width
+		        var maskHeight = $(document).height();
+		        var maskWidth = $(window).width();
+		     
+		        //Set height and width to mask to fill up the whole screen
+		        $('#mask').css({'width':maskWidth,'height':maskHeight});
+		         
+		        //transition effect     
+		        $('#mask').fadeIn(500);    
+		        $('#mask').fadeTo("fast",0.5);  
+		     
+		        //Get the window height and width
+		        var winH = $(window).height();
+		        var winW = $(window).width();
+		               
+		        //Set the popup window to center
+		        $('#dialog').css('top',  winH/2-$('#dialog').height()/2);
+		        $('#dialog').css('left', winW/2-$('#dialog').width()/2);
+		     
+		        //transition effect
+		        $('#dialog').fadeIn(1000); 
+			});
+			
+			//if close button is clicked
+		    $('#dialog .cancel').click(function (e) {
+		        //Cancel the link behavior
+		        e.preventDefault();
+		        $('#mask, .window').hide();
+		    });     
+		     
+		    //if mask is clicked
+		    $('#mask').click(function () {
+		        $(this).hide();
+		        $('.window').hide();
+		    });         
+		     
 			
 			// Determine to show NORT or TOC fields
 			$('input:radio[name=isTOC]').change(function () {
@@ -594,5 +636,17 @@
 			<form:errors path="isComplete" cssClass="errorMessage" />
 		</div>
 	</div>
+</div>
+
+<div id="modal"> 
+    <div id="dialog" class="window">
+        <div class="modelTitle">Comments</div>
+        <form:textarea path="comment"/>
+        <div class="modalButtons">
+        	<form:button>Save</form:button>
+        	<a href="#" class="cancel">Cancel</a>
+        </div>
+    </div>
+    <div id="mask"></div>
 </div>
 

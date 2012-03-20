@@ -364,3 +364,40 @@ ul.navList a:hover {
 	margin-left:190px;
 }
 
+
+.bookDefinitionCRUD #mask {
+  position:fixed;
+  top:0px;
+  left:0px;
+  z-index:99;
+  background-color:gray;
+  display:none;
+}
+   
+.bookDefinitionCRUD #modal .window {
+  position:fixed;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:100;
+  padding:20px;
+}
+ 
+.bookDefinitionCRUD #modal #dialog {
+  width:375px; 
+  height:203px;
+  background-color: white;
+  text-align: center;
+}
+
+.bookDefinitionCRUD #modal #comment {
+	width:360px;
+	height:120px;
+	margin:10px;
+}
+
+.bookDefinitionCRUD #modal .modelTitle {
+	font-weight: bold;
+}
+
+
