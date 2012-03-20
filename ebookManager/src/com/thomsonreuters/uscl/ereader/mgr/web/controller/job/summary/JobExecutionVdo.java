@@ -31,9 +31,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
  */
 public class JobExecutionVdo {
 	//private static final Logger log = Logger.getLogger(JobExecutionVdo.class);
-	private static final Comparator<StepExecution> stepStartTimeComparator = new StepStartTimeComparator();
+	private static final Comparator<StepExecution> STEP_START_TIME_COMPARATOR = new StepStartTimeComparator();
 	/** Comparator to sort lists of properties into ascending key order */
-	private static final Comparator<Map.Entry<String,?>> mapEntryKeyComparator = new MapEntryKeyComparator();
+	private static final Comparator<Map.Entry<String,?>> MAP_ENTRY_KEY_COMPARATOR = new MapEntryKeyComparator();
 	
 	private JobExecution jobExecution;
 	private EbookAudit bookInfo;
@@ -59,7 +59,7 @@ public class JobExecutionVdo {
 	public List<StepExecution> getSteps() {
 		Collection<StepExecution> stepColl = jobExecution.getStepExecutions();
 		List<StepExecution> stepList = new ArrayList<StepExecution>(stepColl);
-		Collections.sort(stepList, stepStartTimeComparator);
+		Collections.sort(stepList, STEP_START_TIME_COMPARATOR);
 		return stepList;
 	}
 	
@@ -85,57 +85,6 @@ public class JobExecutionVdo {
 		return duration;
 	}
 
-//	/**
-//	 * The delta between the job start time and ending time.  If the job is running
-//	 * then the run time to present is calculated.
-//	 * @return the integer execution time total if finished, or current if still running
-//	 */
-//	public long getExecutionDurationMs() {
-//		long ms = -1;
-//		if (jobExecution != null) {
-//			ms = getExecutionDurationMs(jobExecution.getStartTime(), jobExecution.getEndTime());
-//		}
-//		return ms;
-//	}
-//	
-//	public static long getExecutionDurationMs(Date startTime, Date endTime) {		
-//		long execTimeMs = -1;
-//		if (startTime != null) {
-//			if (endTime == null) {
-//				endTime = new Date();
-//			}
-//			execTimeMs = endTime.getTime() - startTime.getTime();
-//		}
-//		return execTimeMs;
-//	}
-	
-//	/**
-//	 * @return  the execution time period in the fomat mm:hh:ss.SSS
-//	 */
-//	public String getExecutionDuration() {
-//		return getExecutionDuration(getExecutionDurationMs());
-//	}
-//	
-//	public static String getExecutionDuration(long durationMs) {
-//		StringBuffer periodString = new StringBuffer();
-//		if (durationMs > -1) {
-//			Period period = new Period(durationMs);
-//			periodString.append((period.getHours() < 10) ? "0" : "");
-//			periodString.append(period.getHours());
-//			periodString.append(":");
-//			periodString.append((period.getMinutes() < 10) ? "0" : "");
-//			periodString.append(period.getMinutes());
-//			periodString.append(":");
-//			periodString.append((period.getSeconds() < 10) ? "0" : "");
-//			periodString.append(period.getSeconds());
-//			periodString.append(".");
-//			periodString.append((period.getMillis() < 10) ? "0" : "");
-//			periodString.append((period.getMillis() < 100) ? "0" : "");
-//			periodString.append(period.getMillis());
-//		}
-//		return periodString.toString();
-//	}
-	
 	/**
 	 * Creates a sorted list of job launch parameter map entries fetched from the current JobExecution.
 	 * This list of key/value pairs is then presented on the JSP. 
@@ -178,7 +127,7 @@ public class JobExecutionVdo {
 		while(entryIterator.hasNext()) {
 			mapEntryList.add(entryIterator.next());
 		}
-		Collections.sort(mapEntryList, mapEntryKeyComparator);
+		Collections.sort(mapEntryList, MAP_ENTRY_KEY_COMPARATOR);
 		return mapEntryList;
 	}
 }

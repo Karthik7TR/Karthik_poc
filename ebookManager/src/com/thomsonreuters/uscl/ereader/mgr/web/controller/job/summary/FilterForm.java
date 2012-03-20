@@ -83,13 +83,13 @@ public class FilterForm {
 		return batchStatus;
 	}
 	public void setBookName(String name) {
-		this.bookName = name;
+		this.bookName = (name != null) ? name.trim() : null;
 	}
 	public void setFilterCommand(FilterCommand cmd) {
 		this.command = cmd;
 	}
 	public void setTitleId(String titleId) {
-		this.titleId = titleId;
+		this.titleId = (titleId != null) ? titleId.trim() : null;
 	}
 	public void setFromDate(Date fromDate) {
 		this.fromDateString = parseDate(fromDate);

@@ -10,7 +10,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 
 @Controller
 public class FilterController extends BaseJobSummaryController {
-	private static final Logger log = Logger.getLogger(FilterController.class);
+	//private static final Logger log = Logger.getLogger(FilterController.class);
 	private Validator validator;
 
 	@InitBinder(FilterForm.FORM_NAME)
@@ -49,7 +48,6 @@ public class FilterController extends BaseJobSummaryController {
 						@ModelAttribute(FilterForm.FORM_NAME) @Valid FilterForm filterForm,
 						BindingResult errors,
 						Model model) throws Exception {
-		log.debug(filterForm);
 		// Fetch the existing saved list of job execution ID's from the last successful query
 		List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
 		

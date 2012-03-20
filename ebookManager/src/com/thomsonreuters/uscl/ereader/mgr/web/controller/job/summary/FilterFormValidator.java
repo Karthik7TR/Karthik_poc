@@ -9,9 +9,8 @@ import org.springframework.validation.Validator;
 public class FilterFormValidator implements Validator {
 	
 	//private static final Logger log = Logger.getLogger(FilterFormValidator.class);
-	@SuppressWarnings("rawtypes")
 	@Override
-    public boolean supports(Class clazz) {
+    public boolean supports(Class<?> clazz) {
 		return (FilterForm.class.isAssignableFrom(clazz));
     }
 
@@ -33,9 +32,12 @@ public class FilterFormValidator implements Validator {
 			validateDate(form.getToDateString(), toDate, "TO", errors);
 		}
 
+		Date timeNow = new Date();
+		String codeDateAfterToday = "error.date.after.today";
 		if (fromDate != null) {
-			if (fromDate.after(new Date())) {
-				errors.reject("error.from.date.after.today");
+			if (fromDate.after(timeNow)) {
+				String[] args = { "FROM" };
+				errors.reject(codeDateAfterToday, args, "ERR: FROM date cannot be after today");
 			}
 			if (toDate != null) {
 				if (fromDate.after(toDate)) {
@@ -44,6 +46,12 @@ public class FilterFormValidator implements Validator {
 				if (toDate.before(fromDate)) {
 					errors.reject("error.to.date.before.from.date");	
 				}
+			}
+		}
+		if (toDate != null) {
+			if (toDate.after(timeNow)) {
+				String[] args = { "TO" };
+				errors.reject(codeDateAfterToday, args, "ERR: TO date cannot be after today");
 			}
 		}
 	}
