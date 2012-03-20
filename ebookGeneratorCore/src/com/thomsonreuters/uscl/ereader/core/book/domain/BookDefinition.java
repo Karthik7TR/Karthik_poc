@@ -627,25 +627,12 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-// TODO: FIX THIS: There IS order here for the name elements, should return a List<EbookName> in proper presentation order not a Set.
+// TODO: FIX THIS: There IS order here for the name elements, should return a List<EbookName> in proper presentation (sequence) order not a Set.
 	public Set<EbookName> getEbookNames() {
 		if (ebookNames == null) {
 			ebookNames = new java.util.LinkedHashSet<EbookName>();
 		}
 		return ebookNames;
-	}
-	
-	/**
-	 * Return the full/complete name of the book from the name components ordered properly by their sequence number.
-	 * @return the concatenated book name from the individual name components.
-	 */
-	public String getFullBookName() {
-		StringBuffer fullName = new StringBuffer();
-		for (EbookName name : getEbookNames())  {
-			fullName.append(name.getBookNameText());
-			fullName.append(" ");
-		}
-		return fullName.toString().trim();
 	}
 
 	/**

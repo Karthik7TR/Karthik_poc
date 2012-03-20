@@ -65,11 +65,6 @@ public class QueueController {
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
 		PageAndSort<DisplayTagSortProperty> queuedPageAndSort = fetchSavedQueuedPageAndSort(httpSession);
 		List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
-		
-for (JobRequest jr : allQueuedJobs) {  // DEBUG
-	log.debug("Queued Book name: " + jr.getBookDefinition().getFullBookName());
-	log.debug("QUEUED JOB: " + jr); // DEBUG
-}  // DEBUG
 
 		setUpModel(allQueuedJobs, queuedPageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_JOB_QUEUE);

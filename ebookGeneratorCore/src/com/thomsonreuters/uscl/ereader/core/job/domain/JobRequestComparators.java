@@ -3,7 +3,9 @@ package com.thomsonreuters.uscl.ereader.core.job.domain;
 import java.util.Comparator;
 
 /**
- * Comparators used in the sorting of the JobRequest object.
+ * Comparators used in the sorting of the JobRequest object properties.
+ * We do in-memory sorting of the full list of JobRequest objects for tabular presentation in the Job Queue page.
+ * We do not rely on database query with and ORDER BY clause.
  */
 public class JobRequestComparators {
 	
@@ -26,7 +28,7 @@ public class JobRequestComparators {
 	
 	public static class BookNameComparator implements Comparator<JobRequest> {
 		public int compare(JobRequest job1, JobRequest job2) {
-			return JobRequestComparators.compareStrings(job1.getBookDefinition().getFullBookName(), job2.getBookDefinition().getFullBookName());
+			return JobRequestComparators.compareStrings(job1.getBookDefinition().getProviewDisplayName(), job2.getBookDefinition().getProviewDisplayName());
 		}
 	}
 	public static class TitleIdComparator implements Comparator<JobRequest> {
