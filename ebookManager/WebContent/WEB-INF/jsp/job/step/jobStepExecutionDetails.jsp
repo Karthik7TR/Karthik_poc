@@ -39,7 +39,7 @@
 </tr>
 <tr>
 	<td>Book Name</td>
-	<td colspan="3">${bookInfo.bookNamesConcat}</td>
+	<td colspan="3">${bookInfo.proviewDisplayName}</td>
 </tr>
 <tr>
 	<td>Title ID</td>

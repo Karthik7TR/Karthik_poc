@@ -5,9 +5,10 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
+import static org.junit.Assert.assertEquals;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,15 +28,16 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDao;
 public class EngineServiceTest  {
 	private static final String TITLE_ID = "titleId";
 	private static final String FULLY_QUALIFIED_TITLE_ID = "a/b/c/d/e/f/"+TITLE_ID;
-	private static String BOOK_NAME = "Junit book name";
-	private static String USER_NAME = "theUserName";
-	private static String USER_EMAIL = "theUserEmail";
-	private static Long EBOOK_DEFINITION_ID = 101L;
+	private static Long BOOK_DEFINITION_ID = 101L;
+	private static BookDefinition BOOK_DEFINITION;
+	static {
+		BOOK_DEFINITION = new BookDefinition();
+		BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_ID);
+	}
 	private static String VERSION ="testVersion";
 	private static int PRIORITY = 1;
 	private static String SUBMITTED_BY ="testSubmittedBy";
-	private static JobRunRequest JOB_RUN_REQUEST = JobRunRequest.create(FULLY_QUALIFIED_TITLE_ID, USER_NAME, USER_EMAIL);
-	private static JobRequest JOB_REQUEST =	JobRequest.createQueuedJobRequest(EBOOK_DEFINITION_ID, VERSION, PRIORITY, SUBMITTED_BY);
+	private static JobRequest JOB_REQUEST =	JobRequest.createQueuedJobRequest(BOOK_DEFINITION, VERSION, PRIORITY, SUBMITTED_BY);
 
 	private EngineServiceImpl service;
 	

@@ -84,7 +84,7 @@
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
 		<td style="padding-right:40px;">Book Name</td>
-		<td colspan="3">${job.bookInfo.bookNamesConcat}</td>
+		<td colspan="3">${job.bookInfo.proviewDisplayName}</td>
 	</tr>
 	<tr>
 		<td>Title ID</td>
