@@ -256,8 +256,7 @@
 		        //Set height and width to mask to fill up the whole screen
 		        $('#mask').css({'width':maskWidth,'height':maskHeight});
 		         
-		        //transition effect     
-		        $('#mask').fadeIn(500);    
+		        //transition effect 
 		        $('#mask').fadeTo("fast",0.5);  
 		     
 		        //Get the window height and width
@@ -269,7 +268,7 @@
 		        $('#dialog').css('left', winW/2-$('#dialog').width()/2);
 		     
 		        //transition effect
-		        $('#dialog').fadeIn(1000); 
+		        $('#dialog').fadeIn(500); 
 			});
 			
 			//if close button is clicked
