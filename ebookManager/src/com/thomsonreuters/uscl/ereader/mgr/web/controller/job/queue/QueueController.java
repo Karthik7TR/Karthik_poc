@@ -13,7 +13,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
  */
 @Controller
 public class QueueController {
-	private static final Logger log = Logger.getLogger(QueueController.class);
+	//private static final Logger log = Logger.getLogger(QueueController.class);
 	private JobRequestService jobRequestService;
 	private Validator validator;
 	private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators = new HashMap<DisplayTagSortProperty, Comparator<JobRequest>>();
@@ -74,7 +73,7 @@ public class QueueController {
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(QueueForm.FORM_NAME) QueueForm form,
 								Model model) {
-		log.debug(form);
+//		log.debug(form);
 		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
 		List<JobRequest> allQueuedJobs = null;
 		
