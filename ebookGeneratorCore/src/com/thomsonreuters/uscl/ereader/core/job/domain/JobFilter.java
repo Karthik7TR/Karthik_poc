@@ -35,8 +35,8 @@ public class JobFilter {
 		this.from = from;
 		this.to = to;
 		this.batchStatus = batchStatus;
-		this.titleId = titleId.trim();
-		this.bookName = bookName.trim();
+		this.titleId = (titleId != null) ? titleId.trim() : null;
+		this.bookName = (bookName != null) ? bookName.trim() : null;
 	}
 	
 	/**
