@@ -15,6 +15,7 @@
 	<div class="titleData">
 		Title ID: ${book.titleId}<br/>
 		Name: ${book.proviewDisplayName}<br/>
+		<div class="bookStatus">Current Status: ${book.bookStatus}</div>
 	</div>
 </div>
 </c:otherwise>
