@@ -38,20 +38,14 @@ public class JobRequest implements Serializable {
 	private static final long serialVersionUID = 5207493496108658705L;
 	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
 
-	public static JobRequest createQueuedJobRequest(BookDefinition bookDefinition,
-									String version, int priority, String submittedBy) {
-		return new JobRequest(null, version, bookDefinition, priority, null,
-				submittedBy, null);
-	}
-
 	private Long jobRequestId;
 	private BookDefinition bookDefinition;
 	private String bookVersion;
-	@Deprecated private String jobStatus;
 	private int priority;
 	private Date scheduledAt;
 	private String submittedBy;
 	private Date submittedAt;
+	@Deprecated private JobStatus jobStatus = JobStatus.QUEUED;
 
 	public JobRequest() {
 		super();
@@ -68,7 +62,12 @@ public class JobRequest implements Serializable {
 		setScheduledAt(scheduledAt);
 		setSubmittedBy(submittedBy);
 		setSubmittedAt(submitDate);
-		setJobStatus(JobStatus.QUEUED.toString());
+	}
+
+	public static JobRequest createQueuedJobRequest(BookDefinition bookDefinition,
+			String version, int priority, String submittedBy) {
+		return new JobRequest(null, version, bookDefinition, priority, null,
+				submittedBy, null);
 	}
 
 	@Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
@@ -87,7 +86,12 @@ public class JobRequest implements Serializable {
 	}
 	@Deprecated
 	@Column(name = "JOB_STATUS", nullable = false)
-	public String getJobStatus() {
+	public String getJobStatusString() {
+		return jobStatus.toString();
+	}
+	@Deprecated
+	@Transient
+	public JobStatus getJobStatus() {
 		return jobStatus;
 	}
 	@Column(name = "JOB_SUBMITTER_NAME", nullable = false)
@@ -100,9 +104,9 @@ public class JobRequest implements Serializable {
 	}
 
 	@Id
-	@Column(name = "JOB_REQUEST_ID", nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "JobRequestIdSeq")
-	@SequenceGenerator(schema = "EBOOK", name = "JobRequestIdSeq", sequenceName = "JOB_REQUEST_ID_SEQ")
+	@Column(name = "JOB_REQUEST_ID", nullable=false)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="JobRequestIdSeq")
+	@SequenceGenerator(name="JobRequestIdSeq", sequenceName="JOB_REQUEST_ID_SEQ")
 	public Long getPrimaryKey() {
 		return jobRequestId;
 	}
@@ -129,8 +133,12 @@ public class JobRequest implements Serializable {
 		this.scheduledAt = jobScheduleTime;
 	}
 	@Deprecated
-	public void setJobStatus(String status) {
+	public void setJobStatus(JobStatus status) {
 		this.jobStatus = status;
+	}
+	@Deprecated
+	public void setJobStatusString(String status) {
+		setJobStatus(JobStatus.valueOf(status));
 	}
 
 	public void setSubmittedBy(String jobSubmittersName) {
