@@ -64,6 +64,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	String titleId = form.getTitleId();
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
+    	checkForSpaces(errors, form.getTitleId(), "titleId", "Title ID");
     	
     	// Validate publication and title ID
     	if (form.getContentTypeId() != null && StringUtils.isNotEmpty(titleId)) {
