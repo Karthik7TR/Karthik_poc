@@ -65,7 +65,7 @@ public class JobExecutionController {
 	public ModelAndView doDisplayJobExecutionDetails(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
 							  Model model) throws Exception {
-		log.debug(">>> jobExecutionId="+jobExecutionId);
+//		log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
 		EbookAudit bookInfo = (jobExecution != null) ? publishingStatsService.findAuditInfoByJobId(jobExecution.getJobId()) : null;
 		populateModel(model, jobExecution, bookInfo);
