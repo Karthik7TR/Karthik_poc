@@ -121,12 +121,25 @@ html, body {
 	height:100%;
 }
 
+.pageTitle {
+	margin-top:10px;
+	margin-left:10px;
+	font-family:Arial;
+	font-size:1.5em;
+	font-weight:bold;
+}
+
 .title {
 	float:left;
 	width:100%;
 	position:relative;
   	height:110px;
   	background:#E0E0E0;
+}
+
+.title-description {
+	font-size: 10pt;
+	margin-left:10px;
 }
 
 .mainContent {
@@ -146,13 +159,7 @@ html, body {
 	margin-bottom: 5px;
 }
 
-.pageTitle {
-	margin-top:10px;
-	margin-left:10px;
-	font-family:Arial;
-	font-size:1.5em;
-	font-weight:bold;
-}
+
 
 .leftFooter {
 	margin-left:10px;

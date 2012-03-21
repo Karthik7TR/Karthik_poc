@@ -188,8 +188,8 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
 		Long jobExecutionId = resultSet.getLong("JOB_EXECUTION_ID");
 		Long jobInstanceId = resultSet.getLong("JOB_INSTANCE_ID");
 		BatchStatus batchStatus = BatchStatus.valueOf(resultSet.getString("STATUS"));
-		Date startTime = resultSet.getDate("START_TIME");
-		Date endTime = resultSet.getDate("END_TIME");
+		Date startTime = resultSet.getTimestamp("START_TIME");
+		Date endTime = resultSet.getTimestamp("END_TIME");
 		JobSummary js = new JobSummary(bookDefinitionId, bookName, titleId, jobInstanceId, jobExecutionId, batchStatus, startTime, endTime);
 		return js;
 	}

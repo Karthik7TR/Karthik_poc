@@ -146,11 +146,11 @@ public class QueueControllerTest {
     	PaginatedList paginatedList = (PaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
     	List<JobRequest> actualJobRequestRows = (List<JobRequest>) paginatedList.getList();
     	// Verify that the job request priorities are in ascending order or run (highest to lowest is considered ascending in this case). 
-    	int lastPriority = Integer.MAX_VALUE;
+    	int lastPriority = Integer.MIN_VALUE;
     	for (int i=0; i < actualPageAndSort.getObjectsPerPage(); i++) {
     		JobRequest row = actualJobRequestRows.get(i);
     		int priority = row.getPriority(); 
-    		Assert.assertTrue(priority < lastPriority);
+    		Assert.assertTrue(priority > lastPriority);
 			lastPriority = priority;
     	}
     	EasyMock.verify(mockJobRequestService);

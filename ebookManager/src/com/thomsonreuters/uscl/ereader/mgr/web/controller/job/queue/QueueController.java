@@ -97,7 +97,7 @@ public class QueueController {
 	private PageAndSort<DisplayTagSortProperty> fetchSavedQueuedPageAndSort(HttpSession httpSession) {
 		PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
 		if (pageAndSort == null) {
-			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.PRIORITY, true);
+			pageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.PRIORITY, false);
 		}
 		return pageAndSort;
 	}

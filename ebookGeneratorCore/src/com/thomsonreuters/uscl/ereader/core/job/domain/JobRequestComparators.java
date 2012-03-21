@@ -11,18 +11,11 @@ public class JobRequestComparators {
 	
 	public static class PriorityComparator implements Comparator<JobRequest> {
 		 public  int compare(JobRequest r1, JobRequest r2) {
-			 if (r1.getPriority() < r2.getPriority()) {
-				 return 1;
-			 } else if (r1.getPriority() > (r2.getPriority())) {
-				 return -1;
-			 } else {  // same priority, compare submit time
-				 if (r1.getSubmittedAt().before(r2.getSubmittedAt())) {
-					 return -1;
-				 } else if (r1.getSubmittedAt().after(r2.getSubmittedAt())) {
-					 return 1;
-				 }
+			 int result = (r1.getPriority() - r2.getPriority());
+			 if (result == 0) {  // same priority, compare submit time (earliest submit runs first).
+				 result = r2.getSubmittedAt().compareTo(r1.getSubmittedAt());
 			 }
-			 return 0;
+			 return result;
 		 }
 	}
 	

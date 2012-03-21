@@ -77,6 +77,7 @@ function submitJobSummaryForm(command) {
 	  <display:column title="${selectAllElement}"  style="text-align: center">
   		<form:checkbox path="jobExecutionIds" value="${job.jobExecutionId}"/>
   	  </display:column>
+  	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
 	  <display:column title="Book Name" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookDefinitionId}">${job.bookName}</a>
 	  </display:column>
