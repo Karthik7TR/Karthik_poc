@@ -6,24 +6,31 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
 public class BookPublishingHistoryController {
 
+	private PublishingStatsService publishingStatsService;
 	private BookDefinitionService bookDefinitionService;
+
+	
+
 
 	/**
 	 * 
@@ -39,19 +46,14 @@ public class BookPublishingHistoryController {
 		BookDefinition book = bookDefinitionService
 				.findBookDefinitionByEbookDefId(id);
 
-		if (book != null) {
+		List<PublishingStats> ebookAuditList= publishingStatsService.findPublishingStatsByEbookDef(id);
 
-			String cutOffDate = null;
+		if (ebookAuditList != null) {
 
-			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
-			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
-					book.getMaterialId());
+			
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
-			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
-					cutOffDate);
-			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
-					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, ebookAuditList);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, 1);
 
 		}
 
@@ -59,14 +61,29 @@ public class BookPublishingHistoryController {
 	}
 
 	
+	@Required
+	public PublishingStatsService getPublishingStatsService() {
+		return publishingStatsService;
+	}
 
+	public void setPublishingStatsService(
+			PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
+	}
+
+	
+	@Required
 	public BookDefinitionService getBookDefinitionService() {
 		return bookDefinitionService;
 	}
 
-	public void setBookDefinitionService(
-			BookDefinitionService bookDefinitionService) {
+
+	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
 		this.bookDefinitionService = bookDefinitionService;
 	}
+
+	
+
+	
 
 }
