@@ -27,6 +27,13 @@ public interface PublishingStatsDao {
 	public List<EbookAudit> findJobStatsAuditByEbookDef(Long EbookDefId);	
 	
 	/**
+	 * Find Publishing stats for ebook
+	 * @param EbookDefId
+	 * @return
+	 */
+	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
+	
+	/**
 	 * Save an Job Stats entry
 	 * 
 	 */

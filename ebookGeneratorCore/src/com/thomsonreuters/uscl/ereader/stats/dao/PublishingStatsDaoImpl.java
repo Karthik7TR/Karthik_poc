@@ -195,6 +195,24 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		}
 
 
+	/**
+	 * Find Publishing stats for ebook
+	 * @param EbookDefId
+	 * @return
+	 */
+	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId){
+		StringBuffer hql = new StringBuffer("select ps from PublishingStats ps ");
+
+		hql.append(" where ps.ebookDefId =  ");
+		hql.append(EbookDefId); 
+
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql.toString());
+
+		
+		return (List<PublishingStats>) query.list();
+		
+	}
 
 
 

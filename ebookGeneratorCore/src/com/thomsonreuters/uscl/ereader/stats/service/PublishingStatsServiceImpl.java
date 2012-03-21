@@ -34,7 +34,13 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	public List<EbookAudit> findJobStatsAuditByEbookDef(Long EbookDefId)
 	{
 		return publishingStatsDAO.findJobStatsAuditByEbookDef(EbookDefId);
-		}
+	}
+	
+	@Override
+	@Transactional(readOnly =  true)
+	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId){
+		return publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
+	}
 	
 	@Override
 	@Transactional(readOnly =  true)
