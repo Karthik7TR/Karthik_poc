@@ -48,18 +48,23 @@ public class GenerateEbookController {
 	 */
 	private void calculateVersionNumbers(Model model) {
 
+		Double currentVersionDouble;
 		if (currentVersion.equals("Not published")) {
-			newMajorVersion = "v1";
-			newMinorVersion = "v1";
+			newMajorVersion = "1";
+			newMinorVersion = "1";
 		} else {
-			Double currentVersionDouble = Double.parseDouble(currentVersion
-					.substring(1));
+			if (currentVersion.startsWith("v")) {
+				currentVersionDouble = Double.parseDouble(currentVersion
+						.substring(1));
+			} else {
+				currentVersionDouble = Double.parseDouble(currentVersion);
+			}
 			Integer newMajorVersionDouble = (int) (Math
 					.floor(currentVersionDouble) + 1);
 			Double newMinorVersionDouble = Math.floor(currentVersionDouble) + 0.10;
 
-			newMajorVersion = "v" + newMajorVersionDouble;
-			newMinorVersion = "v" + newMinorVersionDouble;
+			newMajorVersion = newMajorVersionDouble.toString();
+			newMinorVersion = newMinorVersionDouble.toString();
 
 		}
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
@@ -170,8 +175,8 @@ public class GenerateEbookController {
 					version = newMinorVersion;
 				}
 
-				jobRequestService.saveQueuedJobRequest(book, version,
-						priority, submittedBy);
+				jobRequestService.saveQueuedJobRequest(book, version, priority,
+						submittedBy);
 
 				// Report success to user in informational message on page
 				Object[] args = { book.getTitleId(), queuePriorityLabel };
