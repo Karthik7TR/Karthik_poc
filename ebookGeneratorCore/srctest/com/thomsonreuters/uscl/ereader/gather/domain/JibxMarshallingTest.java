@@ -38,7 +38,8 @@ public class JibxMarshallingTest  {
 	@Test
 	public void testGatherNortRequestMarshalling() {
 		try {
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"));
+//			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null, new Long(1));
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null);
 			String xml = marshal(expected, GatherNortRequest.class);
 			GatherNortRequest actual = unmarshal(xml, GatherNortRequest.class);
 			Assert.assertEquals(expected, actual);
