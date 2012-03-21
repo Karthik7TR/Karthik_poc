@@ -114,6 +114,7 @@ public class EditBookDefinitionForm {
 			this.keyCiteToplineFlag = book.IsKeyciteToplineFlag();
 			this.autoUpdateSupport = book.getAutoUpdateSupportFlag();
 			this.searchIndex = book.IsSearchIndexFlag();
+			this.isProviewTableView = book.IsProviewTableViewFlag();
 			
 			Calendar date = book.getPublishCutoffDate();
 			if (date != null) {
