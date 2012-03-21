@@ -80,7 +80,7 @@ public class EngineServiceTest  {
 		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);
 		assertEquals(SUBMITTED_BY, dynamicJobParams.getString(JobParameterKey.USER_NAME));
 		//assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
-		Assert.assertNotNull(dynamicJobParams.getLong(JobParameterKey.JOB_TIMESTAMP));
+		Assert.assertNotNull(dynamicJobParams.getDate(JobParameterKey.JOB_TIMESTAMP));
 	}
 
 	@Test
