@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+//import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 
@@ -104,22 +104,22 @@ public class EngineServiceImpl implements EngineService {
         	concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
         }
         
+        paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
         
-        
-		String concatBookNames = " ";
-        Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
-        while(bookNameIt.hasNext())
-        {
-        	EbookName eBookName=(EbookName)bookNameIt.next();
-        	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
-        }   
-        
-        if (concatBookNames.trim().length() != 0) {
-        	concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
-    		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
-        } else {
-        	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
-        }
+//		String concatBookNames = " ";
+//        Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
+//        while(bookNameIt.hasNext())
+//        {
+//        	EbookName eBookName=(EbookName)bookNameIt.next();
+//        	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
+//        }   
+//        
+//        if (concatBookNames.trim().length() != 0) {
+//        	concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
+//    		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
+//        } else {
+//        	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
+//        }
         
 		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
 		
