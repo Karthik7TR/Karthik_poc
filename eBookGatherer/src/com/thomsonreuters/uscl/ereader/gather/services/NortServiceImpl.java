@@ -14,15 +14,20 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
@@ -39,14 +44,18 @@ public class NortServiceImpl implements NortService {
 	private NovusFactory novusFactory;
 	
 	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
+	private static final int DOCCOUNT = 0;
+	private static final int NODECOUNT = 1;
+	private static final int SKIPCOUNT = 2;
+	private static final int RETRYCOUNT = 3;
 
 	private NovusUtility novusUtility;
 
-
+//	private PublishingStatsService publishingStatsService;
 	
 	
 	public void retrieveNodes(NortManager _nortManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent,
+			int[] counters, int[] iParent,
 			String YYYYMMDDHHmmss) throws GatherException {
 
 		NortNode[] nortNodes = null;
@@ -80,8 +89,8 @@ public class NortServiceImpl implements NortService {
 					}
 				}
 			}
-
-			printNodes(nortNodes, _nortManager, out, counter, docCounter,
+			counters[RETRYCOUNT] += novusNortRetryCounter;
+			printNodes(nortNodes, _nortManager, out, counters, 
 					iParent, YYYYMMDDHHmmss);
 		} catch (Exception e) {
 			LOG.debug("Failed with Exception in NORT");
@@ -92,16 +101,20 @@ public class NortServiceImpl implements NortService {
 
 	}
 
-	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException
+	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss) throws GatherException, ParseException
 	   {
 	       if (nodes != null)
 	       {
 			try {
+				boolean docFound = true;
 				for (NortNode node : nodes) {
-					printNode(node, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
+					docFound = printNode(node, _nortManager, out, counters,  iParent, YYYYMMDDHHmmss);
 				}
 				if (iParent[0] > 0) {
-
+					if (docFound == false)
+					{
+						out.write("<MissingDocument></MissingDocument>");
+					}
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
 					out.flush();
@@ -120,35 +133,79 @@ public class NortServiceImpl implements NortService {
 				GatherException ge = new GatherException(
 						"NORT Novus Exception ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
-				throw ge;			}
-	       }
+				throw ge;			
+			} catch (ParseException e) {
+			LOG.debug(e.getMessage());
+			GatherException ge = new GatherException("NORT ParseException for start/end node date ", e, GatherResponse.CODE_FILE_ERROR);
+			throw ge;
+			}
+	     }
 	   }
 	   
-	   public void printNode(NortNode node, NortManager _nortManager, Writer out, int[] counter, int[] docCounter, int[] iParent, String YYYYMMDDHHmmss) throws GatherException, NovusException
+	   public boolean printNode(NortNode node, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss) throws GatherException, NovusException, ParseException
 	   {
+		   boolean docFound = true;
 		   // skip empty node or subsection node
 	       if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection"))
 	       {
+			   docFound = false;
+
 	           StringBuffer name = new StringBuffer();
 	           StringBuffer tocGuid = new StringBuffer();
-	           StringBuffer guid = new StringBuffer();
+	           StringBuffer docGuid = new StringBuffer();
 
 	           if (Long.valueOf(node.getPayloadElement("/n-nortpayload/n-end-date")) > Long.valueOf(YYYYMMDDHHmmss))
 	        	   // md.end+effective 20970101235959
 	        	   //TODO: If NOVUS api is changed add back _nortManager.setNortVersion and remove above.
 	           {
-	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
-	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_GUID_ELEMENT);
+	        	   String endDate = node.getPayloadElement("/n-nortpayload/n-end-date");
+	        	   String startDate = node.getPayloadElement("/n-nortpayload/n-start-date");
+	        	   DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		           DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
+//// TODO: uncomment if the decision is made to add this verbiage.
+//	           if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
+//	           {
+//	        	   
+//	       		Date date =  formatter.parse(startDate);
+//	       		
+//	       		String startDateFinal  = formatterFinal.format(date);
+//
+//		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
+//		           .append(" (effective ").append(startDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+//	           }
+//	           else if (Long.valueOf(endDate) < Long.valueOf("20970101235959"))
+//	           {
+//		       		Date date =  formatter.parse(endDate);
+//		       		
+//		       		String endDateFinal  = formatterFinal.format(date);
+//
+//		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
+//		           .append(" (end effective ").append(endDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+//	           }
+//	           else
+	           {
+	        	   name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+	           }
+
+	           counters[NODECOUNT]++;
+	           
+	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(counters[NODECOUNT]).append(EBConstants.TOC_END_GUID_ELEMENT);
 	           
 	             if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
 	             {
-	        	   docCounter[0]++;
-	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;   
+	               docFound = true;
+	               counters[DOCCOUNT]++;
+	        	   docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;   
 	             }
 
 	           if(node.getChildrenCount() == 0)
 	           {
-	        	   guid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
+	        	   if ( docFound == false) 
+	        	   {
+	        		   docGuid.append("<MissingDocument></MissingDocument>");
+		               docFound = true;
+	        	   }
+	        	   docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 	           }
 	           else
 	           {
@@ -161,9 +218,8 @@ public class NortServiceImpl implements NortService {
 	           // <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid> 
 
 	           
-	           String payloadFormatted =( name.toString() + tocGuid.toString() + guid.toString() );
+	           String payloadFormatted =( name.toString() + tocGuid.toString() + docGuid.toString() );
 
-	           counter[0]++;
 	   
 //	           LOG.debug(" document count : " + docCounter + " out of " + counter + " nodes" );
 
@@ -177,7 +233,7 @@ public class NortServiceImpl implements NortService {
 					throw ge;
 					}
 	          
-	           
+				//TODO:       retry?       
 	           NortNode[] nortNodes = node.getChildren();
 	           
 	           if (nortNodes != null)
@@ -189,35 +245,41 @@ public class NortServiceImpl implements NortService {
 	                  _nortManager.fillNortNodes(nortNodes, i, length);
 	               }
 	               
-	               printNodes(nortNodes, _nortManager, out, counter, docCounter, iParent, YYYYMMDDHHmmss);
+	               printNodes(nortNodes, _nortManager, out, counters, iParent, YYYYMMDDHHmmss);
 	            }
 	     
 	           }
-//	           else
-//		         {
+	           else
+		         {
+	        	   
 //		           LOG.debug(" skipping old nodes " + node.getLabel().replaceAll("\\<.*?>","") );
-//		         }
+		           counters[SKIPCOUNT]++;
+		         }
 	       } 
-//       else
-//         {
+       else
+         {
 //           LOG.debug(" skipping subsection " );
-//         }
+    	   counters[SKIPCOUNT]++;
+         }
+	       return docFound;
 	   }
 	   
 	/**
 	 * 
 	 * Get NORT using domain and expression filter.
+	 * @throws ParseException 
 	 * @throws Exception 
 	 */
 	@Override
-	public void findTableOfContents(String domainName, String expressionFilter, File nortXmlFile) throws GatherException 
+	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate) throws GatherException  
 	{
 		NortManager _nortManager = null;
 		Writer out = null;
-		int[] counter = {0};
-		int[] docCounter = {0};
+		int[] counters = {0, 0, 0, 0};
 		int[] iParent = {0};
-		
+		String publishStatus = "TOC NORT Step Completed";
+		GatherResponse gatherResponse = new GatherResponse();
+
 		Novus novusObject = novusFactory.createNovus();
 		
 		Date date = new Date();
@@ -226,10 +288,17 @@ public class NortServiceImpl implements NortService {
 
 	       
 		try {
-			
+		//TODO: fix after Test1 testing.	
 		String YYYYMMDDHHmmss;
-		YYYYMMDDHHmmss = formatter.format(date);
-//		String YYYYMMDDHHmmss = "20120206111111"; 
+		if(cutoffDate == null)
+		{
+			YYYYMMDDHHmmss = formatter.format(date);
+		}
+		else
+		{
+			YYYYMMDDHHmmss = formatter.format(cutoffDate);
+		}
+//		String YYYYMMDDHHmmss = "20120202111111"; 
 			
 	    _nortManager = novusObject.getNortManager();
 		_nortManager.setShowChildrenCount(true);
@@ -242,14 +311,10 @@ public class NortServiceImpl implements NortService {
 		        new FileOutputStream(nortXmlFile.getPath()), "UTF8"));
 	    out.write(EBConstants.TOC_XML_ELEMENT);
 	    out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
-
-//	    counter = 0;
-//	    docCounter = 0;
-//	    iParent = 0;
 	    
-        retrieveNodes( _nortManager,  out,  counter,  docCounter,  iParent, YYYYMMDDHHmmss);
+        retrieveNodes( _nortManager,  out,  counters,  iParent, YYYYMMDDHHmmss);
         
-        LOG.info(docCounter[0] + " documents and " + counter[0] + " nodes in the NORT hierarchy for domain " + domainName + " and filter " + expressionFilter );
+        LOG.info(counters[DOCCOUNT] + " documents " + counters[SKIPCOUNT] + " skipped nodes  and " + counters[NODECOUNT] + " nodes in the NORT hierarchy for domain " + domainName + " and filter " + expressionFilter );
 
 	    out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
         out.flush();
@@ -258,27 +323,54 @@ public class NortServiceImpl implements NortService {
 		} catch (UnsupportedEncodingException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC NORT Step Failed UTF-8 encoding error";
 			throw ge;
 		} catch (FileNotFoundException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC NORT Step Failed File not found";
 			throw ge;
 		} catch (IOException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC NORT Step Failed IOException";
 			throw ge;
-		} finally {
+		} catch (GatherException e) {
+			LOG.debug(e.getMessage());
+			publishStatus =  "TOC NORT Step Failed GatherException";
+			throw e;
+		}
+		finally {
 			try {
 				out.close();
 			} catch (IOException e) {
 				LOG.debug(e.getMessage());
 				GatherException ge = new GatherException("NORT Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
+				publishStatus =  "TOC NORT Step Failed Cannot close toc.xml";
 				throw ge;
+			}
+			finally {
+//		        PublishingStats jobstats = new PublishingStats();
+//		        jobstats.setJobInstanceId(jobInstance);
+//		        jobstats.setGatherTocDocCount(counters[DOCCOUNT]);
+//		        jobstats.setGatherTocSkippedCount(counters[SKIPCOUNT]);
+//		        jobstats.setGatherTocNodeCount(counters[NODECOUNT]);
+//		        jobstats.setGatherTocRetryCount(counters[RETRYCOUNT]);
+//		        jobstats.setPublishStatus(publishStatus);
+//		       
+//				publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
+				gatherResponse.setDocCount(counters[DOCCOUNT]);
+				gatherResponse.setNodeCount(counters[NODECOUNT]);
+				gatherResponse.setSkipCount(counters[SKIPCOUNT]);
+				gatherResponse.setRetryCount(counters[RETRYCOUNT]);
+				gatherResponse.setPublishStatus(publishStatus);
+
 			}
 			
 			novusObject.shutdownMQ();
 		}
 
+		return gatherResponse;
 	}
 	
 	
@@ -291,6 +383,10 @@ public class NortServiceImpl implements NortService {
 	public void setNovusUtility(NovusUtility novusUtil) {
 		this.novusUtility = novusUtil;
 	}
+//	@Required
+//	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+//		this.publishingStatsService = publishingStatsService;
+//	}
 
 }
 

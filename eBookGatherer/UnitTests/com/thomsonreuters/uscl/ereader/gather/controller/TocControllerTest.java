@@ -41,7 +41,9 @@ public class TocControllerTest {
 	@Test
 	public void testFetchTocumentsSuccessfully() throws Exception {
 		File tocFile = new File(TOC_DIR, "file");
-		mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile);
+//		Long jobId =  new Long(1);
+		GatherResponse gatherResponse = new GatherResponse();
+		EasyMock.expect(mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile)).andReturn(gatherResponse);
 		EasyMock.replay(mockTocService);
 
     	// Invoke the controller
@@ -54,7 +56,7 @@ public class TocControllerTest {
         assertEquals(EBConstants.VIEW_RESPONSE, mav.getViewName());
         Map<String,Object> modelMap = model.asMap();
         Assert.assertNotNull(modelMap);
-        GatherResponse gatherResponse = (GatherResponse) modelMap.get(EBConstants.GATHER_RESPONSE_OBJECT);
+        gatherResponse = (GatherResponse) modelMap.get(EBConstants.GATHER_RESPONSE_OBJECT);
         Assert.assertNotNull(gatherResponse);
         Assert.assertEquals(0, gatherResponse.getErrorCode());
         Assert.assertNull(gatherResponse.getErrorMessage());
@@ -65,7 +67,7 @@ public class TocControllerTest {
 	@Test
 	public void testFetchTocumentsWithException() {
 		File tocFile = new File(TOC_DIR, "file");
-
+		Long jobId =  new Long(1);
 		int errorCode = 911;
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);

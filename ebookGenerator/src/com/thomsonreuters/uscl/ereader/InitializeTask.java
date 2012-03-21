@@ -23,7 +23,10 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * Perform job setup for creating an ebook and place data into the JobExecutionContext for
@@ -36,7 +39,12 @@ public class InitializeTask extends AbstractSbTasklet {
 	static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
 
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
+	private PublishingStatsService publishingStatsService;
+	private EBookAuditService eBookAuditService;
 	
+	private static final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");	
+
+
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 								  ChunkContext chunkContext) throws Exception {
@@ -48,7 +56,15 @@ public class InitializeTask extends AbstractSbTasklet {
 		JobParameters jobParams = jobInstance.getJobParameters();
 	
 		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
-		
+
+//		log.info("eBookDefId: " + jobParams.getString(JobParameterKey.EBOOK_DEFINITION_ID));
+		log.info("titleId (Fully Qualified): " + jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
+		log.info("hostname: " + jobParams.getString(JobParameterKey.HOST_NAME));
+		log.info("TOC Collection: " + jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME ));
+		log.info("TOC Root Guid: " + jobParams.getString(JobParameterKey.ROOT_TOC_GUID ));
+		log.info("NORT Domain: " + jobParams.getString(JobParameterKey.NORT_DOMAIN ));
+		log.info("NORT Filter: " + jobParams.getString(JobParameterKey.NORT_FILTER_VIEW ));
+
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
 		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
@@ -56,7 +72,9 @@ public class InitializeTask extends AbstractSbTasklet {
 				new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
-		log.debug("workDirectory: " + workDirectory.getAbsolutePath());
+		
+		log.info("workDirectory: " + workDirectory.getAbsolutePath());
+		
 		if (!workDirectory.exists()) {
 			throw new IllegalStateException("Expected work directory was not created in the filesystem: " + 
 					workDirectory.getAbsolutePath());
@@ -117,9 +135,12 @@ public class InitializeTask extends AbstractSbTasklet {
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 		File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
 		
-		// File containing image GUID's one per line
+		// get ebookDefinition
+//		BookDefinition bookDefinition = coreService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.EBOOK_DEFINITION_ID));
+//		
+//		// Place data on the JobExecutionContext for use in later steps
+//		jobExecutionContext.put(JobExecutionKey.BOOK, bookDefinition);
 		
-		// Place data on the JobExecutionContext for use in later steps
 		jobExecutionContext.putString(
 				JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
 		jobExecutionContext.putString(
@@ -169,11 +190,41 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
 		jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 
+		log.info("Image Service URL: " + System.getProperty("image.vertical.context.url") );
+		log.info("Proview Domain URL: " + System.getProperty("proview.domain") );
+		
+		PublishingStats pubStats = new PublishingStats();
+		
+		// TODO: replace with call to job queue?
+		Long ebookDefId = jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID);
+		pubStats.setEbookDefId(ebookDefId);
+		Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
+		pubStats.setAuditId(auditId);
+		pubStats.setBookVersionSubmitted(jobParams.getString(JobParameterKey.BOOK_VERISON_SUBMITTED));
+		pubStats.setJobHostName(jobParams.getString(JobParameterKey.HOST_NAME));
+		pubStats.setJobInstanceId(Long.valueOf(jobInstance.getId().toString()));
+		pubStats.setJobSubmitterName(jobParams.getString(JobParameterKey.USER_NAME));
+		pubStats.setJobSubmitTimestamp((Date)jobParams.getDate(JobParameterKey.JOB_TIMESTAMP)); 
+		pubStats.setPublishStatus("Initialize Step Complete");
+		pubStats.setPublishStartTimestamp(new Date(System.currentTimeMillis())); 
+		pubStats.setLastUpdated(new Date(System.currentTimeMillis()));
+		
+		publishingStatsService.savePublishingStats(pubStats); 
+		
 		return ExitStatus.COMPLETED;
 	}
 	
 	@Required
 	public void setRootWorkDirectory(File rootDir) {
 		this.rootWorkDirectory = rootDir;
+	}
+
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
+	}
+	@Required
+	public void seteBookAuditService(EBookAuditService eBookAuditService) {
+		this.eBookAuditService = eBookAuditService;
 	}
 }

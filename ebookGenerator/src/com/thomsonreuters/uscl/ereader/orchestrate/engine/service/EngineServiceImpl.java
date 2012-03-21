@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -99,10 +100,13 @@ public class EngineServiceImpl implements EngineService {
             concatAuthor = concatAuthor + author.getFullName() + "|";
         }
         
-        concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
+        if (concatAuthor.trim().length() != 0) {
+        	concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
+        }
         
         
-		String concatBookNames = null;
+        
+		String concatBookNames = " ";
         Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
         while(bookNameIt.hasNext())
         {
@@ -110,20 +114,24 @@ public class EngineServiceImpl implements EngineService {
         	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
         }   
         
-        if (concatBookNames != null) {
+        if (concatBookNames.trim().length() != 0) {
         	concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
+    		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
         } else {
-        	concatBookNames = bookDefinition.getProviewDisplayName();
+        	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
         }
         
 		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
-		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
+		
+		
+
  
 		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getDocumentTypeCodes().getName()));
 		paramMap.put(JobParameterKey.COPYRIGHT, new JobParameter(bookDefinition.getCopyright()));
 		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
 		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
 		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
+		paramMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(bookDefinition.getEbookDefinitionId()));		
 		if (bookDefinition.getPublishCutoffDate() != null) {
 			paramMap.put(
 					JobParameterKey.PUB_CUTOFF_DATE,
@@ -156,10 +164,11 @@ public class EngineServiceImpl implements EngineService {
 		// Add misc metadata, dynamic key/value pairs into the job parameters map
 		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
 		jobParamMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
-		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
+		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));	
+//		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter("1"));
 		//jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(jobRequest.getUserEmail()));
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
-		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(System.currentTimeMillis()));
+		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(new Timestamp(System.currentTimeMillis())));
 		return new JobParameters(jobParamMap);
 	}
 

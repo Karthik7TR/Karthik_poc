@@ -18,9 +18,12 @@ import java.io.Writer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 import com.westgroup.novus.productapi.Novus;
@@ -41,7 +44,7 @@ public class TocServiceImpl implements TocService {
 	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
 	
 	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] intParent)
+			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent)
 			throws GatherException {
 
 		TOCNode[] tocNodes = null;
@@ -77,6 +80,7 @@ public class TocServiceImpl implements TocService {
 					}
 				}
 			}
+			retryCounter[0] += novusTocRetryCounter;
 			// tocNodes = _tocManager.getRootNodes();
 
 			tocNodes = new TOCNode[1];
@@ -96,12 +100,16 @@ public class TocServiceImpl implements TocService {
 	   {
 	       if (nodes != null)
 	       {
+	    	   boolean docFound = true;
 			try {
 				for (TOCNode node : nodes) {
-					printNode(node, _tocManager, out, counter, docCounter, iParent);
+					docFound = printNode(node, _tocManager, out, counter, docCounter, iParent);
 				}
 				if (iParent[0] > 0) {
-
+					 if ( docFound == false) 
+		        	   {
+						 out.write("<MissingDocument></MissingDocument>");
+		        	   }
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
 					out.flush();
@@ -124,27 +132,34 @@ public class TocServiceImpl implements TocService {
 	       }
 	   }
 	   
-	   public void printNode(TOCNode node, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
+	   public boolean printNode(TOCNode node, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
 	   {
+		   boolean docFound = true;
 	       if (node != null)
 	       {
-	          
+	    	   docFound = false;
 	           StringBuffer name = new StringBuffer();
 	           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getName().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           StringBuffer tocGuid = new StringBuffer();
 	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_GUID_ELEMENT);
 
-	           StringBuffer guid = new StringBuffer();
+	           StringBuffer docGuid = new StringBuffer();
 	           if (node.getDocGuid() != null)
 	           {
+	        	   docFound = true;
 	        	   docCounter[0]++;
-	        	   guid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getDocGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
+	        	   docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT).append(node.getDocGuid().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT) ;
 	        	   
 	           }
               
 	           if(node.getChildrenCount() == 0)
 	           {
-	        	   guid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
+	        	   if ( docFound == false) 
+	        	   {
+	        		   docGuid.append("<MissingDocument></MissingDocument>");
+		               docFound = true;
+	        	   }
+	        	   docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 	           }
 	           else
 	           {
@@ -157,7 +172,7 @@ public class TocServiceImpl implements TocService {
 	           // <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid> 
 
 	           
-	           String payloadFormatted =( name.toString() + tocGuid.toString() + guid.toString() );
+	           String payloadFormatted =( name.toString() + tocGuid.toString() + docGuid.toString() );
 
 	           counter[0]++;
 	   
@@ -172,6 +187,8 @@ public class TocServiceImpl implements TocService {
 					GatherException ge = new GatherException("Failed writing to TOC ", e, GatherResponse.CODE_FILE_ERROR);
 					throw ge;
 					}
+				//TODO:       retry?
+
 	           TOCNode[] tocNodes = node.getChildren();
 	           
 	           if (tocNodes != null)
@@ -179,6 +196,7 @@ public class TocServiceImpl implements TocService {
 	               printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
 	           }
 	       }
+	       return docFound;
 	   }
 	   
 	/**
@@ -187,14 +205,18 @@ public class TocServiceImpl implements TocService {
 	 * @throws Exception 
 	 */
 	@Override
-	public void findTableOfContents(String guid, String collectionName, File tocXmlFile) throws GatherException 
+	public GatherResponse findTableOfContents(String guid, String collectionName, File tocXmlFile) throws GatherException 
 	{
 		TOC _tocManager = null;
 		Writer out = null;
 		int[] counter = {0};
 		int[] docCounter = {0};
+		int[] retryCounter = {0};
 		int[] iParent = {0};
-		
+		GatherResponse gatherResponse = new GatherResponse();
+
+		String publishStatus = "TOC Step Completed";
+
 		/*** for ebook builder we will always get Collection.***/
 		String type = EBConstants.COLLECTION_TYPE;
 		Novus novusObject = novusFactory.createNovus();
@@ -207,10 +229,10 @@ public class TocServiceImpl implements TocService {
 	    out.write(EBConstants.TOC_XML_ELEMENT);
 	    out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-        retrieveNodes(guid, _tocManager, out, counter, docCounter, iParent);
+        retrieveNodes(guid, _tocManager, out, counter, docCounter, retryCounter, iParent);
         
         LOG.info(docCounter[0] + " documents and " + counter[0] + " nodes in the TOC hierarchy for guid " + guid + " collection " + collectionName );
-
+      
 	    out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
         out.flush();
         out.close();
@@ -218,25 +240,44 @@ public class TocServiceImpl implements TocService {
 		} catch (UnsupportedEncodingException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC Step Failed UTF-8 encoding error";
 			throw ge;
 		} catch (FileNotFoundException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("TOC File not found ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC Step Failed File not found";
 			throw ge;
 		} catch (IOException e) {
 			LOG.debug(e.getMessage());
 			GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "TOC Step Failed IOException";
 			throw ge;
-			} finally {
-				try {
+		} catch (GatherException e) {
+			LOG.debug(e.getMessage());
+			publishStatus =  "TOC Step Failed GatherException";
+			throw e;
+			}
+		finally {
+				try {			
 					out.close();
 				} catch (IOException e) {
 					LOG.debug(e.getMessage());
 					GatherException ge = new GatherException("TOC Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
 					throw ge;
+				} catch (Exception e) {
+					LOG.debug(e.getMessage());
+					GatherException ge = new GatherException("Failure to update job stats ", e, GatherResponse.CODE_FILE_ERROR);
+					throw ge;
+				} finally	{
+					gatherResponse.setDocCount(docCounter[0]);
+					gatherResponse.setNodeCount(counter[0]);
+					gatherResponse.setRetryCount(retryCounter[0]);
+					gatherResponse.setPublishStatus(publishStatus);
+			       
 				}
 			novusObject.shutdownMQ();
 		}
+		return gatherResponse;
 
 	}
 	/**
@@ -275,6 +316,7 @@ public class TocServiceImpl implements TocService {
 	public void setNovusUtility(NovusUtility novusUtil) {
 		this.novusUtility = novusUtil;
 	}
+
 
 }
 

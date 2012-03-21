@@ -7,25 +7,31 @@
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
+import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 public class GatherNortRequest {
 
+	private Date cutoffDate;
 	private String domainName;
 	private String expressionFilter;
 	private File nortFile;
+//	private Long jobInstance;
 
 	public GatherNortRequest(){
 		super();
 	}
 	
-	public GatherNortRequest(String domainName, String expressionFilter, File nortFile) {
+//	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, long jobInstance) {
+	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
 		this.nortFile = nortFile;
+		this.cutoffDate = cutoffDate;
+//		this.jobInstance = jobInstance;
 	}
 
 	public String getDomainName() {
@@ -37,6 +43,9 @@ public class GatherNortRequest {
 	public File getNortFile() {
 		return nortFile;
 	}
+	public Date getCutoffDate() {
+		return cutoffDate;
+	}
 
 	public void setDomainName(String domainName) {
 		this.domainName = domainName;
@@ -45,10 +54,14 @@ public class GatherNortRequest {
 	public void setExpressionFilter(String expressionFilter) {
 		this.expressionFilter = expressionFilter;
 	}
+
 	public void setNortFile(File nortFile) {
 		this.nortFile = nortFile;
 	}
-
+	public void setCutoffDate(Date cutoffDate) {
+		this.cutoffDate = cutoffDate;
+	}
+	
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE);
 	}
@@ -61,6 +74,7 @@ public class GatherNortRequest {
 				+ ((domainName == null) ? 0 : domainName.hashCode());
 		result = prime * result + ((expressionFilter == null) ? 0 : expressionFilter.hashCode());
 		result = prime * result + ((nortFile == null) ? 0 : nortFile.hashCode());
+		result = prime * result + ((cutoffDate == null) ? 0 : cutoffDate.hashCode());
 		return result;
 	}
 
@@ -88,6 +102,19 @@ public class GatherNortRequest {
 				return false;
 		} else if (!nortFile.equals(other.nortFile))
 			return false;
+		if (cutoffDate == null) {
+			if (other.cutoffDate != null)
+				return false;
+		} else if (!cutoffDate.equals(other.cutoffDate))
+			return false;
 		return true;
 	}
+
+//	public void setJobInstance(Long jobInstance) {
+//		this.jobInstance = jobInstance;
+//	}
+//
+//	public Long getJobInstance() {
+//		return jobInstance;
+//	}
 }

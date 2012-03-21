@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,10 +29,14 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+
 public class InitializeTaskTest {
 	
 	private static final Long JOB_ID = System.currentTimeMillis();
 	private static final String TITLE_ID = "JunitTestTitleId";
+	private static final Long EBOOK_DEFINITION_ID_VAL = (long) 1234;
 	private static final String DATE_STAMP = new SimpleDateFormat("yyyyMMdd").format(new Date());
 	private InitializeTask task;
 	private StepContribution stepContrib;
@@ -41,6 +47,8 @@ public class InitializeTaskTest {
 	private JobInstance jobInstance;
 	private ExecutionContext jobExecutionContext;
 	private File tempRootDir;
+	private PublishingStatsService publishingStatsService;
+
 	
 	@Before
 	public void setUp() {
@@ -54,6 +62,7 @@ public class InitializeTaskTest {
 		this.task = new InitializeTask();
 		this.tempRootDir = new File(System.getProperty("java.io.tmpdir"));
 		task.setRootWorkDirectory(tempRootDir);
+		this.publishingStatsService = EasyMock.createMock(PublishingStatsService.class);
 	}
 	
 	@Test
@@ -65,7 +74,18 @@ public class InitializeTaskTest {
 		EasyMock.expect(stepContext.getStepExecution()).andReturn(stepExecution);
 		EasyMock.expect(stepExecution.getJobExecution()).andReturn(jobExecution);
 		EasyMock.expect(jobExecution.getExecutionContext()).andReturn(jobExecutionContext);
+
+		PublishingStats pubStats = new PublishingStats();
+		pubStats.setAuditId(new Long(1));
+		pubStats.setBookVersionSubmitted("0");
+		pubStats.setJobHostName("hostname");
+		pubStats.setJobInstanceId(new Long(1));
+		pubStats.setJobInstanceId(new Long(1));
+		pubStats.setJobSubmitterName("test_username");
+		pubStats.setJobSubmitTimestamp(new Date());
 		
+		publishingStatsService.savePublishingStats(pubStats);
+
 		EasyMock.expect(jobExecution.getJobInstance()).andReturn(jobInstance);
 		EasyMock.expect(jobInstance.getJobParameters()).andReturn(jobParams);
 		EasyMock.expect(jobInstance.getId()).andReturn(JOB_ID);
@@ -74,6 +94,7 @@ public class InitializeTaskTest {
 		EasyMock.replay(stepExecution);
 		EasyMock.replay(jobExecution);
 		EasyMock.replay(jobInstance);
+		EasyMock.replay(publishingStatsService);
 		File expectedWorkDirectory = null;
 		try {
 			ExitStatus transition = task.executeStep(stepContrib, chunkContext);

@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
@@ -43,6 +45,8 @@ public class ImageServiceImpl implements ImageService {
 	private long sleepIntervalBetweenImages;
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
+	
+	private final Integer imageServiceRetryCount = 3;	
 
 	@Override
 	//@Transactional
@@ -110,9 +114,22 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid) {
-		SingleImageMetadataResponse response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
-				SingleImageMetadataResponse.class, 
-				imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
+		
+		
+		SingleImageMetadataResponse response = new SingleImageMetadataResponse();
+		// This is the counter for checking how many Novus retries we
+		// are making
+		Integer imageServiceRetryCounter = 0;
+		while (imageServiceRetryCounter <= imageServiceRetryCount) {
+			try {
+				response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
+						SingleImageMetadataResponse.class, 
+						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);				
+				break;
+			} catch (Exception exception) {
+					imageServiceRetryCounter++;
+			}
+		}
 		return response;
 	}
 	

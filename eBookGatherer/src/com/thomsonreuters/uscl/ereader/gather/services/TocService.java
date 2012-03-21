@@ -9,10 +9,11 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 import java.io.File;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public interface TocService {
 	
-	public void findTableOfContents(String guid, String collectionName, File tocFile) throws GatherException; 
+	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile) throws GatherException; 
 
 }

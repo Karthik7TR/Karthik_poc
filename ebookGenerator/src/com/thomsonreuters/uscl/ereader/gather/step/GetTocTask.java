@@ -7,6 +7,8 @@
 package com.thomsonreuters.uscl.ereader.gather.step;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -18,12 +20,15 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * 
@@ -34,6 +39,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(PersistMetadataXMLTask.class);
 	private GatherService gatherService;
+	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -44,6 +50,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
+		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
 		// TOC
 		String tocCollectionName = jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME); 
@@ -52,6 +59,12 @@ public class GetTocTask  extends AbstractSbTasklet {
 		String nortDomainName = jobParams.getString(JobParameterKey.NORT_DOMAIN); 
 		String nortExpressionFilter = jobParams.getString(JobParameterKey.NORT_FILTER_VIEW);
 		
+		Date nortCutoffDate = null;
+		
+		if (jobParams.getString(JobParameterKey.PUB_CUTOFF_DATE) != null) {
+			nortCutoffDate = (Date)(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jobParams.getString(JobParameterKey.PUB_CUTOFF_DATE).replace("T", " ")));
+		}
+
 		if(tocCollectionName != null) // TOC
 		{
 		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile);
@@ -61,17 +74,30 @@ public class GetTocTask  extends AbstractSbTasklet {
 		}
 		else if(nortDomainName != null) // NORT
 		{
-		GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile);
-		LOG.debug(gatherNortRequest);
+//			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
+			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate);
+			LOG.debug(gatherNortRequest);
 	
-		gatherResponse = gatherService.getNort(gatherNortRequest);
+			gatherResponse = gatherService.getNort(gatherNortRequest);
 		}
 		else
 		{
 			String errorMessage = "Neither tocCollectionName nor nortDomainName were defined for eBook" ;
 			LOG.error(errorMessage);
-			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
+			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage, 0,0,0,"TOC STEP FAILED UNDEFINED KEY");
 		}
+		
+        PublishingStats jobstats = new PublishingStats();
+        jobstats.setJobInstanceId(jobInstance);
+        jobstats.setGatherTocDocCount(gatherResponse.docCount);
+        jobstats.setGatherTocNodeCount(gatherResponse.nodeCount);
+        jobstats.setGatherTocSkippedCount(gatherResponse.skipCount);
+        jobstats.setGatherTocRetryCount(gatherResponse.retryCount);
+        jobstats.setPublishStatus(gatherResponse.publishStatus);
+       
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
+		
+		// TODO: update doc count used in Job Execution Context
 		
 		LOG.debug(gatherResponse);
 		if (gatherResponse.getErrorCode() != 0 ) {
@@ -86,5 +112,9 @@ public class GetTocTask  extends AbstractSbTasklet {
 	@Required
 	public void setGatherService(GatherService gatherService) {
 		this.gatherService = gatherService;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

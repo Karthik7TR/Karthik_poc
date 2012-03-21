@@ -38,6 +38,7 @@ public class GatherTocRequest {
 		return tocFile;
 	}
 
+
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
@@ -90,4 +91,8 @@ public class GatherTocRequest {
 			return false;
 		return true;
 	}
+
+	
+
+
 }

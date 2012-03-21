@@ -43,7 +43,7 @@ public class NortController {
 			// Create EBook TOC file on specified path
 			File nortXmlFile = nortRequest.getNortFile();
 
-			nortService.findTableOfContents(nortRequest.getDomainName(), nortRequest.getExpressionFilter(), nortXmlFile);
+			gatherResponse = nortService.findTableOfContents(nortRequest.getDomainName(), nortRequest.getExpressionFilter(), nortXmlFile, nortRequest.getCutoffDate());
 			
 				
 		} catch (GatherException e) {
