@@ -10,9 +10,7 @@
 <html>
 <head>
 
-	<form:form action="<%=WebConstants.MVC_JOB_HISTORY%>"
-			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
-	</form:form>
+Publishing History
 
 </head>
 </html>

@@ -86,7 +86,7 @@
 	<bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController"
 		  p:casUrl="${cas.server.web.url}"/>
 		  
-	<bean id="jobHistoryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history.JobHistoryController"
+	<bean id="bookPublishingHistoryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history.BookPublishingHistoryController"
 		  p:bookDefinitionService-ref="bookDefinitionService"		
 		  />		  
 			  

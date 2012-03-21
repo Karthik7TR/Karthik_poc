@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="pageTitle">Generate eBook</div>
+<div class="pageTitle">Publishing History</div>
 <c:choose>
 
 <c:when test="${book == null}">  <%-- if no book definition was found for the title ID --%>

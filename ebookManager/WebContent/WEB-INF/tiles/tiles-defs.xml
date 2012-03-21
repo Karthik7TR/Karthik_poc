@@ -94,7 +94,7 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/summary/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/summary/jobSummary.jsp"/>
 	</definition>
-	<definition name="_jobHistory" extends="standardDefinition">
+	<definition name="_bookPublishingHistory" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/history/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/history/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/history/body.jsp"/>

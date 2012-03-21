@@ -107,7 +107,7 @@ function submitForm(cmd)
 		<input type="submit" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 		<input type="submit" value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 		<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
-		<input type="submit" value="Job History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.JOB_HISTORY%>')"/>
+		<input type="submit" value="Publishing History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_PUBLISHING_HISTORY%>')"/>
 	</form:form>
 </div>
 </c:if>	<%-- If there is any book to display --%>
