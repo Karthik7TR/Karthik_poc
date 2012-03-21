@@ -24,7 +24,8 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-			The book definition is scheduled or in the queue.  If you want to edit the definition, please remove it from the schedule or queue.
+			<span style="color:red;">This book is already present in the job run queue, and thus cannot be edited.<br/>
+									 If you want to edit the definition, remove it from the run queue.</span>
 			</c:otherwise>
 		</c:choose>
 	</c:when>
