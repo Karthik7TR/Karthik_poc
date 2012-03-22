@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.restclient.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import junit.framework.Assert;
 
@@ -67,7 +68,7 @@ public class GatherRestServiceIntegrationTest  {
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
-		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile );
+		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile, new Date());
 		
 		GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
 		log.debug(gatherResponse);
