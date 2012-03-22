@@ -42,9 +42,6 @@ public class InitializeTask extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 	private EBookAuditService eBookAuditService;
 	
-	private static final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");	
-
-
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 								  ChunkContext chunkContext) throws Exception {
@@ -224,7 +221,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		this.publishingStatsService = publishingStatsService;
 	}
 	@Required
-	public void seteBookAuditService(EBookAuditService eBookAuditService) {
+	public void setEbookAuditService(EBookAuditService eBookAuditService) {
 		this.eBookAuditService = eBookAuditService;
 	}
 }

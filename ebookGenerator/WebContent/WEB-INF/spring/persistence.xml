@@ -99,7 +99,10 @@
 	
 	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
 		<constructor-arg ref="sessionFactory" />
-	</bean>		
+	</bean>
+  	<bean id="xsltMapperDao" class="com.thomsonreuters.uscl.ereader.format.dao.XSLTMapperDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>		
 	
 		  
 </beans>

@@ -6,7 +6,6 @@
 
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
 @Service
 public class XSLTMapperServiceImpl implements XSLTMapperService {
 
-	@Autowired
 	private XSLTMapperDao xsltMapperDao;
 	
 	/**

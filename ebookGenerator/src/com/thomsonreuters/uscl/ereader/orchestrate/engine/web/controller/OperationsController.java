@@ -8,9 +8,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 import java.net.URL;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 /**
  * URL based Spring Batch job control operations for RESTART and STOP.
  */
-@Controller
+//@Controller
+@Deprecated // To be removed in favor of use of ebookManager
 public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	
@@ -141,15 +140,15 @@ log.debug("Stopped Job: " + jobExecutionIdToStop);
 	private String getDashboardJobExecutionDetailsUrl(long jobExecutionId) {
 		return dashboardContextUrl.toString()+"/jobExecutionDetails.mvc?"+WebConstants.KEY_JOB_EXECUTION_ID+"="+jobExecutionId;
 	}
-	@Required
+//	@Required
 	public void setEngineService(EngineService engineService) {
 		this.engineService = engineService;
 	}
-	@Required
+//	@Required
 	public void setDashboardContextUrl(URL dashboardContextUrl) {
 		this.dashboardContextUrl = dashboardContextUrl;
 	}
-	@Required
+//	@Required
 	public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
 		this.messageSourceAccessor = messageSourceAccessor;
 	}

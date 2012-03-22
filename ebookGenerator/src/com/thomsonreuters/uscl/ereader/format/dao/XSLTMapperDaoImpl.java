@@ -6,11 +6,11 @@
 
 package com.thomsonreuters.uscl.ereader.format.dao;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Repository;
-import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
 
@@ -22,13 +22,8 @@ import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
 @Repository("xsltMapperDao")
 public class XSLTMapperDaoImpl implements XSLTMapperDao{
 
-	@Autowired
-	private SessionFactory xsltSessionFactory;
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-        this.xsltSessionFactory = sessionFactory;
-    }
-	
+	private SessionFactory sessionFactory;
+		
 	/**
      * Retrieves the XSLT style sheet for a given collection and doc-type.
      *
@@ -44,17 +39,22 @@ public class XSLTMapperDaoImpl implements XSLTMapperDao{
 		
 		Query query;
 		if (StringUtils.isNotBlank(docType)) {
-			query = xsltSessionFactory.getCurrentSession().getNamedQuery("getXSLT");
+			query = sessionFactory.getCurrentSession().getNamedQuery("getXSLT");
 			query.setString("collection", collection);
 			query.setString("doc_type", docType);
 			
 		}
 		else {
-			query = xsltSessionFactory.getCurrentSession().getNamedQuery("getXSLTWhereDocTypeIsNull");
+			query = sessionFactory.getCurrentSession().getNamedQuery("getXSLTWhereDocTypeIsNull");
 			query.setString("collection", collection);
 		}
 		Object queryResult = query.uniqueResult();
 		if (queryResult == null) return null;
 		return (XSLTMapperEntity) queryResult;
 	}
+	
+	@Required
+	public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 }

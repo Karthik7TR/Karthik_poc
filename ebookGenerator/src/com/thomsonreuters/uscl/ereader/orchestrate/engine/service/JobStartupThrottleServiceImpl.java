@@ -14,7 +14,6 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDao;
@@ -30,22 +29,11 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottle
 public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService{
 	
 	private static final Logger log = Logger.getLogger(JobStartupThrottleServiceImpl.class);
-
 	
-	@Autowired
 	public JobExplorer jobExplorer;
-
-	@Autowired
 	public JobRepository jobRepository;
-	
-	@Autowired
 	public JobStartupThrottleDao jobStartupThrottleDao;
-
-	@Autowired
 	public String throttleStepCheck;
-
-
-
 
 	/**
 	 * Before starting new job check with Spring Batch Job Repository to find if new job can be 
