@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
  */
 @Controller
 public class QueueController {
-	//private static final Logger log = Logger.getLogger(QueueController.class);
+	private static final Logger log = Logger.getLogger(QueueController.class);
 	private JobRequestService jobRequestService;
 	private Validator validator;
 	private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators = new HashMap<DisplayTagSortProperty, Comparator<JobRequest>>();
@@ -62,6 +63,7 @@ public class QueueController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_QUEUE, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
+		log.debug(">>>");
 		PageAndSort<DisplayTagSortProperty> queuedPageAndSort = fetchSavedQueuedPageAndSort(httpSession);
 		List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
 
@@ -73,7 +75,7 @@ public class QueueController {
 	public ModelAndView doPagingAndSorting(HttpSession httpSession, 
 								@ModelAttribute(QueueForm.FORM_NAME) QueueForm form,
 								Model model) {
-//		log.debug(form);
+		log.debug(form);
 		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
 		List<JobRequest> allQueuedJobs = null;
 		
@@ -146,7 +148,6 @@ public class QueueController {
 	 */
 	private List<JobRequest> createOnePageOfRows(List<JobRequest> allQueuedJobs,
 			  								PageAndSort<DisplayTagSortProperty> queuedPageAndSort) {
-
 
 		// Sort into the order/sequence that the jobs will actually appear on the page
 		Comparator<JobRequest> rowComparator = comparators.get(queuedPageAndSort.getSortProperty());

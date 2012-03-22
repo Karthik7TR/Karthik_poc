@@ -62,10 +62,10 @@ public class JobExecutionController {
 	 * Inbound GET to initially display the page.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS, method = RequestMethod.GET)
-	public ModelAndView doDisplayJobExecutionDetails(HttpServletRequest request,
+	public ModelAndView inboundGet(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
 							  Model model) throws Exception {
-//		log.debug(">>> jobExecutionId="+jobExecutionId);
+		log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
 		EbookAudit bookInfo = (jobExecution != null) ? publishingStatsService.findAuditInfoByJobId(jobExecution.getJobId()) : null;
 		populateModel(model, jobExecution, bookInfo);
@@ -77,9 +77,10 @@ public class JobExecutionController {
 	 * Handle the submit/post of a new job execution ID whose details are to be viewed.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS_POST, method = RequestMethod.POST)
-	public ModelAndView doPost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
+	public ModelAndView handlePost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
 							   BindingResult bindingResult,
 							   Model model) {
+		log.debug(form);
 		JobExecution jobExecution = null;
 		EbookAudit bookInfo = null;
 		if (!bindingResult.hasErrors()) {
@@ -102,6 +103,7 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession,
 								   @RequestParam Long jobExecutionId, Model model) throws Exception {
+		log.debug(">>> jobExecutionId="+jobExecutionId);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		try {
 			JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
@@ -123,6 +125,7 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession,
 								@RequestParam Long jobExecutionId, Model model) throws Exception {
+		log.debug(">>> jobExecutionId="+jobExecutionId);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		try {
 			JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);

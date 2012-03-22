@@ -9,6 +9,7 @@ import java.net.URL;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class SecurityController {
-	
+	private static final Logger log = Logger.getLogger(SecurityController.class);
 	/**
 	 * The context root URL for the Central Authentication Service (CAS) server web application,
 	 * like "https://someHost/ebookCas"
@@ -33,6 +34,7 @@ public class SecurityController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_AFTER_LOGOUT, method = RequestMethod.GET)
 	public ModelAndView afterLogout(HttpSession httpSession) throws Exception {
+		log.debug(">>>");
 		httpSession.invalidate();
 		String casLogoutUrl = casUrl + "/logout";
 		RedirectView view = new RedirectView(casLogoutUrl);
@@ -45,6 +47,7 @@ public class SecurityController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_ACCESS_DENIED, method = RequestMethod.GET)
 	public ModelAndView onAccessDenied(HttpSession httpSession) throws Exception {
+		log.debug(">>>");
 		return new ModelAndView(WebConstants.VIEW_ACCESS_DENIED);
 	}
 	

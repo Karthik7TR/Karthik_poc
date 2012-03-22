@@ -57,7 +57,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
-		
+		log.debug(">>>");
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
 		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
 		
@@ -103,7 +103,6 @@ public class JobSummaryController extends BaseJobSummaryController {
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
 					 filterForm.getTitleId(), filterForm.getBookName());
 			JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
-log.debug("NEW: " + jobSort);		
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
 		setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
@@ -167,7 +166,7 @@ log.debug("NEW: " + jobSort);
 	 * Handle URL request that the number of rows displayed in the job summary table be changed.
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT, method = RequestMethod.POST)
-	public ModelAndView changeDisplayedRowCount(HttpSession httpSession,
+	public ModelAndView handleChangeInItemsToDisplay(HttpSession httpSession,
 							   @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid JobSummaryForm form,
 							   Model model) {
 		log.debug(form);

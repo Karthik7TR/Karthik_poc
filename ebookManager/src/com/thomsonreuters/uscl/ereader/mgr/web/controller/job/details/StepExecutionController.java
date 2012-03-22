@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
@@ -35,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 @Controller
 public class StepExecutionController {
-	//private static final Logger log = Logger.getLogger(StepExecutionController.class);
+	private static final Logger log = Logger.getLogger(StepExecutionController.class);
 	
 	private JobService jobService;
 	private PublishingStatsService publishingStatsService;
@@ -47,12 +48,12 @@ public class StepExecutionController {
 	 * @param stepExecutionId step execution ID
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS, method = RequestMethod.GET)
-	public ModelAndView doDisplayJobStepDetails(HttpServletRequest request,
+	public ModelAndView inboundGet(HttpServletRequest request,
 							  @RequestParam Long jobInstanceId,  	// job instance ID
 							  @RequestParam Long jobExecutionId,  	// job execution ID
 							  @RequestParam Long stepExecutionId,	// step execution ID
 							  Model model) throws Exception {
-//		log.debug(">>> jobInstanceId="+jobInstanceId + "&jobExecutionId="+jobExecutionId + "&stepExecutionId="+stepExecutionId);
+		log.debug(">>> jobInstanceId="+jobInstanceId + ",jobExecutionId="+jobExecutionId + ",stepExecutionId="+stepExecutionId);
 		JobInstance jobInstance = jobService.findJobInstance(jobInstanceId);
 		EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
 		StepExecution stepExecution = jobService.findStepExecution(jobExecutionId, stepExecutionId);
