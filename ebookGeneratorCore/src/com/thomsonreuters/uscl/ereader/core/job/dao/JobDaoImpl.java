@@ -32,7 +32,7 @@ public class JobDaoImpl implements JobDao {
 
 		List<JobSummary> list = new ArrayList<JobSummary>(jobExecutionIds.size());
 		for (long jobExecutionId : jobExecutionIds) {
-			StringBuffer sql = new StringBuffer("select auditTable.EBOOK_DEFINITION_ID, auditTable.BOOK_NAMES_CONCAT, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
+			StringBuffer sql = new StringBuffer("select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
 			sql.append("execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME from \n ");
 			sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
 			sql.append("where ");
@@ -183,7 +183,7 @@ log.debug("SQL: " + sql.toString());
 class JobSummaryRowMapper implements RowMapper<JobSummary> {
 	public JobSummary mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 		Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
-		String bookName = resultSet.getString("BOOK_NAMES_CONCAT");
+		String bookName = resultSet.getString("PROVIEW_DISPLAY_NAME");
 		String titleId = resultSet.getString("TITLE_ID");
 		Long jobExecutionId = resultSet.getLong("JOB_EXECUTION_ID");
 		Long jobInstanceId = resultSet.getLong("JOB_INSTANCE_ID");
