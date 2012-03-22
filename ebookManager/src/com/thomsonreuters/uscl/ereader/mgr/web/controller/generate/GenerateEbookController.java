@@ -123,7 +123,7 @@ public class GenerateEbookController {
 
 		}
 
-		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
+		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
@@ -195,7 +195,7 @@ public class GenerateEbookController {
 
 			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-			model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
+			model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
 					"disabled=\"disabled\"");
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 

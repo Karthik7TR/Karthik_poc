@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
+import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
@@ -30,7 +32,7 @@ public class BookLibraryController {
 	//private static final Logger log = Logger.getLogger(BookLibraryController.class);
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
 
-	private BookLibraryService bookLibraryService;
+	private LibraryListService libraryListService;
 	private Validator validator;
 
 	@InitBinder(BookLibrarySelectionForm.FORM_NAME)
@@ -55,7 +57,7 @@ public class BookLibraryController {
 			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		initializeFormAndModel(model, form, "proviewDisplayName", true, 1);
+		initializeFormAndModel(model, form, "book.PROVIEW_DISPLAY_NAME", true, 1);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
@@ -80,7 +82,7 @@ public class BookLibraryController {
 		String sort = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_SORT));
 		if (sort == null) {
-			sort = "proviewDisplayName";
+			sort = "book.PROVIEW_DISPLAY_NAME";
 		}
 
 		String order = request.getParameter(new ParamEncoder(WebConstants.KEY_VDO)
@@ -158,13 +160,13 @@ public class BookLibraryController {
 	 */
 	private void initializeFormAndModel(Model model, BookLibrarySelectionForm form, String sortBy, boolean isAscending, int pageNumber) {
 		
-		List<BookDefinitionVdo> paginatedList = bookLibraryService
-				.getBooksOnPage(sortBy, isAscending, pageNumber, NUMBER_BOOK_DEF_SHOWN);
-		Long resultSize = bookLibraryService.getTotalBookCount();
+		List<LibraryList> paginatedList = libraryListService
+				.findBookDefinitions(sortBy, isAscending, pageNumber, NUMBER_BOOK_DEF_SHOWN);
+		Long resultSize = libraryListService.countNumberOfBookDefinitions();
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
-		model.addAttribute(WebConstants.KEY_GENERATE_BUTTON_VISIBILITY,
+		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
 				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
@@ -183,13 +185,10 @@ public class BookLibraryController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_ICONS);
 	}
 
-	public BookLibraryService getBookLibraryService() {
-		return bookLibraryService;
-	}
 
 	@Required
-	public void setBookLibraryService(BookLibraryService bookLibraryService) {
-		this.bookLibraryService = bookLibraryService;
+	public void setLibraryListService(LibraryListService service) {
+		this.libraryListService = service;
 	}
 
 	@Required

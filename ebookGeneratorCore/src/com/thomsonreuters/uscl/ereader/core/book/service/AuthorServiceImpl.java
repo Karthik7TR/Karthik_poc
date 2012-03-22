@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
  * 
  */
 
-@Transactional
 public class AuthorServiceImpl implements AuthorService {
 
 	/**
@@ -60,11 +59,13 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Author findAuthorById(Long authorId) {
 		return authorDAO.findAuthorById(authorId);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Author> findAuthorsByEBookDefnId(Long eBookDefnId) {
 		return authorDAO.findAuthorsByEBookDefnId(eBookDefnId);
 	}

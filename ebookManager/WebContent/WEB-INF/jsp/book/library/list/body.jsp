@@ -63,25 +63,26 @@
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
-	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.titleId}</a>
+	  <display:column title="Title ID" sortable="true" sortName="book.TITLE_ID" >
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
-	  <display:column title="Book Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.bookName}</a>
+	  <display:column title="Book Name" sortable="true" sortName="book.PROVIEW_DISPLAY_NAME" style="text-align: left">
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
-	  <display:column title="Author" property="author" />
-	  <display:column title="Publish Date">
-	  	<fmt:formatDate value="${vdo.publishDate}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="Author" property="authorList" />
+	  <display:column title="Publish Date" sortable="true" sortName="ps.PUB_DATE">
+	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
-	  <display:column title="Book Status" property="bookStatus" />
-	  <display:column title="Last Book Def. Edit" sortable="true" sortName="lastUpdated" >
-	  	<fmt:formatDate value="${vdo.lastEdit}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="Book Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
+	  <display:column title="Publish Version" property="version" sortable="true" sortName="ps.BOOK_VERSION_SUBMITTED" />
+	  <display:column title="Last Book Def. Edit" sortable="true" sortName="book.LAST_UPDATED" >
+	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
 	<br/>	
 	<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
 	<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
-	<input type="submit" value="Generate" ${generateButtonVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+	<input type="submit" value="Generate" ${buttonVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
 	<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
 
 </form:form>

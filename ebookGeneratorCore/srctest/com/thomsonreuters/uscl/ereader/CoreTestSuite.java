@@ -17,6 +17,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
+import com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDaoTest;
+import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
@@ -38,7 +40,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunnerTest;
 				CodeServiceTest.class,
 				ProviewClientImplTest.class,
 				EbookAuditDaoTest.class,
-				EbookAuditServiceTest.class
+				EbookAuditServiceTest.class,
+				LibraryListDaoTest.class,
+				LibraryListServiceTest.class
 			} )
 public class CoreTestSuite {
 

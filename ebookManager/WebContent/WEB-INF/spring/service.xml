@@ -17,6 +17,9 @@
   	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
   		  p:codeDao-ref="codeDao"/>
   		  
+  	<bean id="authorService" class="com.thomsonreuters.uscl.ereader.core.book.service.AuthorServiceImpl"
+  		  p:authorDAO-ref="authorDao"/>
+  		  
     <bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
   		  p:eBookAuditDAO-ref="eBookAuditDao" />	
   
@@ -29,9 +32,9 @@
 		  
 	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
 		  p:jobRequestDao-ref="jobRequestDao" />
-  		  
-	<bean id="bookLibraryService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService"
-  		  p:bookDefinitionService-ref="bookDefinitionService"/>
+		  
+	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceImpl"
+  		  p:libraryListDao-ref="libraryListDao"/>
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService"
   		  p:codeService-ref="codeService"/>

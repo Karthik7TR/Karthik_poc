@@ -6,7 +6,9 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -78,5 +80,18 @@ public class UserUtils {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		return (user != null) ? user.isInRole(SecurityRole.ROLE_SUPERUSER
 				.toString()) : false;
+	}
+	
+	/**
+	 * Returns true if the currently authenticated user is in the provided role.
+	 */
+	public static boolean isInRole(SecurityRole[] roles) {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		
+		List<String> buffer = new ArrayList<String>();
+		for(SecurityRole role : roles) {
+			buffer.add(role.toString());
+		}
+		return (user != null) ? user.isInRole(buffer.toArray(new String[buffer.size()])) : false;
 	}
 }

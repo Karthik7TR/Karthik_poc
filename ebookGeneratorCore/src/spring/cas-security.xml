@@ -49,6 +49,9 @@
 		<security:intercept-url pattern="/jobSummaryJobOperation.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/jobExecutionJobStop.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/jobExecutionJobRestart.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionCreate.mvc" access="hasAnyRole('ROLE_DEVELOPER,ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionEdit.mvc" access="hasAnyRole('ROLE_DEVELOPER,ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_DEVELOPER,ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
 
 		<!-- Catch-all for all other URL's (must be authenticated into one of the acceptable roles) -->
 		<security:intercept-url pattern="/*" access="hasAnyRole('ROLE_DEVELOPER,ROLE_GUEST,ROLE_PUBLISHER,ROLE_SUPERUSER,ROLE_SUPPORT')

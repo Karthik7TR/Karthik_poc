@@ -29,13 +29,13 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
+import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookDefinitionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryService;
 
 public class BookLibraryControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+BookLibrarySelectionForm.FORM_NAME;
@@ -43,7 +43,7 @@ public class BookLibraryControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private BookLibraryService mockLibraryService;
+    private LibraryListService mockLibraryListService;
     
 	@Before
 	public void setUp() throws Exception {
@@ -52,11 +52,11 @@ public class BookLibraryControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	// Mock up the dashboard service
-    	this.mockLibraryService = EasyMock.createMock(BookLibraryService.class);
+    	this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
     	
     	// Set up the controller
     	this.controller = new BookLibraryController();
-    	controller.setBookLibraryService(mockLibraryService);
+    	controller.setLibraryListService(mockLibraryListService);
     	controller.setValidator(new BookLibrarySelectionFormValidator());
 	}
 
@@ -68,9 +68,9 @@ public class BookLibraryControllerTest {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
     	request.setMethod(HttpMethod.GET.name());
     	
-    	EasyMock.expect(mockLibraryService.getBooksOnPage("proviewDisplayName", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
-    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 1);
-    	EasyMock.replay(mockLibraryService);
+    	EasyMock.expect(mockLibraryListService.findBookDefinitions("book.PROVIEW_DISPLAY_NAME", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
+    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn((long) 1);
+    	EasyMock.replay(mockLibraryListService);
 
     	ModelAndView mav;
 		try {
@@ -91,7 +91,7 @@ public class BookLibraryControllerTest {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-        EasyMock.verify(mockLibraryService);
+        EasyMock.verify(mockLibraryListService);
         
 	}
 
@@ -103,14 +103,14 @@ public class BookLibraryControllerTest {
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
-    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_SORT), "bookName");
+    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_SORT), "book.PROVIEW_DISPLAY_NAME");
     	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
     	
     	// Mock page 3
     	long expectedBookCount = 61;
-    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 3, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
-    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn(expectedBookCount);
-    	EasyMock.replay(mockLibraryService);
+    	EasyMock.expect(mockLibraryListService.findBookDefinitions("book.PROVIEW_DISPLAY_NAME", true, 3, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
+    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn(expectedBookCount);
+    	EasyMock.replay(mockLibraryListService);
     	
     	ModelAndView mav;
 		try {
@@ -131,7 +131,7 @@ public class BookLibraryControllerTest {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-        EasyMock.verify(mockLibraryService);
+        EasyMock.verify(mockLibraryListService);
 	}
 	
 	/**
@@ -202,14 +202,14 @@ public class BookLibraryControllerTest {
     	request.setParameter("command", Command.GENERATE.toString());
     	request.setParameter("isAscending", "true");
     	request.setParameter("page", "1");
-    	request.setParameter("sort", "bookName");
+    	request.setParameter("sort", "book.PROVIEW_DISPLAY_NAME");
     	
     	String[] selectedEbookKeys = {};
     	request.setParameter("selectedEbookKeys", selectedEbookKeys);
     	
-    	EasyMock.expect(mockLibraryService.getBooksOnPage("bookName", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<BookDefinitionVdo>());
-    	EasyMock.expect(mockLibraryService.getTotalBookCount()).andReturn((long) 1);
-    	EasyMock.replay(mockLibraryService);
+    	EasyMock.expect(mockLibraryListService.findBookDefinitions("book.PROVIEW_DISPLAY_NAME", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
+    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn((long) 1);
+    	EasyMock.replay(mockLibraryListService);
     	
     	ModelAndView mav;
 		try {
@@ -229,7 +229,7 @@ public class BookLibraryControllerTest {
 			Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
 			assertEquals(totalBookCount, Long.valueOf(1));
 	        
-	        EasyMock.verify(mockLibraryService);
+	        EasyMock.verify(mockLibraryListService);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -65,6 +65,10 @@
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
 	
+	<bean id="authorDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.AuthorDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+	
 	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"/>
 		  
@@ -75,6 +79,9 @@
 	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
+	
+	<bean id="libraryListDao" class="com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDaoImpl"
+		  p:jdbcTemplate-ref="jdbcTemplate"/>
 	
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		<constructor-arg ref="sessionFactory" />

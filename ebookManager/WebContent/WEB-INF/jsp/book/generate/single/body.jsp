@@ -154,7 +154,7 @@
 		  </div>	
 		</table>
 		<br/>
-		<input id="generateButton" type="button" value="Generate" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${generateButtonVisibility} />
+		<input id="generateButton" type="button" value="Generate" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${buttonVisibility} />
 		<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		
