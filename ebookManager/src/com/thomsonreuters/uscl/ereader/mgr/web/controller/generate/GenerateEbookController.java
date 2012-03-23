@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.security.Security.SecurityRole;
 
 @Controller
 public class GenerateEbookController {
@@ -35,8 +36,7 @@ public class GenerateEbookController {
 	private ProviewClient proviewClient;
 	private JobRequestService jobRequestService;
 
-	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			"MM/dd/yyyy");
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(WebConstants.DATE_FORMAT_PATTERN);
 	String newMajorVersion;
 	String newMinorVersion;
 	String currentVersion;
@@ -124,7 +124,7 @@ public class GenerateEbookController {
 		}
 
 		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
-				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
+				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:security="http://www.springframework.org/schema/security"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	   					   http://www.springframework.org/schema/security 
+	   					   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+<!--
+	Secure specific URL's within the application allowing only user's in certain roles to access the protected resource/URL.
+	Assumes the inclusion of the shared cas-security.xml bean file into the Spring application context.
+-->
+	<security:http entry-point-ref="casAuthenticationEntryPoint" access-denied-page="/accessDenied.mvc" use-expressions="true">
+   		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
+   		
+		<security:intercept-url pattern="/jobSummaryJobOperation.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/jobExecutionJobStop.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/jobExecutionJobRestart.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionCreate.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionEdit.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
+		
+
+		<!-- Catch-all for all other URL's (must be authenticated into one of the acceptable roles) -->
+		<security:intercept-url pattern="/*" access="hasAnyRole('ROLE_GUEST,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER,ROLE_SUPPORT')
+
+or isAuthenticated()"/>	<!-- TODO: DELETE THIS clause FOR PRODUCTION DEPLOYMENT (and close off above intercept-url element) -->
+	
+		<!-- Logout -->
+		<security:logout logout-success-url="/afterLogout.mvc"/>	<!-- where to go after you logout -->
+					
+	</security:http>
+
+</beans>

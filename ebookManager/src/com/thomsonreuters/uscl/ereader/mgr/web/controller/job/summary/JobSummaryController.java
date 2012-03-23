@@ -192,6 +192,8 @@ public class JobSummaryController extends BaseJobSummaryController {
 		String messageText = messageSourceAccessor.getMessage("job.operation.fail", args);
 		return new InfoMessage(Type.ERROR, messageText);
 	}
+	
+
 
 	@Required
 	public void setManagerService(ManagerService service) {

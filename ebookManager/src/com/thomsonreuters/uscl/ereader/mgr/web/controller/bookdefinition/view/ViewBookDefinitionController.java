@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.Security.SecurityRole;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.security.Security.SecurityRole;
 
 @Controller
 public class ViewBookDefinitionController {
@@ -47,10 +47,10 @@ public class ViewBookDefinitionController {
 		if(bookDef != null){
 			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 		}
-		SecurityRole[] roles = {SecurityRole.ROLE_DEVELOPER, SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER};
+		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER};
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
-				UserUtils.isInRole(roles) 
+				UserUtils.isUserInRole(roles) 
 					? "" : "disabled=\"disabled\"");
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}

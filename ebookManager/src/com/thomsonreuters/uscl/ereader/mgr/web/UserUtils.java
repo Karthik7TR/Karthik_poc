@@ -13,7 +13,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
-import com.thomsonreuters.uscl.ereader.Security.SecurityRole;
+import com.thomsonreuters.uscl.ereader.security.Security.SecurityRole;
 
 public class UserUtils {
 
@@ -71,21 +71,30 @@ public class UserUtils {
 		}
 		return csv;
 	}
-
-	/**
-	 * Returns true if the currently authenticated user is an application
-	 * super-user.
-	 */
-	public static boolean isSuperUser() {
-		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
-		return (user != null) ? user.isInRole(SecurityRole.ROLE_SUPERUSER
-				.toString()) : false;
-	}
 	
 	/**
-	 * Returns true if the currently authenticated user is in the provided role.
+	 * Returns true if the currently authenticated user can
+	 * stop or restart a batch job.
+	 * @param username the user who wants to stop or restart a job
 	 */
-	public static boolean isInRole(SecurityRole[] roles) {
+	public static boolean isUserAuthorizedToStopOrRestartBatchJob(String username) {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		if (user != null) {
+			return (isUserInRole(SecurityRole.ROLE_SUPERUSER) ||
+					user.getUsername().equalsIgnoreCase(username));
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the currently authenticated user is in the specified role.
+	 */
+	public static boolean isUserInRole(SecurityRole role) {
+		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		return (user != null) ? user.isInRole(role.toString()) : false;
+	}
+	
+	public static boolean isUserInRole(SecurityRole[] roles) {
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		
 		List<String> buffer = new ArrayList<String>();

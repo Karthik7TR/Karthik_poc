@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:security="http://www.springframework.org/schema/security"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	   					   http://www.springframework.org/schema/security 
+	   					   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+<!--
+	Secure specific URL's within the application allowing only user's in certain roles to access the protected resource/URL.
+	Assumes the inclusion of the shared cas-security.xml bean file into the Spring application context.
+-->	
+   	<!-- Access Control - URL/role based -->
+	<security:http entry-point-ref="casAuthenticationEntryPoint" use-expressions="true">
+   		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
+
+		<!-- Secure the REST service URL's used to stop and restart jobs -->
+		<security:intercept-url pattern="/service/stop/job/*" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/service/restart/job/*" access="hasRole('ROLE_SUPERUSER')"/>
+
+		<!-- Catch-all for all other URL's -->
+		<security:intercept-url pattern="/*" access="isAuthenticated()"/>
+					
+	</security:http>
+
+</beans>

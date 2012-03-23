@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
+import com.thomsonreuters.uscl.ereader.security.Security.SecurityRole;
 
 @Controller
 public class BookLibraryController {
@@ -167,7 +168,7 @@ public class BookLibraryController {
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
 		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
-				UserUtils.isSuperUser() ? "" : "disabled=\"disabled\"");
+				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
 		form.setSort(sortBy);
