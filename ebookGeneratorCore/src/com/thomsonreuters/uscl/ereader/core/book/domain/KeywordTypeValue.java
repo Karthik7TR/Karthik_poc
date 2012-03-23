@@ -20,9 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 @Entity
 @Table(schema = "EBOOK", name = "KEYWORD_TYPE_VALUES")
 public class KeywordTypeValue implements Serializable {
@@ -84,7 +81,11 @@ public class KeywordTypeValue implements Serializable {
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 
-		buffer.append("keywordTypeCode=[").append(keywordTypeCode.getName()).append("] ");
+		if(keywordTypeCode != null) {
+			buffer.append("keywordTypeCode=[").append(keywordTypeCode.getName()).append("] ");
+		} else {
+			buffer.append("keywordTypeCode=[").append(keywordTypeCode).append("] ");
+		}
 		buffer.append("KeywordTypeValue=[").append(name).append("] ");
 
 		return buffer.toString();

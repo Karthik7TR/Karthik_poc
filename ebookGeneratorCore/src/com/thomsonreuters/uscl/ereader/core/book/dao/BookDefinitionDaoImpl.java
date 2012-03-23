@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -13,7 +14,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
@@ -77,20 +77,19 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	public BookDefinition saveBookDefinition(BookDefinition eBook) {
 		Session session = sessionFactory.getCurrentSession();
 		
+		eBook.setLastUpdated(new Date());
+		
 		// Attach Publisher Code
 		eBook.setPublisherCodes( (PublisherCode) session.createCriteria(PublisherCode.class)
 		 .add( Restrictions.eq("name", eBook.getPublisherCodes().getName())).uniqueResult());
 		
-		// Attach DocumentTypeCode
-		eBook.setDocumentTypeCodes((DocumentTypeCode) session.get(DocumentTypeCode.class, 
-				eBook.getDocumentTypeCodes().getId()));
-		
-		if(eBook.getEbookDefinitionId() != null) {
-			eBook = (BookDefinition) session.merge(eBook);
-		} else {
-			
+		// Save if book is new
+		if(eBook.getEbookDefinitionId() == null) {
 			session.save(eBook);
-		}
+		} 
+		
+		// attach child objects to book definition
+		eBook = (BookDefinition) session.merge(eBook);
 		session.flush();
 		
 		return eBook;

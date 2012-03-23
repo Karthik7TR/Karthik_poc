@@ -233,9 +233,7 @@ public class EditBookDefinitionController {
 			if(!isPublished) {
 				if(proviewClient.hasTitleIdBeenPublished(bookDef.getFullyQualifiedTitleId())) {
 					// Save new Publish State if Title ID is found in ProView as Final 
-					isPublished = true;
-					bookDef.setPublishedOnceFlag(true);
-					bookDefinitionService.saveBookDefinition(bookDef);
+					bookDefinitionService.updatePublishedStatus(bookDef.getEbookDefinitionId(), true);
 				}
 			}
 		}

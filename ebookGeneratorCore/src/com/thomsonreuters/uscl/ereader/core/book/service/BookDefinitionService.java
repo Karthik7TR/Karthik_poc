@@ -46,6 +46,22 @@ public interface BookDefinitionService {
 	 */
 	public long countNumberOfBookDefinitions();	
 	
+	/**
+	 * Update the published status of the book definition
+	 * 
+	 */
+	public void updatePublishedStatus(Long bookId, boolean isPublishedOnce);
+	
+	/**
+	 * Update the deleted status of the book definition
+	 * 
+	 */
+	public void updateDeletedStatus(Long bookId, boolean isDeleted);
+	
+	/**
+	 * Save or update the book definition
+	 * 
+	 */
 	public BookDefinition saveBookDefinition(BookDefinition eBook);
 
 
