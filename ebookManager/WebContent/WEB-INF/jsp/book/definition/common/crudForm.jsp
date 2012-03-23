@@ -10,7 +10,6 @@
 		// Declare Global Variables
 		var authorIndex = ${numberOfAuthors};
 		var nameIndex = ${numberOfNameLines};
-		var frontMatterIndex = ${numberOfFrontMatters};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -117,22 +116,6 @@
 			nameIndex = nameIndex + 1;
 			
 			textboxHint("nameLine");
-		};
-		
-		// Add another front matter text row
-		var addFrontMatterRow = function() {
-			var appendTxt = "<div class='row'>";
-			appendTxt = appendTxt + "<input id=\"additionalFrontMatter" + frontMatterIndex + ".frontMatterId\" name=\"additionalFrontMatter[" + frontMatterIndex + "].frontMatterId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<textarea class=\"additionalFrontMatterText\" id=\"additionalFrontMatter" + frontMatterIndex + ".additionalFrontMatterText\" name=\"additionalFrontMatter[" + frontMatterIndex + "].additionalFrontMatterText\" title=\"Additional Front Matter Text\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"additionalFrontMatter" + frontMatterIndex + ".sequenceNum\" name=\"additionalFrontMatter[" + frontMatterIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
-			appendTxt = appendTxt + "<span>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
-			appendTxt = appendTxt + "</span>";
-			appendTxt = appendTxt + "</div>";
-			$("#addFrontMatterHere").before(appendTxt);
-			frontMatterIndex = frontMatterIndex + 1;
-			
-			textboxHint("additionalFrontMatter");
 		};
 		
 		var updateTOCorNORT = function(isTOC) {
@@ -554,28 +537,6 @@
 		</c:forEach>
 		<div id="addHere"></div>
 	</div>
-	<div id="additionalFrontMatter" class="row">
-		<form:label path="additionalFrontMatter" class="labelCol">Additional Front Matter</form:label>
-		<input type="button" onclick="addFrontMatterRow();" id="addFrontMatterLine" value="add" />
-		<div class="errorDiv">
-			<form:errors path="additionalFrontMatter" cssClass="errorMessage" />
-		</div>
-		<c:forEach items="${editBookDefinitionForm.additionalFrontMatter}" var="frontMatter" varStatus="aStatus">
-			<div class="row">
-				<form:hidden path="additionalFrontMatter[${aStatus.index}].frontMatterId"/>
-				<form:textarea path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" title="Additional Front Matter Text" class="additionalFrontMatterText"  />
-				<form:input path="additionalFrontMatter[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
-				<span>
-					<input type="button" value="Delete" class="rdelete" />
-				</span>
-				<div class="errorDiv2">
-					<form:errors path="additionalFrontMatter[${aStatus.index}].additionalFrontMatterText" cssClass="errorMessage" />
-					<form:errors path="additionalFrontMatter[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
-				</div>
-			</div>
-		</c:forEach>
-		<div id="addFrontMatterHere"></div>
-	</div> 
 
 	<div class="row">
 		<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>

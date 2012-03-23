@@ -22,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
@@ -138,7 +137,6 @@ public class StatsServiceIntegrationTest {
 		eBook.setLastUpdated(UPDATE_DATE);
 		eBook.setAuthors(new HashSet<Author>());
 		eBook.setEbookNames(new HashSet<EbookName>());
-		eBook.setFrontMatters(new HashSet<FrontMatter>());
 		
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);

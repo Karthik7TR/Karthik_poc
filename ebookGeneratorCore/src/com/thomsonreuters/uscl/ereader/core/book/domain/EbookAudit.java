@@ -722,7 +722,6 @@ public class EbookAudit implements Serializable {
 		setAuthorNamesConcat(concatString(that.getAuthors()));
 		setBookNamesConcat(concatString(that.getEbookNames()));
 		setKeywordsConcat(concatString(that.getKeywordTypeValueses()));
-		setFrontMatterConcat(concatString(that.getFrontMatters()));
 		setAuditNote(note);
 		setAuditType(auditType.toString());
 		setUpdatedBy(user);

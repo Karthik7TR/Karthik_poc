@@ -765,9 +765,7 @@ public class EditBookDefinitionControllerTest {
 	
 	private void checkInitialValuesDynamicContent(Map<String,Object> model) {
         int numAuthors = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_AUTHORS).toString());
-        int numFrontMatter = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS).toString());
         assertEquals(0, numAuthors);
-        assertEquals(0, numFrontMatter);
 	}
 	
 	

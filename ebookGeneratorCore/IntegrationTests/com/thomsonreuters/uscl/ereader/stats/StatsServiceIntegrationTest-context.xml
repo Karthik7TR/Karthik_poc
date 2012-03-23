@@ -52,7 +52,6 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>

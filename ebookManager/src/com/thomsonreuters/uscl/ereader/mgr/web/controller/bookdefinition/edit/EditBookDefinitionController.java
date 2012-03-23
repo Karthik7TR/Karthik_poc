@@ -257,7 +257,6 @@ public class EditBookDefinitionController {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
-		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getAdditionalFrontMatter().size());
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());

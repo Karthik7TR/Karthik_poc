@@ -22,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -140,12 +139,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 		int i = 0;
 		for(EbookName name: form.getNameLines()) {
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_1024});
-			i++;
-		}
-		
-		i = 0;
-		for(FrontMatter frontMatter: form.getAdditionalFrontMatter()) {
-			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, frontMatter.getAdditionalFrontMatterText(), "additionalFrontMatter["+ i +"].additionalFrontMatterText", new Object[] {"Front Matter", MAXIMUM_CHARACTER_1024});
 			i++;
 		}
 		

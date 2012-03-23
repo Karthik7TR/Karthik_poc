@@ -24,7 +24,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -51,7 +50,6 @@ public class EditBookDefinitionForm {
 	private String nortFilterView;
 	private Long contentTypeId;
 	private String isbn;
-	private Collection<FrontMatter> additionalFrontMatter;
 	private String publicationCutoffDate;
 
 	private String publishDateText;
@@ -81,7 +79,6 @@ public class EditBookDefinitionForm {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
-		this.additionalFrontMatter = new AutoPopulatingList<FrontMatter>(FrontMatter.class);
 		this.keywords = new ArrayList<Long>();
 		this.isProviewTableView = false;
 		this.isComplete = false;
@@ -106,7 +103,6 @@ public class EditBookDefinitionForm {
 			this.isbn = book.getIsbn();
 			this.authorInfo = book.getAuthors();
 			this.nameLines = book.getEbookNames();
-			this.additionalFrontMatter = book.getFrontMatters();
 			this.publishDateText = book.getPublishDateText();
 			this.currency = book.getCurrency();
 			this.isTOC = book.getIsTocFlag();
@@ -155,12 +151,7 @@ public class EditBookDefinitionForm {
 			name.setEbookDefinition(book);
 		}
 		book.setEbookNames(ebookNames);
-		
-		Set<FrontMatter> frontMatters = new HashSet<FrontMatter>(additionalFrontMatter);
-		for(FrontMatter frontMatter : frontMatters) {
-			frontMatter.setEbookDefinition(book);
-		}
-		book.setFrontMatters(frontMatters);
+
 		book.setFullyQualifiedTitleId(titleId);
 		book.setIsbn(isbn);
 		book.setIsProviewTableViewFlag(isProviewTableView);
@@ -366,15 +357,6 @@ public class EditBookDefinitionForm {
 		this.isbn = isbn;
 	}
 
-	public Collection<FrontMatter> getAdditionalFrontMatter() {
-		return additionalFrontMatter;
-	}
-
-	public void setAdditionalFrontMatter(
-			Collection<FrontMatter> additionalFrontMatter) {
-		this.additionalFrontMatter = additionalFrontMatter;
-	}
-
 	public String getPublicationCutoffDate() {
 		return publicationCutoffDate;
 	}
@@ -528,14 +510,6 @@ public class EditBookDefinitionForm {
         for (Iterator<EbookName> i = this.nameLines.iterator(); i.hasNext();) {
         	EbookName nameLine = i.next();
             if (nameLine == null || nameLine.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out empty additional front matter
-        for (Iterator<FrontMatter> i = this.additionalFrontMatter.iterator(); i.hasNext();) {
-        	FrontMatter frontMatter = i.next();
-            if (frontMatter == null || frontMatter.isEmpty()) {
                 i.remove();
             }
         }

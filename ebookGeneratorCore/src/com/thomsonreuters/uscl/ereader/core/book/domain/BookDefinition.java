@@ -226,11 +226,6 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
-	@Cascade({CascadeType.ALL})
-	java.util.Set<FrontMatter> frontMatters;
-	/**
-	 */
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "EBOOK_KEYWORDS", schema="EBOOK", joinColumns = { 
 			@JoinColumn(name = "EBOOK_DEFINITION_ID", nullable = false, updatable = false) }, 
@@ -576,21 +571,6 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setFrontMatters(Set<FrontMatter> frontMatters) {
-		this.frontMatters = frontMatters;
-	}
-
-	/**
-	 */
-	public Set<FrontMatter> getFrontMatters() {
-		if (frontMatters == null) {
-			frontMatters = new java.util.LinkedHashSet<FrontMatter>();
-		}
-		return frontMatters;
-	}
-
-	/**
-	 */
 	public void setKeywordTypeValueses(Set<KeywordTypeValue> keywordTypeValueses) {
 		this.keywordTypeValues = keywordTypeValueses;
 	}
@@ -675,7 +655,6 @@ public class BookDefinition implements Serializable {
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
-		setFrontMatters(new java.util.LinkedHashSet<FrontMatter>(that.getFrontMatters()));
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 	}
