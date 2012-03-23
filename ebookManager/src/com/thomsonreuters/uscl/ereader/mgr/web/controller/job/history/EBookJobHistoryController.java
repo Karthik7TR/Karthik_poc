@@ -24,7 +24,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
-public class BookPublishingHistoryController {
+public class EBookJobHistoryController {
 
 	private PublishingStatsService publishingStatsService;
 	private BookDefinitionService bookDefinitionService;
@@ -39,7 +39,7 @@ public class BookPublishingHistoryController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = WebConstants.MVC_BOOK_PUBLISHING_HISTORY, method = RequestMethod.GET)
+	@RequestMapping(value = WebConstants.MVC_BOOK_JOB_HISTORY, method = RequestMethod.GET)
 	public ModelAndView bookPublishingHistory(@RequestParam Long id, Model model)
 			throws Exception {
 
@@ -57,7 +57,7 @@ public class BookPublishingHistoryController {
 
 		}
 
-		return new ModelAndView(WebConstants.VIEW_BOOK_PUBLISHING_HISTORY);
+		return new ModelAndView(WebConstants.VIEW_BOOK_JOB_HISTORY);
 	}
 
 	

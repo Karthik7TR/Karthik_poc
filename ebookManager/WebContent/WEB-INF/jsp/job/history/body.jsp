@@ -12,12 +12,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-Publishing History<br>
-
 
 <%-- Table of job executions for a specific Job name --%>
 	<display:table name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_BOOK_PUBLISHING_HISTORY%>"
+				   requestURI="<%=WebConstants.MVC_BOOK_JOB_HISTORY%>"
 				   pagesize="5"
 				   partialList="true"
 				   size="resultSize"
