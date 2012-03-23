@@ -28,7 +28,9 @@
 	  <display:column title="Date" sortable="true">
 	  	<fmt:formatDate value="${vdo.jobSubmitTimestamp}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
-	  <display:column title="Job ID" property="jobInstanceId" sortable="true"/>
+	  <display:column title="Job Instance ID" sortable="true">
+	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">${vdo.jobInstanceId}</a>
+	  </display:column>
 	  <display:column title="Version" property="bookVersionSubmitted" sortable="true"/>
 	  <display:column title="Status" property="publishStatus" sortable="true"/>
 	  <display:column title="Submitter" property="jobSubmitterName" sortable="true"/>
