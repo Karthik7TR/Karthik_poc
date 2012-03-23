@@ -46,14 +46,13 @@ public class EBookJobHistoryController {
 		BookDefinition book = bookDefinitionService
 				.findBookDefinitionByEbookDefId(id);
 
-		List<PublishingStats> ebookAuditList= publishingStatsService.findPublishingStatsByEbookDef(id);
-
-		if (ebookAuditList != null) {
-
-			
-			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
-			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, ebookAuditList);
-			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, 1);
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
+		
+		
+		List<PublishingStats> ebookPublishingStatsList= publishingStatsService.findPublishingStatsByEbookDef(id);
+		if (ebookPublishingStatsList != null) {
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, ebookPublishingStatsList);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, ebookPublishingStatsList.size());
 
 		}
 

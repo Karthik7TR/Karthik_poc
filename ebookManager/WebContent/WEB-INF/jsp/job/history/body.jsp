@@ -13,22 +13,26 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 
-<%-- Table of job executions for a specific Job name --%>
-	<display:table name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+	<%-- Table of publishing stats for a specific book --%>
+	
+	<c:set var="DATE_FORMAT" value="MMM dd, yyyy"/>
+	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_BOOK_JOB_HISTORY%>"
 				   pagesize="5"
 				   partialList="true"
 				   size="resultSize"
 				   sort="external">
+
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  
-	  <display:column title="Job Instance ID" property="jobInstanceId" sortable="true" style="text-align: left"/>
-	  <display:column title="Audit ID" property="auditId" sortable="true" style="text-align: left"/>
-	  <display:column title="Submit Time" property="jobSubmitTimestamp" sortable="true" style="text-align: left"/>
-	  <display:column title="Submitter" property="jobSubmitterName" sortable="true" style="text-align: left"/>
-	  <display:column title="Submitted Version" property="bookVersionSubmitted" sortable="true" style="text-align: left"/>
-	  <display:column title="Publish Status" property="publishStatus" sortable="true" style="text-align: left"/>
-	  <display:column title="Publish Start Time" property="publishStartTimestamp" sortable="true" style="text-align: left"/>
-	  <display:column title="Publish End Time" property="publishEndTimestamp" sortable="true" style="text-align: left"/>
-	  
+	  <display:column title="Date" sortable="true">
+	  	<fmt:formatDate value="${vdo.jobSubmitTimestamp}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
+	  <display:column title="Job ID" property="jobInstanceId" sortable="true"/>
+	  <display:column title="Version" property="bookVersionSubmitted" sortable="true"/>
+	  <display:column title="Status" property="publishStatus" sortable="true"/>
+	  <display:column title="Submitter" property="jobSubmitterName" sortable="true"/>
+	  <display:column title="Metrics" sortable="false">
+	  	<a href="">View Metrics</a>
+	  </display:column>
 	</display:table>
