@@ -30,9 +30,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
@@ -65,7 +65,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 		jobSummaryForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 		
 		JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
-										 	filterForm.getTitleId(), filterForm.getBookName());
+										 	filterForm.getTitleId(), filterForm.getBookName(), filterForm.getSubmittedBy());
 		JobSort jobSort = createJobSort(savedPageAndSort.getSortProperty(), savedPageAndSort.isAscendingSort());
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
@@ -101,7 +101,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 			pageAndSort.setAscendingSort(form.isAscendingSort());
 			// Fetch the job list model
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
-					 filterForm.getTitleId(), filterForm.getBookName());
+					 filterForm.getTitleId(), filterForm.getBookName(), filterForm.getSubmittedBy());
 			JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}
@@ -120,6 +120,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 							   BindingResult errors,
 							   Model model) {
 		log.debug(form);
+		//if (UserUtils.isUserAuthorizedToStopOrRestartBatchJob(username))
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 
 		if (!errors.hasErrors()) {

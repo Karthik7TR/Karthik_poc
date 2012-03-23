@@ -27,16 +27,18 @@ public class JobFilter {
 	// Book Definition properties
 	private String titleId;
 	private String bookName;
+	private String submittedBy;
 	
 	public JobFilter() {
 		super();
 	}
-	public JobFilter(Date from, Date to, BatchStatus batchStatus, String titleId, String bookName) {
+	public JobFilter(Date from, Date to, BatchStatus batchStatus, String titleId, String bookName, String submittedBy) {
 		this.from = from;
 		this.to = to;
 		this.batchStatus = batchStatus;
 		this.titleId = (titleId != null) ? titleId.trim() : null;
 		this.bookName = (bookName != null) ? bookName.trim() : null;
+		this.submittedBy = (submittedBy != null) ? submittedBy.trim() : null;
 	}
 	
 	/**
@@ -45,7 +47,7 @@ public class JobFilter {
 	 * being filtered on and the DAO needs to know if it should add the join clause to the query.
 	 */
 	public boolean hasAnyBookProperties() {
-		return (StringUtils.isNotBlank(titleId)) || (StringUtils.isNotBlank(bookName));
+		return (StringUtils.isNotBlank(titleId)) || (StringUtils.isNotBlank(bookName) || StringUtils.isNotBlank(submittedBy));
 	}
 	/** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
 	public Date getFrom() {
@@ -81,6 +83,9 @@ public class JobFilter {
 	}
 	public String getBookName() {
 		return bookName;
+	}
+	public String getSubmittedBy() {
+		return submittedBy;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

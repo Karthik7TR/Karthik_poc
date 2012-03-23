@@ -82,13 +82,14 @@ function submitJobSummaryForm(command) {
 	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookDefinitionId}">${job.titleId}</a>
 	  </display:column>
+	  <display:column title="Submitted By" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
+	  <display:column title="Job Status" property="batchStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 	  <display:column title="Inst &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_INSTANCE_ID.toString()%>">
 	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${job.jobInstanceId}">${job.jobInstanceId}</a>
 	  </display:column>
 	  <display:column title="Exec &nbsp;" sortable="true" sortProperty="<%=DisplayTagSortProperty.JOB_EXECUTION_ID.toString()%>">
 		<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecutionId}">${job.jobExecutionId}</a>
 	  </display:column>
-	  <display:column title="Job Status" property="batchStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.BATCH_STATUS.toString()%>"/>
 	  <display:column title="Start Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.START_TIME.toString()%>"><fmt:formatDate value="${job.startTime}" pattern="${DATE_FORMAT}"/></display:column>
 	  <display:column title="Duration" property="duration"/>
 	</display:table>

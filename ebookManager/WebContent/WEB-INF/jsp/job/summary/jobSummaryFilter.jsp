@@ -54,8 +54,9 @@ function submitJobSummaryFilterForm(command) {
 	    <br/>
     </spring:hasBindErrors>
 		   
-	Title ID <form:input path="titleId"/><br/>
 	Book Name <form:input path="bookName"/><br/>
+	Title ID <form:input path="titleId"/><br/>
+	Submitted By <form:input path="submittedBy"/><br/>
 	From Date <form:input id="datepickerFrom" path="fromDateString"/><br/>
 	To Date <form:input id="datepickerTo" path="toDateString"/><br/>
 	Job Status<br/>

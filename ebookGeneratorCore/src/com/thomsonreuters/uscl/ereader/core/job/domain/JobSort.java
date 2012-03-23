@@ -18,7 +18,7 @@ public class JobSort {
 	 * The property names in the entities job execution and book audit tables that are sorted on for presentation.  
 	 */
 	public enum SortProperty { JOB_INSTANCE_ID, JOB_EXECUTION_ID, START_TIME, BATCH_STATUS,	// Job properties so sort on
-							   TITLE_ID, BOOK_NAME };  // Book properties that can be sorted on
+							   TITLE_ID, BOOK_NAME, SUBMITTED_BY };  // Book properties that can be sorted on
 	
 	/** Java bean property on which sorting should occur - entity maps this to the physical database column. */
 	private SortProperty sortProperty;
@@ -49,7 +49,8 @@ public class JobSort {
 	 */
 	public boolean isSortingOnBookProperty() {
 		return (SortProperty.TITLE_ID.equals(sortProperty) ||
-				SortProperty.BOOK_NAME.equals(sortProperty));
+				SortProperty.BOOK_NAME.equals(sortProperty) ||
+				SortProperty.SUBMITTED_BY.equals(sortProperty));
 	}
 	
 	public SortProperty getSortProperty() {

@@ -18,17 +18,19 @@ public class JobSummary {
 	private Long jobInstanceId;
 	private Long jobExecutionId;
 	private BatchStatus batchStatus;
+	private String submittedBy;
 	private Date startTime;
 	private Date endTime;
 
 	public JobSummary(Long bookDefinitionId, String bookName, String titleId, Long jobInstanceId,
-					  Long jobExecutionId, BatchStatus batchStatus, Date startTime, Date endTime) {
+					  Long jobExecutionId, BatchStatus batchStatus, String submittedBy, Date startTime, Date endTime) {
 		this.bookDefinitionId = bookDefinitionId;
 		this.bookName = bookName;
 		this.titleId = titleId;
 		this.jobInstanceId = jobInstanceId;
 		this.jobExecutionId = jobExecutionId;
 		this.batchStatus = batchStatus;
+		this.submittedBy = submittedBy;
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
@@ -98,30 +100,9 @@ public class JobSummary {
 		}
 		return periodString.toString();
 	}
-	
-
-
-//	public void setBookName(String bookName) {
-//		this.bookName = bookName;
-//	}
-//	public void setTitleId(String titleId) {
-//		this.titleId = titleId;
-//	}
-//	public void setJobInstanceId(Long jobInstanceId) {
-//		this.jobInstanceId = jobInstanceId;
-//	}
-//	public void setJobExecutionId(Long jobExecutionId) {
-//		this.jobExecutionId = jobExecutionId;
-//	}
-//	public void setBatchStatus(BatchStatus batchStatus) {
-//		this.batchStatus = batchStatus;
-//	}
-//	public void setStartTime(Date startTime) {
-//		this.startTime = startTime;
-//	}
-//	public void setEndTime(Date endTime) {
-//		this.endTime = endTime;
-//	}
+	public String getSubmittedBy() {
+		return submittedBy;
+	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

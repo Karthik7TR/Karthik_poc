@@ -47,7 +47,7 @@ public class JobServiceIntegrationTest  {
 	
 	//@Test
 	public void testFindJobExecutions() {
-		JobFilter filter = new JobFilter(new Date(System.currentTimeMillis() - 5*24*60*60*1000), null, null, null, null);
+		JobFilter filter = new JobFilter(new Date(System.currentTimeMillis() - 5*24*60*60*1000), null, null, null, null, null);
 		//filter.setTitleId("FRCP");
 		//JobSort sort = new JobSort(SortParmeterKeyName.titleIdFullyQualified, true);
 		JobSort sort = new JobSort(SortProperty.JOB_INSTANCE_ID, false);

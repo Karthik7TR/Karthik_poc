@@ -91,7 +91,7 @@
 	</definition>			
 	<definition name="_jobSummary" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/summary/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/summary/left.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/job/summary/jobSummaryFilter.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/summary/jobSummary.jsp"/>
 	</definition>
 	<definition name="_bookPublishingHistory" extends="standardDefinition">

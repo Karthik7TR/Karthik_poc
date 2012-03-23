@@ -33,7 +33,7 @@ public class JobDaoImpl implements JobDao {
 		List<JobSummary> list = new ArrayList<JobSummary>(jobExecutionIds.size());
 		for (long jobExecutionId : jobExecutionIds) {
 			StringBuffer sql = new StringBuffer("select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
-			sql.append("execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME from \n ");
+			sql.append("execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME from \n ");
 			sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
 			sql.append("where ");
 			sql.append(String.format("(execution.JOB_EXECUTION_ID = %d) and ", jobExecutionId));
@@ -81,6 +81,9 @@ public class JobDaoImpl implements JobDao {
 			if (StringUtils.isNotBlank(filter.getTitleId())) {
 				sql.append(String.format("(auditTable.TITLE_ID like '%%%s%%') and ", filter.getTitleId()));
 			}
+			if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
+				sql.append(String.format("(stats.JOB_SUBMITTER_NAME like '%%%s%%') and ", filter.getSubmittedBy()));
+			}
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
@@ -127,6 +130,8 @@ log.debug("SQL: " + sql.toString());
 				return "auditTable.BOOK_NAMES_CONCAT";
 			case TITLE_ID:
 				return "auditTable.TITLE_ID";
+			case SUBMITTED_BY:
+				return "stats.JOB_SUBMITTER_NAME";
 			default:
 				throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
 		}
@@ -188,9 +193,11 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
 		Long jobExecutionId = resultSet.getLong("JOB_EXECUTION_ID");
 		Long jobInstanceId = resultSet.getLong("JOB_INSTANCE_ID");
 		BatchStatus batchStatus = BatchStatus.valueOf(resultSet.getString("STATUS"));
+		String submittedBy = resultSet.getString("JOB_SUBMITTER_NAME");	// Username of user who started the job
 		Date startTime = resultSet.getTimestamp("START_TIME");
 		Date endTime = resultSet.getTimestamp("END_TIME");
-		JobSummary js = new JobSummary(bookDefinitionId, bookName, titleId, jobInstanceId, jobExecutionId, batchStatus, startTime, endTime);
+		JobSummary js = new JobSummary(bookDefinitionId, bookName, titleId, jobInstanceId, jobExecutionId, batchStatus,
+										submittedBy, startTime, endTime);
 		return js;
 	}
 }

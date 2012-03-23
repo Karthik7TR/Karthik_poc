@@ -30,6 +30,7 @@ public class FilterForm {
 	
 	private String titleId;
 	private String bookName;
+	private String submittedBy;
 	private String fromDateString;
 	private String toDateString;
 	private BatchStatus batchStatus;
@@ -47,12 +48,13 @@ public class FilterForm {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 		String fromDate = parseDate(cal.getTime());
-		populate(null, null, fromDate, null, null);
+		populate(null, null, null, fromDate, null, null);
 	}
 
-	public void populate(String titleId, String bookName, String fromDateString, String toDateString, BatchStatus batchStatus) {
+	public void populate(String titleId, String bookName, String submittedBy, String fromDateString, String toDateString, BatchStatus batchStatus) {
 		this.titleId = titleId;
 		this.bookName = bookName;
+		this.submittedBy = submittedBy;
 		this.fromDateString = fromDateString;
 		this.toDateString = toDateString;
 		this.batchStatus = batchStatus;
@@ -82,6 +84,9 @@ public class FilterForm {
 	public BatchStatus getBatchStatus() {
 		return batchStatus;
 	}
+	public String getSubmittedBy() {
+		return submittedBy;
+	}
 	public void setBookName(String name) {
 		this.bookName = (name != null) ? name.trim() : null;
 	}
@@ -105,6 +110,9 @@ public class FilterForm {
 	}
 	public void setBatchStatus(BatchStatus batchStatus) {
 		this.batchStatus = batchStatus;
+	}
+	public void setSubmittedBy(String username) {
+		this.submittedBy = username;
 	}
 	public static String parseDate(Date date) {
 		if (date != null) {
