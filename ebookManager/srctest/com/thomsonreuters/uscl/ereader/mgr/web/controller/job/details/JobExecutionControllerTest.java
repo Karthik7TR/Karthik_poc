@@ -133,7 +133,7 @@ public class JobExecutionControllerTest {
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);
 		EasyMock.replay(mockMessageSourceAccessor);
 
-		JobExecutionController.handleStopJobOperationResponse(messages, joResp, mockMessageSourceAccessor);
+		JobExecutionController.handleStopJobOperationResponse(messages, ID_TO_STOP, joResp, mockMessageSourceAccessor);
 		verifyOperationResponseHandlerMessages(messages, Type.SUCCESS);
 	}
 	
@@ -147,7 +147,7 @@ public class JobExecutionControllerTest {
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);
 		EasyMock.replay(mockMessageSourceAccessor);
 
-		JobExecutionController.handleStopJobOperationResponse(messages, joResp, mockMessageSourceAccessor);
+		JobExecutionController.handleStopJobOperationResponse(messages, ID_TO_STOP, joResp, mockMessageSourceAccessor);
 		verifyOperationResponseHandlerMessages(messages, Type.FAIL);
 	}
 		

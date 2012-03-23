@@ -136,7 +136,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 				case STOP_JOB:
 					for (Long jobExecutionId : form.getJobExecutionIds()) {
 						JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-						JobExecutionController.handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
+						JobExecutionController.handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 					}
 					break;
 				default:

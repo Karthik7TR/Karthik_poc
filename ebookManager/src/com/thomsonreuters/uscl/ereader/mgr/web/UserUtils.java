@@ -76,16 +76,18 @@ public class UserUtils {
 	/**
 	 * Returns true if the currently authenticated user can
 	 * stop or restart a batch job.
-	 * @param username the user who wants to stop or restart a job, may be null, which will always yield a false return value
+	 * @param username the user who wants to stop or restart a job, may be null
 	 */
 	public static boolean isUserAuthorizedToStopOrRestartBatchJob(String username) {
+		if (isUserInRole(SecurityRole.ROLE_SUPERUSER)) {
+			return true;
+		}
 		if (StringUtils.isBlank(username)) {
 			return false;
 		}
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		if (user != null) {
-			return (isUserInRole(SecurityRole.ROLE_SUPERUSER) ||
-					user.getUsername().equalsIgnoreCase(username));
+			return (user.getUsername().equalsIgnoreCase(username));
 		}
 		return false;
 	}

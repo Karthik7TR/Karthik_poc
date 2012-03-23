@@ -51,6 +51,7 @@ public class JobExecutionController {
 	private static final String CODE_JOB_RESTART_FAIL = "job.restart.fail";
 	private static final String CODE_JOB_STOP_SUCCESS = "job.stop.success";
 	private static final String CODE_JOB_STOP_FAIL = "job.stop.fail";
+	private static final String CODE_JOB_OPERATION_NO_RESPONSE = "job.operation.no.response";
 	
 	private JobService jobService;
 	private ManagerService managerService;
@@ -137,7 +138,7 @@ public class JobExecutionController {
 		if (authorizedForJobOperation(jobExecutionId, "STOP", messages)) {
 			try {
 				JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-				handleStopJobOperationResponse(messages, jobOperationResponse, messageSourceAccessor);
+				handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 				Thread.sleep(1);
 			} catch (HttpClientErrorException e) {
 				log.error("REST error stopping job: " + jobExecutionId, e);
@@ -154,6 +155,13 @@ public class JobExecutionController {
 														 Long jobExecutionIdToRestart,
 														 JobOperationResponse jobOperationResponse,
 														 MessageSourceAccessor messageSourceAccessor) {
+		if (jobOperationResponse == null) {
+			String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE );
+			Object[] args = { jobExecutionIdToRestart.toString(), errorMessage};
+			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
+							messageSourceAccessor.getMessage(CODE_JOB_RESTART_FAIL, args)));
+			return;
+		}
 		String execId = jobOperationResponse.getJobExecutionId().toString();
 		if (jobOperationResponse.isSuccess()) {
 			Object[] args = { jobExecutionIdToRestart.toString(), jobOperationResponse.getJobExecutionId().toString() };
@@ -168,8 +176,16 @@ public class JobExecutionController {
 
 
 	public static void handleStopJobOperationResponse(List<InfoMessage> messages,
+			 										  Long jobExecutionIdToStop,
 													  JobOperationResponse jobOperationResponse,
 													  MessageSourceAccessor messageSourceAccessor) {
+		if (jobOperationResponse == null) {
+			String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE );
+			Object[] args = { jobExecutionIdToStop.toString(), errorMessage};
+			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
+							messageSourceAccessor.getMessage(CODE_JOB_STOP_FAIL, args)));
+			return;
+		}
 		String execId = jobOperationResponse.getJobExecutionId().toString();
 		if (jobOperationResponse.isSuccess()) {
 			Object[] args = { execId };
