@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class JobExecutionControllerTest {
@@ -69,14 +70,16 @@ public class JobExecutionControllerTest {
      * Test the inbound GET to the page
      */
 	@Test
-	public void testDisplayJobExecutionDetailsGet() throws Exception {
+	public void testJobExecutionDetailsInboundGet() throws Exception {
     	// Set up the request URL
     	request.setRequestURI(String.format("/"+WebConstants.MVC_JOB_EXECUTION_DETAILS));
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, JEID.toString());
     	request.setMethod(HttpMethod.GET.name());
+    	PublishingStats bogusStats = new PublishingStats();
     	
     	EasyMock.expect(mockJobService.findJobExecution(JEID)).andReturn(JOB_EXECUTION);
     	EasyMock.expect(mockPublishingStatsService.findAuditInfoByJobId(JOB_EXECUTION.getJobId())).andReturn(mockJobInstanceBookInfo);
+    	EasyMock.expect(mockPublishingStatsService.findPublishingStatsByJobId((JOB_INSTANCE.getId()))).andReturn(bogusStats);
     	EasyMock.replay(mockJobService);
     	EasyMock.replay(mockPublishingStatsService);
     	
@@ -88,7 +91,7 @@ public class JobExecutionControllerTest {
     	Assert.assertNotNull(job);
     	Assert.assertEquals(JOB_EXECUTION, job.getJobExecution());
     	Assert.assertEquals(mockJobInstanceBookInfo, job.getBookInfo());
-    	Assert.assertNotNull(model.get(WebConstants.KEY_JOB_EXECUTION));
+    	Assert.assertEquals(bogusStats, job.getPublishingStats());
     	
     	EasyMock.verify(mockJobService);
 	}

@@ -68,16 +68,16 @@
 
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
 	
-	<%-- Only a user in the superuser role can stop or restart a job --%>
+	<%-- Only a user in the starting user or a superuser role can stop or restart a job --%>
 	<c:set var="operationsDisabled" value="disabled"/>
-	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+	<c:if test="${job.userAllowedToStopAndRestartJob}">
 		<c:set var="operationsDisabled" value=""/>
-	</sec:authorize>
+	</c:if>
 	
 	<%--
 		Ensure we are working with a valid JobExecution.  We may not be if they entered an execution ID that was not found.
 	 --%>
-	<c:if test="${jobExecution != null}">
+	<c:if test="${job.jobExecution != null}">
 	
 <%-- Execution statistics --%>	
 	<div id="statsDiv">
@@ -90,45 +90,49 @@
 		<td>Title ID</td>
 		<td colspan="3">${job.bookInfo.titleId}</td>
 	</tr>
+		<tr>
+		<td>Submitted By</td>
+		<td colspan="3">${job.publishingStats.jobSubmitterName}</td>
+	</tr>
 	<tr>
 		<td>Job Instance</td>
 		<td style="padding-right:120px">
-			<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}">${jobExecution.jobInstance.id}</a>
+			<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${job.jobExecution.jobInstance.id}">${job.jobExecution.jobInstance.id}</a>
 		</td>
 		<td style="padding-right:30px;">Create Time</td>
-		<td><fmt:formatDate value="${jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
+		<td><fmt:formatDate value="${job.jobExecution.createTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
 		<td>Job Execution</td>
-		<td>${jobExecution.id}</td>
+		<td>${job.jobExecution.id}</td>
 		<td>Start Time</td>
-		<td><fmt:formatDate value="${jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
+		<td><fmt:formatDate value="${job.jobExecution.startTime}" pattern="${DATE_FORMAT}"/></td>
 	<tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>End Time</td>
-		<td><fmt:formatDate value="${jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
+		<td><fmt:formatDate value="${job.jobExecution.endTime}" pattern="${DATE_FORMAT}"/></td>
 	</tr>
 	<tr>
 		<td>Running</td>
-		<td>${jobExecution.running}</td>
+		<td>${job.jobExecution.running}</td>
 		<td>Duration</td>
 		<td>${job.duration}</td>
 	</tr>
 	<tr>
 		<td>Job Status</td>
-		<td>${jobExecution.status}</td>
+		<td>${job.jobExecution.status}</td>
 		<c:choose>
-		<c:when test="${job.restartable}">
+		<c:when test="${job.jobRestartable}">
 		<td><input type="button" value="Restart" ${operationsDisabled}
-  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
-  		<c:when test="${job.stoppable}">
+  		<c:when test="${job.jobStoppable}">
 		<td><input type="button" value="Stop" ${operationsDisabled}
-  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}'"/> &nbsp;
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecution.id}'"/> &nbsp;
   		</td>
   		<td>&nbsp;</td>
   		</c:when>
@@ -159,7 +163,7 @@
 	  		<display:setProperty name="basic.msg.empty_list">No job steps were found.</display:setProperty>
 	  		<display:column title="Step Name" property="stepName" style="text-align:left"/>
 	  		<display:column title="Step ID">
-	  			<a href="<%=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${jobExecution.jobInstance.id}&<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${jobExecution.id}&<%=WebConstants.KEY_JOB_STEP_EXECUTION_ID%>=${step.id}">${step.id}</a>
+	  			<a href="<%=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${job.jobExecution.jobInstance.id}&<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecution.id}&<%=WebConstants.KEY_JOB_STEP_EXECUTION_ID%>=${step.id}">${step.id}</a>
 	  		</display:column>
 	  		<display:column title="Exit Code" property="exitStatus.exitCode"/>
 	  		<display:column title="Start Time"><fmt:formatDate value="${step.startTime}" pattern="${DATE_FORMAT}"/></display:column>

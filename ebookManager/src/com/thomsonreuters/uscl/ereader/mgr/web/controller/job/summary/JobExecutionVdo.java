@@ -23,6 +23,8 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 /**
  * A View Data Object (VDO) wrapper around a Spring Batch JobExecution object (Decorator/VDO patterns).
@@ -37,21 +39,30 @@ public class JobExecutionVdo {
 	
 	private JobExecution jobExecution;
 	private EbookAudit bookInfo;
+	private PublishingStats stats;
+	
+	public JobExecutionVdo() {
+		super();
+	}
 	/**
 	 * @param jobExecution the Spring Batch job execution object.
 	 * May be null, but no null checks are made in the convenience methods that use it so clients must first check
 	 * that the jobExecution property is not null.
 	 * @param bookInfo book data needed for presentation that is associated with this instance.
 	 */
-	public JobExecutionVdo(JobExecution jobExecution, EbookAudit bookInfo) {
+	public JobExecutionVdo(JobExecution jobExecution, EbookAudit bookInfo, PublishingStats stats) {
 		this.jobExecution = jobExecution;
 		this.bookInfo = bookInfo;
+		this.stats = stats;
 	}
 	public JobExecution getJobExecution() {
 		return jobExecution;
 	}
 	public EbookAudit getBookInfo() {
 		return bookInfo;
+	}
+	public PublishingStats getPublishingStats() {
+		return stats;
 	}
 	/**
 	 * Get the job execution steps in descending start time order.
@@ -64,17 +75,31 @@ public class JobExecutionVdo {
 	}
 	
 	/**
-	 * Used to determine if the "Restart" button should be displayed on the details page.
-	 * @return true if the job is restartable by verifying the Spring Batch rules.
+	 * Returns true if the Spring Batch job is restartable per Spring Batch rules.
+	 * Used to determine if the job "Restart" button should be displayed.
 	 */
-	public boolean isRestartable() {
+	public boolean isJobRestartable() {
 		BatchStatus batchStatus = jobExecution.getStatus();
 		return ((BatchStatus.STOPPED == batchStatus) ||
 				(BatchStatus.FAILED == batchStatus));
 	}
 	
-	public boolean isStoppable() {
+	/**
+	 * Returns true if the Spring Batch job is stoppable per Spring Batch rules.
+	 * Used to determine if the job "Stop" button should be displayed.
+	 */
+	public boolean isJobStoppable() {
 		return (BatchStatus.STARTED == jobExecution.getStatus());
+	}
+
+	/**
+	 * Returns true if the user is a SUPERUSER or the user who launched the job in the first place
+	 * which means that they can stop or restart it.
+	 */
+	public boolean isUserAllowedToStopAndRestartJob() {
+		PublishingStats stats = getPublishingStats();
+		String submittedBy = (stats != null) ? stats.getJobSubmitterName() : null;
+		return UserUtils.isUserAuthorizedToStopOrRestartBatchJob(submittedBy);
 	}
 	
 	public String getDuration() {

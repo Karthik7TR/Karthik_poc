@@ -24,9 +24,10 @@
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<entry key="P-West-LEGO_Guest_DEV" 			value="ROLE_GUEST"/>		<!-- g035050 -->
 	<entry key="P-West-LEGO_PrintPublisher_DEV" value="ROLE_PUBLISHER"/>	<!-- g035049 -->
-	<entry key="P-West-LEGO_PrintPublisher_DEV" value="ROLE_PUBLISHER_PLUS"/>	<!-- g035049 -->
+	<entry key="P-West-LEGO_GeneralUser_DEV" 	value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
 	<entry key="P-West-LEGO_Manager_DEV" 		value="ROLE_SUPERUSER"/>	<!-- g035044 -->
 	<entry key="P-West-LEGO_IndexUser_DEV" 		value="ROLE_SUPPORT"/>		<!-- g035043 -->
+	<entry key="P-West-LEGO_GeneralUser_DEV"	value="ROLE_SUPPORT"/>
 <!-- ^^^ TESTING ONLY ^^^^ -->
 
     </util:map>

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
@@ -75,9 +76,12 @@ public class UserUtils {
 	/**
 	 * Returns true if the currently authenticated user can
 	 * stop or restart a batch job.
-	 * @param username the user who wants to stop or restart a job
+	 * @param username the user who wants to stop or restart a job, may be null, which will always yield a false return value
 	 */
 	public static boolean isUserAuthorizedToStopOrRestartBatchJob(String username) {
+		if (StringUtils.isBlank(username)) {
+			return false;
+		}
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
 		if (user != null) {
 			return (isUserInRole(SecurityRole.ROLE_SUPERUSER) ||

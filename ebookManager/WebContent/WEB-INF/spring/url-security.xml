@@ -15,9 +15,11 @@
 	<security:http entry-point-ref="casAuthenticationEntryPoint" access-denied-page="/accessDenied.mvc" use-expressions="true">
    		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
    		
+<!-- a USERUSER | user who started job is allowed this action 
 		<security:intercept-url pattern="/jobSummaryJobOperation.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/jobExecutionJobStop.mvc" access="hasRole('ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/jobExecutionJobRestart.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+-->   		
 		<security:intercept-url pattern="/bookDefinitionCreate.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/bookDefinitionEdit.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
 		<security:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER')"/>
