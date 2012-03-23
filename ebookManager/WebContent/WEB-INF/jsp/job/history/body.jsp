@@ -21,7 +21,7 @@
 				   pagesize="5"
 				   partialList="true"
 				   size="resultSize"
-				   sort="external">
+				   >
 
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  
