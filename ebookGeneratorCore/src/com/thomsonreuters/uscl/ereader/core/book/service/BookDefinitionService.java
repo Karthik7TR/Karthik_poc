@@ -46,7 +46,7 @@ public interface BookDefinitionService {
 	 */
 	public long countNumberOfBookDefinitions();	
 	
-	public void saveBookDefinition(BookDefinition eBook);
+	public BookDefinition saveBookDefinition(BookDefinition eBook);
 
 
 }

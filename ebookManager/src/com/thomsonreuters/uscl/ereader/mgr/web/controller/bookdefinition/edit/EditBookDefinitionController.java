@@ -85,7 +85,7 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			bookDefinitionService.saveBookDefinition(book);
+			book = bookDefinitionService.saveBookDefinition(book);
 			
 			// Save in Audit
 			EbookAudit audit = new EbookAudit();
@@ -137,7 +137,7 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			bookDefinitionService.saveBookDefinition(book);
+			book = bookDefinitionService.saveBookDefinition(book);
 			
 			// Save in Audit
 			EbookAudit audit = new EbookAudit();
@@ -193,7 +193,7 @@ public class EditBookDefinitionController {
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
-			bookDefinitionService.saveBookDefinition(book);
+			book = bookDefinitionService.saveBookDefinition(book);
 			
 			// Save in Audit
 			EbookAudit audit = new EbookAudit();

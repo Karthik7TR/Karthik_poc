@@ -43,10 +43,11 @@ public class BookDefinitionServiceTest  {
 	@Test
 	public void testSaveBookDefinition() {
 		EasyMock.expect(bookDefinitionDao.findBookDefinitionByTitle(BOOK_KEY)).andReturn(expectedBookDefinition);
-		bookDefinitionDao.saveBookDefinition(expectedBookDefinition);
+		EasyMock.expect(bookDefinitionDao.saveBookDefinition(expectedBookDefinition)).andReturn(expectedBookDefinition);
 		EasyMock.replay(bookDefinitionDao);
 		
-		service.saveBookDefinition(expectedBookDefinition);
+		BookDefinition book = service.saveBookDefinition(expectedBookDefinition);
+		Assert.assertEquals(expectedBookDefinition, book);
 		EasyMock.verify(bookDefinitionDao);
 	}
 }

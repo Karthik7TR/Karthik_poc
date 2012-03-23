@@ -59,9 +59,9 @@ public interface BookDefinitionDao {
 	/**
 	 * Saves a book definitions.
 	 * @param a Book definition
-	 * @return void
+	 * @return BookDefinition
 	 */
 
-	public void saveBookDefinition(BookDefinition eBook);
+	public BookDefinition saveBookDefinition(BookDefinition eBook);
 
 }

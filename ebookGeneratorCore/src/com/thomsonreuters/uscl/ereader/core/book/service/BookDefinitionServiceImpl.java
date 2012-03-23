@@ -72,7 +72,7 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 	 * 
 	 */
 	@Transactional
-	public void saveBookDefinition(BookDefinition eBook) {
+	public BookDefinition saveBookDefinition(BookDefinition eBook) {
 		BookDefinition existingBook = bookDefinitionDao.findBookDefinitionByTitle(eBook.getFullyQualifiedTitleId());
 		
 		if(existingBook != null) {
@@ -84,7 +84,9 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 		// Update Date
 		eBook.setLastUpdated(new Date());
 		
-		bookDefinitionDao.saveBookDefinition(eBook);
+		eBook = bookDefinitionDao.saveBookDefinition(eBook);
+		
+		return eBook;
 	}
 	
 }

@@ -138,15 +138,6 @@ public class FrontMatter implements Serializable {
 		return buffer.toString();
 	}
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((frontMatterId == null) ? 0 : frontMatterId.hashCode()));
-		return result;
-	}
 	
 	/**
 	 */
@@ -154,19 +145,55 @@ public class FrontMatter implements Serializable {
 		return StringUtils.isBlank(this.additionalFrontMatterText) & this.sequenceNum == null;
 	}
 
-	/**
-	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((additionalFrontMatterText == null) ? 0
+						: additionalFrontMatterText.hashCode());
+		result = prime * result
+				+ ((ebookDefinition == null) ? 0 : ebookDefinition.hashCode());
+		result = prime * result
+				+ ((frontMatterId == null) ? 0 : frontMatterId.hashCode());
+		result = prime * result
+				+ ((sequenceNum == null) ? 0 : sequenceNum.hashCode());
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (this == obj)
 			return true;
-		if (!(obj instanceof FrontMatter))
+		if (obj == null)
 			return false;
-		FrontMatter equalCheck = (FrontMatter) obj;
-		if ((frontMatterId == null && equalCheck.frontMatterId != null) || (frontMatterId != null && equalCheck.frontMatterId == null))
+		if (getClass() != obj.getClass())
 			return false;
-		if (frontMatterId != null && !frontMatterId.equals(equalCheck.frontMatterId))
+		FrontMatter other = (FrontMatter) obj;
+		if (additionalFrontMatterText == null) {
+			if (other.additionalFrontMatterText != null)
+				return false;
+		} else if (!additionalFrontMatterText
+				.equals(other.additionalFrontMatterText))
+			return false;
+		if (ebookDefinition == null) {
+			if (other.ebookDefinition != null)
+				return false;
+		} else if (!ebookDefinition.equals(other.ebookDefinition))
+			return false;
+		if (frontMatterId == null) {
+			if (other.frontMatterId != null)
+				return false;
+		} else if (!frontMatterId.equals(other.frontMatterId))
+			return false;
+		if (sequenceNum == null) {
+			if (other.sequenceNum != null)
+				return false;
+		} else if (!sequenceNum.equals(other.sequenceNum))
 			return false;
 		return true;
 	}
+
+
 }

@@ -20,6 +20,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
+//import org.apache.log4j.Logger;
+
 
 /**
  */
@@ -29,7 +32,9 @@ import javax.persistence.Transient;
 	@NamedQuery(name = "findEbookAuditByPrimaryKey", query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId") })
 @Table(schema = "EBOOK", name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
+	//private static final Logger log = Logger.getLogger(EbookAudit.class);
 	private static final long serialVersionUID = 1L;
+	private static final int MAX_CHARACTER_CONCAT = 1024;
 	public static enum AUDIT_TYPE {DELETE, CREATE, EDIT};
 
 	/**
@@ -689,7 +694,7 @@ public class EbookAudit implements Serializable {
 	@Transient
 	public void loadBookDefinition(BookDefinition that, AUDIT_TYPE auditType, String user, String note) {
 		setEbookDefinitionId(that.getEbookDefinitionId());
-		setTitleId(that.getTitleId());
+		setTitleId(that.getFullyQualifiedTitleId());
 		setProviewDisplayName(that.getProviewDisplayName());
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
@@ -733,7 +738,7 @@ public class EbookAudit implements Serializable {
 			buffer.append(", ");
 		}
 		
-		return buffer.toString();
+		return StringUtils.abbreviate(buffer.toString(), MAX_CHARACTER_CONCAT);
 	}
 
 	/**

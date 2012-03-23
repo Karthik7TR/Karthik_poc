@@ -243,30 +243,83 @@ public class Author implements Serializable {
 		return getFullName();
 	}
 
-	/**
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) (prime * result + ((authorId == null) ? 0 : authorId.hashCode()));
+		result = prime * result
+				+ ((authorAddlText == null) ? 0 : authorAddlText.hashCode());
+		result = prime * result
+				+ ((authorFirstName == null) ? 0 : authorFirstName.hashCode());
+		result = prime * result
+				+ ((authorId == null) ? 0 : authorId.hashCode());
+		result = prime * result
+				+ ((authorLastName == null) ? 0 : authorLastName.hashCode());
+		result = prime
+				* result
+				+ ((authorMiddleName == null) ? 0 : authorMiddleName.hashCode());
+		result = prime
+				* result
+				+ ((authorNamePrefix == null) ? 0 : authorNamePrefix.hashCode());
+		result = prime
+				* result
+				+ ((authorNameSuffix == null) ? 0 : authorNameSuffix.hashCode());
+		result = prime * result
+				+ ((ebookDefinition == null) ? 0 : ebookDefinition.hashCode());
 		return result;
 	}
 
-	/**
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (this == obj)
 			return true;
-		if (!(obj instanceof Author))
+		if (obj == null)
 			return false;
-		Author equalCheck = (Author) obj;
-		if ((authorId == null && equalCheck.authorId != null) || (authorId != null && equalCheck.authorId == null))
+		if (getClass() != obj.getClass())
 			return false;
-		if (authorId != null && !authorId.equals(equalCheck.authorId))
+		Author other = (Author) obj;
+		if (authorAddlText == null) {
+			if (other.authorAddlText != null)
+				return false;
+		} else if (!authorAddlText.equals(other.authorAddlText))
+			return false;
+		if (authorFirstName == null) {
+			if (other.authorFirstName != null)
+				return false;
+		} else if (!authorFirstName.equals(other.authorFirstName))
+			return false;
+		if (authorId == null) {
+			if (other.authorId != null)
+				return false;
+		} else if (!authorId.equals(other.authorId))
+			return false;
+		if (authorLastName == null) {
+			if (other.authorLastName != null)
+				return false;
+		} else if (!authorLastName.equals(other.authorLastName))
+			return false;
+		if (authorMiddleName == null) {
+			if (other.authorMiddleName != null)
+				return false;
+		} else if (!authorMiddleName.equals(other.authorMiddleName))
+			return false;
+		if (authorNamePrefix == null) {
+			if (other.authorNamePrefix != null)
+				return false;
+		} else if (!authorNamePrefix.equals(other.authorNamePrefix))
+			return false;
+		if (authorNameSuffix == null) {
+			if (other.authorNameSuffix != null)
+				return false;
+		} else if (!authorNameSuffix.equals(other.authorNameSuffix))
+			return false;
+		if (ebookDefinition == null) {
+			if (other.ebookDefinition != null)
+				return false;
+		} else if (!ebookDefinition.equals(other.ebookDefinition))
 			return false;
 		return true;
 	}
+
 	
 }

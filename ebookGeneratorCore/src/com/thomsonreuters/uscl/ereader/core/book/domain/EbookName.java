@@ -128,28 +128,49 @@ public class EbookName implements Serializable {
 		return StringUtils.isBlank(this.bookNameText) & this.sequenceNum == null;
 	}
 
-	/**
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) (prime * result + ((ebookNameId == null) ? 0 : ebookNameId.hashCode()));
+		result = prime * result
+				+ ((bookNameText == null) ? 0 : bookNameText.hashCode());
+		result = prime * result
+				+ ((ebookDefinition == null) ? 0 : ebookDefinition.hashCode());
+		result = prime * result
+				+ ((ebookNameId == null) ? 0 : ebookNameId.hashCode());
+		result = prime * result
+				+ ((sequenceNum == null) ? 0 : sequenceNum.hashCode());
 		return result;
 	}
 
-	/**
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (this == obj)
 			return true;
-		if (!(obj instanceof EbookName))
+		if (obj == null)
 			return false;
-		EbookName equalCheck = (EbookName) obj;
-		if ((ebookNameId == null && equalCheck.ebookNameId != null) || (ebookNameId != null && equalCheck.ebookNameId == null))
+		if (getClass() != obj.getClass())
 			return false;
-		if (ebookNameId != null && !ebookNameId.equals(equalCheck.ebookNameId))
+		EbookName other = (EbookName) obj;
+		if (bookNameText == null) {
+			if (other.bookNameText != null)
+				return false;
+		} else if (!bookNameText.equals(other.bookNameText))
+			return false;
+		if (ebookDefinition == null) {
+			if (other.ebookDefinition != null)
+				return false;
+		} else if (!ebookDefinition.equals(other.ebookDefinition))
+			return false;
+		if (ebookNameId == null) {
+			if (other.ebookNameId != null)
+				return false;
+		} else if (!ebookNameId.equals(other.ebookNameId))
+			return false;
+		if (sequenceNum == null) {
+			if (other.sequenceNum != null)
+				return false;
+		} else if (!sequenceNum.equals(other.sequenceNum))
 			return false;
 		return true;
 	}

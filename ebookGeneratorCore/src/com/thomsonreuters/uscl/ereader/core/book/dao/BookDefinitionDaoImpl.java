@@ -74,7 +74,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	}
 
 	@Override
-	public void saveBookDefinition(BookDefinition eBook) {
+	public BookDefinition saveBookDefinition(BookDefinition eBook) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		// Attach Publisher Code
@@ -92,7 +92,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 			session.save(eBook);
 		}
 		session.flush();
+		
+		return eBook;
 	}
-
-
 }

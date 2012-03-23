@@ -82,8 +82,12 @@ public class KeywordTypeValue implements Serializable {
 
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append("keywordTypeCode=[").append(keywordTypeCode.getName()).append("] ");
+		buffer.append("KeywordTypeValue=[").append(name).append("] ");
+
+		return buffer.toString();
 	}
 	
 	@Override

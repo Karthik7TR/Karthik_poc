@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -57,6 +58,7 @@ public class EditBookDefinitionControllerTest {
     
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
+    private PublisherCode publisherCode;
     
 	@Before
 	public void setUp() throws Exception {
@@ -95,6 +97,10 @@ public class EditBookDefinitionControllerTest {
     	documentTypeCode.setId(Long.parseLong("1"));
     	documentTypeCode.setAbbreviation(WebConstants.KEY_ANALYTICAL_ABBR);
     	documentTypeCode.setName(WebConstants.KEY_ANALYTICAL);
+    	
+    	publisherCode = new PublisherCode();
+    	publisherCode.setId(1L);
+    	publisherCode.setName("uscl");
     	
     	EasyMock.expect(mockEditBookDefinitionService.getStates()).andReturn(null);
     	EasyMock.expect(mockEditBookDefinitionService.getDocumentTypes()).andReturn(null);
@@ -171,14 +177,16 @@ public class EditBookDefinitionControllerTest {
      */
 	@Test
 	public void testCreateBookDefintionPostIncompleteSuccess() {
+		String titleId = "uscl/an/abcd";
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_CREATE);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("contentTypeId", "1");
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
-    	request.setParameter("titleId", "uscl/an/abcd");
+    	request.setParameter("titleId", titleId);
 
-    	mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
+    	BookDefinition expectedBook = createBookDef(titleId);
+    	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(expectedBook);
     	setupMockServices(null, 1);
     	
     	mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
@@ -260,13 +268,14 @@ public class EditBookDefinitionControllerTest {
      */
 	@Test
 	public void testCreateBookDefintionPostCompleteStateSuccess() {
+		String titleId = "uscl/an/abcd";
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_CREATE);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("contentTypeId", "1");
     	request.setParameter("ProviewDisplayName", "Name in Proview");
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
-    	request.setParameter("titleId", "uscl/an/abcd");
+    	request.setParameter("titleId", titleId);
     	request.setParameter("nameLines[0].bookNameText", "title name");
     	request.setParameter("nameLines[0].sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
@@ -278,7 +287,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("isComplete", "true");
     	request.setParameter("validateForm", "false");
 
-    	mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
+    	BookDefinition expectedBook = createBookDef(titleId);
+    	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(expectedBook);
     	setupMockServices(null, 1);
     	
     	mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
@@ -409,7 +419,7 @@ public class EditBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	
     	BookDefinition book = createBookDef(fullyQualifiedTitleId);
-    	mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
+    	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(book);
     	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
     	EasyMock.replay(mockBookDefinitionService);
     	
@@ -589,14 +599,17 @@ public class EditBookDefinitionControllerTest {
      */
 	@Test
 	public void testCopyBookDefintionPostIncompleteSuccess() {
+		String titleId = "uscl/an/abcd";
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_COPY);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("contentTypeId", "1");
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
-    	request.setParameter("titleId", "uscl/an/abcd");
+    	request.setParameter("titleId", titleId);
 
-    	mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
+    	
+    	BookDefinition expectedBook = createBookDef(titleId);
+    	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(expectedBook);
     	setupMockServices(null, 1);
     	
     	mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
@@ -677,13 +690,14 @@ public class EditBookDefinitionControllerTest {
      */
 	@Test
 	public void testCopyBookDefintionPostCompleteStateSuccess() {
+		String titleId = "uscl/an/abcd";
 		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_COPY);
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("contentTypeId", "1");
     	request.setParameter("ProviewDisplayName", "Name in Proview");
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
-    	request.setParameter("titleId", "uscl/an/abcd");
+    	request.setParameter("titleId", titleId);
     	request.setParameter("nameLines[0].bookNameText", "title name");
     	request.setParameter("nameLines[0].sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
@@ -695,7 +709,9 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("isComplete", "true");
     	request.setParameter("validateForm", "false");
 
-    	mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class));
+    	
+    	BookDefinition expectedBook = createBookDef(titleId);
+    	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(expectedBook);
     	setupMockServices(null, 1);
     	
     	mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
@@ -773,6 +789,7 @@ public class EditBookDefinitionControllerTest {
 		book.setEbookDefinitionId(BOOK_DEFINITION_ID);
     	book.setFullyQualifiedTitleId(fullyQualifiedTitleId);
     	book.setDocumentTypeCodes(documentTypeCode);
+    	book.setPublisherCodes(publisherCode);
     	book.getEbookNames().add(bookName);
     	book.setCopyright("something");
     	book.setIsTocFlag(false);
