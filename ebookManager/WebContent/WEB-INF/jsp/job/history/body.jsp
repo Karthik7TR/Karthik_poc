@@ -35,6 +35,6 @@
 	  <display:column title="Status" property="publishStatus" sortable="true"/>
 	  <display:column title="Submitter" property="jobSubmitterName" sortable="true"/>
 	  <display:column title="Metrics" sortable="false">
-	  	<a href="">View Metrics</a>
+	  	<a href="<%=WebConstants.MVC_BOOK_JOB_METRICS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">View Metrics</a>
 	  </display:column>
 	</display:table>

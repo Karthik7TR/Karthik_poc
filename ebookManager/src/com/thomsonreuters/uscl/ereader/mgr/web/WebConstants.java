@@ -60,6 +60,7 @@ public class WebConstants {
 	public static final String KEY_ISBN_CHANGED = "isbnChanged";
 	public static final String KEY_ISBN="isbn";
 	public static final String KEY_MATERIAL_ID="materialId";
+	public static final String KEY_PUBLISHING_STATS="publishingStats";
 	
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
@@ -112,6 +113,7 @@ public class WebConstants {
 	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
 	public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
+	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
 	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
@@ -137,6 +139,7 @@ public class WebConstants {
 	public static final String VIEW_JOB_STEP_EXECUTION_DETAILS = "_jobStepDetails";
 	public static final String VIEW_JOB_SUMMARY = "_jobSummary";
 	public static final String VIEW_BOOK_JOB_HISTORY = "_eBookJobHistory";
+	public static final String VIEW_BOOK_JOB_METRICS = "_eBookJobMetrics";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
