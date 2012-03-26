@@ -221,6 +221,15 @@
 				updateTitleId();
 			});
 			
+			<%-- Setup Button Click handlers  --%>
+			$('#addAuthor').click(function () {
+				addAuthorRow();
+			});
+			
+			$('#addNameLine').click(function () {
+				addNameRow();
+			});
+			
 			//Update formValidation field if Validation button is pressed
 			$('#validate').click(function () {
 				$('#validateForm').val(true);
@@ -297,7 +306,6 @@
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			textboxHint("authorName");
 			textboxHint("nameLine");
-			textboxHint("additionalFrontMatter");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
 			});
@@ -410,7 +418,7 @@
 	</div>
 	<div id="nameLine" class="row">
 		<form:label path="nameLines" class="labelCol">Name Line</form:label>
-		<input type="button" onclick="addNameRow();" id="addNameLine" value="add" />
+		<input type="button" id="addNameLine" value="add" />
 		<div class="errorDiv">
 			<form:errors path="nameLines" cssClass="errorMessage" />
 		</div>
@@ -447,7 +455,7 @@
 	</div>
 	
 	<div class="row">
-		<form:label path="materialId" class="labelCol">Material ID</form:label>
+		<form:label path="materialId" class="labelCol">Sub Material Number</form:label>
 		<form:input path="materialId" maxlength="18" />
 		<div class="errorDiv">
 			<form:errors path="materialId" cssClass="errorMessage" />
@@ -509,7 +517,7 @@
 <div class="rightDefinitionForm">
 	<div id="authorName" class="row">
 		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
-		<input type="button" onclick="addAuthorRow();" id="addAuthor" value="add" />
+		<input type="button" id="addAuthor" value="add" />
 		<div class="errorDiv">
 			<form:errors path="authorInfo" cssClass="errorMessage" />
 		</div>

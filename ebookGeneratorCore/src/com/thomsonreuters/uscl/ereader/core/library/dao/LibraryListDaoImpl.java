@@ -31,10 +31,10 @@ public class LibraryListDaoImpl implements LibraryListDao {
 	@Transactional(readOnly = true)
 	public List<LibraryList> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage) {
 		StringBuffer sql = new StringBuffer("select * from ( select row_.*, ROWNUM rownum_ from ( ");
-		sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, ps.BOOK_VERSION_SUBMITTED, ");
+		sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, ");
 		sql.append("book.LAST_UPDATED, book.IS_DELETED_FLAG, book.EBOOK_DEFINITION_COMPLETE_FLAG, ps.pub_date from ");
-		sql.append("EBOOK_DEFINITION book LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_END_TIMESTAMP) pub_date, p.BOOK_VERSION_SUBMITTED ");
-		sql.append("FROM PUBLISHING_STATS p GROUP BY p.EBOOK_DEFINITION_ID, p.BOOK_VERSION_SUBMITTED) ps ON book.EBOOK_DEFINITION_ID = ps.EBOOK_DEFINITION_ID ");
+		sql.append("EBOOK_DEFINITION book LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_END_TIMESTAMP) pub_date ");
+		sql.append("FROM PUBLISHING_STATS p GROUP BY p.EBOOK_DEFINITION_ID ) ps ON book.EBOOK_DEFINITION_ID = ps.EBOOK_DEFINITION_ID ");
 
 		String direction = isAscending ? "asc" : "desc";
 		
@@ -77,7 +77,6 @@ class LibraryListRowMapper implements RowMapper<LibraryList> {
 		String titleId = resultSet.getString("TITLE_ID");
 		String isComplete = resultSet.getString("EBOOK_DEFINITION_COMPLETE_FLAG");
 		String isDeleted = resultSet.getString("IS_DELETED_FLAG");
-		String version = resultSet.getString("BOOK_VERSION_SUBMITTED");
 		Date lastUpdate = resultSet.getTimestamp("LAST_UPDATED");
 		Date lastPublished = resultSet.getTimestamp("PUB_DATE");
 		
@@ -85,7 +84,7 @@ class LibraryListRowMapper implements RowMapper<LibraryList> {
 		Set<Author> authors = new HashSet<Author>();
 		authors.addAll(authorService.findAuthorsByEBookDefnId(bookDefinitionId));
 		
-		return new LibraryList(bookDefinitionId, proviewName, titleId, isComplete, isDeleted, lastUpdate, lastPublished, version, authors);
+		return new LibraryList(bookDefinitionId, proviewName, titleId, isComplete, isDeleted, lastUpdate, lastPublished, authors);
 	}
 	
 	@Required

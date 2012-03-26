@@ -23,12 +23,11 @@ public class LibraryList implements Serializable {
 	String isDeletedFlag;
 	Date lastUpdated;
 	Date lastPublishDate;
-	String version;
 	Set<Author> authorList;
 	
 	
 	public LibraryList(Long bookDefinitionId, String proviewName,String titleId,
-			String isComplete, String isDeleted, Date lastUpdate, Date lastPublished, String version, Set<Author> authors) {
+			String isComplete, String isDeleted, Date lastUpdate, Date lastPublished, Set<Author> authors) {
 		this.bookDefinitionId = bookDefinitionId;
 		this.proviewDisplayName = proviewName;
 		this.fullyQualifiedTitleId = titleId;
@@ -36,7 +35,6 @@ public class LibraryList implements Serializable {
 		this.lastUpdated = lastUpdate;
 		this.ebookDefinitionCompleteFlag = isComplete;
 		this.lastPublishDate = lastPublished;
-		this.version = version;
 		this.authorList = authors;
 	}
 
@@ -135,14 +133,6 @@ public class LibraryList implements Serializable {
 		this.lastPublishDate = lastPublishDate;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	/**
 	 * Returns a textual representation of a bean.
 	 *
@@ -206,7 +196,6 @@ public class LibraryList implements Serializable {
 				* result
 				+ ((proviewDisplayName == null) ? 0 : proviewDisplayName
 						.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -259,11 +248,6 @@ public class LibraryList implements Serializable {
 			if (other.proviewDisplayName != null)
 				return false;
 		} else if (!proviewDisplayName.equals(other.proviewDisplayName))
-			return false;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
 			return false;
 		return true;
 	}
