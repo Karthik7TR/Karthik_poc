@@ -76,7 +76,7 @@ public class JobDaoImpl implements JobDao {
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+)) and ");
 			
 			if (StringUtils.isNotBlank(filter.getBookName())) {
-				sql.append(String.format("(auditTable.BOOK_NAMES_CONCAT like '%%%s%%') and ", filter.getBookName()));
+				sql.append(String.format("(auditTable.PROVIEW_DISPLAY_NAME like '%%%s%%') and ", filter.getBookName()));
 			}
 			if (StringUtils.isNotBlank(filter.getTitleId())) {
 				sql.append(String.format("(auditTable.TITLE_ID like '%%%s%%') and ", filter.getTitleId()));
@@ -127,7 +127,7 @@ log.debug("SQL: " + sql.toString());
 			case START_TIME:
 				return "execution.START_TIME";
 			case BOOK_NAME:
-				return "auditTable.BOOK_NAMES_CONCAT";
+				return "auditTable.PROVIEW_DISPLAY_NAME";
 			case TITLE_ID:
 				return "auditTable.TITLE_ID";
 			case SUBMITTED_BY:
