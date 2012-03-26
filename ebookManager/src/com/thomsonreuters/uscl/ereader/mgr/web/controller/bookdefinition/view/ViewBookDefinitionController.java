@@ -47,7 +47,7 @@ public class ViewBookDefinitionController {
 		if(bookDef != null){
 			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 		}
-		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER};
+		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
 				UserUtils.isUserInRole(roles) 
