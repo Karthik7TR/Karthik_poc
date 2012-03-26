@@ -25,6 +25,8 @@ public class GatherResponse {
 	public int retryCount;
 	public int expectedCount;
 	public String publishStatus;
+	// If you add any values make sure you update the jibx-bindings.xml for mapping gatherResponse
+
 
 	public GatherResponse() {
 		this(0, null, 0, 0, 0, 0, null);
