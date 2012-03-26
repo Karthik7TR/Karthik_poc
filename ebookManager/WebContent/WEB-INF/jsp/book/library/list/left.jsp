@@ -48,8 +48,8 @@
 			   &nbsp;<form:label path="publisher">Publisher</form:label><br>
 			   &nbsp;<form:input path="publisher"/><br>
 			   
-			   <form:button disabled="true">Go</form:button>
-			   <form:button disabled="true">Clear</form:button>
+			   <form:button disabled="true">Search</form:button>
+			   <form:button disabled="true">Reset</form:button>
 		
 </form:form> --%>
 	&nbsp;<label>Name </label><br>
@@ -76,5 +76,5 @@
 	&nbsp;<label>Publisher</label><br>
 	&nbsp;<input type="text" /><br>
 	
-	<button disabled="disabled">Go</button>
-	<button disabled="disabled">Clear</button>
+	<button disabled="disabled">Search</button>
+	<button disabled="disabled">Reset</button>
