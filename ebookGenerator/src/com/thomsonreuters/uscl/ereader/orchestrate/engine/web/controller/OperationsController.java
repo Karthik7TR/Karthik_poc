@@ -45,7 +45,6 @@ public class OperationsController {
 		Long jobExecutionIdToRestart = jobExecutionId;
 		log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
 		log.debug("Authenticated user: " + LdapUserInfo.getAuthenticatedUser());
-
 		JobOperationResponse opResponse = performUserSecurityCheck(jobExecutionIdToRestart);
 		if (opResponse == null) {
 			try {
@@ -99,13 +98,23 @@ public class OperationsController {
 			log.debug(mesg);
 			return new JobOperationResponse(jobExecutionId, false, mesg);
 		}
+		String usernameThatStartedTheJob = null;
 		PublishingStats stats = publishingStatsService.findPublishingStatsByJobId(jobExecution.getJobId());
-		if (stats == null) {
-			return new JobOperationResponse(jobExecutionId, false, "Unable to determine the user who started the job");
+		if (stats != null) {
+			usernameThatStartedTheJob = stats.getJobSubmitterName();
+		} else {
+			String mesg = "Unable to determine the user who started the job";
+			log.warn(mesg);
 		}
-		if (!Security.isUserAuthorizedToStopOrRestartBatchJob(stats.getJobSubmitterName())) {
-			return new JobOperationResponse(jobExecutionId, false, "You must be either the user who started the job in the first place, or a SUPERUSER in order to stop or restart a job");
+		
+/* TODO: uncomment this if block once CAS REST security integration is worked out...
+		if (!Security.isUserAuthorizedToStopOrRestartBatchJob(usernameThatStartedTheJob)) {
+			return new JobOperationResponse(jobExecutionId, false, 
+			String.format("You must be either the user who started the job (%s), or a SUPERUSER in order to stop or restart a job",
+							usernameThatStartedTheJob));
 		}
+*/
+		
 		return null;
 	}
 

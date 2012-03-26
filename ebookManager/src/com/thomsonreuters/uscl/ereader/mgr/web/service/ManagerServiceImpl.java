@@ -21,17 +21,21 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	public JobOperationResponse restartJob(long jobExecutionId) {
-		JobOperationResponse response = restTemplate.getForObject(GENERATOR_REST_RESTART_JOB_URL_PATTERN,
-																  JobOperationResponse.class,
-																  generatorContextUrl.toString(), jobExecutionId);
+		
+//		restTemplate.setErrorHandler(new ProviewHttpResponseErrorHandler());
+		JobOperationResponse response = (JobOperationResponse) 
+					restTemplate.getForObject(GENERATOR_REST_RESTART_JOB_URL_PATTERN,
+					JobOperationResponse.class,
+					generatorContextUrl.toString(), jobExecutionId);
 		return response;
 	}
 	
 	@Override
 	public JobOperationResponse stopJob(long jobExecutionId) {
-		JobOperationResponse response = restTemplate.getForObject(GENERATOR_REST_STOP_JOB_URL_PATTERN,
-																  JobOperationResponse.class,
-																  generatorContextUrl.toString(), jobExecutionId);
+		JobOperationResponse response = (JobOperationResponse)
+					restTemplate.getForObject(GENERATOR_REST_STOP_JOB_URL_PATTERN,
+					JobOperationResponse.class,
+					generatorContextUrl.toString(), jobExecutionId);
 		return response;
 	}
 	

@@ -1,10 +1,13 @@
 package com.thomsonreuters.uscl.ereader.security;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 
 public class Security {
+	
+	private static final Logger log = Logger.getLogger(Security.class);
 	
 	/**
 	 * Valid security roles for the application, as mapped from the groups.
@@ -22,17 +25,25 @@ public class Security {
 	 * @param usernameThatStartedTheJob the user who wants to stop or restart a job, may be null
 	 */
 	public static boolean isUserAuthorizedToStopOrRestartBatchJob(String usernameThatStartedTheJob) {
+		log.debug("Username that started the job: " + usernameThatStartedTheJob);
 		LdapUserInfo user = LdapUserInfo.getAuthenticatedUser();
+		log.debug("Current authenticated user: " + user);
 		if (user == null) { // if not authenticated
+			log.debug("Null user - not authenticated.");
 			return false;
 		}
 		if (user.isInRole(SecurityRole.ROLE_SUPERUSER.toString())) {  // if they are a superuser
+			log.debug("Current user is a superuser - proceed.");
 			return true;
 		}
 		if (StringUtils.isBlank(usernameThatStartedTheJob)) {
+			log.warn("Username for user that started the job is blank.");
 			return false;
 		}
-		return (user.getUsername().equalsIgnoreCase(usernameThatStartedTheJob));
+		if (user.getUsername().equalsIgnoreCase(usernameThatStartedTheJob)) {
+			log.debug("Authenticated username matches user that started the job.");
+			return true;
+		}
+		return false;
 	}
-
 }

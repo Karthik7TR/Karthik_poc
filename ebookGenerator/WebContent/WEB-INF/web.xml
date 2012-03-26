@@ -18,6 +18,7 @@
   	The Spring security filter chain enables Spring Security (integrated with CAS) within the application.
   	Comment out the springSecurityFilterChain filter and its filter-mapping to disable security.
   -->
+<!-- 
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -26,6 +27,7 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+-->
 
 
   <listener>
