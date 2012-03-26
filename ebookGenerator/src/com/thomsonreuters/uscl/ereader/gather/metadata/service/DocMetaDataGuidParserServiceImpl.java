@@ -159,7 +159,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 
 					for (String tocGuid : tocGuidList) {
 						if (tocGuid != null) {
-							if (tocGuid.length() < 32 || tocGuid.length() >= 34) {
+							if (tocGuid.length() < 32 || tocGuid.length() >= 44) {
 
 								String message = "Invalid Toc GUID encountered in the Doc GUID list: "
 										+ tocGuid;
