@@ -99,5 +99,6 @@
 	<classpathentry kind="lib" path="lib/cas-client-core-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/spring-security-cas-3.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/uuidgenerator-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/codes-security-32.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -17,8 +17,8 @@
    		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casAuthenticationFilter"/>
 
 		<!-- Secure the REST service URL's used to stop and restart jobs -->
-		<security:intercept-url pattern="/service/stop/job/*" access="hasRole('ROLE_SUPERUSER')"/>
-		<security:intercept-url pattern="/service/restart/job/*" access="hasRole('ROLE_SUPERUSER')"/>
+		<security:intercept-url pattern="/service/stop/job/*" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/service/restart/job/*" access="isAuthenticated()"/>
 
 		<!-- Catch-all for all other URL's -->
 		<security:intercept-url pattern="/*" access="isAuthenticated()"/>
