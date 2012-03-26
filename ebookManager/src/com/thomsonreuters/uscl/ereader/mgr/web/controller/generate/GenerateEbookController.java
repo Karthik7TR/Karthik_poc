@@ -36,7 +36,8 @@ public class GenerateEbookController {
 	private ProviewClient proviewClient;
 	private JobRequestService jobRequestService;
 
-	private static final SimpleDateFormat formatter = new SimpleDateFormat(WebConstants.DATE_FORMAT_PATTERN);
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+			WebConstants.DATE_FORMAT_PATTERN);
 	String newMajorVersion;
 	String newMinorVersion;
 	String currentVersion;
@@ -48,23 +49,37 @@ public class GenerateEbookController {
 	 */
 	private void calculateVersionNumbers(Model model) {
 
-		Double currentVersionDouble;
+		String majorPart;
+		String minorPart;
+		Integer newMajorPartInteger;
+		Integer newMinorPartInteger;
+
 		if (currentVersion.equals("Not published")) {
 			newMajorVersion = "1";
 			newMinorVersion = "1";
 		} else {
 			if (currentVersion.startsWith("v")) {
-				currentVersionDouble = Double.parseDouble(currentVersion
-						.substring(1));
-			} else {
-				currentVersionDouble = Double.parseDouble(currentVersion);
+				currentVersion = currentVersion.substring(1);
 			}
-			Integer newMajorVersionDouble = (int) (Math
-					.floor(currentVersionDouble) + 1);
-			Double newMinorVersionDouble = Math.floor(currentVersionDouble) + 0.10;
 
-			newMajorVersion = newMajorVersionDouble.toString();
-			newMinorVersion = newMinorVersionDouble.toString();
+			if (currentVersion.contains(".")) {
+				majorPart = currentVersion.substring(0,
+						currentVersion.indexOf("."));
+				minorPart = currentVersion.substring(currentVersion
+						.indexOf(".") + 1);
+
+				newMajorPartInteger = Integer.parseInt(majorPart) + 1;
+				newMinorPartInteger = Integer.parseInt(minorPart) + 1;
+
+			} else {
+				majorPart = currentVersion;
+
+				newMajorPartInteger = Integer.parseInt(majorPart) + 1;
+				newMinorPartInteger = 1;
+			}
+
+			newMajorVersion = newMajorPartInteger.toString();
+			newMinorVersion = majorPart + "." + newMinorPartInteger.toString();
 
 		}
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
@@ -123,8 +138,9 @@ public class GenerateEbookController {
 
 		}
 
-		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
-				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
+		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY, UserUtils
+				.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? ""
+				: "disabled=\"disabled\"");
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
