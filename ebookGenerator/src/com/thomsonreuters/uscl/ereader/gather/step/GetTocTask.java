@@ -89,11 +89,11 @@ public class GetTocTask  extends AbstractSbTasklet {
 		
         PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobInstance);
-        jobstats.setGatherTocDocCount(gatherResponse.docCount);
-        jobstats.setGatherTocNodeCount(gatherResponse.nodeCount);
-        jobstats.setGatherTocSkippedCount(gatherResponse.skipCount);
-        jobstats.setGatherTocRetryCount(gatherResponse.retryCount);
-        jobstats.setPublishStatus(gatherResponse.publishStatus);
+        jobstats.setGatherTocDocCount(gatherResponse.getDocCount());
+        jobstats.setGatherTocNodeCount(gatherResponse.getNodeCount());
+        jobstats.setGatherTocSkippedCount(gatherResponse.getSkipCount());
+        jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());
+        jobstats.setPublishStatus(gatherResponse.getPublishStatus());
        
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
 		

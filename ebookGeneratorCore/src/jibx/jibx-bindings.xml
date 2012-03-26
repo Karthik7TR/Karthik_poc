@@ -16,6 +16,12 @@
     <mapping name="gatherResponse" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse">
         <value name="errorCode" field="errorCode" usage="required"/>
         <value name="errorMessage" field="errorMessage" usage="optional"/>
+        <value name="docCount" field="docCount" usage="optional"/>
+        <value name="nodeCount" field="nodeCount" usage="optional"/>
+        <value name="skipCount" field="skipCount" usage="optional"/>
+        <value name="retryCount" field="retryCount" usage="optional"/>
+        <value name="expectedCount" field="expectedCount" usage="optional"/>
+        <value name="publishStatus" field="publishStatus" usage="optional"/>
     </mapping>
     
     <!-- Gather Doc service REST request body -->
