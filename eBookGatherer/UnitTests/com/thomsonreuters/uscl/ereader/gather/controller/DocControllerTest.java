@@ -45,7 +45,9 @@ public class DocControllerTest {
 	
 	@Test
 	public void testFetchDocumentsSuccessfully() throws Exception {
-		mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+		
+		GatherResponse gatherResponse1 = new GatherResponse();
+		EasyMock.expect(mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR)).andReturn(gatherResponse1);
 		EasyMock.replay(mockDocService);
 
     	// Invoke the controller
