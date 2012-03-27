@@ -30,6 +30,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
@@ -43,7 +44,12 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 
 /**
- * TitleMetadataService is responsible for manipulating and persisting title metadata.
+ * TitleMetadataService is responsible for retrieving data from various sources in order to produce the title manifest for an eBook.
+ * 
+ * <p>A tight coupling between this service and its collaborators exists due to constraints imposed by ProView on publishers.
+ * Should ProView ever support duplicate document IDs in a TOC, multiple TOC entries that refer to the same document ID, or other data scenarios this implementation
+ * will probably become much, much simpler.  As it stands at the time of implementation, the collaborators responsible for decisions based on documents
+ * within this book are dependencies at this level for reasons of encapsulation, performance, and necessity.</p> 
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
@@ -55,6 +61,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
 	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
 	private DocMetadataService docMetadataService;
+	private PlaceholderDocumentService placeholderDocumentService;
 	private FileUtilsFacade fileUtilsFacade;
 	private UuidGenerator uuidGenerator;
 
@@ -89,6 +96,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 
 	/**
 	 * Returns an ArrayList of Author objects created based on values taken from a tokenized String.
+	 * 
+	 * TODO: get rid of this method and instead pull the book definition object from the JEC and use that to obtain the {@link Authors} instead.
+	 * 
 	 * @param authors the tokenized String that represents one or more authors
 	 * @return ArrayList of Author objects.
 	 */
@@ -135,7 +145,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			
 			Map<String, String> familyGuidMap = docMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
 			
-			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade);
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService);
 			titleManifestFilter.setParent(xmlReader);
 									
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -163,14 +173,17 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		this.uuidGenerator = uuidGenerator;
 	}
 
-
 	public void setDocMetadataService(DocMetadataService docMetadataService) {
 		this.docMetadataService = docMetadataService;
 	}
 
-
 	public void setFileUtilsFacade(FileUtilsFacade fileUtilsFacade) {
 		this.fileUtilsFacade = fileUtilsFacade;
 	}
+	
+	public void setPlaceholderDocumentService(PlaceholderDocumentService placeholderDocumentService) {
+		this.placeholderDocumentService = placeholderDocumentService;
+	}
+	
 
 }
