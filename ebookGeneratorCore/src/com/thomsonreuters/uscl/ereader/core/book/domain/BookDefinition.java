@@ -242,8 +242,11 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	java.util.Set<EbookName> ebookNames;
-	
-
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<FrontMatterPage> frontMatterPages;
 
 	/**
 	 */
@@ -613,6 +616,17 @@ public class BookDefinition implements Serializable {
 			ebookNames = new java.util.LinkedHashSet<EbookName>();
 		}
 		return ebookNames;
+	}
+
+	public Set<FrontMatterPage> getFrontMatterPages() {
+		if (frontMatterPages == null) {
+			frontMatterPages = new java.util.LinkedHashSet<FrontMatterPage>();
+		}
+		return frontMatterPages;
+	}
+
+	public void setFrontMatterPages(Set<FrontMatterPage> frontMatterPage) {
+		this.frontMatterPages = frontMatterPage;
 	}
 
 	/**
