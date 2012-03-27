@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -60,7 +62,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 	}
 	
-	@Transactional
+	@Transactional 
 	public void deleteJobStats(PublishingStats toRemove) {
 		toRemove = (PublishingStats) sessionFactory.getCurrentSession().merge(
 				toRemove);
@@ -70,7 +72,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 
 	@Override
-	@Transactional
+	@Transactional (readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public int updateJobStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType) {
 		StringBuffer hql = new StringBuffer("update PublishingStats set   ");
 		if (updateType.equals(StatsUpdateTypeEnum.GATHERTOC))
@@ -150,8 +152,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 //		query.setLong(0, jobstats.getJobInstanceId());
 		
-		int result = query.executeUpdate();
-		session.flush();
+		int result = 0;
+		try {
+			result = query.executeUpdate();
+			session.flush();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return result;
 	}
