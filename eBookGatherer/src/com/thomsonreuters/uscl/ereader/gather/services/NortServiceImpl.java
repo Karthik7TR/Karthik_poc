@@ -163,26 +163,26 @@ public class NortServiceImpl implements NortService {
 	        	   DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		           DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
 //// TODO: uncomment if the decision is made to add this verbiage.
-//	           if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
-//	           {
-//	        	   
-//	       		Date date =  formatter.parse(startDate);
-//	       		
-//	       		String startDateFinal  = formatterFinal.format(date);
-//
-//		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
-//		           .append(" (effective ").append(startDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
-//	           }
-//	           else if (Long.valueOf(endDate) < Long.valueOf("20970101235959"))
-//	           {
-//		       		Date date =  formatter.parse(endDate);
-//		       		
-//		       		String endDateFinal  = formatterFinal.format(date);
-//
-//		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
-//		           .append(" (end effective ").append(endDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
-//	           }
-//	           else
+	           if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
+	           {
+	        	   
+	       		Date date =  formatter.parse(startDate);
+	       		
+	       		String startDateFinal  = formatterFinal.format(date);
+
+		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
+		           .append(" (effective ").append(startDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+	           }
+	           else if (Long.valueOf(endDate) < Long.valueOf("20970101235959"))
+	           {
+		       		Date date =  formatter.parse(endDate);
+		       		
+		       		String endDateFinal  = formatterFinal.format(date);
+
+		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
+		           .append(" (end effective ").append(endDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+	           }
+	           else
 	           {
 	        	   name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           }

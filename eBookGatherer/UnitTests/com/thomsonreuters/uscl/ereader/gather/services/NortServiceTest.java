@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,12 +23,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-//import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
@@ -86,7 +85,6 @@ public class NortServiceTest {
 	public void testCreateNortTreeFile () throws Exception {
 		File nortFile = new File(nortDir, "NORT"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
 		NortNode[] children = new NortNode[]{};
-		Long jobId = new Long(1);
 		mockNortNodeRoot[0] = mockNortNode;
 		
 		Date date = new Date();
@@ -95,7 +93,9 @@ public class NortServiceTest {
 		String YYYYMMDDHHmmss;
 		YYYYMMDDHHmmss = formatter.format(date);
 		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
-
+		DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");	       		
+		String startDateFinal  = formatterFinal.format(date);
+		
 		children = getChildNodes(5, 'a', YYYYM1DDHHmmss, 2).toArray(new NortNode[]{});
 		
 		try {
@@ -110,17 +110,6 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
-//			
-//	        PublishingStats jobstats = new PublishingStats();
-//	        jobstats.setJobInstanceId((long) 1);
-//	        jobstats.setGatherTocDocCount(1);
-//	        jobstats.setGatherTocNodeCount(1);
-//	        jobstats.setPublishStatus("TEST");
-//	       
-//	        EasyMock.expect(mockpublishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC)).andReturn(1);
-			
-//			PublishingStats jobstats = new PublishingStats();
-//			EasyMock.expect(mockJobStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC)).andReturn(0);
 //			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
@@ -147,7 +136,6 @@ public class NortServiceTest {
 			EasyMock.replay(mockNovusUtility);	
 //			EasyMock.replay(mockpublishingStatsService);
 			
-//			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, jobId);
 			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
 			LOG.debug(gatherResponse);
 			
@@ -171,13 +159,25 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid1</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 1a</Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
 //			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><DocumentGuid>UUID_2a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 3a</Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 4a</Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 2a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 3a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 4a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
 			expectedTocContent.append("</EBook>\r\n");
 			LOG.debug("expectedTocContent =" + expectedTocContent.toString());
@@ -192,7 +192,6 @@ public class NortServiceTest {
 	@Test
 	public void testCreateNort2NodeTreeFile () throws Exception {
 		File nortFile = new File(nortDir, "DblRootNode"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
-		Long jobId = new Long(1);
 
 		NortNode[] children = new NortNode[]{};
 		NortNode[] rootChildren = new NortNode[]{};
@@ -203,6 +202,8 @@ public class NortServiceTest {
 		String YYYYMMDDHHmmss;
 		YYYYMMDDHHmmss = formatter.format(date);
 		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
+		DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");	       		
+		String startDateFinal  = formatterFinal.format(date);
 		
 		children = getChildNodes(5, 'a', YYYYM1DDHHmmss, 2).toArray(new NortNode[]{});
 		rootChildren = getChildNodes(2, 'b', YYYYM1DDHHmmss, 2).toArray(new NortNode[]{});
@@ -222,16 +223,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.fillNortNodes(rootChildren, 0, 3);
 //			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
-
-	        PublishingStats jobstats = new PublishingStats();
-	        jobstats.setJobInstanceId((long) 1);
-	        jobstats.setGatherTocDocCount(1);
-	        jobstats.setGatherTocNodeCount(1);
-	        jobstats.setPublishStatus("TEST");
-	       
-//	        EasyMock.expect(mockpublishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC)).andReturn(1);
-
-	        
+        
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -288,18 +280,36 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid1</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 1a</Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
 //			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><DocumentGuid>UUID_2a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 2a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 			
-			expectedTocContent.append("<EBookToc><Name>Child 3a</Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 4a</Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 3a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 4a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid7</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>NORT_UUID_0b8</Guid><DocumentGuid>UUID_0b</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 1b</Name><Guid>NORT_UUID_1b9</Guid><DocumentGuid>UUID_1b</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0b (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0b8</Guid><DocumentGuid>UUID_0b</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1b (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_1b9</Guid><DocumentGuid>UUID_1b</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
 			expectedTocContent.append("</EBook>\r\n");
 			LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
@@ -314,7 +324,6 @@ public class NortServiceTest {
 	@Test
 	public void testMissingDocument () throws Exception {
 		File nortFile = new File(nortDir, "missingDocument"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
-		Long jobId = new Long(1);
 
 		NortNode[] children = new NortNode[]{};
 		
@@ -324,6 +333,8 @@ public class NortServiceTest {
 		String YYYYMMDDHHmmss;
 		YYYYMMDDHHmmss = formatter.format(date);
 		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
+		DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");	       		
+		String startDateFinal  = formatterFinal.format(date);
 		
 		children = getChildNodes(5, 'a', YYYYM1DDHHmmss, 2).toArray(new NortNode[]{});
 		mockNort2NodeRoot[0] = mockNortNode;
@@ -341,14 +352,6 @@ public class NortServiceTest {
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
 //			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
-
-	        PublishingStats jobstats = new PublishingStats();
-	        jobstats.setJobInstanceId((long) 1);
-	        jobstats.setGatherTocDocCount(1);
-	        jobstats.setGatherTocNodeCount(1);
-	        jobstats.setPublishStatus("TEST");
-	       
-//	        EasyMock.expect(mockpublishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC)).andReturn(1);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -406,16 +409,30 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid1</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 1a</Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
 //			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><DocumentGuid>UUID_2a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 2a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 			
-			expectedTocContent.append("<EBookToc><Name>Child 3a</Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 4a</Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 3a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 4a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid7</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
 			expectedTocContent.append("<MissingDocument></MissingDocument></EBookToc>\r\n");
 			expectedTocContent.append("</EBook>\r\n");
 			LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
@@ -440,6 +457,8 @@ public class NortServiceTest {
 		String YYYYMMDDHHmmss;
 		YYYYMMDDHHmmss = formatter.format(date);
 		String YYYYM1DDHHmmss  = "" +Long.valueOf(YYYYMMDDHHmmss) +1;
+		DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");	       		
+		String startDateFinal  = formatterFinal.format(date);
 		
 		children = getChildNodes(5, 'a', YYYYM1DDHHmmss, 2).toArray(new NortNode[]{});
 		rootChildren = getChildNodes(1, 'b', YYYYM1DDHHmmss, 0).toArray(new NortNode[]{});
@@ -460,11 +479,6 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(rootChildren, 0, 2);
 //			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 
-	        PublishingStats jobstats = new PublishingStats();
-	        jobstats.setJobInstanceId((long) 1);
-	        jobstats.setGatherTocDocCount(1);
-	        jobstats.setGatherTocNodeCount(1);
-	        jobstats.setPublishStatus("TEST");
 	       
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -520,17 +534,33 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid1</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 1a</Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0a2</Guid><DocumentGuid>UUID_0a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_1a3</Guid><DocumentGuid>UUID_1a</DocumentGuid></EBookToc>\r\n");
 //			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><DocumentGuid>UUID_2a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 2a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_2a4</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 			
-			expectedTocContent.append("<EBookToc><Name>Child 3a</Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 4a</Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 3a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_3a5</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 4a (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>nortGuid7</Guid>\r\n");
-			expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>NORT_UUID_0b8</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0b (effective ");
+			expectedTocContent.append(startDateFinal);
+			expectedTocContent.append(") </Name><Guid>NORT_UUID_0b8</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 //			expectedTocContent.append("<EBookToc><Name>Child 1b</Name><Guid>NORT_UUID_1b9</Guid><DocumentGuid>UUID_1b</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
 			expectedTocContent.append("</EBook>\r\n");
