@@ -23,12 +23,15 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step persists the Novus Metadata xml to DB.
@@ -41,6 +44,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	private static final Logger LOG = Logger.getLogger(GatherDocAndMetadataTask.class);
 	private DocMetaDataGuidParserService docMetaDataParserService;
 	private GatherService gatherService;
+	private PublishingStatsService publishingStatsService;
 
 	
 	@Override
@@ -52,14 +56,28 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		File docsMetadataDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
 		File docsGuidsFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
 		String docCollectionName = jobParams.getString(JobParameterKey.DOC_COLLECTION_NAME);
+		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
-    	docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
-    	List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
+		docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
+       
+		List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
     	
 		GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir);
 		GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
 		LOG.debug(gatherResponse);
+
+		PublishingStats jobstatsDoc = new PublishingStats();
+		jobstatsDoc.setJobInstanceId(jobInstance);
+		jobstatsDoc.setGatherDocRetrievedCount(gatherResponse.getDocCount());
+		jobstatsDoc.setGatherDocExpectedCount(gatherResponse.getNodeCount());
+		jobstatsDoc.setGatherDocRetryCount(gatherResponse.getRetryCount());
+		jobstatsDoc.setPublishStatus(gatherResponse.getPublishStatus());
+       
+		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
+
+		
 		if (gatherResponse.getErrorCode() != 0 ) {
+		
 			GatherException gatherException = new GatherException(
 					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
 			throw gatherException;
@@ -74,6 +92,10 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	@Required
 	public void setGatherService(GatherService service) {
 		this.gatherService = service;
+	}
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 
 	/**

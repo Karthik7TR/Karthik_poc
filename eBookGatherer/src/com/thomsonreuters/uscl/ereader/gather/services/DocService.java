@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 import java.io.File;
 import java.util.Collection;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public interface DocService {
@@ -22,7 +23,7 @@ public interface DocService {
 	 * Two files are created per docGuid, a content file, and a meta-data file.
 	 * @return a document object, or null if not found
 	 */
-	public void fetchDocuments(Collection<String> docGuids, String collectionName,
+	public GatherResponse fetchDocuments(Collection<String> docGuids, String collectionName,
 							   File contentDestinationDirectory,
 							   File metadataDestinationDirectory) throws GatherException;
 }

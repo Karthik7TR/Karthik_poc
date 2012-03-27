@@ -49,7 +49,7 @@ public class DocServiceImpl implements DocService {
 	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
 	 */
 	@Override
-	public void fetchDocuments(Collection<String> docGuids,
+	public GatherResponse fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
 			File metadataDestinationDirectory) throws GatherException {
 		Assert.isTrue(contentDestinationDirectory.exists(),
@@ -59,10 +59,18 @@ public class DocServiceImpl implements DocService {
 				"The content destination directory for the document metadata does not exist: "
 						+ metadataDestinationDirectory);
 
+		GatherResponse gatherResponse = new GatherResponse();
 		Novus novus = novusFactory.createNovus();
 		final Integer docRetryCount = new Integer(novusUtility.getDocRetryCount());		
 		boolean anyException = false;
 		String docGuid = null;
+		// This is the counter for checking how many Novus retries we
+		// are making
+		Integer novusRetryCounter = 0;
+		Integer docFoundCounter = 0;
+		
+		String publishStatus = "DOC Gather Step Completed";
+
 		try {
 			Find finder = novus.getFind();
 			finder.setResolveIncludes(true);
@@ -73,9 +81,7 @@ public class DocServiceImpl implements DocService {
 				docGuid = guid;
 				Document document = null;
 
-				// This is the counter for checking how many Novus retries we
-				// are making
-				Integer novusRetryCounter = 0;
+
 				while (novusRetryCounter <= docRetryCount) {
 					try {
 						if (collectionName == null) {
@@ -94,24 +100,31 @@ public class DocServiceImpl implements DocService {
 							GatherException ge = new GatherException(
 									"Novus error occurred fetching document " + docGuid, e,
 									GatherResponse.CODE_NOVUS_ERROR);
+							publishStatus =  "DOC Step Failed Novus error occurred fetching document";
+
 							throw ge;
 						} catch (IOException e) {
 							anyException = true;
 							GatherException ge = new GatherException(
 									"File I/O error writing document " + docGuid, e,
 									GatherResponse.CODE_FILE_ERROR);
+							publishStatus =  "DOC Step Failed File I/O error writing document";
+
 							throw ge;
 						} catch (NullPointerException e) {
 							anyException = true;
 							GatherException ge = new GatherException(
 									"Null document fetching guid " + docGuid, e,
 									GatherResponse.CODE_FILE_ERROR);
+							publishStatus =  "DOC Step Failed Null document fetching guid";
+
 							throw ge;
 						} catch (Exception e) {
 							anyException = true;
 							GatherException ge = new GatherException(
 									"Exception happened in fetching doc for " + docGuid, e,
 									GatherResponse.CODE_FILE_ERROR);
+							publishStatus =  "DOC Step Failed Exception happened in fetching doc";
 							throw ge;
 						} 
 					}
@@ -119,33 +132,47 @@ public class DocServiceImpl implements DocService {
 				createContentFile(document, contentDestinationDirectory, docRetryCount);
 				createMetadataFile(document, metadataDestinationDirectory,
 						tocSequence, docRetryCount);
+				docFoundCounter++;
 			}
 		} catch (NovusException e) {
 			anyException = true;
 			GatherException ge = new GatherException(
 					"Novus error occurred fetching document " + docGuid, e,
 					GatherResponse.CODE_NOVUS_ERROR);
+			publishStatus =  "DOC Step Failed Novus error occurred fetching document";
 			throw ge;
 		} catch (IOException e) {
 			anyException = true;
 			GatherException ge = new GatherException(
 					"File I/O error writing document " + docGuid, e,
 					GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "DOC Step Failed File I/O error writing document";
+
 			throw ge;
 		} catch (NullPointerException e) {
 			anyException = true;
 			GatherException ge = new GatherException(
 					"Null document fetching guid " + docGuid, e,
 					GatherResponse.CODE_FILE_ERROR);
+			publishStatus =  "DOC Step Failed Null document fetching guid";
+
 			throw ge;
 		} finally {
+			gatherResponse.setNodeCount(docGuids.size()); // Expected doc count
+			gatherResponse.setDocCount(docFoundCounter); // retrieved doc count
+			gatherResponse.setRetryCount(novusRetryCounter); // retry doc count
+			gatherResponse.setPublishStatus(publishStatus);
+
 			if (anyException) {
+
 				// Remove all existing generated document files on any exception
 				removeAllFilesInDirectory(contentDestinationDirectory);
 				removeAllFilesInDirectory(metadataDestinationDirectory);
 			}
+
 			novus.shutdownMQ();
 		}
+		return(gatherResponse);
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class DocController {
 		LOG.debug(">>> " + docRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		try {
-			docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
+			gatherResponse = docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
 					   				  docRequest.getContentDestinationDirectory(),
 					   				  docRequest.getMetadataDestinationDirectory());
 		} catch (GatherException e) {
@@ -43,7 +43,8 @@ public class DocController {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
 			LOG.error(errorMessage);
-			gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
+			gatherResponse.setErrorCode(e.getErrorCode());
+			gatherResponse.setErrorMessage(errorMessage);
 		}
 		catch (Exception e) {
 			String errorMessage = e.getMessage();
@@ -52,7 +53,8 @@ public class DocController {
 				errorMessage = errorMessage + " - " + cause.getMessage();
 			}
 			LOG.error(errorMessage);
-			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
+			gatherResponse.setErrorCode(GatherResponse.CODE_UNHANDLED_ERROR);
+			gatherResponse.setErrorMessage(errorMessage);
 			} 
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
