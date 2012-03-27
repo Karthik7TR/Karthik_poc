@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -83,7 +82,6 @@ public class NortServiceTest {
 
 	}
 
-	@Ignore
 	@Test
 	public void testCreateNortTreeFile () throws Exception {
 		File nortFile = new File(nortDir, "NORT"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
@@ -191,7 +189,6 @@ public class NortServiceTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCreateNort2NodeTreeFile () throws Exception {
 		File nortFile = new File(nortDir, "DblRootNode"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
@@ -314,7 +311,6 @@ public class NortServiceTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testMissingDocument () throws Exception {
 		File nortFile = new File(nortDir, "missingDocument"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
@@ -431,11 +427,9 @@ public class NortServiceTest {
 		}
 	}
 	
-	@Ignore
 	@Test
 	public void testMissingDoc2Level () throws Exception {
 		File nortFile = new File(nortDir, "DblRootNode"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
-		Long jobId = new Long(1);
 
 		NortNode[] children = new NortNode[]{};
 		NortNode[] rootChildren = new NortNode[]{};
@@ -472,8 +466,6 @@ public class NortServiceTest {
 	        jobstats.setGatherTocNodeCount(1);
 	        jobstats.setPublishStatus("TEST");
 	       
-//	        EasyMock.expect(mockpublishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC)).andReturn(1);
-
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
@@ -505,9 +497,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNortNode2);
 			EasyMock.replay(mockNovusUtility);			
-//			EasyMock.replay(mockpublishingStatsService);
 			
-//			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, jobId);
 			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
 			
 			// Verify created files and directories
@@ -639,11 +629,9 @@ public class NortServiceTest {
 	    }
 	}
 	
-	@Ignore
 	@Test (expected=GatherException.class)
 	public void testGetNortDataWithNovusException() throws Exception {
 		File nortFile = new File(nortDir, "FAIL"+DOMAIN_NAME+FILTER+EBConstants.XML_FILE_EXTENSION);
-//		Long jobId = new Long(1);
 		
 		Date date = new Date();
 		SimpleDateFormat formatter =
@@ -671,7 +659,6 @@ public class NortServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-//			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, jobId);
 			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
 		} 
 		finally
