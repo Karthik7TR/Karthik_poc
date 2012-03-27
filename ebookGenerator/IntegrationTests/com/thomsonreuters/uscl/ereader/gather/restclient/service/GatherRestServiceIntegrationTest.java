@@ -54,6 +54,8 @@ public class GatherRestServiceIntegrationTest  {
 		log.debug(gatherResponse);
 		Assert.assertNotNull(gatherResponse);
 		Assert.assertEquals(0, gatherResponse.getErrorCode());
+		Assert.assertEquals(10, gatherResponse.getDocCount());
+		Assert.assertEquals(13, gatherResponse.getNodeCount());
 		Assert.assertTrue(tocFile.exists());
 		Assert.assertTrue(tocFile.length() > 0);
 	}
@@ -63,8 +65,8 @@ public class GatherRestServiceIntegrationTest  {
 	 */
 	@Test
 	public void testGetTocNort() {
-		String NORT_DOMAIN_NAME = "w_wlbkrexp";	// Client
-		String NORT_FILTER_EXPRESSION = "BankruptcyExplorer";
+		String NORT_DOMAIN_NAME = "w_uscl_eBook";	// Client
+		String NORT_FILTER_EXPRESSION = "Test1";
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
