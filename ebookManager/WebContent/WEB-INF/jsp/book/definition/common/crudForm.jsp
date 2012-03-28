@@ -283,7 +283,7 @@
 			});
 			
 			$( "#accordion" ).accordion({
-				fillSpace: true,
+				fillSpace: true
 			});
 			
 			$(".rdelete").live("click", function () {
