@@ -15,7 +15,8 @@
 
 	<%-- Table of publishing stats for a specific book --%>
 	
-	<c:set var="DATE_FORMAT" value="MMM dd, yyyy"/>
+	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_BOOK_JOB_HISTORY%>"
 				   pagesize="5"
