@@ -30,6 +30,10 @@
 	<entry key="P-West-LEGO_GeneralUser_DEV" 		value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
 	<entry key="P-West-LEGO_Manager_DEV" 		value="ROLE_SUPERUSER"/>	<!-- g035044 -->
 	<entry key="P-West-LEGO_IndexUser_DEV" 		value="ROLE_SUPPORT"/>		<!-- g035043 -->
+	
+	<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
+	<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
+	
 <!-- ^^^ TESTING ONLY ^^^^ -->
 
     </util:map>
