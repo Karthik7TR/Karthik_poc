@@ -18,16 +18,15 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
@@ -90,8 +89,9 @@ public class NortServiceImpl implements NortService {
 				}
 			}
 			counters[RETRYCOUNT] += novusNortRetryCounter;
+			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, 
-					iParent, YYYYMMDDHHmmss);
+					iParent, YYYYMMDDHHmmss, tocGuidDateMap);
 		} catch (Exception e) {
 			LOG.debug("Failed with Exception in NORT");
 			GatherException ge = new GatherException("NORT Exception ", e,
@@ -101,19 +101,19 @@ public class NortServiceImpl implements NortService {
 
 	}
 
-	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss) throws GatherException, ParseException
+	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss, Map<String, String> tocGuidDateMap) throws GatherException, ParseException
 	   {
 	       if (nodes != null)
 	       {
 			try {
 				boolean docFound = true;
 				for (NortNode node : nodes) {
-					docFound = printNode(node, _nortManager, out, counters,  iParent, YYYYMMDDHHmmss);
+					docFound = printNode(node, _nortManager, out, counters,  iParent, YYYYMMDDHHmmss, tocGuidDateMap);
 				}
 				if (iParent[0] > 0) {
 					if (docFound == false)
 					{
-						out.write("<MissingDocument></MissingDocument>");
+//						out.write("<MissingDocument></MissingDocument>");
 					}
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
@@ -142,7 +142,7 @@ public class NortServiceImpl implements NortService {
 	     }
 	   }
 	   
-	   public boolean printNode(NortNode node, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss) throws GatherException, NovusException, ParseException
+	   public boolean printNode(NortNode node, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss, Map<String, String> tocGuidDateMap) throws GatherException, NovusException, ParseException
 	   {
 		   boolean docFound = true;
 		   // skip empty node or subsection node
@@ -154,6 +154,10 @@ public class NortServiceImpl implements NortService {
 	           StringBuffer tocGuid = new StringBuffer();
 	           StringBuffer docGuid = new StringBuffer();
 
+	           counters[NODECOUNT]++;
+	           
+	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(counters[NODECOUNT]).append(EBConstants.TOC_END_GUID_ELEMENT);
+
 	           if (Long.valueOf(node.getPayloadElement("/n-nortpayload/n-end-date")) > Long.valueOf(YYYYMMDDHHmmss))
 	        	   // md.end+effective 20970101235959
 	        	   //TODO: If NOVUS api is changed add back _nortManager.setNortVersion and remove above.
@@ -162,34 +166,75 @@ public class NortServiceImpl implements NortService {
 	        	   String startDate = node.getPayloadElement("/n-nortpayload/n-start-date");
 	        	   DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		           DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
-//// TODO: uncomment if the decision is made to add this verbiage.
-	           if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
+
+		      if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
 	           {
-	        	   
 	       		Date date =  formatter.parse(startDate);
+	       		boolean bAncestorFound = false;
 	       		
 	       		String startDateFinal  = formatterFinal.format(date);
 
+//	       		String payload = node.getPayload();
+// Determine if date is already used by this ancestor
+//	       		for (String tocAncestor : tocGuidDateMap.keySet())
+//	       		{
+//		       		if (payload.contains(tocAncestor) )
+//		       		{
+//		       			String ancestorDate = tocGuidDateMap.get(tocAncestor);
+//		       			if(ancestorDate.equals(startDate))
+//		       			{
+//		       				bAncestorFound = true;
+//		 	        	    name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+//		       				break;
+//		       			}
+//		       			
+//		       		}
+//	       		}
+	       		if (bAncestorFound == false)
+	       		{
 		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
 		           .append(" (effective ").append(startDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+	        	   tocGuidDateMap.put(tocGuid.toString().replaceAll("\\<.*?>",""), startDate);
+	       		}
 	           }
 	           else if (Long.valueOf(endDate) < Long.valueOf("20970101235959"))
 	           {
-		       		Date date =  formatter.parse(endDate);
-		       		
-		       		String endDateFinal  = formatterFinal.format(date);
 
-		           name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
-		           .append(" (end effective ").append(endDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+		       		Date date =  formatter.parse(endDate);
+		       		boolean bAncestorFound = false;
+		       		
+//		       		String payload = node.getPayload();
+	// Determine if date is already used by this ancestor
+//		       		for (String tocAncestor : tocGuidDateMap.keySet())
+//		       		{
+//			       		if (payload.contains(tocAncestor) )
+//			       		{
+//			       			String ancestorDate = tocGuidDateMap.get(tocAncestor);
+//			       			if(ancestorDate.equals(endDate))
+//			       			{
+//			       				bAncestorFound = true;
+//			 	        	    name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+//			       				break;
+//			       			}
+//			       			
+//			       		}
+//		       		}
+		       		if (bAncestorFound == false)
+		       		{
+		       		
+		       			String endDateFinal  = formatterFinal.format(date);
+
+		       			name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>",""))
+		       			.append(" (end effective ").append(endDateFinal).append(") ").append(EBConstants.TOC_END_NAME_ELEMENT);
+	        	   
+		       			tocGuidDateMap.put(tocGuid.toString().replaceAll("\\<.*?>",""), endDate);
+		       		}
 	           }
 	           else
 	           {
 	        	   name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
 	           }
 
-	           counters[NODECOUNT]++;
-	           
-	           tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT).append(node.getGuid().replaceAll("\\<.*?>","")).append(counters[NODECOUNT]).append(EBConstants.TOC_END_GUID_ELEMENT);
 	           
 	             if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
 	             {
@@ -245,7 +290,7 @@ public class NortServiceImpl implements NortService {
 	                  _nortManager.fillNortNodes(nortNodes, i, length);
 	               }
 	               
-	               printNodes(nortNodes, _nortManager, out, counters, iParent, YYYYMMDDHHmmss);
+	               printNodes(nortNodes, _nortManager, out, counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap);
 	            }
 	     
 	           }

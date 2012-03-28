@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,10 +49,12 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 class TitleManifestFilter extends XMLFilterImpl {
 
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
+	private static final String MISSING_DOCUMENT = "MissingDocument";
 	private FileUtilsFacade fileUtilsFacade;
 	private File documentsDirectory;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
+	private PlaceholderDocumentService placeholderDocumentService;
 	private Map<String, String> familyGuidMap;
 	private Set<String> uniqueDocumentIds = new HashSet<String>();
 	private Set<String> uniqueFamilyGuids = new HashSet<String>();
@@ -107,7 +111,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ID_ATTRIBUTE = "id";
 	private static final String TOC_ELEMENT = "toc";
 	
-	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade) {
+	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService) {
 		if (titleMetadata == null) {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
 		}
@@ -123,12 +127,17 @@ class TitleManifestFilter extends XMLFilterImpl {
 		if (fileUtilsFacade == null) {
 			throw new IllegalArgumentException("fileUtilsFacade must not be null.");
 		}
+		if (placeholderDocumentService == null) {
+			throw new IllegalArgumentException("placeholderDocumentService must not be null.");
+		}
+		
 		validateTitleMetadata(titleMetadata);
 		this.titleMetadata = titleMetadata;
 		this.familyGuidMap = familyGuidMap;
 		this.uuidGenerator = uuidGenerator;
 		this.documentsDirectory = documentsDirectory;
 		this.fileUtilsFacade = fileUtilsFacade;
+		this.placeholderDocumentService = placeholderDocumentService;
 	}
 
 	/**
@@ -171,7 +180,25 @@ class TitleManifestFilter extends XMLFilterImpl {
 		else if (NAME.equals(qName)) {
 			bufferingText = Boolean.TRUE;
 		}
+        else if (MISSING_DOCUMENT.equals(qName)) {
+                //this node is missing text, generate a new doc guid and xhtml5 content for the heading.
+                String missingDocumentGuid = uuidGenerator.generateUuid();
+                String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
+                File missingDocument = new File(documentsDirectory, missingDocumentFilename);
+                try {
+                      FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
+                       placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, textBuffer.toString());
+                      orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
+                }
+                catch (FileNotFoundException e) {
+                      throw new SAXException("A FileNotFoundException occurred when attempting to create an output stream to file: " + missingDocument.getAbsolutePath(), e);
+                }
+                catch (PlaceholderDocumentServiceException e) {
+                      throw new SAXException("An unexpected error occurred while generating a placeholder document for Toc Node: [" + tocGuid.toString() + "] while producing the title manifest.", e);
+                }
+         }
 	}
+
 
 	/**
 	 * Adds a toc entry to the anchorCascadeBuffer.

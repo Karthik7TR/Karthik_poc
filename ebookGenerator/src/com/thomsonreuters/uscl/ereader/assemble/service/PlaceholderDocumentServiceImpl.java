@@ -53,8 +53,10 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 		
 		Serializer serializer = SerializerFactory.getSerializer(props);
 		serializer.setOutputStream(documentStream);
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		
 		try {
-			placeholderDocumentFilter.setParent(SAXParserFactory.newInstance().newSAXParser().getXMLReader());
+			placeholderDocumentFilter.setParent(saxParserFactory.newSAXParser().getXMLReader());
 			placeholderDocumentFilter.setContentHandler(serializer.asContentHandler());
 			placeholderDocumentFilter.parse(new InputSource(getPlaceholderDocumentTemplate().getInputStream()));
 		}
