@@ -72,13 +72,17 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 
 	@Override
 	public EbookAudit findLastJobStatsAuditByEbookDef(Long EbookDefId) {
+		
+		EbookAudit lastAudit = null;
+		
 		List<EbookAudit> ebookAudits = findJobStatsAuditByEbookDef(EbookDefId);
 
-		EbookAudit lastAudit = ebookAudits.get(0);
-
-		for (EbookAudit ebookAudit : ebookAudits) {
-			if (ebookAudit.getAuditId()>=lastAudit.getAuditId()) {
-				lastAudit = ebookAudit;
+		if (ebookAudits!=null && ebookAudits.size()>0){
+			lastAudit=ebookAudits.get(0);
+			for (EbookAudit ebookAudit : ebookAudits) {
+				if (ebookAudit.getAuditId()>=lastAudit.getAuditId()) {
+					lastAudit = ebookAudit;
+				}
 			}
 		}
 
