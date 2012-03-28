@@ -36,9 +36,13 @@
   
   function submitGenerate(cmd){
 	
-	var confirmed = confirmValues();
-	if (confirmed){
-		confirmed = submitForm(cmd);
+	var confirmed = checkCompleteFlag();
+	
+	if (confirmed){  
+		confirmed=confirmValues();
+		if (confirmed){
+			confirmed = submitForm(cmd);
+		}
 		
 	}
 	
@@ -46,12 +50,24 @@
 	
   }
   
+  function checkCompleteFlag(){
+	  var  completeFlag = document.getElementById("isComplete").innerHTML;
+	  if (completeFlag=="false"){
+		  alert("Cannot submit generate: Book definition is not complete.");
+		  return false;
+	   }
+	  else{
+		  return true;
+	  }
+	  
+  }
+  
   function checkPublishingCutoffDate(){
 	  
 	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
 			
 		if (publishingCutOffDate==""){
-			alert("Publishing cut off date is required to publish this book. Please edit book definition to enter publishing cut off date.");
+			alert("Cannot submit generate: Publishing cut off date is required for this book.");
 			document.getElementById("generateButton").disabled = true;
 			return false;
 		}
@@ -151,6 +167,7 @@
 		  	<text id="isbn">${isbn}</text>
 		  	<text id="materialId">${materialId}</text>
 		  	<text id="usePublishingCutOffDate">${usePublishingCutOffDate}</text>
+		  	<text id="isComplete">${isComplete}</text>
 		  </div>	
 		</table>
 		<br/>

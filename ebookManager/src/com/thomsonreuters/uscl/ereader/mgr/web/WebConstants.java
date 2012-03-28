@@ -61,6 +61,7 @@ public class WebConstants {
 	public static final String KEY_ISBN="isbn";
 	public static final String KEY_MATERIAL_ID="materialId";
 	public static final String KEY_PUBLISHING_STATS="publishingStats";
+	public static final String KEY_IS_COMPLETE="isComplete";
 	
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";

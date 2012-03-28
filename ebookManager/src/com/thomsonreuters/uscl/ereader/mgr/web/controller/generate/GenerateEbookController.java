@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -35,6 +36,8 @@ public class GenerateEbookController {
 	private ProviewClient proviewClient;
 	private JobRequestService jobRequestService;
 
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+			WebConstants.DATE_FORMAT_PATTERN);
 	String newMajorVersion;
 	String newMinorVersion;
 	String currentVersion;
@@ -105,6 +108,12 @@ public class GenerateEbookController {
 
 		if (book != null) {
 
+			String cutOffDate = null;
+
+			if (book.getPublishCutoffDate() != null) {
+				cutOffDate = formatter.format(book.getPublishCutoffDate()
+						.getTime());
+			}
 			ProviewTitleInfo proviewTitleInfo = proviewClient
 					.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
 
@@ -114,9 +123,10 @@ public class GenerateEbookController {
 					book.getMaterialId());
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
-					book.getPublishCutoffDate());
+					cutOffDate);
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
+			model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.IsEbookDefinitionCompleteFlag());
 
 			if (proviewTitleInfo == null) {
 				currentVersion = "Not published";
