@@ -16,14 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
 public class GenerateEbookController {
@@ -35,6 +38,7 @@ public class GenerateEbookController {
 	private MessageSourceAccessor messageSourceAccessor;
 	private ProviewClient proviewClient;
 	private JobRequestService jobRequestService;
+	private PublishingStatsService publishingStatsService;
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			WebConstants.DATE_FORMAT_PATTERN);
@@ -93,6 +97,60 @@ public class GenerateEbookController {
 	/**
 	 * 
 	 * @param titleId
+	 * @param model
+	 * @throws Exception
+	 */
+	private void setModelVersion(String titleId, Model model) throws Exception {
+
+		ProviewTitleInfo proviewTitleInfo = proviewClient
+				.getLatestProviewTitleInfo(titleId);
+
+		if (proviewTitleInfo == null) {
+			currentVersion = "Not published";
+
+		} else {
+			currentVersion = proviewTitleInfo.getVesrion();
+
+		}
+		calculateVersionNumbers(model);
+	}
+
+	/**
+	 * 
+	 * @param bookDefinitionId
+	 * @param model
+	 */
+	private void setModelMaterialIdandIsbn(Long bookDefinitionId,
+			BookDefinition book, Model model) {
+
+		EbookAudit ebookAudit = publishingStatsService
+				.findLastJobStatsAuditByEbookDef(bookDefinitionId);
+
+		boolean isNewIsbn = true;
+		boolean isNewMaterialId = true;
+
+		if (ebookAudit != null) {
+
+			if (book.getMaterialId() != null) {
+				isNewMaterialId = book.getMaterialId().equalsIgnoreCase(
+						ebookAudit.getMaterialId());
+
+			}
+
+			if (book.getIsbn() != null) {
+				isNewIsbn = book.getIsbn().equalsIgnoreCase(
+						ebookAudit.getIsbn());
+
+			}
+		}
+		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isNewIsbn?"Y":"N");
+		model.addAttribute(WebConstants.KEY_IS_NEW_MTERIAL_ID, isNewMaterialId?"Y":"N");
+
+	}
+
+	/**
+	 * 
+	 * @param titleId
 	 * @param form
 	 * @param model
 	 * @return
@@ -114,8 +172,6 @@ public class GenerateEbookController {
 				cutOffDate = formatter.format(book.getPublishCutoffDate()
 						.getTime());
 			}
-			ProviewTitleInfo proviewTitleInfo = proviewClient
-					.getLatestProviewTitleInfo(book.getFullyQualifiedTitleId());
 
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
@@ -126,16 +182,11 @@ public class GenerateEbookController {
 					cutOffDate);
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
-			model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.IsEbookDefinitionCompleteFlag());
+			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
+					book.IsEbookDefinitionCompleteFlag());
 
-			if (proviewTitleInfo == null) {
-				currentVersion = "Not published";
-
-			} else {
-				currentVersion = proviewTitleInfo.getVesrion();
-
-			}
-			calculateVersionNumbers(model);
+			setModelVersion(book.getFullyQualifiedTitleId(), model);
+			setModelMaterialIdandIsbn(id, book, model);
 
 		}
 
@@ -278,4 +329,15 @@ public class GenerateEbookController {
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
 	}
+
+	@Required
+	public PublishingStatsService getPublishingStatsService() {
+		return publishingStatsService;
+	}
+
+	public void setPublishingStatsService(
+			PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
+	}
+
 }

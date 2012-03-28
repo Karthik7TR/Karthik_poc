@@ -15,12 +15,18 @@
 <html>
 <head>
 
-<body onload='changeVersion("${newMinorVersionNumber}")'>
+<body onload='changeMinorVersion("${newMinorVersionNumber}")'>
 
   <script type="text/javascript">
   	
-  function changeVersion(newVersion){
+  function changeMajorVersion(newVersion){
 	  document.getElementById('newVersionNumber').innerHTML = newVersion;
+	  document.getElementById('isMajorVersion').innerHTML = "Y";
+  }
+  
+  function changeMinorVersion(newVersion){
+	  document.getElementById('newVersionNumber').innerHTML = newVersion;
+	  document.getElementById('isMajorVersion').innerHTML = "N";
   }
   
   function submitForm(cmd){
@@ -76,7 +82,36 @@
 		}
   }
   
+  
+  function checkMaterialIdandIsbn(){
+	  
+	  var  confirmed = true;
+	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
+	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
+	  var isNewMaterialId = document.getElementById('isNewMaterialId').innerHTML;
+	  var isbn = document.getElementById('isbn').innerHTML
+	  var materialId = document.getElementById('materialId').innerHTML
+	   
+	  
+	  if (isMajorVersion == "Y"){
+		  if(isNewISBN =="N"){
+			  alert("Cannot submit generate: ISBN must be changed for major version.");
+			  confirmed= false;
+		  }
+		  
+		  if(isNewMaterialId=="N"){
+			  alert("Cannot submit generate: Material ID must be changed for major version.");
+			  confirmed= false;
+		  }
+	  }
+	  if (confirmed){
+		  confirmed = confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
+  	  }
+	  return confirmed;
+  }
+  
   function confirmValues(){
+	  
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML
 	  var confirmed = confirm("Generate with new version number: "+ newVersion);
 	  
@@ -91,9 +126,7 @@
 			}
 		
 			if (confirmed){
-				var isbn =document.getElementById("isbn").innerHTML;
-				var  materialId=document.getElementById("materialId").innerHTML;
-				confirmed=confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
+				confirmed = checkMaterialIdandIsbn();
 			}
 	  }
 	  
@@ -148,8 +181,8 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMinorVersionNumber}")' value="false"/>Minor
-			  <form:radiobutton path="majorVersion" onclick='changeVersion("${newMajorVersionNumber}")' value="true"/>Major
+			  <form:radiobutton path="majorVersion" onclick='changeMinorVersion("${newMinorVersionNumber}")' value="false"/>Minor
+			  <form:radiobutton path="majorVersion" onclick='changeMajorVersion("${newMajorVersionNumber}")' value="true"/>Major
 			 </td>
 		  </tr>
 		  
@@ -164,10 +197,14 @@
 		  </tr>
 		  <div style="visibility: hidden"> 
 		  	<text id="publishingCutOffDate">${publishingCutOffDate}</text>
-		  	<text id="isbn">${isbn}</text>
-		  	<text id="materialId">${materialId}</text>
+		  	<text id="isNewISBN">${isNewISBN}</text>
+		  	<text id="isNewMaterialId">${isNewMaterialId}</text>
 		  	<text id="usePublishingCutOffDate">${usePublishingCutOffDate}</text>
 		  	<text id="isComplete">${isComplete}</text>
+		 	<text id="isbn">${isbn}</text>
+		  	<text id="materialId">${materialId}</text>
+		  	<text id="isMajorVersion">${isMajorVersion}</text>
+		 
 		  </div>	
 		</table>
 		<br/>
