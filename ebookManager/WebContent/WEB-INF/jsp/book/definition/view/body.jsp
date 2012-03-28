@@ -104,7 +104,7 @@ function submitForm(cmd)
 			<input type="submit" ${buttonVisibility} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		</c:if>
 		<input type="submit" ${buttonVisibility} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
-		<input type="submit" value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
+		<input type="submit" value="Generate" ${buttonVisibility} onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 		<input type="submit" ${buttonVisibility} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 		<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
 		<input type="submit" value="Job History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_JOB_HISTORY%>')"/>
