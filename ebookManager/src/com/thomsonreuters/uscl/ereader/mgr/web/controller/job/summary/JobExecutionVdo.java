@@ -23,7 +23,7 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
-import com.thomsonreuters.uscl.ereader.security.Security;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 /**
@@ -99,7 +99,7 @@ public class JobExecutionVdo {
 	public boolean isUserAllowedToStopAndRestartJob() {
 		PublishingStats stats = getPublishingStats();
 		String submittedBy = (stats != null) ? stats.getJobSubmitterName() : null;
-		return Security.isUserAuthorizedToStopOrRestartBatchJob(submittedBy);
+		return UserUtils.isUserAuthorizedToStopOrRestartBatchJob(submittedBy);
 	}
 	
 	public String getDuration() {

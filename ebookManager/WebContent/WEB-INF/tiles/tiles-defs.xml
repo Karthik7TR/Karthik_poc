@@ -104,5 +104,10 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/metrics/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/metrics/body.jsp"/>
 	</definition>
+	<definition name="_login" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/security/login/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/security/login/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/security/login/login.jsp"/>
+	</definition>
  
 </tiles-definitions>

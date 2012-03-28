@@ -14,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControlle
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.SecurityControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.LoginControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
@@ -32,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			JobSummaryControllerTest.class,
 			JobSummaryFilterControllerTest.class,
 			QueueControllerTest.class,
-			SecurityControllerTest.class,
+			LoginControllerTest.class,
 			ViewBookDefinitionControllerTest.class
 		} )
 

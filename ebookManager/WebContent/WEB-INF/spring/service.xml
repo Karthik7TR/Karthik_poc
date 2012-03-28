@@ -59,4 +59,6 @@
   		  p:generatorContextUrl="${generator.context.url}"
   		  p:restTemplate-ref="managerRestTemplate"/>
   		  
+
+  		  
 </beans>

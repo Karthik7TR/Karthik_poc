@@ -78,8 +78,6 @@ public class WebConstants {
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
 	
 	// Page paths
-	public static final String MVC_ACCESS_DENIED = "accessDenied.mvc";
-	public static final String MVC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
@@ -118,8 +116,14 @@ public class WebConstants {
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
 
+	// Security related URI's
+	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
+	public static final String MVC_SEC_AFTER_AUTHENTICATION = "afterAuthentication.mvc";
+	public static final String MVC_SEC_AFTER_LOGOUT = "afterLogout.mvc";
+	public static final String MVC_SEC_LOGIN = "login.mvc";
+	public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
+
 	// Logical view names
-	public static final String VIEW_ACCESS_DENIED = "accessDenied";
 	public static final String VIEW_APP_EXCEPTION = "appException";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
@@ -140,6 +144,9 @@ public class WebConstants {
 	public static final String VIEW_JOB_SUMMARY = "_jobSummary";
 	public static final String VIEW_BOOK_JOB_HISTORY = "_eBookJobHistory";
 	public static final String VIEW_BOOK_JOB_METRICS = "_eBookJobMetrics";
+	public static final String VIEW_SEC_ACCESS_DENIED = "accessDenied";
+	public static final String VIEW_SEC_LOGIN = "_login";
+	public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

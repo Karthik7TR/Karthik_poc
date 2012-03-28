@@ -6,8 +6,6 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import org.apache.log4j.Logger;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.codes.security.authentication.LdapUserInfo;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.security.Security;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * URL based Spring Batch job control operations for RESTART and STOP.
@@ -31,8 +25,6 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
-	private JobExplorer jobExplorer;
-	private PublishingStatsService publishingStatsService;
 
 	/**
 	 * Handle REST request to restart an currently stopped or failed job.
@@ -44,16 +36,13 @@ public class OperationsController {
 	public ModelAndView restartJob(@PathVariable Long jobExecutionId, Model model) throws Exception {
 		Long jobExecutionIdToRestart = jobExecutionId;
 		log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
-		log.debug("Authenticated user: " + LdapUserInfo.getAuthenticatedUser());
-		JobOperationResponse opResponse = performUserSecurityCheck(jobExecutionIdToRestart);
-		if (opResponse == null) {
-			try {
-				Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
-				opResponse = new JobOperationResponse(restartedJobExecutionId);
-			} catch (Exception e) {
-				log.debug("Job RESTART exception: " + e);
-				opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
-			}
+		JobOperationResponse opResponse = null;
+		try {
+			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
+			opResponse = new JobOperationResponse(restartedJobExecutionId);
+		} catch (Exception e) {
+			log.debug("Job RESTART exception: " + e);
+			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
@@ -69,17 +58,13 @@ public class OperationsController {
 	public ModelAndView stopJob(@PathVariable Long jobExecutionId, Model model) {
 		Long jobExecutionIdToStop = jobExecutionId;
 		log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
-		log.debug("Authenticated user: " + LdapUserInfo.getAuthenticatedUser());
-		
-		JobOperationResponse opResponse = performUserSecurityCheck(jobExecutionIdToStop);
-		if (opResponse == null) {
-			try {
-				engineService.stopJob(jobExecutionIdToStop);
-				opResponse = new JobOperationResponse(jobExecutionIdToStop);
-			} catch (Exception e) {
-				log.debug("Job STOP exception: " + e);
-				opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
-			}
+		JobOperationResponse opResponse = null;
+		try {
+			engineService.stopJob(jobExecutionIdToStop);
+			opResponse = new JobOperationResponse(jobExecutionIdToStop);
+		} catch (Exception e) {
+			log.debug("Job STOP exception: " + e);
+			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
@@ -91,43 +76,35 @@ public class OperationsController {
 	 * @param jobExecutionId job execution to be stopped or restarted.
 	 * @return
 	 */
-	private JobOperationResponse performUserSecurityCheck(Long jobExecutionId) {
-		JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
-		if (jobExecution == null) {
-			String mesg = "No job execution was found for ID: " + jobExecutionId;
-			log.debug(mesg);
-			return new JobOperationResponse(jobExecutionId, false, mesg);
-		}
-		String usernameThatStartedTheJob = null;
-		PublishingStats stats = publishingStatsService.findPublishingStatsByJobId(jobExecution.getJobId());
-		if (stats != null) {
-			usernameThatStartedTheJob = stats.getJobSubmitterName();
-		} else {
-			String mesg = "Unable to determine the user who started the job";
-			log.warn(mesg);
-		}
-		
-/* TODO: uncomment this if block once CAS REST security integration is worked out...
-		if (!Security.isUserAuthorizedToStopOrRestartBatchJob(usernameThatStartedTheJob)) {
-			return new JobOperationResponse(jobExecutionId, false, 
-			String.format("You must be either the user who started the job (%s), or a SUPERUSER in order to stop or restart a job",
-							usernameThatStartedTheJob));
-		}
-*/
-		
-		return null;
-	}
+//	private JobOperationResponse performUserSecurityCheck(Long jobExecutionId) {
+//		JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
+//		if (jobExecution == null) {
+//			String mesg = "No job execution was found for ID: " + jobExecutionId;
+//			log.debug(mesg);
+//			return new JobOperationResponse(jobExecutionId, false, mesg);
+//		}
+//		String usernameThatStartedTheJob = null;
+//		PublishingStats stats = publishingStatsService.findPublishingStatsByJobId(jobExecution.getJobId());
+//		if (stats != null) {
+//			usernameThatStartedTheJob = stats.getJobSubmitterName();
+//		} else {
+//			String mesg = "Unable to determine the user who started the job";
+//			log.warn(mesg);
+//		}
+//		
+///* TODO: uncomment this if block once CAS REST security integration is worked out...
+//		if (!Security.isUserAuthorizedToStopOrRestartBatchJob(usernameThatStartedTheJob)) {
+//			return new JobOperationResponse(jobExecutionId, false, 
+//			String.format("You must be either the user who started the job (%s), or a SUPERUSER in order to stop or restart a job",
+//							usernameThatStartedTheJob));
+//		}
+//*/
+//		
+//		return null;
+//	}
 
 	@Required
 	public void setEngineService(EngineService engineService) {
 		this.engineService = engineService;
-	}
-	@Required
-	public void setJobExplorer(JobExplorer explorer) {
-		this.jobExplorer = explorer;
-	}
-	@Required
-	public void setPublishingStatsService(PublishingStatsService service) {
-		this.publishingStatsService = service;
 	}
 }

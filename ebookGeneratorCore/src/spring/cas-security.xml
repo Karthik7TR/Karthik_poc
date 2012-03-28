@@ -8,32 +8,6 @@
 	   					   http://www.springframework.org/schema/security 
 	   					   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<!-- This represents what the CAS folks call the "CAS service" -
-		 the client web app using the SSO CAS server web app.-->
-	<bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties"
-		  p:service="${cas.client.web.url}/j_spring_cas_security_check"
-     	  p:sendRenew="false"/>
-  	 
-	<bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider"
-	      p:authenticationUserDetailsService-ref="userDetailsService"
-	      p:serviceProperties-ref="serviceProperties"
-	      p:key="uscl_cas">
-	    <property name="ticketValidator">
-	     	<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-	        	<constructor-arg  type="java.lang.String" value="${cas.server.web.url}"/>
-	        </bean>
-	    </property>
-  	</bean>
-  	
-	<bean id="casAuthenticationEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint"
-  		  p:loginUrl="${cas.server.web.url}/login"
-  		  p:serviceProperties-ref="serviceProperties"/>
-  	
-	<bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter"
-  		  p:authenticationManager-ref="authenticationManager"/>
-
-  	<security:authentication-manager alias="authenticationManager">
-    	<security:authentication-provider ref="casAuthenticationProvider"/>
-  	</security:authentication-manager>
+	<!-- OBSOLETE -->
 
 </beans>

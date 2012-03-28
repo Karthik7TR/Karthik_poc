@@ -7,8 +7,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.net.URL;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,21 +19,14 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController;
 
-public class SecurityControllerTest {
-	private static URL CAS_URL;
-    private SecurityController controller;
+public class LoginControllerTest {
+    private LoginController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    static {
-    	try {
-    		CAS_URL = new URL("https://someHost/ebookCas");
-    	} catch (Exception e) {
-    		Assert.fail(e.getMessage());
-    	}
-    }
+  
    
     @Before
     public void setUp() throws Exception {
@@ -43,14 +34,13 @@ public class SecurityControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
-    	controller = new SecurityController();
-    	controller.setCasUrl(CAS_URL);
+    	controller = new LoginController();
     }
     
     @Test
-    public void testAfterLogout() throws Exception {
+    public void testAfterAuthentication() throws Exception {
     	// Set up the request URL
-    	request.setRequestURI("/"+WebConstants.MVC_AFTER_LOGOUT);
+    	request.setRequestURI("/"+WebConstants.MVC_SEC_AFTER_AUTHENTICATION);
     	request.setMethod(HttpMethod.GET.name());
 
     	// Invoke the controller method via the URL
@@ -59,6 +49,6 @@ public class SecurityControllerTest {
     	assertNotNull(mav);
     	Assert.assertTrue(mav.getView() instanceof RedirectView);
     	RedirectView view = (RedirectView) mav.getView();
-    	Assert.assertEquals(CAS_URL+"/logout", view.getUrl());
+    	Assert.assertEquals(WebConstants.MVC_BOOK_LIBRARY_LIST, view.getUrl());
     }
 }

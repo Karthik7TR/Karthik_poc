@@ -7,38 +7,6 @@
 	   					   http://www.springframework.org/schema/util
 	   					   http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<!-- The mapping of physical groups to logical roles/authorities used for role-base access control.
-		 The key here is a Java regular expression pattern that matches against the physical group name
-		 that comes from the user entry on the directory server.
-		 The value is the logical role/authority name that we code to in the web application.
-	-->
-	<util:map id="groupToRoleMap" map-class="java.util.HashMap">
-	  	<entry key="todo_guest.*" 	value="ROLE_GUEST"/>
-	  	<entry key="todo_pub.*" 	value="ROLE_PUBLISHER"/>
-	  	<entry key="todo_pub.*" 	value="ROLE_PUBLISHER_PLUS"/>
-	  	<entry key="todo_super.*" 	value="ROLE_SUPERUSER"/>
-	  	<entry key="todo_support.*" value="ROLE_SUPPORT"/>
-	  	
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- DEVELOPMENT AND TESTING ONLY ENTRIES!!! -> REMOVE PRIOR TO ENTRY INTO PRODUCTION !!!!-->
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<entry key="P-West-LEGO_Guest_DEV" 			value="ROLE_GUEST"/>		<!-- g035050 -->
-	<entry key="P-West-LEGO_PrintPublisher_DEV" value="ROLE_PUBLISHER"/>	<!-- g035049 -->
-	<entry key="P-West-LEGO_GeneralUser_DEV" 	value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
-	<entry key="P-West-LEGO_Manager_DEV" 		value="ROLE_SUPERUSER"/>	<!-- g035044 -->
-	<entry key="P-West-LEGO_IndexUser_DEV" 		value="ROLE_SUPPORT"/>		<!-- g035043 -->
-	<entry key="P-West-LEGO_GeneralUser_DEV"	value="ROLE_SUPERUSER"/>
-<!-- ^^^ TESTING ONLY ^^^^ -->
-
-    </util:map>
-    
-  	<bean id="userAttributesMapper" class="com.thomsonreuters.codes.security.userdetails.ldap.CodesUserAttributesMapper">
-      	<constructor-arg ref="groupToRoleMap"/>
-  	</bean>
-
-  	<bean id="userDetailsService" class="com.thomsonreuters.codes.security.userdetails.ldap.CodesLdapUserDetailsService">
-	  	<constructor-arg ref="ldapTemplate"/>
-	  	<constructor-arg ref="userAttributesMapper"/>
-  	</bean>
+	<!-- OBSOLETE -->
   	 
 </beans>
