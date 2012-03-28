@@ -84,8 +84,8 @@ public class LoginController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN_FAIL) 
 	public ModelAndView handleAuthenticationFailure(Model model) {
-		log.debug("FAILED AUTHENTICATION!");
-		InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, "Login Failed, please try again.");
+		log.debug("AUTHENTICATION FAILED!");
+		InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, "Authentication Failed");
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>(1);
 		infoMessages.add(mesg);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
