@@ -386,11 +386,11 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 */
 	protected TocNode determineParent() throws SAXException {
 		if (currentDepth > previousDepth) { //the node we are adding is a child, so add it to the current node.
-			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode);
+//			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode);
 			return previousNode;
 		}
 		else if ( currentDepth == previousDepth ) {
-			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode.getParent());
+//			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode.getParent());
 			return previousNode.getParent();
 		}
 		else if (currentDepth < previousDepth) {
@@ -411,7 +411,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 */
 	protected TocNode searchForParentInAncestryOfNode(TocNode node, int desiredDepth) throws SAXException {
 		if (node.getDepth() == desiredDepth) {
-			LOG.debug("Found parent in the ancestry: " + node);
+//			LOG.debug("Found parent in the ancestry: " + node);
 			return node;
 		}
 		else if (node.getDepth() < desiredDepth) {
