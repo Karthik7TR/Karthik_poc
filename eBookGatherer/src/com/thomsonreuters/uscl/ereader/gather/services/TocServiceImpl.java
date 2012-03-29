@@ -96,11 +96,12 @@ public class TocServiceImpl implements TocService {
 
 	}
 
-	   public void printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
+	   public boolean printNodes(TOCNode[] nodes, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException
 	   {
-	       if (nodes != null)
+    	   boolean docFound = true;
+    	   
+    	   if (nodes != null)
 	       {
-	    	   boolean docFound = true;
 			try {
 				for (TOCNode node : nodes) {
 					docFound = printNode(node, _tocManager, out, counter, docCounter, iParent);
@@ -130,6 +131,7 @@ public class TocServiceImpl implements TocService {
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;			}
 	       }
+	       return docFound;
 	   }
 	   
 	   public boolean printNode(TOCNode node, TOC _tocManager, Writer out, int[] counter, int[] docCounter, int[] iParent) throws GatherException, NovusException
