@@ -212,7 +212,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		titleManifestFilter.parse(new InputSource(immigrationProceduresHandbook));
 		System.out.println(resultStreamToString(resultStream));
 		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
-		IOUtils.copy(new ByteArrayInputStream(resultStream.toByteArray()), new FileOutputStream(new File("C:\\Users\\u0081674\\TitleManifestFilterTestOutput.xml")));
+//		IOUtils.copy(new ByteArrayInputStream(resultStream.toByteArray()), new FileOutputStream(new File("C:\\Users\\u0081674\\TitleManifestFilterTestOutput.xml")));
 		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("IMPH_L1_EXTENSIONS_EXPECTED_MANIFEST.xml"));
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
