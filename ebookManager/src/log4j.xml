@@ -17,7 +17,7 @@
 		</layout>
 	</appender>
 
-	<logger name="com.thomsonreuters.uscl.ereader">
+	<logger name="com.thomsonreuters.uscl.ereader" additivity="false">
 		<level value="debug"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="rollingFileAppender"/>
