@@ -152,12 +152,13 @@
 	</div>
 	<div id="jobStepsDiv" class="job-details-expand-div">
 		<display:table id="step" name="job.steps" class="displayTagTable" cellpadding="3">
-			<%	// Calculate how long it took to execute the step (milliseconds)
-				StepExecution stepExecutionObj = (StepExecution)pageContext.getAttribute("step");
+			<%	// Calculate how long (duration) it took to execute the step (milliseconds)
+				StepExecution stepExecution = (StepExecution)pageContext.getAttribute("step");
 				long executionDurationMs = -1; 
-				if (stepExecutionObj != null) {
+				if (stepExecution != null) {
+					Date endTime = (stepExecution.getEndTime() != null) ? stepExecution.getEndTime() : new Date();
 					executionDurationMs = JobSummary.getExecutionDuration(
-						stepExecutionObj.getStartTime(), stepExecutionObj.getEndTime());
+														stepExecution.getStartTime(), endTime);
 				}
 			%>
 	  		<display:setProperty name="basic.msg.empty_list">No job steps were found.</display:setProperty>

@@ -46,8 +46,9 @@
 			StepExecution stepExecution = (StepExecution)pageContext.getAttribute("step");
 			long executionDurationMs = -1; 
 			if (stepExecution != null) {
+				Date endTime = (stepExecution.getEndTime() != null) ? stepExecution.getEndTime() : new Date();
 				executionDurationMs = JobSummary.getExecutionDuration(
-					stepExecution.getStartTime(), stepExecution.getEndTime());
+													stepExecution.getStartTime(), endTime);
 			}
 		%>
   		<display:setProperty name="basic.msg.empty_list">No job steps were found.</display:setProperty>
