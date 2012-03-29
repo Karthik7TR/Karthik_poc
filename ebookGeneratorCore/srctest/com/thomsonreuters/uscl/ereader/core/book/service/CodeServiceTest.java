@@ -23,33 +23,33 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 public class CodeServiceTest  {
-	private static final StateCode STATE_CODE = new StateCode();
-	private static final List<StateCode> ALL_STATE_CODES = new ArrayList<StateCode>();
-	private static final Long STATE_CODES_ID = new Long("1");
+	private final StateCode STATE_CODE = new StateCode();
+	private final List<StateCode> ALL_STATE_CODES = new ArrayList<StateCode>();
+	private final Long STATE_CODES_ID = new Long("1");
 	
-	private static final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
-	private static final Long JURIS_TYPE_CODES_ID = new Long("2");
-	private static final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<JurisTypeCode>();
+	private final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
+	private final Long JURIS_TYPE_CODES_ID = new Long("2");
+	private final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<JurisTypeCode>();
 	
-	private static final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
-	private static final Long PUB_TYPE_CODES_ID = new Long("3");
-	private static final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<PubTypeCode>();
+	private final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
+	private final Long PUB_TYPE_CODES_ID = new Long("3");
+	private final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<PubTypeCode>();
 	
-	private static final DocumentTypeCode DOCUMENT_TYPE_CODE = new DocumentTypeCode();
-	private static final Long DOCUMENT_TYPE_CODES_ID = new Long("4");
-	private static final List<DocumentTypeCode> ALL_DOCUMENT_TYPE_CODES = new ArrayList<DocumentTypeCode>();
+	private final DocumentTypeCode DOCUMENT_TYPE_CODE = new DocumentTypeCode();
+	private final Long DOCUMENT_TYPE_CODES_ID = new Long("4");
+	private final List<DocumentTypeCode> ALL_DOCUMENT_TYPE_CODES = new ArrayList<DocumentTypeCode>();
 	
-	private static final PublisherCode PUBLISHER_CODE = new PublisherCode();
-	private static final Long PUBLISHER_CODES_ID = new Long("5");
-	private static final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
+	private final PublisherCode PUBLISHER_CODE = new PublisherCode();
+	private final Long PUBLISHER_CODES_ID = new Long("5");
+	private final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<PublisherCode>();
 	
-	private static final KeywordTypeCode KEYWORD_TYPE_CODE = new KeywordTypeCode();
-	private static final Long KEYWORD_TYPE_CODES_ID = new Long("6");
-	private static final List<KeywordTypeCode> ALL_KEYWORD_TYPE_CODES = new ArrayList<KeywordTypeCode>();
+	private final KeywordTypeCode KEYWORD_TYPE_CODE = new KeywordTypeCode();
+	private final Long KEYWORD_TYPE_CODES_ID = new Long("6");
+	private final List<KeywordTypeCode> ALL_KEYWORD_TYPE_CODES = new ArrayList<KeywordTypeCode>();
 	
-	private static final KeywordTypeValue KEYWORD_TYPE_VALUE = new KeywordTypeValue();
-	private static final Long KEYWORD_TYPE_VALUES_ID = new Long("7");
-	private static final List<KeywordTypeValue> ALL_KEYWORD_TYPE_VALUES = new ArrayList<KeywordTypeValue>();
+	private final KeywordTypeValue KEYWORD_TYPE_VALUE = new KeywordTypeValue();
+	private final Long KEYWORD_TYPE_VALUES_ID = new Long("7");
+	private final List<KeywordTypeValue> ALL_KEYWORD_TYPE_VALUES = new ArrayList<KeywordTypeValue>();
 	
 	private CodeServiceImpl service;
 	private CodeDao mockCodeDao;
