@@ -7,20 +7,26 @@
 			<param name="ConversionPattern" value="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 		</layout>
 	</appender>
-
-	<logger name="com.thomsonreuters.uscl.ereader" additivity="false">
-		<level value="debug"/>
-		<appender-ref ref="console"/>
-	</logger>
 	
-	<logger name="com.thomsonreuters.codes.security" additivity="false">
+	<appender name="rollingFileAppender" class="com.thomsonwest.codes.log4j.appender.CodesRollingFileAppender">
+		<param name="File" value="/apps/eBookBuilder/ebookManager-%server%.log"/>
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="2" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n"/>
+		</layout>
+	</appender>
+
+	<logger name="com.thomsonreuters.uscl.ereader">
 		<level value="debug"/>
 		<appender-ref ref="console"/>
+		<appender-ref ref="rollingFileAppender"/>
 	</logger>
 
 	<root>
 		<level value="warn"/>
 		<appender-ref ref="console" />
+		<appender-ref ref="rollingFileAppender"/>
 	</root>
 
 </log4j:configuration>
