@@ -33,11 +33,14 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 	
 	private DocumentMetadataAuthority documentMetadataAuthority;
 	
-	private static final Pattern NORMALIZED_CITE_URL_PATTERN = Pattern.compile(".*&amp;cite=([^&]+)");
+	private static final Pattern NORMALIZED_CITE_URL_PATTERN = Pattern.compile(".*FullText.*cite=([^&]+)");
+	
+	private static final Pattern NORMALIZED_CITE_UUID_URL_PATTERN = Pattern.compile(".*FullText.*cite=(UUID[^&]+)");
+	
 	private static final int RESULT_GROUP = 1;
 	
-	private static final Pattern SERIAL_NUMBER_PATTERN = Pattern.compile(".*&amp;serNum=([^&]+)");
-	private static final Pattern DOCUMENT_UUID_PATTERN = Pattern.compile(".*/([a-zA-Z]{1}[a-fA-F0-9]{10}[-]?[a-fA-F0-9]{11}[-]?[a-fA-F0-9]{11})/.*");
+	private static final Pattern SERIAL_NUMBER_PATTERN = Pattern.compile(".*FullText.*serNum=([^&]+)");
+	private static final Pattern DOCUMENT_UUID_PATTERN = Pattern.compile(".*FullText.*([a-zA-Z]{1}[a-fA-F0-9]{10}[-]?[a-fA-F0-9]{11}[-]?[a-fA-F0-9]{11}).*");
 	private static final Pattern NEXT_VIEW_DOCUMENT_URL_PATTERN = Pattern.compile(".*/document/([^/]+)/view.*");
 	private static final String UTF8_ENCODING = "utf-8";
 	private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
@@ -56,7 +59,13 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 		if (ANCHOR_ELEMENT.equals(qName) && StringUtils.isNotBlank(resourceUrl)) {
 			//we're in an anchor that has a resouce reference (href). 
 			//Determine if the anchor is internal or not and, if it is, resolve the URL.
-			if (isNormalizedCiteUrl(resourceUrl)) {
+			if (isNormalizedCiteUuidUrl(resourceUrl)) {
+				
+				String normalizedCite = getNormalizedCiteUuid(resourceUrl);
+				Attributes resolvedAttributes = resolveDocumentUuidReference(normalizedCite, attributes);
+				super.startElement(uri, localname, qName, resolvedAttributes);
+			}
+			else if (isNormalizedCiteUrl(resourceUrl)) {
 				String normalizedCite = getNormalizedCite(resourceUrl);
 				Attributes resolvedAttributes = resolveNormalizedCiteReference(normalizedCite, attributes);
 				super.startElement(uri, localname, qName, resolvedAttributes);
@@ -83,11 +92,15 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 
 	protected Attributes resolveDocumentUuidReference(String documentUuid, Attributes attributes) {
 		DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(documentUuid);
-		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
 		AttributesImpl resolvedAttributes = new AttributesImpl(attributes);
+		if (docMetadata == null){
+		    return resolvedAttributes;
+		}
+				 
+		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+		
 		int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
-		resolvedAttributes.removeAttribute(anchorReferenceIndex); //remove the old value
-		resolvedAttributes.setValue(anchorReferenceIndex, ebookResourceIdentifier); //add the new value
+		resolvedAttributes.setValue(anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
 		return resolvedAttributes;
 	}
 
@@ -98,17 +111,24 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 	}
 
 	protected boolean isDocumentUrl(String resourceUrl) {
-		return DOCUMENT_UUID_PATTERN.matcher(resourceUrl).matches();
+		return DOCUMENT_UUID_PATTERN.matcher(resourceUrl).find();
 	}
 
 	protected Attributes resolveSerialNumberReference(String serialNumber, Attributes attributes) {
 		Integer serNum = Integer.valueOf(serialNumber);
 		DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber().get(serNum);
-		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+		
 		AttributesImpl resolvedAttributes = new AttributesImpl(attributes);
+		if (docMetadata == null){
+		    return resolvedAttributes;
+		}
+		
+		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+				
 		int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
-		resolvedAttributes.removeAttribute(anchorReferenceIndex); //remove the old value
-		resolvedAttributes.setValue(anchorReferenceIndex, ebookResourceIdentifier); //add the new value
+		
+		resolvedAttributes.setValue(anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
+		
 		return resolvedAttributes;
 	}
 
@@ -119,7 +139,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 	}
 
 	protected boolean isSerialNumberUrl(String resourceUrl) {
-		return SERIAL_NUMBER_PATTERN.matcher(resourceUrl).matches();
+		return SERIAL_NUMBER_PATTERN.matcher(resourceUrl).find();
 	}
 
 	/**
@@ -140,9 +160,32 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 		catch (UnsupportedEncodingException e) {
 			throw new SAXException(UTF8_ENCODING + " encoding not supported when attempting to parse normalized cite from URL: " + resourceUrl, e);
 		}
+		normalizedCite = normalizedCite.replace('§', 's'); // need to check other special characters
 		return normalizedCite;
 	}
 
+	/**
+	 * Parses and attempts to identify a normalized cite uuid given a URL.
+	 *  
+	 * @param resourceUrl
+	 * @return
+	 * @throws SAXException if a data error o
+	 */
+	protected String getNormalizedCiteUuid(String resourceUrl) throws SAXException {
+		Matcher matcher = NORMALIZED_CITE_URL_PATTERN.matcher(resourceUrl);
+		matcher.find();
+		String normalizedCite = "";
+		
+		try {
+			String citeUuid = URLDecoder.decode(matcher.group(RESULT_GROUP), UTF8_ENCODING);
+			normalizedCite = citeUuid.split("\\(")[1].split("\\)")[0].trim();			
+		}
+		catch (UnsupportedEncodingException e) {
+			throw new SAXException(UTF8_ENCODING + " encoding not supported when attempting to parse normalized cite from URL: " + resourceUrl, e);
+		}
+		return normalizedCite;
+	}
+	
 	/**
 	 * Determines if the url matches a known normalized cite pattern.
 	 * 
@@ -150,7 +193,18 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 	 * @return true if the url is a normalized cite URL, false otherwise.
 	 */
 	protected boolean isNormalizedCiteUrl(String resourceUrl) {
-		return NORMALIZED_CITE_URL_PATTERN.matcher(resourceUrl).matches();
+		return NORMALIZED_CITE_URL_PATTERN.matcher(resourceUrl).find();
+	}
+	
+	/**
+	 * Determines if the url matches a known normalized cite uuid pattern.
+	 * 
+	 * @param resourceUrl the URL to compare to the pattern.
+	 * @return true if the url is a normalized cite Uuid URL, false otherwise.
+	 */
+	protected boolean isNormalizedCiteUuidUrl(String resourceUrl) {
+		return NORMALIZED_CITE_UUID_URL_PATTERN.matcher(resourceUrl).find();
+		
 	}
 
 	/**
@@ -161,12 +215,19 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 	 * @return the updated URL in ProView format.
 	 */
 	protected Attributes resolveNormalizedCiteReference(final String normalizedCite, Attributes attributes) {
+        		 
 		DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(normalizedCite);
-		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+		
 		AttributesImpl resolvedAttributes = new AttributesImpl(attributes);
+		if (docMetadata == null){
+		    return resolvedAttributes;
+		}				
+				
+		String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+						
 		int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
-		resolvedAttributes.removeAttribute(anchorReferenceIndex); //remove the old value
 		resolvedAttributes.setValue(anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
+		
 		return resolvedAttributes;
 	}
 }

@@ -73,9 +73,23 @@ public class InternalLinkResolverFilterTest {
 		String expectedNormalizedCite = "SECOPINIONs39:7";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
-		resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=119616&amp;cite=28PIRATECODEs14%3APARRRRRRT3&amp;originationContext=ebook";
+		resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000600&amp;cite=USFRCPR20&amp;originatingDoc=I86827039c15111ddb9c7909664ff7808&amp;refType=LQ&amp;originationContext=ebook";
 		normalizedCite = internalLinkResolverFilter.getNormalizedCite(resourceUrl);
-		expectedNormalizedCite = "28PIRATECODEs14:PARRRRRRT3";
+		System.out.println(normalizedCite);
+		expectedNormalizedCite = "USFRCPR20";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
+	}
+	
+	@Test
+	public void testGetNormalizedCiteDocumentUuidFromResourceUrl() throws Exception {
+		String resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=l&amp;pubNum=1077005&amp;cite=UUID%28ID4D58042D3-43461C8C9EE-73AA2A319F3%29&amp;originationContext=ebook";
+		String normalizedCite = internalLinkResolverFilter.getNormalizedCite(resourceUrl);
+		String expectedNormalizedCite = "UUID(ID4D58042D3-43461C8C9EE-73AA2A319F3)";
+		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));		
+		
+		String documentUuid = internalLinkResolverFilter.getNormalizedCiteUuid(resourceUrl);
+		expectedNormalizedCite= "ID4D58042D3-43461C8C9EE-73AA2A319F3";
+		Assert.assertTrue(expectedNormalizedCite.equals(documentUuid));
+		
 	}
 }
