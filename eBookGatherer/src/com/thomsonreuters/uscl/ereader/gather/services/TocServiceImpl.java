@@ -195,7 +195,7 @@ public class TocServiceImpl implements TocService {
 	           
 	           if (tocNodes != null)
 	           {          
-	               printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
+	        	   docFound = printNodes(tocNodes, _tocManager, out, counter, docCounter, iParent);
 	           }
 	       }
 	       return docFound;
