@@ -14,5 +14,26 @@ import java.io.OutputStream;
  *
  */
 public interface PlaceholderDocumentService {
+	/**
+	 * Writes a "placeholder" XHTML document containing the specified display text to the provided {@link OutputStream}.
+	 * 
+	 * <p>We do this to support rendering text in proview where there is no corresponding document text loaded to Novus.</p>
+	 * 
+	 * @param documentStream the {@link} to write the document to.
+	 * @param displayText the text to inject into the title and body of the document.
+	 * @throws PlaceholderDocumentServiceException if the data could not be written or the document template was misconfigured.
+	 */
 	public void generatePlaceholderDocument(OutputStream documentStream, String displayText) throws PlaceholderDocumentServiceException;
+	
+	/**
+	 * Writes a "placeholder" XHTML document containing the specified display text to the provided {@link OutputStream}.
+	 * 
+	 * <p>We do this to support rendering text in proview where there is no corresponding document text loaded to Novus.</p>
+	 * 
+	 * @param documentStream the {@link} to write the document to.
+	 * @param displayText the text to inject into the title and body of the document.
+	 * @param anchorName the anchor to embed as the first tag within the body of the XHTML document.
+	 * @throws PlaceholderDocumentServiceException if the data could not be written or the document template was misconfigured.
+	 */
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String anchorName) throws PlaceholderDocumentServiceException;
 }

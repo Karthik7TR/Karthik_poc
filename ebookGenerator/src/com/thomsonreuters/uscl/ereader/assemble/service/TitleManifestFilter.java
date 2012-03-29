@@ -28,34 +28,52 @@ import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
+import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 
 /**
- * A SAX event handler responsible for parsing a gathered TOC file and producing a ProView title manifest based on the TOC and {@link TitleMetadata} from the book definition.
+ * A SAX event handler responsible for parsing a gathered TOC (an XML document) and producing a ProView title manifest based on the TOC and {@link TitleMetadata} from the book definition.
  * 
- * <p>Responsible for:
+ * <p><strong>Implementation Comments:</strong> This approach has a number of merits, but also a number of recognized limitations.  All of the responsibility for making the input data (the TOC and associated book metadata) conform to ProView format is done in one place (DRY).
+ * It is also somewhat complex, requiring some level of familiarity with SAX filters and event-based document parsing.  The implementation is broken up into chunks with the bulk of the heavy lifting performed in the startElement, characters, and endElement methods.  The primary motivation to put a lot of the logic around conforming to ProView was to prevent these details leaking to the rest of the application and maintain encapsulation in the assembly and delivery steps.
+ * </p>
+ * 
+ * <p><strong>Current limitations:</strong> ProView requires us to provide unique IDs for each document/asset/etc in the book. This filter tracks document and family identifiers that it has encountered during the TOC parse in two {@link Set}s.  If a collision occurs when adding the next guid to one of the sets, a new guid is generated and added to the {@link Set}.
+ * A side-effect of this approach is that all notes and bookmarks associated to a family guid will "flow upwards" in the TOC.  If multiple documents within a table of contents share the same family guid, the first one is the only one that ships to ProView.  Notes and bookmarks taken against the second and further document(s) with duplicate family guids will become displaced when the book is published again (because we generated new identifiers to conform to the uniqueness requirement).</p>
+ * 
+ * <p><strong>General Responsibilities:</strong>
  * <ul>
  * <li>Identifying and resolving duplicate documents. Where dupes are found, a new GUID will be generated. The duplicate HTML file itself will be copied and assigned the new GUID.</li>
- * <li>Generating anchor references that correspond to the document the anchor(s) are contained in.</li>
- * <li>Replacing document guids with family guids.</li>
+ * <li>Generating anchor references that correspond to the document the anchor(s) are contained in. This process is termed "Cascading" or "Anchor Mapping" or "Cascading Anchors".</li>
+ * <li>Replacing document guids with family guids. It does so in order to facilitate transfer of notes and bookmarks between subsequent publishes of the a document that shares a consistent identifier even though its text may have changed (in the case of Statutes and other regularly-updated material).</li>
+ * <li>Invoking the PlaceholderDocumentService to create text in cases where there is no text for headings that follow the last document in the table of contents.</li>
  * </ul>
  * </p>
+ * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 class TitleManifestFilter extends XMLFilterImpl {
 
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
-	private static final String MISSING_DOCUMENT = "MissingDocument";
 	private FileUtilsFacade fileUtilsFacade;
+	private PlaceholderDocumentService placeholderDocumentService;
 	private File documentsDirectory;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
-	private PlaceholderDocumentService placeholderDocumentService;
+	
+	private TableOfContents tableOfContents = new TableOfContents();
+	private TocNode parent;
+	private TocNode currentNode;
+	private TocNode previousNode;
+	private int currentDepth = 0;
+	private int previousDepth = 0;
 	private Map<String, String> familyGuidMap;
+	private List<TocNode> nodesContainingDocuments = new ArrayList<TocNode>();
 	private Set<String> uniqueDocumentIds = new HashSet<String>();
 	private Set<String> uniqueFamilyGuids = new HashSet<String>();
 	private List<Doc> orderedDocuments = new ArrayList<Doc>();
@@ -81,6 +99,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String DOCUMENT_GUID = "DocumentGuid";
 	private static final String ENTRY = "entry";
 	private static final String TEXT = "text";
+	private static final String MISSING_DOCUMENT = "MissingDocument";
 	private static final String ANCHOR_REFERENCE = "s";
 	private static final String HTML_EXTENSION = ".html";
 	
@@ -127,10 +146,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 		if (fileUtilsFacade == null) {
 			throw new IllegalArgumentException("fileUtilsFacade must not be null.");
 		}
-		if (placeholderDocumentService == null) {
+		if (placeholderDocumentService == null){
 			throw new IllegalArgumentException("placeholderDocumentService must not be null.");
 		}
-		
 		validateTitleMetadata(titleMetadata);
 		this.titleMetadata = titleMetadata;
 		this.familyGuidMap = familyGuidMap;
@@ -138,6 +156,8 @@ class TitleManifestFilter extends XMLFilterImpl {
 		this.documentsDirectory = documentsDirectory;
 		this.fileUtilsFacade = fileUtilsFacade;
 		this.placeholderDocumentService = placeholderDocumentService;
+		this.parent = tableOfContents; //initialize the parent reference to the root node.
+		this.previousNode = tableOfContents;
 	}
 
 	/**
@@ -166,10 +186,18 @@ class TitleManifestFilter extends XMLFilterImpl {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (EBOOK.equals(qName)){
-			super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
+			parent = tableOfContents;
+			currentDepth = 0;
+			previousDepth = 0;
 		}
-		else if (EBOOK_TOC.equals(qName)) { //we've reached the next element, time to add the buffered fields to the TocEntry buffer.
-			bufferTocEntryEvent();
+		else if (EBOOK_TOC.equals(qName)) { //we've reached the next element, time to add a new node to the tree.
+			currentDepth++;
+			currentNode = new TocEntry(currentDepth);
+			TocNode parentNode = determineParent();
+			currentNode.setParent(parentNode);
+			parentNode.addChild(currentNode);
+			previousDepth = currentDepth;
+			previousNode = currentNode;
 		}
 		else if (TOC_GUID.equals(qName)){
 			bufferingTocGuid = Boolean.TRUE;
@@ -180,63 +208,37 @@ class TitleManifestFilter extends XMLFilterImpl {
 		else if (NAME.equals(qName)) {
 			bufferingText = Boolean.TRUE;
 		}
-        else if (MISSING_DOCUMENT.equals(qName)) {
-                //this node is missing text, generate a new doc guid and xhtml5 content for the heading.
-                String missingDocumentGuid = uuidGenerator.generateUuid();
-                String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
-                File missingDocument = new File(documentsDirectory, missingDocumentFilename);
-                try {
-                      FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
-                       placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, textBuffer.toString());
-                      orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
-                }
-                catch (FileNotFoundException e) {
-                      throw new SAXException("A FileNotFoundException occurred when attempting to create an output stream to file: " + missingDocument.getAbsolutePath(), e);
-                }
-                catch (PlaceholderDocumentServiceException e) {
-                      throw new SAXException("An unexpected error occurred while generating a placeholder document for Toc Node: [" + tocGuid.toString() + "] while producing the title manifest.", e);
-                }
-         }
-	}
-
-
-	/**
-	 * Adds a toc entry to the anchorCascadeBuffer.
-	 * 
-	 * <p>TocEntries added to the anchor cascade buffer will only contain TOC GUIDs as their anchor references at this point.  
-	 * They will later be updated with the corresponding doc guid when emitted to the content handler.</p>
-	 */
-	private void bufferTocEntryEvent(){
-		if (buffersAreFull) {
-			String anchorReference = tocGuid.toString();
-			TocEntry tocEntry = new TocEntry(anchorReference, textBuffer.toString());
-			anchorCascadeBuffer.add(tocEntry);
-			clearBuffers();
+		else if (MISSING_DOCUMENT.equals(qName)) {
+			//this node is missing text, generate a new doc guid and xhtml5 content for the heading.
+			String missingDocumentGuid = uuidGenerator.generateUuid();
+			String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
+			File missingDocument = new File(documentsDirectory, missingDocumentFilename);
+			try {
+				FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
+				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, textBuffer.toString());
+				currentNode.setDocumentUuid(missingDocumentGuid);
+				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
+				nodesContainingDocuments.add(currentNode);  //need to cascade anchors into placeholder document text.
+			}
+			catch (FileNotFoundException e) {
+				throw new SAXException("A FileNotFoundException occurred when attempting to create an output stream to file: " + missingDocument.getAbsolutePath(), e);
+			}
+			catch (PlaceholderDocumentServiceException e) {
+				throw new SAXException("An unexpected error occurred while generating a placeholder document for Toc Node: [" + tocGuid.toString() + "] while producing the title manifest.", e);
+			}
 		}
 	}
 
 	/**
-	 * Resets buffer state to allocate room for the next Toc Entry, if any.
-	 * <p><em>Does not reset the docGuid buffer because it may not have been emitted to the Content Handler yet.</em></p>
-	 */
-	private void clearBuffers() {
-		buffersAreFull = Boolean.FALSE;
-		tocGuid = new StringBuilder();
-		textBuffer = new StringBuilder();
-		
-	}
-
-	/**
-	 * Returns an anchor reference for a given toc entry.
+	 * Returns an anchor reference for a given toc node.
 	 * 
 	 * @param documentGuid the document uuid to include in the anchor reference.
 	 * @param tocEntry the toc entry containing a toc node guid.
 	 * @return Attributes the anchor reference in doc_guid/toc_guid format.
 	 */
-	protected Attributes getAttributes(String documentGuid, TocEntry tocEntry) {
+	protected Attributes getAttributes(TocNode tocNode) {
 		AttributesImpl attributes = new AttributesImpl();
-		String anchorReference = documentGuid + BACKSLASH + tocEntry.getAnchorReference();
-		attributes.addAttribute(URI, ANCHOR_REFERENCE, ANCHOR_REFERENCE, CDATA, anchorReference);
+		attributes.addAttribute(URI, ANCHOR_REFERENCE, ANCHOR_REFERENCE, CDATA,  tocNode.getAnchorReference());
 		return attributes;
 	}
 
@@ -258,30 +260,32 @@ class TitleManifestFilter extends XMLFilterImpl {
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		
 		if (TOC_GUID.equals(qName)) {
 			bufferingTocGuid = Boolean.FALSE;
 			uniqueTocGuids.add(tocGuid.toString());
-			buffersAreFull = Boolean.TRUE; //Set flag to trigger buffering this TocEntry on next pass.
+			currentNode.setTocNodeUuid(tocGuid.toString());
+			tocGuid = new StringBuilder();
 		}
 		else if (DOCUMENT_GUID.equals(qName)) {
 			bufferingDocGuid = Boolean.FALSE;
 			handleDuplicates();
-			bufferTocEntryEvent();
-			spewCascadedBufferedEntries(docGuid.toString());
+			currentNode.setDocumentUuid(docGuid.toString());
+			nodesContainingDocuments.add(currentNode);
 			docGuid = new StringBuilder(); //clear the doc guid buffer independently of the other buffers.
-			
 		}
 		else if (NAME.equals(qName)) {
 			bufferingText = Boolean.FALSE;
+			currentNode.setText(textBuffer.toString());
+			textBuffer = new StringBuilder();
 		}
 		else if (EBOOK_TOC.equals(qName)){
-			//bufferTocEntryEvent(); //we reached the end of an entry.  If this entry has no children, we need to spew the buffer.
-			super.endElement(URI, ENTRY, ENTRY);
+//			previousDepth = currentDepth;
+			currentDepth--;
 		}
-		else if (EBOOK.equals(qName)){
-			super.endElement(URI, TOC_ELEMENT, TOC_ELEMENT);
+		else if (MISSING_DOCUMENT.equals(qName)){
+			//The missing document end element event is eaten, because it isn't used.			
 		}
+		//other elements are also eaten (there shouldn't be any).
 	}
 
 	/**
@@ -299,6 +303,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 			uniqueDocumentIds.add(uniqueGuid);
 			copyHtmlDocument(documentGuid, uniqueGuid); //copy and rename the html file identified by the GUID listed in the gathered toc.
 			orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION));
+			currentNode.setDocumentUuid(uniqueGuid);
 		}
 		else {
 			//Replace docGuid with the corresponding family Guid.
@@ -314,6 +319,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 				else {
 					orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION));
 				}
+				currentNode.setDocumentUuid(familyGuid);
 				docGuid.append(familyGuid); //perform the replacement
 				uniqueFamilyGuids.add(familyGuid);
 			}
@@ -340,41 +346,130 @@ class TitleManifestFilter extends XMLFilterImpl {
 			throw new SAXException("Could not make copy of duplicate HTML document referenced in the TOC: " + sourceDocId, e);
 		}
 	}
-
+	
 	/**
-	 * Emits each buffered toc entry from the anchor cascade buffer to the configured Content Handler.
-	 * <p>This method, when used standalone, does <strong>NOT</strong> produce well-formed XML.</p>
+	 * Emits the table of contents to the configured {@link ContentHandler}.
 	 * 
-	 * @param documentGuid the documentGuid to embed into the anchor references.
-	 * @throws SAXException if the data could not be written.
+	 * @throws SAXException the data could not be written.
 	 */
-	private void spewCascadedBufferedEntries(String documentGuid) throws SAXException {
-		//TODO: If we determine that we need to cascade the TOC GUIDs into the xhtml files here, create a list of the
-		//TOC guids and append each entry to it, then inject them into each document via the existing SAX filter.
-		for (TocEntry tocEntry : anchorCascadeBuffer) {
-			super.startElement(URI, ENTRY, ENTRY, getAttributes(documentGuid, tocEntry));
-			super.startElement(URI, TEXT, TEXT, EMPTY_ATTRIBUTES);
-			String text = tocEntry.getText();
-			super.characters(text.toCharArray(), 0, text.length());
-			super.endElement(URI, TEXT, TEXT);
+	protected void writeTableOfContents() throws SAXException {
+		if (tableOfContents.getChildren().size() > 0){
+			super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
+			for (TocNode child : tableOfContents.getChildren()){
+				writeTocNode(child);
+			}
+			super.endElement(URI, TOC_ELEMENT, TOC_ELEMENT);
 		}
-		anchorCascadeBuffer.clear();
+	}
+	
+	/**
+	 * Writes an individual toc node.
+	 * @throws SAXException
+	 */
+	private void writeTocNode(TocNode node) throws SAXException {
+		super.startElement(URI, ENTRY, ENTRY, getAttributes(node));
+		super.startElement(URI, TEXT, TEXT, EMPTY_ATTRIBUTES);
+		String text = node.getText();
+		super.characters(text.toCharArray(), 0, text.length());
+		super.endElement(URI, TEXT, TEXT);
+		for (TocNode child : node.getChildren()) {
+			writeTocNode(child);
+		}
+		super.endElement(URI, ENTRY, ENTRY);
 	}
 
 	/**
-	 * Writes the documents block to the owning Content Handler and ends the title manifest.
+	 * Determines which parent to add a node to by comparing the depth of the last added node to the current depth.
+	 * 
+	 * @return the parent to which the current node should be added.
+	 * @throws SAXException if an error occurs.
+	 */
+	protected TocNode determineParent() throws SAXException {
+		if (currentDepth > previousDepth) { //the node we are adding is a child, so add it to the current node.
+			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode);
+			return previousNode;
+		}
+		else if ( currentDepth == previousDepth ) {
+			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode.getParent());
+			return previousNode.getParent();
+		}
+		else if (currentDepth < previousDepth) {
+			return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
+		}
+		else {
+			String message = "Could not determine parent when adding node: " + currentNode;
+			LOG.error(message);
+			throw new SAXException(message);
+		}
+	}
+	
+	/**
+	 * Travels up a node's ancestry until reaching the desired depth.
+	 * 
+	 * @param node the node whose ancestry to interrogate.
+	 * @param desiredDepth the depth to terminate the search. This could eventually be changed, if needed, to be a node ID if all nodes know who their immediate parent is (by identifier).
+	 */
+	protected TocNode searchForParentInAncestryOfNode(TocNode node, int desiredDepth) throws SAXException {
+		if (node.getDepth() == desiredDepth) {
+			LOG.debug("Found parent in the ancestry: " + node);
+			return node;
+		}
+		else if (node.getDepth() < desiredDepth) {
+			String message = "Failed to identify a parent for node: " + node + " because of possibly bad depth assignment.  This is very likely a programming error in the TitleManifestFilter.";
+			LOG.error(message);
+			throw new SAXException(message); //could not find the parent, so bail.  This may need to be an exception case because it means that the way we are assigning depth to nodes is probably not implemented correctly.
+		}
+		else {
+			return searchForParentInAncestryOfNode(node.getParent(), desiredDepth);
+		}
+	}
+
+	/**
+	 * Writes the documents block to the owning {@link ContentHandler} and ends the title manifest.
 	 * 
 	 * @throws SAXException if the data could not be written.
 	 */
 	@Override
 	public void endDocument() throws SAXException {
+		cascadeAnchors();
+		writeTableOfContents();
 		writeDocuments();
 		super.endElement(URI, TITLE_ELEMENT, TITLE_ELEMENT);
 		super.endDocument();
 	}
 
 	/**
-	 * Writes the ordered list of documents to the configured Content Handler.
+	 * Pushes document guids up through the ancestry into headings that didn't contain document references in order to satisfy ProView's TOC to text linking requirement.
+	 * 
+	 * @param toc the table of contents to operate on.
+	 */
+	protected void cascadeAnchors() {
+		for (TocNode document : nodesContainingDocuments) {
+			if (StringUtils.isBlank(document.getParent().getDocumentGuid())) {
+				cascadeAnchorUpwards(document.getParent(), document.getDocumentGuid());
+			}
+		}
+	}
+	
+	/**
+	 * Assigns a document uuid to this node and cascades recursively up the ancestry until a null node is found.
+	 * 
+	 * Exit conditions: stops cascading upwards if a document uuid exists in a parent or if a node does not have a parent.
+	 * 
+	 * @param node the current node to be interrogated.
+	 * @param documentUuid the document uuid to assign to the node if, and only if, it doesn't have one already.
+	 */
+	protected void cascadeAnchorUpwards(TocNode node, String documentUuid) {
+		if (StringUtils.isBlank(node.getDocumentGuid())) {
+			node.setDocumentUuid(documentUuid);
+			if (node.getParent() != null) {
+				cascadeAnchorUpwards(node.getParent(), documentUuid);
+			}
+		}
+	}
+
+	/**
+	 * Writes the ordered list of documents to the configured {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if the data could not be written.
 	 */
@@ -390,7 +485,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes an authors block to the Content Handler.
+	 * Writes an authors block to the {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if data could not be written.
 	 */
@@ -406,7 +501,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 	
 	/**
-	 * Writes an assets block to the Content Handler.
+	 * Writes an assets block to the {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if data could not be written.
 	 */
@@ -420,7 +515,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 	
 	/**
-	 * Writes an authors block to the Content Handler.
+	 * Writes an authors block to the {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if data could not be written.
 	 */
@@ -475,7 +570,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes a copyright block to the configured Content Handler.
+	 * Writes a copyright block to the configured {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if data could not be written.
 	 */
@@ -488,7 +583,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes the root of the title manifest to the configured Content Handler.
+	 * Writes the root of the title manifest to the configured {@link ContentHandler}.
 	 * 
 	 * @throws SAXException if data could not be written.
 	 */
@@ -512,7 +607,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes the displayname to the configured content handler.
+	 * Writes the displayname to the configured {@link ContentHandler}.
 	 * @throws SAXException if data could not be written.
 	 */
 	protected void writeDisplayName() throws SAXException {
@@ -524,7 +619,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes a features block to the configured content handler.
+	 * Writes a features block to the configured {@link ContentHandler}.
 	 * @throws SAXException if data could not be written.
 	 */
 	protected void writeFeatures() throws SAXException {
@@ -553,7 +648,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	}
 
 	/**
-	 * Writes a material id block to the configured Content Handler.
+	 * Writes a material id block to the configured {@link ContentHandler}.
 	 * @throws SAXException if data could not be written.
 	 */
 	protected void writeMaterialId() throws SAXException {
@@ -563,11 +658,10 @@ class TitleManifestFilter extends XMLFilterImpl {
 			super.characters(materialId.toCharArray(), 0, materialId.length());
 		}
 		super.endElement(URI, MATERIAL_ELEMENT, MATERIAL_ELEMENT);
-		
 	}
 
 	/**
-	 * Writes an artwork element to the configured Content Handler.
+	 * Writes an artwork element to the configured {@link ContentHandler}.
 	 * @throws SAXException if the data could not be written.
 	 */
 	protected void writeCoverArt() throws SAXException {
@@ -586,5 +680,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 		attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, artwork.getSrc());
 		attributes.addAttribute(URI, TYPE_ATTRIBUTE, TYPE_ATTRIBUTE, CDATA, artwork.getType());
 		return attributes;
+	}
+	
+	protected void setTableOfContents(final TableOfContents tableOfContents){
+		this.tableOfContents = tableOfContents;
 	}
 }

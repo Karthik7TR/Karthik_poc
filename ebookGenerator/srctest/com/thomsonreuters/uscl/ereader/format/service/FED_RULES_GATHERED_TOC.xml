@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EBook>
+    <EBookToc>
+        <Name>CALIFORNIA FEDERAL RULES OF COURT</Name>
+        <Guid>N1B464FB0D61D11DB8808D1B025BEDC4B0</Guid>
+        <EBookToc>
+            <Name>LOCAL RULES OF PRACTICE FOR THE UNITED STATES DISTRICT COURT, EASTERN DISTRICT OF
+                CALIFORNIA</Name>
+            <Guid>N58DFCFE0D61D11DB8E93CFDA144EE54F0</Guid>
+            <EBookToc>
+                <Name>HEADING 1</Name>
+                <Guid>N59360630D61D11DB8E93CFDA144EE54F0</Guid>
+            </EBookToc>
+            <EBookToc>
+                <Name>HEADING 2</Name>
+                <Guid>N6235F2E0D61D11DB8E93CFDA144EE54F0</Guid>
+            </EBookToc>
+            <EBookToc>
+                <Name>HEADING 3</Name>
+                <Guid>N6261BDD0D61D11DB8E93CFDA144EE54F0</Guid>
+            </EBookToc>
+            <EBookToc>
+                <Name>GENERAL RULES</Name>
+                <Guid>N594DD3F0D61D11DB8E93CFDA144EE54F0</Guid>
+                <EBookToc>
+                    <Name>Rule 100. Title—Construction—Numbering (Fed. R. Civ. P. 1)</Name>
+                    <Guid>N596309A0D61D11DB8E93CFDA144EE54F0</Guid>
+                    <DocumentGuid>N8ED649C015E311DCAA46D743FC7A28E8</DocumentGuid>
+                </EBookToc>
+                <EBookToc>
+                    <Name>Rule 101. Definitions (Fed. R. Civ. P. 1)</Name>
+                    <Guid>N597754F0D61D11DB8E93CFDA144EE54F1</Guid>
+                    <DocumentGuid>N8F13A0E015E311DCAA46D743FC7A28E8</DocumentGuid>
+                </EBookToc>
+            </EBookToc>
+        </EBookToc>
+    </EBookToc>
+</EBook>

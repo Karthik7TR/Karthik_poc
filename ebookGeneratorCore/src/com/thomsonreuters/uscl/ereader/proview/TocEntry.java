@@ -6,8 +6,8 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -16,43 +16,90 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TocEntry {
-	protected String anchorReference;
+public class TocEntry implements TocNode {
+	private static final String SOLIDUS = "/";
+	protected String tocGuid;
+	protected String docGuid;
 	protected String text;
-	protected ArrayList<TocEntry> children;
-	
-	public TocEntry(){
-		
+	protected List<TocNode> children = new ArrayList<TocNode>();
+	protected TocNode parent;
+	private int depth;
+
+	public TocEntry(int depth){
+		this.depth = depth;
 	}
 	
+	public TocEntry (String tocGuid, String docGuid, String text, int depth) {
+		this.tocGuid = tocGuid; 
+		this.docGuid = docGuid;
+		this.text = text;
+		this.depth = depth;
+	}
+		
 	public String getAnchorReference() {
-		return anchorReference;
+		return (docGuid != null) ? docGuid + SOLIDUS + tocGuid : tocGuid;
 	}
 
 	public String getText() {
 		return text;
 	}
-
-	public ArrayList<TocEntry> getChildren() {
+	
+	public void setChildren(List<TocNode> children){
+		this.children = children;
+	}
+	
+	@Override
+	public List<TocNode> getChildren() {
 		return children;
 	}
+	
+	@Override
+	public void setParent(TocNode parent) {
+		this.parent = parent;
+	}
+	
+	@Override
+	public TocNode getParent() {
+		return parent;
+	}
 
-	public TocEntry (String anchorReference, String text){
-		if (StringUtils.isBlank(anchorReference)){
-			throw new IllegalArgumentException("'anchorReference' is required.");
-		}
-		if (StringUtils.isBlank(text)){
-			throw new IllegalArgumentException("'text' is required.");
-		}
-		this.anchorReference = anchorReference;
-		this.text = text;
+	@Override
+	public void addChild(TocNode child) {
+		this.children.add(child);
 	}
 	
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
-	public void setChildren(ArrayList<TocEntry> children){
-		this.children = children;
+
+	@Override
+	public void setTocNodeUuid(String tocNodeUuid) {
+		this.tocGuid = tocNodeUuid;
+		
+	}
+
+	@Override
+	public void setDocumentUuid(String documentUuid) {
+		this.docGuid = documentUuid;
+	}
+
+	@Override
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	@Override
+	public int getDepth() {
+		return this.depth;
+	}
+
+	@Override
+	public String getDocumentGuid() {
+		return this.docGuid;
+	}
+
+	@Override
+	public String getTocGuid() {
+		return this.tocGuid;
 	}
 }

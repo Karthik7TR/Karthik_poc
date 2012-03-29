@@ -22,34 +22,7 @@ public class TitleMetadataTest {
 	public void setUp() {
 		
 	}
-	
-	@Test
-	public void testTitleMetadataMarshallsCorrectly() throws Exception {
-		TitleMetadata titleMetadata = getTitleMetadata();
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		
-		IBindingFactory bfact = 
-			        BindingDirectory.getFactory(TitleMetadata.class);
-		IMarshallingContext mctx = bfact.createMarshallingContext();
-		mctx.setIndent(2);
-	    mctx.marshalDocument(titleMetadata, "UTF-8", null, byteArrayOutputStream);
-	    LOG.info(new String(byteArrayOutputStream.toByteArray()));
-	}
-	
-	@Test
-	public void testTitleMetadataDoesNotContainKeywordsXmlBlockWhenNoKeywordsExist () throws Exception {
-		TitleMetadata metadata = getTitleMetadata();
-		metadata.setKeywords(null);
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		IBindingFactory bfact = 
-			        BindingDirectory.getFactory(TitleMetadata.class);
-		IMarshallingContext mctx = bfact.createMarshallingContext();
-		mctx.setIndent(2);
-	    mctx.marshalDocument(metadata, "UTF-8", null, outputStream);
-	    String titleMetadataXml = IOUtils.toString(outputStream.toByteArray(), "UTF-8");
-	    System.out.println(titleMetadataXml);
-	    Assert.assertFalse( "The marshalled XML should not contain a keywords element.", titleMetadataXml.contains("<keywords/>"));
-	}
+
 	
 	@Test
 	public void testTitleMetadataDefaultConstructorWithExpectedDefaults() throws Exception {
@@ -101,22 +74,24 @@ public class TitleMetadataTest {
 		assets.add(new Asset("456", "PiratesCove.png"));
 		assets.add(new Asset("789", "Tortuga.png"));
 		titleMetadata.setAssets(assets);
-		ArrayList<TocEntry> tocEntries = new ArrayList<TocEntry>();
-		tocEntries.add(new TocEntry("1/heading", "All About Pirates"));
-		TocEntry scallywagging = new TocEntry("2/heading", "Scallywagging for landlubbers");
-		ArrayList<TocEntry> scallywaggingChildren = new ArrayList<TocEntry>();
-		scallywaggingChildren.add(new TocEntry("3/heading", "Survival"));
-		scallywaggingChildren.add(new TocEntry("3.1/heading", "Begging"));
-		scallywaggingChildren.add(new TocEntry("3.2/heading", "The Plank"));
-		scallywaggingChildren.add(new TocEntry("3.3/heading", "Swabbing"));
-		scallywaggingChildren.add(new TocEntry("3.4/heading", "Brawling"));
-		scallywaggingChildren.add(new TocEntry("3.5/heading", "Patroling"));
-		scallywaggingChildren.add(new TocEntry("3.6/heading", "Plundering"));
-		scallywaggingChildren.add(new TocEntry("3.7/heading", "Wenching"));
-		scallywagging.setChildren(scallywaggingChildren);
+		List<TocNode> tocEntries = new ArrayList<TocNode>();
+		tocEntries.add(new TocEntry("1", "heading", "All About Pirates", 1));
+		TocNode scallywagging = new TocEntry("2", "heading", "Scallywagging for landlubbers", 1);
+		List<TocNode> scallywaggingChildren = new ArrayList<TocNode>();
+		scallywaggingChildren.add(new TocEntry("3", "heading", "Survival", 2));
+		scallywaggingChildren.add(new TocEntry("3.1", "heading", "Begging", 2));
+		scallywaggingChildren.add(new TocEntry("3.2", "heading", "The Plank", 2));
+		scallywaggingChildren.add(new TocEntry("3.3", "heading", "Swabbing", 2));
+		scallywaggingChildren.add(new TocEntry("3.4", "heading", "Brawling", 2));
+		scallywaggingChildren.add(new TocEntry("3.5", "heading", "Patroling", 2));
+		scallywaggingChildren.add(new TocEntry("3.6", "heading", "Plundering", 2));
+		scallywaggingChildren.add(new TocEntry("3.7", "heading", "Wenching", 2));
+		for (TocNode child : scallywaggingChildren) {
+			scallywagging.addChild(child);
+		}
 		tocEntries.add(scallywagging);
 		TableOfContents tableOfContents = new TableOfContents();
-		tableOfContents.setTocEntries(tocEntries);
+		tableOfContents.setChildren(tocEntries);
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
 		return titleMetadata;

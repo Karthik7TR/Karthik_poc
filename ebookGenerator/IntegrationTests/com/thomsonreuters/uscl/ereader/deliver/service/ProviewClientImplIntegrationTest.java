@@ -36,7 +36,7 @@ public class ProviewClientImplIntegrationTest
 {
 	private static final Logger LOG = Logger.getLogger(ProviewClientImplIntegrationTest.class);
 	
-	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
+	private static final String PROVIEW_DOMAIN_PREFIX = "trp0002-14:9008";
 	private String getTitlesUriTemplate = "/v1/titles/uscl/all";
 	private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
 	private String validateTitleUriTemplate = "";
@@ -59,9 +59,6 @@ public class ProviewClientImplIntegrationTest
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 		
 		defaultHttpClient = new DefaultHttpClient();
-		defaultHttpClient.getCredentialsProvider().setCredentials(
-				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
-				new UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
 		requestFactory.setHttpClient(defaultHttpClient);
 
 		RestTemplate restTemplate = new RestTemplate(requestFactory);

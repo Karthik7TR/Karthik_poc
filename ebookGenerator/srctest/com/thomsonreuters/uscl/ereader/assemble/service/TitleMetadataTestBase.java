@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.custommonkey.xmlunit.XMLTestCase;
 
@@ -17,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.proview.TocNode;
 
 /**
  * Abstract base class which provides convenience methods to support testing.
@@ -54,22 +56,24 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		assets.add(new Asset("456", "PiratesCove.png"));
 		assets.add(new Asset("789", "Tortuga.png"));
 		titleMetadata.setAssets(assets);
-		ArrayList<TocEntry> tocEntries = new ArrayList<TocEntry>();
-		tocEntries.add(new TocEntry("1/heading", "All About Pirates"));
-		TocEntry scallywagging = new TocEntry("2/heading", "Scallywagging for landlubbers");
-		ArrayList<TocEntry> scallywaggingChildren = new ArrayList<TocEntry>();
-		scallywaggingChildren.add(new TocEntry("3/heading", "Survival"));
-		scallywaggingChildren.add(new TocEntry("3.1/heading", "Begging"));
-		scallywaggingChildren.add(new TocEntry("3.2/heading", "The Plank"));
-		scallywaggingChildren.add(new TocEntry("3.3/heading", "Swabbing"));
-		scallywaggingChildren.add(new TocEntry("3.4/heading", "Brawling"));
-		scallywaggingChildren.add(new TocEntry("3.5/heading", "Patroling"));
-		scallywaggingChildren.add(new TocEntry("3.6/heading", "Plundering"));
-		scallywaggingChildren.add(new TocEntry("3.7/heading", "Wenching"));
-		scallywagging.setChildren(scallywaggingChildren);
+		ArrayList<TocNode> tocEntries = new ArrayList<TocNode>();
+		tocEntries.add(new TocEntry("1", "heading", "All About Pirates", 1));
+		TocNode scallywagging = new TocEntry("2", "heading", "Scallywagging for landlubbers", 1);
+		List<TocNode> scallywaggingChildren = new ArrayList<TocNode>();
+		scallywaggingChildren.add(new TocEntry("3", "heading", "Survival", 2));
+		scallywaggingChildren.add(new TocEntry("3.1", "heading", "Begging", 2));
+		scallywaggingChildren.add(new TocEntry("3.2", "heading", "The Plank", 2));
+		scallywaggingChildren.add(new TocEntry("3.3", "heading", "Swabbing", 2));
+		scallywaggingChildren.add(new TocEntry("3.4", "heading", "Brawling", 2));
+		scallywaggingChildren.add(new TocEntry("3.5", "heading", "Patroling", 2));
+		scallywaggingChildren.add(new TocEntry("3.6", "heading", "Plundering", 2));
+		scallywaggingChildren.add(new TocEntry("3.7", "heading", "Wenching", 2));
+		for (TocNode child : scallywaggingChildren) {
+			scallywagging.addChild(child);
+		}
 		tocEntries.add(scallywagging);
 		TableOfContents tableOfContents = new TableOfContents();
-		tableOfContents.setTocEntries(tocEntries);
+		tableOfContents.setChildren(tocEntries);
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
 		return titleMetadata;

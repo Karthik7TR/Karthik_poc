@@ -139,7 +139,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 				
 		try {
 			
-			saxParserFactory.setNamespaceAware(true);
+			saxParserFactory.setNamespaceAware(Boolean.TRUE);
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			XMLReader xmlReader = saxParser.getXMLReader();
 			

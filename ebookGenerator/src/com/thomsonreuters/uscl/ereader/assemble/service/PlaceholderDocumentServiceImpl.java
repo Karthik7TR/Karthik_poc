@@ -83,4 +83,10 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 	private Resource getPlaceholderDocumentTemplate() {
 		return this.resourceLoader.getResource(this.placeholderDocumentTemplateLocation);
 	}
+
+	@Override
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String anchorName) throws PlaceholderDocumentServiceException {
+		//TODO: Implement this method and add a bucket for anchor references to the placeholderDocumentTemplate xml file under templates/placeholderDocumentTemplate.xml
+		
+	}
 }

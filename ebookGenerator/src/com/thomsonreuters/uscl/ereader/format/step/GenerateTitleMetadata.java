@@ -27,15 +27,12 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
-import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 
 /**
  * This class is responsible for generating title metadata based on information taken from the Job Parameters, Execution Context, and the file-system.
@@ -66,24 +63,23 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadata.setCopyright(jobParameters.getString(JobParameterKey.COPYRIGHT));
 		titleMetadata.setDisplayName(jobParameters.getString(JobParameterKey.BOOK_NAME));
 		
+		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 		addAuthors(jobParameters, titleMetadata);
 		addArtwork(jobExecutionContext, titleMetadata);
 		addAssets(jobExecutionContext, titleMetadata);
 		
 		long jobId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		Integer jobInstanceId = new Integer((int) jobId);
-		//addDocuments(jobExecutionContext, titleMetadata, jobInstanceId);
-		//addTableOfContents(jobExecutionContext, titleMetadata);
-		//addStylesheet(titleMetadata);
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
-		//titleMetadataService.writeToFile(titleMetadata, titleXml);
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		OutputStream titleManifest = new FileOutputStream(titleXml);
 		InputStream tocXml = new FileInputStream(tocXmlFile);
 		File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
+		
+		//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
 		titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
 		
 		return ExitStatus.COMPLETED;
@@ -149,6 +145,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		}
 		return(docToTocGuidList);
 	}
+	
 	private void addAssets(ExecutionContext jobExecutionContext,
 			TitleMetadata titleMetadata) {
 		//All gathered images (dynamic and static) are expected to be here by the time this step executes.

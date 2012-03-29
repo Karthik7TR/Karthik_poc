@@ -33,14 +33,16 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.proview.TocEntry;
+import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
@@ -78,6 +80,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\"/>";
 	private static final String CASCADED_TOC = "<toc><entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
 	private static final String EXPECTED_DOCS = "<docs><doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
+	private static final String EXPECTED_EMPTY_TOC_ELEMENT = "<toc/>";
 	private static final String EXPECTED_END_MANIFEST = "</title>";
 	
 	String lastupdated = new SimpleDateFormat("yyyyMMdd").format(new Date());
@@ -128,7 +131,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	public void testWriteAuthors() throws Exception {
 		titleManifestFilter.writeAuthors();
 		titleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_AUTHORS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_AUTHORS +  EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
@@ -156,7 +159,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	public void testWriteDisplayName() throws Exception {
 		titleManifestFilter.writeDisplayName();
 		titleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_DISPLAYNAME + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_DISPLAYNAME +  EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
@@ -209,6 +212,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		titleManifestFilter.parse(new InputSource(immigrationProceduresHandbook));
 		System.out.println(resultStreamToString(resultStream));
 		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		IOUtils.copy(new ByteArrayInputStream(resultStream.toByteArray()), new FileOutputStream(new File("C:\\Users\\u0081674\\TitleManifestFilterTestOutput.xml")));
 		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("IMPH_L1_EXTENSIONS_EXPECTED_MANIFEST.xml"));
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
@@ -381,8 +385,24 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	 */
 	@Test
 	public void testCascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception {
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
+		
 		InputStream caFedRules2012 = TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012.xml");
-		titleManifestFilter.parse(new InputSource(caFedRules2012));
+
+		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_1");
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_2");
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_3");
+		EasyMock.replay(mockUuidGenerator);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		
+		filter.parse(new InputSource(caFedRules2012));
 		System.out.println(resultStreamToString(resultStream));
 		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
 		InputSource expected = new InputSource(TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_EXPECTED_MANIFEST.xml"));
@@ -412,6 +432,22 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
 		Assert.assertEquals(expectedDifferenceLocation, actualDifferenceLocation);
 	}
+	
+	@Test
+	public void testWriteTocNodeHappyPath() throws Exception {
+		TableOfContents tableOfContents = new TableOfContents();
+		tableOfContents.addChild(new TocEntry("TOC1", "DOC1", "FOO", 1));
+		tableOfContents.addChild(new TocEntry("TOC2", "DOC2", "BAR", 1));
+		TocNode basil = new TocEntry("TOC3", "DOC3", "BAZ", 1);
+		basil.addChild(new TocEntry("TOC3.1", "DOC3.1", "BASIL", 2));
+		tableOfContents.addChild(basil);
+		titleManifestFilter.setTableOfContents(tableOfContents);
+		titleManifestFilter.endDocument(); //indirectly tests writeTableOfContents, which is called as part of invoking endDocument().
+		System.out.println(resultStreamToString(resultStream));
+		String expected = "<toc><entry s=\"DOC1/TOC1\"><text>FOO</text></entry><entry s=\"DOC2/TOC2\"><text>BAR</text></entry><entry s=\"DOC3/TOC3\"><text>BAZ</text><entry s=\"DOC3.1/TOC3.1\"><text>BASIL</text></entry></entry></toc></title>";
+		Assert.assertEquals(expected, resultStreamToString(resultStream));
+	}
+	
 	
 	private String resultStreamToString(ByteArrayOutputStream resultStream) throws Exception {
 		return IOUtils.toString(resultStream.toByteArray(), "UTF-8");

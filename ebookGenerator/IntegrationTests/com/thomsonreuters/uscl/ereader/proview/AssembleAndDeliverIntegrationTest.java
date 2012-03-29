@@ -172,12 +172,14 @@ public class AssembleAndDeliverIntegrationTest {
 		keywords.add(publisher);
 		keywords.add(jurisdiction);
 		titleMetadata.setKeywords(keywords);
-		ArrayList<TocEntry> tocEntries = new ArrayList<TocEntry>();
-		tocEntries.add(new TocEntry(DOCUMENT_ONE_ID + "/codeOfConduct", "Pirate Code of Conduct"));
-		tocEntries.add(new TocEntry(DOCUMENT_TWO_ID + "/plundering", "Plundering"));
-		tocEntries.add(new TocEntry(DOCUMENT_THREE_ID + "/landlubbers", "Landlubbers"));
+		ArrayList<TocNode> tocEntries = new ArrayList<TocNode>();
+		tocEntries.add(new TocEntry(DOCUMENT_ONE_ID, "codeOfConduct", "Pirate Code of Conduct", 1));
+		tocEntries.add(new TocEntry(DOCUMENT_TWO_ID, "plundering", "Plundering", 1));
+		tocEntries.add(new TocEntry(DOCUMENT_THREE_ID, "landlubbers", "Landlubbers", 1));
 		TableOfContents tableOfContents = new TableOfContents();
-		tableOfContents.setTocEntries(tocEntries);
+		for (TocNode child : tocEntries) {
+			tableOfContents.addChild(child);
+		}
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("1234");
 	}
