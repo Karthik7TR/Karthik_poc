@@ -76,7 +76,7 @@ public class ProviewClientImpl implements ProviewClient {
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getRequestCallback();
 		proviewRequestCallback.setEbookInputStream(ebookInputStream);
 		
-		restTemplate.execute(publishTitleUriTemplate,
+		String proviewResponse = restTemplate.execute(publishTitleUriTemplate,
 				HttpMethod.PUT,
 				proviewRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
@@ -85,7 +85,7 @@ public class ProviewClientImpl implements ProviewClient {
 
 		// logResponse(response);
 
-		return null;
+		return proviewResponse;
 	}
 
 	@Override
