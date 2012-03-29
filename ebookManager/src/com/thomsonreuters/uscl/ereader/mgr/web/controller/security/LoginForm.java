@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * The form used for login data entry and to hold
@@ -18,12 +17,10 @@ public class LoginForm {
 	public String getJ_username() {
 		return getUsername();
 	}
-	
 	/** The property that Spring Security authentication expects for the password */
 	public String getJ_password() {
 		return getPassword();
 	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -39,6 +36,6 @@ public class LoginForm {
 	
 	@Override
 	public String toString() {
-		return "username="+username+",password="+((password != null) ? "<not null>" : password);
+		return "username="+username+",password="+(StringUtils.isNotBlank(password) ? "<not-blank>" : password);
 	}
 }

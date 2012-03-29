@@ -7,6 +7,9 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 
 import org.springframework.stereotype.Controller;
 
+/**
+ * DEPRECATED CAS related controller.
+ */
 @Controller
 @Deprecated
 public class SecurityController {

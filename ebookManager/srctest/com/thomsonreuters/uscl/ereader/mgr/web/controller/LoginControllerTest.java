@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +22,17 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginForm;
 
+/**
+ * Tests for login/logouot and authentication.
+ */
 public class LoginControllerTest {
     private LoginController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
   
-   
     @Before
     public void setUp() throws Exception {
     	request = new MockHttpServletRequest();
@@ -36,9 +41,50 @@ public class LoginControllerTest {
     	
     	controller = new LoginController();
     }
-    
     @Test
-    public void testAfterAuthentication() throws Exception {
+    public void testInboundGet() throws Exception {
+    	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN);
+    	request.setMethod(HttpMethod.GET.name());
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	Assert.assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN, mav.getViewName());
+    	Map<String,Object> model = mav.getModel();
+    	Assert.assertNotNull(model.get(LoginForm.FORM_NAME));
+    }
+
+    @Test
+    public void testHandleLoginFormPostSuccess() throws Exception {
+    	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN);
+    	request.setMethod(HttpMethod.POST.name());
+    	String username = "fooUser";
+    	String password = "barPassword";
+    	request.setParameter("username", "fooUser");
+    	request.setParameter("password", "barPassword");
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	Assert.assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN_AUTO, mav.getViewName());
+    	Map<String,Object> model = mav.getModel();
+    	LoginForm form = (LoginForm) model.get(LoginForm.FORM_NAME);
+    	Assert.assertNotNull(form);
+    	Assert.assertEquals(username, form.getJ_username());
+    	Assert.assertEquals(password, form.getJ_password());
+    }    
+
+    @Test
+    public void testhandleAuthenticationFailure() throws Exception {
+    	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN_FAIL);
+    	request.setMethod(HttpMethod.GET.name());
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	Assert.assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN, mav.getViewName());
+    	Map<String,Object> model = mav.getModel();
+    	Assert.assertNotNull(model.get(WebConstants.KEY_INFO_MESSAGES));
+    	LoginForm form = (LoginForm) model.get(LoginForm.FORM_NAME);
+    	Assert.assertNotNull(form);
+    }
+
+    @Test
+    public void testHandleAuthenticationSuccess() throws Exception {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_SEC_AFTER_AUTHENTICATION);
     	request.setMethod(HttpMethod.GET.name());

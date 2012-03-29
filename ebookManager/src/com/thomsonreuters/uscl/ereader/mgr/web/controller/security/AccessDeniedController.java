@@ -8,6 +8,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 /**
  * In-bound (get method) controller for the Access Denied page.
+ * This is where the user is sent to if they try and access a page/protected resource and they are not
+ * in the proper role.
  */
 @Controller
 public class AccessDeniedController {

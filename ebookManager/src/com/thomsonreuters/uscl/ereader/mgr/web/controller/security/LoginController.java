@@ -25,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 
 /**
- * In-bound (get) and submission (post) handler for the Login data entry form.
+ * Security and login/authentication URL handlers.
  * The submit of the login username/password returns here do doPost() where the fields are validated and if no errors
  * the success view is the auto-login page which auto-submits itself to the login j_security_check URL.
  */
@@ -34,6 +34,7 @@ public class LoginController {
 	
 	private static final Logger log = Logger.getLogger(LoginController.class);
 
+	/** Validator for the login form - username and password */
 	private Validator validator;
 	
 	@InitBinder(LoginForm.FORM_NAME)
@@ -41,6 +42,11 @@ public class LoginController {
 		binder.setValidator(validator);
 	}
 	
+	/**
+	 * Handle the inbound GET to the login page.
+	 * Does nothing but set up the form backing object.
+	 * @param form the login form backing object
+	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.GET)
 	public ModelAndView inboundGet(@ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
 		log.debug(">>>");
@@ -48,8 +54,9 @@ public class LoginController {
 	}
 	
 	/**
-	 * Handler for the submit of the authentication credentials.
-	 * @param form contains entered username and password
+	 * Handler for the submit of the authentication credentials (username/password) on the login form which initiates
+	 * the spring security authentication and fetch of user details.
+	 * @param form contains username and password properties
 	 * @param errors binding and/or validation errors
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.POST) 
@@ -63,7 +70,8 @@ public class LoginController {
 
 	/**
 	 * Handler for the URL invoked after a successful user authentication.
-	 * Doesn't do much but redirect to the designated "home" page.
+	 * A hook location for any post-authenitcation actions but in the end
+	 * redirects user to the designated "home" page.
 	 */
 	@RequestMapping(value=WebConstants.MVC_SEC_AFTER_AUTHENTICATION, method = RequestMethod.GET)
 	public ModelAndView handleAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response) {
@@ -80,7 +88,8 @@ public class LoginController {
 	
 	/**
 	 * Handler for the URL invoked when user fails to authentication using the
-	 * username and password that were entered.
+	 * username and password that were entered.  Sends user back to login page
+	 * with an failure message.
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN_FAIL) 
 	public ModelAndView handleAuthenticationFailure(Model model) {
@@ -98,7 +107,7 @@ public class LoginController {
 	 * @return redirection view back to login page
 	 */
 	@RequestMapping(WebConstants.MVC_SEC_AFTER_LOGOUT)
-	public ModelAndView doAfterLogout() {
+	public ModelAndView handleLogout() {
 		log.debug(">>>");
 		// Redirect user back to the Login page
 		return new ModelAndView(new RedirectView(WebConstants.MVC_SEC_LOGIN));
