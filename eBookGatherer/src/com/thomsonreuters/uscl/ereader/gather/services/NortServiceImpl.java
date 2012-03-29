@@ -50,9 +50,6 @@ public class NortServiceImpl implements NortService {
 
 	private NovusUtility novusUtility;
 
-//	private PublishingStatsService publishingStatsService;
-	
-	
 	public void retrieveNodes(NortManager _nortManager, Writer out,
 			int[] counters, int[] iParent,
 			String YYYYMMDDHHmmss) throws GatherException {
@@ -101,19 +98,23 @@ public class NortServiceImpl implements NortService {
 
 	}
 
-	   public void printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss, Map<String, String> tocGuidDateMap) throws GatherException, ParseException
+	   public boolean printNodes(NortNode[] nodes, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss, Map<String, String> tocGuidDateMap) throws GatherException, ParseException
 	   {
+		   boolean docFound = true;
 	       if (nodes != null)
 	       {
 			try {
-				boolean docFound = true;
 				for (NortNode node : nodes) {
 					docFound = printNode(node, _nortManager, out, counters,  iParent, YYYYMMDDHHmmss, tocGuidDateMap);
+//					if (docFound == false)
+//					{
+//						LOG.debug("docFound set false for " + node.getLabel());
+//					}
 				}
 				if (iParent[0] > 0) {
 					if (docFound == false)
 					{
-//						out.write("<MissingDocument></MissingDocument>");
+						out.write("<MissingDocument></MissingDocument>");
 					}
 					out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
 					out.write("\r\n");
@@ -140,11 +141,13 @@ public class NortServiceImpl implements NortService {
 			throw ge;
 			}
 	     }
+	       return docFound;
 	   }
 	   
 	   public boolean printNode(NortNode node, NortManager _nortManager, Writer out, int[] counters,  int[] iParent, String YYYYMMDDHHmmss, Map<String, String> tocGuidDateMap) throws GatherException, NovusException, ParseException
 	   {
 		   boolean docFound = true;
+		   
 		   // skip empty node or subsection node
 	       if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection"))
 	       {
@@ -290,7 +293,7 @@ public class NortServiceImpl implements NortService {
 	                  _nortManager.fillNortNodes(nortNodes, i, length);
 	               }
 	               
-	               printNodes(nortNodes, _nortManager, out, counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap);
+	               docFound = printNodes(nortNodes, _nortManager, out, counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap);
 	            }
 	     
 	           }
@@ -299,6 +302,7 @@ public class NortServiceImpl implements NortService {
 	        	   
 //		           LOG.debug(" skipping old nodes " + node.getLabel().replaceAll("\\<.*?>","") );
 		           counters[SKIPCOUNT]++;
+		           docFound = true;
 		         }
 	       } 
        else
@@ -395,15 +399,6 @@ public class NortServiceImpl implements NortService {
 				throw ge;
 			}
 			finally {
-//		        PublishingStats jobstats = new PublishingStats();
-//		        jobstats.setJobInstanceId(jobInstance);
-//		        jobstats.setGatherTocDocCount(counters[DOCCOUNT]);
-//		        jobstats.setGatherTocSkippedCount(counters[SKIPCOUNT]);
-//		        jobstats.setGatherTocNodeCount(counters[NODECOUNT]);
-//		        jobstats.setGatherTocRetryCount(counters[RETRYCOUNT]);
-//		        jobstats.setPublishStatus(publishStatus);
-//		       
-//				publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
 				gatherResponse.setDocCount(counters[DOCCOUNT]);
 				gatherResponse.setNodeCount(counters[NODECOUNT]);
 				gatherResponse.setSkipCount(counters[SKIPCOUNT]);
@@ -428,10 +423,7 @@ public class NortServiceImpl implements NortService {
 	public void setNovusUtility(NovusUtility novusUtil) {
 		this.novusUtility = novusUtil;
 	}
-//	@Required
-//	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
-//		this.publishingStatsService = publishingStatsService;
-//	}
+
 
 }
 
