@@ -326,15 +326,15 @@ public class CodeServiceIntegrationTest  {
 		
 		BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(titleId);
 		log.debug(book);
-		Set<KeywordTypeValue> values = book.getKeywordTypeValueses(); 
+		Set<KeywordTypeValue> values = book.getKeywordTypeValues(); 
 		Assert.assertEquals(3, values.size());
 		
 		values.clear();
-		book.setKeywordTypeValueses(values);
+		book.setKeywordTypeValues(values);
 		bookDefinitionService.saveBookDefinition(book);
 		
 		book = bookDefinitionService.findBookDefinitionByTitle(titleId);
-		values = book.getKeywordTypeValueses(); 
+		values = book.getKeywordTypeValues(); 
 		Assert.assertEquals(0, values.size());
 		
 		Assert.assertEquals(keywordValueSize, service.getAllKeywordTypeValues().size());
@@ -376,7 +376,7 @@ public class CodeServiceIntegrationTest  {
     		value.setId(Long.parseLong(Integer.toString(i)));
     		values.add(value);
     	}
-		book.setKeywordTypeValueses(values);
+		book.setKeywordTypeValues(values);
 		
 		bookDefinitionService.saveBookDefinition(book);
 	}

@@ -60,11 +60,15 @@ public class FrontMatterSection implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	Integer sequenceNum;
 	
-	@OneToOne(mappedBy = "section", fetch = FetchType.EAGER,orphanRemoval = true)
+	@OneToOne(mappedBy = "section", fetch = FetchType.EAGER)
 	@Cascade({CascadeType.ALL})
 	FrontMatterPdf pdf;
 	/**
 	 */
+	
+	public FrontMatterSection() {
+		pdf = new FrontMatterPdf();
+	}
 
 	public Long getId() {
 		return id;

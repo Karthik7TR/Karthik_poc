@@ -226,7 +226,7 @@ public class EditBookDefinitionController {
 		
 		// Check if book is scheduled or queued
 		if (bookDef != null) {
-			isPublished = bookDef.IsPublishedOnceFlag();
+			isPublished = bookDef.getPublishedOnceFlag();
 			isInJobRequest =  jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId());
 			
 			// Check proview if book went to final state if isPublished is false
@@ -255,6 +255,7 @@ public class EditBookDefinitionController {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());

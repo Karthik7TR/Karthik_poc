@@ -799,6 +799,7 @@ public class EditBookDefinitionControllerTest {
     	book.setPublishedOnceFlag(false);
     	book.setOnePassSsoLinkFlag(true);
     	book.setKeyciteToplineFlag(true);
+    	book.setIsAuthorDisplayVertical(true);
     	return book;
 	}
 	

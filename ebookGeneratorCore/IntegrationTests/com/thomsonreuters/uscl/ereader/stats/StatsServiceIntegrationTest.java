@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
@@ -137,6 +138,7 @@ public class StatsServiceIntegrationTest {
 		eBook.setLastUpdated(UPDATE_DATE);
 		eBook.setAuthors(new HashSet<Author>());
 		eBook.setEbookNames(new HashSet<EbookName>());
+		eBook.setFrontMatterPages(new HashSet<FrontMatterPage>());
 		
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
@@ -232,7 +234,7 @@ public class StatsServiceIntegrationTest {
 		PublishingStats responseJobStats =  jobStatsService.findJobStatsByPubStatsPK(pubPK);
 		
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
-		expectedJobStats.setEbookDefId((long) 1);
+		expectedJobStats.setEbookDefId(eBook.getEbookDefinitionId());
 		expectedJobStats.setAuditId(ebookAudit.getAuditId());
 		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");

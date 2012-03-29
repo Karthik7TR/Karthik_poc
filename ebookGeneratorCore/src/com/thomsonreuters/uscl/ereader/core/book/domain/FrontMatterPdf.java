@@ -14,8 +14,9 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.OnDelete;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -37,7 +38,6 @@ public class FrontMatterPdf implements Serializable {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "FRONT_MATTER_SECTION_ID", referencedColumnName = "FRONT_MATTER_SECTION_ID", nullable = false) })
-	@OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 	FrontMatterSection section;
 	/**
 	 */
@@ -83,5 +83,10 @@ public class FrontMatterPdf implements Serializable {
 
 	public void setPdfFilename(String pdfFilename) {
 		this.pdfFilename = pdfFilename;
+	}
+	
+	@Transient
+	public boolean isEmpty() {
+		return (StringUtils.isBlank(pdfFilename) && StringUtils.isBlank(pdfLinkText));
 	}
 }

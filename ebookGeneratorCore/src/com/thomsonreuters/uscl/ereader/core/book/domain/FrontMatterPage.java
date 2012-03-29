@@ -1,7 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,7 +20,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  */
@@ -65,7 +68,12 @@ public class FrontMatterPage implements Serializable {
 	 */
 	@OneToMany(mappedBy = "frontMatterPage", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	java.util.Set<FrontMatterSection> frontMatterSections;
+	@Fetch(FetchMode.SELECT)
+	Collection<FrontMatterSection> frontMatterSections;
+	
+	public FrontMatterPage() {
+		frontMatterSections = new AutoPopulatingList<FrontMatterSection>(FrontMatterSection.class);
+	}
 	
 	public Long getId() {
 		return id;
@@ -97,14 +105,14 @@ public class FrontMatterPage implements Serializable {
 	public void setSequenceNum(Integer sequenceNum) {
 		this.sequenceNum = sequenceNum;
 	}
-	public java.util.Set<FrontMatterSection> getFrontMatterSections() {
+	public Collection<FrontMatterSection> getFrontMatterSections() {
 		if(this.frontMatterSections == null){
-			this.frontMatterSections = new HashSet<FrontMatterSection>();
+			this.frontMatterSections = new ArrayList<FrontMatterSection>();
 		}
 		return frontMatterSections;
 	}
 	public void setFrontMatterSections(
-			java.util.Set<FrontMatterSection> frontMatterSections) {
+			Collection<FrontMatterSection> frontMatterSections) {
 		this.frontMatterSections = frontMatterSections;
 	}
 

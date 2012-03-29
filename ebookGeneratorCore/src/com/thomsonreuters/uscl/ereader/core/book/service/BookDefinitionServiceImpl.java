@@ -105,8 +105,8 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 		// Prevent user from updating these columns by injecting a form to create/update.
 		if(existingBook != null) {
 			eBook.setEbookDefinitionId(existingBook.getEbookDefinitionId());
-			eBook.setPublishedOnceFlag(existingBook.IsPublishedOnceFlag());
-			eBook.setIsDeletedFlag(existingBook.getIsDeletedFlag());
+			eBook.setPublishedOnceFlag(existingBook.getPublishedOnceFlag());
+			eBook.setIsDeletedFlag(existingBook.isDeletedFlag());
 		}
 		
 		eBook = bookDefinitionDao.saveBookDefinition(eBook);

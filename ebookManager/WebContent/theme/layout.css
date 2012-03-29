@@ -258,15 +258,41 @@ ul.navList a:hover {
 	width:180px;
 }
 
-.bookDefinitionCRUD .row {
+.bookDefinitionView label {
+	margin-right:10px;
+	text-align:right;
+	width:180px;
+}
+
+.bookDefinitionCRUD .row,
+.bookDefinitionView .row {
 	position:relative;
 	margin:10px 5px;;
 }
 
+.bookDefinitionCRUD .sectionLabel,
+.bookDefinitionView .sectionLabel {
+	margin-top:15px;
+	font-weight: bold;
+	text-align: center;	
+}
+
+.bookDefinitionCRUD .section .centerSection,
+.bookDefinitionView .section .centerSection {
+	margin-left:auto;
+	margin-right:auto;
+	width:950px;
+}
+.bookDefinitionCRUD .centerSection > div,
+.bookDefinitionView .centerSection > div {
+	display:inline-block;
+}
 .bookDefinitionCRUD .leftDefinitionForm,
-.bookDefinitionCRUD .rightDefinitionForm {
-	float:left;
+.bookDefinitionCRUD .rightDefinitionForm,
+.bookDefinitionView .leftDefinitionForm,
+.bookDefinitionView .rightDefinitionForm {
 	width: 460px;
+	vertical-align: top;
 }
 
 .bookDefinitionCRUD .leftDefinitionForm input[type="text"],
@@ -311,8 +337,8 @@ ul.navList a:hover {
 }
 
 .bookDefinitionCRUD .buttons {
-	float:left;
-	margin:50px 0px 50px 100px;
+	float:right;
+	margin:50px 100px 50px 100px;
 }
 
 .bookDefinitionCRUD #accordion {
@@ -329,9 +355,8 @@ ul.navList a:hover {
 	width:100%;
 }
 
-.bookDefinitionCRUD #nameLine .nameText,
-.bookDefinitionCRUD #nameLine .sequenceNumber,
-.bookDefinitionCRUD #additionalFrontMatter .sequenceNumber{
+.bookDefinitionCRUD #authorName .sequenceNumber,
+.bookDefinitionCRUD #nameLine .sequenceNumber{
 	width: 30px;
 }
 
@@ -355,7 +380,7 @@ ul.navList a:hover {
 .bookDefinitionCRUD #authorName .row,
 .bookDefinitionCRUD #nameLine .row,
 .bookDefinitionCRUD #additionalFrontMatter .row  {
-	text-align: left;
+	text-align: right;
 }
 
 .bookDefinitionCRUD #authorName .row input {

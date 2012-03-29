@@ -93,14 +93,14 @@ public class EditBookDefinitionFormValidator implements Validator {
     			String oldTitleId = bookDef.getFullyQualifiedTitleId();
     			
     			// Check if Book Definition is in JobRequest if set as complete
-    			if(bookDef.IsEbookDefinitionCompleteFlag()) {
+    			if(bookDef.getEbookDefinitionCompleteFlag()) {
     				if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
     					errors.rejectValue("validateForm", "error.job.request");
     				}
     			}
 				
     			// This is from the book definition edit
-    			if(bookDef.IsPublishedOnceFlag()) {
+    			if(bookDef.getPublishedOnceFlag()) {
     				// Been published to Proview and set to F
     				if (!oldTitleId.equals(titleId)) {
     					errors.rejectValue("titleId", "error.titleid.changed");

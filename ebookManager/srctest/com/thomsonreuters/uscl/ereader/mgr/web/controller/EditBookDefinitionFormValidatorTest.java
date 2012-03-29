@@ -409,7 +409,7 @@ public class EditBookDefinitionFormValidatorTest {
 		BookDefinition book = initializeBookDef(titleId, contentType);
 
 		form.initialize(book);
-		form.setIsComplete(book.IsEbookDefinitionCompleteFlag());
+		form.setIsComplete(book.getEbookDefinitionCompleteFlag());
 		form.setBookdefinitionId(Long.parseLong("1"));
 		
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyObject(Long.class))).andReturn(book).times(mockReplayTimes);
@@ -462,10 +462,10 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setCopyright("copyright");
 		form.setMaterialId("a12345678123456781234567812345678");
 		form.setIsbn("978-193-5-18235-1");
-		form.setKeyCiteToplineFlag(book.IsKeyciteToplineFlag());
-		form.setIsComplete(book.IsEbookDefinitionCompleteFlag());
+		form.setKeyCiteToplineFlag(book.getKeyciteToplineFlag());
+		form.setIsComplete(book.getEbookDefinitionCompleteFlag());
 		form.setValidateForm(false);
-		form.setIsTOC(book.getIsTocFlag());
+		form.setIsTOC(book.isTocFlag());
 	}
 	
 	private BookDefinition initializeBookDef(String titleId, DocumentTypeCode contentType) {
@@ -481,6 +481,7 @@ public class EditBookDefinitionFormValidatorTest {
     	book.setPublishedOnceFlag(false);
     	book.setOnePassSsoLinkFlag(true);
     	book.setKeyciteToplineFlag(true);
+    	book.setIsAuthorDisplayVertical(true);
 		
 		return book;
 	}

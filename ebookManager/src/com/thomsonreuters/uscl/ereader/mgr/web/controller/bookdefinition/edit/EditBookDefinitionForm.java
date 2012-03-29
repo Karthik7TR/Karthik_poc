@@ -24,6 +24,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -38,11 +41,14 @@ public class EditBookDefinitionForm {
 	private Long bookdefinitionId;
 	private String titleId;
 	private String proviewDisplayName;
-	private Collection<EbookName> nameLines;
 	private String copyright;
 	private String copyrightPageText;
 	private String materialId;
 	private Collection<Author> authorInfo;
+	private Collection<EbookName> nameLines;
+	private Collection<FrontMatterPage> frontMatters;
+	private boolean isAuthorDisplayVertical;
+	private String frontMatterTocLabel;
 	private boolean isTOC;
 	private String rootTocGuid;
 	private String tocCollectionName;
@@ -79,6 +85,7 @@ public class EditBookDefinitionForm {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
+		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.keywords = new ArrayList<Long>();
 		this.isProviewTableView = false;
 		this.isComplete = false;
@@ -103,14 +110,17 @@ public class EditBookDefinitionForm {
 			this.isbn = book.getIsbn();
 			this.authorInfo = book.getAuthors();
 			this.nameLines = book.getEbookNames();
+			this.frontMatters = book.getFrontMatterPages();
 			this.publishDateText = book.getPublishDateText();
 			this.currency = book.getCurrency();
-			this.isTOC = book.getIsTocFlag();
-			this.isComplete = book.IsEbookDefinitionCompleteFlag();
-			this.keyCiteToplineFlag = book.IsKeyciteToplineFlag();
+			this.isTOC = book.isTocFlag();
+			this.isComplete = book.getEbookDefinitionCompleteFlag();
+			this.keyCiteToplineFlag = book.getKeyciteToplineFlag();
 			this.autoUpdateSupport = book.getAutoUpdateSupportFlag();
-			this.searchIndex = book.IsSearchIndexFlag();
-			this.isProviewTableView = book.IsProviewTableViewFlag();
+			this.searchIndex = book.getSearchIndexFlag();
+			this.isProviewTableView = book.isProviewTableViewFlag();
+			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
+			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			
 			Calendar date = book.getPublishCutoffDate();
 			if (date != null) {
@@ -119,7 +129,7 @@ public class EditBookDefinitionForm {
 			}
 			
 			
-			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValueses();
+			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValues();
 			for(KeywordTypeValue value : keywordValues) {
 				this.keywords.add(value.getId());
 			}
@@ -134,6 +144,35 @@ public class EditBookDefinitionForm {
 			author.setEbookDefinition(book);
 		}
 		book.setAuthors(authors);
+		
+		Set<EbookName> ebookNames = new HashSet<EbookName>(nameLines);
+		for(EbookName name : ebookNames) {
+			name.setEbookDefinition(book);
+		}
+		book.setEbookNames(ebookNames);
+		
+		Set<FrontMatterPage> addFrontMatters = new HashSet<FrontMatterPage>();
+		for(FrontMatterPage page : frontMatters) {
+			Collection<FrontMatterSection> sections = page.getFrontMatterSections();
+			for(FrontMatterSection section : sections) {
+				// Set foreign key on Section
+				section.setFrontMatterPage(page);
+				
+				FrontMatterPdf pdf = section.getPdf();
+				if (pdf.isEmpty()) {
+					section.setPdf(null);
+				} else {
+					//Set foreign key on Pdf
+					pdf.setSection(section);
+				}
+			}
+			// Set foreign key on Page
+			page.setEbookDefinition(book);
+			addFrontMatters.add(page);
+		}
+		book.setFrontMatterPages(addFrontMatters);
+		
+		
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
 		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
@@ -142,16 +181,8 @@ public class EditBookDefinitionForm {
 		DocumentTypeCode dtc = new DocumentTypeCode();
 		dtc.setId(contentTypeId);
 		book.setDocumentTypeCodes(dtc);
-		
 		book.setEbookDefinitionCompleteFlag(isComplete);
 		book.setEbookDefinitionId(bookdefinitionId);
-		
-		Set<EbookName> ebookNames = new HashSet<EbookName>(nameLines);
-		for(EbookName name : ebookNames) {
-			name.setEbookDefinition(book);
-		}
-		book.setEbookNames(ebookNames);
-
 		book.setFullyQualifiedTitleId(titleId);
 		book.setIsbn(isbn);
 		book.setIsProviewTableViewFlag(isProviewTableView);
@@ -165,7 +196,7 @@ public class EditBookDefinitionForm {
 				keywordValue.setId(id);
 				keywordValues.add(keywordValue);
 			}
-			book.setKeywordTypeValueses(keywordValues);
+			book.setKeywordTypeValues(keywordValues);
 		}
 		
 		book.setMaterialId(materialId);
@@ -190,6 +221,8 @@ public class EditBookDefinitionForm {
 		book.setRootTocGuid(rootTocGuid);
 		book.setSearchIndexFlag(searchIndex);
 		book.setTocCollectionName(tocCollectionName);
+		book.setIsAuthorDisplayVertical(isAuthorDisplayVertical);
+		book.setFrontMatterTocLabel(frontMatterTocLabel);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -268,6 +301,15 @@ public class EditBookDefinitionForm {
 	public void setNameLines(Collection<EbookName> nameLines) {
 		this.nameLines = nameLines;
 	}
+	
+	public Collection<FrontMatterPage> getFrontMatters() {
+		return frontMatters;
+	}
+
+	public void setFrontMatters(Collection<FrontMatterPage> frontMatters) {
+		this.frontMatters = frontMatters;
+	}
+
 
 	public String getCopyright() {
 		return copyright;
@@ -299,6 +341,22 @@ public class EditBookDefinitionForm {
 
 	public void setAuthorInfo(Collection<Author> authorInfo) {
 		this.authorInfo = authorInfo;
+	}
+
+	public boolean getIsAuthorDisplayVertical() {
+		return isAuthorDisplayVertical;
+	}
+
+	public void setIsAuthorDisplayVertical(boolean isAuthorDisplayVertical) {
+		this.isAuthorDisplayVertical = isAuthorDisplayVertical;
+	}
+
+	public String getFrontMatterTocLabel() {
+		return frontMatterTocLabel;
+	}
+
+	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
+		this.frontMatterTocLabel = frontMatterTocLabel;
 	}
 
 	public boolean getIsTOC() {

@@ -19,7 +19,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -183,7 +182,7 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
-					book.IsEbookDefinitionCompleteFlag());
+					book.getEbookDefinitionCompleteFlag());
 
 			setModelVersion(book.getFullyQualifiedTitleId(), model);
 			setModelMaterialIdandIsbn(id, book, model);

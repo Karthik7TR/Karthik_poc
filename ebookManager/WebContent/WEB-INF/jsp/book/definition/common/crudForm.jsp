@@ -93,6 +93,7 @@
 			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".authorNameSuffix\" name=\"authorInfo[" + authorIndex + "].authorNameSuffix\" type=\"text\" title=\"suffix\"/>";
 			appendTxt = appendTxt + "<div>";
 			appendTxt = appendTxt + "<input class=\"additionalText\" id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" type=\"text\" title=\"Additional Text\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			appendTxt = appendTxt + "</div>";
@@ -400,224 +401,317 @@
 	</c:otherwise>
 </c:choose>
 <form:hidden path="bookdefinitionId" />
-<div class="leftDefinitionForm">
-	<div class="row">
-		<form:label path="titleId" class="labelCol">Title ID</form:label>
-		<input id="titleIdBox" type="text" disabled="disabled" />
-		<form:hidden path="titleId"/>
-		<div class="errorDiv">
-			<form:errors path="titleId" cssClass="errorMessage" />
-		</div>
+<div class="section">
+	<div class="sectionLabel">
+		General
 	</div>
-	<div class="row">
-		<form:label path="proviewDisplayName" class="labelCol">Proview Display Name</form:label>
-		<form:input path="proviewDisplayName" />
-		<div class="errorDiv">
-			<form:errors path="proviewDisplayName" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div id="nameLine" class="row">
-		<form:label path="nameLines" class="labelCol">Name Line</form:label>
-		<input type="button" id="addNameLine" value="add" />
-		<div class="errorDiv">
-			<form:errors path="nameLines" cssClass="errorMessage" />
-		</div>
-		<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
+	<div class="centerSection">
+		<div class="leftDefinitionForm">
 			<div class="row">
-				<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
-				<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
-				<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
-				<span>
-					<input type="button" value="Delete" class="rdelete" />
-				</span>
-				<div class="errorDiv2">
-					<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
-					<form:errors path="nameLines[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+				<form:label path="titleId" class="labelCol">Title ID</form:label>
+				<input id="titleIdBox" type="text" disabled="disabled" />
+				<form:hidden path="titleId"/>
+				<div class="errorDiv">
+					<form:errors path="titleId" cssClass="errorMessage" />
 				</div>
 			</div>
-		</c:forEach>
-		<div id="addNameHere"></div>
-	</div> 
+			<div class="row">
+				<form:label path="proviewDisplayName" class="labelCol">ProView Display Name</form:label>
+				<form:input path="proviewDisplayName" />
+				<div class="errorDiv">
+					<form:errors path="proviewDisplayName" cssClass="errorMessage" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<form:label path="isbn" class="labelCol">ISBN</form:label>
+				<form:input path="isbn" maxlength="17" />
+				<div class="errorDiv">
+					<form:errors path="isbn" cssClass="errorMessage" />
+				</div>
+			</div>
+		
+			<div class="row">
+				<form:label path="materialId" class="labelCol">Sub Material Number</form:label>
+				<form:input path="materialId" maxlength="18" />
+				<div class="errorDiv">
+					<form:errors path="materialId" cssClass="errorMessage" />
+				</div>	
+			</div>
+		</div>
+		
+		<div class="rightDefinitionForm">
+			<div class="row">
+				<label class="labelCol">TOC or NORT</label>
+				<form:radiobutton path="isTOC" value="true" />TOC
+				<form:radiobutton path="isTOC" value="false" />NORT
+			</div>
+			<div id="displayTOC" style="display:none">
+				<div class="row">
+					<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
+					<form:input path="tocCollectionName" />
+				<div class="errorDiv">
+					<form:errors path="tocCollectionName" cssClass="errorMessage" />
+				</div>
+				</div>
+				<div class="row">
+					<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
+					<form:input path="rootTocGuid" maxlength="33"/>
+				<div class="errorDiv">
+					<form:errors path="rootTocGuid" cssClass="errorMessage" />
+				</div>
+				</div>
+			</div>
+			<div id="displayNORT" style="display:none">
+				<div class="row">
+					<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
+					<form:input path="nortDomain" />
+					<div class="errorDiv">
+						<form:errors path="nortDomain" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div class="row">
+					<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
+					<form:input path="nortFilterView" />
+					<div class="errorDiv">
+						<form:errors path="nortFilterView" cssClass="errorMessage" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
+				<form:input path="publicationCutoffDate" />
+				<div class="errorDiv">
+					<form:errors path="publicationCutoffDate" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
+				<form:radiobutton path="isComplete" value="true" />Complete
+				<form:radiobutton path="isComplete" value="false" />Incomplete
+				<div class="errorDiv">
+					<form:errors path="isComplete" cssClass="errorMessage" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-	<div class="row">
-		<form:label path="copyright" class="labelCol">Copyright</form:label>
-		<form:input path="copyright" />
-		<div class="errorDiv">
-			<form:errors path="copyright" cssClass="errorMessage" />
-		</div>
+<div class="section">
+	<div class="sectionLabel">
+		ProView Options
 	</div>
-	<div class="row">
-		<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
-		<form:textarea path="copyrightPageText" />
-		<div class="errorDiv">
-			<form:errors path="copyrightPageText" cssClass="errorMessage" />
-		</div>
-	</div>
-	
-	<div class="row">
-		<form:label path="materialId" class="labelCol">Sub Material Number</form:label>
-		<form:input path="materialId" maxlength="18" />
-		<div class="errorDiv">
-			<form:errors path="materialId" cssClass="errorMessage" />
-		</div>	</div>
-	<div class="row">
-		<label class="labelCol">TOC or NORT</label>
-		<form:radiobutton path="isTOC" value="true" />TOC
-		<form:radiobutton path="isTOC" value="false" />NORT
-	</div>
-	<div id="displayTOC" style="display:none">
-		<div class="row">
-			<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
-			<form:input path="tocCollectionName" />
-		<div class="errorDiv">
-			<form:errors path="tocCollectionName" cssClass="errorMessage" />
-		</div>
-		</div>
-		<div class="row">
-			<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
-			<form:input path="rootTocGuid" maxlength="33"/>
-		<div class="errorDiv">
-			<form:errors path="rootTocGuid" cssClass="errorMessage" />
-		</div>
-		</div>
-	</div>
-	<div id="displayNORT" style="display:none">
-		<div class="row">
-			<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
-			<form:input path="nortDomain" />
-			<div class="errorDiv">
-				<form:errors path="nortDomain" cssClass="errorMessage" />
-			</div>
-		</div>
-		<div class="row">
-			<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
-			<form:input path="nortFilterView" />
-			<div class="errorDiv">
-				<form:errors path="nortFilterView" cssClass="errorMessage" />
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<label class="labelCol">Keywords</label>
-		<div id="accordion">
-			<c:forEach items="${typeKeywords}" var="keyword">
-				<h3><a href="#">${keyword.name}</a></h3>
-				<div>
-					<c:forEach items="${keyword.values}" var="value">
+	<div class="centerSection">
+		<div class="leftDefinitionForm">
+			<div class="row">
+				<label class="labelCol">Keywords</label>
+				<div id="accordion">
+					<c:forEach items="${typeKeywords}" var="keyword">
+						<h3><a href="#">${keyword.name}</a></h3>
 						<div>
-							<form:checkbox path="keywords" value="${value.id}"/>${value.name}
+							<c:forEach items="${keyword.values}" var="value">
+								<div>
+									<form:checkbox path="keywords" value="${value.id}"/>${value.name}
+								</div>
+							</c:forEach>
 						</div>
 					</c:forEach>
 				</div>
-			</c:forEach>
+			</div>
 		</div>
-	</div>
-</div>
-
-<div class="rightDefinitionForm">
-	<div id="authorName" class="row">
-		<form:label path="authorInfo" class="labelCol">Author Information</form:label>
-		<input type="button" id="addAuthor" value="add" />
-		<div class="errorDiv">
-			<form:errors path="authorInfo" cssClass="errorMessage" />
-		</div>
-		<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
+		<div class="rightDefinitionForm">
 			<div class="row">
-				<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-				<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" title="prefix" class="prefix"  />
-				<form:input path="authorInfo[${aStatus.index}].authorFirstName"  title="first name" class="firstName" />
-				<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
-				<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
-				<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
-				<div>
-					<form:input path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
-					<input type="button" value="Delete" class="rdelete" />
-				</div>
-				<div class="errorDiv2">
-					<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
-					<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
-					<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
-					<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
-					<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
-					<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
+				<form:label path="isProviewTableView" class="labelCol">Use ProView Table View</form:label>
+				<form:radiobutton path="isProviewTableView" value="true" />True
+				<form:radiobutton path="isProviewTableView" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="isProviewTableView" cssClass="errorMessage" />
 				</div>
 			</div>
-		</c:forEach>
-		<div id="addHere"></div>
-	</div>
-
-	<div class="row">
-		<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
-		<form:input path="publishDateText" />
-		<div class="errorDiv">
-			<form:errors path="publishDateText" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="isbn" class="labelCol">ISBN</form:label>
-		<form:input path="isbn" maxlength="17" />
-		<div class="errorDiv">
-			<form:errors path="isbn" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="currency" class="labelCol">Currentness Message</form:label>
-		<form:input path="currency" />
-		<div class="errorDiv">
-			<form:errors path="currency" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="isProviewTableView" class="labelCol">Use Proview Table View</form:label>
-		<form:radiobutton path="isProviewTableView" value="true" />True
-		<form:radiobutton path="isProviewTableView" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="isProviewTableView" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
-		<form:radiobutton path="autoUpdateSupport" value="true" />True
-		<form:radiobutton path="autoUpdateSupport" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="searchIndex" class="labelCol">Search Index</form:label>
-		<form:radiobutton path="searchIndex" value="true" />True
-		<form:radiobutton path="searchIndex" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="searchIndex" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
-		<form:radiobutton path="keyCiteToplineFlag" value="true" />True
-		<form:radiobutton path="keyCiteToplineFlag" value="false" />False
-		<div class="errorDiv">
-			<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
-		<form:input path="publicationCutoffDate" />
-		<div class="errorDiv">
-			<form:errors path="publicationCutoffDate" cssClass="errorMessage" />
-		</div>
-	</div>
-	<div class="row">
-		<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
-		<form:radiobutton path="isComplete" value="true" />Complete
-		<form:radiobutton path="isComplete" value="false" />Incomplete
-		<div class="errorDiv">
-			<form:errors path="isComplete" cssClass="errorMessage" />
+			<div class="row">
+				<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
+				<form:radiobutton path="autoUpdateSupport" value="true" />True
+				<form:radiobutton path="autoUpdateSupport" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="searchIndex" class="labelCol">Search Index</form:label>
+				<form:radiobutton path="searchIndex" value="true" />True
+				<form:radiobutton path="searchIndex" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="searchIndex" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
+				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
+				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
+				<form:input path="frontMatterTocLabel" />
+				<div class="errorDiv">
+					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
+<div class="section">
+	<div class="sectionLabel">
+		Front Matter
+	</div>
+	<div class="centerSection">
+		<div class="leftDefinitionForm">
+			<div class="row">
+				<form:label path="copyright" class="labelCol">Copyright</form:label>
+				<form:input path="copyright" />
+				<div class="errorDiv">
+					<form:errors path="copyright" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
+				<form:textarea path="copyrightPageText" />
+				<div class="errorDiv">
+					<form:errors path="copyrightPageText" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="nameLine" class="row">
+				<form:label path="nameLines" class="labelCol">Name Line</form:label>
+				<input type="button" id="addNameLine" value="add" />
+				<div class="errorDiv">
+					<form:errors path="nameLines" cssClass="errorMessage" />
+				</div>
+				<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
+					<div class="row">
+						<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
+						<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
+						<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
+						<span>
+							<input type="button" value="Delete" class="rdelete" />
+						</span>
+						<div class="errorDiv2">
+							<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
+							<form:errors path="nameLines[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+						</div>
+					</div>
+				</c:forEach>
+				<div id="addNameHere"></div>
+			</div> 
+		</div>
+		<div class="rightDefinitionForm">
+			<div class="row">
+				<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
+				<form:input path="publishDateText" />
+				<div class="errorDiv">
+					<form:errors path="publishDateText" cssClass="errorMessage" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<form:label path="currency" class="labelCol">Currentness Message</form:label>
+				<form:input path="currency" />
+				<div class="errorDiv">
+					<form:errors path="currency" cssClass="errorMessage" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<form:label path="isAuthorDisplayVertical" class="labelCol">Author Display</form:label>
+				<form:radiobutton path="isAuthorDisplayVertical" value="true" />Vertical
+				<form:radiobutton path="isAuthorDisplayVertical" value="false" />Horizontal
+				<div class="errorDiv">
+					<form:errors path="isAuthorDisplayVertical" cssClass="errorMessage" />
+				</div>
+			</div>
+			
+			<div id="authorName" class="row">
+				<form:label path="authorInfo" class="labelCol">Author Information</form:label>
+				<input type="button" id="addAuthor" value="add" />
+				<div class="errorDiv">
+					<form:errors path="authorInfo" cssClass="errorMessage" />
+				</div>
+				<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
+					<div class="row">
+						<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
+						<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" title="prefix" class="prefix"  />
+						<form:input path="authorInfo[${aStatus.index}].authorFirstName"  title="first name" class="firstName" />
+						<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
+						<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
+						<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
+						<div>
+							<form:input path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
+							<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" />
+							<input type="button" value="Delete" class="rdelete" />
+						</div>
+						<div class="errorDiv2">
+							<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
+							<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+						</div>
+					</div>
+				</c:forEach>
+				<div id="addHere"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="additionPages" class="row">
+	<form:label path="frontMatters" class="labelCol">Additional Front Matter Pages</form:label>
+	<input type="button" id="addFrontMatterPage" value="add" />
+	<div class="errorDiv">
+		<form:errors path="frontMatters" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.frontMatters}" var="page" varStatus="pageStatus">
+		<div class="row">
+			<form:hidden path="frontMatters[${pageStatus.index}].id"/>
+			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label"  />
+			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label"   />
+			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Seq Num."   />
+			<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
+				<div class="row">
+					<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
+					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
+					<form:textarea path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" title="Section Text" />
+					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Seq Num." />
+					<c:choose>
+					<c:when test="${section.pdf != null}">
+						<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.id" />
+						<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfLinkText"   title="PDF Link Text" />
+						<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfFilename"   title="PDF Filename" />
+					</c:when>
+					<c:otherwise>
+						<input type="hidden" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.id" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.id" />
+						<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfLinkText" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.pdfLinkText" title="PDF Link Text" />
+						<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfFilename" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.pdfFilename" title="PDF Filename" />
+					</c:otherwise>
+					</c:choose>
+				</div>
+			</c:forEach>
+			<span>
+				<input type="button" value="Delete" class="rdelete" />
+			</span>
+			<div class="errorDiv2">
+			</div>
+		</div>
+	</c:forEach>
+	<div id="addAddtionPageHere"></div>
+</div> 
+
 <div id="modal"> 
-    <div id="dialog" class="window">
+    <div id="dialog" class="window" style="display:none;">
         <div class="modelTitle">Comments</div>
         <form:textarea path="comment"/>
         <form:errors path="comment" cssClass="errorMessage" />

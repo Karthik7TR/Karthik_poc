@@ -212,6 +212,18 @@ public class BookDefinition implements Serializable {
 	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	Date lastUpdated;
+	
+	/**
+	 */
+	@Column(name = "FRONT_MATTER_TOC_LABEL", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String frontMatterTocLabel;	
+	
+	/**
+	 */
+	@Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String isAuthorDisplayVertical;	
 
 	/**
 	 */
@@ -328,7 +340,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean getIsTocFlag() {
+	public boolean isTocFlag() {
 		return ((this.isTocFlag.equalsIgnoreCase("Y") ? true : false));		
 	}
 
@@ -439,6 +451,18 @@ public class BookDefinition implements Serializable {
 	public String getCurrency() {
 		return this.currency;
 	}
+	
+	/**
+	 */
+	public void setIsProviewTableViewFlag(boolean isProviewTableViewFlag) {
+		this.isProviewTableViewFlag =( (isProviewTableViewFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isProviewTableViewFlag() {
+		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
+	}
 
 	/**
 	 */
@@ -448,7 +472,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean IsKeyciteToplineFlag() {
+	public boolean getKeyciteToplineFlag() {
 		return ((this.keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));		
 	}
 
@@ -472,7 +496,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean IsSearchIndexFlag() {
+	public boolean getSearchIndexFlag() {
 		return ((this.searchIndexFlag.equalsIgnoreCase("Y") ? true : false));		
 	}
 
@@ -484,7 +508,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean IsOnePassSsoLinkFlag() {
+	public boolean getOnePassSsoLinkFlag() {
 		return ((this.onePassSsoLinkFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
@@ -508,7 +532,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean IsEbookDefinitionCompleteFlag() {
+	public boolean getEbookDefinitionCompleteFlag() {
 		return ((this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
@@ -520,7 +544,7 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean IsPublishedOnceFlag() {
+	public boolean getPublishedOnceFlag() {
 		return( (this.publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
@@ -532,8 +556,20 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public boolean getIsDeletedFlag() {
+	public boolean isDeletedFlag() {
 		return( (this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	/**
+	 */
+	public void setIsAuthorDisplayVertical(boolean isAuthorDisplayVertical) {
+		this.isAuthorDisplayVertical =( (isAuthorDisplayVertical) ? "Y" : "N");
+	}
+	
+	/**
+	 */
+	public boolean isAuthorDisplayVertical() {
+		return( (this.isAuthorDisplayVertical.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -546,6 +582,14 @@ public class BookDefinition implements Serializable {
 	 */
 	public Date getLastUpdated() {
 		return this.lastUpdated;
+	}
+
+	public String getFrontMatterTocLabel() {
+		return frontMatterTocLabel;
+	}
+
+	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
+		this.frontMatterTocLabel = frontMatterTocLabel;
 	}
 
 	/**
@@ -574,13 +618,13 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setKeywordTypeValueses(Set<KeywordTypeValue> keywordTypeValueses) {
+	public void setKeywordTypeValues(Set<KeywordTypeValue> keywordTypeValueses) {
 		this.keywordTypeValues = keywordTypeValueses;
 	}
 
 	/**
 	 */
-	public Set<KeywordTypeValue> getKeywordTypeValueses() {
+	public Set<KeywordTypeValue> getKeywordTypeValues() {
 		if (keywordTypeValues == null) {
 			keywordTypeValues = new java.util.LinkedHashSet<KeywordTypeValue>();
 		}
@@ -648,7 +692,7 @@ public class BookDefinition implements Serializable {
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
 		setMaterialId(that.getMaterialId());
-		setIsTocFlag(that.getIsTocFlag());
+		setIsTocFlag(that.isTocFlag());
 		setRootTocGuid(that.getRootTocGuid());
 		setDocCollectionName(that.getDocCollectionName());
 		setTocCollectionName(that.getTocCollectionName());
@@ -658,19 +702,22 @@ public class BookDefinition implements Serializable {
 		setIsbn(that.getIsbn());
 		setPublishDateText(that.getPublishDateText());
 		setCurrency(that.getCurrency());
-		setKeyciteToplineFlag(that.IsKeyciteToplineFlag());
+		setKeyciteToplineFlag(that.getKeyciteToplineFlag());
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
-		setSearchIndexFlag(that.IsSearchIndexFlag());
-		setOnePassSsoLinkFlag(that.IsOnePassSsoLinkFlag());
+		setSearchIndexFlag(that.getSearchIndexFlag());
+		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
 		setPublishCutoffDate(that.getPublishCutoffDate());
-		setEbookDefinitionCompleteFlag(that.IsEbookDefinitionCompleteFlag());
-		setPublishedOnceFlag(that.IsPublishedOnceFlag());
-		setIsDeletedFlag(that.getIsDeletedFlag());
+		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
+		setPublishedOnceFlag(that.getPublishedOnceFlag());
+		setIsDeletedFlag(that.isDeletedFlag());
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
+		setFrontMatterTocLabel(that.getFrontMatterTocLabel());
+		setIsAuthorDisplayVertical(that.isAuthorDisplayVertical());
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
+		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 	}
 
 	/**
@@ -697,6 +744,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("isbn=[").append(isbn).append("] ");
 		buffer.append("publishDateText=[").append(publishDateText).append("] ");
 		buffer.append("currency=[").append(currency).append("] ");
+		buffer.append("isProviewTableViewFlag=[").append(isProviewTableViewFlag).append("] ");
 		buffer.append("keyciteToplineFlag=[").append(keyciteToplineFlag).append("] ");
 		buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
 		buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
@@ -706,6 +754,8 @@ public class BookDefinition implements Serializable {
 		buffer.append("publishedOnceFlag=[").append(publishedOnceFlag).append("] ");
 		buffer.append("isDeletedFlag=[").append(isDeletedFlag).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+		buffer.append("frontMatterTocLabel=[").append(frontMatterTocLabel).append("] ");
+		buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
 
 		return buffer.toString();
 	}
@@ -735,18 +785,6 @@ public class BookDefinition implements Serializable {
 		return true;
 	}
 
-	/**
-	 */
-	public void setIsProviewTableViewFlag(boolean isProviewTableViewFlag) {
-		this.isProviewTableViewFlag =( (isProviewTableViewFlag) ? "Y" : "N");
-	}
-
-	/**
-	 */
-	public boolean IsProviewTableViewFlag() {
-		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
-	}
-	
 	
 	/**
 	 * The base title ID, without any of the leading slash-separated namespace components.  Example: "ak_2010_federal".
@@ -774,8 +812,8 @@ public class BookDefinition implements Serializable {
 
 		ArrayList<Feature> proviewFeatures = new ArrayList<Feature>();
 		proviewFeatures.add(new Feature("AutoUpdate"));
-		if (IsSearchIndexFlag()) proviewFeatures.add(new Feature("SearchIndex"));
-		if (IsOnePassSsoLinkFlag()) proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));		
+		if (getSearchIndexFlag()) proviewFeatures.add(new Feature("SearchIndex"));
+		if (getOnePassSsoLinkFlag()) proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));		
 		return (proviewFeatures);
 	}
 
@@ -797,10 +835,10 @@ public class BookDefinition implements Serializable {
 	@Transient
 	public String getBookStatus() {
 		String status;
-		if (getIsDeletedFlag()) {
+		if (isDeletedFlag()) {
 			status = "Deleted";
 		} else { 
-			if (IsEbookDefinitionCompleteFlag()) {
+			if (getEbookDefinitionCompleteFlag()) {
 				status = "Complete";
 			} else {
 				status = "Incomplete";

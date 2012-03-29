@@ -56,7 +56,10 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>			    	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>			    	
 			</list>
 		</property>
 	</bean>

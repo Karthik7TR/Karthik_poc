@@ -531,31 +531,261 @@ public class PublishingStats implements Serializable {
 		return buffer.toString();
 	}
 
-	/**
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (int) (prime * result + ((jobInstanceId == null) ? 0
-				: jobInstanceId.hashCode()));
+		result = prime
+				* result
+				+ ((assembleDocCount == null) ? 0 : assembleDocCount.hashCode());
+		result = prime * result + ((auditId == null) ? 0 : auditId.hashCode());
+		result = prime
+				* result
+				+ ((bookVersionSubmitted == null) ? 0 : bookVersionSubmitted
+						.hashCode());
+		result = prime * result
+				+ ((ebookDefId == null) ? 0 : ebookDefId.hashCode());
+		result = prime * result
+				+ ((formatDocCount == null) ? 0 : formatDocCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherDocExpectedCount == null) ? 0
+						: gatherDocExpectedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherDocRetrievedCount == null) ? 0
+						: gatherDocRetrievedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherDocRetryCount == null) ? 0 : gatherDocRetryCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherImageExpectedCount == null) ? 0
+						: gatherImageExpectedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherImageRetrievedCount == null) ? 0
+						: gatherImageRetrievedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherImageRetryCount == null) ? 0 : gatherImageRetryCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherMetaExpectedCount == null) ? 0
+						: gatherMetaExpectedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherMetaRetrievedCount == null) ? 0
+						: gatherMetaRetrievedCount.hashCode());
+		result = prime
+				* result
+				+ ((gatherMetaRetryCount == null) ? 0 : gatherMetaRetryCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherTocDocCount == null) ? 0 : gatherTocDocCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherTocNodeCount == null) ? 0 : gatherTocNodeCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherTocRetryCount == null) ? 0 : gatherTocRetryCount
+						.hashCode());
+		result = prime
+				* result
+				+ ((gatherTocSkippedCount == null) ? 0 : gatherTocSkippedCount
+						.hashCode());
+		result = prime * result
+				+ ((jobHostName == null) ? 0 : jobHostName.hashCode());
+		result = prime * result
+				+ ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode());
+		result = prime
+				* result
+				+ ((jobSubmitTimestamp == null) ? 0 : jobSubmitTimestamp
+						.hashCode());
+		result = prime
+				* result
+				+ ((jobSubmitterName == null) ? 0 : jobSubmitterName.hashCode());
+		result = prime * result
+				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+		result = prime
+				* result
+				+ ((publishEndTimestamp == null) ? 0 : publishEndTimestamp
+						.hashCode());
+		result = prime
+				* result
+				+ ((publishStartTimestamp == null) ? 0 : publishStartTimestamp
+						.hashCode());
+		result = prime * result
+				+ ((publishStatus == null) ? 0 : publishStatus.hashCode());
+		result = prime * result
+				+ ((titleDocCount == null) ? 0 : titleDocCount.hashCode());
+		result = prime
+				* result
+				+ ((titleDupDocCount == null) ? 0 : titleDupDocCount.hashCode());
 		return result;
 	}
 
-	/**
-	 */
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
+		if (this == obj)
 			return true;
-		if (!(obj instanceof PublishingStats))
+		if (obj == null)
 			return false;
-		PublishingStats equalCheck = (PublishingStats) obj;
-		if ((jobInstanceId == null && equalCheck.jobInstanceId != null)
-				|| (jobInstanceId != null && equalCheck.jobInstanceId == null))
+		if (getClass() != obj.getClass())
 			return false;
-		if (jobInstanceId != null
-				&& !jobInstanceId.equals(equalCheck.jobInstanceId))
+		PublishingStats other = (PublishingStats) obj;
+		if (assembleDocCount == null) {
+			if (other.assembleDocCount != null)
+				return false;
+		} else if (!assembleDocCount.equals(other.assembleDocCount))
+			return false;
+		if (auditId == null) {
+			if (other.auditId != null)
+				return false;
+		} else if (!auditId.equals(other.auditId))
+			return false;
+		if (bookVersionSubmitted == null) {
+			if (other.bookVersionSubmitted != null)
+				return false;
+		} else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
+			return false;
+		if (ebookDefId == null) {
+			if (other.ebookDefId != null)
+				return false;
+		} else if (!ebookDefId.equals(other.ebookDefId))
+			return false;
+		if (formatDocCount == null) {
+			if (other.formatDocCount != null)
+				return false;
+		} else if (!formatDocCount.equals(other.formatDocCount))
+			return false;
+		if (gatherDocExpectedCount == null) {
+			if (other.gatherDocExpectedCount != null)
+				return false;
+		} else if (!gatherDocExpectedCount.equals(other.gatherDocExpectedCount))
+			return false;
+		if (gatherDocRetrievedCount == null) {
+			if (other.gatherDocRetrievedCount != null)
+				return false;
+		} else if (!gatherDocRetrievedCount
+				.equals(other.gatherDocRetrievedCount))
+			return false;
+		if (gatherDocRetryCount == null) {
+			if (other.gatherDocRetryCount != null)
+				return false;
+		} else if (!gatherDocRetryCount.equals(other.gatherDocRetryCount))
+			return false;
+		if (gatherImageExpectedCount == null) {
+			if (other.gatherImageExpectedCount != null)
+				return false;
+		} else if (!gatherImageExpectedCount
+				.equals(other.gatherImageExpectedCount))
+			return false;
+		if (gatherImageRetrievedCount == null) {
+			if (other.gatherImageRetrievedCount != null)
+				return false;
+		} else if (!gatherImageRetrievedCount
+				.equals(other.gatherImageRetrievedCount))
+			return false;
+		if (gatherImageRetryCount == null) {
+			if (other.gatherImageRetryCount != null)
+				return false;
+		} else if (!gatherImageRetryCount.equals(other.gatherImageRetryCount))
+			return false;
+		if (gatherMetaExpectedCount == null) {
+			if (other.gatherMetaExpectedCount != null)
+				return false;
+		} else if (!gatherMetaExpectedCount
+				.equals(other.gatherMetaExpectedCount))
+			return false;
+		if (gatherMetaRetrievedCount == null) {
+			if (other.gatherMetaRetrievedCount != null)
+				return false;
+		} else if (!gatherMetaRetrievedCount
+				.equals(other.gatherMetaRetrievedCount))
+			return false;
+		if (gatherMetaRetryCount == null) {
+			if (other.gatherMetaRetryCount != null)
+				return false;
+		} else if (!gatherMetaRetryCount.equals(other.gatherMetaRetryCount))
+			return false;
+		if (gatherTocDocCount == null) {
+			if (other.gatherTocDocCount != null)
+				return false;
+		} else if (!gatherTocDocCount.equals(other.gatherTocDocCount))
+			return false;
+		if (gatherTocNodeCount == null) {
+			if (other.gatherTocNodeCount != null)
+				return false;
+		} else if (!gatherTocNodeCount.equals(other.gatherTocNodeCount))
+			return false;
+		if (gatherTocRetryCount == null) {
+			if (other.gatherTocRetryCount != null)
+				return false;
+		} else if (!gatherTocRetryCount.equals(other.gatherTocRetryCount))
+			return false;
+		if (gatherTocSkippedCount == null) {
+			if (other.gatherTocSkippedCount != null)
+				return false;
+		} else if (!gatherTocSkippedCount.equals(other.gatherTocSkippedCount))
+			return false;
+		if (jobHostName == null) {
+			if (other.jobHostName != null)
+				return false;
+		} else if (!jobHostName.equals(other.jobHostName))
+			return false;
+		if (jobInstanceId == null) {
+			if (other.jobInstanceId != null)
+				return false;
+		} else if (!jobInstanceId.equals(other.jobInstanceId))
+			return false;
+		if (jobSubmitTimestamp == null) {
+			if (other.jobSubmitTimestamp != null)
+				return false;
+		} else if (!jobSubmitTimestamp.equals(other.jobSubmitTimestamp))
+			return false;
+		if (jobSubmitterName == null) {
+			if (other.jobSubmitterName != null)
+				return false;
+		} else if (!jobSubmitterName.equals(other.jobSubmitterName))
+			return false;
+		if (lastUpdated == null) {
+			if (other.lastUpdated != null)
+				return false;
+		} else if (!lastUpdated.equals(other.lastUpdated))
+			return false;
+		if (publishEndTimestamp == null) {
+			if (other.publishEndTimestamp != null)
+				return false;
+		} else if (!publishEndTimestamp.equals(other.publishEndTimestamp))
+			return false;
+		if (publishStartTimestamp == null) {
+			if (other.publishStartTimestamp != null)
+				return false;
+		} else if (!publishStartTimestamp.equals(other.publishStartTimestamp))
+			return false;
+		if (publishStatus == null) {
+			if (other.publishStatus != null)
+				return false;
+		} else if (!publishStatus.equals(other.publishStatus))
+			return false;
+		if (titleDocCount == null) {
+			if (other.titleDocCount != null)
+				return false;
+		} else if (!titleDocCount.equals(other.titleDocCount))
+			return false;
+		if (titleDupDocCount == null) {
+			if (other.titleDupDocCount != null)
+				return false;
+		} else if (!titleDupDocCount.equals(other.titleDupDocCount))
 			return false;
 		return true;
 	}
+
+	
 }

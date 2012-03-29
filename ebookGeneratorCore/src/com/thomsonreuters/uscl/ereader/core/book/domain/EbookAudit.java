@@ -699,7 +699,7 @@ public class EbookAudit implements Serializable {
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
 		setMaterialId(that.getMaterialId());
-		setIsTocFlag(that.getIsTocFlag());
+		setIsTocFlag(that.isTocFlag());
 		setRootTocGuid(that.getRootTocGuid());
 		setDocCollectionName(that.getDocCollectionName());
 		setTocCollectionName(that.getTocCollectionName());
@@ -711,21 +711,21 @@ public class EbookAudit implements Serializable {
 		setPublishDateText(that.getPublishDateText());
 		setPublisherCodesId(that.getPublisherCodes().getId());
 		setCurrency(that.getCurrency());
-		setKeyciteToplineFlag(that.IsKeyciteToplineFlag());
+		setKeyciteToplineFlag(that.getKeyciteToplineFlag());
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
-		setSearchIndexFlag(that.IsSearchIndexFlag());
-		setOnePassSsoLinkFlag(that.IsOnePassSsoLinkFlag());
-		setIsProviewTableViewFlag(that.IsProviewTableViewFlag());
+		setSearchIndexFlag(that.getSearchIndexFlag());
+		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
+		setIsProviewTableViewFlag(that.isProviewTableViewFlag());
 		setPublishCutoffDate(that.getPublishCutoffDate());
-		setEbookDefinitionCompleteFlag(that.IsEbookDefinitionCompleteFlag());
-		setPublishedOnceFlag(that.IsPublishedOnceFlag());
+		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
+		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setAuthorNamesConcat(concatString(that.getAuthors()));
 		setBookNamesConcat(concatString(that.getEbookNames()));
-		setKeywordsConcat(concatString(that.getKeywordTypeValueses()));
+		setKeywordsConcat(concatString(that.getKeywordTypeValues()));
 		setAuditNote(note);
 		setAuditType(auditType.toString());
 		setUpdatedBy(user);
-		setIsDeletedFlag(that.getIsDeletedFlag());
+		setIsDeletedFlag(that.isDeletedFlag());
 		setLastUpdated(that.getLastUpdated());
 	}
 	

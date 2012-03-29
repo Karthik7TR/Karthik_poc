@@ -74,6 +74,10 @@ public class Author implements Serializable {
 	@Column(name = "AUTHOR_ADDL_TEXT", length = 1024)
 	@Basic(fetch = FetchType.EAGER)
 	String authorAddlText;
+	
+	@Column(name = "SEQUENCE_NUMBER")
+	@Basic(fetch = FetchType.EAGER)
+	Integer sequenceNum;
 
 	/**
 	 */
@@ -163,6 +167,14 @@ public class Author implements Serializable {
 	 */
 	public String getAuthorAddlText() {
 		return this.authorAddlText;
+	}
+
+	public Integer getSequenceNum() {
+		return sequenceNum;
+	}
+
+	public void setSequenceNum(Integer sequenceNum) {
+		this.sequenceNum = sequenceNum;
 	}
 
 	/**
