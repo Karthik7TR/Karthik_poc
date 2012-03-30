@@ -157,6 +157,12 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 
+	@Column(name = "ENABLE_COPY_FEATURE_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String enableCopyFeatureFlag;
+	/**
+	 */
+
 	@Column(name = "AUTO_UPDATE_SUPPORT_FLAG", length = 1)
 	@Basic(fetch = FetchType.EAGER)
 	String autoUpdateSupportFlag;
@@ -474,6 +480,14 @@ public class BookDefinition implements Serializable {
 	 */
 	public boolean getKeyciteToplineFlag() {
 		return ((this.keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));		
+	}
+
+	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
+		this.enableCopyFeatureFlag = ((enableCopyFeatureFlag) ? "Y" : "N");
+	}
+
+	public boolean getEnableCopyFeatureFlag() {
+		return ((this.enableCopyFeatureFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
