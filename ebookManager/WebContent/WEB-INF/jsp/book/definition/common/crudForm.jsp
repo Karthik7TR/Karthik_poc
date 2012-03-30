@@ -10,6 +10,7 @@
 		// Declare Global Variables
 		var authorIndex = ${numberOfAuthors};
 		var nameIndex = ${numberOfNameLines};
+		var frontMatterPageIndex = ${numberOfFrontMatters};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -94,8 +95,8 @@
 			appendTxt = appendTxt + "<div>";
 			appendTxt = appendTxt + "<input class=\"additionalText\" id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" type=\"text\" title=\"Additional Text\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addHere").before(appendTxt);
 			authorIndex = authorIndex + 1;
@@ -109,14 +110,43 @@
 			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".ebookNameId\" name=\"nameLines[" + nameIndex + "].ebookNameId\" type=\"hidden\" />";
 			appendTxt = appendTxt + "<input class=\"bookName\" id=\"nameLines" + nameIndex + ".bookNameText\" name=\"nameLines[" + nameIndex + "].bookNameText\" type=\"text\" title=\"Name Line\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNum\" name=\"nameLines[" + nameIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
-			appendTxt = appendTxt + "<span>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
-			appendTxt = appendTxt + "</span>";
 			appendTxt = appendTxt + "</div>";
 			$("#addNameHere").before(appendTxt);
 			nameIndex = nameIndex + 1;
 			
 			textboxHint("nameLine");
+		};
+		
+		// Add another additional Front Matter Page row
+		var addFrontMatterPageRow = function() {
+			var appendTxt = "<div class='row frontMatterPage'>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\"/>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "<div id='addAdditionalSection_" + frontMatterPageIndex + "'></div>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Section\" class=\"addSection\" pageIndex=\"" + frontMatterPageIndex + "\" sectionIndex=\"0\" />";
+			appendTxt = appendTxt + "</div>";
+			$("#addAdditionPageHere").before(appendTxt);
+			frontMatterPageIndex = frontMatterPageIndex + 1;
+			
+			textboxHint("additionFrontMatterBlock");
+		};
+		
+		// Add another additional Front Matter Section row
+		var addFrontMatterSectionRow = function(pageIndex, sectionIndex) {
+			var appendTxt = "<div class='row frontMatterSection'>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionHeading\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionHeading\" type=\"text\" title=\"Section Heading\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\"/>";
+			appendTxt = appendTxt + "<textarea id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionText\" title=\"Section Text\" class=\"frontMatterSectionTextArea\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdf[0].pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdf.pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdf[0].pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdf.pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "</div>";
+			$("#addAdditionalSection_" + pageIndex).before(appendTxt);
+			
+			textboxHint("additionFrontMatterBlock");
 		};
 		
 		var updateTOCorNORT = function(isTOC) {
@@ -231,6 +261,9 @@
 				addNameRow();
 			});
 			
+			$('#addFrontMatterPage').click(function () {
+				addFrontMatterPageRow();
+			});
 			//Update formValidation field if Validation button is pressed
 			$('#validate').click(function () {
 				$('#validateForm').val(true);
@@ -288,8 +321,19 @@
 			});
 			
 			$(".rdelete").live("click", function () {
-				var srow = $(this).parent().parent();
+				var srow = $(this).parent();
 				srow.remove();
+			});
+			
+			$(".addSection").live("click", function () {
+				// Retrieve additional page and section indexes from DOM object
+				pageIndex = $(this).attr("pageIndex");
+				sectionIndex = $(this).attr("sectionIndex");
+				addFrontMatterSectionRow(pageIndex, sectionIndex);
+				
+				// Increment sectionIndex
+				nextIndex = parseInt(sectionIndex) + 1;
+				$(this).attr("sectionIndex", nextIndex);
 			});
 			
 			// Initialize Global variables
@@ -307,6 +351,7 @@
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			textboxHint("authorName");
 			textboxHint("nameLine");
+			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
 			});
@@ -594,9 +639,7 @@
 						<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
 						<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
 						<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
-						<span>
-							<input type="button" value="Delete" class="rdelete" />
-						</span>
+						<input type="button" value="Delete" class="rdelete" />
 						<div class="errorDiv2">
 							<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
 							<form:errors path="nameLines[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
@@ -649,8 +692,8 @@
 						<div>
 							<form:input path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
 							<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" />
-							<input type="button" value="Delete" class="rdelete" />
 						</div>
+						<input type="button" value="Delete" class="rdelete" />
 						<div class="errorDiv2">
 							<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
 							<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
@@ -668,46 +711,70 @@
 	</div>
 </div>
 
-<div id="additionPages" class="row">
+<div id="additionFrontMatterBlock" class="centerSection">
 	<form:label path="frontMatters" class="labelCol">Additional Front Matter Pages</form:label>
 	<input type="button" id="addFrontMatterPage" value="add" />
 	<div class="errorDiv">
 		<form:errors path="frontMatters" cssClass="errorMessage" />
 	</div>
 	<c:forEach items="${editBookDefinitionForm.frontMatters}" var="page" varStatus="pageStatus">
-		<div class="row">
+		<div class="row frontMatterPage">
 			<form:hidden path="frontMatters[${pageStatus.index}].id"/>
-			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label"  />
-			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label"   />
-			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Seq Num."   />
+			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" />
+			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" />
+			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" />
+			<input type="button" value="Delete Page" class="rdelete" />
+			<div class="errorDiv2">
+				<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
+				<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
+				<form:errors path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="errorMessage" />
+			</div>
+			<c:set var="sectionIndex" value="0"/>
 			<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
-				<div class="row">
+				<div class="row frontMatterSection">
+					<c:set var="sectionIndex" value="${sectionStatus.index}"/>
 					<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
 					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
-					<form:textarea path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" title="Section Text" />
-					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Seq Num." />
-					<c:choose>
-					<c:when test="${section.pdf != null}">
-						<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.id" />
-						<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfLinkText"   title="PDF Link Text" />
-						<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfFilename"   title="PDF Filename" />
-					</c:when>
-					<c:otherwise>
-						<input type="hidden" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.id" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.id" />
-						<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfLinkText" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.pdfLinkText" title="PDF Link Text" />
-						<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf.pdfFilename" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf.pdfFilename" title="PDF Filename" />
-					</c:otherwise>
-					</c:choose>
+					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Section Seq Num." class="sequenceNumber" />
+					<div class="errorDiv2">
+						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
+						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
+					</div>
+					<form:textarea path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" title="Section Text" class="frontMatterSectionTextArea" />
+					<div class="errorDiv2">
+						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" cssClass="errorMessage" />
+					</div>
+					<div class="row">
+						<c:choose>
+							<c:when test="${section.pdfSize > 0}">
+								<c:forEach items="${section.pdf}" var="pdf">
+									<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].id" />
+									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText"   title="PDF Link Text" />
+									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename"   title="PDF Filename" />
+									<div class="errorDiv2">
+										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText" cssClass="errorMessage" />
+										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename" cssClass="errorMessage" />
+									</div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<input type="hidden" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].id" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].id" />
+								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].pdfLinkText" title="PDF Link Text" />
+								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].pdfFilename" title="PDF Filename" />
+							</c:otherwise>
+						</c:choose>
+						
+					</div>
+					<input type="button" value="Delete Section" class="rdelete" />
 				</div>
 			</c:forEach>
-			<span>
-				<input type="button" value="Delete" class="rdelete" />
-			</span>
+			<div id="addAdditionalSection_${pageStatus.index}"></div>
+			<input type="button" value="Add Section" class="addSection" pageIndex="${pageStatus.index}" sectionIndex="${sectionIndex + 1}"  />
 			<div class="errorDiv2">
 			</div>
 		</div>
 	</c:forEach>
-	<div id="addAddtionPageHere"></div>
+	<div id="addAdditionPageHere"></div>
 </div> 
 
 <div id="modal"> 

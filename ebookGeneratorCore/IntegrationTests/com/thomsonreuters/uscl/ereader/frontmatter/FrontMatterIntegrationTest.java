@@ -94,7 +94,7 @@ public class FrontMatterIntegrationTest {
 		frontMatterPdf.setPdfFilename("somefile.pdf");
 		frontMatterPdf.setPdfLinkText("Link Text");
 		frontMatterPdf.setSection(fms);
-		fms.setPdf(frontMatterPdf);
+		fms.getPdf().add(frontMatterPdf);
 		
 		fmp.getFrontMatterSections().add(fms);
 		
@@ -125,7 +125,7 @@ public class FrontMatterIntegrationTest {
 			frontMatterPdf.setPdfFilename("somefile.pdf 2");
 			frontMatterPdf.setPdfLinkText("Link Text 2");
 			frontMatterPdf.setSection(fms);
-			fms.setPdf(frontMatterPdf);
+			fms.getPdf().add(frontMatterPdf);
 		}
 		
 		Assert.assertEquals(1, frontMatterPages.size());

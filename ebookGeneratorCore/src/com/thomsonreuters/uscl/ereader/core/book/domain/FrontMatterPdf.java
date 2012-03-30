@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -36,7 +36,7 @@ public class FrontMatterPdf implements Serializable {
 	/**
 	 */
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "FRONT_MATTER_SECTION_ID", referencedColumnName = "FRONT_MATTER_SECTION_ID", nullable = false) })
 	FrontMatterSection section;
 	/**

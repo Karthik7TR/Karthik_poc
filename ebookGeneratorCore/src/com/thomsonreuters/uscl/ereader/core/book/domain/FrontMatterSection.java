@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,13 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  */
@@ -38,7 +42,6 @@ public class FrontMatterSection implements Serializable {
 	 */
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 	@JoinColumns({ @JoinColumn(name = "FRONT_MATTER_PAGE_ID", referencedColumnName = "FRONT_MATTER_PAGE_ID", nullable = false) })
 	FrontMatterPage frontMatterPage;
 	/**
@@ -60,14 +63,15 @@ public class FrontMatterSection implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	Integer sequenceNum;
 	
-	@OneToOne(mappedBy = "section", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "section", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	FrontMatterPdf pdf;
+	@Fetch(FetchMode.SELECT)
+	Collection<FrontMatterPdf> pdf;
 	/**
 	 */
 	
 	public FrontMatterSection() {
-		pdf = new FrontMatterPdf();
+		pdf = new AutoPopulatingList<FrontMatterPdf>(FrontMatterPdf.class);
 	}
 
 	public Long getId() {
@@ -110,12 +114,17 @@ public class FrontMatterSection implements Serializable {
 		this.sequenceNum = sequenceNum;
 	}
 
-	public FrontMatterPdf getPdf() {
+	public Collection<FrontMatterPdf> getPdf() {
 		return pdf;
 	}
 
-	public void setPdf(FrontMatterPdf pdf) {
+	public void setPdf(Collection<FrontMatterPdf> pdf) {
 		this.pdf = pdf;
+	}
+	
+	@Transient
+	public int getPdfSize() {
+		return pdf.size();
 	}
 
 	@Override

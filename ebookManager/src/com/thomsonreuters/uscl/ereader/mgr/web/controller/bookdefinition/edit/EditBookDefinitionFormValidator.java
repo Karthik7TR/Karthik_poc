@@ -22,6 +22,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -136,9 +139,11 @@ public class EditBookDefinitionFormValidator implements Validator {
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_1024});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
 		
+		// Check EBookNames for max characters and required fields
 		int i = 0;
 		for(EbookName name: form.getNameLines()) {
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_1024});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nameLines[" + i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			i++;
 		}
 		
@@ -156,6 +161,37 @@ public class EditBookDefinitionFormValidator implements Validator {
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorMiddleName(), "authorInfo["+ i +"].authorMiddleName", new Object[] {"Middle name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorLastName(), "authorInfo["+ i +"].authorLastName", new Object[] {"Last name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_1024});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+			i++;
+		}
+		
+		// Check max character and required fields for Front Matter
+		i=0;
+		for(FrontMatterPage page: form.getFrontMatters()) {
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, page.getPageTocLabel(), "frontMatters["+ i +"].pageTocLabel", new Object[] {"Page TOC Label", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, page.getPageHeadingLabel(), "frontMatters["+ i +"].pageHeadingLabel", new Object[] {"Page Heading Label", MAXIMUM_CHARACTER_1024});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].pageTocLabel", "error.required.field", new Object[] {"Page TOC Label"});
+			
+			// Check Front Matter sections for max characters and required fields
+			int j = 0;
+			for(FrontMatterSection section : page.getFrontMatterSections()) {
+				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, section.getSectionHeading(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionHeading", new Object[] {"Section Heading", MAXIMUM_CHARACTER_1024});
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionText", "error.required.field", new Object[] {"Section Text"});
+				
+				// Check Front Matter Pdf for max characters and required fields
+				for (FrontMatterPdf pdf : section.getPdf()) {
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
+					
+					// Check both fields of PDF is filled 
+					if(StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
+						errors.rejectValue("frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfFilename", "error.required.pdf");
+					}
+				}
+				j++;
+			}
 			i++;
 		}
 		
@@ -187,6 +223,10 @@ public class EditBookDefinitionFormValidator implements Validator {
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
 			//TODO: check if cover image is on the server. Need server location.
+		}
+    	
+    	if(errors.hasErrors()) {
+			errors.rejectValue("validateForm", "mesg.errors.form");
 		}
 	}
 	

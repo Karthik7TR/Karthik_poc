@@ -15,9 +15,13 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -63,7 +67,8 @@ public class EditBookDefinitionFormValidatorTest {
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
-		Assert.assertEquals(2, errors.getAllErrors().size());
+		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+		Assert.assertEquals(3, errors.getAllErrors().size());
 	}
 
 	/**
@@ -401,6 +406,134 @@ public class EditBookDefinitionFormValidatorTest {
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.date.format", errors.getFieldError("publicationCutoffDate").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test Author required fields
+	 */
+	@Test
+	public void testAuthorRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	Author author = new Author();
+    	author.setAuthorFirstName("Test");
+    	form.getAuthorInfo().add(author);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.field", errors.getFieldError("authorInfo[0].sequenceNum").getCode());
+		Assert.assertEquals("error.author.last.name", errors.getFieldError("authorInfo[0].authorLastName").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test Author required fields
+	 */
+	@Test
+	public void testNameLineRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	EbookName name = new EbookName();
+    	name.setBookNameText("Test");
+    	form.getNameLines().add(name);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.field", errors.getFieldError("nameLines[1].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test FrontMatterPage required fields
+	 */
+	@Test
+	public void testFrontMatterPageRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	FrontMatterPage page = new FrontMatterPage();
+		form.getFrontMatters().add(page);
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].pageTocLabel").getCode());
+		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test FrontMatterSection required fields
+	 */
+	@Test
+	public void testFrontMatterSectionRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	FrontMatterPage page = new FrontMatterPage();
+    	page.setPageTocLabel("Toc Label");
+    	page.setSequenceNum(1);
+    	
+    	FrontMatterSection section = new FrontMatterSection();
+    	page.getFrontMatterSections().add(section);
+		form.getFrontMatters().add(page);
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].frontMatterSections[0].sectionText").getCode());
+		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].frontMatterSections[0].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test FrontMatterPdf all fields required if one field is set
+	 */
+	@Test
+	public void testFrontMatterPdfRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	FrontMatterPage page = new FrontMatterPage();
+    	page.setPageTocLabel("Toc Label");
+    	page.setSequenceNum(1);
+    	
+    	FrontMatterSection section = new FrontMatterSection();
+    	section.setSectionText("text section");
+    	section.setSequenceNum(1);
+    	
+    	FrontMatterPdf pdf = new FrontMatterPdf();
+    	pdf.setPdfFilename("filename");
+    	section.getPdf().add(pdf);
+    	page.getFrontMatterSections().add(section);
+		form.getFrontMatters().add(page);
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.pdf", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdf[0].pdfFilename").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

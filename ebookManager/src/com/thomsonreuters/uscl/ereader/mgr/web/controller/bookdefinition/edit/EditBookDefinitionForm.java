@@ -80,6 +80,7 @@ public class EditBookDefinitionForm {
 	
 	private String comment;
 	private boolean validateForm;
+	private Collection<Long> frontMatterPdfDeletions = new ArrayList<Long>();
 	
 	public EditBookDefinitionForm() {
 		super();
@@ -153,17 +154,15 @@ public class EditBookDefinitionForm {
 		
 		Set<FrontMatterPage> addFrontMatters = new HashSet<FrontMatterPage>();
 		for(FrontMatterPage page : frontMatters) {
-			Collection<FrontMatterSection> sections = page.getFrontMatterSections();
-			for(FrontMatterSection section : sections) {
+			for(FrontMatterSection section : page.getFrontMatterSections()) {
 				// Set foreign key on Section
 				section.setFrontMatterPage(page);
 				
-				FrontMatterPdf pdf = section.getPdf();
-				if (pdf.isEmpty()) {
-					section.setPdf(null);
-				} else {
-					//Set foreign key on Pdf
-					pdf.setSection(section);
+				for(FrontMatterPdf pdf : section.getPdf()){
+					if (pdf != null) {
+						//Set foreign key on Pdf
+						pdf.setSection(section);
+					}
 				}
 			}
 			// Set foreign key on Page
@@ -551,13 +550,21 @@ public class EditBookDefinitionForm {
 		this.validateForm = validateForm;
 	}
 
+	public Collection<Long> getFrontMatterPdfDeletions() {
+		return frontMatterPdfDeletions;
+	}
+
+	public void setFrontMatterPdfDeletions(Collection<Long> frontMatterPdfDeletions) {
+		this.frontMatterPdfDeletions = frontMatterPdfDeletions;
+	}
+
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
 	public void removeEmptyRows() {
 		//Clear out empty author
-        for (Iterator<Author> i = this.authorInfo.iterator(); i.hasNext();) {
+        for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
         	Author author = i.next();
             if (author == null || author.isNameEmpty()) {
                 i.remove();
@@ -565,12 +572,41 @@ public class EditBookDefinitionForm {
         }
         
         //Clear out empty name line
-        for (Iterator<EbookName> i = this.nameLines.iterator(); i.hasNext();) {
+        for (Iterator<EbookName> i = nameLines.iterator(); i.hasNext();) {
         	EbookName nameLine = i.next();
             if (nameLine == null || nameLine.isEmpty()) {
                 i.remove();
             }
         }
+        
+        //Clear out front matter line
+	    for (Iterator<FrontMatterPage> i = frontMatters.iterator(); i.hasNext();) {
+	    	FrontMatterPage page = i.next();
+	    	
+	        if (page == null) {
+	        	// Remove page from Collection
+	            i.remove();
+	        } else {
+	        	for(Iterator<FrontMatterSection> j = page.getFrontMatterSections().iterator(); j.hasNext();) {
+	        		FrontMatterSection section = j.next();
+	        		if(section == null) {
+	        			// Remove Section from Collection
+	        			j.remove();
+	        		} else {
+	        			for(Iterator<FrontMatterPdf> k = section.getPdf().iterator(); k.hasNext();) {
+	        				FrontMatterPdf pdf = k.next();
+	        				if (pdf == null) {
+	        					k.remove();
+	        				} else {
+	        					if(pdf.isEmpty()) {
+	        						k.remove();
+	        					}
+	        				}
+	        			}
+	        		}
+	        	}
+	        }
+	    }
     }
 	
 }

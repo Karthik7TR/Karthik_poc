@@ -277,8 +277,8 @@ ul.navList a:hover {
 	text-align: center;	
 }
 
-.bookDefinitionCRUD .section .centerSection,
-.bookDefinitionView .section .centerSection {
+.bookDefinitionCRUD .centerSection,
+.bookDefinitionView .centerSection {
 	margin-left:auto;
 	margin-right:auto;
 	width:950px;
@@ -300,6 +300,31 @@ ul.navList a:hover {
 .bookDefinitionCRUD .leftDefinitionForm textarea,
 .bookDefinitionCRUD .rightDefinitionForm textarea {
 	width:250px;
+}
+
+.bookDefinitionCRUD #additionFrontMatterBlock {
+	clear:both;
+	width:600px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.bookDefinitionCRUD .frontMatterSectionTextArea {
+	display: block;
+	width:540px;
+	height: 200px;
+	margin: 5px;
+}
+
+.bookDefinitionCRUD .frontMatterPage {
+	border: 1px gray solid;
+	padding:5px;
+}
+
+.bookDefinitionCRUD .frontMatterSection {
+	border: 1px gray solid;
+	padding:5px;
+	margin:5px;
 }
 
 .bookDefinitionCRUD #additionalFrontMatter .additionalFrontMatterText {
@@ -362,7 +387,7 @@ ul.navList a:hover {
 
 .bookDefinitionCRUD #authorName input.blur,
 .bookDefinitionCRUD #nameLine input.blur,
-.bookDefinitionCRUD #additionalFrontMatter input.blur {
+.bookDefinitionCRUD #additionFrontMatterBlock input.blur {
   color:#808080;
 }
 
@@ -378,8 +403,7 @@ ul.navList a:hover {
 }
 
 .bookDefinitionCRUD #authorName .row,
-.bookDefinitionCRUD #nameLine .row,
-.bookDefinitionCRUD #additionalFrontMatter .row  {
+.bookDefinitionCRUD #nameLine .row {
 	text-align: right;
 }
 
