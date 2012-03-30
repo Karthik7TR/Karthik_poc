@@ -35,7 +35,7 @@ public class PlaceholderDocumentFilterTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		placeholderDocumentFilter = new PlaceholderDocumentFilter("YARR!");
+		placeholderDocumentFilter = new PlaceholderDocumentFilter("YARR!", "tocGuid");
 		resultStream = new ByteArrayOutputStream();
 
 		placeholderDocumentTemplate = new InputSource(new ByteArrayInputStream("<html><head/><body><div><displaytext/></div></body></html>".getBytes()));

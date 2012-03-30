@@ -36,9 +36,12 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 	private ResourceLoader resourceLoader;
 
 	@Override
-	public void generatePlaceholderDocument(OutputStream documentStream, String displayText) throws PlaceholderDocumentServiceException {
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid) throws PlaceholderDocumentServiceException {
 		if (StringUtils.isBlank(displayText)) {
 			throw new IllegalArgumentException("displayText must not be null or empty. Was: [" + displayText + "]");
+		}
+		if (StringUtils.isBlank(tocGuid)) {
+			throw new IllegalArgumentException("tocGuid must not be null or empty. Was: [" + tocGuid + "]");
 		}
 		if (documentStream == null) {
 			throw new IllegalArgumentException("The OutputStream to write the placeholder document to must not be null. Confirm that the caller of this method has supplied a valid OutputStream.");
@@ -46,7 +49,7 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 		if (StringUtils.isBlank(placeholderDocumentTemplateLocation)) {
 			throw new IllegalArgumentException("The placeholderDocumentTemplateLocation was not configured properly (missing or null). This is likely a Spring configuration error that needs to be resolved by a developer.");
 		}
-		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText);
+		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText, tocGuid);
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
@@ -84,9 +87,4 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 		return this.resourceLoader.getResource(this.placeholderDocumentTemplateLocation);
 	}
 
-	@Override
-	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String anchorName) throws PlaceholderDocumentServiceException {
-		//TODO: Implement this method and add a bucket for anchor references to the placeholderDocumentTemplate xml file under templates/placeholderDocumentTemplate.xml
-		
-	}
 }

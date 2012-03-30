@@ -67,7 +67,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private UuidGenerator uuidGenerator;
 	
 	private TableOfContents tableOfContents = new TableOfContents();
-	private TocNode parent;
 	private TocNode currentNode;
 	private TocNode previousNode;
 	private int currentDepth = 0;
@@ -78,20 +77,19 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private Set<String> uniqueFamilyGuids = new HashSet<String>();
 	private List<Doc> orderedDocuments = new ArrayList<Doc>();
 	private Set<String> uniqueTocGuids = new HashSet<String>();
-	private List<TocEntry> anchorCascadeBuffer = new ArrayList<TocEntry>();
+//	private List<TocEntry> anchorCascadeBuffer = new ArrayList<TocEntry>();
 	private StringBuilder tocGuid = new StringBuilder();
 	private StringBuilder docGuid = new StringBuilder();
 	private StringBuilder textBuffer = new StringBuilder();
 	private boolean bufferingTocGuid = false;
 	private boolean bufferingDocGuid = false;
 	private boolean bufferingText = false;
-	private boolean buffersAreFull = false;
+//	private boolean buffersAreFull = false;
 	
 	//Element names that correspond to the toc.xml to title.xml transformation
 	private static final String URI = "";
 	private static final String CDATA = "CDATA";
 	private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
-	private static final String BACKSLASH = "/";
 	private static final String EBOOK = "EBook";
 	private static final String EBOOK_TOC = "EBookToc";
 	private static final String NAME = "Name";
@@ -156,7 +154,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 		this.documentsDirectory = documentsDirectory;
 		this.fileUtilsFacade = fileUtilsFacade;
 		this.placeholderDocumentService = placeholderDocumentService;
-		this.parent = tableOfContents; //initialize the parent reference to the root node.
 		this.previousNode = tableOfContents;
 	}
 
@@ -186,7 +183,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (EBOOK.equals(qName)){
-			parent = tableOfContents;
 			currentDepth = 0;
 			previousDepth = 0;
 		}
@@ -215,8 +211,8 @@ class TitleManifestFilter extends XMLFilterImpl {
 			File missingDocument = new File(documentsDirectory, missingDocumentFilename);
 			try {
 				FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
-				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, textBuffer.toString());
 				currentNode.setDocumentUuid(missingDocumentGuid);
+				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, currentNode.getText(), currentNode.getTocGuid());
 				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
 				nodesContainingDocuments.add(currentNode);  //need to cascade anchors into placeholder document text.
 			}

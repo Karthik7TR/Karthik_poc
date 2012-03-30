@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
@@ -26,15 +27,18 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public class PlaceholderDocumentFilter extends XMLFilterImpl {
 
 	private static final String DISPLAY_TEXT = "displaytext";
+	private static final String ANCHOR_TAG = "a";
 	private String displayText;
+	private String tocGuid;
 	
 	/**
 	 * Single argument constructor that takes the display text to be rendered within the document's body.
 	 * 
 	 * @param displayText the text to be displayed within the body of the document.
 	 */
-	public PlaceholderDocumentFilter(String displayText) {
+	public PlaceholderDocumentFilter(String displayText, String tocGuid) {
 		this.displayText = displayText;
+		this.tocGuid = tocGuid;
 	}
 
 	@Override
@@ -42,6 +46,21 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl {
 			Attributes attributes) throws SAXException {
 		if (DISPLAY_TEXT.equals(qName)) {
 			super.characters(displayText.toCharArray(), 0, displayText.length());
+		}
+		else if (ANCHOR_TAG.equals(qName)) {
+			String anchorName = attributes.getValue("name");
+			if (anchorName != null && anchorName.equalsIgnoreCase("placeholder_anchor"))
+			{
+				AttributesImpl newAtts = new AttributesImpl(attributes);
+				newAtts.removeAttribute(newAtts.getIndex("name"));
+				newAtts.addAttribute("", "", "name", "CDATA", tocGuid);
+
+				super.startElement(uri, localname, qName, newAtts);
+			}
+			else
+			{
+				super.startElement(uri, localname, qName, attributes);
+			}
 		}
 		else {
 			super.startElement(uri, localname, qName, attributes);
