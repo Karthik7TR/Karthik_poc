@@ -142,6 +142,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN13AAADB07CC011DC828EC052D3B59944ContentBlock()
         throws Exception
     {
@@ -164,6 +165,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN13AAADB07CC011DC828EC052D3B59944ParagraphText()
         throws Exception
     {
@@ -186,6 +188,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN13AAADB07CC011DC828EC052D3B59944PrelimGoldenLeaf()
         throws Exception
     {
@@ -257,6 +260,7 @@ public class PersistentUrlTransformIntegrationTests
     {
         String renderedOutput = getWestLawNextRenderedOutput("N1E6B9EE08D7111D8A8ACD145B11214D7");
 
+        System.out.println("Output is " + renderedOutput);
         int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
 
         Assert.isTrue(
@@ -340,6 +344,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN2129FB908D7111D8A8ACD145B11214D7PrintHeading()
         throws Exception
     {
@@ -362,6 +367,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN588DDF107CC011DC83339EA319FEB44FContentBlock()
         throws Exception
     {
@@ -384,6 +390,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN588DDF107CC011DC83339EA319FEB44FParagraphText()
         throws Exception
     {
@@ -406,6 +413,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN588DDF107CC011DC83339EA319FEB44FPrelimGoldenLeaf()
         throws Exception
     {
@@ -494,6 +502,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN5AE4A3C0D2A311DFA872E294CFCC8A91PrintHeading()
         throws Exception
     {
@@ -516,6 +525,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN7BE432707CC011DC8B69829BAAB1B5B5ContentBlock()
         throws Exception
     {
@@ -538,6 +548,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN7BE432707CC011DC8B69829BAAB1B5B5ParagraphText()
         throws Exception
     {
@@ -560,6 +571,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN7BE432707CC011DC8B69829BAAB1B5B5PrelimGoldenLeaf()
         throws Exception
     {
@@ -582,6 +594,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN98740E607CC011DC8B69829BAAB1B5B57ContentBlock()
         throws Exception
     {
@@ -626,6 +639,7 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
+    @Ignore
     public void testN98740E607CC011DC8B69829BAAB1B5B5PrelimGoldenLeaf()
         throws Exception
     {
