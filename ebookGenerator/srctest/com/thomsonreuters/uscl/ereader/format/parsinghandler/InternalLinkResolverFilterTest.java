@@ -48,6 +48,7 @@ public class InternalLinkResolverFilterTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testIsDocumentUrl() throws Exception {
 		String resourceUrl = "https://a.next.westlaw.com/Document/Iff5a5aaa7c8f11da9de6e47d6d5aa7a5/View/FullText.html?transitionType=Default&contextData=(sc.Default)";
 		boolean isDocumentUrl = internalLinkResolverFilter.isDocumentUrl(resourceUrl);
