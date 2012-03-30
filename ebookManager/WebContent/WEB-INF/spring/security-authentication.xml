@@ -8,7 +8,8 @@
 						   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
   	<!-- Filter used to find a user by username in the LDAP directory tree. -->
-	<bean id="ldapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+	<bean id="ldapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch"
+		  p:searchTimeLimit="15000">
   		<constructor-arg index="0" value=""/>
   		<constructor-arg index="1" value="(cn={0})"/>
   		<constructor-arg index="2" ref="ldapContextSource" />
