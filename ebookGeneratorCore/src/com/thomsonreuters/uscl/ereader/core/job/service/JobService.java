@@ -57,13 +57,4 @@ public interface JobService {
 	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds);
 	
 	public StepExecution findStepExecution(long jobExecutionId, long stepExecutionId);
-	
-	/**
-	 * Returns the a job with the given title id is currently running.
-	 * @param titleId the fully qualified title ID
-	 * @return true if there is a job running with this titleId
-	 */
-//TODO: NOT YET IMPLEMENTED!!!
-	public boolean isJobRunning(String titleId);
-	
 }

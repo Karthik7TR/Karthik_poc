@@ -68,11 +68,6 @@ public class JobServiceImpl implements JobService {
 		return stepExecution;
 	}
 	
-	public boolean isJobRunning(String titleId) {
-// TODO: implement this
-		return false;
-	}
-	
 	@Required
 	public void setJobDao(JobDao dao) {
 		this.dao = dao;
