@@ -195,22 +195,22 @@
 		  	<td>Proview Version New:
 		  	<td id="newVersionNumber"></td>
 		  </tr>
-		  <div style="visibility: hidden"> 
-		  	<text id="publishingCutOffDate">${publishingCutOffDate}</text>
-		  	<text id="isNewISBN">${isNewISBN}</text>
-		  	<text id="isNewMaterialId">${isNewMaterialId}</text>
-		  	<text id="usePublishingCutOffDate">${usePublishingCutOffDate}</text>
-		  	<text id="isComplete">${isComplete}</text>
-		 	<text id="isbn">${isbn}</text>
-		  	<text id="materialId">${materialId}</text>
-		  	<text id="isMajorVersion">${isMajorVersion}</text>
-		 
-		  </div>	
+		  
 		</table>
 		<br/>
 		<input id="generateButton" type="button" value="Generate" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${buttonVisibility} />
 		<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
+		<div style="visibility: hidden"> 
+		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
+		  	<p id="isNewISBN">${isNewISBN}</p>
+		  	<p id="isNewMaterialId">${isNewMaterialId}</p>
+		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
+		  	<p id="isComplete">${isComplete}</p>
+		 	<p id="isbn">${isbn}</p>
+		  	<p id="materialId">${materialId}</p>
+		  	<p id="isMajorVersion">${isMajorVersion}</p>
+		 </div>	
 		
 		<%-- Informational Messages area --%>
 	    <c:if test="${infoMessage != null}">
