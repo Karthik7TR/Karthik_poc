@@ -128,6 +128,10 @@ function submitForm(cmd)
 					<span class="field">${ book.keyciteToplineFlag }</span>
 				</div>
 				<div class="row">
+					<label class="labelCol">Enable Copy Feature</label>
+					<span class="field">${ book.enableCopyFeatureFlag }</span>
+				</div>
+				<div class="row">
 					<label class="labelCol">Front Matter TOC Label</label>
 					<span class="field">${ book.frontMatterTocLabel }</span>
 				</div>

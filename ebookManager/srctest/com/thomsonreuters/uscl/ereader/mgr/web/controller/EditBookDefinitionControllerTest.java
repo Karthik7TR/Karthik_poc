@@ -800,6 +800,7 @@ public class EditBookDefinitionControllerTest {
     	book.setOnePassSsoLinkFlag(true);
     	book.setKeyciteToplineFlag(true);
     	book.setIsAuthorDisplayVertical(true);
+    	book.setEnableCopyFeatureFlag(false);
     	return book;
 	}
 	

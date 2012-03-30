@@ -598,12 +598,21 @@
 				</div>
 			</div>
 			<div class="row">
+				<form:label path="enableCopyFeatureFlag" class="labelCol">Enable Copy Feature</form:label>
+				<form:radiobutton path="enableCopyFeatureFlag" value="true" />True
+				<form:radiobutton path="enableCopyFeatureFlag" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="enableCopyFeatureFlag" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
 				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
 				<form:input path="frontMatterTocLabel" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
 				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>

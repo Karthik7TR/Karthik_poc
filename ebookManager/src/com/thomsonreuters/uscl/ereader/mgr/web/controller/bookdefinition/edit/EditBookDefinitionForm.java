@@ -69,6 +69,7 @@ public class EditBookDefinitionForm {
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
 	private boolean isProviewTableView;
+	private boolean enableCopyFeatureFlag;
 	
 	// Fully qualified title ID parts
 	private String publisher;
@@ -94,6 +95,7 @@ public class EditBookDefinitionForm {
 		this.keyCiteToplineFlag = true;
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
+		this.enableCopyFeatureFlag = false;
 	}
 	
 	public void initialize(BookDefinition book) {
@@ -121,6 +123,7 @@ public class EditBookDefinitionForm {
 			this.searchIndex = book.getSearchIndexFlag();
 			this.isProviewTableView = book.isProviewTableViewFlag();
 			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
+			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			
 			Calendar date = book.getPublishCutoffDate();
@@ -186,6 +189,7 @@ public class EditBookDefinitionForm {
 		book.setIsbn(isbn);
 		book.setIsProviewTableViewFlag(isProviewTableView);
 		book.setIsTocFlag(isTOC);
+		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
 		
 		if(keywords != null) {
@@ -460,6 +464,14 @@ public class EditBookDefinitionForm {
 
 	public void setIsProviewTableView(boolean isProviewTableView) {
 		this.isProviewTableView = isProviewTableView;
+	}
+
+	public boolean isEnableCopyFeatureFlag() {
+		return enableCopyFeatureFlag;
+	}
+
+	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
+		this.enableCopyFeatureFlag = enableCopyFeatureFlag;
 	}
 
 	public boolean isKeyCiteToplineFlag() {
