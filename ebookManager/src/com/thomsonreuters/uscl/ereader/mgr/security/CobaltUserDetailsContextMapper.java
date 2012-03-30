@@ -6,6 +6,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
 import org.apache.log4j.Logger;
+import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,25 +14,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
+/**
+ * Object mapper used to create a user object from the attributes contained within a specified LDAP directory context.
+ * Delegates to a standard LDAP AttributesMapper to accomplish this.
+ */
 public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper {
 	private static final Logger log = Logger.getLogger(CobaltUserDetailsContextMapper.class);
-	private CobaltUserAttributesMapper userEntryAttributesMapper;
+	private AttributesMapper userEntryAttributesMapper;
 	
-	public CobaltUserDetailsContextMapper(CobaltUserAttributesMapper userEntryAttributesMapper) {
+	public CobaltUserDetailsContextMapper(AttributesMapper userEntryAttributesMapper) {
 		this.userEntryAttributesMapper = userEntryAttributesMapper;
 	}
 	
 	@Override
-	public UserDetails mapUserFromContext(DirContextOperations ctx, String username,
+	public UserDetails mapUserFromContext(DirContextOperations userDirectoryContext, String username,
 										  Collection<? extends GrantedAuthority> authorities) {
-		Attributes userAttrs = ctx.getAttributes();
+		log.debug("Creating user object from LDAP entry at DN: " + userDirectoryContext.getDn());
+		Attributes userAttrs = userDirectoryContext.getAttributes();
 		CobaltUser user = null;
 		try {
 			user = (CobaltUser) userEntryAttributesMapper.mapFromAttributes(userAttrs);
-			//log.debug("Mapped to User: " + user);
 		} catch (NamingException e) {
-			log.error(e);
+			log.error("Unable to map user entry for username="+username, e);
 		}
 		return user;
 	}

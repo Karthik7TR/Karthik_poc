@@ -26,7 +26,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public class CobaltUserAttributesMapper implements AttributesMapper {
 	private static final Logger log = Logger.getLogger(CobaltUserAttributesMapper.class);
-	/** KEY=a regular expression for a physical LDAP group name, VALUE=logical role name */
+	private static final String ATTR_COMMON_NAME = "cn";
+	private static final String ATTR_EMAIL_ADDR = "mail";
+	private static final String ATTR_FIRST_NAME = "givenName";
+	private static final String ATTR_GROUP = "memberOf";
+	private static final String ATTR_LAST_NAME = "sn";
+	private static final String ATTR_USERNAME = ATTR_COMMON_NAME;
+	
+	/** KEY=a regular expression for a physical LDAP group name, VALUE=logical role name (like ROLE_SUPERUSER) */
 	private Map<String,String> groupToRoleMap;
 	
 	/**
@@ -40,14 +47,14 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 	
 	@Override
 	public Object mapFromAttributes(Attributes attributes) throws NamingException {
-		String username = attrToString(attributes.get("samaccountname"));
-		String firstName = attrToString(attributes.get("givenName"));
-		String lastName = attrToString(attributes.get("sn"));
-		String email = attrToString(attributes.get("mail"));
-		// Map the physical groups to logical roles
+		String username = attrToString(attributes.get(ATTR_USERNAME));
+		String firstName = attrToString(attributes.get(ATTR_FIRST_NAME));
+		String lastName = attrToString(attributes.get(ATTR_LAST_NAME));
+		String emailAddr = attrToString(attributes.get(ATTR_EMAIL_ADDR));
+		// Load the physical LDAP groups to then map them to logical roles/authorities
 		Collection<String> groups = loadLdapGroups(attributes);
 		Collection<GrantedAuthority> authorities = mapGroupsToRoles(groups);
-		CobaltUser user = new CobaltUser(username, firstName, lastName, email, authorities);
+		CobaltUser user = new CobaltUser(username, firstName, lastName, emailAddr, authorities);
 		return user;
 	}
 	
@@ -55,17 +62,22 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 		return (attr != null) ? (String) attr.get() : null;
 	}
 	
+	/**
+	 * Fetch the physical group names that have been assigned to the user.
+	 * These will then in turn be mapped to logical role/authority names.
+	 * @param attributes the attributed of the user LDAP directory entry
+	 */
 	@SuppressWarnings("rawtypes")
 	private Collection<String> loadLdapGroups(Attributes attributes) throws NamingException {
 		Collection<String> groups = new ArrayList<String>();
-		Attribute memberOf = attributes.get("memberOf");
+		Attribute memberOf = attributes.get(ATTR_GROUP);
 		if (memberOf != null) {
 			NamingEnumeration ne = memberOf.getAll();
 			while (ne.hasMore()) {
 				String groupDnString = (String) ne.next();  // Fully qualified DN of the group
 				// Parse the full DN to get just the value for the CN attribute
 				DistinguishedName groupDn = new DistinguishedName(groupDnString);
-				LdapRdn cn = groupDn.getLdapRdn("cn");
+				LdapRdn cn = groupDn.getLdapRdn(ATTR_COMMON_NAME);
 				if (cn != null) {
 					String groupName = cn.getValue();
 					groups.add(groupName);
@@ -95,7 +107,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 	}
 	
 	/**
-	 * Find the matching role name for a group RE.
+	 * Find the matching role name for a group Java regular expression (RE).
 	 * Example, for groupToRoleMap with entry key "P-West-LEGO_SWAT.*" and value "ROLE_SWAT",
 	 * a group name of "P-West-LEGO_SWAT_DEV" would cause "ROLE_SWAT" to be returned.
 	 * @param group physical group name to find within the set of regular expressions in the groupToRoleMap.
