@@ -20,11 +20,6 @@ import org.xml.sax.helpers.XMLFilterImpl;
  */
 public class HTMLTableFilter extends XMLFilterImpl
 {
-    @Override
-    public void characters(final char[] ch, final int offset, final int len)
-    {
-        //System.out.println("Info is : " + new String(ch, offset, len));
-    }
 
     @Override
     public void endElement(final String uri, final String localName, final String qName)

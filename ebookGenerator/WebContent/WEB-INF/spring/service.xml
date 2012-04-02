@@ -152,5 +152,13 @@
   		  
   	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
   		  p:codeDao-ref="codeDao"/>
+    <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
+  	      p:hostname="${hostname}" 
+  	      p:rs="${rs}"
+  	      p:vr="${vr}"/>
+  	<bean class="com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter" 
+  	      p:hostname="${hostname}" 
+  	      p:rs="${rs}"
+  	      p:vr="${vr}"/>
 				  
 </beans>
