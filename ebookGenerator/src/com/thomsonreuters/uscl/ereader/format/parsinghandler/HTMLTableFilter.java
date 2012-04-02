@@ -10,9 +10,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-
-
-
 /**
  * Filter that handles various Table elements and transforms them as needed.
  *
@@ -28,13 +25,30 @@ public class HTMLTableFilter extends XMLFilterImpl
 	private static final String PROVIEW_TABLE_VIEWER_CLASS = "tr_table";
 	
 	private boolean isCopyrightTag = false;
+	
+	private boolean tableViewerSupport = false;
+	
+	public HTMLTableFilter(boolean tableViewerSupport)
+	{
+		this.tableViewerSupport = tableViewerSupport;
+	}
+	
+	public void setTableViewerSupport(boolean tableViewerSupport)
+	{
+		this.tableViewerSupport = tableViewerSupport;
+	}
+	
+	public boolean getTableViewerSupport()
+	{
+		return tableViewerSupport;
+	}
 
     @Override
     public void startElement(
         final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException
     {
-        if (qName.equalsIgnoreCase(TABLE_TAG))
+        if (tableViewerSupport && qName.equalsIgnoreCase(TABLE_TAG))
         {
             AttributesImpl newAtts = new AttributesImpl(atts);
             newAtts.clear();
@@ -55,17 +69,6 @@ public class HTMLTableFilter extends XMLFilterImpl
             super.startElement(uri, localName, qName, atts);
         }
     }
-
-    @Override
-    public void endElement(final String uri, final String localName, final String qName)
-        throws SAXException
-    {
-        if (qName.equalsIgnoreCase(TABLE_DATA_TAG) && isCopyrightTag)
-        {
-        	isCopyrightTag = false;
-        }
-        super.endElement(uri, localName, qName);
-    }
 	
 	@Override
 	public void characters(char buf[], int offset, int len) throws SAXException
@@ -79,4 +82,15 @@ public class HTMLTableFilter extends XMLFilterImpl
 			super.characters(buf, offset, len);
 		}
 	}
+
+    @Override
+    public void endElement(final String uri, final String localName, final String qName)
+        throws SAXException
+    {
+        if (qName.equalsIgnoreCase(TABLE_DATA_TAG) && isCopyrightTag)
+        {
+        	isCopyrightTag = false;
+        }
+        super.endElement(uri, localName, qName);
+    }
 }

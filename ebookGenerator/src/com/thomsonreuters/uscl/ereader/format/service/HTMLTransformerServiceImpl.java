@@ -93,7 +93,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList,final boolean isTableViewRequired, 
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final boolean isTableViewRequired, 
 			final String title, final Long jobId) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
@@ -183,25 +183,13 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			
 			HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
 			emptyH2Filter.setParent(saxParser.getXMLReader());
-			HTMLTableFilter tableFilter =null;
 			
-			if (isTableViewRequired)
-			{
-				tableFilter = new HTMLTableFilter();
-			    tableFilter.setParent(emptyH2Filter);			
-			}
+			HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
+			tableFilter.setParent(emptyH2Filter);
 			
 			HTMLImageFilter imageFilter = new HTMLImageFilter();
 			imageFilter.setStaticImageRefs(staticImgRef);
-			
-			if (isTableViewRequired && tableFilter != null)
-			{
-			    imageFilter.setParent(tableFilter);
-			}
-			else 
-			{
-				imageFilter.setParent(emptyH2Filter);
-			}
+			imageFilter.setParent(tableFilter);
 
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);

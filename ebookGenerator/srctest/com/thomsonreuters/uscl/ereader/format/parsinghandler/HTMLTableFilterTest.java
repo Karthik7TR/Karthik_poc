@@ -41,7 +41,7 @@ public class HTMLTableFilterTest {
 		factory.setNamespaceAware(true);
 		SAXParser saxParser = factory.newSAXParser();
 		
-		tableFilter = new HTMLTableFilter();
+		tableFilter = new HTMLTableFilter(true);
 		tableFilter.setParent(saxParser.getXMLReader());
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
@@ -140,6 +140,18 @@ public class HTMLTableFilterTest {
 		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";
 		String expectedResult = "<test><table class=\"tr_table\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testCopyrightRemovalWithoutTableViewerSupport() throws SAXException
+	{
+		tableFilter.setTableViewerSupport(false);
+		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";
+		String expectedResult = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
