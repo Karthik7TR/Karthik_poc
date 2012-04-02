@@ -373,8 +373,8 @@ public class TransformerServiceImpl implements TransformerService
 	        SimpleDateFormat format = new SimpleDateFormat("yyyy");
 	        String year = format.format(new Date());
 	        transformer.setParameter("currentYear", year);
-	        transformer.setParameter("endOfDocumentCopyrightText", "Thomson Reuters. No claim to original " +
-	        		"U.S. Government Works.");
+//	        transformer.setParameter("endOfDocumentCopyrightText", "Thomson Reuters. No claim to original " +
+//	        		"U.S. Government Works."); //Request was made to remove the copyright text from the End of Doc section
 	        
 	        xsltCache.put(xslt.getAbsolutePath(), transformer);
 	        

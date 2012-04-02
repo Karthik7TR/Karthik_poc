@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
  * Test various HTMLTableFilter data scenarios.
  *
  * @author <a href="mailto:Ravi.Nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
+ * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
 public class HTMLTableFilterTest {
 	private HTMLTableFilter tableFilter;
@@ -111,7 +112,6 @@ public class HTMLTableFilterTest {
 		String expectedResult = "<test><table class=\"tr_table\"/></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
-		
 	}
 	
 	@Test
@@ -121,9 +121,27 @@ public class HTMLTableFilterTest {
 		String expectedResult = "<test><table class=\"tr_table\"/></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
-		
 	}
 	
+	@Test
+	public void testCopyrightRemovalNoCopyrightDataBlock() throws SAXException
+	{
+		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\"></td></tr></table></test>";
+		String expectedResult = "<test><table class=\"tr_table\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 	
-
+	@Test
+	public void testCopyrightRemoval() throws SAXException
+	{
+		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";
+		String expectedResult = "<test><table class=\"tr_table\"><tr><td>End of Document</td>" +
+				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 }
