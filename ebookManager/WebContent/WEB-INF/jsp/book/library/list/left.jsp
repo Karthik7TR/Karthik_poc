@@ -57,23 +57,17 @@
 	&nbsp;<label>Date Range</label><br>
 	&nbsp;&nbsp;<label>From</label>
 	&nbsp;<input type="text" id="datepickerFrom" />
-	&nbsp;<label>To</label>
+	&nbsp;&nbsp;<label>To</label>
 	&nbsp;<input type="text" id="datepickerTo" /><br>
-	&nbsp;<label>Username</label><br>
-	&nbsp;<input type="text" /><br>
 	&nbsp;<label>eBook Status</label><br>
-	&nbsp;<input type="text" /><br>
-	&nbsp;<label>Publishing Status</label><br>
 	&nbsp;<input type="text" /><br>
 	&nbsp;<label>Title Id</label><br>
 	&nbsp;<input type="text" /><br>
 	&nbsp;<label>ISBN</label><br>
 	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>Author Name</label><br>
+	&nbsp;<label>Material ID</label><br>
 	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>Material Number</label><br>
-	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>Publisher</label><br>
+	&nbsp;<label>ISBN</label><br>
 	&nbsp;<input type="text" /><br>
 	
 	<button disabled="disabled">Search</button>
