@@ -94,14 +94,21 @@
 	   
 	  
 	  if (isMajorVersion == "Y"){
-		  if(isNewISBN =="N"){
-			  alert("Cannot submit generate: ISBN must be changed for major version.");
+		
+		  if(isNewISBN =="N" && isNewMaterialId=="N"){
+			  alert("Cannot submit generate: ISBN and Material ID must be changed for major version.");
 			  confirmed= false;
 		  }
+		  else{
+		  	if(isNewISBN =="N"){
+				alert("Cannot submit generate: ISBN must be changed for major version.");
+			  	confirmed= false;
+		  	}
 		  
-		  if(isNewMaterialId=="N"){
-			  alert("Cannot submit generate: Material ID must be changed for major version.");
-			  confirmed= false;
+		  	if(isNewMaterialId=="N"){
+			  	alert("Cannot submit generate: Material ID must be changed for major version.");
+			  	confirmed= false;
+		  	}  	
 		  }
 	  }
 	  if (confirmed){

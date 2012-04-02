@@ -131,19 +131,20 @@ public class GenerateEbookController {
 		if (ebookAudit != null) {
 
 			if (book.getMaterialId() != null) {
-				isNewMaterialId = book.getMaterialId().equalsIgnoreCase(
-						ebookAudit.getMaterialId());
+				isNewMaterialId = !(book.getMaterialId()
+						.equalsIgnoreCase(ebookAudit.getMaterialId()));
 
 			}
 
 			if (book.getIsbn() != null) {
-				isNewIsbn = book.getIsbn().equalsIgnoreCase(
-						ebookAudit.getIsbn());
+				isNewIsbn = !(book.getIsbn().equalsIgnoreCase(ebookAudit
+						.getIsbn()));
 
 			}
 		}
-		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isNewIsbn?"Y":"N");
-		model.addAttribute(WebConstants.KEY_IS_NEW_MTERIAL_ID, isNewMaterialId?"Y":"N");
+		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isNewIsbn ? "Y" : "N");
+		model.addAttribute(WebConstants.KEY_IS_NEW_MTERIAL_ID,
+				isNewMaterialId ? "Y" : "N");
 
 	}
 
