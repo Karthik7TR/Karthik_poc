@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -62,6 +63,7 @@ public class EditBookDefinitionFormValidatorTest {
      * Test No data set on form
      */
 	@Test
+	@Ignore
 	public void testNoContentType() {
 		// verify errors
 		validator.validate(form, errors);
