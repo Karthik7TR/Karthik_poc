@@ -255,10 +255,18 @@
 			<%-- Setup Button Click handlers  --%>
 			$('#addAuthor').click(function () {
 				addAuthorRow();
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$('#authorName').hide();
+				$('#authorName').show();
 			});
 			
 			$('#addNameLine').click(function () {
 				addNameRow();
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$('#nameLine').hide();
+				$('#nameLine').show();
 			});
 			
 			$('#addFrontMatterPage').click(function () {
@@ -323,6 +331,10 @@
 			$(".rdelete").live("click", function () {
 				var srow = $(this).parent();
 				srow.remove();
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$('#nameLine').hide();
+				$('#nameLine').show();
 			});
 			
 			$(".addSection").live("click", function () {

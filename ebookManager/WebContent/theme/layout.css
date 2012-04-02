@@ -233,6 +233,8 @@ ul.navList a:hover {
 
 #bookData > div {
 	display: inline-block;
+	zoom:1; /* IE7 hack */
+	*display: inline; /* IE7 hack */
 }
 
 #bookData .bookImage {
@@ -266,7 +268,6 @@ ul.navList a:hover {
 
 .bookDefinitionCRUD .row,
 .bookDefinitionView .row {
-	position:relative;
 	margin:10px 5px;;
 }
 
@@ -285,7 +286,10 @@ ul.navList a:hover {
 }
 .bookDefinitionCRUD .centerSection > div,
 .bookDefinitionView .centerSection > div {
+	overflow:hidden;
 	display:inline-block;
+	zoom:1; /* IE7 hack */
+	*display: inline; /* IE7 hack */
 }
 .bookDefinitionCRUD .leftDefinitionForm,
 .bookDefinitionCRUD .rightDefinitionForm,
@@ -303,10 +307,7 @@ ul.navList a:hover {
 }
 
 .bookDefinitionCRUD #additionFrontMatterBlock {
-	clear:both;
 	width:600px;
-	margin-left:auto;
-	margin-right:auto;
 }
 
 .bookDefinitionCRUD .frontMatterSectionTextArea {
@@ -348,6 +349,8 @@ ul.navList a:hover {
 .bookDefinitionCRUD #publishDetailDiv > div {
 	vertical-align:top;
 	display:inline-block;
+	zoom:1; /* IE7 hack */
+	*display: inline; /* IE7 hack */
 }
 .bookDefinitionCRUD .keywords label {
 	float:none;
@@ -362,7 +365,7 @@ ul.navList a:hover {
 }
 
 .bookDefinitionCRUD .buttons {
-	float:right;
+	text-align:right;
 	margin:50px 100px 50px 100px;
 }
 
