@@ -57,9 +57,7 @@ public class EditBookDefinitionFormValidator implements Validator {
     	
     	// Set validate error to prevent saving the form
 		boolean validateForm = form.isValidateForm();
-		if(validateForm) {
-			errors.rejectValue("validateForm", "mesg.validate.form");
-		}
+		
     	Long contentTypeId = form.getContentTypeId();
 		DocumentTypeCode contentType = (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
     	String titleId = form.getTitleId();
@@ -225,8 +223,14 @@ public class EditBookDefinitionFormValidator implements Validator {
 			//TODO: check if cover image is on the server. Need server location.
 		}
     	
+    	// Adding error message if any validation fails
     	if(errors.hasErrors()) {
 			errors.rejectValue("validateForm", "mesg.errors.form");
+		}
+    	
+    	// Adding validation message if Validation button was pressed.
+    	if(validateForm) {
+			errors.rejectValue("validateForm", "mesg.validate.form");
 		}
 	}
 	

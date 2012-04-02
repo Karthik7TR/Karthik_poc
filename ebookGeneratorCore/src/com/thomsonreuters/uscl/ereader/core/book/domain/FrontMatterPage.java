@@ -193,7 +193,12 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
 	public int compareTo(FrontMatterPage o) {
 		int result = 0;
 		if (sequenceNum != null) {
-			result = (o != null) ? sequenceNum.compareTo(o.getSequenceNum()) : 1;
+			if(o != null) {
+				Integer i = o.getSequenceNum();
+				result = (i != null) ? sequenceNum.compareTo(i) : 1;
+			} else {
+				result = 1;
+			}
 		} else {  // int1 is null
 			result = (o != null) ? -1 : 0;
 		}
