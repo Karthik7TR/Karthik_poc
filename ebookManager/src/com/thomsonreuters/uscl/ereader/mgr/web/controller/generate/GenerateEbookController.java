@@ -190,9 +190,10 @@ public class GenerateEbookController {
 
 		}
 
-		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY, UserUtils
-				.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? ""
-				: "disabled=\"disabled\"");
+		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER,
+				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
+		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
+				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}

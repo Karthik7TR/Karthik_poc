@@ -167,8 +167,11 @@ public class BookLibraryController {
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
+		
+		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
 		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
-				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
+				UserUtils.isUserInRole(roles) 
+					? "" : "disabled=\"disabled\"");
 		form.setIsAscending(isAscending);
 		form.setPage(pageNumber);
 		form.setSort(sortBy);
