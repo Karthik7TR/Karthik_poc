@@ -5,11 +5,14 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -135,7 +138,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<DocumentTypeCode> getAllDocumentTypeCodes() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DocumentTypeCode.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DocumentTypeCode.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -146,7 +150,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<JurisTypeCode> getAllJurisTypeCodes() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JurisTypeCode.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JurisTypeCode.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -158,7 +163,20 @@ public class CodeDaoImpl implements CodeDao {
 	@SuppressWarnings("unchecked")
 	public List<KeywordTypeCode> getAllKeywordTypeCodes() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeCode.class);
-		return criteria.list();
+		List<KeywordTypeCode> codes = criteria.list();
+		
+		// Sort KeywordTypeCodes
+		Collections.sort(codes);
+		
+		// Sort values in each KeywordTypeCode
+		for(KeywordTypeCode code: codes) {
+			List<KeywordTypeValue> values = new ArrayList<KeywordTypeValue>();
+			values.addAll(code.getValues());
+			Collections.sort(values);
+			
+			code.setValues(values);
+		}
+		return codes;
 	}
 	
 	/**
@@ -168,7 +186,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<KeywordTypeValue> getAllKeywordTypeValues() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeValue.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeValue.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -181,8 +200,9 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<KeywordTypeValue> getAllKeywordTypeValues(Long keywordTypeCodeId) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeValue.class);
-		criteria.add(Restrictions.eq("keywordTypeCode.id", keywordTypeCodeId));
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeValue.class)
+			.add(Restrictions.eq("keywordTypeCode.id", keywordTypeCodeId))
+			.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -193,7 +213,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PublisherCode> getAllPublisherCodes() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PublisherCode.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PublisherCode.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -204,7 +225,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PubTypeCode> getAllPubTypeCodes() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PubTypeCode.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PubTypeCode.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	
@@ -215,7 +237,8 @@ public class CodeDaoImpl implements CodeDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<StateCode> getAllStateCodes() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(StateCode.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(StateCode.class)
+				.addOrder( Order.asc("name") );
 		return criteria.list();
 	}
 	

@@ -28,7 +28,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "FRONT_MATTER_SECTION")
-public class FrontMatterSection implements Serializable {
+public class FrontMatterSection implements Serializable, Comparable<FrontMatterSection> {
 	private static final long serialVersionUID = -7248785950042234491L;
 	/**
 	 */
@@ -66,12 +66,13 @@ public class FrontMatterSection implements Serializable {
 	@OneToMany(mappedBy = "section", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	@Fetch(FetchMode.SELECT)
-	Collection<FrontMatterPdf> pdf;
+	Collection<FrontMatterPdf> pdfs;
 	/**
 	 */
 	
 	public FrontMatterSection() {
-		pdf = new AutoPopulatingList<FrontMatterPdf>(FrontMatterPdf.class);
+		super();
+		pdfs = new AutoPopulatingList<FrontMatterPdf>(FrontMatterPdf.class);
 	}
 
 	public Long getId() {
@@ -114,17 +115,17 @@ public class FrontMatterSection implements Serializable {
 		this.sequenceNum = sequenceNum;
 	}
 
-	public Collection<FrontMatterPdf> getPdf() {
-		return pdf;
+	public Collection<FrontMatterPdf> getPdfs() {
+		return pdfs;
 	}
 
-	public void setPdf(Collection<FrontMatterPdf> pdf) {
-		this.pdf = pdf;
+	public void setPdfs(Collection<FrontMatterPdf> pdf) {
+		this.pdfs = pdf;
 	}
 	
 	@Transient
 	public int getPdfSize() {
-		return pdf.size();
+		return pdfs.size();
 	}
 
 	@Override
@@ -173,4 +174,32 @@ public class FrontMatterSection implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("FrontMatterSection [sectionHeading=").append(sectionHeading).append(", ");
+		buffer.append("sectionText=").append(sectionText).append(", ");
+		buffer.append("sequenceNum=").append(sequenceNum).append(", ");
+		buffer.append("frontMatterPdfs=");
+		for(FrontMatterPdf pdf : pdfs) {
+			buffer.append(pdf.toString());
+		}
+		buffer.append("]");
+		
+		return buffer.toString();
+	}
+
+	/**
+	 * For sorting the name components into sequence order (1...n).
+	 */
+	@Override
+	public int compareTo(FrontMatterSection o) {
+		int result = 0;
+		if (sequenceNum != null) {
+			result = (o != null) ? sequenceNum.compareTo(o.getSequenceNum()) : 1;
+		} else {  // int1 is null
+			result = (o != null) ? -1 : 0;
+		}
+		return result;
+	}
 }

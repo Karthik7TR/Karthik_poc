@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -30,7 +31,7 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(schema="EBOOK", name="KEYWORD_TYPE_CODES")
-public class KeywordTypeCode implements Serializable {
+public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode> {
 	//private static final Logger log = Logger.getLogger(KeywordTypeCode.class);
 	private static final long serialVersionUID = -6883749966331206015L;
 
@@ -41,6 +42,7 @@ public class KeywordTypeCode implements Serializable {
 	
 	public KeywordTypeCode() {
 		super();
+		values = new ArrayList<KeywordTypeValue>();
 	}
 	
 	
@@ -135,6 +137,18 @@ public class KeywordTypeCode implements Serializable {
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+
+
+	@Override
+	public int compareTo(KeywordTypeCode arg0) {
+		int result = 0;
+		if (name != null) {
+			result = (arg0 != null) ? name.compareTo(arg0.getName()) : 1;
+		} else {  // str1 is null
+			result = (arg0 != null) ? -1 : 0;
+		}
+		return result;
 	}
 	
 }

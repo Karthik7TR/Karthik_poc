@@ -9,6 +9,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.easymock.EasyMock;
@@ -788,7 +790,9 @@ public class EditBookDefinitionControllerTest {
     	book.setFullyQualifiedTitleId(fullyQualifiedTitleId);
     	book.setDocumentTypeCodes(documentTypeCode);
     	book.setPublisherCodes(publisherCode);
-    	book.getEbookNames().add(bookName);
+    	List<EbookName> names = new ArrayList<EbookName>();
+    	names.add(bookName);
+    	book.setEbookNames(names);
     	book.setCopyright("something");
     	book.setIsTocFlag(false);
     	book.setIsDeletedFlag(false);

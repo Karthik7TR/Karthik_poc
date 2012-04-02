@@ -6,6 +6,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -25,9 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -98,6 +104,7 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
+		sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
@@ -152,6 +159,7 @@ public class EditBookDefinitionController {
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
 		setupEditFormAndModel(bookDef, form, model);
+		sortBySequenceNum(form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -206,6 +214,7 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
+		sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
@@ -264,7 +273,26 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
 		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, editBookDefinitionService.getKeywordCodes());
+	}
+	
+	private void sortBySequenceNum(EditBookDefinitionForm form) {
+		// Sort Authors by Sequence Number
+		List<Author> authors = new ArrayList<Author>();
+		authors.addAll(form.getAuthorInfo());
+		Collections.sort(authors);
+		form.setAuthorInfo(authors);
 		
+		// Sort NameLines by Sequence Number
+		List<EbookName> nameLines = new ArrayList<EbookName>();
+		nameLines.addAll(form.getNameLines());
+		Collections.sort(nameLines);
+		form.setNameLines(nameLines);
+		
+		// Sort FrontMatterPages by Sequence Number
+		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
+		pages.addAll(form.getFrontMatters());
+		Collections.sort(pages);
+		form.setFrontMatters(pages);
 	}
 
 	@Required

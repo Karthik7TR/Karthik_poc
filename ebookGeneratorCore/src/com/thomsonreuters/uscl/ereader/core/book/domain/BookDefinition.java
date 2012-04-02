@@ -7,8 +7,10 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -183,7 +185,7 @@ public class BookDefinition implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PUBLISH_CUTOFF_DATE")
 	@Basic(fetch = FetchType.EAGER)
-	Calendar publishCutoffDate;
+	Date publishCutoffDate;
 	/**
 	 */
 
@@ -249,17 +251,17 @@ public class BookDefinition implements Serializable {
 			@JoinColumn(name = "EBOOK_DEFINITION_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "KEYWORD_TYPE_VALUES_ID", 
 					nullable = false, updatable = false) })
-	java.util.Set<KeywordTypeValue> keywordTypeValues;
+	Set<KeywordTypeValue> keywordTypeValues;
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	java.util.Set<Author> authors;
+	Set<Author> authors;
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
-	java.util.Set<EbookName> ebookNames;
+	Set<EbookName> ebookNames;
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
@@ -528,13 +530,13 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setPublishCutoffDate(Calendar publishCutoffDate) {
+	public void setPublishCutoffDate(Date publishCutoffDate) {
 		this.publishCutoffDate = publishCutoffDate;
 	}
 
 	/**
 	 */
-	public Calendar getPublishCutoffDate() {
+	public Date getPublishCutoffDate() {
 		return this.publishCutoffDate;
 	}
 
@@ -632,8 +634,9 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setKeywordTypeValues(Set<KeywordTypeValue> keywordTypeValueses) {
-		this.keywordTypeValues = keywordTypeValueses;
+	public void setKeywordTypeValues(Collection<KeywordTypeValue> keywordTypeValues) {
+		
+		this.keywordTypeValues = new java.util.LinkedHashSet<KeywordTypeValue>(keywordTypeValues);
 	}
 
 	/**
@@ -647,44 +650,61 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setAuthors(Set<Author> authors) {
-		this.authors = authors;
+	public void setAuthors(Collection<Author> authors) {
+		this.authors = new java.util.LinkedHashSet<Author>(authors);
 	}
 
 	/**
 	 */
-	public Set<Author> getAuthors() {
+	public List<Author> getAuthors() {
 		if (authors == null) {
 			authors = new java.util.LinkedHashSet<Author>();
 		}
-		return authors;
+		
+		// Sort by sequence numbers
+		List<Author> authorList = new ArrayList<Author>();
+		authorList.addAll(authors);
+		Collections.sort(authorList);
+		
+		return authorList;
 	}
 
 	/**
 	 */
-	public void setEbookNames(Set<EbookName> ebookNames) {
-		this.ebookNames = ebookNames;
+	public void setEbookNames(Collection<EbookName> ebookNames) {
+		this.ebookNames = new java.util.LinkedHashSet<EbookName>(ebookNames);
 	}
 
 	/**
 	 */
-// TODO: FIX THIS: There IS order here for the name elements, should return a List<EbookName> in proper presentation (sequence) order not a Set.
-	public Set<EbookName> getEbookNames() {
+	public List<EbookName> getEbookNames() {
 		if (ebookNames == null) {
 			ebookNames = new java.util.LinkedHashSet<EbookName>();
 		}
-		return ebookNames;
+		
+		// Sort by sequence numbers
+		List<EbookName> nameList = new ArrayList<EbookName>();
+		nameList.addAll(ebookNames);
+		Collections.sort(nameList);
+				
+		return nameList;
 	}
 
-	public Set<FrontMatterPage> getFrontMatterPages() {
+	public List<FrontMatterPage> getFrontMatterPages() {
 		if (frontMatterPages == null) {
 			frontMatterPages = new java.util.LinkedHashSet<FrontMatterPage>();
 		}
-		return frontMatterPages;
+		
+		// Sort by sequence numbers
+		List<FrontMatterPage> pageList = new ArrayList<FrontMatterPage>();
+		pageList.addAll(frontMatterPages);
+		Collections.sort(pageList);
+			
+		return pageList;
 	}
 
-	public void setFrontMatterPages(Set<FrontMatterPage> frontMatterPage) {
-		this.frontMatterPages = frontMatterPage;
+	public void setFrontMatterPages(Collection<FrontMatterPage> frontMatterPage) {
+		this.frontMatterPages = new java.util.LinkedHashSet<FrontMatterPage>(frontMatterPage);
 	}
 
 	/**
@@ -724,6 +744,7 @@ public class BookDefinition implements Serializable {
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setIsDeletedFlag(that.isDeletedFlag());
+		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
@@ -770,6 +791,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
 		buffer.append("frontMatterTocLabel=[").append(frontMatterTocLabel).append("] ");
 		buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
+		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 
 		return buffer.toString();
 	}

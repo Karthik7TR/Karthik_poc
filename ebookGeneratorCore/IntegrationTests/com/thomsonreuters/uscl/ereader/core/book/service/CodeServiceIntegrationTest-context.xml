@@ -28,22 +28,29 @@
 		<property name="hibernateProperties">
 	      <props>
 	        <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
-	      	<prop key="hibernate.show_sql">true</prop>
+	      	<prop key="hibernate.show_sql">false</prop>
 	      	<prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
 	      </props>
 		</property>
 		<property name="annotatedClasses">
 		  <list>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
-		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
+		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>	
 		  </list>
 		</property>
   	</bean>

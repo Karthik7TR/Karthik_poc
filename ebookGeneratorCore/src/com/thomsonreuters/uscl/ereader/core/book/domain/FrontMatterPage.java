@@ -28,7 +28,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "FRONT_MATTER_PAGE")
-public class FrontMatterPage implements Serializable {
+public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage> {
 	private static final long serialVersionUID = 6894572296330551335L;
 	/**
 	 */
@@ -72,6 +72,7 @@ public class FrontMatterPage implements Serializable {
 	Collection<FrontMatterSection> frontMatterSections;
 	
 	public FrontMatterPage() {
+		super();
 		frontMatterSections = new AutoPopulatingList<FrontMatterSection>(FrontMatterSection.class);
 	}
 	
@@ -109,6 +110,7 @@ public class FrontMatterPage implements Serializable {
 		if(this.frontMatterSections == null){
 			this.frontMatterSections = new ArrayList<FrontMatterSection>();
 		}
+		
 		return frontMatterSections;
 	}
 	public void setFrontMatterSections(
@@ -167,5 +169,34 @@ public class FrontMatterPage implements Serializable {
 		} else if (!sequenceNum.equals(other.sequenceNum))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("FrontMatterPage [pageTocLabel=").append(pageTocLabel).append(", ");
+		buffer.append("pageHeadingLabel=").append(pageHeadingLabel).append(", ");
+		buffer.append("sequenceNum=").append(sequenceNum).append(", ");
+		buffer.append("frontMatterSections=");
+		for(FrontMatterSection section : frontMatterSections) {
+			buffer.append(section.toString());
+		}
+		buffer.append("]");
+		
+		return buffer.toString();
+	}
+
+	/**
+	 * For sorting the name components into sequence order (1...n).
+	 */
+	@Override
+	public int compareTo(FrontMatterPage o) {
+		int result = 0;
+		if (sequenceNum != null) {
+			result = (o != null) ? sequenceNum.compareTo(o.getSequenceNum()) : 1;
+		} else {  // int1 is null
+			result = (o != null) ? -1 : 0;
+		}
+		return result;
 	}
 }

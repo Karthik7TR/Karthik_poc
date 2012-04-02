@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.AuthorService;
 import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
 
 public class LibraryListDaoImpl implements LibraryListDao {
-	private static final Logger log = Logger.getLogger(LibraryListDaoImpl.class);
+	//private static final Logger log = Logger.getLogger(LibraryListDaoImpl.class);
 	private static final LibraryListRowMapper LIBRARY_LIST_ROW_MAPPER = new LibraryListRowMapper();
 	private JdbcTemplate jdbcTemplate;
 
@@ -49,9 +48,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
 		int minIndex = (pageNumber-1)*(itemsPerPage);
 		int maxIndex = itemsPerPage + minIndex;
 		sql.append(String.format(") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex, minIndex));
-		
-log.debug("SQL: " + sql.toString());
-		
+
 		List<LibraryList> libraryList = jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER);
 		return libraryList;
 	}

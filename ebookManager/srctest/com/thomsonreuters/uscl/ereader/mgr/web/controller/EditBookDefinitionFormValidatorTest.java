@@ -528,12 +528,12 @@ public class EditBookDefinitionFormValidatorTest {
     	
     	FrontMatterPdf pdf = new FrontMatterPdf();
     	pdf.setPdfFilename("filename");
-    	section.getPdf().add(pdf);
+    	section.getPdfs().add(pdf);
     	page.getFrontMatterSections().add(section);
 		form.getFrontMatters().add(page);
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.required.pdf", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdf[0].pdfFilename").getCode());
+		Assert.assertEquals("error.required.pdf", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

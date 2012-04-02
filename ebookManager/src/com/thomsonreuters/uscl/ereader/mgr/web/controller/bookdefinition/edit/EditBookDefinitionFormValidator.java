@@ -181,13 +181,13 @@ public class EditBookDefinitionFormValidator implements Validator {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionText", "error.required.field", new Object[] {"Section Text"});
 				
 				// Check Front Matter Pdf for max characters and required fields
-				for (FrontMatterPdf pdf : section.getPdf()) {
-					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
-					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
+				for (FrontMatterPdf pdf : section.getPdfs()) {
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
 					
 					// Check both fields of PDF is filled 
 					if(StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
-						errors.rejectValue("frontMatters["+ i +"].frontMatterSections["+ j +"].pdf[0].pdfFilename", "error.required.pdf");
+						errors.rejectValue("frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfFilename", "error.required.pdf");
 					}
 				}
 				j++;

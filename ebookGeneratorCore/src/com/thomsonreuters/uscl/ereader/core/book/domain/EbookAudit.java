@@ -1,9 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -251,7 +250,7 @@ public class EbookAudit implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PUBLISH_CUTOFF_DATE")
 	@Basic(fetch = FetchType.EAGER)
-	Calendar publishCutoffDate;
+	Date publishCutoffDate;
 
 	/**
 	 */
@@ -266,6 +265,13 @@ public class EbookAudit implements Serializable {
 	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String isProviewTableViewFlag;
+	
+	/**
+	 */
+	
+	@Column(name = "ENABLE_COPY_FEATURE_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String enableCopyFeatureFlag;
 
 	/**
 	 */
@@ -685,6 +691,7 @@ public class EbookAudit implements Serializable {
 		setAuditNote(that.getAuditNote());
 		setAuditType(that.getAuditType());
 		setIsDeletedFlag(that.getIsDeletedFlag());
+		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 	}
 
 	/**
@@ -722,17 +729,19 @@ public class EbookAudit implements Serializable {
 		setAuthorNamesConcat(concatString(that.getAuthors()));
 		setBookNamesConcat(concatString(that.getEbookNames()));
 		setKeywordsConcat(concatString(that.getKeywordTypeValues()));
+		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
 		setAuditNote(note);
 		setAuditType(auditType.toString());
 		setUpdatedBy(user);
 		setIsDeletedFlag(that.isDeletedFlag());
 		setLastUpdated(that.getLastUpdated());
+		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 	}
 	
 	@Transient
-	private String concatString(Set<?> set) {
+	private String concatString(Collection<?> collection) {
 		StringBuilder buffer = new StringBuilder();
-		for(Object item : set) {
+		for(Object item : collection) {
 			buffer.append(item.toString());
 			buffer.append(", ");
 		}
@@ -785,7 +794,8 @@ public class EbookAudit implements Serializable {
 		buffer.append("auditNote=[").append(auditNote).append("] ");
 		buffer.append("auditType=[").append(auditType).append("] ");
 		buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");
-
+		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
+		
 		return buffer.toString();
 	}
 
@@ -836,13 +846,13 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public void setPublishCutoffDate(Calendar publishCutoffDate) {
+	public void setPublishCutoffDate(Date publishCutoffDate) {
 		this.publishCutoffDate = publishCutoffDate;
 	}
 
 	/**
 	 */
-	public Calendar getPublishCutoffDate() {
+	public Date getPublishCutoffDate() {
 		return this.publishCutoffDate;
 	}
 
@@ -868,5 +878,13 @@ public class EbookAudit implements Serializable {
 	 */
 	public boolean IsProviewTableViewFlag() {
 		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public boolean getEnableCopyFeatureFlag() {
+		return ( (this.enableCopyFeatureFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
+		this.enableCopyFeatureFlag =( (enableCopyFeatureFlag) ? "Y" : "N");
 	}
 }

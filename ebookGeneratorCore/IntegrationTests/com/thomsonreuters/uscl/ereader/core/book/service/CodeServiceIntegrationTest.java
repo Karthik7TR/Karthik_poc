@@ -15,6 +15,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -270,6 +271,7 @@ public class CodeServiceIntegrationTest  {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetAllKeywordValues() {
 		List<KeywordTypeValue> codes = service.getAllKeywordTypeValues();
 		log.debug(codes);
@@ -277,6 +279,7 @@ public class CodeServiceIntegrationTest  {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetAllKeywordValuesByCodeId() {
 		List<KeywordTypeValue> codes = service.getAllKeywordTypeValues(Long.parseLong("1"));
 		log.debug(codes);
@@ -355,7 +358,7 @@ public class CodeServiceIntegrationTest  {
     	book.getEbookNames().add(bookName);
     	
     	PublisherCode publisherCode = new PublisherCode();
-    	publisherCode.setId(Long.parseLong("1"));
+    	publisherCode.setName("uscl");
     	book.setPublisherCodes(publisherCode);
     	
     	book.setMaterialId("random");
@@ -369,6 +372,7 @@ public class CodeServiceIntegrationTest  {
     	book.setPublishedOnceFlag(false);
     	book.setOnePassSsoLinkFlag(true);
     	book.setKeyciteToplineFlag(true);
+    	book.setEnableCopyFeatureFlag(false);
 		
     	Set<KeywordTypeValue> values = new HashSet<KeywordTypeValue>();
     	for(int i = 1; i < 4; i++) {

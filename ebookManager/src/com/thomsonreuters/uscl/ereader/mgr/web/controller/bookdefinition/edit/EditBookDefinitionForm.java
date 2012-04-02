@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -126,10 +125,10 @@ public class EditBookDefinitionForm {
 			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			
-			Calendar date = book.getPublishCutoffDate();
+			Date date = book.getPublishCutoffDate();
 			if (date != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-				this.publicationCutoffDate = sdf.format(date.getTime());
+				this.publicationCutoffDate = sdf.format(date);
 			}
 			
 			
@@ -161,7 +160,7 @@ public class EditBookDefinitionForm {
 				// Set foreign key on Section
 				section.setFrontMatterPage(page);
 				
-				for(FrontMatterPdf pdf : section.getPdf()){
+				for(FrontMatterPdf pdf : section.getPdfs()){
 					if (pdf != null) {
 						//Set foreign key on Pdf
 						pdf.setSection(section);
@@ -210,9 +209,7 @@ public class EditBookDefinitionForm {
 		if(publicationCutoffDate != null) {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
 			Date date = (Date)formatter.parse(publicationCutoffDate); 
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			book.setPublishCutoffDate(cal);
+			book.setPublishCutoffDate(date);
 		}
 		
 		book.setPublishDateText(publishDateText);
@@ -605,7 +602,7 @@ public class EditBookDefinitionForm {
 	        			// Remove Section from Collection
 	        			j.remove();
 	        		} else {
-	        			for(Iterator<FrontMatterPdf> k = section.getPdf().iterator(); k.hasNext();) {
+	        			for(Iterator<FrontMatterPdf> k = section.getPdfs().iterator(); k.hasNext();) {
 	        				FrontMatterPdf pdf = k.next();
 	        				if (pdf == null) {
 	        					k.remove();

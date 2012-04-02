@@ -1,8 +1,8 @@
 package com.thomsonreuters.uscl.ereader.frontmatter;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -66,10 +66,11 @@ public class FrontMatterIntegrationTest {
 		eBook.setOnePassSsoLinkFlag(true);
 		eBook.setSearchIndexFlag(true);
 		eBook.setPublishedOnceFlag(false);
+		eBook.setEnableCopyFeatureFlag(false);
 		eBook.setLastUpdated(UPDATE_DATE);
 		eBook.setAuthors(new HashSet<Author>());
 		eBook.setEbookNames(new HashSet<EbookName>());
-		
+		eBook.setFrontMatterPages(new HashSet<FrontMatterPage>());
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
 		
@@ -94,7 +95,7 @@ public class FrontMatterIntegrationTest {
 		frontMatterPdf.setPdfFilename("somefile.pdf");
 		frontMatterPdf.setPdfLinkText("Link Text");
 		frontMatterPdf.setSection(fms);
-		fms.getPdf().add(frontMatterPdf);
+		fms.getPdfs().add(frontMatterPdf);
 		
 		fmp.getFrontMatterSections().add(fms);
 		
@@ -111,8 +112,7 @@ public class FrontMatterIntegrationTest {
 		saveBook();
 		eBook = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 		
-		BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
-		Set<FrontMatterPage> frontMatterPages = book.getFrontMatterPages();
+		Collection<FrontMatterPage> frontMatterPages = eBook.getFrontMatterPages();
 		for(FrontMatterPage page : frontMatterPages) {
 			FrontMatterSection fms = new FrontMatterSection();
 			fms.setSectionHeading("Section Heading 2");
@@ -125,12 +125,12 @@ public class FrontMatterIntegrationTest {
 			frontMatterPdf.setPdfFilename("somefile.pdf 2");
 			frontMatterPdf.setPdfLinkText("Link Text 2");
 			frontMatterPdf.setSection(fms);
-			fms.getPdf().add(frontMatterPdf);
+			fms.getPdfs().add(frontMatterPdf);
 		}
 		
 		Assert.assertEquals(1, frontMatterPages.size());
 		
-		eBook = bookDefinitionService.saveBookDefinition(book);
+		eBook = bookDefinitionService.saveBookDefinition(eBook);
 		frontMatterPages = eBook.getFrontMatterPages();
 		for(FrontMatterPage page : frontMatterPages) {
 			Assert.assertEquals(2, page.getFrontMatterSections().size());

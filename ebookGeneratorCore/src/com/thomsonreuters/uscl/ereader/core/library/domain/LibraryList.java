@@ -6,10 +6,11 @@
 package com.thomsonreuters.uscl.ereader.core.library.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 
@@ -122,7 +123,16 @@ public class LibraryList implements Serializable {
 	/**
 	 */
 	public String getAuthorList() {
-		return StringUtils.join(authorList, "<br>");
+		// Sort Authors by the sequence number
+		List<Author> authors = new ArrayList<Author>();
+		authors.addAll(authorList);
+		Collections.sort(authors);
+		
+		StringBuilder buffer = new StringBuilder();
+		for(Author author : authors){
+			buffer.append("<div>").append(author.getFullName()).append("</div>");
+		}
+		return buffer.toString();
 	}
 
 	public Date getLastPublishDate() {

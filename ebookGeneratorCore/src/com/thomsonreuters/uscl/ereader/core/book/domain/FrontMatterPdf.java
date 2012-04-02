@@ -89,4 +89,14 @@ public class FrontMatterPdf implements Serializable {
 	public boolean isEmpty() {
 		return (StringUtils.isBlank(pdfFilename) && StringUtils.isBlank(pdfLinkText));
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("FrontMatterPdf [pdfLinkText=").append(pdfLinkText).append(", ");
+		buffer.append("pdfFilename=").append(pdfFilename).append(", ");
+		buffer.append("]");
+		
+		return buffer.toString();
+	}
 }

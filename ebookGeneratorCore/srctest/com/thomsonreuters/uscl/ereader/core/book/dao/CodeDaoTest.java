@@ -12,6 +12,7 @@ import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +99,7 @@ public class CodeDaoTest  {
 		ALL_STATE_CODES.add(STATE_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(StateCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_STATE_CODES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
@@ -135,6 +137,7 @@ public class CodeDaoTest  {
 		ALL_PUB_TYPE_CODES.add(PUB_TYPE_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(PubTypeCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_PUB_TYPE_CODES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
@@ -172,6 +175,7 @@ public class CodeDaoTest  {
 		ALL_JURIS_TYPE_CODES.add(JURIS_TYPE_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(JurisTypeCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_JURIS_TYPE_CODES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
@@ -209,6 +213,7 @@ public class CodeDaoTest  {
 		ALL_DOCUMENT_TYPE_CODES.add(DOCUMENT_TYPE_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(DocumentTypeCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_DOCUMENT_TYPE_CODES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
@@ -247,6 +252,7 @@ public class CodeDaoTest  {
 		ALL_PUBLISHER_CODES.add(PUBLISHER_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(PublisherCode.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_PUBLISHER_CODES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);
@@ -282,6 +288,9 @@ public class CodeDaoTest  {
 	
 	@Test
 	public void testGetAllKeywordTypeCodes() {
+		KEYWORD_TYPE_VALUE.setName("Value");
+		KEYWORD_TYPE_CODE.getValues().add(KEYWORD_TYPE_VALUE);
+		KEYWORD_TYPE_CODE.setName("Key");
 		ALL_KEYWORD_TYPE_CODES.add(KEYWORD_TYPE_CODE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(KeywordTypeCode.class)).andReturn(mockCriteria);
@@ -323,6 +332,7 @@ public class CodeDaoTest  {
 		ALL_KEYWORD_TYPE_VALUES.add(KEYWORD_TYPE_VALUE);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.createCriteria(KeywordTypeValue.class)).andReturn(mockCriteria);
+		EasyMock.expect(mockCriteria.addOrder( EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
 		EasyMock.expect(mockCriteria.list()).andReturn(ALL_KEYWORD_TYPE_VALUES);
 		EasyMock.replay(mockSessionFactory);
 		EasyMock.replay(mockSession);

@@ -1,5 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 
@@ -82,7 +84,7 @@ function submitForm(cmd)
 				</c:choose>
 				<div class="row">
 					<label class="labelCol">Publication Cut-off Date</label>
-					<span class="field">${ book.publishCutoffDate }</span>
+					<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>" /></span>
 				</div>
 				<div class="row">
 					<label class="labelCol">Book Definition Status</label>

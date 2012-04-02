@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(schema = "EBOOK", name = "KEYWORD_TYPE_VALUES")
-public class KeywordTypeValue implements Serializable {
+public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue> {
 	// private static final Logger log =
 	// Logger.getLogger(KeywordTypeValue.class);
 	private static final long serialVersionUID = 8698248929292091625L;
@@ -126,6 +126,17 @@ public class KeywordTypeValue implements Serializable {
 		result = prime * result
 				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+	
+	@Override
+	public int compareTo(KeywordTypeValue arg0) {
+		int result = 0;
+		if (name != null) {
+			result = (arg0 != null) ? name.compareTo(arg0.getName()) : 1;
+		} else {  // str1 is null
+			result = (arg0 != null) ? -1 : 0;
+		}
 		return result;
 	}
 

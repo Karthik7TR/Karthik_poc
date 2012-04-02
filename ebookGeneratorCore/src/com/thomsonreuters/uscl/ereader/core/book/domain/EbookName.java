@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 		@NamedQuery(name = "findEbookNameByPrimaryKey", query = "select myEbookName from EbookName myEbookName where myEbookName.ebookNameId = ?1") })
 @Table(schema = "EBOOK", name = "EBOOK_NAME")
 
-public class EbookName implements Serializable {
+public class EbookName implements Serializable, Comparable<EbookName> {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -185,21 +185,21 @@ public class EbookName implements Serializable {
 
 		return buffer.toString();
 	}
+	
+	/**
+	 * For sorting the name components into sequence order (1...n).
+	 */
+	@Override
+	public int compareTo(EbookName o) {
+		int result = 0;
+		if (sequenceNum != null) {
+			result = (o != null) ? sequenceNum.compareTo(o.getSequenceNum()) : 1;
+		} else {  // int1 is null
+			result = (o != null) ? -1 : 0;
+		}
+		return result;
+	}
 }
 
-/**
- * For sorting the name components into sequence order (1...n).
- */
-//class SequenceComparator implements Comparator<EbookName> {
-//	 public int compare(EbookName b1, EbookName b2) {
-//		 int result = 0;
-//		 String name1 = b1.getBookNameText();
-//		 String name2 = b1.getBookNameText();
-//		 if (StringUtils.isNotBlank(name1)) {
-//			 result = name1.compareTo(name2);
-//		 } else if (StringUtils.isNotBlank(name2)) {  // name1 is null and name2 is not null
-//			 result = -1;
-//		 }
-//		 return result;
-//	 }
-//}
+
+

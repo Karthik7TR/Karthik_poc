@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 @NamedQueries({
 		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinition = :eBookDef")})
 @Table(schema = "EBOOK", name = "AUTHOR")
-public class Author implements Serializable {
+public class Author implements Serializable, Comparable<Author> {
 	private static final long serialVersionUID = 7962657038385328632L;
 	/**
 	 */
@@ -245,14 +245,15 @@ public class Author implements Serializable {
 
 		return StringUtils.trim(buffer.toString());
 	}
-	
-	/**
-	 * Returns a textual representation of a bean.
-	 *
-	 */
-	public String toString() {
 
-		return getFullName();
+	@Override
+	public String toString() {
+		return "Author [authorId=" + authorId + ", authorNamePrefix="
+				+ authorNamePrefix + ", authorNameSuffix=" + authorNameSuffix
+				+ ", authorFirstName=" + authorFirstName
+				+ ", authorMiddleName=" + authorMiddleName
+				+ ", authorLastName=" + authorLastName + ", authorAddlText="
+				+ authorAddlText + ", sequenceNum=" + sequenceNum + "]";
 	}
 
 	@Override
@@ -332,6 +333,18 @@ public class Author implements Serializable {
 			return false;
 		return true;
 	}
-
 	
+	/**
+	 * For sorting the name components into sequence order (1...n).
+	 */
+	@Override
+	public int compareTo(Author o) {
+		int result = 0;
+		if (sequenceNum != null) {
+			result = (o != null) ? sequenceNum.compareTo(o.getSequenceNum()) : 1;
+		} else {  // int1 is null
+			result = (o != null) ? -1 : 0;
+		}
+		return result;
+	}
 }

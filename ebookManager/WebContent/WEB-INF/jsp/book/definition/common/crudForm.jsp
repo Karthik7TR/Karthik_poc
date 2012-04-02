@@ -140,8 +140,8 @@
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionHeading\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionHeading\" type=\"text\" title=\"Section Heading\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\"/>";
 			appendTxt = appendTxt + "<textarea id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionText\" title=\"Section Text\" class=\"frontMatterSectionTextArea\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdf[0].pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdf.pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdf[0].pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdf.pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs[0].pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs[0].pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs[0].pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs[0].pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addAdditionalSection_" + pageIndex).before(appendTxt);
@@ -756,20 +756,19 @@
 					<div class="row">
 						<c:choose>
 							<c:when test="${section.pdfSize > 0}">
-								<c:forEach items="${section.pdf}" var="pdf">
-									<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].id" />
-									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText"   title="PDF Link Text" />
-									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename"   title="PDF Filename" />
+								<c:forEach items="${section.pdfs}" var="pdf">
+									<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].id" />
+									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfLinkText"   title="PDF Link Text" />
+									<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfFilename"   title="PDF Filename" />
 									<div class="errorDiv2">
-										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText" cssClass="errorMessage" />
-										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename" cssClass="errorMessage" />
+										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfLinkText" cssClass="errorMessage" />
+										<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfFilename" cssClass="errorMessage" />
 									</div>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<input type="hidden" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].id" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].id" />
-								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfLinkText" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].pdfLinkText" title="PDF Link Text" />
-								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdf[0].pdfFilename" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdf[0].pdfFilename" title="PDF Filename" />
+								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfLinkText" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdfs[0].pdfLinkText" title="PDF Link Text" />
+								<input type="text" name="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[0].pdfFilename" id="frontMatters${pageStatus.index}.frontMatterSections${sectionStatus.index}.pdfs[0].pdfFilename" title="PDF Filename" />
 							</c:otherwise>
 						</c:choose>
 						
