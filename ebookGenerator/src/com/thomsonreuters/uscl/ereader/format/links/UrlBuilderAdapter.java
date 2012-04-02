@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
 
 import com.trgr.cobalt.util.urlbuilder.Container;
 import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
@@ -34,8 +33,10 @@ public class UrlBuilderAdapter
 {
     private static Logger LOG = Logger.getLogger(UrlBuilderAdapter.class);
     private static UrlBuilder URL_BUILDER;
+    private static String HOSTNAME;
+    private static String MUD_PARAMETERS_RS;
+    private static String MUD_PARAMETERS_VR;
     private UrlBuilder urlBuilder;
-    private String hostname = "https://1.next.westlaw.com";
 
     public UrlBuilderAdapter() throws Exception
     {
@@ -217,7 +218,17 @@ public class UrlBuilderAdapter
 
     public void setHostname(final String hostname)
     {
-        this.hostname = hostname; //injected by Spring
+        UrlBuilderAdapter.HOSTNAME = hostname;
+    }
+
+    public void setRs(final String rs)
+    {
+        UrlBuilderAdapter.MUD_PARAMETERS_RS = rs;
+    }
+    
+    public void setVr(final String vr)
+    {
+        UrlBuilderAdapter.MUD_PARAMETERS_VR = vr;
     }
 
     /**
@@ -259,8 +270,9 @@ public class UrlBuilderAdapter
         try
         {
             List<Parameter> paramList = createParameters(parameters);
-            response = this.hostname
+            response = HOSTNAME
                 + this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
+            response = response + "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
         }
         catch (UrlBuilderException e)
         {
@@ -277,8 +289,9 @@ public class UrlBuilderAdapter
         try
         {
             List<Parameter> paramList = createParameters(parameters);
-            response = this.hostname
+            response = HOSTNAME
                 + this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
+            response = response + "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
         }
         catch (UrlBuilderException e)
         {
