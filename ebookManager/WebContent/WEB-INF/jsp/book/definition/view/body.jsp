@@ -38,7 +38,10 @@ function submitForm(cmd)
 					<label class="labelCol">ProView Display Name</label>
 					<span class="field">${ book.proviewDisplayName }</span>
 				</div>
-				
+				<div class="row">
+					<label class="labelCol">Publish Date Text</label>
+					<span class="field">${ book.publishDateText }</span>
+				</div>
 				<div class="row">
 					<label class="labelCol">ISBN</label>
 					<span class="field">${ book.isbn }</span>
@@ -165,11 +168,6 @@ function submitForm(cmd)
 				</div> 
 			</div>
 			<div class="rightDefinitionForm">
-				<div class="row">
-					<label class="labelCol">Publish Date Text</label>
-					<span class="field">${ book.publishDateText }</span>
-				</div>
-				
 				<div class="row">
 					<label class="labelCol">Currentness Message</label>
 					<span class="field">${ book.currency }</span>

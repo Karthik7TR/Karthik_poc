@@ -467,7 +467,13 @@
 					<form:errors path="proviewDisplayName" cssClass="errorMessage" />
 				</div>
 			</div>
-			
+			<div class="row">
+				<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
+				<form:input path="publishDateText" />
+				<div class="errorDiv">
+					<form:errors path="publishDateText" cssClass="errorMessage" />
+				</div>
+			</div>
 			<div class="row">
 				<form:label path="isbn" class="labelCol">ISBN</form:label>
 				<form:input path="isbn" maxlength="17" />
@@ -659,14 +665,6 @@
 			</div> 
 		</div>
 		<div class="rightDefinitionForm">
-			<div class="row">
-				<form:label path="publishDateText" class="labelCol">Publish Date Text</form:label>
-				<form:input path="publishDateText" />
-				<div class="errorDiv">
-					<form:errors path="publishDateText" cssClass="errorMessage" />
-				</div>
-			</div>
-			
 			<div class="row">
 				<form:label path="currency" class="labelCol">Currentness Message</form:label>
 				<form:input path="currency" />
