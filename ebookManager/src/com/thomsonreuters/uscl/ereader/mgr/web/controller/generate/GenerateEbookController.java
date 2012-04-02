@@ -192,7 +192,7 @@ public class GenerateEbookController {
 
 		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER,
 				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
-		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
+		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
@@ -264,7 +264,7 @@ public class GenerateEbookController {
 
 			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-			model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
+			model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 					"disabled=\"disabled\"");
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 

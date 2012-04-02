@@ -169,7 +169,7 @@ public class BookLibraryController {
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());
 		
 		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
-		model.addAttribute(WebConstants.KEY_BUTTON_VISIBILITY,
+		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 				UserUtils.isUserInRole(roles) 
 					? "" : "disabled=\"disabled\"");
 		form.setIsAscending(isAscending);

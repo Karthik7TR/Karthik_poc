@@ -49,7 +49,7 @@ public class WebConstants {
 	public static final String KEY_ANALYTICAL_ABBR = "an";
 	public static final String KEY_SLICE_CODES = "Slice Codes";
 	public static final String KEY_SLICE_CODES_ABBR = "sc";
-	public static final String KEY_BUTTON_VISIBILITY = "buttonVisibility";
+	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
 	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
 	public static final String KEY_VERSION_NUMBER="versionNumber";
 	public static final String KEY_NEW_MAJOR_VERSION_NUMBER="newMajorVersionNumber";
