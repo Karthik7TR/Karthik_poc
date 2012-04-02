@@ -185,6 +185,8 @@
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
+
+      <classes file="${dir.source}/messages.properties"/>
     </war>
 		
     <!-- copy context files to dir.binaries -->
