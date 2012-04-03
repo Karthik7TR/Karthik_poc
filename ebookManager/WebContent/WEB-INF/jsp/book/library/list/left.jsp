@@ -52,7 +52,9 @@
 			   <form:button disabled="true">Reset</form:button>
 		
 </form:form> --%>
-	&nbsp;<label>Name </label><br>
+	&nbsp;<label>Book Name </label><br>
+	&nbsp;<input type="text" /><br>
+	&nbsp;<label>Display Name </label><br>
 	&nbsp;<input type="text" /><br>
 	&nbsp;<label>Date Range</label><br>
 	&nbsp;&nbsp;<label>From</label>
