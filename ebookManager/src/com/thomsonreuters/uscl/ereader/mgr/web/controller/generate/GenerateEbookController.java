@@ -58,8 +58,8 @@ public class GenerateEbookController {
 		Integer newMinorPartInteger;
 
 		if (currentVersion.equals("Not published")) {
-			newMajorVersion = "1";
-			newMinorVersion = "1";
+			newMajorVersion = "1.0";
+			newMinorVersion = "1.0";
 		} else {
 			if (currentVersion.startsWith("v")) {
 				currentVersion = currentVersion.substring(1);
@@ -81,7 +81,7 @@ public class GenerateEbookController {
 				newMinorPartInteger = 1;
 			}
 
-			newMajorVersion = newMajorPartInteger.toString();
+			newMajorVersion = newMajorPartInteger.toString() + ".0";
 			newMinorVersion = majorPart + "." + newMinorPartInteger.toString();
 
 		}
