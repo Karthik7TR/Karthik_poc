@@ -38,8 +38,8 @@
               type="javax.sql.DataSource"
               factory="org.apache.commons.dbcp.BasicDataSourceFactory"
               driverClassName="oracle.jdbc.OracleDriver"
-              url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dyersville.int.westgroup.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orc212a.int.westgroup.com)))"
-              username="EBOOK_USER" password="TODO"/>
+              url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c111fwnctdbpf-vip.int.westgroup.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=c111gkjctdbpf-vip.int.westgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_prod.int.westgroup.com)))"
+              username="EBOOK_USER" password="eb00k"/> 
               
      <!--  TODO: Add queue resources -->
 
