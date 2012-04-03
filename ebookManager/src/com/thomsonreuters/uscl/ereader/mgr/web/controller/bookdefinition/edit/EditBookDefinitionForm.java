@@ -94,7 +94,7 @@ public class EditBookDefinitionForm {
 		this.keyCiteToplineFlag = true;
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
-		this.enableCopyFeatureFlag = false;
+		this.enableCopyFeatureFlag = true;
 	}
 	
 	public void initialize(BookDefinition book) {
