@@ -85,6 +85,10 @@
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 	<bean id="generateImgMetaBlockService" class="com.thomsonreuters.uscl.ereader.format.service.GenerateImageMetadataBlockServiceImpl"
 		  p:imgService-ref="imageService"/>
+	
+	<bean id="generateDocumentDataBlockService" class="com.thomsonreuters.uscl.ereader.format.service.GenerateDocumentDataBlockServiceImpl"
+			p:docMetadataService-ref="docMetadataService"/>
+		  
 	<bean id="htmlTransformerService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl"
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
 		  p:imgService-ref="imageService"
