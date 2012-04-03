@@ -10,7 +10,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.SequenceInputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +36,9 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -51,16 +57,24 @@ public class TransformerServiceImpl implements TransformerService
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
 	
 	//TODO: REMOVE HARDCODED VALUES ONCE document-data BLOCK HAS BEEN BUILT
-	private static final String START_WRAPPER_TAG = "<Document>" +
-			"<document-data><datetime>20120227101701</datetime></document-data>";
+	private static final String START_WRAPPER_TAG = "<Document>" ;
+
 	private static final String END_WRAPPER_TAG = "</Document>";
 	
 	private DocMetadataService docMetadataService;
+	
+	private GenerateDocumentDataBlockService generateDocumentDataBlockService;
 	
 	private XSLTMapperService xsltMapperService;
 	
 	private FileHandlingHelper fileHandlingHelper;
 	
+	@Required
+	public void setGenerateDocumentDataBlockService(
+			GenerateDocumentDataBlockService generateDocumentDataBlockService) {
+		this.generateDocumentDataBlockService = generateDocumentDataBlockService;
+	}
+
 	public void setdocMetadataService(DocMetadataService docMetadataService) 
 	{
 		this.docMetadataService = docMetadataService;
@@ -166,12 +180,18 @@ public class TransformerServiceImpl implements TransformerService
         SequenceInputStream inStream2 = null;
         SequenceInputStream inStream3 = null;
         SequenceInputStream inStream4 = null;
+        SequenceInputStream inStream0 = null;
         
         Transformer trans = null;
 		
         try
-        {        	
-        	inStream1 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
+        {   
+        	InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId.intValue(), fileNameUUID);
+        	
+        	inStream0 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
+        			documentDataStream);
+        	
+        	inStream1 = new SequenceInputStream(inStream0,
         			new FileInputStream(xmlFile));
         	
         	inStream2 = new SequenceInputStream(inStream1, 
@@ -186,6 +206,9 @@ public class TransformerServiceImpl implements TransformerService
 	        Source xmlSource =
 	                new StreamSource(inStream4);
 	        
+	       // LOG.debug("Doc file with Document data block :"+ printAssist(inStream4));
+	        
+	       
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
 	        	trans = createTransformer(xslt, stylesheetCache);
@@ -240,6 +263,29 @@ public class TransformerServiceImpl implements TransformerService
         				+ " file transformation.", e);
         	}
         }
+	}
+	private String printAssist(InputStream is)
+	{
+		final char[] buffer = new char[0x10000]; 
+		StringBuilder out = new StringBuilder(); 
+		Reader in = null;
+		try {
+			in = new InputStreamReader(is, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		int read = 0; do {   try {
+			read = in.read(buffer, 0, buffer.length);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+		if (read>0) {     out.append(buffer, 0, read);   } } 
+		while (read>=0);
+		String result = out.toString();
+		
+		return result;
 	}
 	
 	/**
