@@ -20,24 +20,40 @@ public class GatherResponse {
 	public String errorMessage;
 	public int errorCode;
 	public int docCount;
+	public int docCount2;
 	public int nodeCount;
 	public int skipCount;
 	public int retryCount;
+	public int retryCount2;
+	
+
 	public int expectedCount;
 	public String publishStatus;
 	// If you add any values make sure you update the jibx-bindings.xml for mapping gatherResponse
 
 
 	public GatherResponse() {
-		this(0, null, 0, 0, 0, 0, null);
+		this(0, null, 0, 0, 0, 0, 0, 0, null);
 	}
 	
-	public GatherResponse(int errorCode,String errorMessage,int docCount, int nodeCount, int skipCount,int retryCount, String publishStatus ) {
+//	public GatherResponse(int errorCode,String errorMessage,int docCount, int nodeCount, int skipCount,int retryCount, String publishStatus ) {
+//		setErrorCode(errorCode);
+//		setErrorMessage(errorMessage);
+//		setDocCount(docCount);
+//		setNodeCount(nodeCount);
+//		setRetryCount(retryCount);
+//		setSkipCount(skipCount);
+//		setPublishStatus(publishStatus);
+//		
+//	}
+	public GatherResponse(int errorCode,String errorMessage,int docCount,int docCount2, int nodeCount, int skipCount,int retryCount,int retryCount2, String publishStatus ) {
 		setErrorCode(errorCode);
 		setErrorMessage(errorMessage);
 		setDocCount(docCount);
+		setDocCount2(docCount2);
 		setNodeCount(nodeCount);
 		setRetryCount(retryCount);
+		setRetryCount2(retryCount2);
 		setSkipCount(skipCount);
 		setPublishStatus(publishStatus);
 		
@@ -108,7 +124,21 @@ public class GatherResponse {
 		this.expectedCount = expectedCount;
 	}
 
+	public int getDocCount2() {
+		return docCount2;
+	}
 
+	public void setDocCount2(int docCount2) {
+		this.docCount2 = docCount2;
+	}
+
+	public int getRetryCount2() {
+		return retryCount2;
+	}
+
+	public void setRetryCount2(int retryCount2) {
+		this.retryCount2 = retryCount2;
+	}
 
 	public String getPublishStatus() {
 		return publishStatus;
@@ -151,11 +181,15 @@ public class GatherResponse {
 			return false;
 		if (docCount != other.docCount)
 			return false;
+		if (docCount2 != other.docCount2)
+			return false;
 		if (skipCount != other.skipCount)
 			return false;
 		if (nodeCount != other.nodeCount)
 			return false;
 		if (retryCount != other.retryCount)
+			return false;
+		if (retryCount2 != other.retryCount2)
 			return false;
 		if (expectedCount != other.expectedCount)
 			return false;

@@ -94,10 +94,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			hql.append(jobstats.getGatherDocRetrievedCount());
 			hql.append(", gatherDocRetryCount = " );
 			hql.append(jobstats.getGatherDocRetryCount());
-		}
-		else if (updateType.equals(StatsUpdateTypeEnum.GATHERMETA))
-		{
-			hql.append("gatherMetaExpectedCount = " );
+			hql.append(", gatherMetaExpectedCount = " );
 			hql.append(jobstats.getGatherMetaExpectedCount());
 			hql.append(", gatherMetaRetrievedCount = " );
 			hql.append(jobstats.getGatherMetaRetrievedCount());

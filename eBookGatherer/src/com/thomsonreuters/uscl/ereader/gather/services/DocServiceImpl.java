@@ -34,6 +34,10 @@ import com.westgroup.novus.productapi.NovusException;
  */
 public class DocServiceImpl implements DocService {
 
+	private static final int META_COUNTER = 1;
+
+	private static final int META_RETRY_COUNTER = 0;
+
 	private static final Logger Log = Logger.getLogger(DocServiceImpl.class);
 
 	private NovusFactory novusFactory;
@@ -68,6 +72,9 @@ public class DocServiceImpl implements DocService {
 		// are making
 		Integer novusRetryCounter = 0;
 		Integer docFoundCounter = 0;
+		int[] metaDocCounters = {0,0};
+		Integer metaDocFoundCounter = 0;
+		Integer metaDocRetryCounter = 0;
 		
 		String publishStatus = "DOC Gather Step Completed";
 
@@ -130,8 +137,12 @@ public class DocServiceImpl implements DocService {
 					}
 				}
 				createContentFile(document, contentDestinationDirectory, docRetryCount);
-				createMetadataFile(document, metadataDestinationDirectory,
+				metaDocCounters = createMetadataFile(document, metadataDestinationDirectory,
 						tocSequence, docRetryCount);
+
+				 metaDocFoundCounter += metaDocCounters[META_COUNTER];
+				 metaDocRetryCounter += metaDocCounters[META_RETRY_COUNTER];
+
 				docFoundCounter++;
 			}
 		} catch (NovusException e) {
@@ -161,6 +172,8 @@ public class DocServiceImpl implements DocService {
 			gatherResponse.setNodeCount(docGuids.size()); // Expected doc count
 			gatherResponse.setDocCount(docFoundCounter); // retrieved doc count
 			gatherResponse.setRetryCount(novusRetryCounter); // retry doc count
+			gatherResponse.setRetryCount2(metaDocRetryCounter); // Meta retry doc count
+			gatherResponse.setDocCount2(metaDocFoundCounter); // retrieved doc count
 			gatherResponse.setPublishStatus(publishStatus);
 
 			if (anyException) {
@@ -220,7 +233,7 @@ public class DocServiceImpl implements DocService {
 	 * @throws NovusException
 	 * @throws IOException
 	 */
-	private final void createMetadataFile(Document document,
+	private final int[] createMetadataFile(Document document,
 			File destinationDirectory, int tocSeqNum, int retryCount) throws NovusException,
 			IOException {
 		String basename = tocSeqNum + "-" + document.getCollection() + "-"
@@ -231,9 +244,11 @@ public class DocServiceImpl implements DocService {
 		// This is the counter for checking how many Novus retries we are making
 		// for meta data retrieval
 		Integer novusMetaRetryCounter = 0;		
+		Integer novusMetaCounter = 0;		
 		while (novusMetaRetryCounter < retryCount) {
 			try {
 				docMetaData = document.getMetaData();
+				novusMetaCounter++;
 				if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) { 
 					break;
 				} else {
@@ -251,7 +266,11 @@ public class DocServiceImpl implements DocService {
 				}
 			}
 		}
+		int[] counters = {0,0};
+		counters[META_RETRY_COUNTER] = novusMetaRetryCounter;
+		counters[META_COUNTER] = novusMetaCounter;
 		createFile(docMetaData.toString(), destinationFile);
+		return counters;
 	}
 
 	/**
