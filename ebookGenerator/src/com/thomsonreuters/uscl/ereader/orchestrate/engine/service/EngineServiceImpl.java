@@ -138,6 +138,7 @@ public class EngineServiceImpl implements EngineService {
 					new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT
 							.format(bookDefinition.getPublishCutoffDate())));
 		}
+		paramMap.put(JobParameterKey.ENABLE_COPY_FEATURE_FLAG, new JobParameter(bookDefinition.getEnableCopyFeatureFlag()?"Y":"N"));
 		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
 /*		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
 		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));*/

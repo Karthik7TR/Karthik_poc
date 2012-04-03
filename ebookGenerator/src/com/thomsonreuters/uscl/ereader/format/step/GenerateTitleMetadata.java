@@ -43,6 +43,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 
 	private static final Logger LOG = Logger.getLogger(GenerateTitleMetadata.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
+	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
 
 	private String stylesheetPath;
@@ -62,6 +63,12 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
 		titleMetadata.setCopyright(jobParameters.getString(JobParameterKey.COPYRIGHT));
 		titleMetadata.setDisplayName(jobParameters.getString(JobParameterKey.BOOK_NAME));
+		
+		String enableCopyFeature = jobParameters.getString(JobParameterKey.ENABLE_COPY_FEATURE_FLAG);
+		if (enableCopyFeature.equalsIgnoreCase("Y"))
+		{
+			titleMetadata.addFeature(COPY_FEATURE_NAME);
+		}
 		
 		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 		addAuthors(jobParameters, titleMetadata);

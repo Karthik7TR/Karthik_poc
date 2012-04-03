@@ -36,6 +36,8 @@ public class JobParameterKey {
 	
 	public static final String PUB_CUTOFF_DATE= "publishCutoffDate";		
 	
+	public static final String ENABLE_COPY_FEATURE_FLAG = "enableCopyFeatureFlag";
+	
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */
 	public static final String USER_NAME = "userName";

@@ -66,6 +66,16 @@ public class TitleMetadata implements Serializable {
 		this.keywords.add(new Keyword("jurisdiction", ".")); //TODO: Confirm with the business exactly how they want to use jurisdiction.
 	}
 	
+	public void addFeature(String featureName)
+	{
+		this.proviewFeatures.add(new Feature(featureName));
+	}
+	
+	public void addFeature(String featureName, String featureValue)
+	{
+		this.proviewFeatures.add(new Feature(featureName, featureValue));
+	}
+	
 	public void setAuthors(ArrayList<Author> authors) {
 		this.authors = authors;
 	}
