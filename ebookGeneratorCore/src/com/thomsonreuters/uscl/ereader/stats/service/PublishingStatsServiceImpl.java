@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -114,6 +115,31 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		}
 		return lastAudit;
 
+	}
+
+	public Date findLastPublishDateForBook(Long EbookDefId) {
+
+		Date lastPublishDate = null;
+		List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
+		PublishingStats lastPublishingStat = null;
+
+		if (publishingStats != null && publishingStats.size() > 0) {
+			lastPublishingStat = publishingStats.get(0);
+			for (PublishingStats publishingStat : publishingStats) {
+				if (lastPublishingStat.getPublishEndTimestamp() != null
+						&& publishingStat.getPublishEndTimestamp() != null
+						&& publishingStat.getPublishEndTimestamp().after(
+								lastPublishingStat.getPublishEndTimestamp())) {
+					lastPublishingStat = publishingStat;
+				}
+			}
+		}
+
+		if (lastPublishingStat != null) {
+			lastPublishDate = lastPublishingStat.getPublishEndTimestamp();
+		}
+
+		return lastPublishDate;
 	}
 
 }

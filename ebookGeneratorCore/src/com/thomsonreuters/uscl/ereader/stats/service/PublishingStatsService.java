@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -44,6 +45,8 @@ public interface PublishingStatsService {
 	public void deleteJobStats(PublishingStats jobStats);
 
 	public EbookAudit findAuditInfoByJobId(Long jobId);
+	
+	public Date findLastPublishDateForBook(Long EbookDefId);
 	
 	
 }
