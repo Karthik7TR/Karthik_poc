@@ -64,4 +64,9 @@ public interface BookDefinitionDao {
 
 	public BookDefinition saveBookDefinition(BookDefinition eBook);
 
+	List<BookDefinition> findBookDefinitions(String sortProperty,
+			boolean isAscending, int pageNumber, int itemsPerPage,
+			String proviewDisplayName, String fullyQualifiedTitleId, String isbn,
+			String materialId, String to, String from, String status);
+
 }

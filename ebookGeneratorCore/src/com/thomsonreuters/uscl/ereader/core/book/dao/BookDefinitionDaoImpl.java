@@ -8,10 +8,13 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
@@ -57,6 +60,48 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		query.setFirstResult((pageNumber-1)*(itemsPerPage));
 		query.setMaxResults(itemsPerPage);
 		return query.list();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage, String proviewDisplayName, String fullyQualifiedTitleId, String isbn,
+			String materialId, String to, String from, String status) {
+		
+		HibernateTemplate ht = new HibernateTemplate(sessionFactory);
+		
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
+		criteria.setMaxResults(10);
+		
+		
+//		criteria.addOrder(isAscending?Order.asc(proviewDisplayName):Order.desc(proviewDisplayName));
+//		
+//		if (proviewDisplayName!=null && !proviewDisplayName.equals("")){
+//			criteria.add(Restrictions.eq("proviewDisplayName", proviewDisplayName));
+//		}
+//		
+//		if (fullyQualifiedTitleId!=null && !fullyQualifiedTitleId.equals("")){
+//			criteria.add(Restrictions.eq("fullyQualifiedTitleId", fullyQualifiedTitleId));
+//		}
+//		
+//		if (isbn!=null && !isbn.equals("")){
+//			criteria.add(Restrictions.eq("isbn", isbn));
+//		}
+//		
+//		if (materialId!=null && !materialId.equals("")){
+//			criteria.add(Restrictions.eq("materialId", materialId));
+//		}
+//		
+//		if (to!=null && !to.equals("")){
+//			criteria.add(Restrictions.between("lastUpdated", from, to));
+//		}
+//		
+//		if (status!=null && !status.equals("")){
+//			criteria.add(Restrictions.eq("ebookDefinitionCompleteFlag", status));
+//		}
+		
+		
+		return criteria.list();
+		
 	}
 
 	@Override
