@@ -87,29 +87,31 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 			}
 		}
 
-		PublishingStats lastSuccessfulPublishingStat = null;
-		List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
+		if (lastAudit != null) {
+			PublishingStats lastSuccessfulPublishingStat = null;
+			List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
 
-		if (publishingStats != null && publishingStats.size() > 0) {
-			lastSuccessfulPublishingStat = publishingStats.get(0);
-			for (PublishingStats publishingStat : publishingStats) {
-				if (publishingStat.getAuditId() == lastAudit.getAuditId()
-						&& publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
-								.getJobInstanceId()
-						&& SUCCESFULL_PUBLISH_STATUS
-								.equalsIgnoreCase(publishingStat
-										.getPublishStatus())) {
-					lastSuccessfulPublishingStat = publishingStat;
+			if (publishingStats != null && publishingStats.size() > 0) {
+				lastSuccessfulPublishingStat = publishingStats.get(0);
+				for (PublishingStats publishingStat : publishingStats) {
+					if (publishingStat.getAuditId() == lastAudit.getAuditId()
+							&& publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
+									.getJobInstanceId()
+							&& SUCCESFULL_PUBLISH_STATUS
+									.equalsIgnoreCase(publishingStat
+											.getPublishStatus())) {
+						lastSuccessfulPublishingStat = publishingStat;
+					}
 				}
 			}
-		}
 
-		if (!SUCCESFULL_PUBLISH_STATUS
-				.equalsIgnoreCase(lastSuccessfulPublishingStat
-						.getPublishStatus())) {
-			lastAudit = null;
+			if (lastSuccessfulPublishingStat == null
+					&& !SUCCESFULL_PUBLISH_STATUS
+							.equalsIgnoreCase(lastSuccessfulPublishingStat
+									.getPublishStatus())) {
+				lastAudit = null;
+			}
 		}
-
 		return lastAudit;
 
 	}
