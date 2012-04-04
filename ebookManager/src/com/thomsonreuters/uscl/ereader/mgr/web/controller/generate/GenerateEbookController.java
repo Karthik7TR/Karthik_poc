@@ -123,7 +123,7 @@ public class GenerateEbookController {
 			BookDefinition book, Model model) {
 
 		EbookAudit ebookAudit = publishingStatsService
-				.findLastJobStatsAuditByEbookDef(bookDefinitionId);
+				.findLastSuccessfulJobStatsAuditByEbookDef(bookDefinitionId);
 
 		boolean isNewIsbn = true;
 		boolean isNewMaterialId = true;
