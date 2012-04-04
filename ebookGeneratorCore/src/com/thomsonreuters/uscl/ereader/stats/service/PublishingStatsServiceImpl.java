@@ -17,6 +17,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	// Logger.getLogger(PublishingStatsServiceImpl.class);
 
 	private PublishingStatsDao publishingStatsDAO;
+	private static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
 
 	@Override
 	@Transactional(readOnly = true)
@@ -71,22 +72,46 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	}
 
 	@Override
-	public EbookAudit findLastJobStatsAuditByEbookDef(Long EbookDefId) {
-		
+	public EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(Long EbookDefId) {
+
 		EbookAudit lastAudit = null;
-		
+
 		List<EbookAudit> ebookAudits = findJobStatsAuditByEbookDef(EbookDefId);
 
-		if (ebookAudits!=null && ebookAudits.size()>0){
-			lastAudit=ebookAudits.get(0);
+		if (ebookAudits != null && ebookAudits.size() > 0) {
+			lastAudit = ebookAudits.get(0);
 			for (EbookAudit ebookAudit : ebookAudits) {
-				if (ebookAudit.getAuditId()>=lastAudit.getAuditId()) {
+				if (ebookAudit.getAuditId() >= lastAudit.getAuditId()) {
 					lastAudit = ebookAudit;
 				}
 			}
 		}
 
+		PublishingStats lastSuccessfulPublishingStat = null;
+		List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
+
+		if (publishingStats != null && publishingStats.size() > 0) {
+			lastSuccessfulPublishingStat = publishingStats.get(0);
+			for (PublishingStats publishingStat : publishingStats) {
+				if (publishingStat.getAuditId() == lastAudit.getAuditId()
+						&& publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
+								.getJobInstanceId()
+						&& SUCCESFULL_PUBLISH_STATUS
+								.equalsIgnoreCase(publishingStat
+										.getPublishStatus())) {
+					lastSuccessfulPublishingStat = publishingStat;
+				}
+			}
+		}
+
+		if (!SUCCESFULL_PUBLISH_STATUS
+				.equalsIgnoreCase(lastSuccessfulPublishingStat
+						.getPublishStatus())) {
+			lastAudit = null;
+		}
+
 		return lastAudit;
 
 	}
+
 }

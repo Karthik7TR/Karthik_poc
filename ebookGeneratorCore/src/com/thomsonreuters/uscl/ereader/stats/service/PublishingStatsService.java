@@ -36,9 +36,8 @@ public interface PublishingStatsService {
 	
 	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 	
-	public EbookAudit findLastJobStatsAuditByEbookDef(Long EbookDefId);
-
-
+	public EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(Long EbookDefId);
+	
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
 
 
