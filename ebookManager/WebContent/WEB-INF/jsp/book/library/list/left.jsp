@@ -22,55 +22,24 @@
 	</script>
 
  	<h2>Filters</h2>
-<%-- 	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>"
-			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="bookLibraryFilterForm" method="post">
-			   &nbsp;<form:label path="name">Name </form:label><br>
-			   &nbsp;<form:input path="name"/><br>
-			   &nbsp;<label>Date Range</label><br>
-			   &nbsp;&nbsp;<form:label path="from">From</form:label>
-			   &nbsp;<form:input id="datepickerFrom" path="from"/>
-			   &nbsp;<form:label path="to">To</form:label>
-			   &nbsp;<input id="datepickerTo" path="to"/><br>
-			   &nbsp;<form:label path="userName">Username</form:label><br>
-			   &nbsp;<form:input path="userName"/><br>
-			   &nbsp;<form:label path="eBookDefStatus">eBook Status</form:label><br>
-			   &nbsp;<form:input path="eBookDefStatus"/><br>
-			   &nbsp;<form:label path="publishingSttaus">Publishing Status</form:label><br>
-			   &nbsp;<form:input path="publishingSttaus"/><br>
-			   &nbsp;<form:label path="titleId">Title Id</form:label><br>
-			   &nbsp;<form:input path="titleId"/><br>
-			   &nbsp;<form:label path="isbn">ISBN</form:label><br>
-			   &nbsp;<form:input path="isbn"/><br>
-			   &nbsp;<form:label path="authorName">Author Name</form:label><br>
-			   &nbsp;<form:input path="authorName"/><br>
-			   &nbsp;<form:label path="materialNumber">Material Number</form:label><br>
-			   &nbsp;<form:input path="materialNumber"/><br>
-			   &nbsp;<form:label path="publisher">Publisher</form:label><br>
-			   &nbsp;<form:input path="publisher"/><br>
-			   
-			   <form:button disabled="true">Search</form:button>
-			   <form:button disabled="true">Reset</form:button>
-		
-</form:form> --%>
-	&nbsp;<label>Book Name </label><br>
-	&nbsp;<input type="text" /><br>
+
 	&nbsp;<label>Display Name </label><br>
 	&nbsp;<input type="text" /><br>
-	&nbsp;<label>Date Range</label><br>
-	&nbsp;&nbsp;<label>From</label>
-	&nbsp;<input type="text" id="datepickerFrom" />
-	&nbsp;&nbsp;<label>To</label>
-	&nbsp;<input type="text" id="datepickerTo" /><br>
-	&nbsp;<label>eBook Status</label><br>
-	&nbsp;<input type="text" /><br>
-	&nbsp;<label>Title Id</label><br>
+	&nbsp;<label>Title ID</label><br>
 	&nbsp;<input type="text" /><br>
 	&nbsp;<label>ISBN</label><br>
 	&nbsp;<input type="text"  /><br>
 	&nbsp;<label>Material ID</label><br>
 	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>ISBN</label><br>
+	&nbsp;<label>Book Status</label><br>
 	&nbsp;<input type="text" /><br>
+	&nbsp;<label>Last Edit Date</label><br>
+	&nbsp;&nbsp;<label>From</label>
+	&nbsp;<input type="text" id="datepickerFrom" />
+	&nbsp;&nbsp;<label>To</label>
+	&nbsp;<input type="text" id="datepickerTo" /><br>
+	
+	
 	
 	<button disabled="disabled">Search</button>
 	<button disabled="disabled">Reset</button>
