@@ -124,7 +124,9 @@
 		  p:sleepIntervalBetweenImages="500"
 		  p:urlVersion="v1"
 		  p:imageDao-ref="imageDao"
-		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"/>
+		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"		  
+		  p:imageServiceRetryCount="3"
+		  p:imageMetaServiceRetryCount="3"/>
 		  
 	<bean id="docMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/>		
 	<bean id="htmlFormatDocMetaXMLParser" class="com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser"/> 

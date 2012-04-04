@@ -32,6 +32,7 @@ public class ImageServiceTest {
 	private ImageServiceImpl imageService;
 	private RestTemplate mockSingletonRestTemplate;
 	private ImageVerticalRestTemplateFactory mockImageVerticalRestTemplateFactory;
+	private static String IMAGE_RETRY_COUNT = "3";
 	
 	private SingleImageMetadata SINGLE_IMAGE_METADATA;
 	
@@ -47,6 +48,8 @@ public class ImageServiceTest {
 		imageService.setImageVerticalRestServiceUrl(SERVICE_CONTEXT_URL);
 		imageService.setSleepIntervalBetweenImages(500l);
 		imageService.setUrlVersion(SERVICE_VERSION);
+		imageService.setImageMetaServiceRetryCount(IMAGE_RETRY_COUNT);
+		imageService.setImageServiceRetryCount(IMAGE_RETRY_COUNT);
 		imageService.setImageDao(mockImageDao);
 		imageService.setImageVerticalRestTemplateFactory(mockImageVerticalRestTemplateFactory);
 		

@@ -18,8 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
@@ -46,7 +44,11 @@ public class ImageServiceImpl implements ImageService {
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
 	
-	private final Integer imageServiceRetryCount = 3;	
+	private String imageServiceRetryCount;	
+	private String imageMetaServiceRetryCount;
+	
+	/** Counter for image retries **/
+	private int imageRetryCounter = 0;
 
 	@Override
 	//@Transactional
@@ -82,8 +84,21 @@ public class ImageServiceImpl implements ImageService {
 													imageDestinationDirectory, imageGuid, desiredMediaType);
 				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
-				imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
-						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);
+				// This is the counter for checking how many Image service retries we
+				// are making
+				Integer imageServiceRetryCounter = 0;
+				final Integer imageServiceRetryCount = new Integer(getImageServiceRetryCount());					
+				while (imageServiceRetryCounter <= imageServiceRetryCount) {
+					try {
+						
+						imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
+								imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);			
+						break;
+					} catch (Exception exception) {
+							imageServiceRetryCounter++;
+					}
+					imageRetryCounter = imageRetryCounter + imageServiceRetryCounter;
+				}								
 				
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
 				Thread.sleep(sleepIntervalBetweenImages);
@@ -117,19 +132,22 @@ public class ImageServiceImpl implements ImageService {
 		
 		
 		SingleImageMetadataResponse response = new SingleImageMetadataResponse();
-		// This is the counter for checking how many Novus retries we
+		// This is the counter for checking how many Image Metadata service retries we
 		// are making
-		Integer imageServiceRetryCounter = 0;
-		while (imageServiceRetryCounter <= imageServiceRetryCount) {
+		Integer imageMetaServiceRetryCounter = 0;
+		final Integer imageMetaServiceRetryCount = new Integer(getImageMetaServiceRetryCount());			
+				
+		while (imageMetaServiceRetryCounter <= imageMetaServiceRetryCount) {
 			try {
 				response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
 						SingleImageMetadataResponse.class, 
 						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);				
 				break;
 			} catch (Exception exception) {
-					imageServiceRetryCounter++;
+				imageMetaServiceRetryCounter++;
 			}
 		}
+		imageRetryCounter = imageRetryCounter + imageMetaServiceRetryCounter;
 		return response;
 	}
 	
@@ -282,5 +300,23 @@ public class ImageServiceImpl implements ImageService {
 	@Required
 	public void setImageDao(ImageDao dao) {
 		this.imageDao = dao;
+	}
+
+	public String getImageServiceRetryCount() {
+		return imageServiceRetryCount;
+	}
+
+	@Required
+	public void setImageServiceRetryCount(String imageServiceRetryCount) {
+		this.imageServiceRetryCount = imageServiceRetryCount;
+	}
+
+	public String getImageMetaServiceRetryCount() {
+		return imageMetaServiceRetryCount;
+	}
+
+	@Required
+	public void setImageMetaServiceRetryCount(String imageMetaServiceRetryCount) {
+		this.imageMetaServiceRetryCount = imageMetaServiceRetryCount;
 	}
 }
