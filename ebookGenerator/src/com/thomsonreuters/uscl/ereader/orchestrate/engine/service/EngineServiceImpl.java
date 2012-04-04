@@ -106,25 +106,7 @@ public class EngineServiceImpl implements EngineService {
         
         paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
         
-//		String concatBookNames = " ";
-//        Iterator<EbookName> bookNameIt= bookDefinition.getEbookNames().iterator();
-//        while(bookNameIt.hasNext())
-//        {
-//        	EbookName eBookName=(EbookName)bookNameIt.next();
-//        	concatBookNames = concatBookNames + eBookName.getBookNameText() + "|";
-//        }   
-//        
-//        if (concatBookNames.trim().length() != 0) {
-//        	concatBookNames = concatBookNames.substring(0, concatBookNames.lastIndexOf("|")).trim();
-//    		paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(concatBookNames));
-//        } else {
-//        	paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
-//        }
-        
 		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
-		
-		
-
  
 		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getDocumentTypeCodes().getName()));
 		paramMap.put(JobParameterKey.COPYRIGHT, new JobParameter(bookDefinition.getCopyright()));
@@ -138,6 +120,7 @@ public class EngineServiceImpl implements EngineService {
 					new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT
 							.format(bookDefinition.getPublishCutoffDate())));
 		}
+		paramMap.put(JobParameterKey.IS_PROVIEW_TABLE_VIEW, new JobParameter(bookDefinition.isProviewTableViewFlag()?"Y":"N"));
 		paramMap.put(JobParameterKey.ENABLE_COPY_FEATURE_FLAG, new JobParameter(bookDefinition.getEnableCopyFeatureFlag()?"Y":"N"));
 		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
 /*		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));

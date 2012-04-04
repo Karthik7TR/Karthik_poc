@@ -37,6 +37,7 @@ public class JobParameterKey {
 	public static final String PUB_CUTOFF_DATE= "publishCutoffDate";		
 	
 	public static final String ENABLE_COPY_FEATURE_FLAG = "enableCopyFeatureFlag";
+	public static final String IS_PROVIEW_TABLE_VIEW = "isProViewTableView";
 	
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */

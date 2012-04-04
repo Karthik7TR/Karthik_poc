@@ -56,8 +56,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
-		//TODO: BookDefination method will be used to update 'isTableViewRequired' value.
-		boolean isTableViewRequired = false;
+		boolean isTableViewRequired = jobParams.getString(JobParameterKey.IS_PROVIEW_TABLE_VIEW).equalsIgnoreCase("Y");
 		
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
