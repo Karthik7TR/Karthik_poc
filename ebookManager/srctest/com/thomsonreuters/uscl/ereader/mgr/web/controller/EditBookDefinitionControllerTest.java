@@ -284,6 +284,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
+    	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
@@ -413,6 +414,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
+    	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
@@ -706,6 +708,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
+    	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");

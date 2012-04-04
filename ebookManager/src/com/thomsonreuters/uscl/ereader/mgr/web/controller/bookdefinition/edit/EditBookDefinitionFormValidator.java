@@ -179,14 +179,17 @@ public class EditBookDefinitionFormValidator implements Validator {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionText", "error.required.field", new Object[] {"Section Text"});
 				
 				// Check Front Matter Pdf for max characters and required fields
+				int k = 0;
 				for (FrontMatterPdf pdf : section.getPdfs()) {
-					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
-					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
+					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
+					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 					
 					// Check both fields of PDF is filled 
 					if(StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
-						errors.rejectValue("frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs[0].pdfFilename", "error.required.pdf");
+						errors.rejectValue("frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", "error.required.pdf");
 					}
+					k++;
 				}
 				j++;
 			}
@@ -206,6 +209,7 @@ public class EditBookDefinitionFormValidator implements Validator {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docCollectionName", "error.required");
 			} else {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");

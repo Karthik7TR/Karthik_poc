@@ -52,6 +52,10 @@ public class FrontMatterPdf implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String pdfFilename;
 	
+	@Column(name = "SEQUENCE_NUMBER", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	Integer sequenceNum;
+	
 
 	public Long getId() {
 		return id;
@@ -85,9 +89,17 @@ public class FrontMatterPdf implements Serializable {
 		this.pdfFilename = pdfFilename;
 	}
 	
+	public Integer getSequenceNum() {
+		return sequenceNum;
+	}
+
+	public void setSequenceNum(Integer sequenceNum) {
+		this.sequenceNum = sequenceNum;
+	}
+
 	@Transient
 	public boolean isEmpty() {
-		return (StringUtils.isBlank(pdfFilename) && StringUtils.isBlank(pdfLinkText));
+		return (StringUtils.isBlank(pdfFilename) && StringUtils.isBlank(pdfLinkText) && (sequenceNum == null));
 	}
 
 	@Override

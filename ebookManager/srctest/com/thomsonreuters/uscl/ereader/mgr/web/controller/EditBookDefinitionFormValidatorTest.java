@@ -336,6 +336,7 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setMaterialId(null);
 		form.setIsbn(null);
 		form.setTocCollectionName(null);
+		form.setDocCollectionName(null);
 		form.setRootTocGuid(null);
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
@@ -344,6 +345,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("docCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
@@ -579,6 +581,7 @@ public class EditBookDefinitionFormValidatorTest {
 		book.setIsTocFlag(true);
 		populateFormData(book);
 		form.setTocCollectionName("1234");
+		form.setDocCollectionName("doc collection");
 		form.setRootTocGuid("i12345678123456781234567812345678");
 		Collection<EbookName> nameLines = new ArrayList<EbookName>();
 		EbookName nameLine = new EbookName();

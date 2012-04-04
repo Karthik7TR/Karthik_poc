@@ -123,7 +123,8 @@ public class EditBookDefinitionController {
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		form.initialize(bookDef);
-		setupEditFormAndModel(bookDef, form, model);
+		determineBookStatus(bookDef, model);
+		initializeModel(model, form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -158,7 +159,8 @@ public class EditBookDefinitionController {
 		
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
-		setupEditFormAndModel(bookDef, form, model);
+		determineBookStatus(bookDef, model);
+		initializeModel(model, form);
 		sortBySequenceNum(form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
@@ -229,7 +231,7 @@ public class EditBookDefinitionController {
 	    return editBookDefinitionService.getContentTypeById(contentTypeId);
 	}
 	
-	private void setupEditFormAndModel(BookDefinition bookDef, EditBookDefinitionForm form, Model model) throws Exception {
+	private void determineBookStatus(BookDefinition bookDef, Model model) throws Exception {
 		boolean isInJobRequest = false;
 		boolean isPublished = false;
 		
@@ -247,20 +249,19 @@ public class EditBookDefinitionController {
 			}
 		}
 		
-		initializeModel(model, form);
-		
-		model.addAttribute(WebConstants.KEY_ID, form.getBookdefinitionId());
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 	}
+	
+	
 	
 	/**
 	 * Initializes the model for the Create/Edit Book Definition View
 	 * @param model
 	 * @param form
 	 */
-	protected void initializeModel(Model model, EditBookDefinitionForm form) {
+	private void initializeModel(Model model, EditBookDefinitionForm form) {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_NAME_LINES,form.getNameLines().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
@@ -275,6 +276,10 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, editBookDefinitionService.getKeywordCodes());
 	}
 	
+	/**
+	 * Sort the Lists in Book Definition by the sequence number.
+	 * @param form
+	 */
 	private void sortBySequenceNum(EditBookDefinitionForm form) {
 		// Sort Authors by Sequence Number
 		List<Author> authors = new ArrayList<Author>();

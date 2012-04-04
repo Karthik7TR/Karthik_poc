@@ -50,6 +50,7 @@ public class EditBookDefinitionForm {
 	private String frontMatterTocLabel;
 	private boolean isTOC;
 	private String rootTocGuid;
+	private String docCollectionName;
 	private String tocCollectionName;
 	private String nortDomain;
 	private String nortFilterView;
@@ -80,7 +81,6 @@ public class EditBookDefinitionForm {
 	
 	private String comment;
 	private boolean validateForm;
-	private Collection<Long> frontMatterPdfDeletions = new ArrayList<Long>();
 	
 	public EditBookDefinitionForm() {
 		super();
@@ -95,6 +95,7 @@ public class EditBookDefinitionForm {
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = true;
+		this.copyright = "©";
 	}
 	
 	public void initialize(BookDefinition book) {
@@ -107,6 +108,7 @@ public class EditBookDefinitionForm {
 			this.materialId = book.getMaterialId();
 			this.rootTocGuid = book.getRootTocGuid();
 			this.tocCollectionName = book.getTocCollectionName();
+			this.docCollectionName = book.getDocCollectionName();
 			this.nortDomain = book.getNortDomain();
 			this.nortFilterView = book.getNortFilterView();
 			this.isbn = book.getIsbn();
@@ -157,15 +159,12 @@ public class EditBookDefinitionForm {
 		Set<FrontMatterPage> addFrontMatters = new HashSet<FrontMatterPage>();
 		for(FrontMatterPage page : frontMatters) {
 			for(FrontMatterSection section : page.getFrontMatterSections()) {
+				for(FrontMatterPdf pdf : section.getPdfs()){
+					//Set foreign key on Pdf
+					pdf.setSection(section);
+				}
 				// Set foreign key on Section
 				section.setFrontMatterPage(page);
-				
-				for(FrontMatterPdf pdf : section.getPdfs()){
-					if (pdf != null) {
-						//Set foreign key on Pdf
-						pdf.setSection(section);
-					}
-				}
 			}
 			// Set foreign key on Page
 			page.setEbookDefinition(book);
@@ -221,6 +220,7 @@ public class EditBookDefinitionForm {
 		book.setRootTocGuid(rootTocGuid);
 		book.setSearchIndexFlag(searchIndex);
 		book.setTocCollectionName(tocCollectionName);
+		book.setDocCollectionName(docCollectionName);
 		book.setIsAuthorDisplayVertical(isAuthorDisplayVertical);
 		book.setFrontMatterTocLabel(frontMatterTocLabel);
 	}
@@ -381,6 +381,14 @@ public class EditBookDefinitionForm {
 
 	public void setTocCollectionName(String tocCollectionName) {
 		this.tocCollectionName = tocCollectionName;
+	}
+
+	public String getDocCollectionName() {
+		return docCollectionName;
+	}
+
+	public void setDocCollectionName(String docCollectionName) {
+		this.docCollectionName = docCollectionName;
 	}
 
 	public String getNortDomain() {
@@ -559,14 +567,6 @@ public class EditBookDefinitionForm {
 		this.validateForm = validateForm;
 	}
 
-	public Collection<Long> getFrontMatterPdfDeletions() {
-		return frontMatterPdfDeletions;
-	}
-
-	public void setFrontMatterPdfDeletions(Collection<Long> frontMatterPdfDeletions) {
-		this.frontMatterPdfDeletions = frontMatterPdfDeletions;
-	}
-
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
@@ -604,12 +604,9 @@ public class EditBookDefinitionForm {
 	        		} else {
 	        			for(Iterator<FrontMatterPdf> k = section.getPdfs().iterator(); k.hasNext();) {
 	        				FrontMatterPdf pdf = k.next();
-	        				if (pdf == null) {
+	        				if (pdf == null || pdf.isEmpty()) {
+	        					// Remove Pdf from Collection
 	        					k.remove();
-	        				} else {
-	        					if(pdf.isEmpty()) {
-	        						k.remove();
-	        					}
 	        				}
 	        			}
 	        		}

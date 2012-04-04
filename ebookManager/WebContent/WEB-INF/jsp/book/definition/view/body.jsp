@@ -67,6 +67,10 @@ function submitForm(cmd)
 							<span class="field">${ book.tocCollectionName }</span>
 						</div>
 						<div class="row">
+							<label class="labelCol">DOC Collection</label>
+							<span class="field">${ book.docCollectionName }</span>
+						</div>
+						<div class="row">
 							<label class="labelCol">Root TOC Guid</label>
 							<span class="field">${ book.rootTocGuid }</span>
 						</div>
@@ -183,8 +187,7 @@ function submitForm(cmd)
 					<label class="labelCol">Author Information</label>
 					<c:forEach items="${book.authors}" var="author">
 						<div>
-							${author.fullName }
-							<div>${author.authorAddlText}</div>
+							${author.fullName } ${author.authorAddlText}
 						</div>
 					</c:forEach>
 				</div>
