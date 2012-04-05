@@ -37,7 +37,7 @@ public interface LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, String to, String from, String status, String pubDate);
+			String materialID, String to, String from, String status);
 
 	/**
 	 * Returns a count of all current book definitions.
