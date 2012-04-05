@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents all the publisher code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="PUBLISHER_CODES")
+@Table(name="PUBLISHER_CODES")
 public class PublisherCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(PublisherCode.class);
 	private static final long serialVersionUID = -2270804278406061488L;

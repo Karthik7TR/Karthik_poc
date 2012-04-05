@@ -47,7 +47,7 @@ import com.thomsonreuters.uscl.ereader.proview.Keyword;
 @Entity
 @NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select myBook from BookDefinition myBook "),
 @NamedQuery(name = "countBookDefinitions", query = "select count(*) from BookDefinition myBook") })
-@Table(name="EBOOK_DEFINITION", schema="EBOOK")
+@Table(name="EBOOK_DEFINITION")
 public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -247,7 +247,7 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "EBOOK_KEYWORDS", schema="EBOOK", joinColumns = { 
+	@JoinTable(name = "EBOOK_KEYWORDS", joinColumns = { 
 			@JoinColumn(name = "EBOOK_DEFINITION_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "KEYWORD_TYPE_VALUES_ID", 
 					nullable = false, updatable = false) })

@@ -176,6 +176,10 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 			ArrayList<Author> authors = titleMetadataService.createAuthors(authorsParameter);
 			titleMetadata.setAuthors(authors);
 		}
+		else
+		{
+			titleMetadata.setAuthors(new ArrayList<Author>());
+		}
 	}
 
 	public void setTitleMetadataService(TitleMetadataService titleMetadataService) {

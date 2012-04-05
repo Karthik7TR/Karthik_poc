@@ -21,7 +21,7 @@ import javax.persistence.Table;
   *
   */
 @Entity
-@Table(schema="EBOOK_CONFIG", name="JOB_STARTUP_THROTTLE")
+@Table(name="JOB_STARTUP_THROTTLE")
 public class JobStartupThrottle implements Serializable{
 
 	/**

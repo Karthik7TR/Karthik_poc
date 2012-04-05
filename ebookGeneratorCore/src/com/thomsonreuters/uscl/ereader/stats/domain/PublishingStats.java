@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @IdClass(com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK.class)
 @Entity
-@Table(schema = "EBOOK", name = "PUBLISHING_STATS")
+@Table(name = "PUBLISHING_STATS")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/job/domain", name = "PublishingStats")
 public class PublishingStats implements Serializable {

@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 @NamedQueries({
 		@NamedQuery(name = "findAllEbookNames", query = "select myEbookName from EbookName myEbookName"),
 		@NamedQuery(name = "findEbookNameByPrimaryKey", query = "select myEbookName from EbookName myEbookName where myEbookName.ebookNameId = ?1") })
-@Table(schema = "EBOOK", name = "EBOOK_NAME")
+@Table(name = "EBOOK_NAME")
 
 public class EbookName implements Serializable, Comparable<EbookName> {
 	private static final long serialVersionUID = 1L;

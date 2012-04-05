@@ -34,7 +34,7 @@ import javax.persistence.Table;
 )
 
 @Entity
-@Table(schema = "EBOOK", name = "XSLT_MAPPER")
+@Table(name = "XSLT_MAPPER")
 public class XSLTMapperEntity implements Serializable{
 	
 	@Id

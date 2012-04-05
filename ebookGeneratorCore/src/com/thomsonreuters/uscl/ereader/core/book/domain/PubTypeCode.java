@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents all the Pub Type Code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="PUB_TYPE_CODES")
+@Table(name="PUB_TYPE_CODES")
 public class PubTypeCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(PubTypeCode.class);
 	private static final long serialVersionUID = -4932734236359244870L;

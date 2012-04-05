@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
 @Entity
-@Table(schema = "EBOOK_AUTHORITY", name = "DOCUMENT_METADATA")
+@Table(name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
 public class DocMetadata implements Serializable {

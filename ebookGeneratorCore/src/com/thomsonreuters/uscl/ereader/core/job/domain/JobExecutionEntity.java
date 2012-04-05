@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.batch.core.BatchStatus;
 
 @Entity
-@Table(name="BATCH_JOB_EXECUTION", schema="EBOOK_SPRINGBATCH")
+@Table(name="BATCH_JOB_EXECUTION")
 public class JobExecutionEntity implements Serializable {
 
 	private static final long serialVersionUID = -7060462755147125706L;

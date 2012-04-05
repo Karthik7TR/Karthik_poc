@@ -30,7 +30,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(schema="EBOOK", name="KEYWORD_TYPE_CODES")
+@Table(name="KEYWORD_TYPE_CODES")
 public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode> {
 	//private static final Logger log = Logger.getLogger(KeywordTypeCode.class);
 	private static final long serialVersionUID = -6883749966331206015L;

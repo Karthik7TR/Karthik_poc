@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents all the state code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="STATE_CODES")
+@Table(name="STATE_CODES")
 public class StateCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(StateCode.class);
 	private static final long serialVersionUID = -6419698127062095582L;

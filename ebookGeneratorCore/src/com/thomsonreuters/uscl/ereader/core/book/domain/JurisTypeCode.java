@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents all the Jurisdiction Type Code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="JURIS_TYPE_CODES")
+@Table(name="JURIS_TYPE_CODES")
 public class JurisTypeCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(JurisTypeCode.class);
 	private static final long serialVersionUID = -3118292918077264082L;

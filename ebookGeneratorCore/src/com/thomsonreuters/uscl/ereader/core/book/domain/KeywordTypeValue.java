@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(schema = "EBOOK", name = "KEYWORD_TYPE_VALUES")
+@Table(name = "KEYWORD_TYPE_VALUES")
 public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue> {
 	// private static final Logger log =
 	// Logger.getLogger(KeywordTypeValue.class);

@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinition = :eBookDef")})
-@Table(schema = "EBOOK", name = "AUTHOR")
+@Table(name = "AUTHOR")
 public class Author implements Serializable, Comparable<Author> {
 	private static final long serialVersionUID = 7962657038385328632L;
 	/**

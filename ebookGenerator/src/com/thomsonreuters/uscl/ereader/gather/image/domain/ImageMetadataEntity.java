@@ -24,7 +24,7 @@ import org.springframework.http.MediaType;
  * Persisted metadata for images downloaded from the Image Vertical REST web service.
  */
 @Entity
-@Table(schema="EBOOK_AUTHORITY", name="IMAGE_METADATA")
+@Table(name="IMAGE_METADATA")
 public class ImageMetadataEntity implements Serializable {
 	
 	private static final long serialVersionUID = -3714413519050210417L;

@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Represents all the DocumentType code id and names used for Book Definition
  */
 @Entity
-@Table(schema="EBOOK", name="DOCUMENT_TYPE_CODES")
+@Table(name="DOCUMENT_TYPE_CODES")
 public class DocumentTypeCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(DocumentTypeCode.class);
 	private static final long serialVersionUID = -401472676661960713L;

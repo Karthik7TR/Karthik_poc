@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "findEbookAuditByPrimaryKey", query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId") })
-@Table(schema = "EBOOK", name = "EBOOK_AUDIT")
+@Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
 	//private static final Logger log = Logger.getLogger(EbookAudit.class);
 	private static final long serialVersionUID = 1L;
