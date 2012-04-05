@@ -19,7 +19,7 @@ public interface LibraryListService {
 			boolean isAscending, int pageNumber, int itemsPerPage);
 
 	/**
-	 * Return library list based on search criteria
+	 * 
 	 * @param sortProperty
 	 * @param isAscending
 	 * @param pageNumber
@@ -31,12 +31,13 @@ public interface LibraryListService {
 	 * @param to
 	 * @param from
 	 * @param status
+	 * @param pubDate
 	 * @return
 	 */
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, String to, String from, String status);
+			String materialID, String to, String from, String status, String pubDate);
 
 	/**
 	 * Returns a count of all current book definitions.

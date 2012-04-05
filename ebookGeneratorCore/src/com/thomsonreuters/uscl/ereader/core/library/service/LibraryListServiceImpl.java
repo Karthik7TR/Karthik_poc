@@ -6,6 +6,9 @@
 package com.thomsonreuters.uscl.ereader.core.library.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -35,6 +38,24 @@ public class LibraryListServiceImpl implements LibraryListService {
 	private AuthorService authorService;
 	private PublishingStatsService publishingStatsService;
 
+	static final Comparator<LibraryList> ASCENDING_ORDER = new Comparator<LibraryList>() {
+
+		@Override
+		public int compare(LibraryList l1, LibraryList l2) {
+			return l1.getLastPublishDate().compareTo(l2.getLastPublishDate());
+		}
+
+	};
+
+	static final Comparator<LibraryList> DESCENDING_ORDER = new Comparator<LibraryList>() {
+
+		@Override
+		public int compare(LibraryList l1, LibraryList l2) {
+			return l2.getLastPublishDate().compareTo(l1.getLastPublishDate());
+		}
+
+	};
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<LibraryList> findBookDefinitions(String sortProperty,
@@ -54,9 +75,11 @@ public class LibraryListServiceImpl implements LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, String to, String from, String status) {
+			String materialID, String to, String from, String status,
+			String pubDate) {
 
-		List<BookDefinition> bookDefinitions = bookDefinitionDao.findBookDefinitions(sortProperty, isAscending, pageNumber,
+		List<BookDefinition> bookDefinitions = bookDefinitionDao
+				.findBookDefinitions(sortProperty, isAscending, pageNumber,
 						itemsPerPage, proviewDisplayName, titleID, isbn,
 						materialID, to, from, status);
 
@@ -83,6 +106,14 @@ public class LibraryListServiceImpl implements LibraryListService {
 
 			libraryLists.add(libraryList);
 
+		}
+
+		if (sortProperty.equals("publishEndTimestamp")) {
+			if (isAscending) {
+				Collections.sort(libraryLists, ASCENDING_ORDER);
+			} else {
+				Collections.sort(libraryLists, DESCENDING_ORDER);
+			}
 		}
 
 		return libraryLists;
