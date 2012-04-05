@@ -126,10 +126,16 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		if (publishingStats != null && publishingStats.size() > 0) {
 			lastPublishingStat = publishingStats.get(0);
 			for (PublishingStats publishingStat : publishingStats) {
+				if (lastPublishingStat.getPublishEndTimestamp() == null) {
+					lastPublishingStat = publishingStat;
+				}
 				if (lastPublishingStat.getPublishEndTimestamp() != null
 						&& publishingStat.getPublishEndTimestamp() != null
-						&& publishingStat.getPublishEndTimestamp().after(
-								lastPublishingStat.getPublishEndTimestamp())) {
+						&& (publishingStat.getPublishEndTimestamp() == lastPublishingStat
+								.getPublishEndTimestamp() || publishingStat
+								.getPublishEndTimestamp().after(
+										lastPublishingStat
+												.getPublishEndTimestamp()))) {
 					lastPublishingStat = publishingStat;
 				}
 			}
