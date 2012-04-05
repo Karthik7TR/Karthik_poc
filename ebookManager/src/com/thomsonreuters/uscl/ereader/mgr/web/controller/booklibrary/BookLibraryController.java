@@ -58,7 +58,7 @@ public class BookLibraryController {
 			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		initializeFormAndModel(model, form, "book.PROVIEW_DISPLAY_NAME", true, 1);
+		initializeFormAndModel(model, form, "proviewDisplayName", true, 1);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
