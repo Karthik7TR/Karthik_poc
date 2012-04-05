@@ -107,9 +107,9 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 			}
 
 			if (lastSuccessfulPublishingStat == null
-					&& !SUCCESFULL_PUBLISH_STATUS
+					|| (lastSuccessfulPublishingStat != null && !(SUCCESFULL_PUBLISH_STATUS
 							.equalsIgnoreCase(lastSuccessfulPublishingStat
-									.getPublishStatus())) {
+									.getPublishStatus())))) {
 				lastAudit = null;
 			}
 		}
