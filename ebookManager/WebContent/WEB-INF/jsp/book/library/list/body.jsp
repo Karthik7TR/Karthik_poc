@@ -63,18 +63,18 @@
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
-	  <display:column title="Title ID" sortable="true" sortName="book.TITLE_ID" >
+	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
-	  <display:column title="Book Name" sortable="true" sortName="book.PROVIEW_DISPLAY_NAME" style="text-align: left">
+	  <display:column title="Book Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
-	  <display:column title="Publish Date" sortable="true" sortName="ps.PUB_DATE">
+	  <display:column title="Publish Date" sortable="true" sortName="publishEndTimestamp">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	  <display:column title="Book Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
-	  <display:column title="Last Book Def. Edit" sortable="true" sortName="book.LAST_UPDATED" >
+	  <display:column title="Last Book Def. Edit" sortable="true" sortName="lastUpdated" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
