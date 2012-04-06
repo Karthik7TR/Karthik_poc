@@ -121,6 +121,33 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		return criteria.list();
 
 	}
+	
+	/**
+	 * Returns all the book definitions based on Keyword Type Code 
+	 * @return a list of BookDefinition
+	 */
+	@SuppressWarnings("unchecked")
+	public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(Long keywordTypeCodeId) {
+		Criteria c =sessionFactory.getCurrentSession().createCriteria(BookDefinition.class, "book")
+				.createAlias("book.keywordTypeValues", "keywordValues")
+				.createAlias("keywordValues.keywordTypeCode", "keywordCode")
+				.add(Restrictions.eq("keywordCode.id", keywordTypeCodeId))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return c.list();
+	}
+	
+	/**
+	 * Returns all the book definitions based on Keyword Type Value 
+	 * @return a list of BookDefinition
+	 */
+	@SuppressWarnings("unchecked")
+	public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(Long keywordTypeValueId) {
+		Criteria c =sessionFactory.getCurrentSession().createCriteria(BookDefinition.class, "book")
+				.createAlias("book.keywordTypeValues", "keywordValues")
+				.add(Restrictions.eq("keywordValues.id", keywordTypeValueId))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return c.list();
+	}
 
 	@Override
 	public long countNumberOfBookDefinitions() {

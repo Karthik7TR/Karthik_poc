@@ -3,10 +3,130 @@
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 
 <tiles-definitions>
-  
+	
 	<definition name="standardDefinition" template="/WEB-INF/tiles/layouts/standard-template.jsp">
 		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
+	</definition>
+	
+	<definition name="_adminMain" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/main/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/main/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminJurisCodeView" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminJurisCodeEdit" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminJurisCodeDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminJurisCodeCreate" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/common/createEditForm.jsp"/>
+	</definition>
+	
+	<definition name="_adminPublishTypeCodeView" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminPublishTypeCodeEdit" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminPublishTypeCodeDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminPublishTypeCodeCreate" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/common/createEditForm.jsp"/>
+	</definition>
+	
+	<definition name="_adminStateCodeView" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminStateCodeEdit" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminStateCodeDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminStateCodeCreate" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/common/createEditForm.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordCodeView" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordCodeEdit" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordCodeDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordCodeCreate" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/common/createEditForm.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordValueEdit" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordValueDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminKeywordValueCreate" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/common/createEditForm.jsp"/>
 	</definition>
 	
 	<definition name="_bookLibraryList" extends="standardDefinition">

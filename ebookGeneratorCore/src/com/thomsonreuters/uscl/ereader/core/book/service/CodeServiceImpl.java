@@ -44,6 +44,16 @@ public class CodeServiceImpl implements CodeService {
 	}
 	
 	/**
+	 * Get a State Code from the STATE_CODES table that match STATE_CODES_NAME
+	 * @param stateCodeName
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public StateCode getStateCodeByName(String stateCodeName) {
+		return dao.getStateCodeByName(stateCodeName);
+	}
+	
+	/**
 	 * Create or Update a State Code to the STATE_CODES table
 	 * @param stateCode
 	 * @return
@@ -81,6 +91,16 @@ public class CodeServiceImpl implements CodeService {
 	@Transactional(readOnly = true)
 	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId){
 		return dao.getPubTypeCodeById(pubTypeCodeId);
+	}
+	
+	/**
+	 * Get a PubType Code from the PUB_TYPE_CODES table that match PUB_TYPE_CODES_NAME
+	 * @param pubTypeCodeName
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public PubTypeCode getPubTypeCodeByName(String pubTypeCodeName) {
+		return dao.getPubTypeCodeByName(pubTypeCodeName);
 	}
 	
 	/**
@@ -122,6 +142,16 @@ public class CodeServiceImpl implements CodeService {
 	@Transactional(readOnly = true)
 	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId){
 		return dao.getJurisTypeCodeById(jurisTypeCodeId);
+	}
+	
+	/**
+	 * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
+	 * @param JurisTypeCodeName
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public JurisTypeCode getJurisTypeCodeByName(String JurisTypeCodeName){
+		return dao.getJurisTypeCodeByName(JurisTypeCodeName);
 	}
 	
 	/**
@@ -245,6 +275,16 @@ public class CodeServiceImpl implements CodeService {
 	@Transactional(readOnly = true)
 	public KeywordTypeCode getKeywordTypeCodeById(Long keywordTypeCodeId){
 		return dao.getKeywordTypeCodeById(keywordTypeCodeId);
+	}
+	
+	/**
+	 * Get a KeywordTypeCode Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_NAME
+	 * @param keywordTypeCodeName
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public KeywordTypeCode getKeywordTypeCodeByName(String keywordTypeCodeName) {
+		return dao.getKeywordTypeCodeByName(keywordTypeCodeName);
 	}
 	
 	/**

@@ -32,6 +32,13 @@ public interface CodeService {
 	public StateCode getStateCodeById(Long stateCodeId);
 	
 	/**
+	 * Get a State Code from the STATE_CODES table that match STATE_CODES_NAME
+	 * @param stateCodeName
+	 * @return
+	 */
+	public StateCode getStateCodeByName(String stateCodeName);
+	
+	/**
 	 * Create or Update a State Code to the STATE_CODES table
 	 * @param stateCode
 	 * @return
@@ -57,6 +64,13 @@ public interface CodeService {
 	 * @return
 	 */
 	public PubTypeCode getPubTypeCodeById(Long pubTypeCodeId);
+	
+	/**
+	 * Get a PubType Code from the PUB_TYPE_CODES table that match PUB_TYPE_CODES_NAME
+	 * @param pubTypeCodeName
+	 * @return
+	 */
+	public PubTypeCode getPubTypeCodeByName(String pubTypeCodeName);
 	
 	/**
 	 * Create or Update a PubType Code to the PUB_TYPE_CODES table
@@ -85,6 +99,13 @@ public interface CodeService {
 	 */
 	public JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId);
 	
+	/**
+	 * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
+	 * @param JurisTypeCodeName
+	 * @return
+	 */
+	public JurisTypeCode getJurisTypeCodeByName(String JurisTypeCodeName);
+		
 	/**
 	 * Create or Update a JurisType Code to the Juris_TYPE_CODES table
 	 * @param JurisTypeCode
@@ -166,6 +187,13 @@ public interface CodeService {
 	 * @return
 	 */
 	public KeywordTypeCode getKeywordTypeCodeById(Long keywordTypeCodeId);
+	
+	/**
+	 * Get a KeywordTypeCode Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_NAME
+	 * @param keywordTypeCodeName
+	 * @return
+	 */
+	public KeywordTypeCode getKeywordTypeCodeByName(String keywordTypeCodeName);
 	
 	/**
 	 * Create or Update a KeywordTypeCode Code to the KEYWORD_TYPE_CODES table

@@ -79,12 +79,12 @@ public class DocumentTypeCode implements Serializable {
 		this.abbreviation = abbreviation;
 	}
 	
-	public String getUsePublishCutoffDateFlag() {
-		return usePublishCutoffDateFlag;
+	public boolean getUsePublishCutoffDateFlag() {
+		return (usePublishCutoffDateFlag.equalsIgnoreCase("Y") ? true: false);
 	}
 
-	public void setUsePublishCutoffDateFlag(String usePublishCutoffDateFlag) {
-		this.usePublishCutoffDateFlag = usePublishCutoffDateFlag;
+	public void setUsePublishCutoffDateFlag(boolean usePublishCutoffDateFlag) {
+		this.usePublishCutoffDateFlag =( (usePublishCutoffDateFlag) ? "Y" : "N");
 	}
 
 	public Date getLastUpdated() {

@@ -612,7 +612,7 @@
 			<div class="row">
 				<label class="labelCol">Keywords</label>
 				<div id="accordion">
-					<c:forEach items="${typeKeywords}" var="keyword">
+					<c:forEach items="${keywordTypeCode}" var="keyword">
 						<h3><a href="#">${keyword.name}</a></h3>
 						<div>
 							<c:forEach items="${keyword.values}" var="value">

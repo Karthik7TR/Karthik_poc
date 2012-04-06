@@ -7,7 +7,50 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-
+	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
+		
+	<bean id="jurisCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeController" 
+		p:codeService-ref="codeService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeFormValidator"
+		  	p:codeService-ref="codeService"/>
+		 </property>
+	</bean>
+	
+	<bean id="pubTypeCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.PublishTypeCodeController" 
+		p:codeService-ref="codeService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.PublishTypeCodeFormValidator"
+		  	p:codeService-ref="codeService"/>
+		 </property>
+	</bean>
+	
+	<bean id="stateCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeController" 
+		p:codeService-ref="codeService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidator"
+		  	p:codeService-ref="codeService"/>
+		 </property>
+	</bean>
+	
+	<bean id="keywordCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeController" 
+		p:codeService-ref="codeService"
+		p:bookDefinitionService-ref="bookDefinitionService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeFormValidator"
+		  	p:codeService-ref="codeService"/>
+		 </property>
+	</bean>
+	
+	<bean id="keywordValueController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue.KeywordValueController" 
+		p:codeService-ref="codeService"
+		p:bookDefinitionService-ref="bookDefinitionService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue.KeywordValueFormValidator"
+		  	p:codeService-ref="codeService"/>
+		 </property>
+	</bean>
+	
 	<bean id="bookLibraryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"
 		  p:libraryListService-ref="libraryListService" >
 		  <property name="validator">

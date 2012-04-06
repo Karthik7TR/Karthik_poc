@@ -44,6 +44,18 @@ public interface BookDefinitionDao {
 	public List<BookDefinition> findBookDefinitions(String sortProperty, boolean isAscending, int pageNumber, int itemsPerPage);
 
 	/**
+	 * Returns all the book definitions based on Keyword Type Code 
+	 * @return a list of BookDefinition
+	 */
+	public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(Long keywordTypeCodeId);
+	
+	/**
+	 * Returns all the book definitions based on Keyword Type Value 
+	 * @return a list of BookDefinition
+	 */
+	public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(Long keywordTypeValueId);
+	
+	/**
 	 * Returns a count of the current book definitions.
 	 * @return an integer
 	 */

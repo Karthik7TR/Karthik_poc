@@ -278,14 +278,12 @@ ul.navList a:hover {
 	text-align: center;	
 }
 
-.bookDefinitionCRUD .centerSection,
-.bookDefinitionView .centerSection {
+.centerSection {
 	margin-left:auto;
 	margin-right:auto;
 	width:950px;
 }
-.bookDefinitionCRUD .centerSection > div,
-.bookDefinitionView .centerSection > div {
+.centerSection > div {
 	overflow:hidden;
 	display:inline-block;
 	zoom:1; /* IE7 hack */
@@ -373,7 +371,7 @@ ul.navList a:hover {
 	width:256px;
 	margin-left:190px;
 	font-size: 14px;
-	max-height: 250px;
+	min-height: 300px;
 }
 .bookDefinitionCRUD #accordion span {
 	display:block;

@@ -163,7 +163,7 @@ public class CodeServiceIntegrationTest  {
 		DocumentTypeCode createCode = new DocumentTypeCode();
 		createCode.setName("Test");
 		createCode.setAbbreviation("t");
-		createCode.setUsePublishCutoffDateFlag("F");
+		createCode.setUsePublishCutoffDateFlag(false);
 		service.saveDocumentTypeCode(createCode);
 
 		// Get

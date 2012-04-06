@@ -19,6 +19,11 @@ public class WebConstants {
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
+	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
+	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
+	public static final String KEY_STATE_CODE = "stateCode";
+	public static final String KEY_KEYWORD_TYPE_CODE = "keywordTypeCode";
+	public static final String KEY_KEYWORD_TYPE_VALUE = "keywordTypeValue";
 	public static final String KEY_ID = "id";
 	public static final String KEY_TITLE_ID = "titleId";
 	public static final String KEY_SORT_BY = "sortBy";
@@ -38,10 +43,6 @@ public class WebConstants {
 	public static final String KEY_PUB_TYPES = "pubTypes";
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
 	public static final String KEY_PUBLISHERS = "publishers";
-	public static final String KEY_KEYWORDS_TYPE = "typeKeywords";
-	public static final String KEY_KEYWORDS_SUBJECT = "subjectKeywords";
-	public static final String KEY_KEYWORDS_PUBLISHER = "publisherKeywords";
-	public static final String KEY_KEYWORDS_JURISDICTION = "jurisdictionKeywords";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_COURT_RULES = "Court Rules";
 	public static final String KEY_COURT_RULES_ABBR = "cr";
@@ -116,6 +117,27 @@ public class WebConstants {
 	public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
 	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
 	
+	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
+	public static final String MVC_ADMIN_JURIS_CODE_VIEW = "adminJurisCodeView.mvc";
+	public static final String MVC_ADMIN_JURIS_CODE_CREATE = "adminJurisCodeCreate.mvc";
+	public static final String MVC_ADMIN_JURIS_CODE_DELETE = "adminJurisCodeDelete.mvc";
+	public static final String MVC_ADMIN_JURIS_CODE_EDIT = "adminJurisCodeEdit.mvc";
+	public static final String MVC_ADMIN_KEYWORD_CODE_VIEW = "adminKeywordCodeView.mvc";
+	public static final String MVC_ADMIN_KEYWORD_CODE_CREATE = "adminKeywordCodeCreate.mvc";
+	public static final String MVC_ADMIN_KEYWORD_CODE_DELETE = "adminKeywordCodeDelete.mvc";
+	public static final String MVC_ADMIN_KEYWORD_CODE_EDIT = "adminKeywordCodeEdit.mvc";
+	public static final String MVC_ADMIN_KEYWORD_VALUE_CREATE = "adminKeywordValueCreate.mvc";
+	public static final String MVC_ADMIN_KEYWORD_VALUE_DELETE = "adminKeywordValueDelete.mvc";
+	public static final String MVC_ADMIN_KEYWORD_VALUE_EDIT = "adminKeywordValueEdit.mvc";
+	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW = "adminPublishTypeCodeView.mvc";
+	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_CREATE = "adminPublishTypeCodeCreate.mvc";
+	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE = "adminPublishTypeCodeDelete.mvc";
+	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT = "adminPublishTypeCodeEdit.mvc";
+	public static final String MVC_ADMIN_STATE_CODE_VIEW = "adminStateCodeView.mvc";
+	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
+	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
+	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
+	
 	public static final String MVC_PREFERENCES = "preferences.mvc";
 	public static final String MVC_SUPPORT = "support.mvc";
 
@@ -128,6 +150,26 @@ public class WebConstants {
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
+	public static final String VIEW_ADMIN_MAIN = "_adminMain";
+	public static final String VIEW_ADMIN_JURIS_CODE_VIEW = "_adminJurisCodeView";
+	public static final String VIEW_ADMIN_JURIS_CODE_CREATE = "_adminJurisCodeCreate";
+	public static final String VIEW_ADMIN_JURIS_CODE_DELETE = "_adminJurisCodeDelete";
+	public static final String VIEW_ADMIN_JURIS_CODE_EDIT = "_adminJurisCodeEdit";
+	public static final String VIEW_ADMIN_KEYWORD_CODE_VIEW = "_adminKeywordCodeView";
+	public static final String VIEW_ADMIN_KEYWORD_CODE_CREATE = "_adminKeywordCodeCreate";
+	public static final String VIEW_ADMIN_KEYWORD_CODE_DELETE = "_adminKeywordCodeDelete";
+	public static final String VIEW_ADMIN_KEYWORD_CODE_EDIT = "_adminKeywordCodeEdit";
+	public static final String VIEW_ADMIN_KEYWORD_VALUE_CREATE = "_adminKeywordValueCreate";
+	public static final String VIEW_ADMIN_KEYWORD_VALUE_DELETE = "_adminKeywordValueDelete";
+	public static final String VIEW_ADMIN_KEYWORD_VALUE_EDIT = "_adminKeywordValueEdit";
+	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_VIEW = "_adminPublishTypeCodeView";
+	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_CREATE = "_adminPublishTypeCodeCreate";
+	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE = "_adminPublishTypeCodeDelete";
+	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT = "_adminPublishTypeCodeEdit";
+	public static final String VIEW_ADMIN_STATE_CODE_VIEW = "_adminStateCodeView";
+	public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
+	public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";
+	public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";

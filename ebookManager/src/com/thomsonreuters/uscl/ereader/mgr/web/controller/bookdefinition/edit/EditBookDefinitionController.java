@@ -273,7 +273,7 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
-		model.addAttribute(WebConstants.KEY_KEYWORDS_TYPE, editBookDefinitionService.getKeywordCodes());
+		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
 	}
 	
 	/**

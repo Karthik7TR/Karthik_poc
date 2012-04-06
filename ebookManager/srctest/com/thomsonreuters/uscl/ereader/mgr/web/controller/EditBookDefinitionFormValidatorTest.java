@@ -63,7 +63,6 @@ public class EditBookDefinitionFormValidatorTest {
      * Test No data set on form
      */
 	@Test
-	@Ignore
 	public void testNoContentType() {
 		// verify errors
 		validator.validate(form, errors);
@@ -345,7 +344,6 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("docCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);

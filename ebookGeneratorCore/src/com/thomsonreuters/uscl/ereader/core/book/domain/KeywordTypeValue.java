@@ -105,11 +105,6 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
-				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -123,8 +118,6 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}

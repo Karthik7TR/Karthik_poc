@@ -5,9 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,9 +27,10 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 
 @Component("editBookDefinitionFormValidator")
-public class EditBookDefinitionFormValidator implements Validator {
+public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_CHARACTER_40 = 40;
 	private static final int MAXIMUM_CHARACTER_64 = 64;
@@ -242,60 +241,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 		
 		if (newBookDef != null) {
 			errors.rejectValue("titleId", "error.titleid.exist");
-		}
-	}
-	
-	private void checkMaxLength(Errors errors, int maxValue ,String text, String fieldName,  Object[]  args) {
-		if (StringUtils.isNotEmpty(text)) {
-			if(text.length() > maxValue) {
-				errors.rejectValue(fieldName, "error.max.length", args, "Must be maximum of " + maxValue + " characters or under");
-			}
-		}
-	}
-	
-	private void checkDateFormat(Errors errors, String text, String fieldName) {
-		if (StringUtils.isNotEmpty(text)) {
-			try {
-				@SuppressWarnings("unused")
-				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
-			} catch (Exception  e) {
-				errors.rejectValue(fieldName, "error.date.format");
-			}
-		}
-	}
-	
-	private void checkGuidFormat(Errors errors, String text, String fieldName) {
-		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
-			Matcher matcher = pattern.matcher(text);
-			
-			if(!matcher.find()) {
-				errors.rejectValue(fieldName, "error.guid.format");
-			}
-		}
-	}
-	
-	private void checkForSpaces(Errors errors, String text, String fieldName, String arg) {
-		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("\\s");
-			Matcher matcher = pattern.matcher(text);
-			
-			if(matcher.find()) {
-				errors.rejectValue(fieldName, "error.no.spaces", new Object[]{arg}, "No spaces allowed");
-			}
-		}
-	}
-	
-	private void checkSpecialCharacters(Errors errors, String text, String fieldName, boolean includeUnderscore) {
-		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = includeUnderscore ? Pattern.compile("[^a-z0-9_ ]", Pattern.CASE_INSENSITIVE):
-				Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-			
-			Matcher matcher = pattern.matcher(text);
-			
-			if(matcher.find()) {
-				errors.rejectValue(fieldName, "error.special.characters");
-			}
 		}
 	}
 	
