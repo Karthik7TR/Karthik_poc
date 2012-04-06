@@ -209,7 +209,6 @@ public class EditBookDefinitionFormValidator implements Validator {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docCollectionName", "error.required");
 			} else {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
