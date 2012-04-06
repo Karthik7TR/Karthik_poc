@@ -584,6 +584,14 @@
 				</div>
 			</div>
 			<div class="row">
+				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
+				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
+				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
 				<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
 				<form:radiobutton path="isComplete" value="true" />Complete
 				<form:radiobutton path="isComplete" value="false" />Incomplete
@@ -643,14 +651,6 @@
 				</div>
 			</div>
 			<div class="row">
-				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
-				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
-				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
-				<div class="errorDiv">
-					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
-				</div>
-			</div>
-			<div class="row">
 				<form:label path="enableCopyFeatureFlag" class="labelCol">Enable Copy Feature</form:label>
 				<form:radiobutton path="enableCopyFeatureFlag" value="true" />True
 				<form:radiobutton path="enableCopyFeatureFlag" value="false" />False
@@ -658,14 +658,6 @@
 					<form:errors path="enableCopyFeatureFlag" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
-				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
-				<form:input path="frontMatterTocLabel" />
-				<div class="errorDiv">
-					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
-				</div>
-			</div>
-			
 		</div>
 	</div>
 </div>
@@ -676,6 +668,13 @@
 	</div>
 	<div class="centerSection">
 		<div class="leftDefinitionForm">
+			<div class="row">
+				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
+				<form:input path="frontMatterTocLabel" />
+				<div class="errorDiv">
+					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
+				</div>
+			</div>
 			<div class="row">
 				<form:label path="copyright" class="labelCol">Copyright</form:label>
 				<form:textarea path="copyright" />

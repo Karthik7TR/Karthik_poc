@@ -94,6 +94,10 @@ function submitForm(cmd)
 					<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>" /></span>
 				</div>
 				<div class="row">
+					<label class="labelCol">KeyCite Topline Flag</label>
+					<span class="field">${ book.keyciteToplineFlag }</span>
+				</div>
+				<div class="row">
 					<label class="labelCol">Book Definition Status</label>
 					<span class="field">${ book.bookStatus }</span>
 				</div>
@@ -133,16 +137,8 @@ function submitForm(cmd)
 					<span class="field">${ book.searchIndexFlag }</span>
 				</div>
 				<div class="row">
-					<label class="labelCol">KeyCite Topline Flag</label>
-					<span class="field">${ book.keyciteToplineFlag }</span>
-				</div>
-				<div class="row">
 					<label class="labelCol">Enable Copy Feature</label>
 					<span class="field">${ book.enableCopyFeatureFlag }</span>
-				</div>
-				<div class="row">
-					<label class="labelCol">Front Matter TOC Label</label>
-					<span class="field">${ book.frontMatterTocLabel }</span>
 				</div>
 			</div>
 		</div>
@@ -154,6 +150,10 @@ function submitForm(cmd)
 		</div>
 		<div class="centerSection">
 			<div class="leftDefinitionForm">
+				<div class="row">
+					<label class="labelCol">Front Matter TOC Label</label>
+					<span class="field">${ book.frontMatterTocLabel }</span>
+				</div>
 				<div class="row">
 					<label class="labelCol">Copyright</label>
 					<span class="field">${ book.copyright }</span>
