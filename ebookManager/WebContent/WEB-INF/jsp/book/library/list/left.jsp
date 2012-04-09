@@ -19,6 +19,12 @@
 			$( "#datepickerFrom" ).datepicker();
 			$( "#datepickerTo" ).datepicker();
 		});
+		
+		function submitFilterForm(command) {
+			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
+			$("#<%=BookLibraryFilterForm.FORM_NAME%>").submit();	// POST the HTML form
+		}
+		
 	</script>
 
  	<h2>Filters</h2>
@@ -45,8 +51,7 @@
 	&nbsp;<input id="datepickerTo" path="to"/><br>
 	
 	
-	
-	<button disabled="disabled">Search</button>
-	<button disabled="disabled">Reset</button>
+	<input id="filterSearchButton" type="button" value="Search" onclick="submitFilterForm'<%=BookLibraryFilterForm.FilterCommand.SEARCH%>')"/>
+	<input type="button" value="Reset" onclick="submitFilterForm'<%=BookLibraryFilterForm.FilterCommand.RESET%>')"/>
 	
 	</form:form>

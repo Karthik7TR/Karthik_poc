@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class BookLibraryFilterForm {
 
 	public static final String FORM_NAME = "bookLibraryFilterForm";
-
+	public enum FilterCommand { SEARCH, RESET };
 	private String proviewDisplayName;
 	private String from;
 	private String to;
