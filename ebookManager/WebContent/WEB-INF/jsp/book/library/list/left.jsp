@@ -47,9 +47,9 @@
 	&nbsp;<form:input path="eBookDefStatus"/><br>
 	&nbsp;<label>Last Edit Date</label><br>
 	&nbsp;&nbsp;<form:label path="from">From</form:label>
-	&nbsp;<form:input id="datepickerFrom" path="from"/>
+	&nbsp;<form:input id="datepickerFrom" path="fromString"/>
 	&nbsp;<form:label path="to">To</form:label>
-	&nbsp;<form:input id="datepickerTo" path="to"/><br>
+	&nbsp;<form:input id="datepickerTo" path="toString"/><br>
 	
 	
 	<form:button>Search</form:button>

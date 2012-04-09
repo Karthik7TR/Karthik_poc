@@ -6,11 +6,16 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang.time.DateUtils;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 
 public class BookLibraryFilterForm {
@@ -24,6 +29,25 @@ public class BookLibraryFilterForm {
 	private String proviewDisplayName;
 	private Date from;
 	private Date to;
+	private String toString;
+	private String fromString;
+
+	public String getToString() {
+		return toString;
+	}
+
+	public void setToString(String toString) {
+		this.toString = toString;
+	}
+
+	public String getFromString() {
+		return fromString;
+	}
+
+	public void setFromString(String fromString) {
+		this.fromString = fromString;
+	}
+
 	private String eBookDefStatus;
 	private String titleId;
 	private String isbn;
@@ -59,19 +83,21 @@ public class BookLibraryFilterForm {
 	}
 
 	public Date getFrom() {
-		return from;
+		return parseDate(this.fromString);
 	}
 
 	public void setFrom(Date from) {
-		this.from = from;
+		this.fromString = parseDate(from);
+
 	}
 
 	public Date getTo() {
-		return to;
+		return parseDate(this.toString);
 	}
 
 	public void setTo(Date to) {
-		this.to = to;
+		this.toString = parseDate(to);
+
 	}
 
 	public String geteBookDefStatus() {
@@ -103,4 +129,25 @@ public class BookLibraryFilterForm {
 				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
+	public static String parseDate(Date date) {
+		if (date != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat(
+					WebConstants.DATE_FORMAT_PATTERN);
+			return sdf.format(date);
+		}
+		return null;
+	}
+
+	public static Date parseDate(String dateString) {
+		Date date = null;
+		try {
+			if (StringUtils.isNotBlank(dateString)) {
+				String[] parsePatterns = { WebConstants.DATE_FORMAT_PATTERN };
+				date = DateUtils.parseDate(dateString, parsePatterns);
+			}
+		} catch (ParseException e) {
+			date = null;
+		}
+		return date;
+	}
 }
