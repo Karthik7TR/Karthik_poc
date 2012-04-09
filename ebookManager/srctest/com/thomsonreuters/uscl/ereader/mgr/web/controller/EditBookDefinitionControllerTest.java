@@ -36,7 +36,6 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -55,7 +54,6 @@ public class EditBookDefinitionControllerTest {
     private JobRequestService mockJobRequestService;
     private EditBookDefinitionService mockEditBookDefinitionService;
     private EBookAuditService mockAuditService;
-    private ProviewClient mockProviewClient;
     private EditBookDefinitionFormValidator validator;
     
     private EbookName bookName;
@@ -71,7 +69,6 @@ public class EditBookDefinitionControllerTest {
     	// Mock up the dashboard service
     	this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
     	this.mockCodeService = EasyMock.createMock(CodeService.class);
-    	this.mockProviewClient = EasyMock.createMock(ProviewClient.class);
     	this.mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	this.mockAuditService = EasyMock.createMock(EBookAuditService.class);
@@ -80,7 +77,6 @@ public class EditBookDefinitionControllerTest {
     	this.controller = new EditBookDefinitionController();
     	controller.setEditBookDefinitionService(mockEditBookDefinitionService);
     	controller.setBookDefinitionService(mockBookDefinitionService);
-    	controller.setProviewClient(mockProviewClient);
     	controller.setJobRequestService(mockJobRequestService);
     	controller.setAuditService(mockAuditService);
     	
@@ -343,9 +339,6 @@ public class EditBookDefinitionControllerTest {
 		
     	ModelAndView mav;
 		try {
-			EasyMock.expect(mockProviewClient.hasTitleIdBeenPublished(fullyQualifiedTitleId)).andReturn(false);
-			EasyMock.replay(mockProviewClient);
-			
 			mav = handlerAdapter.handle(request, response, controller);
 			
 			assertNotNull(mav);
@@ -362,7 +355,6 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockBookDefinitionService);
-		EasyMock.verify(mockProviewClient);
 		EasyMock.verify(mockJobRequestService);
 		EasyMock.verify(mockEditBookDefinitionService);
 	}

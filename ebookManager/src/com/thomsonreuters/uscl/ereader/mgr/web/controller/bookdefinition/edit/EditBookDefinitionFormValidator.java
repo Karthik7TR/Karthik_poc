@@ -175,7 +175,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			for(FrontMatterSection section : page.getFrontMatterSections()) {
 				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, section.getSectionHeading(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionHeading", new Object[] {"Section Heading", MAXIMUM_CHARACTER_1024});
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionText", "error.required.field", new Object[] {"Section Text"});
 				
 				// Check Front Matter Pdf for max characters and required fields
 				int k = 0;

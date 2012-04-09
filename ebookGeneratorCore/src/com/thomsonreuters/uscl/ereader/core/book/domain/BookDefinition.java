@@ -704,6 +704,24 @@ public class BookDefinition implements Serializable {
 		List<FrontMatterPage> pageList = new ArrayList<FrontMatterPage>();
 		pageList.addAll(frontMatterPages);
 		Collections.sort(pageList);
+		
+		// Sort Sections
+		for(FrontMatterPage page: pageList){
+			// Sort by sequence numbers
+			List<FrontMatterSection> sections = new ArrayList<FrontMatterSection>();
+			sections.addAll(page.getFrontMatterSections());
+			Collections.sort(sections);
+			page.setFrontMatterSections(sections);
+			
+			// Sort PDFs
+			for(FrontMatterSection section: sections) {
+				// Sort by sequence numbers
+				List<FrontMatterPdf> pdfs = new ArrayList<FrontMatterPdf>();
+				pdfs.addAll(section.getPdfs());
+				Collections.sort(pdfs);
+				section.setPdfs(pdfs);
+			}
+		}
 			
 		return pageList;
 	}

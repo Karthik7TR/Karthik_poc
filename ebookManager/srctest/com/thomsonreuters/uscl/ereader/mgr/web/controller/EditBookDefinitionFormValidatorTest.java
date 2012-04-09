@@ -502,7 +502,6 @@ public class EditBookDefinitionFormValidatorTest {
 		form.getFrontMatters().add(page);
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].frontMatterSections[0].sectionText").getCode());
 		Assert.assertEquals("error.required.field", errors.getFieldError("frontMatters[0].frontMatterSections[0].sequenceNum").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);

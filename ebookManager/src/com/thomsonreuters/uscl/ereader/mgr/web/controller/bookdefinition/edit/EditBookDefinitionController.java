@@ -6,9 +6,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -28,16 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
@@ -49,7 +42,6 @@ public class EditBookDefinitionController {
 	protected EditBookDefinitionService editBookDefinitionService;
 	private EBookAuditService auditService;
 	protected Validator validator;
-	protected ProviewClient proviewClient;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -104,7 +96,7 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
-		sortBySequenceNum(form);
+		//sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
@@ -161,7 +153,7 @@ public class EditBookDefinitionController {
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
 		determineBookStatus(bookDef, model);
 		initializeModel(model, form);
-		sortBySequenceNum(form);
+		//sortBySequenceNum(form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
@@ -216,7 +208,7 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
-		sortBySequenceNum(form);
+		//sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
@@ -239,14 +231,6 @@ public class EditBookDefinitionController {
 		if (bookDef != null) {
 			isPublished = bookDef.getPublishedOnceFlag();
 			isInJobRequest =  jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId());
-			
-			// Check proview if book went to final state if isPublished is false
-			if(!isPublished) {
-				if(proviewClient.hasTitleIdBeenPublished(bookDef.getFullyQualifiedTitleId())) {
-					// Save new Publish State if Title ID is found in ProView as Final 
-					bookDefinitionService.updatePublishedStatus(bookDef.getEbookDefinitionId(), true);
-				}
-			}
 		}
 		
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -280,25 +264,26 @@ public class EditBookDefinitionController {
 	 * Sort the Lists in Book Definition by the sequence number.
 	 * @param form
 	 */
-	private void sortBySequenceNum(EditBookDefinitionForm form) {
-		// Sort Authors by Sequence Number
-		List<Author> authors = new ArrayList<Author>();
-		authors.addAll(form.getAuthorInfo());
-		Collections.sort(authors);
-		form.setAuthorInfo(authors);
-		
-		// Sort NameLines by Sequence Number
-		List<EbookName> nameLines = new ArrayList<EbookName>();
-		nameLines.addAll(form.getNameLines());
-		Collections.sort(nameLines);
-		form.setNameLines(nameLines);
-		
-		// Sort FrontMatterPages by Sequence Number
-		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
-		pages.addAll(form.getFrontMatters());
-		Collections.sort(pages);
-		form.setFrontMatters(pages);
-	}
+	//TODO: bug deleting field after validation with sorting 
+//	private void sortBySequenceNum(EditBookDefinitionForm form) {
+//		// Sort Authors by Sequence Number
+//		List<Author> authors = new ArrayList<Author>();
+//		authors.addAll(form.getAuthorInfo());
+//		Collections.sort(authors);
+//		form.setAuthorInfo(authors);
+//		
+//		// Sort NameLines by Sequence Number
+//		List<EbookName> nameLines = new ArrayList<EbookName>();
+//		nameLines.addAll(form.getNameLines());
+//		Collections.sort(nameLines);
+//		form.setNameLines(nameLines);
+//		
+//		// Sort FrontMatterPages by Sequence Number
+//		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
+//		pages.addAll(form.getFrontMatters());
+//		Collections.sort(pages);
+//		form.setFrontMatters(pages);
+//	}
 
 	@Required
 	public void setBookDefinitionService(BookDefinitionService service) {
@@ -323,11 +308,6 @@ public class EditBookDefinitionController {
 	@Required
 	public void setAuditService(EBookAuditService service) {
 		this.auditService = service;
-	}
-	
-	@Required
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
 	}
 
 }

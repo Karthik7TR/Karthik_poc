@@ -92,7 +92,7 @@
 			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + authorIndex + ".authorMiddleName\" name=\"authorInfo[" + authorIndex + "].authorMiddleName\" type=\"text\" title=\"middle name\"/>";
 			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".authorLastName\" name=\"authorInfo[" + authorIndex + "].authorLastName\" type=\"text\" title=\"last name\"/>";
 			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".authorNameSuffix\" name=\"authorInfo[" + authorIndex + "].authorNameSuffix\" type=\"text\" title=\"suffix\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<div>";
 			appendTxt = appendTxt + "Additional Text";
 			appendTxt = appendTxt + "<textarea class=\"additionalText\" id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" title=\"Additional Text\"/>";
@@ -110,7 +110,7 @@
 			var appendTxt = "<div class='row'>";
 			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".ebookNameId\" name=\"nameLines[" + nameIndex + "].ebookNameId\" type=\"hidden\" />";
 			appendTxt = appendTxt + "<input class=\"bookName\" id=\"nameLines" + nameIndex + ".bookNameText\" name=\"nameLines[" + nameIndex + "].bookNameText\" type=\"text\" title=\"Name Line\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNum\" name=\"nameLines[" + nameIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNum\" name=\"nameLines[" + nameIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addNameHere").before(appendTxt);
@@ -124,7 +124,7 @@
 			var appendTxt = "<div class='row frontMatterPage'>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\"/>";
+			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "<div id='addAdditionalSection_" + frontMatterPageIndex + "'></div>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Section\" class=\"addSection\" pageIndex=\"" + frontMatterPageIndex + "\" sectionIndex=\"0\" />";
@@ -139,7 +139,7 @@
 		var addFrontMatterSectionRow = function(pageIndex, sectionIndex) {
 			var appendTxt = "<div class='row frontMatterSection'>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionHeading\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionHeading\" type=\"text\" title=\"Section Heading\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "<textarea id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionText\" title=\"Section Text\" class=\"frontMatterSectionTextArea\"/>";
 			appendTxt = appendTxt + "<div id='addAdditionalPdf_" + pageIndex + "_" + sectionIndex + "'></div>";
@@ -155,7 +155,7 @@
 			var appendTxt = "<div class='row frontMatterPdf'>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Pdf\" class=\"rdelete\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addAdditionalPdf_" + pageIndex + "_" + sectionIndex).before(appendTxt);
@@ -591,14 +591,6 @@
 					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
-				<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
-				<form:radiobutton path="isComplete" value="true" />Complete
-				<form:radiobutton path="isComplete" value="false" />Incomplete
-				<div class="errorDiv">
-					<form:errors path="isComplete" cssClass="errorMessage" />
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -699,7 +691,7 @@
 					<div class="row">
 						<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
 						<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
-						<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber"  />
+						<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber" maxlength="9" />
 						<input type="button" value="Delete" class="rdelete" />
 						<div class="errorDiv2">
 							<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
@@ -742,7 +734,7 @@
 						<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
 						<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
 						<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
-						<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" />
+						<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" maxlength="9" />
 						<div>
 							Additional Text
 							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
@@ -776,7 +768,7 @@
 			<form:hidden path="frontMatters[${pageStatus.index}].id"/>
 			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" />
 			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" />
-			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" />
+			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" maxlength="9" />
 			<input type="button" value="Delete Page" class="rdelete" />
 			<div class="errorDiv2">
 				<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
@@ -789,7 +781,7 @@
 					<c:set var="sectionIndex" value="${sectionStatus.index}"/>
 					<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
 					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
-					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Section Seq Num." class="sequenceNumber" />
+					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Section Seq Num." class="sequenceNumber" maxlength="9" />
 					<input type="button" value="Delete Section" class="rdelete" />
 					<div class="errorDiv2">
 						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
@@ -806,7 +798,7 @@
 							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
 							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" />
 							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum"   title="Section Seq Num." class="sequenceNumber" />
+							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum"   title="Section Seq Num." class="sequenceNumber" maxlength="9" />
 							<input type="button" value="Delete Pdf" class="rdelete" />
 							<div class="errorDiv2">
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />

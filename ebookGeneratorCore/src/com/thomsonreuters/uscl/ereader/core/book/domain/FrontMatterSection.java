@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Basic;
@@ -16,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -116,16 +116,15 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
 	}
 
 	public Collection<FrontMatterPdf> getPdfs() {
+		if(this.pdfs == null){
+			this.pdfs = new ArrayList<FrontMatterPdf>();
+		}
+		
 		return pdfs;
 	}
 
 	public void setPdfs(Collection<FrontMatterPdf> pdf) {
 		this.pdfs = pdf;
-	}
-	
-	@Transient
-	public int getPdfSize() {
-		return pdfs.size();
 	}
 
 	@Override

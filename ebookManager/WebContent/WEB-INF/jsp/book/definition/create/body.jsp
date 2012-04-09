@@ -12,6 +12,14 @@
 		action="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>" >
 		<jsp:include page="../common/crudForm.jsp" />
 		<div class="buttons">
+			<div class="row">
+				<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
+				<form:radiobutton path="isComplete" value="true" />Complete
+				<form:radiobutton path="isComplete" value="false" />Incomplete
+				<div class="errorDiv">
+					<form:errors path="isComplete" cssClass="errorMessage" />
+				</div>
+			</div>
 			<form:button id="validate">Validate</form:button>
 			<form:button id="save">Save</form:button>
 			<a href="<%= WebConstants.MVC_BOOK_LIBRARY_LIST %>">Cancel</a>

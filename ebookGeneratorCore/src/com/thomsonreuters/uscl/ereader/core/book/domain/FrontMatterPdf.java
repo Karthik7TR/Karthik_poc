@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
  */
 @Entity
 @Table(name = "FRONT_MATTER_PDF")
-public class FrontMatterPdf implements Serializable {
+public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> {
 	private static final long serialVersionUID = -8713934748505263533L;
 	/**
 	 */
@@ -110,5 +110,24 @@ public class FrontMatterPdf implements Serializable {
 		buffer.append("]");
 		
 		return buffer.toString();
+	}
+	
+	/**
+	 * For sorting the name components into sequence order (1...n).
+	 */
+	@Override
+	public int compareTo(FrontMatterPdf o) {
+		int result = 0;
+		if (sequenceNum != null) {
+			if(o != null) {
+				Integer i = o.getSequenceNum();
+				result = (i != null) ? sequenceNum.compareTo(i) : 1;
+			} else {
+				result = 1;
+			}
+		} else {  // int1 is null
+			result = (o != null) ? -1 : 0;
+		}
+		return result;
 	}
 }
