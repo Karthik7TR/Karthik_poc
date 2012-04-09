@@ -85,64 +85,72 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
 				BookDefinition.class);
 
+		// Publish end time stamp comes from different domain. We don't sort it
+		// in book definition.
 		if (!sortProperty.equals("publishEndTimestamp")) {
 			criteria.addOrder(isAscending ? Order.asc(sortProperty) : Order
 					.desc(sortProperty));
 		}
-		//
-		// if (proviewDisplayName!=null && !proviewDisplayName.equals("")){
-		// criteria.add(Restrictions.eq("proviewDisplayName",
-		// proviewDisplayName));
-		// }
-		//
-		// if (fullyQualifiedTitleId!=null &&
-		// !fullyQualifiedTitleId.equals("")){
-		// criteria.add(Restrictions.eq("fullyQualifiedTitleId",
-		// fullyQualifiedTitleId));
-		// }
-		//
-		// if (isbn!=null && !isbn.equals("")){
-		// criteria.add(Restrictions.eq("isbn", isbn));
-		// }
-		//
-		// if (materialId!=null && !materialId.equals("")){
-		// criteria.add(Restrictions.eq("materialId", materialId));
-		// }
-		//
-		// if (to!=null && !to.equals("")){
-		// criteria.add(Restrictions.between("lastUpdated", from, to));
-		// }
-		//
-		// if (status!=null && !status.equals("")){
-		// criteria.add(Restrictions.eq("ebookDefinitionCompleteFlag", status));
-		// }
+
+		if (proviewDisplayName != null && !proviewDisplayName.equals("")) {
+			criteria.add(Restrictions.like("proviewDisplayName", "'%"
+					+ proviewDisplayName + "%'"));
+		}
+
+		if (fullyQualifiedTitleId != null && !fullyQualifiedTitleId.equals("")) {
+			criteria.add(Restrictions.like("fullyQualifiedTitleId", "'%"
+					+ fullyQualifiedTitleId + "%'"));
+		}
+
+		if (isbn != null && !isbn.equals("")) {
+			criteria.add(Restrictions.like("isbn", "'%" + isbn + "%'"));
+		}
+
+		if (materialId != null && !materialId.equals("")) {
+			criteria.add(Restrictions.like("materialId", "'%" + materialId
+					+ "%'"));
+		}
+
+		if (to != null && !to.equals("")) {
+			criteria.add(Restrictions.between("lastUpdated", from, to));
+		}
+
+		if (status != null && !status.equals("")) {
+			criteria.add(Restrictions.eq("ebookDefinitionCompleteFlag", status));
+		}
 
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
 
 	}
-	
+
 	/**
-	 * Returns all the book definitions based on Keyword Type Code 
+	 * Returns all the book definitions based on Keyword Type Code
+	 * 
 	 * @return a list of BookDefinition
 	 */
 	@SuppressWarnings("unchecked")
-	public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(Long keywordTypeCodeId) {
-		Criteria c =sessionFactory.getCurrentSession().createCriteria(BookDefinition.class, "book")
+	public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(
+			Long keywordTypeCodeId) {
+		Criteria c = sessionFactory.getCurrentSession()
+				.createCriteria(BookDefinition.class, "book")
 				.createAlias("book.keywordTypeValues", "keywordValues")
 				.createAlias("keywordValues.keywordTypeCode", "keywordCode")
 				.add(Restrictions.eq("keywordCode.id", keywordTypeCodeId))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return c.list();
 	}
-	
+
 	/**
-	 * Returns all the book definitions based on Keyword Type Value 
+	 * Returns all the book definitions based on Keyword Type Value
+	 * 
 	 * @return a list of BookDefinition
 	 */
 	@SuppressWarnings("unchecked")
-	public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(Long keywordTypeValueId) {
-		Criteria c =sessionFactory.getCurrentSession().createCriteria(BookDefinition.class, "book")
+	public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(
+			Long keywordTypeValueId) {
+		Criteria c = sessionFactory.getCurrentSession()
+				.createCriteria(BookDefinition.class, "book")
 				.createAlias("book.keywordTypeValues", "keywordValues")
 				.add(Restrictions.eq("keywordValues.id", keywordTypeValueId))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
