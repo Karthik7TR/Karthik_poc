@@ -79,7 +79,6 @@ public class InitializeTaskTest {
 	@Test
 	public void testExecuteStep() throws Exception {
 		Map<String,JobParameter> paramMap = new HashMap<String,JobParameter>();
-		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(TITLE_ID));
 		JobParameters jobParams = new JobParameters(paramMap);
 		EasyMock.expect(chunkContext.getStepContext()).andReturn(stepContext);
 		EasyMock.expect(stepContext.getStepExecution()).andReturn(stepExecution);

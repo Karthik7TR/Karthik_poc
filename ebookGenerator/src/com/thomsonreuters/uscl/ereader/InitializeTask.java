@@ -23,6 +23,8 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -41,6 +43,7 @@ public class InitializeTask extends AbstractSbTasklet {
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
 	private PublishingStatsService publishingStatsService;
 	private EBookAuditService eBookAuditService;
+	private BookDefinitionService bookDefnService;
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -51,16 +54,29 @@ public class InitializeTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
 		JobInstance jobInstance = jobExecution.getJobInstance();
 		JobParameters jobParams = jobInstance.getJobParameters();
-	
-		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
+		
+		// get ebookDefinition
+		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));
+		String titleId = bookDefinition.getTitleId();
+		
+		// Place data on the JobExecutionContext for use in later steps
+		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITON, bookDefinition);
 
 //		log.info("eBookDefId: " + jobParams.getString(JobParameterKey.EBOOK_DEFINITION_ID));
-		log.info("titleId (Fully Qualified): " + jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
+/*		log.info("titleId (Fully Qualified): " + jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
 		log.info("hostname: " + jobParams.getString(JobParameterKey.HOST_NAME));
 		log.info("TOC Collection: " + jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME ));
 		log.info("TOC Root Guid: " + jobParams.getString(JobParameterKey.ROOT_TOC_GUID ));
 		log.info("NORT Domain: " + jobParams.getString(JobParameterKey.NORT_DOMAIN ));
-		log.info("NORT Filter: " + jobParams.getString(JobParameterKey.NORT_FILTER_VIEW ));
+		log.info("NORT Filter: " + jobParams.getString(JobParameterKey.NORT_FILTER_VIEW ));*/
+		
+		
+		log.info("titleId (Fully Qualified): " + bookDefinition.getTitleId());
+		log.info("hostname: " + jobParams.getString(JobParameterKey.HOST_NAME));
+		log.info("TOC Collection: " + bookDefinition.getTocCollectionName());
+		log.info("TOC Root Guid: " + bookDefinition.getRootTocGuid());
+		log.info("NORT Domain: " + bookDefinition.getNortDomain());
+		log.info("NORT Filter: " + bookDefinition.getNortFilterView());		
 
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
@@ -131,12 +147,6 @@ public class InitializeTask extends AbstractSbTasklet {
 		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 		File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
-		
-		// get ebookDefinition
-//		BookDefinition bookDefinition = coreService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.EBOOK_DEFINITION_ID));
-//		
-//		// Place data on the JobExecutionContext for use in later steps
-//		jobExecutionContext.put(JobExecutionKey.BOOK, bookDefinition);
 		
 		jobExecutionContext.putString(
 				JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());
@@ -223,5 +233,9 @@ public class InitializeTask extends AbstractSbTasklet {
 	@Required
 	public void setEbookAuditService(EBookAuditService eBookAuditService) {
 		this.eBookAuditService = eBookAuditService;
+	}
+	@Required
+	public void setBookDefnService(BookDefinitionService bookDefnService) {
+		this.bookDefnService = bookDefnService;
 	}
 }

@@ -16,6 +16,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -28,7 +31,8 @@ import org.apache.commons.lang.StringUtils;
 		@NamedQuery(name = "findAllEbookNames", query = "select myEbookName from EbookName myEbookName"),
 		@NamedQuery(name = "findEbookNameByPrimaryKey", query = "select myEbookName from EbookName myEbookName where myEbookName.ebookNameId = ?1") })
 @Table(name = "EBOOK_NAME")
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "EbookName")
 public class EbookName implements Serializable, Comparable<EbookName> {
 	private static final long serialVersionUID = 1L;
 

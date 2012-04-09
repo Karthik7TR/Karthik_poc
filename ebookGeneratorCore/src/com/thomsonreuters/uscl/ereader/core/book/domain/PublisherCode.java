@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -27,6 +30,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @Entity
 @Table(name="PUBLISHER_CODES")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PublisherCode")
 public class PublisherCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(PublisherCode.class);
 	private static final long serialVersionUID = -2270804278406061488L;
@@ -42,7 +47,7 @@ public class PublisherCode implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
-	private Date lastUpdated;
+	private Date lastUpdatedTimeStampForPubCode;
 	
 	public PublisherCode() {
 		super();
@@ -65,11 +70,11 @@ public class PublisherCode implements Serializable {
 	}
 
 	public Date getLastUpdated() {
-		return lastUpdated;
+		return lastUpdatedTimeStampForPubCode;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+		this.lastUpdatedTimeStampForPubCode = lastUpdated;
 	}
 
 	@Override
@@ -83,7 +88,7 @@ public class PublisherCode implements Serializable {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdatedTimeStampForPubCode == null) ? 0 : lastUpdatedTimeStampForPubCode.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -102,10 +107,10 @@ public class PublisherCode implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdatedTimeStampForPubCode == null) {
+			if (other.lastUpdatedTimeStampForPubCode != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdatedTimeStampForPubCode.equals(other.lastUpdatedTimeStampForPubCode))
 			return false;
 		if (name == null) {
 			if (other.name != null)

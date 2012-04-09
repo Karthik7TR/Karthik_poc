@@ -34,6 +34,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -48,6 +51,8 @@ import com.thomsonreuters.uscl.ereader.proview.Keyword;
 @NamedQueries({ @NamedQuery(name = "findBookDefnBySearchCriterion", query = "select myBook from BookDefinition myBook "),
 @NamedQuery(name = "countBookDefinitions", query = "select count(*) from BookDefinition myBook") })
 @Table(name="EBOOK_DEFINITION")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "BookDefinition")
 public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 

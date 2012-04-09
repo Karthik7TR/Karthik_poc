@@ -10,8 +10,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
@@ -51,18 +54,22 @@ public class GetTocTask  extends AbstractSbTasklet {
 		JobParameters jobParams = getJobParameters(chunkContext);
 		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
+		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 
 		// TOC
-		String tocCollectionName = jobParams.getString(JobParameterKey.TOC_COLLECTION_NAME); 
-		String tocRootGuid = jobParams.getString(JobParameterKey.ROOT_TOC_GUID);
+		String tocCollectionName = bookDefinition.getTocCollectionName(); 
+		String tocRootGuid = bookDefinition.getRootTocGuid();
 		// NORT
-		String nortDomainName = jobParams.getString(JobParameterKey.NORT_DOMAIN); 
-		String nortExpressionFilter = jobParams.getString(JobParameterKey.NORT_FILTER_VIEW);
+		String nortDomainName = bookDefinition.getNortDomain();
+		String nortExpressionFilter = bookDefinition.getNortFilterView();
 		
 		Date nortCutoffDate = null;
 		
-		if (jobParams.getString(JobParameterKey.PUB_CUTOFF_DATE) != null) {
-			nortCutoffDate = (Date)(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jobParams.getString(JobParameterKey.PUB_CUTOFF_DATE).replace("T", " ")));
+		if (bookDefinition.getPublishCutoffDate() != null) {
+			
+			nortCutoffDate = (Date)(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(DateFormatUtils.ISO_DATETIME_FORMAT
+					.format(bookDefinition.getPublishCutoffDate()).replace("T", " ")));			
 		}
 
 		if(tocCollectionName != null) // TOC

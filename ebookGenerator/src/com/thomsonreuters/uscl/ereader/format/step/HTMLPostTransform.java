@@ -17,6 +17,7 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -44,7 +45,9 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
-		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		
+		String titleId = bookDefinition.getTitleId();
 		Long jobId = jobInstance.getId();
 
 		String transformDirectory = 
@@ -56,7 +59,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
-		boolean isTableViewRequired = jobParams.getString(JobParameterKey.IS_PROVIEW_TABLE_VIEW).equalsIgnoreCase("Y");
+		boolean isTableViewRequired = bookDefinition.isProviewTableViewFlag();
 		
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);

@@ -49,7 +49,7 @@ public class DocumentTypeCode implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
-	private Date lastUpdated;
+	private Date lastUpdatedTimeStampForDocType;
 	
 	public DocumentTypeCode() {
 		super();
@@ -88,11 +88,11 @@ public class DocumentTypeCode implements Serializable {
 	}
 
 	public Date getLastUpdated() {
-		return lastUpdated;
+		return lastUpdatedTimeStampForDocType;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+		this.lastUpdatedTimeStampForDocType = lastUpdated;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class DocumentTypeCode implements Serializable {
 				+ ((abbreviation == null) ? 0 : abbreviation.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdatedTimeStampForDocType == null) ? 0 : lastUpdatedTimeStampForDocType.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -137,10 +137,10 @@ public class DocumentTypeCode implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdatedTimeStampForDocType == null) {
+			if (other.lastUpdatedTimeStampForDocType != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdatedTimeStampForDocType.equals(other.lastUpdatedTimeStampForDocType))
 			return false;
 		if (name == null) {
 			if (other.name != null)

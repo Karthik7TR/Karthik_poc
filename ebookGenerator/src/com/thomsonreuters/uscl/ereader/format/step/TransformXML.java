@@ -14,9 +14,12 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -31,6 +34,8 @@ public class TransformXML extends AbstractSbTasklet
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(TransformXML.class);
 	private TransformerService transformerService;
+	private BookDefinitionService bookDefnService;
+	
 
 	public void settransformerService(TransformerService transformerService) 
 	{
@@ -44,7 +49,9 @@ public class TransformXML extends AbstractSbTasklet
 		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
-		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
+		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));		
+		String titleId = bookDefinition.getTitleId();		
+		
 		Long jobId = jobInstance.getId();
 
 		String xmlDirectory = 
@@ -84,6 +91,11 @@ public class TransformXML extends AbstractSbTasklet
 		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
+	}
+
+	@Required
+	public void setBookDefnService(BookDefinitionService bookDefnService) {
+		this.bookDefnService = bookDefnService;
 	}
 
 }

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
@@ -33,6 +35,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 	private static final Logger LOG = Logger
 			.getLogger(PersistMetadataXMLTask.class);
 	private DocMetadataService docMetadataService;
+	private BookDefinitionService bookDefnService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -40,8 +43,10 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
+		
+		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));		
 
-		String titleId = jobParams.getString(JobParameterKey.TITLE_ID);
+		String titleId = bookDefinition.getTitleId();
 		Long jobId = jobInstance.getId();
 
 //		String docCollectionName = jobParams
@@ -85,6 +90,11 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 	@Required
 	public void setDocMetadataService(DocMetadataService docMetadataSvc) {
 		this.docMetadataService = docMetadataSvc;
+	}
+	
+	@Required
+	public void setBookDefnService(BookDefinitionService bookDefnService) {
+		this.bookDefnService = bookDefnService;
 	}
 
 }

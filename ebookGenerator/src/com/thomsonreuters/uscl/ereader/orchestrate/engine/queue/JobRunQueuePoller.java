@@ -50,19 +50,12 @@ public class JobRunQueuePoller {
 					
 					
 					if (jobRequest != null) {
-						// Load the pre-defined set of book definition parameters for this specific book from a database table
-						BookDefinition bookDefinition = jobRequest.getBookDefinition();
-						// Map the BookDefinition entity to a set of JobParameters for use in launching the e-book generating job
-						JobParameters bookDefinitionJobParameters = engineService
-								.createJobParametersFromBookDefinition(bookDefinition);
 						// Create the dynamic set of launch parameters, things like user name, user email, and a unique serial number
 						JobParameters dynamicJobParameters = engineService
 								.createDynamicJobParameters(jobRequest);
-						// Union the two sets of job parameters (static and dynamic).
+						// Put the dynamic job parameters in the map.
 						Map<String, JobParameter> allJobParametersMap = new HashMap<String, JobParameter>(
-								bookDefinitionJobParameters.getParameters());
-						allJobParametersMap.putAll(dynamicJobParameters
-								.getParameters());
+								dynamicJobParameters.getParameters());
 						JobParameters allJobParameters = new JobParameters(
 								allJobParametersMap);
 						// Start the job that builds the ebook

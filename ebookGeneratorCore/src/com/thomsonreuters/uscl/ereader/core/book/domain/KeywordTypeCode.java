@@ -21,6 +21,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -31,13 +34,15 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="KEYWORD_TYPE_CODES")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "KeywordTypeCode")
 public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode> {
 	//private static final Logger log = Logger.getLogger(KeywordTypeCode.class);
 	private static final long serialVersionUID = -6883749966331206015L;
 
 	private Long id;
 	private String name;
-	private Date lastUpdated;
+	private Date lastUpdatedTimeStampForKeyWordCode;
 	private Collection<KeywordTypeValue> values;
 	
 	public KeywordTypeCode() {
@@ -58,7 +63,7 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
 	public Date getLastUpdated() {
-		return lastUpdated;
+		return lastUpdatedTimeStampForKeyWordCode;
 	}
 
 
@@ -83,7 +88,7 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 
 
 	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+		this.lastUpdatedTimeStampForKeyWordCode = lastUpdated;
 	}
 
 
@@ -110,10 +115,10 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdatedTimeStampForKeyWordCode == null) {
+			if (other.lastUpdatedTimeStampForKeyWordCode != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdatedTimeStampForKeyWordCode.equals(other.lastUpdatedTimeStampForKeyWordCode))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -129,7 +134,7 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdatedTimeStampForKeyWordCode == null) ? 0 : lastUpdatedTimeStampForKeyWordCode.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}

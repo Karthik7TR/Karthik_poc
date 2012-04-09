@@ -138,4 +138,9 @@ public class JobExecutionKey {
 	 * Path to the final destination for cover art.  Used by the assembly process.
 	 */
 	public static final String ASSEMBLE_ARTWORK_DIR = "artworkDir";
+	
+	/**
+	 * Book Definition Object. Used by different steps in the batch process
+	 */
+	public static final String EBOOK_DEFINITON = "bookDefn";	
 }

@@ -209,7 +209,7 @@ public class DocServiceImpl implements DocService {
 				if((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
 					break;
 				} else {
-					Log.error("Exception happened while retreving text for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
+					Log.error("Exception happened while retrieving text for the guid " + document.getGuid() + " with an error code " + document.getErrorCode() + "Retry count is "
 							+ novusDocRetryCounter);
 					novusDocRetryCounter++;					
 				}

@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -27,6 +30,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @Entity
 @Table(name="JURIS_TYPE_CODES")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "JurisTypeCode")
 public class JurisTypeCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(JurisTypeCode.class);
 	private static final long serialVersionUID = -3118292918077264082L;
@@ -42,7 +47,7 @@ public class JurisTypeCode implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
-	private Date lastUpdated;
+	private Date lastUpdatedTimeStampForJurisCode;
 	
 	public JurisTypeCode() {
 		super();
@@ -65,11 +70,11 @@ public class JurisTypeCode implements Serializable {
 	}
 
 	public Date getLastUpdated() {
-		return lastUpdated;
+		return lastUpdatedTimeStampForJurisCode;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+		this.lastUpdatedTimeStampForJurisCode = lastUpdated;
 	}
 
 	@Override
@@ -83,7 +88,7 @@ public class JurisTypeCode implements Serializable {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdatedTimeStampForJurisCode == null) ? 0 : lastUpdatedTimeStampForJurisCode.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -102,10 +107,10 @@ public class JurisTypeCode implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdatedTimeStampForJurisCode == null) {
+			if (other.lastUpdatedTimeStampForJurisCode != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdatedTimeStampForJurisCode.equals(other.lastUpdatedTimeStampForJurisCode))
 			return false;
 		if (name == null) {
 			if (other.name != null)

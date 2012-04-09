@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -51,11 +52,14 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
+		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		
 		File tocFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
 		File docsDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR));
 		File docsMetadataDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR));
 		File docsGuidsFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
-		String docCollectionName = jobParams.getString(JobParameterKey.DOC_COLLECTION_NAME);
+		String docCollectionName = bookDefinition.getDocCollectionName();
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
 		docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);

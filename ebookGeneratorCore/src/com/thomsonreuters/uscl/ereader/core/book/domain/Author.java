@@ -17,6 +17,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -27,6 +30,8 @@ import org.apache.commons.lang.StringUtils;
 @NamedQueries({
 		@NamedQuery(name = "findAuthorByEbookDefinitionId", query = "select myAuthor from Author myAuthor where myAuthor.ebookDefinition = :eBookDef")})
 @Table(name = "AUTHOR")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "Author")
 public class Author implements Serializable, Comparable<Author> {
 	private static final long serialVersionUID = 7962657038385328632L;
 	/**

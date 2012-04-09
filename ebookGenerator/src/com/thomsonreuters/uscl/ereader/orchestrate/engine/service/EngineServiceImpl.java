@@ -86,53 +86,6 @@ public class EngineServiceImpl implements EngineService {
 		aThrowable.printStackTrace(printWriter);
 		return writer.toString();
 	}
-	
-	@Override
-	public JobParameters createJobParametersFromBookDefinition(BookDefinition bookDefinition) {
-		Map<String, JobParameter> paramMap = new HashMap<String,JobParameter>();
-		
-		
-		String concatAuthor = " ";
-        Iterator<Author> authorIt= bookDefinition.getAuthors().iterator();
-        while(authorIt.hasNext())
-        {
-            Author author=(Author)authorIt.next();
-            concatAuthor = concatAuthor + author.getFullName() + "|";
-        }
-        
-        if (concatAuthor.trim().length() != 0) {
-        	concatAuthor = concatAuthor.substring(0, concatAuthor.lastIndexOf("|")).trim();
-        }
-        
-        paramMap.put(JobParameterKey.BOOK_NAME, new JobParameter(bookDefinition.getProviewDisplayName()));
-        
-		paramMap.put(JobParameterKey.AUTHORS, new JobParameter(concatAuthor));
- 
-		paramMap.put(JobParameterKey.CONTENT_TYPE, new JobParameter(bookDefinition.getDocumentTypeCodes().getName()));
-		paramMap.put(JobParameterKey.COPYRIGHT, new JobParameter(bookDefinition.getCopyright()));
-		paramMap.put(JobParameterKey.COVER_IMAGE, new JobParameter(bookDefinition.getCoverImage()));
-		paramMap.put(JobParameterKey.DOC_COLLECTION_NAME, new JobParameter(bookDefinition.getDocCollectionName()));
-		paramMap.put(JobParameterKey.ISBN, new JobParameter(bookDefinition.getIsbn()));
-		paramMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(bookDefinition.getEbookDefinitionId()));		
-		if (bookDefinition.getPublishCutoffDate() != null) {
-			paramMap.put(
-					JobParameterKey.PUB_CUTOFF_DATE,
-					new JobParameter(DateFormatUtils.ISO_DATETIME_FORMAT
-							.format(bookDefinition.getPublishCutoffDate())));
-		}
-		paramMap.put(JobParameterKey.IS_PROVIEW_TABLE_VIEW, new JobParameter(bookDefinition.isProviewTableViewFlag()?"Y":"N"));
-		paramMap.put(JobParameterKey.ENABLE_COPY_FEATURE_FLAG, new JobParameter(bookDefinition.getEnableCopyFeatureFlag()?"Y":"N"));
-		paramMap.put(JobParameterKey.MATERIAL_ID, new JobParameter(bookDefinition.getMaterialId()));
-/*		paramMap.put(JobParameterKey.MATERIAL_ID_EMBEDDED_IN_DOC_TEXT, new JobParameter(bookDefinition.getMaterialIdEmbeddedInDocText()));
-		paramMap.put(JobParameterKey.MINOR_VERSION, new JobParameter(bookDefinition.getMinorVersion()));*/
-		paramMap.put(JobParameterKey.NORT_DOMAIN, new JobParameter(bookDefinition.getNortDomain()));
-		paramMap.put(JobParameterKey.NORT_FILTER_VIEW, new JobParameter(bookDefinition.getNortFilterView()));
-		paramMap.put(JobParameterKey.ROOT_TOC_GUID, new JobParameter(bookDefinition.getRootTocGuid()));
-		paramMap.put(JobParameterKey.TITLE_ID, new JobParameter(bookDefinition.getTitleId()));
-		paramMap.put(JobParameterKey.TITLE_ID_FULLY_QUALIFIED, new JobParameter(bookDefinition.getFullyQualifiedTitleId()));
-		paramMap.put(JobParameterKey.TOC_COLLECTION_NAME, new JobParameter(bookDefinition.getTocCollectionName()));
-		return new JobParameters(paramMap);
-	}
 		
 	@Override
 	public JobParameters createDynamicJobParameters(JobRequest jobRequest) {

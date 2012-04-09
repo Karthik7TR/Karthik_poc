@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -41,6 +42,8 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		JobParameters jobParams = jobInstance.getJobParameters();
+		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
 		// Assert the state of the filesystem image directory and expected input files
 		File dynamicImageDestinationDirectory = new File(getRequiredStringProperty(jobExecutionContext,
@@ -63,7 +66,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		
 		// Fetch the image metadata and file bytes
 		long jobInstanceId = jobInstance.getId();
-		String titleId = jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
+		String titleId = bookDefinition.getFullyQualifiedTitleId();
 		imageService.fetchImageVerticalImages(imageGuids, dynamicImageDestinationDirectory, jobInstanceId, titleId);
 
 		return ExitStatus.COMPLETED;

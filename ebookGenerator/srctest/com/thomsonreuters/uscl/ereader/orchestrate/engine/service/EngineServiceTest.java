@@ -66,15 +66,6 @@ public class EngineServiceTest  {
 		service.setJobRegistry(mockJobRegistry);
 	}
 	
-	@Ignore
-	@Test
-	public void testCreateBookDefinitionJobParameters() {
-		JobParameters jobParams = service.createJobParametersFromBookDefinition(expectedBookDefinition);
-		assertEquals(expectedBookDefinition.getFullyQualifiedTitleId(), jobParams.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED));
-//		assertEquals(expectedBookDefinition.getTitleId(), jobParams.getString(JobParameterKey.TITLE_ID));
-//		assertEquals(BOOK_NAME, jobParams.getString(JobParameterKey.BOOK_NAME));
-	}
-
 	@Test
 	public void testCreateDynamicJobParameters() {
 		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);

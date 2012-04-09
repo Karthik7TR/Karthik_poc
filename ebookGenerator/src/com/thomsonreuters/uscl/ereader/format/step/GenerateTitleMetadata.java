@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,6 +27,7 @@ import org.springframework.batch.item.ExecutionContext;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
@@ -54,24 +56,26 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		JobParameters jobParameters = getJobParameters(chunkContext);
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
-		String fullyQualifiedTitleId = jobParameters.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		
+		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERISON_SUBMITTED);
 		
 		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber);
 		String materialId = jobParameters.getString(JobParameterKey.MATERIAL_ID);
 		
 		titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
-		titleMetadata.setCopyright(jobParameters.getString(JobParameterKey.COPYRIGHT));
-		titleMetadata.setDisplayName(jobParameters.getString(JobParameterKey.BOOK_NAME));
+		titleMetadata.setCopyright(bookDefinition.getCopyright());
+		titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName());
 		
-		String enableCopyFeature = jobParameters.getString(JobParameterKey.ENABLE_COPY_FEATURE_FLAG);
-		if (enableCopyFeature.equalsIgnoreCase("Y"))
+		if (bookDefinition.getEnableCopyFeatureFlag())
 		{
 			titleMetadata.addFeature(COPY_FEATURE_NAME);
 		}
 		
 		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
-		addAuthors(jobParameters, titleMetadata);
+		addAuthors(bookDefinition, titleMetadata);
+		
 		addArtwork(jobExecutionContext, titleMetadata);
 		addAssets(jobExecutionContext, titleMetadata);
 		
@@ -169,16 +173,25 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadata.setArtwork(coverArt);
 	}
 
-	private void addAuthors(JobParameters jobParameters,
+	private void addAuthors(BookDefinition bookDefn,
 			TitleMetadata titleMetadata) {
-		String authorsParameter = jobParameters.getString(JobParameterKey.AUTHORS);
+		
+		String authorsParameter = " ";
+        Iterator<com.thomsonreuters.uscl.ereader.core.book.domain.Author> authorIt= bookDefn.getAuthors().iterator();
+        while(authorIt.hasNext())
+        {
+        	com.thomsonreuters.uscl.ereader.core.book.domain.Author author=(com.thomsonreuters.uscl.ereader.core.book.domain.Author)authorIt.next();
+            authorsParameter = authorsParameter + author.getFullName() + "|";
+        }
+        
+        if (authorsParameter.trim().length() != 0) {
+        	authorsParameter = authorsParameter.substring(0, authorsParameter.lastIndexOf("|")).trim();
+        }
+		
+		
 		if (StringUtils.isNotBlank(authorsParameter)){
 			ArrayList<Author> authors = titleMetadataService.createAuthors(authorsParameter);
 			titleMetadata.setAuthors(authors);
-		}
-		else
-		{
-			titleMetadata.setAuthors(new ArrayList<Author>());
 		}
 	}
 

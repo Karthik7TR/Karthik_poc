@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -42,9 +43,11 @@ public class DeliverToProview extends AbstractSbTasklet {
 		JobParameters jobParameters = getJobParameters(chunkContext);
 		
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
+		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);		
 
 		File eBook = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE));
-		String fullyQualifiedTitleId = jobParameters.getString(JobParameterKey.TITLE_ID_FULLY_QUALIFIED);
+		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERISON_SUBMITTED);
 		
 		long startTime = System.currentTimeMillis();
