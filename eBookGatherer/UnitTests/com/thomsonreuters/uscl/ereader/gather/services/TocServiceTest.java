@@ -20,12 +20,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
@@ -71,9 +69,7 @@ public class TocServiceTest {
 
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);		
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);
@@ -145,9 +141,7 @@ public class TocServiceTest {
 
 		// Record expected calls
 		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);		
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("1").anyTimes();		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);

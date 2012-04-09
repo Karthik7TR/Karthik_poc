@@ -103,9 +103,7 @@ public class NortServiceTest {
 //			String YYYYMMDDHHmmss = "20120206111111"; 
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -215,9 +213,7 @@ public class NortServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -343,9 +339,7 @@ public class NortServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -467,9 +461,7 @@ public class NortServiceTest {
 		try {
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();			
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
@@ -594,9 +586,7 @@ public class NortServiceTest {
 //			String YYYYMMDDHHmmss = "20120206111111"; 
 			// Record expected calls
 			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
-			EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
-			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();
 			EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
 			mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 			mockNortManager.setFilterName(FILTER, 0);
