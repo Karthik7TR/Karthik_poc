@@ -8,34 +8,21 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
 import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm.FilterCommand;
 
 @Controller
 public class BookLibraryFilterController {
@@ -52,16 +39,32 @@ public class BookLibraryFilterController {
 			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		List<LibraryList> paginatedList = libraryListService
-				.findBookDefinitions("proviewDisplayName", true, 1,
-						WebConstants.NUMBER_BOOK_DEF_SHOWN,
-						bookLibraryFilterForm.getProviewDisplayName(),
-						bookLibraryFilterForm.getTitleId(),
-						bookLibraryFilterForm.getIsbn(),
-						bookLibraryFilterForm.getMaterialId(),
-						bookLibraryFilterForm.getTo(),
-						bookLibraryFilterForm.getFrom(),
-						bookLibraryFilterForm.geteBookDefStatus());
+		FilterCommand c = bookLibraryFilterForm.getFilterCommand();
+		List<LibraryList> paginatedList = null;
+		switch (c) {
+
+		case SEARCH:
+			paginatedList = libraryListService.findBookDefinitions(
+					"proviewDisplayName", true, 1,
+					WebConstants.NUMBER_BOOK_DEF_SHOWN,
+					bookLibraryFilterForm.getProviewDisplayName(),
+					bookLibraryFilterForm.getTitleId(),
+					bookLibraryFilterForm.getIsbn(),
+					bookLibraryFilterForm.getMaterialId(),
+					bookLibraryFilterForm.getTo(),
+					bookLibraryFilterForm.getFrom(),
+					bookLibraryFilterForm.geteBookDefStatus());
+			break;
+
+		case RESET:
+			bookLibraryFilterForm = new BookLibraryFilterForm();
+			paginatedList = libraryListService.findBookDefinitions(
+					"proviewDisplayName", true, 1,
+					WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null, null,
+					null, null, null);
+			break;
+
+		}
 
 		initializeFormAndModel(model, paginatedList, httpSession);
 		saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
