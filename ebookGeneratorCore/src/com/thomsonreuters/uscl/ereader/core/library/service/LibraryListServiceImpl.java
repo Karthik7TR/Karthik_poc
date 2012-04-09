@@ -86,6 +86,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@Deprecated
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage) {
 		return libraryListDao.findBookDefinitions(sortProperty, isAscending,
@@ -94,6 +95,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@Deprecated
 	public Long countNumberOfBookDefinitions() {
 		return libraryListDao.countNumberOfBookDefinitions();
 	}
