@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 
 @Controller
 public class BookLibraryController {
@@ -71,8 +70,6 @@ public class BookLibraryController {
 	public ModelAndView bookList(
 			HttpSession httpSession,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-			// @ModelAttribute(BookLibraryFilterForm.FORM_NAME)
-			// BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
 		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
@@ -112,8 +109,8 @@ public class BookLibraryController {
 		// log.debug(">>> " + form);
 		// Fetch the current object list from the session
 
-		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
-		model.addAttribute(BookLibraryFilterForm.FORM_NAME, filterForm);
+		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
+		model.addAttribute(BookLibraryFilterForm.FORM_NAME, bookLibraryFilterForm);
 
 		String sort = request.getParameter(new ParamEncoder(
 				WebConstants.KEY_VDO)
@@ -133,8 +130,13 @@ public class BookLibraryController {
 
 		List<LibraryList> paginatedList = libraryListService
 				.findBookDefinitions(sort, isAscending, page,
-						WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null,
-						null, null, null, null);
+						WebConstants.NUMBER_BOOK_DEF_SHOWN, bookLibraryFilterForm.getProviewDisplayName(),
+						bookLibraryFilterForm.getTitleId(),
+						bookLibraryFilterForm.getIsbn(),
+						bookLibraryFilterForm.getMaterialId(),
+						bookLibraryFilterForm.getTo(),
+						bookLibraryFilterForm.getFrom(),
+						bookLibraryFilterForm.geteBookDefStatus());
 		initializeFormAndModel(model, form, sort, isAscending, page,
 				paginatedList);
 
@@ -145,8 +147,7 @@ public class BookLibraryController {
 	public ModelAndView postBookDefinitionSelections(
 			HttpServletRequest request,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
-			// @ModelAttribute(BookLibraryFilterForm.FORM_NAME)
-			// BookLibraryFilterForm bookLibraryForm,
+			
 			BindingResult bindingResult, Model model) throws Exception {
 
 		if (!bindingResult.hasErrors()) {
