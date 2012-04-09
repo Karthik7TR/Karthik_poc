@@ -6,12 +6,10 @@
 package com.thomsonreuters.uscl.ereader.core.library.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,31 +25,61 @@ import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
- * Shared service methods used in both the Spring Batch engine and the dashboard
- * web apps.
+ * Library list service
  */
 public class LibraryListServiceImpl implements LibraryListService {
-	// private static final Logger log =
-	// Logger.getLogger(BookDefinitionServiceImpl.class);
+
 	private LibraryListDao libraryListDao;
 	private BookDefinitionDao bookDefinitionDao;
 	private AuthorService authorService;
 	private PublishingStatsService publishingStatsService;
 
-	static final Comparator<LibraryList> ASCENDING_ORDER = new Comparator<LibraryList>() {
+	static final Comparator<LibraryList> PUBLISH_DATE_ASCENDING_ORDER = new Comparator<LibraryList>() {
 
 		@Override
 		public int compare(LibraryList l1, LibraryList l2) {
-			return l1.getLastPublishDate().compareTo(l2.getLastPublishDate());
+			int returnCode = 0;
+
+			if (l1.getLastPublishDate() == null
+					&& l2.getLastPublishDate() == null) {
+				returnCode = 0;
+			} else if (l1.getLastPublishDate() != null
+					&& l2.getLastPublishDate() == null) {
+				returnCode = 1;
+			} else if (l1.getLastPublishDate() == null
+					&& l2.getLastPublishDate() != null) {
+				returnCode = -1;
+			} else if (l1.getLastPublishDate().after(l2.getLastPublishDate())) {
+				returnCode = 1;
+			} else if (l1.getLastPublishDate().before(l2.getLastPublishDate())) {
+				returnCode = -1;
+			}
+			return returnCode;
 		}
 
 	};
 
-	static final Comparator<LibraryList> DESCENDING_ORDER = new Comparator<LibraryList>() {
+	static final Comparator<LibraryList> PUBLISH_DATE_DESCENDING_ORDER = new Comparator<LibraryList>() {
 
 		@Override
 		public int compare(LibraryList l1, LibraryList l2) {
-			return l2.getLastPublishDate().compareTo(l1.getLastPublishDate());
+			int returnCode = 0;
+
+			if (l2.getLastPublishDate() == null
+					&& l1.getLastPublishDate() == null) {
+				returnCode = 0;
+			} else if (l2.getLastPublishDate() != null
+					&& l1.getLastPublishDate() == null) {
+				returnCode = 1;
+			} else if (l2.getLastPublishDate() == null
+					&& l1.getLastPublishDate() != null) {
+				returnCode = -1;
+			} else if (l2.getLastPublishDate().after(l1.getLastPublishDate())) {
+				returnCode = 1;
+			} else if (l2.getLastPublishDate().before(l1.getLastPublishDate())) {
+				returnCode = -1;
+			}
+			return returnCode;
 		}
 
 	};
@@ -109,9 +137,9 @@ public class LibraryListServiceImpl implements LibraryListService {
 
 		if (sortProperty.equals("publishEndTimestamp")) {
 			if (isAscending) {
-				Collections.sort(libraryLists, ASCENDING_ORDER);
+				Collections.sort(libraryLists, PUBLISH_DATE_ASCENDING_ORDER);
 			} else {
-				Collections.sort(libraryLists, DESCENDING_ORDER);
+				Collections.sort(libraryLists, PUBLISH_DATE_DESCENDING_ORDER);
 			}
 		}
 
