@@ -137,9 +137,13 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 //	    .list();
 		
 		Map<String, String> docMap = new HashMap<String, String>();
+
 		for(Object[] arr : docMetaList)
 		{
+			if (arr[1] != null) // Xena content has no docFamilyGuid
+			{
 			docMap.put(arr[0].toString(), arr[1].toString());
+			}
 		}
 		return docMap;
 		
