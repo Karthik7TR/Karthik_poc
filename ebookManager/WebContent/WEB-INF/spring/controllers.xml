@@ -58,6 +58,10 @@
 		  </property>
 	</bean>
 	
+	<bean id="bookLibraryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterController"
+		  p:libraryListService-ref="libraryListService" >
+	</bean>	
+	
 	<bean id="libraryListMapper" class="com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListRowMapper"
 		  p:authorService-ref="authorService"/>
 	
@@ -127,7 +131,8 @@
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueFormValidator"/>
 		</property>
-	</bean>	
+	</bean>
+		
 
 <!-- DEPRECATED,  to be removed
 <bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController" p:casUrl="${cas.server.web.url}"/>

@@ -88,6 +88,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
+	public static final String MVC_BOOK_LIBRARY_FILTERED_POST = "bookLibraryListFiltered.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
 	public static final String MVC_BOOK_DEFINITION_BULK_PROMOTION = "bookDefinitionBulkPromotion.mvc";
@@ -198,6 +199,7 @@ public class WebConstants {
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
+	
 	
 	
 	

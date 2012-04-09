@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 
 @Controller
 public class BookLibraryController {
@@ -42,6 +43,14 @@ public class BookLibraryController {
 	}
 	
 
+	private BookLibraryFilterForm fetchSavedFilterForm(HttpSession httpSession) {
+		BookLibraryFilterForm form = (BookLibraryFilterForm) httpSession.getAttribute(BookLibraryFilterForm.FORM_NAME);
+		if (form == null) {
+			form = new BookLibraryFilterForm();
+		}
+		return form;
+	}
+	
 	/**
 	 * Handles the initial loading of the Book Definition List page
 	 * @param httpSession
@@ -58,12 +67,16 @@ public class BookLibraryController {
 			//@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
 
+		BookLibraryFilterForm filterForm=fetchSavedFilterForm(httpSession);
+		model.addAttribute(BookLibraryFilterForm.FORM_NAME, filterForm);
+		
 		initializeFormAndModel(model, form, "proviewDisplayName", true, 1);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
-
-	// ====================================================================================
+	
+	
+		// ====================================================================================
 	/**
 	 * Handles the DisplayTag table external paging and sorting operations.
 	 * Assumes a current list of execution ID's on the session that is reused
@@ -162,8 +175,8 @@ public class BookLibraryController {
 	private void initializeFormAndModel(Model model, BookLibrarySelectionForm form, String sortBy, boolean isAscending, int pageNumber) {
 		
 		List<LibraryList> paginatedList = libraryListService
-				.findBookDefinitions(sortBy, isAscending, pageNumber, NUMBER_BOOK_DEF_SHOWN);
-		Long resultSize = libraryListService.countNumberOfBookDefinitions();
+				.findBookDefinitions(sortBy, isAscending, pageNumber, NUMBER_BOOK_DEF_SHOWN, null, null, null,null, null, null, null);
+		Long resultSize = (long) paginatedList.size();
 		
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, resultSize.intValue());

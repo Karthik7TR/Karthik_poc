@@ -13,24 +13,28 @@ public class BookLibraryFilterForm {
 
 	public static final String FORM_NAME = "bookLibraryFilterForm";
 
-	private String name;
+	private String proviewDisplayName;
 	private String from;
 	private String to;
-	private String userName;
 	private String eBookDefStatus;
-	private String publishingSttaus;
 	private String titleId;
 	private String isbn;
-	private String authorName;
-	private String materialNumber;
-	private String publisher;
+	private String materialId;
 
-	public String getName() {
-		return name;
+	public String getMaterialId() {
+		return materialId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMaterialId(String materialId) {
+		this.materialId = materialId;
+	}
+
+	public String getProviewDisplayName() {
+		return proviewDisplayName;
+	}
+
+	public void setProviewDisplayName(String proviewDisplayName) {
+		this.proviewDisplayName = proviewDisplayName;
 	}
 
 	public static String getFormName() {
@@ -53,28 +57,12 @@ public class BookLibraryFilterForm {
 		this.to = to;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String geteBookDefStatus() {
 		return eBookDefStatus;
 	}
 
 	public void seteBookDefStatus(String eBookDefStatus) {
 		this.eBookDefStatus = eBookDefStatus;
-	}
-
-	public String getPublishingSttaus() {
-		return publishingSttaus;
-	}
-
-	public void setPublishingSttaus(String publishingSttaus) {
-		this.publishingSttaus = publishingSttaus;
 	}
 
 	public String getTitleId() {
@@ -91,30 +79,6 @@ public class BookLibraryFilterForm {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
-	}
-
-	public String getAuthorName() {
-		return authorName;
-	}
-
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
-
-	public String getMaterialNumber() {
-		return materialNumber;
-	}
-
-	public void setMaterialNumber(String materialNumber) {
-		this.materialNumber = materialNumber;
-	}
-
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
 	}
 
 	public String toString() {

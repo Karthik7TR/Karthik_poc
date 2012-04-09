@@ -23,23 +23,30 @@
 
  	<h2>Filters</h2>
 
-	&nbsp;<label>Display Name </label><br>
-	&nbsp;<input type="text" /><br>
-	&nbsp;<label>Title ID</label><br>
-	&nbsp;<input type="text" /><br>
-	&nbsp;<label>ISBN</label><br>
-	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>Material ID</label><br>
-	&nbsp;<input type="text"  /><br>
-	&nbsp;<label>Book Status</label><br>
-	&nbsp;<input type="text" /><br>
+	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
+			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="theForm" method="post">
+	
+	
+	
+	&nbsp;<form:label path="proviewDisplayName">Display Name</form:label><br>
+	&nbsp;<form:input path="proviewDisplayName"/><br>
+	&nbsp;<form:label path="titleId">Title ID</form:label><br>
+	&nbsp;<form:input path="titleId"/><br>
+	&nbsp;<form:label path="isbn">ISBN</form:label><br>
+	&nbsp;<form:input path="isbn"/><br>
+	&nbsp;<form:label path="materialId">Material ID</form:label><br>
+	&nbsp;<form:input path="materialId"/><br>
+	&nbsp;<form:label path="eBookDefStatus">Book Status</form:label><br>
+	&nbsp;<form:input path="eBookDefStatus"/><br>
 	&nbsp;<label>Last Edit Date</label><br>
-	&nbsp;&nbsp;<label>From</label>
-	&nbsp;<input type="text" id="datepickerFrom" />
-	&nbsp;&nbsp;<label>To</label>
-	&nbsp;<input type="text" id="datepickerTo" /><br>
+	&nbsp;&nbsp;<form:label path="from">From</form:label>
+	&nbsp;<form:input id="datepickerFrom" path="from"/>
+	&nbsp;<form:label path="to">To</form:label>
+	&nbsp;<input id="datepickerTo" path="to"/><br>
 	
 	
 	
 	<button disabled="disabled">Search</button>
 	<button disabled="disabled">Reset</button>
+	
+	</form:form>
