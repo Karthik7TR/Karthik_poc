@@ -55,7 +55,7 @@
 	<%-- Table of book library --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
-				   pagesize="<%= BookLibraryController.NUMBER_BOOK_DEF_SHOWN %>"
+				   pagesize="<%= WebConstants.NUMBER_BOOK_DEF_SHOWN %>"
 				   partialList="true"
 				   size="resultSize"
 				   sort="external">
