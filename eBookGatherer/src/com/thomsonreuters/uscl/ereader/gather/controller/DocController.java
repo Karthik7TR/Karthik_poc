@@ -33,6 +33,9 @@ public class DocController {
 		LOG.debug(">>> " + docRequest);
 		GatherResponse gatherResponse = new GatherResponse();
 		try {
+			docService.createMissingDocumentsList(docRequest.getGuids(), docRequest.getCollectionName(),
+					   				  docRequest.getContentDestinationDirectory(),
+					   				  docRequest.getMetadataDestinationDirectory());
 			gatherResponse = docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
 					   				  docRequest.getContentDestinationDirectory(),
 					   				  docRequest.getMetadataDestinationDirectory());

@@ -14,10 +14,12 @@ import java.io.Writer;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -306,5 +308,96 @@ public class DocServiceImpl implements DocService {
 	@Required
 	public void setNovusUtility(NovusUtility novusUtil) {
 		this.novusUtility = novusUtil;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.gather.services.DocService#createMissingDocumentsList
+	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
+	 */
+	public void createMissingDocumentsList(Collection<String> docGuids,
+			String collectionName, File contentDestinationDirectory,
+			File metadataDestinationDirectory) throws Exception {
+		Assert.isTrue(contentDestinationDirectory.exists(),
+				"The content destination directory for the documents does not exist: "
+						+ contentDestinationDirectory);
+		Assert.isTrue(contentDestinationDirectory.exists(),
+				"The content destination directory for the document metadata does not exist: "
+						+ metadataDestinationDirectory);
+	
+		Novus novus = novusFactory.createNovus();
+		String docGuid = null;
+		String docText = null;
+		
+		FileOutputStream stream = null;
+		Writer writer = null;
+		int missingGuidsCount = 0;
+	
+		try {
+			
+			if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+			
+			stream = new FileOutputStream(StringUtils.substringBeforeLast(contentDestinationDirectory.getAbsolutePath(), "/") + "doc_missing_guids.txt");
+			String charset = "UTF-8";	// explicitly set the character set
+			writer = new OutputStreamWriter(stream, charset);
+
+			Find finder = novus.getFind();
+			finder.setResolveIncludes(true);
+	
+			int tocSequence = 0;
+
+
+			for (String guid : docGuids) {
+				tocSequence++;
+				docGuid = guid;
+				Document document = null;
+	
+					try {
+						if (collectionName == null) {
+							document = finder.getDocument(null, guid);
+							docText = document.getText();							
+						} else {
+							document = finder.getDocument(collectionName, null,
+									guid);
+							docText = document.getText();
+						}
+												
+						if(!((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00")))) {
+							Log.debug("Text is not found for the guid " + guid + " and the error code is " + document.getErrorCode());													
+							writer.write(guid);
+							writer.write("\n");
+							missingGuidsCount++;
+						}
+					} catch (Exception e) {
+						// write the missing doc to the missing doc File
+							writer.write(guid);
+							writer.write("\n");
+							missingGuidsCount++;
+							continue;
+						} 
+					}
+			}
+		} catch (Exception e) {
+			GatherException ge = new GatherException(
+					"Null document fetching guid " + docGuid, e,
+					GatherResponse.CODE_FILE_ERROR);
+	
+			throw ge;
+		} finally {
+			novus.shutdownMQ();
+			writer.close();
+			stream.close();
+			if (missingGuidsCount > 0) {
+				GatherException ge = new GatherException(
+						"Null documents are found for the current ebook ",
+						GatherResponse.CODE_FILE_ERROR);
+		
+				throw ge;				
+				
+			}
+		}
+		return;
 	}
 }

@@ -13,7 +13,12 @@ public class NovusUtility {
    private String docRetryCount;
    private String tocRetryCount;
    private String nortRetryCount;	
-	
+
+   /**
+    * Flag to check if we want to get a list of missing doc list in one shot
+    */
+   
+   private String showMissDocsList;   
 	
 	private static final Logger Log = Logger.getLogger(NortServiceImpl.class);	
 
@@ -76,6 +81,12 @@ public class NovusUtility {
 	public void setNortRetryCount(String nortRetryCount) {
 		this.nortRetryCount = nortRetryCount;
 	}
+	
+
+	@Required
+	public void setShowMissDocsList(String showMissDocsList) {
+		this.showMissDocsList = showMissDocsList;
+	}	
 
 	public String getDocRetryCount() {
 		return docRetryCount;
@@ -88,5 +99,10 @@ public class NovusUtility {
 	public String getNortRetryCount() {
 		return nortRetryCount;
 	}
+
+	public String getShowMissDocsList() {
+		return showMissDocsList;
+	}
+
 
 }
