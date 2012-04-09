@@ -22,12 +22,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
 import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
@@ -39,7 +43,6 @@ public class BookLibraryFilterController {
 			.getLogger(BookLibraryFilterController.class);
 	private LibraryListService libraryListService;
 
-	
 	/**
 	 * Handle submit/post of a new set of filter criteria.
 	 */
@@ -48,9 +51,56 @@ public class BookLibraryFilterController {
 			HttpSession httpSession,
 			@ModelAttribute(BookLibraryFilterForm.FORM_NAME) BookLibraryFilterForm bookLibraryFilterForm,
 			BindingResult bindingResult, Model model) throws Exception {
-		System.out.println("Inside filter tile");
 
-		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+		List<LibraryList> paginatedList = libraryListService
+				.findBookDefinitions("proviewDisplayName", true, 1,
+						WebConstants.NUMBER_BOOK_DEF_SHOWN,
+						bookLibraryFilterForm.getProviewDisplayName(),
+						bookLibraryFilterForm.getTitleId(),
+						bookLibraryFilterForm.getIsbn(),
+						bookLibraryFilterForm.getMaterialId(),
+						bookLibraryFilterForm.getTo(),
+						bookLibraryFilterForm.getFrom(),
+						bookLibraryFilterForm.geteBookDefStatus());
+
+		initializeFormAndModel(model, paginatedList, httpSession);
+		saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
+
+		ModelAndView mav = new ModelAndView(new RedirectView(
+				WebConstants.MVC_BOOK_LIBRARY_LIST));
+
+		return mav;
+	}
+
+	private void saveSessionValues(HttpSession httpSession,
+			BookLibraryFilterForm bookLibraryFilterForm,
+			List<LibraryList> paginatedList) {
+
+		httpSession.setAttribute(BookLibraryFilterForm.FORM_NAME,
+				bookLibraryFilterForm);
+		httpSession
+				.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+
+	}
+
+	/**
+	 * Populates the model to display the book definitions and hidden properties
+	 * 
+	 * @param model
+	 * @param sortBy
+	 * @param isAscending
+	 * @param pageNumber
+	 * @return
+	 */
+	private void initializeFormAndModel(Model model,
+			List<LibraryList> paginatedList, HttpSession httpSession) {
+
+		Long resultSize = (long) paginatedList.size();
+
+		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
+				resultSize.intValue());
+
 	}
 
 	public LibraryListService getLibraryListService() {

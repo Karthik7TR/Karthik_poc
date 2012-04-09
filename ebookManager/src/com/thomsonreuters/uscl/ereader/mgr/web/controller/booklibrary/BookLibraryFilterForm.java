@@ -6,20 +6,37 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
+import java.util.Date;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 
 public class BookLibraryFilterForm {
 
 	public static final String FORM_NAME = "bookLibraryFilterForm";
-	public enum FilterCommand { SEARCH, RESET };
+
+	public enum FilterCommand {
+		SEARCH, RESET
+	};
+
 	private String proviewDisplayName;
-	private String from;
-	private String to;
+	private Date from;
+	private Date to;
 	private String eBookDefStatus;
 	private String titleId;
 	private String isbn;
 	private String materialId;
+	private FilterCommand filterCommand;
+
+	public FilterCommand getFilterCommand() {
+		return filterCommand;
+	}
+
+	public void setFilterCommand(FilterCommand filterCommand) {
+		this.filterCommand = filterCommand;
+	}
 
 	public String getMaterialId() {
 		return materialId;
@@ -41,19 +58,19 @@ public class BookLibraryFilterForm {
 		return FORM_NAME;
 	}
 
-	public String getFrom() {
+	public Date getFrom() {
 		return from;
 	}
 
-	public void setFrom(String from) {
+	public void setFrom(Date from) {
 		this.from = from;
 	}
 
-	public String getTo() {
+	public Date getTo() {
 		return to;
 	}
 
-	public void setTo(String to) {
+	public void setTo(Date to) {
 		this.to = to;
 	}
 

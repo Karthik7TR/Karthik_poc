@@ -103,7 +103,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, String to, String from, String status) {
+			String materialID, Date to, Date from, String status) {
 
 		List<BookDefinition> bookDefinitions = bookDefinitionDao
 				.findBookDefinitions(sortProperty, isAscending, pageNumber,

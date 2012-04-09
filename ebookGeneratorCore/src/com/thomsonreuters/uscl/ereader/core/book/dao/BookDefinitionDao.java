@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -79,6 +80,6 @@ public interface BookDefinitionDao {
 	List<BookDefinition> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String fullyQualifiedTitleId, String isbn,
-			String materialId, String to, String from, String status);
+ String materialId, Date to, Date from, String status);
 
 }

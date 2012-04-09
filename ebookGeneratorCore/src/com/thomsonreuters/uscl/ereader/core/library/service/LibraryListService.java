@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.library.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
@@ -37,7 +38,7 @@ public interface LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, String to, String from, String status);
+			String materialID, Date to, Date from, String status);
 
 	/**
 	 * Returns a count of all current book definitions.

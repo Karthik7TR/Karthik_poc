@@ -38,199 +38,224 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator;
 
 public class BookLibraryControllerTest {
-	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+BookLibrarySelectionForm.FORM_NAME;
-    private BookLibraryController controller;
-    private MockHttpServletRequest request;
-    private MockHttpServletResponse response;
-    private HandlerAdapter handlerAdapter;
-    private LibraryListService mockLibraryListService;
-    
+	private static final String BINDING_RESULT_KEY = BindingResult.class
+			.getName() + "." + BookLibrarySelectionForm.FORM_NAME;
+	private BookLibraryController controller;
+	private MockHttpServletRequest request;
+	private MockHttpServletResponse response;
+	private HandlerAdapter handlerAdapter;
+	private LibraryListService mockLibraryListService;
+
 	@Before
 	public void setUp() throws Exception {
 		request = new MockHttpServletRequest();
-    	response = new MockHttpServletResponse();
-    	handlerAdapter = new AnnotationMethodHandlerAdapter();
-    	
-    	// Mock up the dashboard service
-    	this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
-    	
-    	// Set up the controller
-    	this.controller = new BookLibraryController();
-    	controller.setLibraryListService(mockLibraryListService);
-    	controller.setValidator(new BookLibrarySelectionFormValidator());
+		response = new MockHttpServletResponse();
+		handlerAdapter = new AnnotationMethodHandlerAdapter();
+
+		// Mock up the dashboard service
+		this.mockLibraryListService = EasyMock
+				.createMock(LibraryListService.class);
+
+		// Set up the controller
+		this.controller = new BookLibraryController();
+		controller.setLibraryListService(mockLibraryListService);
+		controller.setValidator(new BookLibrarySelectionFormValidator());
 	}
 
 	/**
-     * Test the GET to the Book List page.
-     */
+	 * Test the GET to the Book List page.
+	 */
 	@Test
 	public void testBookList() {
-		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
-    	request.setMethod(HttpMethod.GET.name());
-    	
-    	EasyMock.expect(mockLibraryListService.findBookDefinitions("proviewDisplayName", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
-    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn((long) 1);
-    	EasyMock.replay(mockLibraryListService);
+		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
+		request.setMethod(HttpMethod.GET.name());
 
-    	ModelAndView mav;
+		EasyMock.expect(
+				mockLibraryListService.findBookDefinitions(
+						"proviewDisplayName", true, 1,
+						WebConstants.NUMBER_BOOK_DEF_SHOWN)).andReturn(
+				new ArrayList<LibraryList>());
+		EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions())
+				.andReturn((long) 1);
+		EasyMock.replay(mockLibraryListService);
+
+		ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
-			
-			assertNotNull(mav);
-	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
-	        
-	        // Check the state of the model
-	        Map<String,Object> model = mav.getModel();
 
-	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
-	        assertEquals( 1l, totalBookCount.longValue());
-	        
+			assertNotNull(mav);
+			// Verify the returned view name
+			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+
+			// Check the state of the model
+			Map<String, Object> model = mav.getModel();
+
+			assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
+			Long totalBookCount = Long.valueOf(model.get(
+					WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
+			assertEquals(1l, totalBookCount.longValue());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-        EasyMock.verify(mockLibraryListService);
-        
+		EasyMock.verify(mockLibraryListService);
+
 	}
 
 	/**
-     * Test the GET to the Book List paging and sorted results
-     */
+	 * Test the GET to the Book List paging and sorted results
+	 */
 	@Test
 	public void testPagingAndSorting() {
-		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
-    	request.setMethod(HttpMethod.GET.name());
-    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
-    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_SORT), "book.PROVIEW_DISPLAY_NAME");
-    	request.setParameter(new ParamEncoder(WebConstants.KEY_VDO).encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
-    	
-    	// Mock page 3
-    	long expectedBookCount = 61;
-    	EasyMock.expect(mockLibraryListService.findBookDefinitions("book.PROVIEW_DISPLAY_NAME", true, 3, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
-    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn(expectedBookCount);
-    	EasyMock.replay(mockLibraryListService);
-    	
-    	ModelAndView mav;
+		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter(new ParamEncoder(WebConstants.KEY_VDO)
+				.encodeParameterName(TableTagParameters.PARAMETER_ORDER), "1");
+		request.setParameter(new ParamEncoder(WebConstants.KEY_VDO)
+				.encodeParameterName(TableTagParameters.PARAMETER_SORT),
+				"book.PROVIEW_DISPLAY_NAME");
+		request.setParameter(new ParamEncoder(WebConstants.KEY_VDO)
+				.encodeParameterName(TableTagParameters.PARAMETER_PAGE), "3");
+
+		// Mock page 3
+		long expectedBookCount = 61;
+		EasyMock.expect(
+				mockLibraryListService.findBookDefinitions(
+						"book.PROVIEW_DISPLAY_NAME", true, 3,
+						WebConstants.NUMBER_BOOK_DEF_SHOWN)).andReturn(
+				new ArrayList<LibraryList>());
+		EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions())
+				.andReturn(expectedBookCount);
+		EasyMock.replay(mockLibraryListService);
+
+		ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
-			
-			assertNotNull(mav);
-	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
-	        
-	        // Check the state of the model
-	        Map<String,Object> model = mav.getModel();
 
-	        assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-	        Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
-	        Assert.assertEquals(expectedBookCount, totalBookCount.longValue());
-	        
+			assertNotNull(mav);
+			// Verify the returned view name
+			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+
+			// Check the state of the model
+			Map<String, Object> model = mav.getModel();
+
+			assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
+			Long totalBookCount = Long.valueOf(model.get(
+					WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
+			Assert.assertEquals(expectedBookCount, totalBookCount.longValue());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-        EasyMock.verify(mockLibraryListService);
+		EasyMock.verify(mockLibraryListService);
 	}
-	
+
 	/**
-	 *  Test the POST of selection to postBookDefinitionSelections
+	 * Test the POST of selection to postBookDefinitionSelections
 	 */
 	@Test
 	public void postBookDefinitionSelectionsTest() {
-		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
-    	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("command", Command.GENERATE.toString());
-    	request.setParameter("isAscending", "true");
-    	request.setParameter("page", "1");
-    	request.setParameter("sort", "bookName");
-    	
-    	String[] selectedEbookKeys = {"uscl/imagedoc4"};
-    	request.setParameter("selectedEbookKeys", selectedEbookKeys);
-    	
-    	ModelAndView mav;
+		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
+		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("command", Command.GENERATE.toString());
+		request.setParameter("isAscending", "true");
+		request.setParameter("page", "1");
+		request.setParameter("sort", "bookName");
+
+		String[] selectedEbookKeys = { "uscl/imagedoc4" };
+		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+
+		ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
-			
+
 			assertNotNull(mav);
-	        // Verify mav is a RedirectView
+			// Verify mav is a RedirectView
 			View view = mav.getView();
-	        assertEquals(RedirectView.class, view.getClass());
+			assertEquals(RedirectView.class, view.getClass());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	/**
-	 *  Test the POST of multiple selection to postBookDefinitionSelections
+	 * Test the POST of multiple selection to postBookDefinitionSelections
 	 */
 	@Test
 	public void postBookDefinitionMultipleSelectionsTest() {
-		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
-    	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("command", Command.GENERATE.toString());
-    	request.setParameter("isAscending", "true");
-    	request.setParameter("page", "1");
-    	request.setParameter("sort", "bookName");
-    	
-    	String[] selectedEbookKeys = {"uscl/imagedoc3", "uscl/imagedoc4"};
-    	request.setParameter("selectedEbookKeys", selectedEbookKeys);
-    	
-    	ModelAndView mav;
+		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
+		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("command", Command.GENERATE.toString());
+		request.setParameter("isAscending", "true");
+		request.setParameter("page", "1");
+		request.setParameter("sort", "bookName");
+
+		String[] selectedEbookKeys = { "uscl/imagedoc3", "uscl/imagedoc4" };
+		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+
+		ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
-			
+
 			assertNotNull(mav);
-	        // Verify mav is a RedirectView
+			// Verify mav is a RedirectView
 			View view = mav.getView();
-	        assertEquals(RedirectView.class, view.getClass());
+			assertEquals(RedirectView.class, view.getClass());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	/**
-	 *  Test the POST of No selection to postBookDefinitionSelections
+	 * Test the POST of No selection to postBookDefinitionSelections
 	 */
 	@Test
 	public void postBookDefinitionNoSelectionsTest() {
-		request.setRequestURI("/"+ WebConstants.MVC_BOOK_LIBRARY_LIST);
-    	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("command", Command.GENERATE.toString());
-    	request.setParameter("isAscending", "true");
-    	request.setParameter("page", "1");
-    	request.setParameter("sort", "book.PROVIEW_DISPLAY_NAME");
-    	
-    	String[] selectedEbookKeys = {};
-    	request.setParameter("selectedEbookKeys", selectedEbookKeys);
-    	
-    	EasyMock.expect(mockLibraryListService.findBookDefinitions("book.PROVIEW_DISPLAY_NAME", true, 1, BookLibraryController.NUMBER_BOOK_DEF_SHOWN)).andReturn(new ArrayList<LibraryList>());
-    	EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions()).andReturn((long) 1);
-    	EasyMock.replay(mockLibraryListService);
-    	
-    	ModelAndView mav;
+		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
+		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("command", Command.GENERATE.toString());
+		request.setParameter("isAscending", "true");
+		request.setParameter("page", "1");
+		request.setParameter("sort", "book.PROVIEW_DISPLAY_NAME");
+
+		String[] selectedEbookKeys = {};
+		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+
+		EasyMock.expect(
+				mockLibraryListService.findBookDefinitions(
+						"book.PROVIEW_DISPLAY_NAME", true, 1,
+						WebConstants.NUMBER_BOOK_DEF_SHOWN)).andReturn(
+				new ArrayList<LibraryList>());
+		EasyMock.expect(mockLibraryListService.countNumberOfBookDefinitions())
+				.andReturn((long) 1);
+		EasyMock.replay(mockLibraryListService);
+
+		ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
-			
+
 			assertNotNull(mav);
-			
-			Map<String,Object> model = mav.getModel();
-	    	BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
-	    	assertNotNull(bindingResult);
-	    	assertTrue(bindingResult.hasErrors());
-	    	
-	    	// Verify the returned view name
+
+			Map<String, Object> model = mav.getModel();
+			BindingResult bindingResult = (BindingResult) model
+					.get(BINDING_RESULT_KEY);
+			assertNotNull(bindingResult);
+			assertTrue(bindingResult.hasErrors());
+
+			// Verify the returned view name
 			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
-			
+
 			assertTrue(model.get(WebConstants.KEY_PAGINATED_LIST) instanceof List<?>);
-			Long totalBookCount = Long.valueOf(model.get(WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
+			Long totalBookCount = Long.valueOf(model.get(
+					WebConstants.KEY_TOTAL_BOOK_SIZE).toString());
 			assertEquals(totalBookCount, Long.valueOf(1));
-	        
-	        EasyMock.verify(mockLibraryListService);
-	        
+
+			EasyMock.verify(mockLibraryListService);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());

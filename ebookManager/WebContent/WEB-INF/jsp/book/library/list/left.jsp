@@ -22,6 +22,7 @@
 		
 		function submitFilterForm(command) {
 			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator
+			alert('I am here');
 			$("#<%=BookLibraryFilterForm.FORM_NAME%>").submit();	// POST the HTML form
 		}
 		
@@ -29,9 +30,9 @@
 
  	<h2>Filters</h2>
 
-	<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
-			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" name="theForm" method="post">
-	
+<form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
+			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="post">
+	<form:hidden path="filterCommand"/>
 	
 	
 	&nbsp;<form:label path="proviewDisplayName">Display Name</form:label><br>
@@ -48,10 +49,9 @@
 	&nbsp;&nbsp;<form:label path="from">From</form:label>
 	&nbsp;<form:input id="datepickerFrom" path="from"/>
 	&nbsp;<form:label path="to">To</form:label>
-	&nbsp;<input id="datepickerTo" path="to"/><br>
+	&nbsp;<form:input id="datepickerTo" path="to"/><br>
 	
 	
-	<input id="filterSearchButton" type="button" value="Search" onclick="submitFilterForm'<%=BookLibraryFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitFilterForm'<%=BookLibraryFilterForm.FilterCommand.RESET%>')"/>
+	<form:button>Search</form:button>
 	
-	</form:form>
+</form:form>

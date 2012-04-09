@@ -77,8 +77,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	public List<BookDefinition> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String fullyQualifiedTitleId,
-			String isbn, String materialId, String to, String from,
-			String status) {
+			String isbn, String materialId, Date to, Date from, String status) {
 
 		HibernateTemplate ht = new HibernateTemplate(sessionFactory);
 
@@ -93,22 +92,22 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		}
 
 		if (proviewDisplayName != null && !proviewDisplayName.equals("")) {
-			criteria.add(Restrictions.like("proviewDisplayName", "'%"
-					+ proviewDisplayName + "%'"));
+			criteria.add(Restrictions.like("proviewDisplayName", "%"
+					+ proviewDisplayName + "%"));
 		}
 
 		if (fullyQualifiedTitleId != null && !fullyQualifiedTitleId.equals("")) {
-			criteria.add(Restrictions.like("fullyQualifiedTitleId", "'%"
-					+ fullyQualifiedTitleId + "%'"));
+			criteria.add(Restrictions.like("fullyQualifiedTitleId", "%"
+					+ fullyQualifiedTitleId + "%"));
 		}
 
 		if (isbn != null && !isbn.equals("")) {
-			criteria.add(Restrictions.like("isbn", "'%" + isbn + "%'"));
+			criteria.add(Restrictions.like("isbn", "%" + isbn + "%"));
 		}
 
 		if (materialId != null && !materialId.equals("")) {
-			criteria.add(Restrictions.like("materialId", "'%" + materialId
-					+ "%'"));
+			criteria.add(Restrictions
+					.like("materialId", "%" + materialId + "%"));
 		}
 
 		if (to != null && !to.equals("")) {
