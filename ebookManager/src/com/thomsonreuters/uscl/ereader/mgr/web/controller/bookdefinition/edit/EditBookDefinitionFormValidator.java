@@ -219,6 +219,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				errors.rejectValue("nameLines", "error.at.least.one", new Object[] {"Name Line"}, "At Least 1 Name Line is required");
 			}
 			
+			if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
+        		// Validate Slice Codes fields are filled out
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.required");
+        	}
+			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
 			//TODO: check if cover image is on the server. Need server location.
