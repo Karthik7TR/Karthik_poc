@@ -156,9 +156,15 @@ public class GenerateEbookController {
 	 */
 	private boolean isCutOffDateGreaterOrEqualToday(Date cutOffDate) {
 
+		boolean cutOffDateGreaterOrEqualToday = false;
 		Date today = new Date();
 
-		return cutOffDate == today || cutOffDate.after(today);
+		if (cutOffDate != null) {
+			cutOffDateGreaterOrEqualToday = (cutOffDate == today)
+					|| cutOffDate.after(today);
+		}
+
+		return cutOffDateGreaterOrEqualToday;
 	}
 
 	/**
@@ -270,10 +276,12 @@ public class GenerateEbookController {
 				String infoMessage = messageSourceAccessor.getMessage(
 						"mesg.job.enqueued.success", args);
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
-				
-				// Set Published Once Flag to prevent user from editing Book Title ID
-				if(!book.getPublishedOnceFlag()) {
-					bookDefinitionService.updatePublishedStatus(book.getEbookDefinitionId(), true);
+
+				// Set Published Once Flag to prevent user from editing Book
+				// Title ID
+				if (!book.getPublishedOnceFlag()) {
+					bookDefinitionService.updatePublishedStatus(
+							book.getEbookDefinitionId(), true);
 				}
 			} catch (Exception e) { // Report failure on page in error message
 									// area
