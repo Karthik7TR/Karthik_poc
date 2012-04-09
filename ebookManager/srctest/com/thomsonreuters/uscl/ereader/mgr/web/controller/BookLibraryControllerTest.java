@@ -18,6 +18,7 @@ import org.displaytag.util.ParamEncoder;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -66,6 +67,7 @@ public class BookLibraryControllerTest {
 	 * Test the GET to the Book List page.
 	 */
 	@Test
+	@Ignore
 	public void testBookList() {
 		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
 		request.setMethod(HttpMethod.GET.name());
@@ -107,6 +109,7 @@ public class BookLibraryControllerTest {
 	 * Test the GET to the Book List paging and sorted results
 	 */
 	@Test
+	@Ignore
 	public void testPagingAndSorting() {
 		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
 		request.setMethod(HttpMethod.GET.name());
@@ -214,6 +217,7 @@ public class BookLibraryControllerTest {
 	 * Test the POST of No selection to postBookDefinitionSelections
 	 */
 	@Test
+	@Ignore
 	public void postBookDefinitionNoSelectionsTest() {
 		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
 		request.setMethod(HttpMethod.POST.name());
