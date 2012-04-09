@@ -56,6 +56,7 @@ public class WebConstants {
 	public static final String KEY_NEW_MAJOR_VERSION_NUMBER="newMajorVersionNumber";
 	public static final String KEY_NEW_MINOR_VERSION_NUMBER="newMinorVersionNumber";
 	public static final String KEY_PUBLISHING_CUT_OFF_DATE="publishingCutOffDate";
+	public static final String KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY = "publishingCutOffDateGreaterOrEqualToday";
 	public static final String KEY_USE_PUBLISHING_CUT_OFF_DATE = "usePublishingCutOffDate";
 	public static final String KEY_MATERIAL_ID_CHANGED = "materialIdChanged";
 	public static final String KEY_ISBN_CHANGED = "isbnChanged";
@@ -197,6 +198,7 @@ public class WebConstants {
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
+	
 	
 	
 

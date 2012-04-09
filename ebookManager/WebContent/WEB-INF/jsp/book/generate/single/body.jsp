@@ -71,15 +71,23 @@
   function checkPublishingCutoffDate(){
 	  
 	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
+	  var confirmed = true;
 			
 		if (publishingCutOffDate==""){
 			alert("Cannot submit generate: Publishing cut off date is required for this book.");
 			document.getElementById("generateButton").disabled = true;
-			return false;
+			confirmed = false;
 		}
 		else{
-	  		return true;
+			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
+			
+			if (publishingCutOffDateGreaterOrEqualToday=="N"){
+				alert("Cannot submit generate: Publishing cut off date must be greater or equal today.");
+				confirmed = false;
+			}
 		}
+		
+		return confirmed;
   }
   
   
@@ -217,6 +225,7 @@
 		 	<p id="isbn">${isbn}</p>
 		  	<p id="materialId">${materialId}</p>
 		  	<p id="isMajorVersion">${isMajorVersion}</p>
+		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		 </div>	
 		
 		<%-- Informational Messages area --%>

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -150,6 +151,18 @@ public class GenerateEbookController {
 
 	/**
 	 * 
+	 * @param cutOffDate
+	 * @return
+	 */
+	private boolean isCutOffDateGreaterOrEqualToday(Date cutOffDate) {
+
+		Date today = new Date();
+
+		return cutOffDate == today || cutOffDate.after(today);
+	}
+
+	/**
+	 * 
 	 * @param titleId
 	 * @param form
 	 * @param model
@@ -182,6 +195,11 @@ public class GenerateEbookController {
 					cutOffDate);
 			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
 					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
+			model.addAttribute(
+					WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
+					isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate()) ? "Y"
+							: "N");
+
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
 					book.getEbookDefinitionCompleteFlag());
 
