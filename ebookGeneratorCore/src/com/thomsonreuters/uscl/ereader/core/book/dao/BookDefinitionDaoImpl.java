@@ -109,8 +109,12 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 			criteria.add(Restrictions.like("materialId", materialId));
 		}
 
-		if (to != null && !to.equals("")) {
-			criteria.add(Restrictions.between("lastUpdated", from, to));
+		if (to != null) {
+			criteria.add(Restrictions.le("lastUpdated", to));
+		}
+
+		if (from != null) {
+			criteria.add(Restrictions.ge("lastUpdated", from));
 		}
 
 		if (status != null && !status.equals("")) {
