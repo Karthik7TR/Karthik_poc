@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -40,9 +41,11 @@ public class PublishTypeCodeFormValidator extends BaseFormValidator implements V
     	checkForSpaces(errors, name, "name", "Name");
     	checkSpecialCharacters(errors, name, "name", true);
     	
-    	PubTypeCode code = codeService.getPubTypeCodeByName(name);
-    	if(code != null && code.getId() != form.getId()) {
-    		errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
+    	if(!StringUtils.isBlank(name)) {
+	    	PubTypeCode code = codeService.getPubTypeCodeByName(name);
+	    	if(code != null && code.getId() != form.getId()) {
+	    		errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
+	    	}
     	}
 	}
 	

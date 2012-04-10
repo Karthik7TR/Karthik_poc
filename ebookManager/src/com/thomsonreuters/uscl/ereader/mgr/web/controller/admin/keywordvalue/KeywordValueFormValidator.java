@@ -18,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 
 @Component("keywordValueFormValidator")
 public class KeywordValueFormValidator extends BaseFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(PubdictionCodeFormValidator.class);
+	//private static final Logger log = Logger.getLogger(KeywordValueFormValidator.class);
 	private static final int MAXIMUM_CHARACTER_1024 = 1024;
 	private CodeService codeService;
 

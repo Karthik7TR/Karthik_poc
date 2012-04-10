@@ -42,7 +42,7 @@ public class JurisdictionCodeController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_VIEW, method = RequestMethod.GET)
-	public ModelAndView viewJurisCode(Model model) throws Exception {
+	public ModelAndView viewJurisCodeList(Model model) throws Exception {
 		
 		model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, codeService.getAllJurisTypeCodes());
 
