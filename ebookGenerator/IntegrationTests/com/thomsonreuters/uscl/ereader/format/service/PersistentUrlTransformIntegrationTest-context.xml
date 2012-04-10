@@ -9,12 +9,13 @@
   	   					   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
   	<bean id="urlBuilder" class="com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean"/>
-  	<bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
-  	p:hostname="http://www.westlaw.com" 
-  	p:rs="ebbp3.0"
-  	p:vr="3.0"/>
+  <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
+  	      p:hostname="${mud.domain}" 
+  	      p:rs="${mud.parameter.rs}"
+  	      p:vr="${mud.parameter.vr}"/>
   	<bean class="com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter" 
-  	p:hostname="http://www.westlaw.com" 
-  	p:rs="ebbp3.0"
-  	p:vr="3.0"/>
+  	      p:hostname="${mud.domain}" 
+  	      p:rs="${mud.parameter.rs}"
+  	      p:vr="${mud.parameter.vr}"/> 	
+  	
 </beans>
