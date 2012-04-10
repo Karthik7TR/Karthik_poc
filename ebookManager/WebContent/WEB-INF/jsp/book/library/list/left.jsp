@@ -34,23 +34,23 @@
 	<form:hidden path="filterCommand"/>
 	
 	
-	&nbsp;<form:label path="proviewDisplayName">Proview Display Name</form:label><br>
+	&nbsp;<form:label path="proviewDisplayName">Proview Display Name:</form:label><br>
 	&nbsp;<form:input path="proviewDisplayName"/><br>
-	&nbsp;<form:label path="titleId">Title ID</form:label><br>
+	&nbsp;<form:label path="titleId">Title ID:</form:label><br>
 	&nbsp;<form:input path="titleId"/><br>
-	&nbsp;<form:label path="isbn">ISBN</form:label><br>
+	&nbsp;<form:label path="isbn">ISBN:</form:label><br>
 	&nbsp;<form:input path="isbn"/><br>
-	&nbsp;<form:label path="materialId">Material ID</form:label><br>
+	&nbsp;<form:label path="materialId">Material ID:</form:label><br>
 	&nbsp;<form:input path="materialId"/><br>
-	&nbsp;<label>Last Edit Date</label><br>
+	&nbsp;<label>Last Edit Date:</label><br>
 	&nbsp;&nbsp;<form:label path="from">From</form:label>
-	&nbsp;<form:input id="datepickerFrom" path="fromString"/>
-	&nbsp;<form:label path="to">To</form:label>
-	&nbsp;<form:input id="datepickerTo" path="toString"/><br>
+	&nbsp;&nbsp;&nbsp;<form:input id="datepickerFrom" path="fromString"/>
+	&nbsp;&nbsp;<form:label path="to">To</form:label>
+	&nbsp;&nbsp;&nbsp;<form:input id="datepickerTo" path="toString"/><br>
 	&nbsp;Definition Status:<br>
-	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.ALL%>"/>All<br>
-	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.COMPLETE%>"/>Complete<br>
-	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.INCOMPLETE%>"/>InComplete<br>
+	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.ALL%>"/>All<br>
+	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.COMPLETE%>"/>Complete<br>
+	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.INCOMPLETE%>"/>InComplete<br>
 			 
 	
 	
