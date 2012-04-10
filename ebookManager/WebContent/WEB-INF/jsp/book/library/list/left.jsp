@@ -34,7 +34,7 @@
 	<form:hidden path="filterCommand"/>
 	
 	
-	&nbsp;<form:label path="proviewDisplayName">Display Name</form:label><br>
+	&nbsp;<form:label path="proviewDisplayName">Proview Display Name</form:label><br>
 	&nbsp;<form:input path="proviewDisplayName"/><br>
 	&nbsp;<form:label path="titleId">Title ID</form:label><br>
 	&nbsp;<form:input path="titleId"/><br>
@@ -47,7 +47,7 @@
 	&nbsp;<form:input id="datepickerFrom" path="fromString"/>
 	&nbsp;<form:label path="to">To</form:label>
 	&nbsp;<form:input id="datepickerTo" path="toString"/><br>
-	&nbsp;Book Status:<br>
+	&nbsp;Definition Status:<br>
 	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.ALL%>"/>All<br>
 	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.COMPLETE%>"/>Complete<br>
 	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.INCOMPLETE%>"/>InComplete<br>

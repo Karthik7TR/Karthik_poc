@@ -66,15 +66,15 @@
 	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
-	  <display:column title="Book Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
+	  <display:column title="Proview Display Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
 	  <display:column title="Publish Date" sortable="true" sortName="publishEndTimestamp">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
-	  <display:column title="Book Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
-	  <display:column title="Last Book Def. Edit" sortable="true" sortName="lastUpdated" >
+	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
+	  <display:column title="Last Edit Date" sortable="true" sortName="lastUpdated" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
