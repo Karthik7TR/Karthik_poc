@@ -151,15 +151,17 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 					else
 					{	
 						// Dedupe id Anchor Names
-						if( nameAnchors != null && nameAnchors.contains(atts.getValue("id")))
+						if( nameAnchors != null && atts.getValue("id") != null && nameAnchors.contains(atts.getValue("id")))
 						{
 							String idAnchor = atts.getValue("id") + "dup" + nameAnchors.size() ;
 							
 							AttributesImpl newAtts = new AttributesImpl(atts);
 							
 							int indexId = newAtts.getIndex("id");
-							newAtts.setAttribute(indexId, "", "", "id", "CDATA", idAnchor);
-							
+							if (indexId > -1)
+							{
+								newAtts.setAttribute(indexId, "", "", "id", "CDATA", idAnchor);
+							}
 							super.startElement(uri, localName, qName, newAtts);
 						}
 						else
@@ -168,7 +170,10 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							{
 								nameAnchors = new ArrayList<String>();
 							}
-							nameAnchors.add(atts.getValue("id"));
+							if (atts.getValue("id")!= null)
+							{
+								nameAnchors.add(atts.getValue("id"));
+							}	
 							super.startElement(uri, localName, qName, atts);
 						}						
 					}
