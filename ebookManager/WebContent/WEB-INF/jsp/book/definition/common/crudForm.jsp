@@ -231,9 +231,6 @@
 		};
 		
 		$(document).ready(function() {
-			<%-- Style buttons with jquery  --%>
-			$( ".buttons input:submit,.buttons a,.buttons button,.modalButtons button,.modalButtons a" ).button();
-			
 			<%-- Setup change handlers  --%>
 			$('#contentTypeId').change(function () {
 				// Clear out information when content type changes
