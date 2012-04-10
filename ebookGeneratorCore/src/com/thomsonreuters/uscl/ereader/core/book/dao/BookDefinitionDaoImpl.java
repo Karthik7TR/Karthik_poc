@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
@@ -78,8 +77,6 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String fullyQualifiedTitleId,
 			String isbn, String materialId, Date to, Date from, String status) {
-
-		HibernateTemplate ht = new HibernateTemplate(sessionFactory);
 
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
 				BookDefinition.class);
