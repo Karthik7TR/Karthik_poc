@@ -110,7 +110,8 @@ public class BookLibraryController {
 		// Fetch the current object list from the session
 
 		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
-		model.addAttribute(BookLibraryFilterForm.FORM_NAME, bookLibraryFilterForm);
+		model.addAttribute(BookLibraryFilterForm.FORM_NAME,
+				bookLibraryFilterForm);
 
 		String sort = request.getParameter(new ParamEncoder(
 				WebConstants.KEY_VDO)
@@ -130,7 +131,8 @@ public class BookLibraryController {
 
 		List<LibraryList> paginatedList = libraryListService
 				.findBookDefinitions(sort, isAscending, page,
-						WebConstants.NUMBER_BOOK_DEF_SHOWN, bookLibraryFilterForm.getProviewDisplayName(),
+						WebConstants.NUMBER_BOOK_DEF_SHOWN,
+						bookLibraryFilterForm.getProviewDisplayName(),
 						bookLibraryFilterForm.getTitleId(),
 						bookLibraryFilterForm.getIsbn(),
 						bookLibraryFilterForm.getMaterialId(),
@@ -147,7 +149,7 @@ public class BookLibraryController {
 	public ModelAndView postBookDefinitionSelections(
 			HttpServletRequest request,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
-			
+
 			BindingResult bindingResult, Model model) throws Exception {
 
 		if (!bindingResult.hasErrors()) {
@@ -199,15 +201,6 @@ public class BookLibraryController {
 
 			return mav;
 		}
-
-		// TODO: fix bug where displayTags shows from page 1
-
-		List<LibraryList> paginatedList = libraryListService
-				.findBookDefinitions(form.getSort(), form.getIsAscending(),
-						form.getPage(), WebConstants.NUMBER_BOOK_DEF_SHOWN,
-						null, null, null, null, null, null, null);
-		initializeFormAndModel(model, form, form.getSort(),
-				form.getIsAscending(), form.getPage(), paginatedList);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
