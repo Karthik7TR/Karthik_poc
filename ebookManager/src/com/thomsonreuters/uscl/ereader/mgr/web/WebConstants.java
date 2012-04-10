@@ -139,9 +139,6 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
-	
-	public static final String MVC_PREFERENCES = "preferences.mvc";
-	public static final String MVC_SUPPORT = "support.mvc";
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";

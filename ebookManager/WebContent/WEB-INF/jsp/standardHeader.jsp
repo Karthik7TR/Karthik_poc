@@ -22,8 +22,7 @@
 		<c:if test="${showCreate}">
 			<li><a href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE BOOK</a></li>
 		</c:if>
-		<li><a href="<%=WebConstants.MVC_PREFERENCES%>">PREFERENCES</a></li>
-		<li><a href="<%=WebConstants.MVC_SUPPORT%>">SUPPORT</a></li>
+
 		<%-- Check if user has role to access Admin --%>
 		<c:set var="showAdmin" value="false"/>
 		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
