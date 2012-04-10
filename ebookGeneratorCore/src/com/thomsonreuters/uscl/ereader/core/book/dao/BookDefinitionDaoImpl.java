@@ -92,22 +92,21 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		}
 
 		if (proviewDisplayName != null && !proviewDisplayName.equals("")) {
-			criteria.add(Restrictions.like("proviewDisplayName", "%"
-					+ proviewDisplayName + "%"));
+			criteria.add(Restrictions.like("proviewDisplayName",
+					proviewDisplayName));
 		}
 
 		if (fullyQualifiedTitleId != null && !fullyQualifiedTitleId.equals("")) {
-			criteria.add(Restrictions.like("fullyQualifiedTitleId", "%"
-					+ fullyQualifiedTitleId + "%"));
+			criteria.add(Restrictions.like("fullyQualifiedTitleId",
+					fullyQualifiedTitleId));
 		}
 
 		if (isbn != null && !isbn.equals("")) {
-			criteria.add(Restrictions.like("isbn", "%" + isbn + "%"));
+			criteria.add(Restrictions.like("isbn", isbn));
 		}
 
 		if (materialId != null && !materialId.equals("")) {
-			criteria.add(Restrictions
-					.like("materialId", "%" + materialId + "%"));
+			criteria.add(Restrictions.like("materialId", materialId));
 		}
 
 		if (to != null && !to.equals("")) {
