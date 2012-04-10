@@ -16,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 
 public class BookLibraryFilterForm {
 
@@ -26,11 +25,29 @@ public class BookLibraryFilterForm {
 		SEARCH, RESET
 	};
 
+	public enum BookDefStatus {
+		ALL, COMPLETE, INCOMPLETE
+	};
+
 	private String proviewDisplayName;
 	private Date from;
 	private Date to;
 	private String toString;
 	private String fromString;
+	private String eBookDefStatus;
+	private String titleId;
+	private String isbn;
+	private String materialId;
+	private FilterCommand filterCommand;
+	private BookDefStatus bookStatus = BookDefStatus.ALL;
+
+	public BookDefStatus getBookStatus() {
+		return bookStatus;
+	}
+
+	public void setBookStatus(BookDefStatus bookStatus) {
+		this.bookStatus = bookStatus;
+	}
 
 	public String getToString() {
 		return toString;
@@ -47,12 +64,6 @@ public class BookLibraryFilterForm {
 	public void setFromString(String fromString) {
 		this.fromString = fromString;
 	}
-
-	private String eBookDefStatus;
-	private String titleId;
-	private String isbn;
-	private String materialId;
-	private FilterCommand filterCommand;
 
 	public FilterCommand getFilterCommand() {
 		return filterCommand;
@@ -101,7 +112,22 @@ public class BookLibraryFilterForm {
 	}
 
 	public String geteBookDefStatus() {
+
+		switch (bookStatus) {
+		case ALL:
+			eBookDefStatus = null;
+			break;
+
+		case COMPLETE:
+			eBookDefStatus = "Y";
+			break;
+
+		case INCOMPLETE:
+			eBookDefStatus = "N";
+			break;
+		}
 		return eBookDefStatus;
+
 	}
 
 	public void seteBookDefStatus(String eBookDefStatus) {

@@ -42,15 +42,19 @@
 	&nbsp;<form:input path="isbn"/><br>
 	&nbsp;<form:label path="materialId">Material ID</form:label><br>
 	&nbsp;<form:input path="materialId"/><br>
-	&nbsp;<form:label path="eBookDefStatus">Book Status</form:label><br>
-	&nbsp;<form:input path="eBookDefStatus"/><br>
 	&nbsp;<label>Last Edit Date</label><br>
 	&nbsp;&nbsp;<form:label path="from">From</form:label>
 	&nbsp;<form:input id="datepickerFrom" path="fromString"/>
 	&nbsp;<form:label path="to">To</form:label>
 	&nbsp;<form:input id="datepickerTo" path="toString"/><br>
+	&nbsp;Book Status:<br>
+	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.ALL%>"/>All<br>
+	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.COMPLETE%>"/>Complete<br>
+	<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.INCOMPLETE%>"/>InComplete<br>
+			 
 	
 	
+	<br><br>
 	<input type="button" value="Search" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.RESET%>')"/>
 	
