@@ -48,7 +48,7 @@ public class DocControllerTest {
 	@Test
 	public void testFetchDocumentsSuccessfully() throws Exception {
 		
-/*		GatherResponse gatherResponse1 = new GatherResponse();
+		GatherResponse gatherResponse1 = new GatherResponse();
 		EasyMock.expect(mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR)).andReturn(gatherResponse1);
 		EasyMock.replay(mockDocService);
 		
@@ -65,14 +65,12 @@ public class DocControllerTest {
         GatherResponse gatherResponse = (GatherResponse) modelMap.get(EBConstants.GATHER_RESPONSE_OBJECT);
         Assert.assertNotNull(gatherResponse);
         Assert.assertEquals(0, gatherResponse.getErrorCode());
-        Assert.assertNull(gatherResponse.getErrorMessage());
-        
-        EasyMock.verify(mockDocService);*/
-		
-		return;
+        Assert.assertNull(gatherResponse.getErrorMessage());       
+        EasyMock.verify(mockDocService);
+
 	}
 	
-	@Ignore
+	@Test
 	public void testFetchDocumentsWithException() {
 		int errorCode = 911;
 		String errorMesg = "bogus error";

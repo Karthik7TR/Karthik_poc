@@ -25,9 +25,5 @@ public interface DocService {
 	 */
 	public GatherResponse fetchDocuments(Collection<String> docGuids, String collectionName,
 							   File contentDestinationDirectory,
-							   File metadataDestinationDirectory) throws GatherException;
-	
-	public void createMissingDocumentsList(Collection<String> docGuids, String collectionName,
-			   File contentDestinationDirectory,
-			   File metadataDestinationDirectory) throws Exception;	
+							   File metadataDestinationDirectory) throws GatherException;	
 }
