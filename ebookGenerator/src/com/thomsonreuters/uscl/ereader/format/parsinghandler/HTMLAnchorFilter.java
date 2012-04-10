@@ -5,6 +5,8 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -34,6 +36,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	private int imgEncountered = 0;
 	
 	private long jobInstanceId;
+	private ArrayList<String> nameAnchors;
 	
 	private String firstlineCite;
 	
@@ -81,6 +84,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 			{
 				if (atts != null)
 				{
+					
 					//build image tag for image anchors
 					if (atts.getValue("type") != null && atts.getValue("type").equalsIgnoreCase("image/jpeg"))
 					{
@@ -145,8 +149,28 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						isEmptyAnchor = true;
 					}
 					else
-					{
-						super.startElement(uri, localName, qName, atts);
+					{	
+						// Dedupe id Anchor Names
+						if( nameAnchors != null && nameAnchors.contains(atts.getValue("id")))
+						{
+							String idAnchor = atts.getValue("id") + "dup" + nameAnchors.size() ;
+							
+							AttributesImpl newAtts = new AttributesImpl(atts);
+							
+							int indexId = newAtts.getIndex("id");
+							newAtts.setAttribute(indexId, "", "", "id", "CDATA", idAnchor);
+							
+							super.startElement(uri, localName, qName, newAtts);
+						}
+						else
+						{
+							if(nameAnchors == null)
+							{
+								nameAnchors = new ArrayList<String>();
+							}
+							nameAnchors.add(atts.getValue("id"));
+							super.startElement(uri, localName, qName, atts);
+						}						
 					}
 				}
 				else
