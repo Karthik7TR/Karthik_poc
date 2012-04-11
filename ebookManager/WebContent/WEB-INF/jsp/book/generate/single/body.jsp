@@ -213,7 +213,7 @@
 		  
 		</table>
 		<br/>
-		<input id="generateButton" type="button" value="Generate" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+		<input id="generateButton" type="button" value="Generate eBook" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
 		<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		
 		<div style="visibility: hidden"> 
