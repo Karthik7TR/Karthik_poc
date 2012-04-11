@@ -15,10 +15,14 @@
 <html>
 <head>
 
-<body onload='changeMinorVersion("${newMinorVersionNumber}")'>
+<body onload='clearRadioButtons()'>
 
   <script type="text/javascript">
-  	
+ 
+  function clearRadioButtons(){
+  	$("input:radio").attr("checked", false);
+  }
+  
   function changeMajorVersion(newVersion){
 	  document.getElementById('newVersionNumber').innerHTML = newVersion;
 	  document.getElementById('isMajorVersion').innerHTML = "Y";
@@ -59,7 +63,7 @@
   function checkCompleteFlag(){
 	  var  completeFlag = document.getElementById("isComplete").innerHTML;
 	  if (completeFlag=="false"){
-		  alert("Cannot submit generate: Book definition is not complete.");
+		  alert("Cannot generate eBook: Book definition is not complete.");
 		  return false;
 	   }
 	  else{
@@ -74,7 +78,7 @@
 	  var confirmed = true;
 			
 		if (publishingCutOffDate==""){
-			alert("Cannot submit generate: Publishing cut off date is required for this book.");
+			alert("Cannot generate eBook: Publishing cut off date is required for this book.");
 			document.getElementById("generateButton").disabled = true;
 			confirmed = false;
 		}
@@ -82,7 +86,7 @@
 			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
 			
 			if (publishingCutOffDateGreaterOrEqualToday=="N"){
-				alert("Cannot submit generate: Publishing cut off date must be greater or equal today.");
+				alert("Cannot generate eBook: Publishing cut off date must be greater or equal today.");
 				confirmed = false;
 			}
 		}
@@ -104,17 +108,17 @@
 	  if (isMajorVersion == "Y"){
 		
 		  if(isNewISBN =="N" && isNewMaterialId=="N"){
-			  alert("Cannot submit generate: ISBN and Material ID must be changed for major version.");
+			  alert("Cannot generate eBook: ISBN and Material ID must be changed for major version.");
 			  confirmed= false;
 		  }
 		  else{
 		  	if(isNewISBN =="N"){
-				alert("Cannot submit generate: ISBN must be changed for major version.");
+				alert("Cannot generate eBook: ISBN must be changed for major version.");
 			  	confirmed= false;
 		  	}
 		  
 		  	if(isNewMaterialId=="N"){
-			  	alert("Cannot submit generate: Material ID must be changed for major version.");
+			  	alert("Cannot generate eBook: Material ID must be changed for major version.");
 			  	confirmed= false;
 		  	}  	
 		  }
@@ -125,11 +129,28 @@
 	  return confirmed;
   }
   
+  
+  function checkVersion(){
+	  
+	  var confirmed = true;
+	  var newVersion = document.getElementById('newVersionNumber').innerHTML
+	  
+	  if (newVersion==""){
+		  alert("Cannot generate eBook: Version must be selected.");
+		  confirmed = false;
+	  }
+	  else{
+	  	confirmed = confirm("Generate with new version number: "+ newVersion);
+	  }
+	  
+	  return confirmed;
+  }
+  
+  
   function confirmValues(){
 	  
-	  var newVersion = document.getElementById('newVersionNumber').innerHTML
-	  var confirmed = confirm("Generate with new version number: "+ newVersion);
-	  
+	  var confirmed = checkVersion();
+	 
 	  if (confirmed){
 			var usePublishingCutOffDate = document.getElementById("usePublishingCutOffDate").innerHTML; 
 			if (usePublishingCutOffDate=="Y"){
