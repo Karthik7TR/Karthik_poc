@@ -36,8 +36,10 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	private int imgEncountered = 0;
 	
 	private long jobInstanceId;
-	private ArrayList<String> nameAnchors;
 	
+	private ArrayList<String> nameAnchors;
+	private int dupEncountered = 0;
+
 	private String firstlineCite;
 	
 	public void setimgService(ImageService imgService)
@@ -153,7 +155,8 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						// Dedupe id Anchor Names
 						if( nameAnchors != null && atts.getValue("id") != null && nameAnchors.contains(atts.getValue("id")))
 						{
-							String idAnchor = atts.getValue("id") + "dup" + nameAnchors.size() ;
+							dupEncountered++;
+							String idAnchor = atts.getValue("id") + "dup" + dupEncountered ;
 							
 							AttributesImpl newAtts = new AttributesImpl(atts);
 							

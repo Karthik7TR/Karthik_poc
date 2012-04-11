@@ -323,7 +323,16 @@ public class HTMLAnchorFilterTest {
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
 	}
-	
+	@Test
+	public void testSimpleAnchorNoIdDup() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+		
+		String xmlTestStr = "<test><a href=\"co_href\">Test123</a><a id=\"co_Test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"co_href\">Test123</a><a id=\"co_Test\">Test123</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}
 	
 	@Test
 	public void testAnchorNotStrippedDup() throws SAXException
@@ -341,8 +350,8 @@ public class HTMLAnchorFilterTest {
 	{
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		
-		String xmlTestStr = "<test><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Test2\" class=\"co_class2\" href=\"co_href2\">Test234</a><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a></test>";
-		String expectedResult =  "<test><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Test2\" class=\"co_class2\" href=\"co_href2\">Test234</a><a id=\"co_Testdup2\" class=\"co_class\" href=\"co_href\">Test123</a></test>";
+		String xmlTestStr = "<test><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Test2\" class=\"co_class2\" href=\"co_href2\">Test234</a><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a></test>";
+		String expectedResult =  "<test><a id=\"co_Test\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Test2\" class=\"co_class2\" href=\"co_href2\">Test234</a><a id=\"co_Testdup1\" class=\"co_class\" href=\"co_href\">Test123</a><a id=\"co_Testdup2\" class=\"co_class\" href=\"co_href\">Test123</a></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
 	}
