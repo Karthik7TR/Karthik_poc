@@ -94,7 +94,7 @@ public class EditBookDefinitionForm {
 		this.keyCiteToplineFlag = true;
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
-		this.enableCopyFeatureFlag = true;
+		this.enableCopyFeatureFlag = false;
 		this.copyright = "©";
 	}
 	
@@ -184,11 +184,15 @@ public class EditBookDefinitionForm {
 		book.setEbookDefinitionCompleteFlag(isComplete);
 		book.setEbookDefinitionId(bookdefinitionId);
 		book.setFullyQualifiedTitleId(titleId);
+		// Needs to come after setting fully qualified title id
+		book.setCoverImage(book.getTitleId() + ".png");
+		
 		book.setIsbn(isbn);
 		book.setIsProviewTableViewFlag(isProviewTableView);
 		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
+		
 		
 		if(keywords != null) {
 			Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
