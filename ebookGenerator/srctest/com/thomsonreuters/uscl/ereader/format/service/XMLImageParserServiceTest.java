@@ -206,7 +206,7 @@ public class XMLImageParserServiceTest {
     {
     	try
     	{
-    		guidList.add("I5d463990094d11e085f5891ac64a9"); //check 32 char GUID
+    		guidList.add("I5d463990094d11e085f5891ac64a"); //check 29 char GUID
         	imgParserService.createImageList(imgListFile, guidList);
         	fail("EBookFormatException was not thrown for short GUID.");
     	}
