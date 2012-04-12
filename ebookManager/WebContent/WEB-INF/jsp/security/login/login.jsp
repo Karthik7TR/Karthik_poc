@@ -35,13 +35,13 @@ $(document).ready(function() {
 	<table>
 		<tr>
 			<td>Username:</td>
-			<td><form:input path="username"/><br>
-			<i style="color:grey;">network username (eg: u1234567)</i></td>
+			<td><form:input path="username"/><td>
+			<i style="color:grey;">network username (eg: u1234567)</i>
 		</tr>
 		<tr>
 			<td>Password:</td>
-			<td><form:password path="password"/><br>
-			<i style="color:grey;">network password</i></td>
+			<td><form:password path="password"/><td>
+			<i style="color:grey;">network password</i>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
