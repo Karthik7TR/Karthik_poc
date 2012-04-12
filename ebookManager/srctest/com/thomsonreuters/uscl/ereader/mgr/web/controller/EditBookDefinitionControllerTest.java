@@ -127,7 +127,7 @@ public class EditBookDefinitionControllerTest {
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
-	        checkInitialValuesDynamicContentNoNameLines(model);
+	        checkInitialValuesDynamicContent(model);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -155,7 +155,7 @@ public class EditBookDefinitionControllerTest {
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
-	        checkInitialValuesDynamicContentNoNameLines(model);
+	        checkInitialValuesDynamicContent(model);
 	        
 	        // Check binding state
 	        BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
@@ -249,7 +249,7 @@ public class EditBookDefinitionControllerTest {
 	    	assertNotNull(bindingResult);
 	    	assertTrue(bindingResult.hasErrors());
 	    	
-	    	checkInitialValuesDynamicContentNoNameLines(model);
+	    	checkInitialValuesDynamicContent(model);
 	       
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,8 +274,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", titleId);
-    	request.setParameter("nameLines[0].bookNameText", "title name");
-    	request.setParameter("nameLines[0].sequenceNum", "1");
+    	request.setParameter("frontMatterTitle.bookNameText", "title name");
+    	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
@@ -347,7 +347,7 @@ public class EditBookDefinitionControllerTest {
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
-	        checkInitialValuesDynamicContentForPublishedAndNameLine(model);
+	        checkInitialValuesDynamicContentForPublished(model);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -400,8 +400,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", fullyQualifiedTitleId);
-    	request.setParameter("nameLines[0].bookNameText", "title name");
-    	request.setParameter("nameLines[0].sequenceNum", "1");
+    	request.setParameter("frontMatterTitle.bookNameText", "title name");
+    	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
@@ -546,7 +546,7 @@ public class EditBookDefinitionControllerTest {
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
-	        checkInitialValuesDynamicContentForOneNameLine(model);
+	        checkInitialValuesDynamicContent(model);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -575,7 +575,7 @@ public class EditBookDefinitionControllerTest {
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
-	        checkInitialValuesDynamicContentNoNameLines(model);
+	        checkInitialValuesDynamicContent(model);
 	        
 	        // Check binding state
 	        BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
@@ -669,7 +669,7 @@ public class EditBookDefinitionControllerTest {
 	    	assertNotNull(bindingResult);
 	    	assertTrue(bindingResult.hasErrors());
 	    	
-	    	checkInitialValuesDynamicContentNoNameLines(model);
+	    	checkInitialValuesDynamicContent(model);
 	       
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -694,8 +694,8 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", titleId);
-    	request.setParameter("nameLines[0].bookNameText", "title name");
-    	request.setParameter("nameLines[0].sequenceNum", "1");
+    	request.setParameter("frontMatterTitle.bookNameText", "title name");
+    	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
     	request.setParameter("isTOC", "true");
@@ -738,26 +738,13 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockAuditService);
 		EasyMock.verify(mockBookDefinitionService);
 	}
-	
-	private void checkInitialValuesDynamicContentNoNameLines(Map<String,Object> model) {
-		int numNameLines = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_NAME_LINES).toString());
-        assertEquals(0, numNameLines);
 
-        checkInitialValuesDynamicContent(model);
-	}
 	
-	private void checkInitialValuesDynamicContentForOneNameLine(Map<String,Object> model) {
-		int numNameLines = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_NAME_LINES).toString());
-        assertEquals(1, numNameLines);
-
-        checkInitialValuesDynamicContent(model);
-	}
-	
-	private void checkInitialValuesDynamicContentForPublishedAndNameLine(Map<String,Object> model) {
+	private void checkInitialValuesDynamicContentForPublished(Map<String,Object> model) {
 		boolean isPublished = Boolean.parseBoolean(model.get(WebConstants.KEY_IS_PUBLISHED).toString());
 		assertEquals(false, isPublished);
 		
-		checkInitialValuesDynamicContentForOneNameLine(model);
+		checkInitialValuesDynamicContent(model);
 	}
 	
 	private void checkInitialValuesDynamicContent(Map<String,Object> model) {

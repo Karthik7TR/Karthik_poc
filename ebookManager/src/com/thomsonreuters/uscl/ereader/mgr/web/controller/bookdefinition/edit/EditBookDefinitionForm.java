@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -44,7 +45,6 @@ public class EditBookDefinitionForm {
 	private String copyrightPageText;
 	private String materialId;
 	private Collection<Author> authorInfo;
-	private Collection<EbookName> nameLines;
 	private Collection<FrontMatterPage> frontMatters;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
@@ -79,14 +79,16 @@ public class EditBookDefinitionForm {
 	private String pubAbbr;
 	private String jurisdiction;
 	private String pubInfo;
-	
 	private String comment;
+	private EbookName frontMatterTitle = new EbookName();
+	private EbookName frontMatterSubtitle = new EbookName();
+	private EbookName frontMatterSeries = new EbookName();
+	
 	private boolean validateForm;
 	
 	public EditBookDefinitionForm() {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
-		this.nameLines = new AutoPopulatingList<EbookName>(EbookName.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.keywords = new ArrayList<Long>();
 		this.isProviewTableView = false;
@@ -115,7 +117,6 @@ public class EditBookDefinitionForm {
 			this.nortFilterView = book.getNortFilterView();
 			this.isbn = book.getIsbn();
 			this.authorInfo = book.getAuthors();
-			this.nameLines = book.getEbookNames();
 			this.frontMatters = book.getFrontMatterPages();
 			this.publishDateText = book.getPublishDateText();
 			this.currency = book.getCurrency();
@@ -142,7 +143,27 @@ public class EditBookDefinitionForm {
 				this.keywords.add(value.getId());
 			}
 			
+			setupFrontMatterNames(book.getEbookNames());
+			
 			parseTitleId(book);
+		}
+	}
+	
+	private void setupFrontMatterNames(List<EbookName> names){
+		for(EbookName name: names){
+			switch(name.getSequenceNum()){
+			case 1:
+				this.frontMatterTitle = name;
+				break;
+			case 2:
+				this.frontMatterSubtitle = name;
+				break;
+			case 3:
+				this.frontMatterSeries = name;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	
@@ -153,7 +174,17 @@ public class EditBookDefinitionForm {
 		}
 		book.setAuthors(authors);
 		
-		Set<EbookName> ebookNames = new HashSet<EbookName>(nameLines);
+		// Add Front Matter Book Names
+		Set<EbookName> ebookNames = new HashSet<EbookName>();
+		if(!frontMatterTitle.isEmpty()){
+			ebookNames.add(frontMatterTitle);
+		}
+		if(!frontMatterSubtitle.isEmpty()){
+			ebookNames.add(frontMatterSubtitle);
+		}
+		if(!frontMatterSeries.isEmpty()){
+			ebookNames.add(frontMatterSeries);
+		}
 		for(EbookName name : ebookNames) {
 			name.setEbookDefinition(book);
 		}
@@ -264,8 +295,11 @@ public class EditBookDefinitionForm {
 		
 		if (documentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
 			index = 2;
-		} else {
+		} else if(documentType.getName().equalsIgnoreCase(WebConstants.KEY_ANALYTICAL) || 
+				documentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
 			index = 1;
+		} else {
+			index = 0;
 		}
 		
 		for(int i = index; i < titleId.length ; i++) {
@@ -302,13 +336,6 @@ public class EditBookDefinitionForm {
 		this.proviewDisplayName = proviewDisplayName;
 	}
 
-	public Collection<EbookName> getNameLines() {
-		return nameLines;
-	}
-
-	public void setNameLines(Collection<EbookName> nameLines) {
-		this.nameLines = nameLines;
-	}
 	
 	public Collection<FrontMatterPage> getFrontMatters() {
 		return frontMatters;
@@ -575,6 +602,30 @@ public class EditBookDefinitionForm {
 		this.comment = comment;
 	}
 
+	public EbookName getFrontMatterTitle() {
+		return frontMatterTitle;
+	}
+
+	public void setFrontMatterTitle(EbookName frontMatterTitle) {
+		this.frontMatterTitle = frontMatterTitle;
+	}
+
+	public EbookName getFrontMatterSubtitle() {
+		return frontMatterSubtitle;
+	}
+
+	public void setFrontMatterSubtitle(EbookName frontMatterSubtitle) {
+		this.frontMatterSubtitle = frontMatterSubtitle;
+	}
+
+	public EbookName getFrontMatterSeries() {
+		return frontMatterSeries;
+	}
+
+	public void setFrontMatterSeries(EbookName frontMatterSeries) {
+		this.frontMatterSeries = frontMatterSeries;
+	}
+
 	public boolean isValidateForm() {
 		return validateForm;
 	}
@@ -592,14 +643,6 @@ public class EditBookDefinitionForm {
         for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
         	Author author = i.next();
             if (author == null || author.isNameEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out empty name line
-        for (Iterator<EbookName> i = nameLines.iterator(); i.hasNext();) {
-        	EbookName nameLine = i.next();
-            if (nameLine == null || nameLine.isEmpty()) {
                 i.remove();
             }
         }

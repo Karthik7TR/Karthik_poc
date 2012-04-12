@@ -315,6 +315,9 @@ a:hover {
 	zoom:1; /* IE7 hack */
 	*display: inline; /* IE7 hack */
 }
+ div.field {
+ 	text-align: center;
+ }
 .bookDefinitionCRUD .leftDefinitionForm,
 .bookDefinitionCRUD .rightDefinitionForm,
 .bookDefinitionView .leftDefinitionForm,

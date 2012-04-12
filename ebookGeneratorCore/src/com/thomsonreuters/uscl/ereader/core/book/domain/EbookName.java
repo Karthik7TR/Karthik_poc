@@ -129,7 +129,7 @@ public class EbookName implements Serializable, Comparable<EbookName> {
 	}
 	
 	public boolean isEmpty() {
-		return StringUtils.isBlank(this.bookNameText) & this.sequenceNum == null;
+		return StringUtils.isBlank(this.bookNameText);
 	}
 
 	@Override

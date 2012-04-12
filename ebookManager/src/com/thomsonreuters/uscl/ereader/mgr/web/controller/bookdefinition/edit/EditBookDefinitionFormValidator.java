@@ -19,7 +19,6 @@ import org.springframework.validation.Validator;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -137,19 +136,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getAdditionalTrademarkInfo(), "currency", new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
-		
-		// Check EBookNames for max characters and required fields
-		int i = 0;
-		for(EbookName name: form.getNameLines()) {
-			checkMaxLength(errors, MAXIMUM_CHARACTER_2048, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_2048});
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nameLines[" + i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
-			i++;
-		}
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterTitle().getBookNameText(), "frontMatterTitle.bookNameText", new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 		
 		// Require last name to be filled if there are authors
 		// Also check max character length for all the fields
     	Collection<Author> authors = form.getAuthorInfo();
-    	i = 0;
+    	int i = 0;
 		for(Author author : authors) {
 			if(StringUtils.isEmpty(author.getAuthorLastName())) {
 				errors.rejectValue("authorInfo["+ i +"].authorLastName", "error.author.last.name");
@@ -204,6 +198,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
 
 			if (form.getIsTOC()) {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
@@ -216,10 +211,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
-			
-			if(form.getNameLines().size() == 0) {
-				errors.rejectValue("nameLines", "error.at.least.one", new Object[] {"Name Line"}, "At Least 1 Name Line is required");
-			}
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
 			
 			if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
         		// Validate Slice Codes fields are filled out

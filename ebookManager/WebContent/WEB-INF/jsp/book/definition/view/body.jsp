@@ -97,10 +97,6 @@ function submitForm(cmd)
 					<label class="labelCol">KeyCite Topline Flag</label>
 					<span class="field">${ book.keyciteToplineFlag }</span>
 				</div>
-				<div class="row">
-					<label class="labelCol">Book Definition Status</label>
-					<span class="field">${ book.bookStatus }</span>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -154,31 +150,38 @@ function submitForm(cmd)
 					<label class="labelCol">Front Matter TOC Label</label>
 					<span class="field">${ book.frontMatterTocLabel }</span>
 				</div>
+				<c:forEach items="${book.ebookNames}" var="name">
+					<div class="row">
+						<c:if test="${ name.sequenceNum == 1 }">
+							<c:set var="frontMatterNameLabel" value="Main Title" />
+						</c:if>
+						<c:if test="${ name.sequenceNum == 2 }">
+							<c:set var="frontMatterNameLabel" value="Sub Title" />
+						</c:if>
+						<c:if test="${ name.sequenceNum == 3 }">
+							<c:set var="frontMatterNameLabel" value="Series" />
+						</c:if>
+						<label class="labelCol">${frontMatterNameLabel}</label>
+						<div class="field">${name.bookNameText}</div>
+					</div>
+				</c:forEach>
 				<div class="row">
 					<label class="labelCol">Copyright</label>
-					<span class="field">${ book.copyright }</span>
+					<div class="field">${ book.copyright }</div>
 				</div>
 				<div class="row">
 					<label class="labelCol">Copyright Page Text</label>
-					<span class="field">${ book.copyrightPageText }</span>
-				</div>
-				<div id="nameLine" class="row">
-					<label class="labelCol">Name Line</label>
-					<c:forEach items="${book.ebookNames}" var="name">
-						<div>
-							<c:out value="${name.bookNameText}"></c:out>
-						</div>
-					</c:forEach>
-				</div> 
+					<div class="field">${ book.copyrightPageText }</div>
+				</div>					
 			</div>
 			<div class="rightDefinitionForm">
 				<div class="row">
 					<label class="labelCol">Additional Trademark/Patent Info</label>
-					<span class="field">${ book.additionalTrademarkInfo }</span>
+					<div class="field">${ book.additionalTrademarkInfo }</div>
 				</div>
 				<div class="row">
 					<label class="labelCol">Currentness Message</label>
-					<span class="field">${ book.currency }</span>
+					<div class="field">${ book.currency }</div>
 				</div>
 				
 				<div class="row">
@@ -187,12 +190,12 @@ function submitForm(cmd)
 					<span class="field">${ authorDisplay }</span>
 				</div>
 				
-				<div id="authorName" class="row">
+				<div class="row">
 					<label class="labelCol">Author Information</label>
 					<c:forEach items="${book.authors}" var="author">
-						<div>
-							${author.fullName } ${author.authorAddlText}
-						</div>
+							<div class="field">${author.fullName }</div>
+							<div class="field"> ${author.authorAddlText}</div>
+							<br>
 					</c:forEach>
 				</div>
 			</div>

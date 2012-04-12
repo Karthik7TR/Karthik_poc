@@ -294,7 +294,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertFalse(errors.hasErrors());
 		
 		form.setProviewDisplayName(null);
-		form.setNameLines(new ArrayList<EbookName>());
+		form.setFrontMatterTitle(new EbookName());
 		form.setCopyright(null);
 		form.setMaterialId(null);
 		form.setIsbn(null);
@@ -303,7 +303,7 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setFrontMatterTocLabel(null);
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
-		Assert.assertEquals("error.at.least.one", errors.getFieldError("nameLines").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
@@ -331,7 +331,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertFalse(errors.hasErrors());
 		
 		form.setProviewDisplayName(null);
-		form.setNameLines(new ArrayList<EbookName>());
+		form.setFrontMatterTitle(new EbookName());
 		form.setCopyright(null);
 		form.setMaterialId(null);
 		form.setIsbn(null);
@@ -341,7 +341,7 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setFrontMatterTocLabel(null);
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
-		Assert.assertEquals("error.at.least.one", errors.getFieldError("nameLines").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
@@ -435,29 +435,6 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.required.field", errors.getFieldError("authorInfo[0].sequenceNum").getCode());
 		Assert.assertEquals("error.author.last.name", errors.getFieldError("authorInfo[0].authorLastName").getCode());
-		
-		EasyMock.verify(mockBookDefinitionService);
-	}
-	
-	/**
-	 * Test Author required fields
-	 */
-	@Test
-	public void testNameLineRequiredFields() {
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
-    	EasyMock.replay(mockBookDefinitionService);
-    	
-    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
-		EasyMock.replay(mockCodeService);
-    	
-    	populateFormDataAnalyticalToc();
-    	EbookName name = new EbookName();
-    	name.setBookNameText("Test");
-    	form.getNameLines().add(name);
-    	
-		validator.validate(form, errors);
-		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.required.field", errors.getFieldError("nameLines[1].sequenceNum").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -564,13 +541,11 @@ public class EditBookDefinitionFormValidatorTest {
 		populateFormData(book);
 		form.setNortDomain("1234");
 		form.setNortFilterView("1234");
-		Collection<EbookName> nameLines = new ArrayList<EbookName>();
 		EbookName nameLine = new EbookName();
 		nameLine.setEbookNameId(1);
 		nameLine.setBookNameText("Book Title");
 		nameLine.setSequenceNum(1);
-		nameLines.add(nameLine);
-		form.setNameLines(nameLines);
+		form.setFrontMatterTitle(nameLine);
 		form.setFrontMatterTocLabel("Label");
 		
 		return book;
@@ -584,13 +559,11 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setTocCollectionName("1234");
 		form.setDocCollectionName("doc collection");
 		form.setRootTocGuid("i12345678123456781234567812345678");
-		Collection<EbookName> nameLines = new ArrayList<EbookName>();
 		EbookName nameLine = new EbookName();
 		nameLine.setEbookNameId(1);
 		nameLine.setBookNameText("Book Title");
 		nameLine.setSequenceNum(1);
-		nameLines.add(nameLine);
-		form.setNameLines(nameLines);
+		form.setFrontMatterTitle(nameLine);
 		form.setFrontMatterTocLabel("Label");
 		
 		return book;

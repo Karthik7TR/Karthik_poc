@@ -9,7 +9,6 @@
 <script type="text/javascript">
 		// Declare Global Variables
 		var authorIndex = ${numberOfAuthors};
-		var nameIndex = ${numberOfNameLines};
 		var frontMatterPageIndex = ${numberOfFrontMatters};
 		var contentType = "";
 		var publisher = "";
@@ -103,20 +102,6 @@
 			authorIndex = authorIndex + 1;
 			
 			textboxHint("authorName");
-		};
-		
-		// Add another name row
-		var addNameRow = function() {
-			var appendTxt = "<div class='row'>";
-			appendTxt = appendTxt + "<input id=\"nameLines" + nameIndex + ".ebookNameId\" name=\"nameLines[" + nameIndex + "].ebookNameId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"bookName\" id=\"nameLines" + nameIndex + ".bookNameText\" name=\"nameLines[" + nameIndex + "].bookNameText\" type=\"text\" title=\"Name Line\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"nameLines" + nameIndex + ".sequenceNum\" name=\"nameLines[" + nameIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
-			appendTxt = appendTxt + "</div>";
-			$("#addNameHere").before(appendTxt);
-			nameIndex = nameIndex + 1;
-			
-			textboxHint("nameLine");
 		};
 		
 		// Add another additional Front Matter Page row
@@ -273,14 +258,6 @@
 				$('#authorName').show();
 			});
 			
-			$('#addNameLine').click(function () {
-				addNameRow();
-				
-				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
-				$('#nameLine').hide();
-				$('#nameLine').show();
-			});
-			
 			//Update formValidation field if Validation button is pressed
 			$('#validate').click(function () {
 				$('#validateForm').val(true);
@@ -342,8 +319,8 @@
 				srow.remove();
 				
 				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
-				$('#nameLine').hide();
-				$('#nameLine').show();
+				$('#authorName').hide();
+				$('#authorName').show();
 			});
 			
 			$('#addFrontMatterPage').click(function () {
@@ -678,25 +655,32 @@
 					<form:errors path="copyrightPageText" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div id="nameLine" class="row">
-				<form:label path="nameLines" class="labelCol">Name Line</form:label>
-				<input type="button" id="addNameLine" value="add" />
-				<div class="errorDiv">
-					<form:errors path="nameLines" cssClass="errorMessage" />
+			<div class="row">
+				<form:label path="frontMatterTitle" class="labelCol">Main Title</form:label>
+				<form:hidden path="frontMatterTitle.ebookNameId" />
+				<form:hidden path="frontMatterTitle.sequenceNum" value="1" />
+				<form:textarea path="frontMatterTitle.bookNameText" />
+				<div class="errorDiv2">
+					<form:errors path="frontMatterTitle.bookNameText" cssClass="errorMessage" />
 				</div>
-				<c:forEach items="${editBookDefinitionForm.nameLines}" var="name" varStatus="aStatus">
-					<div class="row">
-						<form:hidden path="nameLines[${aStatus.index}].ebookNameId"/>
-						<form:input path="nameLines[${aStatus.index}].bookNameText" title="Name Line" class="bookName"  />
-						<form:input path="nameLines[${aStatus.index}].sequenceNum" title="Seq Num." class="sequenceNumber" maxlength="9" />
-						<input type="button" value="Delete" class="rdelete" />
-						<div class="errorDiv2">
-							<form:errors path="nameLines[${aStatus.index}].bookNameText" cssClass="errorMessage" />
-							<form:errors path="nameLines[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
-						</div>
-					</div>
-				</c:forEach>
-				<div id="addNameHere"></div>
+			</div>
+			<div class="row">
+				<form:label path="frontMatterSubtitle" class="labelCol">Sub Title</form:label>
+				<form:hidden path="frontMatterSubtitle.ebookNameId"/>
+				<form:hidden path="frontMatterSubtitle.sequenceNum" value="2"/>
+				<form:textarea path="frontMatterSubtitle.bookNameText" />
+				<div class="errorDiv2">
+					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
+				</div>
+			</div> 
+			<div class="row">
+				<form:label path="frontMatterSeries" class="labelCol">Series</form:label>
+				<form:hidden path="frontMatterSeries.ebookNameId"/>
+				<form:hidden path="frontMatterSeries.sequenceNum" value="3"/>
+				<form:textarea path="frontMatterSeries.bookNameText" />
+				<div class="errorDiv2">
+					<form:errors path="frontMatterSeries.bookNameText" cssClass="errorMessage" />
+				</div>
 			</div> 
 		</div>
 		<div class="rightDefinitionForm">

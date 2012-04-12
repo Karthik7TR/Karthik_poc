@@ -13,7 +13,7 @@
 		<img alt="${book.proviewDisplayName}" src="theme/images/cover.png">
 	</div>
 	<div class="titleData">
-		Title ID: ${book.titleId}<br/>
+		Title ID: ${book.fullyQualifiedTitleId}<br/>
 		Name: ${book.proviewDisplayName}<br/>
 		<div class="bookStatus">Current Status: ${book.bookStatus}</div>
 	</div>
