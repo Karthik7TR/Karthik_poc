@@ -185,13 +185,14 @@
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
+      <classes file="${dir.source}/log4j.xml"/>  
     </war>
 		
     <!-- copy context files to dir.binaries -->
     <copy todir="${dir.binaries}">
       <fileset dir="${context.xml.dir}">
         <include name="**/*.xml"/>
-      </fileset>
+      </fileset>	    	
     </copy>
 	
  
