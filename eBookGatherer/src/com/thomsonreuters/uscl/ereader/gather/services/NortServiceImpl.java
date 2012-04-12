@@ -63,7 +63,7 @@ public class NortServiceImpl implements NortService {
 			// are making
 			Integer novusNortRetryCounter = 0;
 			nortRetryCount = new Integer(novusUtility.getTocRetryCount());			
-			while (novusNortRetryCounter <= nortRetryCount) {
+			while (novusNortRetryCounter < nortRetryCount) {
 				try {
 					nortNodes = _nortManager.getRootNodes();
 					break;
@@ -309,7 +309,7 @@ public class NortServiceImpl implements NortService {
 				NortNode[] nortNodes = null;
 				Integer novusNortRetryCounter = 0;
 				nortRetryCount = new Integer(novusUtility.getTocRetryCount());				
-				while (novusNortRetryCounter <= nortRetryCount) {
+				while (novusNortRetryCounter < nortRetryCount) {
 					try {
 						nortNodes = node.getChildren();
 						break;

@@ -55,7 +55,7 @@ public class TocServiceImpl implements TocService {
 			// are making
 			Integer novusTocRetryCounter = 0;
 			tocRetryCount = new Integer(novusUtility.getTocRetryCount());
-			while (novusTocRetryCounter <= tocRetryCount) {
+			while (novusTocRetryCounter < tocRetryCount) {
 				try {
 					tocNode = _tocManager.getNode(guid);
 					break;
@@ -202,7 +202,7 @@ public class TocServiceImpl implements TocService {
 				// are making
 				Integer novusTocRetryCounter = 0;
 				tocRetryCount = new Integer(novusUtility.getTocRetryCount());				
-				while (novusTocRetryCounter <= tocRetryCount) {
+				while (novusTocRetryCounter < tocRetryCount) {
 					try {
 						tocNodes = node.getChildren();
 						break;

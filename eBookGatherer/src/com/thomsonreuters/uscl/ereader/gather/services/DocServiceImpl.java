@@ -102,7 +102,7 @@ public class DocServiceImpl implements DocService {
 				Document document = null;
 
 
-				while (novusRetryCounter <= docRetryCount) {
+				while (novusRetryCounter < docRetryCount) {
 					try {
 						if (collectionName == null) {
 							document = finder.getDocument(null, guid);
@@ -236,7 +236,7 @@ public class DocServiceImpl implements DocService {
 		// This is the counter for checking how many Novus retries we are making
 		// for doc retrieval
 		Integer novusDocRetryCounter = 0;	
-		while (novusDocRetryCounter <= retryCount) {
+		while (novusDocRetryCounter < retryCount) {
 			try {
 				docText = document.getText();
 				if((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
