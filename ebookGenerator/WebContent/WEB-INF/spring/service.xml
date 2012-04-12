@@ -42,6 +42,7 @@
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
 
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
+		  p:environmentName-ref="environmentName"
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"/>

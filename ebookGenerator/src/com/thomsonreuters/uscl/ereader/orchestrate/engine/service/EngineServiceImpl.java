@@ -12,10 +12,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -27,14 +25,12 @@ import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-//import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 
 public class EngineServiceImpl implements EngineService {
 	private static Logger log = Logger.getLogger(EngineServiceImpl.class);
+	private String environmentName;  // like "ci" or "test"
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
@@ -106,9 +102,14 @@ public class EngineServiceImpl implements EngineService {
 		//jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(jobRequest.getUserEmail()));
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(new Timestamp(System.currentTimeMillis())));
+		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
 		return new JobParameters(jobParamMap);
 	}
 
+	@Required
+	public void setEnvironmentName(String envName) {
+		this.environmentName = envName;
+	}
 	@Required
 	public void setJobRegistry(JobRegistry jobRegistry) {
 		this.jobRegistry = jobRegistry;

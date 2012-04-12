@@ -24,4 +24,6 @@ public class JobParameterKey {
 	 * since it thinks that the e-book generating job has already run to completion.
 	 */
 	public static final String JOB_TIMESTAMP = "jobTimestamp";
+	
+	public static final String ENVIRONMENT_NAME = "environmentName";
 }
