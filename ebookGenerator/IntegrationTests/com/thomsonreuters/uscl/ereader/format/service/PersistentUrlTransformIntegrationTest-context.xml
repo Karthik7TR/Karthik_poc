@@ -10,12 +10,12 @@
 
   	<bean id="urlBuilder" class="com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean"/>
   <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
-  	      p:hostname="${mud.domain}" 
-  	      p:rs="${mud.parameter.rs}"
-  	      p:vr="${mud.parameter.vr}"/>
+  	      p:hostname="https://www.westlaw.com" 
+  	      p:rs="ebbp3.0"
+  	      p:vr="3.0"/>
   	<bean class="com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter" 
-  	      p:hostname="${mud.domain}" 
-  	      p:rs="${mud.parameter.rs}"
-  	      p:vr="${mud.parameter.vr}"/> 	
+  	      p:hostname="https://www.westlaw.com" 
+  	      p:rs="ebbp3.0"
+  	      p:vr="3.0"/>
   	
 </beans>

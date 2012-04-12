@@ -167,6 +167,7 @@ public class PersistentUrlTransformIntegrationTests
         result = buildUrlsFromFile(
                 "N13AAADB07CC011DC828EC052D3B59944_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
 
+        System.out.println(result);
         Assert.isTrue(
             result != 0,
             "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
@@ -235,7 +236,7 @@ public class PersistentUrlTransformIntegrationTests
         result = buildUrlsFromFile(
                 "N1E6B9EE08D7111D8A8ACD145B11214D7_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
 
-        Assert.isTrue(
+         Assert.isTrue(
             result != 0,
             "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
             + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
@@ -765,6 +766,7 @@ public class PersistentUrlTransformIntegrationTests
         throws Exception
     {
         String renderedOutput = getWestLawNextRenderedOutput(PRE_RENDERED_GUID);
+        System.out.println("Chinana" + renderedOutput);
 
         int result = buildUrlsFromString(renderedOutput, DOCUMENT_HEAD_XPATH_EXPR);
 

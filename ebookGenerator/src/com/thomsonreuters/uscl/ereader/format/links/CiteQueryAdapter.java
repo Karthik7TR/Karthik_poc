@@ -106,6 +106,53 @@ public class CiteQueryAdapter
         CiteQueryAdapter.MUD_PARAMETERS_VR = vr;
     }
 
+    /**
+     * 
+     * @param url
+     *
+     * @return Updated Url (with extra parameters)
+     */
+    private String addExtraParameters(final String url)
+    {
+        StringBuilder strBuilder = new StringBuilder();
+        String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
+
+        if (url.contains("#"))
+        {
+            String[] strSpliter = url.split("#");
+
+            strBuilder.append(strSpliter[0]);
+            strBuilder.append(extraParameters);
+
+            if (strSpliter.length > 1)
+            {
+                if (strSpliter[1].contains("&"))
+                {
+                    String[] newStrSpliter = strSpliter[1].split("&");
+                    int i = 1;
+
+                    for (; i < newStrSpliter.length; i++)
+                    {
+                        strBuilder.append('&');
+                        strBuilder.append(newStrSpliter[i]);
+                    }
+
+                    strBuilder.append("#" + newStrSpliter[0]);
+                }
+                else
+                {
+                    strBuilder.append("#" + strSpliter[1]);
+                }
+            }
+        }
+        else
+        {
+            return url + extraParameters;
+        }
+
+        return strBuilder.toString();
+    }
+
     private String getCiteQueryLinkIntermediary(
         Node linkElement, String originatingDoc, String keyText, String sourceCite,
         String... parameters)
@@ -128,7 +175,7 @@ public class CiteQueryAdapter
                 response = HOSTNAME
                     + this.urlBuilder.createUrl(
                         Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
-                response = response + "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
+                response = addExtraParameters(response);
             }
             catch (UrlBuilderException e)
             {
@@ -174,7 +221,7 @@ public class CiteQueryAdapter
                 response = HOSTNAME
                     + this.urlBuilder.createUrl(
                         Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
-                response = response + "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
+                response = addExtraParameters(response);
             }
             catch (UrlBuilderException e)
             {
