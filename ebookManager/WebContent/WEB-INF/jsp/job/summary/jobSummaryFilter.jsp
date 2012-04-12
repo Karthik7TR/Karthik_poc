@@ -31,7 +31,7 @@ function submitJobSummaryFilterForm(command) {
 }
 </script>
 
-<b>Job Filters</b><br/>
+<h2>Filters</h2>
 <br/>
 
 <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_FILTER_POST%>"
@@ -71,8 +71,9 @@ function submitJobSummaryFilterForm(command) {
 		<form:option label="<%=BatchStatus.STOPPING.toString() %>" value="<%=BatchStatus.STOPPING.toString() %>"/>
 		<form:option label="<%=BatchStatus.UNKNOWN.toString() %>" value="<%=BatchStatus.UNKNOWN.toString() %>"/>
 	</form:select>
-	<br/>
-	<br/>
+	
+	<p><i style="color:grey">Wildcard: %</i></p>
+	
 	<input id="jobFilterSearchButton" type="button" value="Search" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>
 </form:form>
