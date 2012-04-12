@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="er:#ebook_generator" />
+	</head>
+	<body>
+		<section><frontMatterPlaceholder_researchAssistancePageAnchor/>
+			<div class="front_matter_page">
+				<div class="research_assistance_page">
+					<div class="research_assistance_title">
+						ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE
+					</div>
+					<div class="research_assistance_text">For additional information or research assistance call the West reference attorneys at 1-800-REF-ATTY
+						(1-800-733-2889). Contact West's editorial department directly with your questions
+						and suggestions by e-mail at <frontMatterPlaceholder_researchAssistanceEmail/>.</div>
+					<div class="research_assistance_homepage">Visit West's home page at <a class="additional_info_hyperlink" href="http://store.westlaw.com">store.westlaw.com</a>.</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

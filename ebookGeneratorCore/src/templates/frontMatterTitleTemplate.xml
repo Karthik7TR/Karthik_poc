@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="er:#ebook_generator" />
+	</head>
+	<body>
+		<section><frontMatterPlaceholder_TOCHeadingAnchor/><frontMatterPlaceholder_TitlePageAnchor/>
+			<div class="front_matter_page">
+				<div class="title_page">
+					<div class="bookname3">
+						<p><frontMatterPlaceholder_bookname3/></p>
+					</div>
+					<div class="bookname">
+						<p><frontMatterPlaceholder_bookname/></p>
+					</div>
+					<div class="bookname2">
+						<p><frontMatterPlaceholder_bookname2/></p>
+					</div>
+					<div class="currency"><p><frontMatterPlaceholder_currency/></p></div>
+					<frontMatterPlaceholder_authors/>
+					<div class="logo"><img src="er:#EBook_Generator_WestLogo" alt="West A Thomson Reuters business logo"/></div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

@@ -134,11 +134,13 @@ public class InitializeTask extends AbstractSbTasklet {
 		File formatImageMetadataDirectory = new File(formatDirectory, "ImageMetadata");
 		File postTransformDirectory = new File(formatDirectory, "PostTransform");
 		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
+		File frontMatterHTMLDiretory = new File(formatDirectory, "FrontMatterHTML");
 		formatDirectory.mkdir();
 		transformedDirectory.mkdir();
 		formatImageMetadataDirectory.mkdir();
 		postTransformDirectory.mkdir();
 		htmlWrapperDirectory.mkdir();
+		frontMatterHTMLDiretory.mkdir();
 		File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 		
 		//File htmlDirectory = new File(formatDirectory, "HTML");
@@ -188,6 +190,8 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR, frontMatterHTMLDiretory.getAbsolutePath());
 		
 		jobExecutionContext.putString(
 				JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());

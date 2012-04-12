@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader;
 public class FrontMatterFileName {
 
 	// ===== Standard names for FRONT MATTER Files =====
-	/** This is the header for the entire front matter pages */
+	/** This is the header for the entire front matter pages (Used only with the +"Anchor") */
 	public static final String PUBLISHING_INFORMATION = "PublishingInformation";
 	/** This is the Title Page. */
 	public static final String FRONT_MATTER_TITLE = "FrontMatterTitle";
@@ -18,5 +18,8 @@ public class FrontMatterFileName {
 	public static final String RESEARCH_ASSISTANCE = "ResearchAssistance";
 	/** This is the WestlawNext GUIDE */
 	public static final String WESTLAWNEXT = "WestlawNext";
+
+    /** This will be appended to the file names to generate unique anchor names for each page. */
+    public static final String ANCHOR = "Anchor";
 
 }
