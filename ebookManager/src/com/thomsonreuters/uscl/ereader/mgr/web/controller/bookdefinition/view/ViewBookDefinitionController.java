@@ -20,6 +20,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -113,6 +115,13 @@ public class ViewBookDefinitionController {
 		
 		for(Author author: book.getAuthors()) {
 			author.setAuthorAddlText(StringUtils.replace(author.getAuthorAddlText(), "\n", "<br>"));
+		}
+		
+		for(FrontMatterPage page : book.getFrontMatterPages()) {
+			for(FrontMatterSection section : page.getFrontMatterSections()) {
+				section.setSectionText(StringUtils.replace(section.getSectionText(), "\n", "<br>"));
+				section.setSectionText(StringUtils.replace(section.getSectionText(), "\t", "&nbsp;&nbsp;&nbsp;&nbsp;"));
+			}
 		}
 	}
 	
