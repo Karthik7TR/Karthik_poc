@@ -26,4 +26,6 @@ public class JobParameterKey {
 	public static final String JOB_TIMESTAMP = "jobTimestamp";
 	
 	public static final String ENVIRONMENT_NAME = "environmentName";
+	
+	public static final String PROVIEW_DOMAIN_NAME = "ProDomainName";	
 }

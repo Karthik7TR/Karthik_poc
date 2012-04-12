@@ -34,6 +34,7 @@ public class EngineServiceImpl implements EngineService {
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
+	private String proviewDomainName; // like "ci" or "demo" or "qed"
 
 	/**
 	 * Immediately run a job as defined in the specified JobRunRequest.
@@ -103,6 +104,7 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(new Timestamp(System.currentTimeMillis())));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
+		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));		
 		return new JobParameters(jobParamMap);
 	}
 
@@ -121,5 +123,10 @@ public class EngineServiceImpl implements EngineService {
 	@Required
 	public void setJobLauncher(JobLauncher jobLauncher) {
 		this.jobLauncher = jobLauncher;
+	}
+
+	@Required
+	public void setProviewDomain(String proviewDomain) {
+		this.proviewDomainName = proviewDomain;
 	}	
 }
