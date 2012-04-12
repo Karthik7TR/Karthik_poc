@@ -5,13 +5,18 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
+import junit.framework.Assert;
+
+import org.junit.Test;
+
 
 /**
  * Unit tests for the OperationsController which handles the URL request(s) to restart or stop a job.
  */
 public class OperationsControllerTest {
 
-	// TODO
-    
-
+	@Test
+	public void futureTest() {
+		Assert.assertTrue(true);
+	}
 }
