@@ -701,13 +701,19 @@
 		</div>
 		<div class="rightDefinitionForm">
 			<div class="row">
+				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Trademark/Patent Info</form:label>
+				<form:textarea path="additionalTrademarkInfo" />
+				<div class="errorDiv">
+					<form:errors path="additionalTrademarkInfo" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
 				<form:label path="currency" class="labelCol">Currentness Message</form:label>
 				<form:textarea path="currency" />
 				<div class="errorDiv">
 					<form:errors path="currency" cssClass="errorMessage" />
 				</div>
 			</div>
-			
 			<div class="row">
 				<form:label path="isAuthorDisplayVertical" class="labelCol">Author Display</form:label>
 				<form:radiobutton path="isAuthorDisplayVertical" value="true" />Vertical

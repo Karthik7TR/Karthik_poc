@@ -64,13 +64,14 @@ public class EditBookDefinitionForm {
 	private Collection<Long> keywords;
 	
 	private String currency;
+	private String additionalTrademarkInfo;
 	private boolean isComplete;
 	private boolean keyCiteToplineFlag;
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
 	private boolean isProviewTableView;
 	private boolean enableCopyFeatureFlag;
-	
+
 	// Fully qualified title ID parts
 	private String publisher;
 	private String state;
@@ -96,6 +97,7 @@ public class EditBookDefinitionForm {
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = false;
 		this.copyright = "©";
+		this.frontMatterTocLabel = "Publishing Information";
 	}
 	
 	public void initialize(BookDefinition book) {
@@ -126,6 +128,7 @@ public class EditBookDefinitionForm {
 			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
 			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
+			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			
 			Date date = book.getPublishCutoffDate();
 			if (date != null) {
@@ -177,6 +180,7 @@ public class EditBookDefinitionForm {
 		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
 		book.setCurrency(currency);
+		book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
 		
 		DocumentTypeCode dtc = new DocumentTypeCode();
 		dtc.setId(contentTypeId);
@@ -481,6 +485,14 @@ public class EditBookDefinitionForm {
 
 	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
 		this.enableCopyFeatureFlag = enableCopyFeatureFlag;
+	}
+
+	public String getAdditionalTrademarkInfo() {
+		return additionalTrademarkInfo;
+	}
+
+	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
+		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
 
 	public boolean isKeyCiteToplineFlag() {

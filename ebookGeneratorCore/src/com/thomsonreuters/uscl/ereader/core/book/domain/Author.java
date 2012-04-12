@@ -76,7 +76,7 @@ public class Author implements Serializable, Comparable<Author> {
 	/**
 	 */
 
-	@Column(name = "AUTHOR_ADDL_TEXT", length = 1024)
+	@Column(name = "AUTHOR_ADDL_TEXT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String authorAddlText;
 	

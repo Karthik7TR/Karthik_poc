@@ -35,6 +35,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	private static final int MAXIMUM_CHARACTER_40 = 40;
 	private static final int MAXIMUM_CHARACTER_64 = 64;
 	private static final int MAXIMUM_CHARACTER_1024 = 1024;
+	private static final int MAXIMUM_CHARACTER_2048 = 2048;
 	private static final int ISBN_LENGTH = 13;
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
@@ -125,21 +126,22 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		// MaxLength Validations
 		checkMaxLength(errors, MAXIMUM_CHARACTER_40, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getProviewDisplayName(), "proviewDisplayName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCopyright(), "copyright", new Object[] {"Copyright", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCopyrightPageText(), "copyrightPageText", new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyright(), "copyright", new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyrightPageText(), "copyrightPageText", new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getMaterialId(), "materialId", new Object[] {"Material ID", MAXIMUM_CHARACTER_64});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getRootTocGuid(), "rootTocGuid", new Object[] {"Root TOC Guid", MAXIMUM_CHARACTER_64});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getTocCollectionName(), "tocCollectionName", new Object[] {"TOC Collection", MAXIMUM_CHARACTER_64});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortDomain(), "nortDomain", new Object[] {"NORT Domain", MAXIMUM_CHARACTER_64});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortFilterView(), "nortFilterView", new Object[] {"NORT Filter View", MAXIMUM_CHARACTER_64});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getPublishDateText(), "publishDateText", new Object[] {"Publish Date Text", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getAdditionalTrademarkInfo(), "currency", new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
 		
 		// Check EBookNames for max characters and required fields
 		int i = 0;
 		for(EbookName name: form.getNameLines()) {
-			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_2048, name.getBookNameText(), "nameLines[" + i +"].bookNameText", new Object[] {"Name Line", MAXIMUM_CHARACTER_2048});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nameLines[" + i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			i++;
 		}
@@ -157,7 +159,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorFirstName(), "authorInfo["+ i +"].authorFirstName", new Object[] {"First name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorMiddleName(), "authorInfo["+ i +"].authorMiddleName", new Object[] {"Middle name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorLastName(), "authorInfo["+ i +"].authorLastName", new Object[] {"Last name", MAXIMUM_CHARACTER_1024});
-			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_2048, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_2048});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			i++;
 		}
@@ -200,8 +202,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
-			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
 
 			if (form.getIsTOC()) {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");

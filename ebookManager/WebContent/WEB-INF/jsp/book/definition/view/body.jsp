@@ -173,6 +173,10 @@ function submitForm(cmd)
 			</div>
 			<div class="rightDefinitionForm">
 				<div class="row">
+					<label class="labelCol">Additional Trademark/Patent Info</label>
+					<span class="field">${ book.additionalTrademarkInfo }</span>
+				</div>
+				<div class="row">
 					<label class="labelCol">Currentness Message</label>
 					<span class="field">${ book.currency }</span>
 				</div>

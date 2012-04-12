@@ -48,7 +48,7 @@ public class EbookName implements Serializable, Comparable<EbookName> {
 	/**
 	 */
 
-	@Column(name = "BOOK_NAME_TEXT", length = 1024)
+	@Column(name = "BOOK_NAME_TEXT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String bookNameText;
 	/**

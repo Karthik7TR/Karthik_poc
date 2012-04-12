@@ -66,7 +66,7 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
-	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 1024)
+	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String copyrightPageText;
 	/**
@@ -145,7 +145,7 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
-	@Column(name = "CURRENCY", length = 1024)
+	@Column(name = "CURRENCY", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String currency;
 	/**
@@ -190,14 +190,14 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
-	@Column(name = "AUTHOR_NAMES_CONCAT", length = 1024)
+	@Column(name = "AUTHOR_NAMES_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 
 	String authorNamesConcat;
 	/**
 	 */
 
-	@Column(name = "BOOK_NAMES_CONCAT", length = 1024)
+	@Column(name = "BOOK_NAMES_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String bookNamesConcat;
 	/**
@@ -272,6 +272,12 @@ public class EbookAudit implements Serializable {
 	@Column(name = "ENABLE_COPY_FEATURE_FLAG", length = 1, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String enableCopyFeatureFlag;
+	
+	/**
+	 */
+	@Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String additionalTrademarkInfo;
 
 	/**
 	 */
@@ -692,6 +698,7 @@ public class EbookAudit implements Serializable {
 		setAuditType(that.getAuditType());
 		setIsDeletedFlag(that.getIsDeletedFlag());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
+		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 	}
 
 	/**
@@ -736,6 +743,7 @@ public class EbookAudit implements Serializable {
 		setIsDeletedFlag(that.isDeletedFlag());
 		setLastUpdated(that.getLastUpdated());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
+		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 	}
 	
 	@Transient
@@ -795,6 +803,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("auditType=[").append(auditType).append("] ");
 		buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
+		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		
 		return buffer.toString();
 	}
@@ -886,5 +895,13 @@ public class EbookAudit implements Serializable {
 
 	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
 		this.enableCopyFeatureFlag =( (enableCopyFeatureFlag) ? "Y" : "N");
+	}
+
+	public String getAdditionalTrademarkInfo() {
+		return additionalTrademarkInfo;
+	}
+
+	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
+		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
 }

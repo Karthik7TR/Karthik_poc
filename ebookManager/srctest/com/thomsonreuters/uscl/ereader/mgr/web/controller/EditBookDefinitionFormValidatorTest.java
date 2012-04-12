@@ -300,6 +300,7 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setIsbn(null);
 		form.setNortDomain(null);
 		form.setNortFilterView(null);
+		form.setFrontMatterTocLabel(null);
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
 		Assert.assertEquals("error.at.least.one", errors.getFieldError("nameLines").getCode());
@@ -308,6 +309,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("nortDomain").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("nortFilterView").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -336,6 +338,7 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setTocCollectionName(null);
 		form.setDocCollectionName(null);
 		form.setRootTocGuid(null);
+		form.setFrontMatterTocLabel(null);
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
 		Assert.assertEquals("error.at.least.one", errors.getFieldError("nameLines").getCode());
@@ -344,6 +347,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -567,6 +571,7 @@ public class EditBookDefinitionFormValidatorTest {
 		nameLine.setSequenceNum(1);
 		nameLines.add(nameLine);
 		form.setNameLines(nameLines);
+		form.setFrontMatterTocLabel("Label");
 		
 		return book;
 	}
@@ -586,6 +591,7 @@ public class EditBookDefinitionFormValidatorTest {
 		nameLine.setSequenceNum(1);
 		nameLines.add(nameLine);
 		form.setNameLines(nameLines);
+		form.setFrontMatterTocLabel("Label");
 		
 		return book;
 	}

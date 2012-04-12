@@ -80,13 +80,13 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 
-	@Column(name = "COPYRIGHT", length = 1024, nullable = false)
+	@Column(name = "COPYRIGHT", length = 2048, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String copyright;
 	/**
 	 */
 
-	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 1024)
+	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String copyrightPageText;
 	/**
@@ -152,7 +152,7 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 
-	@Column(name = "CURRENCY", length = 1024)
+	@Column(name = "CURRENCY", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String currency;
 	/**
@@ -237,6 +237,12 @@ public class BookDefinition implements Serializable {
 	@Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG", length = 1)
 	@Basic(fetch = FetchType.EAGER)
 	String isAuthorDisplayVertical;	
+	
+	/**
+	 */
+	@Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String additionalTrademarkInfo;	
 
 	/**
 	 */
@@ -593,6 +599,14 @@ public class BookDefinition implements Serializable {
 		return( (this.isAuthorDisplayVertical.equalsIgnoreCase("Y") ? true : false));
 	}
 
+	public String getAdditionalTrademarkInfo() {
+		return additionalTrademarkInfo;
+	}
+
+	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
+		this.additionalTrademarkInfo = additionalTrademarkInfo;
+	}
+
 	/**
 	 */
 	public void setLastUpdated(Date lastUpdated) {
@@ -733,6 +747,7 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 	public BookDefinition() {
+		super();
 		this.setIsDeletedFlag(false);
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
@@ -773,6 +788,7 @@ public class BookDefinition implements Serializable {
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
 		setFrontMatterTocLabel(that.getFrontMatterTocLabel());
 		setIsAuthorDisplayVertical(that.isAuthorDisplayVertical());
+		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
@@ -814,6 +830,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
 		buffer.append("frontMatterTocLabel=[").append(frontMatterTocLabel).append("] ");
 		buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
+		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 
 		return buffer.toString();
