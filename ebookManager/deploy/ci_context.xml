@@ -41,20 +41,4 @@
               url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c111cujctdbux-vip.int.westgroup.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=c111wuyctdbux-vip.int.westgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_dev.int.westgroup.com)))"
               username="EBOOK_USER" password="eb00k"/>
 
-    <!-- JMS Queue Connection Factory(s) -->
-    <Resource name="jms/QueueConnectionFactory" auth="Container"
-		  	  type="org.apache.activemq.ActiveMQConnectionFactory"
-       	 	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-       	 	  brokerURL="tcp://localhost:61616" brokerName="LocalActiveMQBroker"/>
-	
-    <Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
-			  type="org.apache.activemq.command.ActiveMQQueue"
-        	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-       	 	  physicalName="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
-       	 	  
-    <Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
-			  type="org.apache.activemq.command.ActiveMQQueue"
-        	  factory="org.apache.activemq.jndi.JNDIReferenceFactory"
-       	 	  physicalName="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY.REQ"/>
-
 </Context>

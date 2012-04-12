@@ -51,12 +51,5 @@
         <value name="expressionFilter" field="expressionFilter" usage="required"/>
         <value name="nortFile" field="nortFile" usage="required"/>
     </mapping>
-    
-    <mapping name="jobRunRequest" class="com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequest">
-        <value name="jobName" field="jobName" usage="required"/>
-        <value name="titleId" field="titleId" usage="required"/>
-        <value name="userName" field="userName" usage="optional"/>
-        <value name="userEmail" field="userEmail" usage="optional"/>
-    </mapping>
   
 </binding>

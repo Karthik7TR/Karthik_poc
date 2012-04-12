@@ -17,15 +17,6 @@
  	   					   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
  	   					   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
 
-	<!-- JNDI lookup of the JMS Connection Factory objects -->
-    <jee:jndi-lookup id="queueConnectionFactory" jndi-name="jms/QueueConnectionFactory" expected-type="javax.jms.ConnectionFactory" resource-ref="true"/>
-	
-	<!-- These queue(s) have JMS listeners attached to them, see listener definition below -->
-    <jee:jndi-lookup id="highPriorityJobRunRequestQueue" jndi-name="jms/HighPriorityJobRunRequestQueue" expected-type="javax.jms.Queue" resource-ref="true"/>
-    <jee:jndi-lookup id="normalPriorityJobRunRequestQueue" jndi-name="jms/NormalPriorityJobRunRequestQueue" expected-type="javax.jms.Queue" resource-ref="true"/>
-	
-	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
-		  p:connectionFactory-ref="queueConnectionFactory"
-		  p:receiveTimeout="250"/>
+<!-- OBSOLETE -->
 	
 </beans>

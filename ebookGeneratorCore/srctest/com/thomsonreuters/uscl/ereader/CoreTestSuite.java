@@ -9,12 +9,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoTest;
+import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionTest;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTest;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
 import com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDaoTest;
@@ -23,8 +23,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunRequestTest;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunnerTest;
 @RunWith(Suite.class)
 @SuiteClasses( { 
 				BookDefinitionTest.class,
@@ -33,8 +31,6 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.JobRunnerTest;
 				FileExtensionFilterTest.class,
 				FileHandlingHelperTest.class,
 				JibxMarshallingTest.class,
-				JobRunRequestTest.class,
-				JobRunnerTest.class,
 				JobServiceTest.class,
 				CodeDaoTest.class,
 				CodeServiceTest.class,
