@@ -160,7 +160,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 		catch (UnsupportedEncodingException e) {
 			throw new SAXException(UTF8_ENCODING + " encoding not supported when attempting to parse normalized cite from URL: " + resourceUrl, e);
 		}
-		normalizedCite = normalizedCite.replace('§', 's'); // need to check other special characters
+		normalizedCite = normalizedCite.replace(String.valueOf((char) 0xA7),"s"); // need to check other special characters
 		return normalizedCite;
 	}
 
