@@ -76,13 +76,13 @@ public class JobDaoImpl implements JobDao {
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+)) and ");
 			
 			if (StringUtils.isNotBlank(filter.getBookName())) {
-				sql.append(String.format("(auditTable.PROVIEW_DISPLAY_NAME like '%%%s%%') and ", filter.getBookName()));
+				sql.append(String.format("(auditTable.PROVIEW_DISPLAY_NAME like '%s') and ", filter.getBookName()));
 			}
 			if (StringUtils.isNotBlank(filter.getTitleId())) {
-				sql.append(String.format("(auditTable.TITLE_ID like '%%%s%%') and ", filter.getTitleId()));
+				sql.append(String.format("(auditTable.TITLE_ID like '%s') and ", filter.getTitleId()));
 			}
 			if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
-				sql.append(String.format("(stats.JOB_SUBMITTER_NAME like '%%%s%%') and ", filter.getSubmittedBy()));
+				sql.append(String.format("(stats.JOB_SUBMITTER_NAME like '%s') and ", filter.getSubmittedBy()));
 			}
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
