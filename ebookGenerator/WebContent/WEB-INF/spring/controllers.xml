@@ -11,6 +11,7 @@
 	
 	<!-- Handles job STOP and RESTART web service (REST) operations -->
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
-		  p:engineService-ref="engineService"/>
+		  p:engineService-ref="engineService"
+		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
 
 </beans>

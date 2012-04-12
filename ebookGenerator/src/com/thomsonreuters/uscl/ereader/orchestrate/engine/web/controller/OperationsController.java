@@ -6,7 +6,10 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.launch.JobExecutionNotRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
+	private MessageSourceAccessor messageSourceAccessor;
 
 	/**
 	 * Handle REST request to restart an currently stopped or failed job.
@@ -40,6 +44,11 @@ public class OperationsController {
 		try {
 			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
 			opResponse = new JobOperationResponse(restartedJobExecutionId);
+		} catch (JobInstanceAlreadyCompleteException e) {  // Cannot restart a job that is already finished
+			Object[] args = { jobExecutionIdToRestart };
+			String errorMessage = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
+			log.debug(errorMessage);
+			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, errorMessage);
 		} catch (Exception e) {
 			log.debug("Job RESTART exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
@@ -62,6 +71,11 @@ public class OperationsController {
 		try {
 			engineService.stopJob(jobExecutionIdToStop);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop);
+		} catch (JobExecutionNotRunningException e) {  // Cannot stop a job that is not running
+			Object[] args = { jobExecutionIdToStop };
+			String errorMessage = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
+			log.debug(errorMessage);
+			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, errorMessage);
 		} catch (Exception e) {
 			log.debug("Job STOP exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
@@ -69,42 +83,13 @@ public class OperationsController {
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
 	}
-	
-	/**
-	 * Verify the requesting user is authorized to stop the job.
-	 * This is programmatic security logic because we need to check the job starting user as well as a role.
-	 * @param jobExecutionId job execution to be stopped or restarted.
-	 * @return
-	 */
-//	private JobOperationResponse performUserSecurityCheck(Long jobExecutionId) {
-//		JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
-//		if (jobExecution == null) {
-//			String mesg = "No job execution was found for ID: " + jobExecutionId;
-//			log.debug(mesg);
-//			return new JobOperationResponse(jobExecutionId, false, mesg);
-//		}
-//		String usernameThatStartedTheJob = null;
-//		PublishingStats stats = publishingStatsService.findPublishingStatsByJobId(jobExecution.getJobId());
-//		if (stats != null) {
-//			usernameThatStartedTheJob = stats.getJobSubmitterName();
-//		} else {
-//			String mesg = "Unable to determine the user who started the job";
-//			log.warn(mesg);
-//		}
-//		
-///* TODO: uncomment this if block once CAS REST security integration is worked out...
-//		if (!Security.isUserAuthorizedToStopOrRestartBatchJob(usernameThatStartedTheJob)) {
-//			return new JobOperationResponse(jobExecutionId, false, 
-//			String.format("You must be either the user who started the job (%s), or a SUPERUSER in order to stop or restart a job",
-//							usernameThatStartedTheJob));
-//		}
-//*/
-//		
-//		return null;
-//	}
 
 	@Required
 	public void setEngineService(EngineService engineService) {
 		this.engineService = engineService;
+	}
+	@Required
+	public void setMessageSourceAccessor(MessageSourceAccessor accessor) {
+		this.messageSourceAccessor = accessor;
 	}
 }
