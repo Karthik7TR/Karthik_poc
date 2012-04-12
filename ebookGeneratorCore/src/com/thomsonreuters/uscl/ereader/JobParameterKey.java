@@ -17,10 +17,7 @@ public class JobParameterKey {
 	public static final String HOST_NAME = "hostName";
 	
 	public static final String BOOK_DEFINITION_ID = "bookDefinitionId";	
-	
-	public static final String ISBN = "isbn";
 	public static final String BOOK_VERISON_SUBMITTED = "bookVerisonSubmitted";
-	public static final String MATERIAL_ID = "materialId";	
 	/**
 	 * Serves as a unique serial number to differentiate the job instances.
 	 * If you don't have a varying job parameter for the instance, you get an exception when you try an launch the job
