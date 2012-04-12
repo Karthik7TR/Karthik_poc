@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
+
 @Controller
 public class HomeController {
 	//private static final Logger log = Logger.getLogger(HomeController.class);
@@ -18,6 +20,6 @@ public class HomeController {
 	@RequestMapping(value="/home.mvc", method = RequestMethod.GET)
 	public ModelAndView home(Model model) throws Exception {
 		model.addAttribute("environmentName", environmentName);
-		return new ModelAndView("home");
+		return new ModelAndView(WebConstants.VIEW_HOME);
 	}
 }
