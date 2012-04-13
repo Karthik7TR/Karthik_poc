@@ -213,7 +213,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
 			
-			if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
+			if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES) ||
+					contentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
         		// Validate Slice Codes fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.required");
         	}
