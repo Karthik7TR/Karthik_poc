@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>PUBLISHING INFORMATION</title>
+		<link rel="stylesheet" type="text/css" href="er:#ebook_generator" />
+	</head>
+	<body>
+		<section><frontMatterPlaceholder_AdditionalPageAnchor/>
+			<div class="front_matter_page">
+				<div class="additional_front_matter_page">
+					<div class="additional_front_matter_title"><frontMatterPlaceholder_additionFrontMatterTitle/></div>
+					<frontMatterPlaceholder_sections/>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
