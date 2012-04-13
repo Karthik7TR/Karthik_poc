@@ -34,15 +34,15 @@ public interface DocMetadataService {
 	/**
 	 */
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
-			Integer jobInstanceId, String docUuid);
+			Long jobInstanceId, String docUuid);
 	/**
 	 */
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobInstanceId);
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId);
 
 	/**
 	 */
-	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
-			String collectionName, File metadataFile, String tocSeqNum);
+	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId,
+			String collectionName, File metadataFile);
 	
 	/**
 	 * Retrieves the full set of document metadata for a given title.
@@ -52,5 +52,5 @@ public interface DocMetadataService {
 	 * @param jobInstanceId the jobInstanceId of the publishing run.
 	 * @return the {@link Set} of {@link DocMetadata} for the documents contained in the title.
 	 */
-	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId);
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId);
 }

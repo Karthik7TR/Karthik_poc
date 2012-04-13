@@ -78,7 +78,7 @@ public class DocMetadataServiceTest {
 		docmetadata.setDocType("codes");
 		docmetadata.setDocUuid("1234567890001"+seqNum.toString());
 		docmetadata.setFindOrig(null);
-		docmetadata.setJobInstanceId(new Integer("99123456"));
+		docmetadata.setJobInstanceId(new Long("99123456"));
 		docmetadata.setLastUpdated(UPDATE_DATE);
 		docmetadata.setNormalizedFirstlineCite(null);
 		docmetadata.setSerialNumber(null);
@@ -96,7 +96,7 @@ public class DocMetadataServiceTest {
 		Integer twoSeqNum = new Integer("2");
 		saveDocMetadata(twoSeqNum);
 
-		Integer jobInstanceId = new Integer("99123456");
+		Long jobInstanceId = new Long("99123456");
 		Integer oneSeqNum = new Integer("1");
 		String docUuid = "1234567890001";
 		String familyGuid = "1234567890";
@@ -135,7 +135,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryKey() {
 		String titleId = docmetadata.getTitleId();
-		Integer jobInstanceId = docmetadata.getJobInstanceId();
+		Long jobInstanceId = docmetadata.getJobInstanceId();
 		String docUuid = docmetadata.getDocUuid();
 		DocMetadata response = null;
 		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
@@ -151,7 +151,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryKeyNegativeTitleId() {
 		String titleId = "TEST_TILE";
-		Integer jobInstanceId = new Integer("-12345");
+		Long jobInstanceId = new Long("-12345");
 		String docUuid = "123456";
 
 		DocMetadata response = null;
@@ -168,7 +168,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryKeyAllNulls() {
 		String titleId = null;
-		Integer jobInstanceId = null;
+		Long jobInstanceId = null;
 		String docUuid = null;
 
 		DocMetadata response = null;
@@ -185,7 +185,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryNullTitleId() {
 		String titleId = null;
-		Integer jobInstanceId = new Integer("12345");
+		Long jobInstanceId = new Long("12345");
 		String docUuid = "123456";
 
 		DocMetadata response = null;
@@ -202,7 +202,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryNullJobInstanceId() {
 		String titleId = "TEST_TILE";
-		Integer jobInstanceId = null;
+		Long jobInstanceId = null;
 		String docUuid = "123456";
 
 		DocMetadata response = null;
@@ -219,7 +219,7 @@ public class DocMetadataServiceTest {
 	@Test
 	public void findDocMetadataByPrimaryNullDocUuid() {
 		String titleId = "TEST_TILE";
-		Integer jobInstanceId = new Integer("12345");
+		Long jobInstanceId = new Long("12345");
 		String docUuid = null;
 
 		DocMetadata response = null;
@@ -237,7 +237,7 @@ public class DocMetadataServiceTest {
 	public void findDocMetadataByPrimaryKeyObjectValues() {
 	
 		String titleId = "TL-URB1";
-		Integer jobInstanceId = new Integer("99123456");
+		Long jobInstanceId = new Long("99123456");
 		String docUuid = "12345678900011";
 
 		DocMetadata response = null;
@@ -271,18 +271,17 @@ public class DocMetadataServiceTest {
 	@Ignore
 	public void parseAndStoreDocMetadata() {
 		String titleId = "TEST_TILE";
-		Integer jobInstanceId = new Integer("12345");
-		String tocSeqNum = "1";
+		Long jobInstanceId = new Long("12345");
 		String docUuid = "123456";
 		String collectionName = "collection_name";
 		documentMetadataService.parseAndStoreDocMetadata(titleId, jobInstanceId,
-				collectionName, new File(docUuid), tocSeqNum);
+				collectionName, new File(docUuid));
 	}
 
 	
 	@Test
 	public void testFindAllDocumentMetadataForTitleByJobInstanceId() throws Exception {
-		Integer jobInstanceId = new Integer("99123456");
+		Long jobInstanceId = new Long("99123456");
 		saveDocMetadata(2);
 		saveDocMetadata(3);
 		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(jobInstanceId);
@@ -292,7 +291,7 @@ public class DocMetadataServiceTest {
 
 	@Test
 	public void testFindAllDocumentMetadataForTitleByJobInstanceIdDoesNotReturnNullSet() throws Exception {
-		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(0);
+		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(0l);
 		Assert.assertTrue(documentMetadataAuthority != null);
 		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 0);
 	}
@@ -304,7 +303,7 @@ public class DocMetadataServiceTest {
 	 * If job 1804 gets cleaned up, point this at whichever job you like (for your database environment). Change the second assert (and this javadoc) accordingly.
 	 */
 	public void testFindAllDocumentMetadataForTitleIdByJobInstanceIdIntegrationTest() throws Exception {
-		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(1804);
+		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(1804l);
 		Assert.assertTrue(documentMetadataAuthority != null);
 		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 6962);
 	}

@@ -34,7 +34,7 @@ public interface DocMetadataDao {
 	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid)
 			throws DataAccessException;
 
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobInstanceId)
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId)
 	throws DataAccessException;
 
 	public void remove(DocMetadata toRemove) throws DataAccessException;
@@ -47,6 +47,6 @@ public interface DocMetadataDao {
 	 * @param jobInstanceId the job for which to retrieve the document metadata
 	 * @return the {@link DocumentMetadataAuthority} representing the full set of {@link DocMetadata} for the job.
 	 */
-	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId);
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId);
 
 }

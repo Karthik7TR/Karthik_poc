@@ -124,7 +124,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		LOG.info("Applying post transformations on transformed files...");
 		
 		Set<String> staticImages = new HashSet<String>();
-		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId.intValue());
+		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
 		//TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
 		//There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
 		int numDocs = 0;
@@ -169,7 +169,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 			
 			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
-					titleID, Integer.parseInt(jobIdentifier.toString()), guid);
+					titleID, jobIdentifier, guid);
 			
 			String firstlineCite = "";
 			if (docMetadata != null)

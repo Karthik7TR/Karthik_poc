@@ -36,7 +36,7 @@ public class DocMetadataPK implements Serializable {
 	@Column(name = "JOB_INSTANCE_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	public Integer jobInstanceId;
+	public Long jobInstanceId;
 	/**
 	 */
 
@@ -59,13 +59,13 @@ public class DocMetadataPK implements Serializable {
 
 	/**
 	 */
-	public void setJobInstanceId(Integer jobInstanceId) {
+	public void setJobInstanceId(Long jobInstanceId) {
 		this.jobInstanceId = jobInstanceId;
 	}
 
 	/**
 	 */
-	public Integer getJobInstanceId() {
+	public Long getJobInstanceId() {
 		return this.jobInstanceId;
 	}
 

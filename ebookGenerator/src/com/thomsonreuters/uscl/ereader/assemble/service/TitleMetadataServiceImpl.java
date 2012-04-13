@@ -6,7 +6,6 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,7 +20,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -30,7 +28,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
@@ -55,11 +52,11 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  */
 public class TitleMetadataServiceImpl implements TitleMetadataService {
 
-	private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImpl.class);
+	//private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImpl.class);
 	private static final String STYLESHEET_ID = "css";
 	//These FilenameFilter instances are de-facto singletons. As there is only ONE instance of TitleMetadataServiceImpl in the Spring Application Context.
-	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
-	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
+//	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
+//	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
 	private DocMetadataService docMetadataService;
 	private PlaceholderDocumentService placeholderDocumentService;
 	private FileUtilsFacade fileUtilsFacade;
@@ -117,24 +114,24 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		return new Asset(STYLESHEET_ID, stylesheet.getName());
 	}
 	
-	private class ImageFilter implements FilenameFilter {
-		@Override
-		public boolean accept(File dir, String name) {
-			boolean result = (StringUtils.endsWithIgnoreCase(name,"png") || StringUtils.endsWithIgnoreCase(name,"svg")) ? true : false;
-			return result;
-		}
-	}
-	
-	private class DocumentFilter implements FilenameFilter {
-		@Override
-		public boolean accept(File dir, String name) {
-			boolean result = (StringUtils.endsWithIgnoreCase(name,"htm") || StringUtils.endsWithIgnoreCase(name,"html")) ? true : false;
-			return result;
-		}
-	}
+//	private class ImageFilter implements FilenameFilter {
+//		@Override
+//		public boolean accept(File dir, String name) {
+//			boolean result = (StringUtils.endsWithIgnoreCase(name,"png") || StringUtils.endsWithIgnoreCase(name,"svg")) ? true : false;
+//			return result;
+//		}
+//	}
+//	
+//	private class DocumentFilter implements FilenameFilter {
+//		@Override
+//		public boolean accept(File dir, String name) {
+//			boolean result = (StringUtils.endsWithIgnoreCase(name,"htm") || StringUtils.endsWithIgnoreCase(name,"html")) ? true : false;
+//			return result;
+//		}
+//	}
 
 	@Override
-	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId, final File documentsDirectory) {
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File documentsDirectory) {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 				
 		try {

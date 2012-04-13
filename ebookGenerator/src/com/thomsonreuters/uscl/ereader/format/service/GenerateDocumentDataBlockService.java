@@ -5,8 +5,6 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -26,6 +24,6 @@ public interface GenerateDocumentDataBlockService {
 	 * @return
 	 * @throws EBookFormatException
 	 */
-	public InputStream getDocumentDataBlockAsStream(String titleId, int jobInstanceId,
+	public InputStream getDocumentDataBlockAsStream(String titleId, Long jobInstanceId,
 			String docGuid)throws EBookFormatException;
 }

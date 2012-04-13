@@ -22,21 +22,9 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 
 	/**
 	 * DAO injected by Spring that manages DocMetadata entities
-	 * 
 	 */
 
 	private DocMetadataDao docMetadataDAO;
-
-	private DocMetaDataXMLParser docMetaXMLParser;
-
-	/**
-	 * Instantiates a new DocMetadataServiceImpl.
-	 * 
-	 */
-	/*
-	 * public DocMetadataServiceImpl() { docMetaXMLParser = new
-	 * DocMetaDataXMLParser(); }
-	 */
 
 	/**
 	 * Save an existing DocMetadata entity
@@ -91,7 +79,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 */
 	@Transactional
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
-			Integer jobInstanceId, String docUuid) {
+			Long jobInstanceId, String docUuid) {
 		DocMetadataPK docMetaPk = new DocMetadataPK();
 		docMetaPk.setTitleId(titleId);
 		docMetaPk.setJobInstanceId(jobInstanceId);
@@ -100,23 +88,20 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	}
 
 	@Transactional
-	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(Integer jobInstanceId){
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(Long jobInstanceId){
 		return docMetadataDAO.findAllDocMetadataForTitleByJobId(jobInstanceId);
 	}
 	
 	/**
 	 */
 	@Transactional
-	public void parseAndStoreDocMetadata(String titleId, Integer jobInstanceId,
-			String collectionName, File metaDataFile, String tocSequenceNumber) {
-		saveDocMetadata(docMetaXMLParser.parseDocument(titleId, jobInstanceId,
-				collectionName, metaDataFile, tocSequenceNumber));
-	}
-
-
-	@Required
-	public void setdocMetaXMLParser(DocMetaDataXMLParser parser) {
-		this.docMetaXMLParser = parser;
+	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId, String collectionName, File metaDataFile) {
+		/* Instantiate a SAX parser instance. 
+		   Note that this cannot be a Spring context singleton due to the state maintained within the 
+		   class instance and we need thread safety because this is ultimately used in a Spring Batch job step. */
+		DocMetaDataXMLParser xmlParser = DocMetaDataXMLParser.create();
+		DocMetadata docMetaData = xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
+		saveDocMetadata(docMetaData);
 	}
 
 	@Required
@@ -124,7 +109,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		this.docMetadataDAO = dao;
 	}
 
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer jobId) {
-		return docMetadataDAO.findDistinctFamilyGuidsByJobId(jobId);
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId) {
+		return docMetadataDAO.findDistinctFamilyGuidsByJobId(jobInstanceId);
 	}
 }

@@ -33,5 +33,5 @@ public interface TitleMetadataService {
 	 * @param titleManifest the title manifest (title.xml) to create.
 	 * @param tocXml the TOC structure from which the &lt;toc&gt; &amp; &lt;docs&gt; portions of the manifest are to be derived.
 	 */
-	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Integer jobInstanceId, final File documentsDirectory);
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File documentsDirectory);
 }

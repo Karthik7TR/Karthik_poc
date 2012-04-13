@@ -52,13 +52,13 @@ public class GenerateDocumentDataBlockServiceTest  {
 	public void testGetDocumentDataBlockAsStream(){
 		// test specific setup.
 		String titleId = "TEST_TITLE_ID";
-		int jobId = 10;
+		Long jobId = 10l;
 		String docGuid = "TEST_DOC_GUID";
 		
 		DocMetadata docMetaData = new DocMetadata();
 		docMetaData.setCollectionName("TEST_COLLECTION");
 		
-		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, 10, docGuid)).andReturn(docMetaData);
+		EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, jobId, docGuid)).andReturn(docMetaData);
 		EasyMock.replay(mockDocMetadataService);
 		
 		InputStream docBlockStream =null;

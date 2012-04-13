@@ -105,14 +105,14 @@ public class PersistentUrlTransformIntegrationTests
 
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey(
-                "uscl/an/IMPH", new Integer(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
+                "uscl/an/IMPH", new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
                 .andReturn(mockDocMetadata);
 
         EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
         EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
         EasyMock.expect(mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE))
                 .andReturn(CODES_STATUTES_XSLT);
-        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Integer(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
+        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
         .andReturn(MOCK_INPUT_STREAM);
         EasyMock.replay(mockDocMetadataService);
         EasyMock.replay(mockDocMetadata);
@@ -901,12 +901,12 @@ public class PersistentUrlTransformIntegrationTests
 
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey(
-                "uscl/an/IMPH", new Integer(12345), preRenderedInput)).andReturn(mockDocMetadata);
+                "uscl/an/IMPH", new Long(12345), preRenderedInput)).andReturn(mockDocMetadata);
 
         EasyMock.replay(mockDocMetadataService);
         MOCK_INPUT_STREAM = new ByteArrayInputStream("Head".getBytes());
 
-        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Integer(12345), preRenderedInput))
+        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Long(12345), preRenderedInput))
         .andReturn(MOCK_INPUT_STREAM);
         transformerService.setdocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
@@ -944,7 +944,7 @@ public class PersistentUrlTransformIntegrationTests
             {
                 EasyMock.expect(
                     mockDocMetadataService.findDocMetadataByPrimaryKey(
-                        "uscl/an/IMPH", new Integer(12345),
+                        "uscl/an/IMPH", new Long(12345),
                         StringUtils.substringBefore(novusXmlDocument.getName(), ".")))
                         .andReturn(mockDocMetadata);
 

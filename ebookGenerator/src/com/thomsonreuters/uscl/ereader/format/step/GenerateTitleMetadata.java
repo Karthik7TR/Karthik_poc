@@ -48,7 +48,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
 
-	private String stylesheetPath;
+//	private String stylesheetPath;
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -79,8 +79,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		addArtwork(jobExecutionContext, titleMetadata);
 		addAssets(jobExecutionContext, titleMetadata);
 		
-		long jobId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
-		Integer jobInstanceId = new Integer((int) jobId);
+		Long jobInstanceId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
 		LOG.debug("Generated title metadata: " + titleMetadata);
 		
@@ -96,11 +95,11 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		return ExitStatus.COMPLETED;
 	}
 
-	private void addStylesheet(TitleMetadata titleMetadata) {
-		File stylesheetFile = new File(stylesheetPath);
-		Asset stylesheet = titleMetadataService.createStylesheet(stylesheetFile);
-		titleMetadata.getAssets().add(stylesheet);
-	}
+//	private void addStylesheet(TitleMetadata titleMetadata) {
+//		File stylesheetFile = new File(stylesheetPath);
+//		Asset stylesheet = titleMetadataService.createStylesheet(stylesheetFile);
+//		titleMetadata.getAssets().add(stylesheet);
+//	}
 
 	/**
 	 * Reads in a list of TOC Guids that are associated to each Doc Guid to later be used
@@ -199,7 +198,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		this.titleMetadataService = titleMetadataService;
 	}
 	
-	public void setStylesheetPath(String stylesheetPath) {
-		this.stylesheetPath = stylesheetPath;
-	}
+//	public void setStylesheetPath(String stylesheetPath) {
+//		this.stylesheetPath = stylesheetPath;
+//	}
 }

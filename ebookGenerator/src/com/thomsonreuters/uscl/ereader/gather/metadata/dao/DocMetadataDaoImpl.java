@@ -123,14 +123,14 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Integer instanceJobId) {
+	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
 		.setProjection(Projections.distinct( (Projections.projectionList()
 				.add(Projections.property("docUuid"))
 				.add(Projections.property("docFamilyUuid")))))
-	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
+	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
 	    .list();
 //		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
 //	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
@@ -157,7 +157,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 	}
 
 	@Override
-	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Integer jobInstanceId) {
+	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		Set<DocMetadata> documentMetadataSet = new HashSet<DocMetadata>();

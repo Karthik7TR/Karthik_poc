@@ -48,7 +48,7 @@ public class DocMetadata implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@Id
 	@XmlElement
-	Integer jobInstanceId;
+	Long jobInstanceId;
 	/**
 	 */
 
@@ -122,13 +122,13 @@ public class DocMetadata implements Serializable {
 
 	/**
 	 */
-	public void setJobInstanceId(Integer jobInstanceId) {
+	public void setJobInstanceId(Long jobInstanceId) {
 		this.jobInstanceId = jobInstanceId;
 	}
 
 	/**
 	 */
-	public Integer getJobInstanceId() {
+	public Long getJobInstanceId() {
 		return this.jobInstanceId;
 	}
 

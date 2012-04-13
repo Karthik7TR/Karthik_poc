@@ -1,23 +1,21 @@
 package com.thomsonreuters.uscl.ereader.gather.parsinghandler;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-import java.sql.Timestamp;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.InputSource;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
@@ -32,23 +30,28 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private final static String MD_DOC_TYPE_NAME = "md.doctype.name";
 
 	private String tempVal;
-	private String serialNumber;
-	private String findOrig;
 
 	// to maintain context
 	private DocMetadata docMetadata;
 	private String titleId;
-	private String jobInstanceId;
+	private Long jobInstanceId;
 	private String docUuid;
 	private String collectionName;
-	private String tocSequenceNum;
 
-	public DocMetaDataXMLParser() {
+	
+	/**
+	 * Create factory method to defend against it being created as a Spring bean, which it should not be since it is not thread safe. 
+	 */
+	public static DocMetaDataXMLParser create() {
+		return new DocMetaDataXMLParser();
+	}
+
+	private DocMetaDataXMLParser() {
 		docMetadata = new DocMetadata();
 	}
 
-	public DocMetadata parseDocument(String titleId, Integer jobInstanceId,
-			String collectionName, File metadataFile, String tocSequenceNum) {
+	public DocMetadata parseDocument(String titleId, Long jobInstanceId,
+			String collectionName, File metadataFile) {
 
 		// get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -58,9 +61,8 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			SAXParser sp = spf.newSAXParser();
 
 			this.titleId = titleId;
-			this.jobInstanceId = jobInstanceId.toString();
+			this.jobInstanceId = jobInstanceId;
 			this.collectionName = collectionName;
-			this.tocSequenceNum = tocSequenceNum;
 
 			InputStream inputStream = new FileInputStream(metadataFile);
 			Reader reader = new InputStreamReader(inputStream, "UTF-8");
@@ -82,23 +84,24 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	/**
 	 * Go through the doc metadata and print the contents
 	 */
-	private void printData() {
-
-		System.out.println("Values of DocMetadata are being printed out ");
-		System.out.println("Title ID  " + docMetadata.getTitleId());
-		System.out.println("JobInstance Id  " + docMetadata.getJobInstanceId());
-		System.out.println("doc uuid  " + docMetadata.getDocUuid());
-		System.out.println("DOC FAMILY ID  " + docMetadata.getDocFamilyUuid());
-		System.out.println("DOC UUID  " + docMetadata.getDocUuid());
-		System.out.println("DOC Type  " + docMetadata.getDocType());
-		System.out.println("NOrmalized first line cite  "
-				+ docMetadata.getNormalizedFirstlineCite());
-		System.out.println("Serial number  " + docMetadata.getSerialNumber());
-		System.out.println("Find Orig  " + docMetadata.getFindOrig());
-
-	}
+//	private void printData() {
+//
+//		System.out.println("Values of DocMetadata are being printed out ");
+//		System.out.println("Title ID  " + docMetadata.getTitleId());
+//		System.out.println("JobInstance Id  " + docMetadata.getJobInstanceId());
+//		System.out.println("doc uuid  " + docMetadata.getDocUuid());
+//		System.out.println("DOC FAMILY ID  " + docMetadata.getDocFamilyUuid());
+//		System.out.println("DOC UUID  " + docMetadata.getDocUuid());
+//		System.out.println("DOC Type  " + docMetadata.getDocType());
+//		System.out.println("NOrmalized first line cite  "
+//				+ docMetadata.getNormalizedFirstlineCite());
+//		System.out.println("Serial number  " + docMetadata.getSerialNumber());
+//		System.out.println("Find Orig  " + docMetadata.getFindOrig());
+//
+//	}
 
 	// Event Handlers
+	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// reset
@@ -107,17 +110,17 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			// create a new instance of doc metadata
 			docMetadata = new DocMetadata();
 			docMetadata.setTitleId(titleId);
-			docMetadata.setJobInstanceId(new Integer(jobInstanceId));
+			docMetadata.setJobInstanceId(new Long(jobInstanceId));
 			docMetadata.setDocUuid(docUuid);
 			docMetadata.setCollectionName(collectionName);
 		}
 	}
-
+	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		tempVal = new String(ch, start, length);
 	}
-
+	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 
@@ -137,22 +140,8 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		}
 
 	}
-
-	// Event Handlers
+	@Override
 	public void endDocument() throws SAXException {
-		docMetadata.setLastUpdated(getCurrentTimeStamp());
-	}
-
-	/**
-	 * Get the current timestamp
-	 * 
-	 * @return
-	 */
-	private Timestamp getCurrentTimeStamp() {
-
-		// create a java calendar instance
-		Calendar calendar = Calendar.getInstance();
-		return new java.sql.Timestamp(calendar.getTime().getTime());
-
+		docMetadata.setLastUpdated(new Date());
 	}
 }

@@ -161,8 +161,7 @@
 				p:htmlWrapperService-ref="htmlWrapperService"/>
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata"
-				p:titleMetadataService-ref="titleMetadataService"						
-				p:stylesheetPath="/apps/ebookbuilder/stylesheet/document.css"/>
+				p:titleMetadataService-ref="titleMetadataService"/>						
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook"
 				p:eBookAssemblyService-ref="eBookAssemblyService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview"

@@ -38,7 +38,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.sun.corba.se.spi.orbutil.fsm.Input;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -186,7 +185,7 @@ public class TransformerServiceImpl implements TransformerService
 		
         try
         {   
-        	InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId.intValue(), fileNameUUID);
+        	InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId, fileNameUUID);
         	
         	inStream0 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
         			documentDataStream);
@@ -500,15 +499,15 @@ public class TransformerServiceImpl implements TransformerService
 	 * identified by the title and job composite key.
 	 * 
 	 * @param title title identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
-	 * @param job job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
+	 * @param jobInstanceId job identifier to be used by the XSLT lookup service to determine which XSLT is to be applied
 	 * @param guid document guid which is used to lookup the document metadata needed for the XSLT lookup
 	 * @param metadata used to pass back any retrieved data for the passed in GUID
 	 */
-	public void lookupCollectionDocType(String title, Long job, String guid, String[] metadata)
+	public void lookupCollectionDocType(String title, Long jobInstanceId, String guid, String[] metadata)
 		throws EBookFormatException
 	{
 		DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
-				title, Integer.parseInt(job.toString()), guid);
+				title, jobInstanceId, guid);
 		
 		String collection;
 		String docType;
@@ -521,7 +520,7 @@ public class TransformerServiceImpl implements TransformerService
 		else
 		{
 			String errMessage = "Could not retrieve document metadata for " + guid + " GUID under book " + title + 
-					" title with " + job + " job id.";
+					" title with " + jobInstanceId + " job id.";
         	LOG.error(errMessage);
         	throw new EBookFormatException(errMessage);
 		}

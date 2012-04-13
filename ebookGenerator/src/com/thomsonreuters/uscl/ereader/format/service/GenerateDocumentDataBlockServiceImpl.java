@@ -73,7 +73,7 @@ public class GenerateDocumentDataBlockServiceImpl implements
 	 * @throws EBookFormatException
 	 */
 	@Override
-	public InputStream getDocumentDataBlockAsStream(String titleId,int jobInstanceId ,String docGuid) throws EBookFormatException{
+	public InputStream getDocumentDataBlockAsStream(String titleId, Long jobInstanceId ,String docGuid) throws EBookFormatException{
 				
 			 DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docGuid);
 			 if(docMetadata == null){
