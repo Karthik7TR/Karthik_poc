@@ -58,7 +58,7 @@ public class DocServiceImpl implements DocService {
 	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
 	 */
 	@Override
-	public synchronized GatherResponse  fetchDocuments(Collection<String> docGuids,
+	public GatherResponse  fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
 			File metadataDestinationDirectory) throws GatherException {
 		Assert.isTrue(contentDestinationDirectory.exists(),
@@ -201,7 +201,8 @@ public class DocServiceImpl implements DocService {
 				GatherException ge = new GatherException(
 						"Null documents are found for the current ebook ",
 						GatherResponse.CODE_FILE_ERROR);
-		
+				
+				missingGuidsCount = 0;
 				throw ge;
 			}
 		}
@@ -311,9 +312,8 @@ public class DocServiceImpl implements DocService {
 								+ document.getGuid()
 								+ " and the error code is "
 								+ document.getErrorCode());;
-						missingGuidsCount++;
+								missingMetaDataCount++;
 						}					
-					missingMetaDataCount++;
 				}
 				}
 			} catch (final Exception exception) {
