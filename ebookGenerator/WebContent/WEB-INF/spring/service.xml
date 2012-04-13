@@ -108,6 +108,13 @@
 		  p:fileUtilsFacade-ref="fileUtilsFacade"
 		  p:placeholderDocumentService-ref="placeholderDocumentService"/>
 	
+	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl"
+		  p:frontMatterTitlePageTemplateLocation="classpath:templates/frontMatterTitleTemplate.xml"
+		  p:frontMatterCopyrightPageTemplateLocation="classpath:templates/frontMatterCopyrightTemplate.xml"
+		  p:frontMatterAdditionalPagesTemplateLocation="classpath:templates/frontMatterAdditionalPagesTemplate.xml"
+		  p:frontMatterResearchAssistancePageTemplateLocation="classpath:templates/frontMatterResearchAssistanceTemplate.xml"
+		  p:frontMatterWestlawNextPageTemplateLocation="classpath:templates/frontMatterWestlawNextTemplate.xml"/>
+	
 	<bean id="fileUtilsFacade" class="com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl"/>
 	
 	<bean id="uuidGenerator" class="com.thomsonreuters.uscl.ereader.util.UuidGenerator"
