@@ -27,5 +27,5 @@ public class JobParameterKey {
 	
 	public static final String ENVIRONMENT_NAME = "environmentName";
 	
-	public static final String PROVIEW_DOMAIN_NAME = "ProDomainName";	
+	public static final String PROVIEW_DOMAIN_NAME = "ProViewDomain";	
 }

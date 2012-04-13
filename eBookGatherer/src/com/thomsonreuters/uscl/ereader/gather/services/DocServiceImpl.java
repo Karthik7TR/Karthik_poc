@@ -58,7 +58,7 @@ public class DocServiceImpl implements DocService {
 	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
 	 */
 	@Override
-	public GatherResponse fetchDocuments(Collection<String> docGuids,
+	public synchronized GatherResponse  fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
 			File metadataDestinationDirectory) throws GatherException {
 		Assert.isTrue(contentDestinationDirectory.exists(),
@@ -88,7 +88,7 @@ public class DocServiceImpl implements DocService {
 
 		try {
 			
-			stream = new FileOutputStream(StringUtils.substringBeforeLast(contentDestinationDirectory.getAbsolutePath(), "/") + "doc_missing_guids.txt");
+			stream = new FileOutputStream(StringUtils.substringBeforeLast(contentDestinationDirectory.getAbsolutePath(), "/") + "_doc_missing_guids.txt");
 			String charset = "UTF-8";	// explicitly set the character set
 			writer = new OutputStreamWriter(stream, charset);
 			
@@ -115,37 +115,24 @@ public class DocServiceImpl implements DocService {
 						try {
 							novusRetryCounter = novusUtility.handleException(exception,
 									novusRetryCounter, docRetryCount);
-						} catch (NovusException e) {
+						} 	catch (Exception e) {
 							anyException = true;
 							GatherException ge = new GatherException(
-									"Novus error occurred fetching document " + docGuid, e,
-									GatherResponse.CODE_NOVUS_ERROR);
-							publishStatus =  "DOC Step Failed Novus error occurred fetching document";
-
-							throw ge;
-						} catch (IOException e) {
-							anyException = true;
-							GatherException ge = new GatherException(
-									"File I/O error writing document " + docGuid, e,
-									GatherResponse.CODE_FILE_ERROR);
-							publishStatus =  "DOC Step Failed File I/O error writing document";
-
-							throw ge;
-						} catch (NullPointerException e) {
-							anyException = true;
-							GatherException ge = new GatherException(
-									"Null document fetching guid " + docGuid, e,
-									GatherResponse.CODE_FILE_ERROR);
-							publishStatus =  "DOC Step Failed Null document fetching guid";
-
-							throw ge;
-						} catch (Exception e) {
-							anyException = true;
-							GatherException ge = new GatherException(
-									"Exception happened in fetching doc for " + docGuid, e,
+									"Exception happened in handleException " + docGuid, e,
 									GatherResponse.CODE_FILE_ERROR);
 							publishStatus =  "DOC Step Failed Exception happened in fetching doc";
-							throw ge;
+							
+							if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+								if (novusRetryCounter == 0) {// just write it once
+								Log.debug("Text is not found for the guid "
+										+ document.getGuid()
+										+ " and the error code is "
+										+ document.getErrorCode());
+								writer.write(document.getGuid());
+								writer.write("\n");
+								missingGuidsCount++;
+								}	
+							}
 						} 
 					}
 				}
@@ -189,12 +176,12 @@ public class DocServiceImpl implements DocService {
 			gatherResponse.setDocCount2(metaDocFoundCounter); // retrieved doc count
 			gatherResponse.setPublishStatus(publishStatus);
 
-			if (anyException) {
+/*			if (anyException) {
 
 				// Remove all existing generated document files on any exception
 				removeAllFilesInDirectory(contentDestinationDirectory);
 				removeAllFilesInDirectory(metadataDestinationDirectory);
-			}
+			}*/
 
 			novus.shutdownMQ();
 			
@@ -262,10 +249,23 @@ public class DocServiceImpl implements DocService {
 				}
 			} catch (final Exception exception) {
 				try {
+					Log.debug("Before calling handleException in createContentFile()");										
 					novusDocRetryCounter = novusUtility.handleException(exception,
 							novusDocRetryCounter, retryCount);
+					
+					if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+						if (novusDocRetryCounter == 1) {// just write it once, now it has been updated
+						Log.debug("Text is not found for the guid "
+								+ document.getGuid()
+								+ " and the error code is "
+								+ document.getErrorCode());
+						missingsDocs.write(document.getGuid());
+						missingsDocs.write("\n");
+						missingGuidsCount++;
+						}
+					}
 				} catch (Exception e) {
-					Log.error("Exception in handleException " + e.getMessage());
+					Log.error("Exception in handleException() call from createContentFile() " + e.getMessage());
 					novusDocRetryCounter++;
 				}
 			}
@@ -318,10 +318,11 @@ public class DocServiceImpl implements DocService {
 				}
 			} catch (final Exception exception) {
 				try {
+					Log.debug("Before calling handleException in createMetadataFile()");					
 					novusMetaRetryCounter = novusUtility.handleException(exception,
 							novusMetaRetryCounter, retryCount);
 				} catch (Exception e) {
-					Log.error("Exception in handleException " + e.getMessage());
+					Log.error("Exception in handleException createMetadataFile()" + e.getMessage());
 					novusMetaRetryCounter++;
 				}
 			}
@@ -329,7 +330,9 @@ public class DocServiceImpl implements DocService {
 		int[] counters = {0,0};
 		counters[META_RETRY_COUNTER] = novusMetaRetryCounter;
 		counters[META_COUNTER] = novusMetaCounter;
+		if (docMetaData != null) {
 		createFile(docMetaData.toString(), destinationFile);
+		}
 		return counters;
 	}
 

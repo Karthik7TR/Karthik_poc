@@ -38,7 +38,7 @@ public class NovusUtility {
 	public Integer handleException(final Exception exception,
 			Integer novusRetryCounter, final Integer retryCount)
 			throws Exception {
-		if (isNovusException(exception)) {
+		if (isNovusException(exception)) {			
 			novusRetryCounter++;
 			Log.error("Novus Exception has happened. Retry Count # is "
 					+ novusRetryCounter);
@@ -61,7 +61,7 @@ public class NovusUtility {
 	public Boolean isNovusException(final Exception exception) {
 		Boolean isNovusException = Boolean.FALSE;
 	
-		if (StringUtils.containsIgnoreCase(exception.getMessage(), "NOVUS")) {
+		if (StringUtils.containsIgnoreCase(exception.getMessage(), "NOVUS") || (StringUtils.containsIgnoreCase(exception.getMessage(), "Cannot find the collection"))) {
 			isNovusException = Boolean.TRUE;
 		}
 		return isNovusException;
