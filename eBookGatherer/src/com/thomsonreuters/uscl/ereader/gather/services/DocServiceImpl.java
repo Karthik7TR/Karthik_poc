@@ -115,6 +115,18 @@ public class DocServiceImpl implements DocService {
 						try {
 							novusRetryCounter = novusUtility.handleException(exception,
 									novusRetryCounter, docRetryCount);
+							
+							if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+								if (novusRetryCounter == 3) {// just write it once after 3 retries
+								Log.debug("Text is not found for the guid "
+										+ document.getGuid()
+										+ " and the error code is "
+										+ document.getErrorCode());
+								writer.write(document.getGuid());
+								writer.write("\n");
+								missingGuidsCount++;
+								}	
+							}							
 						} 	catch (Exception e) {
 							anyException = true;
 							GatherException ge = new GatherException(
@@ -123,7 +135,7 @@ public class DocServiceImpl implements DocService {
 							publishStatus =  "DOC Step Failed Exception happened in fetching doc";
 							
 							if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-								if (novusRetryCounter == 0) {// just write it once
+								if (novusRetryCounter == 3) {// just write it once after 3 retries
 								Log.debug("Text is not found for the guid "
 										+ document.getGuid()
 										+ " and the error code is "
@@ -231,7 +243,7 @@ public class DocServiceImpl implements DocService {
 				} else {
 					
 					if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-						if (novusDocRetryCounter == 0) {// just write it once
+						if (novusDocRetryCounter == 3) {// just write it once after 3 retries
 						Log.debug("Text is not found for the guid "
 								+ document.getGuid()
 								+ " and the error code is "
@@ -254,7 +266,7 @@ public class DocServiceImpl implements DocService {
 							novusDocRetryCounter, retryCount);
 					
 					if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
-						if (novusDocRetryCounter == 1) {// just write it once, now it has been updated
+						if (novusDocRetryCounter == 3) {// just write it once, after 3 retries
 						Log.debug("Text is not found for the guid "
 								+ document.getGuid()
 								+ " and the error code is "
