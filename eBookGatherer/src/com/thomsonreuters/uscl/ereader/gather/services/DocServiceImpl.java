@@ -45,9 +45,6 @@ public class DocServiceImpl implements DocService {
 	private NovusFactory novusFactory;
 	
 	private NovusUtility novusUtility;	
-	
-	int missingGuidsCount = 0;
-	int missingMetaDataCount = 0;
 
 
 	/*
@@ -84,7 +81,10 @@ public class DocServiceImpl implements DocService {
 		String publishStatus = "DOC Gather Step Completed";
 		
 		FileOutputStream stream = null;
-		Writer writer = null;		
+		Writer writer = null;	
+		
+		int missingGuidsCount = 0;
+		int missingMetaDataCount = 0;
 
 		try {
 			
@@ -136,9 +136,9 @@ public class DocServiceImpl implements DocService {
 						} 
 					}
 				}
-				createContentFile(document, contentDestinationDirectory, docRetryCount, writer);
+				missingGuidsCount = createContentFile(document, contentDestinationDirectory, docRetryCount, writer, missingGuidsCount);
 				metaDocCounters = createMetadataFile(document, metadataDestinationDirectory,
-						tocSequence, docRetryCount);
+						tocSequence, docRetryCount, missingMetaDataCount);
 
 				 metaDocFoundCounter += metaDocCounters[META_COUNTER];
 				 metaDocRetryCounter += metaDocCounters[META_RETRY_COUNTER];
@@ -201,8 +201,7 @@ public class DocServiceImpl implements DocService {
 				GatherException ge = new GatherException(
 						"Null documents are found for the current ebook ",
 						GatherResponse.CODE_FILE_ERROR);
-				
-				missingGuidsCount = 0;
+				missingGuidsCount = 0; //reset to 0
 				throw ge;
 			}
 		}
@@ -215,8 +214,8 @@ public class DocServiceImpl implements DocService {
 	 * @throws NovusException
 	 * @throws IOException
 	 */
-	private final void createContentFile(Document document,
-			File destinationDirectory, int retryCount, Writer missingsDocs) throws NovusException, IOException {
+	private final int createContentFile(Document document,
+			File destinationDirectory, int retryCount, Writer missingsDocs, int missingGuidsCount) throws NovusException, IOException {
 		String basename = document.getGuid() + EBConstants.XML_FILE_EXTENSION;
 		File destinationFile = new File(destinationDirectory, basename);
 		String docText = null;
@@ -274,6 +273,8 @@ public class DocServiceImpl implements DocService {
 		if (docText != null) {
 			createFile(docText.toString(), destinationFile);
 		}
+		
+		return missingGuidsCount;
 	}
 
 	/**
@@ -284,7 +285,7 @@ public class DocServiceImpl implements DocService {
 	 * @throws IOException
 	 */
 	private final int[] createMetadataFile(Document document,
-			File destinationDirectory, int tocSeqNum, int retryCount) throws NovusException,
+			File destinationDirectory, int tocSeqNum, int retryCount, int missingMetaDataCount) throws NovusException,
 			IOException {
 		String basename = tocSeqNum + "-" + document.getCollection() + "-"
 				+ document.getGuid() + EBConstants.XML_FILE_EXTENSION;
