@@ -66,10 +66,8 @@ function submitJobSummaryFilterForm(command) {
 		<form:option label="<%=BatchStatus.FAILED.toString() %>" value="<%=BatchStatus.FAILED.toString() %>"/>
 		<form:option label="<%=BatchStatus.STARTED.toString() %>" value="<%=BatchStatus.STARTED.toString() %>"/>
 		<form:option label="<%=BatchStatus.STOPPED.toString() %>" value="<%=BatchStatus.STOPPED.toString() %>"/>
-		<form:option label="<%=BatchStatus.ABANDONED.toString() %>" value="<%=BatchStatus.ABANDONED.toString() %>"/>
 		<form:option label="<%=BatchStatus.STARTING.toString() %>" value="<%=BatchStatus.STARTING.toString() %>"/>
 		<form:option label="<%=BatchStatus.STOPPING.toString() %>" value="<%=BatchStatus.STOPPING.toString() %>"/>
-		<form:option label="<%=BatchStatus.UNKNOWN.toString() %>" value="<%=BatchStatus.UNKNOWN.toString() %>"/>
 	</form:select>
 	
 	<p><i style="color:grey">Wildcard: %</i></p>
