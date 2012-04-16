@@ -33,40 +33,28 @@ public class JobRunQueuePoller {
 	private JobRequestService jobRequestService;
 
 	@Scheduled(fixedRate = 15000)
-	public void run() {
+	public void pollJobQueue() {
 		try {
-
-			// check if number of jobs running are bellow throttl limit.
+			// Check if number of jobs running are below throttle limit.
 			if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
-				// then look to see if there is a job run request sitting on the
-				// high priority queue
-				// if there was a job to run, then launch it
-
 				JobRequest jobRequest = jobRequestService.getNextJobToExecute();
 				if (jobRequest != null) {
 					// Create the dynamic set of launch parameters, things like
 					// user name, user email, and a unique serial number
 					JobParameters dynamicJobParameters = engineService
-							.createDynamicJobParameters(jobRequest);
+										.createDynamicJobParameters(jobRequest);
 					// Put the dynamic job parameters in the map.
 					Map<String, JobParameter> allJobParametersMap = new HashMap<String, JobParameter>(
-							dynamicJobParameters.getParameters());
-					JobParameters allJobParameters = new JobParameters(
-							allJobParametersMap);
+													dynamicJobParameters.getParameters());
+					JobParameters allJobParameters = new JobParameters(allJobParametersMap);
 					// Start the job that builds the ebook
-					log.debug(jobRequest);
-					engineService.runJob(jobRequest.JOB_NAME_CREATE_EBOOK,
-							allJobParameters);
-					jobRequestService.deleteJobRequest(jobRequest
-							.getPrimaryKey());
+					log.debug("STARTING JOB: " + jobRequest);
+					engineService.runJob(jobRequest.JOB_NAME_CREATE_EBOOK, allJobParameters);
+					jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
 				}
 			}
 		} catch (Exception e) {
-
-			log.error(String
-					.format("Failed to fetch job run request from launch input queue.\n\t%s",
-							e.getMessage()));
-			e.printStackTrace();
+			log.error("Failed to fetch job run request from launch input queue", e);
 		}
 	}
 
