@@ -5,12 +5,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.apache.activemq.util.ByteArrayOutputStream;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.jibx.runtime.BindingDirectory;
-import org.jibx.runtime.IBindingFactory;
-import org.jibx.runtime.IMarshallingContext;
 import org.junit.Before;
 import org.junit.Test;
 

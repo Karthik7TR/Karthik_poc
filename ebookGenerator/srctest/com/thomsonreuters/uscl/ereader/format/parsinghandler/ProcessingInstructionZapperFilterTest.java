@@ -5,17 +5,15 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
 
 import junit.framework.Assert;
 
-import org.apache.activemq.util.ByteArrayInputStream;
-import org.apache.activemq.util.ByteArrayOutputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
@@ -23,7 +21,6 @@ import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.util.xml.StaxUtils;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 

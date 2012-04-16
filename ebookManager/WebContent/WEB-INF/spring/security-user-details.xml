@@ -16,23 +16,33 @@
 		 The value is the logical role/authority name that we code to in the web application.
 	-->
 	<util:map id="groupToRoleMap" map-class="java.util.HashMap">
-	  	<entry key="todo_guest.*" 	value="ROLE_GUEST"/>
-	  	<entry key="todo_pub.*" 	value="ROLE_PUBLISHER"/>
-	  	<entry key="todo_pub.*" 	value="ROLE_PUBLISHER_PLUS"/>
-	  	<entry key="todo_super.*" 	value="ROLE_SUPERUSER"/>
-	  	<entry key="todo_support.*" value="ROLE_SUPPORT"/>
-	  	
+	
+	  <!-- TODO future PRODUCTION setup is below
+	  	<entry key="P-West-EBOOKBUILDER_GUEST_PROD.*" 			value="ROLE_GUEST"/>
+	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PROD.*" 		value="ROLE_PUBLISHER"/>
+	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_PROD.*" 	value="ROLE_PUBLISHER_PLUS"/>
+	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_PROD.*" 		value="ROLE_SUPERUSER"/>
+	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_PROD.*" 		value="ROLE_SUPPORT"/>
+	   -->
+
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <!-- DEVELOPMENT AND TESTING ONLY ENTRIES!!! -> REMOVE PRIOR TO ENTRY INTO PRODUCTION !!!!-->
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-	<entry key="P-West-LEGO_Guest_DEV" 			value="ROLE_GUEST"/>		<!-- g035050 -->
-	<entry key="P-West-LEGO_PrintPublisher_DEV" value="ROLE_PUBLISHER"/>	<!-- g035049 -->
-	<entry key="P-West-LEGO_GeneralUser_DEV" 		value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
-	<entry key="P-West-LEGO_Manager_DEV" 		value="ROLE_SUPERUSER"/>	<!-- g035044 -->
-	<entry key="P-West-LEGO_IndexUser_DEV" 		value="ROLE_SUPPORT"/>		<!-- g035043 -->
+
+	  	<entry key="P-West-EBOOKBUILDER_GUEST_NONPROD.*" 		value="ROLE_GUEST"/>
+	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_NONPROD.*" 	value="ROLE_PUBLISHER"/>
+	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*" value="ROLE_PUBLISHER_PLUS"/>
+	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*" 	value="ROLE_SUPERUSER"/>
+	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/>
+
+		<entry key="P-West-LEGO_Guest_DEV" 				value="ROLE_GUEST"/>		<!-- g035050 -->
+		<entry key="P-West-LEGO_PrintPublisher_DEV" 	value="ROLE_PUBLISHER"/>	<!-- g035049 -->
+		<entry key="P-West-LEGO_GeneralUser_DEV" 		value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
+		<entry key="P-West-LEGO_Manager_DEV" 			value="ROLE_SUPERUSER"/>	<!-- g035044 -->
+		<entry key="P-West-LEGO_IndexUser_DEV" 			value="ROLE_SUPPORT"/>		<!-- g035043 -->
 	
-	<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
-	<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
+		<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
+		<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
 	
 <!-- ^^^ TESTING ONLY ^^^^ -->
 

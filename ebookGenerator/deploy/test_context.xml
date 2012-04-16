@@ -39,29 +39,6 @@
               factory="org.apache.commons.dbcp.BasicDataSourceFactory"
               driverClassName="oracle.jdbc.OracleDriver"
               url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c111cujctdbux-vip.int.westgroup.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=c111wuyctdbux-vip.int.westgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_test.int.westgroup.com)))"
-              username="EBOOK_TEST_USER" password="eb00k"/> 
-
-    <!-- JMS Queue Connection Factory(s) -->
-    <Resource name="jms/QueueConnectionFactory" auth="Container"
-		  	  type="com.ibm.mq.jms.MQQueueConnectionFactory"
-       	 	  factory="com.ibm.mq.jms.MQQueueConnectionFactoryFactory"
-		  	  HOST="ctco002-04.int.westgroup.com"
-      		  PORT="1414"
-      		  CHAN="CLIENTCONNECTION"
-      		  TRAN="1"/>
-
-	<!-- ==== JMS Queue destination definitions ==== -->
-	
-	<!-- The first queue that is checked for new job run requests (as opposed to the normal priority queue). -->
-	<Resource name="jms/HighPriorityJobRunRequestQueue" auth="Container"
-			  type="com.ibm.mq.jms.MQQueue"
-			  factory="com.ibm.mq.jms.MQQueueFactory"
-			  QU="COBALT.EBOOK_BUILDER.HIGH_PRIORITY.REQ"/>
-	
-	<!-- Second queue checked for job run requests, the high priority queue is always checked first. -->
-	<Resource name="jms/NormalPriorityJobRunRequestQueue" auth="Container"
-			  type="com.ibm.mq.jms.MQQueue"
-        	  factory="com.ibm.mq.jms.MQQueueFactory"
-       	 	  QU="COBALT.EBOOK_BUILDER.NORMAL_PRIORITY.REQ"/>
+              username="EBOOK_TEST_USER" password="eb00k"/>
 
 </Context>

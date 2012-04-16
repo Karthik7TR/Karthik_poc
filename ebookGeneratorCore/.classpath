@@ -14,7 +14,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/activemq-core-5.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/ant-1.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
