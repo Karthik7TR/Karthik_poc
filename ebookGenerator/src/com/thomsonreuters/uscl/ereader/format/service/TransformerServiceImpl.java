@@ -474,7 +474,7 @@ public class TransformerServiceImpl implements TransformerService
 			
 			if (!xslt.exists())
 			{
-				String errMessage = "Could not the following XSLT file on the file system: " + 
+				String errMessage = "Could not find the following XSLT file on the file system: " + 
 						xslt.getAbsolutePath();
 	        	LOG.error(errMessage);
 	        	throw new EBookFormatException(errMessage);
