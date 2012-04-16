@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 
@@ -24,6 +25,8 @@ public interface ProviewClient {
 	public String getPublishingStatus(final String fullyQualifiedTitleId) throws ProviewException;
 	
 	public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException;
+	
+	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo() throws ProviewException;
 	
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId) throws ProviewException;
 }

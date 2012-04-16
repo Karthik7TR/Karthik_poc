@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -22,6 +23,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.AuthorService;
 import com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDao;
 import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
@@ -33,6 +37,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 	private BookDefinitionDao bookDefinitionDao;
 	private AuthorService authorService;
 	private PublishingStatsService publishingStatsService;
+	private ProviewClient proviewClient;
 
 	static final Comparator<LibraryList> PUBLISH_DATE_ASCENDING_ORDER = new Comparator<LibraryList>() {
 
@@ -105,12 +110,16 @@ public class LibraryListServiceImpl implements LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, Date to, Date from, String status) {
+			String materialID, Date to, Date from, String status)
+			throws ProviewException {
 
 		List<BookDefinition> bookDefinitions = bookDefinitionDao
 				.findBookDefinitions(sortProperty, isAscending, pageNumber,
 						itemsPerPage, proviewDisplayName, titleID, isbn,
 						materialID, to, from, status);
+
+		Map<String, ProviewTitleContainer> titleMap = proviewClient
+				.getAllProviewTitleInfo();
 
 		List<LibraryList> libraryLists = new ArrayList<LibraryList>();
 
@@ -125,13 +134,23 @@ public class LibraryListServiceImpl implements LibraryListService {
 					.findLastPublishDateForBook(bookDefinition
 							.getEbookDefinitionId());
 
+			ProviewTitleContainer proviewTitleContainer = titleMap
+					.get(bookDefinition.getFullyQualifiedTitleId());
+
+			String proviewVersion = null;
+			if (proviewTitleContainer != null) {
+				proviewVersion = proviewTitleContainer.getLatestVersion()
+						.getVesrion();
+			}
+
 			LibraryList libraryList = new LibraryList(
 					bookDefinition.getEbookDefinitionId(),
 					bookDefinition.getProviewDisplayName(),
 					bookDefinition.getFullyQualifiedTitleId(),
 					bookDefinition.getEbookDefinitionCompleteFlag() ? "Y" : "N",
 					bookDefinition.isDeletedFlag() ? "Y" : "N", bookDefinition
-							.getLastUpdated(), lastPublishDate, authors);
+							.getLastUpdated(), lastPublishDate, authors,
+					proviewVersion);
 
 			libraryLists.add(libraryList);
 
@@ -185,4 +204,12 @@ public class LibraryListServiceImpl implements LibraryListService {
 		this.publishingStatsService = publishingStatsService;
 	}
 
+	public ProviewClient getProviewClient() {
+		return proviewClient;
+	}
+
+	@Required
+	public void setProviewClient(ProviewClient proviewClient) {
+		this.proviewClient = proviewClient;
+	}
 }

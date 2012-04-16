@@ -70,6 +70,7 @@
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
+	  <display:column title="ProView Version" property="proviewVersion" />
 	  <display:column title="Publish Date" sortable="true" sortName="publishEndTimestamp">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>

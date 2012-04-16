@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 
 /**
  * Service methods that are common to both the Spring Batch generator engine and
@@ -38,7 +39,7 @@ public interface LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, Date to, Date from, String status);
+			String materialID, Date to, Date from, String status)  throws ProviewException;
 
 	/**
 	 * Returns a count of all current book definitions.

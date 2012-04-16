@@ -37,7 +37,8 @@
   		  p:libraryListDao-ref="libraryListDao"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"
   		  p:authorService-ref="authorService"
-  		  p:publishingStatsService-ref="publishingStatsService"/>
+  		  p:publishingStatsService-ref="publishingStatsService"
+  		  p:proviewClient-ref="proviewClient"/>
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService"
   		  p:codeService-ref="codeService"/>

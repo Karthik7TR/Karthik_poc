@@ -104,7 +104,7 @@ class LibraryListRowMapper implements RowMapper<LibraryList> {
 		authors.addAll(authorService.findAuthorsByEBookDefnId(bookDefinitionId));
 
 		return new LibraryList(bookDefinitionId, proviewName, titleId,
-				isComplete, isDeleted, lastUpdate, lastPublished, authors);
+				isComplete, isDeleted, lastUpdate, lastPublished, authors, null);
 	}
 
 	@Required

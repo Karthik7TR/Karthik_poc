@@ -62,26 +62,28 @@ public class ProviewClientImpl implements ProviewClient {
 							+ eBookVersionNumber + "].");
 		}
 		FileInputStream ebookInputStream;
-		
+
 		try {
 			ebookInputStream = new FileInputStream(eBook);
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Cannot send a null or empty File to ProView.", e);
+			throw new RuntimeException(
+					"Cannot send a null or empty File to ProView.", e);
 		}
-		
+
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getRequestCallback();
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getRequestCallback();
 		proviewRequestCallback.setEbookInputStream(ebookInputStream);
-		
+
 		String proviewResponse = restTemplate.execute(publishTitleUriTemplate,
-				HttpMethod.PUT,
-				proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
-		
-		//restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 
 		// logResponse(response);
 
@@ -148,10 +150,27 @@ public class ProviewClientImpl implements ProviewClient {
 
 		return latestProviewVersion;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getAllProviewTitleInfo()
+	 */
+	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
+			throws ProviewException {
+
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+
+		return parser.process(allPublishedTitleResponse);
+
+	}
+
 	@Override
-	public boolean hasTitleIdBeenPublished(
-			final String fullyQualifiedTitleId) throws ProviewException {
+	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
+			throws ProviewException {
 
 		String allPublishedTitleResponse = getAllPublishedTitles();
 

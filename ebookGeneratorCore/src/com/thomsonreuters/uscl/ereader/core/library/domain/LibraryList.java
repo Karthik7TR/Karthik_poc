@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 
 public class LibraryList implements Serializable {
 	private static final long serialVersionUID = -4057949125475314670L;
@@ -24,11 +25,13 @@ public class LibraryList implements Serializable {
 	String isDeletedFlag;
 	Date lastUpdated;
 	Date lastPublishDate;
+	String proviewVersion;
 	Set<Author> authorList;
-	
-	
-	public LibraryList(Long bookDefinitionId, String proviewName,String titleId,
-			String isComplete, String isDeleted, Date lastUpdate, Date lastPublished, Set<Author> authors) {
+
+	public LibraryList(Long bookDefinitionId, String proviewName,
+			String titleId, String isComplete, String isDeleted,
+			Date lastUpdate, Date lastPublished, Set<Author> authors,
+			String proviewVersion) {
 		this.bookDefinitionId = bookDefinitionId;
 		this.proviewDisplayName = proviewName;
 		this.fullyQualifiedTitleId = titleId;
@@ -37,6 +40,7 @@ public class LibraryList implements Serializable {
 		this.ebookDefinitionCompleteFlag = isComplete;
 		this.lastPublishDate = lastPublished;
 		this.authorList = authors;
+		this.proviewVersion = proviewVersion;
 	}
 
 	/**
@@ -75,20 +79,19 @@ public class LibraryList implements Serializable {
 		return this.proviewDisplayName;
 	}
 
-
-
 	/**
 	 */
-	public void setEbookDefinitionCompleteFlag(String ebookDefinitionCompleteFlag) {
-		this.ebookDefinitionCompleteFlag = ebookDefinitionCompleteFlag;		
+	public void setEbookDefinitionCompleteFlag(
+			String ebookDefinitionCompleteFlag) {
+		this.ebookDefinitionCompleteFlag = ebookDefinitionCompleteFlag;
 	}
 
 	/**
 	 */
 	public boolean IsEbookDefinitionCompleteFlag() {
-		return ((this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
+		return ((this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true
+				: false));
 	}
-
 
 	/**
 	 */
@@ -99,7 +102,7 @@ public class LibraryList implements Serializable {
 	/**
 	 */
 	public boolean getIsDeletedFlag() {
-		return( (this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+		return ((this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -120,6 +123,14 @@ public class LibraryList implements Serializable {
 		this.authorList = authors;
 	}
 
+	public String getProviewVersion() {
+		return proviewVersion;
+	}
+
+	public void setProviewVersion(String proviewVersion) {
+		this.proviewVersion = proviewVersion;
+	}
+
 	/**
 	 */
 	public String getAuthorList() {
@@ -127,10 +138,11 @@ public class LibraryList implements Serializable {
 		List<Author> authors = new ArrayList<Author>();
 		authors.addAll(authorList);
 		Collections.sort(authors);
-		
+
 		StringBuilder buffer = new StringBuilder();
-		for(Author author : authors){
-			buffer.append("<div>").append(author.getFullName()).append("</div>");
+		for (Author author : authors) {
+			buffer.append("<div>").append(author.getFullName())
+					.append("</div>");
 		}
 		return buffer.toString();
 	}
@@ -145,31 +157,36 @@ public class LibraryList implements Serializable {
 
 	/**
 	 * Returns a textual representation of a bean.
-	 *
+	 * 
 	 */
 	public String toString() {
 
 		StringBuilder buffer = new StringBuilder();
 
-		buffer.append("ebookDefinitionId=[").append(bookDefinitionId).append("] ");
-		buffer.append("fullyQualifiedTitleId=[").append(fullyQualifiedTitleId).append("] ");
-		buffer.append("proviewDisplayName=[").append(proviewDisplayName).append("] ");
-		buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
+		buffer.append("ebookDefinitionId=[").append(bookDefinitionId)
+				.append("] ");
+		buffer.append("fullyQualifiedTitleId=[").append(fullyQualifiedTitleId)
+				.append("] ");
+		buffer.append("proviewDisplayName=[").append(proviewDisplayName)
+				.append("] ");
+		buffer.append("ebookDefinitionCompleteFlag=[")
+				.append(ebookDefinitionCompleteFlag).append("] ");
 		buffer.append("isDeletedFlag=[").append(isDeletedFlag).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
 
 		return buffer.toString();
 	}
-	
+
 	/**
 	 * Provides the status of the book definition
+	 * 
 	 * @return String indicating the status
 	 */
 	public String getBookStatus() {
 		String status;
 		if (getIsDeletedFlag()) {
 			status = "Deleted";
-		} else { 
+		} else {
 			if (IsEbookDefinitionCompleteFlag()) {
 				status = "Complete";
 			} else {
@@ -183,15 +200,15 @@ public class LibraryList implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((authorList == null) ? 0 : authorList.hashCode());
+		result = prime * result
+				+ ((authorList == null) ? 0 : authorList.hashCode());
 		result = prime
 				* result
 				+ ((ebookDefinitionCompleteFlag == null) ? 0
 						: ebookDefinitionCompleteFlag.hashCode());
 		result = prime
 				* result
-				+ ((bookDefinitionId == null) ? 0 : bookDefinitionId
-						.hashCode());
+				+ ((bookDefinitionId == null) ? 0 : bookDefinitionId.hashCode());
 		result = prime
 				* result
 				+ ((fullyQualifiedTitleId == null) ? 0 : fullyQualifiedTitleId
