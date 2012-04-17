@@ -137,10 +137,10 @@
 	<bean id="bookAuditController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditController"
 		  p:auditService-ref="eBookAuditService"/>
 	
-	<bean id="bookAuditFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.FilterController"
+	<bean id="bookAuditFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterController"
 		  p:auditService-ref="eBookAuditService">
 		<property name="validator">
-			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.FilterFormValidator"/>
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterFormValidator"/>
 		</property>
 	</bean>
 
