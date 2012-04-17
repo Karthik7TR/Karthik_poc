@@ -73,6 +73,7 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		{
 			EbookName name = bookDefinition.getEbookNames().get(0);
 			printText(name.getBookNameText(), MULTI_LINE_FIELD);
+
 		}
 		else if (qName.equalsIgnoreCase(BOOK_NAME2_TAG))
 		{
@@ -89,6 +90,7 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 				EbookName name = bookDefinition.getEbookNames().get(2);
 				printText(name.getBookNameText(), MULTI_LINE_FIELD);
 			}
+			
 		}
 		else if (qName.equalsIgnoreCase(CURRENCY_TAG))
 		{
@@ -121,7 +123,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		{
 			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
 		}
-		else if (qName.equalsIgnoreCase(BOOK_NAME_TAG) || qName.equalsIgnoreCase(BOOK_NAME2_TAG) 
+		else if (qName.equalsIgnoreCase(BOOK_NAME_TAG) || qName.equalsIgnoreCase(BOOK_NAME2_TAG)
+				|| qName.equalsIgnoreCase(BOOK_NAME3_TAG)
 				|| qName.equalsIgnoreCase(CURRENCY_TAG) || qName.equalsIgnoreCase(AUTHORS_TAG))
 		{
 			//Remove the placeholder tag

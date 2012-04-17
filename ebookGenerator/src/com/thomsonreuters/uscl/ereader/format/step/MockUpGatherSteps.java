@@ -31,13 +31,11 @@ public class MockUpGatherSteps extends AbstractSbTasklet
 		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, 5);
 
 		File staticCover = new File("/apps/eBookBuilder/staticContent/coverArt.PNG");
-		File cssFile = new File("/apps/eBookBuilder/staticContent/document.css");
 
 		jobExecutionContext.putString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH, 
 				jobExecutionContext.getString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR));
 		jobExecutionContext.putString(
 				JobExecutionKey.COVER_ART_PATH, staticCover.getAbsolutePath());
-		jobExecutionContext.putString(JobExecutionKey.DOCUMENT_CSS_FILE, cssFile.getAbsolutePath());
 		
 		return ExitStatus.COMPLETED;
 	}

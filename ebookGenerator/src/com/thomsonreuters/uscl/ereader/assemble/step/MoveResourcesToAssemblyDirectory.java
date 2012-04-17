@@ -15,6 +15,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 /**
@@ -24,7 +25,24 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  *
  */
 public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
+	/**
+	 * The subdirectory of the static files for front matter and keycite logo.
+	 */
+	private static final String EBOOK_GENERATOR_IMAGES = "/apps/eBookBuilder/coreStatic/images";
+	/**
+	 * The file path to the CSS file to apply on the documents.
+	 */
+	private static final String DOCUMENT_CSS_FILE = "/apps/eBookBuilder/staticContent/document.css";
+	/**
+	 * The file path to the ebookGenerator CSS file used by front matter.
+	 */
+	private static final String EBOOK_GENERATOR_CSS_FILE = "/apps/eBookBuilder/coreStatic/css/ebook_generator.css";
+	/**
+	 * The file path to the ebookGenerator Cover Image.
+	 */
+	private static final String EBOOK_COVER_FILE = "/apps/ebookbuilder/generator/images/cover/";
 
+	
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet#executeStep(org.springframework.batch.core.StepContribution, org.springframework.batch.core.scope.context.ChunkContext)
 	 */
@@ -41,6 +59,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		moveCoverArt(jobExecutionContext, artworkDirectory);
 		moveImages(jobExecutionContext, assetsDirectory);
 		moveStylesheet(jobExecutionContext, assetsDirectory);
+		moveFrontMatter(jobExecutionContext, documentsDirectory);
 		moveDocuments(jobExecutionContext, documentsDirectory);
 		
 		return ExitStatus.COMPLETED;
@@ -58,10 +77,25 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 
 	private void moveCoverArt(final ExecutionContext jobExecutionContext,
 			final File artworkDirectory) throws IOException {
-		File coverArt = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		String titleCover = bookDefinition.getCoverImage();
+		
+		File coverArt = new File(EBOOK_COVER_FILE+titleCover);
+		if (coverArt.length() == 0)
+		{ 
+			// Use default
+			coverArt = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
+		}
+
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
-
+	
+	private void moveFrontMatter(final ExecutionContext jobExecutionContext,
+			final File documentsDirectory) throws IOException {
+		File frontMatter = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+		FileUtils.copyDirectory(frontMatter, documentsDirectory);
+	}
+	
 	private void moveDocuments(final ExecutionContext jobExecutionContext,
 			final File documentsDirectory) throws IOException {
 		File transformedDocsDir= new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
@@ -71,13 +105,18 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	private void moveImages(final ExecutionContext jobExecutionContext, final File assetsDirectory) throws IOException {
 		File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES);
 		FileUtils.copyDirectory(dynamicImagesDir, assetsDirectory);
 		FileUtils.copyDirectory(staticImagesDir, assetsDirectory);
+		FileUtils.copyDirectory(frontMatterImagesDir, assetsDirectory);
 	}
 	
 	private void moveStylesheet(final ExecutionContext jobExecutionContext, final File assetsDirectory) throws IOException {
-		File stylesheet = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCUMENT_CSS_FILE));
+		File stylesheet = new File(DOCUMENT_CSS_FILE);
 		FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
+		stylesheet = new File(EBOOK_GENERATOR_CSS_FILE);
+		FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
+
 	}
 	private File createAssetsDirectory (final File parentDirectory) {
 		File assetsDirectory = new File(parentDirectory, "assets");
