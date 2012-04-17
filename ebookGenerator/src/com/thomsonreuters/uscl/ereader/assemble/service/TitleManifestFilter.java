@@ -573,9 +573,12 @@ class TitleManifestFilter extends XMLFilterImpl {
 	protected void writeCopyright() throws SAXException {
 		super.startElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT, EMPTY_ATTRIBUTES);
 		String copyright = titleMetadata.getCopyright();
+		if (copyright!=null)
+		{
+			copyright = copyright.replace("\r\n", " ");
+		}
 		super.characters(copyright.toCharArray(), 0, copyright.length());
 		super.endElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT);
-		
 	}
 
 	/**
