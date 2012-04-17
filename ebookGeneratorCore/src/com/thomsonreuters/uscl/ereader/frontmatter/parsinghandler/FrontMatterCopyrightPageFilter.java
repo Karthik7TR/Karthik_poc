@@ -26,6 +26,7 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 	private static final String COPYRIGHT_TAG = "frontMatterPlaceholder_copyright";
 	private static final String COPYRIGHT_PAGE_TEXT_TAG = "frontMatterPlaceholder_copyrightPageText";
 	private static final String ISBN_TAG = "frontMatterPlaceholder_copyrightISBN";
+	private static final String COPYRIGHT_TRADEMARK_TAG = "frontMatterPlaceholder_copyrightTrademarkLine";
 	
 	/** Defines the HTML tags that will be created by the filter */
 	private static final String HTML_PARAGRAPH_TAG = "p";
@@ -67,6 +68,10 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 		{
 			printText(bookDefinition.getIsbn(), SINGLE_LINE_FIELD);
 		}
+		else if (qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG))
+		{
+			printText(bookDefinition.getAdditionalTrademarkInfo(), MULTI_LINE_FIELD);
+		}
 		else
 		{
 			super.startElement(uri, localName, qName, atts);
@@ -87,7 +92,7 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
 		}
 		else if (qName.equalsIgnoreCase(COPYRIGHT_TAG) || qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG) 
-				|| qName.equalsIgnoreCase(ISBN_TAG))
+				|| qName.equalsIgnoreCase(ISBN_TAG) || qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG))
 		{
 			//Remove the placeholder tag
 		}

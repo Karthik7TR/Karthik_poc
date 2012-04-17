@@ -17,7 +17,10 @@
 						publication is not a substitute for the advice of an attorney. If you require legal or other expert advice, you should
 						seek the services of a competent attorney or other professional.</div>
 					<div class="isbn"><strong>ISBN:</strong> <frontMatterPlaceholder_copyrightISBN/></div>
-					<div class="copyright_patent">West's and Westlaw are registered in the U.S. Patent and Trademark Office.</div>
+					<div class="copyright_patent">
+						<p><frontMatterPlaceholder_copyrightTrademarkLine/></p>
+						<p>West's and Westlaw are registered in the U.S. Patent and Trademark Office.</p>
+					</div>
 				</div>
 			</div>
 		</section>

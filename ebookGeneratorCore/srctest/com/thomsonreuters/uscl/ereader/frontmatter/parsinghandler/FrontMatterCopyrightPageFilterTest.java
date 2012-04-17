@@ -66,6 +66,9 @@ public class FrontMatterCopyrightPageFilterTest {
 				"by a United States Government officer or employee as part of that person's official duties." +
 				"\r\nTest paragraph 2.");
 		bookDefinition.setIsbn("978-0-314-93983-8");
+		bookDefinition.setAdditionalTrademarkInfo("McKINNEY'S is registerd in the U.S. Patent and Trademark Office.\r\n" +
+				"McKINNEY'S NEW YORK CIVIL PRACTICE LAW AND RULES\r\n" +
+				"is a trademark of West Publishing Corporation.");
 		
 		List<Author> authors = new ArrayList<Author>();
 		Author author1 = new Author();
@@ -191,6 +194,15 @@ public class FrontMatterCopyrightPageFilterTest {
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_copyrightISBN/></test>";
 		String expectedResult = "<test>978-0-314-93983-8</test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testFrontMatterPlaceholder_copyrightTrademark() throws SAXException
+	{	
+		String xmlTestStr = "<test><p><frontMatterPlaceholder_copyrightTrademarkLine/></p><p>West's and Westlaw are registered in the U.S. Patent and Trademark Office.</p></test>";
+		String expectedResult = "<test><p>McKINNEY'S is registerd in the U.S. Patent and Trademark Office.</p><p>McKINNEY'S NEW YORK CIVIL PRACTICE LAW AND RULES</p><p>is a trademark of West Publishing Corporation.</p><p>West's and Westlaw are registered in the U.S. Patent and Trademark Office.</p></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
