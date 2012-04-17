@@ -30,11 +30,9 @@ public class BookAuditController extends BaseBookAuditController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_AUDIT_LIST, method = RequestMethod.GET)
 	public ModelAndView auditList(HttpSession httpSession, Model model) {
-		BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
+		BookAuditFilterForm filterForm = new BookAuditFilterForm();
 		
-		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
-		
-		return setupInitialView(model, savedPageAndSort, filterForm, httpSession);
+		return setupInitialView(model, filterForm, httpSession);
 	}
 	
 	/**
@@ -45,15 +43,15 @@ public class BookAuditController extends BaseBookAuditController {
 	public ModelAndView specificBookAuditList(HttpSession httpSession, @RequestParam Long id, Model model) {
 		BookAuditFilterForm filterForm = new BookAuditFilterForm(id);	// from session
 		
-		PageAndSort<DisplayTagSortProperty> savedPageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SUBMITTED_DATE, false);;	// from session
-	
-		return setupInitialView(model, savedPageAndSort, filterForm, httpSession);
+		return setupInitialView(model, filterForm, httpSession);
 	}
 	
 	/**
 	 * Setup of Form and sorting shared by two different incoming HTTP get request
 	 */
-	private ModelAndView setupInitialView(Model model, PageAndSort<DisplayTagSortProperty> savedPageAndSort, BookAuditFilterForm filterForm, HttpSession httpSession) {
+	private ModelAndView setupInitialView(Model model, BookAuditFilterForm filterForm, HttpSession httpSession) {
+		PageAndSort<DisplayTagSortProperty> savedPageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SUBMITTED_DATE, false);
+		
 		BookAuditForm ebookAuditForm = new BookAuditForm();
 		ebookAuditForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 

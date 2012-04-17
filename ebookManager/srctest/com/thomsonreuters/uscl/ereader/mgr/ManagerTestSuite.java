@@ -27,6 +27,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.PublishTypeCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
@@ -55,7 +57,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			PublishTypeCodeControllerTest.class,
 			PublishTypeCodeFormValidatorTest.class,
 			StateCodeControllerTest.class,
-			StateCodeFormValidatorTest.class
+			StateCodeFormValidatorTest.class,
+			BookAuditControllerTest.class,
+			BookAuditFilterControllerTest.class
 		} )
 
 public class ManagerTestSuite {
