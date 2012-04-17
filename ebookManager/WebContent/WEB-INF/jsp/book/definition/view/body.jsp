@@ -214,7 +214,7 @@ function submitForm(cmd)
 								<div><label class="labelCol">Section Heading</label> ${section.sectionHeading}</div>
 								<div><label class="labelCol">Section Sequence Number</label> ${section.sequenceNum}</div>
 								<label class="labelCol">Section Text</label>
-								<div>${section.sectionText}</div>
+								<div class="wordwrap">${section.sectionText}</div>
 								<c:forEach items="${section.pdfs}" var="pdf" varStatus="pdfStatus">
 									<div class="row">
 										<div><label class="labelCol">PDF Link Text</label>${pdf.pdfLinkText}</div>

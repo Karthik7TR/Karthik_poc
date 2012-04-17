@@ -280,17 +280,14 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testAllRequiredFieldsNort() {
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(2);
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockBookDefinitionService);
     	
-    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(2);
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalNort();
     	form.setIsComplete(true);
-		validator.validate(form, errors);
-		Assert.assertFalse(errors.hasErrors());
-		
 		form.setProviewDisplayName(null);
 		form.setFrontMatterTitle(new EbookName());
 		form.setCopyright(null);
@@ -308,8 +305,10 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("nortDomain").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("nortFilterView").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
+		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
+		EasyMock.verify(mockCodeService);
 	}
 	
 	/**
@@ -317,17 +316,14 @@ public class EditBookDefinitionFormValidatorTest {
 	 */
 	@Test
 	public void testAllRequiredFieldsToc() {
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(2);
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
     	EasyMock.replay(mockBookDefinitionService);
     	
-    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(2);
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
     	form.setIsComplete(true);
-		validator.validate(form, errors);
-		Assert.assertFalse(errors.hasErrors());
-		
 		form.setProviewDisplayName(null);
 		form.setFrontMatterTitle(new EbookName());
 		form.setCopyright(null);
@@ -346,8 +342,10 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
+		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
+		EasyMock.verify(mockCodeService);
 	}
 	
 	/**

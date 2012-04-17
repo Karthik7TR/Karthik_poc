@@ -133,7 +133,7 @@ html, body {
 	float:left;
 	width:100%;
 	position:relative;
-  	height:110px;
+  	height:115px;
   	background:#E0E0E0;
 }
 
@@ -201,11 +201,13 @@ html, body {
 	font-weight: bold;
 }
 
-.buttons a span {
+.buttons a span,
+.modalButtons a span {
 	color:#555555;
 }
 
-.buttons a span:hover {
+.buttons a span:hover,
+.modalButtons a span:hover {
 	color:black;
 }
 
@@ -272,6 +274,11 @@ a:hover {
 	margin:0px 8px;
 }
 
+#bookData .bookImage > img {
+	width:60px;
+	height:70px;
+}
+
 #bookData .titleData {
 	padding-top:10px;
 	vertical-align: top;
@@ -288,7 +295,7 @@ a:hover {
 	float:left;
 	margin-right:10px;
 	text-align:right;
-	width:180px;
+	width:200px;
 }
 
 .bookDefinitionView label {
@@ -304,16 +311,23 @@ a:hover {
 
 .bookDefinitionCRUD .sectionLabel,
 .bookDefinitionView .sectionLabel {
-	margin-top:15px;
+	margin-top:1em;
 	font-weight: bold;
+	font-size:1.3em;
 	text-align: center;	
 }
 
 .centerSection {
 	margin-left:auto;
 	margin-right:auto;
-	width:950px;
+	width:980px;
 }
+.bookDefinitionView .centerSection {
+	margin-left:auto;
+	margin-right:auto;
+	width:900px;
+}
+
 .centerSection > div {
 	overflow:hidden;
 	display:inline-block;
@@ -324,10 +338,14 @@ a:hover {
  	text-align: center;
  }
 .bookDefinitionCRUD .leftDefinitionForm,
-.bookDefinitionCRUD .rightDefinitionForm,
+.bookDefinitionCRUD .rightDefinitionForm {
+	width: 480px;
+	vertical-align: top;
+}
+
 .bookDefinitionView .leftDefinitionForm,
 .bookDefinitionView .rightDefinitionForm {
-	width: 460px;
+	width: 440px;
 	vertical-align: top;
 }
 
@@ -352,6 +370,10 @@ a:hover {
 .bookDefinitionCRUD .frontMatterPage {
 	border: 1px gray solid;
 	padding:5px;
+}
+
+.bookDefinitionView .frontMatterPage {
+	width:100%;
 }
 
 .bookDefinitionCRUD .frontMatterSection {
@@ -403,7 +425,7 @@ a:hover {
 
 .bookDefinitionCRUD #accordion {
 	width:256px;
-	margin-left:190px;
+	margin-left:210px;
 	font-size: 14px;
 	min-height: 300px;
 }
@@ -449,7 +471,7 @@ a:hover {
 .bookDefinitionCRUD .leftDefinitionForm .errorDiv,
 .bookDefinitionCRUD .rightDefinitionForm .errorDiv {
 	text-align: left;
-	margin-left:190px;
+	margin-left:210px;
 }
 
 .bookDefinitionCRUD .errorDiv2 {
@@ -489,6 +511,19 @@ a:hover {
 
 .bookDefinitionCRUD #modal .modelTitle {
 	font-weight: bold;
+}
+
+.validateFormDiv {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
 }
 
 

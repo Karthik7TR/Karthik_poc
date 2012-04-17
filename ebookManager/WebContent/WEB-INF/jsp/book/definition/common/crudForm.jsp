@@ -377,7 +377,7 @@
 
 <form:hidden path="validateForm" />
 <div class="validateFormDiv">
-	<h2><form:errors path="validateForm" cssClass="errorMessage" /></h2>
+	<form:errors path="validateForm" cssClass="errorMessage" />
 </div>
 <%-- Check if book has been published --%>
 <c:choose>
@@ -660,7 +660,7 @@
 				<form:hidden path="frontMatterTitle.ebookNameId" />
 				<form:hidden path="frontMatterTitle.sequenceNum" value="1" />
 				<form:textarea path="frontMatterTitle.bookNameText" />
-				<div class="errorDiv2">
+				<div class="errorDiv">
 					<form:errors path="frontMatterTitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div>
@@ -669,7 +669,7 @@
 				<form:hidden path="frontMatterSubtitle.ebookNameId"/>
 				<form:hidden path="frontMatterSubtitle.sequenceNum" value="2"/>
 				<form:textarea path="frontMatterSubtitle.bookNameText" />
-				<div class="errorDiv2">
+				<div class="errorDiv">
 					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div> 
@@ -678,7 +678,7 @@
 				<form:hidden path="frontMatterSeries.ebookNameId"/>
 				<form:hidden path="frontMatterSeries.sequenceNum" value="3"/>
 				<form:textarea path="frontMatterSeries.bookNameText" />
-				<div class="errorDiv2">
+				<div class="errorDiv">
 					<form:errors path="frontMatterSeries.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div> 
@@ -726,8 +726,7 @@
 							Additional Text
 							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
 						</div>
-						<input type="button" value="Delete" class="rdelete" />
-						<div class="errorDiv2">
+						<div class="errorDiv">
 							<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
 							<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
 							<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
@@ -736,6 +735,7 @@
 							<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
 							<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 						</div>
+						<input type="button" value="Delete" class="rdelete" />
 					</div>
 				</c:forEach>
 				<div id="addHere"></div>

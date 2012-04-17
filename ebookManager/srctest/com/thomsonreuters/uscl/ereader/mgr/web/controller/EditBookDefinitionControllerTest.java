@@ -84,7 +84,7 @@ public class EditBookDefinitionControllerTest {
     	validator.setBookDefinitionService(mockBookDefinitionService);
     	validator.setCodeService(mockCodeService);
     	validator.setJobRequestService(mockJobRequestService);
-    	validator.setEnvironmentName("prod");
+    	validator.setEnvironmentName("workstation");
     	controller.setValidator(validator);	
     	
     	bookName = new EbookName();

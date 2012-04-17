@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 
 <div class="pageTitle">eBook Job History Metrics</div>
 <c:choose>
@@ -10,7 +11,7 @@
 <c:otherwise>	<%-- found the book --%>
 <div id="bookData">
 	<div class="bookImage">
-		<img alt="${book.proviewDisplayName}" src="theme/images/cover.png">
+		<img alt="${book.proviewDisplayName}" src="<%= WebConstants.MVC_COVER_IMAGE %>?imageName=${ book.coverImage }">
 	</div>
 	<div class="titleData">
 		Title ID: ${book.titleId}<br/>

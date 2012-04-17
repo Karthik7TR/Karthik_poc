@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
@@ -219,8 +220,7 @@ public class EditBookDefinitionForm {
 		book.setEbookDefinitionCompleteFlag(isComplete);
 		book.setEbookDefinitionId(bookdefinitionId);
 		book.setFullyQualifiedTitleId(titleId);
-		// Needs to come after setting fully qualified title id
-		book.setCoverImage(book.getTitleId() + ".png");
+		book.setCoverImage(this.createCoverImageName());
 		
 		book.setIsbn(isbn);
 		book.setIsProviewTableViewFlag(isProviewTableView);
@@ -636,6 +636,13 @@ public class EditBookDefinitionForm {
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	public String createCoverImageName() {
+		String[] titleIdArray = titleId.split("/");
+		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
+		buffer.append(".png");
+		return buffer.toString();
 	}
 	
 	public void removeEmptyRows() {

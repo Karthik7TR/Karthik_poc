@@ -64,7 +64,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	String titleId = form.getTitleId();
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
-    	checkForSpaces(errors, form.getTitleId(), "titleId", "Title ID");
+    	checkForSpaces(errors, titleId, "titleId", "Title ID");
     	
     	// Validate publication and title ID
     	if (form.getContentTypeId() != null && StringUtils.isNotEmpty(titleId)) {
@@ -84,6 +84,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         	} else if (contentTypeName.equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
         		// Validate Slice Codes fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
+        	} else {
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
         	}
     		
@@ -215,16 +217,25 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
 			
-			if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES) ||
-					contentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
-        		// Validate Slice Codes fields are filled out
-        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.required");
-        	}
+			if(contentType != null) {
+				if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES) ||
+						contentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
+	        		// Validate Slice Codes fields are filled out
+	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.required");
+	        	}	
+			}
 			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
-			// Check if pdf file exists on NAS location when on prod server
+			// Check if pdf file and cover image exists on NAS location when on prod server
 			if(environmentName.equalsIgnoreCase("prod")) {
+				
+				// Check cover image exists
+				if(StringUtils.isNotBlank(titleId)) {
+					fileExist(errors, form.createCoverImageName(), WebConstants.KEY_COVER_IMAGE_LOCATION, "validateForm");
+				}
+				
+				// Check all pdfs on Front Matter
 				i=0;
 				for(FrontMatterPage page: form.getFrontMatters()) {
 					int j = 0;
@@ -242,8 +253,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 					i++;
 				}
 			}
-			
-			//TODO: check if cover image is on the server. Need server location.
 		}
     	
     	// Adding error message if any validation fails

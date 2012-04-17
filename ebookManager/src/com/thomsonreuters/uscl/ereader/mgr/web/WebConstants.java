@@ -67,6 +67,7 @@ public class WebConstants {
 	public static final String KEY_IS_COMPLETE="isComplete";
 	public static final String KEY_IS_NEW_ISBN="isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
+	public static final String KEY_COVER_IMAGE_LOCATION="/apps/eBookBuilder/generator/images/cover";
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
@@ -85,6 +86,7 @@ public class WebConstants {
 	
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
+	public static final String MVC_COVER_IMAGE = "coverImage.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
