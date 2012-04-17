@@ -167,9 +167,9 @@ public class FrontMatterResearchAssistancePageFilterTest {
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistanceEmail/></test>";
 		String expectedResult = "<test><a class=\"additional_info_email\" " +
-				"href=\"mailto:west.editor@thomson.com?subject=" +
+				"href=\"mailto:west.ebooksuggestions@thomsonreuters.com?subject=" +
 				"eBook Questions and Suggestions for Display TEST Title\">" +
-				"west.editor@thomson.com</a></test>";
+				"west.ebooksuggestions@thomsonreuters.com</a></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
