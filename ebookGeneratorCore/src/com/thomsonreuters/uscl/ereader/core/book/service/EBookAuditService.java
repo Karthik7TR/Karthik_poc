@@ -6,7 +6,11 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.List;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 
 /**
  * Spring service that handles CRUD requests for EbookAudit entities
@@ -36,5 +40,13 @@ public interface EBookAuditService {
 	 * 
 	 */
 	public Long findEbookAuditByEbookDefId(Long ebookDefId);
+	
+	/**
+	 * Return all EbookAudits
+	 * @return
+	 */
+	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
+	
+	public int numberEbookAudits(EbookAuditFilter filter);
 
 }

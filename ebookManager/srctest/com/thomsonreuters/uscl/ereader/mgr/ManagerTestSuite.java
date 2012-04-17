@@ -16,6 +16,17 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionForm
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.LoginControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue.KeywordValueControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue.KeywordValueFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.PublishTypeCodeControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.publishtypecode.PublishTypeCodeFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
@@ -33,7 +44,18 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			JobSummaryFilterControllerTest.class,
 			QueueControllerTest.class,
 			LoginControllerTest.class,
-			ViewBookDefinitionControllerTest.class
+			ViewBookDefinitionControllerTest.class,
+			JurisdictionCodeControllerTest.class,
+			JurisdictionCodeFormValidatorTest.class,
+			KeywordCodeControllerTest.class,
+			KeywordCodeFormValidatorTest.class,
+			KeywordValueControllerTest.class,
+			KeywordValueFormValidatorTest.class,
+			AdminControllerTest.class,
+			PublishTypeCodeControllerTest.class,
+			PublishTypeCodeFormValidatorTest.class,
+			StateCodeControllerTest.class,
+			StateCodeFormValidatorTest.class
 		} )
 
 public class ManagerTestSuite {

@@ -11,6 +11,7 @@
 <div class="rightHeader">
 	<ul class="navList">
 		<li><a href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
+		<li><a href="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>">AUDIT</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
 		

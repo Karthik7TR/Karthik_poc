@@ -6,9 +6,13 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.List;
+
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 
 /**
  * DAO to manage EbookAudit entities.
@@ -28,5 +32,9 @@ public interface EbookAuditDao {
 	public void saveAudit(EbookAudit eBookAuditRecord);
 	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)
 			throws DataAccessException;
+
+	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
+	
+	public int numberEbookAudits(EbookAuditFilter filter);
 
 }

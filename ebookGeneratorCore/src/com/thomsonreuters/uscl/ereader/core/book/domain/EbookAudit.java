@@ -33,7 +33,8 @@ import org.apache.commons.lang.StringUtils;
 public class EbookAudit implements Serializable {
 	//private static final Logger log = Logger.getLogger(EbookAudit.class);
 	private static final long serialVersionUID = 1L;
-	private static final int MAX_CHARACTER_CONCAT = 1024;
+	private static final int MAX_CHARACTER_1024 = 1024;
+	private static final int MAX_CHARACTER_2048 = 2048;
 	public static enum AUDIT_TYPE {DELETE, CREATE, EDIT};
 
 	/**
@@ -47,16 +48,23 @@ public class EbookAudit implements Serializable {
 	Long auditId;
 	/**
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	Date lastUpdated;
-	/**
-	 */
+	
 	@Column(name = "EBOOK_DEFINITION_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	@Id
 	Long ebookDefinitionId;
+	/**
+	 */
+	
+	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String titleId;
+	/**
+	 */
+	
+	@Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String proviewDisplayName;
+
 	/**
 	 */
 
@@ -176,6 +184,20 @@ public class EbookAudit implements Serializable {
 	String onePassSsoLinkFlag;
 	/**
 	 */
+	
+	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isProviewTableViewFlag;
+	
+	/**
+	 */
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PUBLISH_CUTOFF_DATE")
+	@Basic(fetch = FetchType.EAGER)
+	Date publishCutoffDate;
+	/**
+	 */
 
 	@Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", length = 1)
 	@Basic(fetch = FetchType.EAGER)
@@ -209,18 +231,6 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
-	@Column(name = "FRONT_MATTER_CONCAT", length = 1024)
-	@Basic(fetch = FetchType.EAGER)
-	String frontMatterConcat;
-	/**
-	 */
-
-	@Column(name = "UPDATED_BY", length = 32, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	String updatedBy;
-	/**
-	 */
-
 	@Column(name = "AUDIT_NOTE", length = 1024)
 	@Basic(fetch = FetchType.EAGER)
 	String auditNote;
@@ -230,28 +240,12 @@ public class EbookAudit implements Serializable {
 	@Column(name = "AUDIT_TYPE", length = 10)
 	@Basic(fetch = FetchType.EAGER)
 	String auditType;
-
-	/**
-	 */
-
-	@Column(name = "TITLE_ID", length = 40, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	String titleId;
-
 	/**
 	 */
 	
-	@Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
+	@Column(name = "UPDATED_BY", length = 32, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	String proviewDisplayName;
-
-	/**
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PUBLISH_CUTOFF_DATE")
-	@Basic(fetch = FetchType.EAGER)
-	Date publishCutoffDate;
-
+	String updatedBy;
 	/**
 	 */
 	
@@ -262,16 +256,35 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 	
-	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	String isProviewTableViewFlag;
+	Date lastUpdated;
 	
+	/**
+	 */
+	
+	@Column(name = "FRONT_MATTER_TOC_LABEL", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String frontMatterTocLabel;
+	/**
+	 */
+	
+	@Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String authorDisplayVerticalFlag;
 	/**
 	 */
 	
 	@Column(name = "ENABLE_COPY_FEATURE_FLAG", length = 1, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String enableCopyFeatureFlag;
+	
+	/**
+	 */
+	@Column(name = "FRONT_MATTER_CONCAT", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	String frontMatterConcat;
 	
 	/**
 	 */
@@ -685,19 +698,21 @@ public class EbookAudit implements Serializable {
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
 		setSearchIndexFlag(that.getSearchIndexFlag());
 		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
-		setIsProviewTableViewFlag(that.IsProviewTableViewFlag());
+		setIsProviewTableViewFlag(that.getIsProviewTableViewFlag());
 		setPublishCutoffDate(that.getPublishCutoffDate());
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setAuthorNamesConcat(that.getAuthorNamesConcat());
 		setBookNamesConcat(that.getBookNamesConcat());
 		setKeywordsConcat(that.getKeywordsConcat());
-		setFrontMatterConcat(that.getFrontMatterConcat());
-		setUpdatedBy(that.getUpdatedBy());
 		setAuditNote(that.getAuditNote());
 		setAuditType(that.getAuditType());
 		setIsDeletedFlag(that.getIsDeletedFlag());
+		setUpdatedBy(that.getUpdatedBy());
+		setFrontMatterTocLabel(that.getFrontMatterTocLabel());
+		setAuthorDisplayVerticalFlag(that.getAuthorDisplayVerticalFlag());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
+		setFrontMatterConcat(that.getFrontMatterConcat());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 	}
 
@@ -733,17 +748,24 @@ public class EbookAudit implements Serializable {
 		setPublishCutoffDate(that.getPublishCutoffDate());
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
-		setAuthorNamesConcat(concatString(that.getAuthors()));
-		setBookNamesConcat(concatString(that.getEbookNames()));
-		setKeywordsConcat(concatString(that.getKeywordTypeValues()));
-		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
+		setAuthorNamesConcat(maxString(concatString(that.getAuthors()), MAX_CHARACTER_2048));
+		setBookNamesConcat(maxString(concatString(that.getEbookNames()), MAX_CHARACTER_2048));
+		setKeywordsConcat(maxString(concatString(that.getKeywordTypeValues()), MAX_CHARACTER_1024));
 		setAuditNote(note);
 		setAuditType(auditType.toString());
 		setUpdatedBy(user);
 		setIsDeletedFlag(that.isDeletedFlag());
 		setLastUpdated(that.getLastUpdated());
+		setFrontMatterTocLabel(that.getFrontMatterTocLabel());
+		setAuthorDisplayVerticalFlag(that.isAuthorDisplayVertical());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
+		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
+	}
+	
+	@Transient
+	private String maxString(String buffer, int maxCharacters) {
+		return StringUtils.abbreviate(buffer.toString(), maxCharacters);
 	}
 	
 	@Transient
@@ -754,7 +776,7 @@ public class EbookAudit implements Serializable {
 			buffer.append(", ");
 		}
 		
-		return StringUtils.abbreviate(buffer.toString(), MAX_CHARACTER_CONCAT);
+		return buffer.toString();
 	}
 
 	/**
@@ -802,6 +824,8 @@ public class EbookAudit implements Serializable {
 		buffer.append("auditNote=[").append(auditNote).append("] ");
 		buffer.append("auditType=[").append(auditType).append("] ");
 		buffer.append("isDeltedFlag=[").append(isDeletedFlag).append("] ");
+		buffer.append("frontMatterTocLabel=[").append(frontMatterTocLabel).append("] ");
+		buffer.append("authorDisplayVerticalFlag=[").append(authorDisplayVerticalFlag).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		
@@ -885,7 +909,7 @@ public class EbookAudit implements Serializable {
 
 	/**
 	 */
-	public boolean IsProviewTableViewFlag() {
+	public boolean getIsProviewTableViewFlag() {
 		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
@@ -896,12 +920,27 @@ public class EbookAudit implements Serializable {
 	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
 		this.enableCopyFeatureFlag =( (enableCopyFeatureFlag) ? "Y" : "N");
 	}
+	public boolean getAuthorDisplayVerticalFlag() {
+		return ( (this.authorDisplayVerticalFlag.equalsIgnoreCase("Y") ? true : false));
+	}
 
+	public void setAuthorDisplayVerticalFlag(boolean authorDisplayVerticalFlag) {
+		this.authorDisplayVerticalFlag =( (authorDisplayVerticalFlag) ? "Y" : "N");
+	}
+	
 	public String getAdditionalTrademarkInfo() {
 		return additionalTrademarkInfo;
 	}
 
 	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
+	}
+
+	public String getFrontMatterTocLabel() {
+		return frontMatterTocLabel;
+	}
+
+	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
+		this.frontMatterTocLabel = frontMatterTocLabel;
 	}
 }

@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
@@ -14,9 +15,6 @@ function submitForm(cmd)
 	return true;
 }
 </script>
-<style type="text/css">
-	.labelCol { text-align:right; font-weight: bold;}
-</style>
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 <c:if test="${book != null}">
@@ -231,6 +229,19 @@ function submitForm(cmd)
 			</div>
 		</div>
 	</div>
+	<%-- Setup different roles --%>
+	<c:set var="editBook" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="editBook" value=""/>
+	</sec:authorize>
+	<c:set var="generateBook" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="generateBook" value=""/>
+	</sec:authorize>
+	<c:set var="deleteBook" value="disabled"/>
+	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<c:set var="deleteBook" value=""/>
+	</sec:authorize>
 	<div style="font-family:Arial">
 		<%-- Action buttons for the displayed book definition --%>
 		<br/>
@@ -238,11 +249,11 @@ function submitForm(cmd)
 			<form:hidden path="command"/>
 			<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			<c:if test="${!isInJobRequest}">
-				<input type="submit" ${superPublisherPublisherplusVisibility} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+				<input type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 			</c:if>
-			<input type="submit" ${superPublisherPublisherplusVisibility} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
-			<input type="submit" ${superPublisherPublisherplusVisibility} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
-			<input type="submit" ${superPublisherPublisherplusVisibility} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
+			<input type="submit" ${editBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
+			<input type="submit" ${generateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
+			<input type="submit" ${deleteBook} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 			<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
 			<input type="submit" value="Job History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_JOB_HISTORY%>')"/>
 		</form:form>

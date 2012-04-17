@@ -229,5 +229,15 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/security/login/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/security/login/login.jsp"/>
 	</definition>
+	<definition name="_bookAuditList" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/audit/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/audit/list/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/audit/list/body.jsp"/>
+	</definition>
+	<definition name="_bookAuditDetail" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/audit/detail/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/audit/detail/left.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/audit/detail/body.jsp"/>
+	</definition>
  
 </tiles-definitions>

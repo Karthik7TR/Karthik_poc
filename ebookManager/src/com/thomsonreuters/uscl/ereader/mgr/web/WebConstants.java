@@ -19,6 +19,7 @@ public class WebConstants {
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
+	public static final String KEY_BOOK_AUDIT_DETAIL="bookAuditDetail";
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
 	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
 	public static final String KEY_STATE_CODE = "stateCode";
@@ -67,7 +68,6 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_ISBN="isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
-	
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
@@ -119,6 +119,12 @@ public class WebConstants {
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
 	public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
 	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
+	
+	public static final String MVC_BOOK_AUDIT_LIST = "bookAuditList.mvc";
+	public static final String MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT = "bookAuditListPageAndSort.mvc";
+	public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
+	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
+	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_VIEW = "adminJurisCodeView.mvc";
@@ -182,6 +188,9 @@ public class WebConstants {
 	public static final String VIEW_BOOK_LIBRARY_THUMBNAILS = "_bookLibraryThumbnails";
 	public static final String VIEW_BOOK_GENERATE_BULK_PREVIEW = "_bookGenerateBulkPreview";
 	public static final String VIEW_BOOK_GENERATE_PREVIEW = "_bookGeneratePreview";
+	public static final String VIEW_BOOK_AUDIT = "_bookAudit";
+	public static final String VIEW_BOOK_AUDIT_DETAIL = "_bookAuditDetail";
+	public static final String VIEW_BOOK_AUDIT_LIST = "_bookAuditList";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
 	public static final String VIEW_JOB_QUEUE = "_jobQueue";

@@ -196,6 +196,11 @@ html, body {
 	padding-right:20px;
 }
 
+.labelCol { 
+	text-align:right; 
+	font-weight: bold;
+}
+
 .buttons a span {
 	color:#555555;
 }

@@ -30,6 +30,7 @@
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
 	  	<entry key="P-West-EBOOKBUILDER_GUEST_NONPROD.*" 		value="ROLE_GUEST"/>
+	  	<entry key="P-West-EBOOKBUILDER_EDITOR_NONPROD.*" 		value="ROLE_EDITOR"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_NONPROD.*" 	value="ROLE_PUBLISHER"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*" value="ROLE_PUBLISHER_PLUS"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*" 	value="ROLE_SUPERUSER"/>

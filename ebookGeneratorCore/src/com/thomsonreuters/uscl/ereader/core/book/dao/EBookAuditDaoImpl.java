@@ -6,15 +6,23 @@
 
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
 
 /**
  * DAO to manage EBookAudit entities.
@@ -95,7 +103,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public EbookAudit findEbookAuditByPrimaryKey(Long auditId)
 			throws DataAccessException {
 		Query query = createNamedQuery("findEbookAuditByPrimaryKey");
@@ -103,7 +111,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		return (EbookAudit)query.uniqueResult();
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)
 	throws DataAccessException {
 		Session session = sessionFactory.getCurrentSession();
@@ -114,6 +122,91 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		.add( Restrictions.eq("ebookDefinitionId", ebookDefId))
 	    .uniqueResult();
 		return(ebookAuditMax);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort) {
+
+		Criteria criteria = addFilters(filter);
+
+		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
+		if(sort.isAscending()) {
+			criteria.addOrder(Order.asc(orderByColumn));
+		} else {
+			criteria.addOrder(Order.desc(orderByColumn));
+		}
 		
+		int itemsPerPage = sort.getItemsPerPage();
+		criteria.setFirstResult((sort.getPageNumber()-1)*(itemsPerPage));
+		criteria.setMaxResults(itemsPerPage);
+		
+		return criteria.list();
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public int numberEbookAudits(EbookAuditFilter filter) {
+		Criteria criteria = addFilters(filter);
+		
+		criteria.setProjection(Projections.projectionList()
+				.add(Projections.property("auditId"), "auditId"));
+		
+		return criteria.list().size();
+	}
+	
+	private Criteria addFilters(EbookAuditFilter filter) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Criteria criteria = session.createCriteria(EbookAudit.class);
+
+		if (filter.getFrom() != null) {
+			criteria.add(Restrictions.ge("lastUpdated", filter.getFrom()));
+		}
+		if (filter.getTo() != null) {
+			criteria.add(Restrictions.le("lastUpdated", filter.getToInclusive()));
+		}
+		if (StringUtils.isNotBlank(filter.getAction())) {
+			criteria.add(Restrictions.eq("auditType", filter.getAction()));
+		}
+		if (StringUtils.isNotBlank(filter.getBookName())) {
+			criteria.add(Restrictions.like("proviewDisplayName", filter.getBookName()));
+		}
+		if (StringUtils.isNotBlank(filter.getTitleId())) {
+			criteria.add(Restrictions.like("titleId", filter.getTitleId()));
+		}
+		if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
+			criteria.add(Restrictions.like("updatedBy", filter.getSubmittedBy()));
+		}
+		if (filter.getBookDefinitionId() != null) {
+			criteria.add(Restrictions.eq("ebookDefinitionId", filter.getBookDefinitionId()));
+		}
+		
+		return criteria;
+	}
+	
+	/**
+	 * Map the sort column enumeration into the actual column identifier used in the HQL query.
+	 * @param sortProperty enumerated value that reflects the database table sort column to sort on.
+	 */
+	private String getOrderByColumnName(SortProperty sortProperty) {
+		switch (sortProperty) {
+			case ACTION:
+				return "auditType";
+			case SUBMITTED_DATE:
+				return "lastUpdated";
+			case BOOK_NAME:
+				return "proviewDisplayName";
+			case TITLE_ID:
+				return "titleId";
+			case SUBMITTED_BY:
+				return "updatedBy";
+			case BOOK_DEFINITION_ID:
+				return "ebookDefinitionId";
+			default:
+				throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
+		}
 	}
 }

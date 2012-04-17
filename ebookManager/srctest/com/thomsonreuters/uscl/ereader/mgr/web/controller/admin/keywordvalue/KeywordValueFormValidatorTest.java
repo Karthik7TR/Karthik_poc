@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 
 public class KeywordValueFormValidatorTest {
-	private static final KeywordTypeCode KEYWORD_CODE = new KeywordTypeCode();
+	private KeywordTypeCode KEYWORD_CODE = new KeywordTypeCode();
 	private static final Long KEYWORD_CODE_ID = 1L;
 	private static final String KEYWORD_CODE_NAME = "test";
 	private static final String KEYWORD_VALUE_NAME = "Value name";

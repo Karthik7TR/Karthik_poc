@@ -24,8 +24,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 
@@ -53,11 +51,8 @@ public class ViewBookDefinitionController {
 			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 			formatTextAreaStrings(bookDef);
 		}
-		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS};
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
-		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
-				UserUtils.isUserInRole(roles) 
-					? "" : "disabled=\"disabled\"");
+
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
 	}
 
@@ -84,8 +79,7 @@ public class ViewBookDefinitionController {
 	// TODO: implement this
 				break;
 			case AUDIT_LOG:
-	// TODO: implement this
-				//mav = new ModelAndView(new RedirectView(WebConstants.MVC_AUDIT_LOG_TODO+queryString));
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC+queryString));
 				break;
 			case BOOK_JOB_HISTORY:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_JOB_HISTORY+queryString));

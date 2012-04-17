@@ -5,6 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,9 +15,13 @@ import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
 
 public class EbookAuditServiceTest  {
 	private static final long BOOK_KEY = 1L;
+	private static final List<EbookAudit> BOOK_AUDIT_LIST = new ArrayList<EbookAudit>();
 
 	private EBookAuditServiceImpl service;
 	
@@ -44,6 +51,32 @@ public class EbookAuditServiceTest  {
 		EasyMock.replay(mockDao);
 		
 		service.saveEBookAudit(expectedAudit);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testFindEbookAudits() {
+		EbookAuditSort sort = new EbookAuditSort(SortProperty.SUBMITTED_DATE, false, 1, 20);
+		EbookAuditFilter filter = new EbookAuditFilter();
+		
+		EasyMock.expect(mockDao.findEbookAudits(filter, sort)).andReturn(BOOK_AUDIT_LIST);
+		EasyMock.replay(mockDao);
+		
+		List<EbookAudit> actual = service.findEbookAudits(filter, sort);
+		Assert.assertEquals(BOOK_AUDIT_LIST, actual);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void findNumberEbookAudits() {
+		int number = 0;
+		EbookAuditFilter filter = new EbookAuditFilter();
+		
+		EasyMock.expect(mockDao.numberEbookAudits(filter)).andReturn(number);
+		EasyMock.replay(mockDao);
+		
+		int actual = service.numberEbookAudits(filter);
+		Assert.assertEquals(number, actual);
 		EasyMock.verify(mockDao);
 	}
 }

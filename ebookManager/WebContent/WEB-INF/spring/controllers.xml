@@ -133,7 +133,16 @@
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueFormValidator"/>
 		</property>
 	</bean>
-		
+	
+	<bean id="bookAuditController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditController"
+		  p:auditService-ref="eBookAuditService"/>
+	
+	<bean id="bookAuditFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.FilterController"
+		  p:auditService-ref="eBookAuditService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.FilterFormValidator"/>
+		</property>
+	</bean>
 
 <!-- DEPRECATED,  to be removed
 <bean id="securityController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.SecurityController" p:casUrl="${cas.server.web.url}"/>
