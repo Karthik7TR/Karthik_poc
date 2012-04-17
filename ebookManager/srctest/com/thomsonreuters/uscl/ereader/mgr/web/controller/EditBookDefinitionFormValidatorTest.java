@@ -5,9 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,6 +44,7 @@ public class EditBookDefinitionFormValidatorTest {
     	validator = new EditBookDefinitionFormValidator();
     	validator.setBookDefinitionService(mockBookDefinitionService);
     	validator.setCodeService(mockCodeService);
+    	validator.setEnvironmentName("prod");
     	
     	form = new EditBookDefinitionForm();
     	
@@ -515,6 +513,41 @@ public class EditBookDefinitionFormValidatorTest {
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.required.pdf", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test FrontMatterPdf file does not exist
+	 */
+	@Test
+	public void testFrontMatterPdfDoesNotExist() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	form.setValidateForm(true);
+    	FrontMatterPage page = new FrontMatterPage();
+    	page.setPageTocLabel("Toc Label");
+    	page.setSequenceNum(1);
+    	
+    	FrontMatterSection section = new FrontMatterSection();
+    	section.setSectionText("text section");
+    	section.setSequenceNum(1);
+    	
+    	FrontMatterPdf pdf = new FrontMatterPdf();
+    	pdf.setPdfFilename("filename");
+    	pdf.setPdfLinkText("Link");
+    	pdf.setSequenceNum(1);
+    	section.getPdfs().add(pdf);
+    	page.getFrontMatterSections().add(section);
+		form.getFrontMatters().add(page);
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.not.exist", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

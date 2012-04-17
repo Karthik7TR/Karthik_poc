@@ -80,7 +80,8 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
 		  	p:bookDefinitionService-ref="bookDefinitionService" 
 		  	p:codeService-ref="codeService"
-		  	p:jobRequestService-ref="jobRequestService"/>
+		  	p:jobRequestService-ref="jobRequestService"
+		  	p:environmentName-ref="environmentName"/>
 		  </property>
 	</bean>
 

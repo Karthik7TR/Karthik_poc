@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
 	private JobRequestService jobRequestService;
+	private String environmentName;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -221,6 +223,26 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
+			// Check if pdf file exists on NAS location when on prod server
+			if(environmentName.equalsIgnoreCase("prod")) {
+				i=0;
+				for(FrontMatterPage page: form.getFrontMatters()) {
+					int j = 0;
+					for(FrontMatterSection section : page.getFrontMatterSections()) {
+						int k = 0;
+						for (FrontMatterPdf pdf : section.getPdfs()) {
+							String filename = pdf.getPdfFilename();
+							if(StringUtils.isNotBlank(filename)) {
+								fileExist(errors, filename, WebConstants.KEY_PDF_LOCATION, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename");
+							}
+							k++;
+						}
+						j++;
+					}
+					i++;
+				}
+			}
+			
 			//TODO: check if cover image is on the server. Need server location.
 		}
     	
@@ -232,6 +254,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	// Adding validation message if Validation button was pressed.
     	if(validateForm) {
 			errors.rejectValue("validateForm", "mesg.validate.form");
+		}
+	}
+	
+	private void fileExist(Errors errors, String filename, String location, String fieldName) {
+		File file = new File(location, filename);
+		if(!file.isFile()) {
+			errors.rejectValue(fieldName, "error.not.exist", new Object[] {filename, location}, "File does not exist on server.");
 		}
 	}
 	
@@ -285,5 +314,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	@Required
 	public void setJobRequestService(JobRequestService service) {
 		this.jobRequestService = service;
+	}
+	@Required
+	public void setEnvironmentName(String environmentName) {
+		this.environmentName = environmentName;
 	}
 }
