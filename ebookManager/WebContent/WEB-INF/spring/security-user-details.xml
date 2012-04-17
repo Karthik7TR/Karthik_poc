@@ -35,15 +35,7 @@
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*" value="ROLE_PUBLISHER_PLUS"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*" 	value="ROLE_SUPERUSER"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/>
-
-		<entry key="P-West-LEGO_Guest_DEV" 				value="ROLE_GUEST"/>		<!-- g035050 -->
-		<entry key="P-West-LEGO_WestLawPublisher_DEV"	value="ROLE_PUBLISHER"/>	<!-- g035048 -->
-		<entry key="P-West-LEGO_PrintPublisher_DEV" 	value="ROLE_PUBLISHER"/>	<!-- g035049 -->
-		<entry key="P-West-LEGO_Paratech_DEV"			value="ROLE_PUBLISHER_PLUS"/>	<!-- g035046 -->
-		<entry key="P-West-LEGO_GeneralUser_DEV" 		value="ROLE_PUBLISHER_PLUS"/>	<!-- g035047 -->
-		<entry key="P-West-LEGO_Manager_DEV" 			value="ROLE_SUPERUSER"/>	<!-- g035044 -->
-		<entry key="P-West-LEGO_IndexUser_DEV" 			value="ROLE_SUPPORT"/>		<!-- g035043 -->
-	
+	  	
 		<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
 		<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
 	
