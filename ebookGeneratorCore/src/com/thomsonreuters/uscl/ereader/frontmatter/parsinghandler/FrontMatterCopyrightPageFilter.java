@@ -99,27 +99,30 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 	
 	private void printText(String text, boolean isMultiLineField) throws SAXException
 	{
-		if (isMultiLineField)
-		{
-			String[] lines = text.split("\\\r\\\n");
-			for (int i = 0; i < lines.length; i++)
+		if (text != null)
+		{			
+			if (isMultiLineField)
 			{
-				if (i == lines.length - 1)
+				String[] lines = text.split("\\\r\\\n");
+				for (int i = 0; i < lines.length; i++)
 				{
-					super.characters(lines[i].toCharArray(), 0, lines[i].length());
-				}
-				else
-				{
-					super.characters(lines[i].toCharArray(), 0, lines[i].length());
-					AttributesImpl atts = new AttributesImpl();
-					super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
-					super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
+					if (i == lines.length - 1)
+					{
+						super.characters(lines[i].toCharArray(), 0, lines[i].length());
+					}
+					else
+					{
+						super.characters(lines[i].toCharArray(), 0, lines[i].length());
+						AttributesImpl atts = new AttributesImpl();
+						super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
+						super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
+					}
 				}
 			}
-		}
-		else
-		{
-			super.characters(text.toCharArray(), 0, text.length());
+			else
+			{
+				super.characters(text.toCharArray(), 0, text.length());
+			}
 		}
 	}
 }

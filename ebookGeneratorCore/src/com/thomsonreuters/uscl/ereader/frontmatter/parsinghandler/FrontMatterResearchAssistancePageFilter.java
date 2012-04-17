@@ -59,10 +59,10 @@ public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl
 			newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, 
 					CDATA, "additional_info_email");
 			newAtts.addAttribute("", HTML_TAG_HREF_ATTRIBUTE, HTML_TAG_HREF_ATTRIBUTE, 
-					CDATA, "mailto:west.editor@thomson.com?subject=" +
+					CDATA, "mailto:west.ebooksuggestions@thomsonreuters.com?subject=" +
 					"eBook Questions and Suggestions for " + bookDefinition.getProviewDisplayName());
 			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
-			printText("west.editor@thomson.com");
+			printText("west.ebooksuggestions@thomsonreuters.com");
 		}
 		else
 		{
@@ -95,6 +95,9 @@ public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl
 	
 	private void printText(String text) throws SAXException
 	{
-		super.characters(text.toCharArray(), 0, text.length());
+		if (text != null)
+		{
+			super.characters(text.toCharArray(), 0, text.length());
+		}
 	}
 }

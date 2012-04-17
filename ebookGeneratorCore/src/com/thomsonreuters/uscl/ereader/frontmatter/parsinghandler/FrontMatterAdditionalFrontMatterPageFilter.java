@@ -11,9 +11,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -120,35 +118,38 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 	
 	private void printText(String text, boolean isMultiLineField) throws SAXException
 	{
-		if (isMultiLineField)
+		if (text != null)
 		{
-            String[] lines = text.split("\\\r\\\n", -1);
-            for (int i = 0; i < lines.length; i++)
-            {
-                  if (i == lines.length - 1)
-                  {
-                        super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                  }
-                  else
-                  {
-                        if (lines[i].trim().length() == 0)
-                        {
-                              super.characters("&nbsp;".toCharArray(), 0, lines[i].length());
-                        }
-                        else
-                        {
-                              super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                        }
-
-					AttributesImpl atts = new AttributesImpl();
-					super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
-					super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
+			if (isMultiLineField)
+			{
+	            String[] lines = text.split("\\\r\\\n", -1);
+	            for (int i = 0; i < lines.length; i++)
+	            {
+	                  if (i == lines.length - 1)
+	                  {
+	                        super.characters(lines[i].toCharArray(), 0, lines[i].length());
+	                  }
+	                  else
+	                  {
+	                        if (lines[i].trim().length() == 0)
+	                        {
+	                              super.characters("&nbsp;".toCharArray(), 0, lines[i].length());
+	                        }
+	                        else
+	                        {
+	                              super.characters(lines[i].toCharArray(), 0, lines[i].length());
+	                        }
+	
+						AttributesImpl atts = new AttributesImpl();
+						super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
+						super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
+					}
 				}
 			}
-		}
-		else
-		{
-			super.characters(text.toCharArray(), 0, text.length());
+			else
+			{
+				super.characters(text.toCharArray(), 0, text.length());
+			}
 		}
 	}
 	
