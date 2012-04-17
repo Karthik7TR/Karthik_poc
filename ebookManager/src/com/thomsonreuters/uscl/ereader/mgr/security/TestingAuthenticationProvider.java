@@ -52,6 +52,9 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 		if (name.contains(SecurityRole.ROLE_SUPPORT.toString())) {
 			return SecurityRole.ROLE_SUPPORT;
 		}
+		if (name.contains(SecurityRole.ROLE_EDITOR.toString())) {
+			return SecurityRole.ROLE_EDITOR;
+		}
 		return null;
 	}
 

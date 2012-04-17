@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 public class UserUtils {
 	private static final Logger log = Logger.getLogger(UserUtils.class);
 	
-	public enum SecurityRole { ROLE_SUPERUSER, ROLE_PUBLISHER_PLUS, ROLE_PUBLISHER, ROLE_SUPPORT, ROLE_GUEST };
+	public enum SecurityRole { ROLE_SUPERUSER, ROLE_PUBLISHER_PLUS, ROLE_PUBLISHER, ROLE_SUPPORT, ROLE_GUEST, ROLE_EDITOR };
 
 	/**
 	 * Returns the full name of the currently authenticated user.
