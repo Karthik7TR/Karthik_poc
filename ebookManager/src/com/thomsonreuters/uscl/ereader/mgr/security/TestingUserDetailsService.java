@@ -20,9 +20,9 @@ public class TestingUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//log.debug("username="+username);
 		Collection<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(username));
+		roles.add(new SimpleGrantedAuthority(TestingAuthenticationProvider.mapGroupFromUsername(username).toString()));
 		
-		UserDetails user = new CobaltUser(username, "Role", username, username+"@bogus.tr.com", roles);
+		UserDetails user = new CobaltUser(username, "User", username, username+"@bogus.tr.com", roles);
 		return user;
 	}
 }

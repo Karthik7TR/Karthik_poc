@@ -23,9 +23,8 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getPrincipal().toString();
 		String password = (String) authentication.getCredentials();
-		try {  // Verify the username is one of the valid role names defined for the application
-			SecurityRole.valueOf(username);
-		} catch (IllegalArgumentException e) {
+		
+		if (mapGroupFromUsername(username) == null) {
 			return null;
 		}
 		if (!"password".equals(password)) {	// Verify the password is "password"
@@ -35,6 +34,25 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 							userDetails, password, userDetails.getAuthorities());
 		return authToken;
+	}
+	
+	public static SecurityRole mapGroupFromUsername(String name) {
+		if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
+			return SecurityRole.ROLE_GUEST;
+		}
+		if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
+			return SecurityRole.ROLE_PUBLISHER;
+		}
+		if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
+			return SecurityRole.ROLE_PUBLISHER_PLUS;
+		}
+		if (name.contains(SecurityRole.ROLE_SUPERUSER.toString())) {
+			return SecurityRole.ROLE_SUPERUSER;
+		}
+		if (name.contains(SecurityRole.ROLE_SUPPORT.toString())) {
+			return SecurityRole.ROLE_SUPPORT;
+		}
+		return null;
 	}
 
 	@Override
