@@ -205,8 +205,10 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
 					cutOffDate);
-			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
-					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag());
+			model.addAttribute(
+					WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
+					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag() ? "Y"
+							: "N");
 			model.addAttribute(
 					WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
 					isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate()) ? "Y"
