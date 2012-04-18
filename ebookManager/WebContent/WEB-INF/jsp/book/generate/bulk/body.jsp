@@ -25,7 +25,7 @@
 	  	<display:column title="Title ID" property="fullyQualifiedTitleId" sortable="false"/>
 	  	<display:column title="Proview Display Name" property="proviewDisplayName" sortable="false"/>
 	 	<display:column title="Action" sortable="false">
-	 			<a target="_blank" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this eBook</a>
+	 			<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this eBook</a>
 	 	</display:column>
 	 </display:table>
 </head>
