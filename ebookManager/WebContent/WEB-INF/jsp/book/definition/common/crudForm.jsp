@@ -238,11 +238,11 @@
 				updateTitleId();
 			});
 			$('#pubAbbr').change(function () {
-				pubAbbr = $(this).val();
+				pubAbbr = $.trim($(this).val());
 				updateTitleId();
 			});
 			$('#pubInfo').change(function () {
-				pubInfo = $(this).val();
+				pubInfo = $.trim($(this).val());
 				updateTitleId();
 			});
 			
@@ -359,6 +359,7 @@
 			pubType = $('#pubType').val();
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
+			contentType = $('#contentTypeId :selected').attr("abbr");
 			
 			// Setup view
 			determineOptions();
