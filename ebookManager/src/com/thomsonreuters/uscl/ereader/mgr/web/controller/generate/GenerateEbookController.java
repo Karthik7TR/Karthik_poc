@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -340,6 +341,41 @@ public class GenerateEbookController {
 	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
 	public ModelAndView generateBulkEbookPreview(@RequestParam List<Long> id,
 			Model model) throws Exception {
+
+		List<GenerateBulkBooksContainer> booksToGenerate = new ArrayList<GenerateBulkBooksContainer>();
+
+		for (Long bookId : id) {
+			BookDefinition book = bookDefinitionService
+					.findBookDefinitionByEbookDefId(bookId);
+
+			if (book != null) {
+				ProviewTitleInfo proviewTitleInfo = proviewClient
+						.getLatestProviewTitleInfo(book
+								.getFullyQualifiedTitleId());
+
+				String currentVersion = "Not published";
+
+				if (proviewTitleInfo != null) {
+					currentVersion = proviewTitleInfo.getVesrion();
+
+				}
+
+				GenerateBulkBooksContainer bookToGenerate = new GenerateBulkBooksContainer();
+				bookToGenerate.setBookId(bookId);
+				bookToGenerate.setFullyQualifiedTitleId(book
+						.getFullyQualifiedTitleId());
+				bookToGenerate.setProviewDisplayName(book
+						.getProviewDisplayName());
+
+				booksToGenerate.add(bookToGenerate);
+
+			}
+
+		}
+
+		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_LIST, booksToGenerate);
+		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_SIZE,
+				booksToGenerate.size());
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
