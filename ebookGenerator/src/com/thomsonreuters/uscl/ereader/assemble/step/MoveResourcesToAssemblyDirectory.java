@@ -86,6 +86,11 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 			// Use default
 			coverArt = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
 		}
+		else
+		{
+			jobExecutionContext.putString(
+					JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
+		}
 
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
