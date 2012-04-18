@@ -18,6 +18,8 @@ public class WebConstants {
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
+	public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
+	public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
 	public static final String KEY_BOOK_AUDIT_DETAIL="bookAuditDetail";
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
