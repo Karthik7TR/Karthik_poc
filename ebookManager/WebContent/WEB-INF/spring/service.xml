@@ -30,9 +30,6 @@
 		  p:jobDao-ref="jobDao"
 		  p:jobExplorer-ref="jobExplorer"/>
 		  
-	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
-		  p:jobRequestDao-ref="jobRequestDao" />
-		  
 	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceImpl"
   		  p:libraryListDao-ref="libraryListDao"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"

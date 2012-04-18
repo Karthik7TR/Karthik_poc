@@ -188,7 +188,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, section.getSectionHeading(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionHeading", new Object[] {"Section Heading", MAXIMUM_CHARACTER_1024});
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 				// Check duplicate sequence numbers exist
-				checkDuplicateSequenceNumber(errors, page.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", sectionSequenceChecker);
+				checkDuplicateSequenceNumber(errors, section.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", sectionSequenceChecker);
 				
 				// Check Front Matter Pdf for max characters and required fields
 				int k = 0;
@@ -198,7 +198,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 					// Check duplicate sequence numbers exist
-					checkDuplicateSequenceNumber(errors, page.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", pdfSequenceChecker);
+					checkDuplicateSequenceNumber(errors, pdf.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", pdfSequenceChecker);
 					
 					// Check both fields of PDF is filled 
 					if(StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
