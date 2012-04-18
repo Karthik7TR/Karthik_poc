@@ -351,17 +351,6 @@ public class GenerateEbookController {
 					.findBookDefinitionByEbookDefId(bookId);
 
 			if (book != null) {
-				ProviewTitleInfo proviewTitleInfo = proviewClient
-						.getLatestProviewTitleInfo(book
-								.getFullyQualifiedTitleId());
-
-				String currentVersion = "Not published";
-
-				if (proviewTitleInfo != null) {
-					currentVersion = proviewTitleInfo.getVesrion();
-
-				}
-
 				GenerateBulkBooksContainer bookToGenerate = new GenerateBulkBooksContainer();
 				bookToGenerate.setBookId(bookId);
 				bookToGenerate.setFullyQualifiedTitleId(book
