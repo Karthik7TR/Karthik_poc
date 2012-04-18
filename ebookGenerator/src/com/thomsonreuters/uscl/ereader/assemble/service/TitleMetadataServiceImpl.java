@@ -149,7 +149,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			props.setProperty("omit-xml-declaration", "yes");
 			
 			Serializer serializer = SerializerFactory.getSerializer(props);
-			serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest));
+			serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
 			
 			titleManifestFilter.setContentHandler(serializer.asContentHandler());
 			titleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
