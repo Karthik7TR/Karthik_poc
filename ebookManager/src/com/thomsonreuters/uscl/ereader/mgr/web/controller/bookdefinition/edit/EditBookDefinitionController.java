@@ -170,6 +170,7 @@ public class EditBookDefinitionController {
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		bookDef.setEbookDefinitionId(null);
+		bookDef.setEbookDefinitionCompleteFlag(false);
 		form.initialize(bookDef);
 		initializeModel(model, form);
 
