@@ -306,6 +306,7 @@ a:hover {
 
 .bookDefinitionCRUD .row,
 .bookDefinitionView .row {
+	clear:both;
 	margin:10px 5px;;
 }
 

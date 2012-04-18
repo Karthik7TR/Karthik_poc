@@ -36,7 +36,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	private static final int MAXIMUM_CHARACTER_64 = 64;
 	private static final int MAXIMUM_CHARACTER_1024 = 1024;
 	private static final int MAXIMUM_CHARACTER_2048 = 2048;
-	private static final int ISBN_LENGTH = 13;
+	private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
+	private static final int ISBN_NUMBER_LENGTH = 13;
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
 	private JobRequestService jobRequestService;
@@ -194,9 +195,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			i++;
 		}
 		
+		if(form.isPublicationCutoffDateUsed()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
+		}
 		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
-		
-		
+
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
@@ -216,14 +219,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
-			
-			if(contentType != null) {
-				if (contentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES) ||
-						contentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
-	        		// Validate Slice Codes fields are filled out
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.required");
-	        	}	
-			}
 			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
@@ -283,19 +278,18 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	
 	private void checkIsbnNumber(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("\\d{3}-\\d{3}-\\d{1}-\\d{5}-\\d{1}");
-			Matcher matcher = pattern.matcher(text);
-			
-			if(matcher.find()) {
+			if(text.length() == ISBN_TOTAL_CHARACTER_LENGTH) {
 				String tempIsbn = text.replace("-", "");
+				Pattern pattern = Pattern.compile("^\\d{13}$");
+				Matcher matcher = pattern.matcher(tempIsbn);
 				// Validate ISBN number
-				if (tempIsbn.length() == ISBN_LENGTH) {
+				if (matcher.find()) {
 					int checkSum = 0;
-					for (int i = 0; i < ISBN_LENGTH; i+=2) {
+					for (int i = 0; i < ISBN_NUMBER_LENGTH; i+=2) {
 						String number = tempIsbn.substring(i, i+1);
 						checkSum += Integer.parseInt(number);
 					}
-					for (int i = 1; i < ISBN_LENGTH - 1; i+=2) {
+					for (int i = 1; i < ISBN_NUMBER_LENGTH - 1; i+=2) {
 						String number = tempIsbn.substring(i, i+1);
 						checkSum += 3 * Integer.parseInt(number);
 					}
@@ -303,7 +297,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 					if(checkSum % 10 != 0) {
 						errors.rejectValue(fieldName, "error.isbn.checksum");
 					}
-				} 
+				} else {
+					errors.rejectValue(fieldName, "error.isbn.format");
+				}
 			} else {
 				errors.rejectValue(fieldName, "error.isbn.format");
 			}

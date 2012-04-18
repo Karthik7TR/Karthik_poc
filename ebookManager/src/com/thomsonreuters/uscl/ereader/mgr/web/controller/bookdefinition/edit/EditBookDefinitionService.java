@@ -23,15 +23,15 @@ public class EditBookDefinitionService {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	private CodeService codeService;
 
-	public Map<Long, String> getDocumentTypes() {
+	public List<DocumentTypeCode> getDocumentTypes() {
 		List<DocumentTypeCode> codes = codeService.getAllDocumentTypeCodes();
-		Map<Long,String> documentTypes = new LinkedHashMap<Long,String>();
-		
-		for(DocumentTypeCode code : codes) {
-			documentTypes.put(code.getId(), code.getName());
-		}
+//		Map<Long,String> documentTypes = new LinkedHashMap<Long,String>();
+//		
+//		for(DocumentTypeCode code : codes) {
+//			documentTypes.put(code.getId(), code.getName());
+//		}
 
-		return documentTypes;
+		return codes;
 	}
 	
 	public Map<String, String> getStates() {

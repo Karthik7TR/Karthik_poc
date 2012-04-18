@@ -57,6 +57,7 @@ public class EditBookDefinitionForm {
 	private String nortFilterView;
 	private Long contentTypeId;
 	private String isbn;
+	private boolean isPublicationCutoffDateUsed;
 	private String publicationCutoffDate;
 
 	private String publishDateText;
@@ -99,6 +100,7 @@ public class EditBookDefinitionForm {
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = false;
+		this.isPublicationCutoffDateUsed = false;
 		this.copyright = "©";
 		this.frontMatterTocLabel = "Publishing Information";
 	}
@@ -136,8 +138,8 @@ public class EditBookDefinitionForm {
 			if (date != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				this.publicationCutoffDate = sdf.format(date);
+				this.isPublicationCutoffDateUsed = true;
 			}
-			
 			
 			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValues();
 			for(KeywordTypeValue value : keywordValues) {
@@ -456,6 +458,14 @@ public class EditBookDefinitionForm {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
+	}
+
+	public boolean isPublicationCutoffDateUsed() {
+		return isPublicationCutoffDateUsed;
+	}
+
+	public void setPublicationCutoffDateUsed(boolean isPublicationCutoffDateUsed) {
+		this.isPublicationCutoffDateUsed = isPublicationCutoffDateUsed;
 	}
 
 	public String getPublicationCutoffDate() {

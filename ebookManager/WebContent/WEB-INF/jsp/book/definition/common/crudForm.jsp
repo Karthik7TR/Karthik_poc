@@ -163,6 +163,16 @@
 			}
 		};
 		
+		var updatePubCutoffDate = function(showPubCutoffDate) {
+			$("#displayCutoffDate").hide();
+			
+			if(showPubCutoffDate == "true") {
+				$("#displayCutoffDate").show();
+			} else {
+				$("#publicationCutoffDate").val("");
+			}
+		};
+		
 		var clearTitleInformation = function() {
 			publisher = "";
 			$('#publisher').val("");
@@ -197,22 +207,9 @@
 	    });
 		
 		var getContentTypeAbbr = function() {
-			var contentIndex = $('#contentTypeId').val();
-			if(contentIndex) {
-			    $.getJSON("<%= WebConstants.MVC_GET_CONTENT_TYPE %>",
-			    		{contentTypeId : contentIndex},
-			    		function(data) { 
-			    			contentType = data.abbreviation;
-					    	updateTitleId();
-							determineOptions();
-			    		}).error(function(jqXHR, textStatus, errorThrown) {
-			    		    alert("Error: " + textStatus + " errorThrown: " + errorThrown);
-			    		});
-			} else {
-				contentType = "";
-				updateTitleId();
-				determineOptions();
-			};
+			contentType = $('#contentTypeId :selected').attr("abbr");
+			updateTitleId();
+			determineOptions();
 		};
 		
 		$(document).ready(function() {
@@ -310,6 +307,11 @@
 				updateTOCorNORT($(this).val());
 			});
 			
+			// Determine to show publication cut-off date
+			$('input:radio[name=publicationCutoffDateUsed]').change(function () {
+				updatePubCutoffDate($(this).val());
+			});
+			
 			$( "#accordion" ).accordion({
 				fillSpace: true
 			});
@@ -357,12 +359,12 @@
 			pubType = $('#pubType').val();
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
-			getContentTypeAbbr();
 			
 			// Setup view
 			determineOptions();
-			updateTitleId();
+			$('#titleIdBox').val($('#titleId').val());
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
+			updatePubCutoffDate($('input:radio[name=publicationCutoffDateUsed]:checked').val());
 			textboxHint("authorName");
 			textboxHint("nameLine");
 			textboxHint("additionFrontMatterBlock");
@@ -387,7 +389,9 @@
 				<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
 				<form:select path="contentTypeId" >
 					<form:option value="" label="SELECT" />
-					<form:options items="${contentTypes}" />
+					<c:forEach items="${contentTypes}" var="contentType">
+						<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" />
+					</c:forEach>
 				</form:select>
 				<form:errors path="contentTypeId" cssClass="errorMessage" />
 			</div>
@@ -551,6 +555,14 @@
 				</div>
 			</div>
 			<div class="row">
+				<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
+				<form:radiobutton path="publicationCutoffDateUsed" value="true" />Yes
+				<form:radiobutton path="publicationCutoffDateUsed" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="publicationCutoffDateUsed" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="displayCutoffDate" class="row" style="display:none">
 				<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
 				<form:input path="publicationCutoffDate" />
 				<div class="errorDiv">

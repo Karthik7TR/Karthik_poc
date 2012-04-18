@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -211,16 +209,6 @@ public class EditBookDefinitionController {
 		//sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
-	}
-	
-	/**
-	 * AJAX call to get the DocumentTypeCode object as JSON
-	 * @param contentTypeId
-	 * @return String of Content Type abbreviation
-	 */
-	@RequestMapping(value=WebConstants.MVC_GET_CONTENT_TYPE, method = RequestMethod.GET)
-	public @ResponseBody DocumentTypeCode getContentType(@RequestParam Long contentTypeId) {
-	    return editBookDefinitionService.getContentTypeById(contentTypeId);
 	}
 	
 	private void determineBookStatus(BookDefinition bookDef, Model model) throws Exception {
