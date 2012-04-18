@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
 
@@ -309,7 +310,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		props.setProperty("omit-xml-declaration", "yes");
 		
 		Serializer serializer = SerializerFactory.getSerializer(props);
-		serializer.setOutputStream(new EntityDecodedOutputStream(outStream));
+		serializer.setOutputStream(new EntityDecodedOutputStream(outStream, true));
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		
 		try 
@@ -320,20 +321,37 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		}
 		catch (IOException e) 
 		{
-			throw new EBookFrontMatterGenerationException(
-					"An IOException occurred while generating the Front Matter Title Page.", e);
+			String message = "An IOException occurred while generating the Front Matter Title Page.";
+			LOG.error(message);
+			throw new EBookFrontMatterGenerationException(message, e);
 		} 
 		catch (SAXException e) 
 		{
-			throw new EBookFrontMatterGenerationException("Could not generate Front Matter Title Page.", e);
+			String message = "Could not generate Front Matter Title Page.";
+			LOG.error(message);
+			throw new EBookFrontMatterGenerationException(message, e);
 		}
 		catch (ParserConfigurationException e) 
 		{
-			throw new EBookFrontMatterGenerationException("An exception occurred when configuring " +
-					"the parser to generate the Front Matter Title Page.", e);
+			String message = "An exception occurred when configuring " +
+					"the parser to generate the Front Matter Title Page.";
+			LOG.error(message);
+			throw new EBookFrontMatterGenerationException(message, e);
 		}
 		
-		return outStream.toString();
+		String output = null;
+		try
+		{
+			output = outStream.toString("UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			String message = "Could not encode front matter HTML into UTF-8.";
+			LOG.error(message);
+			throw new EBookFrontMatterGenerationException(message, e);
+		}
+		
+		return output;
 	}
 	
 	private Resource getFrontMatterTitlePageTemplateLocation() 

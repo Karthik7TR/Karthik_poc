@@ -61,7 +61,7 @@
 		<step id="generateFrontMatterHTML">
 			<tasklet ref="generateFrontMatterTask"/>
 			<next on="COMPLETED" to="generateImageMetadataFiles"/>
-			<next on="FAILED" to="generateImageMetadataFiles"/>
+			<fail on="FAILED"/>
 		</step>
 		
 		<step id="generateImageMetadataFiles">
