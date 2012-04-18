@@ -105,7 +105,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							}
 						}
 			
-						if (imgGuid.length() >= 32 && imgGuid.length() < 34)
+						if (imgGuid.length() >= 30 && imgGuid.length() <= 36)
 						{
 							AttributesImpl newAtts = new AttributesImpl();
 							
