@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Author;
@@ -59,6 +62,8 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  */
 class TitleManifestFilter extends XMLFilterImpl {
 
+
+	private static final String DEFAULT_PUBLISHING_INFORMATION = "PUBLISHING INFORMATION";
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
 	private FileUtilsFacade fileUtilsFacade;
 	private PlaceholderDocumentService placeholderDocumentService;
@@ -76,15 +81,12 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private Set<String> uniqueDocumentIds = new HashSet<String>();
 	private Set<String> uniqueFamilyGuids = new HashSet<String>();
 	private List<Doc> orderedDocuments = new ArrayList<Doc>();
-	private Set<String> uniqueTocGuids = new HashSet<String>();
-//	private List<TocEntry> anchorCascadeBuffer = new ArrayList<TocEntry>();
 	private StringBuilder tocGuid = new StringBuilder();
 	private StringBuilder docGuid = new StringBuilder();
 	private StringBuilder textBuffer = new StringBuilder();
 	private boolean bufferingTocGuid = false;
 	private boolean bufferingDocGuid = false;
 	private boolean bufferingText = false;
-//	private boolean buffersAreFull = false;
 	
 	//Element names that correspond to the toc.xml to title.xml transformation
 	private static final String URI = "";
@@ -101,6 +103,12 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ANCHOR_REFERENCE = "s";
 	private static final String HTML_EXTENSION = ".html";
 	
+	//Front Matter Text
+	private static final String TITLE_PAGE = "TITLE PAGE";
+	private static final String COPYRIGHT_PAGE = "COPYRIGHT PAGE";
+	private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE = "ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE";
+	private static final String WESTLAW_NEXT = "WestlawNext";
+
 	//ProView element and attribute constants
 	private static final String ARTWORK_ELEMENT = "artwork";
 	private static final String MATERIAL_ELEMENT = "material";
@@ -179,12 +187,76 @@ class TitleManifestFilter extends XMLFilterImpl {
 		writeKeywords();
 		writeCopyright();
 	}
+	
+	public void buildFrontMatterTOCEntries() throws SAXException
+	{
+		currentDepth++;
+		currentNode = new TocEntry(currentDepth);
+		//Use ebook_definition.front_matter_toc_label
+		if (titleMetadata.getFrontMatterTocLabel() != null)
+		{		
+			currentNode.setText(titleMetadata.getFrontMatterTocLabel());
+		}
+		else
+		{		
+			currentNode.setText(DEFAULT_PUBLISHING_INFORMATION);
+		}
+		currentNode.setTocNodeUuid(FrontMatterFileName.PUBLISHING_INFORMATION+FrontMatterFileName.ANCHOR);
+		TocNode parentNode = determineParent();
+		currentNode.setParent(parentNode); // previousNode
+		parentNode.addChild(currentNode);
+		previousDepth = currentDepth;
+		previousNode = currentNode;
 
+		currentDepth++;
+		createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE);
+
+		createFrontMatterNode(FrontMatterFileName.COPYRIGHT, COPYRIGHT_PAGE);
+		
+		List<FrontMatterPage> frontMatterPagesList =  titleMetadata.getFrontMatterPages();
+
+		if (frontMatterPagesList != null)
+		{
+			// loop through additional frontMatter. PDFs will be taken care of in the assets.
+			for (FrontMatterPage front_matter_page : frontMatterPagesList)
+			{
+				createFrontMatterNode(FrontMatterFileName.ADDITIONAL_FRONT_MATTER + front_matter_page.getId(), front_matter_page.getPageTocLabel());
+			}
+		}
+		
+		
+		createFrontMatterNode(FrontMatterFileName.RESEARCH_ASSISTANCE, ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE);
+		
+		createFrontMatterNode(FrontMatterFileName.WESTLAWNEXT, WESTLAW_NEXT);
+		
+		currentDepth--;
+		currentDepth--;
+	}
+
+
+	public void createFrontMatterNode(String guidBase, String nodeText) throws SAXException
+	{
+		currentNode = new TocEntry(currentDepth);
+		currentNode.setDocumentUuid(guidBase);
+		currentNode.setText(nodeText);
+		currentNode.setTocNodeUuid(guidBase+FrontMatterFileName.ANCHOR);
+		TocNode parentNode = determineParent();
+		currentNode.setParent(parentNode); 
+		parentNode.addChild(currentNode);
+		previousDepth = currentDepth;
+		previousNode = currentNode;
+		orderedDocuments.add(new Doc(guidBase, guidBase+HTML_EXTENSION));
+		nodesContainingDocuments.add(currentNode);  
+	}
+	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (EBOOK.equals(qName)){
 			currentDepth = 0;
 			previousDepth = 0;
+			// Add TOC NODES for Front Matter
+			buildFrontMatterTOCEntries();
+			
 		}
 		else if (EBOOK_TOC.equals(qName)) { //we've reached the next element, time to add a new node to the tree.
 			currentDepth++;
@@ -258,7 +330,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (TOC_GUID.equals(qName)) {
 			bufferingTocGuid = Boolean.FALSE;
-			uniqueTocGuids.add(tocGuid.toString());
 			currentNode.setTocNodeUuid(tocGuid.toString());
 			tocGuid = new StringBuilder();
 		}
@@ -275,7 +346,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 			textBuffer = new StringBuilder();
 		}
 		else if (EBOOK_TOC.equals(qName)){
-//			previousDepth = currentDepth;
 			currentDepth--;
 		}
 		else if (MISSING_DOCUMENT.equals(qName)){
@@ -493,6 +563,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 			super.characters(authorName.toCharArray(), 0, authorName.length());
 			super.endElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT);
 		}
+		//if (titleMetadata.getAuthors().size() == 0)
 		super.endElement(URI, AUTHORS_ELEMENT, AUTHORS_ELEMENT);
 	}
 	

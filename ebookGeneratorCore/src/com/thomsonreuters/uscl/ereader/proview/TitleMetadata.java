@@ -10,11 +10,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 
 /**
  * This class represents the metadata within a title. Instances of this class are mutable.
@@ -34,7 +37,9 @@ public class TitleMetadata implements Serializable {
 	private String displayName;
 	private String materialId;
 	private String copyright;
-	
+	private String frontMatterTocLabel;
+	private List<FrontMatterPage> frontMatterPages;
+
 	private Artwork artwork;
 
 	private TableOfContents tableOfContents;
@@ -111,6 +116,10 @@ public class TitleMetadata implements Serializable {
 		this.assets = assets;
 	}
 
+	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
+		this.frontMatterTocLabel = frontMatterTocLabel;
+	}
+
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
@@ -145,6 +154,10 @@ public class TitleMetadata implements Serializable {
 
 	public String getTitleVersion() {
 		return titleVersion;
+	}
+	
+	public String getFrontMatterTocLabel() {
+		return frontMatterTocLabel;
 	}
 
 	private boolean compareFieldsForEquality(final TitleMetadata rhs)
@@ -230,6 +243,14 @@ public class TitleMetadata implements Serializable {
 
 	public ArrayList<Feature> getProviewFeatures() {
 		return proviewFeatures;
+	}
+
+	public void setFrontMatterPages(List<FrontMatterPage> frontMatterPages) {
+		this.frontMatterPages = frontMatterPages;
+	}
+
+	public List<FrontMatterPage> getFrontMatterPages() {
+		return frontMatterPages;
 	}
 	
 }

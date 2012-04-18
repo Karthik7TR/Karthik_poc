@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
@@ -78,8 +80,10 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final String EXPECTED_START_MANIFEST_PREFIX = "<title apiversion=\"v1\" titleversion=\"v1\" id=\"yarr/pirates\" lastupdated=\"";
 	private static final String EXPECTED_START_MANIFEST_SUFFIX = "\" language=\"eng\" status=\"Review\">";
 	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\"/>";
-	private static final String CASCADED_TOC = "<toc><entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
-	private static final String EXPECTED_DOCS = "<docs><doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
+	private static final String EXPECTED_TOC = "<toc><entry s=\"FrontMatterTitle/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>TITLE PAGE</text></entry><entry s=\"Copyright/CopyrightAnchor\"><text>COPYRIGHT PAGE</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry>";
+	private static final String CASCADED_TOC = "<entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
+	private static final String EXPECTED_DOCS_TOC_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/>";
+	private static final String EXPECTED_DOCS = EXPECTED_DOCS_TOC_ENTRIES + "<doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
 	private static final String EXPECTED_EMPTY_TOC_ELEMENT = "<toc/>";
 	private static final String EXPECTED_END_MANIFEST = "</title>";
 	
@@ -203,7 +207,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		titleManifestFilter.parse(new InputSource(tocXml));
 		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
-				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + CASCADED_TOC + EXPECTED_DOCS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_TOC + CASCADED_TOC + EXPECTED_DOCS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
@@ -217,7 +221,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-//		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
@@ -236,13 +240,22 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
-		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expectedDocs = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"AdditionalFrontMatter1\" src=\"AdditionalFrontMatter1.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FrontMatterTitle/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>TITLE PAGE</text></entry><entry s=\"Copyright/CopyrightAnchor\"><text>COPYRIGHT PAGE</text></entry><entry s=\"AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
 		
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		
+		FrontMatterPage fmPage = new FrontMatterPage();
+		fmPage.setId((long) 1);
+		fmPage.setPageTocLabel("Pirates Toc Page");
+		List <FrontMatterPage> frontMatterPages = new ArrayList<FrontMatterPage>();
+		frontMatterPages.add(fmPage);
+		titleMetadata.setFrontMatterPages(frontMatterPages);
+		
 		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
@@ -265,8 +278,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
-		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expectedDocs = EXPECTED_DOCS_TOC_ENTRIES +"<doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
+		String expectedToc = EXPECTED_TOC + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
@@ -306,8 +319,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/></docs>";
-		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expectedDocs = EXPECTED_DOCS_TOC_ENTRIES +"<doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/></docs>";
+		String expectedToc = EXPECTED_TOC + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry></toc>";
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
@@ -348,8 +361,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>4</Name><Guid>TOC_GUID4</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedDocs = "<docs><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/></docs>";
-		String expectedToc = "<toc><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
+		String expectedDocs = EXPECTED_DOCS_TOC_ENTRIES +"<doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" src=\"GENERATED_FAMILY_GUID.html\"/><doc id=\"GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/></docs>";
+		String expectedToc = EXPECTED_TOC + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
 				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
@@ -409,7 +422,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-//		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
@@ -426,7 +439,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-//		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
