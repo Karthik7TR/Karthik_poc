@@ -14,10 +14,6 @@
 
 <html>
 <head>
-
-<form:form action="<%=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>"
-			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
-			   
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_BULK_PUBLISH_LIST%>" class="displayTagTable" cellpadding="2" 
 	   requestURI="<%=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>"
 	   pagesize="10"
@@ -32,7 +28,5 @@
 	 			<a target="_blank" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this eBook</a>
 	 	</display:column>
 	 </display:table>
-
-</form:form>
 </head>
 </html>
