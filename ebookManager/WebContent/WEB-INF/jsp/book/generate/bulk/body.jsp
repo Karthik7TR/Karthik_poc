@@ -20,7 +20,7 @@
 			   
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_BULK_PUBLISH_LIST%>" class="displayTagTable" cellpadding="2" 
 	   requestURI="<%=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>"
-	   pagesize="5"
+	   pagesize="10"
 	   partialList="true"
 	   size="bulkPublishtSize"
 	   >
