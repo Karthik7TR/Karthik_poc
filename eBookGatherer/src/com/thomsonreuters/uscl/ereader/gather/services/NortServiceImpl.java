@@ -73,13 +73,13 @@ public class NortServiceImpl implements NortService {
 								exception, novusNortRetryCounter,
 								nortRetryCount);
 					} catch (NovusException e) {
-						LOG.debug("Failed with Novus Exception in NORT");
+						LOG.error("Failed with Novus Exception in NORT");
 						GatherException ge = new GatherException(
 								"NORT Novus Exception ", e,
 								GatherResponse.CODE_NOVUS_ERROR);
 						throw ge;
 					} catch (Exception e) {
-						LOG.debug("Failed with Exception in NORT");
+						LOG.error("Failed with Exception in NORT");
 						GatherException ge = new GatherException(
 								"NORT Exception ", e,
 								GatherResponse.CODE_NOVUS_ERROR);
@@ -87,12 +87,22 @@ public class NortServiceImpl implements NortService {
 					}
 				}
 			}
+			if (nortNodes == null)
+			{
+				String emptyErr = 
+				"Failed with EMPTY toc.xml for domain " + _nortManager.getDomainDescriptor() + " and filter " + _nortManager.getFilterName() ;
+				LOG.error(emptyErr);
+				GatherException ge = new GatherException(
+						emptyErr, 
+						GatherResponse.CODE_UNHANDLED_ERROR);
+				throw ge;
+			}
 			counters[RETRYCOUNT] += novusNortRetryCounter;
 			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, iParent,
 					YYYYMMDDHHmmss, tocGuidDateMap);
 		} catch (Exception e) {
-			LOG.debug("Failed with Exception in NORT");
+			LOG.error("Failed with Exception in NORT");
 			GatherException ge = new GatherException("NORT Exception ", e,
 					GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
@@ -127,19 +137,19 @@ public class NortServiceImpl implements NortService {
 
 				}
 			} catch (IOException e) {
-				LOG.debug("Failed writing TOC in NORT");
+				LOG.error("Failed writing TOC in NORT");
 				GatherException ge = new GatherException(
 						"Failed writing TOC in NORT ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;
 			} catch (NovusException e) {
-				LOG.debug("Failed with Novus Exception in NORT");
+				LOG.error("Failed with Novus Exception in NORT");
 				GatherException ge = new GatherException(
 						"NORT Novus Exception ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;
 			} catch (ParseException e) {
-				LOG.debug(e.getMessage());
+				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
 						"NORT ParseException for start/end node date ", e,
 						GatherResponse.CODE_FILE_ERROR);
@@ -320,13 +330,13 @@ public class NortServiceImpl implements NortService {
 											novusNortRetryCounter,
 											nortRetryCount);
 						} catch (NovusException e) {
-							LOG.debug("Failed with Novus Exception in NORT getChildren()");
+							LOG.error("Failed with Novus Exception in NORT getChildren()");
 							GatherException ge = new GatherException(
 									"NORT Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
 							throw ge;
 						} catch (Exception e) {
-							LOG.debug("Failed with Exception in NORT  getChildren()");
+							LOG.error("Failed with Exception in NORT  getChildren()");
 							GatherException ge = new GatherException(
 									"NORT Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
@@ -417,33 +427,33 @@ public class NortServiceImpl implements NortService {
 			out.close();
 			LOG.debug("Done with Nort.");
 		} catch (UnsupportedEncodingException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException(
 					"NORT UTF-8 encoding error ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC NORT Step Failed UTF-8 encoding error";
 			throw ge;
 		} catch (FileNotFoundException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException("NORT File not found ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC NORT Step Failed File not found";
 			throw ge;
 		} catch (IOException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException("NORT IOException ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC NORT Step Failed IOException";
 			throw ge;
 		} catch (GatherException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			publishStatus = "TOC NORT Step Failed GatherException";
 			throw e;
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				LOG.debug(e.getMessage());
+				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
 						"NORT Cannot close toc.xml ", e,
 						GatherResponse.CODE_FILE_ERROR);
