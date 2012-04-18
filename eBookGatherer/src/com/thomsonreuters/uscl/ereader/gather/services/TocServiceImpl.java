@@ -64,13 +64,13 @@ public class TocServiceImpl implements TocService {
 						novusTocRetryCounter = novusUtility.handleException(
 								exception, novusTocRetryCounter, tocRetryCount);
 					} catch (NovusException e) {
-						LOG.debug("Failed with Novus Exception in NORT");
+						LOG.error("Failed with Novus Exception in TOC");
 						GatherException ge = new GatherException(
-								"NORT Novus Exception ", e,
+								"TOC Novus Exception ", e,
 								GatherResponse.CODE_NOVUS_ERROR);
 						throw ge;
 					} catch (Exception e) {
-						LOG.debug("Failed with Novus Exception in TOC");
+						LOG.error("Failed with Novus Exception in TOC");
 						GatherException ge = new GatherException(
 								"TOC Novus Exception ", e,
 								GatherResponse.CODE_NOVUS_ERROR);
@@ -78,6 +78,17 @@ public class TocServiceImpl implements TocService {
 					}
 				}
 			}
+			if (tocNode == null)
+			{
+				String emptyErr = 
+				"Failed with EMPTY toc.xml for collection " + _tocManager.getCollection() + " and guid " + guid ;
+				LOG.error(emptyErr);
+				GatherException ge = new GatherException(
+						emptyErr, 
+						GatherResponse.CODE_UNHANDLED_ERROR);
+				throw ge;
+			}
+
 			retryCounter[0] += novusTocRetryCounter;
 			// tocNodes = _tocManager.getRootNodes();
 
@@ -117,13 +128,13 @@ public class TocServiceImpl implements TocService {
 
 				}
 			} catch (IOException e) {
-				LOG.debug("Failed writing TOC in TOC");
+				LOG.error("Failed writing TOC in TOC");
 				GatherException ge = new GatherException(
 						"Failed writing TOC in TOC ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;
 			} catch (NovusException e) {
-				LOG.debug("Failed with Novus Exception in TOC");
+				LOG.error("Failed with Novus Exception in TOC");
 				GatherException ge = new GatherException(
 						"TOC Novus Exception ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
@@ -187,7 +198,7 @@ public class TocServiceImpl implements TocService {
 				out.write("\r\n");
 				out.flush();
 			} catch (IOException e) {
-				LOG.debug(e.getMessage());
+				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
 						"Failed writing to TOC ", e,
 						GatherResponse.CODE_FILE_ERROR);
@@ -212,13 +223,13 @@ public class TocServiceImpl implements TocService {
 									.handleException(exception,
 											novusTocRetryCounter, tocRetryCount);
 						} catch (NovusException e) {
-							LOG.debug("Failed with Novus Exception in TOC getChildren()");
+							LOG.error("Failed with Novus Exception in TOC getChildren()");
 							GatherException ge = new GatherException(
-									"NORT Novus Exception ", e,
+									"TOC Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
 							throw ge;
 						} catch (Exception e) {
-							LOG.debug("Failed with Novus Exception in TOC getChildren()");
+							LOG.error("Failed with Novus Exception in TOC getChildren()");
 							GatherException ge = new GatherException(
 									"TOC Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
@@ -227,7 +238,7 @@ public class TocServiceImpl implements TocService {
 					}
 				}
 			} catch (Exception e) {
-				LOG.debug("Failed with Novus Exception in TOC");
+				LOG.error("Failed with Novus Exception in TOC");
 				GatherException ge = new GatherException(
 						"TOC Novus Exception ", e,
 						GatherResponse.CODE_NOVUS_ERROR);
@@ -285,39 +296,39 @@ public class TocServiceImpl implements TocService {
 			out.close();
 			LOG.debug("Done with Toc.");
 		} catch (UnsupportedEncodingException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException(
 					"TOC UTF-8 encoding error ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC Step Failed UTF-8 encoding error";
 			throw ge;
 		} catch (FileNotFoundException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException("TOC File not found ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC Step Failed File not found";
 			throw ge;
 		} catch (IOException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			GatherException ge = new GatherException("TOC IOException ", e,
 					GatherResponse.CODE_FILE_ERROR);
 			publishStatus = "TOC Step Failed IOException";
 			throw ge;
 		} catch (GatherException e) {
-			LOG.debug(e.getMessage());
+			LOG.error(e.getMessage());
 			publishStatus = "TOC Step Failed GatherException";
 			throw e;
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				LOG.debug(e.getMessage());
+				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
 						"TOC Cannot close toc.xml ", e,
 						GatherResponse.CODE_FILE_ERROR);
 				throw ge;
 			} catch (Exception e) {
-				LOG.debug(e.getMessage());
+				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
 						"Failure to update job stats ", e,
 						GatherResponse.CODE_FILE_ERROR);
