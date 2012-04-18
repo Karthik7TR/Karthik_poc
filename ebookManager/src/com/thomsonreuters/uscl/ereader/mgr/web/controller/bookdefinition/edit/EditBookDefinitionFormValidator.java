@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,14 +147,17 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 		
+
 		// Require last name to be filled if there are authors
 		// Also check max character length for all the fields
     	Collection<Author> authors = form.getAuthorInfo();
+    	List<Integer> authorSequenceChecker = new ArrayList<Integer>();
     	int i = 0;
 		for(Author author : authors) {
 			if(StringUtils.isEmpty(author.getAuthorLastName())) {
 				errors.rejectValue("authorInfo["+ i +"].authorLastName", "error.author.last.name");
 			}
+
 			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNamePrefix(), "authorInfo["+ i +"].authorNamePrefix", new Object[] {"Prefix", MAXIMUM_CHARACTER_40});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNameSuffix(), "authorInfo["+ i +"].authorNameSuffix", new Object[] {"Suffix", MAXIMUM_CHARACTER_40});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorFirstName(), "authorInfo["+ i +"].authorFirstName", new Object[] {"First name", MAXIMUM_CHARACTER_1024});
@@ -160,29 +165,40 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorLastName(), "authorInfo["+ i +"].authorLastName", new Object[] {"Last name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_2048, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_2048});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+			// Check duplicate sequence numbers exist
+			checkDuplicateSequenceNumber(errors, author.getSequenceNum(), "authorInfo["+ i +"].sequenceNum", authorSequenceChecker);
 			i++;
 		}
 		
 		// Check max character and required fields for Front Matter
 		i=0;
-		for(FrontMatterPage page: form.getFrontMatters()) {
+		List<Integer> pageSequenceChecker = new ArrayList<Integer>();
+		for(FrontMatterPage page: form.getFrontMatters()) {				
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, page.getPageTocLabel(), "frontMatters["+ i +"].pageTocLabel", new Object[] {"Page TOC Label", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, page.getPageHeadingLabel(), "frontMatters["+ i +"].pageHeadingLabel", new Object[] {"Page Heading Label", MAXIMUM_CHARACTER_1024});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].pageTocLabel", "error.required.field", new Object[] {"Page TOC Label"});
-			
+			// Check duplicate sequence numbers exist
+			checkDuplicateSequenceNumber(errors, page.getSequenceNum(), "frontMatters["+ i +"].sequenceNum", pageSequenceChecker);
+						
 			// Check Front Matter sections for max characters and required fields
 			int j = 0;
+			List<Integer> sectionSequenceChecker = new ArrayList<Integer>();
 			for(FrontMatterSection section : page.getFrontMatterSections()) {
 				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, section.getSectionHeading(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sectionHeading", new Object[] {"Section Heading", MAXIMUM_CHARACTER_1024});
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+				// Check duplicate sequence numbers exist
+				checkDuplicateSequenceNumber(errors, page.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].sequenceNum", sectionSequenceChecker);
 				
 				// Check Front Matter Pdf for max characters and required fields
 				int k = 0;
+				List<Integer> pdfSequenceChecker = new ArrayList<Integer>();
 				for (FrontMatterPdf pdf : section.getPdfs()) {
 					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfFilename(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", new Object[] {"PDF Filename", MAXIMUM_CHARACTER_1024});
 					checkMaxLength(errors, MAXIMUM_CHARACTER_1024, pdf.getPdfLinkText(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfLinkText", new Object[] {"PDF Link Text", MAXIMUM_CHARACTER_1024});
 					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+					// Check duplicate sequence numbers exist
+					checkDuplicateSequenceNumber(errors, page.getSequenceNum(), "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].sequenceNum", pdfSequenceChecker);
 					
 					// Check both fields of PDF is filled 
 					if(StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
@@ -273,6 +289,17 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		
 		if (newBookDef != null) {
 			errors.rejectValue("titleId", "error.titleid.exist");
+		}
+	}
+	
+	private void checkDuplicateSequenceNumber(Errors errors, Integer sequenceNumber, String fieldName, List<Integer> sequenceChecker) {
+		// Check duplicate sequence numbers exist
+		if(sequenceNumber != null) {
+			if(sequenceChecker.contains(sequenceNumber)) {
+				errors.rejectValue(fieldName, "error.sequence.number");
+			} else {
+				sequenceChecker.add(sequenceNumber);
+			}
 		}
 	}
 	

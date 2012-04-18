@@ -436,6 +436,35 @@ public class EditBookDefinitionFormValidatorTest {
 	}
 	
 	/**
+	 * Test Author duplicate sequence numbers
+	 */
+	@Test
+	public void testAuthorDuplicateSequence() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	Author author = new Author();
+    	author.setAuthorLastName("Test");
+    	author.setSequenceNum(1);
+    	form.getAuthorInfo().add(author);
+    	
+    	Author author2 = new Author();
+    	author2.setAuthorLastName("Test2");
+    	author2.setSequenceNum(1);
+    	form.getAuthorInfo().add(author2);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.sequence.number", errors.getFieldError("authorInfo[1].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
 	 * Test FrontMatterPage required fields
 	 */
 	@Test
