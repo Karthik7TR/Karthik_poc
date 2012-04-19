@@ -50,16 +50,24 @@ public class FrontMatterTitlePageFilterTest {
 		SAXParser saxParser = factory.newSAXParser();
 		
 		bookDefinition = new BookDefinition();
+		
 		List<EbookName> ebookNames = new ArrayList<EbookName>();
 		EbookName title = new EbookName();
 		title.setBookNameText("TEST Title");
 		title.setSequenceNum(1);
 		ebookNames.add(title);
+		
 		EbookName edition = new EbookName();
 		edition.setBookNameText("TEST Edition");
 		edition.setSequenceNum(2);
 		ebookNames.add(edition);
+		
+		EbookName series = new EbookName();
+		series.setBookNameText("TEST Series");
+		series.setSequenceNum(3);
+		ebookNames.add(series);
 		bookDefinition.setEbookNames(ebookNames);
+		
 		bookDefinition.setCurrency("Currency Test");
 		
 		List<Author> authors = new ArrayList<Author>();
@@ -190,6 +198,15 @@ public class FrontMatterTitlePageFilterTest {
 	}
 	
 	@Test
+	public void testFrontMatterPalceholder_bookname3() throws SAXException
+	{
+		String xmlTestStr = "<test><frontMatterPlaceholder_bookname3/></test>";
+		String expectedResult = "<test>TEST Series</test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
 	public void testFrontMatterPlaceholder_currency() throws SAXException
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_currency/></test>";
@@ -224,6 +241,36 @@ public class FrontMatterTitlePageFilterTest {
 		
 		String xmlTestStr = "<test><frontMatterPlaceholder_authors/></test>";
 		String expectedResult = "<test><div class=\"author1\">John Tester1, Joel Tester2 and Ender Tester3</div></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testOptionalSecondTitleLine() throws Exception
+	{	
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setNamespaceAware(true);
+		SAXParser saxParser = factory.newSAXParser();
+		
+		List<EbookName> ebookNames = new ArrayList<EbookName>();
+		EbookName title = new EbookName();
+		title.setBookNameText("TEST Title");
+		title.setSequenceNum(1);
+		ebookNames.add(title);
+		
+		EbookName series = new EbookName();
+		series.setBookNameText("TEST Series");
+		series.setSequenceNum(3);
+		ebookNames.add(series);
+		bookDefinition.setEbookNames(ebookNames);
+				
+		titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
+		titlePageFilter.setParent(saxParser.getXMLReader());
+		
+		String xmlTestStr = "<test><bookname1><frontMatterPlaceholder_bookname/></bookname1>" +
+				"<bookname2><frontMatterPlaceholder_bookname2/></bookname2>" +
+				"<bookname3><frontMatterPlaceholder_bookname3/></bookname3></test>";
+		String expectedResult = "<test><bookname1>TEST Title</bookname1><bookname2/><bookname3>TEST Series</bookname3></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}

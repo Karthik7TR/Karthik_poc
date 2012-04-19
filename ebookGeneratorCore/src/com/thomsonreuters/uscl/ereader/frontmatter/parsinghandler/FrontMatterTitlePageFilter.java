@@ -71,24 +71,35 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		}
 		else if (qName.equalsIgnoreCase(BOOK_NAME_TAG))
 		{
-			EbookName name = bookDefinition.getEbookNames().get(0);
-			printText(name.getBookNameText(), MULTI_LINE_FIELD);
-
+			for (EbookName name : bookDefinition.getEbookNames())
+			{
+				if (name.getSequenceNum() == 1)
+				{
+					printText(name.getBookNameText(), MULTI_LINE_FIELD);
+					break;
+				}
+			}
 		}
 		else if (qName.equalsIgnoreCase(BOOK_NAME2_TAG))
 		{
-			if (bookDefinition.getEbookNames().size() > 1)
+			for (EbookName name : bookDefinition.getEbookNames())
 			{
-				EbookName name = bookDefinition.getEbookNames().get(1);
-				printText(name.getBookNameText(), MULTI_LINE_FIELD);
+				if (name.getSequenceNum() == 2)
+				{
+					printText(name.getBookNameText(), MULTI_LINE_FIELD);
+					break;
+				}
 			}
 		}
 		else if (qName.equalsIgnoreCase(BOOK_NAME3_TAG))
 		{
-			if (bookDefinition.getEbookNames().size() > 2)
+			for (EbookName name : bookDefinition.getEbookNames())
 			{
-				EbookName name = bookDefinition.getEbookNames().get(2);
-				printText(name.getBookNameText(), MULTI_LINE_FIELD);
+				if (name.getSequenceNum() == 3)
+				{
+					printText(name.getBookNameText(), MULTI_LINE_FIELD);
+					break;
+				}
 			}
 			
 		}
