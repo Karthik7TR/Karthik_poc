@@ -263,44 +263,64 @@ public class GenerateEbookController {
 			BookDefinition book = bookDefinitionService
 					.findBookDefinitionByEbookDefId(form.getId());
 
-			try {
-				if (form.isHighPriorityJob()) {
-					priority = 10;
-				} else {
-					priority = 5;
+			boolean isInJobRequest = jobRequestService.isBookInJobRequest(book
+					.getEbookDefinitionId());
+
+			if (isInJobRequest) {
+
+				if (isInJobRequest) {
+					Object[] args = { book.getFullyQualifiedTitleId(),
+							queuePriorityLabel,
+							"This book is already in the job queue" };
+					String errMessage = messageSourceAccessor.getMessage(
+							"mesg.job.enqueued.fail.already.queued", args);
+					model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+							errMessage);
+					log.error(errMessage);
 				}
+			} else {
 
-				if (form.isMajorVersion()) {
-					version = newMajorVersion;
-				} else {
-					version = newMinorVersion;
+				try {
+					if (form.isHighPriorityJob()) {
+						priority = 10;
+					} else {
+						priority = 5;
+					}
+
+					if (form.isMajorVersion()) {
+						version = newMajorVersion;
+					} else {
+						version = newMinorVersion;
+					}
+
+					jobRequestService.saveQueuedJobRequest(book, version,
+							priority, submittedBy);
+
+					// Report success to user in informational message on page
+					Object[] args = { book.getFullyQualifiedTitleId(),
+							queuePriorityLabel };
+					String infoMessage = messageSourceAccessor.getMessage(
+							"mesg.job.enqueued.success", args);
+					model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+							infoMessage);
+
+					// Set Published Once Flag to prevent user from editing Book
+					// Title ID
+					if (!book.getPublishedOnceFlag()) {
+						bookDefinitionService.updatePublishedStatus(
+								book.getEbookDefinitionId(), true);
+					}
+				} catch (Exception e) { // Report failure on page in error
+										// message
+										// area
+					Object[] args = { book.getFullyQualifiedTitleId(),
+							queuePriorityLabel, e.getMessage() };
+					String errMessage = messageSourceAccessor.getMessage(
+							"mesg.job.enqueued.fail", args);
+					log.error(errMessage, e);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				}
-
-				jobRequestService.saveQueuedJobRequest(book, version, priority,
-						submittedBy);
-
-				// Report success to user in informational message on page
-				Object[] args = { book.getTitleId(), queuePriorityLabel };
-				String infoMessage = messageSourceAccessor.getMessage(
-						"mesg.job.enqueued.success", args);
-				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
-
-				// Set Published Once Flag to prevent user from editing Book
-				// Title ID
-				if (!book.getPublishedOnceFlag()) {
-					bookDefinitionService.updatePublishedStatus(
-							book.getEbookDefinitionId(), true);
-				}
-			} catch (Exception e) { // Report failure on page in error message
-									// area
-				Object[] args = { book.getTitleId(), queuePriorityLabel,
-						e.getMessage() };
-				String errMessage = messageSourceAccessor.getMessage(
-						"mesg.job.enqueued.fail", args);
-				log.error(errMessage, e);
-				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 			}
-
 			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
@@ -308,7 +328,9 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
 			form.setFullyQualifiedTitleId(book.getTitleId());
+
 			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+
 			break;
 		}
 		case EDIT: {
