@@ -47,8 +47,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
-
-	private String stylesheetPath;
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -64,6 +62,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber);
 		String materialId = bookDefinition.getMaterialId();
 		
+		//TODO: verify that default of 1234 for material id is valid.
 		titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
 		titleMetadata.setCopyright(bookDefinition.getCopyright());
 		titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName());
@@ -95,12 +94,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
 		
 		return ExitStatus.COMPLETED;
-	}
-
-	private void addStylesheet(TitleMetadata titleMetadata) {
-		File stylesheetFile = new File(stylesheetPath);
-		Asset stylesheet = titleMetadataService.createStylesheet(stylesheetFile);
-		titleMetadata.getAssets().add(stylesheet);
 	}
 
 	/**
@@ -208,7 +201,4 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		this.titleMetadataService = titleMetadataService;
 	}
 	
-	public void setStylesheetPath(String stylesheetPath) {
-		this.stylesheetPath = stylesheetPath;
-	}
 }
