@@ -20,6 +20,8 @@
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
 		  p:engineService-ref="engineService"
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
-	  	  p:jobRequestService-ref="jobRequestService"/>  	 
+	  	  p:jobRequestService-ref="jobRequestService"
+	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
+	  	  p:maximumConcurrentJobs="${spring.batch.max.concurrent.jobs}"/>  	 
 
 </beans>

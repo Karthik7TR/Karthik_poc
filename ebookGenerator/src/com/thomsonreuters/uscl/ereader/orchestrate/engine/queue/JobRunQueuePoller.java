@@ -35,43 +35,57 @@ public class JobRunQueuePoller {
 	private EngineService engineService;
 	private JobStartupThrottleService jobStartupThrottleService;
 	private JobRequestService jobRequestService;
+	private ThreadPoolTaskExecutor springBatchTaskExecutor;
+	/** Maximum number of jobs allowed to run concurrently */
+	private int maximumConcurrentJobs;
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
-	@Resource(name = "springBatchTaskExecutor")
-	private ThreadPoolTaskExecutor springBatchTaskExecutor;
 
-	@Scheduled(fixedRate = 15000)
+	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
-//log.debug("----- POLLING FOR NEW JOB ------");
+		log.debug("----- CHECKING FOR A JOB TO RUN ------");
 		try {
-			// Check if number of jobs running are below throttle limit.
-			if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
-				JobRequest jobRequest = jobRequestService.getNextJobToExecute();
-				if (jobRequest != null) {
-					// Create the dynamic set of launch parameters, things like
-					// user name, user email, and a unique serial number
-					JobParameters dynamicJobParameters = engineService
-										.createDynamicJobParameters(jobRequest);
-					// Put the dynamic job parameters in the map.
-					Map<String, JobParameter> allJobParametersMap = new HashMap<String, JobParameter>(
-													dynamicJobParameters.getParameters());
-					JobParameters allJobParameters = new JobParameters(allJobParametersMap);
-					// Start the job that builds the ebook
-					log.debug("Starting Job: " + jobRequest);
-					engineService.runJob(JobRequest.JOB_NAME_CREATE_EBOOK, allJobParameters);
-					jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
-					if (log.isDebugEnabled()) {
-						log.debug(String.format("DB CONN POOL: numActive=%d,numIdle=%d,maxActive=%d,maxWait=%d",
-								basicDataSource.getNumActive(), basicDataSource.getNumIdle(),
-								basicDataSource.getMaxActive(), basicDataSource.getMaxWait()));
-						log.debug(String.format("THREAD POOL: activeCount=%d,poolSize=%d,corePoolSize=%d",
-								springBatchTaskExecutor.getActiveCount(), springBatchTaskExecutor.getPoolSize(),
-								springBatchTaskExecutor.getCorePoolSize()));
+			/**
+			 * Do not consume a JOB_REQUEST record if:
+			 * 1) The current number of concurrent job threads equals the configured pool size
+			 *    in the ThreadPoolTaskExecutor.
+			 * 2) The application specific rules will prevent it from running.
+			 */
+			if (springBatchTaskExecutor.getActiveCount() < maximumConcurrentJobs) {
+				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
+					JobRequest jobRequest = jobRequestService.getNextJobToExecute();
+					if (jobRequest != null) {
+						// Create the dynamic set of launch parameters, things like
+						// user name, user email, and a unique serial number
+						JobParameters dynamicJobParameters = engineService
+											.createDynamicJobParameters(jobRequest);
+						// Put the dynamic job parameters in the map.
+						Map<String, JobParameter> allJobParametersMap = new HashMap<String, JobParameter>(
+														dynamicJobParameters.getParameters());
+						JobParameters allJobParameters = new JobParameters(allJobParametersMap);
+						// Start the job that builds the ebook
+						log.debug("Starting Job: " + jobRequest);
+						engineService.runJob(JobRequest.JOB_NAME_CREATE_EBOOK, allJobParameters);
+						jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
+						if (log.isDebugEnabled()) {
+							log.debug(String.format("THREAD POOL: activeCount=%d,poolSize=%d,corePoolSize=%d,maxPoolSize=%d",
+									springBatchTaskExecutor.getActiveCount(), springBatchTaskExecutor.getPoolSize(),
+									springBatchTaskExecutor.getCorePoolSize(), springBatchTaskExecutor.getMaxPoolSize()));
+							log.debug(String.format("DB CONN POOL: numActive=%d,numIdle=%d,maxActive=%d,maxWait=%d",
+									basicDataSource.getNumActive(), basicDataSource.getNumIdle(),
+									basicDataSource.getMaxActive(), basicDataSource.getMaxWait()));
+						}
+					} else {
+						log.debug("No job request was found in the job queue.");
 					}
+				} else {
+					log.debug("Application throttling does not allow any new jobs to be run.");
 				}
+			} else {
+				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are running.  No new jobs may be run.", maximumConcurrentJobs));
 			}
 		} catch (Exception e) {
-			log.error("Failed to fetch job run request from launch input queue", e);
+			log.error("Failed to fetch job run request from the job queue", e);
 		}
 	}
 
@@ -89,5 +103,13 @@ public class JobRunQueuePoller {
 	@Required
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
+	}
+	@Required
+	public void setSpringBatchTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
+		this.springBatchTaskExecutor = taskExecutor;
+	}
+	@Required
+	public void setMaximumConcurrentJobs(int maxJobs) {
+		this.maximumConcurrentJobs = maxJobs;
 	}
 }
