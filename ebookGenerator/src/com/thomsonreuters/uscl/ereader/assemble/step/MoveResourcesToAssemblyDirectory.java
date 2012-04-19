@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.assemble.step;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
@@ -16,6 +18,9 @@ import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 /**
@@ -26,9 +31,13 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  */
 public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	/**
-	 * The subdirectory of the static files for front matter and keycite logo.
+	 * The file path of the user generated files for front matter pdfs.
 	 */
-	private static final String EBOOK_GENERATOR_IMAGES = "/apps/eBookBuilder/coreStatic/images";
+	private static final String EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH = "/apps/ebookbuilder/generator/images/pdf/";
+	/**
+	 * The directory of the static files for front matter logos and keycite logo.
+	 */
+	private static final String EBOOK_GENERATOR_IMAGES_DIR = "/apps/eBookBuilder/coreStatic/images";
 	/**
 	 * The file path to the CSS file to apply on the documents.
 	 */
@@ -40,7 +49,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	/**
 	 * The file path to the ebookGenerator Cover Image.
 	 */
-	private static final String EBOOK_COVER_FILE = "/apps/ebookbuilder/generator/images/cover/";
+	private static final String EBOOK_COVER_FILEPATH = "/apps/ebookbuilder/generator/images/cover/";
 
 	
 	/* (non-Javadoc)
@@ -58,8 +67,9 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		
 		moveCoverArt(jobExecutionContext, artworkDirectory);
 		moveImages(jobExecutionContext, assetsDirectory);
+		moveFrontMatterImages(jobExecutionContext, assetsDirectory);
 		moveStylesheet(jobExecutionContext, assetsDirectory);
-		moveFrontMatter(jobExecutionContext, documentsDirectory);
+		moveFrontMatterHTML(jobExecutionContext, documentsDirectory);
 		moveDocuments(jobExecutionContext, documentsDirectory);
 		
 		return ExitStatus.COMPLETED;
@@ -80,7 +90,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		String titleCover = bookDefinition.getCoverImage();
 		
-		File coverArt = new File(EBOOK_COVER_FILE+titleCover);
+		File coverArt = new File(EBOOK_COVER_FILEPATH+titleCover);
 		if (coverArt.length() == 0)
 		{ 
 			// Use default
@@ -95,7 +105,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
 	
-	private void moveFrontMatter(final ExecutionContext jobExecutionContext,
+	private void moveFrontMatterHTML(final ExecutionContext jobExecutionContext,
 			final File documentsDirectory) throws IOException {
 		File frontMatter = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
 		FileUtils.copyDirectory(frontMatter, documentsDirectory);
@@ -110,11 +120,33 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	private void moveImages(final ExecutionContext jobExecutionContext, final File assetsDirectory) throws IOException {
 		File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
-		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES);
 		FileUtils.copyDirectory(dynamicImagesDir, assetsDirectory);
 		FileUtils.copyDirectory(staticImagesDir, assetsDirectory);
-		FileUtils.copyDirectory(frontMatterImagesDir, assetsDirectory);
 	}
+	
+	private void moveFrontMatterImages(final ExecutionContext jobExecutionContext,final File assetsDirectory) throws IOException {
+		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
+		FileUtils.copyDirectory(frontMatterImagesDir, assetsDirectory);
+
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		 
+		ArrayList<FrontMatterPdf> pdfList = new ArrayList<FrontMatterPdf>();
+		 List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
+		 for (FrontMatterPage fmp : fmps)
+			 {
+			 for (FrontMatterSection fms : fmp.getFrontMatterSections())
+			 	{
+					 pdfList.addAll(fms.getPdfs());
+			 	}
+			 }
+		 
+		for (FrontMatterPdf pdf : pdfList)
+		{
+			File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH+pdf.getPdfFilename());
+			FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
+		}
+	}
+
 	
 	private void moveStylesheet(final ExecutionContext jobExecutionContext, final File assetsDirectory) throws IOException {
 		File stylesheet = new File(DOCUMENT_CSS_FILE);
