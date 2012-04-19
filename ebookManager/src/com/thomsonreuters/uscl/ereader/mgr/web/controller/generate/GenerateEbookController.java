@@ -273,7 +273,7 @@ public class GenerateEbookController {
 							queuePriorityLabel,
 							"This book is already in the job queue" };
 					String errMessage = messageSourceAccessor.getMessage(
-							"mesg.job.enqueued.fail.already.queued", args);
+							"mesg.job.enqueued.fail", args);
 					model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 							errMessage);
 					log.error(errMessage);
