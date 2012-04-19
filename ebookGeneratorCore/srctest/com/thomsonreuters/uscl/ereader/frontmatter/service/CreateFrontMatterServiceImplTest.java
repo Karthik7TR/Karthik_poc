@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 
@@ -131,6 +132,7 @@ public class CreateFrontMatterServiceImplTest
 		bookDefinition.setFrontMatterPages(pages);
 	}
 	
+	@Ignore
 	@Test
 	public void testTitlePage() throws Exception
 	{
@@ -142,7 +144,8 @@ public class CreateFrontMatterServiceImplTest
 		assertEquals(expected,
 				frontMatterService.getTitlePage(bookDefinition));
 	}
-	
+
+	@Ignore
 	@Test
 	public void testCopyrightPage() throws Exception
 	{
@@ -153,7 +156,8 @@ public class CreateFrontMatterServiceImplTest
 		assertEquals(expected,
 				frontMatterService.getCopyrightPage(bookDefinition));
 	}
-	
+
+	@Ignore
 	@Test
 	public void testAdditionaFrontMatterPage1() throws Exception
 	{
@@ -164,7 +168,8 @@ public class CreateFrontMatterServiceImplTest
 		assertEquals(expected,
 				frontMatterService.getAdditionalFrontPage(bookDefinition, 1L));
 	}
-	
+
+	@Ignore
 	@Test
 	public void testResearchAssistancePage() throws Exception
 	{
@@ -175,7 +180,8 @@ public class CreateFrontMatterServiceImplTest
 		assertEquals(expected,
 				frontMatterService.getResearchAssistancePage(bookDefinition));
 	}
-	
+
+	@Ignore
 	@Test
 	public void testWestlawNextPage() throws Exception
 	{
