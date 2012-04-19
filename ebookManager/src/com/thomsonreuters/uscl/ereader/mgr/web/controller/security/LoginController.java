@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -36,6 +37,7 @@ public class LoginController {
 
 	/** Validator for the login form - username and password */
 	private Validator validator;
+	private String environmentName;
 	
 	@InitBinder(LoginForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -48,8 +50,10 @@ public class LoginController {
 	 * @param form the login form backing object
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.GET)
-	public ModelAndView inboundGet(@ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
+	public ModelAndView inboundGet(HttpSession httpSession, @ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
 		log.debug(">>>");
+		// Store the environment name in session so it can be displayed on each page
+		httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
 	}
 	
@@ -74,15 +78,12 @@ public class LoginController {
 	 * redirects user to the designated "home" page.
 	 */
 	@RequestMapping(value=WebConstants.MVC_SEC_AFTER_AUTHENTICATION, method = RequestMethod.GET)
-	public ModelAndView handleAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView handleAuthenticationSuccess(HttpSession httpSession) {
 		if (log.isDebugEnabled()) {
 			log.debug("SUCCESSFULLY AUTHENTICATED: " + CobaltUser.getAuthenticatedUser());
-			log.debug("Session ID="+request.getSession().getId());
+			log.debug("Session ID="+httpSession.getId());
 		}
-
-		// NOTE: Do any application related post authentication processing HERE...
-		//       This is the place to hook in such processing.
-
+		
 		return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
 	}
 	
@@ -116,5 +117,9 @@ public class LoginController {
 	@Required
 	public void setValidator(Validator validator) {
 		this.validator = validator;
+	}
+	@Required
+	public void setEnvironmentName(String name) {
+		this.environmentName = name;
 	}
 }

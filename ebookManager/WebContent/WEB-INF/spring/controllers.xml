@@ -152,7 +152,8 @@
 
 	<!-- SECURITY related controllers -->
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.AccessDeniedController"/>
-	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController">
+	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController"
+			p:environmentName-ref="environmentName">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginFormValidator"/>
 		</property>

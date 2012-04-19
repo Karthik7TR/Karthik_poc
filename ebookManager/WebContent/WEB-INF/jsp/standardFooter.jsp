@@ -5,7 +5,7 @@
 
 <div class="leftFooter">
 	<b>&copy; 2012 Thomson Reuters</b>
-	<span style="margin-left: 20px;">(${userRoles})</span>
+	<span style="margin-left: 20px;">${environmentName} &nbsp; (${userRoles})</span>
 </div>
 <div class="rightFooter">
 	<img src="theme/images/trlogo.gif"/>
