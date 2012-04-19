@@ -77,17 +77,16 @@
 	  var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
 	  var confirmed = true;
 			
-		if (publishingCutOffDate==""){
-			alert("Cannot generate eBook: Publishing cut off date is required for this book.");
-			document.getElementById("generateButton").disabled = true;
-			confirmed = false;
-		}
-		else{
+		if (publishingCutOffDate!=""){
+			
 			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
 			
 			if (publishingCutOffDateGreaterOrEqualToday=="N"){
 				alert("Cannot generate eBook: Publishing cut off date must be greater or equal today.");
 				confirmed = false;
+			}
+			else{
+				confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
 			}
 		}
 		
@@ -152,15 +151,9 @@
 	  var confirmed = checkVersion();
 	 
 	  if (confirmed){
-			var usePublishingCutOffDate = document.getElementById("usePublishingCutOffDate").innerHTML; 
-			if (usePublishingCutOffDate=="Y"){
-				var  publishingCutOffDate = document.getElementById("publishingCutOffDate").innerHTML;
-				confirmed = checkPublishingCutoffDate();
-				if (confirmed){
-					confirmed = confirm("Generate with Publishing cutoff date: " + publishingCutOffDate);
-				}
-			}
-		
+
+		    confirmed = checkPublishingCutoffDate();
+	
 			if (confirmed){
 				confirmed = checkMaterialIdandIsbn();
 			}
