@@ -51,6 +51,12 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 {
 	private static final Logger LOG = Logger.getLogger(CreateFrontMatterServiceImpl.class);
 	private static final String HTML_EXTENSION = ".html";
+	private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
+	private static final String WEST_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestLogo";
+	private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";
+	private static final String CSS_LOCATION = "/apps/eBookBuilder/coreStatic/css/ebook_generator.css";
+	private static final String WEST_LOGO_LOCATION = "/apps/eBookBuilder/coreStatic/images/EBook_Generator_WestLogo.png";
+	private static final String WLN_LOGO_LOCATION = "/apps/eBookBuilder/coreStatic/images/EBook_Generator_WestlawNextLogo.png";
 	
 	private ResourceLoader resourceLoader;
 	private String frontMatterTitlePageTemplateLocation;
@@ -104,7 +110,11 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	public String getTitlePage(BookDefinition bookDefinition) 
 		throws EBookFrontMatterGenerationException
 	{
-		return generateTitlePage(bookDefinition);
+		String output = generateTitlePage(bookDefinition).replace(CSS_PLACEHOLDER, 
+				(new File(CSS_LOCATION)).getAbsolutePath());
+		output = output.replace(WEST_LOGO_PLACEHOLDER, 
+				(new File(WEST_LOGO_LOCATION)).getAbsolutePath());
+		return output;
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +124,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	public String getCopyrightPage(BookDefinition bookDefinition) 
 		throws EBookFrontMatterGenerationException
 	{
-		return generateCopyrightPage(bookDefinition);
+		String output = generateCopyrightPage(bookDefinition).replace(CSS_PLACEHOLDER, 
+				(new File(CSS_LOCATION)).getAbsolutePath());
+		return output;
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +136,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	public String getAdditionalFrontPage(BookDefinition bookDefinition, Long front_matter_page_id) 
 		throws EBookFrontMatterGenerationException
 	{
-		return generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id);
+		String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id).replace(
+				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath());
+		return output;
 	}
 
 	/* (non-Javadoc)
@@ -134,7 +148,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	public String getResearchAssistancePage(BookDefinition bookDefinition) 
 		throws EBookFrontMatterGenerationException
 	{
-		return generateResearchAssistancePage(bookDefinition);
+		String output = generateResearchAssistancePage(bookDefinition).replace(
+				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath());
+		return output;
 	}
 
 	/* (non-Javadoc)
@@ -144,7 +160,10 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	public String getWestlawNextPage(BookDefinition bookDefinition) 
 		throws EBookFrontMatterGenerationException
 	{
-		return generateWestlawNextPage();
+		String output = generateWestlawNextPage().replace(
+				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath()).replace(
+				WLN_LOGO_PLACEHOLDER, (new File(WLN_LOGO_LOCATION)).getAbsolutePath());
+		return output;
 	}
 
 	@Override
