@@ -42,7 +42,7 @@ public interface DocMetadataService {
 	/**
 	 */
 	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId,
-			String collectionName, File metadataFile);
+			String collectionName, File metadataFile) throws Exception;
 	
 	/**
 	 * Retrieves the full set of document metadata for a given title.

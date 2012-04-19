@@ -269,7 +269,7 @@ public class DocMetadataServiceTest {
 	 * 
 	 */
 	@Ignore
-	public void parseAndStoreDocMetadata() {
+	public void parseAndStoreDocMetadata() throws Exception {
 		String titleId = "TEST_TILE";
 		Long jobInstanceId = new Long("12345");
 		String docUuid = "123456";

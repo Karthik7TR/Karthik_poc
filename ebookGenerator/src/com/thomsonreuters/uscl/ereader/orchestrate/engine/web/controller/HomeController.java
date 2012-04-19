@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
-import javax.annotation.Resource;
-
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +11,17 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
 @Controller
 public class HomeController {
-	//private static final Logger log = Logger.getLogger(HomeController.class);
+	private static final Logger log = Logger.getLogger(HomeController.class);
 	
-	@Resource(name="environmentName")
 	private String environmentName;
+	
+	public HomeController(String envName) {
+		this.environmentName = envName;
+	}
 
-	@RequestMapping(value="/home.mvc", method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.URI_HOME, method = RequestMethod.GET)
 	public ModelAndView home(Model model) throws Exception {
+		log.debug(">>> environment=" + environmentName);
 		model.addAttribute("environmentName", environmentName);
 		return new ModelAndView(WebConstants.VIEW_HOME);
 	}

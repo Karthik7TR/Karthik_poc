@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Date;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -51,12 +50,12 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	}
 
 	public DocMetadata parseDocument(String titleId, Long jobInstanceId,
-			String collectionName, File metadataFile) {
+			String collectionName, File metadataFile) throws Exception {
 
+		InputStream inputStream = new FileInputStream(metadataFile);
 		// get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		try {
-
 			// get a new instance of parser
 			SAXParser sp = spf.newSAXParser();
 
@@ -64,19 +63,13 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			this.jobInstanceId = jobInstanceId;
 			this.collectionName = collectionName;
 
-			InputStream inputStream = new FileInputStream(metadataFile);
 			Reader reader = new InputStreamReader(inputStream, "UTF-8");
 			InputSource is = new InputSource(reader);
 			is.setEncoding("UTF-8");
 			sp.parse(is, this);
 			// printData();
-
-		} catch (SAXException se) {
-			se.printStackTrace();
-		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		} catch (IOException ie) {
-			ie.printStackTrace();
+		} finally {
+			inputStream.close();
 		}
 		return docMetadata;
 	}

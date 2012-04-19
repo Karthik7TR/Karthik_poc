@@ -15,6 +15,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDao;
 
@@ -40,6 +41,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 	 * launched with out breaking throttle limit.  
 	 */
 	@Override
+	@Transactional
 	public boolean checkIfnewJobCanbeLaunched(){
 		
 		int throttleLimit = jobStartupThrottleDao.getThrottleLimitForExecutionStep(throttleStepCheck);

@@ -5,11 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.dao;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.JobStartupThrottle;
 
@@ -18,30 +16,24 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.JobStartupThrot
  * @author Mahendra Survase (u0105927)
  *
  */
-@Transactional 
 public class JobStartupThrottleDaoImpl implements JobStartupThrottleDao {
-	private static final Logger log = Logger.getLogger(JobStartupThrottleDaoImpl.class);
+	//private static final Logger log = Logger.getLogger(JobStartupThrottleDaoImpl.class);
 	
-	
-	public SessionFactory	sessionFactory;
+	public SessionFactory sessionFactory;
 	
 	public JobStartupThrottleDaoImpl(SessionFactory hibernateSessionFactory) {
 		this.sessionFactory = hibernateSessionFactory;
 	}
 	
 	@Override
-	@Transactional
 	public int getThrottleLimitForExecutionStep(String throttleStep) {
-		
 		final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JobStartupThrottle.class);
         criteria.add(Restrictions.eq("throttleStepName", throttleStep));
         JobStartupThrottle jobStartupThrottle = (JobStartupThrottle) criteria.uniqueResult();
         return jobStartupThrottle.getThrottleLimit();
-
 	}
 
 	@Override
-	@Transactional
 	public int getThrottleLimitForCurrentTimeAndExecutionStep(int militaryTime,
 			String throttleStep) {
 		// TODO this method needs to be implemented once we decide to implement throttling around bell curve . 
@@ -51,8 +43,5 @@ public class JobStartupThrottleDaoImpl implements JobStartupThrottleDao {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
-	
-	
 }
 

@@ -25,12 +25,15 @@
 	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
 		  p:dataSource-ref="dataSource"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
-				
+
+	<!-- CorePoolSize is the max # of thread's that will run concurrently, additional job run requests
+		 will queue up internally within the TaskExecutor and will only start once a thread becomes
+		 available (because another job finished). Also note that the DB connection pool maxActive parameter
+		 should be greater than the corePoolSize (like twice) since each job takes up one pooled connection. -->
+	<bean id="springBatchTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+		  p:corePoolSize="8"/>					
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
-		  p:jobRepository-ref="jobRepository">
-		<property name="taskExecutor">
-			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" p:threadPriority="5"/>
-		</property>
+		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">
 	</bean>
 
 	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator"

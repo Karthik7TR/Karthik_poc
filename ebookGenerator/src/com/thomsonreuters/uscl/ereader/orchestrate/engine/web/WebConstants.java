@@ -8,6 +8,8 @@ public class WebConstants {
 	
 	public static final String KEY_JOB_OPERATION_RESPONSE = "jobOperationResponse";
 	
+	public static final String URI_HOME = "/home.mvc";
+	
 	/** REST service operation URL templates for restart and stop a job */
 	public static final String URI_JOB_RESTART = "service/restart/job/{jobExecutionId}";
 	public static final String URI_JOB_STOP = "service/stop/job/{jobExecutionId}";

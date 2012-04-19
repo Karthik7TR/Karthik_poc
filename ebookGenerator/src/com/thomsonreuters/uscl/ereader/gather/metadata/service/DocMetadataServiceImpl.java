@@ -16,8 +16,6 @@ import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParse
  * Spring service that handles CRUD requests for DocMetadata entities
  * 
  */
-
-@Transactional
 public class DocMetadataServiceImpl implements DocMetadataService {
 
 	/**
@@ -77,7 +75,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 
 	/**
 	 */
-	@Transactional
+	@Transactional(readOnly = true)
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
 			Long jobInstanceId, String docUuid) {
 		DocMetadataPK docMetaPk = new DocMetadataPK();
@@ -87,7 +85,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		return docMetadataDAO.findDocMetadataByPrimaryKey(docMetaPk);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(Long jobInstanceId){
 		return docMetadataDAO.findAllDocMetadataForTitleByJobId(jobInstanceId);
 	}
@@ -95,7 +93,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	/**
 	 */
 	@Transactional
-	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId, String collectionName, File metaDataFile) {
+	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId, String collectionName, File metaDataFile) throws Exception {
 		/* Instantiate a SAX parser instance. 
 		   Note that this cannot be a Spring context singleton due to the state maintained within the 
 		   class instance and we need thread safety because this is ultimately used in a Spring Batch job step. */
