@@ -251,7 +251,7 @@
 	    </c:if>
 	    <%-- Error Messages area --%>
 	    <c:if test="${errMessage != null}">
-	    <div style="background: orange; padding: 5px 5px 5px 5px;">
+	    <div style="background: red; padding: 5px 5px 5px 5px;">
 	    	${errMessage}
 	    </div>
 	    <br/>

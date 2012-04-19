@@ -274,8 +274,7 @@ public class GenerateEbookController {
 							"This book is already in the job queue" };
 					String errMessage = messageSourceAccessor.getMessage(
 							"mesg.job.enqueued.fail", args);
-					model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
-							errMessage);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 					log.error(errMessage);
 				}
 			} else {
