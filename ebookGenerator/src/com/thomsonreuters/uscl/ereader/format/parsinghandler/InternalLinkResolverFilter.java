@@ -337,7 +337,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             {
                 if (strSpliter[1].contains("&"))
                 {
-                    String[] newStrSpliter = strSpliter[1].split("&");
+                    String[] newStrSpliter = strSpliter[1].split("&",-1);
                     linkAttribute = newStrSpliter[0];
                 }
                 else

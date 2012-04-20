@@ -15,14 +15,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
@@ -46,13 +44,13 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	private DocMetaDataGuidParserService docMetaDataParserService;
 	private GatherService gatherService;
 	private PublishingStatsService publishingStatsService;
+	private static final String MISSING_DOC_FILE = "_doc_missing_guids.txt";
 
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
-		
+				
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
 		File tocFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
@@ -82,6 +80,13 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
        
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
 
+		
+		String missingDocFile = StringUtils.substringBeforeLast(docsDir.getAbsolutePath(), "/") + MISSING_DOC_FILE;
+		
+		long fileSize = getFileSize(missingDocFile);
+		if (fileSize > 0){
+		   setMissingDocFile(missingDocFile);
+		}
 		
 		if (gatherResponse.getErrorCode() != 0 ) {
 		
@@ -134,4 +139,21 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		}
 		return lineList;
 	}
+	
+	 /**
+	 * @param filename
+	 * @return
+	 */
+	private long getFileSize(final String filename) {
+
+		    File file = new File(filename);
+		    
+		    if (!file.exists() || !file.isFile()) {
+		       return -1;
+		    }
+		    
+		    return file.length();
+		  }
+
+
 }

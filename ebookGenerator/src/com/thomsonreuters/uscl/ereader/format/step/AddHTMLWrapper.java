@@ -9,11 +9,17 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -28,11 +34,21 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(AddHTMLWrapper.class);
 	private HTMLWrapperService htmlWrapperService;
-
+	
+	private BookDefinitionService bookDefnService;
+	
+	
 	public void sethtmlWrapperService(HTMLWrapperService htmlWrapperService) 
 	{
 		this.htmlWrapperService = htmlWrapperService;
 	}
+	
+	@Required
+	public void setBookDefnService(BookDefinitionService bookDefnService) {
+		this.bookDefnService = bookDefnService;
+	}
+	
+	
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
@@ -44,13 +60,22 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		String docToTocFileName = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
 		//TODO: Retrieve expected number of document for this eBook from execution context
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
+					
+		JobParameters jobParams = getJobParameters(chunkContext);
+		JobInstance jobInstance = getJobInstance(chunkContext);
+		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));		
+		String titleId = bookDefinition.getTitleId();
+		boolean keyciteToplineFlag = bookDefinition.getKeyciteToplineFlag();
+		
+		Long jobId = jobInstance.getId();
+		
 				
 		File postTransformDir = new File(postTransformDirectory);
 		File htmlDir = new File(htmlDirectory);
 		File docToTocFile = new File(docToTocFileName);
 		
 		long startTime = System.currentTimeMillis();
-		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile);
+		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile, titleId, jobId, keyciteToplineFlag);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

@@ -35,10 +35,16 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
+	private KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService;
 	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
+	}
+	
+	public void setKeyCiteBlockGenerationService(KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService)
+	{
+		this.keyCiteBlockGenerationService = keyCiteBlockGenerationService;
 	}
 
 	/**
@@ -52,12 +58,18 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
      * @param docToTocMapping location of the file that contains the document to TOC mappings that
      * will be used to generate anchors for the TOC references
      * 
+     * @param titleId
+     * 
+     * @param jobId
+     * 
+     * @param docGuid
+     * 
      * @return The number of documents that had wrappers added
      * 
      * @throws EBookFormatException if an error occurs during the process.
 	 */
 	@Override
-	public int addHTMLWrappers(File transDir, File htmlDir, File docToTocMap) throws EBookFormatException 
+	public int addHTMLWrappers(File transDir, File htmlDir, File docToTocMap, String titleId, long jobId, boolean keyciteToplineFlag) throws EBookFormatException 
 	{
         if (transDir == null || !transDir.isDirectory())
         {
@@ -97,7 +109,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		int numDocs = 0;
 		for(File transFile : transformedFiles)
 		{
-			addHTMLWrapperToFile(transFile, htmlDir, anchorMap);
+			addHTMLWrapperToFile(transFile, htmlDir, anchorMap, titleId, jobId, keyciteToplineFlag);
 			numDocs++;
 		}
 
@@ -112,10 +124,13 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 	 * @param transformedFile source file that will be wrapped with appropriate header and footer
 	 * @param htmlDir target directory the newly created file with the wrappers will be written to
 	 * @param anchorMap cached authority map of anchors that need to be inserted into each document
+	 * @param titleId
+	 * @param jobId
+	 * @param keyciteToplineFlag
 	 * 
 	 * @throws EBookFormatException thrown if any IO exceptions are encountered
 	 */
-	final void addHTMLWrapperToFile(File transformedFile, File htmlDir, Map<String, String[]> anchorMap) 
+	final void addHTMLWrapperToFile(File transformedFile, File htmlDir, Map<String, String[]> anchorMap, String titleId, Long jobId, boolean keyciteToplineFlag) 
 			throws EBookFormatException
 	{
 		String fileName = transformedFile.getName();
@@ -141,6 +156,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		InputStream headerStream = null;
 		InputStream transFileStream = null;
 		InputStream footerStream = null;
+		InputStream keyciteStream = null;
 		try
 		{
 			outputStream = new FileOutputStream(output, true);
@@ -149,6 +165,12 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 			IOUtils.copy(headerStream, outputStream);
 			
 			IOUtils.copy(anchorStream, outputStream);
+			
+			if (keyciteToplineFlag)
+			{
+				keyciteStream = keyCiteBlockGenerationService.getKeyCiteInfo(titleId, jobId, guid);
+				IOUtils.copy(keyciteStream, outputStream);
+			}			
 			
 			transFileStream = new FileInputStream(transformedFile);
 			IOUtils.copy(transFileStream, outputStream);
@@ -181,6 +203,10 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 				if (footerStream != null)
 				{
 					footerStream.close();
+				}
+				if (keyciteStream != null)
+				{
+					keyciteStream.close();
 				}
 			}
 			catch (IOException e)
