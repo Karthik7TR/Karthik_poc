@@ -94,12 +94,16 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getAllPublishedTitles() throws ProviewException {
 		Map<String, String> urlVariables = new HashMap<String, String>();
 
-		// ResponseEntity responseEntity
-		String response = restTemplate.execute(getTitlesUriTemplate,
-				HttpMethod.GET,
-				proviewRequestCallbackFactory.getRequestCallback(),
-				proviewResponseExtractorFactory.getResponseExtractor());
-		// logResponse(responseEntity);
+		String response = null;
+		try {
+			response = restTemplate.execute(getTitlesUriTemplate,
+					HttpMethod.GET,
+					proviewRequestCallbackFactory.getRequestCallback(),
+					proviewResponseExtractorFactory.getResponseExtractor());
+		} catch (Exception e) {
+			LOG.debug(e);
+			throw new ProviewException(e.getMessage());
+		}
 
 		return response;
 	}
