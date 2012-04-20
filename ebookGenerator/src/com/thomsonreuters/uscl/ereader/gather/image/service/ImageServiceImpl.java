@@ -11,21 +11,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
@@ -52,11 +48,11 @@ public class ImageServiceImpl implements ImageService {
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
 	
-	private int imageServiceRetryCount;	
-	private int imageMetaServiceRetryCount;
+	private int imageServiceMaxRetries;	
+	private int imageMetaServiceMaxRetries;
 	
 	/** Counter for image retries **/
-	private int imageRetryCounter = 0;
+//	private int imageRetryCounter = 0;
 
 	@Override
 	//@Transactional
@@ -107,15 +103,15 @@ public class ImageServiceImpl implements ImageService {
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
 				// This is the counter for checking how many Image service retries we
 				// are making
-				int imageServiceRetryCounter = 0;
-				while (getImageServiceRetryCount() <= imageServiceRetryCount) {
+				int retries = 0;
+				while (retries <= imageServiceMaxRetries) {
 					try {
 						
 						imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
 								imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);			
 						break;
 					} catch (Exception exception) {
-						if (imageServiceRetryCounter == 3 ) {
+						if (retries == (imageServiceMaxRetries-1)) {
 							try {
 								writer.write(imageGuid);
 								writer.write("\n");
@@ -125,9 +121,9 @@ public class ImageServiceImpl implements ImageService {
 										imageGuid));
 							}
 						}						
-							imageServiceRetryCounter++;
+							retries++;
 					}
-					imageRetryCounter = imageRetryCounter + imageServiceRetryCounter;
+//					imageRetryCounter = imageRetryCounter + imageServiceRetryCounter;
 				}								
 				
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
@@ -183,16 +179,16 @@ public class ImageServiceImpl implements ImageService {
 		SingleImageMetadataResponse response = new SingleImageMetadataResponse();
 		// This is the counter for checking how many Image Metadata service retries we
 		// are making
-		int imageMetaServiceRetryCounter = 0;		
+		int retries = 0;		
 				
-		while (getImageMetaServiceRetryCount() <= imageMetaServiceRetryCount) {
+		while (retries <= imageMetaServiceMaxRetries) {
 			try {
 				response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
 						SingleImageMetadataResponse.class, 
 						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);				
 				break;
 			} catch (Exception exception) {
-				if (imageMetaServiceRetryCounter == 3 ) {
+				if (retries == imageMetaServiceMaxRetries-1) {
 					try {
 						missingImgs.write(imageGuid);
 						missingImgs.write("\n");
@@ -200,10 +196,10 @@ public class ImageServiceImpl implements ImageService {
 						log.error(String.format("IO Exception in writing the image guids:)", e));
 					}
 				}
-				imageMetaServiceRetryCounter++;
+				retries++;
 			}
 		}
-		imageRetryCounter = imageRetryCounter + imageMetaServiceRetryCounter;
+//		imageRetryCounter = imageRetryCounter + imageMetaServiceRetryCounter;
 		return response;
 	}
 	
@@ -358,21 +354,15 @@ public class ImageServiceImpl implements ImageService {
 		this.imageDao = dao;
 	}
 
-	public int getImageServiceRetryCount() {
-		return imageServiceRetryCount;
-	}
 
 	@Required
 	public void setImageServiceRetryCount(int imageServiceRetryCount) {
-		this.imageServiceRetryCount = imageServiceRetryCount;
+		this.imageServiceMaxRetries = imageServiceRetryCount;
 	}
 
-	public int getImageMetaServiceRetryCount() {
-		return imageMetaServiceRetryCount;
-	}
 
 	@Required
 	public void setImageMetaServiceRetryCount(int imageMetaServiceRetryCount) {
-		this.imageMetaServiceRetryCount = imageMetaServiceRetryCount;
+		this.imageMetaServiceMaxRetries = imageMetaServiceRetryCount;
 	}
 }
