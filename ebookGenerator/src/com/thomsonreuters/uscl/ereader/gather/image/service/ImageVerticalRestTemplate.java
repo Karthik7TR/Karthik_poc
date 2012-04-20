@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -20,16 +21,21 @@ import org.springframework.web.client.RestTemplate;
  */
 public class ImageVerticalRestTemplate extends RestTemplate {
 	
-//	private static final Logger log = Logger.getLogger(ImageVerticalRestTemplate.class);
+	//private static final Logger log = Logger.getLogger(ImageVerticalRestTemplate.class);
 	
 	/**
+	 * @param requestFactory used to configure a HTTP read timeout.
 	 * @param imageDirectory target directory to place the imageGuid.subtype image file.
 	 * @param imageGuid key of the image we are after
 	 * @param desiredMediaType the mime type specified in the HTTP request header.  Indicates the media type
 	 * that is expected back from the REST service.  This implies that any image conversion (say TIF to PNG)
 	 * occurs within the Image Vertical service.  May be null to indicate that no Accept header is to be set.
+	 * @param timeout HTTP read request will timeout after this many milliseconds
 	 */
-	public ImageVerticalRestTemplate(File imageDirectory, String imageGuid, MediaType desiredMediaType) {
+	public ImageVerticalRestTemplate(ClientHttpRequestFactory requestFactory,
+									 File imageDirectory, String imageGuid, MediaType desiredMediaType) {
+		super(requestFactory);
+		
 		// Assign the message converter that reads the image bytes from the response and creates a flat image file
 		SingleImageResponseHttpMessageConverter imageDownloader = new SingleImageResponseHttpMessageConverter(imageDirectory, imageGuid, desiredMediaType);
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>(1);

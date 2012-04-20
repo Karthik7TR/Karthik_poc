@@ -69,7 +69,8 @@
 		<constructor-arg ref="testSessionFactory"/>
 	</bean>
 	
-	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"/>
+	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"
+		  p:imageReadTimeout="1800"/>  <!-- Read request timeout (seconds) -->
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
 	  p:singletonRestTemplate-ref="restTemplate"
 	  p:imageVerticalRestServiceUrl="http://imageservice.dev.westlaw.com/image"

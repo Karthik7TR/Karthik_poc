@@ -7,7 +7,6 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
@@ -22,7 +21,7 @@ import org.springframework.http.client.ClientHttpResponse;
  */
 public class ImageVerticalHttpRequestInterceptor implements
 									ClientHttpRequestInterceptor {
-	private static Logger log = Logger.getLogger(ImageVerticalHttpRequestInterceptor.class);
+	//private static Logger log = Logger.getLogger(ImageVerticalHttpRequestInterceptor.class);
 	private MediaType desiredImageMediaType;	// like "image/png"
 	
 	public ImageVerticalHttpRequestInterceptor(MediaType desiredMediaType) {
@@ -37,7 +36,7 @@ public class ImageVerticalHttpRequestInterceptor implements
 	public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] body, ClientHttpRequestExecution execution)
 										throws IOException {
 		HttpHeaders httpHeaders = httpRequest.getHeaders();
-log.debug("Setting HTTP request header: Accept="+desiredImageMediaType);
+//log.debug("Setting HTTP request header: Accept="+desiredImageMediaType);
 		httpHeaders.add("Accept", desiredImageMediaType.toString());
 		return execution.execute(httpRequest, body);
 	}

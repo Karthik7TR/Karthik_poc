@@ -69,8 +69,8 @@ public class SingleImageResponseHttpMessageConverter extends
 	}
 	
 	/**
-	 * Reads the body of the HTTP request to the Image Vertical REST web service.
-	 * The body is assumed to be an image that will be written to an output file in the image directory.
+	 * Reads the body from the HTTP response of the Image Vertical REST web service.
+	 * The body is assumed to be an image media type that will be written to an output file in the image directory.
 	 */
 	@Override
 	public SingleImageResponse readInternal(Class<? extends SingleImageResponse> clazz,
@@ -78,7 +78,6 @@ public class SingleImageResponseHttpMessageConverter extends
 		if (imageFile.exists()) {
 			imageFile.delete();  // Delete any existing file
 		}
-//		imageFile.createNewFile();	// Create a new empty file
 		InputStream inStream = inputMessage.getBody();
 		FileOutputStream fileStream = new FileOutputStream(imageFile);
 		try {
