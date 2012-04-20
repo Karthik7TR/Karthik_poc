@@ -51,7 +51,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, @ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
-		log.debug(">>>");
+		log.debug(">>> environment="+environmentName);
 		// Store the environment name in session so it can be displayed on each page
 		httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
