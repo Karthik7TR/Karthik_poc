@@ -60,6 +60,10 @@ public class HTMLWrapperServiceTest
     
     protected File docToTocMapFile;
     
+    String titleId;
+    long jobId;
+    String docGuid;
+    
     
     /**
      * Create the Transformer Service and initialize test variables.
@@ -123,6 +127,9 @@ public class HTMLWrapperServiceTest
     	txtFile.createNewFile();
     	File htmlFile = new File(transDir, "htmlFile.html");
     	htmlFile.createNewFile();
+    	titleId="uscl/an/IMPH";
+		jobId=101;
+		docGuid="I770806320bbb11e1948492503fc0d37f";
     }
     
     @After
@@ -143,7 +150,7 @@ public class HTMLWrapperServiceTest
     {
     	try
     	{
-        	htmlWrapperService.addHTMLWrappers(null, null, docToTocMapFile);    		
+        	htmlWrapperService.addHTMLWrappers(null, null, docToTocMapFile, titleId, jobId, false);    		
     	}
     	catch(EBookFormatException e)
     	{
@@ -160,7 +167,7 @@ public class HTMLWrapperServiceTest
     {
     	try
     	{
-        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, docToTocMapFile);    		
+        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, docToTocMapFile, titleId, jobId, false);    		
     	}
     	catch(EBookFormatException e)
     	{
@@ -178,7 +185,7 @@ public class HTMLWrapperServiceTest
     {
     	try
     	{
-        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, null);    		
+        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, null, titleId, jobId, false);    		
     	}
     	catch(EBookFormatException e)
     	{
@@ -197,7 +204,7 @@ public class HTMLWrapperServiceTest
     	try
     	{
     		File testFile = new File("NonExisting");
-        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, testFile);    		
+        	htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, testFile, titleId, jobId, false);    		
     	}
     	catch(EBookFormatException e)
     	{
@@ -215,7 +222,7 @@ public class HTMLWrapperServiceTest
     	try
     	{
     		assertEquals(0, htmlDir.listFiles().length);
-    		htmlWrapperService.addHTMLWrapperToFile(transformedFile, htmlDir, anchorMap);
+    		htmlWrapperService.addHTMLWrapperToFile(transformedFile, htmlDir, anchorMap, titleId, jobId, false);
     		File[] htmlFiles = htmlDir.listFiles();
     		assertEquals(1, htmlFiles.length);
     		
@@ -238,7 +245,7 @@ public class HTMLWrapperServiceTest
     	{
     		File test = new File(transDir, "test.transformed");
 
-    		htmlWrapperService.addHTMLWrapperToFile(test, htmlDir, anchorMap);
+    		htmlWrapperService.addHTMLWrapperToFile(test, htmlDir, anchorMap, titleId, jobId, false);
 
     		fail("EBookFormatException was not raised when non existing file was passed in.");
     	}
@@ -266,7 +273,7 @@ public class HTMLWrapperServiceTest
     		outputStream.flush();
     		outputStream.close();
     		
-    		assertEquals(2, htmlWrapperService.addHTMLWrappers(transDir, htmlDir, docToTocMapFile));
+    		assertEquals(2, htmlWrapperService.addHTMLWrappers(transDir, htmlDir, docToTocMapFile, titleId, jobId, false));
     	}
     	catch(EBookFormatException e)
     	{

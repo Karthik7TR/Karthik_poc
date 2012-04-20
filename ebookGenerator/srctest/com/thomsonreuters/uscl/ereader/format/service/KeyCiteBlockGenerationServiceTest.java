@@ -33,9 +33,9 @@ public class KeyCiteBlockGenerationServiceTest {
 		this.mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
 		this.service = new KeyCiteBlockGenerationServiceImpl();
 		service.setDocMetadataService(mockDocMetadataService);	
-		service.setHostName("http://www.westlaw.com");
-		service.setMudParamRs("ebbb3.0");
-		service.setMudParamVr("3.0");
+		service.setHostname("http://www.westlaw.com");
+		service.setMudparamrs("ebbb3.0");
+		service.setMudparamvr("3.0");
 		titleId="uscl/an/IMPH";
 		jobId=101;
 		docGuid="I770806320bbb11e1948492503fc0d37f";
