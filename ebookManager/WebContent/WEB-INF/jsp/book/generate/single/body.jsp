@@ -244,14 +244,14 @@
 		
 		<%-- Informational Messages area --%>
 	    <c:if test="${infoMessage != null}">
-	    <div style="background: lightgreen; padding: 5px 5px 5px 5px;">
+	    <div style="background: lightgreen;">
 	    	${infoMessage}
 	    </div>
 	    <br/>
 	    </c:if>
 	    <%-- Error Messages area --%>
 	    <c:if test="${errMessage != null}">
-	    <div style="background: red; padding: 5px 5px 5px 5px;">
+	    <div style="background: red;">
 	    	${errMessage}
 	    </div>
 	    <br/>
