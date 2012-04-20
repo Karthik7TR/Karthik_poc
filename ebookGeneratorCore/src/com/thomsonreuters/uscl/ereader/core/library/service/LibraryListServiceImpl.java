@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,8 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 public class LibraryListServiceImpl implements LibraryListService {
 
+	private static final Logger log = Logger
+			.getLogger(LibraryListServiceImpl.class);
 	private LibraryListDao libraryListDao;
 	private BookDefinitionDao bookDefinitionDao;
 	private AuthorService authorService;
@@ -110,16 +113,19 @@ public class LibraryListServiceImpl implements LibraryListService {
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, Date to, Date from, String status)
-			throws ProviewException {
+			String materialID, Date to, Date from, String status) {
 
 		List<BookDefinition> bookDefinitions = bookDefinitionDao
 				.findBookDefinitions(sortProperty, isAscending, pageNumber,
 						itemsPerPage, proviewDisplayName, titleID, isbn,
 						materialID, to, from, status);
 
-		Map<String, ProviewTitleContainer> titleMap = proviewClient
-				.getAllProviewTitleInfo();
+		Map<String, ProviewTitleContainer> titleMap = null;
+		try {
+			titleMap = proviewClient.getAllProviewTitleInfo();
+		} catch (ProviewException e) {
+			log.debug(e);
+		}
 
 		List<LibraryList> libraryLists = new ArrayList<LibraryList>();
 
@@ -134,13 +140,16 @@ public class LibraryListServiceImpl implements LibraryListService {
 					.findLastPublishDateForBook(bookDefinition
 							.getEbookDefinitionId());
 
-			ProviewTitleContainer proviewTitleContainer = titleMap
-					.get(bookDefinition.getFullyQualifiedTitleId());
-
 			String proviewVersion = null;
-			if (proviewTitleContainer != null) {
-				proviewVersion = proviewTitleContainer.getLatestVersion()
-						.getVesrion();
+
+			if (titleMap != null) {
+				ProviewTitleContainer proviewTitleContainer = titleMap
+						.get(bookDefinition.getFullyQualifiedTitleId());
+
+				if (proviewTitleContainer != null) {
+					proviewVersion = proviewTitleContainer.getLatestVersion()
+							.getVesrion();
+				}
 			}
 
 			LibraryList libraryList = new LibraryList(
