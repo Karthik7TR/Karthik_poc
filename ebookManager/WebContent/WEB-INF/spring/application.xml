@@ -28,7 +28,12 @@
          </list>
        </property>
 	</bean>
-		<bean id="environmentName" class="java.lang.String">
+	
+	<bean id="proviewDomain" class="java.lang.String">
+  		<constructor-arg value="${proview.domain}"/>
+  	</bean>
+  	
+	<bean id="environmentName" class="java.lang.String">
   		<constructor-arg value="#{systemProperties['environment']}"/>
   	</bean>
   	

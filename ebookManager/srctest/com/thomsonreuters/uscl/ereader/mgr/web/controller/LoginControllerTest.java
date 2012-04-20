@@ -40,6 +40,8 @@ public class LoginControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new LoginController();
+    	controller.setEnvironmentName("workstation");
+    	controller.setProviewDomain("ci");
     }
     @Test
     public void testInboundGet() throws Exception {

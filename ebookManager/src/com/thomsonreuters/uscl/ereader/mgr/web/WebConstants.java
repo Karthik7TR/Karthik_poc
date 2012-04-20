@@ -16,6 +16,7 @@ public class WebConstants {
 	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
 	
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
+	public static final String KEY_PROVIEW_DOMAIN = "proviewDomain";
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";

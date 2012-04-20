@@ -2,8 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -38,6 +36,7 @@ public class LoginController {
 	/** Validator for the login form - username and password */
 	private Validator validator;
 	private String environmentName;
+	private String proviewDomain;
 	
 	@InitBinder(LoginForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -52,8 +51,12 @@ public class LoginController {
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, @ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
 		log.debug(">>> environment="+environmentName);
-		// Store the environment name in session so it can be displayed on each page
-		httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
+		
+		if(!environmentName.equalsIgnoreCase("prod")) {
+			// Store the environment name in session so it can be displayed on each page
+			httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
+			httpSession.setAttribute(WebConstants.KEY_PROVIEW_DOMAIN, proviewDomain);
+		}
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
 	}
 	
@@ -122,4 +125,10 @@ public class LoginController {
 	public void setEnvironmentName(String name) {
 		this.environmentName = name;
 	}
+	@Required
+	public void setProviewDomain(String domain) {
+		this.proviewDomain = domain;
+	}
+	
+	
 }
