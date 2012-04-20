@@ -7,17 +7,25 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
@@ -28,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadataRe
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageResponse;
 
 public class ImageServiceImpl implements ImageService {
-	// private static final Logger log = Logger.getLogger(ImageServiceImpl.class);
+	 private static final Logger log = Logger.getLogger(ImageServiceImpl.class);
 	public static String SINGLE_IMAGE_URL_PATTERN = "{context}/{version}/images/ttype/null/guid/{imageGuid}";
 	public static String SINGLE_IMAGE_METADATA_URL_PATTERN = "{context}/{version}/images/ttype/null/guid/{imageGuid}/meta";
 	
@@ -44,8 +52,8 @@ public class ImageServiceImpl implements ImageService {
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
 	
-	private String imageServiceRetryCount;	
-	private String imageMetaServiceRetryCount;
+	private int imageServiceRetryCount;	
+	private int imageMetaServiceRetryCount;
 	
 	/** Counter for image retries **/
 	private int imageRetryCounter = 0;
@@ -54,7 +62,18 @@ public class ImageServiceImpl implements ImageService {
 	//@Transactional
 	public void fetchImageVerticalImages(final List<String> imageGuids,
 						File imageDestinationDirectory, long jobInstanceId, String titleId) throws ImageException {
-
+		
+		
+		FileOutputStream stream = null;
+		Writer writer = null;
+		int missingImageGuidsCounter = 0;
+		int missingImageGuidsMetaCounter = 0;
+		
+		try {
+			stream = new FileOutputStream(imageDestinationDirectory.getAbsolutePath() + "_img_missing_guids.txt");
+			String charset = "UTF-8";	// explicitly set the character set
+			writer = new OutputStreamWriter(stream, charset);
+			
 		// Iterate the image GUID's and fetch the image bytes and metadata for each
 		for (String imageGuid : imageGuids) {
 			
@@ -62,18 +81,20 @@ public class ImageServiceImpl implements ImageService {
 			SingleImageMetadata imageMetadata = null;
 			try {
 				// Fetch the image meta-data and persist it to the database
-				SingleImageMetadataResponse metadataResponse = fetchImageVerticalImageMetadata(imageGuid);
+				SingleImageMetadataResponse metadataResponse = fetchImageVerticalImageMetadata(imageGuid, writer);
 				ServiceStatus serviceStatus = metadataResponse.getServiceStatus();
 				imageMetadata = metadataResponse.getImageMetadata();
 				if (serviceStatus.getStatusCode() != 0) {
-					throw new ImageException(String.format("Non-zero status code was returned from Image Vertical when fetching metadata: code=%d, description=%s",
-							imageGuid, serviceStatus.getStatusCode(), serviceStatus.getDescription()));
+					missingImageGuidsMetaCounter++;
+					log.error(String.format("Non-zero status code was returned from Image Vertical when fetching metadata: code=%d, description=%s",
+							imageGuid, serviceStatus.getStatusCode(), serviceStatus.getDescription()));					
 				}
 				saveImageMetadata(metadataResponse, jobInstanceId, titleId);
 			} catch (Exception e) {
-				// Remove all existing downloaded files on failure
-				removeAllFilesInDirectory(imageDestinationDirectory);
-				throw new ImageException(String.format("Error fetching image metadata from Image Vertical: imageGuid=%s", imageGuid), e);
+				missingImageGuidsMetaCounter++;
+				// Move on since we have to create a list of missing guids and throw an exception after all the guids have been
+				// traversed through
+				log.error(String.format("Error fetching image metadata from Image Vertical: imageGuid=%s", imageGuid), e);				
 			}
 			
 			// Second, download and save the image bytes to a file
@@ -86,15 +107,24 @@ public class ImageServiceImpl implements ImageService {
 				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
 				// This is the counter for checking how many Image service retries we
 				// are making
-				Integer imageServiceRetryCounter = 0;
-				final Integer imageServiceRetryCount = new Integer(getImageServiceRetryCount());					
-				while (imageServiceRetryCounter <= imageServiceRetryCount) {
+				int imageServiceRetryCounter = 0;
+				while (getImageServiceRetryCount() <= imageServiceRetryCount) {
 					try {
 						
 						imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
 								imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);			
 						break;
 					} catch (Exception exception) {
+						if (imageServiceRetryCounter == 3 ) {
+							try {
+								writer.write(imageGuid);
+								writer.write("\n");
+								missingImageGuidsCounter++;
+							} catch (IOException e) {
+								throw new ImageException(String.format("IO exception happened while writing the missing image guid to file ",
+										imageGuid));
+							}
+						}						
 							imageServiceRetryCounter++;
 					}
 					imageRetryCounter = imageRetryCounter + imageServiceRetryCounter;
@@ -103,9 +133,30 @@ public class ImageServiceImpl implements ImageService {
 				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
 				Thread.sleep(sleepIntervalBetweenImages);
 			} catch (Exception e) {
-				// Remove all existing downloaded files on failure
-				removeAllFilesInDirectory(imageDestinationDirectory);
-				throw new ImageException(String.format("Error fetching image from Image Vertical: imageGuid=%s", imageGuid), e);
+				// Move on since we have to create a list of missing guids and throw an exception after all the guids have been
+				// traversed through				
+				missingImageGuidsCounter++;
+				log.error(String.format("Error fetching image from Image Vertical: imageGuid=%s", imageGuid), e);				
+			}
+			
+		}	
+		}   catch (FileNotFoundException e1) {
+			throw new ImageException(String.format("Missing Image guids file is not found and the exception is)",e1));
+		}  catch (Exception e1) {
+			throw new ImageException(String.format("Error fetching image from Image Vertical:)", e1));
+		} finally {
+			try {
+				writer.close();
+				stream.close();
+			} catch (IOException e) {
+				throw new ImageException(String.format("Error fetching image from Image Vertical:)", e));
+			}
+
+			if ((missingImageGuidsCounter > 0) || (missingImageGuidsMetaCounter > 0)) {
+				ImageException ime = new ImageException(
+						"Error fetching image from Image Vertical: for the current ebook " + titleId);
+				missingImageGuidsCounter = 0; //reset to 0
+				throw ime;
 			}
 		}
 	}
@@ -128,22 +179,27 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid) {
-		
-		
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImgs) {
 		SingleImageMetadataResponse response = new SingleImageMetadataResponse();
 		// This is the counter for checking how many Image Metadata service retries we
 		// are making
-		Integer imageMetaServiceRetryCounter = 0;
-		final Integer imageMetaServiceRetryCount = new Integer(getImageMetaServiceRetryCount());			
+		int imageMetaServiceRetryCounter = 0;		
 				
-		while (imageMetaServiceRetryCounter <= imageMetaServiceRetryCount) {
+		while (getImageMetaServiceRetryCount() <= imageMetaServiceRetryCount) {
 			try {
 				response = singletonRestTemplate.getForObject(SINGLE_IMAGE_METADATA_URL_PATTERN,
 						SingleImageMetadataResponse.class, 
 						imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);				
 				break;
 			} catch (Exception exception) {
+				if (imageMetaServiceRetryCounter == 3 ) {
+					try {
+						missingImgs.write(imageGuid);
+						missingImgs.write("\n");
+					} catch (IOException e) {
+						log.error(String.format("IO Exception in writing the image guids:)", e));
+					}
+				}
 				imageMetaServiceRetryCounter++;
 			}
 		}
@@ -302,21 +358,21 @@ public class ImageServiceImpl implements ImageService {
 		this.imageDao = dao;
 	}
 
-	public String getImageServiceRetryCount() {
+	public int getImageServiceRetryCount() {
 		return imageServiceRetryCount;
 	}
 
 	@Required
-	public void setImageServiceRetryCount(String imageServiceRetryCount) {
+	public void setImageServiceRetryCount(int imageServiceRetryCount) {
 		this.imageServiceRetryCount = imageServiceRetryCount;
 	}
 
-	public String getImageMetaServiceRetryCount() {
+	public int getImageMetaServiceRetryCount() {
 		return imageMetaServiceRetryCount;
 	}
 
 	@Required
-	public void setImageMetaServiceRetryCount(String imageMetaServiceRetryCount) {
+	public void setImageMetaServiceRetryCount(int imageMetaServiceRetryCount) {
 		this.imageMetaServiceRetryCount = imageMetaServiceRetryCount;
 	}
 }

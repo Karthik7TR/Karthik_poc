@@ -32,7 +32,7 @@ public class ImageServiceTest {
 	private ImageServiceImpl imageService;
 	private RestTemplate mockSingletonRestTemplate;
 	private ImageVerticalRestTemplateFactory mockImageVerticalRestTemplateFactory;
-	private static String IMAGE_RETRY_COUNT = "3";
+	private static int IMAGE_RETRY_COUNT = 3;
 	
 	private SingleImageMetadata SINGLE_IMAGE_METADATA;
 	
@@ -114,7 +114,7 @@ public class ImageServiceTest {
 										)).andReturn(null);
 		EasyMock.replay(mockSingletonRestTemplate);
 		
-		imageService.fetchImageVerticalImageMetadata(GUID);
+		imageService.fetchImageVerticalImageMetadata(GUID, null);
 		
 		EasyMock.verify(mockSingletonRestTemplate);
 		

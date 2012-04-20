@@ -7,6 +7,9 @@ package com.thomsonreuters.uscl.ereader.gather.service.image;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +52,9 @@ public class ImageVerticalServiceIntegrationTest  {
 //		"IB815E4C168D7419AB24C4134C9E728D2" 
 		};
 	
+	FileOutputStream stream = null;
+	Writer writer = null; 
+
 	@Autowired ImageService imageService;
 
 	@Test
@@ -74,15 +80,25 @@ public class ImageVerticalServiceIntegrationTest  {
 	
 //	@Test
 	public void testFetchImageVerticalImageMetadata() {
-		SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF);
-		Assert.assertNotNull(response);
-	}
+		
+		try {
+			stream = new FileOutputStream(temporaryFolder + "_img_missing_guids.txt");
+			writer = new OutputStreamWriter(stream, "UTF-8");
+			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF, writer);
+			Assert.assertNotNull(response);
+		} catch (Exception e) {
+			e.printStackTrace();				
+		}		
+		} 
+		
 	
 //	@Test
 	public void testFetchImageMetadataBadGuid() {
 		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
 		try {
-			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid);
+			stream = new FileOutputStream(temporaryFolder + "_img_missing_guids.txt");
+			writer = new OutputStreamWriter(stream, "UTF-8");			
+			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid, writer);
 			Assert.assertNotNull(response);
 			System.out.println(response);
 		} catch (Exception e) {
