@@ -104,23 +104,23 @@ public class UserUtils {
 	 * @param usernameThatStartedTheJob the user who wants to stop or restart a job, may be null
 	 */
 	public static boolean isUserAuthorizedToStopOrRestartBatchJob(String usernameThatStartedTheJob) {
-		log.debug("Username that started the job: " + usernameThatStartedTheJob);
+//		log.debug("Username that started the job: " + usernameThatStartedTheJob);
 		CobaltUser user = CobaltUser.getAuthenticatedUser();
-		log.debug("Current authenticated user: " + user);
+//		log.debug("Current authenticated user: " + user);
 		if (user == null) { // if not authenticated
-			log.debug("Null user - not authenticated.");
+//			log.debug("Null user - not authenticated.");
 			return false;
 		}
 		if (user.isInRole(SecurityRole.ROLE_SUPERUSER.toString())) {  // if they are a superuser
-			log.debug("Current user is a superuser - proceed.");
+//			log.debug("Current user is a superuser - proceed.");
 			return true;
 		}
 		if (StringUtils.isBlank(usernameThatStartedTheJob)) {
-			log.warn("Username for user that started the job is blank.");
+//			log.warn("Username for user that started the job is blank.");
 			return false;
 		}
 		if (user.getUsername().equalsIgnoreCase(usernameThatStartedTheJob)) {
-			log.debug("Authenticated username matches user that started the job.");
+//			log.debug("Authenticated username matches user that started the job.");
 			return true;
 		}
 		return false;
