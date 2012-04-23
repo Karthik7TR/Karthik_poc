@@ -160,6 +160,7 @@
 				$("#displayNORT").show();
 				$("#rootTocGuid").val("");
 				$("#tocCollectionName").val("");
+				$("#docCollectionName").val("");
 			}
 		};
 		

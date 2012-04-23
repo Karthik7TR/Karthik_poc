@@ -152,6 +152,25 @@ public class EditBookDefinitionForm {
 		}
 	}
 	
+	/**
+	 * Reset some book definition fields before copying
+	 * in to the form
+	 * @param bookDef
+	 */
+	public void copyBookDefinition(BookDefinition bookDef) {
+		bookDef.setEbookDefinitionId(null);
+		bookDef.setProviewDisplayName(null);
+		bookDef.setIsbn(null);
+		bookDef.setMaterialId(null);
+		bookDef.setRootTocGuid(null);
+		bookDef.setNortDomain(null);
+		bookDef.setNortFilterView(null);
+		bookDef.setEbookDefinitionCompleteFlag(false);
+		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
+		
+		initialize(bookDef);
+	}
+	
 	private void setupFrontMatterNames(List<EbookName> names){
 		for(EbookName name: names){
 			switch(name.getSequenceNum()){

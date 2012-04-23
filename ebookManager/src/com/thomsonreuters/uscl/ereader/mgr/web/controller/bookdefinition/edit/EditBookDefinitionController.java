@@ -169,9 +169,7 @@ public class EditBookDefinitionController {
 		
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-		bookDef.setEbookDefinitionId(null);
-		bookDef.setEbookDefinitionCompleteFlag(false);
-		form.initialize(bookDef);
+		form.copyBookDefinition(bookDef);
 		initializeModel(model, form);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
@@ -207,7 +205,6 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
-		//sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
