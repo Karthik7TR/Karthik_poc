@@ -43,7 +43,7 @@ public class JobRunQueuePoller {
 
 	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
-		log.debug("----- CHECKING FOR A JOB TO RUN ------");
+//		log.debug("----- CHECKING FOR A JOB TO RUN ------");
 		try {
 			/**
 			 * Do not consume a JOB_REQUEST record if:
@@ -76,13 +76,13 @@ public class JobRunQueuePoller {
 									basicDataSource.getMaxActive(), basicDataSource.getMaxWait()));
 						}
 					} else {
-						log.debug("No job request was found in the job queue.");
+//						log.debug("No job request was found in the job queue.");
 					}
 				} else {
 					log.debug("Application throttling does not allow any new jobs to be run.");
 				}
 			} else {
-				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are running.  No new jobs may be run.", maximumConcurrentJobs));
+				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are running.  No new jobs may be started.", maximumConcurrentJobs));
 			}
 		} catch (Exception e) {
 			log.error("Failed to fetch job run request from the job queue", e);

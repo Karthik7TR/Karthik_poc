@@ -114,7 +114,11 @@ public class ImageServiceTest {
 										)).andReturn(null);
 		EasyMock.replay(mockSingletonRestTemplate);
 		
-		imageService.fetchImageVerticalImageMetadata(GUID, null);
+		try {
+			imageService.fetchImageVerticalImageMetadata(GUID, null);
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
 		
 		EasyMock.verify(mockSingletonRestTemplate);
 		

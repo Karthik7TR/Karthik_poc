@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface ImageService {
 	 * @param imageGuid the key of the image
 	 * @return the status and meta-data of the image.
 	 */
-	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImgGuidsWriter);
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImgGuidsWriter) throws IOException;
 	
 	/**
 	 * Reads image bytes and meta-data from the Image Vertical REST web service for the book based on the specified image GUID's.
@@ -34,7 +35,7 @@ public interface ImageService {
 	 * @param titleId The unique key for the book for which we are gathering images.
 	 */
 	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDestinationDirectory,
-							long jobInstanceId, String titleId) throws ImageException;
+							long jobInstanceId, String titleId) throws IOException, ImageException;
 	
 	
 	/**
