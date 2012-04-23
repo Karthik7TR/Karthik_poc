@@ -5,6 +5,9 @@
 */
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +66,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
         // Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
         stepExecution.setExitStatus(stepTransition);
         } catch (Exception e){
-        	sendNotification(chunkContext,e.getMessage());
+        	String stackTrace = getStackTrace(e);
+        	stackTrace = "Error Message : " + e.getMessage() + "\nStack Trace is " + stackTrace; 
+        	sendNotification(chunkContext,stackTrace);
             throw e;
         }
 
@@ -83,11 +88,11 @@ public abstract class AbstractSbTasklet implements Tasklet {
         String subject = bookDefinition.getTitleId() + "  " + bookDefinition.getProviewDisplayName();
         if ("".equals(missingDocFile))
         {
-           EmailNotification.send(emailId, subject, bodyMessage);
+           EmailNotification.send(emailId, subject, bodyMessage.toString());
         }
         else {
         	List<String> fileList = new ArrayList<String>();
-        	EmailNotification.sendWithAttachment(emailId, subject, bodyMessage, fileList);
+        	EmailNotification.sendWithAttachment(emailId, subject, bodyMessage.toString(), fileList);
         }
         
 }
@@ -177,4 +182,15 @@ public abstract class AbstractSbTasklet implements Tasklet {
 					"This is considered a programming error, please contact development. The job cannot continue until the '" + propertyKey + "' property is present.");
 		}
 	}
+	
+	/**
+	 * @param aThrowable
+	 * @return string corresponding to the provided exception's stack trace.
+	 */
+	private String getStackTrace(Throwable aThrowable) {
+	    final Writer result = new StringWriter();
+	    final PrintWriter printWriter = new PrintWriter(result);
+	    aThrowable.printStackTrace(printWriter);
+	    return result.toString();
+	  }
 }
