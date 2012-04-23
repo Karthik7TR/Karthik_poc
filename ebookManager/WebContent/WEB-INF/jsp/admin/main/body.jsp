@@ -16,3 +16,10 @@
 		<a href="<%= WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW %>">Keywords</a>
 	</div>
 </div>
+
+<div class="centerSection">
+	<h3>Stop Generator and Gatherer</h3>
+	<div class="buttons">
+		<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All eBook Generation Process</a>
+	</div>
+</div>

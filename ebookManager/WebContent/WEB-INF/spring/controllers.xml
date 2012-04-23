@@ -7,10 +7,16 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" 		
-	  p:serverAccessService-ref="serverAccessService" />
+	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
 	
-		
+	<bean id="stopGeneratorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator.StopGeneratorController" 		
+	  p:serverAccessService-ref="serverAccessService" 
+	  p:killSwitchProperties-ref="killSwitchAppProperties">
+	  <property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator.StopGeneratorFormValidator"/>
+	  </property>
+	</bean>
+
 	<bean id="jurisCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeController" 
 		p:codeService-ref="codeService">
 		<property name="validator">

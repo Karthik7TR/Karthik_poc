@@ -74,6 +74,8 @@ public class WebConstants {
 	public static final String KEY_COVER_IMAGE_LOCATION="/apps/eBookBuilder/generator/images/cover";
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
 	
+	public static final String KEY_KILL_SWITCH_CODE = "Stop all";
+	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
@@ -133,6 +135,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
+	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_VIEW = "adminJurisCodeView.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_CREATE = "adminJurisCodeCreate.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_DELETE = "adminJurisCodeDelete.mvc";
@@ -163,6 +166,7 @@ public class WebConstants {
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
 	public static final String VIEW_ADMIN_MAIN = "_adminMain";
+	public static final String VIEW_ADMIN_STOP_GENERATOR = "_adminStopGenerator";
 	public static final String VIEW_ADMIN_JURIS_CODE_VIEW = "_adminJurisCodeView";
 	public static final String VIEW_ADMIN_JURIS_CODE_CREATE = "_adminJurisCodeCreate";
 	public static final String VIEW_ADMIN_JURIS_CODE_DELETE = "_adminJurisCodeDelete";

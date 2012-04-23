@@ -29,6 +29,20 @@
        </property>
 	</bean>
 	
+	<bean id="killSwitchAppProperties" 
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="singleton" value="true"/>
+        <property name="properties">
+                <props>
+                        <prop key="serverNames">${server.names}</prop>
+                        <prop key="username">${server.username}</prop>
+                        <prop key="password">${server.password}</prop>
+                        <prop key="appNames">${kill.app.names}</prop>
+                        <prop key="emailGroup">${kill.email.group}</prop>
+                </props>
+        </property>
+	</bean>
+	
 	<bean id="proviewDomain" class="java.lang.String">
   		<constructor-arg value="${proview.domain}"/>
   	</bean>
