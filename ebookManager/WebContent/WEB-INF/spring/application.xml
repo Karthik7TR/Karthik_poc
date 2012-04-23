@@ -29,8 +29,7 @@
        </property>
 	</bean>
 	
-	<bean id="killSwitchAppProperties" 
-          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	<bean id="killSwitchAppProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="singleton" value="true"/>
         <property name="properties">
                 <props>
