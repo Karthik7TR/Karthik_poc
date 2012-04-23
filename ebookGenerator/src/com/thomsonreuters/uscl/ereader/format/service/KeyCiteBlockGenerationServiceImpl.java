@@ -50,17 +50,17 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         {
         	normalizedCite = normalizedCite.replace(String.valueOf((char) 0xA7),"s"); // TODO  need to check other special characters
         	
-        	url = hostname + KEYCITE_QUERY + normalizedCite + "&jurisdiction=ALLCASES&contentType=ALL&startIndex=1&transitionType=Search&contextData=(sc.Default)"
-        			+ "&rs=" + mudParamRS + "&vr=" + mudParamVR  
-        			+ "&searchPostBody=%7B%7D&searchUri=%2FSearch%2Fv3%2Fsearch%2Fstart%3Fjurisdiction%3DALLCASES%26" 
+        	url = hostname + KEYCITE_QUERY + normalizedCite + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
+        			+ "&amp;rs=" + mudParamRS + "&amp;vr=" + mudParamVR  
+        			+ "&amp;searchPostBody=%7B%7D&amp;searchUri=%2FSearch%2Fv3%2Fsearch%2Fstart%3Fjurisdiction%3DALLCASES%26" 
         			+ "query%3DKC%253A%2520" + normalizedCite;            
        
         }
         else
         {
             url = hostname + KEYCITE_DOC_PARAM + "docGuid=" + docMetadata.getDocUuid()
-                + "&originationContext= " + ORIGINATION_CONTEXT + "&transitionType=NegativeTreatment&contextData=%28sc.UserEnteredCitation%29" + "&rs=" + mudParamRS
-                + "&vr=" + mudParamVR;
+                + "&amp;originationContext= " + ORIGINATION_CONTEXT + "&amp;transitionType=NegativeTreatment&amp;contextData=%28sc.UserEnteredCitation%29" + "&amp;rs=" + mudParamRS
+                + "&amp;vr=" + mudParamVR;
         }
 
         return buildImageBlock(url);
@@ -103,6 +103,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         keyCiteElement.append(URL);
         keyCiteElement.append("\">");
         keyCiteElement.append("<img src=\"er:#keyCite\" alt=\"KeyCite This Document\"/>");
+        keyCiteElement.append("</a>");
         keyCiteElement.append("</div>");
 
         return  new ByteArrayInputStream(keyCiteElement.toString().getBytes());
