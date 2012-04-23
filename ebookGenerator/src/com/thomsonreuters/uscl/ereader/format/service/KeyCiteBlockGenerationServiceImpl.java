@@ -99,9 +99,9 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
     {
         StringBuffer keyCiteElement = new StringBuffer();
         keyCiteElement.append("<div id=\"ebookGeneratorKeyciteInfo\" class=\"co_flush x_introPara\">");
-        keyCiteElement.append("<a href=");
+        keyCiteElement.append("<a href=\"");
         keyCiteElement.append(URL);
-        keyCiteElement.append(">");
+        keyCiteElement.append("\">");
         keyCiteElement.append("<img src=\"er:#keyCite\" alt=\"KeyCite This Document\"/>");
         keyCiteElement.append("</div>");
 
