@@ -43,7 +43,7 @@ public class EbookAudit implements Serializable {
 	@Column(name = "AUDIT_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "AuditSequence")
+	@GeneratedValue(generator = "AuditSequence")
 	@SequenceGenerator(name="AuditSequence", sequenceName = "AUDIT_ID_SEQ")	
 	Long auditId;
 	/**

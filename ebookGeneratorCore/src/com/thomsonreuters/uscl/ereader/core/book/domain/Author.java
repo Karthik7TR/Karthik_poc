@@ -39,7 +39,7 @@ public class Author implements Serializable, Comparable<Author> {
 	@Column(name = "AUTHOR_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "AuthorSequence")
+	@GeneratedValue(generator = "AuthorSequence")
 	@SequenceGenerator(name="AuthorSequence", sequenceName = "AUTHOR_ID_SEQ")
 	Long authorId;
 	/**

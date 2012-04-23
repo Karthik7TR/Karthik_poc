@@ -36,7 +36,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
 	@Column(name = "FRONT_MATTER_PAGE_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "FrontMatterPageSequence")
+	@GeneratedValue(generator = "FrontMatterPageSequence")
 	@SequenceGenerator(name="FrontMatterPageSequence", sequenceName = "FRONT_MATTER_PAGE_ID_SEQ")
 	Long id;
 	/**

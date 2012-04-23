@@ -105,7 +105,7 @@ public class JobRequest implements Serializable {
 
 	@Id
 	@Column(name = "JOB_REQUEST_ID", nullable=false)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="JobRequestIdSeq")
+	@GeneratedValue(generator="JobRequestIdSeq")
 	@SequenceGenerator(name="JobRequestIdSeq", sequenceName="JOB_REQUEST_ID_SEQ")
 	public Long getPrimaryKey() {
 		return jobRequestId;

@@ -39,7 +39,7 @@ public class JurisTypeCode implements Serializable {
 	@Id
 	@Column(name="JURIS_TYPE_CODES_ID")
 	@SequenceGenerator(name="jurisTypeCodesIdSequence", sequenceName="JURIS_TYPE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="jurisTypeCodesIdSequence")
+	@GeneratedValue(generator="jurisTypeCodesIdSequence")
 	private Long id;
 	
 	@Column(name="JURIS_TYPE_CODES_NAME", nullable = false, length = 1024)

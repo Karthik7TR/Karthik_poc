@@ -39,7 +39,7 @@ public class PublisherCode implements Serializable {
 	@Id
 	@Column(name="PUBLISHER_CODES_ID")
 	@SequenceGenerator(name="publisherCodesIdSequence", sequenceName="PUBLISHER_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="publisherCodesIdSequence")
+	@GeneratedValue(generator="publisherCodesIdSequence")
 	private Long id;
 	
 	@Column(name="PUBLISHER_NAME", nullable = false, length = 1024)

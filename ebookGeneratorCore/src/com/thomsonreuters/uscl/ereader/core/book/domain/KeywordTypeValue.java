@@ -39,7 +39,7 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
 	@Id
 	@Column(name = "KEYWORD_TYPE_VALUES_ID", unique = true, nullable = false)
 	@SequenceGenerator(name = "keywordTypeValuesIdSequence", sequenceName = "KEYWORD_TYPE_VALUES_ID_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "keywordTypeValuesIdSequence")
+	@GeneratedValue(generator = "keywordTypeValuesIdSequence")
 	public Long getId() {
 		return id;
 	}

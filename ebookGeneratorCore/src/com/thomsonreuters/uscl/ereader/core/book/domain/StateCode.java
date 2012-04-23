@@ -39,7 +39,7 @@ public class StateCode implements Serializable {
 	@Id
 	@Column(name="STATE_CODES_ID")
 	@SequenceGenerator(name="stateCodesIdSequence", sequenceName="STATE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stateCodesIdSequence")
+	@GeneratedValue(generator="stateCodesIdSequence")
 	private Long id;
 	
 	@Column(name="STATE_CODES_NAME", nullable = false, length = 1024)

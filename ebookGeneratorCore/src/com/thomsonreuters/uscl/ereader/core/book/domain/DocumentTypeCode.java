@@ -34,7 +34,7 @@ public class DocumentTypeCode implements Serializable {
 	@Id
 	@Column(name="DOCUMENT_TYPE_CODES_ID")
 	@SequenceGenerator(name="documentTypeCodesIdSequence", sequenceName="DOC_TYPE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="documentTypeCodesIdSequence")
+	@GeneratedValue(generator="documentTypeCodesIdSequence")
 	private Long id;
 	
 	@Column(name="DOCUMENT_TYPE_CODES_NAME", nullable = false, length = 1024)

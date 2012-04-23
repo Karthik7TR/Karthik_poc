@@ -35,7 +35,7 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
 	@Column(name = "FRONT_MATTER_SECTION_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "FrontMatterSectionSequence")
+	@GeneratedValue(generator = "FrontMatterSectionSequence")
 	@SequenceGenerator(name="FrontMatterSectionSequence", sequenceName = "FRONT_MATTER_SECTION_ID_SEQ")
 	Long id;
 	/**

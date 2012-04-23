@@ -39,7 +39,7 @@ public class PubTypeCode implements Serializable {
 	@Id
 	@Column(name="PUB_TYPE_CODES_ID")
 	@SequenceGenerator(name="pubTypeCodesIdSequence", sequenceName="PUB_TYPE_CODES_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="pubTypeCodesIdSequence")
+	@GeneratedValue(generator="pubTypeCodesIdSequence")
 	private Long id;
 	
 	@Column(name="PUB_TYPE_CODES_NAME", nullable = false, length = 1024)

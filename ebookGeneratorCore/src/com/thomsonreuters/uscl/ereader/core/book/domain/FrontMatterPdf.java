@@ -30,7 +30,7 @@ public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> 
 	@Column(name = "FRONT_MATTER_PDF_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "FrontMatterPdfSequence")
+	@GeneratedValue(generator = "FrontMatterPdfSequence")
 	@SequenceGenerator(name="FrontMatterPdfSequence", sequenceName = "FRONT_MATTER_PDF_ID_SEQ")
 	Long id;
 	/**

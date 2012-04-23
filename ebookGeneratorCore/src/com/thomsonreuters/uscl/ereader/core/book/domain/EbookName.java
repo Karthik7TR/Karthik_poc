@@ -42,7 +42,7 @@ public class EbookName implements Serializable, Comparable<EbookName> {
 	@Column(name = "EBOOK_NAME_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "BookNameSequence")
+	@GeneratedValue(generator = "BookNameSequence")
 	@SequenceGenerator(name="BookNameSequence", sequenceName = "EBOOK_NAME_ID_SEQ")	
 	Integer ebookNameId;
 	/**

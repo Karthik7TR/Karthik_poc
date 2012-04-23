@@ -63,7 +63,7 @@ public class BookDefinition implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@Id
 	@SequenceGenerator(name="bookDefinitionIdSequence", sequenceName="EBOOK_DEFINITION_ID_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bookDefinitionIdSequence")
+	@GeneratedValue(generator="bookDefinitionIdSequence")
 	Long ebookDefinitionId;
 	/**
 	 */
