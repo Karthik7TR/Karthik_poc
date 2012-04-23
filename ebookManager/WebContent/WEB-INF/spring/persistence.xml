@@ -41,7 +41,9 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchJobExecution</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchStepExecution</value>	
 		  </list>
 		</property>
   	</bean>
@@ -86,6 +88,10 @@
 		  p:jdbcTemplate-ref="jdbcTemplate"/>
 	
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
+
+	<bean id="jobCleanupDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
 

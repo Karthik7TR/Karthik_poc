@@ -44,6 +44,19 @@
 	
 	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
 	p:jobRequestDao-ref="jobRequestDao"/>	
+
+
+	<bean id="ssh" class="com.thomsonreuters.uscl.ereader.util.Ssh"/>
+	
+	<bean id="emailNotification" class="com.thomsonreuters.uscl.ereader.util.EmailNotification"/>
+	
+	<bean id="jobCleanupService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupServiceImpl"
+		 p:jobCleanupDao-ref="jobCleanupDao"/>
+	
+	<bean id="serverAccessService" class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
+		  p:ssh-ref="ssh"
+		  p:emailNotification-ref="emailNotification"
+		  p:jobCleanupService-ref="jobCleanupService"/>
 	
 	
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"

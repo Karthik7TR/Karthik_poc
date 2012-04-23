@@ -106,6 +106,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>		
 	
+	<bean id="jobCleanupDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
 		  
 </beans>
 	
