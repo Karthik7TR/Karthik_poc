@@ -88,13 +88,14 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param staticImgList target file to which a list of referenced static files will be written out to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
+	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final boolean isTableViewRequired, 
-			final String title, final Long jobId) throws EBookFormatException
+			final String title, final Long jobId,final File docsGuidFile) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -130,7 +131,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority);
+			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority, docsGuidFile);
 			numDocs++;
 		}
 		
@@ -155,7 +156,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @throws if any parsing/transformation exception are encountered
 	 */
 	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority) throws EBookFormatException
+			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, final File docsGuidFile) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -194,7 +195,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
-			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority);
+			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile);
 			internalLinkResolverFilter.setParent(piZapperFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();

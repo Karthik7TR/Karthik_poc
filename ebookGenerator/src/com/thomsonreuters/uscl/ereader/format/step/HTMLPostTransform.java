@@ -10,13 +10,11 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerService;
@@ -42,7 +40,6 @@ public class HTMLPostTransform extends AbstractSbTasklet
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
@@ -56,6 +53,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_POST_TRANSFORM_DIR);
 		String staticImagePath = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE);
+		String docsGuid = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
@@ -64,10 +62,12 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
 		File staticImgFile = new File(staticImagePath);
+		File docsGuidFile = new File(docsGuid);
+		
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId);
+				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId, docsGuidFile);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

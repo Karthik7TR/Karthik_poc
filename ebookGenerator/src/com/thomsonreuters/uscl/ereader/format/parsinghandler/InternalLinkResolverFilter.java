@@ -5,17 +5,23 @@
  */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
@@ -25,12 +31,14 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
  * eBook.<p>If there is a match, the URL is converted to ProView format &lt;a
  * href="er:#id"&gt;anchor text&lt;/a&gt;.</p>
  *
+ * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
+ *  
  */
 public class InternalLinkResolverFilter extends XMLFilterImpl
 {
-    private static final String ANCHOR_ELEMENT = "a";
-    private static final String URI = "";
+	private static final Logger LOG = Logger.getLogger(InternalLinkResolverFilter.class);
+	private static final String ANCHOR_ELEMENT = "a";
     private static final String HREF = "href";
     private static final Pattern NORMALIZED_CITE_URL_PATTERN =
         Pattern.compile(".*FullText.*cite=([^&]+)");
@@ -42,13 +50,23 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private static final Pattern DOCUMENT_UUID_PATTERN =
         Pattern.compile(
             ".*FullText.*([a-zA-Z]{1}[a-fA-F0-9]{10}[-]?[a-fA-F0-9]{11}[-]?[a-fA-F0-9]{11}).*");
-    private static final Pattern NEXT_VIEW_DOCUMENT_URL_PATTERN =
-        Pattern.compile(".*/document/([^/]+)/view.*");
     private static final String UTF8_ENCODING = "utf-8";
     private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
     private DocumentMetadataAuthority documentMetadataAuthority;
+    private File docsGuidFile ;
 
-    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
+    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority )
+    {
+        if (documentMetadataAuthority == null)
+        {
+            throw new IllegalArgumentException(
+                "Cannot create instances of InternalLinkResolverFilter without a DocumentMetadataAuthority");
+        }
+
+        this.documentMetadataAuthority = documentMetadataAuthority;       
+    }
+    
+    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority , final File docsGuidFile)
     {
         if (documentMetadataAuthority == null)
         {
@@ -57,6 +75,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         }
 
         this.documentMetadataAuthority = documentMetadataAuthority;
+        this.docsGuidFile = docsGuidFile;
     }
 
     @Override
@@ -227,7 +246,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         return SERIAL_NUMBER_PATTERN.matcher(resourceUrl).find();
     }
 
-    protected Attributes resolveDocumentUuidReference(
+    protected Attributes resolveDocumentUuidReference (
         String documentUuid, Attributes attributes, String linkParameter)
     {
         DocMetadata docMetadata =
@@ -245,7 +264,13 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         {
             ebookResourceIdentifier = ebookResourceIdentifier + "/" + linkParameter;
         }
+      
+        String tocGuid = getTitleXMLTOCFilter(documentUuid);
 
+        if (!"".equals(tocGuid))
+        {
+        	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
+        }
         int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
         resolvedAttributes.setValue(
             anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
@@ -282,6 +307,14 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         {
             ebookResourceIdentifier = ebookResourceIdentifier + "/" + linkParameter;
         }
+        
+
+        String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
+
+        if (!"".equals(tocGuid))
+        {
+        	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
+        }
 
         int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
         resolvedAttributes.setValue(
@@ -309,6 +342,13 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         if (!"".equals(linkParameter))
         {
             ebookResourceIdentifier = ebookResourceIdentifier + "/" + linkParameter;
+        }
+        
+        String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
+
+        if (!"".equals(tocGuid))
+        {
+        	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
         }
 
         int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
@@ -349,4 +389,72 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
         return linkAttribute;
     }
+    
+	/**
+	 * @param docGuid
+	 * @return tocGuid TocGuid as a string for corresponding document guid.
+	 * @throws EBookFormatException
+	 */
+	private String getTitleXMLTOCFilter(final String  docGuid) 
+	{
+		String tocGuid = "";
+        if (docsGuidFile == null || !docsGuidFile.exists())
+        {
+        	throw new IllegalArgumentException(
+        			"File passed into InternalLinkResolverFilter constructor must be a valid file.");
+        }
+		
+			
+		BufferedReader reader = null;
+		try
+		{
+			LOG.info("Reading in TOC anchor map file...");
+			reader = new BufferedReader(new FileReader(docsGuidFile));
+			String input = reader.readLine();
+			while (input != null)
+			{
+				String[] line = input.split(",", -1);
+				if (line[0].equals(docGuid))
+				{
+					String[] tocGuids = line[1].split("\\|");
+					tocGuid=tocGuids[0];
+					break;
+				}
+				input = reader.readLine();
+				
+			}
+			
+			if ("".equals(tocGuid))
+			{
+				String message = "Please verify that each document GUID in the following file has " +
+							     "at least one TOC guid associated with it: " + 
+				                  docsGuidFile.getAbsolutePath();
+				LOG.error(message);					
+				
+			}
+			LOG.info("Found a Toc Guid " + tocGuid + " For given Doc Guid " + docGuid);
+		}
+		catch(IOException e)
+		{
+			String message = "Could not read the DOC guid to TOC guid map file: " + 
+					docsGuidFile.getAbsolutePath();
+			LOG.error(message);			
+		}
+		finally
+		{
+			try
+			{
+				if (reader != null)
+				{
+					reader.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
+			}
+		}
+		
+		return tocGuid;
+	}
 }
