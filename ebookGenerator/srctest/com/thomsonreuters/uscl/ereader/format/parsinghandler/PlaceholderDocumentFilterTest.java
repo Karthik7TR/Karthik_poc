@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -35,7 +37,10 @@ public class PlaceholderDocumentFilterTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		placeholderDocumentFilter = new PlaceholderDocumentFilter("YARR!", "tocGuid");
+		List<String> anchors = new ArrayList<String>();
+		anchors.add("TestAnchor1");
+		anchors.add("TestAnchor2");
+		placeholderDocumentFilter = new PlaceholderDocumentFilter("YARR!", "tocGuid", anchors);
 		resultStream = new ByteArrayOutputStream();
 
 		placeholderDocumentTemplate = new InputSource(new ByteArrayInputStream("<html><head/><body><div><displaytext/></div></body></html>".getBytes()));

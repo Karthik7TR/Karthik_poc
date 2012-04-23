@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,7 +37,8 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 	private ResourceLoader resourceLoader;
 
 	@Override
-	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid) throws PlaceholderDocumentServiceException {
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid, List<String> anchors) 
+			throws PlaceholderDocumentServiceException {
 		if (StringUtils.isBlank(displayText)) {
 			throw new IllegalArgumentException("displayText must not be null or empty. Was: [" + displayText + "]");
 		}
@@ -49,7 +51,7 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 		if (StringUtils.isBlank(placeholderDocumentTemplateLocation)) {
 			throw new IllegalArgumentException("The placeholderDocumentTemplateLocation was not configured properly (missing or null). This is likely a Spring configuration error that needs to be resolved by a developer.");
 		}
-		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText, tocGuid);
+		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText, tocGuid, anchors);
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");

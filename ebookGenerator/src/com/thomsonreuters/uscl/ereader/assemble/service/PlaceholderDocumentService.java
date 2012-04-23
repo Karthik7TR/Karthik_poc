@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * Implementors of PlaceholderDocumentService are responsible for generating placeholder documents.
@@ -22,7 +23,9 @@ public interface PlaceholderDocumentService {
 	 * @param documentStream the {@link} to write the document to.
 	 * @param displayText the text to inject into the title and body of the document.
 	 * @param tocGuid the guid to use as an anchor.
+	 * @param anchors additional TOC guids that need to be cascaded into the missing document
 	 * @throws PlaceholderDocumentServiceException if the data could not be written or the document template was misconfigured.
 	 */
-	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid) throws PlaceholderDocumentServiceException;
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid, List<String> anchors) 
+			throws PlaceholderDocumentServiceException;
 }

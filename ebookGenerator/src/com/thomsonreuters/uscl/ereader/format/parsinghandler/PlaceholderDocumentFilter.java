@@ -5,6 +5,8 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.util.List;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -27,18 +29,21 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public class PlaceholderDocumentFilter extends XMLFilterImpl {
 
 	private static final String DISPLAY_TEXT = "displaytext";
+	private static final String ANCHOR_CASCADE_TAG = "anchorsToCascade";
 	private static final String ANCHOR_TAG = "a";
 	private String displayText;
 	private String tocGuid;
+	private List<String> anchors;
 	
 	/**
 	 * Single argument constructor that takes the display text to be rendered within the document's body.
 	 * 
 	 * @param displayText the text to be displayed within the body of the document.
 	 */
-	public PlaceholderDocumentFilter(String displayText, String tocGuid) {
+	public PlaceholderDocumentFilter(String displayText, String tocGuid, List<String> anchors) {
 		this.displayText = displayText;
 		this.tocGuid = tocGuid;
+		this.anchors = anchors;
 	}
 
 	@Override
@@ -46,6 +51,16 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl {
 			Attributes attributes) throws SAXException {
 		if (DISPLAY_TEXT.equals(qName)) {
 			super.characters(displayText.toCharArray(), 0, displayText.length());
+		}
+		else if (ANCHOR_CASCADE_TAG.equals(qName))
+		{
+			for (String anchor : anchors)
+			{
+				AttributesImpl newAtts = new AttributesImpl();
+				newAtts.addAttribute("", "", "name", "CDATA", anchor);
+				super.startElement("", ANCHOR_TAG, ANCHOR_TAG, newAtts);
+				super.endElement("", ANCHOR_TAG, ANCHOR_TAG);
+			}
 		}
 		else if (ANCHOR_TAG.equals(qName)) {
 			String anchorName = attributes.getValue("name");
@@ -69,7 +84,7 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl {
 	
 	@Override
 	public void endElement(String uri, String localname, String qName) throws SAXException {
-		if (DISPLAY_TEXT.equals(qName)) {
+		if (DISPLAY_TEXT.equals(qName) || ANCHOR_CASCADE_TAG.equals(qName)) {
 			//eat this event.
 		}
 		else {

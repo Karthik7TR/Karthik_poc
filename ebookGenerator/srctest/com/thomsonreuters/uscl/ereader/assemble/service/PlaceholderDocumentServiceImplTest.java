@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.assemble.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -60,7 +61,7 @@ public class PlaceholderDocumentServiceImplTest {
 	public void placeholderDocumentServiceImplHappyPath() throws Exception {
 		ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(resultStream, "YARR!", "tocGuid");
+		placeholderDocumentService.generatePlaceholderDocument(resultStream, "YARR!", "tocGuid", new ArrayList<String>());
 		verifyAll();
 		String expected = "<html><head/><body>YARR!</body></html>";
 		Assert.assertArrayEquals(expected.getBytes(), resultStream.toByteArray());
@@ -69,21 +70,21 @@ public class PlaceholderDocumentServiceImplTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullFirstArgument() throws Exception {
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(null, "YARR!", "tocGuid");
+		placeholderDocumentService.generatePlaceholderDocument(null, "YARR!", "tocGuid", new ArrayList<String>());
 		verifyAll();
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullSecondArgument() throws Exception {
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), null, "tocGuid");
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), null, "tocGuid", new ArrayList<String>());
 		verifyAll();
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullThirdArgument() throws Exception {
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", null);
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", null, new ArrayList<String>());
 		verifyAll();
 	}
 	@Test(expected=IllegalArgumentException.class)
@@ -95,7 +96,7 @@ public class PlaceholderDocumentServiceImplTest {
 		placeholderDocumentService.setResourceLoader(resourceLoader);
 		
 		EasyMock.replay(resourceLoader);
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid");
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid", new ArrayList<String>());
 		EasyMock.verify(resourceLoader);
 	}
 	
@@ -111,7 +112,7 @@ public class PlaceholderDocumentServiceImplTest {
 		
 		EasyMock.replay(resourceLoader);
 		EasyMock.replay(resource);
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid");
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid", new ArrayList<String>());
 		EasyMock.verify(resourceLoader);
 		EasyMock.verify(resource);
 	}

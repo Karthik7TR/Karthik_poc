@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -256,7 +255,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 			previousDepth = 0;
 			// Add TOC NODES for Front Matter
 			buildFrontMatterTOCEntries();
-			
 		}
 		else if (EBOOK_TOC.equals(qName)) { //we've reached the next element, time to add a new node to the tree.
 			currentDepth++;
@@ -284,7 +282,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 			try {
 				FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
 				currentNode.setDocumentUuid(missingDocumentGuid);
-				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, currentNode.getText(), currentNode.getTocGuid());
+				cascadeAnchors();
+				List<String> anchors = getAnchorsToBeGenerated(currentNode);
+				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, currentNode.getText(), currentNode.getTocGuid(), anchors);
 				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
 				nodesContainingDocuments.add(currentNode);  //need to cascade anchors into placeholder document text.
 			}
@@ -504,6 +504,33 @@ class TitleManifestFilter extends XMLFilterImpl {
 		super.endDocument();
 	}
 
+	/**
+	 * Returns a list of TOC GUIDs that need to be cascaded into the generated
+	 * missing document. 
+	 * 
+	 * @param node document level node for which anchors need to be generated
+	 * @return list of TOC GUIDs for which Anchors need to be generated
+	 */
+	protected List<String> getAnchorsToBeGenerated(TocNode node)
+	{
+		String docGuid = node.getDocumentGuid();
+		List<String> anchors = new ArrayList<String>();
+		node = node.getParent();
+		while(node != null)
+		{
+			if (StringUtils.isBlank(node.getDocumentGuid()) || docGuid.equals(node.getDocumentGuid()))
+			{
+				anchors.add(node.getTocGuid());
+			}
+			else
+			{
+				break;
+			}
+			node = node.getParent();
+		}
+		return anchors;
+	}
+	
 	/**
 	 * Pushes document guids up through the ancestry into headings that didn't contain document references in order to satisfy ProView's TOC to text linking requirement.
 	 * 

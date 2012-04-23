@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="er:#document" />
 	</head>
 	<body class="co_t2Left">
-		<section class="co_docDisplay">
+		<section class="co_docDisplay"><anchorsToCascade/>
 			<div id="coid_website_documentWidgetDiv">
 				<div id="co_document" class="co_document">
 					<div class="co_contentBlock co_section">
