@@ -102,7 +102,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         keyCiteElement.append("<a href=\"");
         keyCiteElement.append(URL);
         keyCiteElement.append("\">");
-        keyCiteElement.append("<img src=\"er:#keyCite\" alt=\"KeyCite This Document\"/>");
+        keyCiteElement.append("<img src=\"er:#keycite\" alt=\"KeyCite This Document\"/>");
         keyCiteElement.append("</a>");
         keyCiteElement.append("</div>");
 
