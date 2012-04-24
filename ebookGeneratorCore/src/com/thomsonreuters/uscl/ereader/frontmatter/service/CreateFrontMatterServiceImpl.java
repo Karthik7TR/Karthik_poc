@@ -54,9 +54,6 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
 	private static final String WEST_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestLogo";
 	private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";
-	private static final String CSS_LOCATION = "/apps/eBookBuilder/coreStatic/css/ebook_generator.css";
-	private static final String WEST_LOGO_LOCATION = "/apps/eBookBuilder/coreStatic/images/EBook_Generator_WestLogo.png";
-	private static final String WLN_LOGO_LOCATION = "/apps/eBookBuilder/coreStatic/images/EBook_Generator_WestlawNextLogo.png";
 	
 	private ResourceLoader resourceLoader;
 	private String frontMatterTitlePageTemplateLocation;
@@ -111,9 +108,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		throws EBookFrontMatterGenerationException
 	{
 		String output = generateTitlePage(bookDefinition).replace(CSS_PLACEHOLDER, 
-				(new File(CSS_LOCATION)).getAbsolutePath());
+				"frontMatterCss.mvc?cssName=ebook_generator.css");
 		output = output.replace(WEST_LOGO_PLACEHOLDER, 
-				(new File(WEST_LOGO_LOCATION)).getAbsolutePath());
+				"frontMatterImage.mvc?imageName=EBook_Generator_WestLogo.png");
 		return output;
 	}
 
@@ -125,7 +122,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		throws EBookFrontMatterGenerationException
 	{
 		String output = generateCopyrightPage(bookDefinition).replace(CSS_PLACEHOLDER, 
-				(new File(CSS_LOCATION)).getAbsolutePath());
+				"frontMatterCss.mvc?cssName=ebook_generator.css");
 		return output;
 	}
 
@@ -137,7 +134,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		throws EBookFrontMatterGenerationException
 	{
 		String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id).replace(
-				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath());
+				CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
 		return output;
 	}
 
@@ -149,7 +146,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		throws EBookFrontMatterGenerationException
 	{
 		String output = generateResearchAssistancePage(bookDefinition).replace(
-				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath());
+				CSS_PLACEHOLDER,  "frontMatterCss.mvc?cssName=ebook_generator.css");
 		return output;
 	}
 
@@ -161,8 +158,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		throws EBookFrontMatterGenerationException
 	{
 		String output = generateWestlawNextPage().replace(
-				CSS_PLACEHOLDER, (new File(CSS_LOCATION)).getAbsolutePath()).replace(
-				WLN_LOGO_PLACEHOLDER, (new File(WLN_LOGO_LOCATION)).getAbsolutePath());
+				CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css").replace(
+				WLN_LOGO_PLACEHOLDER, "frontMatterImage.mvc?imageName=EBook_Generator_WestlawNextLogo.png");
 		return output;
 	}
 
