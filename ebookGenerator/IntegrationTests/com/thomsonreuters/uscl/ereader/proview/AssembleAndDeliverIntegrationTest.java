@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
@@ -163,8 +164,8 @@ public class AssembleAndDeliverIntegrationTest {
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
 		titleMetadata.setDisplayName("YARR - The Comprehensive Guide to Plundering the Seven Seas");
-		ArrayList<Author> authors = new ArrayList<Author>();
-		authors.add(new Author("Christopher Schwartz"));
+		ArrayList<String> authors = new ArrayList<String>();
+		authors.add("Christopher Schwartz");
 		titleMetadata.setAuthors(authors);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");
