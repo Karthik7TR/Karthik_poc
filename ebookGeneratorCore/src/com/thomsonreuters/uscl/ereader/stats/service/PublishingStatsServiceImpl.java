@@ -75,45 +75,42 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	@Override
 	public EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(Long EbookDefId) {
 
-		EbookAudit lastAudit = null;
+		EbookAudit lastAuditSuccessful = null;
 
-		List<EbookAudit> ebookAudits = findJobStatsAuditByEbookDef(EbookDefId);
+		PublishingStats lastSuccessfulPublishingStat = null;
+		List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
 
-		if (ebookAudits != null && ebookAudits.size() > 0) {
-			lastAudit = ebookAudits.get(0);
-			for (EbookAudit ebookAudit : ebookAudits) {
-				if (ebookAudit.getAuditId() >= lastAudit.getAuditId()) {
-					lastAudit = ebookAudit;
+		if (publishingStats != null && publishingStats.size() > 0) {
+			lastSuccessfulPublishingStat = publishingStats.get(0);
+			for (PublishingStats publishingStat : publishingStats) {
+				if (publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
+						.getJobInstanceId()
+						&& SUCCESFULL_PUBLISH_STATUS
+								.equalsIgnoreCase(publishingStat
+										.getPublishStatus())) {
+					lastSuccessfulPublishingStat = publishingStat;
 				}
 			}
-		}
 
-		if (lastAudit != null) {
-			PublishingStats lastSuccessfulPublishingStat = null;
-			List<PublishingStats> publishingStats = findPublishingStatsByEbookDef(EbookDefId);
+			if (lastSuccessfulPublishingStat != null
+					&& SUCCESFULL_PUBLISH_STATUS
+							.equalsIgnoreCase(lastSuccessfulPublishingStat
+									.getPublishStatus())) {
 
-			if (publishingStats != null && publishingStats.size() > 0) {
-				lastSuccessfulPublishingStat = publishingStats.get(0);
-				for (PublishingStats publishingStat : publishingStats) {
-					if (publishingStat.getAuditId() == lastAudit.getAuditId()
-							&& publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
-									.getJobInstanceId()
-							&& SUCCESFULL_PUBLISH_STATUS
-									.equalsIgnoreCase(publishingStat
-											.getPublishStatus())) {
-						lastSuccessfulPublishingStat = publishingStat;
+				List<EbookAudit> ebookAudits = findJobStatsAuditByEbookDef(EbookDefId);
+
+				if (ebookAudits != null && ebookAudits.size() > 0) {
+					lastAuditSuccessful = ebookAudits.get(0);
+					for (EbookAudit ebookAudit : ebookAudits) {
+						if (ebookAudit.getAuditId() == lastSuccessfulPublishingStat
+								.getAuditId()) {
+							lastAuditSuccessful = ebookAudit;
+						}
 					}
 				}
 			}
-
-			if (lastSuccessfulPublishingStat == null
-					|| (lastSuccessfulPublishingStat != null && !(SUCCESFULL_PUBLISH_STATUS
-							.equalsIgnoreCase(lastSuccessfulPublishingStat
-									.getPublishStatus())))) {
-				lastAudit = null;
-			}
 		}
-		return lastAudit;
+		return lastAuditSuccessful;
 
 	}
 
