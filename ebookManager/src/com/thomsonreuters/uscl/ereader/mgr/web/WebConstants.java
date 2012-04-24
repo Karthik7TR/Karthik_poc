@@ -73,9 +73,12 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK="bookDefinitionLock";
 	public static final String KEY_COVER_IMAGE_LOCATION="/apps/eBookBuilder/generator/images/cover";
+	public static final String KEY_FRONT_MATTER_IMAGE_LOCATION="/apps/eBookBuilder/coreStatic/images";
+	public static final String KEY_FRONT_MATTER_CSS_LOCATION="/apps/eBookBuilder/coreStatic/css";
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
 	
 	public static final String KEY_KILL_SWITCH_CODE = "Stop all";
+	public static final String KEY_DELETE_BOOK = "DELETE BOOK";
 	public static final String KEY_FRONT_MATTER_PREVIEW_CONTENT = "previewContent";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
@@ -95,6 +98,8 @@ public class WebConstants {
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
 	public static final String MVC_COVER_IMAGE = "coverImage.mvc";
+	public static final String MVC_FRONT_MATTER_IMAGE = "frontMatterImage.mvc";
+	public static final String MVC_FRONT_MATTER_CSS = "frontMatterCss.mvc";
 	public static final String MVC_BOOK_BULK_GENERATE_PREVIEW = "generateBulkEbookPreview.mvc";
 	public static final String MVC_BOOK_LIBRARY_ICONS = "bookLibraryIcons.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
@@ -109,6 +114,8 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
 	public static final String MVC_BOOK_DEFINITION_UNLOCK = "bookDefinitionUnlock.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
+	public static final String MVC_BOOK_DEFINITION_DELETE = "bookDefinitionDelete.mvc";
+	public static final String MVC_BOOK_DEFINITION_RESTORE = "bookDefinitionRestore.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
@@ -206,6 +213,8 @@ public class WebConstants {
 	public static final String VIEW_BOOK_DEFINITION_LOCKED = "_bookDefinitionLock";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
+	public static final String VIEW_BOOK_DEFINITION_DELETE = "_bookDefinitionDelete";
+	public static final String VIEW_BOOK_DEFINITION_RESTORE = "_bookDefinitionRestore";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";
 	public static final String VIEW_BOOK_LIBRARY_ICONS = "_bookLibraryIcons";
 	public static final String VIEW_BOOK_LIBRARY_LIST = "_bookLibraryList";

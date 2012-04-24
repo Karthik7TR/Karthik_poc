@@ -29,18 +29,34 @@ public class ImageController {
 	
 	@RequestMapping(value=WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
 	public ResponseEntity<byte[]> getCoverImage(@RequestParam String imageName, HttpServletRequest request) {
+
+		return retrieveFile(request, WebConstants.KEY_COVER_IMAGE_LOCATION, imageName, MediaType.IMAGE_PNG);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
+	public ResponseEntity<byte[]> getFrontMatterImage(@RequestParam String imageName, HttpServletRequest request) {
+		
+		return retrieveFile(request, WebConstants.KEY_FRONT_MATTER_IMAGE_LOCATION, imageName, MediaType.IMAGE_PNG);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_CSS, method = RequestMethod.GET)
+	public ResponseEntity<byte[]> getFrontMatterCss(@RequestParam String cssName, HttpServletRequest request) {
+
+		return retrieveFile(request, WebConstants.KEY_FRONT_MATTER_CSS_LOCATION, cssName, MediaType.TEXT_HTML);
+	}
+	
+	private ResponseEntity<byte[]> retrieveFile(HttpServletRequest request, String nasLocation,String filename, MediaType mediaType) {
 		InputStream fin = null;
 		byte[] content = null;
 		
-		File image = new File(WebConstants.KEY_COVER_IMAGE_LOCATION, imageName);
+		File file = new File(nasLocation, filename);
 		
 		try{
-			// Show missingCover image if file is not found
-			if(!image.isFile()) {
+			if(!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.KEY_COVER_IMAGE_LOCATION)) {
 				ServletContext ctx = request.getSession().getServletContext();
 				fin = ctx.getResourceAsStream("/theme/images/missingCover.png");
 			} else {
-				fin = new FileInputStream(image);
+				fin = new FileInputStream(file);
 			}
 			content = IOUtils.toByteArray(fin);
 
@@ -56,8 +72,9 @@ public class ImageController {
 			}
 		}
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_PNG);
+		headers.setContentType(mediaType);
 		return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
+		
 	}
 
 }
