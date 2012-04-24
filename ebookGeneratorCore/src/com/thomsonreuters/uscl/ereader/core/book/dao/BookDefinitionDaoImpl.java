@@ -83,7 +83,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 
 		// Publish end time stamp comes from different domain. We don't sort it
 		// in book definition.
-		if (!sortProperty.equals("publishEndTimestamp")) {
+		if (sortProperty != null && !sortProperty.equals("publishEndTimestamp")) {
 			criteria.addOrder(isAscending ? Order.asc(sortProperty) : Order
 					.desc(sortProperty));
 		}
