@@ -126,9 +126,6 @@ public class BookLibraryController {
 		String sort = request.getParameter(new ParamEncoder(
 				WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_SORT));
-		if (sort == null) {
-			sort = "proviewDisplayName";
-		}
 
 		String order = request.getParameter(new ParamEncoder(
 				WebConstants.KEY_VDO)
@@ -141,7 +138,7 @@ public class BookLibraryController {
 
 		List<LibraryList> paginatedList = fetchSavedPaginatedList(httpSession);
 
-		if (paginatedList == null) {
+		if (paginatedList == null || sort != null) {
 			paginatedList = libraryListService.findBookDefinitions(sort,
 					isAscending, page, WebConstants.NUMBER_BOOK_DEF_SHOWN,
 					bookLibraryFilterForm.getProviewDisplayName(),
