@@ -149,7 +149,7 @@ public class BookLibraryFilterForm {
 	}
 
 	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+		this.isbn = isbn == null ? null : isbn.trim();
 	}
 
 	public String toString() {
