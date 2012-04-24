@@ -56,6 +56,17 @@ public class BookLibraryController {
 		return paginatedList;
 	}
 
+	private void saveSessionValues(HttpSession httpSession,
+			BookLibraryFilterForm bookLibraryFilterForm,
+			List<LibraryList> paginatedList) {
+
+		httpSession.setAttribute(BookLibraryFilterForm.FORM_NAME,
+				bookLibraryFilterForm);
+		httpSession
+				.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+
+	}
+
 	/**
 	 * Handles the initial loading of the Book Definition List page
 	 * 
@@ -72,8 +83,9 @@ public class BookLibraryController {
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
 			BindingResult bindingResult, Model model) throws Exception {
 
-		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
-		model.addAttribute(BookLibraryFilterForm.FORM_NAME, filterForm);
+		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
+		model.addAttribute(BookLibraryFilterForm.FORM_NAME,
+				bookLibraryFilterForm);
 
 		List<LibraryList> paginatedList = fetchSavedPaginatedList(httpSession);
 
@@ -82,6 +94,7 @@ public class BookLibraryController {
 					"proviewDisplayName", true, 1,
 					WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null, null,
 					null, null, null);
+			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
 		}
 
 		initializeFormAndModel(model, form, "proviewDisplayName", true, 1,
@@ -103,11 +116,8 @@ public class BookLibraryController {
 			HttpServletRequest request,
 			HttpSession httpSession,
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-			// @ModelAttribute(BookLibraryFilterForm.FORM_NAME)
-			// BookLibraryFilterForm bookLibraryForm,
+
 			BindingResult bindingResult, Model model) throws Exception {
-		// log.debug(">>> " + form);
-		// Fetch the current object list from the session
 
 		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
 		model.addAttribute(BookLibraryFilterForm.FORM_NAME,
@@ -129,16 +139,20 @@ public class BookLibraryController {
 				WebConstants.KEY_VDO)
 				.encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 
-		List<LibraryList> paginatedList = libraryListService
-				.findBookDefinitions(sort, isAscending, page,
-						WebConstants.NUMBER_BOOK_DEF_SHOWN,
-						bookLibraryFilterForm.getProviewDisplayName(),
-						bookLibraryFilterForm.getTitleId(),
-						bookLibraryFilterForm.getIsbn(),
-						bookLibraryFilterForm.getMaterialId(),
-						bookLibraryFilterForm.getTo(),
-						bookLibraryFilterForm.getFrom(),
-						bookLibraryFilterForm.geteBookDefStatus());
+		List<LibraryList> paginatedList = fetchSavedPaginatedList(httpSession);
+
+		if (paginatedList == null) {
+			paginatedList = libraryListService.findBookDefinitions(sort,
+					isAscending, page, WebConstants.NUMBER_BOOK_DEF_SHOWN,
+					bookLibraryFilterForm.getProviewDisplayName(),
+					bookLibraryFilterForm.getTitleId(),
+					bookLibraryFilterForm.getIsbn(),
+					bookLibraryFilterForm.getMaterialId(),
+					bookLibraryFilterForm.getTo(),
+					bookLibraryFilterForm.getFrom(),
+					bookLibraryFilterForm.geteBookDefStatus());
+			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
+		}
 		initializeFormAndModel(model, form, sort, isAscending, page,
 				paginatedList);
 
