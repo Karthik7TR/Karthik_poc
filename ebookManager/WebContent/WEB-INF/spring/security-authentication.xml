@@ -56,9 +56,9 @@
 		<sec:intercept-url pattern="/accessDenied.mvc" access="permitAll"/>
 		<sec:intercept-url pattern="/afterLogout.mvc" access="permitAll"/>
 		
-		<sec:intercept-url pattern="/bookDefinitionCreate.mvc" access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/bookDefinitionCreate.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/bookDefinitionEdit.mvc" access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
-		<sec:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		
 		<sec:intercept-url pattern="/admin*" access="hasRole('ROLE_SUPERUSER')"/>
 		

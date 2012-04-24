@@ -71,6 +71,7 @@ public class WebConstants {
 	public static final String KEY_IS_COMPLETE="isComplete";
 	public static final String KEY_IS_NEW_ISBN="isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
+	public static final String KEY_BOOK_DEFINITION_LOCK="bookDefinitionLock";
 	public static final String KEY_COVER_IMAGE_LOCATION="/apps/eBookBuilder/generator/images/cover";
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
 	
@@ -105,6 +106,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_EDIT = "bookDefinitionEdit.mvc";
 	public static final String MVC_BOOK_DEFINITION_COPY = "bookDefinitionCopy.mvc";
 	public static final String MVC_BOOK_DEFINITION_IMPORT = "bookDefinitionImport.mvc";
+	public static final String MVC_BOOK_DEFINITION_UNLOCK = "bookDefinitionUnlock.mvc";
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
@@ -135,6 +137,8 @@ public class WebConstants {
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
+	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
+	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
 	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_VIEW = "adminJurisCodeView.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_CREATE = "adminJurisCodeCreate.mvc";
@@ -166,6 +170,8 @@ public class WebConstants {
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
 	public static final String VIEW_ADMIN_MAIN = "_adminMain";
+	public static final String VIEW_ADMIN_BOOK_LOCK_LIST = "_adminBookLockList";
+	public static final String VIEW_ADMIN_BOOK_LOCK_DELETE = "_adminBookLockDelete";
 	public static final String VIEW_ADMIN_STOP_GENERATOR = "_adminStopGenerator";
 	public static final String VIEW_ADMIN_JURIS_CODE_VIEW = "_adminJurisCodeView";
 	public static final String VIEW_ADMIN_JURIS_CODE_CREATE = "_adminJurisCodeCreate";
@@ -190,6 +196,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
 	public static final String VIEW_BOOK_DEFINITION_COPY = "_bookDefinitionCopy";
+	public static final String VIEW_BOOK_DEFINITION_LOCKED = "_bookDefinitionLock";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
 	public static final String VIEW_BOOK_DEFINITION_VIEW = "_bookDefinitionView";

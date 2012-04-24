@@ -15,6 +15,18 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/main/body.jsp"/>
 	</definition>
 	
+	<definition name="_adminBookLockList" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminBookLockDelete" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/body.jsp"/>
+	</definition>
+	
 	<definition name="_adminStopGenerator" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/stopgenerator/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
@@ -161,6 +173,12 @@
 	
 	<definition name="_bookDefinitionEdit" extends="standardDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/edit/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
+	</definition>
+	
+	<definition name="_bookDefinitionLock" extends="standardDefinition">
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/lock/body.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
 	</definition>

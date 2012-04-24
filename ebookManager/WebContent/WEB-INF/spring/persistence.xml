@@ -26,6 +26,7 @@
 		<property name="annotatedClasses">
 		  <list>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
@@ -39,8 +40,8 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchJobExecution</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchStepExecution</value>	
@@ -90,8 +91,12 @@
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
-
+	
 	<bean id="jobCleanupDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
+	
+	<bean id="bookDefintionLockDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
 

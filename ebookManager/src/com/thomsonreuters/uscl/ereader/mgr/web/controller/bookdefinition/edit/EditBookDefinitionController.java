@@ -25,7 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -39,6 +41,7 @@ public class EditBookDefinitionController {
 	protected JobRequestService jobRequestService;
 	protected EditBookDefinitionService editBookDefinitionService;
 	private EBookAuditService auditService;
+	private BookDefinitionLockService bookLockService;
 	protected Validator validator;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
@@ -94,7 +97,6 @@ public class EditBookDefinitionController {
 		}
 		
 		initializeModel(model, form);
-		//sortBySequenceNum(form);
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
 	}
@@ -109,14 +111,33 @@ public class EditBookDefinitionController {
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {
-
+		
+		String username = UserUtils.getAuthenticatedUserName();
+		
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-		form.initialize(bookDef);
-		determineBookStatus(bookDef, model);
-		initializeModel(model, form);
 		
-		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+		// model used in VIEW_BOOK_DEFINITION_LOCKED and VIEW_BOOK_DEFINITION_EDIT
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+
+		// Check if Book Definition is being edited by another user
+		BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+		
+		if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
+			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
+			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
+		} else {
+			form.initialize(bookDef);
+			checkJobRequestAndPublishStatus(bookDef, model);
+			initializeModel(model, form);
+			
+			if(bookDef != null) {
+				// Lock book definition
+				bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
+			}
+			
+			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+		}
 	}
 	/**
 	 * Handle the in-bound POST to the Book Definition edit view page.
@@ -132,6 +153,23 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) throws Exception {
 		
+		Long bookDefinitionId = form.getBookdefinitionId();
+		String username = UserUtils.getAuthenticatedUserName();
+		
+		// Lookup the book by its primary key
+		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
+		
+		// model used in VIEW_BOOK_DEFINITION_LOCKED and VIEW_BOOK_DEFINITION_EDIT
+		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+		
+		// Check if Book Definition is being edited by another user
+		BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+		
+		if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
+			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
+			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
+		}
+		
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
 			form.loadBookDefinition(book);
@@ -142,18 +180,36 @@ public class EditBookDefinitionController {
 			audit.loadBookDefinition(book, EbookAudit.AUDIT_TYPE.EDIT, UserUtils.getAuthenticatedUserName(), form.getComment());
 			auditService.saveEBookAudit(audit);
 			
+			// Remove lock from BookDefinition
+			bookLockService.removeLock(book);
+			
 			// Redirect user
-			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, book.getEbookDefinitionId());
+			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, bookDefinitionId);
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
 		
-		// Lookup the book by its primary key
-		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
-		determineBookStatus(bookDef, model);
+		checkJobRequestAndPublishStatus(bookDef, model);
 		initializeModel(model, form);
-		//sortBySequenceNum(form);
-		
+
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+	}
+	
+	/**
+	 * AJAX call to remove lock on book definition
+	 */
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_UNLOCK, method = RequestMethod.GET)
+	public void unlockBookDefinition(@RequestParam Long id) {
+		String username = UserUtils.getAuthenticatedUserName();
+		
+		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+		
+		if(book != null) {
+			// Check if current user is the one with the lock
+			BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(book);
+			if(lock != null && lock.getUsername().equalsIgnoreCase(username)) {
+				bookLockService.removeLock(book);
+			}
+		}
 	}
 	
 	/**
@@ -209,7 +265,7 @@ public class EditBookDefinitionController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
 	
-	private void determineBookStatus(BookDefinition bookDef, Model model) throws Exception {
+	private void checkJobRequestAndPublishStatus(BookDefinition bookDef, Model model) throws Exception {
 		boolean isInJobRequest = false;
 		boolean isPublished = false;
 		
@@ -219,7 +275,6 @@ public class EditBookDefinitionController {
 			isInJobRequest =  jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId());
 		}
 		
-		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 	}
@@ -244,31 +299,6 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
 	}
-	
-	/**
-	 * Sort the Lists in Book Definition by the sequence number.
-	 * @param form
-	 */
-	//TODO: bug deleting field after validation with sorting 
-//	private void sortBySequenceNum(EditBookDefinitionForm form) {
-//		// Sort Authors by Sequence Number
-//		List<Author> authors = new ArrayList<Author>();
-//		authors.addAll(form.getAuthorInfo());
-//		Collections.sort(authors);
-//		form.setAuthorInfo(authors);
-//		
-//		// Sort NameLines by Sequence Number
-//		List<EbookName> nameLines = new ArrayList<EbookName>();
-//		nameLines.addAll(form.getNameLines());
-//		Collections.sort(nameLines);
-//		form.setNameLines(nameLines);
-//		
-//		// Sort FrontMatterPages by Sequence Number
-//		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
-//		pages.addAll(form.getFrontMatters());
-//		Collections.sort(pages);
-//		form.setFrontMatters(pages);
-//	}
 
 	@Required
 	public void setBookDefinitionService(BookDefinitionService service) {
@@ -293,6 +323,11 @@ public class EditBookDefinitionController {
 	@Required
 	public void setAuditService(EBookAuditService service) {
 		this.auditService = service;
+	}
+	
+	@Required
+	public void setBookLockService(BookDefinitionLockService service) {
+		this.bookLockService = service;
 	}
 
 }

@@ -9,6 +9,9 @@
 
 	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
 	
+	<bean id="adminBookDefinitionLockController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock.BookDefinitionLockController" 
+		p:bookLockService-ref="bookDefintionLockService" />
+		
 	<bean id="stopGeneratorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator.StopGeneratorController" 		
 	  p:serverAccessService-ref="serverAccessService" 
 	  p:killSwitchProperties-ref="killSwitchAppProperties">
@@ -16,7 +19,7 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator.StopGeneratorFormValidator"/>
 	  </property>
 	</bean>
-
+	
 	<bean id="jurisCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeController" 
 		p:codeService-ref="codeService">
 		<property name="validator">
@@ -85,7 +88,8 @@
 		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:editBookDefinitionService-ref="editBookDefinitionService"
 		  p:jobRequestService-ref="jobRequestService"
-		  p:auditService-ref="eBookAuditService">
+		  p:auditService-ref="eBookAuditService"
+		  p:bookLockService-ref="bookDefintionLockService">
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
 		  	p:bookDefinitionService-ref="bookDefinitionService" 

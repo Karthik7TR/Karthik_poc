@@ -21,7 +21,10 @@
   		  p:authorDAO-ref="authorDao"/>
   		  
     <bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
-  		  p:eBookAuditDAO-ref="eBookAuditDao" />	
+  		  p:eBookAuditDAO-ref="eBookAuditDao" />
+  		  
+  	<bean id="bookDefintionLockService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockServiceImpl"
+  		  p:bookDefinitionLockDao-ref="bookDefintionLockDao" />	
   
 	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
 		  p:publishingStatsDAO-ref="publishingStatsDao"/>

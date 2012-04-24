@@ -13,7 +13,7 @@ function submitForm(cmd)
 	$('#command').val(cmd);
 	$('#<%=ViewBookDefinitionForm.FORM_NAME%>').submit();
 	return true;
-}
+};
 </script>
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
@@ -234,6 +234,10 @@ function submitForm(cmd)
 	<sec:authorize access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
 		<c:set var="editBook" value=""/>
 	</sec:authorize>
+	<c:set var="copyBook" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="copyBook" value=""/>
+	</sec:authorize>
 	<c:set var="generateBook" value="disabled"/>
 	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
 		<c:set var="generateBook" value=""/>
@@ -249,9 +253,9 @@ function submitForm(cmd)
 			<form:hidden path="command"/>
 			<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			<c:if test="${!isInJobRequest}">
-				<input type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+				<input id="editBookDefinition" type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 			</c:if>
-			<input type="submit" ${editBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
+			<input type="submit" ${copyBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
 			<input type="submit" ${generateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 			<input type="submit" ${deleteBook} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 			<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>

@@ -258,12 +258,13 @@
 			
 			//Update formValidation field if Validation button is pressed
 			$('#validate').click(function () {
+				warning= false;
 				$('#validateForm').val(true);
 				$('<%= EditBookDefinitionForm.FORM_NAME %>').submit();
 			});
 			
 			// Add Comment
-			$('#save').click(function(e) {
+			$('#confirm').click(function(e) {
 		        //Cancel the link behavior
 		        e.preventDefault();
 		     
@@ -289,8 +290,12 @@
 		        $('#dialog').fadeIn(500); 
 			});
 			
+			$('#dialog .save').click(function () {
+				warning= false;
+			});
+			
 			//if close button is clicked
-		    $('#dialog .cancel').click(function (e) {
+		    $('#dialog .closeModal').click(function (e) {
 		        //Cancel the link behavior
 		        e.preventDefault();
 		        $('#mask, .window').hide();
@@ -827,8 +832,8 @@
         <form:textarea path="comment"/>
         <form:errors path="comment" cssClass="errorMessage" />
         <div class="modalButtons">
-        	<form:button>Save</form:button>
-        	<a href="#" class="cancel">Cancel</a>
+        	<form:button class="save">Save</form:button>
+        	<form:button class="closeModal">Cancel</form:button>
         </div>
     </div>
     <div id="mask"></div>

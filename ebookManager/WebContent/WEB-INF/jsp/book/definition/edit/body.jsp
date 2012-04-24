@@ -6,6 +6,33 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
+<script type="text/javascript">
+	var warning = true;
+	var unlockBook = function() {
+		var bookdefinitionId = ${editBookDefinitionForm.bookdefinitionId}; 
+		  $.ajax({
+			  type: "GET",
+			  url: "<%= WebConstants.MVC_BOOK_DEFINITION_UNLOCK %>",
+			  data: { id: bookdefinitionId}
+			});
+	};
+
+	window.onbeforeunload = function() { 
+	  if (warning) {
+	    return "Navigating away from this page without using the Save or Cancel button will keep the eBook Definition locked.  Please use the Save or Cancel button below to unlock the eBook Definition so other users will be able to edit.";
+	  }
+	};
+	
+	// Unlocks the book and redirects user to View Book Definition page.
+	$(document).ready(function() {
+		$('#cancel').click(function () {
+			warning = false;
+			unlockBook();
+			window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
+	    });    
+	});
+</script>
+
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 <c:choose>
 	<c:when test="${book != null}">
@@ -25,8 +52,8 @@
 								</div>
 							</div>
 							<form:button id="validate">Validate</form:button>
-							<form:button id="save">Save</form:button>
-							<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}">Cancel</a>
+							<form:button id="confirm">Save</form:button>
+							<button id="cancel">Cancel</button>
 						</div>
 					</form:form>
 				</div>
