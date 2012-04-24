@@ -82,7 +82,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		
 		Long jobInstanceId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
-		LOG.debug("Generated title metadata: " + titleMetadata);
+		LOG.debug("Generated title metadata for display name: " + titleMetadata.getDisplayName());
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
