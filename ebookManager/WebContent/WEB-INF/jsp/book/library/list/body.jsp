@@ -63,11 +63,11 @@
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
-	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
-	  </display:column>
 	  <display:column title="Proview Display Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
+	  </display:column>
+	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
 	  <display:column title="ProView Version" property="proviewVersion" />
