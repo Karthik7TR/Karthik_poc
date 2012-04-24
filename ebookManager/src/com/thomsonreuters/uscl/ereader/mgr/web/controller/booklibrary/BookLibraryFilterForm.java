@@ -78,7 +78,7 @@ public class BookLibraryFilterForm {
 	}
 
 	public void setMaterialId(String materialId) {
-		this.materialId = materialId;
+		this.materialId = materialId == null ? null : materialId.trim();
 	}
 
 	public String getProviewDisplayName() {
@@ -86,7 +86,8 @@ public class BookLibraryFilterForm {
 	}
 
 	public void setProviewDisplayName(String proviewDisplayName) {
-		this.proviewDisplayName = proviewDisplayName;
+		this.proviewDisplayName = proviewDisplayName == null ? null
+				: proviewDisplayName.trim();
 	}
 
 	public static String getFormName() {
@@ -131,7 +132,8 @@ public class BookLibraryFilterForm {
 	}
 
 	public void seteBookDefStatus(String eBookDefStatus) {
-		this.eBookDefStatus = eBookDefStatus;
+		this.eBookDefStatus = eBookDefStatus == null ? null : eBookDefStatus
+				.trim();
 	}
 
 	public String getTitleId() {
@@ -139,7 +141,7 @@ public class BookLibraryFilterForm {
 	}
 
 	public void setTitleId(String titleId) {
-		this.titleId = titleId;
+		this.titleId = titleId == null ? null : titleId.trim();
 	}
 
 	public String getIsbn() {
