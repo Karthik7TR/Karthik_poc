@@ -33,7 +33,6 @@ import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
@@ -91,44 +90,10 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 
-	/**
-	 * Returns an ArrayList of Author objects created based on values taken from a tokenized String.
-	 * 
-	 * TODO: get rid of this method and instead pull the book definition object from the JEC and use that to obtain the {@link Authors} instead.
-	 * 
-	 * @param authors the tokenized String that represents one or more authors
-	 * @return ArrayList of Author objects.
-	 */
-	@Override
-	public ArrayList<Author> createAuthors(final String authorsProperty) {
-		List<String> authornameList = Arrays.asList(authorsProperty.split("\\|"));
-		ArrayList<Author> authors = new ArrayList<Author>();
-		for(String authorName : authornameList) {
-			authors.add(new Author(authorName.trim()));
-		}
-		return authors;
-	}
-
 	@Override
 	public Asset createStylesheet(final File stylesheet) {
 		return new Asset(STYLESHEET_ID, stylesheet.getName());
 	}
-	
-//	private class ImageFilter implements FilenameFilter {
-//		@Override
-//		public boolean accept(File dir, String name) {
-//			boolean result = (StringUtils.endsWithIgnoreCase(name,"png") || StringUtils.endsWithIgnoreCase(name,"svg")) ? true : false;
-//			return result;
-//		}
-//	}
-//	
-//	private class DocumentFilter implements FilenameFilter {
-//		@Override
-//		public boolean accept(File dir, String name) {
-//			boolean result = (StringUtils.endsWithIgnoreCase(name,"htm") || StringUtils.endsWithIgnoreCase(name,"html")) ? true : false;
-//			return result;
-//		}
-//	}
 
 	@Override
 	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File documentsDirectory) {

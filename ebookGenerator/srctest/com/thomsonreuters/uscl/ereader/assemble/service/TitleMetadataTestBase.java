@@ -12,13 +12,13 @@ import org.custommonkey.xmlunit.XMLTestCase;
 
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 
 /**
  * Abstract base class which provides convenience methods to support testing.
@@ -41,9 +41,9 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
 		titleMetadata.setDisplayName("YARR - The Comprehensive Guide to &<> Plundering the Seven Seas.");
-		ArrayList<Author> authors = new ArrayList<Author>();
-		authors.add(new Author("Captain Jack Sparrow"));
-		authors.add(new Author("Davey Jones"));
+		ArrayList<String> authors = new ArrayList<String>();
+		authors.add(new String("Captain Jack Sparrow"));
+		authors.add(new String("Davey Jones"));
 		titleMetadata.setAuthors(authors);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");

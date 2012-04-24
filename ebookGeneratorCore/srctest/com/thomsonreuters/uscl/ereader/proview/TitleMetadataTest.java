@@ -54,9 +54,9 @@ public class TitleMetadataTest {
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
 		titleMetadata.setDisplayName("YARR! The Comprehensive Guide to Plundering the Seven Seas.");
-		ArrayList<Author> authors = new ArrayList<Author>();
-		authors.add(new Author("Captain Jack Sparrow"));
-		authors.add(new Author("Davey Jones"));
+		ArrayList<String> authors = new ArrayList<String>();
+		authors.add(new String("Captain Jack Sparrow"));
+		authors.add(new String("Davey Jones"));
 		titleMetadata.setAuthors(authors);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");

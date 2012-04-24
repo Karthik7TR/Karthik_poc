@@ -26,7 +26,6 @@ import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
@@ -584,9 +583,8 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 */
 	protected void writeAuthors() throws SAXException {
 		super.startElement(URI, AUTHORS_ELEMENT, AUTHORS_ELEMENT,EMPTY_ATTRIBUTES);
-		for (Author author : titleMetadata.getAuthors()){
+		for (String authorName : titleMetadata.getAuthorNames()){
 			super.startElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT, EMPTY_ATTRIBUTES);
-			String authorName = author.getName();
 			super.characters(authorName.toCharArray(), 0, authorName.length());
 			super.endElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT);
 		}

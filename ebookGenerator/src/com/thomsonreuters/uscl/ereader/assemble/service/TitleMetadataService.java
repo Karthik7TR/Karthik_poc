@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
-
 /**
  * Implementors of this interface are responsible for marshalling & unmarshalling TitleMetadata.
  * 
@@ -22,7 +20,6 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
  */
 public interface TitleMetadataService {
 	
-	public ArrayList<Author> createAuthors(final String delimitedAuthorsString);
 	public ArrayList<Asset> createAssets(final File imagesDirectory);
 	public Artwork createArtwork(final File coverImage);
 	public Asset createStylesheet(final File stylesheet);

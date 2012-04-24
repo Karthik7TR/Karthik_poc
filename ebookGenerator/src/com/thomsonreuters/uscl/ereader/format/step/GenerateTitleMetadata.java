@@ -32,7 +32,6 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
-import com.thomsonreuters.uscl.ereader.proview.Author;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 
@@ -59,7 +58,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERISON_SUBMITTED);
 		
-		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber);
+		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors());
 		String materialId = bookDefinition.getMaterialId();
 		
 		//TODO: verify that default of 1234 for material id is valid.
@@ -75,7 +74,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		}
 		
 		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
-		addAuthors(bookDefinition, titleMetadata);
+//		addAuthors(bookDefinition, titleMetadata);
 		
 		addArtwork(jobExecutionContext, titleMetadata);
 		addAssets(jobExecutionContext, titleMetadata);
@@ -169,36 +168,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		File coverArtFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
 		Artwork coverArt = titleMetadataService.createArtwork(coverArtFile); //factory method, returns Artwork.
 		titleMetadata.setArtwork(coverArt);
-	}
-
-	private void addAuthors(BookDefinition bookDefn,
-			TitleMetadata titleMetadata) {
-		
-		String authorsParameter = " ";
-        Iterator<com.thomsonreuters.uscl.ereader.core.book.domain.Author> authorIt= bookDefn.getAuthors().iterator();
-        while(authorIt.hasNext())
-        {
-        	com.thomsonreuters.uscl.ereader.core.book.domain.Author author=(com.thomsonreuters.uscl.ereader.core.book.domain.Author)authorIt.next();
-            authorsParameter = authorsParameter + author.getFullName() + "|";
-        }
-        
-        if (authorsParameter.trim().length() != 0) {
-        	authorsParameter = authorsParameter.substring(0, authorsParameter.lastIndexOf("|")).trim();
-        }
-		
-		
-		if (StringUtils.isNotBlank(authorsParameter)){
-			ArrayList<Author> authors = titleMetadataService.createAuthors(authorsParameter);
-			titleMetadata.setAuthors(authors);
-		}
-		else
-		{
-			//TODO: Remove once ProView starts accepting no authors
-			Author author = new Author(".");
-			ArrayList<Author> authors = new ArrayList<Author>();
-			authors.add(author);
-			titleMetadata.setAuthors(authors);
-		}
 	}
 
 	public void setTitleMetadataService(TitleMetadataService titleMetadataService) {

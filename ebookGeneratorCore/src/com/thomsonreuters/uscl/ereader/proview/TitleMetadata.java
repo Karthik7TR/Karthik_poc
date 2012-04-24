@@ -18,6 +18,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 
 /**
  * This class represents the metadata within a title. Instances of this class are mutable.
@@ -43,7 +44,7 @@ public class TitleMetadata implements Serializable {
 	private Artwork artwork;
 
 	private TableOfContents tableOfContents;
-	private ArrayList<Author> authors;
+	private ArrayList<String> authorNames;
 	private ArrayList<Doc> documents;
 	private ArrayList<Asset> assets;
 	private ArrayList<Feature> proviewFeatures;
@@ -58,6 +59,24 @@ public class TitleMetadata implements Serializable {
 		this.titleVersion = titleVersion;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
 		addDefaults();
+	}
+
+	public TitleMetadata(String fullyQualifiedTitleId, String versionNumber,
+			ArrayList<Feature> proviewFeatures, ArrayList<Keyword> keyWords,
+			ArrayList<Author> authors) {
+		this.titleId = fullyQualifiedTitleId;
+		this.titleVersion = versionNumber;
+		this.lastUpdated = DATE_FORMAT.format(new Date());
+		this.proviewFeatures = proviewFeatures;
+		this.keywords = keyWords;
+		this.authorNames = new ArrayList<String>();
+		if (authors.size() > 0) {
+			for (Author author : authors) {
+				this.authorNames.add(author.getFullName());
+			}
+		} else {
+			this.authorNames.add(".");
+		}
 	}
 
 	private void addDefaults() {
@@ -81,8 +100,8 @@ public class TitleMetadata implements Serializable {
 		this.proviewFeatures.add(new Feature(featureName, featureValue));
 	}
 	
-	public void setAuthors(ArrayList<Author> authors) {
-		this.authors = authors;
+	public void setAuthors(ArrayList<String> authorNames) {
+		this.authorNames = authorNames;
 	}
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
@@ -233,8 +252,8 @@ public class TitleMetadata implements Serializable {
 		return artwork;
 	}
 
-	public ArrayList<Author> getAuthors() {
-		return authors;
+	public ArrayList<String> getAuthorNames() {
+		return authorNames;
 	}
 
 	public ArrayList<Doc> getDocuments() {
@@ -251,6 +270,10 @@ public class TitleMetadata implements Serializable {
 
 	public List<FrontMatterPage> getFrontMatterPages() {
 		return frontMatterPages;
+	}
+
+	public void setProviewFeatures(ArrayList<Feature> proviewFeatures) {
+		this.proviewFeatures = proviewFeatures;
 	}
 	
 }

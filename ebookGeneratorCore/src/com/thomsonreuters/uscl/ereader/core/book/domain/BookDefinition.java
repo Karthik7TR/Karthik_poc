@@ -674,16 +674,14 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public List<Author> getAuthors() {
+	public ArrayList<Author> getAuthors() {
 		if (authors == null) {
 			authors = new java.util.LinkedHashSet<Author>();
-		}
-		
+		}	
 		// Sort by sequence numbers
-		List<Author> authorList = new ArrayList<Author>();
+		ArrayList<Author> authorList = new ArrayList<Author>();
 		authorList.addAll(authors);
-		Collections.sort(authorList);
-		
+		Collections.sort(authorList);	
 		return authorList;
 	}
 
@@ -899,7 +897,10 @@ public class BookDefinition implements Serializable {
 	@Transient
 	public ArrayList<Keyword> getKeyWords() {
 		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
-		keywords.add(new Keyword("publisher", "Thomson Reuters"));
+		Collection<KeywordTypeValue> keywordValues = getKeywordTypeValues();
+		for(KeywordTypeValue value : keywordValues) {
+			keywords.add(new Keyword(value.getKeywordTypeCode().getName(), value.getName()));
+		}		
 		return (keywords);
 	}	
 	
