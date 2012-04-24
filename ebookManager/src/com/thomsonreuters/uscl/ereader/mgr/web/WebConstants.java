@@ -76,6 +76,7 @@ public class WebConstants {
 	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
 	
 	public static final String KEY_KILL_SWITCH_CODE = "Stop all";
+	public static final String KEY_FRONT_MATTER_PREVIEW_CONTENT = "previewContent";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
@@ -113,6 +114,12 @@ public class WebConstants {
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW = "frontMatterPreview.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_TITLE = "frontMatterPreviewTitle.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_COPYRIGHT = "frontMatterPreviewCopyright.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_ADDITIONAL = "frontMatterPreviewContentAdditional.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_RESEARCH = "frontMatterPreviewResearch.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT = "frontMatterPreviewWestlawNext.mvc";
 	
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
@@ -208,6 +215,8 @@ public class WebConstants {
 	public static final String VIEW_BOOK_AUDIT = "_bookAudit";
 	public static final String VIEW_BOOK_AUDIT_DETAIL = "_bookAuditDetail";
 	public static final String VIEW_BOOK_AUDIT_LIST = "_bookAuditList";
+	public static final String VIEW_FRONT_MATTER_PREVIEW = "_bookDefinitionFrontMatterPreview";
+	public static final String VIEW_FRONT_MATTER_PREVIEW_CONTENT = "book/fmpreview/content/preview"; // "_bookDefinitionFrontMatterPreviewContent";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
 	public static final String VIEW_JOB_QUEUE = "_jobQueue";

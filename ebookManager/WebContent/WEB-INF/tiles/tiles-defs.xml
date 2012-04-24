@@ -212,6 +212,12 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/import/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/import/body.jsp"/>
 	</definition>
+	
+	<definition name="_bookDefinitionFrontMatterPreview" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/fmpreview/select/title.jsp"/>
+	  <put-attribute name="left"  value="/WEB-INF/jsp/book/fmpreview/select/left.jsp"/>
+	  <put-attribute name="body"  value="/WEB-INF/jsp/book/fmpreview/select/select.jsp"/>
+	</definition>
 
 	<definition name="_jobExecutionDetails" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/execution/title.jsp"/>

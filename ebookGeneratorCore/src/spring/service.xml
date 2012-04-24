@@ -66,6 +66,11 @@
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
 		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>
 		  
-	
+	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl"
+		  p:frontMatterTitlePageTemplateLocation="classpath:templates/frontMatterTitleTemplate.xml"
+		  p:frontMatterCopyrightPageTemplateLocation="classpath:templates/frontMatterCopyrightTemplate.xml"
+		  p:frontMatterAdditionalPagesTemplateLocation="classpath:templates/frontMatterAdditionalPagesTemplate.xml"
+		  p:frontMatterResearchAssistancePageTemplateLocation="classpath:templates/frontMatterResearchAssistanceTemplate.xml"
+		  p:frontMatterWestlawNextPageTemplateLocation="classpath:templates/frontMatterWestlawNextTemplate.xml"/>		  
 
 </beans>	
