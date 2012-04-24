@@ -56,6 +56,7 @@ public class HTMLTransforServiceIntegrationTest
     DocMetadataService mockDocMetadataService;
     DocumentMetadataAuthority mockDocumentMetadataAuthority;
     private final String testExtension = ".html";
+    File docsGuidFile;
     @Rule
     public TemporaryFolder tempDirectory = new TemporaryFolder();
 
@@ -83,6 +84,11 @@ public class HTMLTransforServiceIntegrationTest
         novusXmlFileName1 = "Id8ec0a72cfe111da9bb4a39a5015044e.html";
         novusMetadataFilename = "27-w_codesstacanvdu-NADB029C0880F11D881E9FEF4A4D44D69.xml";
         jobId = 12345L;
+        String docGuid = "sample-docs-guid.txt";
+        
+        docsGuidFile = new File(
+                HTMLTransforServiceIntegrationTest.class.getResource(docGuid).getFile());
+        
     }
 
     @Test
@@ -119,7 +125,8 @@ public class HTMLTransforServiceIntegrationTest
         throws EBookFormatException, FileNotFoundException, IOException
     {
         int count = getInternalLinkInfo1();
-        Assert.isTrue(count > 0, "Unable to transform as Table View");
+        System.out.println(count);
+        Assert.isTrue(count == 0, "Unable to transform as Table View");
     }
 
     /**
@@ -248,12 +255,14 @@ public class HTMLTransforServiceIntegrationTest
 
         Set<String> staticImages = new HashSet<String>();
         File transformedDirectory = tempDirectory.newFolder("transformed");
+        
+        
 
         File novusXml =
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority);
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority,docsGuidFile);
 
         String renderedOutput =
             IOUtils.toString(
@@ -359,7 +368,7 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority);
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority,docsGuidFile);
 
         String renderedOutput =
             IOUtils.toString(
@@ -573,7 +582,7 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFileName1).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority);
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority,docsGuidFile);
 
         String renderedOutput =
             IOUtils.toString(
