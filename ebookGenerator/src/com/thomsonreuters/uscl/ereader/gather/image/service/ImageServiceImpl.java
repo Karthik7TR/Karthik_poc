@@ -56,7 +56,7 @@ public class ImageServiceImpl implements ImageService {
 	public void fetchImageVerticalImages(final List<String> imageGuids,
 						File imageDestinationDirectory, long jobInstanceId, String titleId) throws IOException, ImageException {
 		
-		File missingImagesFile = new File(imageDestinationDirectory.getAbsolutePath(), "_img_missing_guids.txt");
+		File missingImagesFile = new File(imageDestinationDirectory.getParent(), "_img_missing_guids.txt");
 		FileOutputStream stream = new FileOutputStream(missingImagesFile);
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		int missingImageCount = 0;
