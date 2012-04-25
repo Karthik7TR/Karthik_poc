@@ -53,7 +53,7 @@
 							</div>
 							<form:button id="validate">Validate</form:button>
 							<form:button id="confirm">Save</form:button>
-							<button id="cancel">Cancel</button>
+							<button id="cancel" type="button">Cancel</button>
 						</div>
 					</form:form>
 				</div>
