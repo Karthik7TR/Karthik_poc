@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -108,17 +109,21 @@ public class GenerateEbookController {
 	 */
 	private void setModelVersion(String titleId, Model model) throws Exception {
 
-		ProviewTitleInfo proviewTitleInfo = proviewClient
-				.getLatestProviewTitleInfo(titleId);
+		try {
+			ProviewTitleInfo proviewTitleInfo = proviewClient
+					.getLatestProviewTitleInfo(titleId);
 
-		if (proviewTitleInfo == null) {
-			currentVersion = "Not published";
+			if (proviewTitleInfo == null) {
+				currentVersion = "Not published";
 
-		} else {
-			currentVersion = proviewTitleInfo.getVesrion();
+			} else {
+				currentVersion = proviewTitleInfo.getVesrion();
 
+			}
+			calculateVersionNumbers(model);
+		} catch (ProviewException e) {
+			log.debug(e);
 		}
-		calculateVersionNumbers(model);
 	}
 
 	/**
