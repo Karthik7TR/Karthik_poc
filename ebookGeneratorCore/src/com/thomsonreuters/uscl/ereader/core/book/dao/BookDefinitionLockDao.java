@@ -31,6 +31,11 @@ public interface BookDefinitionLockDao {
 	public BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey);
 
 	public void removeLock(BookDefinitionLock bookDefinitionLock) throws DataAccessException;
+	
+	/**
+	 * Removes all locks that has expired
+	 */
+	public void cleanExpiredLocks();
 
 	public void saveLock(BookDefinitionLock bookDefinitionLock);
 

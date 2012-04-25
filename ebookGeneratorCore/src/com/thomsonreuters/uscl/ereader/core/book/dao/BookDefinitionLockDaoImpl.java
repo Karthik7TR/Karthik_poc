@@ -93,6 +93,28 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao {
 		session.delete(bookDefinitionLock);
 		session.flush();
 	}
+	
+	/**
+	 * Removes all locks that has expired
+	 */
+	@SuppressWarnings("unchecked")
+	public void cleanExpiredLocks() {
+		Session session = sessionFactory.getCurrentSession();
+		// Set session timeout 
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.SECOND, -(BookDefinitionLock.LOCK_TIMEOUT_SEC));
+		
+		Criteria criteria = session.createCriteria(BookDefinitionLock.class)
+				.add(Restrictions.le("checkoutTimestamp", cal.getTime()));
+		
+		List<BookDefinitionLock> expiredLocks = criteria.list();
+		
+		for(BookDefinitionLock lock: expiredLocks) {
+			session.delete(lock);
+		}
+		
+		session.flush();
+	}
 
 	public void saveLock(BookDefinitionLock bookDefinitionLock) {
 		Session session = sessionFactory.getCurrentSession();

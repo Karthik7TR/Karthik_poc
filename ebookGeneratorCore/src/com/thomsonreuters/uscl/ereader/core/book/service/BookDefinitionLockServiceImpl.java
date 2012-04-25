@@ -78,6 +78,14 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService 
 	public BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey) {
 		return dao.findBookDefinitionLockByPrimaryKey(primaryKey);
 	}
+	
+	/**
+	 * Removes all locks that has expired
+	 */
+	@Transactional
+	public void cleanExpiredLocks() {
+		dao.cleanExpiredLocks();
+	}
 
 	@Transactional
 	public void removeLock(BookDefinition book) throws DataAccessException {

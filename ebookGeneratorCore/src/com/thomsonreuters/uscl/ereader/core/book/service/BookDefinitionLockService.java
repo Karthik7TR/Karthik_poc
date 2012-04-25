@@ -29,6 +29,11 @@ public interface BookDefinitionLockService {
 	public List<BookDefinitionLock> findAllActiveLocks();
 
 	public BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey);
+	
+	/**
+	 * Removes all locks that has expired
+	 */
+	public void cleanExpiredLocks();
 
 	/**
 	 * Remove all BookDefinitionLocks for a given bookDefinition
