@@ -71,7 +71,7 @@
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
-	  <display:column title="ProView Version" property="proviewVersion" />
+	  <display:column title="Proview Version" property="proviewVersion" />
 	  <display:column title="Proview Publish Date">
 	  	<fmt:formatDate value="${vdo.lastProviewUpdateDate}" pattern="${PROVIEW_DATE_FORMAT}"/>
 	  </display:column>
