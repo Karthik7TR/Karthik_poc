@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -44,6 +46,7 @@ public class HTMLAnchorFilterTest {
 	private final String testGuid = "NFA730F80D58A11DCBFA7F697EE59258B";
 	private final String invalidGuid = "badGuid";
 	private final String firstlineCite = "ABC";
+	private final String currentGuid = "ABC1234";
 	
 	private ImageMetadataEntity regularImgMetadata;
 	private ImageMetadataEntity largeImgMetadata;
@@ -56,12 +59,15 @@ public class HTMLAnchorFilterTest {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(true);
 		SAXParser saxParser = factory.newSAXParser();
+		HashMap<String, HashSet<String>> targetAnchors = new HashMap<String, HashSet<String>>();
 		
 		anchorFilter = new HTMLAnchorFilter();
 		anchorFilter.setjobInstanceId(testJobId);
 		anchorFilter.setFirstlineCite(firstlineCite);
 		anchorFilter.setParent(saxParser.getXMLReader());
-		
+		anchorFilter.setCurrentGuid(currentGuid);
+		anchorFilter.setTargetAnchors(targetAnchors);
+
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
 		serializer = SerializerFactory.getSerializer(props);
@@ -295,9 +301,9 @@ public class HTMLAnchorFilterTest {
 	public void testSimpleNonEmptyAnchorWithOtherAttributes() throws SAXException
 	{
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
-		
+
 		String xmlTestStr = "<test><a href=\"#co_test\" class=\"test\">Test123</a></test>";
-		String expectedResult = "<test><a href=\"#co_test\" class=\"test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"er:#ABC1234/co_test\" class=\"test\">Test123</a></test>";
 		
 		testHelper(mockImgService, xmlTestStr, expectedResult);
 	}
