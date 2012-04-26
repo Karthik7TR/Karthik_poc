@@ -19,7 +19,7 @@
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_BOOK_JOB_HISTORY%>"
-				   pagesize="5"
+				   pagesize="10"
 				   partialList="true"
 				   size="resultSize"
 				   >
