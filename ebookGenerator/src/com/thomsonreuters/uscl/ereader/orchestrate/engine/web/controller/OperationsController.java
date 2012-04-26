@@ -45,7 +45,7 @@ public class OperationsController {
 			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
 			opResponse = new JobOperationResponse(restartedJobExecutionId);
 		} catch (JobInstanceAlreadyCompleteException e) {  // Cannot restart a job that is already finished
-			Object[] args = { jobExecutionIdToRestart };
+			Object[] args = { jobExecutionIdToRestart.toString() };
 			String errorMessage = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
 			log.debug(errorMessage);
 			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, errorMessage);
@@ -72,7 +72,7 @@ public class OperationsController {
 			engineService.stopJob(jobExecutionIdToStop);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop);
 		} catch (JobExecutionNotRunningException e) {  // Cannot stop a job that is not running
-			Object[] args = { jobExecutionIdToStop };
+			Object[] args = { jobExecutionIdToStop.toString() };
 			String errorMessage = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
 			log.debug(errorMessage);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, errorMessage);
