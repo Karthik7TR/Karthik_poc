@@ -80,8 +80,8 @@ public class ImageServiceImpl implements ImageService {
 					saveImageMetadata(metadataResponse, jobInstanceId, titleId);
 				} else { // failure
 					missingImageMetadataCount++;
-					log.error(String.format(String.format("Status code %d (a failure) was returned from Image Vertical when fetching image metadata for guid [%s], error description: %s, continuing on...",
-							  serviceStatus.getStatusCode(), imageGuid, serviceStatus.getDescription())));
+					log.error(String.format("Status code %d (a failure) was returned from Image Vertical when fetching image metadata for guid [%s], error description: %s, continuing on...",
+							  serviceStatus.getStatusCode(), imageGuid, serviceStatus.getDescription()));
 					writeFailedImageGuidToFile(fileWriter, imageGuid);
 					continue;	// do not try and get the image if we could not get the metadata
 				}
