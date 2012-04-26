@@ -132,8 +132,9 @@
 		  p:urlVersion="v1"
 		  p:imageDao-ref="imageDao"
 		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"		  
-		  p:imageServiceRetryCount="3"
-		  p:imageMetaServiceRetryCount="3"/>		  
+		  p:imageServiceMaxRetries="3"
+		  p:imageMetadataServiceMaxRetries="3"
+		  p:missingImageGuidsFileBasename="missing_image_guids.txt"/>		  
 		  
 	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
 			p:docMetadataDAO-ref="docMetaDataDao"/>	

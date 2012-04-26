@@ -9,11 +9,15 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
+import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ServiceStatus;
@@ -22,9 +26,14 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadataRe
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageResponse;
 
 public class ImageServiceTest {
+	//private static final Logger log = Logger.getLogger(ImageServiceTest.class);
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static final Long JOB_INSTANCE_ID = 1965l;
 	private static final String TITLE_ID = "bogusTitleId";
 	private static final String GUID = "junitBogusGuid";
+	private static final int MAX_RETRIES = 3;
+	private static final String MISSING_GUIDS_FILE_BASENAME = "missingImageGuidsFile.txt";
 	private static final ImageMetadataEntityKey METADATA_PK = new ImageMetadataEntityKey(JOB_INSTANCE_ID, GUID);
 	private URL SERVICE_CONTEXT_URL;
 	private static String SERVICE_VERSION = "v1";
@@ -32,7 +41,6 @@ public class ImageServiceTest {
 	private ImageServiceImpl imageService;
 	private RestTemplate mockSingletonRestTemplate;
 	private ImageVerticalRestTemplateFactory mockImageVerticalRestTemplateFactory;
-	private static int IMAGE_RETRY_COUNT = 3;
 	
 	private SingleImageMetadata SINGLE_IMAGE_METADATA;
 	
@@ -48,10 +56,11 @@ public class ImageServiceTest {
 		imageService.setImageVerticalRestServiceUrl(SERVICE_CONTEXT_URL);
 		imageService.setSleepIntervalBetweenImages(500l);
 		imageService.setUrlVersion(SERVICE_VERSION);
-		imageService.setImageMetaServiceRetryCount(IMAGE_RETRY_COUNT);
-		imageService.setImageServiceRetryCount(IMAGE_RETRY_COUNT);
 		imageService.setImageDao(mockImageDao);
 		imageService.setImageVerticalRestTemplateFactory(mockImageVerticalRestTemplateFactory);
+		imageService.setMissingImageGuidsFileBasename(MISSING_GUIDS_FILE_BASENAME);
+		imageService.setImageServiceMaxRetries(MAX_RETRIES);
+		imageService.setImageMetadataServiceMaxRetries(MAX_RETRIES);
 		
 		SINGLE_IMAGE_METADATA = new SingleImageMetadata();
 		SINGLE_IMAGE_METADATA.setDimUnit("px");
@@ -65,9 +74,8 @@ public class ImageServiceTest {
 
 	@Test
 	public void testFetchImageVerticalImages() {
-		File imageFile = null;
 		try {
-			File imageDirectory = new File(System.getProperty("java.io.tmpdir"));
+			File imageDirectory = temporaryFolder.getRoot();
 			ServiceStatus serviceStatus = new ServiceStatus();
 			serviceStatus.setStatusCode(0);
 			
@@ -99,10 +107,48 @@ public class ImageServiceTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
-		} finally {
-			if (imageFile != null) {
-				imageFile.delete();
-			}
+		}
+	}
+	
+	@Test
+	public void testFetchImageVerticalDownloadFailure() {
+		try {
+			File imageDirectory = temporaryFolder.getRoot();
+			ServiceStatus serviceStatus = new ServiceStatus();
+			serviceStatus.setStatusCode(0);
+			
+			SingleImageMetadataResponse metadataResponse = new SingleImageMetadataResponse();
+			metadataResponse.setServiceStatus(serviceStatus);
+			metadataResponse.setImageMetadata(SINGLE_IMAGE_METADATA);
+			
+			ImageVerticalRestTemplate mockImageVerticalRestTemplate = EasyMock.createMock(ImageVerticalRestTemplate.class);
+			EasyMock.expect(mockSingletonRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_METADATA_URL_PATTERN,
+							SingleImageMetadataResponse.class,
+							SERVICE_CONTEXT_URL.toString(), SERVICE_VERSION, GUID)).andReturn(metadataResponse);
+			EasyMock.expect(mockImageVerticalRestTemplateFactory.create(imageDirectory, GUID, SINGLE_IMAGE_METADATA.getMediaType())).andReturn(mockImageVerticalRestTemplate);
+			EasyMock.expect(mockImageVerticalRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_URL_PATTERN,
+							SingleImageResponse.class,
+							SERVICE_CONTEXT_URL.toString(), SERVICE_VERSION, GUID))
+							.andThrow(new RestClientException("Bogus image download error")).times(MAX_RETRIES);
+			EasyMock.replay(mockSingletonRestTemplate);
+			EasyMock.replay(mockImageVerticalRestTemplateFactory);
+			EasyMock.replay(mockImageVerticalRestTemplate);
+			
+			// Invoke the object under test
+			List<String> guids = new ArrayList<String>();
+			guids.add(GUID);
+			imageService.fetchImageVerticalImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
+			
+			File missingGuidsFile = new File(imageDirectory, MISSING_GUIDS_FILE_BASENAME);
+			Assert.assertTrue("Missing image guids file exists", missingGuidsFile.exists());
+			Assert.assertTrue("Missing image guids file is not empty", missingGuidsFile.length() > 0);
+			
+			// Ensure all expected mock object methods were called in the right order
+			EasyMock.verify(mockSingletonRestTemplate);
+			EasyMock.verify(mockImageVerticalRestTemplateFactory);
+			EasyMock.verify(mockImageVerticalRestTemplate);
+		} catch (Exception e) {
+			Assert.assertTrue(e instanceof ImageException);
 		}
 	}
 

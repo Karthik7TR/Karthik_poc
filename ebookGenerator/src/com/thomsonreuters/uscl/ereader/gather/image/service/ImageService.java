@@ -35,7 +35,7 @@ public interface ImageService {
 	 * @param titleId The unique key for the book for which we are gathering images.
 	 */
 	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDestinationDirectory,
-							long jobInstanceId, String titleId) throws IOException, ImageException;
+							long jobInstanceId, String titleId) throws Exception;
 	
 	
 	/**
