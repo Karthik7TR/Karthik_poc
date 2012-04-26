@@ -80,7 +80,7 @@ public class TocServiceTest {
 		children = getChildNodes(5, 'a', 999).toArray(new TOCNode[]{});
 //		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
 		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
-		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
+		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
 		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
@@ -134,6 +134,52 @@ public class TocServiceTest {
 		EasyMock.verify(mockToc);
 	}
 	
+	@Test (expected=GatherException.class)
+	public void testGetTocDataFromNovusWithNoName() throws Exception {
+
+		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
+
+		// Record expected calls
+		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();		
+		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
+		mockToc.setCollection(COLLECTION_NAME);
+		mockToc.setShowChildrenCount(true);
+		TOCNode[] children = new TOCNode[]{};
+
+		mockTocRootNode = mockTocNode;
+		
+		children = getChildNodes(5, 'a', 999).toArray(new TOCNode[]{});
+		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
+		EasyMock.expect(mockTocNode.getName()).andReturn(null).times(2); // No Name node
+		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
+		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
+		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
+		EasyMock.expect(mockTocNode.getChildren()).andReturn(children).anyTimes();
+	
+		
+		mockNovus.shutdownMQ();
+		tocDir.mkdirs();
+
+		// Set up for replay
+		EasyMock.replay(mockNovusFactory);
+		EasyMock.replay(mockNovus);
+		EasyMock.replay(mockToc);
+		EasyMock.replay(mockTocNode);
+		EasyMock.replay(mockNovusUtility);		
+
+		try {
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+		} 
+		finally {
+			// Temporary file will clean up after itself.
+		}
+		
+		EasyMock.verify(mockNovusFactory);
+		EasyMock.verify(mockNovus);
+		EasyMock.verify(mockToc);
+	}
+	
 	@Test
 	public void testGetTocDataSkipNodesFromNovus() throws Exception {
 
@@ -158,7 +204,7 @@ public class TocServiceTest {
 		children = getChildNodes(5, 'a', 1).toArray(new TOCNode[]{});
 //		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
 		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
-		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
+		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
 		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
@@ -262,7 +308,7 @@ public class TocServiceTest {
 		for (int i=0; i< maxChildren; i++) {
 			
 			TOCNode child = EasyMock.createMock(TOCNode.class);
-			EasyMock.expect(child.getName()).andReturn("Child " + i + prefix);
+			EasyMock.expect(child.getName()).andReturn("Child " + i + prefix).anyTimes();
 			if (i == skipDoc )
 			{
 				EasyMock.expect(child.getDocGuid()).andReturn(null).times(2);

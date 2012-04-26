@@ -151,6 +151,15 @@ public class TocServiceImpl implements TocService {
 		if (node != null) {
 			docFound = false;
 			StringBuffer name = new StringBuffer();
+			if (node.getName() == null ) // Fail with empty Name
+			{
+				String err = "Failed with empty node Name for guid " + node.getGuid();
+					LOG.error(err);
+			GatherException ge = new GatherException(
+					err,
+					GatherResponse.CODE_NOVUS_ERROR);
+				throw ge;
+			}
 			name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
 					.append(EBConstants.TOC_START_NAME_ELEMENT)
 					.append(node.getName().replaceAll("\\<.*?>", ""))
