@@ -52,6 +52,7 @@
 
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<c:set var="DATE_FORMAT" value="MM/dd/yy HH:mm:ss"/>
+	<c:set var="PROVIEW_DATE_FORMAT" value="MM/dd/yy"/>
 	<%-- Table of book library --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
@@ -71,10 +72,10 @@
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
 	  <display:column title="ProView Version" property="proviewVersion" />
-	  <display:column title="Last Proview Publish Date" sortable="true" sortName="publishEndTimestamp">
-	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="Proview Publish Date">
+	  	<fmt:formatDate value="${vdo.lastProviewUpdateDate}" pattern="${PROVIEW_DATE_FORMAT}"/>
 	  </display:column>
-	  <display:column title="Last Manger Generate Date" sortable="true" sortName="publishEndTimestamp">
+	  <display:column title="Last Generate Date/Time" sortable="true" sortName="publishEndTimestamp">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
