@@ -5,6 +5,7 @@
 */
 package com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -25,6 +26,8 @@ import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGen
  */
 public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 {
+	private static final Logger LOG = Logger.getLogger(FrontMatterAdditionalFrontMatterPageFilter.class);
+	
 	/** Names of all the placeholder tags this filter handles */
 	private static final String ADDITIONAL_HEADING_ANCHOR_TAG = "frontMatterPlaceholder_AdditionalPageAnchor";
 	private static final String ADDITIONAL_TITLE_PAGE_TAG = "frontMatterPlaceholder_additionFrontMatterTitle";
@@ -46,7 +49,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 	private static final boolean SINGLE_LINE_FIELD = false;
 	
 	private FrontMatterPage frontMatterPage;
-	private long FRONT_MATTER_PAGE_ID;
+	private Long FRONT_MATTER_PAGE_ID;
 	
 	public FrontMatterAdditionalFrontMatterPageFilter(BookDefinition bookDefinition, Long FRONT_MATTER_PAGE_ID)
 		throws EBookFrontMatterGenerationException
@@ -54,7 +57,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 		this.FRONT_MATTER_PAGE_ID = FRONT_MATTER_PAGE_ID;
 		for (FrontMatterPage fmp : bookDefinition.getFrontMatterPages())
 		{	
-			if (fmp.getId() == FRONT_MATTER_PAGE_ID)
+			if (fmp.getId().equals(FRONT_MATTER_PAGE_ID))
 			{
 				this.frontMatterPage = fmp;
 				break;
@@ -63,8 +66,10 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 		
 		if (this.frontMatterPage == null)
 		{
-			throw new EBookFrontMatterGenerationException("Could not retrieve additional front matter page with id: " 
-					+ FRONT_MATTER_PAGE_ID);
+			String message = "Could not retrieve additional front matter page with id: " 
+					+ FRONT_MATTER_PAGE_ID;
+			LOG.error(message);
+			throw new EBookFrontMatterGenerationException(message);
 		}
 	}
 	
