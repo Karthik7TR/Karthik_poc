@@ -132,6 +132,7 @@
 	<!-- Define each task here -->
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask"
+				p:environmentName-ref="environmentName"
 				p:rootWorkDirectory="/apps/eBookBuilder"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:ebookAuditService-ref="eBookAuditService"

@@ -41,6 +41,7 @@ public class InitializeTask extends AbstractSbTasklet {
 	static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
 
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
+	private String environmentName;
 	private PublishingStatsService publishingStatsService;
 	private EBookAuditService eBookAuditService;
 	private BookDefinitionService bookDefnService;
@@ -81,7 +82,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
 		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
-		String dynamicPath = "data/" + String.format("%s/%s/%d", 
+		String dynamicPath = String.format("%s/data/%s/%s/%d", environmentName, 
 				new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
@@ -229,7 +230,10 @@ public class InitializeTask extends AbstractSbTasklet {
 	public void setRootWorkDirectory(File rootDir) {
 		this.rootWorkDirectory = rootDir;
 	}
-
+	@Required
+	public void setEnvironmentName(String envName) {
+		this.environmentName = envName;
+	}
 	@Required
 	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
 		this.publishingStatsService = publishingStatsService;
