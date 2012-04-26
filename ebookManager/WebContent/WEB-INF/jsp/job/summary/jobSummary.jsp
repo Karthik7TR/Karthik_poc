@@ -96,15 +96,8 @@ function submitJobSummaryForm(command) {
 
 	<%-- Only display row related UI controls if some rows are present. --%>	
 	<c:if test="${fn:length(paginatedList.list) != 0}">
-	
-	<%-- STOP and RESTART buttons are only available to a user in a SUPERUSER role --%> 
-	<c:set var="operationsDisabled" value="disabled"/>
-	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-		<c:set var="operationsDisabled" value=""/>
-	</sec:authorize>
-	<input type="button" ${operationsDisabled} value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
-
-	<input type="button" ${operationsDisabled} value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
+	  <input type="button" value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+	  <input type="button" value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
 	</c:if>  <%-- if (table row count > 0) --%>
 </form:form>
 

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
@@ -45,6 +44,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	private ManagerService managerService;
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;
+	private JobExecutionController jobExecutionController;
 
 	@InitBinder(JobSummaryForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -125,27 +125,34 @@ public class JobSummaryController extends BaseJobSummaryController {
 
 		if (!errors.hasErrors()) {
 			JobCommand command = form.getJobCommand();
-			try {
-			switch (command) {
-				case RESTART_JOB:
-					for (Long jobExecutionId : form.getJobExecutionIds()) {
-						JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
-						JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+			String mesgCode = null;  // resource bundle message key/code
+			for (Long jobExecutionId : form.getJobExecutionIds()) {
+				try {
+					JobOperationResponse jobOperationResponse = null;
+					switch (command) {
+						case RESTART_JOB:
+								mesgCode = "job.restart.fail";
+								if (jobExecutionController.authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_RESTART, messages)) {
+									jobOperationResponse = managerService.restartJob(jobExecutionId);
+									JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+								}
+							break;
+						case STOP_JOB:
+								mesgCode = "job.stop.fail";
+								if (jobExecutionController.authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_STOP, messages)) {
+									jobOperationResponse = managerService.stopJob(jobExecutionId);
+									JobExecutionController.handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+								}
+							break;
+						default:
+							throw new IllegalArgumentException("Programming error - Unexpected command: " + command);
 					}
-					break;
-				case STOP_JOB:
-					for (Long jobExecutionId : form.getJobExecutionIds()) {
-						JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-						JobExecutionController.handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
-					}
-					break;
-				default:
-					throw new IllegalArgumentException("Unexpected command: " + command);
-			}
-			} catch (HttpClientErrorException e) {
-				messages.add(createRestExceptionMessage(e, messageSourceAccessor));
-				log.error("Could not complete ebookGenerator REST request", e);
-			}
+				} catch (Exception e) {
+					InfoMessage errorMessage = createRestExceptionMessage(mesgCode, jobExecutionId, e, messageSourceAccessor);
+					log.error(errorMessage.getText(), e);
+					messages.add(errorMessage);
+				}
+			} // end of for-loop
 		}
 		
 		// Restore state of paging and sorting
@@ -188,14 +195,16 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 * @param cause the exception thrown
 	 * @return a new informational message suitable for display
 	 */
-	public static InfoMessage createRestExceptionMessage(Throwable cause, MessageSourceAccessor messageSourceAccessor) {
-		String[] args = { cause.getMessage() };
-		String messageText = messageSourceAccessor.getMessage("job.operation.fail", args);
+	public static InfoMessage createRestExceptionMessage(String mesgCode, Long id, Throwable cause, MessageSourceAccessor messageSourceAccessor) {
+		String[] args = { id.toString(), cause.getMessage() };
+		String messageText = messageSourceAccessor.getMessage(mesgCode, args);
 		return new InfoMessage(Type.ERROR, messageText);
 	}
 	
-
-
+	@Required
+	public void setJobExecutionController(JobExecutionController controller) {
+		this.jobExecutionController = controller;
+	}
 	@Required
 	public void setManagerService(ManagerService service) {
 		this.managerService = service;

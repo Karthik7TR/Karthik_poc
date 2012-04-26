@@ -15,14 +15,27 @@
 
 <body>
 
+<%-- Error message if find of book def failed --%>
+<c:if test="${errMessage != null}">
+<div>
+	${errMessage.text}
+</div>
+</c:if>
+
+<%-- Do not display the links if there is no book ID --%>
+<c:if test="${book != null}">
 ${book.frontMatterTocLabel}<br/>
 <div style="padding-left:2em">
-	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>?id=${id}">TITLE PAGE</a><br/>
-	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>?id=${id}">COPYRIGHT PAGE</a><br/>
-	TODO: all additional front matter here...<br/>
-	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>?id=${id}">ADDITIONAL INFO OR RESEARCH ASSISTANCE</a><br/>
-	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT%>?id=${id}">WestlawNext</a><br/>
+	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>?id=${book.ebookDefinitionId}">TITLE PAGE</a><br/>
+	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>?id=${book.ebookDefinitionId}">COPYRIGHT PAGE</a><br/>
+	<c:forEach items="${book.frontMatterPages}" var="page">
+		<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL%>?bookDefinitionId=${book.ebookDefinitionId}&frontMatterPageId=${page.id}">${page.pageTocLabel}</a><br/>
+	</c:forEach>
+	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>?id=${book.ebookDefinitionId}">ADDITIONAL INFO OR RESEARCH ASSISTANCE</a><br/>
+	<a href="<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT%>?id=${book.ebookDefinitionId}">WestlawNext</a><br/>
 </div>
+</c:if>
+
 </body>
 
 </html>

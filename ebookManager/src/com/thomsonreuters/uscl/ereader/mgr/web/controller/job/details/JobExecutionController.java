@@ -52,6 +52,8 @@ public class JobExecutionController {
 	private static final String CODE_JOB_STOP_SUCCESS = "job.stop.success";
 	private static final String CODE_JOB_STOP_FAIL = "job.stop.fail";
 	private static final String CODE_JOB_OPERATION_NO_RESPONSE = "job.operation.no.response";
+	public static final String LABEL_RESTART = "restart";
+	public static final String LABEL_STOP = "stop";
 	
 	private JobService jobService;
 	private ManagerService managerService;
@@ -72,7 +74,6 @@ public class JobExecutionController {
 	public ModelAndView inboundGet(HttpServletRequest request,
 							  @RequestParam Long jobExecutionId,
 							  Model model) throws Exception {
-		log.debug(">>> jobExecutionId="+jobExecutionId);
 		JobExecutionVdo vdo = createJobExecutionVdo(jobExecutionId);
 		populateModel(model, vdo);
 		model.addAttribute(JobExecutionForm.FORM_NAME, new JobExecutionForm());
@@ -86,7 +87,6 @@ public class JobExecutionController {
 	public ModelAndView handlePost(@ModelAttribute(JobExecutionForm.FORM_NAME) @Valid JobExecutionForm form,
 							   BindingResult bindingResult,
 							   Model model) {
-		log.debug(form);
 		JobExecutionVdo vdo = null;
 		if (!bindingResult.hasErrors()) {
 			vdo = createJobExecutionVdo(form.getJobExecutionId());
@@ -109,16 +109,16 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession,
 								   @RequestParam Long jobExecutionId, Model model) throws Exception {
-		log.debug(">>> jobExecutionId="+jobExecutionId);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		if (authorizedForJobOperation(jobExecutionId, "RESTART", messages)) {
+		if (authorizedForJobOperation(jobExecutionId, LABEL_RESTART, messages)) {
 			try {
 				JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
 				handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 				Thread.sleep(1);
 			} catch (HttpClientErrorException e) {
-				log.error("REST error restarting job: " + jobExecutionId, e);
-				messages.add(JobSummaryController.createRestExceptionMessage(e, messageSourceAccessor));
+				InfoMessage errorMessage = JobSummaryController.createRestExceptionMessage("job.restart.fail", jobExecutionId, e, messageSourceAccessor);
+				messages.add(errorMessage);
+				log.warn(errorMessage.getText());
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
@@ -133,16 +133,16 @@ public class JobExecutionController {
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession,
 								@RequestParam Long jobExecutionId, Model model) throws Exception {
-		log.debug(">>> jobExecutionId="+jobExecutionId);
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		if (authorizedForJobOperation(jobExecutionId, "STOP", messages)) {
+		if (authorizedForJobOperation(jobExecutionId, LABEL_STOP, messages)) {
 			try {
 				JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
 				handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
 				Thread.sleep(1);
 			} catch (HttpClientErrorException e) {
-				log.error("REST error stopping job: " + jobExecutionId, e);
-				messages.add(JobSummaryController.createRestExceptionMessage(e, messageSourceAccessor));
+				InfoMessage errorMessage = JobSummaryController.createRestExceptionMessage("job.stop.fail", jobExecutionId, e, messageSourceAccessor);
+				messages.add(errorMessage);
+				log.warn(errorMessage.getText());
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
@@ -211,7 +211,7 @@ public class JobExecutionController {
 		return vdo;
 	}
 	
-	private boolean authorizedForJobOperation(Long jobExecutionId, String operation, List<InfoMessage> messages) {
+	public boolean authorizedForJobOperation(Long jobExecutionId, String operation, List<InfoMessage> messages) {
 		JobExecutionVdo vdo = createJobExecutionVdo(jobExecutionId);
 		if (vdo.getJobExecution() == null) {
 			Object[] args = { jobExecutionId.toString()};
