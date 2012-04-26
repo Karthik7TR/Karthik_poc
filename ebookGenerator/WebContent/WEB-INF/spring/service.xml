@@ -81,6 +81,26 @@
 	<bean id="postTransformFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
   		  p:filter-ref="postTransformFileFilter"/>
 
+	<bean id="postAnchorFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.postanchor</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postAnchorFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postAnchorFileFilter"/>
+  		  
+	<bean id="postUnlinkFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.postunlink</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postUnlinkFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postUnlinkFileFilter"/>
+  		  
 	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
 		  p:docMetadataService-ref="docMetadataService"
 		  p:xsltMapperService-ref="xsltMapperService"
@@ -96,9 +116,17 @@
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
 		  p:imgService-ref="imageService"
   		  p:docMetadataService-ref="docMetadataService"/>
+  		  
+	<bean id="htmlCreateNamedAnchorsInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsInternalLinksServiceImpl"
+		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"
+  		  p:docMetadataService-ref="docMetadataService"/>  		
+  	<bean id="htmlRemoveBrokenInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksServiceImpl"
+		  p:fileHandlingHelper-ref="postAnchorFileHandlingHelper"
+  		  p:docMetadataService-ref="docMetadataService"/>  	
+  		  	  
 	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
 		  p:keyCiteBlockGenerationService-ref="keyCiteBlockGenerationService"
-		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"/>
+		  p:fileHandlingHelper-ref="postUnlinkFileHandlingHelper"/>
 	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
 		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
 	<bean id="titleMetadataAnchorUpdateService" class="com.thomsonreuters.uscl.ereader.format.service.TitleMetadataAnchorUpdateServiceImpl"/>

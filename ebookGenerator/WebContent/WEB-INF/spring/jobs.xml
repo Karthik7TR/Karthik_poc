@@ -79,9 +79,23 @@
 		<!-- Cleanup or modify any HTML elements that need to be changed for ProView -->
 		<step id="formatHTMLTransformer">
 			<tasklet ref="formatHTMLTransformerTask"/>
-			<next on="COMPLETED" to="formatAddHTMLWrapper"/>
+			<next on="COMPLETED" to="formatHTMLCreateNamedAnchorsInternalLinksTransformer"/>
 			<fail on="FAILED"/>
 		</step>
+		
+		<!-- Add missing HTML anchor elements for ProView internal linking -->
+        <step id="formatHTMLCreateNamedAnchorsInternalLinksTransformer">
+                  <tasklet ref="formatHTMLCreateNamedAnchorsInternalLinksTask"/>
+                  <next on="COMPLETED" to="formatHTMLRemoveBrokenInternalLinksTransformer"/>
+                  <fail on="FAILED"/>
+        </step>
+        
+		<!-- Remove HTML anchor elements for broken anchors for ProView internal linking -->
+        <step id="formatHTMLRemoveBrokenInternalLinksTransformer">
+                  <tasklet ref="formatHTMLRemoveBrokenInternalLinksTask"/>
+                  <next on="COMPLETED" to="formatAddHTMLWrapper"/>
+                  <fail on="FAILED"/>
+        </step>		
 		
 		<!-- Wrap HTML in required HTML header and footer -->
 		<step id="formatAddHTMLWrapper">
@@ -163,6 +177,12 @@
 				p:bookDefnService-ref="bookDefinitionService"/>
 	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform"
 				p:transformerService-ref="htmlTransformerService"/>
+				
+	<beans:bean id="formatHTMLCreateNamedAnchorsInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchorsInternalLinks"
+				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsInternalLinksService"/>
+	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks"
+				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
+				
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper"
 				p:bookDefnService-ref="bookDefinitionService"
 				p:htmlWrapperService-ref="htmlWrapperService"/>

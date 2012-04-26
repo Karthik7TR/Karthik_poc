@@ -134,12 +134,16 @@ public class InitializeTask extends AbstractSbTasklet {
 		File transformedDirectory = new File(formatDirectory, "Transformed");
 		File formatImageMetadataDirectory = new File(formatDirectory, "ImageMetadata");
 		File postTransformDirectory = new File(formatDirectory, "PostTransform");
+		File createdLinksTransformDirectory = new File(formatDirectory, "CreatedLinksTransform");
+		File fixedTransformDirectory = new File(formatDirectory, "FixedTransform");
 		File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
 		File frontMatterHTMLDiretory = new File(formatDirectory, "FrontMatterHTML");
 		formatDirectory.mkdir();
 		transformedDirectory.mkdir();
 		formatImageMetadataDirectory.mkdir();
 		postTransformDirectory.mkdir();
+		createdLinksTransformDirectory.mkdir();
+		fixedTransformDirectory.mkdir();
 		htmlWrapperDirectory.mkdir();
 		frontMatterHTMLDiretory.mkdir();
 		File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
@@ -189,6 +193,10 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.FORMAT_IMAGE_METADATA_DIR, formatImageMetadataDirectory.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_CREATED_DIR, createdLinksTransformDirectory.getAbsolutePath());
+		jobExecutionContext.putString(
+				JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_FIXED_DIR, fixedTransformDirectory.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.FORMAT_HTML_WRAPPER_DIR, htmlWrapperDirectory.getAbsolutePath());
 		jobExecutionContext.putString(

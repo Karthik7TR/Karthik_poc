@@ -5,9 +5,11 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -37,11 +39,28 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	
 	private long jobInstanceId;
 	
-	private ArrayList<String> nameAnchors;
+    private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
+	private HashSet<String> nameAnchors;
+	private HashMap<String, HashSet<String>> targetAnchors;
+	private static final Logger LOG = Logger.getLogger(HTMLAnchorFilter.class);
+
+	private String currentGuid;
+	
+
 	private int dupEncountered = 0;
 
 	private String firstlineCite;
 	
+
+	public void setTargetAnchors(HashMap<String, HashSet<String>> targetAnchors )
+	{
+		this.targetAnchors = targetAnchors;
+	}
+	public HashMap<String, HashSet<String>> getTargetAnchors()
+	{
+		return targetAnchors;
+	}
+
 	public void setimgService(ImageService imgService)
 	{
 		this.imgService = imgService;
@@ -60,6 +79,16 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	public void setImgMaxHeight(long maxHeight)
 	{
 		this.imgMaxHeight = maxHeight;
+	}
+
+	public String getCurrentGuid() 
+	{
+		return currentGuid;
+	}
+
+	public void setCurrentGuid(String currentGuid) 
+	{
+		this.currentGuid = currentGuid;
 	}
 	
 	public long getImgMaxHeight()
@@ -152,11 +181,53 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 					}
 					else
 					{	
+						String attsIdValue = atts.getValue("id");
+						String attsHrefValue = atts.getValue("href");
+						// set href to er:#docFamilyGuid/namedAnchor
+						if(attsHrefValue != null && attsHrefValue.startsWith("#"))
+							{
+//                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
+							attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(1) ;
+
+//                              And then add to Target list.
+							HashSet<String> anchorSet = targetAnchors.get(currentGuid);
+							if (anchorSet == null)
+							{
+								anchorSet = new HashSet<String>();
+							}
+							anchorSet.add(attsHrefValue);
+							targetAnchors.put(currentGuid, anchorSet );
+								
+							}
+						else if(attsHrefValue != null && attsHrefValue.startsWith("er:#") )
+							{
+							if (!attsHrefValue.contains("/"))
+							{
+								//TODO: throw error for this scenario
+								LOG.error("Internal link was badly formed. " + attsHrefValue +
+										" was changed to er:#"+ currentGuid +"/" +attsHrefValue.substring(4));
+
+//                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
+								attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(4) ;
+							}
+
+							//                          Add to Target list.	
+								String guidLink = attsHrefValue.substring(4,attsHrefValue.indexOf("/"));
+								HashSet<String> anchorSet = targetAnchors.get(guidLink);
+								if (anchorSet == null)
+								{
+									anchorSet = new HashSet<String>();
+								}
+								anchorSet.add(attsHrefValue);
+								targetAnchors.put(guidLink, anchorSet );
+
+							}
+						
 						// Dedupe id Anchor Names
-						if( nameAnchors != null && atts.getValue("id") != null && nameAnchors.contains(atts.getValue("id")))
+						if( nameAnchors != null && attsIdValue != null && nameAnchors.contains(atts.getValue("id")))
 						{
 							dupEncountered++;
-							String idAnchor = atts.getValue("id") + "dup" + dupEncountered ;
+							String idAnchor = attsIdValue + "dup" + dupEncountered ;
 							
 							AttributesImpl newAtts = new AttributesImpl(atts);
 							
@@ -165,19 +236,31 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							{
 								newAtts.setAttribute(indexId, "", "", "id", "CDATA", idAnchor);
 							}
+							if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(newAtts.getValue("href")))
+							{
+								int indexHrefId = newAtts.getIndex("href");
+								newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
+							}
 							super.startElement(uri, localName, qName, newAtts);
 						}
 						else
 						{
 							if(nameAnchors == null)
 							{
-								nameAnchors = new ArrayList<String>();
+								nameAnchors = new HashSet<String>();
 							}
-							if (atts.getValue("id")!= null)
+							if (attsIdValue != null)
 							{
-								nameAnchors.add(atts.getValue("id"));
+								nameAnchors.add(attsIdValue);
 							}	
-							super.startElement(uri, localName, qName, atts);
+							AttributesImpl newAtts = new AttributesImpl(atts);
+							
+							if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(newAtts.getValue("href")))
+							{
+								int indexHrefId = newAtts.getIndex("href");
+								newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
+							}
+							super.startElement(uri, localName, qName, newAtts);
 						}						
 					}
 				}

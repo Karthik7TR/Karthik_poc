@@ -5,22 +5,26 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -38,6 +42,7 @@ import org.xml.sax.SAXException;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLIdFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
@@ -47,6 +52,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
@@ -55,27 +61,18 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLTransformerServiceImpl implements HTMLTransformerService
+public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreateNamedAnchorsInternalLinksService
 {
-	private static final Logger LOG = Logger.getLogger(HTMLTransformerServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(HTMLCreateNamedAnchorsInternalLinksServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
-	private ImageService imgService;
 	private DocMetadataService docMetadataService;
-	
-	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">";
-	private static final String END_WRAPPER_TAG = "</div>";
-	
+		
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
 	}
-	
-	public void setimgService(ImageService imgService)
-	{
-		this.imgService = imgService;
-	}
-	
+		
 	public void setdocMetadataService(DocMetadataService docMetadataService)
 	{
 		this.docMetadataService = docMetadataService;
@@ -87,17 +84,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * 
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
-	 * @param staticImgList target file to which a list of referenced static files will be written out to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
-	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final boolean isTableViewRequired, 
-			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile) throws EBookFormatException
+	public int transformHTML(final File srcDir, final File targetDir, 
+			final String title, final Long jobId) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -109,6 +104,10 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		
 		try
 		{
+			FileExtensionFilter fileExtFilter = new FileExtensionFilter();
+			fileExtFilter.setAcceptedFileExtensions(new String[]{"posttransform"}); // lowercase compare
+			fileHandlingHelper.setFilter(fileExtFilter);
+
 			fileHandlingHelper.getFileList(srcDir, htmlFiles);
 		}
         catch(FileNotFoundException e)
@@ -124,26 +123,23 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			targetDir.mkdirs();
 		}
 		
-		LOG.info("Applying post transformations on transformed files...");
-		
-		Set<String> staticImages = new HashSet<String>();
-		
-		targetAnchors = new HashMap<String, HashSet<String>>();
+		LOG.info("Fixing named anchors on post transformed files...");
 		
 		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
-		//TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
-		//There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
+
+		File anchorTargetListFile = new File(srcDir.getAbsolutePath(), "anchorTargetFile");
+		
+		HashMap<String, HashSet<String>>  targetAnchors = readTargetAnchorFile(anchorTargetListFile);
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile);
+			transformHTMLFile(htmlFile, targetDir,  title, jobId, documentMetadataAuthority,targetAnchors);
 			numDocs++;
 		}
 		
-		createStaticImageList(staticImgList, staticImages);
-		File anchorTargetFile = new File(targetDir.getAbsolutePath(), "anchorTargetFile");
-		createAnchorTargetList(anchorTargetFile, targetAnchors);
-
+		File anchorTargetUnlinkFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile");
+		createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
+		
 		LOG.info("Post transformations successfully applied to " + numDocs + " files.");
 		return numDocs;
 	}
@@ -155,15 +151,14 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * 
 	 * @param sourceFile source file to be transformed
 	 * @param targetDir target directory where the resulting post transformation file is to be written
-	 * @param staticImgRef set to which a list of referenced static files will be added to
 	 * @param titleID title of the book being published
 	 * @param jobIdentifier identifier of the job that will be used to retrieve the image metadata
 	 * @param documentMetadataAuthority 
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile) throws EBookFormatException
+	protected void transformHTMLFile(File sourceFile, File targetDir, 
+			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -175,75 +170,40 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		try
 		{
 			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
-		
+			
 			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
 					titleID, jobIdentifier, guid);
-			
-			String firstlineCite = "";
-			if (docMetadata != null)
-			{
-				firstlineCite = docMetadata.getNormalizedFirstlineCite();
-			}
 			
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setNamespaceAware(true);
 			SAXParser saxParser = factory.newSAXParser();
-			
-			HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
-			emptyH2Filter.setParent(saxParser.getXMLReader());
-			
-			HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
-			tableFilter.setParent(emptyH2Filter);
-			
-			HTMLImageFilter imageFilter = new HTMLImageFilter();
-			imageFilter.setStaticImageRefs(staticImgRef);
-			imageFilter.setParent(tableFilter);
-
-			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
-			piZapperFilter.setParent(imageFilter);
-			
-			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile);
-			internalLinkResolverFilter.setParent(piZapperFilter);
-			
-			HTMLInputFilter inputFilter = new HTMLInputFilter();
-			inputFilter.setParent(internalLinkResolverFilter);
-			
-			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
-			anchorFilter.setimgService(imgService);
-			anchorFilter.setjobInstanceId(jobIdentifier);
-			anchorFilter.setFirstlineCite(firstlineCite);
-			anchorFilter.setParent(inputFilter);
-			anchorFilter.setTargetAnchors(targetAnchors);
+						
+			HTMLIdFilter anchorIdFilter = new HTMLIdFilter();
+			anchorIdFilter.setParent(saxParser.getXMLReader());
 			if (docMetadata != null)
 			{
-				anchorFilter.setCurrentGuid(docMetadata.getDocFamilyUuid());
+				anchorIdFilter.setCurrentGuid(docMetadata.getDocFamilyUuid());
 			}
 			else
 			{
-				anchorFilter.setCurrentGuid(guid);
+				anchorIdFilter.setCurrentGuid(guid);
 			}
-	
-			
+			anchorIdFilter.setTargetAnchors(targetAnchors);
+						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
 			
 			Serializer serializer = SerializerFactory.getSerializer(props);
 			outStream = new FileOutputStream(
-					new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform"));
+					new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postAnchor"));
 			serializer.setOutputStream(outStream);
 			
-			anchorFilter.setContentHandler(serializer.asContentHandler());
+			anchorIdFilter.setContentHandler(serializer.asContentHandler());
 			
 			inStream = new FileInputStream(sourceFile);
-			intermediateStream = new SequenceInputStream(
-					new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()), inStream);
-			wrappedStream = new SequenceInputStream(intermediateStream, 
-					new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
 
-			anchorFilter.parse(new InputSource(wrappedStream));
+			anchorIdFilter.parse(new InputSource(inStream));
 			
-			targetAnchors.putAll(anchorFilter.getTargetAnchors());
-
 			LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
 		}
 		catch(IOException e)
@@ -291,58 +251,71 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			}
 		}
 	}
-	
-	/**
-	 * Takes in a list of static images and writes them to the specified file.
-	 * 
-	 * @param imgListFile file to which the list will be written to
-	 * @param imgFileNames a set of static image file names to be written
-	 */
-	protected void createStaticImageList(File imgListFile, Set<String> imgFileNames) 
-			throws EBookFormatException
+	protected HashMap<String, HashSet<String>> readTargetAnchorFile(File anchorTargetListFile) throws EBookFormatException
 	{
-		BufferedWriter writer = null;
-		try
+		HashMap<String, HashSet<String>> anchors = new HashMap<String, HashSet<String>>();
+		if (anchorTargetListFile.length() == 0)
 		{
-			LOG.info("Writing static images to " + imgListFile.getAbsolutePath() + " file...");
-			writer = new BufferedWriter(new FileWriter(imgListFile));
-			for (String fileName : imgFileNames)
-			{
-				if (StringUtils.isEmpty(fileName))
-				{
-					String message = "Invalid image file name encountered: " + fileName;
-					LOG.error(message);
-					throw new EBookFormatException(message);
-				}
-				
-				writer.write(fileName);
-				writer.newLine();
-			}
-			LOG.info(imgFileNames.size() + " image references written successfuly to file.");
+			return null;
 		}
-		catch(IOException e)
+		else 
 		{
-			String message = "Could not write to the static image list file: " + 
-					imgListFile.getAbsolutePath();
-			LOG.error(message);
-			throw new EBookFormatException(message, e);
-		}		
-		finally
-		{
+			BufferedReader reader = null;
 			try
 			{
-				if (writer != null)
+				LOG.info("Reading in anchor map file...");
+				reader = new BufferedReader(new FileReader(anchorTargetListFile));
+				String input = reader.readLine();
+				while (input != null)
 				{
-					writer.close();
+					String[] line = input.split(",", -1);
+					if (!line[1].equals(""))
+					{
+						HashSet<String> anchorSet = new HashSet<String>();
+						String[] anchorList = line[1].split("\\|");
+						for (String anchorVal : anchorList)
+						{
+							anchorSet.add(anchorVal);
+						}
+						anchors.put(line[0], anchorSet);
+					}
+					else
+					{
+						String message = "Please verify that each document GUID in the following file has " +
+								"at least one anchor associated with it: " + 
+								anchorTargetListFile.getAbsolutePath();
+						LOG.error(message);
+						throw new EBookFormatException(message);
+					}
+					input = reader.readLine();
+				}
+				LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
+			}
+			catch(IOException e)
+			{
+				String message = "Could not read the DOC guid to anchors file: " + 
+					anchorTargetListFile.getAbsolutePath();
+				LOG.error(message);
+				throw new EBookFormatException(message, e);
+			}
+			finally
+			{
+				try
+				{
+					if (reader != null)
+					{
+						reader.close();
+					}
+				}
+				catch (IOException e)
+				{
+					LOG.error("Unable to close file reader.", e);
 				}
 			}
-			catch (IOException e)
-			{
-				LOG.error("Unable to close static image list file.", e);
-			}
 		}
+		return anchors;
+		
 	}
-	
 	/**
 	 * Takes in a list of guids and a set of target anchors and writes them to the specified file.
 	 * 
@@ -361,16 +334,19 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			for (Entry<String, HashSet<String>> guidAnchorEntry : targetAnchors.entrySet())
 			{
 				
+				if (guidAnchorEntry.getValue().size() > 0)
+				{
 				writer.write(guidAnchorEntry.getKey());
-				writer.write(",");
+				writer.write("|");
 				for (String anchors : guidAnchorEntry.getValue())
 				{
 					writer.write(anchors);
-					writer.write("|");
+					writer.write(",");
 				}
 				writer.newLine();
+				}
 			}
-			LOG.info(targetAnchors.size() + " anchor references written successfuly to file.");
+			LOG.info(targetAnchors.size() + " doc guid anchor references written successfuly to file.");
 		}
 		catch(IOException e)
 		{
@@ -392,6 +368,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			{
 				LOG.error("Unable to close anchor target list file.", e);
 			}
+			
+			
+			
 		}
 	}
 

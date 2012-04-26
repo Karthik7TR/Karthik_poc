@@ -92,9 +92,9 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             //Determine if the anchor is internal or not and, if it is, resolve the URL.
             if (isNormalizedCiteUuidUrl(resourceUrl))
             {
-                String normalizedCite = getNormalizedCiteUuid(resourceUrl);
+                String normalizedCiteUuid = getNormalizedCiteUuid(resourceUrl);
                 Attributes resolvedAttributes =
-                    resolveDocumentUuidReference(normalizedCite, attributes, linkParameter);
+                    resolveDocumentUuidReference(normalizedCiteUuid, attributes, linkParameter);
                 super.startElement(uri, localname, qName, resolvedAttributes);
             }
             else if (isNormalizedCiteUrl(resourceUrl))

@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
@@ -86,6 +87,10 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 		
 		try
 		{
+//			FileExtensionFilter fileExtFilter = new FileExtensionFilter();
+//			fileExtFilter.setAcceptedFileExtensions(new String[]{"postunlink"}); // lowercase compare
+//			fileHandlingHelper.setFilter(fileExtFilter);
+
 			fileHandlingHelper.getFileList(transDir, transformedFiles);
 		}
         catch(FileNotFoundException e)
