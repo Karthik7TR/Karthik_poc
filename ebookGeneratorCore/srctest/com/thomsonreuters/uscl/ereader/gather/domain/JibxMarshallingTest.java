@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
@@ -39,7 +40,7 @@ public class JibxMarshallingTest  {
 	public void testGatherNortRequestMarshalling() {
 		try {
 //			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null, new Long(1));
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null);
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date());
 			String xml = marshal(expected, GatherNortRequest.class);
 			GatherNortRequest actual = unmarshal(xml, GatherNortRequest.class);
 			Assert.assertEquals(expected, actual);
