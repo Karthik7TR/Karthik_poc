@@ -32,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
@@ -43,6 +44,7 @@ public class JobSummaryControllerTest {
 	private MockHttpServletResponse response;
 	private JobService mockJobService;
 	private ManagerService mockManagerService;
+	private JobExecutionController mockJobExecutionController;
 	private MessageSourceAccessor mockMessageSourceAccessor;
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
@@ -57,6 +59,7 @@ public class JobSummaryControllerTest {
     	
     	this.mockJobService = EasyMock.createMock(JobService.class);
     	this.mockManagerService = EasyMock.createMock(ManagerService.class);
+    	this.mockJobExecutionController = EasyMock.createMock(JobExecutionController.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
@@ -65,6 +68,7 @@ public class JobSummaryControllerTest {
     	controller.setValidator(new JobSummaryValidator());
     	controller.setManagerService(mockManagerService);
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
+    	controller.setJobExecutionController(mockJobExecutionController);
     	
     	// Set up the Job execution ID list stored in the session
     	this.jobExecutionIds = new ArrayList<Long>();
@@ -205,9 +209,11 @@ public class JobSummaryControllerTest {
     private void verifyJobOperation() throws Exception {
     	// Common recordings for stop and restart
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
+    	EasyMock.expect(mockJobExecutionController.authorizedForJobOperation(EasyMock.anyLong(), EasyMock.anyObject(String.class), EasyMock.anyObject(List.class))).andReturn(true);
     	// Replay
     	EasyMock.replay(mockManagerService);
     	EasyMock.replay(mockJobService);
+    	EasyMock.replay(mockJobExecutionController);
     	
        	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
