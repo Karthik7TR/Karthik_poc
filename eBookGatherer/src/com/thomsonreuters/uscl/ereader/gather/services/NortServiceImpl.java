@@ -101,7 +101,12 @@ public class NortServiceImpl implements NortService {
 			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, iParent,
 					YYYYMMDDHHmmss, tocGuidDateMap);
-		} catch (Exception e) {
+		} 
+		catch (GatherException e) {
+			LOG.error("Failed with Exception in NORT");
+			throw e;
+		}
+		catch (Exception e) {
 			LOG.error("Failed with Exception in NORT");
 			GatherException ge = new GatherException("NORT Exception ", e,
 					GatherResponse.CODE_NOVUS_ERROR);
@@ -189,6 +194,16 @@ public class NortServiceImpl implements NortService {
 			// TODO: If NOVUS api is changed add back
 			// _nortManager.setNortVersion and remove above.
 			{
+				if (node.getLabel() == null ) // Fail with empty Name
+				{
+					String err = "Failed with empty node Label for guid " + node.getGuid();
+						LOG.error(err);
+				GatherException ge = new GatherException(
+						err,
+						GatherResponse.CODE_NOVUS_ERROR);
+					throw ge;
+				}
+				
 				String endDate = node
 						.getPayloadElement("/n-nortpayload/n-end-date");
 				String startDate = node
@@ -335,6 +350,9 @@ public class NortServiceImpl implements NortService {
 									"NORT Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
 							throw ge;
+						} catch (GatherException e) {
+							LOG.error("Failed with Exception in NORT");
+							throw e;
 						} catch (Exception e) {
 							LOG.error("Failed with Exception in NORT  getChildren()");
 							GatherException ge = new GatherException(

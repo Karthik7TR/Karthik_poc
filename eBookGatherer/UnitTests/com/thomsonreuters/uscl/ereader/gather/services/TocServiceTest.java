@@ -134,7 +134,7 @@ public class TocServiceTest {
 		EasyMock.verify(mockToc);
 	}
 	
-	@Test (expected=GatherException.class)
+	@Test
 	public void testGetTocDataFromNovusWithNoName() throws Exception {
 
 		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
@@ -145,17 +145,15 @@ public class TocServiceTest {
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
 		mockToc.setShowChildrenCount(true);
-		TOCNode[] children = new TOCNode[]{};
 
 		mockTocRootNode = mockTocNode;
 		
-		children = getChildNodes(5, 'a', 999).toArray(new TOCNode[]{});
 		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
 		EasyMock.expect(mockTocNode.getName()).andReturn(null).times(2); // No Name node
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
-		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
-		EasyMock.expect(mockTocNode.getChildren()).andReturn(children).anyTimes();
+		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(0).anyTimes();
+		EasyMock.expect(mockTocNode.getChildren()).andReturn(null).anyTimes();
 	
 		
 		mockNovus.shutdownMQ();
@@ -168,9 +166,15 @@ public class TocServiceTest {
 		EasyMock.replay(mockTocNode);
 		EasyMock.replay(mockNovusUtility);		
 
+	
 		try {
 			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
 		} 
+		catch (Exception e)
+		{
+			LOG.debug(e.getMessage());
+			Assert.assertEquals("Failed with empty node Name for guid tocGuid", e.getMessage());
+		}
 		finally {
 			// Temporary file will clean up after itself.
 		}

@@ -96,6 +96,9 @@ public class TocServiceImpl implements TocService {
 			tocNodes[0] = tocNode;
 			printNodes(tocNodes, _tocManager, out, counter, docCounter,
 					intParent);
+		}  catch (GatherException e) {
+			LOG.error("Failed with GatherException in TOC");
+			throw e;
 		} catch (Exception e) {
 			LOG.debug("Failed with Novus Exception in TOC");
 			GatherException ge = new GatherException("TOC Novus Exception ", e,
@@ -237,8 +240,11 @@ public class TocServiceImpl implements TocService {
 									"TOC Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
 							throw ge;
+						} catch (GatherException e) {
+							LOG.error("Failed with GatherException in TOC");
+							throw e;
 						} catch (Exception e) {
-							LOG.error("Failed with Novus Exception in TOC getChildren()");
+							LOG.error("Failed with Exception in TOC getChildren()");
 							GatherException ge = new GatherException(
 									"TOC Novus Exception ", e,
 									GatherResponse.CODE_NOVUS_ERROR);
@@ -246,7 +252,10 @@ public class TocServiceImpl implements TocService {
 						}
 					}
 				}
-			} catch (Exception e) {
+			} catch (GatherException e) {
+				LOG.error("Failed with GatherException in TOC");
+				throw e;
+			}  catch (Exception e) {
 				LOG.error("Failed with Novus Exception in TOC");
 				GatherException ge = new GatherException(
 						"TOC Novus Exception ", e,
