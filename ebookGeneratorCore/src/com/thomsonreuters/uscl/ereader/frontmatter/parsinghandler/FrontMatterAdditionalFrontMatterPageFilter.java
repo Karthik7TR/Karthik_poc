@@ -15,6 +15,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGenerationException;
 
 /**
  * This filter transforms the Title Page Template by filling in any template placeholders
@@ -48,6 +49,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 	private long FRONT_MATTER_PAGE_ID;
 	
 	public FrontMatterAdditionalFrontMatterPageFilter(BookDefinition bookDefinition, Long FRONT_MATTER_PAGE_ID)
+		throws EBookFrontMatterGenerationException
 	{
 		this.FRONT_MATTER_PAGE_ID = FRONT_MATTER_PAGE_ID;
 		for (FrontMatterPage fmp : bookDefinition.getFrontMatterPages())
@@ -57,7 +59,12 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 				this.frontMatterPage = fmp;
 				break;
 			}
-			
+		}
+		
+		if (this.frontMatterPage == null)
+		{
+			throw new EBookFrontMatterGenerationException("Could not retrieve additional front matter page with id: " 
+					+ FRONT_MATTER_PAGE_ID);
 		}
 	}
 	
