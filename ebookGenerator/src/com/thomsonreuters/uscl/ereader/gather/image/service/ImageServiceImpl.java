@@ -173,7 +173,6 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	private static void writeFailedImageGuidToFile(Writer missingImageFileWriter, String imageGuid) throws IOException {
-log.debug(String.format("Writing %s to missing image file", imageGuid));
 		missingImageFileWriter.write(imageGuid);
 		missingImageFileWriter.write("\n");
 	}
