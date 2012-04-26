@@ -78,7 +78,7 @@
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
-	  <display:column title="Last Edit Date" sortable="true" sortName="lastUpdated" >
+	  <display:column title="Last Definition Edit Date" sortable="true" sortName="lastUpdated" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
