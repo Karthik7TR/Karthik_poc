@@ -26,7 +26,7 @@
 
 		<%-- Check if user has role to access Admin --%>
 		<c:set var="showAdmin" value="false"/>
-		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<sec:authorize access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')">
 			<c:set var="showAdmin" value="true"/>
 		</sec:authorize>
 		<c:if test="${showAdmin}">

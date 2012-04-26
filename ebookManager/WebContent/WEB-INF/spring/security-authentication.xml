@@ -60,7 +60,13 @@
 		<sec:intercept-url pattern="/bookDefinitionEdit.mvc" access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/bookDefinitionCopy.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		
-		<sec:intercept-url pattern="/admin*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminMain.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminStopGenerator.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminJuris*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminPublish*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminState*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminKeyword*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminBookLock*" access="hasRole('ROLE_SUPERUSER')"/>
 		
 		<!-- Catch-all for all other URLs, you must at least be authenticated to the application -->
 		<sec:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
