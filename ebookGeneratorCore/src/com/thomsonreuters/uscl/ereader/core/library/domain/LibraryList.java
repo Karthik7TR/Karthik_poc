@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 
 public class LibraryList implements Serializable {
 	private static final long serialVersionUID = -4057949125475314670L;
@@ -25,13 +24,14 @@ public class LibraryList implements Serializable {
 	String isDeletedFlag;
 	Date lastUpdated;
 	Date lastPublishDate;
+	Date lastProviewUpdateDate;
 	String proviewVersion;
 	Set<Author> authorList;
 
 	public LibraryList(Long bookDefinitionId, String proviewName,
 			String titleId, String isComplete, String isDeleted,
 			Date lastUpdate, Date lastPublished, Set<Author> authors,
-			String proviewVersion) {
+			String proviewVersion, Date lastProviewUpdateDate) {
 		this.bookDefinitionId = bookDefinitionId;
 		this.proviewDisplayName = proviewName;
 		this.fullyQualifiedTitleId = titleId;
@@ -41,6 +41,15 @@ public class LibraryList implements Serializable {
 		this.lastPublishDate = lastPublished;
 		this.authorList = authors;
 		this.proviewVersion = proviewVersion;
+		this.lastProviewUpdateDate = lastProviewUpdateDate;
+	}
+
+	public Date getLastProviewUpdateDate() {
+		return lastProviewUpdateDate;
+	}
+
+	public void setLastProviewUpdateDate(Date lastProviewUpdateDate) {
+		this.lastProviewUpdateDate = lastProviewUpdateDate;
 	}
 
 	/**

@@ -71,7 +71,10 @@
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
 	  <display:column title="ProView Version" property="proviewVersion" />
-	  <display:column title="Publish Date" sortable="true" sortName="publishEndTimestamp">
+	  <display:column title="Last Proview Publish Date" sortable="true" sortName="publishEndTimestamp">
+	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
+	  <display:column title="Last Manger Generate Date" sortable="true" sortName="publishEndTimestamp">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />

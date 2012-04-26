@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.library.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +29,14 @@ import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * Library list service
  */
 public class LibraryListServiceImpl implements LibraryListService {
-
+	public static final String PROVIEW_DATE_FORMAT_PATTERN = "yyyyMMdd";
 	private static final Logger log = Logger
 			.getLogger(LibraryListServiceImpl.class);
 	private LibraryListDao libraryListDao;
@@ -141,14 +144,27 @@ public class LibraryListServiceImpl implements LibraryListService {
 							.getEbookDefinitionId());
 
 			String proviewVersion = null;
+			Date lastProviewUpdateDate = null;
 
 			if (titleMap != null) {
 				ProviewTitleContainer proviewTitleContainer = titleMap
 						.get(bookDefinition.getFullyQualifiedTitleId());
 
 				if (proviewTitleContainer != null) {
-					proviewVersion = proviewTitleContainer.getLatestVersion()
-							.getVesrion();
+					ProviewTitleInfo latestProviewTitleInfo = proviewTitleContainer
+							.getLatestVersion();
+					proviewVersion = latestProviewTitleInfo.getVesrion();
+
+					String[] parsePatterns = { PROVIEW_DATE_FORMAT_PATTERN };
+					try {
+						lastProviewUpdateDate = DateUtils.parseDate(
+								latestProviewTitleInfo.getLastupdate(),
+								parsePatterns);
+
+					} catch (ParseException e) {
+
+					}
+
 				}
 			}
 
@@ -159,7 +175,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 					bookDefinition.getEbookDefinitionCompleteFlag() ? "Y" : "N",
 					bookDefinition.isDeletedFlag() ? "Y" : "N", bookDefinition
 							.getLastUpdated(), lastPublishDate, authors,
-					proviewVersion);
+					proviewVersion, lastProviewUpdateDate);
 
 			libraryLists.add(libraryList);
 
