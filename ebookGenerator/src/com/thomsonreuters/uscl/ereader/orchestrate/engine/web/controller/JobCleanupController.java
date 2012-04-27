@@ -5,18 +5,12 @@ import java.net.UnknownHostException;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupService;
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
 /**
  * Only purpose of this controller is to carry job clean up and notify user group about the jobs which were 
