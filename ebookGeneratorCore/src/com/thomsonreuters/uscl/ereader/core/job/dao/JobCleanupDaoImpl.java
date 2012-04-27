@@ -41,8 +41,8 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	public ArrayList<String> findListOfDeadJobs() {
 		StringBuffer hql = new StringBuffer(
 		  "Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");   
-			hql.append(" from EBOOK_SPRINGBATCH.batch_job_execution  bje");
-			hql.append(" inner join EBOOK.publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
+			hql.append(" from batch_job_execution  bje");
+			hql.append(" inner join publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
 			hql.append(" inner join ebook_definition ed on ed.ebook_definition_id = ps.ebook_definition_id");
 			hql.append(" where bje.exit_code = 'UNKNOWN'");
 		
