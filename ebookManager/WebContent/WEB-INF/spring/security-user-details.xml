@@ -34,12 +34,12 @@
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_NONPROD.*" 	value="ROLE_PUBLISHER"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*" value="ROLE_PUBLISHER_PLUS"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*" 	value="ROLE_SUPERUSER"/>
-	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/><!--
+	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/>
 	  	
 		<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
 		<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
 	
---><!-- ^^^ TESTING ONLY ^^^^ -->
+<!-- ^^^ TESTING ONLY ^^^^ -->
 
     </util:map>
     
