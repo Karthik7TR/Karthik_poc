@@ -39,6 +39,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class InitializeTask extends AbstractSbTasklet {
 	private static final Logger log = Logger.getLogger(InitializeTask.class);
 	static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
+	private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
 
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
 	private String environmentName;
@@ -148,12 +149,24 @@ public class InitializeTask extends AbstractSbTasklet {
 		frontMatterHTMLDiretory.mkdir();
 		File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 		
+		File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
+		
+		if (deDuppingAnchorFile.exists())
+		{
+			deDuppingAnchorFile.delete();			
+		}
+		
+		deDuppingAnchorFile.createNewFile();
+		
 		//File htmlDirectory = new File(formatDirectory, "HTML");
 		
 		// Create the absolute path to the final e-book artifact - a GNU ZIP file
 		// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 		File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 		File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
+		
+		jobExecutionContext.putString(
+				JobExecutionKey.DEDUPPING_FILE, deDuppingAnchorFile.getAbsolutePath());
 		
 		jobExecutionContext.putString(
 				JobExecutionKey.EBOOK_DIRECTORY, assembledTitleDirectory.getAbsolutePath());

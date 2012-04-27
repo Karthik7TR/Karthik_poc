@@ -57,6 +57,8 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		String staticImagePath = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE);
 		String docsGuid = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
+		
+		String deDupping = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.DEDUPPING_FILE);
 		//TODO: Set value below based on execution context value
 		int numDocsInTOC = 0; 
 		
@@ -66,11 +68,12 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		File postTransformDir = new File(postTransformDirectory);
 		File staticImgFile = new File(staticImagePath);
 		File docsGuidFile = new File(docsGuid);
+		File deDuppingFile = new File(deDupping);
 		
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId, null, docsGuidFile);
+				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId, null, docsGuidFile, deDuppingFile);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

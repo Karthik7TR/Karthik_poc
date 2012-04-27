@@ -31,11 +31,13 @@ public interface HTMLTransformerService {
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
 	 * @param targetAnchors the list of guids with their set of anchors
- 	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
+	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
+	 * @param deDuppingFile target file where dedupping anchors are updated.
+	 * 
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final boolean isTableViewRequired,
-			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile) throws EBookFormatException;
+			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile ) throws EBookFormatException;
 }

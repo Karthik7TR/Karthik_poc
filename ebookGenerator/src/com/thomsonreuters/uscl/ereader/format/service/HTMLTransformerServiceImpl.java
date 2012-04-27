@@ -13,7 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.SequenceInputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +43,7 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Fi
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTagIdDedupingFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.InternalLinkResolverFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
@@ -91,13 +94,14 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
 	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
+	 * @param deDuppingFile target file where dedupping anchors are updated.
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final boolean isTableViewRequired, 
-			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile) throws EBookFormatException
+			final String title, final Long jobId,HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -136,7 +140,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile);
+			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile);
 			numDocs++;
 		}
 		
@@ -158,12 +162,13 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param staticImgRef set to which a list of referenced static files will be added to
 	 * @param titleID title of the book being published
 	 * @param jobIdentifier identifier of the job that will be used to retrieve the image metadata
-	 * @param documentMetadataAuthority 
+	 * @param documentMetadataAuthority
+	 * @param deDuppingFile target file where dedupping anchors are updated. 
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
 	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile) throws EBookFormatException
+			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -192,8 +197,12 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
 			emptyH2Filter.setParent(saxParser.getXMLReader());
 			
+			HTMLTagIdDedupingFilter tagIdDedupingFilter = new HTMLTagIdDedupingFilter(guid);
+			
+			tagIdDedupingFilter.setParent(emptyH2Filter);
+			
 			HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
-			tableFilter.setParent(emptyH2Filter);
+			tableFilter.setParent(tagIdDedupingFilter);
 			
 			HTMLImageFilter imageFilter = new HTMLImageFilter();
 			imageFilter.setStaticImageRefs(staticImgRef);
@@ -243,6 +252,13 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			anchorFilter.parse(new InputSource(wrappedStream));
 			
 			targetAnchors.putAll(anchorFilter.getTargetAnchors());
+			
+			List<String> deDuppingList = tagIdDedupingFilter.getDuplicateIdList();
+			
+			if (deDuppingList.size() > 0)
+			{
+			    insertDeduppingAnchorRecords(deDuppingList,deDuppingFile);
+			}
 
 			LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
 		}
@@ -394,5 +410,49 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			}
 		}
 	}
-
+	
+	/**
+	 * Takes in a list of de-dupping anchors and writes them to the specified file.
+	 * @param deduppingIds list of de-dupping anchor ids.
+	 * @param deDuppingFile file to which the list will be written to
+	 * @throws EBookFormatException
+	 */
+	private void insertDeduppingAnchorRecords(List<String> deduppingIds, File deDuppingFile) 
+			throws EBookFormatException
+	{
+		Writer writer = null;
+		try 
+		{
+		LOG.info("Writing de-dupping anchors info  to " + deDuppingFile.getAbsolutePath() + " file...");
+		FileOutputStream outStream = new FileOutputStream(deDuppingFile,true);
+		String charset = "UTF-8";
+		writer = new OutputStreamWriter(outStream, charset);
+		for (String id : deduppingIds)
+		{
+			writer.write(id);
+			writer.write("\n");
+		}
+		}
+		catch(Exception e)
+		{
+			String message = "Could not write to the de-dupping anchors list file: " + 
+					deDuppingFile.getAbsolutePath();
+			LOG.error(message);
+			throw new EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close de-dupping anchors list file.", e);
+			}
+		}
+	}
 }

@@ -16,6 +16,11 @@ package com.thomsonreuters.uscl.ereader;
 public class JobExecutionKey {
 	
 	/**
+	 * Path to the flat file that contains the mapping of all de-dupping anchors in each document. 
+	 */
+	public static final String DEDUPPING_FILE ="deDuppingFile";
+	
+	/**
 	 * The path from which to assemble the eBook from.
 	 */
 	public static final String EBOOK_DIRECTORY = "eBookDirectory";

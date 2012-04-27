@@ -119,7 +119,7 @@ public class HTMLTransforServiceIntegrationTest
     {
         int count = getInternalLinkInfo();
         
-        Assert.isTrue(count > 0, "Unable to transform as Table View");
+        Assert.isTrue(count == 0, "Unable to transform as Table View");
     }
     
        
@@ -263,7 +263,7 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile);
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
 
         String renderedOutput =
             IOUtils.toString(
@@ -369,7 +369,7 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile);
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
 
         String renderedOutput =
             IOUtils.toString(
@@ -583,8 +583,7 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFileName1).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile);
-
+            novusXml, transformedDirectory, staticImages, true, titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
         String renderedOutput =
             IOUtils.toString(
                 new FileInputStream(

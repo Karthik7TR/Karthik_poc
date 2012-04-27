@@ -12,7 +12,7 @@ public class JobParameterKey {
 	/** Who started the job. */
 	public static final String USER_NAME = "userName";
 	/** E-mail address of the person who started the job. */
-	public static final String USER_EMAIL = "userEmail";
+	public static final String USER_EMAIL = "west.ebookGenerationSupport@thomsonreuters.com";
 	/** Host name on which Spring Batch is running the job. */
 	public static final String HOST_NAME = "hostName";
 	

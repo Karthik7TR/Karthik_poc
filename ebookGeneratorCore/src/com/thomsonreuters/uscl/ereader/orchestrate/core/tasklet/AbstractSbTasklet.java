@@ -79,12 +79,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	
     private void sendNotification(ChunkContext chunkContext, String bodyMessage) {
         
-        JobParameters param = getJobParameters(chunkContext);
         ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
-        String emailId = param.getString(JobParameterKey.USER_EMAIL);
-        emailId="west.ebookGenerationSupport@thomsonreuters.com"; // need to be updated 
+        String emailId = JobParameterKey.USER_EMAIL;
         String subject = bookDefinition.getTitleId() + "  " + bookDefinition.getProviewDisplayName();
         if ("".equals(missingDocFile))
         {
