@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -63,6 +64,16 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 			docMetadataDAO.saveMetadata(docmetadata);
 		}
 	}
+	
+
+	/**
+	 * Update an existing DocMetadata entity
+	 * 
+	 */
+	public void updateDocMetadata(DocMetadata docmetadata)
+	{
+		docMetadataDAO.updateMetadata(docmetadata);
+	}
 
 	/**
 	 * Delete an existing DocMetadata entity
@@ -101,13 +112,48 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		DocMetadata docMetaData = xmlParser.parseDocument(titleId, jobInstanceId, collectionName, metaDataFile);
 		saveDocMetadata(docMetaData);
 	}
+	
+	/**
+	 */
+	@Transactional
+	public void updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception {
+
+		//Dedupe the document family records.
+		DocumentMetadataAuthority docAuthority = findAllDocMetadataForTitleByJobId(jobInstanceId);
+		Map<String, Integer> familyAuth = new HashMap<String, Integer>();
+		for (DocMetadata docMeta : docAuthority.getAllDocumentMetadata())
+		{
+			if (docMeta.getDocFamilyUuid() != null && familyAuth.containsKey(docMeta.getDocFamilyUuid()))
+			{
+				Integer dedupValue = familyAuth.get(docMeta.getDocFamilyUuid()) + 1;
+				docMeta.setProviewFamilyUUIDDedup(dedupValue);
+				updateDocMetadata(docMeta);
+				familyAuth.put(docMeta.getDocFamilyUuid(), dedupValue);
+			}
+			else
+			{
+				familyAuth.put(docMeta.getDocFamilyUuid(), 0);
+			}
+		}
+	}
 
 	@Required
 	public void setdocMetadataDAO(DocMetadataDao dao) {
 		this.docMetadataDAO = dao;
 	}
-
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId) {
-		return docMetadataDAO.findDistinctFamilyGuidsByJobId(jobInstanceId);
+	
+	public Map<String, String> findDistinctProViewFamGuidsByJobId(Long jobInstanceId)
+	{
+		DocumentMetadataAuthority docAuthority = findAllDocMetadataForTitleByJobId(jobInstanceId);
+		Map<String, String> mapping = new HashMap<String, String>();
+		for (DocMetadata docMeta : docAuthority.getAllDocumentMetadata())
+		{
+			if (docMeta.getDocFamilyUuid() != null)
+			{
+				mapping.put(docMeta.getDocUuid(), docMeta.getProViewId());
+			}
+		}
+		
+		return mapping;
 	}
 }

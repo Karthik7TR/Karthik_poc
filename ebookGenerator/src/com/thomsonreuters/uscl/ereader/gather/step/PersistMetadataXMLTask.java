@@ -78,6 +78,9 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 					+ " Metadata XML files from "
 					+ metaDataDirectory.getAbsolutePath());
 		}
+		
+		docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
+		
 		// TODO: add else?
 		return ExitStatus.COMPLETED;
 	}

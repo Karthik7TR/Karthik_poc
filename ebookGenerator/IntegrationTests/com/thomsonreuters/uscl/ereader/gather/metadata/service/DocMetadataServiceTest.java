@@ -11,8 +11,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -83,43 +81,10 @@ public class DocMetadataServiceTest {
 		docmetadata.setNormalizedFirstlineCite(null);
 		docmetadata.setSerialNumber(null);
 		docmetadata.setTitleId("TL-URB"+seqNum.toString());
+		docmetadata.setProviewFamilyUUIDDedup(new Integer(1));
 		documentMetadataService.saveDocMetadata(docmetadata);
 	}
-	/**
-	 * Operation Unit Test
-	 * 
-	 * @author Kirsten Gunn
-	 */
-	@Test
-	public void findDistinctFamilyGuidsJobIdTest() {
-
-		Integer twoSeqNum = new Integer("2");
-		saveDocMetadata(twoSeqNum);
-
-		Long jobInstanceId = new Long("99123456");
-		Integer oneSeqNum = new Integer("1");
-		String docUuid = "1234567890001";
-		String familyGuid = "1234567890";
-
-		Map<String,String> response =  new HashMap<String,String>();
-		Map<String,String> expected = new HashMap<String,String>();
-		expected.put(docUuid +oneSeqNum.toString(),familyGuid+oneSeqNum.toString());
-		
-		LOG.debug(" expected " +expected);
-		
-		Map<String,String> expected2 = new HashMap<String,String>();
-		expected2.put(docUuid +twoSeqNum.toString(),familyGuid+twoSeqNum.toString());
-		
-		LOG.debug(" expected2 " +expected2);
-		
-		response = documentMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
-				
-		LOG.debug(" response " + response); //12345678900011
-
-		Assert.assertEquals(response.get(docUuid+oneSeqNum.toString()),expected.get(docUuid+oneSeqNum.toString()));
-		Assert.assertEquals(response.get(docUuid+twoSeqNum.toString()),expected2.get(docUuid+twoSeqNum.toString()));
-		Assert.assertEquals(response.size(),2);
-	}
+	
 	/**
 	 * Operation Unit Test Delete an existing DocMetadata entity
 	 * 
@@ -252,14 +217,13 @@ public class DocMetadataServiceTest {
 		expected.setSerialNumber(null);
 		expected.setCollectionName("test_choto_Collection");
 		expected.setLastUpdated(UPDATE_DATE);
+		expected.setProviewFamilyUUIDDedup(new Integer(1));
 		
 		LOG.debug(" expected " +expected);
-		
 
 		response = documentMetadataService.findDocMetadataByPrimaryKey(titleId,
 				jobInstanceId, docUuid);
 		LOG.debug(" response " +response);
-
 	
 		Assert.assertEquals(response.toString(),expected.toString());
 	}

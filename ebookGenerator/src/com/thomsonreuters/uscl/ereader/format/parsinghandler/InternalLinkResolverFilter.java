@@ -258,7 +258,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             return resolvedAttributes;
         }
 
-        String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+        String ebookResourceIdentifier = docMetadata.getProViewId();
 
         if (!"".equals(linkParameter))
         {
@@ -301,7 +301,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             return resolvedAttributes;
         }
 
-        String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+        String ebookResourceIdentifier = docMetadata.getProViewId();
 
         if (!"".equals(linkParameter))
         {
@@ -337,7 +337,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             return resolvedAttributes;
         }
 
-        String ebookResourceIdentifier = docMetadata.getDocFamilyUuid();
+        String ebookResourceIdentifier = docMetadata.getProViewId();
 
         if (!"".equals(linkParameter))
         {

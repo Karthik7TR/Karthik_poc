@@ -108,6 +108,15 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		sessionFactory.getCurrentSession().delete(toRemove);
 		flush();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 */
+	@Transactional
+	public void update(DocMetadata toUpdate) {
+		sessionFactory.getCurrentSession().update(toUpdate);
+		flush();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -127,11 +136,11 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		Session session = sessionFactory.getCurrentSession();
 		
 		List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
-		.setProjection(Projections.distinct( (Projections.projectionList()
-				.add(Projections.property("docUuid"))
-				.add(Projections.property("docFamilyUuid")))))
-	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
-	    .list();
+				.setProjection(Projections.distinct( (Projections.projectionList()
+						.add(Projections.property("docUuid"))
+						.add(Projections.property("docFamilyUuid")))))
+						.add( Restrictions.eq("jobInstanceId", jobInstanceId))
+						.list();
 //		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
 //	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
 //	    .list();
@@ -142,17 +151,25 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		{
 			if (arr[1] != null) // Xena content has no docFamilyGuid
 			{
-			docMap.put(arr[0].toString(), arr[1].toString());
+				docMap.put(arr[0].toString(), arr[1].toString());
 			}
 		}
 		return docMap;
-		
-	}
+	}	
+	
 	@Override
 	@Transactional
 	public void saveMetadata(DocMetadata metadata) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(metadata);
+		session.flush();
+	}
+	
+	@Override
+	@Transactional
+	public void updateMetadata(DocMetadata metadata) {
+		Session session = sessionFactory.getCurrentSession();
+		session.update(metadata);
 		session.flush();
 	}
 

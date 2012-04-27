@@ -108,6 +108,10 @@ public class DocMetadata implements Serializable {
 	@XmlElement
 	Date lastUpdated;
 
+	@Column(name = "PROVIEW_FAMILY_UUID_DEDUP")
+	@Basic(fetch = FetchType.EAGER)
+	Integer proviewFamilyUUIDDedup;
+
 	/**
 	 */
 	public void setTitleId(String titleId) {
@@ -231,6 +235,31 @@ public class DocMetadata implements Serializable {
 	 */
 	
 	
+	public Integer getProviewFamilyUUIDDedup() {
+		return proviewFamilyUUIDDedup;
+	}
+
+	public void setProviewFamilyUUIDDedup(Integer proviewFamilyUUIDDedup) {
+		this.proviewFamilyUUIDDedup = proviewFamilyUUIDDedup;
+	}
+	
+	/**
+	 * Returns unique id for each document, in most cases this will be the Document Family GUID but
+	 * in some cases it will be a deduped Document Family GUID with the dedup value appended after the 
+	 * Document Family GUID.
+	 * 
+	 * @return unique identifier that will be used by ProView for this document
+	 */
+	public String getProViewId()
+	{
+		if (docFamilyUuid != null && proviewFamilyUUIDDedup != null)
+		{
+			return docFamilyUuid + "_" + proviewFamilyUUIDDedup;
+		}
+		
+		return docFamilyUuid;
+	}
+
 	/**
 	 */
 	public DocMetadata() {
@@ -255,6 +284,7 @@ public class DocMetadata implements Serializable {
 		buffer.append("serialNumber=[").append(serialNumber).append("] ");
 		buffer.append("collectionName=[").append(collectionName).append("] ");
 		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+		buffer.append("proviewFamilyUUIDDedup=[").append(proviewFamilyUUIDDedup).append("] ");
 
 		return buffer.toString();
 	}

@@ -40,6 +40,8 @@ public interface DocMetadataDao {
 	public void remove(DocMetadata toRemove) throws DataAccessException;
 
 	public void saveMetadata(DocMetadata metadata);
+	
+	public void updateMetadata(DocMetadata metadata);
 
 	/**
 	 * Retrieves all document metadata records for a given jobId.

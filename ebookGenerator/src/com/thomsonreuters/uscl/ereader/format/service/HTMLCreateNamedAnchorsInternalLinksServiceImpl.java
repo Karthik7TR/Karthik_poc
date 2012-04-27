@@ -182,7 +182,7 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 			anchorIdFilter.setParent(saxParser.getXMLReader());
 			if (docMetadata != null)
 			{
-				anchorIdFilter.setCurrentGuid(docMetadata.getDocFamilyUuid());
+				anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
 			}
 			else
 			{

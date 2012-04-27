@@ -216,7 +216,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			anchorFilter.setTargetAnchors(targetAnchors);
 			if (docMetadata != null)
 			{
-				anchorFilter.setCurrentGuid(docMetadata.getDocFamilyUuid());
+				anchorFilter.setCurrentGuid(docMetadata.getProViewId());
 			}
 			else
 			{

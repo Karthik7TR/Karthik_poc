@@ -37,8 +37,6 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
-
-
 /**
  * TitleMetadataService is responsible for retrieving data from various sources in order to produce the title manifest for an eBook.
  * 
@@ -89,7 +87,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		return coverArt;
 	}
 
-
 	@Override
 	public Asset createStylesheet(final File stylesheet) {
 		return new Asset(STYLESHEET_ID, stylesheet.getName());
@@ -105,7 +102,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			XMLReader xmlReader = saxParser.getXMLReader();
 			
-			Map<String, String> familyGuidMap = docMetadataService.findDistinctFamilyGuidsByJobId(jobInstanceId);
+			Map<String, String> familyGuidMap = docMetadataService.findDistinctProViewFamGuidsByJobId(jobInstanceId);
 			
 			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService);
 			titleManifestFilter.setParent(xmlReader);

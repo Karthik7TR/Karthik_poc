@@ -26,6 +26,12 @@ public interface DocMetadataService {
 	public void saveDocMetadata(DocMetadata docmetadata);
 
 	/**
+	 * Update an existing DocMetadata entity
+	 * 
+	 */
+	public void updateDocMetadata(DocMetadata docmetadata);
+	
+	/**
 	 * Delete an existing DocMetadata entity
 	 * 
 	 */
@@ -35,14 +41,15 @@ public interface DocMetadataService {
 	 */
 	public DocMetadata findDocMetadataByPrimaryKey(String titleId,
 			Long jobInstanceId, String docUuid);
-	/**
-	 */
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId);
 
 	/**
 	 */
 	public void parseAndStoreDocMetadata(String titleId, Long jobInstanceId,
 			String collectionName, File metadataFile) throws Exception;
+
+	/**
+	 */
+	public void updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception;
 	
 	/**
 	 * Retrieves the full set of document metadata for a given title.
@@ -53,4 +60,6 @@ public interface DocMetadataService {
 	 * @return the {@link Set} of {@link DocMetadata} for the documents contained in the title.
 	 */
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId);
+	
+	public Map<String, String> findDistinctProViewFamGuidsByJobId(Long jobInstanceId);
 }

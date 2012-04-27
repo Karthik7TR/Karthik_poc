@@ -182,7 +182,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			unlinkFilter.setParent(saxParser.getXMLReader());
 			if (docMetadata != null)
 			{
-				unlinkFilter.setCurrentGuid(docMetadata.getDocFamilyUuid());
+				unlinkFilter.setCurrentGuid(docMetadata.getProViewId());
 			}
 			else
 			{
