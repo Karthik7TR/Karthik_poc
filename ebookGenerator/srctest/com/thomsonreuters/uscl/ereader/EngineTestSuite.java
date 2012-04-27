@@ -27,14 +27,12 @@ import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClientFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
 			BasicAuthenticationHttpClientFactoryTest.class,
-			DocMetadataServiceTest.class,
 			EbookAssemblyServiceTest.class,
 			EngineServiceTest.class,
 			//Format tests
