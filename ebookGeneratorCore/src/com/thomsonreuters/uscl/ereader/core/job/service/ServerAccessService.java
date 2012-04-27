@@ -32,5 +32,11 @@ public interface ServerAccessService {
 	 * @param emailGroup
 	 */
 	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup);
+	/**
+	 * Sends sends email notification on startup only if any of the jobs were updated. 
+	 * @param serverName
+	 * @param emailGroup
+	 */
+	public void notifyJobOwnerOnServerStartup(String serverName, String emailGroup);
 
 }

@@ -15,5 +15,11 @@
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
 		  p:engineService-ref="engineService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
+		  
+	<bean id="jobCleanupController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.JobCleanupController" 
+	p:jobCleanupService-ref ="jobCleanupService"
+	p:serverAccessService-ref ="serverAccessService"
+	p:emailGroup="${kill.email.group}"/>
+		 
 
 </beans>

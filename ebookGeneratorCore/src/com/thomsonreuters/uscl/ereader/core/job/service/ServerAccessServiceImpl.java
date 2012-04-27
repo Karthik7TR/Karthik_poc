@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
@@ -48,7 +50,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 
 		log.debug("In ServerAccessServiceImpl serverNames = "+serverNames +" userName = "+userName +" password = "+password + " appNames = " +appNames +" emailGroup = " +emailGroup);
 		   killServerInstances(serverNames, userName, password, appNames);	
-	       notifyJobOwner(emailGroup);
+		   notifyJobOwnerOnServerShutdown(emailGroup);
 	       updateJobsInProgress();
 
 	}
@@ -94,13 +96,47 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 		jobCleanupService.cleanUpDeadJobs();		
 	}
 	
-	
+	/**
+	 * sends email notification on startup only if any of the jobs were updated. 
+	 * @param serverName
+	 * @param emailGroup
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public void notifyJobOwnerOnServerStartup(String serverName,String emailGroup){
+		ArrayList<String> jobListInfo ;
+			jobListInfo = jobCleanupService.findListOfDeadJobsByServerName(serverName);
+		String subject ;
+		String emailAddress ;
+		String emailBody ;
+		StringBuffer emailBodySB = new StringBuffer();
+
+		
+		if (jobListInfo != null && jobListInfo.size()> 0) {
+			emailBodySB.append("Please resubmit these jobs.");
+			emailBodySB.append("\n");
+			for (String string : jobListInfo) {
+				emailBodySB.append(string);
+				emailBodySB.append("\n");
+			}
+			subject = "Server was shut down, please resubmit these jobs";
+			emailAddress = emailGroup;
+			emailBody = emailBodySB.toString();
+			log.debug("Notification email address : " + emailAddress);
+			log.debug("Notification email subject : " + subject);
+			log.debug("Notification email body : " + emailBody);
+
+			emailNotification.send(emailAddress, subject, emailBody);
+
+			
+		}
+	}
 	/**
 	 * Email notification is sent to user group regarding server shutdown with list of jobs in progress. 
 	 * These jobs will have to be re-submitted.
 	 * @param emailGroup
 	 */
-	private  void notifyJobOwner(String emailGroup){
+	private void notifyJobOwnerOnServerShutdown(String emailGroup){
 
 		ArrayList<String> jobListInfo = jobCleanupService.findListOfDeadJobs();
 		String subject ;

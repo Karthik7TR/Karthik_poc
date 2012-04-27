@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
  * Updates dead jobs exit status to "failed" status. 
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public class JobCleanupServiceImpl implements JobCleanupService {
+public  class JobCleanupServiceImpl implements JobCleanupService {
 
 	private static final Logger LOG = Logger.getLogger(JobCleanupServiceImpl.class);
 
@@ -54,5 +54,27 @@ public class JobCleanupServiceImpl implements JobCleanupService {
 		this.jobCleanupDao = jobCleanupDao;
 	}
 
+	/**
+	 * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables for given server name 
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupService#cleanUpDeadJobsForGivenServer(java.lang.String)
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public void cleanUpDeadJobsForGivenServer(String serverName){
+		
+		int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
+		int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
+		LOG.debug("Number of steps updated ="+stepCleanup +" and number of jobs updated ="+jobCleanup );
+	}
+
+	@Override
+	public ArrayList<String> findListOfDeadJobsByServerName(String serverName) 
+	{
+		return jobCleanupDao.findListOfDeadJobsByServerName(serverName);
+
+		
+	}
+	
 	
 }

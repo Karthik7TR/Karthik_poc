@@ -19,7 +19,9 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 /**
- * Queries for fetching Spring Batch job information.
+ * Queries for fetching and update Spring Batch job information.
+ *   
+ * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 public interface JobCleanupDao {
 
@@ -40,5 +42,25 @@ public interface JobCleanupDao {
 	 * @return
 	 */
 	public ArrayList<String> findListOfDeadJobs();
+
+	/**
+	 * Update dead step exit status to 'failed' for given server name
+	 * @param serverName
+	 * @return
+	 */
+	public int updateBatchStepExecutionForGivenServer(String serverName);
 	
+	/**
+	 * Update dead job exit status to 'failed' for given server name
+	 * @param serverName
+	 * @return
+	 */
+	public int updateBatchJobExecutionForGivenServer(String serverName);
+
+	/**
+	 * Gets list of dead jobs for given serverName, so that the job owners could be notified to resubmit these jobs.   
+	 * @return
+	 */
+	public ArrayList<String> findListOfDeadJobsByServerName(String serverName);
+
 }
