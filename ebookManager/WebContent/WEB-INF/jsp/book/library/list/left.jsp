@@ -15,6 +15,16 @@
 
 
   	<script>
+  	
+  		$(document).ready(function() {
+  			<%-- Submit the filter form when ENTER key is pressed from within any input field. --%> 
+  			$("form input").keyup(function(event) {
+  				if (event.keyCode == 13) {
+  					submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>');
+  				}
+  			});
+  		});
+  	
 		$(function() {
 			$( "#datepickerFrom" ).datepicker();
 			$( "#datepickerTo" ).datepicker();
