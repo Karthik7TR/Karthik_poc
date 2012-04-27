@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateC
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview.FmPreviewControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
@@ -40,6 +41,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			BookPromotionControllerTest.class,
 			EditBookDefinitionControllerTest.class,
 			EditBookDefinitionFormValidatorTest.class,
+			FmPreviewControllerTest.class,
 			GenerateEbookControllerTest.class,
 			JobExecutionControllerTest.class,
 			JobSummaryControllerTest.class,
