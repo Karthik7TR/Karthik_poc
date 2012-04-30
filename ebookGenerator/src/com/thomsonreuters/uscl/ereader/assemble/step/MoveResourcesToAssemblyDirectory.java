@@ -50,6 +50,11 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	 * The file path to the ebookGenerator Cover Image.
 	 */
 	private static final String EBOOK_COVER_FILEPATH = "/apps/ebookbuilder/generator/images/cover/";
+	
+	/**
+	 * The default file to the ebookGenerator Cover Image.
+	 */
+	private static final String DEFAULT_EBOOK_COVER_FILE = "/apps/eBookBuilder/staticContent/coverArt.PNG";
 
 	
 	/* (non-Javadoc)
@@ -60,7 +65,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 			ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
-		File ebookDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_DIRECTORY));
+		File ebookDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey  .EBOOK_DIRECTORY));
 		File assetsDirectory = createAssetsDirectory(ebookDirectory);
 		File artworkDirectory = createArtworkDirectory(ebookDirectory);
 		File documentsDirectory = createDocumentsDirectory(ebookDirectory);
@@ -91,16 +96,12 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		String titleCover = bookDefinition.getCoverImage();
 		
 		File coverArt = new File(EBOOK_COVER_FILEPATH+titleCover);
-		if (coverArt.length() == 0)
+		if (!coverArt.exists())
 		{ 
-			// Use default
-			coverArt = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
+			coverArt = new File(DEFAULT_EBOOK_COVER_FILE);			
 		}
-		else
-		{
-			jobExecutionContext.putString(
-					JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
-		}
+		jobExecutionContext.putString(
+					JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());		
 
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
