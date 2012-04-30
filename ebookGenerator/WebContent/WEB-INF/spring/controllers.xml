@@ -16,6 +16,8 @@
 	<!-- Handles job STOP and RESTART web service (REST) operations -->
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
 		  p:engineService-ref="engineService"
+		  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
+	  	  p:maximumConcurrentJobs="${spring.batch.max.concurrent.jobs}"  	
 		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
 		  
 	<bean id="jobCleanupController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.JobCleanupController" 
