@@ -43,7 +43,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.DropDownListService;
 
 public class EditBookDefinitionControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+EditBookDefinitionForm.FORM_NAME;
@@ -56,7 +56,7 @@ public class EditBookDefinitionControllerTest {
     private BookDefinitionService mockBookDefinitionService;
     private CodeService mockCodeService;
     private JobRequestService mockJobRequestService;
-    private EditBookDefinitionService mockEditBookDefinitionService;
+    private DropDownListService mockDropDownListService;
     private EBookAuditService mockAuditService;
     private BookDefinitionLockService mockLockService;
     private EditBookDefinitionFormValidator validator;
@@ -74,14 +74,14 @@ public class EditBookDefinitionControllerTest {
     	// Mock up the dashboard service
     	this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
     	this.mockCodeService = EasyMock.createMock(CodeService.class);
-    	this.mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
+    	this.mockDropDownListService = EasyMock.createMock(DropDownListService.class);
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	this.mockAuditService = EasyMock.createMock(EBookAuditService.class);
     	this.mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
     	
     	// Set up the controller
     	this.controller = new EditBookDefinitionController();
-    	controller.setEditBookDefinitionService(mockEditBookDefinitionService);
+    	controller.setDropDownListService(mockDropDownListService);
     	controller.setBookDefinitionService(mockBookDefinitionService);
     	controller.setJobRequestService(mockJobRequestService);
     	controller.setAuditService(mockAuditService);
@@ -114,13 +114,13 @@ public class EditBookDefinitionControllerTest {
     	BOOK_DEFINITION_LOCK.setFullName("name");
     	BOOK_DEFINITION_LOCK.setUsername("username");
     	
-    	EasyMock.expect(mockEditBookDefinitionService.getStates()).andReturn(null);
-    	EasyMock.expect(mockEditBookDefinitionService.getDocumentTypes()).andReturn(null);
-    	EasyMock.expect(mockEditBookDefinitionService.getJurisdictions()).andReturn(null);
-    	EasyMock.expect(mockEditBookDefinitionService.getKeywordCodes()).andReturn(null);
-    	EasyMock.expect(mockEditBookDefinitionService.getPublishers()).andReturn(null);
-    	EasyMock.expect(mockEditBookDefinitionService.getPubTypes()).andReturn(null);
-    	EasyMock.replay(mockEditBookDefinitionService);
+    	EasyMock.expect(mockDropDownListService.getStates()).andReturn(null);
+    	EasyMock.expect(mockDropDownListService.getDocumentTypes()).andReturn(null);
+    	EasyMock.expect(mockDropDownListService.getJurisdictions()).andReturn(null);
+    	EasyMock.expect(mockDropDownListService.getKeywordCodes()).andReturn(null);
+    	EasyMock.expect(mockDropDownListService.getPublishers()).andReturn(null);
+    	EasyMock.expect(mockDropDownListService.getPubTypes()).andReturn(null);
+    	EasyMock.replay(mockDropDownListService);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class EditBookDefinitionControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class EditBookDefinitionControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 	}
 	
 	/**
@@ -272,7 +272,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 	}
 	
 	/**
@@ -375,7 +375,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockJobRequestService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 		EasyMock.verify(mockLockService);
 	}
 	
@@ -408,8 +408,41 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockBookDefinitionService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 		EasyMock.verify(mockLockService);
+	}
+	
+	/**
+     * Test the GET to the Edit Book Definition page for deleted book
+     */
+	@Test
+	public void testEditBookDefintionGetDeletedBook() {
+		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_EDIT);
+		request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
+    	request.setMethod(HttpMethod.GET.name());
+    	
+    	BookDefinition book = new BookDefinition();
+    	book.setEbookDefinitionId(BOOK_DEFINITION_ID);
+    	book.setIsDeletedFlag(true);
+    	
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
+		EasyMock.replay(mockBookDefinitionService);
+    	
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+			// Verify mav is a RedirectView
+			View view = mav.getView();
+	        assertEquals(RedirectView.class, view.getClass());
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+		
+		EasyMock.verify(mockBookDefinitionService);
 	}
 	
 	/**
@@ -591,7 +624,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
 		EasyMock.verify(mockJobRequestService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 		EasyMock.verify(mockLockService);
 	}
 	
@@ -701,7 +734,40 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockBookDefinitionService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
+	}
+	
+	/**
+     * Test the GET to the Copy Book Definition page for deleted book
+     */
+	@Test
+	public void testCopyBookDefintionGetDeletedBook() {
+		request.setRequestURI("/"+ WebConstants.MVC_BOOK_DEFINITION_COPY);
+		request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
+    	request.setMethod(HttpMethod.GET.name());
+    	
+    	BookDefinition book = new BookDefinition();
+    	book.setEbookDefinitionId(BOOK_DEFINITION_ID);
+    	book.setIsDeletedFlag(true);
+    	
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
+		EasyMock.replay(mockBookDefinitionService);
+    	
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+			// Verify mav is a RedirectView
+			View view = mav.getView();
+	        assertEquals(RedirectView.class, view.getClass());
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+		
+		EasyMock.verify(mockBookDefinitionService);
 	}
 
 	/**
@@ -734,7 +800,7 @@ public class EditBookDefinitionControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 	}
 	
 	/**
@@ -825,7 +891,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
-		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockDropDownListService);
 	}
 	
 	/**

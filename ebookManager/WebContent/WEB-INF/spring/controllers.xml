@@ -9,6 +9,8 @@
 
 	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
 	
+	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />
+	
 	<bean id="adminBookDefinitionLockController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock.BookDefinitionLockController" 
 		p:bookLockService-ref="bookDefintionLockService" />
 		
@@ -86,7 +88,7 @@
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
 		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:editBookDefinitionService-ref="editBookDefinitionService"
+		  p:dropDownListService-ref="dropDownListService"
 		  p:jobRequestService-ref="jobRequestService"
 		  p:auditService-ref="eBookAuditService"
 		  p:bookLockService-ref="bookDefintionLockService">
@@ -96,6 +98,18 @@
 		  	p:codeService-ref="codeService"
 		  	p:jobRequestService-ref="jobRequestService"
 		  	p:environmentName-ref="environmentName"/>
+		  </property>
+	</bean>
+	
+	<bean id="deleteBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionController"
+		  p:bookDefinitionService-ref="bookDefinitionService"
+		  p:jobRequestService-ref="jobRequestService"
+		  p:auditService-ref="eBookAuditService"
+		  p:bookDefinitionLockService-ref="bookDefintionLockService">
+		  <property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionFormValidator"
+		  		p:jobRequestService-ref="jobRequestService"
+		  		p:bookDefinitionLockService-ref="bookDefintionLockService"/>
 		  </property>
 	</bean>
 
@@ -182,9 +196,5 @@
 		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:publishingStatsService-ref="publishingStatsService"		
 		  />		  		  
-		  
-	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview.ProviewTitleListController"
-		  p:proviewClient-ref="proviewClient"	
-		  />	  
 			  
 </beans>

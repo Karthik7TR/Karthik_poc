@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -32,6 +33,9 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	 */
 	@Transactional
 	public void saveEBookAudit(EbookAudit eBookAudit) {
+		// Update the date time
+		eBookAudit.setLastUpdated(new Date());
+		
 		eBookAuditDAO.saveAudit(eBookAudit);
 	}
 

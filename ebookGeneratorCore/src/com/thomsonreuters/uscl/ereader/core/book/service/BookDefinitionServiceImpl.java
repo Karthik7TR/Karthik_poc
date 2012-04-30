@@ -134,5 +134,14 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 		return eBook;
 	}
 	
+	/**
+	 * Delete the book definition
+	 * 
+	 */
+	@Transactional
+	public void removeBookDefinition(Long ebookDefId) {
+		bookDefinitionDao.removeBookDefinition(ebookDefId);
+	}
+	
 }
 

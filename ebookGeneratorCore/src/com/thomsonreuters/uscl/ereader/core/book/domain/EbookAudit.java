@@ -33,7 +33,7 @@ public class EbookAudit implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_CHARACTER_1024 = 1024;
 	private static final int MAX_CHARACTER_2048 = 2048;
-	public static enum AUDIT_TYPE {DELETE, CREATE, EDIT};
+	public static enum AUDIT_TYPE {DELETE, RESTORE, CREATE, EDIT};
 
 	/**
 	 */

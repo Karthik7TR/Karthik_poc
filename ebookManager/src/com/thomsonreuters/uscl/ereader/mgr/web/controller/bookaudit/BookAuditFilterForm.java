@@ -23,7 +23,7 @@ public class BookAuditFilterForm {
 	
 	public static final String FORM_NAME = "ebookAuditFilterForm";
 	public enum FilterCommand { SEARCH, RESET };
-	public enum Action {DELETE, CREATE, EDIT};
+	public enum Action {DELETE, CREATE, EDIT, RESTORE};
 	
 	//private static final Logger log = Logger.getLogger(FilterForm.class);
 	

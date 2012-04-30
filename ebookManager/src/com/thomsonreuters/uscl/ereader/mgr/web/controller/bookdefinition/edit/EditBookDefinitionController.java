@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -39,7 +40,7 @@ public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 	protected BookDefinitionService bookDefinitionService;
 	protected JobRequestService jobRequestService;
-	protected EditBookDefinitionService editBookDefinitionService;
+	protected DropDownListService dropDownListService;
 	private EBookAuditService auditService;
 	private BookDefinitionLockService bookLockService;
 	protected Validator validator;
@@ -123,7 +124,9 @@ public class EditBookDefinitionController {
 		// Check if Book Definition is being edited by another user
 		BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
 		
-		if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
+		if(bookDef != null && bookDef.isDeletedFlag()) {
+			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
+		} else if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
 			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
 		} else {
@@ -131,7 +134,7 @@ public class EditBookDefinitionController {
 			checkJobRequestAndPublishStatus(bookDef, model);
 			initializeModel(model, form);
 			
-			if(bookDef != null) {
+			if(bookDef != null && !bookDef.isDeletedFlag()) {
 				// Lock book definition
 				bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
 			}
@@ -197,8 +200,8 @@ public class EditBookDefinitionController {
 	/**
 	 * AJAX call to remove lock on book definition
 	 */
-	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_UNLOCK, method = RequestMethod.GET)
-	public void unlockBookDefinition(@RequestParam Long id) {
+	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_UNLOCK, method = RequestMethod.POST)
+	public @ResponseBody String unlockBookDefinition(@RequestParam Long id) {
 		String username = UserUtils.getAuthenticatedUserName();
 		
 		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
@@ -210,6 +213,7 @@ public class EditBookDefinitionController {
 				bookLockService.removeLock(book);
 			}
 		}
+		return "success";
 	}
 	
 	/**
@@ -225,10 +229,14 @@ public class EditBookDefinitionController {
 		
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-		form.copyBookDefinition(bookDef);
-		initializeModel(model, form);
-
-		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
+		
+		if(bookDef.isDeletedFlag()) {
+			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
+		} else {
+			form.copyBookDefinition(bookDef);
+			initializeModel(model, form);
+			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
+		}
 	}
 	
 	/**
@@ -292,12 +300,12 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
 		
 		// Set drop down lists
-		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
-		model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
-		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
-		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
-		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
+		model.addAttribute(WebConstants.KEY_STATES, dropDownListService.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, dropDownListService.getDocumentTypes());
+		model.addAttribute(WebConstants.KEY_PUB_TYPES, dropDownListService.getPubTypes());
+		model.addAttribute(WebConstants.KEY_JURISDICTIONS, dropDownListService.getJurisdictions());
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, dropDownListService.getPublishers());
+		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, dropDownListService.getKeywordCodes());
 	}
 
 	@Required
@@ -306,8 +314,8 @@ public class EditBookDefinitionController {
 	}
 	
 	@Required
-	public void setEditBookDefinitionService(EditBookDefinitionService service) {
-		this.editBookDefinitionService = service;
+	public void setDropDownListService(DropDownListService service) {
+		this.dropDownListService = service;
 	}
 	
 	@Required

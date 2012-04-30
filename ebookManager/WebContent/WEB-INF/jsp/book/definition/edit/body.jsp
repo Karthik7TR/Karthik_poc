@@ -11,9 +11,12 @@
 	var unlockBook = function() {
 		var bookdefinitionId = ${editBookDefinitionForm.bookdefinitionId}; 
 		  $.ajax({
-			  type: "GET",
+			  type: "POST",
 			  url: "<%= WebConstants.MVC_BOOK_DEFINITION_UNLOCK %>",
-			  data: { id: bookdefinitionId}
+			  data: { id: bookdefinitionId},
+			  success: function(response) {
+				  window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
+			  }
 			});
 	};
 
@@ -28,7 +31,6 @@
 		$('#cancel').click(function () {
 			warning = false;
 			unlockBook();
-			window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
 	    });    
 	});
 </script>

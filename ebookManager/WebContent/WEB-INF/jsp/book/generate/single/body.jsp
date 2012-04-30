@@ -35,7 +35,7 @@
   
   function submitForm(cmd){
 	$('#command').val(cmd);
-  	theForm.submit();
+  	$('#<%=GenerateBookForm.FORM_NAME%>').submit();
   	return true; 
   }
   

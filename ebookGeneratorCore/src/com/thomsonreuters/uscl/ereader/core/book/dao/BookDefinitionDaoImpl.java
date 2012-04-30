@@ -164,10 +164,9 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	}
 
 	@Override
-	public void removeBookDefinition(String titleId) {
-
+	public void removeBookDefinition(Long bookDefId) {
 		Session session = sessionFactory.getCurrentSession();
-		session.delete(findBookDefinitionByTitle(titleId));
+		session.delete(findBookDefinitionByEbookDefId(bookDefId));
 		session.flush();
 	}
 

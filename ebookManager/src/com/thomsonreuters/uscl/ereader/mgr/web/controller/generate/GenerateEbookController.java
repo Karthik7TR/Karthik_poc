@@ -196,6 +196,11 @@ public class GenerateEbookController {
 				.findBookDefinitionByEbookDefId(id);
 
 		if (book != null) {
+			
+			// Redirect to error page if book is marked as deleted
+			if(book.isDeletedFlag()) {
+				return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
+			}
 
 			String cutOffDate = null;
 
@@ -283,6 +288,12 @@ public class GenerateEbookController {
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 					log.error(errMessage);
 				}
+			} else if(book.isDeletedFlag()) {
+				
+				String errMessage = messageSourceAccessor.getMessage(
+						"mesg.book.deleted");
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+				log.error(errMessage);
 			} else {
 
 				try {
@@ -384,7 +395,8 @@ public class GenerateEbookController {
 						.getFullyQualifiedTitleId());
 				bookToGenerate.setProviewDisplayName(book
 						.getProviewDisplayName());
-
+				bookToGenerate.setDeleted(book.isDeletedFlag());
+				
 				booksToGenerate.add(bookToGenerate);
 
 			}

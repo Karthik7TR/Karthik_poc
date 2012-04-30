@@ -65,6 +65,7 @@ function submitAuditFilterForm(command) {
 		<form:option label="<%=BookAuditFilterForm.Action.CREATE.toString()%>" value="<%=BookAuditFilterForm.Action.CREATE.toString() %>"/>
 		<form:option label="<%=BookAuditFilterForm.Action.DELETE.toString()%>" value="<%=BookAuditFilterForm.Action.DELETE.toString() %>"/>
 		<form:option label="<%=BookAuditFilterForm.Action.EDIT.toString()%>" value="<%=BookAuditFilterForm.Action.EDIT.toString() %>"/>
+		<form:option label="<%=BookAuditFilterForm.Action.RESTORE.toString()%>" value="<%=BookAuditFilterForm.Action.RESTORE.toString() %>"/>
 	</form:select>
 	
 	<p><i style="color:grey">Wildcard: %</i></p>

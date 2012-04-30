@@ -105,6 +105,37 @@ public class EditBookDefinitionForm {
 		this.frontMatterTocLabel = "Publishing Information";
 	}
 	
+	/**
+	 * Reset some book definition fields before copying
+	 * in to the form
+	 * @param bookDef
+	 */
+	public void copyBookDefinition(BookDefinition bookDef) {
+		bookDef.setEbookDefinitionId(null);
+		bookDef.setProviewDisplayName(null);
+		bookDef.setIsbn(null);
+		bookDef.setMaterialId(null);
+		bookDef.setRootTocGuid(null);
+		bookDef.setNortDomain(null);
+		bookDef.setNortFilterView(null);
+		bookDef.setEbookDefinitionCompleteFlag(false);
+		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
+		
+		// Need to null surrogate and foreign keys.
+		// New keys will be made when Copy of Book Definition is saved.
+		for(EbookName name : bookDef.getEbookNames()) {
+			name.setEbookDefinition(null);
+			name.setEbookNameId(null);
+		}
+		
+		for(Author author: bookDef.getAuthors()) {
+			author.setAuthorId(null);
+			author.setEbookDefinition(null);
+		}
+		
+		initialize(bookDef);
+	}
+	
 	public void initialize(BookDefinition book) {
 		if(book != null) {
 			this.bookdefinitionId = book.getEbookDefinitionId();
@@ -150,25 +181,6 @@ public class EditBookDefinitionForm {
 			
 			parseTitleId(book);
 		}
-	}
-	
-	/**
-	 * Reset some book definition fields before copying
-	 * in to the form
-	 * @param bookDef
-	 */
-	public void copyBookDefinition(BookDefinition bookDef) {
-		bookDef.setEbookDefinitionId(null);
-		bookDef.setProviewDisplayName(null);
-		bookDef.setIsbn(null);
-		bookDef.setMaterialId(null);
-		bookDef.setRootTocGuid(null);
-		bookDef.setNortDomain(null);
-		bookDef.setNortFilterView(null);
-		bookDef.setEbookDefinitionCompleteFlag(false);
-		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
-		
-		initialize(bookDef);
 	}
 	
 	private void setupFrontMatterNames(List<EbookName> names){

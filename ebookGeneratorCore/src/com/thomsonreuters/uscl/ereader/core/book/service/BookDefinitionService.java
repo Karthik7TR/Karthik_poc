@@ -76,5 +76,9 @@ public interface BookDefinitionService {
 	 */
 	public BookDefinition saveBookDefinition(BookDefinition eBook);
 
-
+	/**
+	 * Delete the book definition
+	 * 
+	 */
+	public void removeBookDefinition(Long ebookDefId);
 }

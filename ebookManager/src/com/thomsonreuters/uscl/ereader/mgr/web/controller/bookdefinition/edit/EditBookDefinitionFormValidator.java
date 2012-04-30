@@ -99,6 +99,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     			
     			String oldTitleId = bookDef.getFullyQualifiedTitleId();
     			
+    			// Check if Book Definition is deleted
+    	    	if(bookDef.isDeletedFlag()) {
+    				errors.rejectValue("validateForm", "mesg.book.deleted");
+    			}
+    			
     			// Check if Book Definition is in JobRequest if set as complete
     			if(bookDef.getEbookDefinitionCompleteFlag()) {
     				if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {

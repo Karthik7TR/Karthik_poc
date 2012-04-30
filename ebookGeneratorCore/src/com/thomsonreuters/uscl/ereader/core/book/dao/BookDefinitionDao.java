@@ -67,7 +67,7 @@ public interface BookDefinitionDao {
 	 * @param key the primary key of the definition
 	 * @return void
 	 */
-	public void removeBookDefinition(String fullyQualifiedTitleId) throws DataAccessException;
+	public void removeBookDefinition(Long bookDefId) throws DataAccessException;
 	
 	/**
 	 * Saves a book definitions.

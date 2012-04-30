@@ -11,6 +11,7 @@ public class GenerateBulkBooksContainer {
 	private Long bookId;
 	private String fullyQualifiedTitleId;
 	private String proviewDisplayName;
+	private boolean isDeleted;
 
 	public String getProviewDisplayName() {
 		return proviewDisplayName;
@@ -34,6 +35,14 @@ public class GenerateBulkBooksContainer {
 
 	public void setBookId(Long bookId) {
 		this.bookId = bookId;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

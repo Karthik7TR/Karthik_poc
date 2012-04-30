@@ -182,6 +182,9 @@ public class WebConstants {
 	public static final String MVC_SEC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_SEC_LOGIN = "login.mvc";
 	public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
+	
+	// Error related URI's
+	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
@@ -239,6 +242,7 @@ public class WebConstants {
 	public static final String VIEW_SEC_ACCESS_DENIED = "accessDenied";
 	public static final String VIEW_SEC_LOGIN = "_login";
 	public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
+	public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

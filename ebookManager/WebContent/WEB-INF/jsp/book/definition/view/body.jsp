@@ -234,17 +234,13 @@ function submitForm(cmd)
 	<sec:authorize access="hasAnyRole('ROLE_EDITOR,ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
 		<c:set var="editBook" value=""/>
 	</sec:authorize>
-	<c:set var="copyBook" value="disabled"/>
+	<c:set var="copyGenerateBook" value="disabled"/>
 	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-		<c:set var="copyBook" value=""/>
+		<c:set var="copyGenerateBook" value=""/>
 	</sec:authorize>
-	<c:set var="generateBook" value="disabled"/>
-	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-		<c:set var="generateBook" value=""/>
-	</sec:authorize>
-	<c:set var="deleteBook" value="disabled"/>
+	<c:set var="superUser" value="disabled"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-		<c:set var="deleteBook" value=""/>
+		<c:set var="superUser" value=""/>
 	</sec:authorize>
 	<div style="font-family:Arial">
 		<%-- Action buttons for the displayed book definition --%>
@@ -252,12 +248,20 @@ function submitForm(cmd)
 		<form:form name="theForm" commandName="<%=ViewBookDefinitionForm.FORM_NAME%>" action="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST%>">
 			<form:hidden path="command"/>
 			<form:hidden path="<%=WebConstants.KEY_ID%>"/>
-			<c:if test="${!isInJobRequest}">
-				<input id="editBookDefinition" type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
-			</c:if>
-			<input type="submit" ${copyBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
-			<input type="submit" ${generateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
-			<input type="submit" ${deleteBook} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
+			
+			<c:choose>
+				<c:when test="${not book.deletedFlag }">
+					<c:if test="${!isInJobRequest}">
+						<input id="editBookDefinition" type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+					</c:if>
+					<input type="submit" ${copyGenerateBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
+					<input type="submit" ${copyGenerateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
+					<input type="submit" ${superUser} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
+				</c:when>
+				<c:otherwise>
+					<input type="submit" ${superUser} value="Restore" onclick="submitForm('<%=ViewBookDefinitionForm.Command.RESTORE%>')"/>
+				</c:otherwise>
+			</c:choose>
 			<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
 			<input type="submit" value="Job History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_JOB_HISTORY%>')"/>
 			<input type="button" value="Front Matter Preview" onclick="location.href='<%=WebConstants.MVC_FRONT_MATTER_PREVIEW%>?id=${book.ebookDefinitionId}'"/>

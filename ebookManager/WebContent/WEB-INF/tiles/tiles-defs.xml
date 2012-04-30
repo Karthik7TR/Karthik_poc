@@ -183,6 +183,18 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
 	</definition>
 	
+	<definition name="_bookDefinitionDelete" extends="standardDefinition">
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/delete/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/delete/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/delete/title.jsp"/>
+	</definition>
+	
+	<definition name="_bookDefinitionRestore" extends="standardDefinition">
+	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/restore/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/restore/left.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/restore/title.jsp"/>
+	</definition>
+	
 	<definition name="_bookDefinitionLock" extends="standardDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/lock/body.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
@@ -223,6 +235,12 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/fmpreview/select/title.jsp"/>
 	  <put-attribute name="left"  value="/WEB-INF/jsp/book/fmpreview/select/left.jsp"/>
 	  <put-attribute name="body"  value="/WEB-INF/jsp/book/fmpreview/select/select.jsp"/>
+	</definition>
+	
+	<definition name="_errorBookDeleted" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
+	  <put-attribute name="left"  value="/WEB-INF/jsp/error/left.jsp"/>
+	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDeleted.jsp"/>
 	</definition>
 
 	<definition name="_jobExecutionDetails" extends="standardDefinition">
