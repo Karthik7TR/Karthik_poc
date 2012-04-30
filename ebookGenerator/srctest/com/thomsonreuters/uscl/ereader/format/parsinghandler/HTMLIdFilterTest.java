@@ -214,7 +214,7 @@ public class HTMLIdFilterTest {
 				
 		testHelper(xmlTestStr, expectedResult);
 	}
-	@Ignore
+	@Test
 	public void testCreateAnchorTagWithNestingTags() throws SAXException
 	{
 		

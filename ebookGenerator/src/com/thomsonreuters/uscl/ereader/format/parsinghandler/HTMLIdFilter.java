@@ -121,9 +121,9 @@ public class HTMLIdFilter extends XMLFilterImpl {
 			{
 				super.endElement(uri, localName, "a");
 				anchorAddedCntr--;
-				if (anchorAddedCntr > 1)
+				if (anchorAddedCntr >= 1)
 				{
-					int lastIdx = goodCntrList.size();
+					int lastIdx = goodCntrList.size()-1;
 					goodStartCntr = goodCntrList.get(lastIdx);
 					goodCntrList.remove(lastIdx);
 				}
