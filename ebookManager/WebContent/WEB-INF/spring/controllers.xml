@@ -182,5 +182,9 @@
 		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:publishingStatsService-ref="publishingStatsService"		
 		  />		  		  
+		  
+	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview.ProviewTitleListController"
+		  p:proviewClient-ref="proviewClient"	
+		  />	  
 			  
 </beans>
