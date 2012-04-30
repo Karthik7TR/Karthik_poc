@@ -8,13 +8,12 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
 /**
  * Applies any post transformation on the HTML that need to be done to cleanup or make
  * the HTML ProView complient. 
  *
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
 public interface HTMLRemoveBrokenInternalLinksService {
 

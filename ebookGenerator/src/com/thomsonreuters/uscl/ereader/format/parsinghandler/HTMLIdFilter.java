@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -29,11 +28,12 @@ public class HTMLIdFilter extends XMLFilterImpl {
 	private int goodStartCntr = 0;
 	private ArrayList<Integer> goodCntrList = new ArrayList<Integer>();
 
-
-	public String getCurrentGuid() {
+	public String getCurrentGuid() 
+	{
 		return currentGuid;
 	}
-	public void setCurrentGuid(String currentGuid) {
+	public void setCurrentGuid(String currentGuid) 
+	{
 		this.currentGuid = currentGuid;
 	}
 	public void setTargetAnchors(HashMap<String, HashSet<String>> targetAnchors )

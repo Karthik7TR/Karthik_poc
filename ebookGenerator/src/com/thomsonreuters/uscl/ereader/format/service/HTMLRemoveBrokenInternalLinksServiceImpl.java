@@ -6,14 +6,11 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
@@ -21,14 +18,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
@@ -37,27 +31,21 @@ import org.apache.xml.serializer.SerializerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLUnlinkInternalLinksFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.InternalLinkResolverFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
  * Applies any post transformation on the HTML that needs to be done to cleanup or make
  * the HTML acceptable for ProView. 
  *
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
 public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBrokenInternalLinksService
 {
@@ -65,21 +53,26 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private DocMetadataService docMetadataService;
-		
+	private EmailNotification emailNotification;
+
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
-	}
-	
+	}	
 	
 	public void setdocMetadataService(DocMetadataService docMetadataService)
 	{
 		this.docMetadataService = docMetadataService;
 	}
 	
+	public void setEmailNotification(EmailNotification emailNotification) 
+	{
+		this.emailNotification = emailNotification;
+	}
+	
 	/**
-	 * This method applies multiple XMLFilters to the source HTML to apply various
-	 * post transformation rules to the HTML.
+	 * This method applies HTMLUnlinkInternalLinksFilter to the source HTML to remove
+	 * unused anchors from the HTML. Emails notification of anchors removed.
 	 * 
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
@@ -137,9 +130,21 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			numDocs++;
 		}
 		
+		if (targetAnchors != null)
+		{
 		// TODO: send notification for existing anchors.
-
-		LOG.info("Post transformations successfully applied to " + numDocs + " files.");
+	        String emailId = JobParameterKey.USER_EMAIL;
+			String subject = "Anchor Links removed for title: " + title +" job: " + jobId;
+			String emailBody = "Attached is the file of links removed this book. Format is:\nFamily Guid of document | comma seperated list of Proview enhanced links (relevant portion follows the slash). ";
+			LOG.debug("Notification email address : " + emailId);
+			LOG.debug("Notification email subject : " + subject);
+			LOG.debug("Notification email body : " + emailBody);
+			ArrayList<String> filenames = new ArrayList<String>();
+			filenames.add(anchorTargetListFile.getAbsolutePath());
+			emailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
+		}
+		
+		LOG.info("Unlinking transformation successfully applied to " + numDocs + " files.");
 		return numDocs;
 	}
 	
@@ -169,7 +174,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		SequenceInputStream wrappedStream = null;
 		try
 		{
-			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 			
 			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
 					titleID, jobIdentifier, guid);
@@ -204,7 +208,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 
 			unlinkFilter.parse(new InputSource(inStream));
 			
-			LOG.debug(sourceFile.getAbsolutePath() + " successfully finally transformed.");
 		}
 		catch(IOException e)
 		{
@@ -264,7 +267,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			BufferedReader reader = null;
 			try
 			{
-				LOG.info("Reading in anchor map file...");
 				reader = new BufferedReader(new FileReader(anchorTargetListFile));
 				String input = reader.readLine();
 				while (input != null)
@@ -317,4 +319,5 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		return anchors;
 		
 	}
+
 }

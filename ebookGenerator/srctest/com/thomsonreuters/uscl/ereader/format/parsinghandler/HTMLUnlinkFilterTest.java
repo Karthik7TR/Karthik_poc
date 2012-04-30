@@ -29,7 +29,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Test various HTMLAnchorFilter data scenarios.
+ * Test various HTMLUnlinkInternalLinksFilter data scenarios.
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
@@ -128,7 +128,7 @@ public class HTMLUnlinkFilterTest {
 	
 	
 	@Test
-	public void testCreateAnchorTagFromId() throws SAXException
+	public void testRemoveAnchorTagFromId() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
@@ -136,9 +136,17 @@ public class HTMLUnlinkFilterTest {
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
 	@Test
-	public void testCreateAnchorTagFromIdWithEmbededTags() throws SAXException
+	public void testRemoveAnchorTagFromIdTwice() throws SAXException
+	{
+		
+		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a><a href=\""+foundAnchor+ "\"><sup>2</sup></a></test>";
+		String expectedResult = "<test><sup>1</sup><sup>2</sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testRemoveAnchorTagFromIdWithEmbededTags() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "\"><a href=\""+foundAnchor+ "\"><strong>1</strong></a></sup></test>";
@@ -148,7 +156,7 @@ public class HTMLUnlinkFilterTest {
 	}
 	
 	@Test
-	public void testCreateAnchorTagFromIdWithExtraTags() throws SAXException
+	public void testRemoveAnchorTagFromIdWithExtraTags() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong>1</strong></a></sup></test>";
@@ -158,7 +166,7 @@ public class HTMLUnlinkFilterTest {
 	}
 	
 	@Test
-	public void testCreateAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException
+	public void testRemoveAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong>1</strong></a></sup></div></test>";
@@ -168,7 +176,7 @@ public class HTMLUnlinkFilterTest {
 	}
 	
 	@Test
-	public void testCreateAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException
+	public void testRemoveAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId+ "\" class=\"KG\"><strong>1</strong></span></a></sup></div></test>";
@@ -177,7 +185,7 @@ public class HTMLUnlinkFilterTest {
 		testHelper(xmlTestStr, expectedResult);
 	}
 	@Test
-	public void testCreateAnchorTagFromTwoIdDifferentNamesNested() throws SAXException
+	public void testRemoveAnchorTagFromTwoIdDifferentNamesNested() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\"><strong>1</strong></a></span></a></sup></div></test>";
@@ -186,7 +194,7 @@ public class HTMLUnlinkFilterTest {
 		testHelper(xmlTestStr, expectedResult);
 	}
 	@Test
-	public void testCreateAnchorTagFromTwoIdDifferentNames() throws SAXException
+	public void testRemoveAnchorTagFromTwoIdDifferentNames() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\">SupText</a></sup><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\"><strong>1</strong></a></span></div></test>";
@@ -195,7 +203,7 @@ public class HTMLUnlinkFilterTest {
 		testHelper(xmlTestStr, expectedResult);
 	}
 	@Test
-	public void testDoNotCreateAnchorTagFromSpanNotInTargetList() throws SAXException
+	public void testDoNotRemoveAnchorTagFromSpanNotInTargetList() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId + "notinlist\" class=\"KG\"><a href=\"" + foundAnchor +"notinlist\"><strong>1<br/>break</strong></a></span></a></sup></div></test>";
@@ -204,7 +212,7 @@ public class HTMLUnlinkFilterTest {
 		testHelper(xmlTestStr, expectedResult);
 	}
 	@Test
-	public void testCreateAnchorTagWithNestingTags() throws SAXException
+	public void testRemoveAnchorTagWithNestingTags() throws SAXException
 	{
 		
 		String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\">text</a></span></strong><strong>1<br/>break</strong></a></sup></strong></div></test>";

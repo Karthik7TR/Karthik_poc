@@ -5,19 +5,12 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
-
-import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
-import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
@@ -29,14 +22,15 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
 	private int badLinkCntr = 0;
-	private int goodAnchor = 0;
+	private int goodAnchorCntr = 0;
 	private String currentGuid;
 	
-
-	public String getCurrentGuid() {
+	public String getCurrentGuid() 
+	{
 		return currentGuid;
 	}
-	public void setCurrentGuid(String currentGuid) {
+	public void setCurrentGuid(String currentGuid) 
+	{
 		this.currentGuid = currentGuid;
 	}
 
@@ -48,7 +42,6 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	{
 		return targetAnchors;
 	}
-
 	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
@@ -79,13 +72,13 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				else
 				{
 					super.startElement(uri, localName, qName, atts);
-					goodAnchor++;
+					goodAnchorCntr++;
 				}
 			}
 			else
 			{
 				super.startElement(uri, localName, qName, atts);
-				goodAnchor++;
+				goodAnchorCntr++;
 			}
 		}
 		else
@@ -107,22 +100,22 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 		{
 			if (badLinkCntr > 0) // an anchor has been removed
 			{
-				if (goodAnchor == 0)
+				if (goodAnchorCntr == 0)
 				{
 					badLinkCntr--;
 				}
-				if (goodAnchor > 0)
+				if (goodAnchorCntr > 0)
 				{
 					super.endElement(uri, localName, qName);
-					goodAnchor--;
+					goodAnchorCntr--;
 				}	
 			}
 			else 
 			{
 				super.endElement(uri, localName, qName);
-				if (goodAnchor > 0)
+				if (goodAnchorCntr > 0)
 				{
-					goodAnchor--;
+					goodAnchorCntr--;
 				}
 			}
 		}

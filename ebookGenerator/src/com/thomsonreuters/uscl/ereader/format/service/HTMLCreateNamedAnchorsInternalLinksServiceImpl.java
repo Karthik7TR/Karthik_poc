@@ -7,7 +7,6 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,22 +14,18 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
@@ -40,15 +35,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLIdFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.InternalLinkResolverFilter;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.ProcessingInstructionZapperFilter;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -59,7 +46,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  * Applies any post transformation on the HTML that needs to be done to cleanup or make
  * the HTML acceptable for ProView. 
  *
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
 public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreateNamedAnchorsInternalLinksService
 {
@@ -143,14 +130,14 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 			createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
 		}
 		
-		LOG.info("Post transformations successfully applied to " + numDocs + " files.");
+		LOG.info("Creating Anchor transformations successfully applied to " + numDocs + " files.");
 		return numDocs;
 	}
 	
 	/**
-	 * This method applies the various XMLFilter(s) to the passed in source file and generates
-	 * a new file in the target directory. It also parses out all the static image references
-	 * and saves them off in a set to be serialized later.
+	 * This method applies HTMLIdFilter to the passed in source file and generates
+	 * a new html file in the target directory with the anchors added where currently referenced as ids. 
+	 * It also creates a file that contains anchors that should be unlinked as the source id was not found.
 	 * 
 	 * @param sourceFile source file to be transformed
 	 * @param targetDir target directory where the resulting post transformation file is to be written
@@ -172,7 +159,7 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 		SequenceInputStream wrappedStream = null;
 		try
 		{
-			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
+//			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 			
 			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
 					titleID, jobIdentifier, guid);
@@ -266,7 +253,6 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 			BufferedReader reader = null;
 			try
 			{
-				LOG.info("Reading in anchor map file...");
 				reader = new BufferedReader(new FileReader(anchorTargetListFile));
 				String input = reader.readLine();
 				while (input != null)
@@ -331,7 +317,6 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 		BufferedWriter writer = null;
 		try
 		{
-			LOG.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
 			writer = new BufferedWriter(new FileWriter(anchorTargetListFile));
 			
 			for (Entry<String, HashSet<String>> guidAnchorEntry : targetAnchors.entrySet())
