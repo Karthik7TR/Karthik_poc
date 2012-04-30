@@ -1,21 +1,18 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
+
 @Controller
 public class AppExceptionController {
-	// private static final Logger log = Logger.getLogger(AppExceptionController.class);
+	//private static final Logger log = Logger.getLogger(AppExceptionController.class);
 	
-	@RequestMapping(value="/appException.mvc", method = RequestMethod.GET)
-	public ModelAndView handleException(HttpServletRequest request, HttpServletResponse response)
-							  throws Exception {
-		return new ModelAndView("appException");
+	@RequestMapping(value=WebConstants.URI_APP_EXCEPTION, method = RequestMethod.GET)
+	public ModelAndView handleAppException() throws Exception {
+		return new ModelAndView(WebConstants.VIEW_APP_EXCEPTION);
 	}
-	
 }
