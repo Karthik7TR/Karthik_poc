@@ -24,6 +24,7 @@
 	ProView
 	<ul>
 		<li><a href="<%= WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW %>">Keywords</a></li>
+		<li><a href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES%>">Titles</a></li>
 	</ul>
 	
 	Book Definition
