@@ -217,7 +217,6 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		}
 		else
 		{
-			//TODO: Update based on horizontal Author display spec
 			AttributesImpl newAtts = new AttributesImpl();
 			newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "author1");
 			super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
