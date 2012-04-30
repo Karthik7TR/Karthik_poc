@@ -38,8 +38,8 @@ public class JobCleanupController {
 			hostName = null;
 		}
 		
-//		serverAccessService.notifyJobOwnerOnServerStartup(hostName, emailGroup);
-//		jobCleanupService.cleanUpDeadJobsForGivenServer(hostName);
+		serverAccessService.notifyJobOwnerOnServerStartup(hostName, emailGroup);
+		jobCleanupService.cleanUpDeadJobsForGivenServer(hostName);
 	}
 	
 	@Required
