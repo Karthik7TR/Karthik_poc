@@ -670,6 +670,7 @@ public class EditBookDefinitionForm {
 	public String createCoverImageName() {
 		String[] titleIdArray = titleId.split("/");
 		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
+		buffer.append("_cover");
 		buffer.append(".png");
 		return buffer.toString();
 	}
