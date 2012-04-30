@@ -40,7 +40,6 @@ public class UrlBuilderAdapter
 
     public UrlBuilderAdapter() throws Exception
     {
-        LOG.info("XALAN Constructor: [" + this.hashCode() + "]");
         this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
 

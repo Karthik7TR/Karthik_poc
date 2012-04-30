@@ -38,12 +38,8 @@ public class JobCleanupController {
 			hostName = null;
 		}
 		
-		
-		log.debug("serverName as read in JobCleanupcontroller is ="+hostName+" and emailGroup ="+emailGroup);
 //		serverAccessService.notifyJobOwnerOnServerStartup(hostName, emailGroup);
 //		jobCleanupService.cleanUpDeadJobsForGivenServer(hostName);
-		
-
 	}
 	
 	@Required
