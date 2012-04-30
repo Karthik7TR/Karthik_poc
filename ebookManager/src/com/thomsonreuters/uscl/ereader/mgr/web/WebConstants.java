@@ -128,6 +128,7 @@ public class WebConstants {
 	public static final String MVC_FRONT_MATTER_PREVIEW_RESEARCH = "frontMatterPreviewResearch.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT = "frontMatterPreviewWestlawNext.mvc";
 	
+	
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
 	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc";	// SECURED: job restart button on Job Execution Details page
@@ -173,6 +174,7 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
+	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLES = "adminProviewTitles.mvc";
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
@@ -206,6 +208,7 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
 	public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";
 	public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
+	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLES = "_adminProviewTitles";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
