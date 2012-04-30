@@ -28,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
 import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClientFactoryTest;
 
 @RunWith(Suite.class)
@@ -45,6 +46,7 @@ import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClien
 			HTMLEmptyHeading2FilterTest.class,
 			HTMLImageFilterTest.class,
 			HTMLInputFilterTest.class,
+			OperationsControllerTest.class,
 			ProcessingInstructionZapperFilterTest.class,
 			TitleXMLTOCFilterTest.class,
 			XMLImageTagHandlerTest.class,
