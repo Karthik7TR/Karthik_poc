@@ -176,7 +176,7 @@ public class HTMLUnlinkFilterTest {
 				
 		testHelper(xmlTestStr, expectedResult);
 	}
-	@Ignore
+	@Test
 	public void testCreateAnchorTagFromTwoIdDifferentNamesNested() throws SAXException
 	{
 		
@@ -203,11 +203,11 @@ public class HTMLUnlinkFilterTest {
 				
 		testHelper(xmlTestStr, expectedResult);
 	}
-	@Ignore
+	@Test
 	public void testCreateAnchorTagWithNestingTags() throws SAXException
 	{
 		
-		String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"foundAnchornew\">text</a></span></strong><strong>1<br/>break</strong></a></sup></strong></div></test>";
+		String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\">text</a></span></strong><strong>1<br/>break</strong></a></sup></strong></div></test>";
 		String expectedResult = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\">text</span></strong><strong>1<br/>break</strong></sup></strong></div></test>";
 				
 		testHelper(xmlTestStr, expectedResult);

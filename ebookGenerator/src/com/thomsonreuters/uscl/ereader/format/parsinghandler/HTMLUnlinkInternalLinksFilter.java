@@ -28,7 +28,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	
 	private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
-	private boolean isBadLink = false;
+	private int badLinkCntr = 0;
 	private int goodAnchor = 0;
 	private String currentGuid;
 	
@@ -74,7 +74,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				if ( nameAnchors != null && nameAnchors.contains(atts.getValue("href")))
 				{
 					// remove anchor with no target.
-					isBadLink = true;
+					badLinkCntr++;
 				}
 				else
 				{
@@ -105,11 +105,11 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	{
 		if (qName.equalsIgnoreCase("a"))
 		{
-			if (isBadLink) // an anchor has been removed
+			if (badLinkCntr > 0) // an anchor has been removed
 			{
 				if (goodAnchor == 0)
 				{
-					isBadLink = false;
+					badLinkCntr--;
 				}
 				if (goodAnchor > 0)
 				{
