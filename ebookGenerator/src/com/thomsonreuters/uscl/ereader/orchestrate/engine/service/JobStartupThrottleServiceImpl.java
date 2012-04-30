@@ -72,10 +72,10 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 					
 					// job is not done with key step 
 					jobNotDoneWithKeyStep ++;
-					log.debug("THROTTLE_STEP is not done for jobId ="+ jobId  +"  and book name "+ jobInstance.getJobParameters().getParameters().get("BOOK_NAME"));
+//					log.debug("THROTTLE_STEP is not done for jobId ="+ jobId  +"  and book name "+ jobInstance.getJobParameters().getParameters().get("BOOK_NAME"));
 					
 				}else {
-					log.debug("Job is gone beyond THROTTLE_STEP = " +throttleStepCheck);
+//					log.debug("Job is gone beyond THROTTLE_STEP = " +throttleStepCheck);
 				}
 			}
 			
