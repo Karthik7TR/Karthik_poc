@@ -185,6 +185,7 @@
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
+      <classes file="${dir.source}/messages.properties"/>  		
       <classes file="${dir.source}/log4j.xml"/>  
     </war>
 		
