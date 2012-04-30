@@ -15,10 +15,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
-import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
-
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
  *
@@ -29,7 +25,9 @@ public class HTMLIdFilter extends XMLFilterImpl {
 	private String currentGuid;
 	private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
-	private boolean isAnchorAdded = false;
+	private int anchorAddedCntr = 0;
+	private int goodStartCntr = 0;
+	private ArrayList<Integer> goodCntrList = new ArrayList<Integer>();
 
 
 	public String getCurrentGuid() {
@@ -60,8 +58,10 @@ public class HTMLIdFilter extends XMLFilterImpl {
 						guid = guidList[0];
 					}
 
-
+					if(targetAnchors != null)
+					{
 					nameAnchors =  targetAnchors.get(guid);
+					}
 					// add anchor id after <span id="co_footnote_I6a32d800568d11e199970000837bc6dd"> like
 					// <a name="er:#I38680d13677511dc8ebc0000837214a9/co_footnote_I6a32d800568d11e199970000837bc6dd">
 					String fullyQualifiedId = "er:#" + guid + "/" + atts.getValue("id");
@@ -69,31 +69,39 @@ public class HTMLIdFilter extends XMLFilterImpl {
 					if (nameAnchors != null && nameAnchors.contains(fullyQualifiedId))
 					{
 						// insert missing named anchor
-						AttributesImpl newAtts = new AttributesImpl(atts);
+						AttributesImpl newAtts = new AttributesImpl();
 							
-							int indexId = newAtts.getIndex("id");
-							if (indexId > -1)
+							newAtts.addAttribute( "", "", "name", "CDATA", atts.getValue("id"));
+							
+							if (anchorAddedCntr > 0)
 							{
-								newAtts.setAttribute(indexId, "", "", "name", "CDATA", atts.getValue("id"));
+								goodCntrList.add(goodStartCntr);
+								goodStartCntr = 0;
 							}
-							isAnchorAdded = true;
+							anchorAddedCntr++;
 							// remove from list
 							nameAnchors.remove(fullyQualifiedId);
 							targetAnchors.get(guid).remove(fullyQualifiedId);
 							// write existing id
 							super.startElement(uri, localName, qName, atts);
 							super.startElement(uri, localName, "a", newAtts);
-
 					}
 					else
 					{
 						super.startElement(uri, localName, qName, atts);
+						if (anchorAddedCntr > 0)
+						{
+							goodStartCntr++;
+						}
 					}						
-
 			}
 			else
 			{
 				super.startElement(uri, localName, qName, atts);
+				if (anchorAddedCntr > 0)
+				{
+					goodStartCntr++;
+				}
 			}
 	}
 	
@@ -106,13 +114,25 @@ public class HTMLIdFilter extends XMLFilterImpl {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
-		if (isAnchorAdded)
+		
+		if (anchorAddedCntr> 0)
 		{
-			super.endElement(uri, localName, "a");
-			isAnchorAdded = false;
+			if (goodStartCntr == 0)
+			{
+				super.endElement(uri, localName, "a");
+				anchorAddedCntr--;
+				if (anchorAddedCntr > 1)
+				{
+					int lastIdx = goodCntrList.size();
+					goodStartCntr = goodCntrList.get(lastIdx);
+					goodCntrList.remove(lastIdx);
+				}
+			}
+			else
+			{
+				goodStartCntr--;			
+			}
 		}
 		super.endElement(uri, localName, qName);
-		
-
 	}
 }

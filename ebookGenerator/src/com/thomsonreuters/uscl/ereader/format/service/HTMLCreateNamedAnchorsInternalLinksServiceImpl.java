@@ -138,7 +138,10 @@ public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreat
 		}
 		
 		File anchorTargetUnlinkFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile");
-		createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
+		if (targetAnchors != null)
+		{
+			createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
+		}
 		
 		LOG.info("Post transformations successfully applied to " + numDocs + " files.");
 		return numDocs;

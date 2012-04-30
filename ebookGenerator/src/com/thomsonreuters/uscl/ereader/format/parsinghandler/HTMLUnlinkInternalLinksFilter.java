@@ -66,7 +66,10 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 					guid = guidList[0].substring(4);
 				}
 
-				nameAnchors =  targetAnchors.get(guid);
+				if (targetAnchors != null)
+				{
+					nameAnchors =  targetAnchors.get(guid);
+				}
 					
 				if ( nameAnchors != null && nameAnchors.contains(atts.getValue("href")))
 				{
