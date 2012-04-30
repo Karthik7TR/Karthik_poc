@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -168,7 +169,7 @@ public class GenerateEbookController {
 	private boolean isCutOffDateGreaterOrEqualToday(Date cutOffDate) {
 
 		boolean cutOffDateGreaterOrEqualToday = false;
-		Date today = new Date();
+		Date today = new DateTime().toDateMidnight().toDate();
 
 		if (cutOffDate != null) {
 			cutOffDateGreaterOrEqualToday = (cutOffDate == today)
