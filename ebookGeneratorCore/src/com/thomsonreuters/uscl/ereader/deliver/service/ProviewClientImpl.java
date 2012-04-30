@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -169,6 +170,29 @@ public class ProviewClientImpl implements ProviewClient {
 		PublishedTitleParser parser = new PublishedTitleParser();
 
 		return parser.process(allPublishedTitleResponse);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getAllLatestProviewTitleInfo()
+	 */
+	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo()
+			throws ProviewException {
+
+		ArrayList<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+
+		Map<String, ProviewTitleContainer> titleMap = getAllProviewTitleInfo();
+
+		for (String bookId : titleMap.keySet()) {
+			ProviewTitleContainer titleContainer = titleMap.get(bookId);
+			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			allLatestProviewTitles.add(latestVersion);
+		}
+
+		return allLatestProviewTitles;
 
 	}
 
