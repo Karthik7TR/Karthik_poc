@@ -52,8 +52,8 @@ public class HTMLCreateNamedAnchorsInternalLinks extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_POST_TRANSFORM_DIR);
 		String postTransformDirectory = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_CREATED_DIR);
-		//TODO: Set value below based on execution context value
-		int numDocsInTOC = 0; 
+
+		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 				
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
@@ -64,9 +64,7 @@ public class HTMLCreateNamedAnchorsInternalLinks extends AbstractSbTasklet
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
-		//TODO: Add check to make sure number of documents that were transformed equals number of documents
-		//retrieved from Novus
-		if (numDocsTransformed == 0)
+		if (numDocsTransformed != numDocsInTOC)
 		{
 			String message = "The number of post transformed documents did not match the number " +
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
@@ -75,10 +73,7 @@ public class HTMLCreateNamedAnchorsInternalLinks extends AbstractSbTasklet
 			throw new EBookFormatException(message);
 		}
 		
-		//TODO: Improve metrics
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
-		
-//		return ExitStatus.FAILED; // TODO: Remove after testing. KG
 
 		return ExitStatus.COMPLETED;
 	}

@@ -62,8 +62,8 @@ public class TransformXML extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
 		String imgMetadataDirectory =
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_IMAGE_METADATA_DIR);
-		//TODO: Set value below based on execution context value
-		int numDocsInTOC = 0; 
+
+		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		
 		File xmlDir = new File(xmlDirectory);
 		File metadataDir = new File(metadataDirectory);
@@ -76,9 +76,7 @@ public class TransformXML extends AbstractSbTasklet
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
-		//TODO: Add check to make sure number of documents that were transformed equals number of documents
-		//retrieved from Novus
-		if (numDocsTransformed == 0)
+		if (numDocsTransformed != numDocsInTOC)
 		{
 			String message = "The number of documents transformed did not match the number " +
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
@@ -87,7 +85,6 @@ public class TransformXML extends AbstractSbTasklet
 			throw new EBookFormatException(message);
 		}
 		
-		//TODO: Improve metrics
 		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;

@@ -10,13 +10,11 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerService;
@@ -42,7 +40,6 @@ public class HTMLPostTransform extends AbstractSbTasklet
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
@@ -59,8 +56,8 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		String docsGuid = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
 		
 		String deDupping = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.DEDUPPING_FILE);
-		//TODO: Set value below based on execution context value
-		int numDocsInTOC = 0; 
+
+		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT); 
 		
 		boolean isTableViewRequired = bookDefinition.isProviewTableViewFlag();
 		
@@ -77,9 +74,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
-		//TODO: Add check to make sure number of documents that were transformed equals number of documents
-		//retrieved from Novus
-		if (numDocsTransformed == 0)
+		if (numDocsTransformed != numDocsInTOC)
 		{
 			String message = "The number of post transformed documents did not match the number " +
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
@@ -88,7 +83,6 @@ public class HTMLPostTransform extends AbstractSbTasklet
 			throw new EBookFormatException(message);
 		}
 		
-		//TODO: Improve metrics
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;

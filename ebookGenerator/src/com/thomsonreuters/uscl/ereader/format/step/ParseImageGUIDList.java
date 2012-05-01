@@ -43,7 +43,7 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 		String imgGuidListFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE);
 		String imgDocMapFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE);
-		//TODO: Retrieve expected number of document for this eBook from execution context
+
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		
 		File xmlDir = new File(xmlDirectory);
@@ -55,8 +55,7 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
-		//TODO: Update to check value is equal to execution context value (numDocsInTOC)
-		if (numDocsParsed == 0)
+		if (numDocsParsed != numDocsInTOC)
 		{
 			String message = "The number of documents wrapped by the HTMLWrapper Service did " +
 					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
@@ -65,7 +64,6 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 			throw new EBookFormatException(message);
 		}
 		
-		//TODO: Improve metrics
 		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 
 				+ numDocsParsed + " xml documents.");
 		
