@@ -27,11 +27,10 @@ public interface JobRequestService {
 	public JobRequest findByPrimaryKey(long jobReqeustId);
 	
 	/**
-	 * Returns the next queued job that is ready to run.
+	 * Returns the next queued job (if any) that is ready to run, removing it from the job request queue table.
 	 * @return a job request, or null if there are no jobs to run.
 	 */
 	public JobRequest getNextJobToExecute();
-	public void deleteJobRequest(long jobRequestId);
 	public void updateJobPriority(long jobRequestId, int priority);
 	
 	public Long saveQueuedJobRequest(BookDefinition bookDefinition, String version, int priority, String submittedBy);

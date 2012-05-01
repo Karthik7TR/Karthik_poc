@@ -70,17 +70,6 @@ public class JobRequestServiceIntegrationTest  {
 	}
 	
 	@Test
-	public void testDeleteJobRequest() {
-		
-		Long pk = saveStandardJobRequest();
-		JobRequest found = jobRequestService.findByPrimaryKey(pk);
-		Assert.assertNotNull(found);
-		jobRequestService.deleteJobRequest(pk);
-		found = jobRequestService.findByPrimaryKey(pk);
-		Assert.assertNull(found);
-	}
-	
-	@Test
 	public void testUpdateJobPriority(){
 		Long pk = saveStandardJobRequest();
 		int newJobPriority = 95;	

@@ -58,9 +58,9 @@ public class EngineServiceTest  {
 	@Test
 	public void testCreateDynamicJobParameters() {
 		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);
+		Assert.assertNotNull(JobParameterKey.HOST_NAME);
 		assertEquals(SUBMITTED_BY, dynamicJobParams.getString(JobParameterKey.USER_NAME));
-		//assertEquals(USER_EMAIL, dynamicJobParams.getString(JobParameterKey.USER_EMAIL));
-		Assert.assertNotNull(dynamicJobParams.getDate(JobParameterKey.JOB_TIMESTAMP));
+		assertEquals(VERSION, dynamicJobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
 	}
 
 	@Test

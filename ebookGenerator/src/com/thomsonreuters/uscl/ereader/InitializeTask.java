@@ -229,18 +229,19 @@ public class InitializeTask extends AbstractSbTasklet {
 		PublishingStats pubStats = new PublishingStats();
 		
 		// TODO: replace with call to job queue?
+		Date rightNow = new Date();
 		Long ebookDefId = jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID);
 		pubStats.setEbookDefId(ebookDefId);
 		Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
 		pubStats.setAuditId(auditId);
-		pubStats.setBookVersionSubmitted(jobParams.getString(JobParameterKey.BOOK_VERISON_SUBMITTED));
+		pubStats.setBookVersionSubmitted(jobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
 		pubStats.setJobHostName(jobParams.getString(JobParameterKey.HOST_NAME));
 		pubStats.setJobInstanceId(Long.valueOf(jobInstance.getId().toString()));
 		pubStats.setJobSubmitterName(jobParams.getString(JobParameterKey.USER_NAME));
-		pubStats.setJobSubmitTimestamp((Date)jobParams.getDate(JobParameterKey.JOB_TIMESTAMP)); 
+		pubStats.setJobSubmitTimestamp(rightNow); 
 		pubStats.setPublishStatus("Initialize Step Complete");
-		pubStats.setPublishStartTimestamp(new Date(System.currentTimeMillis())); 
-		pubStats.setLastUpdated(new Date(System.currentTimeMillis()));
+		pubStats.setPublishStartTimestamp(rightNow); 
+		pubStats.setLastUpdated(rightNow);
 		
 		publishingStatsService.savePublishingStats(pubStats); 
 		

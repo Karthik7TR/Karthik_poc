@@ -17,15 +17,9 @@ public class JobParameterKey {
 	public static final String HOST_NAME = "hostName";
 	
 	public static final String BOOK_DEFINITION_ID = "bookDefinitionId";	
-	public static final String BOOK_VERISON_SUBMITTED = "bookVerisonSubmitted";
-	/**
-	 * Serves as a unique serial number to differentiate the job instances.
-	 * If you don't have a varying job parameter for the instance, you get an exception when you try an launch the job
-	 * since it thinks that the e-book generating job has already run to completion.
-	 */
-	public static final String JOB_TIMESTAMP = "jobTimestamp";
+	public static final String BOOK_VERSION_SUBMITTED = "bookVersionSubmitted";
 	
 	public static final String ENVIRONMENT_NAME = "environmentName";
 	
-	public static final String PROVIEW_DOMAIN_NAME = "ProViewDomain";	
+	public static final String PROVIEW_DOMAIN_NAME = "proviewDomain";	
 }

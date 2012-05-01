@@ -9,7 +9,6 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 /**
  * Utilities for interacting with the Spring Batch engine used in starting, restarting, and stopping jobs.
@@ -34,7 +33,6 @@ public interface EngineService {
 	 */
 	public Long restartJob(long jobExecutionId) throws Exception;
 	
-	
 	/**
 	 * Perform a graceful stop of a job by stopping it after its current step has finished executing.
 	 * @param jobExecutionId identifies the job to be stopped.
@@ -42,13 +40,6 @@ public interface EngineService {
 	 */
 	public void stopJob(long jobExecutionId) throws Exception;
 
-	/**
-	 * Create the job parameters used to run the job from the loaded book definition.
-	 * @param bookDefinition to book properties loaded from a database table.
-	 * @return the Spring Batch Job Parameters with well-known keys created from the book definition.
-	 */
-//	public JobParameters createJobParametersFromBookDefinition(BookDefinition bookDefinition);
-	
 	/**
 	 * Create a set of Job parameters at runtime from dynamic data.
 	 * These parameters will include the user who ran the job, their email address, and a job timestamp. 

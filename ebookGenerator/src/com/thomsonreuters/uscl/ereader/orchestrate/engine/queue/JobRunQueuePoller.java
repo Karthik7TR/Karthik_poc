@@ -17,6 +17,8 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -55,6 +57,7 @@ public class JobRunQueuePoller {
 				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
 					JobRequest jobRequest = jobRequestService.getNextJobToExecute();
 					if (jobRequest != null) {
+//						jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
 						// Create the dynamic set of launch parameters, things like
 						// user name, user email, and a unique serial number
 						JobParameters dynamicJobParameters = engineService
@@ -66,7 +69,6 @@ public class JobRunQueuePoller {
 						// Start the job that builds the ebook
 						log.debug("Starting Job: " + jobRequest);
 						engineService.runJob(JobRequest.JOB_NAME_CREATE_EBOOK, allJobParameters);
-						jobRequestService.deleteJobRequest(jobRequest.getPrimaryKey());
 						if (log.isDebugEnabled()) {
 							log.debug(String.format("THREAD POOL: activeCount=%d,poolSize=%d,corePoolSize=%d,maxPoolSize=%d",
 									springBatchTaskExecutor.getActiveCount(), springBatchTaskExecutor.getPoolSize(),

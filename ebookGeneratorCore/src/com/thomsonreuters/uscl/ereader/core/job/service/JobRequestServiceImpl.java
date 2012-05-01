@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -42,21 +43,18 @@ public class JobRequestServiceImpl implements JobRequestService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(isolation=Isolation.SERIALIZABLE)
 	public JobRequest getNextJobToExecute() {
 		List<JobRequest> jobs = findAllJobRequests();
 		// It is assumed that the findAllJobRequests() returns the job requests in the order in which they will run.
 		// So take advantage of this and return the first one, which should be the next job to be launched.
 		JobRequest jobRequest = (jobs.size() > 0) ? jobs.get(0) : null; 
+		// Delete the job just picked up otherwise we can have two different pollers pick up the same job from the table
+		// causing the same job to be launched twice.
+		if (jobRequest != null) {
+			jobRequestDao.deleteJobRequest(jobRequest.getPrimaryKey());
+		}
 		return jobRequest;
-	}
-
-	@Override
-	@Transactional
-	public void deleteJobRequest(long jobRequestId) {
-		
-		jobRequestDao.deleteJobRequest(jobRequestId);
-		
 	}
 
 	@Override

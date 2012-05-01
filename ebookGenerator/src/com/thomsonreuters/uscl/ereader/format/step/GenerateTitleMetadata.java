@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -56,7 +55,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERISON_SUBMITTED);
+		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 		
 		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors());
 		String materialId = bookDefinition.getMaterialId();

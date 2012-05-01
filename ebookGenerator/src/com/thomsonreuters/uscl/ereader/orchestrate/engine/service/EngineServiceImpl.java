@@ -10,7 +10,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class EngineServiceImpl implements EngineService {
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
-	private String proviewDomainName; // like "ci" or "demo" or "qed"
+	private String proviewDomainName;
 
 	/**
 	 * Immediately run a job as defined in the specified JobRunRequest.
@@ -98,11 +97,8 @@ public class EngineServiceImpl implements EngineService {
 		// Add misc metadata, dynamic key/value pairs into the job parameters map
 		jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
 		jobParamMap.put(JobParameterKey.BOOK_DEFINITION_ID, new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
-		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));	
-//		jobParamMap.put(JobParameterKey.BOOK_VERISON_SUBMITTED, new JobParameter("1"));
-		//jobParamMap.put(JobParameterKey.USER_EMAIL, new JobParameter(jobRequest.getUserEmail()));
+		jobParamMap.put(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));	
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
-		jobParamMap.put(JobParameterKey.JOB_TIMESTAMP, new JobParameter(new Timestamp(System.currentTimeMillis())));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
 		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));		
 		return new JobParameters(jobParamMap);
