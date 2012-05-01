@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,7 +101,8 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));	
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
-		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));		
+		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));
+		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(new Date()));	
 		return new JobParameters(jobParamMap);
 	}
 
