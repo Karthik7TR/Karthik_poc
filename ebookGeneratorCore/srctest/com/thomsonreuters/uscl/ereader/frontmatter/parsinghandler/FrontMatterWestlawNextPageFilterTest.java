@@ -113,7 +113,7 @@ public class FrontMatterWestlawNextPageFilterTest {
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
 		String expectedResult = "<test><a name=\"" + FrontMatterFileName.WESTLAWNEXT + 
-				FrontMatterFileName.ANCHOR + "\"/></test>";
+				FrontMatterFileName.ANCHOR + "\"> </a></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}

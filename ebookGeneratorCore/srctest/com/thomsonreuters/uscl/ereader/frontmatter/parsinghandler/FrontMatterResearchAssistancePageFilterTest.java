@@ -157,7 +157,7 @@ public class FrontMatterResearchAssistancePageFilterTest {
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
 		String expectedResult = "<test><a name=\"" + FrontMatterFileName.RESEARCH_ASSISTANCE + 
-				FrontMatterFileName.ANCHOR + "\"/></test>";
+				FrontMatterFileName.ANCHOR + "\"> </a></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}

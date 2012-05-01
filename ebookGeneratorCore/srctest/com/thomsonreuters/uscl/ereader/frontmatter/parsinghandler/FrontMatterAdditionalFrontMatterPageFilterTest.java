@@ -30,7 +30,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -172,7 +171,7 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_AdditionalPageAnchor/></test>";
 		String expectedResult = "<test><a name=\"" + FrontMatterFileName.ADDITIONAL_FRONT_MATTER + "40" +
-				FrontMatterFileName.ANCHOR + "\"/></test>";
+				FrontMatterFileName.ANCHOR + "\"> </a></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
