@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
@@ -33,15 +34,15 @@ public class HTMLEmptyHeading2Filter extends XMLFilterImpl{
 		{
 			isHeading2 = true;
 			expectedNumClosedH2s++;
-			eventBuffer.add(new StartElement(uri, localName, qName, atts));
+			eventBuffer.add(new StartElement(uri, localName, qName, new AttributesImpl(atts)));
 		}
 		else if (isHeading2)
 		{
-			eventBuffer.add(new StartElement(uri, localName, qName, atts));
+			eventBuffer.add(new StartElement(uri, localName, qName, new AttributesImpl(atts)));
 		}
 		else
 		{
-			super.startElement(uri, localName, qName, atts);
+			super.startElement(uri, localName, qName, new AttributesImpl(atts));
 		}
 	}
 	

@@ -21,7 +21,6 @@ import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 
@@ -130,15 +129,19 @@ public class HTMLEmptyHeading2FilterTest {
 		testHelper(xmlTestStr, expectedResult);
 	}
 	
-	@Ignore
+	@Test
 	public void testSimpleH2TagWithAttributesAndTagsPreserved()
 	{
-		String xmlTestStr = "<test><h2>Testing</h2><test2/><h2></h2><test3/><h2></h2>" +
-		"<test4/><h2><a name=\"name1\">Hello</a><a name=\"name2\">Hello2</a></h2></test>";
-String expectedResult = "<test><h2>Testing</h2><test2/><test3/><test4/><h2><a name=\"name1\">Hello</a><a name=\"name2\">Hello2</a></h2></test>";
+		String xmlTestStr = "<test><h2>Testing</h2><test2/><h2></h2>" +
+				"<test3/><h2></h2>" +
+				"<test4/><h2><a name=\"name1\">Hello</a><a name=\"name2\">Hello2</a></h2></test>";
+		String expectedResult = "<test><h2>Testing</h2><test2/>" +
+				"<test3/>" +
+				"<test4/><h2><a name=\"name1\">Hello</a><a name=\"name2\">Hello2</a></h2></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
+	
 	@Test
 	public void testSimpleH2TagWithTextAndTagsBeforeAndAfterPreserved()
 	{

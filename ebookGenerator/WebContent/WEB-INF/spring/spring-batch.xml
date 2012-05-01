@@ -14,7 +14,8 @@
                     p:dataSource-ref="dataSource"
                     p:tablePrefix="${spring.batch.table.prefix}"
                     p:lobHandler-ref="oracleLobHandler"
-                    p:transactionManager-ref="transactionManager"/>
+                    p:transactionManager-ref="transactionManager"
+                    p:maxVarCharLength="2400"/>
 
 	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
 	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
