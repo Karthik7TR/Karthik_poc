@@ -57,7 +57,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
-		log.debug(">>>");
+//		log.debug(">>>");
 		FilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
 		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
 		

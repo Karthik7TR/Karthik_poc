@@ -26,13 +26,11 @@
 		  p:dataSource-ref="dataSource"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
 
-	<!-- CorePoolSize is the max # of thread's that will run concurrently.
-		 Also note that the DB connection pool maxActive parameter
-		 should be greater than the corePoolSize (like twice) since each job takes up one pooled connection. -->
+	<!-- CorePoolSize is the max # of thread's that will run concurrently before the task will be placed into the blocking queue.
+		 Also note that the DB connection pool maxActive parameter should be greater than the corePoolSize (like twice) since
+		 each Spring Batch job itself takes up one pooled connection. -->
 	<bean id="springBatchTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
-		  p:corePoolSize="${spring.batch.max.concurrent.jobs}"
-		  p:maxPoolSize="${spring.batch.max.concurrent.jobs}"
-		  p:queueCapacity="0"/>	<!-- No jobs allowed to queue up in the task scheduler -->				
+		  p:corePoolSize="${spring.batch.max.concurrent.jobs}"/>
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">
 	</bean>

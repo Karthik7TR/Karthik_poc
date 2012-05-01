@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
@@ -33,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 @Controller
 public class JobInstanceController {
-	private static final Logger log = Logger.getLogger(JobInstanceController.class);
+//	private static final Logger log = Logger.getLogger(JobInstanceController.class);
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
 	private JobService jobService;
@@ -49,7 +48,7 @@ public class JobInstanceController {
 	@RequestMapping(value=WebConstants.MVC_JOB_INSTANCE_DETAILS, method = RequestMethod.GET)
 	public ModelAndView inboundGet(@RequestParam Long jobInstanceId,
 							  Model model) throws Exception {
-		log.debug(">>> jobInstanceId="+jobInstanceId);
+//		log.debug(">>> jobInstanceId="+jobInstanceId);
 		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
 		if (jobInstance != null) {
 			EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());

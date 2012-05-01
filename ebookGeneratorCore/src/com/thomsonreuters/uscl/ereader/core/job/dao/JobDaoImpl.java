@@ -39,6 +39,7 @@ public class JobDaoImpl implements JobDao {
 			sql.append(String.format("(execution.JOB_EXECUTION_ID = %d) and ", jobExecutionId));
 			sql.append("(execution.JOB_INSTANCE_ID = stats.JOB_INSTANCE_ID(+)) and ");
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+))");
+//			sql.append("(auditTable.PROVIEW_DISPLAY_NAME is not null)");  // Do not fetch rows that appear to be garbage
 			List<JobSummary> rows = jdbcTemplate.query(sql.toString(), JOB_SUMMARY_ROW_MAPPER);
 			if (rows.size() == 0) {
 				log.debug(String.format("Job Execution ID %d was not found", jobExecutionId));
@@ -63,7 +64,13 @@ public class JobDaoImpl implements JobDao {
 		}
 		sql.append("where ");
 		if (filter.getFrom() != null) {
-			sql.append("(execution.START_TIME >= ?) and ");
+		/* 	We want to show jobs that are in the STARTING status even if they have no start time because
+			these are restarted jobs that are waiting for a thread (from the pool) to run and have not yet
+			began to actually execute.  They will remain in the STARTING status until another job completes
+			so the task can come off the ThreadPoolTaskExecutor blocking queue and be assigned a thread 
+			from the pool when a thread frees up. */
+			sql.append(String.format("((execution.STATUS = '%s') or (execution.START_TIME >= ?)) and ",
+						BatchStatus.STARTING.toString()));
 		}
 		if (filter.getTo() != null) {
 			sql.append("(execution.START_TIME < ?) and ");
@@ -90,7 +97,7 @@ public class JobDaoImpl implements JobDao {
 		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
 		sql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
 		
-log.debug("SQL: " + sql.toString());
+//log.debug("SQL: " + sql.toString());
 		Object[] args = null;
 		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
 			args = new Object[2];
