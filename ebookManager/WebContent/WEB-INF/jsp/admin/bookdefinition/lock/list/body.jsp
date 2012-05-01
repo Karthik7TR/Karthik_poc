@@ -11,7 +11,7 @@
 	<%-- Table of ContentType --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_BOOK_DEFINITION_LOCK %>" class="displayTagTable" cellpadding="2">
 	  <display:setProperty name="basic.msg.empty_list">No Book Definitions are locked.</display:setProperty>
-	
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column>
 	  	<a href="<%=WebConstants.MVC_ADMIN_BOOK_LOCK_DELETE%>?<%=WebConstants.KEY_ID%>=${vdo.ebookDefinitionLockId}">Delete</a>
 	  </display:column>

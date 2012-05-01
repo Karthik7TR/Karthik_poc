@@ -12,7 +12,7 @@
 	<%-- Table of ContentType --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_JURIS_TYPE_CODE %>" class="displayTagTable" cellpadding="2">
 	  <display:setProperty name="basic.msg.empty_list">No Jurisdiction codes were found.</display:setProperty>
-	
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column>
 	  	<a href="<%=WebConstants.MVC_ADMIN_JURIS_CODE_EDIT%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Edit</a>
 	  	<a href="<%=WebConstants.MVC_ADMIN_JURIS_CODE_DELETE%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Delete</a>

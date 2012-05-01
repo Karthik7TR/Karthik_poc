@@ -21,6 +21,7 @@
 			   requestURI="<%=WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT%>"
 			   sort="external">
   <display:setProperty name="basic.msg.empty_list">No book definition audits were found.</display:setProperty>
+  <display:setProperty name="paging.banner.onepage" value=" " />
  	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
   <display:column title="Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_DATE.toString()%>"><fmt:formatDate value="${audit.lastUpdated}" pattern="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/></display:column>
   <display:column title="Book Definition ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_DEFINITION_ID.toString()%>" >

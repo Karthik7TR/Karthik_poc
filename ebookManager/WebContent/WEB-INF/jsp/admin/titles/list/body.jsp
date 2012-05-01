@@ -19,7 +19,7 @@
 				   
 	
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
-	  
+	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="Title" property="title" sortable="true"/>
 	  	<display:column title="Version" property="vesrion" sortable="true"/>

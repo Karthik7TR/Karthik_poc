@@ -58,6 +58,7 @@
 				   partialList="true"
 				   size="resultSize"
 				   sort="external">
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>

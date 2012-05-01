@@ -25,7 +25,7 @@
 				   >
 
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
-	  
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="Date" sortable="true">
 	  	<fmt:formatDate value="${vdo.jobSubmitTimestamp}" pattern="${DATE_FORMAT}"/>
 	  </display:column>

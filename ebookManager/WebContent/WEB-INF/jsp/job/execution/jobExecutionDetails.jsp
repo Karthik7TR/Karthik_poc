@@ -161,6 +161,7 @@
 														stepExecution.getStartTime(), endTime);
 				}
 			%>
+			<display:setProperty name="paging.banner.onepage" value=" " />
 	  		<display:setProperty name="basic.msg.empty_list">No job steps were found.</display:setProperty>
 	  		<display:column title="Step Name" property="stepName" style="text-align:left"/>
 	  		<display:column title="Step ID">
@@ -182,6 +183,7 @@
 	<div id="jobExecutionContextDiv" class="job-details-expand-div">
 		<display:table id="jobExecutionContextMapEntry" name="job.jobExecutionContextMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job execution context entries were found.</display:setProperty>
+	  		<display:setProperty name="paging.banner.onepage" value=" " />
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value"/>
 		</display:table>
@@ -194,6 +196,7 @@
 	<div id="jobParametersDiv" class="job-details-expand-div">
 		<display:table id="jobParameterMapEntry" name="job.jobParameterMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job parameters were found.</display:setProperty>
+	  		<display:setProperty name="paging.banner.onepage" value=" " />
 	  		<display:column title="Name" property="key" style="width: 20%"/>
 	  		<display:column title="Value" property="value.value"/>
 		</display:table>

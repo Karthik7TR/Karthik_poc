@@ -52,6 +52,7 @@
 			}
 		%>
   		<display:setProperty name="basic.msg.empty_list">No job steps were found.</display:setProperty>
+  		<display:setProperty name="paging.banner.onepage" value=" " />
   		<display:column title="Step Name" property="stepName" style="text-align:left"/>
   		<display:column title="Exec ID">
   			<a href="<%=WebConstants.MVC_JOB_EXECUTION_DETAILS%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${step.jobExecutionId}">${step.jobExecutionId}</a>

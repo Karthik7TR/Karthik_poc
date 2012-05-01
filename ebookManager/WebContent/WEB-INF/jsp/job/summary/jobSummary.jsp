@@ -74,6 +74,7 @@ function submitJobSummaryForm(command) {
 				   requestURI="<%=WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT%>"
 				   sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No job executions were found.</display:setProperty>
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="${selectAllElement}"  style="text-align: center">
   		<form:checkbox path="jobExecutionIds" value="${job.jobExecutionId}"/>
   	  </display:column>

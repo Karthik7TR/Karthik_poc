@@ -124,6 +124,7 @@
 <div id="stepExecutionContextDiv" class="job-details-expand-div">
 	<display:table id="stepExecutionContextMapEntry" name="<%=WebConstants.KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES %>" class="displayTagTable" cellpadding="3" style="text-align: left;">
   		<display:setProperty name="basic.msg.empty_list">No step execution context entries were found.</display:setProperty>
+  		<display:setProperty name="paging.banner.onepage" value=" " />
   		<display:column title="Name" property="key" style="width: 20%"/>
   		<display:column title="Value" property="value"/>
 	</display:table>

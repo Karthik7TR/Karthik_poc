@@ -23,6 +23,7 @@
 		
 		<display:table id="<%= WebConstants.KEY_VDO %>" name="book" class="displayTagTable">
 			<display:setProperty name="basic.msg.empty_list">No Books were found that used Keywords in ${keywordTypeCode.name}.</display:setProperty>
+			<display:setProperty name="paging.banner.onepage" value=" " />
 			<display:column title="Title ID" >
 				<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.ebookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 			</display:column>

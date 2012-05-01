@@ -22,6 +22,7 @@
 	<display:table id="jobRequest" name="<%=WebConstants.KEY_PAGINATED_LIST%>"
 				   requestURI="<%=WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT%>" class="displayTagTable"> 
 	  <display:setProperty name="basic.msg.empty_list">No jobs are queued to run.</display:setProperty>
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="Book Name" property="bookDefinition.proviewDisplayName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
 	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>">
 	  	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${jobRequest.bookDefinition.ebookDefinitionId}">${jobRequest.bookDefinition.fullyQualifiedTitleId}</a>

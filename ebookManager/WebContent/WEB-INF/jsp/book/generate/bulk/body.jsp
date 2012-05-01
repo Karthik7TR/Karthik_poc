@@ -22,6 +22,7 @@
 	   >
 				   
 	 	<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
+	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Title ID" property="fullyQualifiedTitleId" sortable="false"/>
 	  	<display:column title="Proview Display Name" property="proviewDisplayName" sortable="false"/>
 	 	<display:column title="Action" sortable="false">

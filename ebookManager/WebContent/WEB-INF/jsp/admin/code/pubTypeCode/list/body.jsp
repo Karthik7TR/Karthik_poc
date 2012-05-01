@@ -12,7 +12,7 @@
 	<%-- Table of ContentType --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_PUB_TYPE_CODE %>" class="displayTagTable" cellpadding="2">
 	  <display:setProperty name="basic.msg.empty_list">No Publish Type Codes were found.</display:setProperty>
-	
+	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column>
 	  	<a href="<%=WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Edit</a>
 	  	<a href="<%=WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Delete</a>
