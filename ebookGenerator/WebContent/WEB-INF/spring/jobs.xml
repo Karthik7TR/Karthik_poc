@@ -32,13 +32,6 @@
 		<!-- Parse and Persist meta data obtained from Gather step -->
 		<step id="persistMetadata">
 			<tasklet ref="persistDocMetadataTask"/>
-			<next on="COMPLETED" to="mockGatherSteps"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<!-- Mocks up the gather steps for sample static book runs -->
-		<step id="mockGatherSteps">
-			<tasklet ref="mockGatherTask"/>
 			<next on="COMPLETED" to="parseImageGuids"/>
 			<fail on="FAILED"/>
 		</step>
@@ -160,8 +153,7 @@
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask"
 				p:docMetadataService-ref="docMetadataService"				
-				p:bookDefnService-ref="bookDefinitionService"/>							
-	<beans:bean id="mockGatherTask" class="com.thomsonreuters.uscl.ereader.format.step.MockUpGatherSteps"/>
+				p:bookDefnService-ref="bookDefinitionService"/>
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"/>
 	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask"
@@ -185,7 +177,8 @@
 				
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper"
 				p:bookDefnService-ref="bookDefinitionService"
-				p:htmlWrapperService-ref="htmlWrapperService"/>
+				p:htmlWrapperService-ref="htmlWrapperService"
+				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory"/>
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata"
 				p:titleMetadataService-ref="titleMetadataService"/>						

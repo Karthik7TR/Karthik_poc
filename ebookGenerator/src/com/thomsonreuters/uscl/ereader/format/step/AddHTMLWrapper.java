@@ -18,11 +18,14 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step adds a static predefined HTML header and footer and any ProView specific document wrappers.
@@ -36,7 +39,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	private HTMLWrapperService htmlWrapperService;
 	
 	private BookDefinitionService bookDefnService;
-	
+	private PublishingStatsService publishingStatsService;
 	
 	public void sethtmlWrapperService(HTMLWrapperService htmlWrapperService) 
 	{
@@ -48,7 +51,10 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		this.bookDefnService = bookDefnService;
 	}
 	
-	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
+	}
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
@@ -58,7 +64,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		String postTransformDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_FIXED_DIR);
 		String htmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_HTML_WRAPPER_DIR);
 		String docToTocFileName = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
-		//TODO: Retrieve expected number of document for this eBook from execution context
+
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 					
 		JobParameters jobParams = getJobParameters(chunkContext);
@@ -75,12 +81,29 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		File docToTocFile = new File(docToTocFileName);
 		
 		long startTime = System.currentTimeMillis();
-		int numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile, titleId, jobId, keyciteToplineFlag);
+		
+		String stepStatus =  "All Format Steps Completed";
+		int numDocsWrapped = -1;
+		try
+		{
+			numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile, titleId, jobId, keyciteToplineFlag);
+		}
+		catch (EBookFormatException e)
+		{
+			stepStatus = "Failed in Wrapper Format Step";
+			throw e;
+		}
+		finally
+		{
+			  PublishingStats jobstats = new PublishingStats();
+		      jobstats.setJobInstanceId(jobId);
+		      jobstats.setPublishStatus(stepStatus);
+			  publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FORMATDOC);
+		}
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
-		//TODO: Update to check value is equal to execution context value (numDocsInTOC)
-		if (numDocsWrapped == 0)
+		if (numDocsWrapped != numDocsInTOC)
 		{
 			String message = "The number of documents wrapped by the HTMLWrapper Service did " +
 					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
@@ -89,9 +112,11 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 			throw new EBookFormatException(message);
 		}
 		
-		//TODO: Improve metrics
 		LOG.debug("Added HTML and ProView document wrappers to " + numDocsWrapped + " documents in " + 
 				elapsedTime + " milliseconds");
+		
+		jobExecutionContext.putString(JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH, 
+				jobExecutionContext.getString(JobExecutionKey.FORMAT_HTML_WRAPPER_DIR));
 		
 		return ExitStatus.COMPLETED;
 	}

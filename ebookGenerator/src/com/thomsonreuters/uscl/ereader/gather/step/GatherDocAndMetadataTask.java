@@ -79,7 +79,8 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		jobstatsDoc.setPublishStatus(gatherResponse.getPublishStatus());
        
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
-
+		
+		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
 		
 		String missingDocFile = StringUtils.substringBeforeLast(docsDir.getAbsolutePath(), "/") + MISSING_DOC_FILE;
 		
