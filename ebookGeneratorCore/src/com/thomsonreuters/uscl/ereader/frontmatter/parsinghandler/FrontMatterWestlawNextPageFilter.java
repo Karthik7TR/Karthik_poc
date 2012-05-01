@@ -39,6 +39,7 @@ public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl
 			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
 					FrontMatterFileName.WESTLAWNEXT + FrontMatterFileName.ANCHOR);
 			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
+			super.characters(" ".toCharArray(), 0, 1);
 		}
 		else
 		{

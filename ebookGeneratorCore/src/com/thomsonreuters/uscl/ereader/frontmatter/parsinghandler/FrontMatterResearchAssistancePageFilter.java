@@ -51,6 +51,7 @@ public class FrontMatterResearchAssistancePageFilter extends XMLFilterImpl
 			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
 					FrontMatterFileName.RESEARCH_ASSISTANCE + FrontMatterFileName.ANCHOR);
 			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
+			printText(" ");
 		}
 		else if (qName.equalsIgnoreCase(EMAIL_TAG))
 		{

@@ -82,6 +82,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
 					FrontMatterFileName.ADDITIONAL_FRONT_MATTER + FRONT_MATTER_PAGE_ID + FrontMatterFileName.ANCHOR);
 			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
+			printText(" ", SINGLE_LINE_FIELD);
 		}
 		else if (qName.equalsIgnoreCase(ADDITIONAL_TITLE_PAGE_TAG))
 		{
