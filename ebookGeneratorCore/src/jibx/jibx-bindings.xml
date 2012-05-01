@@ -50,7 +50,7 @@
         <value name="domainName" field="domainName" usage="required"/>
         <value name="expressionFilter" field="expressionFilter" usage="required"/>
         <value name="nortFile" field="nortFile" usage="required"/>
-		<value name="cutoffDate" field="cutoffDate" usage="required"/>        
+		<value name="cutoffDate" field="cutoffDate" usage="optional"/>        
     </mapping>
   
 </binding>
