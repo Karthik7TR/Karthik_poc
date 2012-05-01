@@ -408,7 +408,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 		BufferedReader reader = null;
 		try
 		{
-			LOG.info("Reading in TOC anchor map file...");
+			//LOG.info("Reading in TOC anchor map file...");
 			reader = new BufferedReader(new FileReader(docsGuidFile));
 			String input = reader.readLine();
 			while (input != null)
@@ -430,8 +430,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 							     "at least one TOC guid associated with it: " + 
 				                  docsGuidFile.getAbsolutePath();
 				LOG.error(message);					
-				
 			}
+			
 			LOG.info("Found a Toc Guid " + tocGuid + " For given Doc Guid " + docGuid);
 		}
 		catch(IOException e)

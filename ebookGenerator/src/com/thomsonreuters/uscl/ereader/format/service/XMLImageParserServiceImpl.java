@@ -115,8 +115,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 		String docGuid = xmlFile.getName().substring(0, xmlFile.getName().indexOf(".")); 
 		try
 		{
-			LOG.debug("Parsing following doc for image references: " + xmlFile);
-			
+			//LOG.debug("Parsing following doc for image references: " + xmlFile);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			
@@ -131,7 +130,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			guidList.addAll(imgGuids);
 			docImgMap.put(docGuid, imgGuids);
 
-			LOG.debug("Finished parsing " + xmlFile + " list contains " + guidList.size() + " image guids.");
+			LOG.debug("Parsed out " + guidList.size() + " image guids from " + xmlFile + "." );
 		}
 		catch(IOException e)
 		{

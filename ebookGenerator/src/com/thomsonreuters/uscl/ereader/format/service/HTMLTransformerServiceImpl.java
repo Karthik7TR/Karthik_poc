@@ -179,8 +179,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		SequenceInputStream wrappedStream = null;
 		try
 		{
-			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
-		
+			//LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 			DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
 					titleID, jobIdentifier, guid);
 			
@@ -260,7 +259,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			    insertDeduppingAnchorRecords(deDuppingList,deDuppingFile);
 			}
 
-			LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
+			LOG.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
 		}
 		catch(IOException e)
 		{

@@ -11,10 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.SequenceInputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,9 +52,7 @@ public class TransformerServiceImpl implements TransformerService
 {
 	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
 	
-	//TODO: REMOVE HARDCODED VALUES ONCE document-data BLOCK HAS BEEN BUILT
 	private static final String START_WRAPPER_TAG = "<Document>" ;
-
 	private static final String END_WRAPPER_TAG = "</Document>";
 	
 	private DocMetadataService docMetadataService;
@@ -172,7 +167,7 @@ public class TransformerServiceImpl implements TransformerService
 
 		File xslt = getXSLT(metadata[0], metadata[1]);
 
-		LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
+		//LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
         File tranFile = new File(targetDir, fileNameUUID + ".transformed");
         
         SequenceInputStream inStream1 = null;
@@ -203,10 +198,7 @@ public class TransformerServiceImpl implements TransformerService
         			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
         	
 	        Source xmlSource =
-	                new StreamSource(inStream4);
-	        
-	       // LOG.debug("Doc file with Document data block :"+ printAssist(inStream4));
-	        
+	                new StreamSource(inStream4);    
 	       
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
@@ -262,29 +254,6 @@ public class TransformerServiceImpl implements TransformerService
         				+ " file transformation.", e);
         	}
         }
-	}
-	private String printAssist(InputStream is)
-	{
-		final char[] buffer = new char[0x10000]; 
-		StringBuilder out = new StringBuilder(); 
-		Reader in = null;
-		try {
-			in = new InputStreamReader(is, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		int read = 0; do {   try {
-			read = in.read(buffer, 0, buffer.length);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
-		if (read>0) {     out.append(buffer, 0, read);   } } 
-		while (read>=0);
-		String result = out.toString();
-		
-		return result;
 	}
 	
 	/**
