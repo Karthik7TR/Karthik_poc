@@ -97,6 +97,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		{
 			  PublishingStats jobstats = new PublishingStats();
 		      jobstats.setJobInstanceId(jobId);
+		      jobstats.setFormatDocCount(numDocsWrapped);
 		      jobstats.setPublishStatus(stepStatus);
 			  publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FORMATDOC);
 		}
