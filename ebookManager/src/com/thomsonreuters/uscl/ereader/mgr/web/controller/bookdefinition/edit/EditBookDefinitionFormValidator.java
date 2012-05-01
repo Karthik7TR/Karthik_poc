@@ -25,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -221,6 +222,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		}
 		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 
+		// Only run these validation when Validate Button or Book Definition is set as Complete.
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
@@ -243,14 +245,26 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
+			// Validate that required keyword are selected
+			// getAllKeywordTypeCodes must be in sorted order by the name because
+			// form.getKeywords returns a String Collection of KeywordTypeValues placed
+			// in the order of KeywordTypeCodes.
+			List<KeywordTypeCode> keywordCodes = codeService.getAllKeywordTypeCodes();
+			i = 0;
+			for(KeywordTypeCode code : keywordCodes) {
+				// Check that user has selected a keyword if that KeywordTypeCode is required
+				if(code.getIsRequired()) {
+					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords["+ i +"]", "error.required");
+				}
+				i++;
+			}
+			
 			// Check if pdf file and cover image exists on NAS location when on prod server
 			if(environmentName.equalsIgnoreCase("prod")) {
-				
 				// Check cover image exists
 				if(StringUtils.isNotBlank(titleId)) {
 					fileExist(errors, form.createCoverImageName(), WebConstants.KEY_COVER_IMAGE_LOCATION, "validateForm");
 				}
-				
 				// Check all pdfs on Front Matter
 				i=0;
 				for(FrontMatterPage page: form.getFrontMatters()) {

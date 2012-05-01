@@ -10,9 +10,15 @@
 
 <form:form commandName="<%= KeywordCodeForm.FORM_NAME %>">
 	<form:hidden path="id" />
-	<form:label path="name">Name</form:label>
-	<form:input path="name"/>
-	<form:errors path="name" cssClass="errorMessage"/>
+	<div class="row">
+		<form:label path="name">Name</form:label>
+		<form:input path="name"/>
+		<form:errors path="name" cssClass="errorMessage"/>
+	</div>
+	<div class="row">
+		<form:label path="required">Is Required</form:label>
+		<form:checkbox path="required"/>
+	</div>
 	<div class="buttons">
 		<form:button id="save">Save</form:button>
 		<a href="<%=WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW%>">Cancel</a>

@@ -3,6 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
@@ -92,15 +93,19 @@
 			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".authorLastName\" name=\"authorInfo[" + authorIndex + "].authorLastName\" type=\"text\" title=\"last name\"/>";
 			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".authorNameSuffix\" name=\"authorInfo[" + authorIndex + "].authorNameSuffix\" type=\"text\" title=\"suffix\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<div>";
+			appendTxt = appendTxt + "<div class=\"row\">";
 			appendTxt = appendTxt + "Additional Text";
-			appendTxt = appendTxt + "<textarea class=\"additionalText\" id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" title=\"Additional Text\"/>";
+			appendTxt = appendTxt + "<textarea id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" title=\"Additional Text\"/>";
 			appendTxt = appendTxt + "</div>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "<div class=\"row\">";
+			appendTxt = appendTxt + "Use Comma Before Suffix";
+			appendTxt = appendTxt + "<input type=\"checkbox\" id=\"authorInfo" + authorIndex + ".useCommaBeforeSuffix\" name=\"authorInfo[" + authorIndex + "].useCommaBeforeSuffix\" title=\"Comma After Suffix\"/>";
+			appendTxt = appendTxt + "</div>";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" title=\"Delete Author\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addHere").before(appendTxt);
 			authorIndex = authorIndex + 1;
-			
+
 			textboxHint("authorName");
 		};
 		
@@ -110,7 +115,7 @@
 			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" title=\"Delete Page, Sections, and Pdfs?\" deleteMessage=\"This will also delete all the sections and pdfs in this front matter page.\" />";
 			appendTxt = appendTxt + "<div id='addAdditionalSection_" + frontMatterPageIndex + "'></div>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Section\" class=\"addSection\" pageIndex=\"" + frontMatterPageIndex + "\" sectionIndex=\"0\" />";
 			appendTxt = appendTxt + "</div>";
@@ -125,7 +130,7 @@
 			var appendTxt = "<div class='row frontMatterSection'>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionHeading\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionHeading\" type=\"text\" title=\"Section Heading\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" title=\"Delete Section and Pdfs?\" deleteMessage=\"This will also delete all the pdfs in this front matter section.\" />";
 			appendTxt = appendTxt + "<textarea id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionText\" title=\"Section Text\" class=\"frontMatterSectionTextArea\"/>";
 			appendTxt = appendTxt + "<div id='addAdditionalPdf_" + pageIndex + "_" + sectionIndex + "'></div>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Pdf\" class=\"addPdf\" pageIndex=\"" + pageIndex + "\" sectionIndex=\"" + sectionIndex + "\" pdfIndex=\"0\"  />";
@@ -141,7 +146,7 @@
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
 			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Pdf\" class=\"rdelete\" />";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Pdf\" class=\"rdelete\" title=\"Delete Pdf?\" />";
 			appendTxt = appendTxt + "</div>";
 			$("#addAdditionalPdf_" + pageIndex + "_" + sectionIndex).before(appendTxt);
 			
@@ -161,16 +166,6 @@
 				$("#rootTocGuid").val("");
 				$("#tocCollectionName").val("");
 				$("#docCollectionName").val("");
-			}
-		};
-		
-		var updatePubCutoffDate = function(showPubCutoffDate) {
-			$("#displayCutoffDate").hide();
-			
-			if(showPubCutoffDate == "true") {
-				$("#displayCutoffDate").show();
-			} else {
-				$("#publicationCutoffDate").val("");
 			}
 		};
 		
@@ -208,9 +203,40 @@
 	    });
 		
 		var getContentTypeAbbr = function() {
-			contentType = $('#contentTypeId :selected').attr("abbr");
+			contentType = getContentTypeIdElement().attr("abbr");
 			updateTitleId();
 			determineOptions();
+		};
+		
+		var showPubCutoffDateBox = function() {
+			showPubCutoffDate = getContentTypeIdElement().attr("usecutoffdate");
+			if(showPubCutoffDate == "true") {
+				$("#displayPubCutoffDateOptions").show();
+			} else {
+				$("#displayPubCutoffDateOptions").hide();
+				$('input:radio[name=publicationCutoffDateUsed]:nth(1)').attr('checked',true);
+				updatePubCutoffDate(showPubCutoffDate);
+			}
+		};
+		
+		var getContentTypeIdElement = function() {
+			var element = $('#contentTypeId :selected');
+			
+			// Check selected element exists, if not look for just the element
+			if(element.length == 0) {
+				element = $('#contentTypeId');
+			};
+			
+			return element;
+		};
+		
+		var updatePubCutoffDate = function(showPubCutoffDate) {
+			$("#displayCutoffDate").hide();
+			if(showPubCutoffDate == "true") {
+				$("#displayCutoffDate").show();
+			} else {
+				$("#publicationCutoffDate").val("");
+			}
 		};
 		
 		$(document).ready(function() {
@@ -221,6 +247,7 @@
 				$('.generateTitleID .errorDiv').hide();
 				
 				getContentTypeAbbr();
+				showPubCutoffDateBox();
 			});
 			$('#publisher').change(function () {
 				publisher = $(this).val();
@@ -318,17 +345,59 @@
 				updatePubCutoffDate($(this).val());
 			});
 			
-			$( "#accordion" ).accordion({
-				fillSpace: true
+			// Close or open the Keyword values
+			$( ".keywordLabel" ).click(function() {
+					var divId = $(this).attr("id");
+					var keywordValuesDiv = $("#"+ divId + "_values");
+					
+					var visible = !(keywordValuesDiv.is(":visible"));
+					var imgSrc = (visible) ? "theme/images/wf_minus.gif" : "theme/images/wf_plus.gif";
+					$(this).children("img").attr("src", imgSrc);
+					
+					if (visible) {
+						keywordValuesDiv.show();
+					} else {
+						keywordValuesDiv.hide();
+					};
 			});
 			
+			// delete confirmation box
 			$(".rdelete").live("click", function () {
-				var srow = $(this).parent();
-				srow.remove();
+				var deleteTitle = $(this).attr("title");
+				var deleteMessage = $(this).attr("deleteMessage");
 				
-				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
-				$('#authorName').hide();
-				$('#authorName').show();
+				// If there the attribute does not exist, reset the delete message
+				if(!deleteMessage) {
+					deleteMessage = "";
+				}
+				$("#deleteMessage").html(deleteMessage);
+				var srow = $(this).parent();
+				
+				$( "#delete-confirm" ).dialog({
+					autoOpen: false,
+					resizable: false,
+					height:260,
+					width:500,
+					title: deleteTitle,
+					modal: true,
+					draggable:false,
+					buttons: {
+						"Delete": function() {
+							// Remove the element
+							srow.remove();
+							
+							<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+							$('#authorName').hide();
+							$('#authorName').show();
+							
+							$( this ).dialog( "close" );
+						},
+						Cancel: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				});
+				$( "#delete-confirm" ).dialog( "open" );
 			});
 			
 			$('#addFrontMatterPage').click(function () {
@@ -365,13 +434,14 @@
 			pubType = $('#pubType').val();
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
-			contentType = $('#contentTypeId :selected').attr("abbr");
+			contentType = getContentTypeIdElement().attr("abbr");
 			
 			// Setup view
 			determineOptions();
 			$('#titleIdBox').val($('#titleId').val());
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			updatePubCutoffDate($('input:radio[name=publicationCutoffDateUsed]:checked').val());
+			showPubCutoffDateBox();
 			textboxHint("authorName");
 			textboxHint("nameLine");
 			textboxHint("additionFrontMatterBlock");
@@ -397,7 +467,7 @@
 				<form:select path="contentTypeId" >
 					<form:option value="" label="SELECT" />
 					<c:forEach items="${contentTypes}" var="contentType">
-						<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" />
+						<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
 					</c:forEach>
 				</form:select>
 				<form:errors path="contentTypeId" cssClass="errorMessage" />
@@ -461,7 +531,12 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-		<form:hidden path="contentTypeId"/>
+		<%--Need extra attributes on contentType to determine if Cutoff Date is used --%>
+		<c:forEach items="${contentTypes}" var="contentType">
+			<c:if test="${ contentType.id == editBookDefinitionForm.contentTypeId }">
+				<form:hidden path="contentTypeId" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
+			</c:if>
+		</c:forEach>
 		<form:hidden path="publisher"/>
 		<form:hidden path="state"/>
 		<form:hidden path="jurisdiction"/>
@@ -561,19 +636,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
-				<form:radiobutton path="publicationCutoffDateUsed" value="true" />Yes
-				<form:radiobutton path="publicationCutoffDateUsed" value="false" />No
-				<div class="errorDiv">
-					<form:errors path="publicationCutoffDateUsed" cssClass="errorMessage" />
+			<div id="displayPubCutoffDateOptions">
+				<div class="row">
+					<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
+					<form:radiobutton path="publicationCutoffDateUsed" value="true" />Yes
+					<form:radiobutton path="publicationCutoffDateUsed" value="false" />No
+					<div class="errorDiv">
+						<form:errors path="publicationCutoffDateUsed" cssClass="errorMessage" />
+					</div>
 				</div>
-			</div>
-			<div id="displayCutoffDate" class="row" style="display:none">
-				<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
-				<form:input path="publicationCutoffDate" />
-				<div class="errorDiv">
-					<form:errors path="publicationCutoffDate" cssClass="errorMessage" />
+				<div id="displayCutoffDate" class="row" style="display:none">
+					<form:label path="publicationCutoffDate" class="labelCol">Publication Cut-off Date</form:label>
+					<form:input path="publicationCutoffDate" />
+					<div class="errorDiv">
+						<form:errors path="publicationCutoffDate" cssClass="errorMessage" />
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -596,13 +673,16 @@
 		<div class="leftDefinitionForm">
 			<div class="row">
 				<label class="labelCol">Keywords</label>
-				<div id="accordion">
-					<c:forEach items="${keywordTypeCode}" var="keyword">
-						<h3><a href="#">${keyword.name}</a></h3>
-						<div>
+				<div id="keywordBox">
+					<c:forEach items="${keywordTypeCode}" var="keyword" varStatus="keywordStatus">
+						<div id="keyword_${keywordStatus.index}"  class="keywordLabel">
+							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keywordStatus.index}]" cssClass="errorMessage" />
+						</div>
+						<div id="keyword_${keywordStatus.index}_values" class="keywordValueBox" style="display:none;">
+							<form:radiobutton path="keywords[${keywordStatus.index}]" value=""/>None
 							<c:forEach items="${keyword.values}" var="value">
-								<div>
-									<form:checkbox path="keywords" value="${value.id}"/>${value.name}
+								<div class="keywordValues">
+									<form:radiobutton  path="keywords[${keywordStatus.index}]" value="${value.id}"/>${value.name}
 								</div>
 							</c:forEach>
 						</div>
@@ -611,37 +691,52 @@
 			</div>
 		</div>
 		<div class="rightDefinitionForm">
+			<c:set var="disableProviewOptions" value="true"/>
+			<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+				<c:set var="disableProviewOptions" value=""/>
+			</sec:authorize>
+			<c:if test="${disableProviewOptions}">
+				<%-- Hidden fields needed when ProView options are disabled.
+					 Options reset to defaults if hidden fields are missing. --%>
+				<form:hidden path="isProviewTableView"/>
+				<form:hidden path="autoUpdateSupport"/>
+				<form:hidden path="searchIndex"/>
+				<form:hidden path="enableCopyFeatureFlag"/>
+			</c:if>
 			<div class="row">
 				<form:label path="isProviewTableView" class="labelCol">Use ProView Table View</form:label>
-				<form:radiobutton path="isProviewTableView" value="true" />True
-				<form:radiobutton path="isProviewTableView" value="false" />False
+				<form:radiobutton disabled="${disableProviewOptions}" path="isProviewTableView" value="true" />True
+				<form:radiobutton disabled="${disableProviewOptions}" path="isProviewTableView" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="isProviewTableView" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
-				<form:radiobutton path="autoUpdateSupport" value="true" />True
-				<form:radiobutton path="autoUpdateSupport" value="false" />False
+				<form:radiobutton disabled="${disableProviewOptions}" path="autoUpdateSupport" value="true" />True
+				<form:radiobutton disabled="${disableProviewOptions}" path="autoUpdateSupport" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="searchIndex" class="labelCol">Search Index</form:label>
-				<form:radiobutton path="searchIndex" value="true" />True
-				<form:radiobutton path="searchIndex" value="false" />False
+				<form:radiobutton disabled="${disableProviewOptions}" path="searchIndex" value="true" />True
+				<form:radiobutton disabled="${disableProviewOptions}" path="searchIndex" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="searchIndex" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="enableCopyFeatureFlag" class="labelCol">Enable Copy Feature</form:label>
-				<form:radiobutton path="enableCopyFeatureFlag" value="true" />True
-				<form:radiobutton path="enableCopyFeatureFlag" value="false" />False
+				<form:radiobutton disabled="${disableProviewOptions}" path="enableCopyFeatureFlag" value="true" />True
+				<form:radiobutton disabled="${disableProviewOptions}" path="enableCopyFeatureFlag" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="enableCopyFeatureFlag" cssClass="errorMessage" />
 				</div>
+			</div>
+			<div class="row" style="font-size:.7em; text-align: center;">
+				*Only Super Users are able to modify above options.
 			</div>
 		</div>
 	</div>
@@ -741,9 +836,14 @@
 						<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
 						<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
 						<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" maxlength="9" />
-						<div>
+						<div class="row">
 							Additional Text
-							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" class="additionalText" />
+							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" />
+						</div>
+						
+						<div class="row">
+							Use Comma Before Suffix
+							<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
 						</div>
 						<div class="errorDiv">
 							<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
@@ -754,7 +854,7 @@
 							<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
 							<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 						</div>
-						<input type="button" value="Delete" class="rdelete" />
+						<input type="button" value="Delete" class="rdelete" title="Delete Author" />
 					</div>
 				</c:forEach>
 				<div id="addHere"></div>
@@ -775,7 +875,7 @@
 			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" />
 			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" />
 			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" maxlength="9" />
-			<input type="button" value="Delete Page" class="rdelete" />
+			<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
 			<div class="errorDiv2">
 				<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
 				<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
@@ -788,7 +888,7 @@
 					<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
 					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
 					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Section Seq Num." class="sequenceNumber" maxlength="9" />
-					<input type="button" value="Delete Section" class="rdelete" />
+					<input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
 					<div class="errorDiv2">
 						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
 						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
@@ -805,7 +905,7 @@
 							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" />
 							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" />
 							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum"   title="Section Seq Num." class="sequenceNumber" maxlength="9" />
-							<input type="button" value="Delete Pdf" class="rdelete" />
+							<input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?" />
 							<div class="errorDiv2">
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />
@@ -837,5 +937,9 @@
         </div>
     </div>
     <div id="mask"></div>
+</div>
+
+<div id="delete-confirm" title="Delete?" style="display:none;" >
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:4px 7px 70px 0;"></span>Are you sure you want to delete? <span id="deleteMessage"></span></p>
 </div>
 

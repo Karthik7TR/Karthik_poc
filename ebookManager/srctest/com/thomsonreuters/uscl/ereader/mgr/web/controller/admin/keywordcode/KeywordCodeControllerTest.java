@@ -60,6 +60,7 @@ public class KeywordCodeControllerTest {
     	
     	KEYWORD_CODE.setId(KEYWORD_CODE_ID);
     	KEYWORD_CODE.setName("test");
+    	KEYWORD_CODE.setIsRequired(false);
 	}
 
 	/**

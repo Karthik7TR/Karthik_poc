@@ -527,4 +527,29 @@ a:hover {
    word-wrap: break-word;      /* IE */
 }
 
+#keywordBox {
+	margin-left: 210px;
+	margin-right:5px;
+	clear:both;
+}
+
+#keywordBox .keywordLabel{
+	background: #EAF3F8;
+    border: thin double gray;
+    font-weight: bold;
+    padding: 4px;
+	margin-top:.5em;
+	cursor:pointer;
+}
+
+#keywordBox .keywordLabel:hover{
+	background: #BCF7F8;
+}
+
+#keywordBox .keywordValueBox {
+	border: 1px solid gray;
+	margin-top:.1em;
+	padding-left: 20px;
+	padding-bottom: 5px;
+}
 

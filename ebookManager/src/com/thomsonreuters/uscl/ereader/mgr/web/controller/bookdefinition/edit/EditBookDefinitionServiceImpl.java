@@ -19,14 +19,12 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 
-public class DropDownListService {
-	//private static final Logger log = Logger.getLogger(DropDownListService.class);
+public class EditBookDefinitionServiceImpl implements EditBookDefinitionService {
+	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	private CodeService codeService;
 
 	public List<DocumentTypeCode> getDocumentTypes() {
-		List<DocumentTypeCode> codes = codeService.getAllDocumentTypeCodes();
-
-		return codes;
+		return codeService.getAllDocumentTypeCodes();
 	}
 	
 	public Map<String, String> getStates() {

@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 
 /**
@@ -78,13 +80,21 @@ public class Author implements Serializable, Comparable<Author> {
 	@Column(name = "AUTHOR_ADDL_TEXT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String authorAddlText;
+	/**
+	 */
 	
 	@Column(name = "SEQUENCE_NUMBER")
 	@Basic(fetch = FetchType.EAGER)
 	Integer sequenceNum;
-
 	/**
 	 */
+	
+	@Column(name = "USE_COMMA_BEFORE_SUFFIX", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String useCommaBeforeSuffix;
+	/**
+	 */
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
 	BookDefinition ebookDefinition;
@@ -180,6 +190,18 @@ public class Author implements Serializable, Comparable<Author> {
 	public void setSequenceNum(Integer sequenceNum) {
 		this.sequenceNum = sequenceNum;
 	}
+	
+	public boolean getUseCommaBeforeSuffix() {
+		if(StringUtils.isBlank(this.useCommaBeforeSuffix)) {
+			return false;
+		} else {
+			return ((this.useCommaBeforeSuffix.equalsIgnoreCase("Y") ? true : false));
+		}
+	}
+
+	public void setUseCommaBeforeSuffix(boolean useCommaBeforeSuffix) {
+		this.useCommaBeforeSuffix = ( (useCommaBeforeSuffix) ? "Y" : "N");	
+	}
 
 	/**
 	 */
@@ -210,6 +232,7 @@ public class Author implements Serializable, Comparable<Author> {
 		setAuthorMiddleName(that.getAuthorMiddleName());
 		setAuthorLastName(that.getAuthorLastName());
 		setAuthorAddlText(that.getAuthorAddlText());
+		setUseCommaBeforeSuffix(that.getUseCommaBeforeSuffix());
 		setEbookDefinition(that.getEbookDefinition());
 	}
 	
@@ -236,28 +259,29 @@ public class Author implements Serializable, Comparable<Author> {
 	public String getFullName() {
 		StringBuilder buffer = new StringBuilder();
 
-		if(!StringUtils.isBlank(authorNamePrefix))
+		if(StringUtils.isNotBlank(authorNamePrefix))
 			buffer.append(authorNamePrefix).append(" ");
-		if(!StringUtils.isBlank(authorFirstName))
+		if(StringUtils.isNotBlank(authorFirstName))
 			buffer.append(authorFirstName).append(" ");
-		if(!StringUtils.isBlank(authorMiddleName))
+		if(StringUtils.isNotBlank(authorMiddleName))
 			buffer.append(authorMiddleName).append(" ");
-		if(!StringUtils.isBlank(authorLastName))
-			buffer.append(authorLastName).append(" ");
-		if(!StringUtils.isBlank(authorNameSuffix))
+		if(StringUtils.isNotBlank(authorLastName))
+			buffer.append(authorLastName);
+		if(StringUtils.isNotBlank(authorNameSuffix)) {
+			if(this.getUseCommaBeforeSuffix()) {
+				buffer.append(", ");
+			} else {
+				buffer.append(" ");
+			}
 			buffer.append(authorNameSuffix);
+		}
 
 		return StringUtils.trim(buffer.toString());
 	}
 
 	@Override
 	public String toString() {
-		return "Author [authorId=" + authorId + ", authorNamePrefix="
-				+ authorNamePrefix + ", authorNameSuffix=" + authorNameSuffix
-				+ ", authorFirstName=" + authorFirstName
-				+ ", authorMiddleName=" + authorMiddleName
-				+ ", authorLastName=" + authorLastName + ", authorAddlText="
-				+ authorAddlText + ", sequenceNum=" + sequenceNum + "]";
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	@Override

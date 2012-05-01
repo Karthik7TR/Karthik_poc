@@ -39,9 +39,25 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 	//private static final Logger log = Logger.getLogger(KeywordTypeCode.class);
 	private static final long serialVersionUID = -6883749966331206015L;
 
+	@Id
+	@Column(name="KEYWORD_TYPE_CODES_ID", unique = true, nullable = false)
+	@SequenceGenerator(name="keywordTypeCodesIdSequence", sequenceName="KEYWORD_TYPE_CODES_ID_SEQ")
+	@GeneratedValue(generator="keywordTypeCodesIdSequence")
 	private Long id;
+	
+	@Column(name="KEYWORD_TYPE_CODES_NAME", nullable = false, length = 1024)
 	private String name;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="LAST_UPDATED", nullable = false)
 	private Date lastUpdatedTimeStampForKeyWordCode;
+	
+	@Column(name="IS_REQUIRED", nullable = false, length = 1)
+	private String isRequired;
+	
+	@OneToMany(mappedBy="keywordTypeCode", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
+	@Cascade({CascadeType.ALL})
 	private Collection<KeywordTypeValue> values;
 	
 	public KeywordTypeCode() {
@@ -49,37 +65,26 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 		values = new ArrayList<KeywordTypeValue>();
 	}
 	
-	
-	@Id
-	@Column(name="KEYWORD_TYPE_CODES_ID", unique = true, nullable = false)
-	@SequenceGenerator(name="keywordTypeCodesIdSequence", sequenceName="KEYWORD_TYPE_CODES_ID_SEQ")
-	@GeneratedValue(generator="keywordTypeCodesIdSequence")
 	public Long getId() {
 		return id;
 	}
 
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="LAST_UPDATED", nullable = false)
 	public Date getLastUpdated() {
 		return lastUpdatedTimeStampForKeyWordCode;
 	}
 
-
-
-	@Column(name="KEYWORD_TYPE_CODES_NAME", nullable = false, length = 1024)
 	public String getName() {
 		return name;
 	}
+	
+	public boolean getIsRequired() {
+		return( (this.isRequired.equalsIgnoreCase("Y") ? true : false));
+	}
 
-
-	@OneToMany(mappedBy="keywordTypeCode", fetch=FetchType.EAGER)
-	@Fetch(FetchMode.SELECT)
-	@Cascade({CascadeType.ALL})
+	
 	public Collection<KeywordTypeValue> getValues() {
 		return values;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -94,7 +99,10 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	public void setIsRequired(boolean isRequired) {
+		this.isRequired = ( (isRequired) ? "Y" : "N");
+	}
 
 	public void setValues(Collection<KeywordTypeValue> values) {
 		this.values = values;

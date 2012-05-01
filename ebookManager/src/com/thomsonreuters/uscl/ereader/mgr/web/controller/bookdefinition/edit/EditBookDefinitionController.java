@@ -40,7 +40,7 @@ public class EditBookDefinitionController {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionController.class);
 	protected BookDefinitionService bookDefinitionService;
 	protected JobRequestService jobRequestService;
-	protected DropDownListService dropDownListService;
+	protected EditBookDefinitionService editBookDefinitionService;
 	private EBookAuditService auditService;
 	private BookDefinitionLockService bookLockService;
 	protected Validator validator;
@@ -130,7 +130,7 @@ public class EditBookDefinitionController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
 			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
 		} else {
-			form.initialize(bookDef);
+			form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
 			checkJobRequestAndPublishStatus(bookDef, model);
 			initializeModel(model, form);
 			
@@ -233,7 +233,7 @@ public class EditBookDefinitionController {
 		if(bookDef.isDeletedFlag()) {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
 		} else {
-			form.copyBookDefinition(bookDef);
+			form.copyBookDefinition(bookDef, editBookDefinitionService.getKeywordCodes());
 			initializeModel(model, form);
 			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 		}
@@ -300,12 +300,12 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
 		
 		// Set drop down lists
-		model.addAttribute(WebConstants.KEY_STATES, dropDownListService.getStates());
-		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, dropDownListService.getDocumentTypes());
-		model.addAttribute(WebConstants.KEY_PUB_TYPES, dropDownListService.getPubTypes());
-		model.addAttribute(WebConstants.KEY_JURISDICTIONS, dropDownListService.getJurisdictions());
-		model.addAttribute(WebConstants.KEY_PUBLISHERS, dropDownListService.getPublishers());
-		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, dropDownListService.getKeywordCodes());
+		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());
+		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
+		model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
+		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
+		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
+		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
 	}
 
 	@Required
@@ -314,8 +314,8 @@ public class EditBookDefinitionController {
 	}
 	
 	@Required
-	public void setDropDownListService(DropDownListService service) {
-		this.dropDownListService = service;
+	public void setEditBookDefinitionService(EditBookDefinitionService service) {
+		this.editBookDefinitionService = service;
 	}
 	
 	@Required

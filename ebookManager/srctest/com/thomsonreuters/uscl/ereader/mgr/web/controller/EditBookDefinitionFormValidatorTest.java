@@ -5,6 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -26,6 +30,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 
 public class EditBookDefinitionFormValidatorTest {
+	private List<KeywordTypeCode> KEYWORD_CODES;
+	
     private BookDefinitionService mockBookDefinitionService;
     private CodeService mockCodeService;
     private EditBookDefinitionForm form;
@@ -54,6 +60,20 @@ public class EditBookDefinitionFormValidatorTest {
     	analyticalCode.setId(Long.parseLong("1"));
     	analyticalCode.setAbbreviation(WebConstants.KEY_ANALYTICAL_ABBR);
     	analyticalCode.setName(WebConstants.KEY_ANALYTICAL);
+    	
+    	KeywordTypeCode keyword = new KeywordTypeCode();
+    	keyword.setId(1L);
+    	keyword.setIsRequired(false);
+    	keyword.setName("publisher");
+    	
+    	KeywordTypeCode keyword2 = new KeywordTypeCode();
+    	keyword2.setId(2L);
+    	keyword2.setIsRequired(true);
+    	keyword2.setName("code");
+    	
+    	KEYWORD_CODES = new ArrayList<KeywordTypeCode>();
+    	KEYWORD_CODES.add(keyword);
+    	KEYWORD_CODES.add(keyword2);
 	}
 
 	/**
@@ -284,6 +304,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalNort();
@@ -305,6 +326,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("nortDomain").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("nortFilterView").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
@@ -320,6 +342,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
@@ -342,6 +365,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
@@ -357,6 +381,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
@@ -378,6 +403,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
@@ -399,6 +425,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
@@ -553,6 +580,7 @@ public class EditBookDefinitionFormValidatorTest {
     	EasyMock.replay(mockBookDefinitionService);
     	
     	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
@@ -582,7 +610,7 @@ public class EditBookDefinitionFormValidatorTest {
 	private void setupPublisherAndTitleId(String titleId, DocumentTypeCode contentType, int mockReplayTimes) {
 		BookDefinition book = initializeBookDef(titleId, contentType);
 
-		form.initialize(book);
+		form.initialize(book, KEYWORD_CODES);
 		form.setIsComplete(book.getEbookDefinitionCompleteFlag());
 		form.setBookdefinitionId(Long.parseLong("1"));
 		
@@ -630,7 +658,7 @@ public class EditBookDefinitionFormValidatorTest {
 	}
 	
 	private void populateFormData(BookDefinition book){
-		form.initialize(book);
+		form.initialize(book, KEYWORD_CODES);
 		form.setProviewDisplayName("Proview Display Name");
 		form.setCopyright("copyright");
 		form.setMaterialId("a12345678123456781234567812345678");

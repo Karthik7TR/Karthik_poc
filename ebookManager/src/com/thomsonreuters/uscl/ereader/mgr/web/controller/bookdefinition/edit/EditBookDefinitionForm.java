@@ -8,11 +8,12 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -63,7 +65,7 @@ public class EditBookDefinitionForm {
 	private String publishDateText;
 	
 	// Keywords used in Proview
-	private Collection<Long> keywords;
+	private Collection<String> keywords;
 	
 	private String currency;
 	private String additionalTrademarkInfo;
@@ -92,7 +94,7 @@ public class EditBookDefinitionForm {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
-		this.keywords = new ArrayList<Long>();
+		this.keywords = new AutoPopulatingList<String>(String.class);
 		this.isProviewTableView = false;
 		this.isComplete = false;
 		this.validateForm = false;
@@ -110,7 +112,7 @@ public class EditBookDefinitionForm {
 	 * in to the form
 	 * @param bookDef
 	 */
-	public void copyBookDefinition(BookDefinition bookDef) {
+	public void copyBookDefinition(BookDefinition bookDef, List<KeywordTypeCode> keywordCodes) {
 		bookDef.setEbookDefinitionId(null);
 		bookDef.setProviewDisplayName(null);
 		bookDef.setIsbn(null);
@@ -133,10 +135,10 @@ public class EditBookDefinitionForm {
 			author.setEbookDefinition(null);
 		}
 		
-		initialize(bookDef);
+		initialize(bookDef, keywordCodes);
 	}
 	
-	public void initialize(BookDefinition book) {
+	public void initialize(BookDefinition book, List<KeywordTypeCode> keywordCodes) {
 		if(book != null) {
 			this.bookdefinitionId = book.getEbookDefinitionId();
 			this.titleId = book.getFullyQualifiedTitleId();
@@ -172,10 +174,22 @@ public class EditBookDefinitionForm {
 				this.isPublicationCutoffDateUsed = true;
 			}
 			
+			/*
+			 * Field keywords needs to be assembled in sorted order of KeywordTypeCode
+			 * This is to get the path to correctly show the selected value on the Edit/Copy 
+			 * Book Definition form.  The values are selected based on the index in keywords field
+			 */
+			HashMap<KeywordTypeCode, String> keywordMap = new LinkedHashMap<KeywordTypeCode, String>();
+			for(KeywordTypeCode keywordCode : keywordCodes) {
+				keywordMap.put(keywordCode, "");
+			}
+			
 			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValues();
 			for(KeywordTypeValue value : keywordValues) {
-				this.keywords.add(value.getId());
+				keywordMap.put(value.getKeywordTypeCode(), value.getId().toString());
 			}
+			
+			this.keywords.addAll(keywordMap.values());
 			
 			setupFrontMatterNames(book.getEbookNames());
 			
@@ -260,17 +274,16 @@ public class EditBookDefinitionForm {
 		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
-		
-		
-		if(keywords != null) {
-			Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
-			for(Long id : keywords) {
+
+		Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
+		for(String id : keywords) {
+			if(StringUtils.isNotBlank(id)) {
 				KeywordTypeValue keywordValue = new KeywordTypeValue();
-				keywordValue.setId(id);
+				keywordValue.setId(Long.valueOf(id));
 				keywordValues.add(keywordValue);
 			}
-			book.setKeywordTypeValues(keywordValues);
 		}
+		book.setKeywordTypeValues(keywordValues);
 		
 		book.setMaterialId(materialId);
 		book.setNortDomain(nortDomain);
@@ -515,11 +528,11 @@ public class EditBookDefinitionForm {
 		this.publishDateText = publishDateText;
 	}
 
-	public Collection<Long> getKeywords() {
+	public Collection<String> getKeywords() {
 		return keywords;
 	}
 
-	public void setKeywords(Collection<Long> keywords) {
+	public void setKeywords(Collection<String> keywords) {
 		this.keywords = keywords;
 	}
 
@@ -722,5 +735,4 @@ public class EditBookDefinitionForm {
 	        }
 	    }
     }
-	
 }

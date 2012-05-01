@@ -11,7 +11,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web;
 public class WebConstants {
 	
 	// Date/Time formatting patterns
-	public static final String DATE_FORMAT_PATTERN = "MM/dd/yy";  // default date presentation
+	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";  // default date presentation
 	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss";
 	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
 	
