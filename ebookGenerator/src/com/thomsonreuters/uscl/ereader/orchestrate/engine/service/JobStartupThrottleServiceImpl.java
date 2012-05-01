@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +37,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 	public JobRepository jobRepository;
 	public JobStartupThrottleDao jobStartupThrottleDao;
 	public String throttleStepCheck;
+	
 
 	/**
 	 * Before starting new job check with Spring Batch Job Repository to find if new job can be 
@@ -48,49 +51,55 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 		boolean jobPullFlag= false;
 		int jobNotDoneWithKeyStep = 0;
 		Set<JobExecution> runningJobExecutions = null;
+
 		List<String> jobNames = jobExplorer.getJobNames();
 		 
 		if (jobNames != null && jobNames.size() > 0 ) {
 			// spring batch is capable of running multiple jobs but in current implementation we have one job with multiple instances.  
-			runningJobExecutions = jobExplorer.findRunningJobExecutions(jobExplorer.getJobNames().get(0));
+			runningJobExecutions = jobExplorer.findRunningJobExecutions(jobNames.get(0));
+
 		}
-		
 		if(runningJobExecutions != null && runningJobExecutions.size() >= throttleLimit )
 		{
-			//log.debug("********************************************************************************************  jobExecutions.size = "+runningJobExecutions.size());
-
-			// find out how many jobs are done with key steps like Novus... 
-			for (JobExecution jobExecution : runningJobExecutions) {
-				
-				Long jobId = jobExecution.getJobInstance().getId();
-				
-				JobInstance jobInstance = jobExecution.getJobInstance();
-				// retrieve last step of execution 
-				StepExecution stepExecution = jobRepository.getLastStepExecution(jobInstance, throttleStepCheck);
-				
-				if(stepExecution == null){
-					
-					// job is not done with key step 
-					jobNotDoneWithKeyStep ++;
-//					log.debug("THROTTLE_STEP is not done for jobId ="+ jobId  +"  and book name "+ jobInstance.getJobParameters().getParameters().get("BOOK_NAME"));
-					
-				}else {
-//					log.debug("Job is gone beyond THROTTLE_STEP = " +throttleStepCheck);
+			
+			/**
+			 * we found that for some reason jobExplorer.findRunningJobExecutions
+			 * can return even failed jobs . so to get actual number of jobs running we are iterating 
+			 * over return jobs are verifying if they are not failed.
+			 */
+			for (JobExecution jobExecution : runningJobExecutions) 
+			{
+				if(jobExecution.isRunning())
+				{
+					String currentExitCode = jobExecution.getExitStatus().getExitCode();
+					if(currentExitCode.equalsIgnoreCase("FAILED")){
+						log.debug("jobExplorer.findRunningJobExecutions () returned filed job with jobId="+jobExecution.getJobId());
+					}else
+					{
+						
+						JobInstance jobInstance = jobExecution.getJobInstance();
+						// retrieve last step of execution 
+						StepExecution stepExecution = jobRepository.getLastStepExecution(jobInstance, throttleStepCheck);
+						
+						if(stepExecution == null){
+							// job is not done with key step 
+							jobNotDoneWithKeyStep ++;
+						}
+						
+					}
 				}
 			}
-			
 			if(jobNotDoneWithKeyStep < throttleLimit){
 				jobPullFlag = true;
 			}else{
 				jobPullFlag = false;
 			}
-			
 		}else{
-
-			// Safe to start new job as number of jobs currently running is less than throttle limit. 
+			
 			jobPullFlag = true;
 		}
-		//log.debug("******************************************************************************************** jobPullFlag "+jobPullFlag);
+		
+		
 		return jobPullFlag;
 	}
 	
