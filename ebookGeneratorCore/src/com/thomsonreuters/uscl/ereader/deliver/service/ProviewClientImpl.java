@@ -38,6 +38,9 @@ public class ProviewClientImpl implements ProviewClient {
 	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
 	private String publishingStatusUriTemplate;
+	private String deleteTitleUriTemplate;
+	private String removeTitleUriTemplate;
+
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 
@@ -87,6 +90,76 @@ public class ProviewClientImpl implements ProviewClient {
 		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
 
 		// logResponse(response);
+
+		return proviewResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle
+	 * (java.lang.String, java.lang.String)
+	 */
+	public String deleteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getRequestCallback();
+
+		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
+				HttpMethod.DELETE, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#removeTitle
+	 * (java.lang.String, java.lang.String)
+	 */
+	public String removeTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getRequestCallback();
+
+		String proviewResponse = restTemplate.execute(removeTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
 
 		return proviewResponse;
 	}
@@ -251,5 +324,21 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setProviewResponseExtractorFactory(
 			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
 		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
+	}
+
+	public String getDeleteTitleUriTemplate() {
+		return deleteTitleUriTemplate;
+	}
+
+	public void setDeleteTitleUriTemplate(String deleteTitleUriTemplate) {
+		this.deleteTitleUriTemplate = deleteTitleUriTemplate;
+	}
+
+	public String getRemoveTitleUriTemplate() {
+		return removeTitleUriTemplate;
+	}
+
+	public void setRemoveTitleUriTemplate(String removeTitleUriTemplate) {
+		this.removeTitleUriTemplate = removeTitleUriTemplate;
 	}
 }

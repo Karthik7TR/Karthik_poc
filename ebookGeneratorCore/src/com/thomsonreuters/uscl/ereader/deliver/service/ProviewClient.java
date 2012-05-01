@@ -42,4 +42,10 @@ public interface ProviewClient {
 
 	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo()
 			throws ProviewException;
+
+	public String removeTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException;
+
+	public String deleteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException;
 }
