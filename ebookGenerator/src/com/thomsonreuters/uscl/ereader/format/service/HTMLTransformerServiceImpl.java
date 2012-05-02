@@ -222,7 +222,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			anchorFilter.setFirstlineCite(firstlineCite);
 			anchorFilter.setParent(inputFilter);
 			anchorFilter.setTargetAnchors(targetAnchors);
-			if (docMetadata != null)
+			if (docMetadata != null && docMetadata.getProViewId() != null )
 			{
 				anchorFilter.setCurrentGuid(docMetadata.getProViewId());
 			}
