@@ -6,11 +6,13 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
@@ -120,28 +122,23 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		File anchorTargetListFile = new File(srcDir.getAbsolutePath(), "anchorTargetUnlinkFile");
 		
 		HashMap<String, HashSet<String>>  targetAnchors = readTargetAnchorFile(anchorTargetListFile);
+		ArrayList<String>  unlinkDocMetadataList = new ArrayList<String>();
 
 		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
 
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, title, jobId, documentMetadataAuthority, targetAnchors);
+			transformHTMLFile(htmlFile, targetDir, title, jobId, documentMetadataAuthority, targetAnchors, unlinkDocMetadataList);
 			numDocs++;
 		}
 		
 		if (targetAnchors != null)
 		{
 		// TODO: send notification for existing anchors.
-	        String emailId = JobParameterKey.USER_EMAIL;
-			String subject = "Anchor Links removed for title: " + title +" job: " + jobId;
-			String emailBody = "Attached is the file of links removed this book. Format is:\nFamily Guid of document | comma seperated list of Proview enhanced links (relevant portion follows the slash). ";
-			LOG.debug("Notification email address : " + emailId);
-			LOG.debug("Notification email subject : " + subject);
-			LOG.debug("Notification email body : " + emailBody);
-			ArrayList<String> filenames = new ArrayList<String>();
-			filenames.add(anchorTargetListFile.getAbsolutePath());
-			emailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
+			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile.csv");
+			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile);
+			
 		}
 		
 		LOG.info("Unlinking transformation successfully applied to " + numDocs + " files.");
@@ -163,7 +160,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	 * @throws if any parsing/transformation exception are encountered
 	 */
 	protected void transformHTMLFile(File sourceFile, File targetDir, 
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors) throws EBookFormatException
+			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, 
+			HashMap<String, HashSet<String>> targetAnchors,
+			ArrayList<String> unlinkDocMetadataList) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -187,12 +186,14 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			if (docMetadata != null)
 			{
 				unlinkFilter.setCurrentGuid(docMetadata.getProViewId());
+				unlinkFilter.setUnlinkDocMetadata(docMetadata);
 			}
 			else
 			{
 				unlinkFilter.setCurrentGuid(guid);
 			}
 			unlinkFilter.setTargetAnchors(targetAnchors);
+			unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
@@ -317,6 +318,56 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			}
 		}
 		return anchors;
+		
+	}
+	protected void writeUnlinkAnchorReport(String title, Long jobId, ArrayList<String> unlinkDocMetadataList,
+											File anchorUnlinkTargetListFile) throws EBookFormatException
+	{
+		BufferedWriter writer = null;
+		try 
+		{
+			writer = new BufferedWriter(new FileWriter(anchorUnlinkTargetListFile));
+			
+			writer.write("Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, Removed Link");
+			
+			writer.newLine();
+			
+			for (String udml : unlinkDocMetadataList)
+			{
+				writer.write(udml.toString());
+				writer.newLine();
+			}
+			writer.flush();
+		} 
+		catch (IOException e) {
+			String errMessage = "Encountered an IO Exception while processing: " + anchorUnlinkTargetListFile.getAbsolutePath();
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, e);
+		}
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close anchor target list file.", e);
+			}
+		}
+        String emailId = JobParameterKey.USER_EMAIL;
+//        String emailId = "kirsten.gunn@thomson.com";
+		String subject = "Anchor Links removed for title: " + title +" job: " + jobId;
+		String emailBody = "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash). ";
+		LOG.debug("Notification email address : " + emailId);
+		LOG.debug("Notification email subject : " + subject);
+		LOG.debug("Notification email body : " + emailBody);
+		ArrayList<String> filenames = new ArrayList<String>();
+		filenames.add(anchorUnlinkTargetListFile.getAbsolutePath());
+		emailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
 		
 	}
 

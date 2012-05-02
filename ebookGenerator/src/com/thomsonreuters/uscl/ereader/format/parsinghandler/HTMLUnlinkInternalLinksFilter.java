@@ -5,12 +5,15 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
@@ -21,6 +24,8 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	
 	private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
+	private ArrayList<String> unlinkDocMetadataList;
+	private DocMetadata unlinkDocMetadata;
 	private int badLinkCntr = 0;
 	private int goodAnchorCntr = 0;
 	private String currentGuid;
@@ -43,6 +48,24 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 		return targetAnchors;
 	}
 	
+	public ArrayList<String> getUnlinkDocMetadataList() 
+	{
+		return unlinkDocMetadataList;
+	}
+	public void setUnlinkDocMetadataList(
+			ArrayList<String> unlinkDocMetadataList) 
+	{
+		this.unlinkDocMetadataList = unlinkDocMetadataList;
+	}
+	
+	public DocMetadata getUnlinkDocMetadata() 
+	{
+		return unlinkDocMetadata;
+	}
+	public void setUnlinkDocMetadata(DocMetadata unlinkDocMetadata) 
+	{
+		this.unlinkDocMetadata = unlinkDocMetadata;
+	}
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
@@ -68,6 +91,43 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				{
 					// remove anchor with no target.
 					badLinkCntr++;
+					if (unlinkDocMetadataList == null)
+					{
+						unlinkDocMetadataList = new ArrayList<String>();
+					}
+					
+					StringBuffer sbDocMetadata = new StringBuffer();
+					if (unlinkDocMetadata != null)
+					{
+						sbDocMetadata.append(unlinkDocMetadata.getDocUuid());
+					}
+					else
+					{
+						sbDocMetadata.append(currentGuid);
+					}
+					sbDocMetadata.append(",");
+					if(unlinkDocMetadata.getDocFamilyUuid() != null )
+					{
+						sbDocMetadata.append(unlinkDocMetadata.getDocFamilyUuid());
+					}
+					sbDocMetadata.append(",");
+					if(unlinkDocMetadata.getNormalizedFirstlineCite() != null )
+					{
+						sbDocMetadata.append(unlinkDocMetadata.getNormalizedFirstlineCite());
+					}
+					sbDocMetadata.append(",");
+					if(unlinkDocMetadata.getSerialNumber() != null )
+					{
+						sbDocMetadata.append(unlinkDocMetadata.getSerialNumber());
+					}
+					sbDocMetadata.append(",");
+					if(unlinkDocMetadata.getCollectionName() != null )
+					{
+						sbDocMetadata.append(unlinkDocMetadata.getCollectionName());
+					}
+					sbDocMetadata.append(",");
+					sbDocMetadata.append(atts.getValue("href"));
+					unlinkDocMetadataList.add(sbDocMetadata.toString());
 				}
 				else
 				{
@@ -124,4 +184,5 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 			super.endElement(uri, localName, qName);
 		}
 	}
+	
 }
