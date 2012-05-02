@@ -28,7 +28,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 
@@ -43,7 +42,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	private static final int ISBN_NUMBER_LENGTH = 13;
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
-	private JobRequestService jobRequestService;
 	private String environmentName;
 	
 	@SuppressWarnings("rawtypes")
@@ -98,18 +96,17 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     			// Lookup the book by its primary key
     			BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
     			
-    			String oldTitleId = bookDef.getFullyQualifiedTitleId();
+    			// Bug 297047: Super user deletes Book Definition while another user is editing the Book Definition.
+    			if(bookDef == null) {
+    				// Let controller redirect the user to error: Book Definition Deleted
+    				return;
+    			}
     			
+	    		String oldTitleId = bookDef.getFullyQualifiedTitleId();
+	    			
     			// Check if Book Definition is deleted
     	    	if(bookDef.isDeletedFlag()) {
     				errors.rejectValue("validateForm", "mesg.book.deleted");
-    			}
-    			
-    			// Check if Book Definition is in JobRequest if set as complete
-    			if(bookDef.getEbookDefinitionCompleteFlag()) {
-    				if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
-    					errors.rejectValue("validateForm", "error.job.request");
-    				}
     			}
 				
     			// This is from the book definition edit
@@ -362,10 +359,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		this.codeService = service;
 	}
 	
-	@Required
-	public void setJobRequestService(JobRequestService service) {
-		this.jobRequestService = service;
-	}
 	@Required
 	public void setEnvironmentName(String environmentName) {
 		this.environmentName = environmentName;

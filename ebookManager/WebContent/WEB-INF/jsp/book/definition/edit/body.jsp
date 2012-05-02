@@ -35,36 +35,28 @@
 	});
 </script>
 
+
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 <c:choose>
 	<c:when test="${book != null}">
-		<%-- Check if book is already in the queue or scheduled --%>
-		<c:choose>
-			<c:when test="${!isInJobRequest}">
-				<div class="bookDefinitionCRUD">
-					<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>" action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT%>" >
-						<jsp:include page="../common/crudForm.jsp" />
-						<div class="buttons">
-							<div class="row">
-								<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
-								<form:radiobutton path="isComplete" value="true" />Complete
-								<form:radiobutton path="isComplete" value="false" />Incomplete
-								<div class="errorDiv">
-									<form:errors path="isComplete" cssClass="errorMessage" />
-								</div>
-							</div>
-							<form:button id="validate">Validate</form:button>
-							<form:button id="confirm">Save</form:button>
-							<button id="cancel" type="button">Cancel</button>
+		<div class="bookDefinitionCRUD">
+			<form:form commandName="<%= EditBookDefinitionForm.FORM_NAME %>" action="<%=WebConstants.MVC_BOOK_DEFINITION_EDIT%>" >
+				<jsp:include page="../common/crudForm.jsp" />
+				<div class="buttons">
+					<div class="row">
+						<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
+						<form:radiobutton path="isComplete" value="true" />Complete
+						<form:radiobutton path="isComplete" value="false" />Incomplete
+						<div class="errorDiv">
+							<form:errors path="isComplete" cssClass="errorMessage" />
 						</div>
-					</form:form>
+					</div>
+					<form:button id="validate">Validate</form:button>
+					<form:button id="confirm">Save</form:button>
+					<button id="cancel" type="button">Cancel</button>
 				</div>
-			</c:when>
-			<c:otherwise>
-			<span style="color:red;">This book is already present in the job run queue, and thus cannot be edited.<br/>
-									 If you want to edit the definition, remove it from the run queue.</span>
-			</c:otherwise>
-		</c:choose>
+			</form:form>
+		</div>
 	</c:when>
 	<c:otherwise>
 	No book found

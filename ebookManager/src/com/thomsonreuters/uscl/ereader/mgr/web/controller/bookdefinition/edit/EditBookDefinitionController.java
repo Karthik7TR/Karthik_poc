@@ -119,6 +119,7 @@ public class EditBookDefinitionController {
 				BindingResult bindingResult,
 				Model model) throws Exception {
 		
+		boolean isPublished = false;
 		String username = UserUtils.getAuthenticatedUserName();
 		
 		// Lookup the book by its primary key
@@ -127,26 +128,36 @@ public class EditBookDefinitionController {
 		// model used in VIEW_BOOK_DEFINITION_LOCKED and VIEW_BOOK_DEFINITION_EDIT
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 
-		// Check if Book Definition is being edited by another user
-		BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
-		
-		if(bookDef != null && bookDef.isDeletedFlag()) {
-			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
-		} else if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
-			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
-			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
-		} else {
-			form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
-			checkJobRequestAndPublishStatus(bookDef, model);
-			initializeModel(model, form);
-			
-			if(bookDef != null && !bookDef.isDeletedFlag()) {
-				// Lock book definition
-				bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
+		// Check if user needs to be shown an error
+		if(bookDef != null) {
+			// Check if book is soft deleted
+			if(bookDef.isDeletedFlag()) {
+				return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
 			}
 			
-			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
+			// Check if book is being edited by another user
+			BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+			if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
+				model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
+				return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
+			}
+			
+			// Check if book is in queue to be generated
+			if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
+				return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_QUEUED);
+			}
+			
+			// Lock book definition
+			bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
+			
+			isPublished = bookDef.getPublishedOnceFlag();
 		}
+		
+		form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+		initializeModel(model, form);
+		
+		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
 	
 	private void setUpFrontMatterPreviewModel(HttpSession httpSession, EditBookDefinitionForm form,
@@ -177,6 +188,7 @@ public class EditBookDefinitionController {
 
 		setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
+		boolean isPublished = false;
 		Long bookDefinitionId = form.getBookdefinitionId();
 		String username = UserUtils.getAuthenticatedUserName();
 		
@@ -186,13 +198,32 @@ public class EditBookDefinitionController {
 		// model used in VIEW_BOOK_DEFINITION_LOCKED and VIEW_BOOK_DEFINITION_EDIT
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		
-		// Check if Book Definition is being edited by another user
-		BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
-		
-		if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
-			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
-			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_LOCKED);
+		// Check if user needs to be shown an error
+		if(bookDef != null) {
+			// Check if book is soft deleted
+			if(bookDef.isDeletedFlag()) {
+				return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
+			}
+			
+			// Check if book is being edited by another user
+			BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+			if(lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
+				model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
+				return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
+			}
+			
+			// Check if book is in queue to be generated
+			if(jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
+				return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_QUEUED);
+			}
+
+			isPublished = bookDef.getPublishedOnceFlag();
+		} else {
+			// Book Definition has been deleted from the database when user saved the book.
+			// Show error page
+			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
 		}
+		
 		
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
@@ -211,10 +242,10 @@ public class EditBookDefinitionController {
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, bookDefinitionId);
 			return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET+queryString));
 		}
-		
-		checkJobRequestAndPublishStatus(bookDef, model);
-		initializeModel(model, form);
 
+		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+		initializeModel(model, form);
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 	}
 	
@@ -295,21 +326,6 @@ public class EditBookDefinitionController {
 				
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
-	
-	private void checkJobRequestAndPublishStatus(BookDefinition bookDef, Model model) throws Exception {
-		boolean isInJobRequest = false;
-		boolean isPublished = false;
-		
-		// Check if book is scheduled or queued
-		if (bookDef != null) {
-			isPublished = bookDef.getPublishedOnceFlag();
-			isInJobRequest =  jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId());
-		}
-		
-		model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, isInJobRequest);
-		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
-	}
-	
 	
 	
 	/**

@@ -219,7 +219,8 @@ public class WebConstants {
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
 	public static final String VIEW_BOOK_DEFINITION_COPY = "_bookDefinitionCopy";
-	public static final String VIEW_BOOK_DEFINITION_LOCKED = "_bookDefinitionLock";
+	public static final String VIEW_BOOK_DEFINITION_ERROR_LOCKED = "_bookDefinitionErrorLocked";
+	public static final String VIEW_BOOK_DEFINITION_ERROR_QUEUED = "_bookDefinitionErrorQueued";
 	public static final String VIEW_BOOK_DEFINITION_IMPORT = "_bookDefinitionImportView";
 	public static final String VIEW_BOOK_DEFINITION_PROMOTION = "_bookDefinitionPromotion";
 	public static final String VIEW_BOOK_DEFINITION_DELETE = "_bookDefinitionDelete";

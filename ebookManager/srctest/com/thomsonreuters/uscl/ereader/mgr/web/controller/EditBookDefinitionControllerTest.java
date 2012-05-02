@@ -93,7 +93,6 @@ public class EditBookDefinitionControllerTest {
     	validator = new EditBookDefinitionFormValidator();
     	validator.setBookDefinitionService(mockBookDefinitionService);
     	validator.setCodeService(mockCodeService);
-    	validator.setJobRequestService(mockJobRequestService);
     	validator.setEnvironmentName("workstation");
     	controller.setValidator(validator);	
     	
@@ -398,9 +397,6 @@ public class EditBookDefinitionControllerTest {
     	
     	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(null);
 		EasyMock.replay(mockBookDefinitionService);
-		
-		EasyMock.expect(mockLockService.findBookLockByBookDefinition(null)).andReturn(null);
-		EasyMock.replay(mockLockService);
     	
     	ModelAndView mav;
 		try {
@@ -417,7 +413,6 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockEditBookDefinitionService);
-		EasyMock.verify(mockLockService);
 	}
 	
 	/**
@@ -481,7 +476,7 @@ public class EditBookDefinitionControllerTest {
 			
 			assertNotNull(mav);
 	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_LOCKED, mav.getViewName());
+	        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED, mav.getViewName());
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
@@ -696,7 +691,7 @@ public class EditBookDefinitionControllerTest {
 			
 			assertNotNull(mav);
 	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_LOCKED, mav.getViewName());
+	        assertEquals(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED, mav.getViewName());
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
