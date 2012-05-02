@@ -5,6 +5,7 @@
 */
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -34,13 +35,9 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 public abstract class AbstractSbTasklet implements Tasklet {
 	private static final Logger LOG = Logger.getLogger(AbstractSbTasklet.class);
 	public static final String EBOOK_DEFINITON = "bookDefn";
-	private String missingDocFile = "";
-		
+	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
+	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
 	
-	public void setMissingDocFile(final String missingDocFile) {
-		this.missingDocFile = missingDocFile;
-	}
-
 
 	/**
 	 * Implement this method in the concrete subclass.
@@ -72,24 +69,37 @@ public abstract class AbstractSbTasklet implements Tasklet {
             throw e;
         }
 
-        //re-initialize missingDocFile 
-        missingDocFile = "";
-		return RepeatStatus.FINISHED;
+       return RepeatStatus.FINISHED;
 	}
 	
     private void sendNotification(ChunkContext chunkContext, String bodyMessage) {
         
         ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
+		List<String> fileList = new ArrayList<String>();
         String emailId = JobParameterKey.USER_EMAIL;
         String subject = bookDefinition.getTitleId() + "  " + bookDefinition.getProviewDisplayName();
-        if ("".equals(missingDocFile))
+        String imgGuidsFile = jobExecutionContext.getString(IMAGE_MISSING_GUIDS_FILE);
+        
+        if (getFileSize(imgGuidsFile) > 0 )
         {
-           EmailNotification.send(emailId, subject, bodyMessage.toString());
+        	fileList.add(imgGuidsFile);
+        }
+        
+        String missingGuidsFile = jobExecutionContext.getString(DOCS_MISSING_GUIDS_FILE);
+        
+        if (getFileSize(missingGuidsFile) > 0 )
+        {
+        	fileList.add(missingGuidsFile);
+        }
+        
+        if (fileList.size() > 0)
+        {
+        	EmailNotification.sendWithAttachment(emailId, subject, bodyMessage.toString(), fileList);
+           
         }
         else {
-        	List<String> fileList = new ArrayList<String>();
-        	EmailNotification.sendWithAttachment(emailId, subject, bodyMessage.toString(), fileList);
+        	EmailNotification.send(emailId, subject, bodyMessage.toString());
         }
         
 }
@@ -190,4 +200,17 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	    aThrowable.printStackTrace(printWriter);
 	    return result.toString();
 	  }
+	
+	 /**
+	  * @param filename
+	  * @return a long value of file length
+	 */
+	private long getFileSize(final String filename) {
+
+		   File file = new File(filename);
+		   if (!file.exists() || !file.isFile()) {
+			  return -1;
+		   }
+		   return file.length();
+	}
 }

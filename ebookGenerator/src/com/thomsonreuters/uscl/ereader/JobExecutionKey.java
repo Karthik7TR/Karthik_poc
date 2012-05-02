@@ -51,6 +51,12 @@ public class JobExecutionKey {
 	 * images that will be inserted into the book.  These GUID's serve as input to the Image Vertical REST service.
 	 */
 	public static final String IMAGE_DYNAMIC_GUIDS_FILE = "imageDynamicGuidsFile";
+	
+	/**
+	 * Path to the flat text file that contains the list (one per line) of missing image GUID's.
+	 */
+	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
+	
 	/**
 	 * Path to the flat file that contains the mapping of all images in each document. This file is
 	 * used to append image metadata to the XML file before transformation.
@@ -137,6 +143,12 @@ public class JobExecutionKey {
 	 * docs that will be inserted into the book.  These GUID's serve as input to the Gather Vertical REST service.
 	 */
 	public static final String DOCS_DYNAMIC_GUIDS_FILE = "docsDynamicGuidsFile";
+	
+	
+	/**
+	 * Path to the flat text file that contains the list (one per line) of missing doc GUID's.
+	 */
+	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
 	
 	/**
 	 * Path to the final destination for assets (images, stylesheets). Used by the assembly process.

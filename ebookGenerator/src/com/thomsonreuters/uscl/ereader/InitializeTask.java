@@ -102,6 +102,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		File tocFile = new File(tocDirectory, "toc.xml");
 		File docsMetadataDirectory = new File(docsDirectory, "Metadata");
 		File docsGuidsFile = new File(gatherDirectory, "docs-guids.txt");		
+		File docsMissingGuidsFile = new File(gatherDirectory, "Docs_doc_missing_guids.txt");
 		
 		// Image directories and files
 		File imageRootDirectory = new File(gatherDirectory, "Images");
@@ -109,6 +110,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		File imageStaticDirectory = new File(imageRootDirectory, "Static");
 		File imageDynamicGuidsFile = new File(gatherDirectory, "dynamic-image-guids.txt");
 		File imageStaticManifestFile = new File(gatherDirectory, "static-image-manifest.txt");
+		File imageMissingGuidsFile = new File(imageRootDirectory, "missing_image_guids.txt");
 		
 		File assembleDirectory = new File(workDirectory, "Assemble");
 		File assembledTitleDirectory = new File(assembleDirectory, titleId);
@@ -184,7 +186,10 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.GATHER_TOC_FILE, tocFile.getAbsolutePath());
 		
 		jobExecutionContext.putString(
-				JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());		
+				JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE, docsGuidsFile.getAbsolutePath());	
+		
+		jobExecutionContext.putString(
+				JobExecutionKey.DOCS_MISSING_GUIDS_FILE, docsMissingGuidsFile.getAbsolutePath());
 		
 		// Images - static and dynamic directories and files
 		jobExecutionContext.putString(
@@ -199,7 +204,8 @@ public class InitializeTask extends AbstractSbTasklet {
 				JobExecutionKey.IMAGE_STATIC_MANIFEST_FILE, imageStaticManifestFile.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE, imageToDocumentManifestFile.getAbsolutePath());
-		
+		jobExecutionContext.putString(
+				JobExecutionKey.IMAGE_MISSING_GUIDS_FILE, imageMissingGuidsFile.getAbsolutePath());
 		jobExecutionContext.putString(
 				JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
 		jobExecutionContext.putString(

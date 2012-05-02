@@ -44,8 +44,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	private DocMetaDataGuidParserService docMetaDataParserService;
 	private GatherService gatherService;
 	private PublishingStatsService publishingStatsService;
-	private static final String MISSING_DOC_FILE = "_doc_missing_guids.txt";
-
+	
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -81,13 +80,6 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
 		
 		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
-		
-		String missingDocFile = StringUtils.substringBeforeLast(docsDir.getAbsolutePath(), "/") + MISSING_DOC_FILE;
-		
-		long fileSize = getFileSize(missingDocFile);
-		if (fileSize > 0){
-		   setMissingDocFile(missingDocFile);
-		}
 		
 		if (gatherResponse.getErrorCode() != 0 ) {
 		
@@ -140,21 +132,5 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		}
 		return lineList;
 	}
-	
-	 /**
-	 * @param filename
-	 * @return
-	 */
-	private long getFileSize(final String filename) {
-
-		    File file = new File(filename);
-		    
-		    if (!file.exists() || !file.isFile()) {
-		       return -1;
-		    }
-		    
-		    return file.length();
-		  }
-
 
 }
