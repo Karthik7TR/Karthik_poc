@@ -88,6 +88,10 @@ public class EditBookDefinitionForm {
 	private EbookName frontMatterSubtitle = new EbookName();
 	private EbookName frontMatterSeries = new EbookName();
 	
+	/** Used to preview front matter, holds the FM page sequence number that uniquely identifies
+	    what page the user want to preview. */
+	private Long selectedFrontMatterPreviewPage;
+	
 	private boolean validateForm;
 	
 	public EditBookDefinitionForm() {
@@ -686,6 +690,12 @@ public class EditBookDefinitionForm {
 
 	public void setValidateForm(boolean validateForm) {
 		this.validateForm = validateForm;
+	}
+	public Long getSelectedFrontMatterPreviewPage() {
+		return selectedFrontMatterPreviewPage;
+	}
+	public void setSelectedFrontMatterPreviewPage(Long fmPageSeqNum) {
+		this.selectedFrontMatterPreviewPage = fmPageSeqNum;
 	}
 
 	public String toString() {

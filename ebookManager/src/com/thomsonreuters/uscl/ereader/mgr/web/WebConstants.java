@@ -14,6 +14,7 @@ public class WebConstants {
 	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";  // default date presentation
 	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss";
 	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
+	public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS="height=800,width=768,top=0,resizable=yes,scrollbars=yes";
 	
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
 	public static final String KEY_PROVIEW_DOMAIN = "proviewDomain";
@@ -79,7 +80,7 @@ public class WebConstants {
 	
 	public static final String KEY_KILL_SWITCH_CODE = "Stop all";
 	public static final String KEY_DELETE_BOOK = "DELETE BOOK";
-	public static final String KEY_FRONT_MATTER_PREVIEW_CONTENT = "previewContent";
+	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
@@ -122,6 +123,8 @@ public class WebConstants {
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
 	public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW = "frontMatterPreview.mvc";
+	public static final String MVC_FRONT_MATTER_PREVIEW_EDIT = "frontMatterPreviewEdit.mvc";
+	
 	public static final String MVC_FRONT_MATTER_PREVIEW_TITLE = "frontMatterPreviewTitle.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_COPYRIGHT = "frontMatterPreviewCopyright.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_ADDITIONAL = "frontMatterPreviewContentAdditional.mvc";

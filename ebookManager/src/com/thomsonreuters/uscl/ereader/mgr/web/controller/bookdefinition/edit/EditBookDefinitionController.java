@@ -6,7 +6,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.text.ParseException;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -28,10 +30,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
@@ -43,6 +47,7 @@ public class EditBookDefinitionController {
 	protected EditBookDefinitionService editBookDefinitionService;
 	private EBookAuditService auditService;
 	private BookDefinitionLockService bookLockService;
+	private CreateFrontMatterService frontMatterService;
 	protected Validator validator;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
@@ -51,14 +56,13 @@ public class EditBookDefinitionController {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		binder.setValidator(validator);
 	}
-	
-	
+
 	/**
 	 * Handle the in-bound GET to the Book Definition create view page.
 	 * @param titleId the primary key of the book to be edited as a required query string parameter.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.GET)
-	public ModelAndView createBookDefintionGet(
+	public ModelAndView createBookDefintionGet( 
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) {
@@ -77,10 +81,12 @@ public class EditBookDefinitionController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_CREATE, method = RequestMethod.POST)
-	public ModelAndView createBookDefintionPost(
+	public ModelAndView createBookDefintionPost(HttpSession httpSession,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
-				Model model) throws ParseException {
+				Model model) throws Exception {
+		
+		setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
@@ -142,6 +148,19 @@ public class EditBookDefinitionController {
 			return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
 		}
 	}
+	
+	private void setUpFrontMatterPreviewModel(HttpSession httpSession, EditBookDefinitionForm form,
+											  BindingResult bindingResult) throws Exception {
+		// The one error is the message indicating that the form was validated, any more than this indicates other problems
+		Long frontMatterPreviewPageId = form.getSelectedFrontMatterPreviewPage();
+		if ((frontMatterPreviewPageId != null) && (bindingResult.getErrorCount() == 1)) {
+			BookDefinition fmBookDef = createFrontMatterPreviewBookDefinitionFromForm(form);
+			String html = frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId);
+			//model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
+			// Place the preview content on the session so that it can be fetched and used when the popup preview window is opened
+			httpSession.setAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
+		}
+	}
 	/**
 	 * Handle the in-bound POST to the Book Definition edit view page.
 	 * @param titleId
@@ -151,11 +170,13 @@ public class EditBookDefinitionController {
 	 * @return
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.POST)
-	public ModelAndView editBookDefintionPost(
+	public ModelAndView editBookDefintionPost(HttpSession httpSession,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {
-		
+
+		setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
+
 		Long bookDefinitionId = form.getBookdefinitionId();
 		String username = UserUtils.getAuthenticatedUserName();
 		
@@ -248,10 +269,12 @@ public class EditBookDefinitionController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.POST)
-	public ModelAndView copyBookDefintionPost(
+	public ModelAndView copyBookDefintionPost(HttpSession httpSession,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid EditBookDefinitionForm form,
 				BindingResult bindingResult,
-				Model model) throws ParseException {
+				Model model) throws Exception {
+		
+		setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
 			BookDefinition book = new BookDefinition();
@@ -307,6 +330,22 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
 	}
+	
+	/**
+	 * Create a book definition suitable for providing to the front matter preview service. 
+	 * @param form assumed to have been previously validated correctly
+	 * @return 
+	 */
+	public static BookDefinition createFrontMatterPreviewBookDefinitionFromForm(EditBookDefinitionForm form) throws ParseException {
+		BookDefinition book = new BookDefinition();
+		form.loadBookDefinition(book);
+		List<FrontMatterPage> pages = book.getFrontMatterPages();
+		for (FrontMatterPage page : pages) {
+			Long pk = new Long(page.getSequenceNum());
+			page.setId(pk);
+		}
+		return book;
+	}
 
 	@Required
 	public void setBookDefinitionService(BookDefinitionService service) {
@@ -337,5 +376,9 @@ public class EditBookDefinitionController {
 	public void setBookLockService(BookDefinitionLockService service) {
 		this.bookLockService = service;
 	}
-
+	
+	@Required
+	public void setFrontMatterService(CreateFrontMatterService service) {
+		this.frontMatterService = service;
+	}
 }

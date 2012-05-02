@@ -3,5 +3,5 @@
 --%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 
-${previewContent}
+${previewHtml}
 

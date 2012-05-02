@@ -133,7 +133,7 @@ public class FmPreviewControllerTest {
 			Assert.assertEquals(WebConstants.VIEW_FRONT_MATTER_PREVIEW_CONTENT, mav.getViewName());
 			// Verify the model
 			Map<String,Object> model = mav.getModel();
-			Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_CONTENT));
+			Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
 			EasyMock.verify(mockBookDefinitionService);
 			EasyMock.verify(mockFrontMatterService);
 		} catch (Exception e) {
@@ -157,7 +157,7 @@ public class FmPreviewControllerTest {
 			// Verify the model
 			Map<String,Object> model = mav.getModel();
 			Assert.assertEquals(BOOK_DEF_ID, model.get(WebConstants.KEY_ID));
-			Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_CONTENT));
+			Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
 			EasyMock.verify(mockBookDefinitionService);
 			EasyMock.verify(mockFrontMatterService);
 		} catch (Exception e) {

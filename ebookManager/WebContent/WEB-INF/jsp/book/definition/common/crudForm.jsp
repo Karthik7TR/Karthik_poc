@@ -7,6 +7,27 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
+<%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
+<c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
+<c:choose>
+
+<c:when test="${previewHtml != null}">
+<script>
+	var openFrontMatterPreviewWindow = function() {
+		var win = window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT%>?time=<%=System.currentTimeMillis()%>', null, '${winSpecs}');
+		win.focus();
+	};
+</script>
+</c:when>
+<c:otherwise>
+<script>
+	var openFrontMatterPreviewWindow = function() {
+		// No action if no front matter preview data (no popup window)
+	};
+</script>
+
+</c:otherwise>
+</c:choose>		
 <script type="text/javascript">
 		// Declare Global Variables
 		var authorIndex = ${numberOfAuthors};
@@ -116,6 +137,7 @@
 			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\"/>";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" title=\"Delete Page, Sections, and Pdfs?\" deleteMessage=\"This will also delete all the sections and pdfs in this front matter page.\" />";
+			appendTxt = appendTxt + "<input type=\"button\" value=\"Preview\" class=\"fmPreview\"/>"; 
 			appendTxt = appendTxt + "<div id='addAdditionalSection_" + frontMatterPageIndex + "'></div>";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Section\" class=\"addSection\" pageIndex=\"" + frontMatterPageIndex + "\" sectionIndex=\"0\" />";
 			appendTxt = appendTxt + "</div>";
@@ -239,7 +261,20 @@
 			}
 		};
 		
+		var submitFormForValidation = function() {
+			warning = false;
+			$('#validateForm').val(true);
+			$('#<%= EditBookDefinitionForm.FORM_NAME %>').submit();
+		};
+
+		
+	
+
+		
 		$(document).ready(function() {
+			<%-- If there is front matter preview content to display, then display it in its own window --%>
+			openFrontMatterPreviewWindow();
+			
 			<%-- Setup change handlers  --%>
 			$('#contentTypeId').change(function () {
 				// Clear out information when content type changes
@@ -283,12 +318,15 @@
 				$('#authorName').show();
 			});
 			
-			//Update formValidation field if Validation button is pressed
-			$('#validate').click(function () {
-				warning= false;
-				$('#validateForm').val(true);
-				$('<%= EditBookDefinitionForm.FORM_NAME %>').submit();
+			// Clicking the Additional Front Matter preview button 
+			$('.fmPreview').live("click", function() {
+				var pageSequenceNumber = $(this).parent().children(".sequenceNumber").val();
+				$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
+				submitFormForValidation();
 			});
+		
+			//Update formValidation field if Validation button is pressed
+			$('#validate').click(submitFormForValidation);
 			
 			// Add Comment
 			$('#confirm').click(function(e) {
@@ -455,6 +493,7 @@
 </script>
 
 <form:hidden path="validateForm" />
+<form:hidden path="selectedFrontMatterPreviewPage" />
 <div class="validateFormDiv">
 	<form:errors path="validateForm" cssClass="errorMessage" />
 </div>
@@ -876,6 +915,8 @@
 			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" />
 			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" maxlength="9" />
 			<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
+			<input type="button" value="Preview" class="fmPreview"/>   
+
 			<div class="errorDiv2">
 				<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
 				<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />

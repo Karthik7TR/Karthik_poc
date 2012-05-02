@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview;
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,25 @@ public class FmPreviewController {
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 		return new ModelAndView(WebConstants.VIEW_FRONT_MATTER_PREVIEW);
 	}
+	
+	/**
+	 * Invoked from the window.open() of the book def. editor.
+	 * Assumes preview HTML content was put on the session by the previous form submit.
+	 */
+	@RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT, method = RequestMethod.GET)
+	public ModelAndView previewContentSelectionFromEdit(HttpSession httpSession, Model model) {
+		String frontMatterPreviewHtml = (String) httpSession.getAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML);
+		httpSession.removeAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML);	// Clear the HTML out of the session
+		
+		if (frontMatterPreviewHtml == null) {
+			frontMatterPreviewHtml = "The front matter preview cannot be refreshed.  Click the Preview button for the Front Matter page you with to view.";
+		}
+		// The front matter pages are a property of the book definition
+		model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, frontMatterPreviewHtml);
+
+		// Content for the pop-up front matter preview window
+		return new ModelAndView(WebConstants.VIEW_FRONT_MATTER_PREVIEW_CONTENT);
+	}
 
 
 	/**
@@ -83,7 +104,7 @@ public class FmPreviewController {
 		}
 		try {
 			String html = frontMatterService.getAdditionalFrontPage(bookDef, frontMatterPageId);
-			model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_CONTENT, html);
+			model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
 		} catch (EBookFrontMatterGenerationException e) {
 			String errMesg = String.format("Could not fetch additional front matter preview content for book definition ID %d, front matter page ID %d", bookDefinitionId, frontMatterPageId);
 			log.debug(errMesg, e);
@@ -123,7 +144,7 @@ public class FmPreviewController {
 			}
 			String html = (String) staticContentGetter.invoke(frontMatterService, bookDef);
 			model.addAttribute(WebConstants.KEY_ID, id);
-			model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_CONTENT, html);
+			model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
 		} catch (Exception e) {
 			InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL,
 					String.format("Could not fetch static front matter for book definition ID %d", id));

@@ -11,7 +11,7 @@
 
 <html>
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
-<c:set var="winSpecs" value="height=1024,width=768,resizable=yes,scrollbars=yes"/>
+<c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
 
 <head>
 <script>
