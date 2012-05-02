@@ -34,7 +34,10 @@ public class EngineServiceImpl implements EngineService {
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
-	private String proviewDomainName;
+	private String proviewDomainName; // like "ci" or "demo" or "qed"
+	private String imageService;
+	private String novusEnvironment;
+	private String dbServiceName;
 
 	/**
 	 * Immediately run a job as defined in the specified JobRunRequest.
@@ -102,7 +105,10 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
 		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));
-		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(new Date()));	
+		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(new Date()));
+		jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));	
+		jobParamMap.put(JobParameterKey.NOVUS_ENV, new JobParameter(novusEnvironment));	
+		jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
 		return new JobParameters(jobParamMap);
 	}
 
@@ -126,5 +132,20 @@ public class EngineServiceImpl implements EngineService {
 	@Required
 	public void setProviewDomain(String proviewDomain) {
 		this.proviewDomainName = proviewDomain;
+	}
+
+	@Required	
+	public void setImageService(String imageService) {
+		this.imageService = imageService;
+	}
+
+	@Required
+	public void setNovusEnvironment(String novusEnvironment) {
+		this.novusEnvironment = novusEnvironment;
+	}
+
+	@Required	
+	public void setDbServiceName(String dbServiceName) {
+		this.dbServiceName = dbServiceName;
 	}	
 }

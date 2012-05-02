@@ -44,6 +44,9 @@
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
 		  p:environmentName-ref="environmentName"
 		  p:proviewDomain="${proview.domain}"
+		  p:imageService="${image.vertical.context.url}"
+		  p:novusEnvironment="${novus.environment}"
+		  p:dbServiceName="${db.service.name}"		  
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"/>
@@ -116,15 +119,13 @@
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
 		  p:imgService-ref="imageService"
   		  p:docMetadataService-ref="docMetadataService"/>
-  		    		  
+  		  
 	<bean id="htmlCreateNamedAnchorsInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsInternalLinksServiceImpl"
 		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"
   		  p:docMetadataService-ref="docMetadataService"/>  		
   	<bean id="htmlRemoveBrokenInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksServiceImpl"
 		  p:fileHandlingHelper-ref="postAnchorFileHandlingHelper"
-  		  p:docMetadataService-ref="docMetadataService"  	
-		  p:emailNotification-ref="emailNotification"/>
-		  
+  		  p:docMetadataService-ref="docMetadataService"/>  	
   		  	  
 	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
 		  p:keyCiteBlockGenerationService-ref="keyCiteBlockGenerationService"

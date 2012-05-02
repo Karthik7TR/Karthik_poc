@@ -22,5 +22,10 @@ public class JobParameterKey {
 	public static final String ENVIRONMENT_NAME = "environmentName";
 	
 	public static final String PROVIEW_DOMAIN_NAME = "proviewDomain";	
-	public static final String TIMESTAMP = "timestamp";	
+	public static final String TIMESTAMP = "timestamp";
+	public static final String IMAGESVC_DOMAIN_NAME = "imageService";
+	
+	public static final String NOVUS_ENV = "novusEnvironment";
+	
+	public static final String DATABASE_SERVICE_NAME = "dbServiceName";
 }
