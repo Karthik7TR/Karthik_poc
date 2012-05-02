@@ -31,8 +31,10 @@ import org.apache.commons.lang.StringUtils;
 public class EbookAudit implements Serializable {
 	//private static final Logger log = Logger.getLogger(EbookAudit.class);
 	private static final long serialVersionUID = 1L;
-	private static final int MAX_CHARACTER_1024 = 1024;
-	private static final int MAX_CHARACTER_2048 = 2048;
+	
+	// Lowered the Max characters to account for some unicode characters
+	private static final int MAX_CHARACTER_1024 = 1000;
+	private static final int MAX_CHARACTER_2048 = 2000;
 	public static enum AUDIT_TYPE {DELETE, RESTORE, CREATE, EDIT};
 
 	/**

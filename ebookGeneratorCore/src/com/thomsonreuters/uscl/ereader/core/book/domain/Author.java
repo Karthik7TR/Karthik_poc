@@ -21,8 +21,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 
 /**
@@ -281,7 +279,18 @@ public class Author implements Serializable, Comparable<Author> {
 
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("authorId=[").append(authorId).append("] ");
+		buffer.append("authorNamePrefix=[").append(authorNamePrefix).append("] ");
+		buffer.append("authorFirstName=[").append(authorFirstName).append("] ");
+		buffer.append("authorMiddleName=[").append(authorMiddleName).append("] ");
+		buffer.append("authorLastName=[").append(authorLastName).append("] ");
+		buffer.append("authorNameSuffix=[").append(authorNameSuffix).append("] ");
+		buffer.append("authorAddlText=[").append(authorAddlText).append("] ");
+		buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
+		buffer.append("useCommaBeforeSuffix=[").append(useCommaBeforeSuffix).append("] ");
+		
+		return buffer.toString();
 	}
 
 	@Override
