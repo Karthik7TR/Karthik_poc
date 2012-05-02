@@ -23,9 +23,9 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottle
 
 /**
  * This class covers Throttle behavior for spring batch where before starting new job , jobRepository is queried to find 
- * how many jobs are currently running and what is current throttle limit. if more number of jobs running are more or 
- * equal to throttle Limit. Each running job is verified if they have crossed throttle step then total number of such jobs 
- * which have not crossed throttle limit is considered to decide if new job should be allowed launch.  
+ * how many jobs are currently running and what is current throttle limit. if number of jobs running are more or 
+ * equal to throttle Limit. Each running job is verified if they have crossed throttle step, total number of such jobs 
+ * which have not crossed throttle limit is considered to decide if new job should be allowed to launch.  
  *    
  *  @author Mahendra Survase (u0105927)
  */
