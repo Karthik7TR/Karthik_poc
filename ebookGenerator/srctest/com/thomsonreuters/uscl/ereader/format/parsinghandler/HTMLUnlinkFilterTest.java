@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
@@ -27,6 +28,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 /**
  * Test various HTMLUnlinkInternalLinksFilter data scenarios.
@@ -53,12 +56,15 @@ public class HTMLUnlinkFilterTest {
 		hs.add(foundAnchor);
 		hs.add(foundAnchor+"new");
 		targetAnchors.put(currentGuid, hs);
-		
+		ArrayList<String> unlinkDocMetadataList = new ArrayList<String>();
+		DocMetadata unlinkDocMetadata = new DocMetadata();
 		anchorFilter = new HTMLUnlinkInternalLinksFilter();
 		anchorFilter.setParent(saxParser.getXMLReader());
 		anchorFilter.setCurrentGuid(currentGuid);
 		anchorFilter.setTargetAnchors(targetAnchors);
-
+		anchorFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
+		anchorFilter.setUnlinkDocMetadata(unlinkDocMetadata);
+		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
 		serializer = SerializerFactory.getSerializer(props);
