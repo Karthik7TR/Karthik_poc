@@ -26,9 +26,11 @@
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
-	  	<display:column title="Action">
-	  			<a href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}">All versions of this book</a>
+	  	<display:column title="Remove">
+	  		<a>Remove this version</a>
 	  	</display:column>
-	  	
+	  	<display:column title="Delete">
+	  		<a>Delete this version</a>
+	  	</display:column>
 	  	
 	</display:table>

@@ -27,6 +27,12 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/list/body.jsp"/>
 	</definition>
 	
+	<definition name="_adminProviewTitleAllVersions" extends="standardDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/singletitle/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/singletitle/body.jsp"/>
+	</definition>
+	
 	<definition name="_adminBookLockDelete" extends="standardDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
