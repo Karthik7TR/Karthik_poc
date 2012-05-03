@@ -15,7 +15,7 @@
 	</div>
 	<div class="titleData">
 		Title ID: ${book.titleId}<br/>
-		Name: ${book.proviewDisplayName}<br/>
+		ProView Display Name: ${book.proviewDisplayName}<br/>
 	</div>
 </div>
 </c:otherwise>

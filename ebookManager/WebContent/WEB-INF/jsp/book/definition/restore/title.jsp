@@ -15,7 +15,7 @@
 	</div>
 	<div class="titleData">
 		Title ID: ${book.fullyQualifiedTitleId}<br/>
-		Name: ${book.proviewDisplayName}<br/>
+		ProView Display Name: ${book.proviewDisplayName}<br/>
 		<div class="bookStatus">Current Status: ${book.bookStatus}</div>
 	</div>
 </div>

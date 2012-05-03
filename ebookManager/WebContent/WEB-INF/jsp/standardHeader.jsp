@@ -5,10 +5,10 @@
 
 <c:set var="userFullName" value="<%=UserUtils.getAuthenticatedUserFullName()%>"/>
 
-<div class="leftHeader">
-	<span class="programTitle">THOMSON REUTERS</span> <span class="programTitle" style="color:orange">eBook Manager</span> <span class="welcomeMessage"> - Welcome ${userFullName}</span>
+<div class="headerLeftSide">
+	<span class="programTitle">THOMSON REUTERS <span style="color:orange">eBook Manager</span></span>  <span class="welcomeMessage"> - Welcome ${userFullName}</span>
 </div>
-<div class="rightHeader">
+<div class="headerRightSide">
 	<ul class="navList">
 		<li><a href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
 		<li><a href="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>">AUDIT</a></li>

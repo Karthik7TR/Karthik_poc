@@ -30,9 +30,7 @@ function submitAuditFilterForm(command) {
 }
 </script>
 
-<h2>Filters</h2>
-<br/>
-
+<div class="header">Filters</div>
 <form:form action="<%=WebConstants.MVC_BOOK_AUDIT_LIST_FILTER_POST %>"
 		   commandName="<%=BookAuditFilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
@@ -53,7 +51,7 @@ function submitAuditFilterForm(command) {
 	    <br/>
     </spring:hasBindErrors>
 		   
-	Proview Display Name:<form:input path="bookName"/><br/>
+	ProView Display Name:<form:input path="bookName"/><br/>
 	Title ID:<form:input path="titleId"/><br/>
 	Book Definition ID:<form:input path="bookDefinitionId"/><br/>
 	User Name:<form:input path="submittedBy"/><br/>

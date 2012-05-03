@@ -31,9 +31,7 @@ function submitJobSummaryFilterForm(command) {
 }
 </script>
 
-<h2>Filters</h2>
-<br/>
-
+<div class="header">Filters</div>
 <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_FILTER_POST%>"
 		   commandName="<%=FilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
@@ -54,7 +52,7 @@ function submitJobSummaryFilterForm(command) {
 	    <br/>
     </spring:hasBindErrors>
 		   
-	Proview Display Name:<form:input path="bookName"/><br/>
+	ProView Display Name:<form:input path="bookName"/><br/>
 	Title ID:<form:input path="titleId"/><br/>
 	Submitted By:<form:input path="submittedBy"/><br/>
 	From Date:<form:input id="datepickerFrom" path="fromDateString"/><br/>

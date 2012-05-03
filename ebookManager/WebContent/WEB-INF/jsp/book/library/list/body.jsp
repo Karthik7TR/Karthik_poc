@@ -63,15 +63,15 @@
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
-	  <display:column title="Proview Display Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
+	  <display:column title="ProView Display Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
 	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
-	  <display:column title="Proview Version" property="proviewVersion" />
-	  <display:column title="Proview Publish Date">
+	  <display:column title="ProView Version" property="proviewVersion" />
+	  <display:column title="ProView Publish Date">
 	  	<fmt:formatDate value="${vdo.lastProviewUpdateDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>"/>
 	  </display:column>
 	  <display:column title="Last Generate Date/Time" sortable="true" sortName="publishEndTimestamp">
@@ -82,10 +82,11 @@
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	</display:table>
-	<br/>	
-	<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
-	<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
-	<input type="submit" value="Generate" ${superPublisherPublisherplusVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
-	<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
+	<div class="buttons">
+		<input type="submit" disabled="disabled" value="Import" onclick="submitForm('<%= BookLibrarySelectionForm.Command.IMPORT %>')" />
+		<input type="submit" disabled="disabled" value="Export" onclick="submitForm('<%= BookLibrarySelectionForm.Command.EXPORT %>')"/>
+		<input type="submit" value="Generate" ${superPublisherPublisherplusVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+		<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
+	</div>
 
 </form:form>

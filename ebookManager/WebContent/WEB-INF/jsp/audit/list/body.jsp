@@ -27,7 +27,7 @@
   <display:column title="Book Definition ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_DEFINITION_ID.toString()%>" >
   	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${audit.ebookDefinitionId}">${audit.ebookDefinitionId}</a>
   </display:column>
-  <display:column title="Proview Display Name" property="proviewDisplayName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
+  <display:column title="ProView Display Name" property="proviewDisplayName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>"/>
   <display:column title="Title ID" property="titleId" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>" />
   <display:column title="User Name" property="updatedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>
   <display:column title="Action" property="auditType" sortable="true" sortProperty="<%=DisplayTagSortProperty.ACTION.toString()%>"/>

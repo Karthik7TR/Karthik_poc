@@ -83,7 +83,7 @@
 	<div id="statsDiv">
 	<table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 	<tr>
-		<td style="padding-right:40px;">Book Name</td>
+		<td style="padding-right:40px;">ProView Display Name</td>
 		<td colspan="3">${job.bookInfo.proviewDisplayName}</td>
 	</tr>
 	<tr>
@@ -179,7 +179,6 @@
 	<div class="job-details-table-label">
 		<input id="jobExecutionContextImage" type="image" src="theme/images/wf_plus.gif"/> Job Execution Context
 	</div>
-	<br/>
 	<div id="jobExecutionContextDiv" class="job-details-expand-div">
 		<display:table id="jobExecutionContextMapEntry" name="job.jobExecutionContextMapEntryList" class="displayTagTable" cellpadding="3" style="text-align: left;">
 	  		<display:setProperty name="basic.msg.empty_list">No job execution context entries were found.</display:setProperty>
@@ -188,7 +187,7 @@
 	  		<display:column title="Value" property="value"/>
 		</display:table>
 	</div>
-	
+	<br />
 	<%-- JOB PARAMETERS --%>
 	<div class="job-details-table-label">
 		<input id="parametersImage" type="image" src="theme/images/wf_plus.gif"/> Job Parameters

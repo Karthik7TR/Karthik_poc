@@ -4,317 +4,301 @@
 
 <tiles-definitions>
 	
-	<definition name="standardDefinition" template="/WEB-INF/tiles/layouts/standard-template.jsp">
+	<definition name="twoColumnDefinition" template="/WEB-INF/tiles/layouts/two-column-template.jsp">
 		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
 	</definition>
 	
-	<definition name="_adminMain" extends="standardDefinition">
+	<definition name="oneColumnDefinition" template="/WEB-INF/tiles/layouts/one-column-template.jsp">
+		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
+	</definition>
+	
+	<definition name="_adminMain" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/main/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/main/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminBookLockList" extends="standardDefinition">
+	<definition name="_adminBookLockList" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitles" extends="standardDefinition">
+	<definition name="_adminProviewTitles" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleAllVersions" extends="standardDefinition">
+	<definition name="_adminProviewTitleAllVersions" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/singletitle/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/singletitle/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleRemove" extends="standardDefinition">
+	<definition name="_adminProviewTitleRemove" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/remove/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/remove/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleDelete" extends="standardDefinition">
+	<definition name="_adminProviewTitleDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminBookLockDelete" extends="standardDefinition">
+	<definition name="_adminBookLockDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/body.jsp"/>
 	</definition>
 
-	<definition name="_adminStopGenerator" extends="standardDefinition">
+	<definition name="_adminStopGenerator" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/stopgenerator/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/stopgenerator/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminJurisCodeView" extends="standardDefinition">
+	<definition name="_adminJurisCodeView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminJurisCodeEdit" extends="standardDefinition">
+	<definition name="_adminJurisCodeEdit" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/edit/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminJurisCodeDelete" extends="standardDefinition">
+	<definition name="_adminJurisCodeDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminJurisCodeCreate" extends="standardDefinition">
+	<definition name="_adminJurisCodeCreate" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/jurisdictionCode/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/jurisdictionCode/common/createEditForm.jsp"/>
 	</definition>
 	
-	<definition name="_adminPublishTypeCodeView" extends="standardDefinition">
+	<definition name="_adminPublishTypeCodeView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminPublishTypeCodeEdit" extends="standardDefinition">
+	<definition name="_adminPublishTypeCodeEdit" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/edit/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminPublishTypeCodeDelete" extends="standardDefinition">
+	<definition name="_adminPublishTypeCodeDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminPublishTypeCodeCreate" extends="standardDefinition">
+	<definition name="_adminPublishTypeCodeCreate" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/pubTypeCode/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/pubTypeCode/common/createEditForm.jsp"/>
 	</definition>
 	
-	<definition name="_adminStateCodeView" extends="standardDefinition">
+	<definition name="_adminStateCodeView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminStateCodeEdit" extends="standardDefinition">
+	<definition name="_adminStateCodeEdit" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/edit/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminStateCodeDelete" extends="standardDefinition">
+	<definition name="_adminStateCodeDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminStateCodeCreate" extends="standardDefinition">
+	<definition name="_adminStateCodeCreate" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/stateCode/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/common/createEditForm.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordCodeView" extends="standardDefinition">
+	<definition name="_adminKeywordCodeView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordCodeEdit" extends="standardDefinition">
+	<definition name="_adminKeywordCodeEdit" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/edit/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordCodeDelete" extends="standardDefinition">
+	<definition name="_adminKeywordCodeDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordCodeCreate" extends="standardDefinition">
+	<definition name="_adminKeywordCodeCreate" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordCode/common/createEditForm.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordValueEdit" extends="standardDefinition">
+	<definition name="_adminKeywordValueEdit" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/edit/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordValueDelete" extends="standardDefinition">
+	<definition name="_adminKeywordValueDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/delete/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminKeywordValueCreate" extends="standardDefinition">
+	<definition name="_adminKeywordValueCreate" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordValue/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/common/createEditForm.jsp"/>
 	</definition>
 	
-	<definition name="_bookLibraryList" extends="standardDefinition">
+	<definition name="_bookLibraryList" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/library/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionView" extends="standardDefinition">
+	<definition name="_bookDefinitionView" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/view/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/view/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/view/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionCreate" extends="standardDefinition">
+	<definition name="_bookDefinitionCreate" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/create/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/create/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/create/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionCopy" extends="standardDefinition">
+	<definition name="_bookDefinitionCopy" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/copy/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/copy/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/copy/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionEdit" extends="standardDefinition">
+	<definition name="_bookDefinitionEdit" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/edit/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionDelete" extends="standardDefinition">
+	<definition name="_bookDefinitionDelete" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/delete/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/delete/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/delete/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionRestore" extends="standardDefinition">
+	<definition name="_bookDefinitionRestore" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/restore/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/restore/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/restore/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionErrorLocked" extends="standardDefinition">
+	<definition name="_bookDefinitionErrorLocked" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/error/locked.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionErrorQueued" extends="standardDefinition">
+	<definition name="_bookDefinitionErrorQueued" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/error/queued.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/edit/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/edit/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookGeneratePreview" extends="standardDefinition">
+	<definition name="_bookGeneratePreview" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/generate/single/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/generate/single/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/generate/single/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookGenerateBulkPreview" extends="standardDefinition">
+	<definition name="_bookGenerateBulkPreview" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/generate/bulk/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/generate/bulk/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/generate/bulk/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionPromotion" extends="standardDefinition">
+	<definition name="_bookDefinitionPromotion" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/promotion/single/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/promotion/single/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/promotion/single/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionBulkPromotion" extends="standardDefinition">
+	<definition name="_bookDefinitionBulkPromotion" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/promotion/bulk/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/book/promotion/bulk/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/promotion/bulk/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionImportView" extends="standardDefinition">
+	<definition name="_bookDefinitionImportView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/import/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/import/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/import/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionFrontMatterPreview" extends="standardDefinition">
+	<definition name="_bookDefinitionFrontMatterPreview" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/fmpreview/select/title.jsp"/>
-	  <put-attribute name="left"  value="/WEB-INF/jsp/book/fmpreview/select/left.jsp"/>
 	  <put-attribute name="body"  value="/WEB-INF/jsp/book/fmpreview/select/select.jsp"/>
 	</definition>
 	
-	<definition name="_errorBookDeleted" extends="standardDefinition">
+	<definition name="_errorBookDeleted" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/error/title.jsp"/>
-	  <put-attribute name="left"  value="/WEB-INF/jsp/error/left.jsp"/>
 	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDeleted.jsp"/>
 	</definition>
 
-	<definition name="_jobExecutionDetails" extends="standardDefinition">
+	<definition name="_jobExecutionDetails" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/execution/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/execution/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/execution/jobExecutionDetails.jsp"/>
 	</definition>
-	<definition name="_jobInstanceDetails" extends="standardDefinition">
+	<definition name="_jobInstanceDetails" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/instance/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/instance/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/instance/jobInstanceDetails.jsp"/>
 	</definition>
-	<definition name="_jobQueue" extends="standardDefinition">
+	<definition name="_jobQueue" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/queue/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/queue/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/queue/jobQueue.jsp"/>
 	</definition>	
-	<definition name="_jobStepDetails" extends="standardDefinition">
+	<definition name="_jobStepDetails" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/step/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/step/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/step/jobStepExecutionDetails.jsp"/>
 	</definition>			
-	<definition name="_jobSummary" extends="standardDefinition">
+	<definition name="_jobSummary" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/summary/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/summary/jobSummaryFilter.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/summary/jobSummary.jsp"/>
 	</definition>
-	<definition name="_eBookJobHistory" extends="standardDefinition">
+	<definition name="_eBookJobHistory" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/history/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/history/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/history/body.jsp"/>
 	</definition>
-	<definition name="_eBookJobMetrics" extends="standardDefinition">
+	<definition name="_eBookJobMetrics" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/metrics/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/metrics/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/metrics/body.jsp"/>
 	</definition>
-	<definition name="_login" extends="standardDefinition">
+	<definition name="_login" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/security/login/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/security/login/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/security/login/login.jsp"/>
 	</definition>
-	<definition name="_bookAuditList" extends="standardDefinition">
+	<definition name="_bookAuditList" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/audit/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/audit/list/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/audit/list/body.jsp"/>
 	</definition>
-	<definition name="_bookAuditDetail" extends="standardDefinition">
+	<definition name="_bookAuditDetail" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/audit/detail/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/audit/detail/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/audit/detail/body.jsp"/>
 	</definition>
  

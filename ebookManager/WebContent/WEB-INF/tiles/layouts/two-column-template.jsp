@@ -13,41 +13,38 @@
   	<script type="text/javascript">
 	  $(document).ready(function() {
 				<%-- Style buttons with jquery  --%>
-				$( ".buttons input:submit,.buttons a,.buttons button,.modalButtons button,.modalButtons a" ).button();
+				$( ".buttons input:submit,.buttons input:button,.buttons a,.buttons button,.modalButtons button,.modalButtons a" ).button();
 	  });
     </script>
 	<title>eBook Manager</title>
   </head>
   	
   <body>
-  		<div id="fullContainer">
+	  <div id="wrapper">
 			<div id="header">
 				<tiles:insertAttribute name="header"/>
+				<div style="clear:both;"></div>
 			</div>
-			
-			<div id="bodyContainer">
-				<div class="colright">
-					<div class="col1wrap">
-						<div class="col1">
-							<div class="title">
-								<tiles:insertAttribute name="title"/>
-							</div>
-						
-							<div class="mainContent">
-								<div class="mainWrapper">
-									<tiles:insertAttribute name="body"/>
-								</div>
-							</div>
+			<div id="center">
+				
+				<div id="right">
+					<div class="titleWrapper">
+						<div class="title">
+							<tiles:insertAttribute name="title"/>
 						</div>
 					</div>
-					<div class="col2">
-						<div class="leftWrapper">
-							<tiles:insertAttribute name="left"/>
-						</div>
+				
+					<div class="main">
+						<tiles:insertAttribute name="body"/>
 					</div>
 				</div>
+				<div id="left">
+					<tiles:insertAttribute name="left"/>
+				</div>
 			</div>
-			
+			<div id="push"></div>
+		</div>
+		<div id="footerWrapper">
 			<div id="footer">
 				<tiles:insertAttribute name="footer"/>
 			</div>

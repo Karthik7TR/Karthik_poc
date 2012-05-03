@@ -32,6 +32,21 @@ function submitJobSummaryForm(command) {
 }
 </script>
 
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
+		   commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="250" value="250"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>
+
 <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
 <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
@@ -79,7 +94,7 @@ function submitJobSummaryForm(command) {
   		<form:checkbox path="jobExecutionIds" value="${job.jobExecutionId}"/>
   	  </display:column>
   	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
-	  <display:column title="Proview Display Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
+	  <display:column title="ProView Display Name" property="bookName" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_NAME.toString()%>" style="text-align: left"/>
 	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>"style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookDefinitionId}">${job.titleId}</a>
 	  </display:column>
@@ -97,23 +112,16 @@ function submitJobSummaryForm(command) {
 
 	<%-- Only display row related UI controls if some rows are present. --%>	
 	<c:if test="${fn:length(paginatedList.list) != 0}">
-	  <input type="button" value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
-	  <input type="button" value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
+	
+	  <c:set var="disableButtons" value="disabled"/>
+	  <sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+	  	<c:set var="disableButtons" value=""/>
+	  </sec:authorize>
+	  
+	  <div class="buttons">
+		  <input type="button" ${disableButtons} value="Stop Job" onclick="submitJobSummaryForm('<%=JobCommand.STOP_JOB%>')"/> &nbsp;
+		  <input type="button" ${disableButtons} value="Restart Job" onclick="submitJobSummaryForm('<%=JobCommand.RESTART_JOB%>')"/>
+	  </div>
 	</c:if>  <%-- if (table row count > 0) --%>
 </form:form>
 
-<br/>
-<%-- Select for how may items (rows) per page to show --%>
-<c:if test="${fn:length(paginatedList.list) != 0}">
-  <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
-		   commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
-	Items to display: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submit()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
-		<form:option label="50" value="50"/>
-		<form:option label="100" value="100"/>
-		<form:option label="250" value="250"/>
-	</form:select>
-  </form:form>
-</c:if>  <%-- if (table row count > 0) --%>

@@ -38,7 +38,7 @@
 	<td>&nbsp;</td>
 </tr>
 <tr>
-	<td>Book Name</td>
+	<td>ProView Display Name</td>
 	<td colspan="3">${bookInfo.proviewDisplayName}</td>
 </tr>
 <tr>

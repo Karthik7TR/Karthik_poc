@@ -12,7 +12,7 @@
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES%>"
-				   pagesize="10"
+				   pagesize="20"
 				   partialList="true"
 				   size="resultSize"
 				   >

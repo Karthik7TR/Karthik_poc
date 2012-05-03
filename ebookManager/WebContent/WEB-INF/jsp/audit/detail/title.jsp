@@ -9,7 +9,7 @@
 		</div>
 		<div class="titleData">
 			Title ID: ${bookAuditDetail.titleId}<br/>
-			Name: ${bookAuditDetail.proviewDisplayName}<br/>
+			ProView Display Name: ${bookAuditDetail.proviewDisplayName}<br/>
 		</div>
 	</div>
 </c:if>

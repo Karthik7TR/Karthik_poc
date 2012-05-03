@@ -37,15 +37,14 @@
 		
 	</script>
 
- 	<h2>Filters</h2>
- 	<br/>
+<div class="header">Filters</div>
  	
 <form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
 	
 	
-	Proview Display Name:<form:input path="proviewDisplayName"/><br>
+	ProView Display Name:<form:input path="proviewDisplayName"/><br>
 	Title ID:<form:input path="titleId"/><br>
 	ISBN:<form:input path="isbn"/><br>
 	Material ID:<form:input path="materialId"/><br>

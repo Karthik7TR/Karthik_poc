@@ -107,7 +107,7 @@
 	  if (isMajorVersion == "Y"){
 		
 		  if(isNewISBN =="N" && isNewMaterialId=="N"){
-			  alert("Cannot generate eBook: ISBN and Material ID must be changed for major version.");
+			  alert("Cannot generate eBook: ISBN and Sub Material Number must be changed for major version.");
 			  confirmed= false;
 		  }
 		  else{
@@ -117,13 +117,13 @@
 		  	}
 		  
 		  	if(isNewMaterialId=="N"){
-			  	alert("Cannot generate eBook: Material ID must be changed for major version.");
+			  	alert("Cannot generate eBook: Sub Material Number must be changed for major version.");
 			  	confirmed= false;
 		  	}  	
 		  }
 	  }
 	  if (confirmed){
-		  confirmed = confirm("Generate with ISBN: " + isbn + ", Material Id: " + materialId);
+		  confirmed = confirm("Generate with ISBN: " + isbn + ", Sub Material Number: " + materialId);
   	  }
 	  return confirmed;
   }
@@ -168,8 +168,6 @@
  <c:choose>
  <c:when test="${book != null}">
  
-  <div class="majorDiv">
-	
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
 			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
 			   
@@ -216,20 +214,20 @@
 		  </tr>
 		  
 		  <tr>
-		  	<td>Proview Version Current:
+		  	<td>ProView Version Current:
 		  	<td id="currentVersionNumber">${versionNumber}</td>
 		  </tr>
 		  
 		  <tr>
-		  	<td>Proview Version New:
+		  	<td>ProView Version New:
 		  	<td id="newVersionNumber"></td>
 		  </tr>
 		  
 		</table>
-		<br/>
-		<input id="generateButton" type="button" value="Generate eBook" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
-		<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
-		
+		<div class="buttons">
+			<input id="generateButton" type="button" value="Generate eBook" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+		</div>
 		<div style="visibility: hidden"> 
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
@@ -258,7 +256,6 @@
 	    </c:if>
 		
 	</form:form>
-  </div>
   </c:when>
   <c:otherwise>
   	No book found

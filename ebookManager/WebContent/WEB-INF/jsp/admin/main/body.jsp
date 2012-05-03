@@ -25,6 +25,7 @@
 		<h3>ProView</h3>
 		<div class="buttons">
 			<a href="<%= WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW %>">Keywords</a>
+			<a href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES%>">Titles</a>
 		</div>
 	</div>
 	

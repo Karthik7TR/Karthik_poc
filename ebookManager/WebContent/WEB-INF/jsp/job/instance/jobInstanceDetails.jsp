@@ -25,7 +25,7 @@
 <div id="statsDiv">
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 <tr>
-	<td style="padding-right:20px;">Book Name</td>
+	<td style="padding-right:20px;">ProView Display Name</td>
 	<td>${bookInfo.proviewDisplayName}</td>
 </tr>
 <tr>
