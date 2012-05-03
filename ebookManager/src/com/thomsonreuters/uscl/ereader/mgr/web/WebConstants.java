@@ -179,6 +179,8 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
 	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLES = "adminProviewTitles.mvc";
 	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS = "adminProviewTitleAllVersions.mvc";
+	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE = "adminProviewTitleRemove.mvc";
+	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE = "adminProviewTitleDelete.mvc";
 	
 
 	// Security related URI's
@@ -218,6 +220,8 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
 	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLES = "_adminProviewTitles";
 	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS = "_adminProviewTitleAllVersions";
+	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE = "_adminProviewTitleRemove";
+	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE = "_adminProviewTitleDelete";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";

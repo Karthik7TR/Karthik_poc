@@ -59,7 +59,23 @@ public class ProviewTitleListController {
 			}
 		}
 
-		return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS);
+		return new ModelAndView(
+				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS);
+	}
+
+	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
+	public ModelAndView proviewTitleRemove(Model model) throws Exception {
+
+		return new ModelAndView(
+				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
+	}
+
+	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
+	public ModelAndView allLatestProviewTitleDelete(Model model)
+			throws Exception {
+
+		return new ModelAndView(
+				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
 	}
 
 	public ProviewClient getProviewClient() {

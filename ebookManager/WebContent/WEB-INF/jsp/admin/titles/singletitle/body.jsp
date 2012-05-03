@@ -27,10 +27,10 @@
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
 	  	<display:column title="Remove">
-	  		<a>Remove this version</a>
+	  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE%>">Remove this title version</a>
 	  	</display:column>
 	  	<display:column title="Delete">
-	  		<a>Delete this version</a>
+	  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE%>">Delete this title version</a>
 	  	</display:column>
 	  	
 	</display:table>
