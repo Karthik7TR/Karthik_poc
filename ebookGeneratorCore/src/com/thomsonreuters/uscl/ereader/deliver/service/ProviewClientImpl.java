@@ -233,8 +233,28 @@ public class ProviewClientImpl implements ProviewClient {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getProviewTitleContainer(java.lang.String)
+	 */
+	@Override
+	public ProviewTitleContainer getProviewTitleContainer(
+			final String fullyQualifiedTitleId) throws ProviewException {
+
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+		Map<String, ProviewTitleContainer> titleMap = parser
+				.process(allPublishedTitleResponse);
+
+		return titleMap.get(fullyQualifiedTitleId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
 	 * getAllProviewTitleInfo()
 	 */
+	@Override
 	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
 			throws ProviewException {
 
@@ -252,6 +272,7 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
 	 * getAllLatestProviewTitleInfo()
 	 */
+	@Override
 	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo()
 			throws ProviewException {
 

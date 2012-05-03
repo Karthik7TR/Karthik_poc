@@ -48,4 +48,7 @@ public interface ProviewClient {
 
 	public String deleteTitle(final String fullyQualifiedTitleId,
 			final String eBookVersionNumber) throws ProviewException;
+
+	public ProviewTitleContainer getProviewTitleContainer(
+			final String fullyQualifiedTitleId) throws ProviewException;
 }
