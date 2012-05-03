@@ -48,9 +48,9 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLCreateNamedAnchorsInternalLinksServiceImpl implements HTMLCreateNamedAnchorsInternalLinksService
+public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchorsService
 {
-	private static final Logger LOG = Logger.getLogger(HTMLCreateNamedAnchorsInternalLinksServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(HTMLCreateNamedAnchorsServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private DocMetadataService docMetadataService;

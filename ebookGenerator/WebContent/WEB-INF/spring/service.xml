@@ -120,7 +120,7 @@
 		  p:imgService-ref="imageService"
   		  p:docMetadataService-ref="docMetadataService"/>
   		  
-	<bean id="htmlCreateNamedAnchorsInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsInternalLinksServiceImpl"
+	<bean id="htmlCreateNamedAnchorsService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsServiceImpl"
 		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"
   		  p:docMetadataService-ref="docMetadataService"/>  		
   	<bean id="htmlRemoveBrokenInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksServiceImpl"

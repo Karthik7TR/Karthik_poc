@@ -72,19 +72,19 @@
 		<!-- Cleanup or modify any HTML elements that need to be changed for ProView -->
 		<step id="formatHTMLTransformer">
 			<tasklet ref="formatHTMLTransformerTask"/>
-			<next on="COMPLETED" to="formatHTMLCreateNamedAnchorsInternalLinksTransformer"/>
+			<next on="COMPLETED" to="formatHTMLCreateNamedAnchors"/>
 			<fail on="FAILED"/>
 		</step>
 		
 		<!-- Add missing HTML anchor elements for ProView internal linking -->
-        <step id="formatHTMLCreateNamedAnchorsInternalLinksTransformer">
-                  <tasklet ref="formatHTMLCreateNamedAnchorsInternalLinksTask"/>
-                  <next on="COMPLETED" to="formatHTMLRemoveBrokenInternalLinksTransformer"/>
+        <step id="formatHTMLCreateNamedAnchors">
+                  <tasklet ref="formatHTMLCreateNamedAnchorsTask"/>
+                  <next on="COMPLETED" to="formatHTMLRemoveBrokenInternalLinks"/>
                   <fail on="FAILED"/>
         </step>
         
 		<!-- Remove HTML anchor elements for broken anchors for ProView internal linking -->
-        <step id="formatHTMLRemoveBrokenInternalLinksTransformer">
+        <step id="formatHTMLRemoveBrokenInternalLinks">
                   <tasklet ref="formatHTMLRemoveBrokenInternalLinksTask"/>
                   <next on="COMPLETED" to="formatAddHTMLWrapper"/>
                   <fail on="FAILED"/>
@@ -170,8 +170,8 @@
 	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform"
 				p:transformerService-ref="htmlTransformerService"/>
 				
-	<beans:bean id="formatHTMLCreateNamedAnchorsInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchorsInternalLinks"
-				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsInternalLinksService"/>
+	<beans:bean id="formatHTMLCreateNamedAnchorsTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchors"
+				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsService"/>
 	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks"
 				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
 				

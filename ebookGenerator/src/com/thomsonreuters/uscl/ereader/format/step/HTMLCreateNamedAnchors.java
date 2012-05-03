@@ -17,7 +17,7 @@ import org.springframework.batch.item.ExecutionContext;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsInternalLinksService;
+import com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 /**
@@ -26,13 +26,13 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLCreateNamedAnchorsInternalLinks extends AbstractSbTasklet
+public class HTMLCreateNamedAnchors extends AbstractSbTasklet
 {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(HTMLCreateNamedAnchorsInternalLinks.class);
-	private HTMLCreateNamedAnchorsInternalLinksService transformerCreateAnchorService;
+	private static final Logger LOG = Logger.getLogger(HTMLCreateNamedAnchors.class);
+	private HTMLCreateNamedAnchorsService transformerCreateAnchorService;
 
-	public void setTransformerCreateAnchorService(HTMLCreateNamedAnchorsInternalLinksService transformerCreateAnchorService) 
+	public void setTransformerCreateAnchorService(HTMLCreateNamedAnchorsService transformerCreateAnchorService) 
 	{
 		this.transformerCreateAnchorService = transformerCreateAnchorService;
 	}
