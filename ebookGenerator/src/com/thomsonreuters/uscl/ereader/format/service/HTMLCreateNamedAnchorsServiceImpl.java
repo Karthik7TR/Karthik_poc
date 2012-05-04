@@ -385,12 +385,9 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 			{
 				for (String docId : unlinkList.keySet())
 				{
-					for (String anchorName : unlinkList.get(docId))
+					for (String anchorName : tocAnchorSet)
 					{
-						if (tocAnchorSet.contains(anchorName))
-						{
-							unlinkList.get(docId).remove(anchorName);
-						}
+						unlinkList.get(docId).remove(anchorName);
 					}
 				}
 			}
