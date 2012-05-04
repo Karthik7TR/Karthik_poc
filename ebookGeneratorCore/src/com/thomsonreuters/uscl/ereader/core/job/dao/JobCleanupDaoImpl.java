@@ -159,7 +159,8 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		}catch (HibernateException e) {
 			e.printStackTrace();
 		}
-	
+		
+//		log.debug("On server start up number of Batch jobs updated ="+result);
 	return result;	
 	}
 	
@@ -175,8 +176,8 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		hql.append("EXIT_CODE = 'FAILED', STATUS = 'FAILED', ");
 		hql.append("END_TIME = sysdate, EXIT_MESSAGE = 'APPEARED TO BE A DEAD JOB. SET EXIT_CODE AND STATUS TO FAILED', ");
 		hql.append("LAST_UPDATED = sysdate ");
-		hql.append("where exit_code = 'EXECUTING' and job_execution_id in "); 
-		hql.append("(Select bje.job_instance_id from batch_job_execution bje "); 
+		hql.append("where end_time is null and job_execution_id in "); 
+		hql.append("(Select bje.job_execution_id from batch_job_execution bje "); 
 		hql.append("inner join publishing_stats ps on ps.job_instance_id = bje.job_instance_id ");
 		hql.append("where bje.exit_code ='UNKNOWN' and ps.job_host_name ='"+serverName+"')");
 		
@@ -189,7 +190,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}
-		
+//		log.debug("On server start up number of Batch job-step updated ="+result);
 		return result;
 	}
 
