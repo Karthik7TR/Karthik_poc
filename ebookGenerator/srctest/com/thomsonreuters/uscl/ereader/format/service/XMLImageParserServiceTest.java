@@ -5,6 +5,10 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -14,13 +18,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
@@ -108,7 +109,7 @@ public class XMLImageParserServiceTest {
 		docToImgMap.put("Test02FE4920F47B00079B5381C71638B", guidList);
     }
     
-    @Test
+    @Ignore
     public void testGuidListGenerationFromDirectoryXMLParsing()
     {
     	try

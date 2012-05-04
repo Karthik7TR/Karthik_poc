@@ -101,7 +101,7 @@ public class ImageServiceTest {
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
 			Map<String,String> imgDocGuidMap = new HashMap<String,String>();
-			imgDocGuidMap.put(GUID, "123456789654645645");
+			imgDocGuidMap.put("123456789654645645",GUID);
 			imageService.fetchImageVerticalImages(imgDocGuidMap, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
 			
 			// Ensure all expected mock object methods were called in the right order
@@ -142,7 +142,7 @@ public class ImageServiceTest {
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
 			Map<String,String> imgDocGuidMap = new HashMap<String,String>();
-			imgDocGuidMap.put(GUID, "123456789");
+			imgDocGuidMap.put("123456789",GUID);
 			imageService.fetchImageVerticalImages(imgDocGuidMap, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
 			
 			File missingGuidsFile = new File(imageDirectory, MISSING_GUIDS_FILE_BASENAME);
