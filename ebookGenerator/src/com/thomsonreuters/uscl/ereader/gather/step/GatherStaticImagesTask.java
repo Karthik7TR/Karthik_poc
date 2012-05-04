@@ -5,9 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.gather.step;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -48,7 +53,7 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 		ImageServiceImpl.removeAllFilesInDirectory(staticImageDestinationDirectory);
 
 		// Read the image file basenames, one per line from the manifest file
-		List<String> basenames = GatherImageVerticalImagesTask.readLinesFromTextFile(manifestFile);
+		List<String> basenames = readLinesFromTextFile(manifestFile);
 		
 		// Copy all the static image files from their location in the tree to the destination directory
 		imageService.fetchStaticImages(basenames, staticImageDestinationDirectory);
@@ -56,6 +61,32 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 		return ExitStatus.COMPLETED;
 	}
 	
+	
+	/**
+	 * Reads the contents of a text file and return each line as an element in the returned list.
+	 * The file is assumed to already exist.
+	 * @file textFile the text file to process
+	 * @return a list of text strings, representing each file of the specified file
+	 */
+	public static List<String> readLinesFromTextFile(File textFile) throws IOException {
+		List<String> lineList = new ArrayList<String>();
+		FileReader fileReader = new FileReader(textFile);
+		try {
+			BufferedReader reader = new BufferedReader(fileReader);
+			String textLine;
+			while ((textLine = reader.readLine()) != null) {
+				if (StringUtils.isNotBlank(textLine)) {
+					lineList.add(textLine.trim());
+				}
+			}
+		} finally {
+			if (fileReader != null) {
+				fileReader.close();
+			}
+		}
+		return lineList;
+	}
+
 
 
 	@Required

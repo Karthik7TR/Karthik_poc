@@ -4,7 +4,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -98,7 +100,9 @@ public class ImageServiceTest {
 			// Invoke the object under test
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
-			imageService.fetchImageVerticalImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
+			Map<String,String> imgDocGuidMap = new HashMap<String,String>();
+			imgDocGuidMap.put(GUID, "123456789654645645");
+			imageService.fetchImageVerticalImages(imgDocGuidMap, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
 			
 			// Ensure all expected mock object methods were called in the right order
 			EasyMock.verify(mockSingletonRestTemplate);
@@ -137,7 +141,9 @@ public class ImageServiceTest {
 			// Invoke the object under test
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
-			imageService.fetchImageVerticalImages(guids, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
+			Map<String,String> imgDocGuidMap = new HashMap<String,String>();
+			imgDocGuidMap.put(GUID, "123456789");
+			imageService.fetchImageVerticalImages(imgDocGuidMap, imageDirectory, JOB_INSTANCE_ID, TITLE_ID);
 			
 			File missingGuidsFile = new File(imageDirectory, MISSING_GUIDS_FILE_BASENAME);
 			Assert.assertTrue("Missing image guids file exists", missingGuidsFile.exists());
@@ -161,7 +167,7 @@ public class ImageServiceTest {
 		EasyMock.replay(mockSingletonRestTemplate);
 		
 		try {
-			imageService.fetchImageVerticalImageMetadata(GUID, null);
+			imageService.fetchImageVerticalImageMetadata(GUID, null, "123456789");
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}

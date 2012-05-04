@@ -10,8 +10,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -38,11 +39,7 @@ public class ImageVerticalServiceIntegrationTest  {
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static final Logger log = Logger.getLogger(ImageVerticalServiceIntegrationTest.class);
 	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
-	private static final String[] GUID_LIST = {
-		"I8A302FE4920F47B00079B5381C71638B",	// PNG
-		"I03a62830fca111e0961b0000837bc6dd",	// PDF
-		"I5d463990094d11e085f5891ac64a9905",	// TIF
-	    "Ie043fac0675a11da90ebf04471783734",	// TIF
+	
 //	    "Iead82f50a28811dbb436d78163d7301d",  // From bwray
 //		"I449A045209354D19BADD202B264B3076",
 //		"IA1F5243AA999498889F4D32E3D141970",
@@ -50,7 +47,7 @@ public class ImageVerticalServiceIntegrationTest  {
 //		"I3B6D30935B874190B99CE23DCD71F420",
 //		"I8D6644A823A14778BFA4074B6D597D1D",
 //		"IB815E4C168D7419AB24C4134C9E728D2" 
-		};
+
 	
 	FileOutputStream stream = null;
 	Writer writer = null; 
@@ -62,13 +59,15 @@ public class ImageVerticalServiceIntegrationTest  {
 //		File tmpImageDir = temporaryFolder.getRoot();
 		File tmpImageDir = new File(System.getProperty("java.io.tmpdir")); // use this to save the image(s)
 		long jobInstanceId = 1965;
+		Map<String,String> DOC_IMAGE_GUID_MAP = new HashMap<String,String>();
 		String titleId = "bogusTitleId";
-//		List<String> imageGuids = new java.util.ArrayList<String>(1);
-//		imageGuids.add(GUID);
-		List<String> imageGuids = Arrays.asList(GUID_LIST);
+		DOC_IMAGE_GUID_MAP.put("I8A302FE4920F47B00079B5381C71638B",	"123456789");
+		DOC_IMAGE_GUID_MAP.put("I03a62830fca111e0961b0000837bc6dd",	"123456789");
+		DOC_IMAGE_GUID_MAP.put("I5d463990094d11e085f5891ac64a9905",	"123456789");
+		DOC_IMAGE_GUID_MAP.put("Ie043fac0675a11da90ebf04471783734",	"123456789");
 		try {
 			System.out.println("Writing files to: " + tmpImageDir);
-			imageService.fetchImageVerticalImages(imageGuids, tmpImageDir, jobInstanceId, titleId);
+			imageService.fetchImageVerticalImages(DOC_IMAGE_GUID_MAP, tmpImageDir, jobInstanceId, titleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -84,7 +83,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		try {
 			stream = new FileOutputStream(temporaryFolder + "_img_missing_guids.txt");
 			writer = new OutputStreamWriter(stream, "UTF-8");
-			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF, writer);
+			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(GUID_TIF, writer, "999887789");
 			Assert.assertNotNull(response);
 		} catch (Exception e) {
 			e.printStackTrace();				
@@ -98,7 +97,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		try {
 			stream = new FileOutputStream(temporaryFolder + "_img_missing_guids.txt");
 			writer = new OutputStreamWriter(stream, "UTF-8");			
-			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid, writer);
+			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid, writer, "88787878787");
 			Assert.assertNotNull(response);
 			System.out.println(response);
 		} catch (Exception e) {

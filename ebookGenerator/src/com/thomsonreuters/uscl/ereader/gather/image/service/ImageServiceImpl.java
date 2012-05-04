@@ -15,6 +15,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -55,78 +56,87 @@ public class ImageServiceImpl implements ImageService {
 	private int imageMetadataServiceMaxRetries;
 	
 	@Override
-	public void fetchImageVerticalImages(final List<String> imageGuids,
+	public void fetchImageVerticalImages(final Map<String,String> imgDocGuidMap,
 						File imageDestinationDirectory, long jobInstanceId, String titleId) throws Exception {
 		File missingImagesFile = new File(imageDestinationDirectory.getParent(), missingImageGuidsFileBasename);
 		FileOutputStream stream = new FileOutputStream(missingImagesFile);
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		int missingImageCount = 0;
 		int missingImageMetadataCount = 0;
+		
 		try {
 			// Iterate the image GUID's and first fetch image data and then download the image bytes
-			for (String imageGuid : imageGuids) {
-				// First, fetch the image meta-data
-				SingleImageMetadata imageMetadata = null;
-				// Fetch the image meta-data and persist it to the database
-				SingleImageMetadataResponse metadataResponse = fetchImageVerticalImageMetadata(imageGuid, fileWriter);
-				if (metadataResponse == null) {
-					missingImageMetadataCount++;
-					log.error(String.format("No image metadata was returned from Image Vertical for guid [%s], continuing on...", imageGuid));
-					continue;
-				}
-				ServiceStatus serviceStatus = metadataResponse.getServiceStatus();
-				if (serviceStatus.getStatusCode() == 0) { // success
-					imageMetadata = metadataResponse.getImageMetadata();
-					saveImageMetadata(metadataResponse, jobInstanceId, titleId);
-				} else { // failure
-					missingImageMetadataCount++;
-					log.error(String.format("Status code %d (a failure) was returned from Image Vertical when fetching image metadata for guid [%s], error description: %s, continuing on...",
-							  serviceStatus.getStatusCode(), imageGuid, serviceStatus.getDescription()));
-					writeFailedImageGuidToFile(fileWriter, imageGuid);
-					continue;	// do not try and get the image if we could not get the metadata
-				}
-
-				// Second, download and save the image bytes to a file
-				// Create the REST template we will use to make HTTP request to Image Vertical REST service
-				MediaType desiredMediaType = fetchDesiredMediaType(imageMetadata.getMediaType());
-				ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(
-													imageDestinationDirectory, imageGuid, desiredMediaType);
-				// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
-				// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
-				// This is the counter for checking how many Image service retries we
-				// are making
-				int failures = 0;
-				int timeouts = 0;
-				while (failures < imageServiceMaxRetries) {
-					try {
-						imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
-								imageVerticalRestServiceUrl.toString(), urlVersion, imageGuid);			
-						break;  // break out of retry loop
-					} catch (Exception exception) {
-						failures++;
-						Throwable cause = exception.getCause();
-						if ((cause != null) && (cause instanceof SocketTimeoutException)) {
-							timeouts++;
-							log.warn(String.format("Timeout #%d (maximum %d) has occurred while downloading image guid [%s]", timeouts, imageServiceMaxRetries, imageGuid));
-							if (timeouts == imageServiceMaxRetries) {
-								// Note: we are not recording image download timeouts to failed image guid file
-								String errMesg = String.format("%d successive timeouts have occurred when attempting to download image guid [%s]", timeouts, imageGuid);
-								log.error(errMesg);
-								throw new ImageException(errMesg);
-							}
+			for (String docGuid : imgDocGuidMap.keySet()) {
+				String imgGuidList = imgDocGuidMap.get(docGuid);
+				if (imgGuidList != null)
+				{
+				   String[] imgDocsArray = imgGuidList.split(",");
+				   for (String imgGuid : imgDocsArray)
+				   {
+					// First, fetch the image meta-data
+						SingleImageMetadata imageMetadata = null;
+						// Fetch the image meta-data and persist it to the database
+						SingleImageMetadataResponse metadataResponse = fetchImageVerticalImageMetadata(imgGuid, fileWriter, docGuid);
+						if (metadataResponse == null) {
+							missingImageMetadataCount++;
+							log.error(String.format("No image metadata was returned from Image Vertical for guid [%s], continuing on...", imgGuid));
+							continue;
 						}
-						if (failures == imageServiceMaxRetries) {  // fail after max successive errors
-							missingImageCount++;
-							log.error(String.format("Image download failed after %d successive failure retries for guid [%s], continuing on...", imageServiceMaxRetries, imageGuid));
-							writeFailedImageGuidToFile(fileWriter, imageGuid);
-						}						
-					}
-				}								
+						ServiceStatus serviceStatus = metadataResponse.getServiceStatus();
+						if (serviceStatus.getStatusCode() == 0) { // success
+							imageMetadata = metadataResponse.getImageMetadata();
+							saveImageMetadata(metadataResponse, jobInstanceId, titleId);
+						} else { // failure
+							missingImageMetadataCount++;
+							log.error(String.format("Status code %d (a failure) was returned from Image Vertical when fetching image metadata for guid [%s], error description: %s, continuing on...",
+									  serviceStatus.getStatusCode(), imgGuid, serviceStatus.getDescription()));
+							writeFailedImageGuidToFile(fileWriter, imgGuid, docGuid);
+							continue;	// do not try and get the image if we could not get the metadata
+						}
 
-				// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
-				Thread.sleep(sleepIntervalBetweenImages);
-			
-			} // end of for-loop
+						// Second, download and save the image bytes to a file
+						// Create the REST template we will use to make HTTP request to Image Vertical REST service
+						MediaType desiredMediaType = fetchDesiredMediaType(imageMetadata.getMediaType());
+						ImageVerticalRestTemplate imageVerticalRestTemplate = imageVerticalRestTemplateFactory.create(
+															imageDestinationDirectory, imgGuid, desiredMediaType);
+						// Invoke the Image Vertical REST web service to GET a single image byte stream, and read/store the response byte stream to a file.
+						// The actual reading/saving of the image bytes is done in the SingleImageMessageHttpMessageConverter which is injected into our custom REST template.
+						// This is the counter for checking how many Image service retries we
+						// are making
+						int failures = 0;
+						int timeouts = 0;
+						while (failures < imageServiceMaxRetries) {
+							try {
+								imageVerticalRestTemplate.getForObject(SINGLE_IMAGE_URL_PATTERN, SingleImageResponse.class,
+										imageVerticalRestServiceUrl.toString(), urlVersion, imgGuid);			
+								break;  // break out of retry loop
+							} catch (Exception exception) {
+								failures++;
+								Throwable cause = exception.getCause();
+								if ((cause != null) && (cause instanceof SocketTimeoutException)) {
+									timeouts++;
+									log.warn(String.format("Timeout #%d (maximum %d) has occurred while downloading image guid [%s]", timeouts, imageServiceMaxRetries, imgGuid));
+									if (timeouts == imageServiceMaxRetries) {
+										// Note: we are not recording image download timeouts to failed image guid file
+										String errMesg = String.format("%d successive timeouts have occurred when attempting to download image guid [%s]", timeouts, imgGuid);
+										log.error(errMesg);
+										throw new ImageException(errMesg);
+									}
+								}
+								if (failures == imageServiceMaxRetries) {  // fail after max successive errors
+									missingImageCount++;
+									log.error(String.format("Image download failed after %d successive failure retries for guid [%s], continuing on...", imageServiceMaxRetries, imgGuid));
+									writeFailedImageGuidToFile(fileWriter, imgGuid, docGuid);
+								}						
+							}
+						}								
+
+						// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
+						Thread.sleep(sleepIntervalBetweenImages);
+					
+					} // end of for-loop
+				  }
+			}	// end of for-loop
 			if ((missingImageCount > 0) || (missingImageMetadataCount > 0)) {
 				throw new ImageException(String.format("Download of dynamic images failed because there was %d missing image(s) and %d missing metadata.", missingImageCount, missingImageMetadataCount));
 			}	
@@ -153,7 +163,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImageFileWriter) throws IOException {
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImageFileWriter, String docGuid) throws IOException {
 		SingleImageMetadataResponse response = null;
 		int failures = 0;		
 		while (failures < imageMetadataServiceMaxRetries) {
@@ -165,15 +175,15 @@ public class ImageServiceImpl implements ImageService {
 			} catch (Exception exception) {
 				failures++;
 				if (failures == imageMetadataServiceMaxRetries) {
-					writeFailedImageGuidToFile(missingImageFileWriter, imageGuid);
+					writeFailedImageGuidToFile(missingImageFileWriter, imageGuid, docGuid);
 				}
 			}
 		}
 		return response;
 	}
 	
-	private static void writeFailedImageGuidToFile(Writer missingImageFileWriter, String imageGuid) throws IOException {
-		missingImageFileWriter.write(imageGuid);
+	private static void writeFailedImageGuidToFile(Writer missingImageFileWriter, String imageGuid, String docGuid) throws IOException {
+		missingImageFileWriter.write(imageGuid + "," + docGuid);
 		missingImageFileWriter.write("\n");
 	}
 	

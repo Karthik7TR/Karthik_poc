@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
@@ -20,21 +21,22 @@ public interface ImageService {
 	/**
 	 * Get the image meta-data for a specific image by key from the Image Vertical REST web service.
 	 * @param imageGuid the key of the image
+	 * @param docGuid 
 	 * @return the status and meta-data of the image.
 	 */
-	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImgGuidsWriter) throws IOException;
+	public SingleImageMetadataResponse fetchImageVerticalImageMetadata(String imageGuid, Writer missingImgGuidsWriter, String docGuid) throws IOException;
 	
 	/**
 	 * Reads image bytes and meta-data from the Image Vertical REST web service for the book based on the specified image GUID's.
 	 * Stores the image bytes to a file with a name in the form "<imageDirectory>/<imageGuid>.png".
 	 * Updates the image meta-data database table with the meta-data for each image.
-	 * @param imageGuids a list of keys for the images desired.
+	 * @param imgDocGuidMap a map of keys for the Document guids desired.
 	 * @param imageDestinationDirectory the filesystem directory in which the image files will be created, must already exist.
 	 * @param jobInstanceId the unique identifier for which book generating job we are fetching static images for.
 	 * 						Used to key the saved image meta-data in the database.
 	 * @param titleId The unique key for the book for which we are gathering images.
 	 */
-	public void fetchImageVerticalImages(final List<String> imageGuids, File imageDestinationDirectory,
+	public void fetchImageVerticalImages(final Map<String,String> imgDocGuidMap, File imageDestinationDirectory,
 							long jobInstanceId, String titleId) throws Exception;
 	
 	
@@ -75,6 +77,6 @@ public interface ImageService {
 	 * @param titleId the unique key for the book for which we are gathering images
 	 * @return the primary key of the created record.
 	 */
-	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId);
+	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId);	
 	
 }

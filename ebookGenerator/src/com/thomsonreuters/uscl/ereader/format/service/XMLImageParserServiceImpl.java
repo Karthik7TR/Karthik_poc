@@ -90,7 +90,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         	numDocsParsed++;
         }
         
-        createImageList(imgRef, guids);
+      //  createImageList(imgRef, guids);
         createDocToImgMap(docImageMap, docImgMap);
         
         LOG.info("Parsed out " + guids.size() + " image references from the XML files in the provided directory.");

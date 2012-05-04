@@ -9,13 +9,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
@@ -41,14 +39,13 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
-		JobParameters jobParams = jobInstance.getJobParameters();
-		
+				
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
 		// Assert the state of the filesystem image directory and expected input files
 		File dynamicImageDestinationDirectory = new File(getRequiredStringProperty(jobExecutionContext,
 														 JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
-		File imageGuidFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE));
+		File imageGuidFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE));
 		Assert.isTrue(dynamicImageDestinationDirectory.exists(),
 						String.format("The dynamic image destination directory does not exist in the filesystem: " + dynamicImageDestinationDirectory,
 						dynamicImageDestinationDirectory.getAbsolutePath()));
@@ -62,12 +59,12 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
 
 		// Create list of image guids gathered from a previous step and stored in a flat text file, one per line
-		List<String> imageGuids = readLinesFromTextFile(imageGuidFile);
-		
+		Map<String,String> imgDocGuidMap = readLinesFromTextFile(imageGuidFile);
+				
 		// Fetch the image metadata and file bytes
 		long jobInstanceId = jobInstance.getId();
 		String titleId = bookDefinition.getFullyQualifiedTitleId();
-		imageService.fetchImageVerticalImages(imageGuids, dynamicImageDestinationDirectory, jobInstanceId, titleId);
+		imageService.fetchImageVerticalImages(imgDocGuidMap, dynamicImageDestinationDirectory, jobInstanceId, titleId);
 
 		return ExitStatus.COMPLETED;
 	}
@@ -78,15 +75,22 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 	 * @file textFile the text file to process
 	 * @return a list of text strings, representing each file of the specified file
 	 */
-	public static List<String> readLinesFromTextFile(File textFile) throws IOException {
-		List<String> lineList = new ArrayList<String>();
+	public static Map<String,String> readLinesFromTextFile(File textFile) throws IOException {
+		Map<String,String> imgDocGuidMap = new HashMap<String,String>();
 		FileReader fileReader = new FileReader(textFile);
 		try {
 			BufferedReader reader = new BufferedReader(fileReader);
 			String textLine;
 			while ((textLine = reader.readLine()) != null) {
 				if (StringUtils.isNotBlank(textLine)) {
-					lineList.add(textLine.trim());
+					String[] imgGuids = textLine.split("\\|");
+					if (imgGuids.length > 1)
+					{
+					  imgDocGuidMap.put(imgGuids[0].trim(),imgGuids[1]);
+					}
+					else {
+						imgDocGuidMap.put(imgGuids[0].trim(),null);
+					}
 				}
 			}
 		} finally {
@@ -94,7 +98,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 				fileReader.close();
 			}
 		}
-		return lineList;
+		return imgDocGuidMap;
 	}
 
 	@Required
