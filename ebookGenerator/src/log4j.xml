@@ -13,7 +13,7 @@
 		This is done in consideration of multi-server instance deployment environment where multiple where multiple instances of the web app. will be deployed across several hosts.
 	-->
 	<appender name="rollingFileAppender" class="com.thomsonwest.codes.log4j.appender.CodesRollingFileAppender">
-		<param name="File" value="/apps/eBookBuilder/ebookGenerator-%server%-%environment%.log"/>
+		<param name="File" value="/apps/eBookBuilder/ebookGenerator-%server%.log"/>
 		<param name="MaxFileSize" value="50MB" />
 		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
