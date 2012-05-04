@@ -741,6 +741,7 @@
 				<form:hidden path="autoUpdateSupport"/>
 				<form:hidden path="searchIndex"/>
 				<form:hidden path="enableCopyFeatureFlag"/>
+				<form:hidden path="pilotBook"/>
 			</c:if>
 			<div class="row">
 				<form:label path="isProviewTableView" class="labelCol">Use ProView Table View</form:label>
@@ -772,6 +773,14 @@
 				<form:radiobutton disabled="${disableProviewOptions}" path="enableCopyFeatureFlag" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="enableCopyFeatureFlag" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="pilotBook" class="labelCol">Is Pilot Book</form:label>
+				<form:radiobutton disabled="${disableProviewOptions}" path="pilotBook" value="true" />True
+				<form:radiobutton disabled="${disableProviewOptions}" path="pilotBook" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="pilotBook" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row" style="font-size:.7em; text-align: center;">

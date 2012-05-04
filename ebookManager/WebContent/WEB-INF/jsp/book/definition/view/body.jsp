@@ -134,6 +134,10 @@ function submitForm(cmd)
 						<label class="labelCol">Enable Copy Feature</label>
 						<span class="field">${ book.enableCopyFeatureFlag }</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Is Pilot Book</label>
+						<span class="field">${ book.isPilotBook }</span>
+					</div>
 				</div>
 			</div>
 		</div>

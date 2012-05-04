@@ -291,6 +291,13 @@ public class EbookAudit implements Serializable {
 	@Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String additionalTrademarkInfo;
+	
+	/**
+	 */
+	@Column(name = "IS_PILOT_BOOK", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String isPilotBook;
+	
 
 	/**
 	 */
@@ -714,6 +721,7 @@ public class EbookAudit implements Serializable {
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 		setFrontMatterConcat(that.getFrontMatterConcat());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
+		setIsPilotBook(that.getIsPilotBook());
 	}
 
 	/**
@@ -761,6 +769,7 @@ public class EbookAudit implements Serializable {
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
+		setIsPilotBook(that.getIsPilotBook());
 	}
 	
 	@Transient
@@ -828,6 +837,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("authorDisplayVerticalFlag=[").append(authorDisplayVerticalFlag).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
+		buffer.append("isPilotBook=[").append(isPilotBook).append("] ");
 		
 		return buffer.toString();
 	}
@@ -934,6 +944,14 @@ public class EbookAudit implements Serializable {
 
 	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
+	}
+
+	public boolean getIsPilotBook() {
+		return ( (this.isPilotBook.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsPilotBook(boolean isPilotBook) {
+		this.isPilotBook =( (isPilotBook) ? "Y" : "N");
 	}
 
 	public String getFrontMatterTocLabel() {

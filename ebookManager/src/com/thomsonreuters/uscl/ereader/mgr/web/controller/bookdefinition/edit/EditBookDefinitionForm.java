@@ -75,6 +75,7 @@ public class EditBookDefinitionForm {
 	private boolean searchIndex;
 	private boolean isProviewTableView;
 	private boolean enableCopyFeatureFlag;
+	private boolean isPilotBook;
 
 	// Fully qualified title ID parts
 	private String publisher;
@@ -107,6 +108,7 @@ public class EditBookDefinitionForm {
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = false;
 		this.isPublicationCutoffDateUsed = false;
+		this.isPilotBook = false;
 		this.copyright = "©";
 		this.frontMatterTocLabel = "Publishing Information";
 	}
@@ -122,10 +124,10 @@ public class EditBookDefinitionForm {
 		bookDef.setIsbn(null);
 		bookDef.setMaterialId(null);
 		bookDef.setRootTocGuid(null);
-		bookDef.setNortDomain(null);
 		bookDef.setNortFilterView(null);
 		bookDef.setEbookDefinitionCompleteFlag(false);
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
+		bookDef.setIsPilotBook(false);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -168,6 +170,7 @@ public class EditBookDefinitionForm {
 			this.isProviewTableView = book.isProviewTableViewFlag();
 			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
 			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
+			this.isPilotBook = book.getIsPilotBook();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			
@@ -277,6 +280,7 @@ public class EditBookDefinitionForm {
 		book.setIsProviewTableViewFlag(isProviewTableView);
 		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
+		book.setIsPilotBook(isPilotBook);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
 
 		Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
@@ -570,6 +574,14 @@ public class EditBookDefinitionForm {
 
 	public void setEnableCopyFeatureFlag(boolean enableCopyFeatureFlag) {
 		this.enableCopyFeatureFlag = enableCopyFeatureFlag;
+	}
+
+	public boolean isPilotBook() {
+		return isPilotBook;
+	}
+
+	public void setPilotBook(boolean isPilotBook) {
+		this.isPilotBook = isPilotBook;
 	}
 
 	public String getAdditionalTrademarkInfo() {

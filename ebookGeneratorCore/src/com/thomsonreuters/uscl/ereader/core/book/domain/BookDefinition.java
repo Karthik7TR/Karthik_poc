@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -242,6 +243,12 @@ public class BookDefinition implements Serializable {
 	@Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String additionalTrademarkInfo;	
+	
+	/**
+	 */
+	@Column(name = "IS_PILOT_BOOK", length = 1)
+	@Basic(fetch = FetchType.EAGER)
+	String isPilotBook;	
 
 	/**
 	 */
@@ -606,6 +613,18 @@ public class BookDefinition implements Serializable {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
 
+	public boolean getIsPilotBook() {
+		if(StringUtils.isBlank(this.isPilotBook)) {
+			return false;
+		} else {
+			return( (this.isPilotBook.equalsIgnoreCase("Y") ? true : false));
+		}
+	}
+
+	public void setIsPilotBook(boolean isPilotBook) {
+		this.isPilotBook =( (isPilotBook) ? "Y" : "N");
+	}
+
 	/**
 	 */
 	public void setLastUpdated(Date lastUpdated) {
@@ -748,6 +767,7 @@ public class BookDefinition implements Serializable {
 		this.setIsDeletedFlag(false);
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
+		this.setIsPilotBook(false);
 	}
 
 	/**
@@ -780,6 +800,7 @@ public class BookDefinition implements Serializable {
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setIsDeletedFlag(that.isDeletedFlag());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
+		setIsPilotBook(that.getIsPilotBook());
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
@@ -829,6 +850,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
+		buffer.append("isPilotBook=[").append(isPilotBook).append("] ");
 
 		return buffer.toString();
 	}
