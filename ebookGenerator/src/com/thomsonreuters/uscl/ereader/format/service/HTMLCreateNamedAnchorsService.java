@@ -25,10 +25,11 @@ public interface HTMLCreateNamedAnchorsService {
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
+	 * @param docToTocMap location of the file that contains the document to TOC mappings
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId) throws EBookFormatException;
+			final String title, final Long jobId, final File docToTocMap) throws EBookFormatException;
 }

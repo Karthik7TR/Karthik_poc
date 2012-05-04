@@ -52,15 +52,19 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_POST_TRANSFORM_DIR);
 		String postTransformDirectory = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_CREATED_DIR);
+		String docToTocFileName = 
+				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE);
+
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 				
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
+		File docToTocFile = new File(docToTocFileName);
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerCreateAnchorService.transformHTML(transformDir, postTransformDir,titleId, jobId);
+				transformerCreateAnchorService.transformHTML(transformDir, postTransformDir,titleId, jobId, docToTocFile);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

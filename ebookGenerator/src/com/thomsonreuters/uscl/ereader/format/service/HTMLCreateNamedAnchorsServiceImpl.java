@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -73,13 +74,14 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
+	 * @param docToTocMap location of the file that contains the document to TOC mappings
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId) throws EBookFormatException
+			final String title, final Long jobId, final File docToTocMap) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -123,6 +125,8 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 			transformHTMLFile(htmlFile, targetDir,  title, jobId, documentMetadataAuthority,targetAnchors);
 			numDocs++;
 		}
+		
+		removeTOCAnchors(docToTocMap, targetAnchors, title, jobId);
 		
 		File anchorTargetUnlinkFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile");
 		if (targetAnchors != null)
@@ -356,10 +360,122 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 			{
 				LOG.error("Unable to close anchor target list file.", e);
 			}
+		}
+	}
+	
+	/**
+	 * Removes the anchors that will be created during the TOC anchor cascade step.
+	 * 
+	 * @param docTOCMap map that contains all the TOC anchors
+	 * @param unlinkList list of links that will be unlinked since no anchor was found
+	 * @param titleID title of the book being published
+	 * @param jobId identifier of the job that will be used to retrieve the image metadata
+	 * 
+	 * @throws EBookFormatException encountered issues reading in the TOC anchors from file 
+	 */
+	protected void removeTOCAnchors(File docTOCMap, HashMap<String, HashSet<String>> unlinkList, String titleID, Long jobId)
+		throws EBookFormatException
+	{
+		if (unlinkList != null)
+		{
+			Set<String> tocAnchorSet = new HashSet<String>();
+			readTOCAnchorList(docTOCMap, tocAnchorSet, titleID, jobId);
 			
-			
-			
+			if (tocAnchorSet != null)
+			{
+				for (String docId : unlinkList.keySet())
+				{
+					for (String anchorName : unlinkList.get(docId))
+					{
+						if (tocAnchorSet.contains(anchorName))
+						{
+							unlinkList.get(docId).remove(anchorName);
+						}
+					}
+				}
+			}
 		}
 	}
 
+	/**
+	 * Reads in a list of TOC Guids that are associated to each Doc Guid to ensure the TOC anchors
+	 * that are generated during the Wrapper step are not unlinked. It then generates a set of 
+	 * anchors that will be created by the later process so they can be removed from the unlink step.
+	 * 
+	 * @param docGuidsFile file containing the DOC to TOC guid relationships
+	 * @param toAnchorSet in memory set of anchors that will be generated later
+	 * @param titleID title of the book being published
+	 * @param jobId identifier of the job that will be used to retrieve the image metadata
+	 * 
+	 * @throws EBookFormatException encountered issues reading in the TOC anchors from file 
+	 */
+	protected void readTOCAnchorList(File docGuidsFile, Set<String> toAnchorSet, String titleID, Long jobId)
+		throws EBookFormatException
+	{
+		BufferedReader reader = null;
+		try
+		{
+			reader = new BufferedReader(new FileReader(docGuidsFile));
+			String input = reader.readLine();
+			while (input != null)
+			{
+				String[] line = input.split(",", -1);
+				if (!line[1].equals(""))
+				{
+					String[] tocGuids = line[1].split("\\|");
+					String guid = line[0];
+					
+					DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(
+							titleID, jobId, guid);
+					
+					String docId;
+					if (docMetadata != null)
+					{
+						docId = docMetadata.getProViewId();
+					}
+					else
+					{
+						docId = guid;
+					}
+					
+					for (String toc : tocGuids)
+					{
+						String anchorName = "er:#" + docId + "/" + toc;
+						toAnchorSet.add(anchorName);
+					}
+				}
+				else
+				{
+					String message = "No TOC guid was found for a document. " +
+							"Please verify that each document GUID in the following file has " +
+							"at least one TOC guid associated with it: " + 
+							docGuidsFile.getAbsolutePath();
+					LOG.error(message);
+					throw new EBookFormatException(message);
+				}
+				input = reader.readLine();
+			}
+		}
+		catch(IOException e)
+		{
+			String message = "Could not read the DOC guid to TOC guid map file: " + 
+					docGuidsFile.getAbsolutePath();
+			LOG.error(message);
+			throw new EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (reader != null)
+				{
+					reader.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
+			}
+		}
+	}
 }
