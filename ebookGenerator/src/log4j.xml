@@ -13,9 +13,9 @@
 		This is done in consideration of multi-server instance deployment environment where multiple where multiple instances of the web app. will be deployed across several hosts.
 	-->
 	<appender name="rollingFileAppender" class="com.thomsonwest.codes.log4j.appender.CodesRollingFileAppender">
-		<param name="File" value="/apps/eBookBuilder/ebookGenerator-%server%.log"/>
-		<param name="MaxFileSize" value="10MB" />
-		<param name="MaxBackupIndex" value="2" />
+		<param name="File" value="/apps/eBookBuilder/ebookGenerator-%server%-%environment%.log"/>
+		<param name="MaxFileSize" value="50MB" />
+		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n"/>
 		</layout>
@@ -23,12 +23,6 @@
 
 	<logger name="com.thomsonreuters.uscl.ereader" additivity="false">
 		<level value="debug"/>
-		<appender-ref ref="console"/>
-		<appender-ref ref="rollingFileAppender"/>
-	</logger>
-	
-	<logger name="org.springframework.batch.core" additivity="false">
-		<level value="warn"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="rollingFileAppender"/>
 	</logger>
