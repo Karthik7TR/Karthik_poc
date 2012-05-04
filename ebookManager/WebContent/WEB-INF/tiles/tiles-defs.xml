@@ -258,9 +258,8 @@
 	  <put-attribute name="body"  value="/WEB-INF/jsp/error/body/bookDeleted.jsp"/>
 	</definition>
 
-	<definition name="_jobExecutionDetails" extends="twoColumnDefinition">
+	<definition name="_jobExecutionDetails" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/execution/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/job/execution/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/execution/jobExecutionDetails.jsp"/>
 	</definition>
 	<definition name="_jobInstanceDetails" extends="oneColumnDefinition">

@@ -23,7 +23,7 @@
 }
 
 html, body {
-	height:99.9%;
+	height:100%;
 	margin: 0px;
 	padding: 0px;
 	font-family:Arial;
@@ -34,7 +34,7 @@ html, body {
 	position: relative;
     min-height: 100%;
     height:     auto !important;
-    margin:     0 auto -2.5em; /* -2em being the size of the footer */
+    margin:     0 auto -2.4em; /* -2em being the size of the footer */
 }
 
 #header {
@@ -47,7 +47,6 @@ html, body {
 
 #center {
 	position:relative;
-	background:#F4F4F4;
 }
 
 #footerWrapper {
@@ -73,6 +72,7 @@ html, body {
 	left:0px;
 	padding-left:.5em;
 	padding-top:.5em;
+	padding-bottom:1em;
     background-color: #F4F4F4;
     width: 10em;
 }
@@ -103,6 +103,7 @@ html, body {
 .titleWrapper > .title {
 	padding-left: .5em;
 	padding-top: .5em;
+	position: relative;
 }
 
 #right > .main,
@@ -496,5 +497,11 @@ a:hover {
 	margin-top:.1em;
 	padding-left: 20px;
 	padding-bottom: 5px;
+}
+
+#searchJobExecution {
+	position: absolute;
+	top:.5em;
+	right:.5em;
 }
 
