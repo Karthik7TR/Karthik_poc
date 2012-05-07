@@ -217,7 +217,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 							startOfPDFExtension = fmp.getPdfFilename().length();
 						}
 						String pdfHREF = "er:#" + fmp.getPdfFilename().substring(0, startOfPDFExtension);
-						newAtts.addAttribute("", HTML_TAG_HREF_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, pdfHREF);
+						newAtts.addAttribute("", HTML_TAG_HREF_ATTRIBUTE, HTML_TAG_HREF_ATTRIBUTE, CDATA, pdfHREF);
 						super.startElement("", HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
 						printText(fmp.getPdfLinkText(), SINGLE_LINE_FIELD);
 						super.endElement("", HTML_ANCHOR_TAG, HTML_ANCHOR_TAG); // end anchor tag for PDF
