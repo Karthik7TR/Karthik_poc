@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,7 @@ public class ImageServiceImpl implements ImageService {
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		int missingImageCount = 0;
 		int missingImageMetadataCount = 0;
+		List<String> deDupImagesArray = new ArrayList<String>();
 		
 		try {
 			// Iterate the image GUID's and first fetch image data and then download the image bytes
@@ -73,6 +75,7 @@ public class ImageServiceImpl implements ImageService {
 				   String[] imgDocsArray = imgGuidList.split(",");
 				   for (String imgGuid : imgDocsArray)
 				   {
+					   if (!deDupImagesArray.contains(imgGuid)) {
 					// First, fetch the image meta-data
 						SingleImageMetadata imageMetadata = null;
 						// Fetch the image meta-data and persist it to the database
@@ -133,8 +136,10 @@ public class ImageServiceImpl implements ImageService {
 
 						// Intentionally pause between invocations of the Image Vertical REST service as not to pound on it
 						Thread.sleep(sleepIntervalBetweenImages);
-					
-					} // end of for-loop
+						// Add the image guid to the unique list
+						deDupImagesArray.add(imgGuid);
+					} // end of if
+				   }// end of for-loop
 				  }
 			}	// end of for-loop
 			if ((missingImageCount > 0) || (missingImageMetadataCount > 0)) {
