@@ -25,6 +25,7 @@
 		</property>
 		<property name="annotatedClasses">
 		  <list>
+		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
@@ -61,7 +62,11 @@
 
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
-		 ====================================== --> 
+		 ====================================== -->
+	<bean id="appParameterDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+
 	<bean id="bookDefinitionDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>

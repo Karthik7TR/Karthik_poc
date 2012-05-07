@@ -35,6 +35,13 @@
 			<a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a>
 		</div>
 	</div>
+	
+	<div class="centerSection">
+		<h3>Job Throttling</h3>
+		<div class="buttons">
+			<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Throttle Configuration</a>
+		</div>
+	</div>
 </c:if>
 
 <div class="centerSection">

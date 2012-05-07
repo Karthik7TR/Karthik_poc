@@ -67,6 +67,7 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_ISBN="isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK="bookDefinitionLock";
+	public static final String KEY_JOB_THROTTLE_CONFIG="jobThrottleConfig";
 
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 	
@@ -168,6 +169,7 @@ public class WebConstants {
 	public static final String MVC_ADMIN_JURIS_CODE_CREATE = "adminJurisCodeCreate.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_DELETE = "adminJurisCodeDelete.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_EDIT = "adminJurisCodeEdit.mvc";
+	public static final String MVC_ADMIN_JOB_THROTTLE_CONFIG = "adminJobThrottleConfig.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_VIEW = "adminKeywordCodeView.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_CREATE = "adminKeywordCodeCreate.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_DELETE = "adminKeywordCodeDelete.mvc";
@@ -220,6 +222,7 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_CREATE = "_adminPublishTypeCodeCreate";
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE = "_adminPublishTypeCodeDelete";
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT = "_adminPublishTypeCodeEdit";
+	public static final String VIEW_ADMIN_JOB_THROTTLE_CONFIG = "_adminJobThrottleConfig";
 	public static final String VIEW_ADMIN_STATE_CODE_VIEW = "_adminStateCodeView";
 	public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
 	public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";

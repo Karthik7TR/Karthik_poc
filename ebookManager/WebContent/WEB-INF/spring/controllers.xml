@@ -8,7 +8,13 @@
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
-	
+	<bean id="adminJobThrottleConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"
+		  p:jobThrottleConfigService-ref="jobThrottleConfigService"
+		  p:hostNames="${generator.hosts}">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigFormValidator"/>
+		 </property>
+	</bean>
 	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />
 	
 	<bean id="adminBookDefinitionLockController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock.BookDefinitionLockController" 

@@ -33,6 +33,9 @@
 		  p:jobDao-ref="jobDao"
 		  p:jobExplorer-ref="jobExplorer"/>
 		  
+	<bean id="jobThrottleConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigServiceImpl"
+		  p:appParameterDao-ref="appParameterDao"/>		  
+		  
 	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceImpl"
   		  p:libraryListDao-ref="libraryListDao"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"

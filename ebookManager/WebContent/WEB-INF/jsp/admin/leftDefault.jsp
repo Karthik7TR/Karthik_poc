@@ -31,6 +31,9 @@
 	<ul>
 		<li><a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a></li>
 	</ul>
+	
+	<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
+	<br/>
 </c:if>
 
 <a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a>

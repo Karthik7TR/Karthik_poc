@@ -176,6 +176,12 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/common/createEditForm.jsp"/>
 	</definition>
 	
+	<definition name="_adminJobThrottleConfig" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/jobthrottleconfig/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/jobthrottleconfig/jobThrottleConfig.jsp"/>
+	</definition>
+	
 	<definition name="_bookLibraryList" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>
