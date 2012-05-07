@@ -103,8 +103,8 @@ public class EditBookDefinitionControllerTest {
     	
     	documentTypeCode = new DocumentTypeCode();
     	documentTypeCode.setId(Long.parseLong("1"));
-    	documentTypeCode.setAbbreviation(WebConstants.KEY_ANALYTICAL_ABBR);
-    	documentTypeCode.setName(WebConstants.KEY_ANALYTICAL);
+    	documentTypeCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR);
+    	documentTypeCode.setName(WebConstants.DOCUMENT_TYPE_ANALYTICAL);
     	
     	publisherCode = new PublisherCode();
     	publisherCode.setId(1L);

@@ -73,17 +73,17 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
     		String contentTypeName = contentType.getName();
-    		if(contentTypeName.equalsIgnoreCase(WebConstants.KEY_ANALYTICAL)) {
+    		if(contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_ANALYTICAL)) {
     			// Validate Analytical fields are filled out
     			String pubAbbr = form.getPubAbbr();
         		checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
         		checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
-        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_COURT_RULES)) {
         		// Validate Court Rules fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
-        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
         		// Validate Slice Codes fields are filled out
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
@@ -260,7 +260,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			if(environmentName.equalsIgnoreCase("prod")) {
 				// Check cover image exists
 				if(StringUtils.isNotBlank(titleId)) {
-					fileExist(errors, form.createCoverImageName(), WebConstants.KEY_COVER_IMAGE_LOCATION, "validateForm");
+					fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_KEY_COVER_IMAGE, "validateForm");
 				}
 				// Check all pdfs on Front Matter
 				i=0;
@@ -271,7 +271,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 						for (FrontMatterPdf pdf : section.getPdfs()) {
 							String filename = pdf.getPdfFilename();
 							if(StringUtils.isNotBlank(filename)) {
-								fileExist(errors, filename, WebConstants.KEY_PDF_LOCATION, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename");
+								fileExist(errors, filename, WebConstants.LOCATION_PDF, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename");
 							}
 							k++;
 						}

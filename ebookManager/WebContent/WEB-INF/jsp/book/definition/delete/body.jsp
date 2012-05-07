@@ -50,12 +50,12 @@ $(document).ready(function() {
 								user will be able to restore this eBook Definition.
 							</c:when>
 							<c:otherwise>
-								This will permanently delete the eBook Definition.  You will not be able to restore this eBook Definition once it has been deleted.
+								<span class="errorMessage">This will permanently delete the eBook Definition.</span>  You will not be able to restore this eBook Definition once it has been deleted.
 							</c:otherwise>
 						</c:choose>
 					</div>
 					<div class="row">
-						Are you sure you want to delete this eBook Definition?  To delete, please type "<%= WebConstants.KEY_DELETE_BOOK %>" in the
+						Are you sure you want to delete this eBook Definition?  To delete, please type <b>"<%= WebConstants.CONFIRM_CODE_DELETE_BOOK %>"</b> in the
 						Code field and the reason for the deletion in the comments.
 					</div>
 					<div class="row" style="margin:1em;">
@@ -75,7 +75,7 @@ $(document).ready(function() {
 					</div>
 				</form:form>
 				<div class="buttons">
-					<button id="save">Save</button>
+					<button id="save">Delete</button>
 					<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}">Cancel</a>
 				</div>
 			</c:when>

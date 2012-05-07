@@ -32,7 +32,7 @@ public class StopGeneratorFormValidator implements Validator {
     	String code = form.getCode();
     	if(StringUtils.isBlank(code)) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "error.required");
-    	}else if(!code.equals(WebConstants.KEY_KILL_SWITCH_CODE)) {
+    	}else if(!code.equals(WebConstants.CONFIRM_CODE_KILL_SWITCH)) {
     		errors.rejectValue("code", "error.invalid", new Object[] {"Code"}, "Invalid code");
     	}
 

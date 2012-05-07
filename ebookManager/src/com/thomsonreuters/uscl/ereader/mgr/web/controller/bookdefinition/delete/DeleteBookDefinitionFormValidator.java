@@ -50,7 +50,7 @@ public class DeleteBookDefinitionFormValidator implements Validator {
 	
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "error.required");
 				
-				if(StringUtils.isNotBlank(form.getCode()) && !form.getCode().equals(WebConstants.KEY_DELETE_BOOK)) {
+				if(StringUtils.isNotBlank(form.getCode()) && !form.getCode().equals(WebConstants.CONFIRM_CODE_DELETE_BOOK)) {
 					errors.rejectValue("code", "error.invalid", new Object[] {"Code"}, "Invalid code");
 				}
 			

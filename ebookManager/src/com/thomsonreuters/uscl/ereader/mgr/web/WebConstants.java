@@ -50,12 +50,6 @@ public class WebConstants {
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
 	public static final String KEY_PUBLISHERS = "publishers";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
-	public static final String KEY_COURT_RULES = "Court Rules";
-	public static final String KEY_COURT_RULES_ABBR = "cr";
-	public static final String KEY_ANALYTICAL = "Analytical";
-	public static final String KEY_ANALYTICAL_ABBR = "an";
-	public static final String KEY_SLICE_CODES = "Slice Codes";
-	public static final String KEY_SLICE_CODES_ABBR = "sc";
 	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
 	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
 	public static final String KEY_VERSION_NUMBER="versionNumber";
@@ -73,13 +67,7 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_ISBN="isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK="bookDefinitionLock";
-	public static final String KEY_COVER_IMAGE_LOCATION="/apps/eBookBuilder/generator/images/cover";
-	public static final String KEY_FRONT_MATTER_IMAGE_LOCATION="/apps/eBookBuilder/coreStatic/images";
-	public static final String KEY_FRONT_MATTER_CSS_LOCATION="/apps/eBookBuilder/coreStatic/css";
-	public static final String KEY_PDF_LOCATION = "/apps/eBookBuilder/generator/images/pdf";
-	
-	public static final String KEY_KILL_SWITCH_CODE = "Stop all";
-	public static final String KEY_DELETE_BOOK = "DELETE BOOK";
+
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 	
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
@@ -95,6 +83,24 @@ public class WebConstants {
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
 	public static final String KEY_JOB_INSTANCE_BOOK_INFO = "bookInfo";
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
+	
+	// Document Type Codes
+	public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
+	public static final String DOCUMENT_TYPE_COURT_RULES_ABBR = "cr";
+	public static final String DOCUMENT_TYPE_ANALYTICAL = "Analytical";
+	public static final String DOCUMENT_TYPE_ANALYTICAL_ABBR = "an";
+	public static final String DOCUMENT_TYPE_SLICE_CODES = "Slice Codes";
+	public static final String DOCUMENT_TYPE_SLICE_CODES_ABBR = "sc";
+	
+	// Confirmation codes
+	public static final String CONFIRM_CODE_KILL_SWITCH = "Stop all";
+	public static final String CONFIRM_CODE_DELETE_BOOK = "DELETE BOOK";
+	
+	// NAS locations for files
+	public static final String LOCATION_KEY_COVER_IMAGE="/apps/eBookBuilder/generator/images/cover";
+	public static final String LOCATION_FRONT_MATTER_IMAGE="/apps/eBookBuilder/coreStatic/images";
+	public static final String LOCATION_FRONT_MATTER_CSS="/apps/eBookBuilder/coreStatic/css";
+	public static final String LOCATION_PDF = "/apps/eBookBuilder/generator/images/pdf";
 	
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";

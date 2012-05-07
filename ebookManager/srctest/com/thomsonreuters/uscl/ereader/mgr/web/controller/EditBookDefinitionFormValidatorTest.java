@@ -58,8 +58,8 @@ public class EditBookDefinitionFormValidatorTest {
     	
     	analyticalCode = new DocumentTypeCode();
     	analyticalCode.setId(Long.parseLong("1"));
-    	analyticalCode.setAbbreviation(WebConstants.KEY_ANALYTICAL_ABBR);
-    	analyticalCode.setName(WebConstants.KEY_ANALYTICAL);
+    	analyticalCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR);
+    	analyticalCode.setName(WebConstants.DOCUMENT_TYPE_ANALYTICAL);
     	
     	KeywordTypeCode keyword = new KeywordTypeCode();
     	keyword.setId(1L);
@@ -119,8 +119,8 @@ public class EditBookDefinitionFormValidatorTest {
 		
 		DocumentTypeCode courtRulesCode = new DocumentTypeCode();
     	courtRulesCode.setId(Long.parseLong("1"));
-    	courtRulesCode.setAbbreviation(WebConstants.KEY_COURT_RULES_ABBR);
-    	courtRulesCode.setName(WebConstants.KEY_COURT_RULES);
+    	courtRulesCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR);
+    	courtRulesCode.setName(WebConstants.DOCUMENT_TYPE_COURT_RULES);
 		
 		setupPublisherAndTitleId("uscl/cr/tx_state", courtRulesCode, 2);
 
@@ -148,8 +148,8 @@ public class EditBookDefinitionFormValidatorTest {
 		
 		DocumentTypeCode sliceCodesCode = new DocumentTypeCode();
     	sliceCodesCode.setId(Long.parseLong("1"));
-    	sliceCodesCode.setAbbreviation(WebConstants.KEY_SLICE_CODES_ABBR);
-    	sliceCodesCode.setName(WebConstants.KEY_SLICE_CODES);
+    	sliceCodesCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR);
+    	sliceCodesCode.setName(WebConstants.DOCUMENT_TYPE_SLICE_CODES);
     	
 		setupPublisherAndTitleId("uscl/sc/us_abcd", sliceCodesCode, 2);
 

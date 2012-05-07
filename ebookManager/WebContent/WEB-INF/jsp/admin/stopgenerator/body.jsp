@@ -34,7 +34,7 @@ $(document).ready(function() {
 
 <form:form commandName="<%= StopGeneratorForm.FORM_NAME %>">
 	Are you sure you want to stop the eBook Generator and Gatherer applications?  This will stop all running eBook jobs. 
-	To stop the eBook Generator and Gatherer applications please type "<%= WebConstants.KEY_KILL_SWITCH_CODE %>" in the
+	To stop the eBook Generator and Gatherer applications please type <b>"<%= WebConstants.CONFIRM_CODE_KILL_SWITCH %>"</b> in the
 	field below and press the Stop All button.
 	<div class="stopGather" style="margin:1em;">
 		<form:label path="code">Code</form:label>

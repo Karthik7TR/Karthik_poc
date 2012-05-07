@@ -47,19 +47,19 @@
 			var titleId = [];
 			
 			// Set up Title ID
-			if(contentType == "<%= WebConstants.KEY_ANALYTICAL_ABBR%>") {
+			if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
 				if (pubInfo) {
 					titleId.push(pubAbbr, pubInfo);
 				} else {
 					titleId.push(pubAbbr);
 				};
-			} else if(contentType == "<%= WebConstants.KEY_COURT_RULES_ABBR%>") {
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
 				if (pubInfo) {
 					titleId.push(state, pubType, pubInfo);
 				} else {
 					titleId.push(state, pubType);
 				};
-			} else if(contentType == "<%= WebConstants.KEY_SLICE_CODES_ABBR%>") {
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
 				titleId.push(jurisdiction, pubInfo);
 			} else {
 				titleId.push(pubInfo);
@@ -87,12 +87,12 @@
 			$('#pubTypeDiv').hide();
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
-			if(contentType == "<%= WebConstants.KEY_ANALYTICAL_ABBR %>") {
+			if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
 				$('#pubAbbrDiv').show();
-			} else if(contentType == "<%= WebConstants.KEY_COURT_RULES_ABBR %>") {
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
 				$('#stateDiv').show();
 				$('#pubTypeDiv').show();
-			} else if(contentType == "<%= WebConstants.KEY_SLICE_CODES_ABBR %>") {
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
 				$('#jurisdictionDiv').show();
 			}
 			

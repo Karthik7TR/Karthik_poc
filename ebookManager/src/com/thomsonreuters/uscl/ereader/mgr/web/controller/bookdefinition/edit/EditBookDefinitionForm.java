@@ -328,14 +328,14 @@ public class EditBookDefinitionForm {
 		
 		this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
 	
-		if (documentType.getName().equals(WebConstants.KEY_ANALYTICAL)) {
+		if (documentType.getName().equals(WebConstants.DOCUMENT_TYPE_ANALYTICAL)) {
 			this.pubAbbr = titleIdArray[0];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
-		} else if (documentType.getName().equals(WebConstants.KEY_COURT_RULES)) {
+		} else if (documentType.getName().equals(WebConstants.DOCUMENT_TYPE_COURT_RULES)) {
 			this.state = titleIdArray[0];
 			this.pubType = titleIdArray[1];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
-		} else if (documentType.getName().equals(WebConstants.KEY_SLICE_CODES)) {
+		} else if (documentType.getName().equals(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
 			this.jurisdiction = titleIdArray[0];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
 		} else {
@@ -347,10 +347,10 @@ public class EditBookDefinitionForm {
 		int index;
 		StringBuilder pubInfo = new StringBuilder();
 		
-		if (documentType.getName().equalsIgnoreCase(WebConstants.KEY_COURT_RULES)) {
+		if (documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_COURT_RULES)) {
 			index = 2;
-		} else if(documentType.getName().equalsIgnoreCase(WebConstants.KEY_ANALYTICAL) || 
-				documentType.getName().equalsIgnoreCase(WebConstants.KEY_SLICE_CODES)) {
+		} else if(documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_ANALYTICAL) || 
+				documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
 			index = 1;
 		} else {
 			index = 0;
