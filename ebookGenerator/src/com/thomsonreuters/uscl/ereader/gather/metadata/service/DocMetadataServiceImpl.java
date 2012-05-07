@@ -31,6 +31,8 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	 */
 	@Transactional
 	public void saveDocMetadata(DocMetadata docmetadata) {
+		//TODO: Add full set of character encodings here.
+		docmetadata.setNormalizedFirstlineCite(docmetadata.getNormalizedFirstlineCite().replace("\u00A7", "s"));
 
 		DocMetadataPK existingDocPk = new DocMetadataPK();
 		existingDocPk.setDocUuid(docmetadata.getDocUuid());
@@ -49,8 +51,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 				existingDocMetadata.setDocFamilyUuid(docmetadata
 						.getDocFamilyUuid());
 				existingDocMetadata.setDocType(docmetadata.getDocType());
-				existingDocMetadata.setNormalizedFirstlineCite(docmetadata
-						.getNormalizedFirstlineCite());
+				existingDocMetadata.setNormalizedFirstlineCite(docmetadata.getNormalizedFirstlineCite());
 				existingDocMetadata.setFindOrig(docmetadata.getFindOrig());
 				existingDocMetadata.setSerialNumber(docmetadata
 						.getSerialNumber());
