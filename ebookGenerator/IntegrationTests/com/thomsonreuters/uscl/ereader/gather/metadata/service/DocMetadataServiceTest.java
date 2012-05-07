@@ -78,7 +78,7 @@ public class DocMetadataServiceTest {
 		docmetadata.setFindOrig(null);
 		docmetadata.setJobInstanceId(new Long("99123456"));
 		docmetadata.setLastUpdated(UPDATE_DATE);
-		docmetadata.setNormalizedFirstlineCite(null);
+		docmetadata.setNormalizedFirstlineCite("TEST^[89]");
 		docmetadata.setSerialNumber(null);
 		docmetadata.setTitleId("TL-URB"+seqNum.toString());
 		docmetadata.setProviewFamilyUUIDDedup(new Integer(1));
@@ -212,7 +212,7 @@ public class DocMetadataServiceTest {
 		expected.setDocUuid(docUuid);
 		expected.setDocFamilyUuid("12345678901");
 		expected.setDocType("codes");
-		expected.setNormalizedFirstlineCite(null);
+		expected.setNormalizedFirstlineCite("TEST-(89)");
 		expected.setFindOrig(null);
 		expected.setSerialNumber(null);
 		expected.setCollectionName("test_choto_Collection");

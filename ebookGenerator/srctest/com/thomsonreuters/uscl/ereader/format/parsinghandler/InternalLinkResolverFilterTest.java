@@ -71,14 +71,14 @@ public class InternalLinkResolverFilterTest {
 	
 	@Test
 	public void testGetNormalizedCiteFromResourceUrl() throws Exception {
-		String resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=119616&amp;cite=SECOPINIONs39%3A7&amp;originationContext=ebook";
+		String resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=119616&amp;cite=SECOPINION§39%3A7&amp;originationContext=ebook";
 		String normalizedCite = internalLinkResolverFilter.getNormalizedCite(resourceUrl);
 		String expectedNormalizedCite = "SECOPINIONs39:7";
+		System.out.println(normalizedCite);
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
 		resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000600&amp;cite=USFRCPR20&amp;originatingDoc=I86827039c15111ddb9c7909664ff7808&amp;refType=LQ&amp;originationContext=ebook";
 		normalizedCite = internalLinkResolverFilter.getNormalizedCite(resourceUrl);
-		System.out.println(normalizedCite);
 		expectedNormalizedCite = "USFRCPR20";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 	}

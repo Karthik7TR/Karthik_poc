@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 
 
 /**
@@ -48,7 +49,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
 
         if (normalizedCite != null)
         {
-        	normalizedCite = normalizedCite.replace(String.valueOf((char) 0xA7),"s"); // TODO  need to check other special characters
+        	normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
         	
         	url = hostname + KEYCITE_QUERY + normalizedCite + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
         			+ "&amp;rs=" + mudParamRS + "&amp;vr=" + mudParamVR  
@@ -63,7 +64,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
                 + "&amp;vr=" + mudParamVR;
         }
 
-        return buildImageBlock(url);
+        return buildImageBlock(url);  
     }
 
     @Required

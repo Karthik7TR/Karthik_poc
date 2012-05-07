@@ -24,6 +24,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
+import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 
 
 /**
@@ -166,7 +167,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                 + resourceUrl, e);
         }
 
-        normalizedCite = normalizedCite.replace(String.valueOf((char) 0xA7), "s"); // need to check other special characters
+        normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
 
         return normalizedCite;
     }

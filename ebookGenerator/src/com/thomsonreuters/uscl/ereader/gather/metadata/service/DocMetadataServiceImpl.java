@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
+import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -32,7 +33,9 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	@Transactional
 	public void saveDocMetadata(DocMetadata docmetadata) {
 		//TODO: Add full set of character encodings here.
-		docmetadata.setNormalizedFirstlineCite(docmetadata.getNormalizedFirstlineCite().replace("\u00A7", "s"));
+		String cite = docmetadata.getNormalizedFirstlineCite();
+		String normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+		docmetadata.setNormalizedFirstlineCite(normalizedCite);
 
 		DocMetadataPK existingDocPk = new DocMetadataPK();
 		existingDocPk.setDocUuid(docmetadata.getDocUuid());
