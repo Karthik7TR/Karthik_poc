@@ -214,7 +214,7 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 		String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>" +
 								"<div class=\"section_text\"><p>Jack Sparrow was here!</p>" +
 								"<p>Elizabeth Swan was too!</p></div>" +
-								"<div class=\"section_pdf\"><a class=\"er:#pdfFilename4\">pdfLinkText4</a></div>";
+								"<div class=\"section_pdf\"><a class=\"section_pdf_hyperlink\" href=\"er:#pdfFilename4\">pdfLinkText4</a></div>";
 		
 		testHelper(xmlTestStr, expectedResult);
 		
@@ -249,8 +249,8 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 		String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>" +
 		"<div class=\"section_text\"><p>Jack Sparrow was here!</p>" +
 		"<p>Elizabeth Swan was too!</p></div>"+
-		"<div class=\"section_pdf\"><a class=\"er:#pdfFilename4\">pdfLinkText4</a>"+
-		"<br/><a class=\"er:#pdfFilename5\">pdfLinkText5</a></div>";
+		"<div class=\"section_pdf\"><a class=\"section_pdf_hyperlink\" href=\"er:#pdfFilename4\">pdfLinkText4</a>"+
+		"<br/><a class=\"section_pdf_hyperlink\" href=\"er:#pdfFilename5\">pdfLinkText5</a></div>";
 
 		 List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 		 FrontMatterPage frontMatterPage4 = fmps.get(0);
@@ -284,7 +284,7 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 
 		String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
-		String expectedResult = "<div class=\"section_pdf\"><a class=\"er:#pdfFilename4\">pdfLinkText4</a></div>";
+		String expectedResult = "<div class=\"section_pdf\"><a class=\"section_pdf_hyperlink\" href=\"er:#pdfFilename4\">pdfLinkText4</a></div>";
 		
 		 List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 		 FrontMatterPage frontMatterPage4 = fmps.get(0);
@@ -307,7 +307,7 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 		String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>" +
 		"<div class=\"section_text\"><p>Jack Sparrow was here!</p>" +
 		"<p>Elizabeth Swan was too!</p></div>" +
-		"<div class=\"section_pdf\"><a class=\"er:#pdfFilename4\">pdfLinkText4</a></div>" +
+		"<div class=\"section_pdf\"><a class=\"section_pdf_hyperlink\" href=\"er:#pdfFilename4\">pdfLinkText4</a></div>" +
 		"<div class=\"section_heading\">Pirate Stories</div>"+
 		"<div class=\"section_text\"><p>BlackBeard's Ghost!</p><p/><p>Scary</p></div>";
 		
