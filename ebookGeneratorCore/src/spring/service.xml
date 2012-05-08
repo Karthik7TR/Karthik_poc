@@ -77,4 +77,11 @@
 		  p:frontMatterResearchAssistancePageTemplateLocation="classpath:templates/frontMatterResearchAssistanceTemplate.xml"
 		  p:frontMatterWestlawNextPageTemplateLocation="classpath:templates/frontMatterWestlawNextTemplate.xml"/>		  
 
+	<bean id="smokeTestDao" class="com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
+	
+	<bean id="smokeTestService" class="com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl" 
+		  p:smokeTestDao-ref="smokeTestDao" />
+
 </beans>	

@@ -26,4 +26,7 @@
        </property>
 	</bean>
 
+	<bean id="environmentName" class="java.lang.String">
+  		<constructor-arg value="#{systemProperties['environment']}"/>
+  	</bean>
 </beans>

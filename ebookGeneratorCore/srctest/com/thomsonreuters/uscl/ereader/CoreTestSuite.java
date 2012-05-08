@@ -21,6 +21,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
+import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoTest;
+import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTestTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ BookDefinitionTest.class, BookDefinitionDaoTest.class,
@@ -28,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
 		FileHandlingHelperTest.class, JibxMarshallingTest.class,
 		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class,
 		ProviewClientImplTest.class, EbookAuditDaoTest.class,
-		EbookAuditServiceTest.class
+		EbookAuditServiceTest.class, SmokeTestTest.class, SmokeTestDaoTest.class
 
 })
 public class CoreTestSuite {

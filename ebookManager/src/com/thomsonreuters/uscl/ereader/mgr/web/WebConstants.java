@@ -165,6 +165,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
+	// Administration related URI's
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
@@ -201,6 +202,8 @@ public class WebConstants {
 	public static final String MVC_SEC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_SEC_LOGIN = "login.mvc";
 	public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
+	
+	public static final String MVC_SMOKE_TEST = "smokeTest.mvc";
 	
 	// Error related URI's
 	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
@@ -267,6 +270,7 @@ public class WebConstants {
 	public static final String VIEW_SEC_LOGIN = "_login";
 	public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
 	public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
+	public static final String VIEW_SMOKE_TEST = "smokeTest";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

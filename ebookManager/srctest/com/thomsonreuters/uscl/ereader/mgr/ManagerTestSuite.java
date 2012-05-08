@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionForm
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ErrorControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.LoginControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.SmokeTestControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeFormValidatorTest;
@@ -65,7 +66,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			BookAuditControllerTest.class,
 			BookAuditFilterControllerTest.class,
 			DeleteBookDefinitionControllerTest.class,
-			ErrorControllerTest.class
+			ErrorControllerTest.class,
+			SmokeTestControllerTest.class
 		} )
 
 public class ManagerTestSuite {

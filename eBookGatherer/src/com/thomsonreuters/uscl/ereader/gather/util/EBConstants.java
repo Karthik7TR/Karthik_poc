@@ -26,6 +26,9 @@ public class EBConstants
 	
 	public static final String VIEW_RESPONSE = "responseView";
 	
+	public static final String URI_HOME = "/home.mvc";
+	public static final String VIEW_HOME = "home";
+	
 	
 	/*** Xml elements for toc.xml ***/
 	public static final String TOC_XML_ELEMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
