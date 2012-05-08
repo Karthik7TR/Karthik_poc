@@ -10,7 +10,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,7 +104,7 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
 		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));
-		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(new Date()));
+		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(jobRequest.getSubmittedAt()));  // When the job entered the JOB_REQUEST run queue
 		jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));	
 		jobParamMap.put(JobParameterKey.NOVUS_ENV, new JobParameter(novusEnvironment));	
 		jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));

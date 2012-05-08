@@ -44,6 +44,7 @@ public class JobRunQueuePoller {
 	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
 //		log.debug("----- CHECKING FOR A JOB TO RUN ------");
+		JobRequest jobRequest = null;
 		try {
 			/**
 			 * Do not consume a JOB_REQUEST record if:
@@ -53,7 +54,7 @@ public class JobRunQueuePoller {
 			 */
 			if (springBatchTaskExecutor.getActiveCount() < maximumConcurrentJobs) {
 				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
-					JobRequest jobRequest = jobRequestService.getNextJobToExecute();
+					jobRequest = jobRequestService.getNextJobToExecute();
 					if (jobRequest != null) {
 						// Create the dynamic set of launch parameters, things like
 						// user name, user email, and a unique serial number
@@ -84,7 +85,7 @@ public class JobRunQueuePoller {
 				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are running.  No new jobs may be started.", maximumConcurrentJobs));
 			}
 		} catch (Exception e) {
-			log.error("Failed to fetch job run request from the job queue", e);
+			log.error("Failed run job request: " + jobRequest, e);
 		}
 	}
 

@@ -43,7 +43,7 @@ public class JobRequestServiceImpl implements JobRequestService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(isolation=Isolation.SERIALIZABLE)
 	public JobRequest getNextJobToExecute() {
 		List<JobRequest> jobs = findAllJobRequests();
 		// It is assumed that the findAllJobRequests() returns the job requests in the order in which they will run.
