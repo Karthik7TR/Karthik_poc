@@ -67,8 +67,15 @@ public class ProviewTitleListController {
 
 		List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
 		if (allLatestProviewTitleInfo == null) {
+
+			Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
+			if (allProviewTitleInfo == null) {
+				allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
+				saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+			}
+
 			allLatestProviewTitleInfo = proviewClient
-					.getAllLatestProviewTitleInfo();
+					.getAllLatestProviewTitleInfo(allProviewTitleInfo);
 			saveAllLatestProviewTitleInfo(httpSession,
 					allLatestProviewTitleInfo);
 		}

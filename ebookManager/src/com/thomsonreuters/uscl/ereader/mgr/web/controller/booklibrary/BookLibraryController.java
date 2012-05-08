@@ -93,7 +93,7 @@ public class BookLibraryController {
 			paginatedList = libraryListService.findBookDefinitions(
 					"proviewDisplayName", true, 1,
 					WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null, null,
-					null, null, null);
+					null, null, null, httpSession);
 			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
 		}
 
@@ -147,7 +147,7 @@ public class BookLibraryController {
 					bookLibraryFilterForm.getMaterialId(),
 					bookLibraryFilterForm.getTo(),
 					bookLibraryFilterForm.getFrom(),
-					bookLibraryFilterForm.geteBookDefStatus());
+					bookLibraryFilterForm.geteBookDefStatus(), httpSession);
 			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
 		}
 		initializeFormAndModel(model, form, sort, isAscending, page,

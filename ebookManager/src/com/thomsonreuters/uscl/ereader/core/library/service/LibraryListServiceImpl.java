@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -30,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
@@ -111,21 +114,39 @@ public class LibraryListServiceImpl implements LibraryListService {
 		return libraryListDao.countNumberOfBookDefinitions();
 	}
 
+	private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(
+			HttpSession httpSession) {
+		Map<String, ProviewTitleContainer> allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession
+				.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
+		return allProviewTitleInfo;
+	}
+
+	private void saveAllProviewTitleInfo(HttpSession httpSession,
+			Map<String, ProviewTitleContainer> allProviewTitleInfo) {
+		httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES,
+				allProviewTitleInfo);
+
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<LibraryList> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String titleID, String isbn,
-			String materialID, Date to, Date from, String status) {
+			String materialID, Date to, Date from, String status,
+			HttpSession httpSession) {
 
 		List<BookDefinition> bookDefinitions = bookDefinitionDao
 				.findBookDefinitions(sortProperty, isAscending, pageNumber,
 						itemsPerPage, proviewDisplayName, titleID, isbn,
 						materialID, to, from, status);
 
-		Map<String, ProviewTitleContainer> titleMap = null;
+		Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
 		try {
-			titleMap = proviewClient.getAllProviewTitleInfo();
+			if (allProviewTitleInfo == null) {
+				allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
+				saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+			}
 		} catch (ProviewException e) {
 			log.debug(e);
 		}
@@ -146,8 +167,8 @@ public class LibraryListServiceImpl implements LibraryListService {
 			String proviewVersion = null;
 			Date lastProviewUpdateDate = null;
 
-			if (titleMap != null) {
-				ProviewTitleContainer proviewTitleContainer = titleMap
+			if (allProviewTitleInfo != null) {
+				ProviewTitleContainer proviewTitleContainer = allProviewTitleInfo
 						.get(bookDefinition.getFullyQualifiedTitleId());
 
 				if (proviewTitleContainer != null) {

@@ -53,7 +53,7 @@ public class BookLibraryFilterController {
 					bookLibraryFilterForm.getMaterialId(),
 					bookLibraryFilterForm.getTo(),
 					bookLibraryFilterForm.getFrom(),
-					bookLibraryFilterForm.geteBookDefStatus());
+					bookLibraryFilterForm.geteBookDefStatus(), httpSession);
 			break;
 
 		case RESET:
@@ -61,7 +61,7 @@ public class BookLibraryFilterController {
 			paginatedList = libraryListService.findBookDefinitions(
 					"proviewDisplayName", true, 1,
 					WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null, null,
-					null, null, null);
+					null, null, null, httpSession);
 			break;
 
 		}
