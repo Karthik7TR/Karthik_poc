@@ -33,7 +33,7 @@
  	
 		 function submitRemove(cmd){
 			 
-			 var confirmed = checkStatus();
+			 var confirmed = true;
 			 
 			 if (confirmed){
 			 	confirmed = confirm("Are you sure to delete this title version?");
