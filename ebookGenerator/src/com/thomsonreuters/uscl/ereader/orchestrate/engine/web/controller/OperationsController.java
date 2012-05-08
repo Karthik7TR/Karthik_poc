@@ -13,11 +13,13 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -29,6 +31,12 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
+	private JobThrottleConfig jobThrottleConfig;
+	
+	public OperationsController(JobThrottleConfig config) {
+		this.jobThrottleConfig = config;
+	}
+	
 	/** Maximum number of jobs allowed to run concurrently */
 
 	/**
@@ -83,6 +91,27 @@ public class OperationsController {
 			log.debug("Job STOP exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
 		}
+		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
+		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+	}
+	
+	/**
+	 * Receive a new job throttle configuration from the ebookManager.
+	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
+	 * to all ebookGenerator instances.
+	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
+	 */
+	@RequestMapping(value=WebConstants.URI_UPDATE_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
+	public ModelAndView updateJobThrottleConfiguration(@RequestBody JobThrottleConfig newConfiguration, Model model) {
+		log.info("Received: " + newConfiguration);
+		JobOperationResponse opResponse = null;
+		try {
+			jobThrottleConfig.copy(newConfiguration);
+			opResponse = new JobOperationResponse(null, true, "New job throttle configuration update was successful.");
+		} catch (Exception e) {
+			log.debug("Exception performing data copy: " + e);
+			opResponse = new JobOperationResponse(null, false, e.getMessage());	
+		}		
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
 	}

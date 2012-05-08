@@ -14,6 +14,7 @@ public class WebConstants {
 	/** REST service operation URL templates for restart and stop a job */
 	public static final String URI_JOB_RESTART = "service/restart/job/{jobExecutionId}";
 	public static final String URI_JOB_STOP = "service/stop/job/{jobExecutionId}";
+	public static final String URI_UPDATE_JOB_THROTTLE_CONFIG = "service/update/job/throttle/config";
 	
 	public static final String VIEW_HOME = "home";
 	public static final String VIEW_APP_EXCEPTION = "appException";

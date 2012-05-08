@@ -33,7 +33,7 @@
         <property name="singleton" value="true"/>
         <property name="properties">
                 <props>
-                        <prop key="serverNames">${server.names}</prop>
+                        <prop key="serverNames">${generator.hosts}</prop>
                         <prop key="username">${server.username}</prop>
                         <prop key="password">${server.password}</prop>
                         <prop key="appNames">${kill.app.names}</prop>

@@ -1,10 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig.Key;
 
 public class JobThrottleConfigServiceImpl implements JobThrottleConfigService {
-	private static final Logger log = Logger.getLogger(JobThrottleConfigServiceImpl.class);
+	//private static final Logger log = Logger.getLogger(JobThrottleConfigServiceImpl.class);
 	private AppParameterDao dao;
 
 	@Override
@@ -52,13 +50,7 @@ public class JobThrottleConfigServiceImpl implements JobThrottleConfigService {
 			dao.delete(param);
 		}
 	}
-	
-	@Override
-	public void pushConfiguration(InetAddress host, JobThrottleConfig config) throws Exception {
-// TODO: impelement this
-log.debug("Pushing (not really) job throttle configuration to: " + host);
-	}
-	
+
 	private List<AppParameter> createThrottleConfigAppParameterList(JobThrottleConfig config) {
 		List<AppParameter> parameters = new ArrayList<AppParameter>();
 		parameters.add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));

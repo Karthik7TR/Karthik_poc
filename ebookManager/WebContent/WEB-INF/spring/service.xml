@@ -31,10 +31,7 @@
 		  
 	<bean id="jobService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobServiceImpl"
 		  p:jobDao-ref="jobDao"
-		  p:jobExplorer-ref="jobExplorer"/>
-		  
-	<bean id="jobThrottleConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigServiceImpl"
-		  p:appParameterDao-ref="appParameterDao"/>		  
+		  p:jobExplorer-ref="jobExplorer"/>	  
 		  
 	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceImpl"
   		  p:libraryListDao-ref="libraryListDao"
@@ -45,23 +42,6 @@
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl"
   		  p:codeService-ref="codeService"/>
-
-
-    <!-- Response to job restart and stop requests -->
-    <bean id="jibxJobOperationResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse"/>
-    </bean>
-    	<bean id="jobOperationResponseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-    	<property name="marshaller" ref="jibxJobOperationResponseMarshaller" />
-        <property name="unmarshaller" ref="jibxJobOperationResponseMarshaller" />
-    </bean>
-	<bean id="managerRestTemplate" class="org.springframework.web.client.RestTemplate">
-      <property name="messageConverters">
-        <list>
-          <ref bean="jobOperationResponseMessageConverter"/>
-        </list>
-      </property>
-	</bean>  	
 		  
   	<bean id="managerService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl"
   		  p:generatorContextUrl="${generator.context.url}"

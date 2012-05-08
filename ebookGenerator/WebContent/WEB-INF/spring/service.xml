@@ -14,29 +14,8 @@
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">      
-
-	<!-- Used to communicate with the Gather REST service -->
-	<bean id="gatherRestTemplate" class="org.springframework.web.client.RestTemplate">
-      <property name="messageConverters">
-        <list>
-          <ref bean="docRequestMessageConverter"/>
-          <ref bean="tocRequestMessageConverter"/>
-          <ref bean="nortRequestMessageConverter"/>
-          <ref bean="gatherResponseMessageConverter"/>
-          <ref bean="jobOperationResponseMessageConverter"/>
-        </list>
-      </property>
-	</bean>
 	
-	<!-- REST Template used to communicate with the Image vertical REST service when fetching image metadata.
-		 A custom template is used to download image file bytes. -->
-	<bean id="imageJsonRestTemplate" class="org.springframework.web.client.RestTemplate">
-      <property name="messageConverters">
-        <list>
-          <ref bean="jsonHttpMessageConverter"/>
-        </list>
-      </property>
-	</bean>
+
 
   	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
@@ -186,6 +165,14 @@
 			p:jobStartupThrottleDao-ref="jobStartupThrottleDao"
 			p:throttleStepCheck="${throttle.step.check}"
 			p:jobExplorer-ref="jobExplorer"/>
+
+	<!-- Holds the job start throttle configuration and may be changed on the fly. -->
+	<bean id="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
+	<!-- Performs the startup read/load of the job throttle configuration from the database -->
+	<bean id="jobThrottleConfigLoader" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigLoader">
+		<constructor-arg ref="jobThrottleConfigService"/>
+		<constructor-arg ref="jobThrottleConfig"/>
+	</bean>			
 			
   	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
   		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	

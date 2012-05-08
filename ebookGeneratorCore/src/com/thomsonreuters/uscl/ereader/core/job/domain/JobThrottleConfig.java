@@ -9,19 +9,33 @@ public class JobThrottleConfig {
 	public static enum Key { coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs };
 	
 	/** The task executor core thread pool size */
-	private int coreThreadPoolSize;
+	private int coreThreadPoolSize = 4;
 	/** is step-level throttling active */
-	private boolean throttleStepActive;
+	private boolean throttleStepActive = false;
 	/** The step name at which the throttle is applied */
-	private String throttleStepName;
+	private String throttleStepName = null;
 	/** The limit of jobs up to the specified throttle step name */
-	private int throtttleStepMaxJobs;
+	private int throtttleStepMaxJobs = 4;
 
 	public JobThrottleConfig() {
 		super();
 	}
 	public JobThrottleConfig(int coreThreadPoolSize, boolean throttleStepActive,
-			String throttleStepName, int throtttleStepMaxJobs) {
+							 String throttleStepName, int throtttleStepMaxJobs) {
+		setAllProperties(coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs);
+	}
+
+	/**
+	 * Copy the property values from one object to this one.
+	 * @param config the source object to copy property values from.
+	 */
+	public void copy(JobThrottleConfig config) {
+		setAllProperties(config.getCoreThreadPoolSize(), config.isThrottleStepActive(),
+						 config.getThrottleStepName(), config.getThrotttleStepMaxJobs());
+	}
+
+	private void setAllProperties(int coreThreadPoolSize, boolean throttleStepActive,
+								 String throttleStepName, int throtttleStepMaxJobs) {
 		this.coreThreadPoolSize = coreThreadPoolSize;
 		this.throttleStepActive = throttleStepActive;
 		this.throttleStepName = throttleStepName;

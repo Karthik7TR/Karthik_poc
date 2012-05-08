@@ -16,7 +16,9 @@
 	<!-- Handles job STOP and RESTART web service (REST) operations -->
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
 		  p:engineService-ref="engineService"
-		  p:messageSourceAccessor-ref="messageSourceAccessor"/>
+		  p:messageSourceAccessor-ref="messageSourceAccessor">
+		  <constructor-arg ref="jobThrottleConfig"/>
+	</bean>
 		  
 	<bean id="jobCleanupController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.JobCleanupController" 
 	p:jobCleanupService-ref ="jobCleanupService"

@@ -7,9 +7,17 @@
 
 	<!-- Response to a REST request to the generator for job restart and stop requests -->
     <mapping name="jobOperationResponse" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse">
-        <value name="jobExecutionId" field="jobExecutionId" usage="required"/>
+        <value name="jobExecutionId" field="jobExecutionId" usage="optional"/>
         <value name="success" field="success" usage="required"/>
         <value name="message" field="message" usage="optional"/>
+    </mapping>
+    
+    <!-- Job startup throttling configuration parameters.  Pushed to all generators once updated on manager administration -->
+    <mapping name="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig">
+        <value name="coreThreadPoolSize" field="coreThreadPoolSize" usage="required"/>
+        <value name="throttleStepActive" field="throttleStepActive" usage="required"/>
+        <value name="throttleStepName" field="throttleStepName" usage="required"/>
+        <value name="throtttleStepMaxJobs" field="throtttleStepMaxJobs" usage="required"/>
     </mapping>
     
     <!-- Gather service REST response body for Toc and Doc requests -->

@@ -43,8 +43,10 @@
 	<bean id="proviewResponseExtractorFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory"/>	
 	
 	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
-	p:jobRequestDao-ref="jobRequestDao"/>	
-
+		  p:jobRequestDao-ref="jobRequestDao"/>
+	
+	<bean id="jobThrottleConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigServiceImpl"
+		  p:appParameterDao-ref="appParameterDao"/>		
 
 	<bean id="ssh" class="com.thomsonreuters.uscl.ereader.util.Ssh"/>
 	

@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig;
 
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +21,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 @Controller
 public class JobThrottleConfigController {
 	private static final Logger log = Logger.getLogger(JobThrottleConfigController.class);
 	
 	/** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
-	private List<InetAddress> hosts;  
+	private List<InetSocketAddress> socketAddrs;
+	private int generatorPort;
 	private JobThrottleConfigService jobThrottleConfigService;
+	private ManagerService managerService;
 	private Validator validator;
+	
+	public JobThrottleConfigController(int generatorPort) {
+		this.generatorPort = generatorPort;
+	}
 
 	@InitBinder(JobThrottleConfigForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -55,30 +63,44 @@ public class JobThrottleConfigController {
 		log.debug(form);
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 		if (!errors.hasErrors()) {
-			JobThrottleConfig jobThrottleConfig = form.createJobThrottleConfig();
+			boolean anySaveErrors = false;
+			JobThrottleConfig jobThrottleConfig = form.getJobThrottleConfig();
 			// Persist the changed Throttle configuration
 			try {
 				jobThrottleConfigService.saveJobThrottleConfig(jobThrottleConfig);
 				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved throttle configuration."));
 				
-				// Push the new configuration out to all listening ebookGenerator hosts who care about the update
-				for (InetAddress host : hosts) {
-					try {
-						jobThrottleConfigService.pushConfiguration(host, jobThrottleConfig);
-						infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to host: %s", host)));
-					} catch (Exception e) {
-						String errorMessage = String.format("Failed to push new throttle configuration to host: %s", host);
-						log.error(errorMessage, e);
-						infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
-					}
-				}
 			} catch (Exception e) {
-				String errorMessage = String.format("Failed to save new throttle configuration.  %s", e.getMessage());
+				anySaveErrors = true;
+				String errorMessage = String.format("Failed to save new throttle configuration - %s", e.getMessage());
 				log.error(errorMessage, e);
 				infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
 			}
+			
+			// If no data persistence errors, then 
+			// Push the new configuration out to all listening ebookGenerator hosts who care about the change.
+			if (!anySaveErrors) {
+				InetSocketAddress currentSocketAddr = null;
+				String errorMessageTemplate = "Failed to push new job throttle configuration to host socket %s - %s";
+				for (InetSocketAddress socketAddr : socketAddrs) {
+					try {
+						currentSocketAddr = socketAddr;
+						JobOperationResponse opResponse = managerService.pushJobThrottleConfiguration(socketAddr, jobThrottleConfig);
+						if (opResponse.isSuccess()) {
+							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to: %s", socketAddr)));
+						} else {
+							String errorMessage = String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
+							log.error("JobOperationResponse failure: " + errorMessage);
+							infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
+						}
+					} catch (Exception e) {
+						String errorMessage = String.format(errorMessageTemplate, currentSocketAddr, e.getMessage());
+						log.error("Exception occurred: " + errorMessage, e);
+						infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
+					}
+				}
+			}
 		}
-		
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
 	}
@@ -88,23 +110,27 @@ public class JobThrottleConfigController {
 	 * @param commaSeparatedHostNames a CSV list of valid host names
 	 */
 	@Required
-	public void setHostNames(String commaSeparatedHostNames) throws UnknownHostException {
-		this.hosts = new ArrayList<InetAddress>();
-		StringTokenizer tokenizer = new StringTokenizer(commaSeparatedHostNames, ", ");
-		while (tokenizer.hasMoreTokens()) {
-			String hostName = tokenizer.nextToken();
-			try {
-				InetAddress host = InetAddress.getByName(hostName);
-				hosts.add(host);
-			} catch (UnknownHostException e) {
-				log.error(String.format("Unknown host <%s> in the job throttle configuration host name list.  Check the environment specific Spring properties file and ensure that the list of generator instance host names is correct and complete.", hostName), e);
-				throw e;
+	public void setHosts(String commaSeparatedHostNames) throws UnknownHostException {
+		this.socketAddrs = new ArrayList<InetSocketAddress>();
+		StringTokenizer hostTokenizer = new StringTokenizer(commaSeparatedHostNames, ", ");
+		while (hostTokenizer.hasMoreTokens()) {
+			String hostName = hostTokenizer.nextToken();
+			InetSocketAddress socketAddr = new InetSocketAddress(hostName, generatorPort);
+			if (socketAddr.isUnresolved()) {
+				String errorMessage = String.format("Unresolved host socket address <%s>.  Check the environment specific property file and ensure that the ebookGenerator CSV socket addresses (hostname:port) are complete and correct.", socketAddr);
+				log.error(errorMessage);
+				throw new UnknownHostException(errorMessage);
 			}
+			this.socketAddrs.add(socketAddr);
 		}
 	}
 	@Required
 	public void setJobThrottleConfigService(JobThrottleConfigService service) {
 		this.jobThrottleConfigService = service;
+	}
+	@Required
+	public void setManagerService(ManagerService service) {
+		this.managerService = service;
 	}
 	@Required
 	public void setValidator(Validator validator) {

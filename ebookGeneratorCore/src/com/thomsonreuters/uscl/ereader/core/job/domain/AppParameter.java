@@ -27,17 +27,16 @@ public class AppParameter {
 	}
 	public AppParameter(String key, Object value) {
 		Assert.notNull(key);
-		Assert.notNull(value);
 		setKey(key);
 		setValue(value.toString());
 	}
 	
 	@Id
-	@Column(name = "PARAMETER_KEY", nullable = false)
+	@Column(name = "PARAMETER_KEY")
 	public String getKey() {
 		return key;
 	}
-	@Column(name = "PARAMETER_VALUE", nullable = false)
+	@Column(name = "PARAMETER_VALUE")
 	public String getValue() {
 		return value;
 	}
@@ -50,7 +49,6 @@ public class AppParameter {
 		this.key = key;
 	}
 	public void setValue(String value) {
-		Assert.notNull(value);
 		this.value = value;
 	}
 	public void setLastUpdated(Date lastUpdated) {
