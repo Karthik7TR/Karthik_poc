@@ -42,6 +42,7 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLSpecialMarkupFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTableFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLTagIdDedupingFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.InternalLinkResolverFilter;
@@ -216,11 +217,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
 			inputFilter.setParent(internalLinkResolverFilter);
 			
+			// Add strike through filter (Special Markup Filter)
+			HTMLSpecialMarkupFilter spmrkUpFilter = new HTMLSpecialMarkupFilter();
+			spmrkUpFilter.setParent(inputFilter);
+			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
 			anchorFilter.setjobInstanceId(jobIdentifier);
 			anchorFilter.setFirstlineCite(firstlineCite);
-			anchorFilter.setParent(inputFilter);
+			anchorFilter.setParent(spmrkUpFilter);
 			anchorFilter.setTargetAnchors(targetAnchors);
 			if (docMetadata != null && docMetadata.getProViewId() != null )
 			{
