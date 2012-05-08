@@ -14,10 +14,20 @@
 <html>
 <head>
  	<script type="text/javascript">
-		function submitForm(cmd){
-		$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
-  		return true; 
+		
+ 		function submitForm(){
+			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
+  			return true; 
   		}
+		
+ 		 function submitRemove(){
+ 			 var confirmed = confirm("Are you sure to remove this title version?");
+ 			 if (confirmed){
+ 				 submitForm();
+ 			 }
+ 		 }
+		
+		
 	</script>
 
 <body>
@@ -40,7 +50,7 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="generateButton" type="button" value="Remove" onclick="submitForm()"/>
+			<input id="removeButton" type="button" value="Remove" onclick="submitRemove();"/>
 		</div>
 		
 		<td>

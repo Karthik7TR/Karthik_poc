@@ -135,8 +135,6 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, status);
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
 				new ProviewTitleForm(titleId, versionNumber, status));
-
-		System.out.println(titleId + versionNumber + status);
 		return new ModelAndView(
 				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE);
 	}
@@ -146,8 +144,20 @@ public class ProviewTitleListController {
 			@ModelAttribute(ProviewTitleForm.FORM_NAME) ProviewTitleForm form,
 			Model model) throws Exception {
 
+		model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
+		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
+		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
+		try{
+			proviewClient.removeTitle(form.getTitleId(), form.getVersion());
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success removed from Proview.");
+			
+		}
+		catch(Exception e){
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed to remove from proview. " + e.getMessage());
+		}
+		
 		return new ModelAndView(
 				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE);
 	}
