@@ -6,14 +6,20 @@
 
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.io.Serializable;
+
 /**
  * Placeholder for proview title info
  * 
  * @author U0057241
  * 
  */
-public class ProviewTitleInfo {
+public class ProviewTitleInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4229230493652304110L;
 	private String titleId;
 	private String version;
 
