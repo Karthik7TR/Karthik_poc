@@ -21,11 +21,28 @@
 			return true; 
 		}
 	
+ 	 	function checkStatus(){
+ 	 		var status = document.getElementById('status').innerHTML;
+ 	 		var confirmed = true;
+ 	 		
+ 	 		if (status != "Removed"){
+				 alert("Cannot submit delete request: Status must be 'Removed' to delete from Proview");
+				 confirmed = false;
+		 	}
+	 	}
+ 	
 		 function submitRemove(cmd){
-			 var confirmed = confirm("Are you sure to delete this title version?");
+			 
+			 var confirmed = checkStatus();
+			 
 			 if (confirmed){
-				 submitForm(cmd);
+			 	confirmed = confirm("Are you sure to delete this title version?");
+			 	if (confirmed){
+					 submitForm(cmd);
+			 	}
 			 }
+			 
+			 return confirmed;
 		 }
 	
 		
@@ -41,13 +58,16 @@
 	
 		<table>		   
 		<tr>
-			<td id="titleId">Title Id: ${titleId}</td>
+			<td id="titleId"><b>Title Id:</b></td> 
+			<td>&nbsp;&nbsp;&nbsp;${titleId}</td>
 		</tr>
 		<tr>
-			<td id="version">Version Number: ${versionNumber}</td>
+			<td id="version"><b>Version:</b></td> 
+			<td>&nbsp;&nbsp;&nbsp;${versionNumber}</td>
 		</tr>
 		<tr>
-			<td id="status">Status: ${status}</td>
+			<td id="status"><b>Status:</b></td>
+			<td>&nbsp;&nbsp;&nbsp;${status}</td>
 		</tr>
 		</table>
 		

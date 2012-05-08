@@ -26,6 +26,8 @@
  			 if (confirmed){
  				 submitForm(cmd);
  			 }
+ 			 
+ 			 return confirmed;
  		 }
 		
 		
@@ -40,13 +42,16 @@
 	
 		<table>		   
 		<tr>
-			<td id="titleId">Title Id: ${titleId}</td>
+			<td id="titleId"><b>Title Id:</b></td> 
+			<td>&nbsp;&nbsp;&nbsp;${titleId}</td>
 		</tr>
 		<tr>
-			<td id="version">Version Number: ${versionNumber}</td>
+			<td id="version"><b>Version:</b></td> 
+			<td>&nbsp;&nbsp;&nbsp;${versionNumber}</td>
 		</tr>
 		<tr>
-			<td id="status">Status: ${status}</td>
+			<td id="status"><b>Status:</b></td>
+			<td>&nbsp;&nbsp;&nbsp;${status}</td>
 		</tr>
 		</table>
 		
