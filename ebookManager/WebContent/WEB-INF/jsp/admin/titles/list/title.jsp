@@ -1,1 +1,1 @@
-<div class="pageTitle">Latest ProView All Title Info</div>
+<div class="pageTitle">Latest ProView Title Info</div>

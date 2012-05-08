@@ -61,6 +61,28 @@ public class ProviewTitleListController {
 
 	}
 
+	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES, method = RequestMethod.POST)
+	public ModelAndView refreshAllLatestProviewTitleInfo(
+			HttpSession httpSession, Model model) throws Exception {
+
+		Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewClient
+				.getAllProviewTitleInfo();
+		List<ProviewTitleInfo> allLatestProviewTitleInfo = proviewClient
+				.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+
+		saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+		saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
+
+		if (allLatestProviewTitleInfo != null) {
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
+					allLatestProviewTitleInfo);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
+					allLatestProviewTitleInfo.size());
+		}
+
+		return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLES);
+	}
+
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES, method = RequestMethod.GET)
 	public ModelAndView allLatestProviewTitleInfo(HttpSession httpSession,
 			Model model) throws Exception {

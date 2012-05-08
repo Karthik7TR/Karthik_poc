@@ -5,10 +5,22 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview.ProviewTitleForm"%>
 
-
+<html>
+<head>
+<script type="text/javascript">
+		function submitForm(cmd){
+			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
+			return true; 
+		}
+</script>		
+</head>
 
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+
+	<form:form action="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES%>"
+			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES%>"
@@ -32,3 +44,11 @@
 	  	
 	  	
 	</display:table>
+	
+	<div class="buttons">
+			<input id="refreshButton" type="button" value="Refresh from Proview" onclick="submitForm();"/>
+	</div>
+	
+	</form:form>
+
+</html>	
