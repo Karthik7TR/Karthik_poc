@@ -28,28 +28,13 @@ $(document).ready(function() {
 
 function submitJobSummaryForm(command) {
 	$("#jobCommand").val(command);  // Set the form hidden field value for the operation discriminator
-	$("#<%=JobSummaryForm.FORM_NAME%>").submit();	// POST the HTML form
+	$("#multiSelectForm").submit();	// POST the HTML form with the selected start/restart jobs
 }
 </script>
 
-<%-- Select for how may items (rows) per page to show --%>
-<c:if test="${fn:length(paginatedList.list) != 0}">
-  <form:form action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
-		   commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
-	Items to display: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submit()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
-		<form:option label="50" value="50"/>
-		<form:option label="100" value="100"/>
-		<form:option label="250" value="250"/>
-	</form:select>
-  </form:form>
-</c:if>  <%-- if (table row count > 0) --%>
-
 <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
-<form:form action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
+<form:form id="multiSelectForm" action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
 		   commandName="<%=JobSummaryForm.FORM_NAME%>" name="theForm" method="post">
 	<form:hidden path="jobCommand"/>
 	
@@ -124,4 +109,19 @@ function submitJobSummaryForm(command) {
 	  </div>
 	</c:if>  <%-- if (table row count > 0) --%>
 </form:form>
+
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form id="itemCountForm" action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
+		     commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="250" value="250"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>	
 
