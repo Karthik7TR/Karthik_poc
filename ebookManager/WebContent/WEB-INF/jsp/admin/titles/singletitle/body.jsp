@@ -30,7 +30,7 @@
 	  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Remove this title version</a>
 	  	</display:column>
 	  	<display:column title="Delete">
-	  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}">Delete this title version</a>
+	  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Delete this title version</a>
 	  	</display:column>
 	  	
 	</display:table>

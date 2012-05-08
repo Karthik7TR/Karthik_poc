@@ -6,11 +6,18 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview;
 
+
 public class ProviewTitleForm {
 	public static final String FORM_NAME = "proviewTitleInfoForm";
+
+	public enum Command {
+		REMOVE, DELETE
+	};
+
 	private String titleId;
 	private String version;
 	private String status;
+	private Command command;
 
 	public ProviewTitleForm() {
 		super();
@@ -48,4 +55,11 @@ public class ProviewTitleForm {
 		this.status = status;
 	}
 
+	public Command getCommand() {
+		return command;
+	}
+
+	public void setCommand(Command cmd) {
+		this.command = cmd;
+	}
 }

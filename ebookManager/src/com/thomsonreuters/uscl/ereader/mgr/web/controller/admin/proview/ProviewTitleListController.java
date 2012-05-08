@@ -119,7 +119,15 @@ public class ProviewTitleListController {
 	}
 
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
-	public ModelAndView proviewTitleDelete(Model model) throws Exception {
+	public ModelAndView proviewTitleDelete(@RequestParam String titleId,
+			@RequestParam String versionNumber, @RequestParam String status,
+			Model model) throws Exception {
+
+		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
+		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
+		model.addAttribute(WebConstants.KEY_STATUS, status);
+		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
+				new ProviewTitleForm(titleId, versionNumber, status));
 
 		return new ModelAndView(
 				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
@@ -149,17 +157,42 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
-		try{
+		try {
 			proviewClient.removeTitle(form.getTitleId(), form.getVersion());
-			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success removed from Proview.");
-			
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+					"Success removed from Proview.");
+
+		} catch (Exception e) {
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+					"Failed to remove from proview. " + e.getMessage());
 		}
-		catch(Exception e){
-			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed to remove from proview. " + e.getMessage());
-		}
-		
+
 		return new ModelAndView(
 				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE);
+	}
+
+	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE, method = RequestMethod.POST)
+	public ModelAndView proviewTitleDeletePost(
+			@ModelAttribute(ProviewTitleForm.FORM_NAME) ProviewTitleForm form,
+			Model model) throws Exception {
+
+		model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
+		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
+		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
+		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
+
+		try {
+			proviewClient.deleteTitle(form.getTitleId(), form.getVersion());
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+					"Success deleted from Proview.");
+
+		} catch (Exception e) {
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+					"Failed to delete from proview. " + e.getMessage());
+		}
+
+		return new ModelAndView(
+				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
 	}
 
 	public ProviewClient getProviewClient() {

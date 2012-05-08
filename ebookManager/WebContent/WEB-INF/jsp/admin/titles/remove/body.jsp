@@ -15,15 +15,16 @@
 <head>
  	<script type="text/javascript">
 		
- 		function submitForm(){
+ 		function submitForm(cmd){
+ 			$('#command').val(cmd);
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
   			return true; 
   		}
 		
- 		 function submitRemove(){
+ 		 function submitRemove(cmd){
  			 var confirmed = confirm("Are you sure to remove this title version?");
  			 if (confirmed){
- 				 submitForm();
+ 				 submitForm(cmd);
  			 }
  		 }
 		
@@ -50,13 +51,14 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="removeButton" type="button" value="Remove" onclick="submitRemove();"/>
+			<input id="removeButton" type="button" value="Remove" onclick="submitRemove('<%=ProviewTitleForm.Command.REMOVE%>');"/>
 		</div>
 		
 		<td>
 				<form:hidden path="titleId"/>
 				<form:hidden path="version"/>
 				<form:hidden path="status"/>
+				<form:hidden path="command"/>
 		</td>
 		
 		<%-- Informational Messages area --%>
