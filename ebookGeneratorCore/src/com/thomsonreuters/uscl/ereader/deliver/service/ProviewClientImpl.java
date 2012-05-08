@@ -289,6 +289,22 @@ public class ProviewClientImpl implements ProviewClient {
 		return allLatestProviewTitles;
 
 	}
+	
+	@Override
+	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap)
+			throws ProviewException {
+
+		ArrayList<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+
+		for (String bookId : titleMap.keySet()) {
+			ProviewTitleContainer titleContainer = titleMap.get(bookId);
+			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			allLatestProviewTitles.add(latestVersion);
+		}
+
+		return allLatestProviewTitles;
+
+	}
 
 	@Override
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)

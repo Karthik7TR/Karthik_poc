@@ -17,29 +17,20 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTe
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
-import com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDaoTest;
-import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
+
 @RunWith(Suite.class)
-@SuiteClasses( { 
-				BookDefinitionTest.class,
-				BookDefinitionDaoTest.class,
-				BookDefinitionServiceTest.class,
-				FileExtensionFilterTest.class,
-				FileHandlingHelperTest.class,
-				JibxMarshallingTest.class,
-				JobServiceTest.class,
-				CodeDaoTest.class,
-				CodeServiceTest.class,
-				ProviewClientImplTest.class,
-				EbookAuditDaoTest.class,
-				EbookAuditServiceTest.class,
-				LibraryListDaoTest.class,
-				LibraryListServiceTest.class
-			} )
+@SuiteClasses({ BookDefinitionTest.class, BookDefinitionDaoTest.class,
+		BookDefinitionServiceTest.class, FileExtensionFilterTest.class,
+		FileHandlingHelperTest.class, JibxMarshallingTest.class,
+		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class,
+		ProviewClientImplTest.class, EbookAuditDaoTest.class,
+		EbookAuditServiceTest.class
+
+})
 public class CoreTestSuite {
 
 }

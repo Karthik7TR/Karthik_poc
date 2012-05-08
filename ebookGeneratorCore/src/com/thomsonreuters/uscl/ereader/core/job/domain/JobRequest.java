@@ -28,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 
 @Entity
-@Table(name = "JOB_REQUEST")
+@Table(name = "JOB_REQUEST_MAHBUB")
 public class JobRequest implements Serializable {
 
 	@Deprecated  // Currently supporting only QUEUED jobs

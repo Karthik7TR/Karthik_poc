@@ -129,7 +129,7 @@ public class PublishedTitleParser {
 							proviewTitleInfo = new ProviewTitleInfo();
 
 							proviewTitleInfo.setTitleId(atts.getValue(ID));
-							proviewTitleInfo.setVesrion(atts.getValue(VERSION));
+							proviewTitleInfo.setVersion(atts.getValue(VERSION));
 							proviewTitleInfo.setPublisher(atts
 									.getValue(PUBLISHER));
 							proviewTitleInfo.setLastupdate(atts

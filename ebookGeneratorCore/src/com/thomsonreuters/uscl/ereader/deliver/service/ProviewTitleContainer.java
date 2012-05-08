@@ -32,7 +32,7 @@ public class ProviewTitleContainer {
 
 		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
 			Double proviewTitleInfoVersionDouble = Double
-					.parseDouble(proviewTitleInfo.getVesrion().substring(1));
+					.parseDouble(proviewTitleInfo.getVersion().substring(1));
 			if (proviewTitleInfoVersionDouble >= latestVersion) {
 				latestVersion = proviewTitleInfoVersionDouble;
 				latestProviewTitleInfo = proviewTitleInfo;

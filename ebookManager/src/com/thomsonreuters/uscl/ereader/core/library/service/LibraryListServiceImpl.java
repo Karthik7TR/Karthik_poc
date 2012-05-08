@@ -153,7 +153,7 @@ public class LibraryListServiceImpl implements LibraryListService {
 				if (proviewTitleContainer != null) {
 					ProviewTitleInfo latestProviewTitleInfo = proviewTitleContainer
 							.getLatestVersion();
-					proviewVersion = latestProviewTitleInfo.getVesrion();
+					proviewVersion = latestProviewTitleInfo.getVersion();
 
 					String[] parsePatterns = { PROVIEW_DATE_FORMAT_PATTERN };
 					try {

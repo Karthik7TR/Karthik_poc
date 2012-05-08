@@ -119,7 +119,7 @@ public class GenerateEbookController {
 				currentVersion = "Not published";
 
 			} else {
-				currentVersion = proviewTitleInfo.getVesrion();
+				currentVersion = proviewTitleInfo.getVersion();
 
 			}
 

@@ -15,11 +15,20 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 public class ProviewTitleInfo {
 
 	private String titleId;
-	private String vesrion;
+	private String version;
+
 	private String publisher;
 	private String lastupdate;
 	private String status;
 	private String title;
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public String getTitleId() {
 		return titleId;
@@ -27,14 +36,6 @@ public class ProviewTitleInfo {
 
 	public void setTitleId(String titleId) {
 		this.titleId = titleId;
-	}
-
-	public String getVesrion() {
-		return vesrion;
-	}
-
-	public void setVesrion(String vesrion) {
-		this.vesrion = vesrion;
 	}
 
 	public String getPublisher() {
@@ -80,7 +81,7 @@ public class ProviewTitleInfo {
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
-		result = prime * result + ((vesrion == null) ? 0 : vesrion.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -118,17 +119,17 @@ public class ProviewTitleInfo {
 				return false;
 		} else if (!titleId.equals(other.titleId))
 			return false;
-		if (vesrion == null) {
-			if (other.vesrion != null)
+		if (version == null) {
+			if (other.version != null)
 				return false;
-		} else if (!vesrion.equals(other.vesrion))
+		} else if (!version.equals(other.version))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ProviewTitleInfo [titleId=" + titleId + ", vesrion=" + vesrion
+		return "ProviewTitleInfo [titleId=" + titleId + ", vesrion=" + version
 				+ ", publisher=" + publisher + ", lastupdate=" + lastupdate
 				+ ", status=" + status + ", title=" + title + "]";
 	}

@@ -19,7 +19,10 @@ public class WebConstants {
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
 	public static final String KEY_PROVIEW_DOMAIN = "proviewDomain";
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
+	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
+	public static final String KEY_ALL_LATEST_PROVIEW_TITLES="allLatestProviewTitleInfo";
+	public static final String KEY_ALL_PROVIEW_TITLES="allProviewTitleInfo";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
 	public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
@@ -32,6 +35,7 @@ public class WebConstants {
 	public static final String KEY_KEYWORD_TYPE_VALUE = "keywordTypeValue";
 	public static final String KEY_ID = "id";
 	public static final String KEY_TITLE_ID = "titleId";
+	public static final String KEY_STATUS = "status";
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
 	public static final String KEY_IS_ASCENDING = "isAscending";
