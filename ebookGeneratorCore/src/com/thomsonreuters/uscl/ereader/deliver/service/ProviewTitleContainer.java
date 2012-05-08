@@ -6,10 +6,15 @@
 
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProviewTitleContainer {
+public class ProviewTitleContainer implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1985883914988566602L;
 	private static final String PROVIEW_STATUS_FINAL = "final";
 	List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<ProviewTitleInfo>();
 
