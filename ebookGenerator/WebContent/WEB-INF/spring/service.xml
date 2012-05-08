@@ -166,7 +166,7 @@
 			p:throttleStepCheck="${throttle.step.check}"
 			p:jobExplorer-ref="jobExplorer"/>
 
-	<!-- Holds the job start throttle configuration and may be changed on the fly. -->
+	<!-- Holds the current (in-memory) job start throttle configuration and may be changed on the fly. -->
 	<bean id="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
 	<!-- Performs the startup read/load of the job throttle configuration from the database -->
 	<bean id="jobThrottleConfigLoader" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigLoader">

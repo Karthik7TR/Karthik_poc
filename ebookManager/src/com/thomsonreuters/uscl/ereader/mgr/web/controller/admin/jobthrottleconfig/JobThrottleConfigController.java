@@ -51,9 +51,8 @@ public class JobThrottleConfigController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
 	public ModelAndView inboundGet(@ModelAttribute(JobThrottleConfigForm.FORM_NAME) JobThrottleConfigForm form,
 								   Model model) throws Exception {
-		JobThrottleConfig jobThrottleConfig = jobThrottleConfigService.getThrottleConfig();
-		form.initialize(jobThrottleConfig);
-		model.addAttribute(WebConstants.KEY_JOB_THROTTLE_CONFIG, jobThrottleConfig);
+		JobThrottleConfig databaseJobThrottleConfig = jobThrottleConfigService.getThrottleConfig();
+		form.initialize(databaseJobThrottleConfig);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
 	}
 	

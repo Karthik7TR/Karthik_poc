@@ -24,7 +24,7 @@ public class JobThrottleConfigLoader {
 	@PostConstruct
 	public void loadJobThrottleConfiguration() throws Exception {
 		JobThrottleConfig configurationReadFromDatabase = jobThrottleConfigService.getThrottleConfig();
-		jobThrottleConfig.copy(configurationReadFromDatabase);
+		jobThrottleConfig.sync(configurationReadFromDatabase);
 		log.info("Successfully completed the startup load of the job throttle configuration: " + jobThrottleConfig);
 	}
 }

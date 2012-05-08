@@ -29,12 +29,12 @@ public class JobThrottleConfig {
 	 * Copy the property values from one object to this one.
 	 * @param config the source object to copy property values from.
 	 */
-	public void copy(JobThrottleConfig config) {
+	public void sync(JobThrottleConfig config) {
 		setAllProperties(config.getCoreThreadPoolSize(), config.isThrottleStepActive(),
 						 config.getThrottleStepName(), config.getThrotttleStepMaxJobs());
 	}
 
-	private void setAllProperties(int coreThreadPoolSize, boolean throttleStepActive,
+	private synchronized void setAllProperties(int coreThreadPoolSize, boolean throttleStepActive,
 								 String throttleStepName, int throtttleStepMaxJobs) {
 		this.coreThreadPoolSize = coreThreadPoolSize;
 		this.throttleStepActive = throttleStepActive;

@@ -31,10 +31,10 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
-	private JobThrottleConfig jobThrottleConfig;
+	private JobThrottleConfig currentJobThrottleConfig;
 	
 	public OperationsController(JobThrottleConfig config) {
-		this.jobThrottleConfig = config;
+		this.currentJobThrottleConfig = config;
 	}
 	
 	/** Maximum number of jobs allowed to run concurrently */
@@ -102,15 +102,15 @@ public class OperationsController {
 	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
 	 */
 	@RequestMapping(value=WebConstants.URI_UPDATE_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
-	public ModelAndView updateJobThrottleConfiguration(@RequestBody JobThrottleConfig newConfiguration, Model model) {
+	public ModelAndView synchronizeJobThrottleConfiguration(@RequestBody JobThrottleConfig newConfiguration, Model model) {
 		log.info("Received: " + newConfiguration);
 		JobOperationResponse opResponse = null;
 		try {
-			jobThrottleConfig.copy(newConfiguration);
-			opResponse = new JobOperationResponse(null, true, "New job throttle configuration update was successful.");
+			currentJobThrottleConfig.sync(newConfiguration);
+			opResponse = new JobOperationResponse(null, true, "Successfully synchronized job throttle configuration.");
 		} catch (Exception e) {
-			log.debug("Exception performing data copy: " + e);
-			opResponse = new JobOperationResponse(null, false, e.getMessage());	
+			log.debug("Exception performing data sync: " + e);
+			opResponse = new JobOperationResponse(null, false, "Error performing configuration sync - " + e.getMessage());	
 		}		
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
