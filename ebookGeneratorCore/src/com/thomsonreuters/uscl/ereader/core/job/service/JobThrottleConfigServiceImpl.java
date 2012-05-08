@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.job.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,22 +14,30 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig.Key;
 
 public class JobThrottleConfigServiceImpl implements JobThrottleConfigService {
 	//private static final Logger log = Logger.getLogger(JobThrottleConfigServiceImpl.class);
+	private static final int DEFAULT_SIZE = 2;
 	private AppParameterDao dao;
 
 	@Override
 	@Transactional(readOnly=true)
 	public String getConfigValue(JobThrottleConfig.Key key) {
 		AppParameter param = (AppParameter) dao.findByPrimaryKey(key.toString());
-		return param.getValue();
+		return (param != null) ? param.getValue() : null;
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public JobThrottleConfig getThrottleConfig() {
-		int coreThreadPoolSize = Integer.valueOf(getConfigValue(Key.coreThreadPoolSize));
-		boolean throttleStepActive = Boolean.valueOf(getConfigValue(Key.throttleStepActive));
+		String coreThreadPoolSizeString = getConfigValue(Key.coreThreadPoolSize);
+		int coreThreadPoolSize = (StringUtils.isNotBlank(coreThreadPoolSizeString)) ? Integer.valueOf(coreThreadPoolSizeString) : DEFAULT_SIZE;
+		
+		String throttleStepActiveString = getConfigValue(Key.throttleStepActive);
+		boolean throttleStepActive = (StringUtils.isNotBlank(throttleStepActiveString)) ? Boolean.valueOf(throttleStepActiveString) : false;
+		
 		String throttleStepName = getConfigValue(Key.throttleStepName);
-		int throtttleStepMaxJobs = Integer.valueOf(getConfigValue(Key.throtttleStepMaxJobs));
+		
+		String throtttleStepMaxJobsString = getConfigValue(Key.throtttleStepMaxJobs);
+		int throtttleStepMaxJobs = (StringUtils.isNotBlank(throtttleStepMaxJobsString)) ? Integer.valueOf(throtttleStepMaxJobsString) : DEFAULT_SIZE;
+		
 		JobThrottleConfig config = new JobThrottleConfig(coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs);
 		return config;
 	}

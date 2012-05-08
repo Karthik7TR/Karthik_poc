@@ -117,7 +117,7 @@ public class JobThrottleConfigController {
 			String hostName = hostTokenizer.nextToken();
 			InetSocketAddress socketAddr = new InetSocketAddress(hostName, generatorPort);
 			if (socketAddr.isUnresolved()) {
-				String errorMessage = String.format("Unresolved host socket address <%s>.  Check the environment specific property file and ensure that the ebookGenerator CSV socket addresses (hostname:port) are complete and correct.", socketAddr);
+				String errorMessage = String.format("Unresolved host socket address <%s>.  Check the environment specific property file and ensure that the CSV generator host names are complete and correct.", socketAddr);
 				log.error(errorMessage);
 				throw new UnknownHostException(errorMessage);
 			}
