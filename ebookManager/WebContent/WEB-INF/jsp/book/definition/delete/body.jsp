@@ -76,7 +76,7 @@ $(document).ready(function() {
 				</form:form>
 				<div class="buttons">
 					<button id="save">Delete</button>
-					<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}">Cancel</a>
+					<button type="button" onclick="location.href ='<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}';">Cancel</button>
 				</div>
 			</c:when>
 			<c:otherwise>

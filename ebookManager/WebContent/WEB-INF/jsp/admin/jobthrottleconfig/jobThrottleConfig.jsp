@@ -76,9 +76,9 @@
 	</form:select><br/>
 	<br/>
 <div class="buttons">
-		<input type="submit" value="Save"/>
+		<form:button type="submit" id="Save">Save</form:button>
 		&nbsp;
-		<a href='<%=WebConstants.MVC_ADMIN_MAIN%>'">Cancel</a>
+		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_MAIN%>';">Cancel</button>
 </div>
 
 </form:form>

@@ -22,7 +22,7 @@
 			</div>
 			<form:button id="validate">Validate</form:button>
 			<form:button id="confirm">Save</form:button>
-			<a href="<%= WebConstants.MVC_BOOK_LIBRARY_LIST %>">Cancel</a>
+			<button type="button" onclick="location.href ='<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>';">Cancel</button>
 		</div>
 		
 	</form:form>

@@ -21,7 +21,7 @@
 			Make sure ${ bookDefinitionLock.fullName } (${ bookDefinitionLock.username }) is not editing the Book Definition before deleting the lock.
 			<div class="buttons">
 				<form:button id="delete">Delete</form:button>
-				<a href="<%=WebConstants.MVC_ADMIN_BOOK_LOCK_LIST%>">Cancel</a>
+				<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_BOOK_LOCK_LIST%>';">Cancel</button>
 			</div>
 		</form:form>
 	</c:when>

@@ -15,6 +15,6 @@
 	<form:errors path="name" cssClass="errorMessage"/>
 	<div class="buttons">
 		<form:button id="save">Save</form:button>
-		<a href="<%=WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW%>">Cancel</a>
+		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW%>';">Cancel</button>
 	</div>
 </form:form>

@@ -16,7 +16,7 @@
 			Are you sure you want to delete State Code: ${stateCode.name}
 			<div class="buttons">
 				<form:button id="delete">Delete</form:button>
-				<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_VIEW%>">Cancel</a>
+				<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_STATE_CODE_VIEW%>';">Cancel</button>
 			</div>
 		</form:form>
 	</c:when>

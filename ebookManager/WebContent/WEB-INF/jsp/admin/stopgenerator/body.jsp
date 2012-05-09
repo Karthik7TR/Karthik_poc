@@ -49,7 +49,7 @@ $(document).ready(function() {
 
 <div class="buttons">
 	<button id="save" >Stop All</button>
-	<a href="<%=WebConstants.MVC_ADMIN_MAIN%>">Cancel</a>
+	<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_MAIN%>';">Cancel</button>
 </div>
 
 <div id="dialog-confirm" title="Stop All eBook Generators?" style="display:hidden;" >

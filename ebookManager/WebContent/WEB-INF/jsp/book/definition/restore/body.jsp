@@ -27,7 +27,7 @@
 			</div>
 			<div class="buttons">
 				<form:button id="save">Restore</form:button>
-				<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}">Cancel</a>
+				<button type="button" onclick="location.href ='<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}';">Cancel</button>
 			</div>
 		</form:form>
 	</c:when>
