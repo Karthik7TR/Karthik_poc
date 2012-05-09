@@ -68,6 +68,7 @@
 		
 		<sec:intercept-url pattern="/adminMain.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminStopGenerator.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminJobThrottleConfig.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminJuris*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminPublish*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminState*" access="hasRole('ROLE_SUPERUSER')"/>

@@ -34,9 +34,7 @@
 	
 </c:if>
 
-<sec:authorize access="hasRole('ROLE_SUPPORT')">
-	<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
-	<br/>
-</sec:authorize>
+<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
+<br/>
 
 <a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a>
