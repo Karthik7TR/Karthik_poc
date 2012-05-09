@@ -14,14 +14,6 @@
 	<task:scheduler id="taskScheduler"/>
 	
 	<!-- Detects @Scheduled annotations -->
-	<task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
-	
-	<!-- Job start scheduler -->
-	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
-		  p:engineService-ref="engineService"
-		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
-	  	  p:jobRequestService-ref="jobRequestService"
-	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
-	  	  p:maximumConcurrentJobs="${spring.batch.max.concurrent.jobs}"/>  	 
+	<task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/> 	 
 
 </beans>

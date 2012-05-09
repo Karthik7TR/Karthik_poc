@@ -27,11 +27,31 @@
 		  p:dataSource-ref="dataSource"
 		  p:tablePrefix="${spring.batch.table.prefix}"/>
 
-	<!-- CorePoolSize is the max # of thread's that will run concurrently before the task will be placed into the blocking queue.
+	<!-- The task executor corePoolSize is the max # of thread's that will run concurrently before the task
+	     will be placed into the blocking queue.
 		 Also note that the DB connection pool maxActive parameter should be greater than the corePoolSize (like twice) since
-		 each Spring Batch job itself takes up one pooled connection. -->
+		 each Spring Batch job itself takes up one pooled connection. The corePoolSize supplied here is just an initial default and
+		 is dynamically changed once the job throttle configuration is loaded from the database. -->
 	<bean id="springBatchTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
-		  p:corePoolSize="${spring.batch.max.concurrent.jobs}"/>
+		  p:corePoolSize="1"/>
+
+	<!-- Holds the current (in-memory) job start throttle configuration and may be changed on the fly. -->
+	<bean id="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
+	<!-- Performs the startup read/load of the job throttle configuration from the database -->
+	<bean id="jobThrottleConfigLoader" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigLoader">
+		<constructor-arg ref="jobThrottleConfigService"/>
+		<constructor-arg ref="jobThrottleConfig"/>
+		<constructor-arg ref="springBatchTaskExecutor"/>
+	</bean>
+	
+	<!-- Job start scheduler, make sure this follows setup of the spring batch task executor since the 
+		 core thread pool size is dynamically set in the throttle config loader -->
+	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
+		  p:engineService-ref="engineService"
+		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
+	  	  p:jobRequestService-ref="jobRequestService"
+	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"/>
+
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">
 	</bean>
@@ -41,5 +61,4 @@
 		  p:jobRepository-ref="jobRepository"
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobLauncher-ref="jobLauncher"/>	
-
 </beans>

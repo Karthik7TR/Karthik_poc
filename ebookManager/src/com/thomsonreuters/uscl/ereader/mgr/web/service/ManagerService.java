@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
@@ -20,6 +21,12 @@ public interface ManagerService {
 	 * @return response that encapsulates success or failure, along with a description of any problem.
 	 */
 	public JobOperationResponse stopJob(long jobExecutionId);
+	
+	/**
+	 * Get the book publishing job step names.
+	 * @return a comma separated list of job step names
+	 */
+	public List<String> getStepNames();
 	
 	/**
 	 * 

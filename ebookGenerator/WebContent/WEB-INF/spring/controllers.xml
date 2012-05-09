@@ -18,6 +18,7 @@
 		  p:engineService-ref="engineService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor">
 		  <constructor-arg ref="jobThrottleConfig"/>
+		  <constructor-arg ref="ebookGeneratorJob"/>
 	</bean>
 		  
 	<bean id="jobCleanupController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.JobCleanupController" 

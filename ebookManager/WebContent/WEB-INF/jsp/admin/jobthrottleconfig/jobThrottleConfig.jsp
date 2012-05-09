@@ -1,6 +1,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -60,7 +61,10 @@
 	<br/>
 	
 	Throttle step name:
-	<form:input path="<%=JobThrottleConfig.Key.throttleStepName.toString()%>"/><br/>
+	<form:select path="<%=JobThrottleConfig.Key.throttleStepName.toString()%>">
+		<form:option label="-- Select --" value=""/>
+		<form:options items="${stepNames}"/>
+	</form:select><br/>
 	<br/>
 	
 	Throttle step maximum jobs: 

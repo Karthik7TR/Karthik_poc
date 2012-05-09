@@ -31,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 @Controller
 public class JobThrottleConfigController {
 	private static final Logger log = Logger.getLogger(JobThrottleConfigController.class);
-	
+	public static final String KEY_STEP_NAMES = "stepNames";
 	/** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
 	private List<InetSocketAddress> socketAddrs;
 	private int generatorPort;
@@ -53,6 +53,7 @@ public class JobThrottleConfigController {
 								   Model model) throws Exception {
 		JobThrottleConfig databaseJobThrottleConfig = jobThrottleConfigService.getThrottleConfig();
 		form.initialize(databaseJobThrottleConfig);
+		setUpModel(model);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
 	}
 	
@@ -101,7 +102,13 @@ public class JobThrottleConfigController {
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
+		setUpModel(model);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
+	}
+	
+	private void setUpModel(Model model) {
+		List<String> stepNames = managerService.getStepNames();
+		model.addAttribute(KEY_STEP_NAMES, stepNames);
 	}
 
 	/**

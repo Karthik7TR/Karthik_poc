@@ -36,8 +36,6 @@ public class JobRunQueuePoller {
 	private JobStartupThrottleService jobStartupThrottleService;
 	private JobRequestService jobRequestService;
 	private ThreadPoolTaskExecutor springBatchTaskExecutor;
-	/** Maximum number of jobs allowed to run concurrently */
-	private int maximumConcurrentJobs;
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
 
@@ -48,11 +46,13 @@ public class JobRunQueuePoller {
 		try {
 			/**
 			 * Do not consume a JOB_REQUEST record if:
-			 * 1) The current number of concurrent job threads equals the configured pool size
-			 *    in the ThreadPoolTaskExecutor.
-			 * 2) The application specific rules will prevent it from running.
+			 * 1) The current number of concurrent job threads equals the configured pool size in the ThreadPoolTaskExecutor.
+			 * 2) The application step specific rules prevent it from running.
 			 */
-			if (springBatchTaskExecutor.getActiveCount() < maximumConcurrentJobs) {
+			// Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
+			// This is dynamic and can be changed through the administrative UI.
+			int coreThreadPoolSize = springBatchTaskExecutor.getCorePoolSize();
+			if (springBatchTaskExecutor.getActiveCount() < coreThreadPoolSize) {
 				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
 					jobRequest = jobRequestService.getNextJobToExecute();
 					if (jobRequest != null) {
@@ -79,10 +79,11 @@ public class JobRunQueuePoller {
 //						log.debug("No job request was found in the job queue.");
 					}
 				} else {
-					log.debug("Application throttling does not allow any new jobs to be run.");
+					log.debug("Application step throttling is not allowing any new jobs to run.");
 				}
 			} else {
-				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are running.  No new jobs may be started.", maximumConcurrentJobs));
+				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are already running.  No new jobs will be started until a currently running job completes and an execution thread becomes available.",
+										coreThreadPoolSize));
 			}
 		} catch (Exception e) {
 			log.error("Failed run job request: " + jobRequest, e);
@@ -107,9 +108,5 @@ public class JobRunQueuePoller {
 	@Required
 	public void setSpringBatchTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
 		this.springBatchTaskExecutor = taskExecutor;
-	}
-	@Required
-	public void setMaximumConcurrentJobs(int maxJobs) {
-		this.maximumConcurrentJobs = maxJobs;
 	}
 }

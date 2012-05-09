@@ -36,13 +36,17 @@
 		</div>
 	</div>
 	
+</c:if>
+
+<%-- Only SUPPORT users can change the job throttle configuration --%>
+<sec:authorize access="hasRole('ROLE_SUPPORT')">
 	<div class="centerSection">
 		<h3>Job Throttling</h3>
 		<div class="buttons">
 			<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Throttle Configuration</a>
 		</div>
 	</div>
-</c:if>
+</sec:authorize>
 
 <div class="centerSection">
 	<h3>Stop Generator and Gatherer</h3>

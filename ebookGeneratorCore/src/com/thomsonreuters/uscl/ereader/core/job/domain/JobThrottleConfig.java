@@ -9,13 +9,13 @@ public class JobThrottleConfig {
 	public static enum Key { coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs };
 	
 	/** The task executor core thread pool size */
-	private int coreThreadPoolSize = 4;
+	private int coreThreadPoolSize = 2;
 	/** is step-level throttling active */
 	private boolean throttleStepActive = false;
 	/** The step name at which the throttle is applied */
 	private String throttleStepName = null;
 	/** The limit of jobs up to the specified throttle step name */
-	private int throtttleStepMaxJobs = 4;
+	private int throtttleStepMaxJobs = 2;
 
 	public JobThrottleConfig() {
 		super();

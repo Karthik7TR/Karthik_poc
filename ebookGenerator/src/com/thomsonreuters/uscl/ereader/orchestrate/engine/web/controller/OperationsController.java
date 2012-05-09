@@ -5,7 +5,14 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
+import java.io.IOException;
+import java.util.Collection;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.job.flow.FlowJob;
 import org.springframework.batch.core.launch.JobExecutionNotRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.beans.factory.annotation.Required;
@@ -32,9 +39,11 @@ public class OperationsController {
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobThrottleConfig currentJobThrottleConfig;
+	private FlowJob job;
 	
-	public OperationsController(JobThrottleConfig config) {
+	public OperationsController(JobThrottleConfig config, FlowJob job) {
 		this.currentJobThrottleConfig = config;
+		this.job = job;
 	}
 	
 	/** Maximum number of jobs allowed to run concurrently */
@@ -114,6 +123,29 @@ public class OperationsController {
 		}		
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+	}
+
+	
+	@RequestMapping(value=WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
+	public void getStepNames(HttpServletResponse response, Model model) throws Exception {
+		ServletOutputStream out = null;
+		try {
+			Collection<String> stepNames = job.getStepNames();
+			StringBuffer csv = new StringBuffer();
+			boolean first = true;
+			for (String stepName : stepNames) {
+				if (!first) {
+					csv.append(",");
+				}
+				first = false;
+				csv.append(stepName);
+			}
+			out = response.getOutputStream();
+			out.print(csv.toString());
+		} catch (IOException e) {
+			log.error(e);
+			out.print("Error getting step names");
+		}
 	}
 
 	@Required

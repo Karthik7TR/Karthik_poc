@@ -12,6 +12,7 @@ import junit.framework.Assert;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.batch.core.job.flow.FlowJob;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -49,7 +50,7 @@ public class OperationsControllerTest {
     	mockAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
-    	controller = new OperationsController(new JobThrottleConfig());
+    	controller = new OperationsController(new JobThrottleConfig(), new FlowJob());
     	controller.setEngineService(mockEngineService);
     	controller.setMessageSourceAccessor(mockAccessor);
     }

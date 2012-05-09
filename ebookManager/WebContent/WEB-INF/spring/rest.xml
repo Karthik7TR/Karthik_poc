@@ -9,7 +9,7 @@
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
-
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
     <bean id="jibxJobThrottleConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
     </bean>
@@ -36,6 +36,7 @@
         <list>
           <ref bean="jobThrottleConfigMessageConverter"/>
           <ref bean="jobOperationResponseMessageConverter"/>
+          <ref bean="stringHttpMessageConverter"/>
         </list>
       </property>
 	</bean>

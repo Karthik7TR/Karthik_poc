@@ -32,8 +32,11 @@
 		<li><a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a></li>
 	</ul>
 	
+</c:if>
+
+<sec:authorize access="hasRole('ROLE_SUPPORT')">
 	<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
 	<br/>
-</c:if>
+</sec:authorize>
 
 <a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a>
