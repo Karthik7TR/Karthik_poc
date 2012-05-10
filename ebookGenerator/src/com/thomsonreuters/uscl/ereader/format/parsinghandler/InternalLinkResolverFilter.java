@@ -268,7 +268,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
       
         String tocGuid = getTitleXMLTOCFilter(documentUuid);
 
-        if (!"".equals(tocGuid))
+        if (!"".equals(tocGuid) && "".equals(linkParameter))
         {
         	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
         }
@@ -312,7 +312,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
         String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
 
-        if (!"".equals(tocGuid))
+        if (!"".equals(tocGuid) && "".equals(linkParameter))
         {
         	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
         }
@@ -347,7 +347,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         
         String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
 
-        if (!"".equals(tocGuid))
+        if (!"".equals(tocGuid) && "".equals(linkParameter))
         {
         	ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
         }
@@ -366,7 +366,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
      *
      * @return Returns link attribute .
      */
-    private String getExtraParameter(final String url)
+    protected String getExtraParameter(final String url)
     {
         String linkAttribute = "";
 
