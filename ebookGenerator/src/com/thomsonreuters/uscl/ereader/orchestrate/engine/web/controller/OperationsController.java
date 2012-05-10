@@ -116,6 +116,8 @@ public class OperationsController {
 		JobOperationResponse opResponse = null;
 		try {
 			currentJobThrottleConfig.sync(newConfiguration);
+			// Update the task executor with the new core thread pool size which limits the number of concurrent jobs that can run
+			engineService.setTaskExecutorCoreThreadPoolSize(currentJobThrottleConfig.getCoreThreadPoolSize());
 			opResponse = new JobOperationResponse(null, true, "Successfully synchronized job throttle configuration.");
 		} catch (Exception e) {
 			log.debug("Exception performing data sync: " + e);

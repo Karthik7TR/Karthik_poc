@@ -47,5 +47,7 @@ public interface EngineService {
 	 * @return a set of Spring Batch job parameters used in launching a job.
 	 */
 	public JobParameters createDynamicJobParameters(JobRequest jobRequest);
+	
+	public void setTaskExecutorCoreThreadPoolSize(int coreThreadPoolSize);
 
 }

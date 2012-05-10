@@ -17,7 +17,7 @@ public class JobThrottleConfigForm {
 	 */
 	public void initialize(JobThrottleConfig config) {
 		setCoreThreadPoolSize(config.getCoreThreadPoolSize());
-		setThrottleStepActive(config.isThrottleStepActive());
+		setStepThrottleEnabled(config.isStepThrottleEnabled());
 		setThrottleStepName(config.getThrottleStepName());
 		setThrotttleStepMaxJobs(config.getThrotttleStepMaxJobs());
 	}
@@ -28,8 +28,8 @@ public class JobThrottleConfigForm {
 	public int getCoreThreadPoolSize() {
 		return jobThrottleConfig.getCoreThreadPoolSize();
 	}
-	public boolean isThrottleStepActive() {
-		return jobThrottleConfig.isThrottleStepActive();
+	public boolean isStepThrottleEnabled() {
+		return jobThrottleConfig.isStepThrottleEnabled();
 	}
 	public String getThrottleStepName() {
 		return jobThrottleConfig.getThrottleStepName();
@@ -40,8 +40,8 @@ public class JobThrottleConfigForm {
 	public void setCoreThreadPoolSize(int coreThreadPoolSize) {
 		jobThrottleConfig.setCoreThreadPoolSize(coreThreadPoolSize);
 	}
-	public void setThrottleStepActive(boolean throttleStepActive) {
-		jobThrottleConfig.setThrottleStepActive(throttleStepActive);
+	public void setStepThrottleEnabled(boolean enabled) {
+		jobThrottleConfig.setStepThrottleEnabled(enabled);
 	}
 	public void setThrottleStepName(String throttleStepName) {
 		jobThrottleConfig.setThrottleStepName(throttleStepName);

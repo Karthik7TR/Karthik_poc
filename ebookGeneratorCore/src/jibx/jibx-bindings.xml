@@ -15,7 +15,7 @@
     <!-- Job startup throttling configuration parameters.  Pushed to all generators once updated on manager administration -->
     <mapping name="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig">
         <value name="coreThreadPoolSize" field="coreThreadPoolSize" usage="required"/>
-        <value name="throttleStepActive" field="throttleStepActive" usage="required"/>
+        <value name="stepThrottleEnabled" field="stepThrottleEnabled" usage="required"/>
         <value name="throttleStepName" field="throttleStepName" usage="required"/>
         <value name="throtttleStepMaxJobs" field="throtttleStepMaxJobs" usage="required"/>
     </mapping>

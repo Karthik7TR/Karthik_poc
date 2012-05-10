@@ -5,12 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.dao;
 
-
-/**
- *  	
- * @author Mahendra Survase (u0105927)
- *
- */
+@Deprecated
+// Deprecated in favor of the use of the JobThrottleConfig which is populated via the Manager Administration:Job Throttle Configuration
 public interface JobStartupThrottleDao {
 	
 	
@@ -19,7 +15,7 @@ public interface JobStartupThrottleDao {
 	 * @param throttlStep
 	 * @return
 	 */
-	public int getThrottleLimitForExecutionStep(String throttleStep);
+//	public int getThrottleLimitForExecutionStep(String throttleStep);
 	
 	/**
 	 * Returns throttle limit number for passed on step and military time in number like 1.2.3....24
@@ -28,7 +24,6 @@ public interface JobStartupThrottleDao {
 	 * @param throttleStep
 	 * @return
 	 */
-	public int getThrottleLimitForCurrentTimeAndExecutionStep(int militaryTime,String throttleStep);
-	
+//	public int getThrottleLimitForCurrentTimeAndExecutionStep(int militaryTime,String throttleStep);
 
 }

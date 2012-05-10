@@ -44,6 +44,7 @@
 		   
 	Core Thread pool size: 
 	<form:select path="<%=JobThrottleConfig.Key.coreThreadPoolSize.toString()%>">
+		<form:option label="0" value="0"/>
 		<form:option label="1" value="1"/>
 		<form:option label="2" value="2"/>
 		<form:option label="3" value="3"/>
@@ -55,9 +56,9 @@
 	</form:select><br/>
 	<br/>
 	
-	Step throttle active:
-	<form:radiobutton path="<%=JobThrottleConfig.Key.throttleStepActive.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
-	<form:radiobutton path="<%=JobThrottleConfig.Key.throttleStepActive.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
+	Step throttle enabled:
+	<form:radiobutton path="<%=JobThrottleConfig.Key.stepThrottleEnabled.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
+	<form:radiobutton path="<%=JobThrottleConfig.Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
 	<br/>
 	
 	Throttle step name:
@@ -69,6 +70,7 @@
 	
 	Throttle step maximum jobs: 
 	<form:select path="<%=JobThrottleConfig.Key.throtttleStepMaxJobs.toString()%>">
+		<form:option label="0" value="0"/>
 		<form:option label="1" value="1"/>
 		<form:option label="2" value="2"/>
 		<form:option label="3" value="3"/>

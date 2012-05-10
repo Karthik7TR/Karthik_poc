@@ -41,7 +41,7 @@ public class JobRunQueuePoller {
 
 	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
-//		log.debug("----- CHECKING FOR A JOB TO RUN ------");
+//		log.debug("----- CHECKING FOR A JOB TO RUN ------");	
 		JobRequest jobRequest = null;
 		try {
 			/**
@@ -52,7 +52,8 @@ public class JobRunQueuePoller {
 			// Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
 			// This is dynamic and can be changed through the administrative UI.
 			int coreThreadPoolSize = springBatchTaskExecutor.getCorePoolSize();
-			if (springBatchTaskExecutor.getActiveCount() < coreThreadPoolSize) {
+			int activeThreads = springBatchTaskExecutor.getActiveCount();
+			if (activeThreads < coreThreadPoolSize) {
 				if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
 					jobRequest = jobRequestService.getNextJobToExecute();
 					if (jobRequest != null) {
@@ -82,8 +83,8 @@ public class JobRunQueuePoller {
 					log.debug("Application step throttling is not allowing any new jobs to run.");
 				}
 			} else {
-				log.debug(String.format("The maximum allowed number of concurrent jobs (%d) are already running.  No new jobs will be started until a currently running job completes and an execution thread becomes available.",
-										coreThreadPoolSize));
+				log.debug(String.format("There are %d active job threads running, the maximum allowed is %d.  No new jobs will be started until the active is less than the maximum.",
+										activeThreads, coreThreadPoolSize));
 			}
 		} catch (Exception e) {
 			log.error("Failed run job request: " + jobRequest, e);

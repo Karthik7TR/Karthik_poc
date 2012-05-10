@@ -9,9 +9,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
   
  /**
@@ -20,8 +18,9 @@ import javax.persistence.Table;
   * @author Mahendra Survase (u0105927)
   *
   */
-@Entity
-@Table(name="JOB_STARTUP_THROTTLE")
+@Deprecated  // Deprecated in favor of the JobThrottleConfig
+//@Entity
+//@Table(name="JOB_STARTUP_THROTTLE")
 public class JobStartupThrottle implements Serializable{
 
 	/**

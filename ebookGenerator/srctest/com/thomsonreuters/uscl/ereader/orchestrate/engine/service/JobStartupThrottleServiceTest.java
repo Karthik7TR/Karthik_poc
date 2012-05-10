@@ -21,7 +21,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDao;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
 
 /**
@@ -37,8 +37,6 @@ public class JobStartupThrottleServiceTest  {
 	
 	private static final String JOB_NAME ="TestJob";
 	private static final String THROTTLE_STEP = "formatAddHTMLWrapper";
-	private JobStartupThrottleServiceImpl service;
-	private JobStartupThrottleDao mockJobStartupThrottleDao;
 	private JobRepository mockJobRepository;
 	private JobExplorer mockJobExplorer;
 
@@ -50,19 +48,9 @@ public class JobStartupThrottleServiceTest  {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.mockJobStartupThrottleDao = EasyMock.createMock(JobStartupThrottleDao.class);
 		this.mockJobRepository = EasyMock.createMock(JobRepository.class);
 		this.mockJobExplorer = EasyMock.createMock(JobExplorer.class);
-
 		jobNames.add(JOB_NAME);
-		
-		this.service = new JobStartupThrottleServiceImpl();
-		service.setJobExplorer(mockJobExplorer);
-		service.setJobRepository(mockJobRepository);
-		service.setJobStartupThrottleDao(mockJobStartupThrottleDao);
-		service.setThrottleStepCheck(THROTTLE_STEP);
-		
-		
 	}
 	
 	/**
@@ -72,30 +60,21 @@ public class JobStartupThrottleServiceTest  {
 	 */
 	@Test
 	public void checkIfnewJobCanbeLaunched_positive_1(){
+		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
+					new JobThrottleConfig(8, true, THROTTLE_STEP, 6));
+
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3); 
 		JobExecution jobExecutionTest = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
 		runningJobExecutions.add(jobExecutionTest);
-		JobExecution jobExecutionOuter = null;
-		long lonJobId = 3343l;
-		for (JobExecution jobExecution : runningJobExecutions) {
-			jobExecutionOuter = jobExecution ;
-		}
-		JobInstance jobInstance = jobExecutionOuter.getJobInstance();
-		StepExecution stepExecution  = new StepExecution(THROTTLE_STEP, new JobExecution(lonJobId));
-
 		
-		EasyMock.expect(mockJobStartupThrottleDao.getThrottleLimitForExecutionStep(THROTTLE_STEP)).andReturn(4);	// Test throttle limit 4.
 		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
 		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions); // Already running job # 3 so that there will be capacity to run one more job.
-//		EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(stepExecution); //  
 
-		EasyMock.replay(mockJobStartupThrottleDao);
 		EasyMock.replay(mockJobExplorer);
 		EasyMock.replay(mockJobRepository);
 
 		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
-		EasyMock.verify(mockJobStartupThrottleDao);
 		EasyMock.verify(mockJobExplorer);
 		EasyMock.verify(mockJobRepository);
 		Assert.assertTrue(startUpFlag);
@@ -110,6 +89,8 @@ public class JobStartupThrottleServiceTest  {
 	 */
 	@Test
 	public void checkIfnewJobCanbeLaunched_positive_2(){
+		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
+							new JobThrottleConfig(8, true, THROTTLE_STEP, 6));
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(2);
 		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
@@ -128,19 +109,15 @@ public class JobStartupThrottleServiceTest  {
 		StepExecution stepExecution  = new StepExecution(THROTTLE_STEP, new JobExecution(longJobId));
 		
 		
-		EasyMock.expect(mockJobStartupThrottleDao.getThrottleLimitForExecutionStep(THROTTLE_STEP)).andReturn(2);	// set Throttle limit
 		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
 		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions).times(3);
 		EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(stepExecution).anyTimes();
 
-		EasyMock.replay(mockJobStartupThrottleDao);
 		EasyMock.replay(mockJobExplorer);
 		EasyMock.replay(mockJobRepository);
 
 		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
 
-		EasyMock.verify(mockJobStartupThrottleDao);
-//		EasyMock.verify(mockJobExplorer);
 		EasyMock.verify(mockJobRepository);
 
 		Assert.assertTrue(startUpFlag);
@@ -154,6 +131,8 @@ public class JobStartupThrottleServiceTest  {
 	 */
 	@Test
 	public void checkIfnewJobCanbeLaunched_negative_1(){
+		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
+								new JobThrottleConfig(8, true, THROTTLE_STEP, 3));
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3);
 		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
@@ -166,27 +145,20 @@ public class JobStartupThrottleServiceTest  {
 		
 		JobExecution jobExecutionOuter = null;
 		
-		long longJobId = 3343l;
 		for (JobExecution jobExecution : runningJobExecutions) {
 			jobExecutionOuter = jobExecution ;
 		}
 		JobInstance jobInstance = jobExecutionOuter.getJobInstance();
-		StepExecution stepExecution  = new StepExecution(THROTTLE_STEP, new JobExecution(longJobId));
 		
-		
-		EasyMock.expect(mockJobStartupThrottleDao.getThrottleLimitForExecutionStep(THROTTLE_STEP)).andReturn(3);	// set Throttle limit
 		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
 		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions).times(3);
 		EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(null).anyTimes();
 
-		EasyMock.replay(mockJobStartupThrottleDao);
 		EasyMock.replay(mockJobExplorer);
 		EasyMock.replay(mockJobRepository);
 
 		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
 
-		EasyMock.verify(mockJobStartupThrottleDao);
-//		EasyMock.verify(mockJobExplorer);
 		EasyMock.verify(mockJobRepository);
 
 		Assert.assertFalse(startUpFlag);

@@ -5,21 +5,19 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.JobStartupThrottleDao;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
 /**
  * This class covers Throttle behavior for spring batch where before starting new job , jobRepository is queried to find 
@@ -35,10 +33,16 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 	
 	public JobExplorer jobExplorer;
 	public JobRepository jobRepository;
-	public JobStartupThrottleDao jobStartupThrottleDao;
-	public String throttleStepCheck;
+	public JobThrottleConfig jobThrottleConfig;
 	
-
+	public JobStartupThrottleServiceImpl(JobExplorer jobExplorer,
+										 JobRepository jobRepository,
+										 JobThrottleConfig jobThrottleConfig) {
+		this.jobExplorer = jobExplorer;
+		this.jobRepository = jobRepository;
+		this.jobThrottleConfig = jobThrottleConfig;
+	}
+	
 	/**
 	 * Before starting new job check with Spring Batch Job Repository to find if new job can be 
 	 * launched with out breaking throttle limit.  
@@ -47,7 +51,11 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 	@Transactional
 	public boolean checkIfnewJobCanbeLaunched(){
 		
-		int throttleLimit = jobStartupThrottleDao.getThrottleLimitForExecutionStep(throttleStepCheck);
+		// Return true immediately if this step check is not enabled
+		if (!jobThrottleConfig.isStepThrottleEnabled()) {
+			return true;
+		}
+		
 		boolean jobPullFlag= false;
 		int jobNotDoneWithKeyStep = 0;
 		Set<JobExecution> runningJobExecutions = null;
@@ -59,9 +67,8 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 			runningJobExecutions = jobExplorer.findRunningJobExecutions(jobNames.get(0));
 
 		}
-		if(runningJobExecutions != null && runningJobExecutions.size() >= throttleLimit )
-		{
-			
+		if ((runningJobExecutions != null) &&
+			(runningJobExecutions.size() >= jobThrottleConfig.getThrotttleStepMaxJobs())) {
 			/**
 			 * we found that for some reason jobExplorer.findRunningJobExecutions
 			 * can return even failed jobs . so to get actual number of jobs running we are iterating 
@@ -72,14 +79,14 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 				if(jobExecution.isRunning())
 				{
 					String currentExitCode = jobExecution.getExitStatus().getExitCode();
-					if(currentExitCode.equalsIgnoreCase("FAILED")){
+					if (currentExitCode.equalsIgnoreCase(ExitStatus.FAILED.toString())){
 						log.debug("jobExplorer.findRunningJobExecutions () returned filed job with jobId="+jobExecution.getJobId());
-					}else
-					{
+					} else {
 						
 						JobInstance jobInstance = jobExecution.getJobInstance();
 						// retrieve last step of execution 
-						StepExecution stepExecution = jobRepository.getLastStepExecution(jobInstance, throttleStepCheck);
+						StepExecution stepExecution = jobRepository.getLastStepExecution(
+										jobInstance, jobThrottleConfig.getThrottleStepName());
 						
 						if(stepExecution == null){
 							// job is not done with key step 
@@ -89,7 +96,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 					}
 				}
 			}
-			if(jobNotDoneWithKeyStep < throttleLimit){
+			if(jobNotDoneWithKeyStep < jobThrottleConfig.getThrotttleStepMaxJobs()){
 				jobPullFlag = true;
 			}else{
 				jobPullFlag = false;
@@ -102,27 +109,4 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 		
 		return jobPullFlag;
 	}
-	
-	
-	
-	@Required
-	public void setJobExplorer(JobExplorer jobExplorer) {
-		this.jobExplorer = jobExplorer;
-	}
-	
-	@Required
-	public void setJobRepository(JobRepository jobRepository) {
-		this.jobRepository = jobRepository;
-	}
-	
-	@Required
-	public void setJobStartupThrottleDao(JobStartupThrottleDao jobStartupThrottleDao) {
-		this.jobStartupThrottleDao = jobStartupThrottleDao;
-	}
-	
-	@Required
-	public void setThrottleStepCheck(String throttleStepCheck) {
-		this.throttleStepCheck = throttleStepCheck;
-	}
-
 }

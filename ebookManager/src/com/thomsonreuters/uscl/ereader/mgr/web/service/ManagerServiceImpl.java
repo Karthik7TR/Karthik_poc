@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
 public class ManagerServiceImpl implements ManagerService {
-	private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
+	//private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
 	private static String GENERATOR_REST_STOP_JOB_URL_PATTERN =
 							"{context}/service/stop/job/{jobExecutionId}";
 	private static String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
@@ -61,7 +60,6 @@ public class ManagerServiceImpl implements ManagerService {
 			}
 		}
 		Collections.sort(stepNames);
-		log.debug("csvStepNames="+csvStepNames);
 		return stepNames;
 	}
 	

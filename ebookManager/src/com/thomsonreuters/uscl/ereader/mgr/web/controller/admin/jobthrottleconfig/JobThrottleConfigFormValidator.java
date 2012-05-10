@@ -24,7 +24,7 @@ public class JobThrottleConfigFormValidator extends BaseFormValidator implements
     public void validate(Object obj, Errors errors) {
     	//log.debug(">>>");
 		JobThrottleConfigForm form = (JobThrottleConfigForm) obj;
-		if ((form.isThrottleStepActive() && StringUtils.isBlank(form.getThrottleStepName()))) {
+		if ((form.isStepThrottleEnabled() && StringUtils.isBlank(form.getThrottleStepName()))) {
 			errors.reject("throttle.admin.step.name.blank");
 		}
 		

@@ -6,12 +6,12 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class JobThrottleConfig {
 	
 	/** Typesafe representation of the keys used to represent the throttling configuration */
-	public static enum Key { coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs };
+	public static enum Key { coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs };
 	
 	/** The task executor core thread pool size */
 	private int coreThreadPoolSize = 2;
 	/** is step-level throttling active */
-	private boolean throttleStepActive = false;
+	private boolean stepThrottleEnabled = false;
 	/** The step name at which the throttle is applied */
 	private String throttleStepName = null;
 	/** The limit of jobs up to the specified throttle step name */
@@ -20,9 +20,9 @@ public class JobThrottleConfig {
 	public JobThrottleConfig() {
 		super();
 	}
-	public JobThrottleConfig(int coreThreadPoolSize, boolean throttleStepActive,
+	public JobThrottleConfig(int coreThreadPoolSize, boolean stepThrottleEnabled,
 							 String throttleStepName, int throtttleStepMaxJobs) {
-		setAllProperties(coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs);
+		setAllProperties(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
 	}
 
 	/**
@@ -30,14 +30,14 @@ public class JobThrottleConfig {
 	 * @param config the source object to copy property values from.
 	 */
 	public void sync(JobThrottleConfig config) {
-		setAllProperties(config.getCoreThreadPoolSize(), config.isThrottleStepActive(),
+		setAllProperties(config.getCoreThreadPoolSize(), config.isStepThrottleEnabled(),
 						 config.getThrottleStepName(), config.getThrotttleStepMaxJobs());
 	}
 
-	private synchronized void setAllProperties(int coreThreadPoolSize, boolean throttleStepActive,
+	private synchronized void setAllProperties(int coreThreadPoolSize, boolean stepThrottleEnabled,
 								 String throttleStepName, int throtttleStepMaxJobs) {
 		this.coreThreadPoolSize = coreThreadPoolSize;
-		this.throttleStepActive = throttleStepActive;
+		this.stepThrottleEnabled = stepThrottleEnabled;
 		this.throttleStepName = throttleStepName;
 		this.throtttleStepMaxJobs = throtttleStepMaxJobs;
 	}
@@ -45,8 +45,8 @@ public class JobThrottleConfig {
 	public int getCoreThreadPoolSize() {
 		return coreThreadPoolSize;
 	}
-	public boolean isThrottleStepActive() {
-		return throttleStepActive;
+	public boolean isStepThrottleEnabled() {
+		return stepThrottleEnabled;
 	}
 	public String getThrottleStepName() {
 		return throttleStepName;
@@ -57,8 +57,8 @@ public class JobThrottleConfig {
 	public void setCoreThreadPoolSize(int coreThreadPoolSize) {
 		this.coreThreadPoolSize = coreThreadPoolSize;
 	}
-	public void setThrottleStepActive(boolean throttleStepActive) {
-		this.throttleStepActive = throttleStepActive;
+	public void setStepThrottleEnabled(boolean stepThrottleEnabled) {
+		this.stepThrottleEnabled = stepThrottleEnabled;
 	}
 	public void setThrottleStepName(String throttleStepName) {
 		this.throttleStepName = throttleStepName;

@@ -30,15 +30,15 @@ public class JobThrottleConfigServiceImpl implements JobThrottleConfigService {
 		String coreThreadPoolSizeString = getConfigValue(Key.coreThreadPoolSize);
 		int coreThreadPoolSize = (StringUtils.isNotBlank(coreThreadPoolSizeString)) ? Integer.valueOf(coreThreadPoolSizeString) : DEFAULT_SIZE;
 		
-		String throttleStepActiveString = getConfigValue(Key.throttleStepActive);
-		boolean throttleStepActive = (StringUtils.isNotBlank(throttleStepActiveString)) ? Boolean.valueOf(throttleStepActiveString) : false;
+		String stepThrottleEnabledString = getConfigValue(Key.stepThrottleEnabled);
+		boolean stepThrottleEnabled = (StringUtils.isNotBlank(stepThrottleEnabledString)) ? Boolean.valueOf(stepThrottleEnabledString) : false;
 		
 		String throttleStepName = getConfigValue(Key.throttleStepName);
 		
 		String throtttleStepMaxJobsString = getConfigValue(Key.throtttleStepMaxJobs);
 		int throtttleStepMaxJobs = (StringUtils.isNotBlank(throtttleStepMaxJobsString)) ? Integer.valueOf(throtttleStepMaxJobsString) : DEFAULT_SIZE;
 		
-		JobThrottleConfig config = new JobThrottleConfig(coreThreadPoolSize, throttleStepActive, throttleStepName, throtttleStepMaxJobs);
+		JobThrottleConfig config = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
 		return config;
 	}
 	
@@ -63,7 +63,7 @@ public class JobThrottleConfigServiceImpl implements JobThrottleConfigService {
 	private List<AppParameter> createThrottleConfigAppParameterList(JobThrottleConfig config) {
 		List<AppParameter> parameters = new ArrayList<AppParameter>();
 		parameters.add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));
-		parameters.add(new AppParameter(JobThrottleConfig.Key.throttleStepActive.toString(), config.isThrottleStepActive()));
+		parameters.add(new AppParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), config.isStepThrottleEnabled()));
 		parameters.add(new AppParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName()));
 		parameters.add(new AppParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), config.getThrotttleStepMaxJobs()));
 		return parameters;

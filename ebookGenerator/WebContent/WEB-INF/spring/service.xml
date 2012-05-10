@@ -28,7 +28,8 @@
 		  p:dbServiceName="${db.service.name}"		  
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
-		  p:jobLauncher-ref="jobLauncher"/>
+		  p:jobLauncher-ref="jobLauncher"
+		  p:taskExecutor-ref="springBatchTaskExecutor"/>
 	         
 	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
 		  p:xsltMapperDao-ref="xsltMapperDao"/>
@@ -160,11 +161,11 @@
 		  
 	<bean id="docMetadataGuidParserService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserServiceImpl"/>
 		  
-	<bean id="jobStartupThrottleService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl"
-			p:jobRepository-ref="jobRepository"
-			p:jobStartupThrottleDao-ref="jobStartupThrottleDao"
-			p:throttleStepCheck="${throttle.step.check}"
-			p:jobExplorer-ref="jobExplorer"/>		
+	<bean id="jobStartupThrottleService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl">
+		<constructor-arg ref="jobExplorer"/>
+		<constructor-arg ref="jobRepository"/>
+		<constructor-arg ref="jobThrottleConfig"/>
+	</bean>		
 			
   	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
   		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	

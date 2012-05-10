@@ -60,7 +60,6 @@ public class JobThrottleConfigController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
 	public ModelAndView submitForm(@ModelAttribute(JobThrottleConfigForm.FORM_NAME) @Valid JobThrottleConfigForm form,
 			 					   BindingResult errors, Model model) throws Exception {
-		log.debug(form);
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 		if (!errors.hasErrors()) {
 			boolean anySaveErrors = false;

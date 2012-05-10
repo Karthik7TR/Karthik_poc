@@ -22,6 +22,7 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -33,6 +34,7 @@ public class EngineServiceImpl implements EngineService {
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
+	private ThreadPoolTaskExecutor springBatchTaskExecutor;
 	private String proviewDomainName; // like "ci" or "demo" or "qed"
 	private String imageService;
 	private String novusEnvironment;
@@ -110,6 +112,11 @@ public class EngineServiceImpl implements EngineService {
 		jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
 		return new JobParameters(jobParamMap);
 	}
+	
+	@Override
+	public void setTaskExecutorCoreThreadPoolSize(int coreThreadPoolSize) {
+		springBatchTaskExecutor.setCorePoolSize(coreThreadPoolSize);
+	}
 
 	@Required
 	public void setEnvironmentName(String envName) {
@@ -146,5 +153,9 @@ public class EngineServiceImpl implements EngineService {
 	@Required	
 	public void setDbServiceName(String dbServiceName) {
 		this.dbServiceName = dbServiceName;
-	}	
+	}
+	@Required
+	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
+		this.springBatchTaskExecutor = taskExecutor;
+	}
 }
