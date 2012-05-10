@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProviewTitleContainer implements Serializable{
+public class ProviewTitleContainer implements Serializable {
 	/**
 	 * 
 	 */
@@ -32,31 +32,60 @@ public class ProviewTitleContainer implements Serializable{
 	 */
 	public ProviewTitleInfo getLatestVersion() {
 
-		Double latestVersion = 0.0;
+		Integer latestIntMajorPart = 0;
+		Integer latestIntMinorPart = 0;
 		ProviewTitleInfo latestProviewTitleInfo = null;
 
 		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
-			Double proviewTitleInfoVersionDouble = Double
-					.parseDouble(proviewTitleInfo.getVersion().substring(1));
-			if (proviewTitleInfoVersionDouble >= latestVersion) {
-				latestVersion = proviewTitleInfoVersionDouble;
-				latestProviewTitleInfo = proviewTitleInfo;
 
+			String currentVersion = proviewTitleInfo.getVersion().substring(1);
+			String majorPart;
+			String minorPart;
+			Integer intMajorPart = 0;
+			Integer intMinorPart = 0;
+
+			if (currentVersion.contains(".")) {
+				majorPart = currentVersion.substring(0,
+						currentVersion.indexOf("."));
+				minorPart = currentVersion.substring(currentVersion
+						.indexOf(".") + 1);
+
+				intMajorPart = Integer.parseInt(majorPart);
+				intMinorPart = Integer.parseInt(minorPart);
+
+			} else {
+				majorPart = currentVersion;
+				intMajorPart = Integer.parseInt(majorPart);
 			}
+
+			if (intMajorPart > latestIntMajorPart) {
+				latestProviewTitleInfo = proviewTitleInfo;
+				latestIntMajorPart = intMajorPart;
+				latestIntMinorPart = intMinorPart;
+			} else if (intMajorPart == latestIntMajorPart) {
+				if (intMinorPart >= latestIntMinorPart) {
+					latestProviewTitleInfo = proviewTitleInfo;
+					latestIntMajorPart = intMajorPart;
+					latestIntMinorPart = intMinorPart;
+				}
+			}
+
 		}
 		return latestProviewTitleInfo;
 	}
-	
+
 	/**
 	 * Determine if this title has been published to public
+	 * 
 	 * @return boolean
 	 */
 	public boolean hasBeenPublished() {
-		
+
 		boolean isPublished = false;
-		
+
 		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
-			if (proviewTitleInfo.getStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL)) {
+			if (proviewTitleInfo.getStatus().equalsIgnoreCase(
+					PROVIEW_STATUS_FINAL)) {
 				isPublished = true;
 				break;
 			}
