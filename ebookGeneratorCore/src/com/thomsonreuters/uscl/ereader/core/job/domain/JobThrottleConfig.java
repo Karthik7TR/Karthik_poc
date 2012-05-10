@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 public class JobThrottleConfig {
-	
+
 	/** Typesafe representation of the keys used to represent the throttling configuration */
 	public static enum Key { coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs };
 	
@@ -65,6 +65,42 @@ public class JobThrottleConfig {
 	}
 	public void setThrotttleStepMaxJobs(int throtttleStepMaxJobs) {
 		this.throtttleStepMaxJobs = throtttleStepMaxJobs;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + coreThreadPoolSize;
+		result = prime * result + (stepThrottleEnabled ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((throttleStepName == null) ? 0 : throttleStepName.hashCode());
+		result = prime * result + throtttleStepMaxJobs;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JobThrottleConfig other = (JobThrottleConfig) obj;
+		if (coreThreadPoolSize != other.coreThreadPoolSize)
+			return false;
+		if (stepThrottleEnabled != other.stepThrottleEnabled)
+			return false;
+		if (throttleStepName == null) {
+			if (other.throttleStepName != null)
+				return false;
+		} else if (!throttleStepName.equals(other.throttleStepName))
+			return false;
+		if (throtttleStepMaxJobs != other.throtttleStepMaxJobs)
+			return false;
+		return true;
 	}
 
 	public String toString() {

@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControlle
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.LoginControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SmokeTestControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeControllerTest;
@@ -49,6 +50,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			JobExecutionControllerTest.class,
 			JobSummaryControllerTest.class,
 			JobSummaryFilterControllerTest.class,
+			JobThrottleConfigControllerTest.class,
 			QueueControllerTest.class,
 			LoginControllerTest.class,
 			ViewBookDefinitionControllerTest.class,
