@@ -136,7 +136,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		if (targetAnchors != null)
 		{
 		// TODO: send notification for existing anchors.
-			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile.csv");
+			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), title +"_" + jobId +"_anchorTargetUnlinkFile.csv");
 			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile);
 			
 		}
