@@ -1,1 +1,1 @@
-<div class="pageTitle">Bulk Generate eBook</div>
+<div class="pageTitle">Bulk Generate Book</div>

@@ -1,1 +1,1 @@
-<div class="pageTitle">eBook Promotion</div>
+<div class="pageTitle">Book Promotion</div>

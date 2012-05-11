@@ -26,7 +26,7 @@
 	</tr>
 	
 	<tr>
-		<td><b>eBook Definition ID:</b></td>
+		<td><b>Book Definition ID:</b></td>
 		<td>${publishingStats.ebookDefId}</td>
 	</tr>
 		

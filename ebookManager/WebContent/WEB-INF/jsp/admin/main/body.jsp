@@ -49,6 +49,6 @@
 <div class="centerSection">
 	<h3>Stop Generator and Gatherer</h3>
 	<div class="buttons">
-		<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All eBook Generation Process</a>
+		<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All Book Generation</a>
 	</div>
 </div>

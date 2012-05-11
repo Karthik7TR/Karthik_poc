@@ -1,3 +1,3 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="pageTitle">Create eBook Definition</div>
+<div class="pageTitle">Create Book Definition</div>

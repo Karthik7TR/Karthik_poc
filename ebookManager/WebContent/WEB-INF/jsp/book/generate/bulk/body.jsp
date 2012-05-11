@@ -28,10 +28,10 @@
 	 	<display:column title="Action" sortable="false">
 	 			<c:choose>
 	 				<c:when test="${ vdo.deleted }">
-	 					<span class="errorMessage">This eBook has been deleted</span>
+	 					<span class="errorMessage">This Book has been deleted</span>
 	 				</c:when>
 	 				<c:otherwise>
-	 					<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this eBook</a>
+	 					<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this book</a>
 	 				</c:otherwise>
 	 			</c:choose>
 	 	</display:column>

@@ -6,4 +6,4 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 
-<div class="pageTitle">eBook Library (Count: ${resultSize})</div>
+<div class="pageTitle">Book Library</div>

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 
-<div class="pageTitle">eBook Job History</div>
+<div class="pageTitle">Book Job History</div>
 <c:choose>
 
 <c:when test="${book == null}">  <%-- if no book definition was found for the title ID --%>

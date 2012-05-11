@@ -16,7 +16,7 @@
 				<form:errors path="id" cssClass="errorMessage" />
 			</div>
 			<div class="row">
-				Are you sure you want to restore this eBook Definition? Please put your explanation in the comments.
+				Are you sure you want to restore this book Definition? Please put your explanation in the comments.
 			</div>
 			<div class="row" style="margin:1em;">
 				<form:label path="comment">Comments</form:label>
@@ -32,7 +32,7 @@
 		</form:form>
 	</c:when>
 	<c:otherwise>
-	No eBook Definition found
+	No Book Definition found
 	</c:otherwise>
 </c:choose>
 

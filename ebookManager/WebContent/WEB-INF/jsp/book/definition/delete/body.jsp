@@ -46,16 +46,16 @@ $(document).ready(function() {
 					<div class="row">
 						<c:choose>
 							<c:when test="${ book.publishedOnceFlag }">
-								This will mark the eBook Definition as deleted. You will not be able to edit, copy, or generate the eBook Definition. A super 
-								user will be able to restore this eBook Definition.
+								This will mark the book Definition as deleted. You will not be able to edit, copy, or generate the book Definition. A super 
+								user will be able to restore this book Definition.
 							</c:when>
 							<c:otherwise>
-								<span class="errorMessage">This will permanently delete the eBook Definition.</span>  You will not be able to restore this eBook Definition once it has been deleted.
+								<span class="errorMessage">This will permanently delete the book Definition.</span>  You will not be able to restore this book Definition once it has been deleted.
 							</c:otherwise>
 						</c:choose>
 					</div>
 					<div class="row">
-						Are you sure you want to delete this eBook Definition?  To delete, please type <b>"<%= WebConstants.CONFIRM_CODE_DELETE_BOOK %>"</b> in the
+						Are you sure you want to delete this book Definition?  To delete, please type <b>"<%= WebConstants.CONFIRM_CODE_DELETE_BOOK %>"</b> in the
 						Code field and the reason for the deletion in the comments.
 					</div>
 					<div class="row" style="margin:1em;">
@@ -86,12 +86,12 @@ $(document).ready(function() {
 		</c:choose>
 	</c:when>
 	<c:otherwise>
-	No eBook Definition found
+	No Book Definition found
 	</c:otherwise>
 </c:choose>
 
 
-<div id="dialog-confirm" title="Delete eBook Definition?" style="display:hidden;" >
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure you want to delete this eBook Definition?</p>
+<div id="dialog-confirm" title="Delete Book Definition?" style="display:hidden;" >
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure you want to delete this book Definition?</p>
 </div>
 

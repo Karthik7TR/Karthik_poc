@@ -63,7 +63,7 @@
   function checkCompleteFlag(){
 	  var  completeFlag = document.getElementById("isComplete").innerHTML;
 	  if (completeFlag=="false"){
-		  alert("Cannot generate eBook: Book definition is not complete.");
+		  alert("Cannot generate book: Book definition is not complete.");
 		  return false;
 	   }
 	  else{
@@ -82,7 +82,7 @@
 			var publishingCutOffDateGreaterOrEqualToday = document.getElementById("publishingCutOffDateGreaterOrEqualToday").innerHTML;
 			
 			if (publishingCutOffDateGreaterOrEqualToday=="N"){
-				alert("Cannot generate eBook: Publishing cut off date must be greater or equal today.");
+				alert("Cannot generate book: Publishing cut off date must be greater or equal today.");
 				confirmed = false;
 			}
 			else{
@@ -107,17 +107,17 @@
 	  if (isMajorVersion == "Y"){
 		
 		  if(isNewISBN =="N" && isNewMaterialId=="N"){
-			  alert("Cannot generate eBook: ISBN and Sub Material Number must be changed for major version.");
+			  alert("Cannot generate book: ISBN and Sub Material Number must be changed for major version.");
 			  confirmed= false;
 		  }
 		  else{
 		  	if(isNewISBN =="N"){
-				alert("Cannot generate eBook: ISBN must be changed for major version.");
+				alert("Cannot generate book: ISBN must be changed for major version.");
 			  	confirmed= false;
 		  	}
 		  
 		  	if(isNewMaterialId=="N"){
-			  	alert("Cannot generate eBook: Sub Material Number must be changed for major version.");
+			  	alert("Cannot generate book: Sub Material Number must be changed for major version.");
 			  	confirmed= false;
 		  	}  	
 		  }
@@ -135,7 +135,7 @@
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML
 	  
 	  if (newVersion==""){
-		  alert("Cannot generate eBook: Version must be selected.");
+		  alert("Cannot generate book: Version must be selected.");
 		  confirmed = false;
 	  }
 	  else{
@@ -225,7 +225,7 @@
 		  
 		</table>
 		<div class="buttons">
-			<input id="generateButton" type="button" value="Generate eBook" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+			<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
 			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 		</div>
 		<div style="visibility: hidden"> 

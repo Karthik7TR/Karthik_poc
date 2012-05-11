@@ -1,1 +1,1 @@
-<div class="errorMessage"> eBook Definition is deleted</div>
+<div class="errorMessage"> Book Definition is deleted</div>
