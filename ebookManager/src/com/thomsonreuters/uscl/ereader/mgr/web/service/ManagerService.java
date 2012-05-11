@@ -35,5 +35,11 @@ public interface ManagerService {
 	 * @return the response object indicating success or failure
 	 */
 	public JobOperationResponse pushJobThrottleConfiguration(InetSocketAddress socketAddr, JobThrottleConfig newJobThrottleConfig);
+	
+	/**
+	 * Delete old database table and filesystem job data.
+	 * @param daysBack jobs more than this many days old will be deleted. 
+	 */
+	public void cleanupOldSpringBatchJobs(int daysBack);
 
 }

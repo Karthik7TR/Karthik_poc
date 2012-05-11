@@ -23,6 +23,7 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -82,9 +83,9 @@ public class InitializeTask extends AbstractSbTasklet {
 
 		// Create the work directory for the ebook and create the physical directory in the filesystem
 		// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
-		// Sample: "/nas/ebookbuilder/data/20120131/FRCP/356"
-		String dynamicPath = String.format("%s/data/%s/%s/%d", environmentName, 
-				new SimpleDateFormat("yyyyMMdd").format(new Date()), titleId, jobInstance.getId());
+		// Sample: "/apps/eBookBuilder/prod/data/20120131/FRCP/356"
+		String dynamicPath = String.format("%s/%s/%s/%s/%d", environmentName, CoreConstants.DATA_DIR,
+				new SimpleDateFormat(CoreConstants.DIR_DATE_FORMAT).format(new Date()), titleId, jobInstance.getId());
 		File workDirectory = new File(rootWorkDirectory, dynamicPath);
 		workDirectory.mkdirs();
 		

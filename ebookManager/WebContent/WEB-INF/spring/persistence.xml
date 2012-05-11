@@ -103,7 +103,9 @@
 	
 	<bean id="bookDefintionLockDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDaoImpl">
 		<constructor-arg ref="sessionFactory" />
-	</bean>	
-
+	</bean>
+	
+	<bean id="managerDao" class="com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDaoImpl"
+		  p:jdbcTemplate-ref="jdbcTemplate"/>
 </beans>
 	
