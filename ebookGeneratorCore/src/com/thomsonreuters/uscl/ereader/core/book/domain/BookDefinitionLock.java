@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 @Table(name = "EBOOK_DEFINITION_LOCK")
 public class BookDefinitionLock implements Serializable {
 	private static final long serialVersionUID = 6382455351376387289L;
-	
+	 
 	// LOCK_TIMEOUT is set to equal the session timeout on the eBook Manager 
 	public static final int LOCK_TIMEOUT_SEC = 14400; // In seconds
 
