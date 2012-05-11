@@ -4,14 +4,14 @@
  * Reproduction without the written authorization of TRGR is prohibited
  */
 
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.envers.RevisionEntity;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,10 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
 
 @Controller
 public class ProviewTitleListController {
@@ -61,7 +58,7 @@ public class ProviewTitleListController {
 
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES, method = RequestMethod.POST)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.POST)
 	public ModelAndView refreshAllLatestProviewTitleInfo(
 			HttpSession httpSession, Model model) throws Exception {
 
@@ -80,10 +77,10 @@ public class ProviewTitleListController {
 					allLatestProviewTitleInfo.size());
 		}
 
-		return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLES);
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLES, method = RequestMethod.GET)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
 	public ModelAndView allLatestProviewTitleInfo(HttpSession httpSession,
 			Model model) throws Exception {
 
@@ -109,10 +106,10 @@ public class ProviewTitleListController {
 					allLatestProviewTitleInfo.size());
 		}
 
-		return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLES);
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS, method = RequestMethod.GET)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS, method = RequestMethod.GET)
 	public ModelAndView singleTitleAllVersions(@RequestParam String titleId,
 			HttpSession httpSession, Model model) throws Exception {
 
@@ -137,10 +134,10 @@ public class ProviewTitleListController {
 		}
 
 		return new ModelAndView(
-				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS);
+				WebConstants.VIEW_PROVIEW_TITLE_ALL_VERSIONS);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
 	public ModelAndView proviewTitleDelete(@RequestParam String titleId,
 			@RequestParam String versionNumber, @RequestParam String status,
 			Model model) throws Exception {
@@ -152,10 +149,10 @@ public class ProviewTitleListController {
 				new ProviewTitleForm(titleId, versionNumber, status));
 
 		return new ModelAndView(
-				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
+				WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
 	public ModelAndView allLatestProviewTitleRemove(
 			@RequestParam String titleId, @RequestParam String versionNumber,
 			@RequestParam String status, Model model) throws Exception {
@@ -166,10 +163,10 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
 				new ProviewTitleForm(titleId, versionNumber, status));
 		return new ModelAndView(
-				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE);
+				WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE, method = RequestMethod.POST)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.POST)
 	public ModelAndView proviewTitleRemovePost(
 			@ModelAttribute(ProviewTitleForm.FORM_NAME) ProviewTitleForm form,
 			Model model) throws Exception {
@@ -190,10 +187,10 @@ public class ProviewTitleListController {
 		}
 
 		return new ModelAndView(
-				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE);
+				WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE, method = RequestMethod.POST)
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.POST)
 	public ModelAndView proviewTitleDeletePost(
 			@ModelAttribute(ProviewTitleForm.FORM_NAME) ProviewTitleForm form,
 			Model model) throws Exception {
@@ -214,13 +211,10 @@ public class ProviewTitleListController {
 		}
 
 		return new ModelAndView(
-				WebConstants.VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE);
+				WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
 
-	public ProviewClient getProviewClient() {
-		return proviewClient;
-	}
-
+	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
 	}

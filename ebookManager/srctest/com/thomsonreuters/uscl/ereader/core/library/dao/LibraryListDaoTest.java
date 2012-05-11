@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDaoImpl;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListRowMapper;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 
 public class LibraryListDaoTest {
 	private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();

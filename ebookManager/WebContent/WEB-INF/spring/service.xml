@@ -57,9 +57,5 @@
 		  p:ssh-ref="ssh"
 		  p:emailNotification-ref="emailNotification"
 		  p:jobCleanupService-ref="jobCleanupService"/>
-		  
-	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview.ProviewTitleListController"
-		 p:proviewClient-ref="proviewClient"/>	  
-
-  		  
+		    
 </beans>

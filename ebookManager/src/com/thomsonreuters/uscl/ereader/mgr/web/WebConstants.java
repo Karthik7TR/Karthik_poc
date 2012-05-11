@@ -189,10 +189,12 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
-	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLES = "adminProviewTitles.mvc";
-	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS = "adminProviewTitleAllVersions.mvc";
-	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE = "adminProviewTitleRemove.mvc";
-	public static final String MVC_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE = "adminProviewTitleDelete.mvc";
+	
+	// Proview related URI's
+	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
+	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
+	public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
+	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
 	
 
 	// Security related URI's
@@ -233,10 +235,6 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
 	public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";
 	public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
-	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLES = "_adminProviewTitles";
-	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_ALL_VERSIONS = "_adminProviewTitleAllVersions";
-	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE = "_adminProviewTitleRemove";
-	public static final String VIEW_ADMIN_KEYWORD_PROVIEW_TITLE_DELETE = "_adminProviewTitleDelete";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
@@ -270,6 +268,10 @@ public class WebConstants {
 	public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
 	public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
 	public static final String VIEW_SMOKE_TEST = "smokeTest";
+	public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
+	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
+	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
+	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
 	
 	// Miscellaneous keys and constants used throughout the application.
 //	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields

@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDao;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 
 /**
  * Library list service

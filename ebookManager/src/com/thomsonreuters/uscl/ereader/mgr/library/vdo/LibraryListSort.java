@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.library.domain;
+package com.thomsonreuters.uscl.ereader.mgr.library.vdo;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

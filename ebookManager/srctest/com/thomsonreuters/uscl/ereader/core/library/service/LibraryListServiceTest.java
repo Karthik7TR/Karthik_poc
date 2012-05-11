@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDao;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListServiceImpl;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 
 public class LibraryListServiceTest {
 	private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();

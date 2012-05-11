@@ -30,10 +30,10 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;

@@ -7,9 +7,9 @@ package com.thomsonreuters.uscl.ereader.mgr.library.service;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 
 /**
  * Service methods that are common to both the Spring Batch generator engine and

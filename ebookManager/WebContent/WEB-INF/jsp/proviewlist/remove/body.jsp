@@ -3,7 +3,7 @@
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
 -->
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview.ProviewTitleForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -37,7 +37,7 @@
 
   
  
-	<form:form action="<%=WebConstants.MVC_ADMIN_KEYWORD_PROVIEW_TITLE_REMOVE%>"
+	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
 	
 		<table>		   

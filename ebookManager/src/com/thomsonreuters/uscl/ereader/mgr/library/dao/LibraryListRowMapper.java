@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.service.AuthorService;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 
 public class LibraryListRowMapper implements RowMapper<LibraryList> {
 	static private AuthorService authorService;

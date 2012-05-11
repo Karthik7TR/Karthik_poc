@@ -209,6 +209,9 @@
 	<bean id="eBookJobMetricsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.metrics.EBookJobMetricsController"
 		  p:bookDefinitionService-ref="bookDefinitionService"
 		  p:publishingStatsService-ref="publishingStatsService"		
-		  />		  		  
+		  />
+		  
+	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
+		 p:proviewClient-ref="proviewClient"/>	  
 			  
 </beans>

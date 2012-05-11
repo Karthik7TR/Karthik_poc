@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort;
-import com.thomsonreuters.uscl.ereader.mgr.library.domain.LibraryListSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort.SortProperty;
 
 public class LibraryListDaoImpl implements LibraryListDao {
 	// private static final Logger log = Logger.getLogger(LibraryListDaoImpl.class);

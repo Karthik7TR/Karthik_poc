@@ -26,28 +26,24 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitles" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/list/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/list/body.jsp"/>
+	<definition name="_proviewTitles" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/list/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleAllVersions" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/singletitle/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/singletitle/body.jsp"/>
+	<definition name="_proviewTitleAllVersions" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/singletitle/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/singletitle/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleRemove" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/remove/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/remove/body.jsp"/>
+	<definition name="_proviewTitleRemove" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/remove/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/remove/body.jsp"/>
 	</definition>
 	
-	<definition name="_adminProviewTitleDelete" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/titles/delete/title.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/titles/delete/body.jsp"/>
+	<definition name="_proviewTitleDelete" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/delete/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/delete/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminBookLockDelete" extends="twoColumnDefinition">

@@ -4,7 +4,7 @@
  * Reproduction without the written authorization of TRGR is prohibited
  */
 
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.proview;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 
 public class ProviewTitleForm {
