@@ -9,57 +9,62 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+
 public class BookLibrarySelectionForm {
 
-	public static final String FORM_NAME = "bookLibrarySelectionForm";
-	public enum Command { IMPORT, EXPORT, GENERATE, PROMOTE };
+	public enum Command { IMPORT, EXPORT, GENERATE, PROMOTE }
+	public enum DisplayTagSortProperty { PROVIEW_DISPLAY_NAME, TITLE_ID, LAST_GENERATED_DATE, DEFINITION_STATUS, LAST_EDIT_DATE };
+	public static final String FORM_NAME = "bookLibrarySelectionForm";;
 	
-	public int page;
-	public String sort;
-	public boolean isAscending;
 	private String [] selectedEbookKeys;
 	private Command command;
-	
-	public void initialize(int page, String sortBy, boolean isAscending) {
-		this.page = page;
-		this.sort = sortBy;
-		this.isAscending = isAscending;
-	}
-
-	public String[] getSelectedEbookKeys() {
-		return selectedEbookKeys;
-	}
-	public void setSelectedEbookKeys(String[] selectedEbookKeys) {
-		this.selectedEbookKeys = selectedEbookKeys;
-	}
+	private PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<DisplayTagSortProperty>();	// sort, page, dir, objectsPerPage
 	
 	public Command getCommand() {
 		return command;
+	}
+	public String getDir() {
+		return (pageAndSort.isAscendingSort()) ? "asc" : "desc";
+	}
+	public Integer getObjectsPerPage() {
+		return pageAndSort.getObjectsPerPage();
+	}
+	public Integer getPage() {
+		return pageAndSort.getPageNumber();
+	}
+	public String[] getSelectedEbookKeys() {
+		return selectedEbookKeys;
+	}
+
+	public DisplayTagSortProperty getSort() {
+		return pageAndSort.getSortProperty();
+	}
+	public boolean isAscendingSort() {
+		return pageAndSort.isAscendingSort();
 	}
 	
 	public void setCommand(Command cmd) {
 		this.command = cmd;
 	}
-
-	public int getPage() {
-		return page;
+	
+	public void setDir(String direction) {
+		pageAndSort.setAscendingSort("asc".equals(direction));
 	}
-	public void setPage(int page) {
-		this.page = page;
+	public void setObjectsPerPage(Integer objectsPerPage) {
+		pageAndSort.setObjectsPerPage(objectsPerPage);
 	}
-	public String getSort() {
-		return sort;
+	public void setPage(Integer pageNumber) {
+		pageAndSort.setPageNumber(pageNumber);
 	}
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-	public boolean getIsAscending() {
-		return isAscending;
-	}
-	public void setIsAscending(boolean isAscending) {
-		this.isAscending = isAscending;
+	public void setSelectedEbookKeys(String[] selectedEbookKeys) {
+		this.selectedEbookKeys = selectedEbookKeys;
 	}
 	
+	public void setSort(DisplayTagSortProperty sortProperty) {
+		pageAndSort.setSortProperty(sortProperty);
+	}
+
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

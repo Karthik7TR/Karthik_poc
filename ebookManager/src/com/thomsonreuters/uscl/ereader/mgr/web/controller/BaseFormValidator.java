@@ -70,4 +70,38 @@ public abstract class BaseFormValidator {
 			}
 		}
 	}
+	
+	protected static void validateDate(String dateString, Date parsedDate, String label, Errors errors) {
+		if (StringUtils.isNotBlank(dateString)) {
+			if (parsedDate == null) {
+				Object[] args = { label };
+				errors.reject("error.invalid.date", args, "Invalid Date: " + label);
+			}
+		}
+	}
+	
+	protected static void validateDateRange(Date fromDate, Date toDate, Errors errors) {
+		Date timeNow = new Date();
+		String codeDateAfterToday = "error.date.after.today";
+		if (fromDate != null) {
+			if (fromDate.after(timeNow)) {
+				String[] args = { "FROM" };
+				errors.reject(codeDateAfterToday, args, "ERR: FROM date cannot be after today");
+			}
+			if (toDate != null) {
+				if (fromDate.after(toDate)) {
+					errors.reject("error.from.date.after.to.date");	
+				}
+				if (toDate.before(fromDate)) {
+					errors.reject("error.to.date.before.from.date");	
+				}
+			}
+		}
+		if (toDate != null) {
+			if (toDate.after(timeNow)) {
+				String[] args = { "TO" };
+				errors.reject(codeDateAfterToday, args, "ERR: TO date cannot be after today");
+			}
+		}
+	}
 }

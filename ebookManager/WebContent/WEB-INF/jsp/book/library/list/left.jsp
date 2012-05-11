@@ -43,21 +43,57 @@
 			   commandName="<%=BookLibraryFilterForm.FORM_NAME%>" method="post">
 	<form:hidden path="filterCommand"/>
 	
+	<%-- Validation Error Message Presentation (if any) --%>
+	<spring:hasBindErrors name="<%=BookLibraryFilterForm.FORM_NAME%>">
+		<div class="errorBox">
+	      <b><spring:message code="please.fix.errors"/>:</b><br/>
+	      <form:errors path="*">
+	      	<ul>
+			<c:forEach items="${messages}" var="message">
+				<li style="color: black">${message}</li>
+			</c:forEach>
+	      	</ul>
+		  </form:errors>
+		  <br/>
+	    </div>
+    </spring:hasBindErrors>
 	
-	ProView Display Name:<form:input path="proviewDisplayName"/><br>
-	Title ID:<form:input path="titleId"/><br>
-	ISBN:<form:input path="isbn"/><br>
-	Material ID:<form:input path="materialId"/><br>
-	<label>Last Edit Date:</label><br>
-	From:<form:input id="datepickerFrom" path="fromString"/>
-	To:<form:input id="datepickerTo" path="toString"/><br>
-	Definition Status:<br>
-	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.ALL%>"/>All<br>
-	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.COMPLETE%>"/>Complete<br>
-	&nbsp;&nbsp;<form:radiobutton path="bookStatus" value="<%=BookLibraryFilterForm.BookDefStatus.INCOMPLETE%>"/>InComplete<br>
-			 
 	
-	<p><i style="color:grey">Wildcard: %</i></p>
+	<div class="filterRow">
+		<label>ProView Display Name:</label>
+		<form:input path="proviewDisplayName"/>
+	</div>
+	<div class="filterRow">
+		<label>Title ID:</label>
+		<form:input path="titleId"/>
+	</div>
+	<div class="filterRow">
+		<label>ISBN:</label>
+		<form:input path="isbn"/>
+	</div>
+	<div class="filterRow">
+		<label>Sub Material Number:</label>
+		<form:input path="materialId"/>
+	</div>
+	<div class="filterRow">
+		<label>Last Edit From Date:</label>
+		<form:input id="datepickerFrom" path="fromString"/>
+	</div>
+	<div class="filterRow">
+		<label>Last Edit To Date:</label>
+		<form:input id="datepickerTo" path="toString"/>
+	</div>
+	<div class="filterRow">
+		<label>Definition Status:</label>
+		<form:select path="action">
+			<form:option label="ALL" value=""/>
+			<form:option label="<%=BookLibraryFilterForm.Action.COMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.COMPLETE.toString() %>"/>
+			<form:option label="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString() %>"/>
+			<form:option label="<%=BookLibraryFilterForm.Action.DELETED.toString()%>" value="<%=BookLibraryFilterForm.Action.DELETED.toString() %>"/>
+		</form:select>
+	</div>
+	
+	<div class="wildCard">Wildcard: %</div>
 
 	<input type="button" value="Search" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.RESET%>')"/>

@@ -41,34 +41,50 @@ function submitJobSummaryFilterForm(command) {
 		<div class="errorBox">
 	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
-			<br/>
+	      	<ul>
 			<c:forEach items="${messages}" var="message">
-				<span>${message}</span>
-				<br/>
+				<li style="color: black">${message}</li>
 			</c:forEach>
+	      	</ul>
 		  </form:errors>
 		  <br/>
 	    </div>
-	    <br/>
     </spring:hasBindErrors>
-		   
-	ProView Display Name:<form:input path="bookName"/><br/>
-	Title ID:<form:input path="titleId"/><br/>
-	Submitted By:<form:input path="submittedBy"/><br/>
-	From Date:<form:input id="datepickerFrom" path="fromDateString"/><br/>
-	To Date:<form:input id="datepickerTo" path="toDateString"/><br/>
-	Job Status:<br/>
-	<form:select path="batchStatus">
-		<form:option label="ALL" value=""/>
-		<form:option label="<%=BatchStatus.COMPLETED.toString()%>" value="<%=BatchStatus.COMPLETED.toString() %>"/>
-		<form:option label="<%=BatchStatus.FAILED.toString() %>" value="<%=BatchStatus.FAILED.toString() %>"/>
-		<form:option label="<%=BatchStatus.STARTED.toString() %>" value="<%=BatchStatus.STARTED.toString() %>"/>
-		<form:option label="<%=BatchStatus.STOPPED.toString() %>" value="<%=BatchStatus.STOPPED.toString() %>"/>
-		<form:option label="<%=BatchStatus.STARTING.toString() %>" value="<%=BatchStatus.STARTING.toString() %>"/>
-		<form:option label="<%=BatchStatus.STOPPING.toString() %>" value="<%=BatchStatus.STOPPING.toString() %>"/>
-	</form:select>
 	
-	<p><i style="color:grey">Wildcard: %</i></p>
+	<div class="filterRow">
+		<label>ProView Display Name:</label>
+		<form:input path="bookName"/>
+	</div>
+	<div class="filterRow">
+		<label>Title ID:</label>
+		<form:input path="titleId"/>
+	</div>
+	<div class="filterRow">
+		<label>Submitted By:</label>
+		<form:input path="submittedBy"/>
+	</div>
+	<div class="filterRow">
+		<label>From Date:</label>
+		<form:input id="datepickerFrom" path="fromDateString"/>
+	</div>
+	<div class="filterRow">
+		<label>To Date:</label>
+		<form:input id="datepickerTo" path="toDateString"/>
+	</div>
+	<div class="filterRow">
+		<label>Job Status:</label>
+		<form:select path="batchStatus">
+			<form:option label="ALL" value=""/>
+			<form:option label="<%=BatchStatus.COMPLETED.toString()%>" value="<%=BatchStatus.COMPLETED.toString() %>"/>
+			<form:option label="<%=BatchStatus.FAILED.toString() %>" value="<%=BatchStatus.FAILED.toString() %>"/>
+			<form:option label="<%=BatchStatus.STARTED.toString() %>" value="<%=BatchStatus.STARTED.toString() %>"/>
+			<form:option label="<%=BatchStatus.STOPPED.toString() %>" value="<%=BatchStatus.STOPPED.toString() %>"/>
+			<form:option label="<%=BatchStatus.STARTING.toString() %>" value="<%=BatchStatus.STARTING.toString() %>"/>
+			<form:option label="<%=BatchStatus.STOPPING.toString() %>" value="<%=BatchStatus.STOPPING.toString() %>"/>
+		</form:select>
+	</div>
+	
+	<div class="wildCard">Wildcard: %</div>
 	
 	<input id="jobFilterSearchButton" type="button" value="Search" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.RESET%>')"/>

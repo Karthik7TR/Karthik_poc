@@ -40,33 +40,52 @@ function submitAuditFilterForm(command) {
 		<div class="errorBox">
 	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
-			<br/>
+	      	<ul>
 			<c:forEach items="${messages}" var="message">
-				<span>${message}</span>
-				<br/>
+				<li style="color: black">${message}</li>
 			</c:forEach>
+	      	</ul>
 		  </form:errors>
 		  <br/>
 	    </div>
-	    <br/>
     </spring:hasBindErrors>
-		   
-	ProView Display Name:<form:input path="bookName"/><br/>
-	Title ID:<form:input path="titleId"/><br/>
-	Book Definition ID:<form:input path="bookDefinitionId"/><br/>
-	User Name:<form:input path="submittedBy"/><br/>
-	From Date:<form:input id="datepickerFrom" path="fromDateString"/><br/>
-	To Date:<form:input id="datepickerTo" path="toDateString"/><br/>
-	Action:<br/>
-	<form:select path="action">
-		<form:option label="ALL" value=""/>
-		<form:option label="<%=BookAuditFilterForm.Action.CREATE.toString()%>" value="<%=BookAuditFilterForm.Action.CREATE.toString() %>"/>
-		<form:option label="<%=BookAuditFilterForm.Action.DELETE.toString()%>" value="<%=BookAuditFilterForm.Action.DELETE.toString() %>"/>
-		<form:option label="<%=BookAuditFilterForm.Action.EDIT.toString()%>" value="<%=BookAuditFilterForm.Action.EDIT.toString() %>"/>
-		<form:option label="<%=BookAuditFilterForm.Action.RESTORE.toString()%>" value="<%=BookAuditFilterForm.Action.RESTORE.toString() %>"/>
-	</form:select>
 	
-	<p><i style="color:grey">Wildcard: %</i></p>
+	<div class="filterRow">
+		<label>ProView Display Name:</label>
+		<form:input path="bookName"/>
+	</div>	
+	<div class="filterRow">	
+		<label>Title ID:</label>
+		<form:input path="titleId"/>
+	</div>	
+	<div class="filterRow">	
+		<label>Book Definition ID:</label>
+		<form:input path="bookDefinitionId"/>
+	</div>	
+	<div class="filterRow">	
+		<label>User Name:</label>
+		<form:input path="submittedBy"/>
+	</div>	
+	<div class="filterRow">	
+		<label>From Date:</label>
+		<form:input id="datepickerFrom" path="fromDateString"/>
+	</div>	
+	<div class="filterRow">	
+		<label>To Date:</label>
+		<form:input id="datepickerTo" path="toDateString"/>
+	</div>	
+	<div class="filterRow">	
+		<label>Action:</label>
+		<form:select path="action">
+			<form:option label="ALL" value=""/>
+			<form:option label="<%=BookAuditFilterForm.Action.CREATE.toString()%>" value="<%=BookAuditFilterForm.Action.CREATE.toString() %>"/>
+			<form:option label="<%=BookAuditFilterForm.Action.DELETE.toString()%>" value="<%=BookAuditFilterForm.Action.DELETE.toString() %>"/>
+			<form:option label="<%=BookAuditFilterForm.Action.EDIT.toString()%>" value="<%=BookAuditFilterForm.Action.EDIT.toString() %>"/>
+			<form:option label="<%=BookAuditFilterForm.Action.RESTORE.toString()%>" value="<%=BookAuditFilterForm.Action.RESTORE.toString() %>"/>
+		</form:select>
+	</div>
+	
+	<div class="wildCard">Wildcard: %</div>
 	
 	<input id="auditFilterSearchButton" type="button" value="Search" onclick="submitAuditFilterForm('<%=BookAuditFilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitAuditFilterForm('<%=BookAuditFilterForm.FilterCommand.RESET%>')"/>

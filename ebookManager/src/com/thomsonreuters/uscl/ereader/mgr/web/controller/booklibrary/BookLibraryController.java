@@ -1,13 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.displaytag.tags.TableTagParameters;
-import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,50 +17,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.library.domain.LibraryList;
-import com.thomsonreuters.uscl.ereader.core.library.service.LibraryListService;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 
 @Controller
-public class BookLibraryController {
-	// private static final Logger log =
-	// Logger.getLogger(BookLibraryController.class);
+public class BookLibraryController extends BaseBookLibraryController {
+	// private static final Logger log = Logger.getLogger(BookLibraryController.class);
 
-	private LibraryListService libraryListService;
 	private Validator validator;
 
 	@InitBinder(BookLibrarySelectionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
-	}
-
-	private BookLibraryFilterForm fetchSavedFilterForm(HttpSession httpSession) {
-		BookLibraryFilterForm form = (BookLibraryFilterForm) httpSession
-				.getAttribute(BookLibraryFilterForm.FORM_NAME);
-		if (form == null) {
-			form = new BookLibraryFilterForm();
-		}
-		return form;
-	}
-
-	private List<LibraryList> fetchSavedPaginatedList(HttpSession httpSession) {
-		List<LibraryList> paginatedList = (List<LibraryList>) httpSession
-				.getAttribute(WebConstants.KEY_PAGINATED_LIST);
-		return paginatedList;
-	}
-
-	private void saveSessionValues(HttpSession httpSession,
-			BookLibraryFilterForm bookLibraryFilterForm,
-			List<LibraryList> paginatedList) {
-
-		httpSession.setAttribute(BookLibraryFilterForm.FORM_NAME,
-				bookLibraryFilterForm);
-		httpSession
-				.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
-
 	}
 
 	/**
@@ -78,28 +44,17 @@ public class BookLibraryController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
-	public ModelAndView bookList(
-			HttpSession httpSession,
-			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-			BindingResult bindingResult, Model model) throws Exception {
+	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
+//		log.debug(">>>");
+		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
+		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
+		
+		BookLibrarySelectionForm librarySelectionForm = new BookLibrarySelectionForm();
+		librarySelectionForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 
-		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
-		model.addAttribute(BookLibraryFilterForm.FORM_NAME,
-				bookLibraryFilterForm);
-
-		List<LibraryList> paginatedList = fetchSavedPaginatedList(httpSession);
-
-		if (paginatedList == null) {
-			paginatedList = libraryListService.findBookDefinitions(
-					"proviewDisplayName", true, 1,
-					WebConstants.NUMBER_BOOK_DEF_SHOWN, null, null, null, null,
-					null, null, null, httpSession);
-			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
-		}
-
-		initializeFormAndModel(model, form, "proviewDisplayName", true, 1,
-				paginatedList);
-
+		setUpModel(filterForm, savedPageAndSort, httpSession, model);
+		model.addAttribute(BookLibrarySelectionForm.FORM_NAME, librarySelectionForm);
+	
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 
@@ -112,55 +67,31 @@ public class BookLibraryController {
 	 * must again be submitted (a POST).
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING, method = RequestMethod.GET)
-	public ModelAndView pagingAndSorting(
-			HttpServletRequest request,
-			HttpSession httpSession,
+	public ModelAndView pagingAndSorting(HttpSession httpSession, 
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) BookLibrarySelectionForm form,
-
-			BindingResult bindingResult, Model model) throws Exception {
-
-		BookLibraryFilterForm bookLibraryFilterForm = fetchSavedFilterForm(httpSession);
-		model.addAttribute(BookLibraryFilterForm.FORM_NAME,
-				bookLibraryFilterForm);
-
-		String sort = request.getParameter(new ParamEncoder(
-				WebConstants.KEY_VDO)
-				.encodeParameterName(TableTagParameters.PARAMETER_SORT));
-
-		String order = request.getParameter(new ParamEncoder(
-				WebConstants.KEY_VDO)
-				.encodeParameterName(TableTagParameters.PARAMETER_ORDER));
-		boolean isAscending = order != null && order.equals("2") ? false : true;
-
-		int page = Integer.parseInt(request.getParameter(new ParamEncoder(
-				WebConstants.KEY_VDO)
-				.encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-
-		List<LibraryList> paginatedList = fetchSavedPaginatedList(httpSession);
-
-		if (paginatedList == null || sort != null) {
-			paginatedList = libraryListService.findBookDefinitions(sort,
-					isAscending, page, WebConstants.NUMBER_BOOK_DEF_SHOWN,
-					bookLibraryFilterForm.getProviewDisplayName(),
-					bookLibraryFilterForm.getTitleId(),
-					bookLibraryFilterForm.getIsbn(),
-					bookLibraryFilterForm.getMaterialId(),
-					bookLibraryFilterForm.getTo(),
-					bookLibraryFilterForm.getFrom(),
-					bookLibraryFilterForm.geteBookDefStatus(), httpSession);
-			saveSessionValues(httpSession, bookLibraryFilterForm, paginatedList);
+			Model model) {
+		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		Integer nextPageNumber = form.getPage();
+		
+		// If there was a page=n query string parameter, then we assume we are paging since this
+		// parameter is not present on the query string when display tag sorting.
+		if (nextPageNumber != null) {  // PAGING
+			pageAndSort.setPageNumber(nextPageNumber);
+		} else {  // SORTING
+			pageAndSort.setPageNumber(1);
+			pageAndSort.setSortProperty(form.getSort());
+			pageAndSort.setAscendingSort(form.isAscendingSort());
 		}
-		initializeFormAndModel(model, form, sort, isAscending, page,
-				paginatedList);
-
+		setUpModel(filterForm, pageAndSort, httpSession, model);
+		
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.POST)
-	public ModelAndView postBookDefinitionSelections(
-			HttpServletRequest request,
+	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST, method = RequestMethod.POST)
+	public ModelAndView postBookDefinitionSelections(HttpSession httpSession, HttpServletRequest request, 
 			@ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
-
 			BindingResult bindingResult, Model model) throws Exception {
 
 		if (!bindingResult.hasErrors()) {
@@ -212,54 +143,16 @@ public class BookLibraryController {
 
 			return mav;
 		}
+		
+		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		
+		setUpModel(filterForm, pageAndSort, httpSession, model);
 
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 
-	/**
-	 * Populates the model to display the book definitions and hidden properties
-	 * 
-	 * @param model
-	 * @param sortBy
-	 * @param isAscending
-	 * @param pageNumber
-	 * @return
-	 */
-	private void initializeFormAndModel(Model model,
-			BookLibrarySelectionForm form, String sortBy, boolean isAscending,
-			int pageNumber, List<LibraryList> paginatedList) {
-
-		Long resultSize = (long) paginatedList.size();
-
-		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-				resultSize.intValue());
-
-		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER,
-				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
-		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
-				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
-		form.setIsAscending(isAscending);
-		form.setPage(pageNumber);
-		form.setSort(sortBy);
-	}
-
-	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_THUMBNAILS, method = RequestMethod.GET)
-	public ModelAndView bookThumbnails(Model model) throws Exception {
-		// TODO: implement this
-		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_THUMBNAILS);
-	}
-
-	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_ICONS, method = RequestMethod.GET)
-	public ModelAndView bookIcons(Model model) throws Exception {
-		// TODO: implement this
-		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_ICONS);
-	}
-
-	@Required
-	public void setLibraryListService(LibraryListService service) {
-		this.libraryListService = service;
-	}
 
 	@Required
 	public void setValidator(Validator validator) {

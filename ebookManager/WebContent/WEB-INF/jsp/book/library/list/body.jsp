@@ -7,12 +7,14 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 	 
 	<script type="text/javascript">
@@ -27,17 +29,13 @@
 		};
 	</script>
 
-<form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post" action="<%= WebConstants.MVC_BOOK_LIBRARY_LIST%>">
-
-	<form:hidden path="isAscending" />
-	<form:hidden path="sort" />
-	<form:hidden path="page" />
+<form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post" action="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST%>">
 	<form:hidden path="command"/>
 
-	<%-- Error Message Presentation --%>
+    <%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=BookLibrarySelectionForm.FORM_NAME%>">
 		<div class="errorBox">
-	      <b><spring:message code="please.fix.errors"/></b><br/>
+	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
 	      	<ul>
 			<c:forEach items="${messages}" var="message">
@@ -47,44 +45,45 @@
 		  </form:errors>
 		  <br/>
 	    </div>
-	    <br/>
     </spring:hasBindErrors>
+    
 
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="paginatedList" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING%>"
-				   pagesize="<%= WebConstants.NUMBER_BOOK_DEF_SHOWN %>"
-				   partialList="true"
-				   size="resultSize"
 				   sort="external">
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
 	  <display:column title="${selectAll}"  style="text-align: center">
 	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
 	  </display:column>
-	  <display:column title="ProView Display Name" sortable="true" sortName="proviewDisplayName" style="text-align: left">
+	  <display:column title="ProView Display Name" sortable="true" sortProperty="<%=DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
 	  </display:column>
-	  <display:column title="Title ID" sortable="true" sortName="fullyQualifiedTitleId" >
+	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString() %>" >
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.fullyQualifiedTitleId}</a>
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
-	  <display:column title="ProView Version" property="proviewVersion" />
-	  <display:column title="ProView Publish Date">
-	  	<fmt:formatDate value="${vdo.lastProviewUpdateDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>"/>
-	  </display:column>
-	  <display:column title="Last Generate Date/Time" sortable="true" sortName="publishEndTimestamp">
+	  <display:column title="Last Generate Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.LAST_GENERATED_DATE.toString() %>">
 	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
-	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortName="isDeletedFlag" />
-	  <display:column title="Last Definition Edit Date/Time" sortable="true" sortName="lastUpdated" >
+	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.DEFINITION_STATUS.toString() %>" />
+	  <display:column title="Last Definition Edit Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.LAST_EDIT_DATE.toString() %>" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	</display:table>
+	<c:set var="generateBook" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="generateBook" value=""/>
+	</sec:authorize>
+	<c:set var="superUser" value="disabled"/>
+	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<c:set var="superUser" value=""/>
+	</sec:authorize>
 	<div class="buttons">
-		<input type="submit" value="Generate" ${superPublisherPublisherplusVisibility} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
-		<input type="submit" value="Promote" onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
+		<input type="submit" value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+		<input type="submit" value="Promote" ${superUser} onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
 	</div>
 
 </form:form>

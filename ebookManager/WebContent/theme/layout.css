@@ -77,6 +77,20 @@ html, body {
     width: 10em;
 }
 
+#left .filterRow {
+	margin-bottom:.3em;
+}
+
+#left .filterRow label {
+	display:block;
+}
+
+#left .wildCard {
+	color:gray;
+	font-style: italic;
+	margin:1em 0em;
+}
+
 #left .header {
 	font-family: Arial;
 	font-size: 1.5em;

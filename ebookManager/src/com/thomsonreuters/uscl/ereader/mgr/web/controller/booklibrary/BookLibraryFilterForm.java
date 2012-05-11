@@ -21,32 +21,47 @@ public class BookLibraryFilterForm {
 
 	public static final String FORM_NAME = "bookLibraryFilterForm";
 
-	public enum FilterCommand {
-		SEARCH, RESET
-	};
-
-	public enum BookDefStatus {
-		ALL, COMPLETE, INCOMPLETE
-	};
+	public enum FilterCommand {SEARCH, RESET};
+	public enum Action {COMPLETE, INCOMPLETE, DELETED};
 
 	private String proviewDisplayName;
-	private Date from;
-	private Date to;
 	private String toString;
 	private String fromString;
-	private String eBookDefStatus;
 	private String titleId;
 	private String isbn;
 	private String materialId;
 	private FilterCommand filterCommand;
-	private BookDefStatus bookStatus = BookDefStatus.ALL;
-
-	public BookDefStatus getBookStatus() {
-		return bookStatus;
+	private Action action;
+	
+	public BookLibraryFilterForm() {
+		initialize();
 	}
 
-	public void setBookStatus(BookDefStatus bookStatus) {
-		this.bookStatus = bookStatus;
+	/**
+	 * Set all values back to defaults.
+	 * Used in resetting the form.
+	 */
+	public void initialize() {
+		populate(null, null, null, null, null, null, null);
+	}
+
+	public void populate(String proviewDisplayName, String toString, String fromString, 
+			String titleId, String isbn, String materialId, Action action) {
+		this.proviewDisplayName = proviewDisplayName;
+		this.toString = toString;
+		this.fromString = fromString;
+		this.titleId = titleId;
+		this.isbn = isbn;
+		this.materialId = materialId;
+		this.action = action;
+	}
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
 	}
 
 	public String getToString() {
@@ -110,30 +125,6 @@ public class BookLibraryFilterForm {
 	public void setTo(Date to) {
 		this.toString = parseDate(to);
 
-	}
-
-	public String geteBookDefStatus() {
-
-		switch (bookStatus) {
-		case ALL:
-			eBookDefStatus = null;
-			break;
-
-		case COMPLETE:
-			eBookDefStatus = "Y";
-			break;
-
-		case INCOMPLETE:
-			eBookDefStatus = "N";
-			break;
-		}
-		return eBookDefStatus;
-
-	}
-
-	public void seteBookDefStatus(String eBookDefStatus) {
-		this.eBookDefStatus = eBookDefStatus == null ? null : eBookDefStatus
-				.trim();
 	}
 
 	public String getTitleId() {

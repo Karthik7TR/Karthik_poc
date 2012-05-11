@@ -93,7 +93,7 @@ public class Author implements Serializable, Comparable<Author> {
 	/**
 	 */
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
 	BookDefinition ebookDefinition;
 

@@ -33,12 +33,8 @@
 		  p:jobDao-ref="jobDao"
 		  p:jobExplorer-ref="jobExplorer"/>	  
 		  
-	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.core.library.service.LibraryListServiceImpl"
-  		  p:libraryListDao-ref="libraryListDao"
-  		  p:bookDefinitionDao-ref="bookDefinitionDao"
-  		  p:authorService-ref="authorService"
-  		  p:publishingStatsService-ref="publishingStatsService"
-  		  p:proviewClient-ref="proviewClient"/>
+	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListServiceImpl"
+  		  p:libraryListDao-ref="libraryListDao"/>
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl"
   		  p:codeService-ref="codeService"/>

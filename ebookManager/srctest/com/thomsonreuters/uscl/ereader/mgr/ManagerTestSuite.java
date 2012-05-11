@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookLibraryControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.DeleteBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionControllerTest;
@@ -33,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateC
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview.FmPreviewControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;

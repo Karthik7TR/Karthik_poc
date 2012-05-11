@@ -90,8 +90,11 @@
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
 	
-	<bean id="libraryListDao" class="com.thomsonreuters.uscl.ereader.core.library.dao.LibraryListDaoImpl"
+	<bean id="libraryListDao" class="com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"/>
+		  
+	<bean id="libraryListMapper" class="com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListRowMapper"
+		  p:authorService-ref="authorService"/>
 	
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		<constructor-arg ref="sessionFactory" />
