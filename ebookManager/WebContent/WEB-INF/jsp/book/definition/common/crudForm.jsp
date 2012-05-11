@@ -105,30 +105,49 @@
 		
 		// Add another author row
 		var addAuthorRow = function() {
-			var appendTxt = "<div class='row'>";
-			appendTxt = appendTxt + "<input id=\"authorInfo" + authorIndex + ".authorId\" name=\"authorInfo[" + authorIndex + "].authorId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input id=\"authorInfo" + authorIndex + ".ebookDefinitionId\" name=\"authorInfo[" + authorIndex + "].ebookDefinitionId\" type=\"hidden\" />";
-			appendTxt = appendTxt + "<input class=\"prefix\" id=\"authorInfo" + authorIndex + ".authorNamePrefix\" name=\"authorInfo[" + authorIndex + "].authorNamePrefix\" type=\"text\" title=\"prefix\"/>";
-			appendTxt = appendTxt + "<input class=\"firstName\" id=\"authorInfo" + authorIndex + ".authorFirstName\" name=\"authorInfo[" + authorIndex + "].authorFirstName\" type=\"text\" title=\"first name\"/>";
-			appendTxt = appendTxt + "<input class=\"middleName\" id=\"authorInfo" + authorIndex + ".authorMiddleName\" name=\"authorInfo[" + authorIndex + "].authorMiddleName\" type=\"text\" title=\"middle name\"/>";
-			appendTxt = appendTxt + "<input class=\"lastName\" id=\"authorInfo" + authorIndex + ".authorLastName\" name=\"authorInfo[" + authorIndex + "].authorLastName\" type=\"text\" title=\"last name\"/>";
-			appendTxt = appendTxt + "<input class=\"suffix\" id=\"authorInfo" + authorIndex + ".authorNameSuffix\" name=\"authorInfo[" + authorIndex + "].authorNameSuffix\" type=\"text\" title=\"suffix\"/>";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"authorInfo" + authorIndex + ".sequenceNum\" name=\"authorInfo[" + authorIndex + "].sequenceNum\" type=\"text\" title=\"Seq Num.\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<div class=\"row\">";
-			appendTxt = appendTxt + "Additional Text";
-			appendTxt = appendTxt + "<textarea id=\"authorInfo" + authorIndex + ".authorAddlText\" name=\"authorInfo[" + authorIndex + "].authorAddlText\" title=\"Additional Text\"/>";
-			appendTxt = appendTxt + "</div>";
-			appendTxt = appendTxt + "<div class=\"row\">";
-			appendTxt = appendTxt + "Use Comma Before Suffix";
-			appendTxt = appendTxt + "<input type=\"checkbox\" id=\"authorInfo" + authorIndex + ".useCommaBeforeSuffix\" name=\"authorInfo[" + authorIndex + "].useCommaBeforeSuffix\" title=\"Comma After Suffix\"/>";
-			appendTxt = appendTxt + "</div>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete\" class=\"rdelete\" title=\"Delete Author\" />";
-			appendTxt = appendTxt + "</div>";
-			$("#addHere").before(appendTxt);
+			var authorBox = $("<div>").addClass("authorBox");
+			var id = "authorInfo" + authorIndex;
+			var name = "authorInfo[" + authorIndex + "]";
+			
+			// Add author name input boxes
+			authorBox.append(addAuthorNameRows(id, name, "authorNamePrefix", "Prefix"));
+			authorBox.append(addAuthorNameRows(id, name, "authorFirstName", "First Name"));
+			authorBox.append(addAuthorNameRows(id, name, "authorMiddleName", "Middle Name"));
+			authorBox.append(addAuthorNameRows(id, name, "authorLastName", "Last Name"));
+			authorBox.append(addAuthorNameRows(id, name, "authorNameSuffix", "Suffix"));
+			
+			// Add addition text input box
+			var additionalText = $("<div>").addClass("authorRow");
+			additionalText.append($("<label>").html("Additional Text"));
+			additionalText.append($("<textarea>").attr("id",id +".authorAddlText").attr("name", name + ".authorAddlText"));
+			authorBox.append(additionalText);
+			
+			// Add sequence number input box
+			var sequenceBox = $("<div>").addClass("authorRow");
+			sequenceBox.append("Sequence Number");
+			sequenceBox.append($("<input>").addClass("sequenceNumber").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("type", "text").attr("maxlength", 9));
+			authorBox.append(sequenceBox);
+			
+			// Add Comma checkbox
+			var useCommaBeforeSuffix = $("<div>").addClass("authorRow");
+			useCommaBeforeSuffix.append("Use Comma Before Suffix");
+			useCommaBeforeSuffix.append($("<input>").attr("id",id +".useCommaBeforeSuffix").attr("name", name + ".useCommaBeforeSuffix").attr("type", "checkbox"));
+			authorBox.append(useCommaBeforeSuffix);
+			
+			// Add delete button
+			authorBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").val("Delete"));
+		
+			$("#addHere").before(authorBox);
 			authorIndex = authorIndex + 1;
-
-			textboxHint("authorName");
 		};
+		
+		var addAuthorNameRows = function(id, name, fieldName, label) {
+			var authorRow = $("<div>").addClass("authorRow");
+			authorRow.append($("<label>").html(label));
+			authorRow.append($("<input>").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName).attr("type", "text"));
+			
+			return authorRow;
+		}
 		
 		// Add another additional Front Matter Page row
 		var addFrontMatterPageRow = function() {
@@ -876,31 +895,60 @@
 					<form:errors path="authorInfo" cssClass="errorMessage" />
 				</div>
 				<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
-					<div class="row">
+					<div class="authorBox">
 						<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-						<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" title="prefix" class="prefix"  />
-						<form:input path="authorInfo[${aStatus.index}].authorFirstName"  title="first name" class="firstName" />
-						<form:input path="authorInfo[${aStatus.index}].authorMiddleName"  title="middle name" class="middleName" />
-						<form:input path="authorInfo[${aStatus.index}].authorLastName"   title="last name" class="lastName" />
-						<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  title="suffix" class="suffix" />
-						<form:input path="authorInfo[${aStatus.index}].sequenceNum"  title="Seq Num." class="sequenceNumber" maxlength="9" />
-						<div class="row">
-							Additional Text
-							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText"  title="Additional Text" />
+						<div class="authorRow">
+							<label>Prefix</label>
+							<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
+							</div>
 						</div>
-						
-						<div class="row">
+						<div class="authorRow">
+							<label>First Name</label>
+							<form:input path="authorInfo[${aStatus.index}].authorFirstName" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
+							<label>Middle Name</label>
+							<form:input path="authorInfo[${aStatus.index}].authorMiddleName" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
+							<label>Last Name</label>
+							<form:input path="authorInfo[${aStatus.index}].authorLastName" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
+							<label>Suffix</label>
+							<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
+							<label>Additional Text</label>
+							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
+							Sequence Number
+							<form:input path="authorInfo[${aStatus.index}].sequenceNum" class="sequenceNumber" maxlength="9" />
+							<div class="errorDiv">
+								<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="authorRow">
 							Use Comma Before Suffix
 							<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
-						</div>
-						<div class="errorDiv">
-							<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
-							<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 						</div>
 						<input type="button" value="Delete" class="rdelete" title="Delete Author" />
 					</div>

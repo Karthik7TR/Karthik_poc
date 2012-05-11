@@ -303,6 +303,15 @@ a:hover {
 	width:250px;
 }
 
+.bookDefinitionCRUD .authorBox {
+	text-align: right;
+	margin: .5em 0em;
+}
+
+.bookDefinitionCRUD .authorBox .authorRow {
+	margin-bottom: .2em;
+}
+
 .bookDefinitionCRUD #additionFrontMatterBlock {
 	width:600px;
 }
@@ -393,17 +402,6 @@ a:hover {
 .bookDefinitionCRUD #nameLine input.blur,
 .bookDefinitionCRUD #additionFrontMatterBlock input.blur {
   color:#808080;
-}
-
-.bookDefinitionCRUD #authorName .firstName,
-.bookDefinitionCRUD #authorName .middleName,
-.bookDefinitionCRUD #authorName .lastName {
-  width:75px;
-}
-
-.bookDefinitionCRUD #authorName .prefix,
-.bookDefinitionCRUD #authorName .suffix {
-  width:30px;
 }
 
 .bookDefinitionCRUD #authorName .row,
