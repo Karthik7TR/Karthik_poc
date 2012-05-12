@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -49,6 +50,7 @@ public class EditBookDefinitionForm {
 	private String materialId;
 	private Collection<Author> authorInfo;
 	private Collection<FrontMatterPage> frontMatters;
+	private Collection<ExcludeDocument> excludeDocuments;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
 	private boolean isTOC;
@@ -99,6 +101,7 @@ public class EditBookDefinitionForm {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
+		this.excludeDocuments = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
 		this.keywords = new AutoPopulatingList<String>(String.class);
 		this.isProviewTableView = false;
 		this.isComplete = false;
@@ -127,6 +130,7 @@ public class EditBookDefinitionForm {
 		bookDef.setNortFilterView(null);
 		bookDef.setEbookDefinitionCompleteFlag(false);
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
+		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
 		bookDef.setIsPilotBook(false);
 		
 		// Need to null surrogate and foreign keys.
@@ -173,6 +177,7 @@ public class EditBookDefinitionForm {
 			this.isPilotBook = book.getIsPilotBook();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
+			this.excludeDocuments = book.getExcludeDocuments();
 			
 			Date date = book.getPublishCutoffDate();
 			if (date != null) {
@@ -223,25 +228,24 @@ public class EditBookDefinitionForm {
 	}
 	
 	public void loadBookDefinition(BookDefinition book) throws ParseException {
-		Set<Author> authors = new HashSet<Author>(authorInfo);
-		for(Author author : authors) {
+		for(Author author : authorInfo) {
 			author.setEbookDefinition(book);
 		}
-		book.setAuthors(authors);
+		book.setAuthors(authorInfo);
 		
 		// Add Front Matter Book Names
 		Set<EbookName> ebookNames = new HashSet<EbookName>();
 		if(!frontMatterTitle.isEmpty()){
+			frontMatterTitle.setEbookDefinition(book);
 			ebookNames.add(frontMatterTitle);
 		}
 		if(!frontMatterSubtitle.isEmpty()){
+			frontMatterSubtitle.setEbookDefinition(book);
 			ebookNames.add(frontMatterSubtitle);
 		}
 		if(!frontMatterSeries.isEmpty()){
+			frontMatterSeries.setEbookDefinition(book);
 			ebookNames.add(frontMatterSeries);
-		}
-		for(EbookName name : ebookNames) {
-			name.setEbookDefinition(book);
 		}
 		book.setEbookNames(ebookNames);
 		
@@ -260,6 +264,14 @@ public class EditBookDefinitionForm {
 			addFrontMatters.add(page);
 		}
 		book.setFrontMatterPages(addFrontMatters);
+		
+		for(ExcludeDocument document : excludeDocuments) {
+			document.setBookDefinitionId(book.getEbookDefinitionId());
+			if(document.getLastUpdated() == null) {
+				document.setLastUpdated(new Date());
+			}
+		}
+		book.setExcludeDocuments(excludeDocuments);
 		
 		
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
@@ -727,6 +739,14 @@ public class EditBookDefinitionForm {
         for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
         	Author author = i.next();
             if (author == null || author.isNameEmpty()) {
+                i.remove();
+            }
+        }
+        
+        //Clear out empty ExcludeDocument
+        for (Iterator<ExcludeDocument> i = excludeDocuments.iterator(); i.hasNext();) {
+        	ExcludeDocument document = i.next();
+            if (document == null || document.isEmpty()) {
                 i.remove();
             }
         }

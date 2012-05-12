@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -31,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 @Transactional
 public class FrontMatterIntegrationTest {
 	//private static Logger log = Logger.getLogger(FrontMatterIntegrationTest.class);
-	private static String BOOK_TITLE = "uscl/an/frontmatter";
+	private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
 	private static Date UPDATE_DATE = new Date();
 	
 	@Autowired
@@ -71,6 +72,7 @@ public class FrontMatterIntegrationTest {
 		eBook.setAuthors(new HashSet<Author>());
 		eBook.setEbookNames(new HashSet<EbookName>());
 		eBook.setFrontMatterPages(new HashSet<FrontMatterPage>());
+		eBook.setExcludeDocuments(new HashSet<ExcludeDocument>());
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
 		

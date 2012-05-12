@@ -51,7 +51,7 @@ public class CodeServiceIntegrationTest  {
 	public void testGetAllStates() {
 		List<StateCode> stateCodes = service.getAllStateCodes();
 		log.debug(stateCodes);
-		Assert.assertEquals(50, stateCodes.size());
+		Assert.assertEquals(51, stateCodes.size());
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class CodeServiceIntegrationTest  {
 	public void testGetAllJuris() {
 		List<JurisTypeCode> codes = service.getAllJurisTypeCodes();
 		log.debug(codes);
-		Assert.assertEquals(51, codes.size());
+		Assert.assertEquals(54, codes.size());
 	}
 	
 	@Test

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -284,6 +285,11 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<FrontMatterPage> frontMatterPages;
+	/**
+	 */
+	@OneToMany(mappedBy = "bookDefinitionId", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<ExcludeDocument> excludeDocuments;
 
 	/**
 	 */
@@ -725,6 +731,20 @@ public class BookDefinition implements Serializable {
 		return nameList;
 	}
 
+	public List<ExcludeDocument> getExcludeDocuments() {
+		if(excludeDocuments == null) {
+			excludeDocuments = new HashSet<ExcludeDocument>();
+		}
+		// Change to list
+		List<ExcludeDocument> documents = new ArrayList<ExcludeDocument>();
+		documents.addAll(excludeDocuments);
+		return documents;
+	}
+
+	public void setExcludeDocuments(Collection<ExcludeDocument> excludeDocuments) {
+		this.excludeDocuments = new HashSet<ExcludeDocument>(excludeDocuments);
+	}
+
 	public List<FrontMatterPage> getFrontMatterPages() {
 		if (frontMatterPages == null) {
 			frontMatterPages = new java.util.LinkedHashSet<FrontMatterPage>();
@@ -810,6 +830,7 @@ public class BookDefinition implements Serializable {
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
+		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
 	}
 
 	/**

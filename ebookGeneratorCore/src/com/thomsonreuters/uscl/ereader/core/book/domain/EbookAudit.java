@@ -298,6 +298,11 @@ public class EbookAudit implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String isPilotBook;
 	
+	/**
+	 */
+	@Column(name = "EXCLUDED_DOCUMENTS_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String excludeDocumentsConcat;
 
 	/**
 	 */
@@ -722,6 +727,7 @@ public class EbookAudit implements Serializable {
 		setFrontMatterConcat(that.getFrontMatterConcat());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setIsPilotBook(that.getIsPilotBook());
+		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
 	}
 
 	/**
@@ -770,6 +776,7 @@ public class EbookAudit implements Serializable {
 		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setIsPilotBook(that.getIsPilotBook());
+		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
 	}
 	
 	@Transient
@@ -838,6 +845,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("isPilotBook=[").append(isPilotBook).append("] ");
+		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
 		
 		return buffer.toString();
 	}
@@ -952,6 +960,14 @@ public class EbookAudit implements Serializable {
 
 	public void setIsPilotBook(boolean isPilotBook) {
 		this.isPilotBook =( (isPilotBook) ? "Y" : "N");
+	}
+
+	public String getExcludeDocumentsConcat() {
+		return excludeDocumentsConcat;
+	}
+
+	public void setExcludeDocumentsConcat(String excludeDocumentsConcat) {
+		this.excludeDocumentsConcat = excludeDocumentsConcat;
 	}
 
 	public String getFrontMatterTocLabel() {

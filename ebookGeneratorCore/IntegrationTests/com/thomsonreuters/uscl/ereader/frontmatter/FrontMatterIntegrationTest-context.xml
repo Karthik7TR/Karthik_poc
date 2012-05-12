@@ -60,6 +60,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
 			</list>
 		</property>
 	</bean>
