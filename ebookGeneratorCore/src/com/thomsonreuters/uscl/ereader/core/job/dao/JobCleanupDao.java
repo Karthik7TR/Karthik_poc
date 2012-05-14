@@ -9,14 +9,7 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
 /**
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 /**
  * Queries for fetching and update Spring Batch job information.
@@ -41,7 +34,7 @@ public interface JobCleanupDao {
 	 * Gets list of dead jobs , so that the job owners could be notified to resubmit these jobs.   
 	 * @return
 	 */
-	public ArrayList<String> findListOfDeadJobs();
+	public List<String> findListOfDeadJobs();
 
 	/**
 	 * Update dead step exit status to 'failed' for given server name
@@ -61,6 +54,6 @@ public interface JobCleanupDao {
 	 * Gets list of dead jobs for given serverName, so that the job owners could be notified to resubmit these jobs.   
 	 * @return
 	 */
-	public ArrayList<String> findListOfDeadJobsByServerName(String serverName);
+	public List<String> findListOfDeadJobsByServerName(String serverName);
 
 }

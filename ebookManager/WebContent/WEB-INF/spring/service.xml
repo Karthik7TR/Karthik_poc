@@ -54,8 +54,6 @@
 		 p:jobCleanupDao-ref="jobCleanupDao"/>
 	
 	<bean id="serverAccessService" class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
-		  p:ssh-ref="ssh"
-		  p:emailNotification-ref="emailNotification"
 		  p:jobCleanupService-ref="jobCleanupService"/>
 		    
 </beans>

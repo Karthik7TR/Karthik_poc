@@ -6,7 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -28,10 +28,7 @@ import com.thomsonreuters.uscl.ereader.util.Ssh;
 public class ServerAccessServiceImpl implements ServerAccessService {
 
 	private static final Logger log = Logger.getLogger(ServerAccessServiceImpl.class);
-	private Ssh ssh;
 
-
-	private EmailNotification emailNotification;
 	private JobCleanupService jobCleanupService;
 	
 	/**
@@ -104,7 +101,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void notifyJobOwnerOnServerStartup(String serverName,String emailGroup){
-		ArrayList<String> jobListInfo ;
+		List<String> jobListInfo ;
 			jobListInfo = jobCleanupService.findListOfDeadJobsByServerName(serverName);
 		String subject ;
 		String emailAddress ;
@@ -126,7 +123,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 			log.debug("Notification email subject : " + subject);
 			log.debug("Notification email body : " + emailBody);
 
-			emailNotification.send(emailAddress, subject, emailBody);
+			EmailNotification.send(emailAddress, subject, emailBody);
 
 			
 		}
@@ -138,7 +135,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 */
 	private void notifyJobOwnerOnServerShutdown(String emailGroup){
 
-		ArrayList<String> jobListInfo = jobCleanupService.findListOfDeadJobs();
+		List<String> jobListInfo = jobCleanupService.findListOfDeadJobs();
 		String subject ;
 		String emailAddress ;
 		String emailBody ;
@@ -167,7 +164,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 		log.debug("Notification email subject : " + subject);
 		log.debug("Notification email body : " + emailBody);
 
-		emailNotification.send(emailAddress, subject, emailBody);
+		EmailNotification.send(emailAddress, subject, emailBody);
 	}
 	
 	
@@ -185,18 +182,8 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 
 	}
 	
-
-	@Required
-	public void setEmailNotification(EmailNotification emailNotification) {
-		this.emailNotification = emailNotification;
-	}
-	
 	@Required
 	public void setJobCleanupService(JobCleanupService jobCleanupService) {
 		this.jobCleanupService = jobCleanupService;
-	}	
-	@Required
-	public void setSsh(Ssh ssh) {
-		this.ssh = ssh;
 	}
 }

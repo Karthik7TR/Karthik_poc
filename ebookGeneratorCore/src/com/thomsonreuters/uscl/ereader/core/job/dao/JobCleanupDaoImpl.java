@@ -6,15 +6,14 @@
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,8 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 public class JobCleanupDaoImpl implements JobCleanupDao {
+	private static final String DEAD_JOB_MESSAGE = "Dead Job detected - updated status and exit codes";
+	private static final String BATCH_STATUS_FAILED = BatchStatus.FAILED.toString();
+	private static final String BATCH_STATUS_ABANDONED = BatchStatus.ABANDONED.toString();
+	private static final String EXIT_STATUS_FAILED = ExitStatus.FAILED.toString();
+	private static final String EXIT_STATUS_UNKNOWN = ExitStatus.UNKNOWN.toString();
+	private static final String EXIT_STATUS_EXECUTING = ExitStatus.EXECUTING.toString();
 	
-	private static final Logger log = Logger.getLogger(JobCleanupDaoImpl.class);
+	//private static final Logger log = Logger.getLogger(JobCleanupDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
 	
@@ -38,21 +43,20 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public ArrayList<String> findListOfDeadJobs() {
+	public List<String> findListOfDeadJobs() {
 		StringBuffer hql = new StringBuffer(
 		  "Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");   
 			hql.append(" from batch_job_execution  bje");
 			hql.append(" inner join publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
 			hql.append(" inner join ebook_definition ed on ed.ebook_definition_id = ps.ebook_definition_id");
-			hql.append(" where bje.exit_code = 'UNKNOWN'");
+			hql.append(String.format(" where bje.exit_code = '%s'", EXIT_STATUS_UNKNOWN));
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		Query query = session.createSQLQuery(hql.toString());
 		List<Object[]> objectList = query.list();
-		Map<String, String> docMap = new HashMap<String, String>();
 		
-		ArrayList arrayList = new ArrayList<String>();
+		List<String> arrayList = new ArrayList<String>();
 		for(Object[] arr : objectList)
 		{
 			if (arr[1] != null) 
@@ -75,11 +79,11 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	public int updateBatchJobExecution() {
 
 		StringBuffer hql= new StringBuffer("update batch_job_execution set ");
-			hql.append(" exit_code = 'FAILED',");
-			hql.append(" STATUS = 'FAILED',");
+			hql.append(String.format(" exit_code = '%s',", EXIT_STATUS_FAILED));
+			hql.append(String.format(" STATUS = '%s',", BATCH_STATUS_ABANDONED));
 			hql.append(" END_TIME = sysdate,");
-			hql.append(" EXIT_MESSAGE = 'APPEARED TO BE A DEAD JOB. SET EXIT_CODE AND STATUS TO FAILED'");
-			hql.append(" where exit_code = 'UNKNOWN'");
+			hql.append(String.format(" EXIT_MESSAGE = '%s' ", DEAD_JOB_MESSAGE));
+			hql.append(String.format(" where exit_code = '%s'", EXIT_STATUS_UNKNOWN));
 				
 		Session session = sessionFactory.getCurrentSession();
 
@@ -106,13 +110,13 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	public int updateBatchStepExecution() {
 				
 		StringBuffer hql= new StringBuffer("update batch_step_execution set");
-		hql.append(" EXIT_CODE = 'FAILED',");
-		hql.append(" STATUS = 'FAILED',");
+		hql.append(String.format(" EXIT_CODE = '%s',", EXIT_STATUS_FAILED));
+		hql.append(String.format(" STATUS = '%s',", BATCH_STATUS_FAILED));
 		hql.append(" END_TIME = sysdate,");
-		hql.append(" EXIT_MESSAGE = 'APPEARED TO BE A DEAD JOB. SET EXIT_CODE AND STATUS TO FAILED',");
+		hql.append(String.format(" EXIT_MESSAGE = '%s',", DEAD_JOB_MESSAGE));
 		hql.append(" LAST_UPDATED = sysdate");
-		hql.append(" where exit_code = 'EXECUTING'");
-		hql.append(" and job_execution_id in (select  job_instance_id  from batch_job_execution where exit_code ='UNKNOWN')" );
+		hql.append(String.format(" where exit_code = '%s'", EXIT_STATUS_EXECUTING));
+		hql.append(String.format(" and job_execution_id in (select  job_instance_id  from batch_job_execution where exit_code = '%s')", EXIT_STATUS_UNKNOWN ));
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
@@ -140,14 +144,14 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		
 		StringBuffer hql = new StringBuffer();
 		hql.append("update batch_job_execution set "); 
-		hql.append("exit_code = 'FAILED', ");
-		hql.append("STATUS = 'FAILED', ");
+		hql.append(String.format("exit_code = '%s', ", EXIT_STATUS_FAILED));
+		hql.append(String.format("STATUS = '%s', ", BATCH_STATUS_ABANDONED));
 		hql.append("END_TIME = sysdate, "); 
-		hql.append("EXIT_MESSAGE = 'APPEARED TO BE A DEAD JOB. SET EXIT_CODE AND STATUS TO FAILED' "); 
+		hql.append(String.format("EXIT_MESSAGE = '%s' ", DEAD_JOB_MESSAGE)); 
 		hql.append("where job_instance_id in ");
 		hql.append("( Select bje.job_instance_id from batch_job_execution bje "); 
 		hql.append("inner join publishing_stats ps on ps.job_instance_id = bje.job_instance_id ");
-		hql.append("where bje.exit_code ='UNKNOWN' and ps.job_host_name ='"+serverName+"')");
+		hql.append(String.format("where bje.exit_code = '%s' and ps.job_host_name = '%s')", EXIT_STATUS_UNKNOWN, serverName));
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
@@ -173,13 +177,13 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	public int updateBatchStepExecutionForGivenServer(String serverName) {
 		StringBuffer hql = new StringBuffer();
 		hql.append("update batch_step_execution set "); 
-		hql.append("EXIT_CODE = 'FAILED', STATUS = 'FAILED', ");
-		hql.append("END_TIME = sysdate, EXIT_MESSAGE = 'APPEARED TO BE A DEAD JOB. SET EXIT_CODE AND STATUS TO FAILED', ");
+		hql.append(String.format("EXIT_CODE = '%s', STATUS = '%s', ", EXIT_STATUS_FAILED, BATCH_STATUS_FAILED));
+		hql.append(String.format("END_TIME = sysdate, EXIT_MESSAGE = '%s', ", DEAD_JOB_MESSAGE));
 		hql.append("LAST_UPDATED = sysdate ");
 		hql.append("where end_time is null and job_execution_id in "); 
 		hql.append("(Select bje.job_execution_id from batch_job_execution bje "); 
 		hql.append("inner join publishing_stats ps on ps.job_instance_id = bje.job_instance_id ");
-		hql.append("where bje.exit_code ='UNKNOWN' and ps.job_host_name ='"+serverName+"')");
+		hql.append(String.format("where bje.exit_code = '%s' and ps.job_host_name = '%s')", EXIT_STATUS_UNKNOWN, serverName));
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
@@ -205,16 +209,16 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 					hql.append(" from batch_job_execution  bje");
 					hql.append(" inner join publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
 					hql.append(" inner join ebook_definition ed on ed.ebook_definition_id = ps.ebook_definition_id");
-					hql.append(" where bje.exit_code = 'UNKNOWN'");
-					hql.append(" and ps.job_host_name='"+serverName+"'");
+					hql.append(String.format(" where bje.exit_code = '%s'", EXIT_STATUS_UNKNOWN));
+					hql.append(String.format(" and ps.job_host_name = '%s'", serverName));
 				
 				Session session = sessionFactory.getCurrentSession();
 				
 				Query query = session.createSQLQuery(hql.toString());
+				@SuppressWarnings("unchecked")
 				List<Object[]> objectList = query.list();
-				Map<String, String> docMap = new HashMap<String, String>();
 				
-				ArrayList arrayList = new ArrayList<String>();
+				ArrayList<String> arrayList = new ArrayList<String>();
 				for(Object[] arr : objectList)
 				{
 					if (arr[1] != null) 

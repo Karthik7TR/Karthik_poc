@@ -10,7 +10,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface JobCleanupService {
 
@@ -23,7 +23,7 @@ public interface JobCleanupService {
 	/**
 	 * Gets list of dead jobs caused by all the server instances,  so that jobs owner could be notified to resubmit these jobs.  
 	 */
-	public ArrayList<String> findListOfDeadJobs();
+	public List<String> findListOfDeadJobs();
 
 	/**
 	 * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables for given server name 
@@ -34,6 +34,6 @@ public interface JobCleanupService {
 	/**
 	 * Gets list of dead jobs caused by passed in the server instances,  so that jobs owner could be notified to resubmit these jobs.  
 	 */
-	public ArrayList<String> findListOfDeadJobsByServerName(String serverName);
+	public List<String> findListOfDeadJobsByServerName(String serverName);
 
 }

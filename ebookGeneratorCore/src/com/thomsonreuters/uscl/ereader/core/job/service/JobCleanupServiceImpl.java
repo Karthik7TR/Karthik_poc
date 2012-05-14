@@ -6,7 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -36,7 +36,7 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 		int stepCleanup = jobCleanupDao.updateBatchStepExecution();
 		int jobCleanup = jobCleanupDao.updateBatchJobExecution();
 		
-		LOG.debug("Number of steps updated ="+stepCleanup +" and number of jobs updated ="+jobCleanup );
+		LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
 		
 	}
 
@@ -44,7 +44,7 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 	 * Gets list of dead jobs so that jobs owner could be notified to resubmit these jobs.  
 	 */
 	@Override
-	public ArrayList<String> findListOfDeadJobs(){
+	public List<String> findListOfDeadJobs(){
 		return jobCleanupDao.findListOfDeadJobs();
 		
 	}
@@ -65,11 +65,11 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 		
 		int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
 		int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
-		LOG.debug("Number of steps updated ="+stepCleanup +" and number of jobs updated ="+jobCleanup );
+		LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
 	}
 
 	@Override
-	public ArrayList<String> findListOfDeadJobsByServerName(String serverName) 
+	public List<String> findListOfDeadJobsByServerName(String serverName) 
 	{
 		return jobCleanupDao.findListOfDeadJobsByServerName(serverName);
 
