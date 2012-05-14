@@ -32,6 +32,7 @@
 		// Declare Global Variables
 		var authorIndex = ${numberOfAuthors};
 		var frontMatterPageIndex = ${numberOfFrontMatters};
+		var excludeDocumentIndex = ${numberOfExcludeDocuments};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -104,50 +105,106 @@
 		};
 		
 		// Add another author row
-		var addAuthorRow = function() {
-			var authorBox = $("<div>").addClass("authorBox");
+		var adddynamicRow = function() {
+			var expandingBox = $("<div>").addClass("expandingBox");
 			var id = "authorInfo" + authorIndex;
 			var name = "authorInfo[" + authorIndex + "]";
 			
 			// Add author name input boxes
-			authorBox.append(addAuthorNameRows(id, name, "authorNamePrefix", "Prefix"));
-			authorBox.append(addAuthorNameRows(id, name, "authorFirstName", "First Name"));
-			authorBox.append(addAuthorNameRows(id, name, "authorMiddleName", "Middle Name"));
-			authorBox.append(addAuthorNameRows(id, name, "authorLastName", "Last Name"));
-			authorBox.append(addAuthorNameRows(id, name, "authorNameSuffix", "Suffix"));
+			expandingBox.append(addDynamicRow(id, name, "authorNamePrefix", "Prefix"));
+			expandingBox.append(addDynamicRow(id, name, "authorFirstName", "First Name"));
+			expandingBox.append(addDynamicRow(id, name, "authorMiddleName", "Middle Name"));
+			expandingBox.append(addDynamicRow(id, name, "authorLastName", "Last Name"));
+			expandingBox.append(addDynamicRow(id, name, "authorNameSuffix", "Suffix"));
 			
 			// Add addition text input box
-			var additionalText = $("<div>").addClass("authorRow");
+			var additionalText = $("<div>").addClass("dynamicRow");
 			additionalText.append($("<label>").html("Additional Text"));
 			additionalText.append($("<textarea>").attr("id",id +".authorAddlText").attr("name", name + ".authorAddlText"));
-			authorBox.append(additionalText);
+			expandingBox.append(additionalText);
 			
 			// Add sequence number input box
-			var sequenceBox = $("<div>").addClass("authorRow");
+			var sequenceBox = $("<div>").addClass("dynamicRow");
 			sequenceBox.append("Sequence Number");
 			sequenceBox.append($("<input>").addClass("sequenceNumber").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("type", "text").attr("maxlength", 9));
-			authorBox.append(sequenceBox);
+			expandingBox.append(sequenceBox);
 			
 			// Add Comma checkbox
-			var useCommaBeforeSuffix = $("<div>").addClass("authorRow");
+			var useCommaBeforeSuffix = $("<div>").addClass("dynamicRow");
 			useCommaBeforeSuffix.append("Use Comma Before Suffix");
 			useCommaBeforeSuffix.append($("<input>").attr("id",id +".useCommaBeforeSuffix").attr("name", name + ".useCommaBeforeSuffix").attr("type", "checkbox"));
-			authorBox.append(useCommaBeforeSuffix);
+			expandingBox.append(useCommaBeforeSuffix);
 			
 			// Add delete button
-			authorBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").val("Delete"));
 		
-			$("#addHere").before(authorBox);
+			$("#addAuthorHere").before(expandingBox);
 			authorIndex = authorIndex + 1;
 		};
 		
-		var addAuthorNameRows = function(id, name, fieldName, label) {
-			var authorRow = $("<div>").addClass("authorRow");
-			authorRow.append($("<label>").html(label));
-			authorRow.append($("<input>").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName).attr("type", "text"));
+		var addDynamicRow = function(id, name, fieldName, label, maxLength) {
+			var dynamicRow = $("<div>").addClass("dynamicRow");
+			dynamicRow.append($("<label>").html(label));
 			
-			return authorRow;
+			var input = $("<input>").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName).attr("type", "text");
+			if(maxLength != null) {
+				input.attr("maxlength", maxLength);
+			}
+			
+			dynamicRow.append(input);
+			
+			return dynamicRow;
 		}
+		
+		var getDateTimeString = function(date) {
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
+			var year = date.getFullYear();
+			var hour = date.getHours();
+			var minute = date.getMinutes();
+			var second = date.getSeconds();
+			
+			return leadingZero(month) + "/" + leadingZero(day) + "/" + year + " " + leadingZero(hour) + ":" + leadingZero(minute) + ":" + leadingZero(second);
+		}
+		
+		var leadingZero = function(val)
+        {
+            var str = val.toString();
+            if(str.length == 1)
+            {
+                str = '0' + str;
+            }
+ 
+            return str;
+        }
+		
+		// Add another Exclude Document row
+		var addExcludeDocumentRow = function() {
+			var expandingBox = $("<div>").addClass("expandingBox");
+			var id = "excludeDocuments" + excludeDocumentIndex;
+			var name = "excludeDocuments[" + excludeDocumentIndex + "]";
+			
+			// Add Document Guid input boxes
+			expandingBox.append(addDynamicRow(id, name, "documentGuid", "Document Guid", 33));
+			
+			// Add Note text box
+			var additionalText = $("<div>").addClass("dynamicRow");
+			additionalText.append($("<label>").html("Note"));
+			additionalText.append($("<textarea>").attr("id",id +".note").attr("name", name + ".note"));
+			expandingBox.append(additionalText);
+			
+			// Add Date input box
+			var lastUpdated = $("<div>").addClass("dynamicRow");
+			lastUpdated.append($("<label>").html("Last Updated"));
+			lastUpdated.append($("<input>").attr("id",id +".lastUpdated").attr("name", name + ".lastUpdated").attr("type", "text").attr("disabled","disabled").val(getDateTimeString(new Date())));
+			expandingBox.append(lastUpdated);
+			
+			// Add delete button
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Exclude Document").attr("type", "button").val("Delete"));
+		
+			$("#addExcludeDocumentHere").before(expandingBox);
+			excludeDocumentIndex = excludeDocumentIndex + 1;
+		};
 		
 		// Add another additional Front Matter Page row
 		var addFrontMatterPageRow = function() {
@@ -253,11 +310,21 @@
 			showPubCutoffDate = getContentTypeIdElement().attr("usecutoffdate");
 			if(showPubCutoffDate == "true") {
 				$("#displayPubCutoffDateOptions").show();
+				updatePubCutoffDate($('input:radio[name=publicationCutoffDateUsed]:checked').val());
 			} else {
 				$("#displayPubCutoffDateOptions").hide();
 				$('input:radio[name=publicationCutoffDateUsed]:nth(1)').attr('checked',true);
 				updatePubCutoffDate(showPubCutoffDate);
 			}
+		};
+		
+		var showExcludeDocument = function() {
+			var displayExcludeDocument = $('input:radio[name=excludeDocumentsUsed]:checked').val();
+			if(displayExcludeDocument == "true") {
+				$("#displayExcludeDocument").show();
+			} else {
+				$("#displayExcludeDocument").hide();
+			};
 		};
 		
 		var getContentTypeIdElement = function() {
@@ -330,7 +397,15 @@
 			
 			<%-- Setup Button Click handlers  --%>
 			$('#addAuthor').click(function () {
-				addAuthorRow();
+				adddynamicRow();
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$('#authorName').hide();
+				$('#authorName').show();
+			});
+			
+			$('#addExcludeDocument').click(function () {
+				addExcludeDocumentRow();
 				
 				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
 				$('#authorName').hide();
@@ -400,6 +475,11 @@
 			// Determine to show publication cut-off date
 			$('input:radio[name=publicationCutoffDateUsed]').change(function () {
 				updatePubCutoffDate($(this).val());
+			});
+			
+			// Determine to show Exclude Document
+			$('input:radio[name=excludeDocumentsUsed]').change(function () {
+				showExcludeDocument();
 			});
 			
 			// Close or open the Keyword values
@@ -497,10 +577,8 @@
 			determineOptions();
 			$('#titleIdBox').val($('#titleId').val());
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
-			updatePubCutoffDate($('input:radio[name=publicationCutoffDateUsed]:checked').val());
 			showPubCutoffDateBox();
-			textboxHint("authorName");
-			textboxHint("nameLine");
+			showExcludeDocument();
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
@@ -694,6 +772,14 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
+				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
+				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+				</div>
+			</div>
 			<div id="displayPubCutoffDateOptions">
 				<div class="row">
 					<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
@@ -712,12 +798,52 @@
 				</div>
 			</div>
 			<div class="row">
-				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
-				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
-				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
+				<form:label path="excludeDocumentsUsed" class="labelCol">Enable Exclude Documents</form:label>
+				<form:radiobutton path="excludeDocumentsUsed" value="true" />Yes
+				<form:radiobutton path="excludeDocumentsUsed" value="false" />No
 				<div class="errorDiv">
-					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
+					<form:errors path="excludeDocumentsUsed" cssClass="errorMessage" />
 				</div>
+			</div>
+			<div id="displayExcludeDocument" class="row" style="display:none;">
+				<c:forEach items="${editBookDefinitionForm.excludeDocumentsCopy}" var="documentCopy" varStatus="aStatus">
+						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].documentGuid" maxlength="33" />
+						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].note" />
+						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].lastUpdated"/>
+				</c:forEach>
+				<form:label path="excludeDocumentsUsed" class="labelCol">Exclude Documents</form:label>
+				<input type="button" id="addExcludeDocument" value="add" />
+				<div class="errorDiv">
+					<form:errors path="excludeDocuments" cssClass="errorMessage" />
+				</div>
+				<c:forEach items="${editBookDefinitionForm.excludeDocuments}" var="document" varStatus="aStatus">
+					<div class="expandingBox">
+						<div class="dynamicRow">
+							<label>Document Guid</label>
+							<form:input path="excludeDocuments[${aStatus.index}].documentGuid" maxlength="33" />
+							<div class="errorDiv">
+								<form:errors path="excludeDocuments[${aStatus.index}].documentGuid" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="dynamicRow">
+							<label>Note</label>
+							<form:textarea path="excludeDocuments[${aStatus.index}].note" />
+							<div class="errorDiv">
+								<form:errors path="excludeDocuments[${aStatus.index}].note" cssClass="errorMessage" />
+							</div>
+						</div>
+						<div class="dynamicRow">
+							<label>Last Updated</label>
+							<form:input disabled="true" path="excludeDocuments[${aStatus.index}].lastUpdated" />
+							<form:hidden path="excludeDocuments[${aStatus.index}].lastUpdated"/>
+							<div class="errorDiv">
+								<form:errors path="excludeDocuments[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+							</div>
+						</div>
+						<input type="button" value="Delete" class="rdelete" title="Delete Exclude Document" />
+					</div>
+				</c:forEach>
+				<div id="addExcludeDocumentHere"></div>
 			</div>
 		</div>
 	</div>
@@ -895,65 +1021,65 @@
 					<form:errors path="authorInfo" cssClass="errorMessage" />
 				</div>
 				<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
-					<div class="authorBox">
+					<div class="expandingBox">
 						<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>Prefix</label>
 							<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>First Name</label>
 							<form:input path="authorInfo[${aStatus.index}].authorFirstName" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>Middle Name</label>
 							<form:input path="authorInfo[${aStatus.index}].authorMiddleName" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>Last Name</label>
 							<form:input path="authorInfo[${aStatus.index}].authorLastName" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>Suffix</label>
 							<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							<label>Additional Text</label>
 							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							Sequence Number
 							<form:input path="authorInfo[${aStatus.index}].sequenceNum" class="sequenceNumber" maxlength="9" />
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 							</div>
 						</div>
-						<div class="authorRow">
+						<div class="dynamicRow">
 							Use Comma Before Suffix
 							<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
 						</div>
 						<input type="button" value="Delete" class="rdelete" title="Delete Author" />
 					</div>
 				</c:forEach>
-				<div id="addHere"></div>
+				<div id="addAuthorHere"></div>
 			</div>
 		</div>
 	</div>

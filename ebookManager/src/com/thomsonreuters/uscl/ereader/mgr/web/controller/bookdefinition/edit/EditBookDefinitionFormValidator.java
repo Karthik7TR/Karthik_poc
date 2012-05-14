@@ -22,6 +22,7 @@ import org.springframework.validation.Validator;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -36,6 +37,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_CHARACTER_40 = 40;
 	private static final int MAXIMUM_CHARACTER_64 = 64;
+	private static final int MAXIMUM_CHARACTER_512 = 512;
 	private static final int MAXIMUM_CHARACTER_1024 = 1024;
 	private static final int MAXIMUM_CHARACTER_2048 = 2048;
 	private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
@@ -157,19 +159,37 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	List<Integer> authorSequenceChecker = new ArrayList<Integer>();
     	int i = 0;
 		for(Author author : authors) {
-			if(StringUtils.isEmpty(author.getAuthorLastName())) {
-				errors.rejectValue("authorInfo["+ i +"].authorLastName", "error.author.last.name");
-			}
-
 			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNamePrefix(), "authorInfo["+ i +"].authorNamePrefix", new Object[] {"Prefix", MAXIMUM_CHARACTER_40});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_40, author.getAuthorNameSuffix(), "authorInfo["+ i +"].authorNameSuffix", new Object[] {"Suffix", MAXIMUM_CHARACTER_40});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorFirstName(), "authorInfo["+ i +"].authorFirstName", new Object[] {"First name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorMiddleName(), "authorInfo["+ i +"].authorMiddleName", new Object[] {"Middle name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, author.getAuthorLastName(), "authorInfo["+ i +"].authorLastName", new Object[] {"Last name", MAXIMUM_CHARACTER_1024});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_2048, author.getAuthorAddlText(), "authorInfo["+ i +"].authorAddlText", new Object[] {"Additional text", MAXIMUM_CHARACTER_2048});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].authorLastName", "error.author.last.name");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			// Check duplicate sequence numbers exist
 			checkDuplicateSequenceNumber(errors, author.getSequenceNum(), "authorInfo["+ i +"].sequenceNum", authorSequenceChecker);
+			i++;
+		}
+		
+		// Validate Exclude Documents has all required fields
+		i=0;
+		List<String> documentGuids = new ArrayList<String>();
+		for(ExcludeDocument document: form.getExcludeDocuments()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments["+ i +"].documentGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, document.getNote(), "excludeDocuments["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			
+			// Check if there are duplicate guids
+			String documentGuid = document.getDocumentGuid();
+			if(StringUtils.isNotBlank(documentGuid)) {
+				if(documentGuids.contains(documentGuid)) {
+					errors.rejectValue("excludeDocuments["+ i +"].documentGuid", "error.document.guid.duplicate");
+				} else {
+					checkGuidFormat(errors, documentGuid, "excludeDocuments["+ i +"].documentGuid");
+					documentGuids.add(documentGuid);
+				}
+			}
 			i++;
 		}
 		
@@ -218,6 +238,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
 		}
 		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
+		
+		if(form.isExcludeDocumentsUsed()) {
+			if(form.getExcludeDocuments().size() == 0) {
+				errors.rejectValue("excludeDocuments","error.exclude.document.used");
+			}
+		}
 
 		// Only run these validation when Validate Button or Book Definition is set as Complete.
     	if(form.getIsComplete() || validateForm) {

@@ -118,17 +118,6 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 	 */
 	@Transactional
 	public BookDefinition saveBookDefinition(BookDefinition eBook) {
-		BookDefinition existingBook = bookDefinitionDao.findBookDefinitionByTitle(eBook.getFullyQualifiedTitleId());
-		
-		// Prevent publishedOnce and isDeleted from being updated through save.
-		// updateDeletedStatus() and updatePublishedStatus() are used to update those columns
-		// Prevent user from updating these columns by injecting a form to create/update.
-		if(existingBook != null) {
-			eBook.setEbookDefinitionId(existingBook.getEbookDefinitionId());
-			eBook.setPublishedOnceFlag(existingBook.getPublishedOnceFlag());
-			eBook.setIsDeletedFlag(existingBook.isDeletedFlag());
-		}
-		
 		eBook = bookDefinitionDao.saveBookDefinition(eBook);
 		
 		return eBook;

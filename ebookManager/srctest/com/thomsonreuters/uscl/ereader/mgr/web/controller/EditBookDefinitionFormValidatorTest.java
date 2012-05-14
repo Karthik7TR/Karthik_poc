@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
@@ -185,8 +186,8 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setPubAbbr("_");
 		form.setPubInfo("!@");
 		validator.validate(form, errors);
-		Assert.assertEquals("error.special.characters", errors.getFieldError("pubAbbr").getCode());
-		Assert.assertEquals("error.special.characters", errors.getFieldError("pubInfo").getCode());
+		Assert.assertEquals("error.alphanumeric", errors.getFieldError("pubAbbr").getCode());
+		Assert.assertEquals("error.alphanumeric.underscore", errors.getFieldError("pubInfo").getCode());
 
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -458,6 +459,80 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.required.field", errors.getFieldError("authorInfo[0].sequenceNum").getCode());
 		Assert.assertEquals("error.author.last.name", errors.getFieldError("authorInfo[0].authorLastName").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test ExcludeDocument required fields
+	 */
+	@Test
+	public void testExcludeDocumentRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	ExcludeDocument document = new ExcludeDocument();
+    	document.setNote("test");
+    	form.getExcludeDocuments().add(document);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required", errors.getFieldError("excludeDocuments[0].documentGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test ExcludeDocument duplicate guids
+	 */
+	@Test
+	public void testExcludeDocumentDuplicateGuids() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	ExcludeDocument document = new ExcludeDocument();
+    	document.setNote("Test1");
+    	document.setDocumentGuid("123456789012345678901234567890123");
+    	
+    	ExcludeDocument document2 = new ExcludeDocument();
+    	document2.setNote("Test2");
+    	document2.setDocumentGuid("123456789012345678901234567890123");
+    	
+    	form.getExcludeDocuments().add(document);
+    	form.getExcludeDocuments().add(document2);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.document.guid.duplicate", errors.getFieldError("excludeDocuments[1].documentGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test ExcludeDocument enabled but not documents listed
+	 */
+	@Test
+	public void testExcludeDocumentEnabled() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	form.setExcludeDocumentsUsed(true);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.exclude.document.used", errors.getFieldError("excludeDocuments").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

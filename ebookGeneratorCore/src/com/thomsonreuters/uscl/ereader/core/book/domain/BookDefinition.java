@@ -287,7 +287,7 @@ public class BookDefinition implements Serializable {
 	Set<FrontMatterPage> frontMatterPages;
 	/**
 	 */
-	@OneToMany(mappedBy = "bookDefinitionId", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<ExcludeDocument> excludeDocuments;
 

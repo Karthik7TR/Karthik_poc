@@ -50,7 +50,9 @@ public class EditBookDefinitionForm {
 	private String materialId;
 	private Collection<Author> authorInfo;
 	private Collection<FrontMatterPage> frontMatters;
+	private boolean isExcludeDocumentsUsed;
 	private Collection<ExcludeDocument> excludeDocuments;
+	private Collection<ExcludeDocument> excludeDocumentsCopy;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
 	private boolean isTOC;
@@ -102,6 +104,7 @@ public class EditBookDefinitionForm {
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.excludeDocuments = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
+		this.excludeDocumentsCopy = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
 		this.keywords = new AutoPopulatingList<String>(String.class);
 		this.isProviewTableView = false;
 		this.isComplete = false;
@@ -110,6 +113,7 @@ public class EditBookDefinitionForm {
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = false;
+		this.isExcludeDocumentsUsed = false;
 		this.isPublicationCutoffDateUsed = false;
 		this.isPilotBook = false;
 		this.copyright = "©";
@@ -178,7 +182,14 @@ public class EditBookDefinitionForm {
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			this.excludeDocuments = book.getExcludeDocuments();
+			this.excludeDocumentsCopy = book.getExcludeDocuments();
 			
+			// Determine if ExcludeDocuments are present in Book Definition
+			if (book.getExcludeDocuments().size() > 0) {
+				this.isExcludeDocumentsUsed = true;
+			}
+			
+			// Determine if Publish Cut-off Date is used
 			Date date = book.getPublishCutoffDate();
 			if (date != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -228,6 +239,8 @@ public class EditBookDefinitionForm {
 	}
 	
 	public void loadBookDefinition(BookDefinition book) throws ParseException {
+		book.setEbookDefinitionId(bookdefinitionId);
+		
 		for(Author author : authorInfo) {
 			author.setEbookDefinition(book);
 		}
@@ -265,9 +278,17 @@ public class EditBookDefinitionForm {
 		}
 		book.setFrontMatterPages(addFrontMatters);
 		
+		// Compare with copy to determine if date needs update
 		for(ExcludeDocument document : excludeDocuments) {
-			document.setBookDefinitionId(book.getEbookDefinitionId());
-			if(document.getLastUpdated() == null) {
+			boolean exists = false;
+			document.setBookDefinition(book);
+			for(ExcludeDocument documentCopy : excludeDocumentsCopy) {
+				if(document.equals(documentCopy)) {
+					exists = true;
+				}
+			}
+			// Update date
+			if(!exists) {
 				document.setLastUpdated(new Date());
 			}
 		}
@@ -284,7 +305,6 @@ public class EditBookDefinitionForm {
 		dtc.setId(contentTypeId);
 		book.setDocumentTypeCodes(dtc);
 		book.setEbookDefinitionCompleteFlag(isComplete);
-		book.setEbookDefinitionId(bookdefinitionId);
 		book.setFullyQualifiedTitleId(titleId);
 		book.setCoverImage(this.createCoverImageName());
 		
@@ -411,6 +431,31 @@ public class EditBookDefinitionForm {
 		this.frontMatters = frontMatters;
 	}
 
+
+	public boolean isExcludeDocumentsUsed() {
+		return isExcludeDocumentsUsed;
+	}
+
+	public void setExcludeDocumentsUsed(boolean isExcludeDocumentsUsed) {
+		this.isExcludeDocumentsUsed = isExcludeDocumentsUsed;
+	}
+
+	public Collection<ExcludeDocument> getExcludeDocuments() {
+		return excludeDocuments;
+	}
+
+	public void setExcludeDocuments(Collection<ExcludeDocument> excludeDocuments) {
+		this.excludeDocuments = excludeDocuments;
+	}
+
+	public Collection<ExcludeDocument> getExcludeDocumentsCopy() {
+		return excludeDocumentsCopy;
+	}
+
+	public void setExcludeDocumentsCopy(
+			Collection<ExcludeDocument> excludeDocumentsCopy) {
+		this.excludeDocumentsCopy = excludeDocumentsCopy;
+	}
 
 	public String getCopyright() {
 		return copyright;

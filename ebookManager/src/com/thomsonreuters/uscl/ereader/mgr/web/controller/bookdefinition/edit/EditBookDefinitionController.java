@@ -6,12 +6,15 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +57,12 @@ public class EditBookDefinitionController {
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(false);
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(WebConstants.DATE_TIME_FORMAT_PATTERN);
+		dateFormat.setLenient(false);
+		// true passed to CustomDateEditor constructor means convert empty String to null
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
 		binder.setValidator(validator);
 	}
 
@@ -226,17 +235,16 @@ public class EditBookDefinitionController {
 		
 		
 		if(!bindingResult.hasErrors()) {
-			BookDefinition book = new BookDefinition();
-			form.loadBookDefinition(book);
-			book = bookDefinitionService.saveBookDefinition(book);
+			form.loadBookDefinition(bookDef);
+			bookDef = bookDefinitionService.saveBookDefinition(bookDef);
 			
 			// Save in Audit
 			EbookAudit audit = new EbookAudit();
-			audit.loadBookDefinition(book, EbookAudit.AUDIT_TYPE.EDIT, UserUtils.getAuthenticatedUserName(), form.getComment());
+			audit.loadBookDefinition(bookDef, EbookAudit.AUDIT_TYPE.EDIT, UserUtils.getAuthenticatedUserName(), form.getComment());
 			auditService.saveEBookAudit(audit);
 			
 			// Remove lock from BookDefinition
-			bookLockService.removeLock(book);
+			bookLockService.removeLock(bookDef);
 			
 			// Redirect user
 			String queryString = String.format("?%s=%s", WebConstants.KEY_ID, bookDefinitionId);
@@ -337,6 +345,7 @@ public class EditBookDefinitionController {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_EXCLUDE_DOCUMENTS, form.getExcludeDocuments().size());
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());

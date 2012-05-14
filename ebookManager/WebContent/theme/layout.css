@@ -318,12 +318,16 @@ a:hover {
 	width:250px;
 }
 
-.bookDefinitionCRUD .authorBox {
+.bookDefinitionCRUD .expandingBox  {
 	text-align: right;
 	margin: .5em 0em;
 }
 
-.bookDefinitionCRUD .authorBox .authorRow {
+.bookDefinitionView .expandingBox  {
+	margin: .8em 0em;
+}
+
+.bookDefinitionCRUD .expandingBox .dynamicRow {
 	margin-bottom: .2em;
 }
 

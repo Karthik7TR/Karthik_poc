@@ -38,7 +38,9 @@ public abstract class BaseFormValidator {
 	
 	protected void checkGuidFormat(Errors errors, String text, String fieldName) {
 		if (StringUtils.isNotEmpty(text)) {
-			Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
+			//Pattern pattern = Pattern.compile("^\\w[0-9a-fA-F]{32}$");
+			// Just checking for 33 characters.  Some publications has custom Root Guids like IFEDCIVDISC9999999999999999999999
+			Pattern pattern = Pattern.compile("^[a-zA-Z0-9]{33}$");
 			Matcher matcher = pattern.matcher(text);
 			
 			if(!matcher.find()) {
@@ -66,7 +68,12 @@ public abstract class BaseFormValidator {
 			Matcher matcher = pattern.matcher(text);
 			
 			if(matcher.find()) {
-				errors.rejectValue(fieldName, "error.special.characters");
+				if (includeUnderscore) {
+					errors.rejectValue(fieldName, "error.alphanumeric.underscore");
+				} else {
+					errors.rejectValue(fieldName, "error.alphanumeric");
+				}
+				
 			}
 		}
 	}
