@@ -42,6 +42,7 @@ public class ProviewClientImplIntegrationTest {
 	private String getTitlesUriTemplate = "/v1/titles/uscl/all";
 	private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
 	private String removeTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/removed";
+	private String promoteTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/final";
 	private String deleteTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
 	private String validateTitleUriTemplate = "";
 
@@ -113,6 +114,25 @@ public class ProviewClientImplIntegrationTest {
 
 		System.out.println(publisherInformation);
 	}
+	
+	@Test
+	public void testPromoteTitle() {
+		proviewClient.setPromoteTitleUriTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + promoteTitleUriTemplate);
+		String publisherInformation = null;
+		try {
+			publisherInformation = proviewClient.promoteTitle("uscl/an/an_frcpbkeenantest2",
+					"v2");
+
+		} catch (Exception e) {
+			if (e.getMessage().contains("Collection doesn't exist")) {
+				fail("Expected an exception as title doesn't exist on ProView!");
+			}
+		}
+
+		System.out.println(publisherInformation);
+	}
+
 
 	@Test
 	public void testDeleteTitle() {
