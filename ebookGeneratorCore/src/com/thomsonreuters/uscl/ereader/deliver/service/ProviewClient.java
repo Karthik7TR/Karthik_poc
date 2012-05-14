@@ -49,9 +49,13 @@ public interface ProviewClient {
 	public String deleteTitle(final String fullyQualifiedTitleId,
 			final String eBookVersionNumber) throws ProviewException;
 
+	public String promoteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException;
+
 	public ProviewTitleContainer getProviewTitleContainer(
 			final String fullyQualifiedTitleId) throws ProviewException;
-	
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap)
+
+	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(
+			Map<String, ProviewTitleContainer> titleMap)
 			throws ProviewException;
 }

@@ -63,6 +63,7 @@
 		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
 		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:removeTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}/status/removed"
+		  p:promoteTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}/status/final"
 		  p:deleteTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:restTemplate-ref="proviewRestTemplate"
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"

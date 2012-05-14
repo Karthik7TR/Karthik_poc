@@ -40,6 +40,7 @@ public class ProviewClientImpl implements ProviewClient {
 	private String publishingStatusUriTemplate;
 	private String deleteTitleUriTemplate;
 	private String removeTitleUriTemplate;
+	private String promoteTitleUriTemplate;
 
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
@@ -157,6 +158,41 @@ public class ProviewClientImpl implements ProviewClient {
 				.getRequestCallback();
 
 		String proviewResponse = restTemplate.execute(removeTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle
+	 * (java.lang.String, java.lang.String)
+	 */
+	public String promoteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getRequestCallback();
+
+		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
 				HttpMethod.PUT, proviewRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
@@ -289,9 +325,10 @@ public class ProviewClientImpl implements ProviewClient {
 		return allLatestProviewTitles;
 
 	}
-	
+
 	@Override
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap)
+	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(
+			Map<String, ProviewTitleContainer> titleMap)
 			throws ProviewException {
 
 		ArrayList<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
@@ -377,5 +414,13 @@ public class ProviewClientImpl implements ProviewClient {
 
 	public void setRemoveTitleUriTemplate(String removeTitleUriTemplate) {
 		this.removeTitleUriTemplate = removeTitleUriTemplate;
+	}
+
+	public String getPromoteTitleUriTemplate() {
+		return promoteTitleUriTemplate;
+	}
+
+	public void setPromoteTitleUriTemplate(String promoteTitleUriTemplate) {
+		this.promoteTitleUriTemplate = promoteTitleUriTemplate;
 	}
 }
