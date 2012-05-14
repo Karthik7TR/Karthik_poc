@@ -24,16 +24,18 @@ public class ManagerDaoImpl implements ManagerDao {
 		int[] argTypes = { Types.TIMESTAMP };
 		List<Long> stepExecutionIds = new ArrayList<Long>();
 		
+		String TIME_COMPARISON_COLUMN_NAME = "CREATE_TIME";
+		
 		// EXECUTIONS to be cleaned up.  Using create_time for time comparison because it is non-null and
 		// because jobs that are currently starting will not have a start time yet.
 		List<Long> jobExecutionIds = jdbcTemplate.queryForList(
-					"select job_execution_id from batch_job_execution where (create_time < ?)",
+					"select job_execution_id from batch_job_execution where (" + TIME_COMPARISON_COLUMN_NAME + " < ?)",
 									args, argTypes, Long.class);
 
 		if (jobExecutionIds.size() > 0) {  // if no executions, there will be no instance or step data
 			// INSTANCES to be cleaned up
 			List<Long> jobInstanceIds = jdbcTemplate.queryForList(
-					"select unique job_instance_id from batch_job_execution where (create_time < ?)",
+					"select unique job_instance_id from batch_job_execution where (" + TIME_COMPARISON_COLUMN_NAME + " < ?)",
 									args, argTypes, Long.class);
 
 			// STEPS to be cleaned up, fetching them exec id, by exec id
