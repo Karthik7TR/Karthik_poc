@@ -78,7 +78,6 @@ public class WebConstants {
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
 	public static final String KEY_JOB_EXECUTIONS = "jobExecutions";
-	public static final String KEY_JOB_REQUESTS_QUEUED = "jobRequestsQueued";
 	public static final String KEY_JOB_QUEUED_PAGE_AND_SORT = "jobsQueuedPageAndSort";
 	public static final String KEY_JOB_STEP_EXECUTION = "jobStepExecution";
 	public static final String KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES = "jobStepExecutionContextMapEntries";

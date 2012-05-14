@@ -29,9 +29,10 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
 
 public class QueueControllerTest {
 	
+	private static final int OBJECTS_PER_PAGE = 20;
+	private static final int JOB_REQUEST_COUNT = 21;
 	private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT =
-				new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SUBMITTED_AT, false);
-	private static final int JOB_REQUEST_COUNT = 50;
+			new PageAndSort<DisplayTagSortProperty>(1, OBJECTS_PER_PAGE, DisplayTagSortProperty.BOOK_NAME, true);
 	private static final BookDefinition BOOK_DEF = new BookDefinition();
 	private static List<JobRequest> JOB_REQUESTS;
 	
@@ -59,9 +60,9 @@ public class QueueControllerTest {
     	this.request = new MockHttpServletRequest();
     	this.response = new MockHttpServletResponse();
     	request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT);
-    	
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	//this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
+   
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
@@ -97,15 +98,15 @@ public class QueueControllerTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testPaging() throws Exception {
-		Integer pageNumber = new Integer(3);
+		Integer pageNumber = new Integer(1);
     	// Set up the request URL
     	request.setRequestURI(String.format("/"+WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
     	request.setMethod(HttpMethod.GET.name());
     	request.setParameter("page", pageNumber.toString());
     	HttpSession httpSession = request.getSession();
     	
-    	// Place the test job requests on the session
-    	httpSession.setAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED, JOB_REQUESTS);
+    	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
+    	EasyMock.replay(mockJobRequestService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -117,6 +118,37 @@ public class QueueControllerTest {
     	PageAndSort<DisplayTagSortProperty> actualPageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
     	Assert.assertEquals(pageNumber, actualPageAndSort.getPageNumber());
     	verifyModel(model, httpSession); 
+    	EasyMock.verify(mockJobRequestService);
+	}
+	
+	/**
+	 * Test where the user clicks a paging page number 2 when the number of rows has dropped below the count of objects per page.
+	 * This was causing a sublist index problem.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testPagingOnEmptyList() throws Exception {
+		int nextPageNumber = 2;  // but the list is going to be empty
+		List<JobRequest> emptyJobRequestList = new ArrayList<JobRequest>(); // empty list
+		
+    	// Set up the request URL
+    	request.setRequestURI(String.format("/"+WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
+    	request.setMethod(HttpMethod.GET.name());
+    	request.setParameter("page", String.valueOf(nextPageNumber));
+    	HttpSession httpSession = request.getSession();
+    	
+    	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(emptyJobRequestList);
+    	EasyMock.replay(mockJobRequestService);
+    	
+    	// Invoke the controller method via the URL
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	Assert.assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_JOB_QUEUE, mav.getViewName());
+    	
+    	PageAndSort<DisplayTagSortProperty> actualPageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
+    	// The saved page number should be back to 1 since the list is now empty
+    	Assert.assertEquals(new Integer(nextPageNumber-1), actualPageAndSort.getPageNumber());
+    	EasyMock.verify(mockJobRequestService);
 	}
 
 	@Test
@@ -158,7 +190,6 @@ public class QueueControllerTest {
 
 	private void verifyModel(Map<String,Object> model, HttpSession httpSession) {
     	Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-    	Assert.assertEquals(JOB_REQUESTS, httpSession.getAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED));
     	Assert.assertEquals(PAGE_AND_SORT, httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT));
 	}
 }

@@ -77,19 +77,23 @@ public class QueueController {
 								Model model) {
 		log.debug(form);
 		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
-		List<JobRequest> allQueuedJobs = null;
+		List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
 		
 		Integer nextPageNumber = form.getPage();
 		// If there was a page=n query string parameter, then we assume we are paging since this
 		// parameter is not present on the query string when display tag sorting.
-		if (nextPageNumber != null) {  // PAGING
-			allQueuedJobs = fetchSavedQueuedJobs(httpSession);
+		if (nextPageNumber != null) {  // PAGING (1..n)
+			// Guard against a shrinking list and user selecting a forward page that no longer exists because the count of jobs has dropped
+			int startIndex = (nextPageNumber-1) * pageAndSort.getObjectsPerPage();
+			if (startIndex > allQueuedJobs.size()) {
+				nextPageNumber = 1;
+			}
 			pageAndSort.setPageNumber(nextPageNumber);
 		} else {  // SORTING
 			pageAndSort.setPageNumber(1);
 			pageAndSort.setSortProperty(form.getSortProperty());
 			pageAndSort.setAscendingSort(form.isAscendingSort());
-			allQueuedJobs = jobRequestService.findAllJobRequests();
+			
 		}
 		setUpModel(allQueuedJobs, pageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_JOB_QUEUE);
@@ -103,19 +107,9 @@ public class QueueController {
 		}
 		return pageAndSort;
 	}
-	
-	@SuppressWarnings("unchecked")
-	private List<JobRequest> fetchSavedQueuedJobs(HttpSession httpSession) {
-		List<JobRequest> queuedJobs = (List<JobRequest>) httpSession.getAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED);
-		if (queuedJobs == null) {
-			queuedJobs = Collections.EMPTY_LIST;
-		}
-		return queuedJobs;
-	}
 
 	private void setUpModel(List<JobRequest> allQueuedJobs, PageAndSort<DisplayTagSortProperty> queuedPageAndSort, 
 							HttpSession httpSession, Model model) {
-		httpSession.setAttribute(WebConstants.KEY_JOB_REQUESTS_QUEUED, allQueuedJobs);
 		httpSession.setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, queuedPageAndSort);
 		
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers list
