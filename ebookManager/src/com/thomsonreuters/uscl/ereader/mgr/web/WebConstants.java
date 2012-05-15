@@ -6,28 +6,35 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web;
 
-
-
 public class WebConstants {
-	
+
 	// Date/Time formatting patterns
-	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";  // default date presentation
-	public static final String DATE_TIME_FORMAT_PATTERN=DATE_FORMAT_PATTERN + " HH:mm:ss";
-	public static final String DATE_TIME_MS_FORMAT_PATTERN=DATE_TIME_FORMAT_PATTERN + ".SSS";
-	public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS="height=800,width=768,top=0,resizable=yes,scrollbars=yes";
-	
+	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy"; // default
+																	// date
+																	// presentation
+	public static final String DATE_TIME_FORMAT_PATTERN = DATE_FORMAT_PATTERN
+			+ " HH:mm:ss";
+	public static final String DATE_TIME_MS_FORMAT_PATTERN = DATE_TIME_FORMAT_PATTERN
+			+ ".SSS";
+	public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS = "height=800,width=768,top=0,resizable=yes,scrollbars=yes";
+
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
 	public static final String KEY_PROVIEW_DOMAIN = "proviewDomain";
-	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm";	// Library search criteria saved on session
+	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library
+																					// search
+																					// criteria
+																					// saved
+																					// on
+																					// session
 	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
-	public static final String KEY_ALL_LATEST_PROVIEW_TITLES="allLatestProviewTitleInfo";
-	public static final String KEY_ALL_PROVIEW_TITLES="allProviewTitleInfo";
+	public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
+	public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
 	public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
-	public static final String KEY_BOOK_AUDIT_DETAIL="bookAuditDetail";
+	public static final String KEY_BOOK_AUDIT_DETAIL = "bookAuditDetail";
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
 	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
 	public static final String KEY_STATE_CODE = "stateCode";
@@ -56,25 +63,25 @@ public class WebConstants {
 	public static final String KEY_PUBLISHERS = "publishers";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
-	public static final String KEY_IS_IN_JOB_REQUEST="isInJobRequest";
-	public static final String KEY_VERSION_NUMBER="versionNumber";
-	public static final String KEY_NEW_MAJOR_VERSION_NUMBER="newMajorVersionNumber";
-	public static final String KEY_NEW_MINOR_VERSION_NUMBER="newMinorVersionNumber";
-	public static final String KEY_PUBLISHING_CUT_OFF_DATE="publishingCutOffDate";
+	public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
+	public static final String KEY_VERSION_NUMBER = "versionNumber";
+	public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
+	public static final String KEY_NEW_MINOR_VERSION_NUMBER = "newMinorVersionNumber";
+	public static final String KEY_PUBLISHING_CUT_OFF_DATE = "publishingCutOffDate";
 	public static final String KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY = "publishingCutOffDateGreaterOrEqualToday";
 	public static final String KEY_USE_PUBLISHING_CUT_OFF_DATE = "usePublishingCutOffDate";
 	public static final String KEY_MATERIAL_ID_CHANGED = "materialIdChanged";
 	public static final String KEY_ISBN_CHANGED = "isbnChanged";
-	public static final String KEY_ISBN="isbn";
-	public static final String KEY_MATERIAL_ID="materialId";
-	public static final String KEY_PUBLISHING_STATS="publishingStats";
-	public static final String KEY_IS_COMPLETE="isComplete";
-	public static final String KEY_IS_NEW_ISBN="isNewISBN";
-	public static final String KEY_IS_NEW_MTERIAL_ID="isNewMaterialId";
-	public static final String KEY_BOOK_DEFINITION_LOCK="bookDefinitionLock";
+	public static final String KEY_ISBN = "isbn";
+	public static final String KEY_MATERIAL_ID = "materialId";
+	public static final String KEY_PUBLISHING_STATS = "publishingStats";
+	public static final String KEY_IS_COMPLETE = "isComplete";
+	public static final String KEY_IS_NEW_ISBN = "isNewISBN";
+	public static final String KEY_IS_NEW_MTERIAL_ID = "isNewMaterialId";
+	public static final String KEY_BOOK_DEFINITION_LOCK = "bookDefinitionLock";
 
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
-	
+
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
@@ -87,7 +94,7 @@ public class WebConstants {
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
 	public static final String KEY_JOB_INSTANCE_BOOK_INFO = "bookInfo";
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
-	
+
 	// Document Type Codes
 	public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
 	public static final String DOCUMENT_TYPE_COURT_RULES_ABBR = "cr";
@@ -95,17 +102,17 @@ public class WebConstants {
 	public static final String DOCUMENT_TYPE_ANALYTICAL_ABBR = "an";
 	public static final String DOCUMENT_TYPE_SLICE_CODES = "Slice Codes";
 	public static final String DOCUMENT_TYPE_SLICE_CODES_ABBR = "sc";
-	
+
 	// Confirmation codes
 	public static final String CONFIRM_CODE_KILL_SWITCH = "Stop all";
 	public static final String CONFIRM_CODE_DELETE_BOOK = "DELETE BOOK";
-	
+
 	// NAS locations for files
-	public static final String LOCATION_KEY_COVER_IMAGE="/apps/eBookBuilder/generator/images/cover";
-	public static final String LOCATION_FRONT_MATTER_IMAGE="/apps/eBookBuilder/coreStatic/images";
-	public static final String LOCATION_FRONT_MATTER_CSS="/apps/eBookBuilder/coreStatic/css";
+	public static final String LOCATION_KEY_COVER_IMAGE = "/apps/eBookBuilder/generator/images/cover";
+	public static final String LOCATION_FRONT_MATTER_IMAGE = "/apps/eBookBuilder/coreStatic/images";
+	public static final String LOCATION_FRONT_MATTER_CSS = "/apps/eBookBuilder/coreStatic/css";
 	public static final String LOCATION_PDF = "/apps/eBookBuilder/generator/images/pdf";
-	
+
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";
 	public static final String MVC_COVER_IMAGE = "coverImage.mvc";
@@ -134,36 +141,61 @@ public class WebConstants {
 	public static final String MVC_GET_CONTENT_TYPE = "getContentType.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW = "frontMatterPreview.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_EDIT = "frontMatterPreviewEdit.mvc";
-	
+
 	public static final String MVC_FRONT_MATTER_PREVIEW_TITLE = "frontMatterPreviewTitle.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_COPYRIGHT = "frontMatterPreviewCopyright.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_ADDITIONAL = "frontMatterPreviewContentAdditional.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_RESEARCH = "frontMatterPreviewResearch.mvc";
 	public static final String MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT = "frontMatterPreviewWestlawNext.mvc";
-	
-	
+
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
-	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc";	// SECURED: job restart button on Job Execution Details page
-	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc";	// SECURED: job stop button on Job Excution Details page
+	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc"; // SECURED:
+																								// job
+																								// restart
+																								// button
+																								// on
+																								// Job
+																								// Execution
+																								// Details
+																								// page
+	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc"; // SECURED:
+																						// job
+																						// stop
+																						// button
+																						// on
+																						// Job
+																						// Excution
+																						// Details
+																						// page
 	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
 	public static final String MVC_JOB_QUEUE = "jobQueue.mvc";
 	public static final String MVC_JOB_QUEUE_PAGE_AND_SORT = "jobQueuePageAndSort.mvc";
 	public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
 	public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
-	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc";	// SECURED: job stop or restart button on the Job Summary page
+	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc"; // SECURED:
+																								// job
+																								// stop
+																								// or
+																								// restart
+																								// button
+																								// on
+																								// the
+																								// Job
+																								// Summary
+																								// page
 	public static final String MVC_JOB_SUMMARY_CHANGE_ROW_COUNT = "jobSummaryChangeRowCount.mvc";
 	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
 	public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
 	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
-	
+
 	public static final String MVC_BOOK_AUDIT_LIST = "bookAuditList.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT = "bookAuditListPageAndSort.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
 	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
-	
+
 	// Administration related URI's
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
@@ -189,13 +221,13 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
-	
+
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
 	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
 	public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
+	public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
 	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
-	
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
@@ -203,9 +235,9 @@ public class WebConstants {
 	public static final String MVC_SEC_AFTER_LOGOUT = "afterLogout.mvc";
 	public static final String MVC_SEC_LOGIN = "login.mvc";
 	public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
-	
+
 	public static final String MVC_SMOKE_TEST = "smokeTest.mvc";
-	
+
 	// Error related URI's
 	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
 
@@ -272,15 +304,12 @@ public class WebConstants {
 	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
 	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
 	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
-	
+	public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";
+
 	// Miscellaneous keys and constants used throughout the application.
-//	public enum SortProperty { TITLE_ID, AUTHOR };  // Book Library SortFields
+	// public enum SortProperty { TITLE_ID, AUTHOR }; // Book Library SortFields
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
-	
-	
-	
-	
 
 }

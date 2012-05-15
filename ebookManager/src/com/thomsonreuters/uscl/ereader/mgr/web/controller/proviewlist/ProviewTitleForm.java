@@ -6,12 +6,11 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
-
 public class ProviewTitleForm {
 	public static final String FORM_NAME = "proviewTitleInfoForm";
 
 	public enum Command {
-		REMOVE, DELETE
+		REMOVE, DELETE, PROMOTE
 	};
 
 	private String titleId;
