@@ -25,8 +25,8 @@ public class CitationNormalizationRulesUtil
         {
             normalizedCite = normalizedCite.toUpperCase();
 
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_SECTION_SYMBOL), "s");
-            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_PARAGRAPH_SYMBOL), "p");
+            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_SECTION_SYMBOL), "S");
+            normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_PARAGRAPH_SYMBOL), "P");
             normalizedCite = normalizedCite.replace(
                     String.valueOf(UNICODE_LEFT_BRACKET_SYMBOL), "(");
             normalizedCite = normalizedCite.replace(
