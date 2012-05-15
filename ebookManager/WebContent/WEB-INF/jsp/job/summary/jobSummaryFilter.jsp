@@ -75,11 +75,12 @@ function submitJobSummaryFilterForm(command) {
 		<label>Job Status:</label>
 		<form:select path="batchStatus">
 			<form:option label="ALL" value=""/>
+			<form:option label="<%=BatchStatus.ABANDONED.toString() %>" value="<%=BatchStatus.ABANDONED.toString() %>"/>
 			<form:option label="<%=BatchStatus.COMPLETED.toString()%>" value="<%=BatchStatus.COMPLETED.toString() %>"/>
 			<form:option label="<%=BatchStatus.FAILED.toString() %>" value="<%=BatchStatus.FAILED.toString() %>"/>
 			<form:option label="<%=BatchStatus.STARTED.toString() %>" value="<%=BatchStatus.STARTED.toString() %>"/>
-			<form:option label="<%=BatchStatus.STOPPED.toString() %>" value="<%=BatchStatus.STOPPED.toString() %>"/>
 			<form:option label="<%=BatchStatus.STARTING.toString() %>" value="<%=BatchStatus.STARTING.toString() %>"/>
+			<form:option label="<%=BatchStatus.STOPPED.toString() %>" value="<%=BatchStatus.STOPPED.toString() %>"/>
 			<form:option label="<%=BatchStatus.STOPPING.toString() %>" value="<%=BatchStatus.STOPPING.toString() %>"/>
 		</form:select>
 	</div>
