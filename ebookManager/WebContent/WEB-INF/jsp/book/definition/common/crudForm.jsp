@@ -105,7 +105,7 @@
 		};
 		
 		// Add another author row
-		var adddynamicRow = function() {
+		var addAuthorRow = function() {
 			var expandingBox = $("<div>").addClass("expandingBox");
 			var id = "authorInfo" + authorIndex;
 			var name = "authorInfo[" + authorIndex + "]";
@@ -167,16 +167,13 @@
 			return leadingZero(month) + "/" + leadingZero(day) + "/" + year + " " + leadingZero(hour) + ":" + leadingZero(minute) + ":" + leadingZero(second);
 		}
 		
-		var leadingZero = function(val)
-        {
-            var str = val.toString();
-            if(str.length == 1)
-            {
-                str = '0' + str;
-            }
- 
-            return str;
-        }
+		var leadingZero = function(val) {
+			var str = val.toString();
+			if(str.length == 1) {
+				str = '0' + str;
+			}
+			return str;
+		}
 		
 		// Add another Exclude Document row
 		var addExcludeDocumentRow = function() {
@@ -398,7 +395,7 @@
 			
 			<%-- Setup Button Click handlers  --%>
 			$('#addAuthor').click(function () {
-				adddynamicRow();
+				addAuthorRow();
 				
 				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
 				$('#authorName').hide();
