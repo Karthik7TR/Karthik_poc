@@ -276,7 +276,8 @@ a:hover {
 	width:61.3em;
 }
 
-.bookDefinitionView .centerSection {
+.bookDefinitionView .centerSection,
+.bookDefinitionView #displayExcludeDocument {
 	width:58em;
 }
 

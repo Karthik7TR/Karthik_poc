@@ -95,27 +95,28 @@ function submitForm(cmd)
 						<label class="labelCol">Publication Cut-off Date</label>
 						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
-					<div class="row">
-						<label class="labelCol">Exclude Documents</label>
-						<c:forEach items="${ book.excludeDocuments }" var="document">
-							<div class="expandingBox">
-								<div class="dynamicRow">
-									<label>Document Guid:</label>
-									<span class="field"> ${ document.documentGuid }</span>
-								</div>
-								<div class="dynamicRow">
-									<label>Note:</label>
-									<div class="field"> ${ document.note } </div>
-								</div>
-								<div class="dynamicRow">
-									<label>Last Updated:</label>
-									<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
 				</div>
 			</div>
+		</div>
+		
+		<div id="displayExcludeDocument">
+			<label class="labelCol">Exclude Documents</label>
+			<c:forEach items="${ book.excludeDocuments }" var="document">
+				<div class="expandingBox">
+					<div>
+						<label>Document Guid:</label>
+						<span class="field"> ${ document.documentGuid }</span>
+					</div>
+					<div>
+						<label>Note:</label>
+						<span class="field"> ${ document.note } </span>
+					</div>
+					<div>
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 		
 		<div class="section">
