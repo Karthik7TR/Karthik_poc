@@ -82,6 +82,41 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
         }
 		
 	}
+	/**
+	 * gets back largest content file size for passed in file path and content type (file Extention)
+	 */
+	@Override
+	public double getLargestContent(final String contentFolderPath,String fileExtention)
+	{
+		CharSequence charSeq = ",";
+		boolean multiExtention= false; 
+		if(fileExtention.contains(charSeq)){
+			multiExtention = true;
+		}
+		
+		double largestFileSize = 0; 
+		File contentDri = new File(contentFolderPath); 
+		File fileList[] = contentDri.listFiles();
+		for (File file : fileList) {
+			if(!multiExtention){
+				if(file.getAbsolutePath().endsWith(fileExtention)){
+					if(largestFileSize <file.length()){
+						largestFileSize = file.length();
+					}
+				}
+			}else{
+				// images folder can contain css files which we dont want consider while finding largest image file. 
+				if(file.getAbsolutePath().endsWith(".png") || file.getAbsolutePath().endsWith(".jpeg") || file.getAbsolutePath().endsWith(".gif")){
+					if(largestFileSize <file.length()){
+						largestFileSize = file.length();
+					}
+				}
+				
+			}
+		}
+	
+		return largestFileSize; 
+	}
 	
     /**
      * Recursively searches through a directory and creates a tar entry for each file and

@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  */
 @IdClass(com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK.class)
@@ -218,8 +221,28 @@ public class PublishingStats implements Serializable {
 	@XmlElement
 	Date lastUpdated;
 
+	@Column(name = "BOOK_SIZE")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer bookSize;
 
 
+	@Column(name = "LARGEST_DOC_SIZE")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer largestDocSize;
+	
+	@Column(name = "LARGEST_IMAGE_SIZE")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer largestImageSize;	
+
+	@Column(name = "LARGEST_PDF_SIZE")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer largestPdfSize;	
+
+	
 	public Date getPublishStartTimestamp() {
 		return publishStartTimestamp;
 	}
@@ -495,40 +518,41 @@ public class PublishingStats implements Serializable {
 	 * Returns a textual representation of a bean.
 	 * 
 	 */
-	public String toString() {
+	public String toStringNew(){
+		
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
 
-		StringBuilder buffer = new StringBuilder();
+	public void setBookSize(Integer bookSize) {
+		this.bookSize = bookSize;
+	}
 
-		buffer.append("jobInstanceId=[").append(jobInstanceId).append("] ");
-		buffer.append("ebookDefId=[").append(ebookDefId).append("] ");
-		buffer.append("auditId=[").append(auditId).append("] ");
-		buffer.append("bookVersionSubmitted=[").append(bookVersionSubmitted).append("] ");
-		buffer.append("jobHostName=[").append(jobHostName).append("] ");
-		buffer.append("jobSubmitterName=[").append(jobSubmitterName).append("] ");
-		buffer.append("jobSubmitTimestamp=[").append(jobSubmitTimestamp).append("] ");
-		buffer.append("publishStartTimestamp=[").append(publishStartTimestamp).append("] ");
-		buffer.append("gatherTocNodeCount=[").append(gatherTocNodeCount).append("] ");
-		buffer.append("gatherTocSkippedCount=[").append(gatherTocSkippedCount).append("] ");
-		buffer.append("gatherTocDocCount=[").append(gatherTocDocCount).append("] ");
-		buffer.append("gatherTocRetryCount=[").append(gatherTocRetryCount).append("] ");
-		buffer.append("gatherDocExpectedCount=[").append(gatherDocExpectedCount).append("] ");
-		buffer.append("gatherDocRetrievedCount=[").append(gatherDocRetrievedCount).append("] ");
-		buffer.append("gatherDocRetryCount=[").append(gatherDocRetryCount).append("] ");
-		buffer.append("gatherMetaExpectedCount=[").append(gatherMetaExpectedCount).append("] ");
-		buffer.append("gatherMetaRetrievedCount=[").append(gatherMetaRetrievedCount).append("] ");
-		buffer.append("gatherMetaRetryCount=[").append(gatherMetaRetryCount).append("] ");
-		buffer.append("gatherImageExpectedCount=[").append(gatherImageExpectedCount).append("] ");
-		buffer.append("gatherImageRetrievedCount=[").append(gatherImageRetrievedCount).append("] ");
-		buffer.append("gatherImageRetryCount=[").append(gatherImageRetryCount).append("] ");
-		buffer.append("formatDocCount=[").append(formatDocCount).append("] ");
-		buffer.append("assembleDocCount=[").append(assembleDocCount).append("] ");
-		buffer.append("titleDocCount=[").append(titleDocCount).append("] ");
-		buffer.append("titleDupDocCount=[").append(titleDupDocCount).append("] ");
-		buffer.append("publishStatus=[").append(publishStatus).append("] ");
-		buffer.append("publishEndTimestamp=[").append(publishEndTimestamp).append("] ");
-		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+	public void setLargestDocSize(Integer largestDocSize) {
+		this.largestDocSize = largestDocSize;
+	}
 
-		return buffer.toString();
+	public void setLargestImageSize(Integer largestImageSize) {
+		this.largestImageSize = largestImageSize;
+	}
+
+	public void setLargestPdfSize(Integer largestPdfSize) {
+		this.largestPdfSize = largestPdfSize;
+	}
+
+	public Integer getBookSize() {
+		return bookSize;
+	}
+
+	public Integer getLargestDocSize() {
+		return largestDocSize;
+	}
+
+	public Integer getLargestImageSize() {
+		return largestImageSize;
+	}
+
+	public Integer getLargestPdfSize() {
+		return largestPdfSize;
 	}
 
 	@Override
@@ -539,6 +563,8 @@ public class PublishingStats implements Serializable {
 				* result
 				+ ((assembleDocCount == null) ? 0 : assembleDocCount.hashCode());
 		result = prime * result + ((auditId == null) ? 0 : auditId.hashCode());
+		result = prime * result
+				+ ((bookSize == null) ? 0 : bookSize.hashCode());
 		result = prime
 				* result
 				+ ((bookVersionSubmitted == null) ? 0 : bookVersionSubmitted
@@ -611,6 +637,13 @@ public class PublishingStats implements Serializable {
 				* result
 				+ ((jobSubmitterName == null) ? 0 : jobSubmitterName.hashCode());
 		result = prime * result
+				+ ((largestDocSize == null) ? 0 : largestDocSize.hashCode());
+		result = prime
+				* result
+				+ ((largestImageSize == null) ? 0 : largestImageSize.hashCode());
+		result = prime * result
+				+ ((largestPdfSize == null) ? 0 : largestPdfSize.hashCode());
+		result = prime * result
 				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
 		result = prime
 				* result
@@ -648,6 +681,11 @@ public class PublishingStats implements Serializable {
 			if (other.auditId != null)
 				return false;
 		} else if (!auditId.equals(other.auditId))
+			return false;
+		if (bookSize == null) {
+			if (other.bookSize != null)
+				return false;
+		} else if (!bookSize.equals(other.bookSize))
 			return false;
 		if (bookVersionSubmitted == null) {
 			if (other.bookVersionSubmitted != null)
@@ -753,6 +791,21 @@ public class PublishingStats implements Serializable {
 			if (other.jobSubmitterName != null)
 				return false;
 		} else if (!jobSubmitterName.equals(other.jobSubmitterName))
+			return false;
+		if (largestDocSize == null) {
+			if (other.largestDocSize != null)
+				return false;
+		} else if (!largestDocSize.equals(other.largestDocSize))
+			return false;
+		if (largestImageSize == null) {
+			if (other.largestImageSize != null)
+				return false;
+		} else if (!largestImageSize.equals(other.largestImageSize))
+			return false;
+		if (largestPdfSize == null) {
+			if (other.largestPdfSize != null)
+				return false;
+		} else if (!largestPdfSize.equals(other.largestPdfSize))
 			return false;
 		if (lastUpdated == null) {
 			if (other.lastUpdated != null)

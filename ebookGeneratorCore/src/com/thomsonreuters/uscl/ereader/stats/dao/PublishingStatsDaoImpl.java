@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.stats.dao;
 
 import java.util.List;
@@ -114,8 +119,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			hql.append("formatDocCount = ");
 			hql.append(jobstats.getFormatDocCount());
 		} else if (updateType.equals(StatsUpdateTypeEnum.ASSEMBLEDOC)) {
-			hql.append("assembleDocCount = ");
-			hql.append(jobstats.getAssembleDocCount());
+			hql.append("bookSize = ");
+			hql.append(jobstats.getBookSize());
+			hql.append(", largestDocSize = ");
+			hql.append(jobstats.getLargestDocSize());
+			hql.append(", largestImageSize = ");
+			hql.append(jobstats.getLargestImageSize());
+			hql.append(", largestPdfSize = ");
+			hql.append(jobstats.getLargestPdfSize());
 		} else if (updateType.equals(StatsUpdateTypeEnum.FINALPUBLISH)) {
 			hql.append("publishEndTimestamp = sysdate");
 		} else {

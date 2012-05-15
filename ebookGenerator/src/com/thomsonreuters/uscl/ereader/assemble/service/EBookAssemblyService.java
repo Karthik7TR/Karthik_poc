@@ -29,5 +29,13 @@ public interface EBookAssemblyService
      * @throws EBookAssemblyException if an error occurs during the process.
      */
     public void assembleEBook(final File eBookDirectory, final File eBook) throws EBookAssemblyException;
+
+    /**
+     * Iterates through all the contents of given directory and returns the size of largest content.  
+     * @param contentFolder 
+     * @return
+     */
+    
+	public double getLargestContent(String contentFolderPath, String fileExtention);
     
 }
