@@ -28,11 +28,14 @@
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
 	  	<c:if test="${ isSuperUser == 'true' }">
+		  	<display:column title="Promote">
+		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Promote to Final</a>
+		  	</display:column>
 		  	<display:column title="Remove">
-		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Remove this title version</a>
+		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Remove</a>
 		  	</display:column>
 		  	<display:column title="Delete">
-		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Delete this title version</a>
+		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Delete</a>
 		  	</display:column>
 	  	</c:if>
 	</display:table>
