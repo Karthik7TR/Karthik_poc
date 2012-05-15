@@ -41,6 +41,11 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/remove/body.jsp"/>
 	</definition>
 	
+	<definition name="_proviewTitlePromote" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/promote/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/promote/body.jsp"/>
+	</definition>
+	
 	<definition name="_proviewTitleDelete" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/delete/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/delete/body.jsp"/>
