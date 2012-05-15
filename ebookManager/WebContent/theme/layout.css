@@ -522,3 +522,20 @@ a:hover {
 	right:.5em;
 }
 
+#displayExcludeDocument {
+	width:55.4em;
+	margin: 1em auto 0em auto;
+}
+
+#displayExcludeDocument .expandingBox .dynamicRow {
+	display: inline-block;
+	vertical-align: top;
+	margin:0em 1em;
+}
+
+#displayExcludeDocument .expandingBox .dynamicRow label {
+	vertical-align: top;
+	margin-right:.3em;
+}
+
+

@@ -324,6 +324,7 @@
 				$("#displayExcludeDocument").show();
 			} else {
 				$("#displayExcludeDocument").hide();
+				$("#displayExcludeDocument .expandingBox").remove();
 			};
 		};
 		
@@ -725,6 +726,14 @@
 					<form:errors path="materialId" cssClass="errorMessage" />
 				</div>	
 			</div>
+			<div class="row">
+				<form:label path="excludeDocumentsUsed" class="labelCol">Enable Exclude Documents</form:label>
+				<form:radiobutton path="excludeDocumentsUsed" value="true" />Yes
+				<form:radiobutton path="excludeDocumentsUsed" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="excludeDocumentsUsed" cssClass="errorMessage" />
+				</div>
+			</div>
 		</div>
 		
 		<div class="rightDefinitionForm">
@@ -797,56 +806,49 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<form:label path="excludeDocumentsUsed" class="labelCol">Enable Exclude Documents</form:label>
-				<form:radiobutton path="excludeDocumentsUsed" value="true" />Yes
-				<form:radiobutton path="excludeDocumentsUsed" value="false" />No
-				<div class="errorDiv">
-					<form:errors path="excludeDocumentsUsed" cssClass="errorMessage" />
-				</div>
-			</div>
-			<div id="displayExcludeDocument" class="row" style="display:none;">
-				<c:forEach items="${editBookDefinitionForm.excludeDocumentsCopy}" var="documentCopy" varStatus="aStatus">
-						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].documentGuid" maxlength="33" />
-						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].note" />
-						<form:hidden path="excludeDocumentsCopy[${aStatus.index}].lastUpdated"/>
-				</c:forEach>
-				<form:label path="excludeDocumentsUsed" class="labelCol">Exclude Documents</form:label>
-				<input type="button" id="addExcludeDocument" value="add" />
-				<div class="errorDiv">
-					<form:errors path="excludeDocuments" cssClass="errorMessage" />
-				</div>
-				<c:forEach items="${editBookDefinitionForm.excludeDocuments}" var="document" varStatus="aStatus">
-					<div class="expandingBox">
-						<div class="dynamicRow">
-							<label>Document Guid</label>
-							<form:input path="excludeDocuments[${aStatus.index}].documentGuid" maxlength="33" />
-							<div class="errorDiv">
-								<form:errors path="excludeDocuments[${aStatus.index}].documentGuid" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Note</label>
-							<form:textarea path="excludeDocuments[${aStatus.index}].note" />
-							<div class="errorDiv">
-								<form:errors path="excludeDocuments[${aStatus.index}].note" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Last Updated</label>
-							<form:input disabled="true" path="excludeDocuments[${aStatus.index}].lastUpdated" />
-							<form:hidden path="excludeDocuments[${aStatus.index}].lastUpdated"/>
-							<div class="errorDiv">
-								<form:errors path="excludeDocuments[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
-							</div>
-						</div>
-						<input type="button" value="Delete" class="rdelete" title="Delete Exclude Document" />
-					</div>
-				</c:forEach>
-				<div id="addExcludeDocumentHere"></div>
-			</div>
 		</div>
 	</div>
+</div>
+
+<div id="displayExcludeDocument" style="display:none;">
+	<c:forEach items="${editBookDefinitionForm.excludeDocumentsCopy}" var="documentCopy" varStatus="aStatus">
+			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].documentGuid" maxlength="33" />
+			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].note" />
+			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].lastUpdated"/>
+	</c:forEach>
+	<form:label path="excludeDocumentsUsed" class="labelCol">Exclude Documents</form:label>
+	<input type="button" id="addExcludeDocument" value="add" />
+	<div class="errorDiv">
+		<form:errors path="excludeDocuments" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.excludeDocuments}" var="document" varStatus="aStatus">
+		<div class="expandingBox">
+			<div class="dynamicRow">
+				<label>Document Guid</label>
+				<form:input path="excludeDocuments[${aStatus.index}].documentGuid" maxlength="33" />
+				<div class="errorDiv">
+					<form:errors path="excludeDocuments[${aStatus.index}].documentGuid" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Note</label>
+				<form:textarea path="excludeDocuments[${aStatus.index}].note" />
+				<div class="errorDiv">
+					<form:errors path="excludeDocuments[${aStatus.index}].note" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Last Updated</label>
+				<form:input disabled="true" path="excludeDocuments[${aStatus.index}].lastUpdated" />
+				<form:hidden path="excludeDocuments[${aStatus.index}].lastUpdated"/>
+				<div class="errorDiv">
+					<form:errors path="excludeDocuments[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+				</div>
+			</div>
+			<input type="button" value="Delete" class="rdelete" title="Delete Exclude Document" />
+		</div>
+	</c:forEach>
+	<div id="addExcludeDocumentHere"></div>
 </div>
 
 <div class="section">
