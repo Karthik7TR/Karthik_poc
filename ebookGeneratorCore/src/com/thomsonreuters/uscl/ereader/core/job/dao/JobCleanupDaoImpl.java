@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,11 +25,11 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	private static final String DEAD_JOB_MESSAGE = "Dead Job detected - updated status and exit codes";
 	private static final String BATCH_STATUS_FAILED = BatchStatus.FAILED.toString();
 	private static final String BATCH_STATUS_ABANDONED = BatchStatus.ABANDONED.toString();
-	private static final String EXIT_STATUS_FAILED = ExitStatus.FAILED.toString();
-	private static final String EXIT_STATUS_UNKNOWN = ExitStatus.UNKNOWN.toString();
-	private static final String EXIT_STATUS_EXECUTING = ExitStatus.EXECUTING.toString();
+	private static final String EXIT_STATUS_FAILED = ExitStatus.FAILED.getExitCode();
+	private static final String EXIT_STATUS_UNKNOWN = ExitStatus.UNKNOWN.getExitCode();
+	private static final String EXIT_STATUS_EXECUTING = ExitStatus.EXECUTING.getExitCode();
 	
-	//private static final Logger log = Logger.getLogger(JobCleanupDaoImpl.class);
+	private static final Logger log = Logger.getLogger(JobCleanupDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
 	
@@ -71,11 +72,10 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	
 	
 	/**
-	 * Update dead job exit status to "failed".  
+	 * Update dead job exit status.
 	 * @return
 	 */
 	@Override
-	//	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public int updateBatchJobExecution() {
 
 		StringBuffer hql= new StringBuffer("update batch_job_execution set ");
@@ -86,27 +86,22 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 			hql.append(String.format(" where exit_code = '%s'", EXIT_STATUS_UNKNOWN));
 				
 		Session session = sessionFactory.getCurrentSession();
-
 		Query query = session.createSQLQuery(hql.toString());
-
 		int result = 0;
 		try {
 			result = query.executeUpdate();
 			session.flush();
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
-
 		return result;
 	}
 	
-	
 	/**
-	 * Update dead steps exit status to "failed".  
+	 * Update dead steps exit status.
 	 * @return
 	 */
 	@Override
-//	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public int updateBatchStepExecution() {
 				
 		StringBuffer hql= new StringBuffer("update batch_step_execution set");
@@ -120,28 +115,24 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
-
-
 		int result = 0;
 		try {
 			result = query.executeUpdate();
 			session.flush();
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
-
 		return result;
 	}
 
 	/**
 	 * 	 
-	 * Update dead job exit status to 'failed' for given server name
+	 * Update dead job exit status for given server name.
 	 * @param serverName
 	 * @return
 	 */
 	@Override
 	public int updateBatchJobExecutionForGivenServer(String serverName){
-		
 		StringBuffer hql = new StringBuffer();
 		hql.append("update batch_job_execution set "); 
 		hql.append(String.format("exit_code = '%s', ", EXIT_STATUS_FAILED));
@@ -152,24 +143,21 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		hql.append("( Select bje.job_instance_id from batch_job_execution bje "); 
 		hql.append("inner join publishing_stats ps on ps.job_instance_id = bje.job_instance_id ");
 		hql.append(String.format("where bje.exit_code = '%s' and ps.job_host_name = '%s')", EXIT_STATUS_UNKNOWN, serverName));
-		
+
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
 		int result = 0;
-		try{
+		try {
 			result = query.executeUpdate();
 			session.flush();
-			
-		}catch (HibernateException e) {
-			e.printStackTrace();
+		} catch (HibernateException e) {
+			log.error(e);
 		}
-		
-//		log.debug("On server start up number of Batch jobs updated ="+result);
-	return result;	
+		return result;	
 	}
 	
 	/**
-	 * Update dead step exit status to 'failed' for given server name
+	 * Update dead step exit status for given server name.
 	 * @param serverName
 	 * @return
 	 */
@@ -191,10 +179,9 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 		try {
 			result = query.executeUpdate();
 			session.flush();
-		}catch(HibernateException e){
-			e.printStackTrace();
+		} catch (HibernateException e) {
+			log.error(e);
 		}
-//		log.debug("On server start up number of Batch job-step updated ="+result);
 		return result;
 	}
 

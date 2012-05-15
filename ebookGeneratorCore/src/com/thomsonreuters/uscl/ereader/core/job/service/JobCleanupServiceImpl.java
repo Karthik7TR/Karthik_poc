@@ -35,7 +35,6 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 		
 		int stepCleanup = jobCleanupDao.updateBatchStepExecution();
 		int jobCleanup = jobCleanupDao.updateBatchJobExecution();
-		
 		LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
 		
 	}
@@ -65,7 +64,7 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 		
 		int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
 		int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
-		LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
+		LOG.debug(String.format("Updated %d steps and %d jobs for host %s.", stepCleanup, jobCleanup, serverName));
 	}
 
 	@Override
