@@ -94,9 +94,9 @@ public class ManagerServiceImpl implements ManagerService {
 		Date deleteJobsBefore = cal.getTime();
 		
 		// Archive and then delete old BATCH_* database table records
-		log.info(String.format("Deleting Spring Batch job data older than %d days old, jobs before: %s", daysBack, deleteJobsBefore.toString()));
+		log.info(String.format("Archiving/Deleting Spring Batch job data older than %d days old.  These are jobs run before: %s", daysBack, deleteJobsBefore.toString()));
 		int oldJobStepExecutionsRemoved = managerDao.archiveAndDeleteSpringBatchJobRecordsBefore(deleteJobsBefore);
-		log.info(String.format("Archived/Deleted %d old step executions.", oldJobStepExecutionsRemoved));
+		log.info(String.format("Archived/Deleted %d old step executions that were older than %d days old.", oldJobStepExecutionsRemoved, daysBack));
 		
 		// Remove old filesystem files that were used to create the book in the first place 
 		removeOldJobFiles(deleteJobsBefore);

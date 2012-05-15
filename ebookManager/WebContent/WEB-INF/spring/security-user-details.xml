@@ -10,42 +10,40 @@
 						   http://www.springframework.org/schema/security
 						   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<!-- The mapping of physical groups to logical roles/authorities used for role-base access control.
+	<!-- PRODUCTION Group-to-role mappings.  Used when the environment is "prod".
+		 The mapping of physical LDAP groups to logical roles/authorities used for role-base access control.
 		 The key here is a Java regular expression pattern that matches against the physical group name
 		 that comes from the user entry on the directory server.
 		 The value is the logical role/authority name that we code to in the web application.
 	-->
-	<util:map id="groupToRoleMap" map-class="java.util.HashMap">
-	
-	  <!-- TODO future PRODUCTION setup is below
+	<util:map id="productionGroupToRoleMap" map-class="java.util.HashMap">
 	  	<entry key="P-West-EBOOKBUILDER_GUEST_PROD.*" 			value="ROLE_GUEST"/>
+	  	<entry key="P-West-EBOOKBUILDER_EDITOR_PROD.*" 			value="ROLE_EDITOR"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PROD.*" 		value="ROLE_PUBLISHER"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_PROD.*" 	value="ROLE_PUBLISHER_PLUS"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_PROD.*" 		value="ROLE_SUPERUSER"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_PROD.*" 		value="ROLE_SUPPORT"/>
-	   -->
+	</util:map>
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- DEVELOPMENT AND TESTING ONLY ENTRIES!!! -> REMOVE PRIOR TO ENTRY INTO PRODUCTION !!!!-->
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
+	<!-- NON-PRODUCTION Group-to-role mappings. Used when the environment is not "prod" -->
+	<util:map id="nonProductionGroupToRoleMap" map-class="java.util.HashMap">
 	  	<entry key="P-West-EBOOKBUILDER_GUEST_NONPROD.*" 		value="ROLE_GUEST"/>
 	  	<entry key="P-West-EBOOKBUILDER_EDITOR_NONPROD.*" 		value="ROLE_EDITOR"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_NONPROD.*" 	value="ROLE_PUBLISHER"/>
 	  	<entry key="P-West-EBOOKBUILDER_PUBLISHER_PLUS_NONPROD.*" value="ROLE_PUBLISHER_PLUS"/>
 	  	<entry key="P-West-EBOOKBUILDER_SUPERUSER_NONPROD.*" 	value="ROLE_SUPERUSER"/>
-	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/><!--
-	  	
-		<entry key=".*Cobalt.*" 	value="ROLE_SUPERUSER"/>
-		<entry key=".*Codes.*" 		value="ROLE_SUPERUSER"/>
-	
---><!-- ^^^ TESTING ONLY ^^^^ -->
-
+	  	<entry key="P-West-EBOOKBUILDER_SUPPORT_NONPROD.*" 		value="ROLE_SUPPORT"/>
     </util:map>
     
-	<!-- The mapper maps the attributes of a LDAP user entry into a domain object. -->
+	<!-- The mapper maps the attributes of a LDAP user entry into a domain object.
+		 Either the production or non-production group-to-role map is used depending on the current environment.
+		 TODO: Can we use conditional logic here in the bean file to declaratively discriminate between prod and non-prod
+		       runtime environment rather than within the Mapper?
+	-->
   	<bean id="userAttributesMapper" class="com.thomsonreuters.uscl.ereader.mgr.security.CobaltUserAttributesMapper">
-      	<constructor-arg ref="groupToRoleMap"/>
+  		<constructor-arg ref="environmentName"/>
+      	<constructor-arg ref="productionGroupToRoleMap"/>
+      	<constructor-arg ref="nonProductionGroupToRoleMap"/>
   	</bean>
 
 	<!-- Convert the user directory context entry into the authenticated user object.

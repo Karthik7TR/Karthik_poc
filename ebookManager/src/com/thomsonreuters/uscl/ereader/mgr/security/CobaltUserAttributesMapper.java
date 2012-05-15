@@ -37,12 +37,19 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 	private Map<String,String> groupToRoleMap;
 	
 	/**
-	 * Constructor 
+	 * Constructor for the LDAP user entry attribute mapper.  Maps the user entry into a POJO.  For group/role names,
+	 * uses either a prod or non-prod version depending on the current environment name.
 	 * @param groupToRoleMap is the mapping between physical group names and logical role/authority names.
 	 * The key is a Java regular expression, the value is the corresponding role name for a match.
 	 */
-	public CobaltUserAttributesMapper(Map<String,String> groupToRoleMap) {
-		this.groupToRoleMap = groupToRoleMap;
+	public CobaltUserAttributesMapper(String environmentName,
+									  Map<String,String> productionGroupToRoleMap,
+									  Map<String,String> nonProductionGroupToRoleMap) {
+		if ("prod".equals(environmentName)) {
+			this.groupToRoleMap = productionGroupToRoleMap;
+		} else {
+			this.groupToRoleMap = nonProductionGroupToRoleMap;	
+		}
 	}
 	
 	@Override
