@@ -13,7 +13,7 @@ public class CitationNormalizationRulesUtilTest
 	public void testGetNormalizedCiteForParagraphSymbol() throws Exception {
 		String normalizedCite = "test¶_888";
 		normalizedCite =  CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
-		String expectedNormalizedCite = "TESTp_888";
+		String expectedNormalizedCite = "TESTP_888";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
 	}
@@ -22,7 +22,7 @@ public class CitationNormalizationRulesUtilTest
 	public void testGetNormalizedCiteForSectionSymbol() throws Exception {
 		String normalizedCite = "test§6666";
 		normalizedCite =  CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
-		String expectedNormalizedCite = "TESTs6666";
+		String expectedNormalizedCite = "TESTS6666";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
 	}
