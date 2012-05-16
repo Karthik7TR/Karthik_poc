@@ -198,15 +198,12 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 				{
 					newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_pdf");
 					super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
-	
+					
 					for (FrontMatterPdf fmp : fms.getPdfs())
 					{
-						if(fmp.getSequenceNum() != 1)
-						{
-							newAtts = new AttributesImpl();
-							super.startElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE, newAtts);
-							super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
-						}
+						newAtts = new AttributesImpl();
+						super.startElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE, newAtts);
+						super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
 						
 						newAtts = new AttributesImpl();
 						newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_pdf_hyperlink");
@@ -221,7 +218,12 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
 						super.startElement("", HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
 						printText(fmp.getPdfLinkText(), SINGLE_LINE_FIELD);
 						super.endElement("", HTML_ANCHOR_TAG, HTML_ANCHOR_TAG); // end anchor tag for PDF
+						
+						newAtts = new AttributesImpl();
+						super.startElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE, newAtts);
+						super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
 					}
+					
 					super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG); /// end section_pdf
 				}
 			}

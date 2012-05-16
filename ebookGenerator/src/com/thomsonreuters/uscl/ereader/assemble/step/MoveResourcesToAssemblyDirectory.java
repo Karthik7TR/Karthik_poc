@@ -33,7 +33,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	/**
 	 * The file path of the user generated files for front matter pdfs.
 	 */
-	private static final String EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH = "/apps/ebookbuilder/generator/images/pdf/";
+	private static final String EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH = "/apps/eBookBuilder/generator/images/pdf/";
 	/**
 	 * The directory of the static files for front matter logos and keycite logo.
 	 */
@@ -49,7 +49,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	/**
 	 * The file path to the ebookGenerator Cover Image.
 	 */
-	private static final String EBOOK_COVER_FILEPATH = "/apps/ebookbuilder/generator/images/cover/";
+	private static final String EBOOK_COVER_FILEPATH = "/apps/eBookBuilder/generator/images/cover/";
 	
 	/**
 	 * The default file to the ebookGenerator Cover Image.
