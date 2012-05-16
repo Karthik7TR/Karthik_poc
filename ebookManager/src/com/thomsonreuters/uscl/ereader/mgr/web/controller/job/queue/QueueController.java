@@ -85,7 +85,7 @@ public class QueueController {
 		if (nextPageNumber != null) {  // PAGING (1..n)
 			// Guard against a shrinking list and user selecting a forward page that no longer exists because the count of jobs has dropped
 			int startIndex = (nextPageNumber-1) * pageAndSort.getObjectsPerPage();
-			if (startIndex > allQueuedJobs.size()) {
+			if (startIndex >= allQueuedJobs.size()) {
 				nextPageNumber = 1;
 			}
 			pageAndSort.setPageNumber(nextPageNumber);

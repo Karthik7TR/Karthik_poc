@@ -129,7 +129,8 @@ public class QueueControllerTest {
 	@SuppressWarnings("unchecked")
 	public void testPagingOnEmptyList() throws Exception {
 		int nextPageNumber = 2;  // but the list is going to be empty
-		List<JobRequest> emptyJobRequestList = new ArrayList<JobRequest>(); // empty list
+		JOB_REQUESTS.remove(0);  // Lower the list size to OBJECTS_PER_PAGE
+		Assert.assertEquals(OBJECTS_PER_PAGE, JOB_REQUESTS.size());
 		
     	// Set up the request URL
     	request.setRequestURI(String.format("/"+WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
@@ -137,7 +138,7 @@ public class QueueControllerTest {
     	request.setParameter("page", String.valueOf(nextPageNumber));
     	HttpSession httpSession = request.getSession();
     	
-    	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(emptyJobRequestList);
+    	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
     	EasyMock.replay(mockJobRequestService);
     	
     	// Invoke the controller method via the URL
