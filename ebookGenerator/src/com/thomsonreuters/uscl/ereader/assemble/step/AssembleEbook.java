@@ -70,9 +70,16 @@ public class AssembleEbook extends AbstractSbTasklet {
 	
 	private void updateAssembleEbookStats(double gzipeSize,Long jobId,String eBookDirectoryPath) {
 
-		double largestDocuent = eBookAssemblyService.getLargestContent(eBookDirectoryPath+"\\documents",".html");
-		double largestPdf = eBookAssemblyService.getLargestContent(eBookDirectoryPath+"\\assets",".pdf");
-		double largestImage = eBookAssemblyService.getLargestContent(eBookDirectoryPath+"\\assets",".png,.jpeg,.gif");
+		File docFile = new File(eBookDirectoryPath);
+		File finalDocDir = new File(docFile,"documents");
+		File finalPdfImageDir = new File(docFile,"assets");
+		 
+		String documentsPath = finalDocDir.getAbsolutePath();
+		String pdfImagePath = finalPdfImageDir.getAbsolutePath();
+		
+		double largestDocuent = eBookAssemblyService.getLargestContent(documentsPath ,".html");
+		double largestPdf = eBookAssemblyService.getLargestContent(pdfImagePath,".pdf");
+		double largestImage = eBookAssemblyService.getLargestContent(pdfImagePath,".png,.jpeg,.gif");
 
 		
 		PublishingStats jobstatsFormat = new PublishingStats();
