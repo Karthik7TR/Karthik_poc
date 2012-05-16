@@ -221,7 +221,7 @@ public class InternalLinkResolverFilterTest {
 	public void testGetNormalizedCiteFromResourceUrl() throws Exception {
 		String resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&amp;pubNum=119616&amp;cite=SECOPINION§39%3A7&amp;originationContext=ebook";
 		String normalizedCite = internalLinkResolverFilter.getNormalizedCite(resourceUrl);
-		String expectedNormalizedCite = "SECOPINIONs39:7";
+		String expectedNormalizedCite = "SECOPINIONS39:7";
 		System.out.println(normalizedCite);
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
