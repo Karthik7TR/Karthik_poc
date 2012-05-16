@@ -39,7 +39,7 @@ function openStaticPreviewWindow(url, id, name) {
 <%-- Do not display the links if there is no book ID --%>
 <c:if test="${book != null}">
 ${book.frontMatterTocLabel}<br/>
-<div style="padding-left:2em">
+<div id="frontMatterLinks">
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>', '${book.ebookDefinitionId}', 'titleWin')">TITLE PAGE</a><br/>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>', '${book.ebookDefinitionId}', 'copyrightWin')">COPYRIGHT PAGE</a><br/>
 	<c:forEach items="${book.frontMatterPages}" var="page">

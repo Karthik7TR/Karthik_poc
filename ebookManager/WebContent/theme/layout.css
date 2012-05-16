@@ -539,4 +539,12 @@ a:hover {
 	margin-right:.3em;
 }
 
+#frontMatterLinks {
+	margin-left:2em;
+}
+
+#frontMatterLinks a {
+	cursor: pointer;
+}
+
 
