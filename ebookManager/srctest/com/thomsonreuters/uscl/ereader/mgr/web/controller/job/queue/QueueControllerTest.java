@@ -42,9 +42,10 @@ public class QueueControllerTest {
 	private JobRequestService mockJobRequestService;
 	//private BookDefinitionService mockBookDefinitionService;
 	private HandlerAdapter handlerAdapter;
-	
-	static {
-		JOB_REQUESTS = new ArrayList<JobRequest>();
+
+    @Before
+    public void setUp() throws Exception {
+    	JOB_REQUESTS = new ArrayList<JobRequest>();
 		for (long pk = 0; pk < JOB_REQUEST_COUNT; pk++) {
 			BOOK_DEF.setEbookDefinitionId(pk+345);
 			int priority = (int) pk;
@@ -53,10 +54,7 @@ public class QueueControllerTest {
 			jr.setPrimaryKey(pk);
 			JOB_REQUESTS.add(jr);
 		}
-	}
-
-    @Before
-    public void setUp() throws Exception {
+		
     	this.request = new MockHttpServletRequest();
     	this.response = new MockHttpServletResponse();
     	request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT);
