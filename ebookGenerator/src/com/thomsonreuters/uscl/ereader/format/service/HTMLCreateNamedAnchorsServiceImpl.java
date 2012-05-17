@@ -174,7 +174,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 						
 			HTMLIdFilter anchorIdFilter = new HTMLIdFilter();
 			anchorIdFilter.setParent(saxParser.getXMLReader());
-			if (docMetadata != null)
+			if (docMetadata != null && docMetadata.getProViewId() != null )
 			{
 				anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
 			}
