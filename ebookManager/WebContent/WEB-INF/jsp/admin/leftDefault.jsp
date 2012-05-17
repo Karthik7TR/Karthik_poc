@@ -30,7 +30,9 @@
 	<ul>
 		<li><a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a></li>
 	</ul>
-	
+	<br/>
+	<a href="<%= WebConstants.MVC_ADMIN_MISC %>">Miscellanous Configuration</a><br/>
+	<br/>
 </c:if>
 
 <a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>

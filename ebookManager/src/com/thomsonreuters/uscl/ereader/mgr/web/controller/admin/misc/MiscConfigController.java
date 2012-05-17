@@ -1,9 +1,10 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc;
 
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.validation.Valid;
 
@@ -21,57 +22,55 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.LoggingConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 @Controller
-public class JobThrottleConfigController {
-	private static final Logger log = Logger.getLogger(JobThrottleConfigController.class);
-	public static final String KEY_STEP_NAMES = "stepNames";
+public class MiscConfigController {
+	private static final Logger log = Logger.getLogger(MiscConfigController.class);
 	/** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
 	private List<InetSocketAddress> socketAddrs;
 	private int generatorPort;
-	private AppConfigService appConfigService;
 	private ManagerService managerService;
+	private AppConfigService appConfigService;
 	private Validator validator;
 	
-	public JobThrottleConfigController(int generatorPort) {
+	public MiscConfigController(int generatorPort) {
 		this.generatorPort = generatorPort;
 	}
 
-	@InitBinder(JobThrottleConfigForm.FORM_NAME)
+	@InitBinder(MiscConfigForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
 	}
 	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
-	public ModelAndView inboundGet(@ModelAttribute(JobThrottleConfigForm.FORM_NAME) JobThrottleConfigForm form,
+	@RequestMapping(value = WebConstants.MVC_ADMIN_MISC, method = RequestMethod.GET)
+	public ModelAndView inboundGet(@ModelAttribute(MiscConfigForm.FORM_NAME) MiscConfigForm form,
 								   Model model) throws Exception {
-		JobThrottleConfig databaseJobThrottleConfig = appConfigService.getJobThrottleConfig();
-		form.initialize(databaseJobThrottleConfig);
-		setUpModel(model);
-		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
+		LoggingConfig loggingConfig = appConfigService.getLoggingConfig();
+		form.initialize(loggingConfig);
+		return new ModelAndView(WebConstants.VIEW_ADMIN_MISC);
 	}
 	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
-	public ModelAndView submitForm(@ModelAttribute(JobThrottleConfigForm.FORM_NAME) @Valid JobThrottleConfigForm form,
-			 					   BindingResult errors, Model model) throws Exception {
+	@RequestMapping(value = WebConstants.MVC_ADMIN_MISC, method = RequestMethod.POST)
+	public ModelAndView submitMiscConfigForm(
+					@ModelAttribute(MiscConfigForm.FORM_NAME) @Valid MiscConfigForm form,
+					BindingResult errors, Model model) throws Exception {
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 		if (!errors.hasErrors()) {
 			boolean anySaveErrors = false;
-			JobThrottleConfig jobThrottleConfig = form.getJobThrottleConfig();
-			// Persist the changed Throttle configuration
+			LoggingConfig loggingConfig = form.getLoggingConfig();
+			// Persist the changed configuration
 			try {
-				appConfigService.saveJobThrottleConfig(jobThrottleConfig);
-				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved throttle configuration."));
-				
+				appConfigService.saveLoggingConfig(loggingConfig);  // Persist the changed configuration
+				appConfigService.setLogLevel(loggingConfig);	// Update the manager's log levels
+				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved configuration."));
 			} catch (Exception e) {
 				anySaveErrors = true;
-				String errorMessage = String.format("Failed to save new throttle configuration - %s", e.getMessage());
+				String errorMessage = String.format("Failed to save new logging configuration - %s", e.getMessage());
 				log.error(errorMessage, e);
 				infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
 			}
@@ -80,14 +79,15 @@ public class JobThrottleConfigController {
 			// Sync the new configuration out to all listening ebookGenerator hosts who care about the change.
 			if (!anySaveErrors) {
 				InetSocketAddress currentSocketAddr = null;
-				String errorMessageTemplate = "Failed to push new job throttle configuration to host socket %s - %s";
+				String errorMessageTemplate = "Failed to push new configuration to host socket %s - %s";
 				// Fetch the complete current state of the application configuration
 				for (InetSocketAddress socketAddr : socketAddrs) {
 					try {
 						currentSocketAddr = socketAddr;
 						JobOperationResponse opResponse = managerService.syncApplicationConfiguration(socketAddr);
+						// future: push some other configuration as well here as part of the miscellaneous umbrella
 						if (opResponse.isSuccess()) {
-							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to: %s", socketAddr)));
+							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully synced new configuration to: %s", socketAddr)));
 						} else {
 							String errorMessage = String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
 							log.error("JobOperationResponse failure: " + errorMessage);
@@ -102,13 +102,32 @@ public class JobThrottleConfigController {
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
-		setUpModel(model);
-		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
+		return new ModelAndView(WebConstants.VIEW_ADMIN_MISC);
 	}
 	
-	private void setUpModel(Model model) {
-		List<String> stepNames = managerService.getStepNames();
-		model.addAttribute(KEY_STEP_NAMES, stepNames);
+	/**
+	 * Create a list of sockets based on a list of hosts, and a single port number.
+	 * Note that this is used by more than just this controller as other controllers also create a socket list to push configurations out to.
+	 * @param commaSeparatedHostNames hosts names that should resolve
+	 * @param port the application listen port number
+	 * @return a list of InetSocketAddress
+	 * @throws UnknownHostException if a host name cannot resolve
+	 */
+	public static List<InetSocketAddress> createSocketAddressList(
+					String commaSeparatedHostNames, int port) throws UnknownHostException {
+		List<InetSocketAddress> socketAddrs = new ArrayList<InetSocketAddress>();
+		StringTokenizer hostTokenizer = new StringTokenizer(commaSeparatedHostNames, ", ");
+		while (hostTokenizer.hasMoreTokens()) {
+			String hostName = hostTokenizer.nextToken();
+			InetSocketAddress socketAddr = new InetSocketAddress(hostName, port);
+			if (socketAddr.isUnresolved()) {
+				String errorMessage = String.format("Unresolved host socket address <%s>.  Check the environment specific property file and ensure that the CSV generator host names are complete and correct.", socketAddr);
+				log.error(errorMessage);
+				throw new UnknownHostException(errorMessage);
+			}
+			socketAddrs.add(socketAddr);
+		}	
+		return socketAddrs;
 	}
 
 	/**
@@ -117,7 +136,7 @@ public class JobThrottleConfigController {
 	 */
 	@Required
 	public void setHosts(String commaSeparatedHostNames) throws UnknownHostException {
-		this.socketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
+		this.socketAddrs = createSocketAddressList(commaSeparatedHostNames, generatorPort);
 	}
 	@Required
 	public void setAppConfigService(AppConfigService service) {

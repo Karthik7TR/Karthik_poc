@@ -55,5 +55,13 @@
 	
 	<bean id="serverAccessService" class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
 		  p:jobCleanupService-ref="jobCleanupService"/>
+		  
+	<!-- Holds the current (in-memory) application configuration and may be changed on the fly. -->
+	<bean id="appConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig"/>
+	<!-- Performs the startup read/load of the job throttle configuration from the database -->
+	<bean id="appConfigLoader" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerAppConfigLoader">
+		<constructor-arg ref="appConfig"/>
+		<constructor-arg ref="appConfigService"/>
+	</bean>		  
 		    
 </beans>

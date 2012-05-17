@@ -44,8 +44,8 @@
 	
 	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
 		  p:jobRequestDao-ref="jobRequestDao"/>
-	
-	<bean id="jobThrottleConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigServiceImpl"
+		  
+	<bean id="appConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.AppConfigServiceImpl"
 		  p:appParameterDao-ref="appParameterDao"/>		
 
 	<bean id="ssh" class="com.thomsonreuters.uscl.ereader.util.Ssh"/>

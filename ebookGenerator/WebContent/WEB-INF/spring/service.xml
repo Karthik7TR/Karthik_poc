@@ -19,7 +19,8 @@
 
   	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
-
+	<!-- Holds the current (in-memory) application configuration and may be changed on the fly. -->
+	<bean id="appConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig"/>
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
 		  p:environmentName-ref="environmentName"
 		  p:proviewDomain="${proview.domain}"
@@ -29,7 +30,10 @@
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"
-		  p:taskExecutor-ref="springBatchTaskExecutor"/>
+		  p:taskExecutor-ref="springBatchTaskExecutor"
+		  p:appConfig-ref="appConfig"
+		  p:appConfigService-ref="appConfigService"
+		  p:engineService-ref="engineService"/>
 	         
 	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
 		  p:xsltMapperDao-ref="xsltMapperDao"/>
@@ -164,7 +168,7 @@
 	<bean id="jobStartupThrottleService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl">
 		<constructor-arg ref="jobExplorer"/>
 		<constructor-arg ref="jobRepository"/>
-		<constructor-arg ref="jobThrottleConfig"/>
+		<constructor-arg ref="appConfig"/>
 	</bean>		
 			
   	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"

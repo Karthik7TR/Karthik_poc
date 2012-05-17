@@ -9,7 +9,7 @@
 
 	<bean id="adminController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main.AdminController" />
 	<bean id="adminJobThrottleConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"
-		  p:jobThrottleConfigService-ref="jobThrottleConfigService"
+		  p:appConfigService-ref="appConfigService"
 		  p:managerService-ref="managerService"
 		  p:hosts="${generator.hosts}">
 		<constructor-arg value="${generator.port}"/>
@@ -17,6 +17,16 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigFormValidator"/>
 		 </property>
 	</bean>
+	<bean id="miscConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController"
+		  p:appConfigService-ref="appConfigService"
+		  p:managerService-ref="managerService"
+		  p:hosts="${generator.hosts}">
+		<constructor-arg value="${generator.port}"/>
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigFormValidator"/>
+		 </property>
+	</bean>
+	
 	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />
 	
 	<bean id="adminBookDefinitionLockController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock.BookDefinitionLockController" 

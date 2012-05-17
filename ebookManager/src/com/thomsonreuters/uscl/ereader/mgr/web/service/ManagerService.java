@@ -4,7 +4,6 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
 public interface ManagerService {
 	
@@ -30,12 +29,12 @@ public interface ManagerService {
 	
 	/**
 	 * 
-	 * @param socketAddr Container for the hostname and port number for the push REST operation that will accept the new throttle config.
-	 * @param newJobThrottleConfig the new throttle configuration
+	 * @param socketAddr Container for the hostname and port number for the push REST operation that will accept
+	 *  the new app config.
+	 * @param newAppConfig the new configuration properties to disseminate
 	 * @return the response object indicating success or failure
 	 */
-	public JobOperationResponse pushJobThrottleConfiguration(InetSocketAddress socketAddr, JobThrottleConfig newJobThrottleConfig);
-	
+	public JobOperationResponse syncApplicationConfiguration(InetSocketAddress socketAddr);
 	/**
 	 * Delete old database table and filesystem job data.
 	 * @param daysBack jobs more than this many days old will be deleted. 

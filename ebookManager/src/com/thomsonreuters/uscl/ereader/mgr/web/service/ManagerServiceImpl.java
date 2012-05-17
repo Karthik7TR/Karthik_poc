@@ -20,18 +20,18 @@ import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 
 public class ManagerServiceImpl implements ManagerService {
 	private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
-	private static String GENERATOR_REST_STOP_JOB_URL_PATTERN =
+	private static final String GENERATOR_REST_STOP_JOB_URL_PATTERN =
 							"{context}/service/stop/job/{jobExecutionId}";
-	private static String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
+	private static final String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
 							"{context}/service/restart/job/{jobExecutionId}";
-	private static String GENERATOR_REST_GET_STEP_NAMES_PATTERN =
+	private static final String GENERATOR_REST_GET_STEP_NAMES_PATTERN =
 							"{context}/service/get/step/names";	
-
+	private static final String GENERATOR_REST_SYNC_CONFIG_TEMPLATE =
+							"http://%s:%d/ebookGenerator/service/sync/app/config";
 	private String environmentName;
 	private File rootWorkDirectory;
 	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
@@ -77,11 +77,11 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public JobOperationResponse pushJobThrottleConfiguration(InetSocketAddress socketAddr, JobThrottleConfig newJobThrottleConfig) {
-		String url = String.format("http://%s:%d/ebookGenerator/service/update/job/throttle/config",
+	public JobOperationResponse syncApplicationConfiguration(InetSocketAddress socketAddr) {
+		String url = String.format(GENERATOR_REST_SYNC_CONFIG_TEMPLATE,
 								   socketAddr.getHostName(), socketAddr.getPort());		
 		JobOperationResponse response = (JobOperationResponse)
-				restTemplate.postForObject(url, newJobThrottleConfig, JobOperationResponse.class);
+				restTemplate.getForObject(url, JobOperationResponse.class);
 		return response;
 	}
 	

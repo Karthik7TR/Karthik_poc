@@ -35,6 +35,12 @@
 		</div>
 	</div>
 	
+	<div class="centerSection">
+		<h3>Miscellaneous Configuration</h3>
+		<div class="buttons">
+			<a href="<%= WebConstants.MVC_ADMIN_MISC %>">Miscellaneous Configuration</a>
+		</div>
+	</div>	
 </c:if>
 
 

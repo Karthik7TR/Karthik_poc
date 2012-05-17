@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -25,7 +27,11 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.LoggingConfig;
+import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 
 
 public class EngineServiceImpl implements EngineService {
@@ -39,6 +45,28 @@ public class EngineServiceImpl implements EngineService {
 	private String imageService;
 	private String novusEnvironment;
 	private String dbServiceName;
+	private AppConfig appConfig;
+	private AppConfigService appConfigService;
+	private EngineService engineService;
+	
+	@PostConstruct
+	public void syncApplicationConfiguration() throws Exception {
+		AppConfig configurationReadFromDatabase = appConfigService.getAppConfig();
+		
+		// Synchronize the bean state with the database state
+		this.appConfig.copy(configurationReadFromDatabase);
+		
+		// Reset the Spring Batch task executor with the core thread pool size read from the database as part of the job throttle config.
+		JobThrottleConfig jobThrottleConfig = (JobThrottleConfig) appConfig;
+		engineService.setTaskExecutorCoreThreadPoolSize(jobThrottleConfig.getCoreThreadPoolSize());
+		
+		// Set the configured logging levels
+		LoggingConfig loggingConfig = (LoggingConfig) appConfig;
+		appConfigService.setLogLevel(loggingConfig);
+		
+		log.debug("Successfully synchronized: " + appConfig);
+	}
+
 
 	/**
 	 * Immediately run a job as defined in the specified JobRunRequest.
@@ -134,22 +162,18 @@ public class EngineServiceImpl implements EngineService {
 	public void setJobLauncher(JobLauncher jobLauncher) {
 		this.jobLauncher = jobLauncher;
 	}
-
 	@Required
 	public void setProviewDomain(String proviewDomain) {
 		this.proviewDomainName = proviewDomain;
 	}
-
 	@Required	
 	public void setImageService(String imageService) {
 		this.imageService = imageService;
 	}
-
 	@Required
 	public void setNovusEnvironment(String novusEnvironment) {
 		this.novusEnvironment = novusEnvironment;
 	}
-
 	@Required	
 	public void setDbServiceName(String dbServiceName) {
 		this.dbServiceName = dbServiceName;
@@ -157,5 +181,17 @@ public class EngineServiceImpl implements EngineService {
 	@Required
 	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
 		this.springBatchTaskExecutor = taskExecutor;
+	}
+	@Required
+	public void setAppConfig(AppConfig appConfig) {
+		this.appConfig = appConfig;
+	}
+	@Required
+	public void setAppConfigService(AppConfigService appConfigService) {
+		this.appConfigService = appConfigService;
+	}
+	@Required
+	public void setEngineService(EngineService engineService) {
+		this.engineService = engineService;
 	}
 }

@@ -21,7 +21,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
 
 
 /**
@@ -61,7 +61,7 @@ public class JobStartupThrottleServiceTest  {
 	@Test
 	public void checkIfnewJobCanbeLaunched_positive_1(){
 		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
-					new JobThrottleConfig(8, true, THROTTLE_STEP, 6));
+									AppConfig.createJobThrottleConfig(8, true, THROTTLE_STEP, 6));
 
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3); 
@@ -90,7 +90,7 @@ public class JobStartupThrottleServiceTest  {
 	@Test
 	public void checkIfnewJobCanbeLaunched_positive_2(){
 		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
-							new JobThrottleConfig(8, true, THROTTLE_STEP, 6));
+									AppConfig.createJobThrottleConfig(8, true, THROTTLE_STEP, 6));
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(2);
 		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
@@ -132,7 +132,7 @@ public class JobStartupThrottleServiceTest  {
 	@Test
 	public void checkIfnewJobCanbeLaunched_negative_1(){
 		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository,
-								new JobThrottleConfig(8, true, THROTTLE_STEP, 3));
+										AppConfig.createJobThrottleConfig(8, true, THROTTLE_STEP, 3));
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3);
 		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));

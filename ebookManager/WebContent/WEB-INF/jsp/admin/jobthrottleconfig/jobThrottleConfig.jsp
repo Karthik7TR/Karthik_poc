@@ -1,6 +1,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig.Key"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -43,7 +43,7 @@
     </c:if>	   
 		   
 	Core Thread pool size: 
-	<form:select path="<%=JobThrottleConfig.Key.coreThreadPoolSize.toString()%>">
+	<form:select path="<%=Key.coreThreadPoolSize.toString()%>">
 		<form:option label="0" value="0"/>
 		<form:option label="1" value="1"/>
 		<form:option label="2" value="2"/>
@@ -57,19 +57,19 @@
 	<br/>
 	
 	Step throttle enabled:
-	<form:radiobutton path="<%=JobThrottleConfig.Key.stepThrottleEnabled.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
-	<form:radiobutton path="<%=JobThrottleConfig.Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
+	<form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
+	<form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
 	<br/>
 	
 	Throttle step name:
-	<form:select path="<%=JobThrottleConfig.Key.throttleStepName.toString()%>">
+	<form:select path="<%=Key.throttleStepName.toString()%>">
 		<form:option label="-- Select --" value=""/>
 		<form:options items="${stepNames}"/>
 	</form:select><br/>
 	<br/>
 	
 	Throttle step maximum jobs: 
-	<form:select path="<%=JobThrottleConfig.Key.throtttleStepMaxJobs.toString()%>">
+	<form:select path="<%=Key.throtttleStepMaxJobs.toString()%>">
 		<form:option label="0" value="0"/>
 		<form:option label="1" value="1"/>
 		<form:option label="2" value="2"/>

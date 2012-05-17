@@ -10,22 +10,11 @@
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
-    <bean id="jibxJobThrottleConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
-    </bean>
+
     <bean id="jibxJobOperationResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse"/>
     </bean>
-    <bean id="jobThrottleConfigMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-    	<property name="marshaller" ref="jibxJobThrottleConfigMarshaller"/>
-        <property name="unmarshaller" ref="jibxJobThrottleConfigMarshaller"/>
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/xml</value>
-                <value>application/xml</value>
-            </list>
-        </property>
-    </bean>    
+  
     <bean id="jobOperationResponseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
     	<property name="marshaller" ref="jibxJobOperationResponseMarshaller" />
         <property name="unmarshaller" ref="jibxJobOperationResponseMarshaller" />
@@ -34,7 +23,6 @@
 	<bean id="managerRestTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>
-          <ref bean="jobThrottleConfigMessageConverter"/>
           <ref bean="jobOperationResponseMessageConverter"/>
           <ref bean="stringHttpMessageConverter"/>
         </list>

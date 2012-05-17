@@ -20,15 +20,14 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
+
 
 /**
  * URL based Spring Batch job control operations for RESTART and STOP.
@@ -38,11 +37,9 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
-	private JobThrottleConfig currentJobThrottleConfig;
 	private FlowJob job;
 	
-	public OperationsController(JobThrottleConfig config, FlowJob job) {
-		this.currentJobThrottleConfig = config;
+	public OperationsController(FlowJob job) {
 		this.job = job;
 	}
 	
@@ -65,12 +62,12 @@ public class OperationsController {
 			opResponse = new JobOperationResponse(restartedJobExecutionId);
 		} catch (JobInstanceAlreadyCompleteException e) {  // Cannot restart a job that is already finished
 			Object[] args = { jobExecutionIdToRestart.toString() };
-			String errorMessage = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
-			log.debug(errorMessage);
-			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, errorMessage);
+			String message = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
+			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, message);
+			log.debug(message);
 		} catch (Exception e) {
-			log.debug("Job RESTART exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
+			log.debug("Job RESTART exception: " + e);
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
@@ -93,40 +90,93 @@ public class OperationsController {
 			opResponse = new JobOperationResponse(jobExecutionIdToStop);
 		} catch (JobExecutionNotRunningException e) {  // Cannot stop a job that is not running
 			Object[] args = { jobExecutionIdToStop.toString() };
-			String errorMessage = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
-			log.debug(errorMessage);
-			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, errorMessage);
+			String message = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
+			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, message);
+			log.debug(message);
 		} catch (Exception e) {
-			log.debug("Job STOP exception: " + e);
 			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
+			log.debug("Job STOP exception: " + e);
 		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
 	}
 	
 	/**
-	 * Receive a new job throttle configuration from the ebookManager.
+	 * Read the current job throttle configuration from the database, and update in-memory state.
 	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
 	 * to all ebookGenerator instances.
 	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
 	 */
-	@RequestMapping(value=WebConstants.URI_UPDATE_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
-	public ModelAndView synchronizeJobThrottleConfiguration(@RequestBody JobThrottleConfig newConfiguration, Model model) {
-		log.info("Received: " + newConfiguration);
+	@RequestMapping(value=WebConstants.URI_SYNC_APP_CONFIG, method = RequestMethod.GET)
+	public ModelAndView synchronizeAppConfiguration(Model model) throws Exception {
 		JobOperationResponse opResponse = null;
 		try {
-			currentJobThrottleConfig.sync(newConfiguration);
-			// Update the task executor with the new core thread pool size which limits the number of concurrent jobs that can run
-			engineService.setTaskExecutorCoreThreadPoolSize(currentJobThrottleConfig.getCoreThreadPoolSize());
-			opResponse = new JobOperationResponse(null, true, "Successfully synchronized job throttle configuration.");
+			String message = "Successfully synchronized application configuration";
+			engineService.syncApplicationConfiguration();
+			opResponse = new JobOperationResponse(null, true, message);
 		} catch (Exception e) {
-			log.debug("Exception performing data sync: " + e);
-			opResponse = new JobOperationResponse(null, false, "Error performing configuration sync - " + e.getMessage());	
-		}		
+			String message = "Exception performing app config data sync - " + e.getMessage();
+			opResponse = new JobOperationResponse(null, false, message);	
+			log.error(message, e);
+		}
 		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
 		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
-	}
-
+	}	
+	
+	
+	/**
+	 * Read the current job throttle configuration from the database, and update in-memory state.
+	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
+	 * to all ebookGenerator instances.
+	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
+	 */
+//	@RequestMapping(value=WebConstants.URI_UPDATE_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
+//	public ModelAndView synchronizeJobThrottleConfiguration(Model model) {
+//		JobOperationResponse opResponse = null;
+//		try {
+//			AppConfig appConfigReadFromDatabase = appConfigService.getAppConfig();
+//			this.appConfig.copy(appConfigReadFromDatabase);
+//			JobThrottleConfig jobThrottleConfig = (JobThrottleConfig) appConfigReadFromDatabase;
+//			
+//			// Update the task executor with the new core thread pool size which limits the number of concurrent jobs that can run
+//			engineService.setTaskExecutorCoreThreadPoolSize(jobThrottleConfig.getCoreThreadPoolSize());
+//			String message = "Successfully synchronized job throttle configuration";
+//			opResponse = new JobOperationResponse(null, true, message);
+//			log.debug(message + ": " + appConfig);
+//		} catch (Exception e) {
+//			String message = "Exception performing job throttle config data sync - " + e.getMessage();
+//			opResponse = new JobOperationResponse(null, false, message);	
+//			log.error(message, e);
+//		}		
+//		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
+//		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+//	}
+	
+	/**
+	 * Read the current logging configuration from the database, and update in-memory state.
+	 * This allows for the log levels to be changed on-the-fly in the manager and then pushed out 
+	 * to all ebookGenerator instances.
+	 */
+//	@RequestMapping(value=WebConstants.URI_UPDATE_LOGGING_CONFIG, method = RequestMethod.GET)
+//	public ModelAndView synchronizeLoggingConfiguration(Model model) {
+//		JobOperationResponse opResponse = null;
+//		try {
+//			AppConfig appConfigReadFromDatabase = appConfigService.getAppConfig();
+//			this.appConfig.copy(appConfigReadFromDatabase);
+//
+//			LoggingConfig loggingConfig = (LoggingConfig) appConfigReadFromDatabase;
+//			appConfigService.setLogLevel(loggingConfig);  // Update the in-memory log4j log levels with the current set
+//			String message = "Successfully updated log4j log levels";
+//			opResponse = new JobOperationResponse(null, true, message);
+//			log.debug(message + ": " + this.appConfig);
+//		} catch (Exception e) {
+//			String message = "Exception performing log4j logging sync - " + e.getMessage();
+//			opResponse = new JobOperationResponse(null, false, message);	
+//			log.error(message, e);
+//		}		
+//		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
+//		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+//	}
 	
 	@RequestMapping(value=WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
 	public void getStepNames(HttpServletResponse response, Model model) throws Exception {
@@ -151,8 +201,8 @@ public class OperationsController {
 	}
 
 	@Required
-	public void setEngineService(EngineService engineService) {
-		this.engineService = engineService;
+	public void setEngineService(EngineService service) {
+		this.engineService = service;
 	}
 	@Required
 	public void setMessageSourceAccessor(MessageSourceAccessor accessor) {

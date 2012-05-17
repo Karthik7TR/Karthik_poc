@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -36,7 +35,6 @@ public class OperationsControllerTest {
     private OperationsController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-//    private ThreadPoolTaskExecutor mockTaskExecutor;
     private EngineService mockEngineService;
     private MessageSourceAccessor mockAccessor;
     private HandlerAdapter handlerAdapter;
@@ -45,12 +43,11 @@ public class OperationsControllerTest {
     public void setUp() throws Exception {
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
-//    	mockTaskExecutor = EasyMock.createMock(ThreadPoolTaskExecutor.class);
     	mockEngineService = EasyMock.createMock(EngineService.class);
     	mockAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
-    	controller = new OperationsController(new JobThrottleConfig(), new FlowJob());
+    	controller = new OperationsController(new FlowJob());
     	controller.setEngineService(mockEngineService);
     	controller.setMessageSourceAccessor(mockAccessor);
     }

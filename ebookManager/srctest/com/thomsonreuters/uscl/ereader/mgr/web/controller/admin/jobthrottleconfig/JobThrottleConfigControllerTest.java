@@ -23,9 +23,10 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobThrottleConfigService;
+import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
@@ -36,7 +37,7 @@ public class JobThrottleConfigControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private HandlerAdapter handlerAdapter;
-	private JobThrottleConfigService mockJobThrottleConfigService;
+	private AppConfigService appConfigService;
 	private ManagerService mockManagerService;
 	private JobThrottleConfigController controller;
 
@@ -45,12 +46,12 @@ public class JobThrottleConfigControllerTest {
 		request = new MockHttpServletRequest();
 		response = new MockHttpServletResponse();
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
-		this.mockJobThrottleConfigService = EasyMock.createMock(JobThrottleConfigService.class);
+		this.appConfigService = EasyMock.createMock(AppConfigService.class);
 		this.mockManagerService = EasyMock.createMock(ManagerService.class);
 
 		// Set up the controller
 		this.controller = new JobThrottleConfigController(PORT_NUM);
-		controller.setJobThrottleConfigService(mockJobThrottleConfigService);
+		controller.setAppConfigService(appConfigService);
 		controller.setManagerService(mockManagerService);
 		controller.setValidator(new JobThrottleConfigFormValidator());
 		controller.setHosts(HOST_NAME+","+HOST_NAME);
@@ -60,13 +61,13 @@ public class JobThrottleConfigControllerTest {
 	public void testInboundGet() throws Exception {
 		request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
 		request.setMethod(HttpMethod.GET.name());
-		JobThrottleConfig config = new JobThrottleConfig();
-		EasyMock.expect(mockJobThrottleConfigService.getThrottleConfig()).andReturn(config);
-		EasyMock.replay(mockJobThrottleConfigService);
+		JobThrottleConfig config = new AppConfig();
+		EasyMock.expect(appConfigService.getJobThrottleConfig()).andReturn(config);
+		EasyMock.replay(appConfigService);
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
 		assertEquals(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG, mav.getViewName());
-		EasyMock.verify(mockJobThrottleConfigService);	
+		EasyMock.verify(appConfigService);	
 	}
 	
 	@Test
@@ -74,19 +75,19 @@ public class JobThrottleConfigControllerTest {
 		request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
 		request.setMethod(HttpMethod.POST.name());
 		
-		JobThrottleConfig config = new JobThrottleConfig(8, true, "foobar", 6);
+		JobThrottleConfig config = AppConfig.createJobThrottleConfig(8, true, "foobar", 6);
 		
-		request.setParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), String.valueOf(config.getCoreThreadPoolSize()));
-		request.setParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), String.valueOf(config.isStepThrottleEnabled()));
-		request.setParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
-		request.setParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrotttleStepMaxJobs()));
+		request.setParameter(AppConfig.Key.coreThreadPoolSize.toString(), String.valueOf(config.getCoreThreadPoolSize()));
+		request.setParameter(AppConfig.Key.stepThrottleEnabled.toString(), String.valueOf(config.isStepThrottleEnabled()));
+		request.setParameter(AppConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
+		request.setParameter(AppConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrotttleStepMaxJobs()));
 		
 		InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 		List<String> stepNames = Arrays.asList("a", "b", "c");
-		mockJobThrottleConfigService.saveJobThrottleConfig(config);
-		EasyMock.expect(mockManagerService.pushJobThrottleConfiguration(socketAddr, config)).andReturn(new JobOperationResponse()).times(2);
+		appConfigService.saveJobThrottleConfig(config);
+		EasyMock.expect(mockManagerService.syncApplicationConfiguration(socketAddr)).andReturn(new JobOperationResponse()).times(2);
 		EasyMock.expect(mockManagerService.getStepNames()).andReturn(stepNames);
-		EasyMock.replay(mockJobThrottleConfigService);
+		EasyMock.replay(appConfigService);
 		EasyMock.replay(mockManagerService);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -103,7 +104,7 @@ public class JobThrottleConfigControllerTest {
 		assertEquals(InfoMessage.Type.FAIL, mesgs.get(2).getType());
 		assertNotNull(model.get(JobThrottleConfigController.KEY_STEP_NAMES));
 		
-		EasyMock.verify(mockJobThrottleConfigService);
+		EasyMock.verify(appConfigService);
 		EasyMock.verify(mockManagerService);	
 	}
 }
