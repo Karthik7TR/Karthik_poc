@@ -309,6 +309,47 @@ public class HTMLAnchorFilterTest {
 	}
 	
 	@Test
+	public void testSimpleNonEmptyAnchorWithSP() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+		String xmlTestStr = "<test><a href=\"#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}	
+	@Test
+	public void testSimpleNonEmptyAnchorWithERSP() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+		String xmlTestStr = "<test><a href=\"er:#ABC1234/co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}	
+	@Test
+	public void testSimpleNonEmptyAnchorWithERmissingSP() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+		String xmlTestStr = "<test><a href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}	
+	@Test
+	public void testSimpleNonEmptyAnchorWithBadSP() throws SAXException
+	{
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+//		String xmlTestStr = "<test><a href=\"er:#_sp_\" class=\"test\">Test123</a></test>";
+		String xmlTestStr = "<test><a href=\"er:#co_pp_sp_1000600\" class=\"test\">Test123</a></test>";
+		String expectedResult = "<test><a href=\"er:#ABC1234/co_pp_1000600\" class=\"test\">Test123</a></test>";
+		
+		testHelper(mockImgService, xmlTestStr, expectedResult);
+	}		
+	@Test
 	public void testSimpleAnchorNotStripped() throws SAXException
 	{
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);

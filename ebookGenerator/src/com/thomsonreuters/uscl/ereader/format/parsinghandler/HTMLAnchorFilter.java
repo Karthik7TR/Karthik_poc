@@ -188,7 +188,16 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							{
 //                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
 							attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(1) ;
-
+							
+							// Temp fix for sp_pubnumber references from URL builder
+							if( attsHrefValue.contains("_sp_"))
+							{
+								int idxHrefSpstart = attsHrefValue.indexOf("_sp_");
+								int idxHrefSpend = attsHrefValue.substring(idxHrefSpstart+4).indexOf("_") + idxHrefSpstart+4;
+								String removeSp = attsHrefValue.substring(idxHrefSpstart, idxHrefSpend);
+								attsHrefValue  = attsHrefValue.replace(removeSp, "");													
+							}
+							
 //                              And then add to Target list.
 							HashSet<String> anchorSet = targetAnchors.get(currentGuid);
 							if (anchorSet == null)
@@ -210,8 +219,18 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 //                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
 								attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(4) ;
 							}
-
+							// Temp fix for sp_pubnumber references from URL builder
+							if( attsHrefValue.contains("_sp_"))
+							{
+								int idxHrefSpStart = attsHrefValue.indexOf("_sp_");
+								int idxHrefSpEnd = attsHrefValue.substring(idxHrefSpStart+4).indexOf("_") + idxHrefSpStart+4;
+								String removeSp = attsHrefValue.substring(idxHrefSpStart, idxHrefSpEnd);
+								attsHrefValue  = attsHrefValue.replace(removeSp, "");													
+							}
+							
 							//                          Add to Target list.	
+							
+							
 								String guidLink = attsHrefValue.substring(4,attsHrefValue.indexOf("/"));
 								HashSet<String> anchorSet = targetAnchors.get(guidLink);
 								if (anchorSet == null)
