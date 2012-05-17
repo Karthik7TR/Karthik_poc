@@ -330,11 +330,11 @@ public class EditBookDefinitionForm {
 		book.setNortFilterView(nortFilterView);
 		book.setProviewDisplayName(proviewDisplayName);
 		
-		if(publicationCutoffDate != null) {
-			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
-			Date date = (Date)formatter.parse(publicationCutoffDate); 
-			book.setPublishCutoffDate(date);
-		}
+		// Parse Date
+		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		Date date = publicationCutoffDate != null? (Date)formatter.parse(publicationCutoffDate) : null; 
+		book.setPublishCutoffDate(date);
+
 		
 		book.setPublishDateText(publishDateText);
 		
