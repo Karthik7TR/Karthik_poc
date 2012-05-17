@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -115,6 +116,20 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
 	public void setFrontMatterSections(
 			Collection<FrontMatterSection> frontMatterSections) {
 		this.frontMatterSections = frontMatterSections;
+	}
+	
+	/**
+	 * Copies the contents of the specified bean into this bean.
+	 *
+	 */
+	@Transient
+	public void copy(FrontMatterPage that) {
+		setId(that.getId());
+		setEbookDefinition(that.getEbookDefinition());
+		setPageTocLabel(that.getPageTocLabel());
+		setPageHeadingLabel(that.getPageHeadingLabel());
+		setSequenceNum(that.getSequenceNum());
+		setFrontMatterSections(that.getFrontMatterSections());
 	}
 
 	@Override

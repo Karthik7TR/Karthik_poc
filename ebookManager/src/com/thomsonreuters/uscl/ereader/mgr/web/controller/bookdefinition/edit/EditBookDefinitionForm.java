@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -241,10 +242,14 @@ public class EditBookDefinitionForm {
 	public void loadBookDefinition(BookDefinition book) throws ParseException {
 		book.setEbookDefinitionId(bookdefinitionId);
 		
+		List<Author> authors = new ArrayList<Author>();
 		for(Author author : authorInfo) {
-			author.setEbookDefinition(book);
+			Author authorCopy = new Author();
+			authorCopy.copy(author);
+			authorCopy.setEbookDefinition(book);
+			authors.add(authorCopy);
 		}
-		book.setAuthors(authorInfo);
+		book.setAuthors(authors);
 		
 		// Add Front Matter Book Names
 		Set<EbookName> ebookNames = new HashSet<EbookName>();
@@ -261,22 +266,24 @@ public class EditBookDefinitionForm {
 			ebookNames.add(frontMatterSeries);
 		}
 		book.setEbookNames(ebookNames);
-		
-		Set<FrontMatterPage> addFrontMatters = new HashSet<FrontMatterPage>();
+
+		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
 		for(FrontMatterPage page : frontMatters) {
-			for(FrontMatterSection section : page.getFrontMatterSections()) {
+			FrontMatterPage pageCopy = new FrontMatterPage();
+			pageCopy.copy(page);
+			for(FrontMatterSection section : pageCopy.getFrontMatterSections()) {
 				for(FrontMatterPdf pdf : section.getPdfs()){
 					//Set foreign key on Pdf
 					pdf.setSection(section);
 				}
 				// Set foreign key on Section
-				section.setFrontMatterPage(page);
+				section.setFrontMatterPage(pageCopy);
 			}
 			// Set foreign key on Page
-			page.setEbookDefinition(book);
-			addFrontMatters.add(page);
+			pageCopy.setEbookDefinition(book);
+			pages.add(pageCopy);
 		}
-		book.setFrontMatterPages(addFrontMatters);
+		book.setFrontMatterPages(pages);
 		
 		// Compare with copy to determine if date needs update
 		for(ExcludeDocument document : excludeDocuments) {

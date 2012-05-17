@@ -230,6 +230,7 @@ public class Author implements Serializable, Comparable<Author> {
 		setAuthorMiddleName(that.getAuthorMiddleName());
 		setAuthorLastName(that.getAuthorLastName());
 		setAuthorAddlText(that.getAuthorAddlText());
+		setSequenceNum(that.getSequenceNum());
 		setUseCommaBeforeSuffix(that.getUseCommaBeforeSuffix());
 		setEbookDefinition(that.getEbookDefinition());
 	}

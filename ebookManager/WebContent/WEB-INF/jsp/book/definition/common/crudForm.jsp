@@ -14,8 +14,7 @@
 <c:when test="${previewHtml != null}">
 <script>
 	var openFrontMatterPreviewWindow = function() {
-		var win = window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT%>?time=<%=System.currentTimeMillis()%>', null, '${winSpecs}');
-		win.focus();
+		window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT%>?time=<%=System.currentTimeMillis()%>', null, '${winSpecs}');
 	};
 </script>
 </c:when>
