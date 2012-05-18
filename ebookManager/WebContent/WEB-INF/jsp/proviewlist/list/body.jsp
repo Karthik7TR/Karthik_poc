@@ -25,7 +25,7 @@
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 				   pagesize="20"
-				   partialList="true"
+				   partialList="false"
 				   size="resultSize"
 				   export="true"
 				   >
@@ -33,7 +33,6 @@
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:setProperty name="export.xml" value="false" />
 	  	<display:setProperty name="export.csv" value="false" />
-	  	<display:setProperty name="export.amount" value="list" />
 	  	<display:setProperty name="export.excel.filename" value="ProviewList.xls" />
 	  	
 	  	
