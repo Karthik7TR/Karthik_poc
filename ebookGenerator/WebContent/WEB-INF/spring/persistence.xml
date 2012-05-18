@@ -36,6 +36,7 @@
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
+		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
