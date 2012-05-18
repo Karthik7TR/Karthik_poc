@@ -81,6 +81,9 @@
 	<bean id="docMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>
+	<bean id="paceMetaDataDao" class="com.thomsonreuters.uscl.ereader.gather.metadata.dao.PaceMetadataDaoImpl">
+		  <constructor-arg ref="sessionFactory"/>
+	</bean>
 	<bean id="publishingStatsDao" class="com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>

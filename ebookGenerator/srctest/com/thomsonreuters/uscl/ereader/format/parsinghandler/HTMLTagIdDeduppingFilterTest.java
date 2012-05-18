@@ -77,12 +77,7 @@ public class HTMLTagIdDeduppingFilterTest {
 			tagIdDeduppingFilter.setContentHandler(serializer.asContentHandler());
 			tagIdDeduppingFilter.parse(new InputSource(input));
 			
-			List<String> ll = tagIdDeduppingFilter.getDuplicateIdList();
-			
-			for (String ss : ll)
-			{
-				System.out.println("Valus is " + ss);
-			}
+			tagIdDeduppingFilter.getDuplicateIdList();
 			
 			String result = output.toString();
 			

@@ -102,7 +102,8 @@
 	<bean id="htmlTransformerService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl"
 		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
 		  p:imgService-ref="imageService"
-  		  p:docMetadataService-ref="docMetadataService"/>
+  		  p:docMetadataService-ref="docMetadataService"
+  		  p:paceMetadataService-ref="paceMetadataService"/>
   		  
 	<bean id="htmlCreateNamedAnchorsService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsServiceImpl"
 		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"
@@ -155,6 +156,9 @@
 		  
 	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
 			p:docMetadataDAO-ref="docMetaDataDao"/>	
+			
+	<bean id="paceMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl"
+			p:paceMetadataDAO-ref="paceMetaDataDao"/>	
 	
 	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
 			p:publishingStatsDAO-ref="publishingStatsDao"/>			

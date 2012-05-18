@@ -51,6 +51,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 /**
@@ -66,6 +67,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	private FileHandlingHelper fileHandlingHelper;
 	private ImageService imgService;
 	private DocMetadataService docMetadataService;
+	private PaceMetadataService paceMetadataService;
 	
 	private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">";
 	private static final String END_WRAPPER_TAG = "</div>";
@@ -83,6 +85,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	public void setdocMetadataService(DocMetadataService docMetadataService)
 	{
 		this.docMetadataService = docMetadataService;
+	}
+	
+	public void setpaceMetadataService(PaceMetadataService paceMetadataService)
+	{
+		this.paceMetadataService = paceMetadataService;
 	}
 	
 	/**
@@ -211,7 +218,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
-			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile);
+			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile, paceMetadataService);
 			internalLinkResolverFilter.setParent(piZapperFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();

@@ -34,7 +34,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		String emailId = JobParameterKey.USER_EMAIL;
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
         String subject = bookDefinition.getTitleId() + "  " + bookDefinition.getProviewDisplayName();
-        EmailNotification.send(emailId, subject, " Publishing Succefully Completed!");
+        EmailNotification.send(emailId, subject, " Publishing Successfully Completed!");
 		
 	}
 
