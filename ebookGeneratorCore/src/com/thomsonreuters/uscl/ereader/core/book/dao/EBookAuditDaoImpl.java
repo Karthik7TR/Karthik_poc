@@ -172,13 +172,13 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 			criteria.add(Restrictions.eq("auditType", filter.getAction()));
 		}
 		if (StringUtils.isNotBlank(filter.getBookName())) {
-			criteria.add(Restrictions.like("proviewDisplayName", filter.getBookName()));
+			criteria.add(Restrictions.like("proviewDisplayName", filter.getBookName()).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(filter.getTitleId())) {
-			criteria.add(Restrictions.like("titleId", filter.getTitleId()));
+			criteria.add(Restrictions.like("titleId", filter.getTitleId()).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
-			criteria.add(Restrictions.like("updatedBy", filter.getSubmittedBy()));
+			criteria.add(Restrictions.like("updatedBy", filter.getSubmittedBy()).ignoreCase());
 		}
 		if (filter.getBookDefinitionId() != null) {
 			criteria.add(Restrictions.eq("ebookDefinitionId", filter.getBookDefinitionId()));

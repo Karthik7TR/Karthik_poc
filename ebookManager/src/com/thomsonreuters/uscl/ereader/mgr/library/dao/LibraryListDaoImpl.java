@@ -122,10 +122,10 @@ public class LibraryListDaoImpl implements LibraryListDao {
 			sql.append(String.format("(book.MATERIAL_ID LIKE '%s') and ", filter.getMaterialId()));
 		}
 		if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
-			sql.append(String.format("(book.PROVIEW_DISPLAY_NAME LIKE '%s') and ", filter.getProviewDisplayName()));
+			sql.append(String.format("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER('%s')) and ", filter.getProviewDisplayName()));
 		}
 		if (StringUtils.isNotBlank(filter.getTitleId())) {
-			sql.append(String.format("(book.TITLE_ID LIKE '%s') and ", filter.getTitleId()));
+			sql.append(String.format("(UPPER(book.TITLE_ID) LIKE UPPER('%s')) and ", filter.getTitleId()));
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
