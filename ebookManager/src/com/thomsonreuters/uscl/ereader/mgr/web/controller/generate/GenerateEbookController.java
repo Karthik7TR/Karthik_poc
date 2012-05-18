@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Required;
@@ -33,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
@@ -256,7 +258,8 @@ public class GenerateEbookController {
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
 	public ModelAndView doPost(
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
-			Model model) {
+			Model model,
+			HttpSession session) {
 
 		log.debug(form);
 
@@ -358,6 +361,12 @@ public class GenerateEbookController {
 		case EDIT: {
 			mav = new ModelAndView(new RedirectView(
 					WebConstants.MVC_BOOK_DEFINITION_EDIT + queryString));
+			break;
+		}
+		case CANCEL: {
+			session.setAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL, "Book generation cancelled");
+			mav = new ModelAndView(new RedirectView(
+					WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
 			break;
 		}
 

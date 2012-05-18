@@ -22,6 +22,27 @@
 	color:red;
 }
 
+.infoMessageWarning,
+.infoMessageSuccess,
+.infoMessageError {
+	height:2em;
+	line-height:2em;
+	text-align: center;
+	font-weight: bold;
+}
+
+.infoMessageWarning {
+	background-color: yellow;
+}
+
+.infoMessageSuccess {
+	background-color: lightgreen;
+}
+
+.infoMessageError {
+	background-color: red;
+}
+
 html, body {
 	height:100%;
 	margin: 0px;
@@ -561,5 +582,5 @@ a:hover {
 
 #proviewList.displayTagTable tr.tableRowEven, 
 #proviewList.displayTagTable tr.even {
-	background-color: #DCD9D9;
+	background-color: #FFFF66;
 }

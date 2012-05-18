@@ -4,7 +4,6 @@
 	Reproduction without the written authorization of TRGR is prohibited
 -->
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm"%>
-<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -225,8 +224,9 @@
 		  
 		</table>
 		<div class="buttons">
-			<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=ViewBookDefinitionForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
-			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
+			<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=GenerateBookForm.Command.EDIT%>')"/>
+			<input id="editButton" type="button" value="Cancel" onclick="submitEdit('<%=GenerateBookForm.Command.CANCEL%>')" ${superPublisherPublisherplusVisibility} />
 		</div>
 		<div style="visibility: hidden"> 
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
@@ -242,14 +242,14 @@
 		
 		<%-- Informational Messages area --%>
 	    <c:if test="${infoMessage != null}">
-	    <div style="background: lightgreen;">
+	    <div class="infoMessageSuccess">
 	    	${infoMessage}
 	    </div>
 	    <br/>
 	    </c:if>
 	    <%-- Error Messages area --%>
 	    <c:if test="${errMessage != null}">
-	    <div style="background: red;">
+	    <div class="infoMessageError">
 	    	${errMessage}
 	    </div>
 	    <br/>

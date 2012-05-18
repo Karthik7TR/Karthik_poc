@@ -18,6 +18,12 @@ function submitForm(cmd)
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
 <c:if test="${book != null}">
+	<%-- Informational Messages area --%>
+    <c:if test="${infoMessage != null}">
+    <div class="infoMessageWarning">
+    	${infoMessage}
+    </div>
+    </c:if>
 	<c:if test="${isInJobRequest}">
 		<div style="color:red;">Note: This book definition is already in the job run queue, and thus cannot be edited.</div>
 	</c:if>

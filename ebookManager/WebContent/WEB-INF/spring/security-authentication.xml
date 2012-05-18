@@ -77,6 +77,7 @@
 		
 		<sec:intercept-url pattern="/proviewTitleRemove*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/proviewTitleDelete*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/proviewTitlePromote*" access="hasRole('ROLE_SUPERUSER')"/>
 		
 		<!-- Catch-all for all other URLs, you must at least be authenticated to the application -->
 		<sec:intercept-url pattern="/**" access="isFullyAuthenticated()"/>

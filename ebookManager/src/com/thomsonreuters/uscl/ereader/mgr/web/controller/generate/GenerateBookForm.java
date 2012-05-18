@@ -6,12 +6,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 
 public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
+	public enum Command { EDIT, GENERATE, CANCEL };
 	
 	private boolean highPriorityJob;
 	private boolean majorVersion;

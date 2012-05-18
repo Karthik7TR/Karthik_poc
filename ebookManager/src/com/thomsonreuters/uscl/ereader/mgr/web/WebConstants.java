@@ -35,6 +35,7 @@ public class WebConstants {
 	public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
 	public static final String KEY_BOOK_DEFINITION = "book";
 	public static final String KEY_BOOK_AUDIT_DETAIL = "bookAuditDetail";
+	public static final String KEY_BOOK_GENERATE_CANCEL = "bookGenerateCancel";
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
 	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
 	public static final String KEY_STATE_CODE = "stateCode";

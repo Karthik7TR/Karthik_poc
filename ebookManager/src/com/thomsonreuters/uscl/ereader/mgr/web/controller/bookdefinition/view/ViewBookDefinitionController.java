@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -41,7 +43,7 @@ public class ViewBookDefinitionController {
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
 	public ModelAndView viewBookDefintion(@RequestParam Long id,
 				@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
-				Model model) {
+				Model model, HttpSession session) {
 
 		// Lookup the book by its primary key
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
@@ -50,6 +52,13 @@ public class ViewBookDefinitionController {
 		if(bookDef != null) {
 			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 			formatTextAreaStrings(bookDef);
+			
+			// Check if user canceled from Generate page
+			String generateCanceled = (String) session.getAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);
+			session.removeAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);	// Clear the HTML out of the session
+			if (generateCanceled != null) {
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, generateCanceled);
+			}
 		}
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 
