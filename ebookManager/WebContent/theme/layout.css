@@ -549,4 +549,17 @@ a:hover {
 	cursor: pointer;
 }
 
+#audit.displayTagTable tr.tableRowEven, 
+#audit.displayTagTable tr.even {
+	background-color: #FFB259;
+}
 
+#job.displayTagTable tr.tableRowEven, 
+#job.displayTagTable tr.even {
+	background-color: #8CF2B5;
+}
+
+#proviewList.displayTagTable tr.tableRowEven, 
+#proviewList.displayTagTable tr.even {
+	background-color: #DCD9D9;
+}

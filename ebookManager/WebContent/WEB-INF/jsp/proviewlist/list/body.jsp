@@ -22,7 +22,7 @@
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
 	
-	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+	<display:table id="proviewList" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 				   pagesize="20"
 				   partialList="false"
@@ -44,7 +44,7 @@
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
 	  	<display:column title="Action" media="html">
-	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}">All versions</a>
+	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">All versions</a>
 	  	</display:column>
 	  	
 	  	
