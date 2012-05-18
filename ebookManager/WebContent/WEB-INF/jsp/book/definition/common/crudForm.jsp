@@ -403,10 +403,6 @@
 			
 			$('#addExcludeDocument').click(function () {
 				addExcludeDocumentRow();
-				
-				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
-				$('#authorName').hide();
-				$('#authorName').show();
 			});
 			
 			// Clicking the Additional Front Matter preview button 
@@ -472,6 +468,10 @@
 			// Determine to show publication cut-off date
 			$('input:radio[name=publicationCutoffDateUsed]').change(function () {
 				updatePubCutoffDate($(this).val());
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$("#generalSection").hide();
+				$("#generalSection").show();
 			});
 			
 			// Determine to show Exclude Document
@@ -493,6 +493,10 @@
 					} else {
 						keywordValuesDiv.hide();
 					};
+					
+					<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+					$("#proviewSection").hide();
+					$("#proviewSection").show();
 			});
 			
 			// delete confirmation box
@@ -519,10 +523,6 @@
 						"Delete": function() {
 							// Remove the element
 							srow.remove();
-							
-							<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
-							$('#authorName').hide();
-							$('#authorName').show();
 							
 							$( this ).dialog( "close" );
 						},
@@ -679,7 +679,7 @@
 	</c:otherwise>
 </c:choose>
 <form:hidden path="bookdefinitionId" />
-<div class="section">
+<div id="generalSection" class="section">
 	<div class="sectionLabel">
 		General
 	</div>
@@ -847,7 +847,7 @@
 	<div id="addExcludeDocumentHere"></div>
 </div>
 
-<div class="section">
+<div id="proviewSection" class="section">
 	<div class="sectionLabel">
 		ProView Options
 	</div>
