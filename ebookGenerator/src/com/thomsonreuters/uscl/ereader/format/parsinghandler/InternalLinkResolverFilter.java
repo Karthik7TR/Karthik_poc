@@ -42,6 +42,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private static final String ANCHOR_ELEMENT = "a";
     private static final String HREF = "href";
     private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
+    private static final Long PUB_NOT_PRESENT = Long.MIN_VALUE;
     private DocumentMetadataAuthority documentMetadataAuthority;
     private File docsGuidFile;
     private PaceMetadataService paceMetadataService;
@@ -108,7 +109,13 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         if (StringUtils.isNotEmpty(cite))
         {
             String pubName = urlContents.get("pubNum");
-            Long pubId = Long.parseLong(pubName);
+            
+            Long pubId = PUB_NOT_PRESENT;
+            if (pubName != null)
+            {
+            	pubId =	Long.parseLong(pubName);
+            }
+            
             docMetadata = getNormalizedCiteDocMetadata(cite, pubId);
         }
         else if (StringUtils.isNotEmpty(documentUuid))
@@ -136,7 +143,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     {
        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
 
-        if (docMetadata == null)
+        if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT))
         {
             List<PaceMetadata> paceMetadataInfo =
                 paceMetadataService.findAllPaceMetadataForPubCode(pubId);
