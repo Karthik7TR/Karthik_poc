@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -100,7 +100,7 @@ public class JobExecutionControllerTest {
 	@Test
 	public void testHandleRestartJobOperationSuccessResponse() {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		JobOperationResponse joResp = new JobOperationResponse(RESTARTED_ID);
+		SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(RESTARTED_ID);
 
 		Object[] args = { ID_TO_RESTART.toString(), RESTARTED_ID.toString() };
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);
@@ -114,7 +114,7 @@ public class JobExecutionControllerTest {
 	public void testHandleRestartJobOperationFailureResponse() {
 		String failureText = "Job already running";
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		JobOperationResponse joResp = new JobOperationResponse(ID_TO_RESTART, false, failureText);
+		SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_RESTART, false, failureText);
 		
 		Object[] args = { ID_TO_RESTART.toString(), failureText };
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);
@@ -127,7 +127,7 @@ public class JobExecutionControllerTest {
 	@Test
 	public void testHandleStopJobOperationSuccessResponse() {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		JobOperationResponse joResp = new JobOperationResponse(ID_TO_STOP);
+		SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_STOP);
 
 		Object[] args = { ID_TO_STOP.toString() };
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);
@@ -141,7 +141,7 @@ public class JobExecutionControllerTest {
 	public void testHandleStopJobOperationFailureResponse() {
 		String failureText = "Job already stopped";
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
-		JobOperationResponse joResp = new JobOperationResponse(ID_TO_STOP, false, failureText);
+		SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_STOP, false, failureText);
 
 		Object[] args = { ID_TO_STOP.toString() , failureText};
 		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.aryEq(args))).andReturn(RESOURCE_BUNDLE_MESSAGE);

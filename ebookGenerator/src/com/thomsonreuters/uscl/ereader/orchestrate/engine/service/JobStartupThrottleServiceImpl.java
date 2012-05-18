@@ -18,14 +18,13 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 
 /**
  * This class covers Throttle behavior for spring batch where before starting new job , jobRepository is queried to find 
  * how many jobs are currently running and what is current throttle limit. if number of jobs running are more or 
  * equal to throttle Limit. Each running job is verified if they have crossed throttle step, total number of such jobs 
  * which have not crossed throttle limit is considered to decide if new job should be allowed to launch.  
- *    
- *  @author Mahendra Survase (u0105927)
  */
 public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService{
 	
@@ -33,14 +32,15 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 	
 	public JobExplorer jobExplorer;
 	public JobRepository jobRepository;
+	public AppConfigService appConfigService;
+
+	/** Note that is is mutable and can be changed on the fly */
 	public JobThrottleConfig jobThrottleConfig;
 	
 	public JobStartupThrottleServiceImpl(JobExplorer jobExplorer,
-										 JobRepository jobRepository,
-										 JobThrottleConfig jobThrottleConfig) {
+										 JobRepository jobRepository) {
 		this.jobExplorer = jobExplorer;
 		this.jobRepository = jobRepository;
-		this.jobThrottleConfig = jobThrottleConfig;
 	}
 	
 	/**
@@ -108,5 +108,14 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 		
 		
 		return jobPullFlag;
+	}
+	
+	/**
+	 * Used to update the configuration which can be changed on the fly.
+	 * The SyncJobThrottleConfigSerice will invoke this method.
+	 */
+	@Override
+	public void setJobThrottleConfig(JobThrottleConfig jobThrottleConfig) {
+		this.jobThrottleConfig = jobThrottleConfig;
 	}
 }

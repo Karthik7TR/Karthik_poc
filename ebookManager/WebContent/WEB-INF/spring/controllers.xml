@@ -11,6 +11,7 @@
 	<bean id="adminJobThrottleConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"
 		  p:appConfigService-ref="appConfigService"
 		  p:managerService-ref="managerService"
+		  p:generatorRestClient-ref="generatorRestClient"
 		  p:hosts="${generator.hosts}">
 		<constructor-arg value="${generator.port}"/>
 		<property name="validator">
@@ -20,8 +21,11 @@
 	<bean id="miscConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController"
 		  p:appConfigService-ref="appConfigService"
 		  p:managerService-ref="managerService"
-		  p:hosts="${generator.hosts}">
-		<constructor-arg value="${generator.port}"/>
+		  p:hosts="${generator.hosts}"
+		  p:generatorContextName="${generator.context.name}"
+		  p:generatorPort="${generator.port}"
+		  p:gathererContextName="${gatherer.context.name}"
+		  p:gathererPort="${gatherer.port}">
 		<property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigFormValidator"/>
 		 </property>
@@ -144,7 +148,7 @@
 
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
 		  p:jobService-ref="jobService"
-		  p:managerService-ref="managerService"
+		  p:generatorRestClient-ref="generatorRestClient"
 		  p:publishingStatsService-ref="publishingStatsService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor"
 		  p:jobSummaryController-ref="jobSummaryController">
@@ -160,7 +164,7 @@
 		  p:publishingStatsService-ref="publishingStatsService"/>	
 	<bean id="jobSummaryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController"
 		  p:jobService-ref="jobService"
-		  p:managerService-ref="managerService"
+		  p:generatorRestClient-ref="generatorRestClient"
 		  p:jobExecutionController-ref="jobExecutionController"
 		  p:messageSourceAccessor-ref="messageSourceAccessor">
 		<property name="validator">
@@ -222,6 +226,10 @@
 		  />
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
-		 p:proviewClient-ref="proviewClient"/>	  
-			  
+		 p:proviewClient-ref="proviewClient"/>	
+  
+	<!-- Handles application sync request from manager.  Reads DB config and updates in-memory state. -->
+	<bean id="syncConfigController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
+		  
 </beans>

@@ -5,11 +5,23 @@
 -->
 <binding>
 
-	<!-- Response to a REST request to the generator for job restart and stop requests -->
-    <mapping name="jobOperationResponse" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse">
-        <value name="jobExecutionId" field="jobExecutionId" usage="optional"/>
+	<!-- A simle REST service general response to a REST request -->
+    <mapping name="simpleRestServiceResponse" class="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse">
+        <value name="id" field="id" usage="optional"/>
         <value name="success" field="success" usage="required"/>
         <value name="message" field="message" usage="optional"/>
+    </mapping>
+    
+    <!-- Application configuration -->
+    <mapping name="jobThrottleConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig">
+        <value name="coreThreadPoolSize" field="coreThreadPoolSize" usage="required"/>
+        <value name="stepThrottleEnabled" field="stepThrottleEnabled" usage="required"/>
+        <value name="throttleStepName" field="throttleStepName" usage="required"/>
+        <value name="throtttleStepMaxJobs" field="throtttleStepMaxJobs" usage="required"/>
+    </mapping>
+    <mapping name="miscConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig">
+        <value name="rootLogLevel" field="rootLogLevel" usage="required"/>
+        <value name="appLogLevel" field="appLogLevel" usage="required"/>
     </mapping>
     
     <!-- Gather service REST response body for Toc and Doc requests -->

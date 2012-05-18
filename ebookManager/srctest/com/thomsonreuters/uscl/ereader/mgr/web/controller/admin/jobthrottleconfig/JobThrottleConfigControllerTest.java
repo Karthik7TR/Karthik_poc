@@ -23,10 +23,10 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
+import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
@@ -39,6 +39,7 @@ public class JobThrottleConfigControllerTest {
 	private HandlerAdapter handlerAdapter;
 	private AppConfigService appConfigService;
 	private ManagerService mockManagerService;
+	private GeneratorRestClient mockGeneratorRestClient;
 	private JobThrottleConfigController controller;
 
 	@Before
@@ -48,11 +49,13 @@ public class JobThrottleConfigControllerTest {
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
 		this.appConfigService = EasyMock.createMock(AppConfigService.class);
 		this.mockManagerService = EasyMock.createMock(ManagerService.class);
+		this.mockGeneratorRestClient = EasyMock.createMock(GeneratorRestClient.class);
 
 		// Set up the controller
 		this.controller = new JobThrottleConfigController(PORT_NUM);
 		controller.setAppConfigService(appConfigService);
 		controller.setManagerService(mockManagerService);
+		controller.setGeneratorRestClient(mockGeneratorRestClient);
 		controller.setValidator(new JobThrottleConfigFormValidator());
 		controller.setHosts(HOST_NAME+","+HOST_NAME);
 	}
@@ -61,8 +64,8 @@ public class JobThrottleConfigControllerTest {
 	public void testInboundGet() throws Exception {
 		request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
 		request.setMethod(HttpMethod.GET.name());
-		JobThrottleConfig config = new AppConfig();
-		EasyMock.expect(appConfigService.getJobThrottleConfig()).andReturn(config);
+		JobThrottleConfig config = new JobThrottleConfig();
+		EasyMock.expect(appConfigService.loadJobThrottleConfig()).andReturn(config);
 		EasyMock.replay(appConfigService);
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
@@ -75,20 +78,22 @@ public class JobThrottleConfigControllerTest {
 		request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
 		request.setMethod(HttpMethod.POST.name());
 		
-		JobThrottleConfig config = AppConfig.createJobThrottleConfig(8, true, "foobar", 6);
+		JobThrottleConfig config = new JobThrottleConfig(8, true, "foobar", 6);
 		
-		request.setParameter(AppConfig.Key.coreThreadPoolSize.toString(), String.valueOf(config.getCoreThreadPoolSize()));
-		request.setParameter(AppConfig.Key.stepThrottleEnabled.toString(), String.valueOf(config.isStepThrottleEnabled()));
-		request.setParameter(AppConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
-		request.setParameter(AppConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrotttleStepMaxJobs()));
+		request.setParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), String.valueOf(config.getCoreThreadPoolSize()));
+		request.setParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), String.valueOf(config.isStepThrottleEnabled()));
+		request.setParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
+		request.setParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrotttleStepMaxJobs()));
 		
 		InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 		List<String> stepNames = Arrays.asList("a", "b", "c");
 		appConfigService.saveJobThrottleConfig(config);
-		EasyMock.expect(mockManagerService.syncApplicationConfiguration(socketAddr)).andReturn(new JobOperationResponse()).times(2);
-		EasyMock.expect(mockManagerService.getStepNames()).andReturn(stepNames);
+		EasyMock.expect(appConfigService.loadJobThrottleConfig()).andReturn(config).times(2);
+		EasyMock.expect(mockManagerService.pushJobThrottleConfiguration(config, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
+		EasyMock.expect(mockGeneratorRestClient.getStepNames()).andReturn(stepNames);
 		EasyMock.replay(appConfigService);
 		EasyMock.replay(mockManagerService);
+		EasyMock.replay(mockGeneratorRestClient);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		

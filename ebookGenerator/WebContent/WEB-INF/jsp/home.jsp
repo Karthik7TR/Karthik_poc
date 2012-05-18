@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<h2>E-Book Generator Engine Home (${environmentName})</h2>
+<h2>eBook Generator Home (${environmentName})</h2>
 
 <br/>
 

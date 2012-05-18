@@ -7,14 +7,10 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
   	
-   	<!-- View to marshal the JobOperationResponse object for return to client job restart and stop operations -->
-	<bean id ="marshalJobOperationResponseView" class="org.springframework.web.servlet.view.xml.MarshallingView" >
-      <property name="marshaller" ref="jibxJobOperationResponseMarshaller" />
-      <property name="modelKey" value="jobOperationResponse"/>
-      <property name="contentType" value="text/xml"/>
-  	</bean>
+
 
 	<!-- Marshallers -->
+
   	<bean id="jibxDocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
         <property name="encoding" value="UTF-8"/>
@@ -31,20 +27,14 @@
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse"/>
         <property name="encoding" value="UTF-8"/>
     </bean>
-    
-    <!-- Response to job restart and stop requests -->
-    <bean id="jibxJobOperationResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value=" com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse"/>
-    </bean>
 
-	<!-- Converters (for use in RestTemplate(s)) -->
+	<!-- Message Converters (for use in RestTemplate(s)) -->
+	
 	<!-- JSON mapper (for image service) -->
 	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
 		  p:objectMapper-ref="jsonObjectMapper"/>
- 
- 	<!-- Rest body received from the manager when pushing a new job throttle configuration to the generator web apps. -->
-
+  	
 	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="jibxDocRequestMarshaller" />
         <property name="unmarshaller" ref="jibxDocRequestMarshaller" />
@@ -82,21 +72,16 @@
         <property name="marshaller" ref="jibxGatherResponseMarshaller" />
         <property name="unmarshaller" ref="jibxGatherResponseMarshaller" />
     </bean>
-
-	<bean id="jobOperationResponseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jibxJobOperationResponseMarshaller" />
-        <property name="unmarshaller" ref="jibxJobOperationResponseMarshaller" />
-    </bean>
     
 	<!-- REST Template used to communicate with the Gather REST service -->
-	<bean id="gatherRestTemplate" class="org.springframework.web.client.RestTemplate">
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
         <list>
           <ref bean="docRequestMessageConverter"/>
           <ref bean="tocRequestMessageConverter"/>
           <ref bean="nortRequestMessageConverter"/>
           <ref bean="gatherResponseMessageConverter"/>
-          <ref bean="jobOperationResponseMessageConverter"/>
+          <ref bean="simpleResponseMessageConverter"/>
         </list>
       </property>
 	</bean>
@@ -109,6 +94,19 @@
           <ref bean="jsonHttpMessageConverter"/>
         </list>
       </property>
-	</bean>    
+	</bean>
+	
+	 <!-- Views to marshal the object for return to client -->
+
+  	<bean id ="miscConfigResponseView" class="org.springframework.web.servlet.view.xml.MarshallingView" >
+      <property name="marshaller" ref="miscConfigMarshaller" />
+      <property name="modelKey" value="miscConfig"/>
+      <property name="contentType" value="text/xml"/>
+  	</bean>
+  	<bean id ="jobThrottleConfigResponseView" class="org.springframework.web.servlet.view.xml.MarshallingView" >
+      <property name="marshaller" ref="jobThrottleConfigMarshaller" />
+      <property name="modelKey" value="jobThrottleConfig"/>
+      <property name="contentType" value="text/xml"/>
+  	</bean>
 
 </beans> 

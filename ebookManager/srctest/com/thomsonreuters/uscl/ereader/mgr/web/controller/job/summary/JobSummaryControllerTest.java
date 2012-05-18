@@ -25,16 +25,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 public class JobSummaryControllerTest {
 	//private static final Logger log = Logger.getLogger(JobSummaryControllerTest.class);
@@ -43,7 +43,7 @@ public class JobSummaryControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobService mockJobService;
-	private ManagerService mockManagerService;
+	private GeneratorRestClient mockManagerService;
 	private JobExecutionController mockJobExecutionController;
 	private MessageSourceAccessor mockMessageSourceAccessor;
 	private HandlerAdapter handlerAdapter;
@@ -58,7 +58,7 @@ public class JobSummaryControllerTest {
     	this.response = new MockHttpServletResponse();
     	
     	this.mockJobService = EasyMock.createMock(JobService.class);
-    	this.mockManagerService = EasyMock.createMock(ManagerService.class);
+    	this.mockManagerService = EasyMock.createMock(GeneratorRestClient.class);
     	this.mockJobExecutionController = EasyMock.createMock(JobExecutionController.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -66,7 +66,7 @@ public class JobSummaryControllerTest {
     	controller = new JobSummaryController();
     	controller.setJobService(mockJobService);
     	controller.setValidator(new JobSummaryValidator());
-    	controller.setManagerService(mockManagerService);
+    	controller.setGeneratorRestClient(mockManagerService);
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     	controller.setJobExecutionController(mockJobExecutionController);
     	
@@ -84,6 +84,7 @@ public class JobSummaryControllerTest {
     }
     
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testJobSummaryInboundGet() throws Exception {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY);
@@ -113,6 +114,7 @@ public class JobSummaryControllerTest {
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testJobSummaryPaging() throws Exception {
     	// Set up the request URL
 		int newPageNumber = 2;
@@ -182,8 +184,8 @@ public class JobSummaryControllerTest {
     	HttpSession session = request.getSession();
     	session.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
     	// Record
-    	JobOperationResponse jobOperationResponse = new JobOperationResponse(id+1);
-    	EasyMock.expect(mockManagerService.restartJob(id)).andReturn(jobOperationResponse);
+    	SimpleRestServiceResponse restResponse = new SimpleRestServiceResponse(id+1);
+    	EasyMock.expect(mockManagerService.restartJob(id)).andReturn(restResponse);
 
     	verifyJobOperation();
 	}
@@ -200,12 +202,12 @@ public class JobSummaryControllerTest {
     	HttpSession session = request.getSession();
     	session.setAttribute(WebConstants.KEY_JOB_EXECUTION_IDS, jobExecutionIds);
     	// Record
-    	JobOperationResponse jobOperationResponse = new JobOperationResponse(id);
+    	SimpleRestServiceResponse jobOperationResponse = new SimpleRestServiceResponse(id);
     	EasyMock.expect(mockManagerService.stopJob(id)).andReturn(jobOperationResponse);
 
     	verifyJobOperation();
 	}
-	
+	@SuppressWarnings("unchecked")
     private void verifyJobOperation() throws Exception {
     	// Common recordings for stop and restart
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
@@ -220,7 +222,6 @@ public class JobSummaryControllerTest {
     	assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
-    	@SuppressWarnings("unchecked")
     	List<InfoMessage> messages = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
     	Assert.assertEquals(1, messages.size());
     	Assert.assertEquals(InfoMessage.Type.SUCCESS, messages.get(0).getType());
@@ -235,6 +236,7 @@ public class JobSummaryControllerTest {
 	 * @throws Exception
 	 */
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testChangeDisplayedRowsPerPage() throws Exception {
 		int EXPECTED_OBJECTS_PER_PAGE = 33;
     	// Set up the request URL

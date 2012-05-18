@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="docController" class="com.thomsonreuters.uscl.ereader.gather.controller.DocController"
+		  p:docService-ref="docService"/>
+		  
+	<bean id="homeController" class="com.thomsonreuters.uscl.ereader.gather.controller.HomeController"
+		  p:environmentName-ref="environmentName"/>
+		  
+	<bean id="nortController" class="com.thomsonreuters.uscl.ereader.gather.controller.NortController"
+		  p:nortService-ref="nortService"/>
+		  
+	<bean id="tocController" class="com.thomsonreuters.uscl.ereader.gather.controller.TocController"
+		  p:tocService-ref="tocService"/>
+		  
+	<!-- REST provider: Handles the push of a new application misc configuration from the manager app. -->
+	<bean id="syncConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
+</beans>

@@ -16,7 +16,19 @@
 	   					   http://www.springframework.org/schema/beans
 	   					   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<!-- Used to marshal the JobOperationResponse object for client REST service request to stop or restart a job. -->
+	<!-- Map inbound REST HTTP request into a POJO -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	    <property name="messageConverters">
+	      <list>
+	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
+	      		 the controller methods annotated with @RequestBody -->
+	        <ref bean="jobThrottleConfigMessageConverter" />
+	        <ref bean="miscConfigMessageConverter" />
+	      </list>
+	    </property>
+	</bean>
+
+	<!-- Used to marshal the object for client REST service request. -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"	
 		  p:order="1"/>
 	

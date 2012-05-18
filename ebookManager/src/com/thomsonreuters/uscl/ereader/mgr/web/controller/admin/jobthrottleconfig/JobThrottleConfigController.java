@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
+import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController;
@@ -37,6 +38,7 @@ public class JobThrottleConfigController {
 	private int generatorPort;
 	private AppConfigService appConfigService;
 	private ManagerService managerService;
+	private GeneratorRestClient generatorRestClient;
 	private Validator validator;
 	
 	public JobThrottleConfigController(int generatorPort) {
@@ -51,7 +53,7 @@ public class JobThrottleConfigController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
 	public ModelAndView inboundGet(@ModelAttribute(JobThrottleConfigForm.FORM_NAME) JobThrottleConfigForm form,
 								   Model model) throws Exception {
-		JobThrottleConfig databaseJobThrottleConfig = appConfigService.getJobThrottleConfig();
+		JobThrottleConfig databaseJobThrottleConfig = appConfigService.loadJobThrottleConfig();
 		form.initialize(databaseJobThrottleConfig);
 		setUpModel(model);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
@@ -63,9 +65,9 @@ public class JobThrottleConfigController {
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 		if (!errors.hasErrors()) {
 			boolean anySaveErrors = false;
-			JobThrottleConfig jobThrottleConfig = form.getJobThrottleConfig();
 			// Persist the changed Throttle configuration
 			try {
+				JobThrottleConfig jobThrottleConfig = form.getJobThrottleConfig();
 				appConfigService.saveJobThrottleConfig(jobThrottleConfig);
 				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved throttle configuration."));
 				
@@ -85,12 +87,14 @@ public class JobThrottleConfigController {
 				for (InetSocketAddress socketAddr : socketAddrs) {
 					try {
 						currentSocketAddr = socketAddr;
-						JobOperationResponse opResponse = managerService.syncApplicationConfiguration(socketAddr);
+						// Notify the generator app to pick up the changes
+						JobThrottleConfig jobThrottleConfig = appConfigService.loadJobThrottleConfig();
+						SimpleRestServiceResponse opResponse = managerService.pushJobThrottleConfiguration(jobThrottleConfig, socketAddr);
 						if (opResponse.isSuccess()) {
 							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to: %s", socketAddr)));
 						} else {
 							String errorMessage = String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
-							log.error("JobOperationResponse failure: " + errorMessage);
+							log.error("REST response failure: " + errorMessage);
 							infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
 						}
 					} catch (Exception e) {
@@ -107,7 +111,7 @@ public class JobThrottleConfigController {
 	}
 	
 	private void setUpModel(Model model) {
-		List<String> stepNames = managerService.getStepNames();
+		List<String> stepNames = generatorRestClient.getStepNames();
 		model.addAttribute(KEY_STEP_NAMES, stepNames);
 	}
 
@@ -126,6 +130,10 @@ public class JobThrottleConfigController {
 	@Required
 	public void setManagerService(ManagerService service) {
 		this.managerService = service;
+	}
+	@Required
+	public void setGeneratorRestClient(GeneratorRestClient client) {
+		this.generatorRestClient = client;
 	}
 	@Required
 	public void setValidator(Validator validator) {

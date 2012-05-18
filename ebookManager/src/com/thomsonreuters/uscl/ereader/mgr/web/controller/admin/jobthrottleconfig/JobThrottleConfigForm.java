@@ -1,11 +1,10 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
 public class JobThrottleConfigForm {
 	
-	private JobThrottleConfig jobThrottleConfig = new AppConfig();
+	private JobThrottleConfig jobThrottleConfig = new JobThrottleConfig();
 	
 	public static final String FORM_NAME = "jobThrottleForm";
 	

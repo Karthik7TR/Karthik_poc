@@ -4,16 +4,16 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * Encapsulates the response from the generator REST service that carries job stop and restart requests.
- * This object is marshalled and becomes the body of the REST response back to the manager client.
+ * Encapsulates a generic response from a REST service provider.
+ * This object is marshalled and becomes the body of the REST response back to the REST client.
  */
-public class JobOperationResponse {
+public class SimpleRestServiceResponse {
 	
-	private Long jobExecutionId;
+	private Long id;
 	private boolean success;
 	private String message;
 	
-	public JobOperationResponse() {
+	public SimpleRestServiceResponse() {
 		super();
 	}
 	
@@ -21,24 +21,24 @@ public class JobOperationResponse {
 	 * The nominal success response object.
 	 * @param jobExecutionId job execution id of job stopped or restarted.
 	 */
-	public JobOperationResponse(Long jobExecutionId) {
-		this(jobExecutionId, true, null);
+	public SimpleRestServiceResponse(Long id) {
+		this(id, true, null);
 	}
 
 	/**
 	 * The full constructor for a response.
-	 * @param jobExecutionId job execution id of job stopped or restarted.
+	 * @param id
 	 * @param success true if the operation was successful.
 	 * @param message informational message as to what went wrong.
 	 */
-	public JobOperationResponse(Long jobExecutionId, boolean success, String message) {
-		this.jobExecutionId = jobExecutionId;
+	public SimpleRestServiceResponse(Long id, boolean success, String message) {
+		this.id = id;
 		this.success = success;
 		this.message = message;
 	}
 	
-	public Long getJobExecutionId() {
-		return jobExecutionId;
+	public Long getId() {
+		return id;
 	}
 	public boolean isSuccess() {
 		return success;
@@ -46,8 +46,8 @@ public class JobOperationResponse {
 	public String getMessage() {
 		return message;
 	}
-	public void setJobExecutionId(Long jobExecutionId) {
-		this.jobExecutionId = jobExecutionId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public void setSuccess(boolean success) {
 		this.success = success;

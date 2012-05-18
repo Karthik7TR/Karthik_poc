@@ -8,7 +8,10 @@
 
   <context-param>
 	<param-name>contextConfigLocation</param-name>
-	<param-value>/WEB-INF/spring/*.xml</param-value>
+	<param-value>
+			/WEB-INF/spring/*.xml,
+			classpath:spring/generator-rest-client.xml
+	</param-value>
   </context-param>
 
   <listener>

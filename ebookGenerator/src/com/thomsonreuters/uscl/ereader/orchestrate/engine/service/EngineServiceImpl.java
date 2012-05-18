@@ -13,8 +13,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -27,14 +25,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
-import com.thomsonreuters.uscl.ereader.core.job.domain.LoggingConfig;
-import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
+import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 
 
-public class EngineServiceImpl implements EngineService {
+public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
 	private static Logger log = Logger.getLogger(EngineServiceImpl.class);
 	private String environmentName;  // like "ci" or "test"
 	private JobRegistry jobRegistry;
@@ -45,28 +41,18 @@ public class EngineServiceImpl implements EngineService {
 	private String imageService;
 	private String novusEnvironment;
 	private String dbServiceName;
-	private AppConfig appConfig;
-	private AppConfigService appConfigService;
-	private EngineService engineService;
-	
-	@PostConstruct
-	public void syncApplicationConfiguration() throws Exception {
-		AppConfig configurationReadFromDatabase = appConfigService.getAppConfig();
-		
-		// Synchronize the bean state with the database state
-		this.appConfig.copy(configurationReadFromDatabase);
+	private JobStartupThrottleService jobStartupThrottleService;
+
+
+	@Override
+	public void syncJobThrottleConfig(JobThrottleConfig config) throws Exception {
 		
 		// Reset the Spring Batch task executor with the core thread pool size read from the database as part of the job throttle config.
-		JobThrottleConfig jobThrottleConfig = (JobThrottleConfig) appConfig;
-		engineService.setTaskExecutorCoreThreadPoolSize(jobThrottleConfig.getCoreThreadPoolSize());
+		setTaskExecutorCoreThreadPoolSize(config.getCoreThreadPoolSize());
+		jobStartupThrottleService.setJobThrottleConfig(config);
 		
-		// Set the configured logging levels
-		LoggingConfig loggingConfig = (LoggingConfig) appConfig;
-		appConfigService.setLogLevel(loggingConfig);
-		
-		log.debug("Successfully synchronized: " + appConfig);
+		log.debug("Successfully synchronized: " + config);
 	}
-
 
 	/**
 	 * Immediately run a job as defined in the specified JobRunRequest.
@@ -183,15 +169,7 @@ public class EngineServiceImpl implements EngineService {
 		this.springBatchTaskExecutor = taskExecutor;
 	}
 	@Required
-	public void setAppConfig(AppConfig appConfig) {
-		this.appConfig = appConfig;
-	}
-	@Required
-	public void setAppConfigService(AppConfigService appConfigService) {
-		this.appConfigService = appConfigService;
-	}
-	@Required
-	public void setEngineService(EngineService engineService) {
-		this.engineService = engineService;
+	public void setJobStartupThrottleService(JobStartupThrottleService service) {
+		this.jobStartupThrottleService = service;
 	}
 }

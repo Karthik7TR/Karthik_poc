@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<h2>E-Book Gatherer Engine Home (${environmentName})</h2>
+<h2>eBook Gatherer Home (${environmentName})</h2>
 
 <br/>
 

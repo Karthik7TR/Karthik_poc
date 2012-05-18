@@ -7,7 +7,7 @@
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,6 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 public class DocController {
 	private static Logger LOG = Logger.getLogger(DocController.class);
 
-	@Autowired
 	public DocService docService;
 
 	@RequestMapping(value = "/doc", method = RequestMethod.POST)
@@ -59,7 +58,8 @@ public class DocController {
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}
-	
+
+	@Required
 	public void setDocService(DocService service) {
 		this.docService = service;
 	}

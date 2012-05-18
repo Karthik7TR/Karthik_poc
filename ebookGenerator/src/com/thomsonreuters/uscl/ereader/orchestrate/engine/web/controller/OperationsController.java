@@ -24,7 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
+import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -37,6 +41,7 @@ public class OperationsController {
 	private static final Logger log = Logger.getLogger(OperationsController.class);
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
+	private AppConfigService appConfigService;
 	private FlowJob job;
 	
 	public OperationsController(FlowJob job) {
@@ -49,137 +54,77 @@ public class OperationsController {
 	 * Handle REST request to restart an currently stopped or failed job.
 	 * Only a superuser, or the user who started the job in the first place is allowed to perform this operation.
 	 * @param jobExecutionId the job execution ID of the job to restart (required).
-	 * @return the view name which will marshal and return the JobOperationResponse object.
+	 * @return the view name which will marshal and return the SimpleRestServiceResponse object.
 	 */
 	@RequestMapping(value=WebConstants.URI_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(@PathVariable Long jobExecutionId, Model model) throws Exception {
 		Long jobExecutionIdToRestart = jobExecutionId;
-//		log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
+		log.debug("jobExecutionIdToRestart="+jobExecutionIdToRestart);
 		
-		JobOperationResponse opResponse = null;
+		SimpleRestServiceResponse opResponse = null;
 		try {
 			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
-			opResponse = new JobOperationResponse(restartedJobExecutionId);
+			opResponse = new SimpleRestServiceResponse(restartedJobExecutionId);
 		} catch (JobInstanceAlreadyCompleteException e) {  // Cannot restart a job that is already finished
 			Object[] args = { jobExecutionIdToRestart.toString() };
 			String message = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
-			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, message);
+			opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
 			log.debug(message);
 		} catch (Exception e) {
-			opResponse = new JobOperationResponse(jobExecutionIdToRestart, false, e.getMessage());
+			opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, e.getMessage());
 			log.debug("Job RESTART exception: " + e);
 		}
-		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
-		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
+		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);
 	}
 	
 	/**
 	 * Handle REST request to stop an currently execution job.
 	 * Only a superuser, or the user who started the job in the first place is allowed to perform this operation.
 	 * @param jobExecutionId the job execution ID of the job to stop (required).
-	 * @return the view name which will marshal and return the JobOperationResponse object.
+	 * @return the view name which will marshal and return the SimpleRestServiceResponse object.
 	 */
 	@RequestMapping(value=WebConstants.URI_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(@PathVariable Long jobExecutionId, Model model) {
 		Long jobExecutionIdToStop = jobExecutionId;
-//		log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
+		log.debug("jobExecutionIdToStop="+jobExecutionIdToStop);
 
-		JobOperationResponse opResponse = null;
+		SimpleRestServiceResponse opResponse = null;
 		try {
 			engineService.stopJob(jobExecutionIdToStop);
-			opResponse = new JobOperationResponse(jobExecutionIdToStop);
+			opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop);
 		} catch (JobExecutionNotRunningException e) {  // Cannot stop a job that is not running
 			Object[] args = { jobExecutionIdToStop.toString() };
 			String message = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
-			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, message);
+			opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop, false, message);
 			log.debug(message);
 		} catch (Exception e) {
-			opResponse = new JobOperationResponse(jobExecutionIdToStop, false, e.getMessage());
+			opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop, false, e.getMessage());
 			log.debug("Job STOP exception: " + e);
 		}
-		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
-		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
+		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
+		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);
+	}
+
+	@RequestMapping(value=WebConstants.URI_GET_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
+	public ModelAndView getJobThrottleConfig(HttpServletResponse response, Model model) throws Exception {
+		log.debug(">>>");
+		JobThrottleConfig config = appConfigService.loadJobThrottleConfig();
+		model.addAttribute(WebConstants.KEY_JOB_THROTTLE_CONFIG, config);
+		return new ModelAndView(WebConstants.VIEW_JOB_THROTTLE_CONFIG_RESPONSE);
 	}
 	
-	/**
-	 * Read the current job throttle configuration from the database, and update in-memory state.
-	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
-	 * to all ebookGenerator instances.
-	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
-	 */
-	@RequestMapping(value=WebConstants.URI_SYNC_APP_CONFIG, method = RequestMethod.GET)
-	public ModelAndView synchronizeAppConfiguration(Model model) throws Exception {
-		JobOperationResponse opResponse = null;
-		try {
-			String message = "Successfully synchronized application configuration";
-			engineService.syncApplicationConfiguration();
-			opResponse = new JobOperationResponse(null, true, message);
-		} catch (Exception e) {
-			String message = "Exception performing app config data sync - " + e.getMessage();
-			opResponse = new JobOperationResponse(null, false, message);	
-			log.error(message, e);
-		}
-		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
-		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
-	}	
-	
-	
-	/**
-	 * Read the current job throttle configuration from the database, and update in-memory state.
-	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
-	 * to all ebookGenerator instances.
-	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
-	 */
-//	@RequestMapping(value=WebConstants.URI_UPDATE_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
-//	public ModelAndView synchronizeJobThrottleConfiguration(Model model) {
-//		JobOperationResponse opResponse = null;
-//		try {
-//			AppConfig appConfigReadFromDatabase = appConfigService.getAppConfig();
-//			this.appConfig.copy(appConfigReadFromDatabase);
-//			JobThrottleConfig jobThrottleConfig = (JobThrottleConfig) appConfigReadFromDatabase;
-//			
-//			// Update the task executor with the new core thread pool size which limits the number of concurrent jobs that can run
-//			engineService.setTaskExecutorCoreThreadPoolSize(jobThrottleConfig.getCoreThreadPoolSize());
-//			String message = "Successfully synchronized job throttle configuration";
-//			opResponse = new JobOperationResponse(null, true, message);
-//			log.debug(message + ": " + appConfig);
-//		} catch (Exception e) {
-//			String message = "Exception performing job throttle config data sync - " + e.getMessage();
-//			opResponse = new JobOperationResponse(null, false, message);	
-//			log.error(message, e);
-//		}		
-//		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
-//		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
-//	}
-	
-	/**
-	 * Read the current logging configuration from the database, and update in-memory state.
-	 * This allows for the log levels to be changed on-the-fly in the manager and then pushed out 
-	 * to all ebookGenerator instances.
-	 */
-//	@RequestMapping(value=WebConstants.URI_UPDATE_LOGGING_CONFIG, method = RequestMethod.GET)
-//	public ModelAndView synchronizeLoggingConfiguration(Model model) {
-//		JobOperationResponse opResponse = null;
-//		try {
-//			AppConfig appConfigReadFromDatabase = appConfigService.getAppConfig();
-//			this.appConfig.copy(appConfigReadFromDatabase);
-//
-//			LoggingConfig loggingConfig = (LoggingConfig) appConfigReadFromDatabase;
-//			appConfigService.setLogLevel(loggingConfig);  // Update the in-memory log4j log levels with the current set
-//			String message = "Successfully updated log4j log levels";
-//			opResponse = new JobOperationResponse(null, true, message);
-//			log.debug(message + ": " + this.appConfig);
-//		} catch (Exception e) {
-//			String message = "Exception performing log4j logging sync - " + e.getMessage();
-//			opResponse = new JobOperationResponse(null, false, message);	
-//			log.error(message, e);
-//		}		
-//		model.addAttribute(WebConstants.KEY_JOB_OPERATION_RESPONSE, opResponse);
-//		return new ModelAndView(WebConstants.VIEW_JOB_OPERATION_RESPONSE);
-//	}
+	@RequestMapping(value=WebConstants.URI_GET_MISC_CONFIG, method = RequestMethod.GET)
+	public ModelAndView getMiscConfig(HttpServletResponse response, Model model) throws Exception {
+		log.debug(">>>");
+		MiscConfig config = appConfigService.loadMiscConfig();
+		model.addAttribute(WebConstants.KEY_MISC_CONFIG, config);
+		return new ModelAndView(WebConstants.VIEW_MISC_CONFIG_RESPONSE);
+	}
 	
 	@RequestMapping(value=WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
 	public void getStepNames(HttpServletResponse response, Model model) throws Exception {
+		log.debug(">>>");
 		ServletOutputStream out = null;
 		try {
 			Collection<String> stepNames = job.getStepNames();
@@ -200,6 +145,10 @@ public class OperationsController {
 		}
 	}
 
+	@Required
+	public void setAppConfigService(AppConfigService service) {
+		this.appConfigService = service;
+	}
 	@Required
 	public void setEngineService(EngineService service) {
 		this.engineService = service;

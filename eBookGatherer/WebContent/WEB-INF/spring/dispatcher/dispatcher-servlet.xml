@@ -7,28 +7,26 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
-	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather.controller" />
-	
-
-	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
-		p:order="0"/>
-
-  	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"
-  		p:order="1">
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 	    <property name="messageConverters">
 	      <list>
+	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
+	      		 the controller methods annotated with @RequestBody -->
 	        <ref bean="tocRequestMessageConverter" />
 	        <ref bean="nortRequestMessageConverter" />
 	        <ref bean="docRequestMessageConverter" />
+	        <ref bean="miscConfigMessageConverter" />
 	      </list>
 	    </property>
-	  </bean>
+	</bean>
   
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1"/>
+
 	<!-- Map logical view name to a physical JSP file located at /WEB-INF/jsp/<viewName>.jsp --> 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		 p:order="2"
-		 p:prefix="/WEB-INF/jsp/"
-		 p:suffix=".jsp"/>
-
+		  p:order="2"
+		  p:prefix="/WEB-INF/jsp/"
+		  p:suffix=".jsp"/>		 
 
 </beans> 

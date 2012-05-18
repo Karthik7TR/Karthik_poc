@@ -16,12 +16,6 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 public interface EngineService {
 	
 	/**
-	 * Load the application configuration from the database and populate the
-	 * AppConfig Sprinb bean.
-	 */
-	public void syncApplicationConfiguration() throws Exception;
-	
-	/**
 	 * Start a new e-book generating job as specified by properties of the JobRunRequest.
 	 * @param jobName the id of the job to run
 	 * @param JobParameters the launch key/value pair set

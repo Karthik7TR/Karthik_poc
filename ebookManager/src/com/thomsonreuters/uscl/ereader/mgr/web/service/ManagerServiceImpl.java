@@ -3,14 +3,9 @@ package com.thomsonreuters.uscl.ereader.mgr.web.service;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -19,69 +14,42 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 
 public class ManagerServiceImpl implements ManagerService {
 	private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
-	private static final String GENERATOR_REST_STOP_JOB_URL_PATTERN =
-							"{context}/service/stop/job/{jobExecutionId}";
-	private static final String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
-							"{context}/service/restart/job/{jobExecutionId}";
-	private static final String GENERATOR_REST_GET_STEP_NAMES_PATTERN =
-							"{context}/service/get/step/names";	
-	private static final String GENERATOR_REST_SYNC_CONFIG_TEMPLATE =
-							"http://%s:%d/ebookGenerator/service/sync/app/config";
+
+	private static final String GENERATOR_REST_SYNC_MISC_CONFIG_TEMPLATE =
+							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_MISC_CONFIG;
+	private static final String GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE =
+							"http://%s:%d/ebookGenerator/"+CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
+
 	private String environmentName;
 	private File rootWorkDirectory;
 	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
 	private RestTemplate restTemplate;
 	/** The root web application context URL for the ebook generator. */
-	private URL generatorContextUrl;
 	private ManagerDao managerDao;
 	
 	@Override
-	public JobOperationResponse restartJob(long jobExecutionId) {
-		
-		JobOperationResponse response = (JobOperationResponse) 
-					restTemplate.getForObject(GENERATOR_REST_RESTART_JOB_URL_PATTERN,
-					JobOperationResponse.class,
-					generatorContextUrl.toString(), jobExecutionId);
+	public SimpleRestServiceResponse pushMiscConfiguration(MiscConfig config, String contextName, InetSocketAddress socketAddr) {
+		String url = String.format(GENERATOR_REST_SYNC_MISC_CONFIG_TEMPLATE,
+								   socketAddr.getHostName(), socketAddr.getPort(), contextName);
+		log.debug("to URL: " + url);
+		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
+				restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
 		return response;
 	}
-	
+
 	@Override
-	public JobOperationResponse stopJob(long jobExecutionId) {
-		JobOperationResponse response = (JobOperationResponse)
-					restTemplate.getForObject(GENERATOR_REST_STOP_JOB_URL_PATTERN,
-					JobOperationResponse.class,
-					generatorContextUrl.toString(), jobExecutionId);
-		return response;
-	}
-	
-	@Override
-	public List<String> getStepNames() {
-		String csvStepNames = (String)
-					restTemplate.getForObject(GENERATOR_REST_GET_STEP_NAMES_PATTERN,
-					String.class, generatorContextUrl.toString());
-		ArrayList<String> stepNames = new ArrayList<String>();
-		if (csvStepNames != null) {
-			StringTokenizer tokenizer = new StringTokenizer(csvStepNames, ",");
-			while (tokenizer.hasMoreTokens()) {
-				String stepName = tokenizer.nextToken();
-				stepNames.add(stepName);
-			}
-		}
-		Collections.sort(stepNames);
-		return stepNames;
-	}
-	
-	@Override
-	public JobOperationResponse syncApplicationConfiguration(InetSocketAddress socketAddr) {
-		String url = String.format(GENERATOR_REST_SYNC_CONFIG_TEMPLATE,
+	public SimpleRestServiceResponse pushJobThrottleConfiguration(JobThrottleConfig config, InetSocketAddress socketAddr) {
+		String url = String.format(GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE,
 								   socketAddr.getHostName(), socketAddr.getPort());		
-		JobOperationResponse response = (JobOperationResponse)
-				restTemplate.getForObject(url, JobOperationResponse.class);
+		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
+				restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
 		return response;
 	}
 	
@@ -135,10 +103,6 @@ public class ManagerServiceImpl implements ManagerService {
 	@Required
 	public void setRestTemplate(RestTemplate template) {
 		this.restTemplate = template;
-	}
-	@Required
-	public void setGeneratorContextUrl(URL url) {
-		this.generatorContextUrl = url;
 	}
 	@Required
 	public void setManagerDao(ManagerDao dao) {

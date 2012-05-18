@@ -26,8 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
@@ -35,13 +36,12 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 
 @Controller
 public class JobSummaryController extends BaseJobSummaryController {
 	private static final Logger log = Logger.getLogger(JobSummaryController.class);
-	private ManagerService managerService;
+	private GeneratorRestClient generatorRestClient;
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobExecutionController jobExecutionController;
@@ -120,7 +120,6 @@ public class JobSummaryController extends BaseJobSummaryController {
 							   BindingResult errors,
 							   Model model) {
 		log.debug(form);
-		//if (UserUtils.isUserAuthorizedToStopOrRestartBatchJob(username))
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 
 		if (!errors.hasErrors()) {
@@ -128,20 +127,20 @@ public class JobSummaryController extends BaseJobSummaryController {
 			String mesgCode = null;  // resource bundle message key/code
 			for (Long jobExecutionId : form.getJobExecutionIds()) {
 				try {
-					JobOperationResponse jobOperationResponse = null;
+					SimpleRestServiceResponse restResponse = null;
 					switch (command) {
 						case RESTART_JOB:
 								mesgCode = "job.restart.fail";
 								if (jobExecutionController.authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_RESTART, messages)) {
-									jobOperationResponse = managerService.restartJob(jobExecutionId);
-									JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+									restResponse = generatorRestClient.restartJob(jobExecutionId);
+									JobExecutionController.handleRestartJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
 								}
 							break;
 						case STOP_JOB:
 								mesgCode = "job.stop.fail";
 								if (jobExecutionController.authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_STOP, messages)) {
-									jobOperationResponse = managerService.stopJob(jobExecutionId);
-									JobExecutionController.handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+									restResponse = generatorRestClient.stopJob(jobExecutionId);
+									JobExecutionController.handleStopJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
 								}
 							break;
 						default:
@@ -206,8 +205,8 @@ public class JobSummaryController extends BaseJobSummaryController {
 		this.jobExecutionController = controller;
 	}
 	@Required
-	public void setManagerService(ManagerService service) {
-		this.managerService = service;
+	public void setGeneratorRestClient(GeneratorRestClient client) {
+		this.generatorRestClient = client;
 	}
 	@Required
 	public void setValidator(JobSummaryValidator validator) {

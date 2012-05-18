@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
+
 /**
  * @author Mahendra Survase (u0105927)
  *
@@ -12,5 +14,10 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 public interface JobStartupThrottleService {
 
 	public boolean checkIfnewJobCanbeLaunched();
+	
+	/**
+	 * Allows for a new hot configuration to be assigned.
+	 */
+	public void setJobThrottleConfig(JobThrottleConfig config);
 
 }

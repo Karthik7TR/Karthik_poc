@@ -5,21 +5,20 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Level;
 import org.springframework.util.Assert;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig;
-import com.thomsonreuters.uscl.ereader.core.job.domain.LoggingConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 
 public class MiscConfigForm {
 	
 	public static final String FORM_NAME = "miscConfigForm";
 
-	private Level appLogLevel = AppConfig.DEFAULT_APP_LOG_LEVEL;
-	private Level rootLogLevel = AppConfig.DEFAULT_ROOT_LOG_LEVEL;
+	private Level appLogLevel = MiscConfig.DEFAULT_APP_LOG_LEVEL;
+	private Level rootLogLevel = MiscConfig.DEFAULT_ROOT_LOG_LEVEL;
 	
 	public MiscConfigForm() {
 		super();
 	}
 	
-	public void initialize(LoggingConfig config) {
+	public void initialize(MiscConfig config) {
 		setAppLogLevel(config.getAppLogLevel());
 		setRootLogLevel(config.getRootLogLevel());
 	}
@@ -30,8 +29,8 @@ public class MiscConfigForm {
 	public Level getRootLogLevel() {
 		return rootLogLevel;
 	}
-	public LoggingConfig getLoggingConfig() {
-		return AppConfig.createLoggingConfig(appLogLevel, rootLogLevel);
+	public MiscConfig getMiscConfig() {
+		return new MiscConfig(appLogLevel, rootLogLevel);
 	}
 	public void setAppLogLevel(String level) {
 		Assert.notNull(level);

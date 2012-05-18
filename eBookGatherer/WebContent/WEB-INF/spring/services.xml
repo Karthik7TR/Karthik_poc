@@ -30,4 +30,6 @@
 	<bean id="nortService" class="com.thomsonreuters.uscl.ereader.gather.services.NortServiceImpl"
 		  p:novusFactory-ref="novusFactory"
 		  p:novusUtility-ref="novusUtility"/>
+		  
+	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncServiceImpl"/>
 </beans>

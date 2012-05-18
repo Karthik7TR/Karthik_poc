@@ -21,9 +21,9 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
 
 /**
@@ -62,11 +62,11 @@ public class OperationsControllerTest {
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
     	Assert.assertNotNull(mav);
-    	Assert.assertEquals(WebConstants.VIEW_JOB_OPERATION_RESPONSE, mav.getViewName());
+    	Assert.assertEquals(CoreConstants.VIEW_SIMPLE_REST_RESPONSE, mav.getViewName());
     	
     	Map<String,Object> model = mav.getModel();
-    	JobOperationResponse opResponseActual = (JobOperationResponse) model.get(WebConstants.KEY_JOB_OPERATION_RESPONSE);
-    	Assert.assertEquals(restartedJobExecId, opResponseActual.getJobExecutionId());
+    	SimpleRestServiceResponse opResponseActual = (SimpleRestServiceResponse) model.get(CoreConstants.KEY_SIMPLE_REST_RESPONSE);
+    	Assert.assertEquals(restartedJobExecId, opResponseActual.getId());
     	
     	EasyMock.verify(mockEngineService);
     }

@@ -30,13 +30,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobOperationResponse;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
@@ -56,7 +56,7 @@ public class JobExecutionController {
 	public static final String LABEL_STOP = "stop";
 	
 	private JobService jobService;
-	private ManagerService managerService;
+	private GeneratorRestClient generatorRestClient;
 	private PublishingStatsService publishingStatsService;
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;
@@ -112,8 +112,8 @@ public class JobExecutionController {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		if (authorizedForJobOperation(jobExecutionId, LABEL_RESTART, messages)) {
 			try {
-				JobOperationResponse jobOperationResponse = managerService.restartJob(jobExecutionId);
-				handleRestartJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+				SimpleRestServiceResponse restResponse = generatorRestClient.restartJob(jobExecutionId);
+				handleRestartJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
 				Thread.sleep(1);
 			} catch (HttpClientErrorException e) {
 				InfoMessage errorMessage = JobSummaryController.createRestExceptionMessage("job.restart.fail", jobExecutionId, e, messageSourceAccessor);
@@ -136,8 +136,8 @@ public class JobExecutionController {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		if (authorizedForJobOperation(jobExecutionId, LABEL_STOP, messages)) {
 			try {
-				JobOperationResponse jobOperationResponse = managerService.stopJob(jobExecutionId);
-				handleStopJobOperationResponse(messages, jobExecutionId, jobOperationResponse, messageSourceAccessor);
+				SimpleRestServiceResponse restResponse = generatorRestClient.stopJob(jobExecutionId);
+				handleStopJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
 				Thread.sleep(1);
 			} catch (HttpClientErrorException e) {
 				InfoMessage errorMessage = JobSummaryController.createRestExceptionMessage("job.stop.fail", jobExecutionId, e, messageSourceAccessor);
@@ -153,22 +153,22 @@ public class JobExecutionController {
 
 	public static void handleRestartJobOperationResponse(List<InfoMessage> messages,
 														 Long jobExecutionIdToRestart,
-														 JobOperationResponse jobOperationResponse,
+														 SimpleRestServiceResponse restResponse,
 														 MessageSourceAccessor messageSourceAccessor) {
-		if (jobOperationResponse == null) {
+		if (restResponse == null) {
 			String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE );
 			Object[] args = { jobExecutionIdToRestart.toString(), errorMessage};
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
 							messageSourceAccessor.getMessage(CODE_JOB_RESTART_FAIL, args)));
 			return;
 		}
-		String execId = jobOperationResponse.getJobExecutionId().toString();
-		if (jobOperationResponse.isSuccess()) {
-			Object[] args = { jobExecutionIdToRestart.toString(), jobOperationResponse.getJobExecutionId().toString() };
+		String execId = restResponse.getId().toString();
+		if (restResponse.isSuccess()) {
+			Object[] args = { jobExecutionIdToRestart.toString(), restResponse.getId().toString() };
 			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
 						 messageSourceAccessor.getMessage(CODE_JOB_RESTART_SUCCESS, args)));
 		} else {
-			Object[] args = { execId, jobOperationResponse.getMessage() };
+			Object[] args = { execId, restResponse.getMessage() };
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
 							messageSourceAccessor.getMessage(CODE_JOB_RESTART_FAIL, args)));
 		}
@@ -177,22 +177,22 @@ public class JobExecutionController {
 
 	public static void handleStopJobOperationResponse(List<InfoMessage> messages,
 			 										  Long jobExecutionIdToStop,
-													  JobOperationResponse jobOperationResponse,
+			 										 SimpleRestServiceResponse restResponse,
 													  MessageSourceAccessor messageSourceAccessor) {
-		if (jobOperationResponse == null) {
+		if (restResponse == null) {
 			String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE );
 			Object[] args = { jobExecutionIdToStop.toString(), errorMessage};
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
 							messageSourceAccessor.getMessage(CODE_JOB_STOP_FAIL, args)));
 			return;
 		}
-		String execId = jobOperationResponse.getJobExecutionId().toString();
-		if (jobOperationResponse.isSuccess()) {
+		String execId = restResponse.getId().toString();
+		if (restResponse.isSuccess()) {
 			Object[] args = { execId };
 			messages.add(new InfoMessage(InfoMessage.Type.SUCCESS,
 						 messageSourceAccessor.getMessage(CODE_JOB_STOP_SUCCESS, args)));
 		} else {
-			Object[] args = { execId, jobOperationResponse.getMessage() };
+			Object[] args = { execId, restResponse.getMessage() };
 			messages.add(new InfoMessage(InfoMessage.Type.FAIL,
 							messageSourceAccessor.getMessage(CODE_JOB_STOP_FAIL, args)));
 		}
@@ -235,8 +235,8 @@ public class JobExecutionController {
 		this.jobService = jobService;
 	}
 	@Required
-	public void setManagerService(ManagerService service) {
-		this.managerService = service;
+	public void setGeneratorRestClient(GeneratorRestClient client) {
+		this.generatorRestClient = client;
 	}
 	@Required
 	public void setValidator(Validator validator) {

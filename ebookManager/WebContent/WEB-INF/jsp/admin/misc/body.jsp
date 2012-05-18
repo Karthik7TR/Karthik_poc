@@ -1,7 +1,7 @@
 <%@page import="org.apache.log4j.Level"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
-<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.AppConfig"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -47,7 +47,7 @@
 	<tr>
 	<td>App Logger Level:</td>
 	<td> 
-	<form:select path="<%=AppConfig.Key.appLogLevel.toString()%>">
+	<form:select path="<%=MiscConfig.Key.appLogLevel.toString()%>">
 		<form:option label="Debug" value="<%=Level.DEBUG.toString()%>"/>
 		<form:option label="Info" value="<%=Level.INFO.toString()%>"/>
 		<form:option label="Warn" value="<%=Level.WARN.toString()%>"/>
@@ -60,7 +60,7 @@
 	<tr>
 	<td>Root Loggger Level:</td>
 	<td> 
-	<form:select path="<%=AppConfig.Key.rootLogLevel.toString()%>">
+	<form:select path="<%=MiscConfig.Key.rootLogLevel.toString()%>">
 		<form:option label="Debug" value="<%=Level.DEBUG.toString()%>"/>
 		<form:option label="Info" value="<%=Level.INFO.toString()%>"/>
 		<form:option label="Warn" value="<%=Level.WARN.toString()%>"/>

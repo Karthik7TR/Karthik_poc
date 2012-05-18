@@ -9,7 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.controller;
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 public class NortController {
 	private static Logger LOG = Logger.getLogger(NortController.class);
 	
-	@Autowired
 	public NortService nortService;
 
 	/**
@@ -68,7 +67,7 @@ public class NortController {
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}
 	
-	// used for the test
+	@Required
 	public void setNortService(NortService service) {
 		this.nortService = service;
 	}

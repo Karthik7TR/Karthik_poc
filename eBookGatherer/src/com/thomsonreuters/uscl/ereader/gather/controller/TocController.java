@@ -9,7 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.controller;
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,6 @@ import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 public class TocController {
 	private static Logger LOG = Logger.getLogger(TocController.class);
 	
-	@Autowired
 	public TocService tocService;
 
 	/**
@@ -67,6 +66,7 @@ public class TocController {
 		return new ModelAndView(EBConstants.VIEW_RESPONSE );
 	}
 	
+	@Required
 	public void setTocService(TocService service) {
 		this.tocService = service;
 	}
