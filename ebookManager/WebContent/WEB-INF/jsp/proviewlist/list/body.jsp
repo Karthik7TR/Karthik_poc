@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm"%>
 
@@ -27,17 +27,25 @@
 				   pagesize="20"
 				   partialList="true"
 				   size="resultSize"
+				   export="true"
 				   >
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
+	  	<display:setProperty name="export.xml" value="false" />
+	  	<display:setProperty name="export.csv" value="false" />
+	  	<display:setProperty name="export.amount" value="list" />
+	  	<display:setProperty name="export.excel.filename" value="ProviewList.xls" />
+	  	
+	  	
+	  	
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="Title" property="title" sortable="true"/>
 	  	<display:column title="Latest Version" property="version" sortable="true"/>
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
-	  	<display:column title="Action">
-	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}">All versions of this book</a>
+	  	<display:column title="Action" media="html">
+	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}">All versions</a>
 	  	</display:column>
 	  	
 	  	
