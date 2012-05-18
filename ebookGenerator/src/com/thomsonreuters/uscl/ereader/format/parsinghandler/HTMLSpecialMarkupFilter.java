@@ -11,7 +11,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * Filter that handles various Anchor "<del>" tags and transforms them as needed.
+ * Filter that handles various HTML special Markup tags and transforms them as needed.
  * 
  * The filter changes the following xml elements
  * 
@@ -49,11 +49,13 @@ public class HTMLSpecialMarkupFilter extends XMLFilterImpl {
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
 		//Remove any del tags and replace with span tag
+		if (qName.equalsIgnoreCase("del")) {
 		if (isdelTag) {
 			super.endElement(uri, localName, "span");
 			isdelTag = false;
+		} 
 		} else {
 			super.endElement(uri, localName, qName);
 		}
-	}
+	}	
 }
