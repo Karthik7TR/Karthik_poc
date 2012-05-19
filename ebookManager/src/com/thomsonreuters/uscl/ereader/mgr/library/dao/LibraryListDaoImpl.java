@@ -92,7 +92,15 @@ public class LibraryListDaoImpl implements LibraryListDao {
 	
 	private StringBuffer addFiltersToQuery(LibraryListFilter filter) {
 		StringBuffer sql = new StringBuffer();
+		
+		if(filter.getKeywordValue() != null) {
+			sql.append("INNER JOIN EBOOK_KEYWORDS k ON book.EBOOK_DEFINITION_ID = k.EBOOK_DEFINITION_ID ");
+		}
+		
 		sql.append("WHERE ");
+		if(filter.getKeywordValue() != null) {
+			sql.append(String.format("(k.KEYWORD_TYPE_VALUES_ID = '%d') and ", filter.getKeywordValue()));
+		}
 		if (filter.getFrom() != null) {
 			sql.append("(book.LAST_UPDATED >= ?) and ");
 		}

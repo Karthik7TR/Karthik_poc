@@ -18,6 +18,8 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -31,6 +33,7 @@ public class BookLibraryFilterControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private LibraryListService mockLibraryListService;
+	private CodeService mockCodeService;
 	private HandlerAdapter handlerAdapter;
 	
     @Before
@@ -38,13 +41,17 @@ public class BookLibraryFilterControllerTest {
     	this.request = new MockHttpServletRequest();
     	this.response = new MockHttpServletResponse();
     	this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
+    	this.mockCodeService = EasyMock.createMock(CodeService.class);
+    	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new BookLibraryFilterController();
     	controller.setLibraryListService(mockLibraryListService);
+    	controller.setCodeService(mockCodeService);
+    	
     }
 	@Test
-	public void testJobSummaryFilterPost() throws Exception {
+	public void testBookLibraryFilterPost() throws Exception {
     	// Set up the request URL
 		// Filter form values
 		String titleId = "uscl/junit/test/abc";
@@ -61,6 +68,9 @@ public class BookLibraryFilterControllerTest {
     	EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
 		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
 		EasyMock.replay(mockLibraryListService);
+		
+		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+		EasyMock.replay(mockCodeService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -75,5 +85,6 @@ public class BookLibraryFilterControllerTest {
     	Assert.assertEquals(toDate, filterForm.getToString());
     	
     	EasyMock.verify(mockLibraryListService);
+    	EasyMock.verify(mockCodeService);
 	}
 }

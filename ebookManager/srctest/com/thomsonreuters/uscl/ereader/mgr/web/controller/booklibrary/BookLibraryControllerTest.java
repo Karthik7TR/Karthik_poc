@@ -30,6 +30,8 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -51,6 +53,7 @@ public class BookLibraryControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private HandlerAdapter handlerAdapter;
+	private CodeService mockCodeService;
 	private LibraryListService mockLibraryListService;
 
 	@Before
@@ -60,13 +63,14 @@ public class BookLibraryControllerTest {
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
 
 		// Mock up the dashboard service
-		this.mockLibraryListService = EasyMock
-				.createMock(LibraryListService.class);
+		this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
+		this.mockCodeService = EasyMock.createMock(CodeService.class);
 
 		// Set up the controller
 		this.controller = new BookLibraryController();
 		controller.setLibraryListService(mockLibraryListService);
 		controller.setValidator(new BookLibrarySelectionFormValidator());
+		controller.setCodeService(mockCodeService);
 	}
 
 	/**
@@ -80,6 +84,9 @@ public class BookLibraryControllerTest {
 		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
 		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
 		EasyMock.replay(mockLibraryListService);
+		
+		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+		EasyMock.replay(mockCodeService);
 
 		ModelAndView mav;
 		try {
@@ -103,6 +110,7 @@ public class BookLibraryControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockLibraryListService);
+		EasyMock.verify(mockCodeService);
 
 	}
 
@@ -120,6 +128,9 @@ public class BookLibraryControllerTest {
 		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
 		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(expectedBookCount);
 		EasyMock.replay(mockLibraryListService);
+		
+		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+		EasyMock.replay(mockCodeService);
 
 		ModelAndView mav;
 		try {
@@ -143,6 +154,7 @@ public class BookLibraryControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockLibraryListService);
+		EasyMock.verify(mockCodeService);
 	}
 	
 	/**
@@ -158,6 +170,9 @@ public class BookLibraryControllerTest {
 		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
 		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
 		EasyMock.replay(mockLibraryListService);
+		
+		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+		EasyMock.replay(mockCodeService);
 
 		ModelAndView mav;
 		try {
@@ -183,6 +198,7 @@ public class BookLibraryControllerTest {
 			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockLibraryListService);
+		EasyMock.verify(mockCodeService);
 	}
 
 	/**
@@ -252,6 +268,9 @@ public class BookLibraryControllerTest {
 		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
 		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
 		EasyMock.replay(mockLibraryListService);
+		
+		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+		EasyMock.replay(mockCodeService);
 
 		ModelAndView mav;
 		try {
@@ -276,6 +295,7 @@ public class BookLibraryControllerTest {
 
 
 			EasyMock.verify(mockLibraryListService);
+			EasyMock.verify(mockCodeService);
 
 		} catch (Exception e) {
 			e.printStackTrace();

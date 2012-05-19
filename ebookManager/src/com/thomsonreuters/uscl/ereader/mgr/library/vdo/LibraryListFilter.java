@@ -25,12 +25,14 @@ public class LibraryListFilter {
 	private String action;
 	private String isbn;
 	private String materialId;
+	private Long keywordValue;
 	
 	
 	public LibraryListFilter() {
 		super();
 	}
-	public LibraryListFilter(Date from, Date to, String action, String titleId, String proviewDisplayName, String isbn, String materialId) {
+	public LibraryListFilter(Date from, Date to, String action, String titleId, 
+			String proviewDisplayName, String isbn, String materialId, Long keywordValue) {
 		this.from = from;
 		this.to = to;
 		this.action = action;
@@ -38,6 +40,7 @@ public class LibraryListFilter {
 		this.proviewDisplayName = (proviewDisplayName != null) ? proviewDisplayName.trim() : null;
 		this.isbn = (isbn != null) ? isbn.trim() : null;
 		this.materialId = (materialId != null) ? materialId.trim() : null;
+		this.keywordValue = keywordValue;
 	}
 	
 	/** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
@@ -82,6 +85,10 @@ public class LibraryListFilter {
 	
 	public String getMaterialId() {
 		return materialId;
+	}
+	
+	public Long getKeywordValue() {
+		return keywordValue;
 	}
 	
 

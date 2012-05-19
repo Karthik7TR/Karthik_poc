@@ -36,7 +36,17 @@
 		}
 		
 	</script>
-
+	<!--[if lt IE 9]>
+	<script>	
+		function autoSizeSelect(){
+			$('select.autoSizeSelect')
+				.bind('focus mouseover', function() { $(this).addClass('expand').removeClass('clicked'); })
+				.bind('click', function() { if ($(this).hasClass('clicked')) { $(this).blur(); } $(this).toggleClass('clicked'); })
+				.bind('mouseout', function() { if (!$(this).hasClass('clicked')) { $(this).removeClass('expand'); }})
+				.bind('blur', function() { $(this).removeClass('expand clicked'); });
+		}
+	</script>
+	<![endif]-->
 <div class="header">Filters</div>
  	
 <form:form action="<%=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST%>"
@@ -90,6 +100,19 @@
 			<form:option label="<%=BookLibraryFilterForm.Action.COMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.COMPLETE.toString() %>"/>
 			<form:option label="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString() %>"/>
 			<form:option label="<%=BookLibraryFilterForm.Action.DELETED.toString()%>" value="<%=BookLibraryFilterForm.Action.DELETED.toString() %>"/>
+		</form:select>
+	</div>
+	
+	<div class="filterRow">
+		<label>ProView Keyword:</label>
+		<form:select class="autoSizeSelect" path="proviewKeyword" >
+			<form:option path="proviewKeyword" value="">None</form:option>
+			<c:forEach items="${keywordTypeCode}" var="keyword" varStatus="keywordStatus">
+				<form:option  path="proviewKeyword" value="" disabled="true">${keyword.name}</form:option>
+				<c:forEach items="${keyword.values}" var="keywordValue">
+						<form:option path="proviewKeyword" value="${keywordValue.id}">&nbsp&nbsp&nbsp ${ keywordValue.name }</form:option>
+				</c:forEach>
+			</c:forEach>
 		</form:select>
 	</div>
 	

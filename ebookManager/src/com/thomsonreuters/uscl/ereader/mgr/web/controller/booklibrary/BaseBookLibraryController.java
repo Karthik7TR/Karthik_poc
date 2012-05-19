@@ -13,6 +13,8 @@ import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -29,6 +31,7 @@ public abstract class BaseBookLibraryController {
 	//private static final Logger log = Logger.getLogger(BaseBookLibraryController.class);
 	public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
 	protected LibraryListService libraryService;
+	protected CodeService codeService;
 	
 	/**
 	 * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -67,6 +70,10 @@ public abstract class BaseBookLibraryController {
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the Book Definition partial list
 		PaginatedList paginatedList = createPaginatedList(pageAndSort, filterForm);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		
+		List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
+		// Add keywords
+		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, codes);
 	}
 	
 	/**
@@ -87,7 +94,7 @@ public abstract class BaseBookLibraryController {
     private PaginatedList createPaginatedList(PageAndSort<DisplayTagSortProperty> pageAndSort, BookLibraryFilterForm filterForm) {
     	String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null; 
     	LibraryListFilter libraryListFilter = new LibraryListFilter(filterForm.getFrom(), filterForm.getTo(), action,
-		 	filterForm.getTitleId(), filterForm.getProviewDisplayName(), filterForm.getIsbn(), filterForm.getMaterialId());
+		 	filterForm.getTitleId(), filterForm.getProviewDisplayName(), filterForm.getIsbn(), filterForm.getMaterialId(), filterForm.getProviewKeyword());
 		LibraryListSort libraryListSort = createLibraryListSort(pageAndSort);
 
 		// Lookup all the EbookAudit objects by their primary key
@@ -100,11 +107,17 @@ public abstract class BaseBookLibraryController {
 								pageAndSort.getPageNumber(), pageAndSort.getObjectsPerPage(),
 								(DisplayTagSortProperty) pageAndSort.getSortProperty(),
 								pageAndSort.isAscendingSort());
+		
 		return paginatedList;
     }
 
 	@Required
 	public void setLibraryListService(LibraryListService service) {
 		this.libraryService = service;
+	}
+	
+	@Required
+	public void setCodeService(CodeService service) {
+		this.codeService = service;
 	}
 }

@@ -87,14 +87,16 @@
 	</bean>
 	
 	<bean id="bookLibraryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"
-		  p:libraryListService-ref="libraryListService" >
+		  p:libraryListService-ref="libraryListService"
+		  p:codeService-ref="codeService" >
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator"/>
 		  </property>
 	</bean>
 	
 	<bean id="bookLibraryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterController"
-		  p:libraryListService-ref="libraryListService" >
+		  p:libraryListService-ref="libraryListService" 
+		  p:codeService-ref="codeService" >
 		  <property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterFormValidator"/>
 		  </property>

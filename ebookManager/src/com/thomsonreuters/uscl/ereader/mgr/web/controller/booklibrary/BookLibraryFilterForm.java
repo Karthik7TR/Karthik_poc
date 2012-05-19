@@ -30,6 +30,7 @@ public class BookLibraryFilterForm {
 	private String titleId;
 	private String isbn;
 	private String materialId;
+	private Long proviewKeyword;
 	private FilterCommand filterCommand;
 	private Action action;
 	
@@ -42,11 +43,11 @@ public class BookLibraryFilterForm {
 	 * Used in resetting the form.
 	 */
 	public void initialize() {
-		populate(null, null, null, null, null, null, null);
+		populate(null, null, null, null, null, null, null, null);
 	}
 
 	public void populate(String proviewDisplayName, String toString, String fromString, 
-			String titleId, String isbn, String materialId, Action action) {
+			String titleId, String isbn, String materialId, Action action, Long proviewKeyword) {
 		this.proviewDisplayName = proviewDisplayName;
 		this.toString = toString;
 		this.fromString = fromString;
@@ -54,6 +55,7 @@ public class BookLibraryFilterForm {
 		this.isbn = isbn;
 		this.materialId = materialId;
 		this.action = action;
+		this.proviewKeyword = proviewKeyword;
 	}
 
 	public Action getAction() {
@@ -94,6 +96,14 @@ public class BookLibraryFilterForm {
 
 	public void setMaterialId(String materialId) {
 		this.materialId = materialId == null ? null : materialId.trim();
+	}
+
+	public Long getProviewKeyword() {
+		return proviewKeyword;
+	}
+
+	public void setProviewKeyword(Long proviewKeyword) {
+		this.proviewKeyword = proviewKeyword;
 	}
 
 	public String getProviewDisplayName() {
