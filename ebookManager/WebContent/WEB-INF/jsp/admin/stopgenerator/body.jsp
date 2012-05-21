@@ -43,8 +43,21 @@ $(document).ready(function() {
 		<div class="info" style="font-size:.7em;">
 			*This field is case sensitive
 		</div>
-		
 	</div>
+	<%-- Informational Messages area --%>
+    <c:if test="${infoMessage != null}">
+    <div class="infoMessageSuccess">
+    	${infoMessage}
+    </div>
+    <br/>
+    </c:if>
+    <%-- Error Messages area --%>
+    <c:if test="${errMessage != null}">
+    <div class="infoMessageError">
+    	${errMessage}
+    </div>
+    <br/>
+    </c:if>
 </form:form>
 
 <div class="buttons">

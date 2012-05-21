@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,11 +55,24 @@ public class StopGeneratorController {
 			Model model) throws Exception {
 		
 			if(!bindingResult.hasErrors()) {
+				String serviceError = "";
+				
+				try {
 				serverAccessService.stopServer(killSwitchProperties.getProperty("serverNames"), 
 				   killSwitchProperties.getProperty("username"), killSwitchProperties.getProperty("password"), 
 				   killSwitchProperties.getProperty("appNames"), killSwitchProperties.getProperty("emailGroup"));
+				} catch(Exception e) {
+					serviceError = e.getMessage();
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, serviceError);
+				}
 				
-				return new ModelAndView(new RedirectView(WebConstants.VIEW_ADMIN_MAIN));
+				if(StringUtils.isBlank(serviceError)) {
+					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Generator and gatherer has been stopped.");
+				}
+				
+				// Clear out the code field
+				form.setCode("");
+				return new ModelAndView(new RedirectView(WebConstants.VIEW_ADMIN_STOP_GENERATOR));
 			}
 			
 			return new ModelAndView(WebConstants.VIEW_ADMIN_STOP_GENERATOR);
