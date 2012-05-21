@@ -23,6 +23,9 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoTest;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTestTest;
+import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoTest;
+import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreferenceTest;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ BookDefinitionTest.class, BookDefinitionDaoTest.class,
@@ -30,7 +33,8 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTestTest;
 		FileHandlingHelperTest.class, JibxMarshallingTest.class,
 		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class,
 		ProviewClientImplTest.class, EbookAuditDaoTest.class,
-		EbookAuditServiceTest.class, SmokeTestTest.class, SmokeTestDaoTest.class
+		EbookAuditServiceTest.class, SmokeTestTest.class, SmokeTestDaoTest.class,
+		UserPreferenceDaoTest.class, UserPreferenceServiceTest.class, UserPreferenceTest.class
 
 })
 public class CoreTestSuite {
