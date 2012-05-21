@@ -106,7 +106,7 @@ public class OperationsController {
 		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);
 	}
 
-	@RequestMapping(value=WebConstants.URI_GET_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
+	@RequestMapping(value=CoreConstants.URI_GET_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
 	public ModelAndView getJobThrottleConfig(HttpServletResponse response, Model model) throws Exception {
 		log.debug(">>>");
 		JobThrottleConfig config = appConfigService.loadJobThrottleConfig();
@@ -114,7 +114,7 @@ public class OperationsController {
 		return new ModelAndView(WebConstants.VIEW_JOB_THROTTLE_CONFIG_RESPONSE);
 	}
 	
-	@RequestMapping(value=WebConstants.URI_GET_MISC_CONFIG, method = RequestMethod.GET)
+	@RequestMapping(value=CoreConstants.URI_GET_MISC_CONFIG, method = RequestMethod.GET)
 	public ModelAndView getMiscConfig(HttpServletResponse response, Model model) throws Exception {
 		log.debug(">>>");
 		MiscConfig config = appConfigService.loadMiscConfig();

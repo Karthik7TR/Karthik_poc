@@ -32,15 +32,24 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 public class MiscConfigController {
 	private static final Logger log = Logger.getLogger(MiscConfigController.class);
 	/** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
-	private List<InetSocketAddress> generatorSocketAddrs;
 	private List<InetSocketAddress> gathererSocketAddrs;
-	private String generatorContextName;
+	private List<InetSocketAddress> generatorSocketAddrs;
+	private List<InetSocketAddress> managerSocketAddrs;
 	private String gathererContextName;
-	private int generatorPort;
+	private String generatorContextName;
+	private String managerContextName;
 	private int gathererPort;
+	private int generatorPort;
+	private int managerPort;
 	private ManagerService managerService;
 	private AppConfigService appConfigService;
 	private Validator validator;
+	
+	public MiscConfigController(int gathererPort, int generatorPort, int managerPort) {
+		this.gathererPort = gathererPort;
+		this.generatorPort = generatorPort;
+		this.managerPort = managerPort;
+	}
 
 	@InitBinder(MiscConfigForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -66,7 +75,7 @@ public class MiscConfigController {
 			try {
 				MiscConfig miscConfig = form.getMiscConfig();
 				appConfigService.saveMiscConfig(miscConfig);  // Persist the changed configuration
-				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved configuration."));
+				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved misc configuration."));
 			} catch (Exception e) {
 				anySaveErrors = true;
 				String errorMessage = String.format("Failed to save new misc configuration - %s", e.getMessage());
@@ -79,13 +88,18 @@ public class MiscConfigController {
 			if (!anySaveErrors) {
 				// Fetch the complete current state of the application configuration
 				MiscConfig miscConfig = appConfigService.loadMiscConfig();
-				// Push the config to all generator, gatherer, and manager applications
+				// Push the config to all generator, gatherer applications (which are assumed to be on the same host)
 				for (int i = 0; i < generatorSocketAddrs.size(); i++) {
 					InetSocketAddress generatorSocketAddr = generatorSocketAddrs.get(i);
 					InetSocketAddress gathererSocketAddr = gathererSocketAddrs.get(i);
 					
 					pushMiscConfiguration(miscConfig, generatorSocketAddr, generatorContextName, infoMessages);
 					pushMiscConfiguration(miscConfig, gathererSocketAddr, gathererContextName, infoMessages);
+				}
+
+				// Push the config out to the manager applications
+				for (InetSocketAddress managerSocketAddr : managerSocketAddrs) {
+					pushMiscConfiguration(miscConfig, managerSocketAddr, managerContextName, infoMessages);
 				}
 			}
 		}
@@ -137,23 +151,26 @@ public class MiscConfigController {
 		return socketAddrs;
 	}
 
-	@Required
-	public void setGeneratorPort(int port) {
-		this.generatorPort = port;
-	}
-	@Required
-	public void setGathererPort(int port) {
-		this.gathererPort = port;
-	}
 	/**
-	 * Hosts that receive the REST service push notification that the job throttle configuration has changed.
+	 * Generator and Gatherer hosts that receive the REST service push notification when a configuration has changed.
+	 * It is assumed that the generator and gatherer apps are running on the same host.
 	 * @param commaSeparatedHostNames a CSV list of valid host names
 	 */
 	@Required
-	public void setHosts(String commaSeparatedHostNames) throws UnknownHostException {
+	public void setGeneratorHosts(String commaSeparatedHostNames) throws UnknownHostException {
 		this.generatorSocketAddrs = createSocketAddressList(commaSeparatedHostNames, generatorPort);
 		this.gathererSocketAddrs = createSocketAddressList(commaSeparatedHostNames, gathererPort);
 	}
+	/**
+	 * Manager hosts that receive the REST service push notification when a configuration has changed.
+	 * It is assumed that this is NOT the same host as the generator and gatherer apps.
+	 * @param commaSeparatedHostNames a CSV list of valid host names
+	 */
+	@Required
+	public void setManagerHosts(String commaSeparatedHostNames) throws UnknownHostException {
+		this.managerSocketAddrs = createSocketAddressList(commaSeparatedHostNames, managerPort);
+	}
+
 	@Required
 	public void setAppConfigService(AppConfigService service) {
 		this.appConfigService = service;
@@ -169,6 +186,10 @@ public class MiscConfigController {
 	@Required
 	public void setGathererContextName(String name) {
 		this.gathererContextName = name;
+	}
+	@Required
+	public void setManagerContextName(String name) {
+		this.managerContextName = name;
 	}
 	@Required
 	public void setValidator(Validator validator) {

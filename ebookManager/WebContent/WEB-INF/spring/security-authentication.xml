@@ -51,6 +51,7 @@
 		<!-- Access Control - URL based -->
 		<sec:intercept-url pattern="/js/**" access="permitAll"/>
 		<sec:intercept-url pattern="/theme/**" access="permitAll"/>
+		<sec:intercept-url pattern="/service/**" access="permitAll"/>	<!-- Allow all REST service operation requests (sync service in particular) -->
 		<sec:intercept-url pattern="/smokeTest.mvc" access="permitAll"/>
 		<sec:intercept-url pattern="/login.mvc" access="permitAll"/>
 		<sec:intercept-url pattern="/loginFail.mvc" access="permitAll"/>

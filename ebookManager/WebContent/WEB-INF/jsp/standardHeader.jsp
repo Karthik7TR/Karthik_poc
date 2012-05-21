@@ -31,7 +31,7 @@
 			<c:set var="showAdmin" value="true"/>
 		</sec:authorize>
 		<c:if test="${showAdmin}">
-			<li><a href="<%=WebConstants.MVC_ADMIN_MAIN%>">ADMINISTRATION</a></li>
+			<li><a href="<%=WebConstants.MVC_ADMIN_MAIN%>">ADMIN</a></li>
 		</c:if>
 		<li><a href="j_spring_security_logout">Logout</a></li>
 	</ul>

@@ -47,7 +47,8 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public SimpleRestServiceResponse pushJobThrottleConfiguration(JobThrottleConfig config, InetSocketAddress socketAddr) {
 		String url = String.format(GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE,
-								   socketAddr.getHostName(), socketAddr.getPort());		
+								   socketAddr.getHostName(), socketAddr.getPort());
+		log.debug("to URL: " + url);
 		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
 				restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
 		return response;

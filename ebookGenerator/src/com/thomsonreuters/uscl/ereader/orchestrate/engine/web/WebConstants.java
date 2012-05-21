@@ -17,9 +17,6 @@ public class WebConstants {
 	public static final String URI_JOB_RESTART = "service/restart/job/{jobExecutionId}";
 	public static final String URI_JOB_STOP = "service/stop/job/{jobExecutionId}";
 	
-	public static final String URI_GET_JOB_THROTTLE_CONFIG = "service/get/job/throttle/config";
-	public static final String URI_GET_MISC_CONFIG = "service/get/misc/config";
-	
 	public static final String URI_GET_STEP_NAMES = "service/get/step/names";
 	
 	public static final String VIEW_HOME = "home";

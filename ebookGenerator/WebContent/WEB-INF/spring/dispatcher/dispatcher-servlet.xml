@@ -28,7 +28,7 @@
 	    </property>
 	</bean>
 
-	<!-- Used to marshal the object for client REST service request. -->
+	<!-- Used to marshal the object for REST HTTP response body. -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"	
 		  p:order="1"/>
 	

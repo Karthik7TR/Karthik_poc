@@ -9,7 +9,20 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   					   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	    <property name="messageConverters">
+	      <list>
+	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
+	      		 the controller methods annotated with @RequestBody -->
+	        <ref bean="miscConfigMessageConverter" />
+	      </list>
+	    </property>
+	</bean>
 
 	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
@@ -19,20 +32,23 @@
 		</property>
 	</bean>
 	
+
 	<!-- Map logical view name in the form (_viewName) to a tiles definition name in the tiles definition file(s),
 		 see tilesConfigurer above.
 		 Tiles logical view names begin with an underscore (_) to indicate that they are a tiles definition. -->
-	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-	  	<property name="order" value="1"/>
-	  	<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
-	  	<property name="viewNames" value="_*"/>
-	</bean>
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+	  	  p:order="1"
+	  	  p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView"
+	  	  p:viewNames="_*"/>
+
+	<!-- Used to marshal the object for REST HTTP response body. -->
+	<bean id="restViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"	
+		  p:order="2"/>
 
 	<!-- Map logical view name to a physical JSP file located at /WEB-INF/jsp/<viewName>.jsp --> 
-	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="order" value="2"/>
-	  	<property name="prefix" value="/WEB-INF/jsp/"/>
-	  	<property name="suffix" value=".jsp"/>
-	</bean>
+	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		  p:order="3"
+	  	  p:prefix="/WEB-INF/jsp/"
+	  	  p:suffix=".jsp"/>
 
 </beans>

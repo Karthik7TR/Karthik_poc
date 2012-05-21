@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
@@ -24,10 +25,9 @@ public class GeneratorRestClientImpl implements GeneratorRestClient {
 							"{context}/service/get/step/names";	
 	
 	private static final String GENERATOR_GET_JOB_THROTTLE_CONFIG =
-			"{context}/service/get/job/throttle/config}";
+						"{context}/"+CoreConstants.URI_GET_JOB_THROTTLE_CONFIG;
 	private static final String GENERATOR_GET_MISC_CONFIG =
-			"{context}/service/get/misc/config}";
-
+						"{context}/"+CoreConstants.URI_GET_MISC_CONFIG;
 
 	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
 	private RestTemplate restTemplate;
@@ -86,6 +86,9 @@ public class GeneratorRestClientImpl implements GeneratorRestClient {
 		}
 		Collections.sort(stepNames);
 		return stepNames;
+	}
+	public URL getGeneratorContextUrl() {
+		return generatorContextUrl;
 	}
 
 	@Required

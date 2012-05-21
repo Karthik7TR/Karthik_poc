@@ -12,7 +12,7 @@
 		  p:appConfigService-ref="appConfigService"
 		  p:managerService-ref="managerService"
 		  p:generatorRestClient-ref="generatorRestClient"
-		  p:hosts="${generator.hosts}">
+		  p:generatorHosts="${generator.hosts}">
 		<constructor-arg value="${generator.port}"/>
 		<property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigFormValidator"/>
@@ -21,15 +21,21 @@
 	<bean id="miscConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController"
 		  p:appConfigService-ref="appConfigService"
 		  p:managerService-ref="managerService"
-		  p:hosts="${generator.hosts}"
 		  p:generatorContextName="${generator.context.name}"
-		  p:generatorPort="${generator.port}"
 		  p:gathererContextName="${gatherer.context.name}"
-		  p:gathererPort="${gatherer.port}">
+		  p:managerContextName="${manager.context.name}"
+		  p:generatorHosts="${generator.hosts}"
+		  p:managerHosts="${manager.hosts}">
 		<property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigFormValidator"/>
 		 </property>
+		 <!-- make sure the host properties are last, the property is a function of host and port numbers -->
+		 <constructor-arg index="0" value="${gatherer.port}"/>
+		 <constructor-arg index="1" value="${generator.port}"/>
+		 <constructor-arg index="2" value="${manager.port}"/>
 	</bean>
+	<bean id="syncConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
 	
 	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />
 	
@@ -228,10 +234,6 @@
 		  />
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
-		 p:proviewClient-ref="proviewClient"/>	
-  
-	<!-- Handles application sync request from manager.  Reads DB config and updates in-memory state. -->
-	<bean id="syncConfigController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
-		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
+		 p:proviewClient-ref="proviewClient"/>
 		  
 </beans>

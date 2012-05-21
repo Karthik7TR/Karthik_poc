@@ -18,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 
 /**
- * REST service provider embeded into all the web applications to receive new application configuration.
+ * A common REST service provider embedded into all the web applications to receive new application configuration.
  * The configurations are POST'ed as the body of the HTTP request.
  */
 @Controller
@@ -29,21 +29,22 @@ public class SyncConfigRestController {
 	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
 	
 	/**
-	 * Read the current job throttle configuration from the database, and update in-memory state.
+	 * Update logging log levels from the configuration received in the body of the request.
 	 * This allows for the configuration to be changed on-the-fly in the manager and then pushed out 
 	 * to all ebookGenerator instances.
 	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
 	 */
 	@RequestMapping(value=CoreConstants.URI_SYNC_MISC_CONFIG, method = RequestMethod.POST)
 	public ModelAndView synchronizeMiscConfiguration(@RequestBody MiscConfig config, Model model) throws Exception {
-		//log.debug(config);
+		log.debug(">>> " + config);
 		SimpleRestServiceResponse opResponse = null;
 		try {
-			String message = "Successfully synchronized application misc configuration";
+			String message = "Successfully synchronized misc configuration";
 			miscConfigSyncService.syncMiscConfig(config);
+			log.debug(String.format("%s: %s", message, config.toString()));
 			opResponse = new SimpleRestServiceResponse(null, true, message);
 		} catch (Exception e) {
-			String message = "Exception performing misc config data sync - " + e.getMessage();
+			String message = "Failed to sync misc config data - " + e.getMessage();
 			opResponse = new SimpleRestServiceResponse(null, false, message);	
 			log.error(message, e);
 		}
@@ -57,6 +58,7 @@ public class SyncConfigRestController {
 	 */
 	@RequestMapping(value=CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
 	public ModelAndView synchronizeJobThrottleConfiguration(@RequestBody JobThrottleConfig config, Model model) throws Exception {
+		log.debug(">>> " + config);
 		SimpleRestServiceResponse opResponse = null;
 		try {
 			String message = "Successfully synchronized application job throttle configuration";
@@ -74,7 +76,7 @@ public class SyncConfigRestController {
 	/**
 	 * Debugging echo service that makes sure the service is up
 	 */
-	@RequestMapping(value="service/echo/{message}", method = RequestMethod.GET)
+	@RequestMapping(value="service/{message}/echo.mvc", method = RequestMethod.GET)
 	public ModelAndView synchronizeMiscConfiguration(@PathVariable String message, Model model) throws Exception {
 		log.debug(">>> " + message);
 		SimpleRestServiceResponse opResponse = new SimpleRestServiceResponse(null, true, message);

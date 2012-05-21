@@ -22,7 +22,7 @@
 	</bean>
 	
 	<!-- Handles application sync request from manager.  Reads DB config and updates in-memory state. -->
-	<bean id="syncConfigController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
+	<bean id="syncConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  p:jobThrottleConfigSyncService-ref="engineService"/>
 		  

@@ -7,11 +7,12 @@ import org.apache.log4j.Logger;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 
 public class MiscConfigSyncServiceImpl implements MiscConfigSyncService {
-	//private static Logger log = Logger.getLogger(MiscConfigSyncServiceImpl.class);
+	private static Logger log = Logger.getLogger(MiscConfigSyncServiceImpl.class);
 
 	@Override
 	public void syncMiscConfig(MiscConfig config) throws Exception {
 		// Set the configured logging levels
+		log.debug(config);
 		setLogLevel(config);
 	}
 	

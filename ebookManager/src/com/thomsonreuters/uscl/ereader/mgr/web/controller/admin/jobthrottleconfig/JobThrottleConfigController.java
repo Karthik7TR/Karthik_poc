@@ -120,7 +120,7 @@ public class JobThrottleConfigController {
 	 * @param commaSeparatedHostNames a CSV list of valid host names
 	 */
 	@Required
-	public void setHosts(String commaSeparatedHostNames) throws UnknownHostException {
+	public void setGeneratorHosts(String commaSeparatedHostNames) throws UnknownHostException {
 		this.socketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
 	}
 	@Required

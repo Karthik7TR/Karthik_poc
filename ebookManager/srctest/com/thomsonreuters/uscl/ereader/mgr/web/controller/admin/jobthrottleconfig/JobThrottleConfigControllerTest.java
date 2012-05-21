@@ -57,7 +57,7 @@ public class JobThrottleConfigControllerTest {
 		controller.setManagerService(mockManagerService);
 		controller.setGeneratorRestClient(mockGeneratorRestClient);
 		controller.setValidator(new JobThrottleConfigFormValidator());
-		controller.setHosts(HOST_NAME+","+HOST_NAME);
+		controller.setGeneratorHosts(HOST_NAME+","+HOST_NAME);
 	}
 
 	@Test
