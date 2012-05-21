@@ -19,15 +19,19 @@ import org.springframework.batch.core.BatchStatus;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 /**
- * The form backing object that holds the data the user enters into the Job List job filter HTML form.
+ * The form backing object that holds the data the user enters into the Job List
+ * job filter HTML form.
  */
 public class FilterForm {
-	
+
 	public static final String FORM_NAME = "jobSummaryFilterForm";
-	public enum FilterCommand { SEARCH, RESET };
-	
-	//private static final Logger log = Logger.getLogger(FilterForm.class);
-	
+
+	public enum FilterCommand {
+		SEARCH, RESET
+	};
+
+	// private static final Logger log = Logger.getLogger(FilterForm.class);
+
 	private String titleId;
 	private String bookName;
 	private String submittedBy;
@@ -35,13 +39,13 @@ public class FilterForm {
 	private String toDateString;
 	private BatchStatus batchStatus;
 	private FilterCommand command;
-	
+
 	public FilterForm() {
 		initialize();
 	}
+
 	/**
-	 * Set all values back to defaults.
-	 * Used in resetting the form.
+	 * Set all values back to defaults. Used in resetting the form.
 	 */
 	public void initialize() {
 		// Default the from date to 1 day ago
@@ -51,7 +55,8 @@ public class FilterForm {
 		populate(null, null, null, fromDate, null, null);
 	}
 
-	public void populate(String titleId, String bookName, String submittedBy, String fromDateString, String toDateString, BatchStatus batchStatus) {
+	public void populate(String titleId, String bookName, String submittedBy,
+			String fromDateString, String toDateString, BatchStatus batchStatus) {
 		this.titleId = titleId;
 		this.bookName = bookName;
 		this.submittedBy = submittedBy;
@@ -59,68 +64,88 @@ public class FilterForm {
 		this.toDateString = toDateString;
 		this.batchStatus = batchStatus;
 	}
-	
+
 	public String getBookName() {
 		return bookName;
 	}
+
 	public FilterCommand getFilterCommand() {
 		return command;
 	}
+
 	public String getTitleId() {
 		return titleId;
 	}
+
 	public Date getFromDate() {
 		return parseDate(fromDateString);
 	}
+
 	public String getFromDateString() {
 		return fromDateString;
 	}
+
 	public Date getToDate() {
 		return parseDate(toDateString);
 	}
+
 	public String getToDateString() {
 		return toDateString;
 	}
+
 	public BatchStatus getBatchStatus() {
 		return batchStatus;
 	}
+
 	public String getSubmittedBy() {
 		return submittedBy;
 	}
+
 	public void setBookName(String name) {
 		this.bookName = (name != null) ? name.trim() : null;
 	}
+
 	public void setFilterCommand(FilterCommand cmd) {
 		this.command = cmd;
 	}
+
 	public void setTitleId(String titleId) {
 		this.titleId = (titleId != null) ? titleId.trim() : null;
 	}
+
 	public void setFromDate(Date fromDate) {
 		this.fromDateString = parseDate(fromDate);
 	}
+
 	public void setFromDateString(String fromDate) {
 		this.fromDateString = fromDate;
 	}
+
 	public void setToDateString(String toDate) {
 		this.toDateString = toDate;
 	}
+
 	public void setToDate(Date toDate) {
 		this.toDateString = parseDate(toDate);
 	}
+
 	public void setBatchStatus(BatchStatus batchStatus) {
 		this.batchStatus = batchStatus;
 	}
+
 	public void setSubmittedBy(String username) {
-		this.submittedBy = username;
+		this.submittedBy = (username != null) ? username.trim() : null;
 	}
+
 	public static String parseDate(Date date) {
 		if (date != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(WebConstants.DATE_FORMAT_PATTERN);
+			SimpleDateFormat sdf = new SimpleDateFormat(
+					WebConstants.DATE_FORMAT_PATTERN);
 			return sdf.format(date);
 		}
 		return null;
 	}
+
 	public static Date parseDate(String dateString) {
 		Date date = null;
 		try {
@@ -133,7 +158,9 @@ public class FilterForm {
 		}
 		return date;
 	}
+
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		return ReflectionToStringBuilder.toString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }
