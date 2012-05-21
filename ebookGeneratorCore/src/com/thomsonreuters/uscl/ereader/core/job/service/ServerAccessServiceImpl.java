@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import com.thomsonreuters.uscl.ereader.util.Ssh;
 
@@ -41,11 +42,29 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 * @param password
 	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
 	 * @param emailGroup
+	 * @throws EBookServerException 
 	 */
 	@Override
-	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup){
+	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException{
 
 		log.debug("In ServerAccessServiceImpl serverNames = "+serverNames +" userName = "+userName +" password = "+password + " appNames = " +appNames +" emailGroup = " +emailGroup);
+			if(serverNames == null || serverNames.isEmpty()){
+				
+				throw new EBookServerException("Failed to kill server(s) as server name is empty.");
+				
+			}
+			
+			if(appNames == null || appNames.isEmpty()){
+				
+				throw new EBookServerException("Failed to kill server(s) as application name is empty.");
+				
+			}
+
+			if(emailGroup == null || emailGroup.isEmpty()){
+				
+				throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
+			}
+			
 		   killServerInstances(serverNames, userName, password, appNames);	
 		   notifyJobOwnerOnServerShutdown(emailGroup);
 	       updateJobsInProgress();
@@ -60,9 +79,11 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 * @param userName
 	 * @param password
 	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
+	 * @throws EBookServerException 
 	 */
-	private void killServerInstances(String serverNames,String userName,String password,String appNames) {
+	private void killServerInstances(String serverNames,String userName,String password,String appNames) throws EBookServerException {
 		
+
 		String[] targetServerArray =  StringUtils.commaDelimitedListToStringArray(serverNames);
 		String[] appNamesArray =  StringUtils.commaDelimitedListToStringArray(appNames);
         String cmd = null;
@@ -70,12 +91,8 @@ public class ServerAccessServiceImpl implements ServerAccessService {
     	   for (String applicationName : appNamesArray) {
 
    			cmd = "for i in `ls /appserver/tomcat/"+applicationName+"_*[^X]/bin/stopServer.sh`; do $i; done";
-   			try {
+   		
    				execute(serverName, userName, password, cmd);
-   			} catch (Exception e) {
-   				e.printStackTrace();
-   				
-   			}
    			
    			log.info("Stopped server " + serverName);
 
@@ -87,9 +104,10 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	
 	/**
 	 * update jobs job exit status from 'undefined' to failed.
+	 * @throws EBookServerException 
 	 * 
 	 */
-	private void updateJobsInProgress(){
+	private void updateJobsInProgress() throws EBookServerException{
 		jobCleanupService.cleanUpDeadJobs();		
 	}
 	
@@ -97,10 +115,12 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 * sends email notification on startup only if any of the jobs were updated. 
 	 * @param serverName
 	 * @param emailGroup
+	 * @throws EBookServerException 
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public void notifyJobOwnerOnServerStartup(String serverName,String emailGroup){
+	public void notifyJobOwnerOnServerStartup(String serverName,String emailGroup) throws EBookServerException{
+		
 		List<String> jobListInfo ;
 			jobListInfo = jobCleanupService.findListOfDeadJobsByServerName(serverName);
 		String subject ;
@@ -110,13 +130,19 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 
 		
 		if (jobListInfo != null && jobListInfo.size()> 0) {
+			
+			if(emailGroup == null || emailGroup.isEmpty()){
+				
+				throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
+			}
+
 			emailBodySB.append("Please resubmit these jobs.");
 			emailBodySB.append("\n");
 			for (String string : jobListInfo) {
 				emailBodySB.append(string);
 				emailBodySB.append("\n");
 			}
-			subject = "Server was shut down, please resubmit these jobs";
+			subject = "Server is down, please resubmit these jobs";
 			emailAddress = emailGroup;
 			emailBody = emailBodySB.toString();
 			log.debug("Notification email address : " + emailAddress);
@@ -128,12 +154,14 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 			
 		}
 	}
+	
 	/**
 	 * Email notification is sent to user group regarding server shutdown with list of jobs in progress. 
 	 * These jobs will have to be re-submitted.
 	 * @param emailGroup
+	 * @throws EBookServerException 
 	 */
-	private void notifyJobOwnerOnServerShutdown(String emailGroup){
+	private void notifyJobOwnerOnServerShutdown(String emailGroup) throws EBookServerException {
 
 		List<String> jobListInfo = jobCleanupService.findListOfDeadJobs();
 		String subject ;
@@ -149,13 +177,13 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 				emailBodySB.append(string);
 				emailBodySB.append("\n");
 			}
-			subject = "Server is being shut down , please resubmit these jobs";
+			subject = "Server is down , please resubmit these jobs";
 			emailAddress = emailGroup;
 			emailBody = emailBodySB.toString();
 			
 		}else{
-			emailBodySB.append("Server is being shut down");
-			subject = "Server is being shut down <EOM>";
+			emailBodySB.append("Server is down");
+			subject = "Server is down <EOM>";
 			emailAddress = emailGroup;
 			emailBody = emailBodySB.toString();
 
@@ -168,7 +196,7 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	}
 	
 	
-	private void execute(String server, String user, String password, String cmd) throws Exception
+	private void execute(String server, String user, String password, String cmd) throws EBookServerException
 	{
 		log.debug("Starting " + cmd + "...");
 

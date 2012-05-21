@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
  * Stops all the generator and gather instances from server, 
@@ -30,13 +31,15 @@ public interface ServerAccessService {
 	 * @param password
 	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
 	 * @param emailGroup
+	 * @throws EBookServerException 
 	 */
-	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup);
+	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException;
 	/**
 	 * Sends sends email notification on startup only if any of the jobs were updated. 
 	 * @param serverName
 	 * @param emailGroup
+	 * @throws EBookServerException 
 	 */
-	public void notifyJobOwnerOnServerStartup(String serverName, String emailGroup);
+	public void notifyJobOwnerOnServerStartup(String serverName, String emailGroup) throws EBookServerException;
 
 }

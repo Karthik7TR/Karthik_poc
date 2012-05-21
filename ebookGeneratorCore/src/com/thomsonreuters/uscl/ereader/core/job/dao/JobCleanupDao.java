@@ -11,6 +11,8 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
  */
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
+
 /**
  * Queries for fetching and update Spring Batch job information.
  *   
@@ -21,39 +23,44 @@ public interface JobCleanupDao {
 	/**
 	 * Update dead job exit status to "failed".  
 	 * @return
+	 * @throws EBookServerException 
 	 */
-	public int updateBatchJobExecution();
+	public int updateBatchJobExecution() throws EBookServerException;
 
 	/**
 	 * Update dead steps exit status to "failed".  
 	 * @return
+	 * @throws EBookServerException 
 	 */
-	public int updateBatchStepExecution();
+	public int updateBatchStepExecution() throws EBookServerException;
 
 	/**
 	 * Gets list of dead jobs , so that the job owners could be notified to resubmit these jobs.   
 	 * @return
 	 */
-	public List<String> findListOfDeadJobs();
+	public List<String> findListOfDeadJobs() throws EBookServerException;;
 
 	/**
 	 * Update dead step exit status to 'failed' for given server name
 	 * @param serverName
 	 * @return
+	 * @throws EBookServerException 
 	 */
-	public int updateBatchStepExecutionForGivenServer(String serverName);
+	public int updateBatchStepExecutionForGivenServer(String serverName) throws EBookServerException;
 	
 	/**
 	 * Update dead job exit status to 'failed' for given server name
 	 * @param serverName
 	 * @return
+	 * @throws EBookServerException 
 	 */
-	public int updateBatchJobExecutionForGivenServer(String serverName);
+	public int updateBatchJobExecutionForGivenServer(String serverName) throws EBookServerException;
 
 	/**
 	 * Gets list of dead jobs for given serverName, so that the job owners could be notified to resubmit these jobs.   
 	 * @return
+	 * @throws EBookServerException 
 	 */
-	public List<String> findListOfDeadJobsByServerName(String serverName);
+	public List<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException;
 
 }

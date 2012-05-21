@@ -14,7 +14,7 @@ import com.jcraft.jsch.Session;
 
 public class Ssh {
 	static JSch jsch = new JSch();
-	private static Session openConnection(String serverName, String userName, String password){
+	private static Session openConnection(String serverName, String userName, String password) throws EBookServerException{
 		try {
 
 			Session session = jsch.getSession(userName, serverName, 22);
@@ -26,11 +26,11 @@ public class Ssh {
 			return session;
 		} catch (JSchException e) {
 			e.printStackTrace();
+			throw new EBookServerException("Failed to connect server with given credentials serverName="+serverName +" userName ="+userName +" password ="+password );
 		}
-		return null;
 	}
 
-	public static String executeCommand(String serverName, String username, String password, String command){
+	public static String executeCommand(String serverName, String username, String password, String command) throws EBookServerException{
 		String s = "";
 		try{
 			Session session = Ssh.openConnection(serverName, username, password);
@@ -59,6 +59,8 @@ public class Ssh {
 			session.disconnect();
 		}catch (Exception e){
 			e.printStackTrace();
+			throw new EBookServerException("Failed to connect server with given credentials serverName="+serverName +" userName ="+username +" password ="+password );
+		
 		}
 		return s;
 	}

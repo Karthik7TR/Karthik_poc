@@ -27,6 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 public class StopGeneratorControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+StopGeneratorForm.FORM_NAME;
@@ -91,7 +92,12 @@ public class StopGeneratorControllerTest {
     	request.setParameter("code", code);
     	
     	EasyMock.expect(mockKillSwitchProperties.getProperty(EasyMock.anyObject(String.class))).andReturn(property).times(5);
-    	mockServerAccessService.stopServer(property, property, property, property, property);
+    	try {
+			mockServerAccessService.stopServer(property, property, property, property, property);
+		} catch (EBookServerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	EasyMock.replay(mockKillSwitchProperties);
     	EasyMock.replay(mockServerAccessService);
     	

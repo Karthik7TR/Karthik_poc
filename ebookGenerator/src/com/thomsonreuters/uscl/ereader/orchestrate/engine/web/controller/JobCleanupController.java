@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupService;
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
  * Only purpose of this controller is to carry job clean up and notify user group about the jobs which were 
@@ -29,7 +30,7 @@ public class JobCleanupController {
 
 
 	@PostConstruct
-	public void init(){
+	public void init() throws EBookServerException{
 		String hostName = null;	// The host this job running on
 		try {
 			InetAddress host = InetAddress.getLocalHost();
@@ -37,7 +38,6 @@ public class JobCleanupController {
 		} catch (UnknownHostException uhe) {
 			hostName = null;
 		}
-		
 		serverAccessService.notifyJobOwnerOnServerStartup(hostName, emailGroup);
 		jobCleanupService.cleanUpDeadJobsForGivenServer(hostName);
 	}

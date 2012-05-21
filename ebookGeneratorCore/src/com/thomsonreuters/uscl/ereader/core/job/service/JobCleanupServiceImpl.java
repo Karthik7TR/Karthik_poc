@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
  * Updates dead jobs exit status to "failed" status. 
@@ -28,10 +29,11 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 	/**
 	 * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables 
 	 * dead jobs are those jobs which were in "UNKNOWN" exit status due to server shutdown. 
+	 * @throws EBookServerException 
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public void cleanUpDeadJobs(){
+	public void cleanUpDeadJobs() throws EBookServerException{
 		
 		int stepCleanup = jobCleanupDao.updateBatchStepExecution();
 		int jobCleanup = jobCleanupDao.updateBatchJobExecution();
@@ -41,9 +43,10 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 
 	/**
 	 * Gets list of dead jobs so that jobs owner could be notified to resubmit these jobs.  
+	 * @throws EBookServerException 
 	 */
 	@Override
-	public List<String> findListOfDeadJobs(){
+	public List<String> findListOfDeadJobs() throws EBookServerException{
 		return jobCleanupDao.findListOfDeadJobs();
 		
 	}
@@ -55,12 +58,13 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 
 	/**
 	 * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables for given server name 
+	 * @throws EBookServerException 
 	 * 
 	 * @see com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupService#cleanUpDeadJobsForGivenServer(java.lang.String)
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public void cleanUpDeadJobsForGivenServer(String serverName){
+	public void cleanUpDeadJobsForGivenServer(String serverName) throws EBookServerException{
 		
 		int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
 		int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
@@ -68,7 +72,7 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 	}
 
 	@Override
-	public List<String> findListOfDeadJobsByServerName(String serverName) 
+	public List<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException 
 	{
 		return jobCleanupDao.findListOfDeadJobsByServerName(serverName);
 
