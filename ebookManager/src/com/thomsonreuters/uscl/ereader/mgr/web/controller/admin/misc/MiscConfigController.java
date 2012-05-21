@@ -84,7 +84,7 @@ public class MiscConfigController {
 			}
 			
 			// If no data persistence errors, then 
-			// Sync the new configuration out to all listening ebookGenerator hosts who care about the change.
+			// Push/synchronize the new configuration out to all listening ebookGenerator hosts who care about the change.
 			if (!anySaveErrors) {
 				// Fetch the complete current state of the application configuration
 				MiscConfig miscConfig = appConfigService.loadMiscConfig();
@@ -112,7 +112,7 @@ public class MiscConfigController {
 		try {
 			SimpleRestServiceResponse opResponse = managerService.pushMiscConfiguration(miscConfig, contextName, socketAddr);
 			if (opResponse.isSuccess()) {
-				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully synchronized misc configuration to %s on host %s", contextName, socketAddr)));
+				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed misc configuration to %s on host %s", contextName, socketAddr)));
 			} else {
 				String errorMessage = String.format(errorMessageTemplate,
 													contextName, socketAddr, opResponse.getMessage());

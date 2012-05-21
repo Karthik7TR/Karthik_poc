@@ -91,7 +91,7 @@ public class JobThrottleConfigController {
 						JobThrottleConfig jobThrottleConfig = appConfigService.loadJobThrottleConfig();
 						SimpleRestServiceResponse opResponse = managerService.pushJobThrottleConfiguration(jobThrottleConfig, socketAddr);
 						if (opResponse.isSuccess()) {
-							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to: %s", socketAddr)));
+							infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, String.format("Successfully pushed new throttle configuration to host %s", socketAddr)));
 						} else {
 							String errorMessage = String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
 							log.error("REST response failure: " + errorMessage);
