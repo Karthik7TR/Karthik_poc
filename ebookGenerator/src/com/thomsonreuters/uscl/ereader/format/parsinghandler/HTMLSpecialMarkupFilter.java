@@ -32,9 +32,8 @@ public class HTMLSpecialMarkupFilter extends XMLFilterImpl {
 			AttributesImpl newAtts = new AttributesImpl(atts);
 			newAtts.addAttribute("", "", "class", "CDATA", "co_crosshatch");
 			super.startElement(uri, localName, "span", newAtts);
-		} else {
+		} else if (!qName.equalsIgnoreCase("ins")){
 			super.startElement(uri, localName, qName, atts);
-
 		}
 	}
 	
@@ -49,11 +48,14 @@ public class HTMLSpecialMarkupFilter extends XMLFilterImpl {
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
 		//Remove any del tags and replace with span tag
-		if (qName.equalsIgnoreCase("del")) {
+
 		if (isdelTag) {
+			if (qName.equalsIgnoreCase("del")) {
 			super.endElement(uri, localName, "span");
 			isdelTag = false;
-		} 
+		} else if (!qName.equalsIgnoreCase("ins")){
+			super.endElement(uri, localName, qName);
+		}
 		} else {
 			super.endElement(uri, localName, qName);
 		}

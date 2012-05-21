@@ -126,7 +126,7 @@ public class HTMLSpecialMarkUpFilterTest {
 	{
 		
 		String xmlTestStr = "<del><ins>and</ins></del>";
-		String expectedResult = "<span class=\"co_crosshatch\"><ins>and</ins></span>";
+		String expectedResult = "<span class=\"co_crosshatch\">and</span>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
@@ -145,8 +145,8 @@ public class HTMLSpecialMarkUpFilterTest {
 	public void testDelWithMultipleEmbeddedElements() throws SAXException
 	{
 		
-		String xmlTestStr = "<del><ins><nirupam value=\"2\"></nirupam>and</ins></del>";
-		String expectedResult = "<span class=\"co_crosshatch\"><ins><nirupam value=\"2\"/>and</ins></span>";
+		String xmlTestStr = "<del><ins><name>nirupam</name>and</ins></del>";
+		String expectedResult = "<span class=\"co_crosshatch\"><name>nirupam</name>and</span>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
