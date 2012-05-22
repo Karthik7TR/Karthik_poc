@@ -161,6 +161,14 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                 }
             }
         }
+        else if (docMetadata == null && pubId.equals(PUB_NOT_PRESENT))
+        {	
+        	cite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+        	if(cite.startsWith("LK("))
+        	{
+        		docMetadata = getRefsAnnosPage(cite);
+        	}
+        }
 
         return docMetadata;
     }
@@ -291,5 +299,56 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
 
         return resolvedAttributes;
+    }
+    
+    /**
+	 * Attempts to locate the page of a Refs and Annos citations that is in one of the following formats: 
+	 * lk(TXPRD)+lk(TXPRR)+lk(TXAGD)+lk(TXALD)+lk(TXBCD)+...
+	 * lk(TXPRD) lk(TXPRR) lk(TXAGD) lk(TXALD) lk(TXBCD)
+     * 
+     * @param cite Refs and Annos citation
+     * 
+     * @return null if document is not identified in book otherwise the document metadata object of the Refs and Annos page.
+     */
+    private DocMetadata getRefsAnnosPage(String cite)
+    {
+    	DocMetadata docMetadata = null;
+
+    	String[] citations = cite.split("LK\\(");
+    	
+    	//try and find the correct reference page from the list of citations
+    	for (String citation : citations)
+    	{
+    		citation = citation.replace(")", "").replace("+", "").trim();
+    		
+    		if (citation.endsWith("R"))
+    		{	
+    			//Only look at the citations that end with R, presumably stands for References
+        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+        		
+        		if (docMetadata != null)
+        		{
+        			return docMetadata;
+        		}
+    		}
+    	}
+    	
+    	//if a reference page cannot be located, locate to the first found document in the cite list
+    	if (docMetadata == null)
+    	{
+        	for (String citation : citations)
+        	{
+        		citation = citation.replace(")", "").replace("+", "").trim();
+        		
+        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+        		
+        		if (docMetadata != null)
+        		{
+        			return docMetadata;
+        		}
+        	}
+    	}
+    	
+    	return docMetadata;
     }
 }
