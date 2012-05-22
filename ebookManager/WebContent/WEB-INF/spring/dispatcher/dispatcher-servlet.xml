@@ -13,13 +13,14 @@
 	   xmlns:p="http://www.springframework.org/schema/p"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	   					   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
+	
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 	    <property name="messageConverters">
 	      <list>
 	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
 	      		 the controller methods annotated with @RequestBody -->
 	        <ref bean="miscConfigMessageConverter" />
+	        <ref bean="stringHttpMessageConverter" />
 	      </list>
 	    </property>
 	</bean>
@@ -40,7 +41,7 @@
 	  	  p:order="1"
 	  	  p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView"
 	  	  p:viewNames="_*"/>
-
+	  	  
 	<!-- Used to marshal the object for REST HTTP response body. -->
 	<bean id="restViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"	
 		  p:order="2"/>
