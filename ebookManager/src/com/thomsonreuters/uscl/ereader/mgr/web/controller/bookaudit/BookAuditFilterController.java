@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ public class BookAuditFilterController extends BaseBookAuditController {
 
 	@InitBinder(BookAuditFilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		binder.setValidator(validator);
 	}
 	

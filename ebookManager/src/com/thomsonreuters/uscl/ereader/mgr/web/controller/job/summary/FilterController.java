@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,7 @@ public class FilterController extends BaseJobSummaryController {
 
 	@InitBinder(FilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		binder.setValidator(validator);
 	}
 	
