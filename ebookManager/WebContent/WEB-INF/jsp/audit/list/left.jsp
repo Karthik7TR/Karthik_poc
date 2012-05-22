@@ -52,7 +52,7 @@ function submitAuditFilterForm(command) {
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
-		<form:input path="bookName"/>
+		<form:input path="proviewDisplayName"/>
 	</div>	
 	<div class="filterRow">	
 		<label>Title ID:</label>

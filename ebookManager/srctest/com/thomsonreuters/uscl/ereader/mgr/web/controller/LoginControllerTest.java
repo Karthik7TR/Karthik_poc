@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
 
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginForm;
+import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 
 /**
  * Tests for login/logouot and authentication.
@@ -32,6 +35,8 @@ public class LoginControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    
+    private UserPreferenceService mockPreferenceService;
   
     @Before
     public void setUp() throws Exception {
@@ -39,9 +44,12 @@ public class LoginControllerTest {
     	response = new MockHttpServletResponse();
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
+    	mockPreferenceService = EasyMock.createMock(UserPreferenceService.class);
+    	
     	controller = new LoginController();
     	controller.setEnvironmentName("workstation");
     	controller.setProviewDomain("ci");
+    	controller.setUserPreferenceService(mockPreferenceService);
     }
     @Test
     public void testInboundGet() throws Exception {
@@ -90,6 +98,12 @@ public class LoginControllerTest {
     	// Set up the request URL
     	request.setRequestURI("/"+WebConstants.MVC_SEC_AFTER_AUTHENTICATION);
     	request.setMethod(HttpMethod.GET.name());
+    	
+    	UserPreference preference = new UserPreference();
+    	preference.setStartPage("AUDIT");
+    	
+    	EasyMock.expect(mockPreferenceService.findByUsername(EasyMock.anyObject(String.class))).andReturn(preference);
+    	EasyMock.replay(mockPreferenceService);
 
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -97,6 +111,8 @@ public class LoginControllerTest {
     	assertNotNull(mav);
     	Assert.assertTrue(mav.getView() instanceof RedirectView);
     	RedirectView view = (RedirectView) mav.getView();
-    	Assert.assertEquals(WebConstants.MVC_BOOK_LIBRARY_LIST, view.getUrl());
+    	Assert.assertEquals(WebConstants.MVC_BOOK_AUDIT_LIST, view.getUrl());
+    	
+    	EasyMock.verify(mockPreferenceService);
     }
 }

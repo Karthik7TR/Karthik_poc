@@ -60,13 +60,18 @@ html, body {
 
 #header {
 	padding:0em .5em;
-	position:relative;
+	position:fixed;
+	top:0em;
+	left:0em;
+	z-index:9999;
     background-color: black;
-    min-height: 2.2em;
+    height: 3.75em;
+    width:100%;
 	color:white;
 }
 
 #center {
+	padding-top: 3.75em;
 	position:relative;
 }
 
@@ -89,8 +94,8 @@ html, body {
 
 #left {
 	position:absolute;
-	top:0px;
-	left:0px;
+	top:3.75em;
+	left:0em;
 	padding-left:.5em;
 	padding-top:.5em;
 	padding-bottom:1em;
@@ -102,7 +107,8 @@ html, body {
 	margin-bottom:.3em;
 }
 
-#left .filterRow label {
+#left .filterRow label,
+#preferencesForm .filterBox label {
 	display:block;
 }
 
@@ -164,14 +170,12 @@ html, body {
 	float:left;
 }
 .headerLeftSide {
-	float:left;
 	line-height: 2.2em;
 }
 
 .headerRightSide {
 	display:block;
 	position:relative;
-	float:right;
 }
 
 .programTitle {
@@ -200,28 +204,35 @@ html, body {
 
 /* Header navigation styles*/
 ul.navList {
-	display: inline;
+	list-style-type:none;
 	padding:0em;
 	margin:0em;
 }
 ul.navList li {
-	display: inline;
-	line-height:2.7em;
-    list-style: none;
-    margin-left:.5em;
-    margin-right:.5em;
-    font-size: .8em;
+	float:left;
 }
 
-ul.navList a,
-ul.navList a:VISITED
+ul.navList a {
+	display: block;
+    padding:.3em;
+    margin-right:.2em;
+    font-size:0.8em;
+    font-weight:bold;
+    border-left: 1px white solid;
+    border-right: 1px white solid;
+    border-top: 1px white solid;
+    background-color:#777777;
+}
+
+ul.navList a:link,
+ul.navList a:visited
 {
 	text-decoration: none;
 	color:white;
 }
 
 ul.navList a:hover {
-	text-decoration: underline;
+	background-color: #E7E7E7;
 }
 
 /* Link styling */
@@ -571,6 +582,25 @@ a:hover {
 	cursor: pointer;
 }
 
+#preferencesForm {
+	text-align: center;
+}
+
+#preferencesForm > .row,
+#preferencesForm > .filterBox {
+	margin: 1em 1em;
+	display: inline-block;
+	zoom:1; /* IE7 hack */
+	*display: inline; /* IE7 hack */
+	vertical-align: top;
+	text-align: left;
+}
+
+#preferencesForm .labelCol {
+	text-align: left;
+	font-size: 1.2em;
+}
+
 #audit.displayTagTable tr.tableRowEven, 
 #audit.displayTagTable tr.even {
 	background-color: #FFB259;
@@ -585,3 +615,4 @@ a:hover {
 #proviewList.displayTagTable tr.even {
 	background-color: #FFFF66;
 }
+

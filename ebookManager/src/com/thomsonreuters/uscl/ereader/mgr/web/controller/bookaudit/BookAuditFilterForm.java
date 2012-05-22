@@ -28,7 +28,7 @@ public class BookAuditFilterForm {
 	//private static final Logger log = Logger.getLogger(FilterForm.class);
 	
 	private String titleId;
-	private String bookName;
+	private String proviewDisplayName;
 	private String submittedBy;
 	private String fromDateString;
 	private String toDateString;
@@ -51,10 +51,10 @@ public class BookAuditFilterForm {
 		populate(null, null, null, null, null, null, null);
 	}
 
-	public void populate(String titleId, String bookName, String submittedBy, 
+	public void populate(String titleId, String proviewDisplayName, String submittedBy, 
 			String fromDateString, String toDateString, Action action, Long bookId) {
 		this.titleId = titleId;
-		this.bookName = bookName;
+		this.proviewDisplayName = proviewDisplayName;
 		this.submittedBy = submittedBy;
 		this.fromDateString = fromDateString;
 		this.toDateString = toDateString;
@@ -62,8 +62,8 @@ public class BookAuditFilterForm {
 		this.bookDefinitionId = bookId;
 	}
 	
-	public String getBookName() {
-		return bookName;
+	public String getProviewDisplayName() {
+		return proviewDisplayName;
 	}
 	public FilterCommand getFilterCommand() {
 		return command;
@@ -92,8 +92,8 @@ public class BookAuditFilterForm {
 	public Long getBookDefinitionId() {
 		return bookDefinitionId;
 	}
-	public void setBookName(String name) {
-		this.bookName = (name != null) ? name.trim() : null;
+	public void setProviewDisplayName(String name) {
+		this.proviewDisplayName = (name != null) ? name.trim() : null;
 	}
 	public void setFilterCommand(FilterCommand cmd) {
 		this.command = cmd;

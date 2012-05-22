@@ -184,7 +184,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			String documentGuid = document.getDocumentGuid();
 			if(StringUtils.isNotBlank(documentGuid)) {
 				if(documentGuids.contains(documentGuid)) {
-					errors.rejectValue("excludeDocuments["+ i +"].documentGuid", "error.document.guid.duplicate");
+					errors.rejectValue("excludeDocuments["+ i +"].documentGuid", "error.duplicate", new Object[] {"Document Guid"}, "Duplicate Document Guid");
 				} else {
 					checkGuidFormat(errors, documentGuid, "excludeDocuments["+ i +"].documentGuid");
 					documentGuids.add(documentGuid);

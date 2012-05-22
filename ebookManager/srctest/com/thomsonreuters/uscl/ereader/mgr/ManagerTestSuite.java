@@ -38,6 +38,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecuti
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryFilterControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesFormValidatorTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
@@ -69,7 +71,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 			BookAuditFilterControllerTest.class,
 			DeleteBookDefinitionControllerTest.class,
 			ErrorControllerTest.class,
-			SmokeTestControllerTest.class
+			SmokeTestControllerTest.class,
+			UserPreferencesControllerTest.class,
+			UserPreferencesFormValidatorTest.class
 		} )
 
 public class ManagerTestSuite {

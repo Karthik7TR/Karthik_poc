@@ -47,6 +47,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchJobExecution</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchStepExecution</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
+		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
 		  </list>
 		</property>
   	</bean>
@@ -106,6 +107,10 @@
 	</bean>	
 	
 	<bean id="bookDefintionLockDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	<bean id="userPreferenceDao" class="com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
 	

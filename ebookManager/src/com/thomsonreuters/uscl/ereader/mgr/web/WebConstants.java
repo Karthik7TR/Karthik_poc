@@ -239,6 +239,7 @@ public class WebConstants {
 	public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
 
 	public static final String MVC_SMOKE_TEST = "smokeTest.mvc";
+	public static final String MVC_USER_PREFERENCES = "userPreferences.mvc";
 
 	// Error related URI's
 	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
@@ -308,6 +309,7 @@ public class WebConstants {
 	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
 	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
 	public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";
+	public static final String VIEW_USER_PREFERENCES = "_userPreferences";
 
 	// Miscellaneous keys and constants used throughout the application.
 	// public enum SortProperty { TITLE_ID, AUTHOR }; // Book Library SortFields

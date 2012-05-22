@@ -65,7 +65,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 		jobSummaryForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 		
 		JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
-										 	filterForm.getTitleId(), filterForm.getBookName(), filterForm.getSubmittedBy());
+										 	filterForm.getTitleId(), filterForm.getProviewDisplayName(), filterForm.getSubmittedBy());
 		JobSort jobSort = createJobSort(savedPageAndSort.getSortProperty(), savedPageAndSort.isAscendingSort());
 		List<Long> jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		
@@ -101,7 +101,7 @@ public class JobSummaryController extends BaseJobSummaryController {
 			pageAndSort.setAscendingSort(form.isAscendingSort());
 			// Fetch the job list model
 			JobFilter jobFilter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(), filterForm.getBatchStatus(),
-					 filterForm.getTitleId(), filterForm.getBookName(), filterForm.getSubmittedBy());
+					 filterForm.getTitleId(), filterForm.getProviewDisplayName(), filterForm.getSubmittedBy());
 			JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
 		}

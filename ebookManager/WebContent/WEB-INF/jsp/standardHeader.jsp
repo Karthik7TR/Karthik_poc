@@ -24,7 +24,9 @@
 		<c:if test="${showCreate}">
 			<li><a href="<%=WebConstants.MVC_BOOK_DEFINITION_CREATE%>">CREATE BOOK</a></li>
 		</c:if>
-
+		
+		<li><a href="<%=WebConstants.MVC_USER_PREFERENCES%>">PREFERENCES</a></li>
+		
 		<%-- Check if user has role to access Admin --%>
 		<c:set var="showAdmin" value="false"/>
 		<sec:authorize access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')">
@@ -33,6 +35,6 @@
 		<c:if test="${showAdmin}">
 			<li><a href="<%=WebConstants.MVC_ADMIN_MAIN%>">ADMIN</a></li>
 		</c:if>
-		<li><a href="j_spring_security_logout">Logout</a></li>
+		<li><a href="j_spring_security_logout">LOGOUT</a></li>
 	</ul>
 </div>

@@ -30,7 +30,7 @@ public class BookAuditController extends BaseBookAuditController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_AUDIT_LIST, method = RequestMethod.GET)
 	public ModelAndView auditList(HttpSession httpSession, Model model) {
-		BookAuditFilterForm filterForm = new BookAuditFilterForm();
+		BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
 		
 		return setupInitialView(model, filterForm, httpSession);
 	}

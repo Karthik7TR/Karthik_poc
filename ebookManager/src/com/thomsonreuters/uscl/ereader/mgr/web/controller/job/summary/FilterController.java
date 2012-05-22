@@ -68,7 +68,7 @@ public class FilterController extends BaseJobSummaryController {
 		if (!errors.hasErrors()) {
 			JobFilter filter = new JobFilter(filterForm.getFromDate(), filterForm.getToDate(),
 											 filterForm.getBatchStatus(), filterForm.getTitleId(),
-											 filterForm.getBookName(),  filterForm.getSubmittedBy());
+											 filterForm.getProviewDisplayName(),  filterForm.getSubmittedBy());
 			JobSort jobSort = createJobSort(pageAndSort.getSortProperty(), pageAndSort.isAscendingSort());
 			jobExecutionIds = jobService.findJobExecutions(filter, jobSort);
 		}

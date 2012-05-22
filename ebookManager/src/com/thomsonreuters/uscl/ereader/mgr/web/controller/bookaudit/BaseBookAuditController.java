@@ -94,7 +94,7 @@ public abstract class BaseBookAuditController {
     private PaginatedList createPaginatedList(PageAndSort<DisplayTagSortProperty> pageAndSort, BookAuditFilterForm filterForm) {
     	String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null; 
 		EbookAuditFilter bookAuditFilter = new EbookAuditFilter(filterForm.getFromDate(), filterForm.getToDate(), action,
-		 	filterForm.getTitleId(), filterForm.getBookName(), filterForm.getSubmittedBy(), filterForm.getBookDefinitionId());
+		 	filterForm.getTitleId(), filterForm.getProviewDisplayName(), filterForm.getSubmittedBy(), filterForm.getBookDefinitionId());
 		EbookAuditSort bookAuditSort = createBookAuditSort(pageAndSort);
 
 		// Lookup all the EbookAudit objects by their primary key

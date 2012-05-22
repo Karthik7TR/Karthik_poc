@@ -70,7 +70,7 @@
 		p:codeService-ref="codeService">
 		<property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidator"
-		  	p:codeService-ref="codeService"/>
+		  		p:codeService-ref="codeService"/>
 		 </property>
 	</bean>
 	
@@ -93,147 +93,153 @@
 	</bean>
 	
 	<bean id="bookLibraryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"
-		  p:libraryListService-ref="libraryListService"
-		  p:codeService-ref="codeService" >
-		  <property name="validator">
-		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator"/>
-		  </property>
+		p:libraryListService-ref="libraryListService"
+		p:codeService-ref="codeService" >
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator"/>
+		</property>
 	</bean>
 	
 	<bean id="bookLibraryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterController"
-		  p:libraryListService-ref="libraryListService" 
-		  p:codeService-ref="codeService" >
-		  <property name="validator">
-		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterFormValidator"/>
-		  </property>
+		p:libraryListService-ref="libraryListService" 
+		p:codeService-ref="codeService" >
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterFormValidator"/>
+		</property>
 	</bean>	
 	
 	<bean id="viewBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:jobRequestService-ref="jobRequestService"/>
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:jobRequestService-ref="jobRequestService"/>
 		  
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
 	
 	<bean id="fileStreamController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.FileStreamController" />
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:editBookDefinitionService-ref="editBookDefinitionService"
-		  p:jobRequestService-ref="jobRequestService"
-		  p:auditService-ref="eBookAuditService"
-		  p:frontMatterService-ref="createFrontMatterService"
-		  p:bookLockService-ref="bookDefintionLockService">
-		  <property name="validator">
-		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
-		  	p:bookDefinitionService-ref="bookDefinitionService" 
-		  	p:codeService-ref="codeService"
-		  	p:environmentName-ref="environmentName"/>
-		  </property>
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:editBookDefinitionService-ref="editBookDefinitionService"
+		p:jobRequestService-ref="jobRequestService"
+		p:auditService-ref="eBookAuditService"
+		p:frontMatterService-ref="createFrontMatterService"
+		p:bookLockService-ref="bookDefintionLockService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
+			p:bookDefinitionService-ref="bookDefinitionService" 
+			p:codeService-ref="codeService"
+			p:environmentName-ref="environmentName"/>
+		</property>
 	</bean>
 	
 	<bean id="deleteBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:jobRequestService-ref="jobRequestService"
-		  p:auditService-ref="eBookAuditService"
-		  p:bookDefinitionLockService-ref="bookDefintionLockService">
-		  <property name="validator">
-		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionFormValidator"
-		  		p:jobRequestService-ref="jobRequestService"
-		  		p:bookDefinitionLockService-ref="bookDefintionLockService"/>
-		  </property>
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:jobRequestService-ref="jobRequestService"
+		p:auditService-ref="eBookAuditService"
+		p:bookDefinitionLockService-ref="bookDefintionLockService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionFormValidator"
+				p:jobRequestService-ref="jobRequestService"
+				p:bookDefinitionLockService-ref="bookDefintionLockService"/>
+		</property>
 	</bean>
 
 	<bean id="generateEbookController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:environmentName-ref="environmentName"
-		  p:messageSourceAccessor-ref="messageSourceAccessor"
-		  p:jobRequestService-ref="jobRequestService"
-		  p:proviewClient-ref="proviewClient"
-		  p:publishingStatsService-ref="publishingStatsService"
-		  p:managerService-ref="managerService"/>
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:environmentName-ref="environmentName"
+		p:messageSourceAccessor-ref="messageSourceAccessor"
+		p:jobRequestService-ref="jobRequestService"
+		p:proviewClient-ref="proviewClient"
+		p:publishingStatsService-ref="publishingStatsService" 
+		p:managerService-ref="managerService"/>
 		  
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
-		  p:jobService-ref="jobService"
-		  p:generatorRestClient-ref="generatorRestClient"
-		  p:publishingStatsService-ref="publishingStatsService"
-		  p:messageSourceAccessor-ref="messageSourceAccessor"
-		  p:jobSummaryController-ref="jobSummaryController">
-		  <property name="validator">
-		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionFormValidator"/>
-		  </property>
+		p:jobService-ref="jobService"
+		p:generatorRestClient-ref="generatorRestClient"
+		p:publishingStatsService-ref="publishingStatsService"
+		p:messageSourceAccessor-ref="messageSourceAccessor"
+		p:jobSummaryController-ref="jobSummaryController">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionFormValidator"/>
+		</property>
 	</bean>
 	<bean id="jobInstanceController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobInstanceController"
-		  p:jobService-ref="jobService"
-		  p:publishingStatsService-ref="publishingStatsService"/>
+		p:jobService-ref="jobService"
+		p:publishingStatsService-ref="publishingStatsService"/>
 	<bean id="jobStepExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.StepExecutionController"
-		  p:jobService-ref="jobService"
-		  p:publishingStatsService-ref="publishingStatsService"/>	
+		p:jobService-ref="jobService"
+		p:publishingStatsService-ref="publishingStatsService"/>	
 	<bean id="jobSummaryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController"
-		  p:jobService-ref="jobService"
-		  p:generatorRestClient-ref="generatorRestClient"
-		  p:jobExecutionController-ref="jobExecutionController"
-		  p:messageSourceAccessor-ref="messageSourceAccessor">
+		p:jobService-ref="jobService"
+		p:generatorRestClient-ref="generatorRestClient"
+		p:jobExecutionController-ref="jobExecutionController"
+		p:messageSourceAccessor-ref="messageSourceAccessor">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryValidator"/>
 		</property>
 	</bean>	
 	<bean id="jobSummaryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterController"
-		  p:jobService-ref="jobService">
+		p:jobService-ref="jobService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterFormValidator"/>
 		</property>
 	</bean>
 	
 	<bean id="jobQueueController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueController"
-		  p:jobRequestService-ref="jobRequestService">
+		p:jobRequestService-ref="jobRequestService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueFormValidator"/>
 		</property>
 	</bean>
 	
 	<bean id="bookAuditController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditController"
-		  p:auditService-ref="eBookAuditService"/>
+		p:auditService-ref="eBookAuditService"/>
 	
 	<bean id="bookAuditFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterController"
-		  p:auditService-ref="eBookAuditService">
+		p:auditService-ref="eBookAuditService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterFormValidator"/>
 		</property>
 	</bean>
 
 	<bean id="frontMatterPreviewController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview.FmPreviewController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:frontMatterService-ref="createFrontMatterService"/>
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:frontMatterService-ref="createFrontMatterService"/>
 
 	<!-- SECURITY related controllers -->
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.AccessDeniedController"/>
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController"
-			p:environmentName-ref="environmentName"
-			p:proviewDomain-ref="proviewDomain" >
+		p:environmentName-ref="environmentName"
+		p:proviewDomain-ref="proviewDomain"
+		p:userPreferenceService-ref="userPreferenceService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginFormValidator"/>
 		</property>
 	</bean>	
 	
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.smoketest.SmokeTestController"
-			p:environmentName-ref="environmentName"
-			p:proviewDomain-ref="proviewDomain" 
-			p:imageVertical-ref="imageVertical"
-			p:smokeTestService-ref="smokeTestService" />
+		p:environmentName-ref="environmentName"
+		p:proviewDomain-ref="proviewDomain" 
+		p:imageVertical-ref="imageVertical"
+		p:smokeTestService-ref="smokeTestService" />
 	  
 	<bean id="eBookJobHistoryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history.EBookJobHistoryController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:publishingStatsService-ref="publishingStatsService"		
-		  />
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:publishingStatsService-ref="publishingStatsService" />
 		  
 	<bean id="eBookJobMetricsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.metrics.EBookJobMetricsController"
-		  p:bookDefinitionService-ref="bookDefinitionService"
-		  p:publishingStatsService-ref="publishingStatsService"		
-		  />
+		p:bookDefinitionService-ref="bookDefinitionService"
+		p:publishingStatsService-ref="publishingStatsService" />
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
-		 p:proviewClient-ref="proviewClient"/>
-		  
+		p:proviewClient-ref="proviewClient"/>	  
+			  
+	<bean id="userPreferencesController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesController" 
+		p:userPreferenceService-ref="userPreferenceService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesFormValidator"/>
+		</property>
+	</bean>	 
+		 
 </beans>

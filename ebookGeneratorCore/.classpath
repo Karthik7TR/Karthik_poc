@@ -98,5 +98,6 @@
 	<classpathentry kind="lib" path="lib/uuidgenerator-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.47.jar"/>
+	<classpathentry kind="lib" path="lib/commons-validator-1.4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

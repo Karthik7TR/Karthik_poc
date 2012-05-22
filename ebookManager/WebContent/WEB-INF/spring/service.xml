@@ -59,6 +59,9 @@
 	
 	<bean id="jobCleanupService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobCleanupServiceImpl"
 		 p:jobCleanupDao-ref="jobCleanupDao"/>
+		 
+	<bean id="userPreferenceService" class="com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl"
+		 p:userPreferenceDao-ref="userPreferenceDao"/>
 	
 	<bean id="serverAccessService" class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
 		  p:jobCleanupService-ref="jobCleanupService"/>  

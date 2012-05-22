@@ -20,8 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 
 /**
  * Security and login/authentication URL handlers.
@@ -32,6 +38,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 public class LoginController {
 	
 	private static final Logger log = Logger.getLogger(LoginController.class);
+	
+	private UserPreferenceService preferenceService;
 
 	/** Validator for the login form - username and password */
 	private Validator validator;
@@ -87,7 +95,28 @@ public class LoginController {
 			log.debug("Session ID="+httpSession.getId());
 		}
 		
-		return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_LIBRARY_LIST));
+		// Load user preferences
+		UserPreferencesForm preferenceForm = new UserPreferencesForm();
+		String username = UserUtils.getAuthenticatedUserName();
+		preferenceForm.load(preferenceService.findByUsername(username));
+		
+		// Save filters in session
+		BookLibraryFilterForm libraryFilterForm = new BookLibraryFilterForm();
+		libraryFilterForm.setProviewDisplayName(preferenceForm.getLibraryFilterProviewName());
+		libraryFilterForm.setTitleId(preferenceForm.getLibraryFilterTitleId());
+		httpSession.setAttribute(BookLibraryFilterForm.FORM_NAME, libraryFilterForm);
+		
+		BookAuditFilterForm auditFilterForm = new BookAuditFilterForm();
+		auditFilterForm.setProviewDisplayName(preferenceForm.getAuditFilterProviewName());
+		auditFilterForm.setTitleId(preferenceForm.getAuditFilterTitleId());
+		httpSession.setAttribute(BookAuditFilterForm.FORM_NAME, auditFilterForm);
+		
+		FilterForm jobSummaryFilterForm = new FilterForm();
+		jobSummaryFilterForm.setProviewDisplayName(preferenceForm.getJobSummaryFilterProviewName());
+		jobSummaryFilterForm.setTitleId(preferenceForm.getJobSummaryFilterTitleId());
+		httpSession.setAttribute(FilterForm.FORM_NAME, jobSummaryFilterForm);
+		
+		return new ModelAndView(new RedirectView(preferenceForm.getURL()));
 	}
 	
 	/**
@@ -130,5 +159,9 @@ public class LoginController {
 		this.proviewDomain = domain;
 	}
 	
+	@Required
+	public void setUserPreferenceService(UserPreferenceService service) {
+		this.preferenceService = service;
+	}
 	
 }

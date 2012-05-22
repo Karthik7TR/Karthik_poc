@@ -511,7 +511,7 @@ public class EditBookDefinitionFormValidatorTest {
     	
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.document.guid.duplicate", errors.getFieldError("excludeDocuments[1].documentGuid").getCode());
+		Assert.assertEquals("error.duplicate", errors.getFieldError("excludeDocuments[1].documentGuid").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
