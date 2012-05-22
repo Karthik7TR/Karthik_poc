@@ -36,6 +36,13 @@ public interface EBookAssemblyService
      * @return
      */
     
-	public double getLargestContent(String contentFolderPath, String fileExtention);
+	public long getLargestContent(String contentFolderPath, String fileExtention);
+	
+	/**
+	 *	gets list of documents in given folder location. 
+	 * @param contentFolderPath
+	 * @return
+	 */
+	public long getDocumentCount(String contentFolderPath);
     
 }

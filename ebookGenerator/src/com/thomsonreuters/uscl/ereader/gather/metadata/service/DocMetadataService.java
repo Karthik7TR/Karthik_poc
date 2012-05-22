@@ -48,8 +48,9 @@ public interface DocMetadataService {
 			String collectionName, File metadataFile) throws Exception;
 
 	/**
+	 * @return 
 	 */
-	public void updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception;
+	public int updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception;
 	
 	/**
 	 * Retrieves the full set of document metadata for a given title.

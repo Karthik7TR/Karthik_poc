@@ -8,11 +8,8 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -53,22 +50,16 @@ public class AssembleEbook extends AbstractSbTasklet {
 		
 		//TODO: Consider defining the time spent in assembly as a JODA-Time interval.
 		LOG.debug("Assembled eBook in " + elapsedTime + " milliseconds");
-		double gzipLength = eBookFile.length();
+		long gzipLength = eBookFile.length();
 		
-		/**
-		 * save book size in bytes so that we would not lose any quantity in unit conversion and rounding. 
-		 * We can convert bytes to KB/ MB while displaying in UI 
-		 */
-		
-		double  gzipeSizeInMB = (double)gzipLength/(1024*1024);
-		double gzipeSizeInKB = (int)gzipLength/1024;
 		updateAssembleEbookStats(gzipLength,jobInstanceId,eBookDirectoryPath );
+		updateTitleDocumentCount(jobInstanceId, eBookDirectoryPath);
 		
 		
 		return ExitStatus.COMPLETED;
 	}
 	
-	private void updateAssembleEbookStats(double gzipeSize,Long jobId,String eBookDirectoryPath) {
+	private void updateAssembleEbookStats(long gzipeSize,Long jobId,String eBookDirectoryPath) {
 
 		File docFile = new File(eBookDirectoryPath);
 		File finalDocDir = new File(docFile,"documents");
@@ -77,25 +68,32 @@ public class AssembleEbook extends AbstractSbTasklet {
 		String documentsPath = finalDocDir.getAbsolutePath();
 		String pdfImagePath = finalPdfImageDir.getAbsolutePath();
 		
-		double largestDocuent = eBookAssemblyService.getLargestContent(documentsPath ,".html");
-		double largestPdf = eBookAssemblyService.getLargestContent(pdfImagePath,".pdf");
-		double largestImage = eBookAssemblyService.getLargestContent(pdfImagePath,".png,.jpeg,.gif");
-
+		long largestDocuent = eBookAssemblyService.getLargestContent(documentsPath ,".html");
+		long largestPdf = eBookAssemblyService.getLargestContent(pdfImagePath,".pdf");
+		long largestImage = eBookAssemblyService.getLargestContent(pdfImagePath,".png,.jpeg,.gif");
 		
 		PublishingStats jobstatsFormat = new PublishingStats();
 		jobstatsFormat.setJobInstanceId(jobId);
-		jobstatsFormat.setLargestDocSize((long)largestDocuent);
-		jobstatsFormat.setLargestImageSize((long)largestImage);
-		jobstatsFormat.setLargestPdfSize((long)largestPdf);
-		jobstatsFormat.setBookSize((long)gzipeSize);
-		
-		
-		LOG.debug("largestDocuent ="+largestDocuent);
-		LOG.debug("largestPdf ="+largestPdf);
-		LOG.debug("largestImage ="+largestImage);
-		LOG.debug("gzipeSize ="+gzipeSize);
-		
+		jobstatsFormat.setLargestDocSize(largestDocuent);
+		jobstatsFormat.setLargestImageSize(largestImage);
+		jobstatsFormat.setLargestPdfSize(largestPdf);
+		jobstatsFormat.setBookSize(gzipeSize);
+	
 		publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.ASSEMBLEDOC);
+		
+	}
+	
+	private void updateTitleDocumentCount(Long jobId,String eBookDirectoryPath){
+		File docFile = new File(eBookDirectoryPath);
+		File finalDocDir = new File(docFile,"documents");
+		String documentsPath = finalDocDir.getAbsolutePath();
+
+		
+		double titleDocumentCount = eBookAssemblyService.getDocumentCount(documentsPath);
+		PublishingStats jobstatsTitle = new PublishingStats();
+		jobstatsTitle.setJobInstanceId(jobId);
+		jobstatsTitle.setTitleDocCount((int)titleDocumentCount);
+		publishingStatsService.updatePublishingStats(jobstatsTitle, StatsUpdateTypeEnum.TITLEDOC);
 		
 	}
 	

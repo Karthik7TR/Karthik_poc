@@ -120,9 +120,10 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	/**
 	 */
 	@Transactional
-	public void updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception {
+	public int updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception {
 
 		//Dedupe the document family records.
+		int duplicateDocCounter =0; 
 		DocumentMetadataAuthority docAuthority = findAllDocMetadataForTitleByJobId(jobInstanceId);
 		Map<String, Integer> familyAuth = new HashMap<String, Integer>();
 		for (DocMetadata docMeta : docAuthority.getAllDocumentMetadata())
@@ -133,12 +134,14 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 				docMeta.setProviewFamilyUUIDDedup(dedupValue);
 				updateDocMetadata(docMeta);
 				familyAuth.put(docMeta.getDocFamilyUuid(), dedupValue);
+				duplicateDocCounter++;
 			}
 			else
 			{
 				familyAuth.put(docMeta.getDocFamilyUuid(), 0);
 			}
 		}
+		return duplicateDocCounter;
 	}
 
 	@Required

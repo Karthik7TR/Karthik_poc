@@ -18,11 +18,14 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step persists the Novus Metadata xml to DB.
@@ -36,6 +39,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 			.getLogger(PersistMetadataXMLTask.class);
 	private DocMetadataService docMetadataService;
 	private BookDefinitionService bookDefnService;
+	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -73,16 +77,27 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 						jobInstanceId, docCollectionName, metadataFile);
 				numDocsMetaDataRun++;
 			}
-			// TODO: Improve metrics
 			LOG.debug("Persisted " + numDocsMetaDataRun
 					+ " Metadata XML files from "
 					+ metaDataDirectory.getAbsolutePath());
 		}
 		
-		docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
-		
-		// TODO: add else?
+		int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
+		updateTitleDocCountStats(jobInstanceId,dupDocCount);
 		return ExitStatus.COMPLETED;
+	}
+
+	private void updateTitleDocCountStats(Long jobId,int titleDupDocCount) 
+	{
+		
+		PublishingStats jobstatsFormat = new PublishingStats();
+		jobstatsFormat.setJobInstanceId(jobId);
+		jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
+		
+		LOG.debug("titleDupDocCount ="+titleDupDocCount);
+
+		publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.TITLEDUPDOCCOUNT);
+		
 	}
 
 	@Required
@@ -93,6 +108,11 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 	@Required
 	public void setBookDefnService(BookDefinitionService bookDefnService) {
 		this.bookDefnService = bookDefnService;
+	}
+	@Required
+	public void setPublishingStatsService(
+			PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 
 }

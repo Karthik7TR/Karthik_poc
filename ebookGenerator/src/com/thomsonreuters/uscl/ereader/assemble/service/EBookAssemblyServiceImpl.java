@@ -83,10 +83,25 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 		
 	}
 	/**
+	 * gets list of documents in Document folder
+	 * @param contentFolderPath
+	 * @return
+	 */
+	@Override
+	public long getDocumentCount(final String contentFolderPath)
+	{
+		
+		long docCount = 0; 
+		File contentDir = new File(contentFolderPath); 
+		File fileList[] = contentDir.listFiles();
+		docCount = fileList.length;
+		return docCount; 
+	}
+	/**
 	 * gets back largest content file size for passed in file path and content type (file Extention)
 	 */
 	@Override
-	public double getLargestContent(final String contentFolderPath,String fileExtention)
+	public long getLargestContent(final String contentFolderPath,String fileExtention)
 	{
 		CharSequence charSeq = ",";
 		boolean multiExtention= false; 
@@ -94,7 +109,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 			multiExtention = true;
 		}
 		
-		double largestFileSize = 0; 
+		long largestFileSize = 0; 
 		File contentDri = new File(contentFolderPath); 
 		File fileList[] = contentDri.listFiles();
 		for (File file : fileList) {

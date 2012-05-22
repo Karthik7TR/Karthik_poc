@@ -153,7 +153,8 @@
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask"
 				p:docMetadataService-ref="docMetadataService"				
-				p:bookDefnService-ref="bookDefinitionService"/>
+				p:bookDefnService-ref="bookDefinitionService"
+				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask"
 				p:imageService-ref="imageService"
 				p:publishingStatsService-ref="publishingStatsService"/>
