@@ -55,17 +55,18 @@ public class GenerateEbookController {
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			WebConstants.DATE_FORMAT_PATTERN);
-	String newMajorVersion;
-	String newMinorVersion;
-	String currentVersion;
 
 	/**
 	 * 
-	 * @param currentVersion
 	 * @param model
+	 * @param form
+	 * @param currentVersion
 	 */
-	private void calculateVersionNumbers(Model model) {
+	private void calculateVersionNumbers(Model model, GenerateBookForm form,
+			String currentVersion) {
 
+		String newMajorVersion;
+		String newMinorVersion;
 		String majorPart;
 		String minorPart;
 		Integer newMajorPartInteger;
@@ -105,16 +106,23 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
 
+		form.setNewMajorVersion(newMajorVersion);
+		form.setNewMinorVersion(newMinorVersion);
+		model.addAttribute(GenerateBookForm.FORM_NAME, form);
+
 	}
 
 	/**
 	 * 
-	 * @param titleId
 	 * @param model
+	 * @param form
+	 * @param titleId
 	 * @throws Exception
 	 */
-	private void setModelVersion(String titleId, Model model) throws Exception {
+	private void setModelVersion(Model model, GenerateBookForm form,
+			String titleId) throws Exception {
 
+		String currentVersion;
 		try {
 
 			ProviewTitleInfo proviewTitleInfo = proviewClient
@@ -128,7 +136,7 @@ public class GenerateEbookController {
 
 			}
 
-			calculateVersionNumbers(model);
+			calculateVersionNumbers(model, form, currentVersion);
 
 		} catch (ProviewException e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
@@ -140,6 +148,7 @@ public class GenerateEbookController {
 	/**
 	 * 
 	 * @param bookDefinitionId
+	 * @param book
 	 * @param model
 	 */
 	private void setModelMaterialIdandIsbn(Long bookDefinitionId,
@@ -239,7 +248,8 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
 					book.getEbookDefinitionCompleteFlag());
 
-			setModelVersion(book.getFullyQualifiedTitleId(), model);
+			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
+			setModelVersion(model, form, book.getFullyQualifiedTitleId());
 			setModelMaterialIdandIsbn(id, book, model);
 
 		}
@@ -256,13 +266,13 @@ public class GenerateEbookController {
 	 * 
 	 * @param form
 	 * @param model
+	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
 	public ModelAndView doPost(
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
-			Model model,
-			HttpSession session) {
+			Model model, HttpSession session) {
 
 		log.debug(form);
 
@@ -279,15 +289,16 @@ public class GenerateEbookController {
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
 
-			String version = form.isMajorVersion() ? newMajorVersion : newMinorVersion;
+			String version = form.isMajorVersion() ? form.getNewMajorVersion()
+					: form.getNewMinorVersion();
 			Integer priority;
 			String submittedBy = UserUtils.getAuthenticatedUserName();
 
 			BookDefinition book = bookDefinitionService
 					.findBookDefinitionByEbookDefId(form.getId());
 
-			boolean jobAlreadyQueued = jobRequestService.isBookInJobRequest(book
-					.getEbookDefinitionId());
+			boolean jobAlreadyQueued = jobRequestService
+					.isBookInJobRequest(book.getEbookDefinitionId());
 
 			if (jobAlreadyQueued) {
 				Object[] args = { book.getFullyQualifiedTitleId(),
@@ -304,11 +315,15 @@ public class GenerateEbookController {
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				log.error(errMessage);
 			} else {
-				JobExecution runningJobExecution = managerService.findRunningJob(book.getEbookDefinitionId(), version);
+				JobExecution runningJobExecution = managerService
+						.findRunningJob(book.getEbookDefinitionId(), version);
 				if (runningJobExecution != null) {
-					Object[] args = { book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString() };
-					String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);			
+					Object[] args = { book.getFullyQualifiedTitleId(), version,
+							runningJobExecution.getId().toString() };
+					String infoMessage = messageSourceAccessor.getMessage(
+							"mesg.job.enqueued.in.progress", args);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+							infoMessage);
 				} else {
 
 					try {
@@ -317,19 +332,21 @@ public class GenerateEbookController {
 						} else {
 							priority = 5;
 						}
-	
+
 						jobRequestService.saveQueuedJobRequest(book, version,
 								priority, submittedBy);
-	
-						// Report success to user in informational message on page
+
+						// Report success to user in informational message on
+						// page
 						Object[] args = { book.getFullyQualifiedTitleId(),
 								queuePriorityLabel };
 						String infoMessage = messageSourceAccessor.getMessage(
 								"mesg.job.enqueued.success", args);
 						model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 								infoMessage);
-	
-						// Set Published Once Flag to prevent user from editing Book
+
+						// Set Published Once Flag to prevent user from editing
+						// Book
 						// Title ID
 						if (!book.getPublishedOnceFlag()) {
 							bookDefinitionService.updatePublishedStatus(
@@ -343,7 +360,8 @@ public class GenerateEbookController {
 						String errMessage = messageSourceAccessor.getMessage(
 								"mesg.job.enqueued.fail", args);
 						log.error(errMessage, e);
-						model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+						model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+								errMessage);
 					}
 				}
 			}
@@ -365,7 +383,8 @@ public class GenerateEbookController {
 			break;
 		}
 		case CANCEL: {
-			session.setAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL, "Book generation cancelled");
+			session.setAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL,
+					"Book generation cancelled");
 			mav = new ModelAndView(new RedirectView(
 					WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
 			break;
@@ -443,6 +462,7 @@ public class GenerateEbookController {
 	public JobRequestService getJobRequestService() {
 		return jobRequestService;
 	}
+
 	@Required
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
@@ -451,11 +471,13 @@ public class GenerateEbookController {
 	public PublishingStatsService getPublishingStatsService() {
 		return publishingStatsService;
 	}
+
 	@Required
 	public void setPublishingStatsService(
 			PublishingStatsService publishingStatsService) {
 		this.publishingStatsService = publishingStatsService;
 	}
+
 	@Required
 	public void setManagerService(ManagerService service) {
 		this.managerService = service;

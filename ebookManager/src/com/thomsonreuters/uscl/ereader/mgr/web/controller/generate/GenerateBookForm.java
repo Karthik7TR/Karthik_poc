@@ -8,16 +8,36 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-
 public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
-	public enum Command { EDIT, GENERATE, CANCEL };
-	
+
+	public enum Command {
+		EDIT, GENERATE, CANCEL
+	};
+
 	private boolean highPriorityJob;
 	private boolean majorVersion;
-	private String fullTitleId;
+	private String fullyQualifiedTitleId;
 	private Command command;
 	private Long id;
+	private String newMajorVersion;
+	private String newMinorVersion;
+
+	public String getNewMajorVersion() {
+		return newMajorVersion;
+	}
+
+	public void setNewMajorVersion(String newMajorVersion) {
+		this.newMajorVersion = newMajorVersion;
+	}
+
+	public String getNewMinorVersion() {
+		return newMinorVersion;
+	}
+
+	public void setNewMinorVersion(String newMinorVersion) {
+		this.newMinorVersion = newMinorVersion;
+	}
 
 	public Long getId() {
 		return id;
@@ -43,9 +63,8 @@ public class GenerateBookForm {
 		this.majorVersion = majorVersion;
 	}
 
-
 	public String getFullyQualifiedTitleId() {
-		return this.fullTitleId;
+		return this.fullyQualifiedTitleId;
 	}
 
 	public boolean isHighPriorityJob() {
@@ -56,8 +75,8 @@ public class GenerateBookForm {
 		this.highPriorityJob = high;
 	}
 
-	public void setFullyQualifiedTitleId(String fullTitleId) {
-		this.fullTitleId = fullTitleId;
+	public void setFullyQualifiedTitleId(String fullyQualifiedTitleId) {
+		this.fullyQualifiedTitleId = fullyQualifiedTitleId;
 	}
 
 	public String toString() {

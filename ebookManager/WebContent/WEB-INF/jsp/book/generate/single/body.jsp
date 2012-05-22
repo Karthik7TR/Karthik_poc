@@ -191,6 +191,8 @@
 			<td>
 				<form:hidden path="fullyQualifiedTitleId"/>
 				<form:hidden path="command"/>
+				<form:hidden path="newMajorVersion"/>
+				<form:hidden path="newMinorVersion"/>
 				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>
