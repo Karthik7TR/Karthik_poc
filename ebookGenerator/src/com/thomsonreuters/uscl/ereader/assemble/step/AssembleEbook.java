@@ -84,10 +84,10 @@ public class AssembleEbook extends AbstractSbTasklet {
 		
 		PublishingStats jobstatsFormat = new PublishingStats();
 		jobstatsFormat.setJobInstanceId(jobId);
-		jobstatsFormat.setLargestDocSize((int)largestDocuent);
-		jobstatsFormat.setLargestImageSize((int)largestImage);
-		jobstatsFormat.setLargestPdfSize((int)largestPdf);
-		jobstatsFormat.setBookSize((int)gzipeSize);
+		jobstatsFormat.setLargestDocSize((long)largestDocuent);
+		jobstatsFormat.setLargestImageSize((long)largestImage);
+		jobstatsFormat.setLargestPdfSize((long)largestPdf);
+		jobstatsFormat.setBookSize((long)gzipeSize);
 		
 		
 		LOG.debug("largestDocuent ="+largestDocuent);

@@ -6,18 +6,14 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.metrics;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -28,9 +24,6 @@ public class EBookJobMetricsController {
 
 	private PublishingStatsService publishingStatsService;
 	private BookDefinitionService bookDefinitionService;
-
-	
-
 
 	/**
 	 * 

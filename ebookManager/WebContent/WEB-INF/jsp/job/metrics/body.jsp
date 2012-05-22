@@ -154,7 +154,41 @@
 		<td>${publishingStats.lastUpdated}</td>
 	</tr>
 	
-		
+	<tr>
+		<td><b>Book Size</b></td> 
+		<td>
+			<c:if test="${ publishingStats.bookSize != null }">
+				${publishingStats.bookSize} (${publishingStats.bookSizeHumanReadable})
+			</c:if>
+		</td>
+	</tr>
+	
+	<tr>
+		<td><b>Largest Document Size</b></td> 
+		<td>
+			<c:if test="${ publishingStats.largestDocSize != null }">
+				${publishingStats.largestDocSize} (${publishingStats.largestDocSizeHumanReadable})
+			</c:if>
+		</td>
+	</tr>
+	
+	<tr>
+		<td><b>Largest Image Size</b></td> 
+		<td>
+			<c:if test="${ publishingStats.largestImageSize != null }">
+				${publishingStats.largestImageSize} (${publishingStats.largestImageSizeHumanReadable})
+			</c:if>
+		</td>
+	</tr>
+	
+	<tr>
+		<td><b>Largest PDF Size</b></td> 
+		<td>
+			<c:if test="${ publishingStats.largestPdfSize != null }">
+				${publishingStats.largestPdfSize} (${publishingStats.largestPdfSizeHumanReadable})
+			</c:if>
+		</td>
+	</tr>
 </table>		
 	
 	 

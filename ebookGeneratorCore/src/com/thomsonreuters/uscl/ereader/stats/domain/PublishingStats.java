@@ -18,6 +18,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -224,23 +225,23 @@ public class PublishingStats implements Serializable {
 	@Column(name = "BOOK_SIZE")
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	Integer bookSize;
+	Long bookSize;
 
 
 	@Column(name = "LARGEST_DOC_SIZE")
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	Integer largestDocSize;
+	Long largestDocSize;
 	
 	@Column(name = "LARGEST_IMAGE_SIZE")
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	Integer largestImageSize;	
+	Long largestImageSize;	
 
 	@Column(name = "LARGEST_PDF_SIZE")
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	Integer largestPdfSize;	
+	Long largestPdfSize;	
 
 	
 	public Date getPublishStartTimestamp() {
@@ -523,36 +524,69 @@ public class PublishingStats implements Serializable {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
-	public void setBookSize(Integer bookSize) {
+	public void setBookSize(Long bookSize) {
 		this.bookSize = bookSize;
 	}
 
-	public void setLargestDocSize(Integer largestDocSize) {
+	public void setLargestDocSize(Long largestDocSize) {
 		this.largestDocSize = largestDocSize;
 	}
 
-	public void setLargestImageSize(Integer largestImageSize) {
+	public void setLargestImageSize(Long largestImageSize) {
 		this.largestImageSize = largestImageSize;
 	}
 
-	public void setLargestPdfSize(Integer largestPdfSize) {
+	public void setLargestPdfSize(Long largestPdfSize) {
 		this.largestPdfSize = largestPdfSize;
 	}
 
-	public Integer getBookSize() {
+	public Long getBookSize() {
 		return bookSize;
 	}
+	
+	@Transient
+	public String getBookSizeHumanReadable(){
+		return humanReadableByteCount(bookSize);
+	}
 
-	public Integer getLargestDocSize() {
+	public Long getLargestDocSize() {
 		return largestDocSize;
 	}
-
-	public Integer getLargestImageSize() {
-		return largestImageSize;
+	
+	@Transient
+	public String getLargestDocSizeHumanReadable(){
+		return humanReadableByteCount(largestDocSize);
 	}
 
-	public Integer getLargestPdfSize() {
+	public Long getLargestImageSize() {
+		return largestImageSize;
+	}
+	
+	@Transient
+	public String getLargestImageSizeHumanReadable(){
+		return humanReadableByteCount(largestImageSize);
+	}
+
+	public Long getLargestPdfSize() {
 		return largestPdfSize;
+	}
+	
+	@Transient
+	public String getLargestPdfSizeHumanReadable(){
+		return humanReadableByteCount(largestPdfSize);
+	}
+	
+	@Transient
+	private String humanReadableByteCount(Long bytes) {
+		if (bytes != null) {
+		    int unit = 1024;
+		    if (bytes < unit) return bytes + " B";
+		    int exp = (int) (Math.log(bytes) / Math.log(unit));
+		    String pre = ("KMGTPE").charAt(exp-1) + "i";
+		    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
