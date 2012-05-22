@@ -19,10 +19,9 @@
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_BOOK_JOB_HISTORY%>"
-				   pagesize="10"
-				   partialList="true"
-				   size="resultSize"
-				   >
+				   pagesize="20"
+				   defaultsort="1"
+				   defaultorder="descending">
 
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
