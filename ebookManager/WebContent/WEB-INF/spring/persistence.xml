@@ -110,6 +110,7 @@
 	</bean>
 	
 	<bean id="managerDao" class="com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDaoImpl"
-		  p:jdbcTemplate-ref="jdbcTemplate"/>
+		  p:jdbcTemplate-ref="jdbcTemplate"
+		  p:jobExplorer-ref="jobExplorer"/>
 </beans>
 	

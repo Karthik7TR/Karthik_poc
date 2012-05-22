@@ -150,7 +150,7 @@
 		  p:jobRequestService-ref="jobRequestService"
 		  p:proviewClient-ref="proviewClient"
 		  p:publishingStatsService-ref="publishingStatsService"
-		  />
+		  p:managerService-ref="managerService"/>
 		  
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 

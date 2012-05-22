@@ -2,11 +2,21 @@ package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import java.net.InetSocketAddress;
 
+import org.springframework.batch.core.JobExecution;
+
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 
 public interface ManagerService {
+	
+	/**
+	 * Returns the job execution for a job that is running with the specified id and version.
+	 * @param bookDefinitionId id of the book definition 
+	 * @param bookVersion the version number to compare against
+	 * @return the job execution of the matching job, or null if none found
+	 */
+	public JobExecution findRunningJob(long bookDefinitionId, String bookVersion);
 	
 	/**
 	 * 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
@@ -49,6 +51,7 @@ public class GenerateEbookController {
 	private ProviewClient proviewClient;
 	private JobRequestService jobRequestService;
 	private PublishingStatsService publishingStatsService;
+	private ManagerService managerService;
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			WebConstants.DATE_FORMAT_PATTERN);
@@ -276,27 +279,24 @@ public class GenerateEbookController {
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
 
-			String version;
+			String version = form.isMajorVersion() ? newMajorVersion : newMinorVersion;
 			Integer priority;
 			String submittedBy = UserUtils.getAuthenticatedUserName();
 
 			BookDefinition book = bookDefinitionService
 					.findBookDefinitionByEbookDefId(form.getId());
 
-			boolean isInJobRequest = jobRequestService.isBookInJobRequest(book
+			boolean jobAlreadyQueued = jobRequestService.isBookInJobRequest(book
 					.getEbookDefinitionId());
 
-			if (isInJobRequest) {
-
-				if (isInJobRequest) {
-					Object[] args = { book.getFullyQualifiedTitleId(),
-							queuePriorityLabel,
-							"This book is already in the job queue" };
-					String errMessage = messageSourceAccessor.getMessage(
-							"mesg.job.enqueued.fail", args);
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
-					log.error(errMessage);
-				}
+			if (jobAlreadyQueued) {
+				Object[] args = { book.getFullyQualifiedTitleId(),
+						queuePriorityLabel,
+						"This book is already in the job queue" };
+				String errMessage = messageSourceAccessor.getMessage(
+						"mesg.job.enqueued.fail", args);
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+				log.error(errMessage);
 			} else if (book.isDeletedFlag()) {
 
 				String errMessage = messageSourceAccessor
@@ -304,46 +304,47 @@ public class GenerateEbookController {
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				log.error(errMessage);
 			} else {
+				JobExecution runningJobExecution = managerService.findRunningJob(book.getEbookDefinitionId(), version);
+				if (runningJobExecution != null) {
+					Object[] args = { book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString() };
+					String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);			
+				} else {
 
-				try {
-					if (form.isHighPriorityJob()) {
-						priority = 10;
-					} else {
-						priority = 5;
+					try {
+						if (form.isHighPriorityJob()) {
+							priority = 10;
+						} else {
+							priority = 5;
+						}
+	
+						jobRequestService.saveQueuedJobRequest(book, version,
+								priority, submittedBy);
+	
+						// Report success to user in informational message on page
+						Object[] args = { book.getFullyQualifiedTitleId(),
+								queuePriorityLabel };
+						String infoMessage = messageSourceAccessor.getMessage(
+								"mesg.job.enqueued.success", args);
+						model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+								infoMessage);
+	
+						// Set Published Once Flag to prevent user from editing Book
+						// Title ID
+						if (!book.getPublishedOnceFlag()) {
+							bookDefinitionService.updatePublishedStatus(
+									book.getEbookDefinitionId(), true);
+						}
+					} catch (Exception e) { // Report failure on page in error
+											// message
+											// area
+						Object[] args = { book.getFullyQualifiedTitleId(),
+								queuePriorityLabel, e.getMessage() };
+						String errMessage = messageSourceAccessor.getMessage(
+								"mesg.job.enqueued.fail", args);
+						log.error(errMessage, e);
+						model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 					}
-
-					if (form.isMajorVersion()) {
-						version = newMajorVersion;
-					} else {
-						version = newMinorVersion;
-					}
-
-					jobRequestService.saveQueuedJobRequest(book, version,
-							priority, submittedBy);
-
-					// Report success to user in informational message on page
-					Object[] args = { book.getFullyQualifiedTitleId(),
-							queuePriorityLabel };
-					String infoMessage = messageSourceAccessor.getMessage(
-							"mesg.job.enqueued.success", args);
-					model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
-							infoMessage);
-
-					// Set Published Once Flag to prevent user from editing Book
-					// Title ID
-					if (!book.getPublishedOnceFlag()) {
-						bookDefinitionService.updatePublishedStatus(
-								book.getEbookDefinitionId(), true);
-					}
-				} catch (Exception e) { // Report failure on page in error
-										// message
-										// area
-					Object[] args = { book.getFullyQualifiedTitleId(),
-							queuePriorityLabel, e.getMessage() };
-					String errMessage = messageSourceAccessor.getMessage(
-							"mesg.job.enqueued.fail", args);
-					log.error(errMessage, e);
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				}
 			}
 			model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
@@ -374,20 +375,20 @@ public class GenerateEbookController {
 		return mav;
 	}
 
-	@Required
 	public String getEnvironmentName() {
 		return environmentName;
 	}
 
+	@Required
 	public void setEnvironmentName(String environmentName) {
 		this.environmentName = environmentName;
 	}
 
-	@Required
 	public MessageSourceAccessor getMessageSourceAccessor() {
 		return messageSourceAccessor;
 	}
 
+	@Required
 	public void setMessageSourceAccessor(
 			MessageSourceAccessor messageSourceAccessor) {
 		this.messageSourceAccessor = messageSourceAccessor;
@@ -430,32 +431,34 @@ public class GenerateEbookController {
 		this.bookDefinitionService = service;
 	}
 
-	@Required
 	public ProviewClient getProviewClient() {
 		return proviewClient;
 	}
 
+	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
 	}
 
-	@Required
 	public JobRequestService getJobRequestService() {
 		return jobRequestService;
 	}
-
+	@Required
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
 	}
 
-	@Required
 	public PublishingStatsService getPublishingStatsService() {
 		return publishingStatsService;
 	}
-
+	@Required
 	public void setPublishingStatsService(
 			PublishingStatsService publishingStatsService) {
 		this.publishingStatsService = publishingStatsService;
+	}
+	@Required
+	public void setManagerService(ManagerService service) {
+		this.managerService = service;
 	}
 
 }

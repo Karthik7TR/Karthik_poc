@@ -5,14 +5,36 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public class ManagerDaoImpl implements ManagerDao {
 	private static final Logger log = Logger.getLogger(ManagerDaoImpl.class);
 	private JdbcTemplate jdbcTemplate;
+	private JobExplorer jobExplorer;
+	
+	@Override
+	public JobExecution findRunningJobExecution(Long bookDefinitionId, String bookVersion) {
+		Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(JobRequest.JOB_NAME_CREATE_EBOOK);
+		for (JobExecution jobExec : runningJobs) {
+			JobParameters params = jobExec.getJobInstance().getJobParameters();
+			Long bookDefIdParamValue = params.getLong(JobParameterKey.BOOK_DEFINITION_ID);
+			String bookVersionParamValue = params.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
+			if (bookDefinitionId.equals(bookDefIdParamValue) && bookVersion.equals(bookVersionParamValue)) {
+				return jobExec;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Archive and delete Spring Batch records older than the specified date.
@@ -112,6 +134,10 @@ public class ManagerDaoImpl implements ManagerDao {
 	@Required
 	public void setJdbcTemplate(JdbcTemplate template) {
 		this.jdbcTemplate = template;
+	}
+	@Required
+	public void setJobExplorer(JobExplorer explorer) {
+		this.jobExplorer = explorer;
 	}
 }
 

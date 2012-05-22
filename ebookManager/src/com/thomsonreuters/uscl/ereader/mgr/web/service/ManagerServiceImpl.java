@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -33,6 +34,13 @@ public class ManagerServiceImpl implements ManagerService {
 	private RestTemplate restTemplate;
 	/** The root web application context URL for the ebook generator. */
 	private ManagerDao managerDao;
+	
+	@Override
+	@Transactional(readOnly=true)
+	public JobExecution findRunningJob(long bookDefinitionId, String bookVersion) {
+		JobExecution jobExecution = managerDao.findRunningJobExecution(bookDefinitionId, bookVersion);
+		return jobExecution;
+	}
 	
 	@Override
 	public SimpleRestServiceResponse pushMiscConfiguration(MiscConfig config, String contextName, InetSocketAddress socketAddr) {
