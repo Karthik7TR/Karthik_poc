@@ -114,7 +114,7 @@
 		  
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
 	
-	<bean id="imageController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.ImageController" />
+	<bean id="fileStreamController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.FileStreamController" />
 		  
   	<bean id="editBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController"
 		  p:bookDefinitionService-ref="bookDefinitionService"
