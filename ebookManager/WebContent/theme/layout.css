@@ -377,7 +377,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .frontMatterPage {
-	border: 1px gray solid;
+	border: 2px gray solid;
 	padding:5px;
 }
 
@@ -386,7 +386,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .frontMatterSection {
-	border: 1px gray solid;
+	border: 2px gray solid;
 	padding:5px;
 	margin:5px;
 }
