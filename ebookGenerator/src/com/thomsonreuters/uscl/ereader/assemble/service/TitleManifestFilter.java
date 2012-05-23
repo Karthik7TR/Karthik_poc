@@ -102,9 +102,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String HTML_EXTENSION = ".html";
 	
 	//Front Matter Text
-	private static final String TITLE_PAGE = "TITLE PAGE";
-	private static final String COPYRIGHT_PAGE = "COPYRIGHT PAGE";
-	private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE = "ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE";
+	private static final String TITLE_PAGE = "Title Page";
+	private static final String COPYRIGHT_PAGE = "Copyright Page";
+	private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE = "Additional Information or Research Assistance";
 	private static final String WESTLAW_NEXT = "WestlawNext";
 
 	//ProView element and attribute constants

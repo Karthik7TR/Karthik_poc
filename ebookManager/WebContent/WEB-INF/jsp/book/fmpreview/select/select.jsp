@@ -40,14 +40,14 @@ function openStaticPreviewWindow(url, id, name) {
 <c:if test="${book != null}">
 ${book.frontMatterTocLabel}<br/>
 <div id="frontMatterLinks">
-	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>', '${book.ebookDefinitionId}', 'titleWin')">TITLE PAGE</a><br/>
-	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>', '${book.ebookDefinitionId}', 'copyrightWin')">COPYRIGHT PAGE</a><br/>
+	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>', '${book.ebookDefinitionId}', 'titleWin')">Title Page</a><br/>
+	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>', '${book.ebookDefinitionId}', 'copyrightWin')">Copyright Page</a><br/>
 	<c:forEach items="${book.frontMatterPages}" var="page">
 		<a onclick="win=window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL%>?bookDefinitionId=${book.ebookDefinitionId}&frontMatterPageId=${page.id}', 'additionalWin', '${winSpecs}');win.focus()">
 			${page.pageTocLabel}
 		</a><br/>
 	</c:forEach>
-	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>', '${book.ebookDefinitionId}', 'researchWin')">ADDITIONAL INFO OR RESEARCH ASSISTANCE</a><br/>
+	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>', '${book.ebookDefinitionId}', 'researchWin')">Additional Information or Research Assistance</a><br/>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT%>', '${book.ebookDefinitionId}', 'westlawNextWin')">WestlawNext</a><br/>
 </div>
 </c:if>
