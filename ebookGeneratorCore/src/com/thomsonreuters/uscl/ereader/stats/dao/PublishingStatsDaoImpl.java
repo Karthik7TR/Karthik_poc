@@ -113,7 +113,8 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		} else if (updateType.equals(StatsUpdateTypeEnum.TITLEDOC)) {
 			hql.append("titleDocCount = ");
 			hql.append(jobstats.getTitleDocCount());
-			hql.append(", titleDupDocCount = ");
+		} else if (updateType.equals(StatsUpdateTypeEnum.TITLEDUPDOCCOUNT)) {
+			hql.append("titleDupDocCount = ");
 			hql.append(jobstats.getTitleDupDocCount());
 		} else if (updateType.equals(StatsUpdateTypeEnum.FORMATDOC)) {
 			hql.append("formatDocCount = ");
@@ -140,6 +141,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		hql.append(" where jobInstanceId =  "); // WHERE clause
 		hql.append(jobstats.getJobInstanceId());
 
+		LOG.debug("hql.toString() ="+hql.toString());
 		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());

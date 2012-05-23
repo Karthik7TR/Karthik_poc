@@ -9,12 +9,15 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public class JobRequestDaoImpl implements JobRequestDao {
@@ -72,6 +75,20 @@ public class JobRequestDaoImpl implements JobRequestDao {
 		jobRequest.setPriority(jobPriority);
 		Session session = sessionFactory.getCurrentSession();
 		session.save(jobRequest);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<JobRequest> findAllJobRequestsOrderByPriorityAndSubmitedtime() {
+		StringBuffer hql = new StringBuffer(
+				"select jr from JobRequest jr order by job_priority desc,job_submit_timestamp asc");
+
+		
+		// Create query and populate it with where clause values
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql.toString());
+
+		return (List<JobRequest>) query.list();
 	}
 }
 

@@ -31,4 +31,6 @@ public interface JobRequestDao {
 	public Long saveJobRequest(JobRequest jobRequest);
 	
 	public void updateJobPriority(long jobRequestId, int jobPriority);
+
+	public List<JobRequest> findAllJobRequestsOrderByPriorityAndSubmitedtime();
 }
