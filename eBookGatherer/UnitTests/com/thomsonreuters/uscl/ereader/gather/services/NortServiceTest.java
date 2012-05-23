@@ -132,7 +132,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNovusUtility);	
 			
-			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 			LOG.debug(gatherResponse);
 			
 			// Verify created files and directories
@@ -254,7 +254,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode2);
 			EasyMock.replay(mockNovusUtility);			
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -384,7 +384,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNovusUtility);			
 //			EasyMock.replay(mockpublishingStatsService);
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -511,7 +511,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode2);
 			EasyMock.replay(mockNovusUtility);			
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -628,7 +628,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNovusUtility);	
 			
-			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 			LOG.debug(gatherResponse);
 			
 			// Verify created files and directories
@@ -844,7 +844,7 @@ public class NortServiceTest {
 		GatherResponse gatherResponse = new GatherResponse();
 		try
 		{
-			gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 		}
 		catch (Exception e)
 		{
@@ -894,7 +894,7 @@ public class NortServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null);
 		} 
 		finally
 		{

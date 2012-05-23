@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -53,7 +55,7 @@ public class NortServiceImpl implements NortService {
 	private Integer nortRetryCount;
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
-			int[] counters, int[] iParent, String YYYYMMDDHHmmss)
+			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments)
 			throws GatherException {
 
 		NortNode[] nortNodes = null;
@@ -100,7 +102,7 @@ public class NortServiceImpl implements NortService {
 			counters[RETRYCOUNT] += novusNortRetryCounter;
 			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, iParent,
-					YYYYMMDDHHmmss, tocGuidDateMap);
+					YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
 		} 
 		catch (GatherException e) {
 			LOG.error("Failed with Exception in NORT");
@@ -117,14 +119,14 @@ public class NortServiceImpl implements NortService {
 
 	public boolean printNodes(NortNode[] nodes, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
-			Map<String, String> tocGuidDateMap) throws GatherException,
+			Map<String, String> tocGuidDateMap,	ArrayList<ExcludeDocument> excludeDocuments) throws GatherException,
 			ParseException {
 		boolean docFound = true;
 		if (nodes != null) {
 			try {
 				for (NortNode node : nodes) {
 					docFound = printNode(node, _nortManager, out, counters,
-							iParent, YYYYMMDDHHmmss, tocGuidDateMap);
+							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
 					// if (docFound == false)
 					// {
 					// LOG.debug("docFound set false for " + node.getLabel());
@@ -166,9 +168,11 @@ public class NortServiceImpl implements NortService {
 
 	public boolean printNode(NortNode node, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
-			Map<String, String> tocGuidDateMap) throws GatherException,
+			Map<String, String> tocGuidDateMap, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException,
 			NovusException, ParseException {
 		boolean docFound = true;
+		boolean excludeDocumentFound = false;
+		String documentGuid = null;
 
 		// skip empty node or subsection node
 		if (node != null
@@ -179,14 +183,30 @@ public class NortServiceImpl implements NortService {
 			StringBuffer name = new StringBuffer();
 			StringBuffer tocGuid = new StringBuffer();
 			StringBuffer docGuid = new StringBuffer();
-
-			counters[NODECOUNT]++;
-
-			tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
-					.append(node.getGuid().replaceAll("\\<.*?>", ""))
-					.append(counters[NODECOUNT])
-					.append(EBConstants.TOC_END_GUID_ELEMENT);
-
+			
+			counters[NODECOUNT]++;			
+			
+			if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null) {
+				docFound = true;
+				documentGuid = node.getPayloadElement(
+				"/n-nortpayload/n-doc-guid").replaceAll(
+						"\\<.*?>", "");
+				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)){
+					for (ExcludeDocument excludeDocument : excludeDocuments) {
+						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
+							excludeDocumentFound = true;
+					} 
+					}
+				} 
+			}
+				
+			if (!excludeDocumentFound) {
+				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
+						.append(node.getGuid().replaceAll("\\<.*?>", ""))
+						.append(counters[NODECOUNT])
+						.append(EBConstants.TOC_END_GUID_ELEMENT);
+			}
+				
 			if (Long.valueOf(node
 					.getPayloadElement("/n-nortpayload/n-end-date")) > Long
 					.valueOf(YYYYMMDDHHmmss))
@@ -194,6 +214,7 @@ public class NortServiceImpl implements NortService {
 			// TODO: If NOVUS api is changed add back
 			// _nortManager.setNortVersion and remove above.
 			{
+				if (!excludeDocumentFound){
 				if (node.getLabel() == null ) // Fail with empty Name
 				{
 					String err = "Failed with empty node Label for guid " + node.getGuid();
@@ -287,16 +308,15 @@ public class NortServiceImpl implements NortService {
 							.append(node.getLabel().replaceAll("\\<.*?>", ""))
 							.append(EBConstants.TOC_END_NAME_ELEMENT);
 				}
-
-				if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null) {
+				
+				if (docFound) {
+					docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
+					.append(documentGuid)
+					.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
 					docFound = true;
 					counters[DOCCOUNT]++;
-					docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
-							.append(node.getPayloadElement(
-									"/n-nortpayload/n-doc-guid").replaceAll(
-									"\\<.*?>", ""))
-							.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
 				}
+				
 
 				if (node.getChildrenCount() == 0) {
 					if (docFound == false) {
@@ -330,6 +350,8 @@ public class NortServiceImpl implements NortService {
 							GatherResponse.CODE_FILE_ERROR);
 					throw ge;
 				}
+			}
+				
 
 				NortNode[] nortNodes = null;
 				Integer novusNortRetryCounter = 0;
@@ -372,7 +394,7 @@ public class NortServiceImpl implements NortService {
 					}
 
 					docFound = printNodes(nortNodes, _nortManager, out,
-							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap);
+							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
 				}
 
 			} else {
@@ -398,7 +420,7 @@ public class NortServiceImpl implements NortService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String domainName,
-			String expressionFilter, File nortXmlFile, Date cutoffDate)
+			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments)
 			throws GatherException {
 		NortManager _nortManager = null;
 		Writer out = null;
@@ -433,7 +455,7 @@ public class NortServiceImpl implements NortService {
 			out.write(EBConstants.TOC_XML_ELEMENT);
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss);
+			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss, excludeDocuments);
 
 			LOG.info(counters[DOCCOUNT] + " documents " + counters[SKIPCOUNT]
 					+ " skipped nodes  and " + counters[NODECOUNT]

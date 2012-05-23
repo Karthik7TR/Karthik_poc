@@ -8,7 +8,9 @@ package com.thomsonreuters.uscl.ereader.gather.step;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
@@ -24,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
@@ -63,6 +66,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 		// NORT
 		String nortDomainName = bookDefinition.getNortDomain();
 		String nortExpressionFilter = bookDefinition.getNortFilterView();
+		ArrayList<ExcludeDocument> excludeDocuments = (ArrayList<ExcludeDocument>) bookDefinition.getExcludeDocuments();
 		
 		Date nortCutoffDate = null;
 		
@@ -74,7 +78,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 
 		if(tocCollectionName != null) // TOC
 		{
-		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile);
+		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments);
 		LOG.debug(gatherTocRequest);
 	
 		gatherResponse = gatherService.getToc(gatherTocRequest);
@@ -82,7 +86,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 		else if(nortDomainName != null) // NORT
 		{
 //			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
-			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate);
+			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments);
 			LOG.debug(gatherNortRequest);
 	
 			gatherResponse = gatherService.getNort(gatherNortRequest);

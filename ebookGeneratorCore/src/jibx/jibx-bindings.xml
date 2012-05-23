@@ -55,6 +55,13 @@
         <value name="guid" field="guid" usage="required"/>
         <value name="collectionName" field="collectionName" usage="required"/>
         <value name="tocFile" field="tocFile" usage="required"/>
+	    	<collection field="excludeDocuments" usage="optional">
+		    	<structure name="excludeDocument" type="com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument" usage="optional" value-style="attribute">
+		    		<value name="documentGuid" field="documentGuid" usage="required"/>
+		    		<value name="note" field="note" usage="required"/>
+		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		    	</structure>
+	    	</collection>        
     </mapping>
     
     <!-- Gather table of contents (nort) service REST request body -->
@@ -62,7 +69,14 @@
         <value name="domainName" field="domainName" usage="required"/>
         <value name="expressionFilter" field="expressionFilter" usage="required"/>
         <value name="nortFile" field="nortFile" usage="required"/>
-		<value name="cutoffDate" field="cutoffDate" usage="optional"/>        
+		<value name="cutoffDate" field="cutoffDate" usage="optional"/>
+	    	<collection field="excludeDocuments" usage="optional">
+		    	<structure name="excludeDocument" type="com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument" usage="optional" value-style="attribute">
+		    		<value name="documentGuid" field="documentGuid" usage="required"/>
+		    		<value name="note" field="note" usage="required"/>
+		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		    	</structure>
+	    	</collection>
     </mapping>
   
 </binding>

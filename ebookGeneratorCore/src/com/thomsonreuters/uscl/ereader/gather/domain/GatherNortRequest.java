@@ -7,10 +7,16 @@
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 
 public class GatherNortRequest {
 
@@ -18,22 +24,21 @@ public class GatherNortRequest {
 	private String domainName;
 	private String expressionFilter;
 	private File nortFile;
-//	private Long jobInstance;
+	private ArrayList<ExcludeDocument> excludeDocuments;
 
 	public GatherNortRequest(){
 		super();
 	}
 	
-//	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, long jobInstance) {
-	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate) {
+	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
 		this.nortFile = nortFile;
 		this.cutoffDate = cutoffDate;
-//		this.jobInstance = jobInstance;
+		this.excludeDocuments = excludeDocuments;
 	}
-
+	
 	public String getDomainName() {
 		return domainName;
 	}
@@ -57,6 +62,13 @@ public class GatherNortRequest {
 
 	public void setNortFile(File nortFile) {
 		this.nortFile = nortFile;
+	}
+	public ArrayList<ExcludeDocument> getExcludeDocuments() {
+		return excludeDocuments;
+	}
+	
+	public void setExcludeDocuments(ArrayList<ExcludeDocument> excludeDocuments) {
+		this.excludeDocuments = excludeDocuments;
 	}
 	public void setCutoffDate(Date cutoffDate) {
 		this.cutoffDate = cutoffDate;
@@ -109,6 +121,7 @@ public class GatherNortRequest {
 			return false;
 		return true;
 	}
+
 
 //	public void setJobInstance(Long jobInstance) {
 //		this.jobInstance = jobInstance;

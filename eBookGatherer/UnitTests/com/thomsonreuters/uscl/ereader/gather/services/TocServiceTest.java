@@ -16,10 +16,12 @@ import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -41,6 +43,7 @@ public class TocServiceTest {
 	private File tocDir = null;
 	private static Logger LOG = Logger.getLogger(TocServiceTest.class);
 	private NovusUtility mockNovusUtility;
+	private ExcludeDocument mockExcludeDocument;
 	private GatherResponse gatherResponse;
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -53,7 +56,8 @@ public class TocServiceTest {
 		this.mockTocNode = EasyMock.createMock(TOCNode.class);
 //		mockTocRootNode = new TOCNode[]{mockTocNode};
 		this.mockTocRootNode = EasyMock.createMock(TOCNode.class);
-		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);	
+		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);
+		this.mockExcludeDocument = EasyMock.createMock(ExcludeDocument.class);
 
 		// The object under test
 		this.tocService = new TocServiceImpl();
@@ -99,7 +103,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -168,7 +172,7 @@ public class TocServiceTest {
 
 	
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null);
 		} 
 		catch (Exception e)
 		{
@@ -226,7 +230,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockTocNode);
 		EasyMock.replay(mockNovusUtility);		
 		try {
-			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -286,7 +290,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null);
 		} 
 		finally
 		{
@@ -341,6 +345,89 @@ public class TocServiceTest {
 		return childNodes;
 	}
 	
+	@Ignore
+		public void testGetTocDataExcludedDocsFromNovus() throws Exception {
+	
+			File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
+	
+			// Record expected calls
+			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("1").anyTimes();		
+			EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
+			mockToc.setCollection(COLLECTION_NAME);
+			mockToc.setShowChildrenCount(true);
+			TOCNode[] children = new TOCNode[]{};
+	        PublishingStats jobstats = new PublishingStats();
+	        jobstats.setJobInstanceId((long) 1);
+	        jobstats.setGatherTocDocCount(1);
+	        jobstats.setGatherTocNodeCount(1);
+	        jobstats.setPublishStatus("TEST");
+	       
+	
+			mockTocRootNode = mockTocNode;
+			
+			children = getChildNodes(5, 'a', 1).toArray(new TOCNode[]{});
+	//		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
+			EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
+			EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
+			EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
+			EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
+			EasyMock.expect(mockTocNode.getChildren()).andReturn(children).anyTimes();
+		
+			
+			//EasyMock.expect(mockToc.getRootNodes()).andReturn(tocNodes);
+			mockNovus.shutdownMQ();
+			tocDir.mkdirs();
+	
+			// Set up for replay
+			EasyMock.replay(mockNovusFactory);
+			EasyMock.replay(mockNovus);
+			EasyMock.replay(mockToc);
+			EasyMock.replay(mockTocNode);
+			EasyMock.replay(mockNovusUtility);		
+			try {
+				ArrayList<ExcludeDocument> excludeDocuments = new ArrayList();
+				mockExcludeDocument.setDocumentGuid("UUID_1a");
+				excludeDocuments.add(mockExcludeDocument);
+				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Assert.fail(e.getMessage());
+			}
+			finally {
+				// Temporary file will clean up after itself.
+			}
+			LOG.debug(gatherResponse);
+			assertTrue(gatherResponse.docCount == 3);
+			assertTrue(gatherResponse.nodeCount == 7);
+			
+			String tocFileContents = readFileAsString(tocFile);
+			LOG.debug("tocFileContents =" + tocFileContents);
+			assertTrue(tocFileContents != null);
+			
+			StringBuffer expectedTocContent = new StringBuffer(1000);
+	
+			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+			expectedTocContent.append("<EBook>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>TOC_UUID_0a</Guid><DocumentGuid>UUID_0a</DocumentGuid>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>TOC_UUID_0b</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+			expectedTocContent.append("</EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 1a</Name><Guid>TOC_UUID_1a</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
+//			expectedTocContent.append("<EBookToc><Name>Child 2a</Name><Guid>TOC_UUID_2a</Guid><DocumentGuid>UUID_2a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 3a</Name><Guid>TOC_UUID_3a</Guid><DocumentGuid>UUID_3a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("<EBookToc><Name>Child 4a</Name><Guid>TOC_UUID_4a</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
+			expectedTocContent.append("</EBookToc>\r\n");
+			expectedTocContent.append("</EBook>\r\n");
+			LOG.debug("expectedTocContent =" + expectedTocContent.toString());
+	
+			Assert.assertEquals(expectedTocContent.toString(), tocFileContents);
+			EasyMock.verify(mockNovusFactory);
+			EasyMock.verify(mockNovus);
+			EasyMock.verify(mockToc);
+		}
+
 	/**
 	 * Reads specified file and returns in string format.this is a helper method.
 	 * @param filePath

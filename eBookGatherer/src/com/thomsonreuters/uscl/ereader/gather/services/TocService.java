@@ -7,13 +7,14 @@
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public interface TocService {
 	
-	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile) throws GatherException; 
+	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException; 
 
 }

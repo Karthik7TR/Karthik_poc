@@ -14,10 +14,12 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -43,7 +45,7 @@ public class TocServiceImpl implements TocService {
 	private Integer tocRetryCount;
 
 	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent)
+			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent, ArrayList<ExcludeDocument> excludeDocuments)
 			throws GatherException {
 
 		TOCNode[] tocNodes = null;
@@ -95,7 +97,7 @@ public class TocServiceImpl implements TocService {
 			tocNodes = new TOCNode[1];
 			tocNodes[0] = tocNode;
 			printNodes(tocNodes, _tocManager, out, counter, docCounter,
-					intParent);
+					intParent, excludeDocuments);
 		}  catch (GatherException e) {
 			LOG.error("Failed with GatherException in TOC");
 			throw e;
@@ -109,7 +111,7 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNodes(TOCNode[] nodes, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments)
 			throws GatherException {
 		boolean docFound = true;
 
@@ -117,7 +119,7 @@ public class TocServiceImpl implements TocService {
 			try {
 				for (TOCNode node : nodes) {
 					docFound = printNode(node, _tocManager, out, counter,
-							docCounter, iParent);
+							docCounter, iParent, excludeDocuments);
 				}
 				if (iParent[0] > 0) {
 					if (docFound == false) {
@@ -148,10 +150,26 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNode(TOCNode node, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments)
 			throws GatherException, NovusException {
 		boolean docFound = true;
+		boolean excludeDocumentFound = false;
+		String documentGuid = null;
+		
 		if (node != null) {
+			documentGuid = node.getDocGuid();
+			if (documentGuid != null) {
+				documentGuid = documentGuid.replaceAll("\\<.*?>", "");
+				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)){
+					for (ExcludeDocument excludeDocument : excludeDocuments) {
+						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
+							excludeDocumentFound = true;
+							break;
+					} 
+			}
+				}
+			}
+			
 			docFound = false;
 			StringBuffer name = new StringBuffer();
 			if (node.getName() == null ) // Fail with empty Name
@@ -163,6 +181,8 @@ public class TocServiceImpl implements TocService {
 					GatherResponse.CODE_NOVUS_ERROR);
 				throw ge;
 			}
+			
+			if (!excludeDocumentFound) {
 			name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
 					.append(EBConstants.TOC_START_NAME_ELEMENT)
 					.append(node.getName().replaceAll("\\<.*?>", ""))
@@ -173,14 +193,15 @@ public class TocServiceImpl implements TocService {
 					.append(EBConstants.TOC_END_GUID_ELEMENT);
 
 			StringBuffer docGuid = new StringBuffer();
-			if (node.getDocGuid() != null) {
+
+			if (documentGuid != null) {
 				docFound = true;
 				docCounter[0]++;
 				docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
-						.append(node.getDocGuid().replaceAll("\\<.*?>", ""))
+						.append(documentGuid)
 						.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
+				}
 
-			}
 
 			if (node.getChildrenCount() == 0) {
 				if (docFound == false) {
@@ -215,6 +236,7 @@ public class TocServiceImpl implements TocService {
 						"Failed writing to TOC ", e,
 						GatherResponse.CODE_FILE_ERROR);
 				throw ge;
+			}
 			}
 
 			TOCNode[] tocNodes = null;
@@ -265,7 +287,7 @@ public class TocServiceImpl implements TocService {
 
 			if (tocNodes != null) {
 				docFound = printNodes(tocNodes, _tocManager, out, counter,
-						docCounter, iParent);
+						docCounter, iParent, excludeDocuments);
 			}
 		}
 		return docFound;
@@ -279,7 +301,7 @@ public class TocServiceImpl implements TocService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String guid,
-			String collectionName, File tocXmlFile) throws GatherException {
+			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException {
 		TOC _tocManager = null;
 		Writer out = null;
 		int[] counter = { 0 };
@@ -303,7 +325,7 @@ public class TocServiceImpl implements TocService {
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
 			retrieveNodes(guid, _tocManager, out, counter, docCounter,
-					retryCounter, iParent);
+					retryCounter, iParent, excludeDocuments);
 
 			LOG.info(docCounter[0] + " documents and " + counter[0]
 					+ " nodes in the TOC hierarchy for guid " + guid

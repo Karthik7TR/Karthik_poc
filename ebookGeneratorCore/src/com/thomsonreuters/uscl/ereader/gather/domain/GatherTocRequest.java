@@ -7,25 +7,30 @@
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 
 public class GatherTocRequest {
 
 	private String guid;
 	private String collectionName;
 	private File tocFile;
+	private ArrayList<ExcludeDocument> excludeDocuments;	
 
 	public GatherTocRequest(){
 		super();
 	}
 	
-	public GatherTocRequest(String guid, String collectionName, File tocFile) {
+	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments) {
 		super();
 		this.guid = guid;
 		this.collectionName = collectionName;
 		this.tocFile = tocFile;
+		this.excludeDocuments = excludeDocuments;		
 	}
 
 	public String getCollectionName() {
@@ -90,6 +95,14 @@ public class GatherTocRequest {
 		} else if (!tocFile.equals(other.tocFile))
 			return false;
 		return true;
+	}
+
+	public ArrayList<ExcludeDocument> getExcludeDocuments() {
+		return excludeDocuments;
+	}
+
+	public void setExcludeDocuments(ArrayList<ExcludeDocument> excludeDocuments) {
+		this.excludeDocuments = excludeDocuments;
 	}
 
 	

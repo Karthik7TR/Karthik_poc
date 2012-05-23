@@ -7,8 +7,10 @@
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
@@ -21,6 +23,6 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
  */
 public interface NortService {
 	
-	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate) throws GatherException; 
+	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException; 
 
 }
