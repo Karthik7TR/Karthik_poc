@@ -91,7 +91,7 @@ public class DocMetadata implements Serializable {
 	@Column(name = "SERIAL_NUMBER")
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	Integer serialNumber;
+	Long serialNumber;
 	/**
 	 */
 
@@ -198,13 +198,13 @@ public class DocMetadata implements Serializable {
 
 	/**
 	 */
-	public void setSerialNumber(Integer serialNumber) {
+	public void setSerialNumber(Long serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
 	/**
 	 */
-	public Integer getSerialNumber() {
+	public Long getSerialNumber() {
 		return this.serialNumber;
 	}
 

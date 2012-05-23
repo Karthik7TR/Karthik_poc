@@ -125,8 +125,17 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         }
         else if (StringUtils.isNotEmpty(serialNum))
         {
-            docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber()
-                                                   .get(serialNum);
+        	try
+        	{
+        		Long serNum = new Long(serialNum);
+        		
+        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber().get(serNum);
+        	}
+        	catch (NumberFormatException nfe)
+        	{
+        		//not a valid serial number
+        		LOG.debug("Encountered a serNum: " + serialNum + " which is not a valid number.");
+        	}
         }
 
         return docMetadata;
@@ -195,7 +204,6 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
         try
         {
-            LOG.info("Reading in TOC anchor map file...");
             reader = new BufferedReader(new FileReader(docsGuidFile));
 
             String input = reader.readLine();
@@ -222,8 +230,6 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                     + "at least one TOC guid associated with it: " + docsGuidFile.getAbsolutePath();
                 LOG.error(message);
             }
-
-            LOG.info("Found a Toc Guid " + tocGuid + " For given Doc Guid " + docGuid);
         }
         catch (IOException e)
         {

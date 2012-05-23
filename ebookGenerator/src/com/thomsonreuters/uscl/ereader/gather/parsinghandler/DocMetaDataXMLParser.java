@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.gather.parsinghandler;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -129,7 +128,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(MD_LEGACY_ID)) {
 			docMetadata.setFindOrig(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
-			docMetadata.setSerialNumber(new Integer(tempVal));
+			docMetadata.setSerialNumber(new Long(tempVal));
 		}
 
 	}

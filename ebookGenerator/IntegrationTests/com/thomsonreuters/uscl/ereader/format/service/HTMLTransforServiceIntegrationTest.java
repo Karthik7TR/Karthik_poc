@@ -531,7 +531,7 @@ public class HTMLTransforServiceIntegrationTest
     	
     	
     	DocMetadata doc9 = new DocMetadata();
-    	Integer ss = Integer.parseInt("0105114615");
+    	Long ss = new Long("0105114615");
     	doc9.setSerialNumber(ss);
     	doc9.setDocFamilyUuid("8816x123456789");
     	doc9.setDocUuid("1689898989");
@@ -540,7 +540,7 @@ public class HTMLTransforServiceIntegrationTest
     	docMetaList.add(doc9);
     	
     	DocMetadata doc8 = new DocMetadata();
-    	ss = Integer.parseInt("0292127061");
+    	ss = new Long("0292127061");
     	doc8.setSerialNumber(ss);
     	doc8.setDocFamilyUuid("8916x123456789");
     	doc8.setDocUuid("1789898989");
@@ -549,7 +549,7 @@ public class HTMLTransforServiceIntegrationTest
     	docMetaList.add(doc8);
     	
     	DocMetadata doc11 = new DocMetadata();
-    	doc11.setSerialNumber(1977110977);
+    	doc11.setSerialNumber(new Long(1977110977));
     	doc11.setDocFamilyUuid("516x123456789");
     	doc11.setDocUuid("669898989");
     	doc11.setJobInstanceId(12345l);
@@ -559,19 +559,15 @@ public class HTMLTransforServiceIntegrationTest
     	//1924122438
     	
     	DocMetadata doc12 = new DocMetadata();
-    	doc12.setSerialNumber(1924122438);
+    	doc12.setSerialNumber(new Long(1924122438));
     	doc12.setDocFamilyUuid("777x123456789");
     	doc12.setDocUuid("873429898989");
     	doc12.setJobInstanceId(12345l);
     	doc12.setTitleId(titleId);
     	docMetaList.add(doc12);
-    	
-    
-    	
-    	
+    	    	
     	documentMetadataSet.addAll(docMetaList);
     	
-    	    	
     	mockDocumentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
     		
         htmlTransforService.setdocMetadataService(mockDocMetadataService);

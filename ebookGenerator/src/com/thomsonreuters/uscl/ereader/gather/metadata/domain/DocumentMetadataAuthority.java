@@ -27,7 +27,7 @@ public class DocumentMetadataAuthority {
 
 	//these are keyed maps used to search for the corresponding metadata without hitting the database.
 	private Map<String, DocMetadata> docMetadataKeyedByCite = new HashMap<String, DocMetadata>();
-	private Map<Integer, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<Integer, DocMetadata>();
+	private Map<Long, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<Long, DocMetadata>();
 	private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<String, DocMetadata>();
 	
 	public DocumentMetadataAuthority (Set<DocMetadata> docMetadataSet){
@@ -68,7 +68,7 @@ public class DocumentMetadataAuthority {
 	 * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
 	 * @return the association between serial numbers and the corresponding {@link DocMetadata}
 	 */
-	public Map<Integer, DocMetadata> getDocMetadataKeyedBySerialNumber() {
+	public Map<Long, DocMetadata> getDocMetadataKeyedBySerialNumber() {
 		return Collections.unmodifiableMap(docMetadataKeyedBySerialNumber);
 	}
 	
