@@ -380,7 +380,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .frontMatterPage {
-	border: 2px gray solid;
+	border: 2px black solid;
 	padding:5px;
 }
 
@@ -389,7 +389,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .frontMatterSection {
-	border: 2px gray solid;
+	border: 3px gray solid;
 	padding:5px;
 	margin:5px;
 }
