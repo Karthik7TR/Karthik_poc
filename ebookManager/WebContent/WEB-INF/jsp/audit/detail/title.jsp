@@ -8,8 +8,8 @@
 			<img alt="${book.proviewDisplayName}" src="<%= WebConstants.MVC_COVER_IMAGE %>?imageName=${ book.coverImage }">
 		</div>
 		<div class="titleData">
-			Title ID: ${bookAuditDetail.titleId}<br/>
-			ProView Display Name: ${bookAuditDetail.proviewDisplayName}<br/>
+			<div><label>Title ID:</label> ${bookAuditDetail.titleId}</div>
+			<div><label>ProView Display Name:</label> ${bookAuditDetail.proviewDisplayName}</div>
 		</div>
 	</div>
 </c:if>

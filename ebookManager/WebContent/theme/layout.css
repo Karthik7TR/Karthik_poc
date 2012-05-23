@@ -138,13 +138,12 @@ html, body {
 #right > .titleWrapper,
 #center > .titleWrapper {
 	background: #E0E0E0;
-    height: 7.2em;
+	min-height: 7.2em;
     width: 100%;
 }
 
 .titleWrapper > .title {
-	padding-left: .5em;
-	padding-top: .5em;
+	padding: .5em;
 	position: relative;
 }
 
@@ -270,6 +269,10 @@ a:hover {
 	padding-top:.6em;
 	vertical-align: top;
 	margin: 0em;
+}
+
+#bookData .titleData label {
+	font-weight: bold;
 }
 
 <!-- Styling for Book Definition CRUD -->
