@@ -114,7 +114,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
 			} else {
 				String flag;
 				
-				if(action.equalsIgnoreCase("COMPLETE")) {
+				if(action.equalsIgnoreCase("READY")) {
 					flag = "Y";
 				} else {
 					flag = "N";

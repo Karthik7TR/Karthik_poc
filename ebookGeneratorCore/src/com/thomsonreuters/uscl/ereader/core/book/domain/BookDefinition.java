@@ -958,7 +958,7 @@ public class BookDefinition implements Serializable {
 			status = "Deleted";
 		} else { 
 			if (getEbookDefinitionCompleteFlag()) {
-				status = "Complete";
+				status = "Ready";
 			} else {
 				status = "Incomplete";
 			}

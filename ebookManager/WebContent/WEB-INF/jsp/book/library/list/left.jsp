@@ -106,7 +106,7 @@
 		<label>Definition Status:</label>
 		<form:select path="action">
 			<form:option label="ALL" value=""/>
-			<form:option label="<%=BookLibraryFilterForm.Action.COMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.COMPLETE.toString() %>"/>
+			<form:option label="<%=BookLibraryFilterForm.Action.READY.toString()%>" value="<%=BookLibraryFilterForm.Action.READY.toString() %>"/>
 			<form:option label="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString()%>" value="<%=BookLibraryFilterForm.Action.INCOMPLETE.toString() %>"/>
 			<form:option label="<%=BookLibraryFilterForm.Action.DELETED.toString()%>" value="<%=BookLibraryFilterForm.Action.DELETED.toString() %>"/>
 		</form:select>

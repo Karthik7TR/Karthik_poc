@@ -22,7 +22,7 @@ public class BookLibraryFilterForm {
 	public static final String FORM_NAME = "bookLibraryFilterForm";
 
 	public enum FilterCommand {SEARCH, RESET};
-	public enum Action {COMPLETE, INCOMPLETE, DELETED};
+	public enum Action {READY, INCOMPLETE, DELETED};
 
 	private String proviewDisplayName;
 	private String toString;

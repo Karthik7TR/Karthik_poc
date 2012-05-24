@@ -24,7 +24,7 @@
 			</c:if>
 			<div class="row">
 				<form:label path="isComplete" class="labelCol">Book Definition Status</form:label>
-				<form:radiobutton disabled="${disableOptions}" path="isComplete" value="true" />Complete
+				<form:radiobutton disabled="${disableOptions}" path="isComplete" value="true" />Ready
 				<form:radiobutton disabled="${disableOptions}" path="isComplete" value="false" />Incomplete
 				<div class="errorDiv">
 					<form:errors path="isComplete" cssClass="errorMessage" />

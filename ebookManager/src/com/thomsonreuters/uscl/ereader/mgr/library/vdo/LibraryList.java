@@ -116,7 +116,7 @@ public class LibraryList implements Serializable {
 			status = "Deleted";
 		} else { 
 			if (IsEbookDefinitionCompleteFlag()) {
-				status = "Complete";
+				status = "Ready";
 			} else {
 				status = "Incomplete";
 			}
