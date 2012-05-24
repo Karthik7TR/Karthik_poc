@@ -5,7 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -48,19 +47,6 @@ public class EbookAuditFilter {
 	/** Filter to date entered by user, normalized to (00:00:00) of the entered day. */
 	public Date getTo() {
 		return to;
-	}
-	/**
-	 * Get the point in time that is one day prior to the 'TO' time, used for a less-than comparison of 'TO' date
-	 * to ensure that the specified 'TO' date is included in the range of dates searched.
-	 */
-	public Date getToInclusive() {
-		if (to == null) {
-			return null;
-		}
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(to);
-		cal.add(Calendar.DAY_OF_MONTH, +1);
-		return cal.getTime();
 	}
 	public String getAction() {
 		return action;

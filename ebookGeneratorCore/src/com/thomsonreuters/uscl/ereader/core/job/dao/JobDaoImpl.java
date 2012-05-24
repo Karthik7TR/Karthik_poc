@@ -111,14 +111,14 @@ public class JobDaoImpl implements JobDao {
 		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
 			args = new Object[2];
 			args[0] = filter.getFrom();
-			args[1] = filter.getToInclusive();
+			args[1] = filter.getTo();
 		}
 		else if (filter.getFrom() != null) {
 			args = new Object[1];
 			args[0] = filter.getFrom();
-		} else if (filter.getToInclusive() != null) {
+		} else if (filter.getTo() != null) {
 			args = new Object[1];
-			args[0] = filter.getToInclusive();
+			args[0] = filter.getTo();
 		}
 		if (args != null) {
 			jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER, args);

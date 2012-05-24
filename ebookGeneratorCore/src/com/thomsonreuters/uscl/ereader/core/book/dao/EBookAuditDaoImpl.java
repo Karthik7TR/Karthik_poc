@@ -166,7 +166,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 			criteria.add(Restrictions.ge("lastUpdated", filter.getFrom()));
 		}
 		if (filter.getTo() != null) {
-			criteria.add(Restrictions.le("lastUpdated", filter.getToInclusive()));
+			criteria.add(Restrictions.le("lastUpdated", filter.getTo()));
 		}
 		if (StringUtils.isNotBlank(filter.getAction())) {
 			criteria.add(Restrictions.eq("auditType", filter.getAction()));

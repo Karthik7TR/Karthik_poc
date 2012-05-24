@@ -124,7 +124,7 @@ public class BookAuditFilterForm {
 	}
 	public static String parseDate(Date date) {
 		if (date != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(WebConstants.DATE_FORMAT_PATTERN);
+			SimpleDateFormat sdf = new SimpleDateFormat(WebConstants.DATE_TIME_FORMAT_PATTERN);
 			return sdf.format(date);
 		}
 		return null;
@@ -133,7 +133,7 @@ public class BookAuditFilterForm {
 		Date date = null;
 		try {
 			if (StringUtils.isNotBlank(dateString)) {
-				String[] parsePatterns = { WebConstants.DATE_FORMAT_PATTERN };
+				String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
 				date = DateUtils.parseDate(dateString, parsePatterns);
 			}
 		} catch (ParseException e) {

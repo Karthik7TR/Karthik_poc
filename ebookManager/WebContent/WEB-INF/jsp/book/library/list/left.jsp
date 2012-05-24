@@ -23,12 +23,20 @@
   					submitFilterForm('<%=BookLibraryFilterForm.FilterCommand.SEARCH%>');
   				}
   			});
+  			
+  			<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+  			$( "#datepickerFrom" ).datetimepicker({
+  				showSecond: true,
+  				timeFormat: 'hh:mm:ss'
+  			});
+			$( "#datepickerTo" ).datetimepicker({
+				hour: 23,
+				minute: 59,
+				second: 59,
+				showSecond: true,
+  				timeFormat: 'hh:mm:ss'
+  			});
   		});
-  	
-		$(function() {
-			$( "#datepickerFrom" ).datepicker();
-			$( "#datepickerTo" ).datepicker();
-		});
 		
 		function submitFilterForm(command) {
 			$("#filterCommand").val(command);  // Set the form hidden field value for the operation discriminator

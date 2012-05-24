@@ -50,8 +50,8 @@ public class JobSummaryFilterControllerTest {
     	// Set up the request URL
 		// Filter form values
 		String titleId = "uscl/junit/test/abc";
-		String fromDate = "01/01/2012";
-		String toDate = "03/01/2012";
+		String fromDate = "01/01/2012 00:00:00";
+		String toDate = "03/01/2012 23:59:59";
     	request.setRequestURI("/"+WebConstants.MVC_JOB_SUMMARY_FILTER_POST);
     	request.setMethod(HttpMethod.POST.name());
     	// The filter values

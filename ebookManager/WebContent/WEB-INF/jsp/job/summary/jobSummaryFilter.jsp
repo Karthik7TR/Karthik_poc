@@ -16,12 +16,19 @@ $(document).ready(function() {
 			submitJobSummaryFilterForm('<%=FilterForm.FilterCommand.SEARCH%>');
 		}
 	});
-});
-
-<%-- Set up the jQuery TO and FROM date picker UI widget --%>
-$(function() {
-	$("#datepickerFrom").datepicker();
-	$("#datepickerTo").datepicker();
+	
+	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
+	$( "#datepickerFrom" ).datetimepicker({
+		showSecond: true,
+		timeFormat: 'hh:mm:ss'
+	});
+	$( "#datepickerTo" ).datetimepicker({
+		hour: 23,
+		minute: 59,
+		second: 59,
+		showSecond: true,
+		timeFormat: 'hh:mm:ss'
+	});
 });
 
 <%-- Submit the row multi-select form with the command being used to indicate which operation initiated the submit. --%>

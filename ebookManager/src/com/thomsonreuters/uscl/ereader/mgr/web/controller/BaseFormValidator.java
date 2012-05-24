@@ -104,11 +104,5 @@ public abstract class BaseFormValidator {
 				}
 			}
 		}
-		if (toDate != null) {
-			if (toDate.after(timeNow)) {
-				String[] args = { "TO" };
-				errors.reject(codeDateAfterToday, args, "ERR: TO date cannot be after today");
-			}
-		}
 	}
 }
