@@ -7,6 +7,16 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 
+<html>
+<head>
+<script type="text/javascript">
+function openFullcreenWindow(url)
+{
+	window.open(url, "","channelmode,scrollbars");
+}
+
+</script>
+</head>
 	<c:set var="isSuperUser" value="false"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="isSuperUser" value="true"/>
@@ -29,13 +39,15 @@
 	  	<display:column title="Status" property="status" sortable="true"/>
 	  	<c:if test="${ isSuperUser == 'true' }">
 		  	<display:column title="Promote">
-		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Promote to Final</a>
+		  		<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
 		  	</display:column>
 		  	<display:column title="Remove">
-		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Remove</a>
+		  		<input value="Remove" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
 		  	</display:column>
 		  	<display:column title="Delete">
-		  		<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}">Delete</a>
+		  		<input value="Delete" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
 		  	</display:column>
 	  	</c:if>
 	</display:table>
+	
+</html>	
