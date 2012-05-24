@@ -88,7 +88,8 @@
 	</tr>
 	<tr>
 		<td>Title ID</td>
-		<td colspan="3">${job.bookInfo.titleId}</td>
+		<td colspan="3"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookInfo.ebookDefinitionId}">${job.bookInfo.titleId}</a></td>
+		
 	</tr>
 		<tr>
 		<td>Submitted By</td>

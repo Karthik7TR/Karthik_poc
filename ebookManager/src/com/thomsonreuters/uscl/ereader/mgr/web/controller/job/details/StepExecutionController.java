@@ -64,7 +64,7 @@ public class StepExecutionController {
 							   final EbookAudit bookInfo, final StepExecution stepExecution) {
 		List<Map.Entry<String,Object>> mapEntryList = createStepExecutionContextMapEntryList(stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
-		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
+		model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION, stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES, mapEntryList);
 	}

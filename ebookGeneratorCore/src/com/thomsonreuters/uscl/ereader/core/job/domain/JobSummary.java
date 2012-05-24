@@ -67,7 +67,7 @@ public class JobSummary {
 	}
 	
 	public static long getExecutionDuration(Date start, Date end) {		
-		long duration = -1;
+		long duration = 0;
 		if (start != null) {
 			if (end == null) {
 				end = new Date();

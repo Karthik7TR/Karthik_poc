@@ -21,17 +21,25 @@
 --%>
 
 <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
-
+	
 <div id="statsDiv">
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
 <tr>
-	<td style="padding-right:20px;">ProView Display Name</td>
+	<td style="padding-right:20px">ProView Display Name</td>
 	<td>${bookInfo.proviewDisplayName}</td>
+	<td width="40px">&nbsp;</td>
+	<td>Job Instance &nbsp;</td>
+	<td>${jobInstance.id}</td>
 </tr>
 <tr>
 	<td>Title ID</td>
-	<td>${bookInfo.titleId}</td>
+	<td><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${bookInfo.ebookDefinitionId}">${bookInfo.titleId}</a></td>
+	<td>&nbsp;</td>
+	<td>Total Duration</td>
+	<td>${jobInstanceDuration}</td>
 </tr>
+
+
 </table>
 </div>
 <br/>

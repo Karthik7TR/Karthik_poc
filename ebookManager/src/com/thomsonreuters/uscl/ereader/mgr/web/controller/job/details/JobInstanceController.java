@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.StepStartTimeComparator;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
@@ -33,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 @Controller
 public class JobInstanceController {
 //	private static final Logger log = Logger.getLogger(JobInstanceController.class);
+	public static String KEY_USER_AUTHORIZED_FOR_STOP_AND_RESTART = "userAuthorizedForStopAndRestart";
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
 	private JobService jobService;
@@ -51,14 +55,21 @@ public class JobInstanceController {
 //		log.debug(">>> jobInstanceId="+jobInstanceId);
 		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
 		if (jobInstance != null) {
+			long totalDurationOfAllExecutions = 0;
 			EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
+			PublishingStats publishingStatus = publishingStatsService.findPublishingStatsByJobId(jobInstance.getId());
 			List<JobExecution> jobExecutions = jobService.findJobExecutions(jobInstance);
 			List<StepExecution> allJobInstanceSteps = new ArrayList<StepExecution>();
 			for (JobExecution je : jobExecutions) {
+				totalDurationOfAllExecutions += JobSummary.getExecutionDuration(je.getStartTime(), je.getEndTime());
 				Collection<StepExecution> stepExecutions = je.getStepExecutions();
 				allJobInstanceSteps.addAll(stepExecutions);
 			}
 			Collections.sort(allJobInstanceSteps, stepStartTimeComparator);  // Descending sort
+			model.addAttribute(WebConstants.KEY_JOB_INSTANCE_DURATION,
+							JobSummary.getExecutionDuration(totalDurationOfAllExecutions));
+			model.addAttribute(KEY_USER_AUTHORIZED_FOR_STOP_AND_RESTART,
+							   new Boolean(UserUtils.isUserAuthorizedToStopOrRestartBatchJob(publishingStatus.getJobSubmitterName())));
 			populateModel(model, jobInstance, bookInfo, allJobInstanceSteps);
 		}
 		return new ModelAndView(WebConstants.VIEW_JOB_INSTANCE_DETAILS);
@@ -68,7 +79,7 @@ public class JobInstanceController {
 							   final EbookAudit bookInfo,
 							   final List<StepExecution> allJobInstanceSteps) {
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
-		model.addAttribute(WebConstants.KEY_JOB_INSTANCE_BOOK_INFO, bookInfo);
+		model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTIONS, allJobInstanceSteps);
 	}
 	@Required

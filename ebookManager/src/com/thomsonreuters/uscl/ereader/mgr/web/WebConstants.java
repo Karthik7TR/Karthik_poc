@@ -93,8 +93,9 @@ public class WebConstants {
 	public static final String KEY_JOB_STEP_EXECUTION_ID = "stepExecutionId";
 	public static final String KEY_JOB_STEP_EXECUTIONS = "jobStepExecutions";
 	public static final String KEY_JOB_INSTANCE = "jobInstance";
-	public static final String KEY_JOB_INSTANCE_BOOK_INFO = "bookInfo";
+	public static final String KEY_JOB_INSTANCE_DURATION = "jobInstanceDuration";
 	public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
+	public static final String KEY_JOB_BOOK_INFO = "bookInfo";
 
 	// Document Type Codes
 	public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
