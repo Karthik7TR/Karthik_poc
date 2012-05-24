@@ -39,7 +39,7 @@ function openFullcreenWindow(url)
 	 					<span class="errorMessage">This Book has been deleted</span>
 	 				</c:when>
 	 				<c:otherwise>
-	 					<input value="Generate" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}')"/>
+	 					<input value="Generate this book" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}')"/>
 	 				</c:otherwise>
 	 			</c:choose>
 	 	</display:column>
