@@ -14,6 +14,14 @@
 
 <html>
 <head>
+<script type="text/javascript">
+function openFullcreenWindow(url)
+{
+	window.open(url, "","channelmode,scrollbars");
+}
+
+</script>
+
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_BULK_PUBLISH_LIST%>" class="displayTagTable" cellpadding="2" 
 	   requestURI="<%=WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW%>"
 	   pagesize="50"
@@ -31,7 +39,7 @@
 	 					<span class="errorMessage">This Book has been deleted</span>
 	 				</c:when>
 	 				<c:otherwise>
-	 					<a target="_blank" onclick="disabled=true" href="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}">Generate this book</a>
+	 					<input value="Generate" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>?<%=WebConstants.KEY_ID%>=${vdo.bookId}')"/>
 	 				</c:otherwise>
 	 			</c:choose>
 	 	</display:column>
