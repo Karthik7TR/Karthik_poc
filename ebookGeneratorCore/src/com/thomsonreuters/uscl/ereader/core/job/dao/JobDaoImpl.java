@@ -76,7 +76,16 @@ public class JobDaoImpl implements JobDao {
 			sql.append("(execution.START_TIME < ?) and ");
 		}
 		if (filter.getBatchStatus() != null) {
-			sql.append(String.format("(execution.STATUS = '%s') and ", filter.getBatchStatus().toString()));
+			StringBuffer csvStatus = new StringBuffer();
+			boolean firstTime = true;
+			for (BatchStatus status : filter.getBatchStatus()) {
+				if (!firstTime) {
+					csvStatus.append(",");
+				}
+				firstTime = false;
+				csvStatus.append(String.format("'%s'", status.toString()));
+			}
+			sql.append(String.format("(execution.STATUS in (%s)) and ", csvStatus));
 		}
 		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
 			sql.append("(execution.JOB_INSTANCE_ID = stats.JOB_INSTANCE_ID(+)) and ");

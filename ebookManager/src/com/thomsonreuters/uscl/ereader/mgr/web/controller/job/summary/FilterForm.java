@@ -33,7 +33,7 @@ public class FilterForm {
 	private String submittedBy;
 	private String fromDateString;
 	private String toDateString;
-	private BatchStatus batchStatus;
+	private BatchStatus[] batchStatus;
 	private FilterCommand command;
 	
 	public FilterForm() {
@@ -48,10 +48,12 @@ public class FilterForm {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 		String fromDate = parseDate(cal.getTime());
-		populate(null, null, null, fromDate, null, null);
+		BatchStatus[] selectedBatchStatus = { BatchStatus.STARTED,  BatchStatus.STOPPED,  BatchStatus.FAILED, BatchStatus.COMPLETED,
+											  BatchStatus.STARTING, BatchStatus.STOPPING, BatchStatus.ABANDONED };
+		populate(null, null, null, fromDate, null, selectedBatchStatus);
 	}
 
-	public void populate(String titleId, String proviewDisplayName, String submittedBy, String fromDateString, String toDateString, BatchStatus batchStatus) {
+	public void populate(String titleId, String proviewDisplayName, String submittedBy, String fromDateString, String toDateString, BatchStatus[] batchStatus) {
 		this.titleId = titleId;
 		this.proviewDisplayName = proviewDisplayName;
 		this.submittedBy = submittedBy;
@@ -81,7 +83,7 @@ public class FilterForm {
 	public String getToDateString() {
 		return toDateString;
 	}
-	public BatchStatus getBatchStatus() {
+	public BatchStatus[] getBatchStatus() {
 		return batchStatus;
 	}
 	public String getSubmittedBy() {
@@ -108,7 +110,7 @@ public class FilterForm {
 	public void setToDate(Date toDate) {
 		this.toDateString = parseDate(toDate);
 	}
-	public void setBatchStatus(BatchStatus batchStatus) {
+	public void setBatchStatus(BatchStatus[] batchStatus) {
 		this.batchStatus = batchStatus;
 	}
 	public void setSubmittedBy(String username) {

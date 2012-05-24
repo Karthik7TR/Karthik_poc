@@ -22,7 +22,7 @@ public class JobFilter {
 	// Job Execution properties
 	private Date from;	// start date on and after this calendar date (inclusive)
 	private Date to;	// start date on and before this calendar date (inclusive)
-	private BatchStatus batchStatus;
+	private BatchStatus[] batchStatus;	// Multi-selectable job batch status
 	
 	// Book Definition properties
 	private String titleId;
@@ -32,7 +32,7 @@ public class JobFilter {
 	public JobFilter() {
 		super();
 	}
-	public JobFilter(Date from, Date to, BatchStatus batchStatus, String titleId, String bookName, String submittedBy) {
+	public JobFilter(Date from, Date to, BatchStatus[] batchStatus, String titleId, String bookName, String submittedBy) {
 		this.from = from;
 		this.to = to;
 		this.batchStatus = batchStatus;
@@ -70,7 +70,7 @@ public class JobFilter {
 		cal.add(Calendar.DAY_OF_MONTH, +1);
 		return cal.getTime();
 	}
-	public BatchStatus getBatchStatus() {
+	public BatchStatus[] getBatchStatus() {
 		return batchStatus;
 	}
 	/**
