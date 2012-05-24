@@ -733,29 +733,44 @@
 		</div>
 		
 		<div class="rightDefinitionForm">
+			<c:set var="disableOptions" value="true"/>
+			<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+				<c:set var="disableOptions" value=""/>
+			</sec:authorize>
+			<c:if test="${disableOptions}">
+				<%-- Hidden fields needed when options are disabled.
+					 Options reset to defaults if hidden fields are missing. --%>
+				<form:hidden path="isTOC"/>
+				<form:hidden path="tocCollectionName"/>
+				<form:hidden path="docCollectionName"/>
+				<form:hidden path="rootTocGuid"/>
+				<form:hidden path="nortDomain"/>
+				<form:hidden path="nortFilterView"/>
+				<form:hidden path="keyCiteToplineFlag"/>
+			</c:if>
 			<div class="row">
 				<label class="labelCol">TOC or NORT</label>
-				<form:radiobutton path="isTOC" value="true" />TOC
-				<form:radiobutton path="isTOC" value="false" />NORT
+				<form:radiobutton disabled="${disableOptions}" path="isTOC" value="true" />TOC
+				<form:radiobutton disabled="${disableOptions}" path="isTOC" value="false" />NORT
 			</div>
 			<div id="displayTOC" style="display:none">
 				<div class="row">
-					<form:label path="tocCollectionName" class="labelCol">TOC Collection</form:label>
-					<form:input path="tocCollectionName" />
+					<form:label disabled="${disableOptions}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
+					<form:input disabled="${disableOptions}" path="tocCollectionName" />
 					<div class="errorDiv">
 						<form:errors path="tocCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label path="docCollectionName" class="labelCol">DOC Collection</form:label>
-					<form:input path="docCollectionName" />
+					<form:label disabled="${disableOptions}" path="docCollectionName" class="labelCol">DOC Collection</form:label>
+					<form:input disabled="${disableOptions}" path="docCollectionName" />
 					<div class="errorDiv">
 						<form:errors path="docCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
-					<form:input path="rootTocGuid" maxlength="33"/>
+					<form:label disabled="${disableOptions}" path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
+					<form:input disabled="${disableOptions}" path="rootTocGuid" maxlength="33"/>
 					<div class="errorDiv">
 						<form:errors path="rootTocGuid" cssClass="errorMessage" />
 					</div>
@@ -763,15 +778,15 @@
 			</div>
 			<div id="displayNORT" style="display:none">
 				<div class="row">
-					<form:label path="nortDomain" class="labelCol">NORT Domain</form:label>
-					<form:input path="nortDomain" />
+					<form:label disabled="${disableOptions}" path="nortDomain" class="labelCol">NORT Domain</form:label>
+					<form:input disabled="${disableOptions}" path="nortDomain" />
 					<div class="errorDiv">
 						<form:errors path="nortDomain" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label path="nortFilterView" class="labelCol">NORT Filter View</form:label>
-					<form:input path="nortFilterView" />
+					<form:label disabled="${disableOptions}" path="nortFilterView" class="labelCol">NORT Filter View</form:label>
+					<form:input disabled="${disableOptions}" path="nortFilterView" />
 					<div class="errorDiv">
 						<form:errors path="nortFilterView" cssClass="errorMessage" />
 					</div>
@@ -779,8 +794,8 @@
 			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
-				<form:radiobutton path="keyCiteToplineFlag" value="true" />True
-				<form:radiobutton path="keyCiteToplineFlag" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
 				</div>
@@ -873,12 +888,8 @@
 			</div>
 		</div>
 		<div class="rightDefinitionForm">
-			<c:set var="disableProviewOptions" value="true"/>
-			<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-				<c:set var="disableProviewOptions" value=""/>
-			</sec:authorize>
-			<c:if test="${disableProviewOptions}">
-				<%-- Hidden fields needed when ProView options are disabled.
+			<c:if test="${disableOptions}">
+				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="isProviewTableView"/>
 				<form:hidden path="autoUpdateSupport"/>
@@ -888,40 +899,40 @@
 			</c:if>
 			<div class="row">
 				<form:label path="isProviewTableView" class="labelCol">Use ProView Table View</form:label>
-				<form:radiobutton disabled="${disableProviewOptions}" path="isProviewTableView" value="true" />True
-				<form:radiobutton disabled="${disableProviewOptions}" path="isProviewTableView" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="isProviewTableView" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="isProviewTableView" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="isProviewTableView" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
-				<form:radiobutton disabled="${disableProviewOptions}" path="autoUpdateSupport" value="true" />True
-				<form:radiobutton disabled="${disableProviewOptions}" path="autoUpdateSupport" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="autoUpdateSupport" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="autoUpdateSupport" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="autoUpdateSupport" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="searchIndex" class="labelCol">Search Index</form:label>
-				<form:radiobutton disabled="${disableProviewOptions}" path="searchIndex" value="true" />True
-				<form:radiobutton disabled="${disableProviewOptions}" path="searchIndex" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="searchIndex" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="searchIndex" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="searchIndex" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="enableCopyFeatureFlag" class="labelCol">Enable Copy Feature</form:label>
-				<form:radiobutton disabled="${disableProviewOptions}" path="enableCopyFeatureFlag" value="true" />True
-				<form:radiobutton disabled="${disableProviewOptions}" path="enableCopyFeatureFlag" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="enableCopyFeatureFlag" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="enableCopyFeatureFlag" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="enableCopyFeatureFlag" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
 				<form:label path="pilotBook" class="labelCol">Is Pilot Book</form:label>
-				<form:radiobutton disabled="${disableProviewOptions}" path="pilotBook" value="true" />True
-				<form:radiobutton disabled="${disableProviewOptions}" path="pilotBook" value="false" />False
+				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="true" />True
+				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="false" />False
 				<div class="errorDiv">
 					<form:errors path="pilotBook" cssClass="errorMessage" />
 				</div>
