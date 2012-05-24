@@ -20,6 +20,12 @@
 	Displays the aggregated set of steps for all the executions of a specific job instance in descending start time order. 
 --%>
 
+<%-- Disable the restart button if this user is not authorized to restart a job --%>
+<c:set var="operationsDisabled" value="disabled"/>
+<c:if test="${job.userAllowedToStopAndRestartJob}">
+	<c:set var="operationsDisabled" value=""/>
+</c:if>
+
 <c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
 	
 <div id="statsDiv">
@@ -37,6 +43,24 @@
 	<td>&nbsp;</td>
 	<td>Total Duration</td>
 	<td>${jobInstanceDuration}</td>
+</tr>
+<tr>
+  <c:choose>
+	<c:when test="${job.jobRestartable}">
+		<td><input type="button" value="Restart" ${operationsDisabled}
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecution.id}'"/> &nbsp;
+  		</td>
+  	</c:when>
+  	<c:when test="${job.jobStoppable}">
+		<td><input type="button" value="Stop" ${operationsDisabled}
+  				   onclick="location.href='<%=WebConstants.MVC_JOB_EXECUTION_JOB_STOP%>?<%=WebConstants.KEY_JOB_EXECUTION_ID%>=${job.jobExecution.id}'"/> &nbsp;
+  		</td>
+  	</c:when>
+  	<c:otherwise>
+  		<td>&nbsp;</td> <%-- This instance cannot be stopped or restarted --%>
+  	</c:otherwise>
+  </c:choose>
+  <td colspan="4">&nbsp;</td>		
 </tr>
 
 
