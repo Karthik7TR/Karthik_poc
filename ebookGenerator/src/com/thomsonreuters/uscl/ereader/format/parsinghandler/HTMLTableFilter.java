@@ -50,10 +50,24 @@ public class HTMLTableFilter extends XMLFilterImpl
     {
         if (tableViewerSupport && qName.equalsIgnoreCase(TABLE_TAG))
         {
-            AttributesImpl newAtts = new AttributesImpl(atts);
-            newAtts.clear();
-            newAtts.addAttribute("", "", CLASS_ATTRIBUTE, "CDATA", PROVIEW_TABLE_VIEWER_CLASS);
-            super.startElement(uri, localName, qName, newAtts);
+        	String tagId = null;
+        	
+        	if (atts != null)
+        	{
+        		tagId = atts.getValue("id");
+        	}
+        	
+        	if (tagId != null && tagId.equals("co_endOfDocument"))
+        	{
+            	super.startElement(uri, localName, qName, atts);
+        	}
+        	else
+        	{
+	            AttributesImpl newAtts = new AttributesImpl(atts);
+	            newAtts.clear();
+	            newAtts.addAttribute("", "", CLASS_ATTRIBUTE, "CDATA", PROVIEW_TABLE_VIEWER_CLASS);
+	            super.startElement(uri, localName, qName, newAtts);
+        	}
         }
         else if (qName.equalsIgnoreCase(TABLE_DATA_TAG))
         {

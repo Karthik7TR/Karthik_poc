@@ -128,7 +128,7 @@ public class HTMLTableFilterTest {
 	{
 		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\"></td></tr></table></test>";
-		String expectedResult = "<test><table class=\"tr_table\"><tr><td>End of Document</td>" +
+		String expectedResult = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
@@ -139,7 +139,7 @@ public class HTMLTableFilterTest {
 	{
 		String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";
-		String expectedResult = "<test><table class=\"tr_table\"><tr><td>End of Document</td>" +
+		String expectedResult = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>" +
 				"<td class=\"co_endOfDocCopyright\"/></tr></table></test>";
 		
 		testHelper(xmlTestStr, expectedResult);
