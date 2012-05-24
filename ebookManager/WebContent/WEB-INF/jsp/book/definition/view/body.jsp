@@ -204,7 +204,7 @@ function submitForm(cmd)
 				</div>
 				<div class="rightDefinitionForm">
 					<div class="row">
-						<label class="labelCol">Additional Trademark/Patent Info</label>
+						<label class="labelCol">Additional Patent/Trademark Message</label>
 						<div class="field">${ book.additionalTrademarkInfo }</div>
 					</div>
 					<div class="row">

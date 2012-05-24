@@ -1001,7 +1001,7 @@
 		</div>
 		<div class="rightDefinitionForm">
 			<div class="row">
-				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Trademark/Patent Info</form:label>
+				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Patent/Trademark Message</form:label>
 				<form:textarea path="additionalTrademarkInfo" />
 				<div class="errorDiv">
 					<form:errors path="additionalTrademarkInfo" cssClass="errorMessage" />
