@@ -51,7 +51,7 @@ public class HTMLEmptyHeading2Filter extends XMLFilterImpl{
 	{
 		if (isHeading2)
 		{
-			eventBuffer.add(new Characters(buf, offset, len));
+			eventBuffer.add(new Characters(buf.clone(), offset, len));
 		}
 		else
 		{
