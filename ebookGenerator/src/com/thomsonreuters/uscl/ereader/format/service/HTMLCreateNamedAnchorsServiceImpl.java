@@ -378,7 +378,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		}
 		catch(IOException e)
 		{
-			String message = "Could not write to the static image list file: " + 
+			String message = "Could not write to the doc guid anchor references file: " + 
 					anchorTargetListFile.getAbsolutePath();
 			LOG.error(message);
 			throw new EBookFormatException(message, e);
