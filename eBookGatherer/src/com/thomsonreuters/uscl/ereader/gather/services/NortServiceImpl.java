@@ -18,6 +18,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +57,8 @@ public class NortServiceImpl implements NortService {
 	private Integer nortRetryCount;
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
-			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments)
+			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments,
+			ArrayList<ExcludeDocument> copyExcludeDocuments)
 			throws GatherException {
 
 		NortNode[] nortNodes = null;
@@ -102,7 +105,7 @@ public class NortServiceImpl implements NortService {
 			counters[RETRYCOUNT] += novusNortRetryCounter;
 			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, iParent,
-					YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
+					YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
 		} 
 		catch (GatherException e) {
 			LOG.error("Failed with Exception in NORT");
@@ -119,14 +122,15 @@ public class NortServiceImpl implements NortService {
 
 	public boolean printNodes(NortNode[] nodes, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
-			Map<String, String> tocGuidDateMap,	ArrayList<ExcludeDocument> excludeDocuments) throws GatherException,
+			Map<String, String> tocGuidDateMap,	ArrayList<ExcludeDocument> excludeDocuments, 
+			ArrayList<ExcludeDocument> copyExcludeDocuments) throws GatherException,
 			ParseException {
 		boolean docFound = true;
 		if (nodes != null) {
 			try {
 				for (NortNode node : nodes) {
 					docFound = printNode(node, _nortManager, out, counters,
-							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
+							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
 					// if (docFound == false)
 					// {
 					// LOG.debug("docFound set false for " + node.getLabel());
@@ -168,7 +172,8 @@ public class NortServiceImpl implements NortService {
 
 	public boolean printNode(NortNode node, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
-			Map<String, String> tocGuidDateMap, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException,
+			Map<String, String> tocGuidDateMap, ArrayList<ExcludeDocument> excludeDocuments,
+			ArrayList<ExcludeDocument> copyExcludeDocuments) throws GatherException,
 			NovusException, ParseException {
 		boolean docFound = true;
 		boolean excludeDocumentFound = false;
@@ -191,10 +196,13 @@ public class NortServiceImpl implements NortService {
 				documentGuid = node.getPayloadElement(
 				"/n-nortpayload/n-doc-guid").replaceAll(
 						"\\<.*?>", "");
-				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)){
+				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)
+						&& (copyExcludeDocuments != null)){
 					for (ExcludeDocument excludeDocument : excludeDocuments) {
 						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
 							excludeDocumentFound = true;
+							copyExcludeDocuments.remove(excludeDocument);
+							break;
 					} 
 					}
 				} 
@@ -394,7 +402,7 @@ public class NortServiceImpl implements NortService {
 					}
 
 					docFound = printNodes(nortNodes, _nortManager, out,
-							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments);
+							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
 				}
 
 			} else {
@@ -433,8 +441,20 @@ public class NortServiceImpl implements NortService {
 
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		
+		ArrayList<ExcludeDocument> copyExcludDocs = null;
+		
+		// Make a copy of the original excluded documents to check that all have been accounted for
+		if (excludeDocuments != null) {
+			copyExcludDocs = new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+		}		
 
 		try {
+			
+			if (excludeDocuments != null) {
+				Collections.copy(copyExcludDocs, excludeDocuments);
+				}
+			
 			// TODO: fix after Test1 testing.
 			String YYYYMMDDHHmmss;
 			if (cutoffDate == null) {
@@ -455,7 +475,7 @@ public class NortServiceImpl implements NortService {
 			out.write(EBConstants.TOC_XML_ELEMENT);
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss, excludeDocuments);
+			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss, excludeDocuments, copyExcludDocs);
 
 			LOG.info(counters[DOCCOUNT] + " documents " + counters[SKIPCOUNT]
 					+ " skipped nodes  and " + counters[NODECOUNT]
@@ -492,6 +512,17 @@ public class NortServiceImpl implements NortService {
 		} finally {
 			try {
 				out.close();
+				if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
+					StringBuffer unaccountedExcludedDocs = new StringBuffer();
+					for (ExcludeDocument excludeDocument : copyExcludDocs) {
+						unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
+					}
+					GatherException ge = new GatherException(
+							"Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString()
+					);
+					publishStatus = "TOC NORT Step Failed with Not all Excluded Docs accounted for error";
+					throw ge;				
+				}				
 			} catch (IOException e) {
 				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
@@ -499,7 +530,13 @@ public class NortServiceImpl implements NortService {
 						GatherResponse.CODE_FILE_ERROR);
 				publishStatus = "TOC NORT Step Failed Cannot close toc.xml";
 				throw ge;
-			} finally {
+			} catch (Exception e) {
+				LOG.error(e.getMessage());
+				GatherException ge = new GatherException(
+						"Failure in findTOC() ", e,
+						GatherResponse.CODE_DATA_ERROR);
+				throw ge;
+			}finally {
 				gatherResponse.setDocCount(counters[DOCCOUNT]);
 				gatherResponse.setNodeCount(counters[NODECOUNT]);
 				gatherResponse.setSkipCount(counters[SKIPCOUNT]);

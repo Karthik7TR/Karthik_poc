@@ -15,6 +15,8 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -45,7 +47,8 @@ public class TocServiceImpl implements TocService {
 	private Integer tocRetryCount;
 
 	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent, ArrayList<ExcludeDocument> excludeDocuments)
+			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent, ArrayList<ExcludeDocument> excludeDocuments,
+			ArrayList<ExcludeDocument> copyExcludeDocuments)
 			throws GatherException {
 
 		TOCNode[] tocNodes = null;
@@ -97,7 +100,7 @@ public class TocServiceImpl implements TocService {
 			tocNodes = new TOCNode[1];
 			tocNodes[0] = tocNode;
 			printNodes(tocNodes, _tocManager, out, counter, docCounter,
-					intParent, excludeDocuments);
+					intParent, excludeDocuments, copyExcludeDocuments);
 		}  catch (GatherException e) {
 			LOG.error("Failed with GatherException in TOC");
 			throw e;
@@ -111,7 +114,7 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNodes(TOCNode[] nodes, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments)
 			throws GatherException {
 		boolean docFound = true;
 
@@ -119,7 +122,7 @@ public class TocServiceImpl implements TocService {
 			try {
 				for (TOCNode node : nodes) {
 					docFound = printNode(node, _tocManager, out, counter,
-							docCounter, iParent, excludeDocuments);
+							docCounter, iParent, excludeDocuments, copyExcludeDocuments);
 				}
 				if (iParent[0] > 0) {
 					if (docFound == false) {
@@ -150,7 +153,7 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNode(TOCNode node, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments)
 			throws GatherException, NovusException {
 		boolean docFound = true;
 		boolean excludeDocumentFound = false;
@@ -160,10 +163,12 @@ public class TocServiceImpl implements TocService {
 			documentGuid = node.getDocGuid();
 			if (documentGuid != null) {
 				documentGuid = documentGuid.replaceAll("\\<.*?>", "");
-				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)){
+				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)
+						&& (copyExcludeDocuments != null)){
 					for (ExcludeDocument excludeDocument : excludeDocuments) {
 						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
 							excludeDocumentFound = true;
+							copyExcludeDocuments.remove(excludeDocument);
 							break;
 					} 
 			}
@@ -287,7 +292,7 @@ public class TocServiceImpl implements TocService {
 
 			if (tocNodes != null) {
 				docFound = printNodes(tocNodes, _tocManager, out, counter,
-						docCounter, iParent, excludeDocuments);
+						docCounter, iParent, excludeDocuments, copyExcludeDocuments);
 			}
 		}
 		return docFound;
@@ -316,8 +321,19 @@ public class TocServiceImpl implements TocService {
 		String type = EBConstants.COLLECTION_TYPE;
 		Novus novusObject = novusFactory.createNovus();
 		_tocManager = getTocObject(collectionName, type, novusObject);
+		
+		ArrayList<ExcludeDocument> copyExcludDocs = null;
+		
+		// Make a copy of the original excluded documents to check that all have been accounted for
+		if (excludeDocuments != null) {
+			copyExcludDocs = new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+		}
 
 		try {
+			
+			if (excludeDocuments != null) {
+			Collections.copy(copyExcludDocs, excludeDocuments);
+			}
 
 			out = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(tocXmlFile.getPath()), "UTF8"));
@@ -325,7 +341,7 @@ public class TocServiceImpl implements TocService {
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
 			retrieveNodes(guid, _tocManager, out, counter, docCounter,
-					retryCounter, iParent, excludeDocuments);
+					retryCounter, iParent, excludeDocuments, copyExcludDocs);
 
 			LOG.info(docCounter[0] + " documents and " + counter[0]
 					+ " nodes in the TOC hierarchy for guid " + guid
@@ -358,9 +374,28 @@ public class TocServiceImpl implements TocService {
 			LOG.error(e.getMessage());
 			publishStatus = "TOC Step Failed GatherException";
 			throw e;
-		} finally {
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			GatherException ge = new GatherException("TOC IOException ", e,
+					GatherResponse.CODE_FILE_ERROR);
+			publishStatus = "TOC Step Failed IOException";
+			throw ge;
+		}finally {
 			try {
 				out.close();
+				
+				if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
+					StringBuffer unaccountedExcludedDocs = new StringBuffer();
+					for (ExcludeDocument excludeDocument : copyExcludDocs) {
+						unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
+					}
+					GatherException ge = new GatherException(
+							"Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString()
+					);
+					publishStatus = "TOC Step Failed with Not all Excluded Docs accounted for error";
+					throw ge;				
+				}
+				
 			} catch (IOException e) {
 				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
@@ -370,8 +405,8 @@ public class TocServiceImpl implements TocService {
 			} catch (Exception e) {
 				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(
-						"Failure to update job stats ", e,
-						GatherResponse.CODE_FILE_ERROR);
+						"Failure in findTOC() ", e,
+						GatherResponse.CODE_DATA_ERROR);
 				throw ge;
 			} finally {
 				gatherResponse.setDocCount(docCounter[0]);
