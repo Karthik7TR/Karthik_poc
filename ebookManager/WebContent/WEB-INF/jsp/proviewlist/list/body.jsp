@@ -39,13 +39,14 @@
 	  	
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
 	  	<display:column title="Title" property="title" sortable="true"/>
+	  	<display:column title="Total Versions" sortable="true" sortProperty="totalNumberOfVersions">
+	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">${proviewList.totalNumberOfVersions}</a>
+	  	</display:column>
 	  	<display:column title="Latest Version" property="version" sortable="true"/>
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
-	  	<display:column title="Total Versions" sortable="true" sortProperty="totalNumberOfVersions">
-	  			<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">${proviewList.totalNumberOfVersions}</a>
-	  	</display:column>
+	  	
 	  	
 	  	
 	</display:table>
