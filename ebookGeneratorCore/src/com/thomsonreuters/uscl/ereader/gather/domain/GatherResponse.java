@@ -16,6 +16,7 @@ public class GatherResponse {
 	public static final int CODE_NOVUS_ERROR = 1;
 	public static final int CODE_FILE_ERROR = 2;
 	public static final int CODE_UNHANDLED_ERROR = 3;
+	public static final int CODE_DATA_ERROR = 4;	
 
 	public String errorMessage;
 	public int errorCode;
