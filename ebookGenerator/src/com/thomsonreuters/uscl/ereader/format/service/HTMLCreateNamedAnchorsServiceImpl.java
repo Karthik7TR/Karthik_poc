@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -115,14 +116,35 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		LOG.info("Fixing named anchors on post transformed files...");
 		
 		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
+		Map<String, String> dupGuids =  new HashMap<String, String>();
 
+		// Create list of duplicates
+		for (DocMetadata docMeta : documentMetadataAuthority.getAllDocumentMetadata())
+		{
+			//TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
+			//There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
+			if (docMeta.getProviewFamilyUUIDDedup() != null && docMeta.getDocFamilyUuid() != null 
+					&& !dupGuids.containsValue(docMeta.getDocFamilyUuid()))
+			{
+				dupGuids.put(docMeta.getProViewId(), docMeta.getDocFamilyUuid());
+				for (DocMetadata docMeta2 : documentMetadataAuthority.getAllDocumentMetadata())
+				{
+					if (docMeta.getDocFamilyUuid() != null &&
+						docMeta2.getDocFamilyUuid().equals(docMeta.getDocFamilyUuid()))
+					{
+						dupGuids.put(docMeta2.getProViewId(), docMeta2.getDocFamilyUuid());
+					}
+				}
+			}
+		}	
 		File anchorTargetListFile = new File(srcDir.getAbsolutePath(), "anchorTargetFile");
 		
 		HashMap<String, HashSet<String>>  targetAnchors = readTargetAnchorFile(anchorTargetListFile);
+		HashMap<String, HashSet<String>> dupTargetAnchors = new HashMap<String, HashSet<String>>();
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir,  title, jobId, documentMetadataAuthority,targetAnchors);
+			transformHTMLFile(htmlFile, targetDir,  title, jobId, documentMetadataAuthority,targetAnchors,dupGuids,dupTargetAnchors);
 			numDocs++;
 		}
 		
@@ -132,6 +154,12 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		if (targetAnchors != null)
 		{
 			createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
+		}
+	
+		File anchorDupFile = new File(targetDir.getAbsolutePath(), "anchorDupFile");
+		if (dupTargetAnchors != null)
+		{
+			createAnchorTargetList(anchorDupFile, dupTargetAnchors);
 		}
 		
 		LOG.info("Creating Anchor transformations successfully applied to " + numDocs + " files.");
@@ -152,7 +180,10 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 	 * @throws if any parsing/transformation exception are encountered
 	 */
 	protected void transformHTMLFile(File sourceFile, File targetDir, 
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors) throws EBookFormatException
+			String titleID, Long jobIdentifier, 
+			final DocumentMetadataAuthority documentMetadataAuthority, 
+			HashMap<String, HashSet<String>> targetAnchors, Map<String, String> dupGuids,
+			HashMap<String, HashSet<String>> dupTargetAnchors) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -177,12 +208,16 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 			if (docMetadata != null && docMetadata.getProViewId() != null )
 			{
 				anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
+				anchorIdFilter.setFamilyGuid(docMetadata.getDocFamilyUuid());
 			}
 			else
 			{
 				anchorIdFilter.setCurrentGuid(guid);
+				anchorIdFilter.setFamilyGuid(guid);
 			}
 			anchorIdFilter.setTargetAnchors(targetAnchors);
+			anchorIdFilter.setDupTargetAnchors(dupTargetAnchors);
+			anchorIdFilter.setDupGuids(dupGuids);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
@@ -338,7 +373,8 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 				writer.newLine();
 				}
 			}
-			LOG.info(targetAnchors.size() + " doc guid anchor references written successfuly to file.");
+			LOG.info(targetAnchors.size() + " doc guid anchor references written successfuly to file: " + 
+					anchorTargetListFile.getAbsolutePath());
 		}
 		catch(IOException e)
 		{

@@ -17,6 +17,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Logger;
+
 /**
  * Resolves XSL Include conflicts by including an empty XSL for any XSL that have
  * already been 
@@ -26,7 +28,8 @@ import javax.xml.transform.stream.StreamSource;
 public class XSLIncludeResolver implements URIResolver {
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL = new File("/nas/Xslt/Universal/_Empty.xsl");
-	
+	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
+
 	public Source resolve(String href, String base) throws TransformerException
 	{
 		StreamSource source = null;
@@ -43,6 +46,7 @@ public class XSLIncludeResolver implements URIResolver {
 				}
 				else
 				{
+					LOG.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
 					includedXSLTs.add(includeXSLT.getCanonicalPath());
 					source = new StreamSource(includeXSLT);
 				}

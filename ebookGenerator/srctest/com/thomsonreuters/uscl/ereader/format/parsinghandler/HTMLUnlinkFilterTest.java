@@ -38,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
  */
 public class HTMLUnlinkFilterTest {
 
-	private HTMLUnlinkInternalLinksFilter anchorFilter;
+	private HTMLUnlinkInternalLinksFilter unlinkFilter;
 	private Serializer serializer;
 	private final String currentGuid = "ABC1234";
 	private final String foundAnchor = "er:#ABC1234/foundAnchor";
@@ -58,12 +58,12 @@ public class HTMLUnlinkFilterTest {
 		targetAnchors.put(currentGuid, hs);
 		ArrayList<String> unlinkDocMetadataList = new ArrayList<String>();
 		DocMetadata unlinkDocMetadata = new DocMetadata();
-		anchorFilter = new HTMLUnlinkInternalLinksFilter();
-		anchorFilter.setParent(saxParser.getXMLReader());
-		anchorFilter.setCurrentGuid(currentGuid);
-		anchorFilter.setTargetAnchors(targetAnchors);
-		anchorFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
-		anchorFilter.setUnlinkDocMetadata(unlinkDocMetadata);
+		unlinkFilter = new HTMLUnlinkInternalLinksFilter();
+		unlinkFilter.setParent(saxParser.getXMLReader());
+		unlinkFilter.setCurrentGuid(currentGuid);
+		unlinkFilter.setTargetAnchors(targetAnchors);
+		unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
+		unlinkFilter.setUnlinkDocMetadata(unlinkDocMetadata);
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
@@ -76,7 +76,7 @@ public class HTMLUnlinkFilterTest {
 	public void tearDown() throws Exception
 	{
 		serializer = null;
-		anchorFilter = null;
+		unlinkFilter = null;
 	}
 	
 	/** 
@@ -97,8 +97,8 @@ public class HTMLUnlinkFilterTest {
 			
 			serializer.setOutputStream(output);
 			
-			anchorFilter.setContentHandler(serializer.asContentHandler());
-			anchorFilter.parse(new InputSource(input));
+			unlinkFilter.setContentHandler(serializer.asContentHandler());
+			unlinkFilter.parse(new InputSource(input));
 			
 			String result = output.toString();
 			
@@ -236,6 +236,41 @@ public class HTMLUnlinkFilterTest {
 				
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+	@Test
+	public void testReplaceAnchorTagFromId() throws SAXException
+	{
+		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
+		anchorDupTargets.put(foundAnchor, foundAnchor+"new");
+		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
 
+		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
+		String expectedResult = "<test><a href=\""+foundAnchor+ "new\"><sup>1</sup></a></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testReplaceAnchorTagFromIdMultiple() throws SAXException
+	{
+		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
+		anchorDupTargets.put(foundAnchor, foundAnchor+"_new2");
+		anchorDupTargets.put(foundAnchor, foundAnchor+"new");
+		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
+
+		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
+		String expectedResult = "<test><a href=\""+foundAnchor+ "new\"><sup>1</sup></a></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testNOReplaceAnchorTagFromIdMultiple() throws SAXException
+	{
+		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
+		anchorDupTargets.put(foundAnchor+"new", foundAnchor+"_new2");
+		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
+
+		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
+		String expectedResult = "<test><sup>1</sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 }

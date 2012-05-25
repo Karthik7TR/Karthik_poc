@@ -55,8 +55,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private DocMetadataService docMetadataService;
-	private EmailNotification emailNotification;
-
+	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
 	{
 		this.fileHandlingHelper = fileHandlingHelper;
@@ -69,7 +68,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	
 	public void setEmailNotification(EmailNotification emailNotification) 
 	{
-		this.emailNotification = emailNotification;
 	}
 	
 	/**
@@ -124,18 +122,23 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		HashMap<String, HashSet<String>>  targetAnchors = readTargetAnchorFile(anchorTargetListFile);
 		ArrayList<String>  unlinkDocMetadataList = new ArrayList<String>();
 
+		File anchorDupListFile = new File(srcDir.getAbsolutePath(), "anchorDupFile");
+		
+		HashMap<String, String>  anchorDupTargets = readReplaceTargetAnchorFile(anchorDupListFile);
+
+	
 		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
 
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, title, jobId, documentMetadataAuthority, targetAnchors, unlinkDocMetadataList);
+			transformHTMLFile(htmlFile, targetDir, title, jobId, documentMetadataAuthority, targetAnchors, unlinkDocMetadataList, anchorDupTargets);
 			numDocs++;
 		}
 		
 		if (targetAnchors != null)
 		{
-		// TODO: send notification for existing anchors.
+		// Send notification for existing anchors.
 			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), title +"_" + jobId +"_anchorTargetUnlinkFile.csv");
 			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile);
 			
@@ -162,7 +165,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	protected void transformHTMLFile(File sourceFile, File targetDir, 
 			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, 
 			HashMap<String, HashSet<String>> targetAnchors,
-			ArrayList<String> unlinkDocMetadataList) throws EBookFormatException
+			ArrayList<String> unlinkDocMetadataList,
+			HashMap<String, String> anchorDupTargets) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -194,6 +198,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			}
 			unlinkFilter.setTargetAnchors(targetAnchors);
 			unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
+			unlinkFilter.setAnchorDupTargets(anchorDupTargets);
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
@@ -277,9 +282,22 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 					{
 						HashSet<String> anchorSet = new HashSet<String>();
 						String[] anchorList = line[1].split(",");
-						for (String anchorVal : anchorList)
+						if (line[1].contains("REPLACEWITH"))
 						{
-							anchorSet.add(anchorVal);
+							for (String anchorVal : anchorList)
+							{
+								String[] anchorReplaceList = anchorVal.split("REPLACEWITH");
+								anchorSet.add(anchorReplaceList[0]);
+								anchorSet.add(anchorVal);
+							}
+
+						}
+						else
+						{
+							for (String anchorVal : anchorList)
+							{
+								anchorSet.add(anchorVal);
+							}
 						}
 						anchors.put(line[0], anchorSet);
 					}
@@ -320,6 +338,76 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		return anchors;
 		
 	}
+	
+	protected HashMap<String, String> readReplaceTargetAnchorFile(File anchorTargetListFile) throws EBookFormatException
+	{
+		HashMap<String, String> anchors = new HashMap<String, String>();
+		if (anchorTargetListFile.length() == 0)
+		{
+			return null;
+		}
+		else 
+		{
+			BufferedReader reader = null;
+			try
+			{
+				reader = new BufferedReader(new FileReader(anchorTargetListFile));
+				String input = reader.readLine();
+				while (input != null)
+				{
+					String[] line = input.split("\\|", -1);
+					if (!line[1].equals(""))
+					{
+						HashSet<String> anchorSet = new HashSet<String>();
+						String[] anchorList = line[1].split(",");
+						if (line[1].contains("REPLACEWITH"))
+						{
+							for (String anchorVal : anchorList)
+							{
+								String[] anchorReplaceList = anchorVal.split("REPLACEWITH");
+								anchorSet.add(anchorReplaceList[0]);
+								anchors.put(anchorReplaceList[0], anchorReplaceList[1]);
+							}
+						}		
+					}
+					else
+					{
+						String message = "Please verify that each document GUID in the following file has " +
+								"at least one anchor associated with it: " + 
+								anchorTargetListFile.getAbsolutePath();
+						LOG.error(message);
+						throw new EBookFormatException(message);
+					}
+					input = reader.readLine();
+				}
+				LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
+			}
+			catch(IOException e)
+			{
+				String message = "Could not read the DOC guid to anchors file: " + 
+					anchorTargetListFile.getAbsolutePath();
+				LOG.error(message);
+				throw new EBookFormatException(message, e);
+			}
+			finally
+			{
+				try
+				{
+					if (reader != null)
+					{
+						reader.close();
+					}
+				}
+				catch (IOException e)
+				{
+					LOG.error("Unable to close file reader.", e);
+				}
+			}
+		}
+		return anchors;
+		
+	}
+	
 	protected void writeUnlinkAnchorReport(String title, Long jobId, ArrayList<String> unlinkDocMetadataList,
 											File anchorUnlinkTargetListFile) throws EBookFormatException
 	{
@@ -367,7 +455,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		LOG.debug("Notification email body : " + emailBody);
 		ArrayList<String> filenames = new ArrayList<String>();
 		filenames.add(anchorUnlinkTargetListFile.getAbsolutePath());
-		emailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
+		EmailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
 		
 	}
 

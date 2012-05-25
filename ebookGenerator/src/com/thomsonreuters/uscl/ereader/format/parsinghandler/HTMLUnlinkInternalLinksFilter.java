@@ -8,9 +8,11 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -24,6 +26,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	
 	private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
+	private HashMap<String, String> anchorDupTargets;
 	private ArrayList<String> unlinkDocMetadataList;
 	private DocMetadata unlinkDocMetadata;
 	private int badLinkCntr = 0;
@@ -48,6 +51,14 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 		return targetAnchors;
 	}
 	
+	public void setAnchorDupTargets(HashMap<String, String> anchorDupTargets) 
+	{
+		this.anchorDupTargets = anchorDupTargets;
+	}
+	public HashMap<String, String> getAnchorDupTargets() 
+	{
+		return anchorDupTargets;
+	}
 	public ArrayList<String> getUnlinkDocMetadataList() 
 	{
 		return unlinkDocMetadataList;
@@ -77,57 +88,88 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				String guid = currentGuid;
 				String guidList[] = atts.getValue("href").split("/");
 
-				if (guidList.length > 1)
+				if (guidList.length > 1 )
 				{
 					guid = guidList[0].substring(4);
 				}
+
 
 				if (targetAnchors != null)
 				{
 					nameAnchors =  targetAnchors.get(guid);
 				}
-					
-				if ( nameAnchors != null && nameAnchors.contains(atts.getValue("href")))
+				String attsHrefValue = atts.getValue("href");
+
+				if ( nameAnchors != null && nameAnchors.contains(attsHrefValue))
 				{
-					// remove anchor with no target.
-					badLinkCntr++;
-					if (unlinkDocMetadataList == null)
+					if	( anchorDupTargets != null && anchorDupTargets.containsKey(attsHrefValue))
 					{
-						unlinkDocMetadataList = new ArrayList<String>();
-					}
-					
-					StringBuffer sbDocMetadata = new StringBuffer();
-					if (unlinkDocMetadata != null)
-					{
-						sbDocMetadata.append(unlinkDocMetadata.getDocUuid());
-					}
+					// change href REPLACEWITH existing anchor
+
+						for ( Entry<String, String> dupTarget : anchorDupTargets.entrySet() )
+						{
+							if (dupTarget.getKey().contains(attsHrefValue))
+							{	
+								attsHrefValue  = dupTarget.getValue();
+								if (!dupTarget.getValue().contains("_"))
+									break; // give priority to guid without _
+							}
+						}
+						AttributesImpl newAtts = new AttributesImpl(atts);
+										
+						if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(newAtts.getValue("href")))
+						{
+							int indexHrefId = newAtts.getIndex("href");
+							newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
+						}
+						super.startElement(uri, localName, qName, newAtts);
+						goodAnchorCntr++;
+
+					}							
 					else
 					{
-						sbDocMetadata.append(currentGuid);
+						// remove anchor with no target.
+						badLinkCntr++;
+						
+						//write out link information for email report
+						if (unlinkDocMetadataList == null)
+						{
+							unlinkDocMetadataList = new ArrayList<String>();
+						}
+						
+						StringBuffer sbDocMetadata = new StringBuffer();
+						if (unlinkDocMetadata != null)
+						{
+							sbDocMetadata.append(unlinkDocMetadata.getDocUuid());
+						}
+						else
+						{
+							sbDocMetadata.append(currentGuid);
+						}
+						sbDocMetadata.append(",");
+						if(unlinkDocMetadata.getDocFamilyUuid() != null )
+						{
+							sbDocMetadata.append(unlinkDocMetadata.getDocFamilyUuid());
+						}
+						sbDocMetadata.append(",");
+						if(unlinkDocMetadata.getNormalizedFirstlineCite() != null )
+						{
+							sbDocMetadata.append(unlinkDocMetadata.getNormalizedFirstlineCite());
+						}
+						sbDocMetadata.append(",");
+						if(unlinkDocMetadata.getSerialNumber() != null )
+						{
+							sbDocMetadata.append(unlinkDocMetadata.getSerialNumber());
+						}
+						sbDocMetadata.append(",");
+						if(unlinkDocMetadata.getCollectionName() != null )
+						{
+							sbDocMetadata.append(unlinkDocMetadata.getCollectionName());
+						}
+						sbDocMetadata.append(",");
+						sbDocMetadata.append(atts.getValue("href"));
+						unlinkDocMetadataList.add(sbDocMetadata.toString());
 					}
-					sbDocMetadata.append(",");
-					if(unlinkDocMetadata.getDocFamilyUuid() != null )
-					{
-						sbDocMetadata.append(unlinkDocMetadata.getDocFamilyUuid());
-					}
-					sbDocMetadata.append(",");
-					if(unlinkDocMetadata.getNormalizedFirstlineCite() != null )
-					{
-						sbDocMetadata.append(unlinkDocMetadata.getNormalizedFirstlineCite());
-					}
-					sbDocMetadata.append(",");
-					if(unlinkDocMetadata.getSerialNumber() != null )
-					{
-						sbDocMetadata.append(unlinkDocMetadata.getSerialNumber());
-					}
-					sbDocMetadata.append(",");
-					if(unlinkDocMetadata.getCollectionName() != null )
-					{
-						sbDocMetadata.append(unlinkDocMetadata.getCollectionName());
-					}
-					sbDocMetadata.append(",");
-					sbDocMetadata.append(atts.getValue("href"));
-					unlinkDocMetadataList.add(sbDocMetadata.toString());
 				}
 				else
 				{

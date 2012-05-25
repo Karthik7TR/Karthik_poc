@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -233,6 +234,75 @@ public class HTMLIdFilterTest {
 				
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+	@Test
+	public void testCreateAnchorTagFromIdDupGuid() throws SAXException
+	{
+		Map<String,String > dupGuids = new HashMap<String, String>();
+		dupGuids.put("ABC1234_1", "FamGuid");
+		dupGuids.put("ABC1234", "FamGuid");
+		
+		anchorFilter.setDupGuids(dupGuids);
+		anchorFilter.setFamilyGuid("FamGuid");
+		anchorFilter.setCurrentGuid("ABC1234_1");
+		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "\">1</sup></test>";
+		String expectedResult = "<test><sup id=\""+foundAnchorId+ "\"><a name=\"" + foundAnchorId +"\">1</a></sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testCreateAnchorTagFromIdMultiDupGuid() throws SAXException
+	{
+		Map<String,String > dupGuids = new HashMap<String, String>();
+		dupGuids.put("ABC1234_1", "FamGuid");
+		dupGuids.put("ABC1234", "FamGuid");
+		
+		anchorFilter.setDupGuids(dupGuids);
+		anchorFilter.setFamilyGuid("FamGuid");
+		anchorFilter.setCurrentGuid("ABC1234_1");
+		
+		HashMap<String, HashSet<String>> targetAnchors = new HashMap<String, HashSet<String>>();
+		HashSet<String> hs = new HashSet<String>();
+		hs.add(foundAnchor);
+		hs.add(foundAnchor+"new");
+		targetAnchors.put("ABC1234_1", hs);
+		targetAnchors.put("ABC1234", hs);
+		anchorFilter.setTargetAnchors(targetAnchors);
+
+		
+		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "\">1</sup></test>";
+		String expectedResult = "<test><sup id=\""+foundAnchorId+ "\"><a name=\"" + foundAnchorId +"\">1</a></sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testDoNoTCreateAnchorTagFromIdDupGuid() throws SAXException
+	{
+		Map<String,String > dupGuids = new HashMap<String, String>();
+		dupGuids.put("ABC1234_1", "FamGuid");
+		dupGuids.put("ABC1234", "FamGuid");
+		
+		anchorFilter.setDupGuids(dupGuids);
+		anchorFilter.setFamilyGuid("FamGuid");
+		anchorFilter.setCurrentGuid("ABC1234_1");
+		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "NOMATCH\">1</sup></test>";
+		String expectedResult = "<test><sup id=\""+foundAnchorId+ "NOMATCH\">1</sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	@Test
+	public void testDoNotCreateAnchorTagFromIdRandomGuid() throws SAXException
+	{
+		Map<String,String > dupGuids = new HashMap<String, String>();
+		dupGuids.put("ABC1234_1", "FamGuid");
+		dupGuids.put("ABC1234", "FamGuid");
+		
+		anchorFilter.setDupGuids(dupGuids);
+		anchorFilter.setFamilyGuid("FamGuid2");
+		anchorFilter.setCurrentGuid("NOMATCHGUID");
+		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "\">1</sup></test>";
+		String expectedResult = "<test><sup id=\""+foundAnchorId+ "\">1</sup></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
 
 }
