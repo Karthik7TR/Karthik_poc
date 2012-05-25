@@ -319,6 +319,8 @@ public class ProviewClientImpl implements ProviewClient {
 		for (String bookId : titleMap.keySet()) {
 			ProviewTitleContainer titleContainer = titleMap.get(bookId);
 			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			latestVersion.setTotalNumberOfVersions(titleContainer
+					.getProviewTitleInfos().size());
 			allLatestProviewTitles.add(latestVersion);
 		}
 
@@ -336,6 +338,8 @@ public class ProviewClientImpl implements ProviewClient {
 		for (String bookId : titleMap.keySet()) {
 			ProviewTitleContainer titleContainer = titleMap.get(bookId);
 			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			latestVersion.setTotalNumberOfVersions(titleContainer
+					.getProviewTitleInfos().size());
 			allLatestProviewTitles.add(latestVersion);
 		}
 

@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author U0057241
  * 
  */
-public class ProviewTitleInfo implements Serializable{
+public class ProviewTitleInfo implements Serializable {
 
 	/**
 	 * 
@@ -27,6 +27,15 @@ public class ProviewTitleInfo implements Serializable{
 	private String lastupdate;
 	private String status;
 	private String title;
+	private Integer totalNumberOfVersions;
+
+	public Integer getTotalNumberOfVersions() {
+		return totalNumberOfVersions;
+	}
+
+	public void setTotalNumberOfVersions(Integer totalNumberOfVersions) {
+		this.totalNumberOfVersions = totalNumberOfVersions;
+	}
 
 	public String getVersion() {
 		return version;
