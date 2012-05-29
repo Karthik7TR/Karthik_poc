@@ -394,6 +394,10 @@ a:hover {
 	margin:5px;
 }
 
+.bookDefinitionCRUD .frontMatterSection br{
+	height:1px;
+}
+
 .bookDefinitionCRUD #additionalFrontMatter .additionalFrontMatterText {
 	width:420px;
 }

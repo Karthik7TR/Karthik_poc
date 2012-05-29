@@ -244,6 +244,7 @@ public class WebConstants {
 
 	// Error related URI's
 	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
+	public static final String MVC_ERROR_BOOK_DEFINITION = "errorBookDefinition.mvc";
 
 	// Logical view names
 	public static final String VIEW_APP_EXCEPTION = "appException";
@@ -304,6 +305,7 @@ public class WebConstants {
 	public static final String VIEW_SEC_LOGIN = "_login";
 	public static final String VIEW_SEC_LOGIN_AUTO = "security/autoLogin";
 	public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
+	public static final String VIEW_ERROR_BOOK_DEFINTION = "_errorBookDefinition";
 	public static final String VIEW_SMOKE_TEST = "smokeTest";
 	public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
 	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";

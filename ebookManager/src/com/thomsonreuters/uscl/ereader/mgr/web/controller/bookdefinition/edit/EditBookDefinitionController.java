@@ -201,8 +201,15 @@ public class EditBookDefinitionController {
 		Long bookDefinitionId = form.getBookdefinitionId();
 		String username = UserUtils.getAuthenticatedUserName();
 		
+		BookDefinition bookDef = null;
+		try {
 		// Lookup the book by its primary key
-		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
+			bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
+		} catch(Exception e) {
+			// Error happens when POST of form is over Tomcat post limit. // Default is set at 2 mb.
+			// The processed form is empty.
+			return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DEFINITION));
+		}
 		
 		// model used in VIEW_BOOK_DEFINITION_LOCKED and VIEW_BOOK_DEFINITION_EDIT
 		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);

@@ -13,11 +13,15 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
  */
 @Controller
 public class ErrorController {
-	
 	//private static final Logger log = Logger.getLogger(ErrorController.class);
 	
 	@RequestMapping(value=WebConstants.MVC_ERROR_BOOK_DELETED, method = RequestMethod.GET)
 	public ModelAndView getBookDeleted() {
 		return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DELETED);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_ERROR_BOOK_DEFINITION, method = RequestMethod.GET)
+	public ModelAndView getBookDefinitionError() {
+		return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DEFINTION);
 	}
 }
