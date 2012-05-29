@@ -78,8 +78,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final String EXPECTED_FEATURES = "<features><feature name=\"AutoUpdate\"/><feature name=\"SearchIndex\"/><feature name=\"OnePassSSO\" value=\"www.westlaw.com\"/></features>";
 	private static final String EXPECTED_MATERIAL_ID = "<material>Plunder2</material>";
 	private static final String EXPECTED_START_MANIFEST_PREFIX = "<title apiversion=\"v1\" titleversion=\"v1\" id=\"yarr/pirates\" lastupdated=\"";
-	private static final String EXPECTED_START_MANIFEST_SUFFIX = "\" language=\"eng\" status=\"Review\">";
-	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\"/>";
+	private static final String EXPECTED_START_MANIFEST_SUFFIX = "\" language=\"eng\" status=\"Review\" onlineexpiration=\"29991231\">";
+	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\" onlineexpiration=\"29991231\"/>";
 	private static final String EXPECTED_TOC = "<toc><entry s=\"FrontMatterTitle/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry>";
 	private static final String CASCADED_TOC = "<entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
 	private static final String EXPECTED_DOCS_TOC_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/>";
