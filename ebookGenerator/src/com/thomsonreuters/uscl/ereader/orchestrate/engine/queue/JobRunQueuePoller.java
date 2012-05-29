@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -47,6 +48,7 @@ public class JobRunQueuePoller {
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
 	private PlannedOutageContainer plannedOutages;
+	private String outageEmailRecipients;
 
 	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
@@ -140,12 +142,12 @@ public class JobRunQueuePoller {
 	}
 	
 	private void sendOutageEmail(String subject, PlannedOutage outage) {
-// TODO: Get email recipients
-String to = "tom.hall@thomsonreuters.com";  // TESTING
-		// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
-		String body = subject + "\n\n";
-		body += outage.toString();
-		EmailNotification.send(to, subject, body);
+		if (StringUtils.isNotBlank(outageEmailRecipients)) {
+			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
+			String body = subject + "\n\n";
+			body += outage.toString();
+			EmailNotification.send(outageEmailRecipients, subject, body);
+		}
 	}
 	
 	private String getHostName() {
@@ -181,5 +183,14 @@ String to = "tom.hall@thomsonreuters.com";  // TESTING
 	@Required
 	public void setPlannedOutages(PlannedOutageContainer container) {
 		this.plannedOutages = container;
+	}
+
+	/**
+	 * Assign the list of recipients to receive notification when a outage begins and ends.
+	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
+	 */
+	@Required
+	public void setOutageEmailRecipients(String csvRecipients) {
+		this.outageEmailRecipients = csvRecipients;
 	}
 }
