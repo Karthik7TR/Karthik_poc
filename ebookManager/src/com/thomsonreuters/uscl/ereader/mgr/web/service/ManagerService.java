@@ -7,6 +7,7 @@ import org.springframework.batch.core.JobExecution;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 
 public interface ManagerService {
 	
@@ -28,6 +29,15 @@ public interface ManagerService {
 	public SimpleRestServiceResponse pushMiscConfiguration(MiscConfig config, String webAppContextName, InetSocketAddress socketAddr);
 
 	public SimpleRestServiceResponse pushJobThrottleConfiguration(JobThrottleConfig config, InetSocketAddress socketAddr);
+	
+	/**
+	 * Push out to generator applications the notification that there will be a planned
+	 * application resource availability disruption for some time period.
+	 * This means that new generator jobs will not be started or restarted during an outage period.
+	 * @param outage the properties of the outage event
+	 * @param socketAddr the host:port of the generator app that needs to receive notification
+	 */
+	public SimpleRestServiceResponse pushPlannedOutage(PlannedOutage outage, InetSocketAddress socketAddr);
 	
 	/**
 	 * Delete old database table and filesystem job data.

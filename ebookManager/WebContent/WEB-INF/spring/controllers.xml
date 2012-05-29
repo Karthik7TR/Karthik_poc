@@ -34,7 +34,7 @@
 		 <constructor-arg index="1" value="${generator.port}"/>
 		 <constructor-arg index="2" value="${manager.port}"/>
 	</bean>
-	<bean id="syncConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.SyncConfigRestController"
+	<bean id="miscConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.MiscConfigRestController"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
 	
 	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />

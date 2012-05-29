@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -42,6 +45,7 @@ public class OperationsController {
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private AppConfigService appConfigService;
+	private PlannedOutageContainer plannedOutages;
 	private FlowJob job;
 	
 	public OperationsController(FlowJob job) {
@@ -63,8 +67,14 @@ public class OperationsController {
 		
 		SimpleRestServiceResponse opResponse = null;
 		try {
-			Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
-			opResponse = new SimpleRestServiceResponse(restartedJobExecutionId);
+			PlannedOutage outage = plannedOutages.findOutage(new Date());
+			if (outage != null) {
+				String message = String.format("Cannot restart job because we are in a service outage until %s", outage.getEndTime().toString()); 
+				opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
+			} else {
+				Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
+				opResponse = new SimpleRestServiceResponse(restartedJobExecutionId);
+			}
 		} catch (JobInstanceAlreadyCompleteException e) {  // Cannot restart a job that is already finished
 			Object[] args = { jobExecutionIdToRestart.toString() };
 			String message = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
@@ -156,5 +166,9 @@ public class OperationsController {
 	@Required
 	public void setMessageSourceAccessor(MessageSourceAccessor accessor) {
 		this.messageSourceAccessor = accessor;
+	}
+	@Required
+	public void setPlannedOutages(PlannedOutageContainer container) {
+		this.plannedOutages = container;
 	}
 }

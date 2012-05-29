@@ -48,7 +48,7 @@ public class PlannedOutageIntegrationTest {
 		outage.setStartTime(DATE);
 		outage.setEndTime(DATE);
 		outage.setLastUpdated(DATE);
-		outage.setOperation(PlannedOutage.Operation.CREATE);
+		outage.setOperation(PlannedOutage.Operation.SAVE);
 		outage.setOutageType(type);
 		outage.setReason("Test");
 		outage.setUpdatedBy("Me");
@@ -73,7 +73,7 @@ public class PlannedOutageIntegrationTest {
 			outage.setStartTime(cal.getTime());
 			outage.setEndTime(cal.getTime());
 			outage.setLastUpdated(DATE);
-			outage.setOperation(PlannedOutage.Operation.CREATE);
+			outage.setOperation(PlannedOutage.Operation.SAVE);
 			outage.setOutageType(type);
 			outage.setReason("Test");
 			outage.setUpdatedBy("Me");

@@ -8,6 +8,7 @@ public class CoreConstants {
 	/** We are putting the *.mvc suffix on the URL's because the manager app dispatcher servlet expects the URL's to follow this pattern. */
 	public static final String URI_SYNC_MISC_CONFIG = "service/sync/misc/config.mvc";
 	public static final String URI_SYNC_JOB_THROTTLE_CONFIG = "service/sync/job/throttle/config.mvc";
+	public static final String URI_SYNC_PLANNED_OUTAGE = "service/sync/planned/outage.mvc";
 	
 	public static final String URI_GET_JOB_THROTTLE_CONFIG = "service/get/job/throttle/config";
 	public static final String URI_GET_MISC_CONFIG = "service/get/misc/config";

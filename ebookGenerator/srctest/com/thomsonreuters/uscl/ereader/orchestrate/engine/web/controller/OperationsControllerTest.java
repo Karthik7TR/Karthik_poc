@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 
 
@@ -50,6 +51,7 @@ public class OperationsControllerTest {
     	controller = new OperationsController(new FlowJob());
     	controller.setEngineService(mockEngineService);
     	controller.setMessageSourceAccessor(mockAccessor);
+    	controller.setPlannedOutages(new PlannedOutageContainer());
     }
     @Test
     public void testRestartJob() throws Exception {

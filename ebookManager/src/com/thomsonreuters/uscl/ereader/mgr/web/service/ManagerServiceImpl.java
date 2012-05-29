@@ -18,17 +18,21 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 
 public class ManagerServiceImpl implements ManagerService {
 	private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
-
+	
 	private static final String GENERATOR_REST_SYNC_MISC_CONFIG_TEMPLATE =
 							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_MISC_CONFIG;
 	private static final String GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE =
-							"http://%s:%d/ebookGenerator/"+CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
+							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
+	private static final String GENERATOR_REST_SYNC_PLANNED_OUTAGE =
+			"http://%s:%d/%s/"+CoreConstants.URI_SYNC_PLANNED_OUTAGE;
 
 	private String environmentName;
+	private String generatorContextName;
 	private File rootWorkDirectory;
 	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
 	private RestTemplate restTemplate;
@@ -55,10 +59,20 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public SimpleRestServiceResponse pushJobThrottleConfiguration(JobThrottleConfig config, InetSocketAddress socketAddr) {
 		String url = String.format(GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE,
-								   socketAddr.getHostName(), socketAddr.getPort());
+								   socketAddr.getHostName(), socketAddr.getPort(), generatorContextName);
 		log.debug("to URL: " + url);
 		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
 				restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
+		return response;
+	}
+	
+	@Override
+	public SimpleRestServiceResponse pushPlannedOutage(PlannedOutage outage, InetSocketAddress socketAddr) {
+		String url = String.format(GENERATOR_REST_SYNC_PLANNED_OUTAGE,
+								   socketAddr.getHostName(), socketAddr.getPort());
+		log.debug("to URL: " + url);
+		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
+				restTemplate.postForObject(url, outage, SimpleRestServiceResponse.class);
 		return response;
 	}
 	
@@ -100,7 +114,10 @@ public class ManagerServiceImpl implements ManagerService {
 			}
 		}
 	}
-	
+	@Required
+	public void setGeneratorContextName(String contextName) {
+		this.generatorContextName = contextName;
+	}
 	@Required
 	public void setRootWorkDirectory(File dir) {
 		this.rootWorkDirectory = dir;

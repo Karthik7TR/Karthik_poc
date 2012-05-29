@@ -26,6 +26,8 @@
 		<property name="annotatedClasses">
 		  <list>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock</value>
 		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
@@ -117,5 +119,9 @@
 	<bean id="managerDao" class="com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDaoImpl"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:jobExplorer-ref="jobExplorer"/>
+		  
+	<bean id="outageDao" class="com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDaoImpl">  
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 </beans>
 	

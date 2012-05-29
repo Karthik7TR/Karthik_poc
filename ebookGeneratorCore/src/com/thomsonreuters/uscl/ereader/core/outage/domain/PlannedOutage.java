@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.outage.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,12 +17,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
-
 @Entity
 @Table(name="PLANNED_OUTAGE")
 public class PlannedOutage implements Serializable {
-	public static enum Operation { CREATE, UPDATE, DELETE  }
+	public static enum Operation { SAVE, REMOVE  };
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -84,13 +83,9 @@ public class PlannedOutage implements Serializable {
 			return false;
 		return true;
 	}
-
-	public boolean getAllClearEmailSent() {
-		if(StringUtils.isBlank(allClearEmailSent)) {
-			return false;
-		} else {
-			return ((this.allClearEmailSent.equalsIgnoreCase("Y") ? true : false));	
-		}
+	
+	public boolean isAllClearEmailSent() {
+		return ("Y".equalsIgnoreCase(allClearEmailSent));
 	}
 
 	public Date getEndTime() {
@@ -105,12 +100,8 @@ public class PlannedOutage implements Serializable {
 		return lastUpdated;
 	}
 
-	public boolean getNotificationEmailSent() {
-		if(StringUtils.isBlank(notificationEmailSent)) {
-			return false;
-		} else {
-			return ((this.notificationEmailSent.equalsIgnoreCase("Y") ? true : false));	
-		}
+	public boolean isNotificationEmailSent() {
+		return ("Y".equalsIgnoreCase(notificationEmailSent));
 	}
 
 	@Transient
@@ -199,5 +190,21 @@ public class PlannedOutage implements Serializable {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
+	/**
+	 * Serves as the email notification body.
+	 */
+	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		StringBuffer body = new StringBuffer();
+		body.append(String.format("ID:    %d\n", id));
+		body.append(String.format("Start: %s\n", sdf.format(startTime)));
+		body.append(String.format("End:   %s\n", sdf.format(endTime)));
+		body.append(String.format("Type:  %s\n\n", (outageType != null) ? String.format("%s / %s", outageType.getSystem(), outageType.getSubSystem()) : null));
+		body.append("Reason:\n");
+		body.append(String.format("%s\n\n", reason));
+		body.append("System Impact Description:\n");
+		body.append(String.format("%s\n\n", systemImpactDescription));
+		body.append(String.format("Servers Impacted: %s\n", serversImpacted));
+		return body.toString();
+	}
 }

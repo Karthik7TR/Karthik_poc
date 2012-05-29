@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
-import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 
 /**
@@ -22,11 +20,9 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
  * The configurations are POST'ed as the body of the HTTP request.
  */
 @Controller
-public class SyncConfigRestController {
-	private static final Logger log = Logger.getLogger(SyncConfigRestController.class);
+public class MiscConfigRestController {
+	private static final Logger log = Logger.getLogger(MiscConfigRestController.class);
 	private MiscConfigSyncService miscConfigSyncService;
-	/** May be null if this is not the generator web app application */
-	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
 	
 	/**
 	 * Update logging log levels from the configuration received in the body of the request.
@@ -51,33 +47,12 @@ public class SyncConfigRestController {
 		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
 		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);
 	}
-
-	/**
-	 * Used only in the ebookGenerator to update the job throttle configuration with the changes
-	 * made from the manager web app admin page.
-	 */
-	@RequestMapping(value=CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
-	public ModelAndView synchronizeJobThrottleConfiguration(@RequestBody JobThrottleConfig config, Model model) throws Exception {
-		log.debug(">>> " + config);
-		SimpleRestServiceResponse opResponse = null;
-		try {
-			String message = "Successfully synchronized application job throttle configuration";
-			jobThrottleConfigSyncService.syncJobThrottleConfig(config);
-			opResponse = new SimpleRestServiceResponse(null, true, message);
-		} catch (Exception e) {
-			String message = "Exception performing app config data sync - " + e.getMessage();
-			opResponse = new SimpleRestServiceResponse(null, false, message);	
-			log.error(message, e);
-		}
-		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
-		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);
-	}
 	
 	/**
 	 * Debugging echo service that makes sure the service is up
 	 */
 	@RequestMapping(value="service/{message}/echo.mvc", method = RequestMethod.GET)
-	public ModelAndView synchronizeMiscConfiguration(@PathVariable String message, Model model) throws Exception {
+	public ModelAndView echo(@PathVariable String message, Model model) throws Exception {
 		log.debug(">>> " + message);
 		SimpleRestServiceResponse opResponse = new SimpleRestServiceResponse(null, true, message);
 		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
@@ -87,13 +62,5 @@ public class SyncConfigRestController {
 	@Required
 	public void setMiscConfigSyncService(MiscConfigSyncService syncService) {
 		this.miscConfigSyncService = syncService;
-	}
-	/**
-	 * Note that this is NOT a required service, if it is missing, then no attempt is made to sync the throttle config.
-	 * This would be the case for the manager and the gatherer who only care about the misc configurations.
-	 * @param syncService
-	 */
-	public void setJobThrottleConfigSyncService(JobThrottleConfigSyncService syncService) {
-		this.jobThrottleConfigSyncService = syncService;
 	}
 }

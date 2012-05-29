@@ -32,6 +32,8 @@
 		<property name="annotatedClasses">
 		  <list>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
 		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
 		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
@@ -102,7 +104,11 @@
 		  
 	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
-	</bean>		  
+	</bean>
+	
+	<bean id="outageDao" class="com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDaoImpl">  
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
 	
 	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
 		<constructor-arg ref="sessionFactory" />

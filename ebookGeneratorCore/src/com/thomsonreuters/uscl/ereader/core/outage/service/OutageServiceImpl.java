@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.core.outage.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDao;
@@ -73,6 +74,7 @@ public class OutageServiceImpl implements OutageService {
 		dao.deleteOutageType(findOutageTypeByPrimaryKey(id));
 	}
 	
+	@Required
 	public void setOutageDao(OutageDao dao) {
 		this.dao = dao;
 	}
