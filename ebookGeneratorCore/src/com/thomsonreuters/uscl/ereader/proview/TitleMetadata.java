@@ -31,6 +31,7 @@ public class TitleMetadata implements Serializable {
 	private final String apiVersion = "v1";
 	private final String language = "eng";
 	private final String status = "Review";
+	private final String onlineexpiration = "29991231";
 	
 	private String titleId;
 	private String titleVersion;
@@ -185,6 +186,7 @@ public class TitleMetadata implements Serializable {
         builder.append(getTitleId(), rhs.getTitleId());
         builder.append(getTitleVersion(), rhs.getTitleVersion());
         builder.append(getStatus(), rhs.getStatus());
+        builder.append(getOnlineexpiration(), rhs.getOnlineexpiration());
         return builder.isEquals();
     }
 
@@ -204,6 +206,7 @@ public class TitleMetadata implements Serializable {
         builder.append(getTitleId());
         builder.append(getTitleVersion());
         builder.append(getStatus());
+        builder.append(getOnlineexpiration());
 
         return builder.toHashCode();
     }
@@ -274,6 +277,10 @@ public class TitleMetadata implements Serializable {
 
 	public void setProviewFeatures(ArrayList<Feature> proviewFeatures) {
 		this.proviewFeatures = proviewFeatures;
+	}
+
+	public String getOnlineexpiration() {
+		return onlineexpiration;
 	}
 	
 }

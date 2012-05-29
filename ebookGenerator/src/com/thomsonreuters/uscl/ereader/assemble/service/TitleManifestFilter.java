@@ -115,6 +115,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String FEATURES_ELEMENT = "features";
 	private static final String NAME_ELEMENT = "name";
 	private static final String STATUS_ATTRIBUTE = "status";
+	private static final String ONLINEEXPIRATION_ATTRIBUTE = "onlineexpiration";	
 	private static final String LANGUAGE_ATTRIBUTE = "language";
 	private static final String LASTUPDATED_ATTRIBUTE = "lastupdated";
 	private static final String TITLEVERSION_ATTRIBUTE = "titleversion";
@@ -698,6 +699,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		attributes.addAttribute(URI, LASTUPDATED_ATTRIBUTE, LASTUPDATED_ATTRIBUTE, CDATA, titleMetadata.getLastUpdated());
 		attributes.addAttribute(URI, LANGUAGE_ATTRIBUTE, LANGUAGE_ATTRIBUTE, CDATA, titleMetadata.getLanguage());
 		attributes.addAttribute(URI, STATUS_ATTRIBUTE, STATUS_ATTRIBUTE, CDATA, titleMetadata.getStatus());
+		attributes.addAttribute(URI, ONLINEEXPIRATION_ATTRIBUTE, ONLINEEXPIRATION_ATTRIBUTE, CDATA, titleMetadata.getOnlineexpiration());		
 		return attributes;
 	}
 
