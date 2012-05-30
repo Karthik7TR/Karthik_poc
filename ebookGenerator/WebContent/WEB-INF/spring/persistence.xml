@@ -55,6 +55,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
+		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
 		  </list>
 		</property>
   	</bean>
@@ -120,6 +121,10 @@
 	<bean id="jobCleanupDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
+	
+	<bean id="userPreferenceDao" class="com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
 		  
 </beans>
 	

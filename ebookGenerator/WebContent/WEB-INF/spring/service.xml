@@ -30,7 +30,10 @@
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"
 		  p:taskExecutor-ref="springBatchTaskExecutor"
-		  p:jobStartupThrottleService-ref="jobStartupThrottleService"/>
+		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
+		  p:groupEmail="${job.owner.email.group}"
+		  p:userPreferenceService-ref="userPreferenceService"
+		  />
 		  
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"
 		  p:appConfigService-ref="appConfigService"
@@ -198,6 +201,11 @@
   	      p:mudparamrs="${mud.parameter.rs}"
   	      p:mudparamvr="${mud.parameter.vr}"/>
 
+	<bean id="userPreferenceService" class="com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl"
+		 p:userPreferenceDao-ref="userPreferenceDao"/>
+		 
 	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
 			p:outageDao-ref="outageDao"/>
+  	      
+				  
 </beans>

@@ -19,22 +19,22 @@ import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 
-	private UserPreferenceDao dao;
+	private UserPreferenceDao userPreferenceDao;
 	
 	@Override
 	@Transactional
 	public void save(UserPreference preference) {
-		dao.save(preference);
+		userPreferenceDao.save(preference);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public UserPreference findByUsername(String username) {
-		return dao.findByUsername(username);
+		return userPreferenceDao.findByUsername(username);
 	}
 	
 	@Required
 	public void setUserPreferenceDao(UserPreferenceDao dao){
-		this.dao = dao;
+		this.userPreferenceDao = dao;
 	}
 }

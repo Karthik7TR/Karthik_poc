@@ -84,4 +84,5 @@
 	<bean id="smokeTestService" class="com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl" 
 		  p:smokeTestDao-ref="smokeTestDao" />
 
+
 </beans>	

@@ -37,7 +37,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String EBOOK_DEFINITON = "bookDefn";
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
-	
+	 
 
 	/**
 	 * Implement this method in the concrete subclass.
@@ -56,6 +56,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
 
 		LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
 		StepExecution stepExecution = stepContext.getStepExecution();
+		
+		long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
+		long jobExecutionId = stepExecution.getJobExecutionId();
         try {
             
         ExitStatus stepTransition = executeStep(contribution, chunkContext);
@@ -64,22 +67,43 @@ public abstract class AbstractSbTasklet implements Tasklet {
         stepExecution.setExitStatus(stepTransition);
         } catch (Exception e){
         	String stackTrace = getStackTrace(e);
+
         	stackTrace = "Error Message : " + e.getMessage() + "\nStack Trace is " + stackTrace; 
-        	sendNotification(chunkContext,stackTrace);
+        	sendNotification(chunkContext,stackTrace,jobInstanceId,jobExecutionId);
             throw e;
         }
 
        return RepeatStatus.FINISHED;
 	}
 	
-    private void sendNotification(ChunkContext chunkContext, String bodyMessage) {
+    private void sendNotification(ChunkContext chunkContext, String bodyMessage,long jobInstanceId,long jobExecutionId) {
         
         ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		JobParameters jobParams = getJobParameters(chunkContext);
+		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
 		List<String> fileList = new ArrayList<String>();
-        String emailId = JobParameterKey.USER_EMAIL;
-        String subject = bookDefinition.getTitleId() + "  " + bookDefinition.getProviewDisplayName();
+		String subject;
+		String failedJobInfo; 
+		String emailAdd;
+		String userEmailId = jobParams.getString(JobParameterKey.USER_EMAIL);
+        String jobOwnerGroupEmail = jobParams.getString(JobParameterKey.JOB_OWNERS_GROUP_EMAIL);
+        
+        String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
+
+        failedJobInfo = "eBook Publishing Failure:  " + jobEnvironment +"  " +bookDefinition.getTitleId() +"  "+bookDefinition.getProviewDisplayName() +"  "+jobInstanceId +"  "+jobExecutionId  ; 
+        bodyMessage = failedJobInfo + "  \n"+ bodyMessage;
+        subject = failedJobInfo;
+        
         String imgGuidsFile = jobExecutionContext.getString(IMAGE_MISSING_GUIDS_FILE);
+        
+        /*** if job owner has entered email address to notify jobs outcome send email to that address else use default email address.**/
+        if(userEmailId != null &&  !userEmailId.isEmpty())
+        {
+        	emailAdd= userEmailId;	
+        }else{
+        	emailAdd = jobOwnerGroupEmail;
+        }
         
         if (getFileSize(imgGuidsFile) > 0 )
         {
@@ -95,14 +119,14 @@ public abstract class AbstractSbTasklet implements Tasklet {
         
         if (fileList.size() > 0)
         {
-        	EmailNotification.sendWithAttachment(emailId, subject, bodyMessage.toString(), fileList);
+        	EmailNotification.sendWithAttachment(emailAdd, subject, bodyMessage.toString(), fileList);
            
         }
         else {
-        	EmailNotification.send(emailId, subject, bodyMessage.toString());
+        	EmailNotification.send(emailAdd, subject, bodyMessage.toString());
         }
         
-}
+    }
 
 	
 	/**

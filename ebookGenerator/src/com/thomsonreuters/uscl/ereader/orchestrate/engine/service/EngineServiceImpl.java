@@ -28,6 +28,9 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
+import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl;
 
 
 public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
@@ -42,6 +45,8 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	private String novusEnvironment;
 	private String dbServiceName;
 	private JobStartupThrottleService jobStartupThrottleService;
+	private UserPreferenceService userPreferenceService ;
+	private String groupEmail;
 
 
 	@Override
@@ -124,7 +129,22 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 		jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));	
 		jobParamMap.put(JobParameterKey.NOVUS_ENV, new JobParameter(novusEnvironment));	
 		jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
+		jobParamMap.put(JobParameterKey.USER_EMAIL,new JobParameter(getUserEmail(jobRequest.getSubmittedBy())));
+		jobParamMap.put(JobParameterKey.JOB_OWNERS_GROUP_EMAIL,new JobParameter(groupEmail));
 		return new JobParameters(jobParamMap);
+	}
+	/**
+	 * Adding user email address to jobParamMap so that it can made available through out life cycle of application. 
+	 * @param jobSubmitterName
+	 * @return
+	 */
+	private String getUserEmail(String jobSubmitterName){
+		UserPreference userPreference = userPreferenceService.findByUsername(jobSubmitterName);
+		String userEmail = null; 
+		if(userPreference != null){
+			userEmail = userPreference.getEmails();
+		}
+		return  userEmail;
 	}
 	
 	@Override
@@ -172,4 +192,14 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	public void setJobStartupThrottleService(JobStartupThrottleService service) {
 		this.jobStartupThrottleService = service;
 	}
+
+	@Required
+	public void setGroupEmail(String groupEmail) {
+		this.groupEmail = groupEmail;
+	}
+	@Required
+	public void setUserPreferenceService(UserPreferenceService userPreferenceService) {
+		this.userPreferenceService = userPreferenceService;
+	}
+
 }
