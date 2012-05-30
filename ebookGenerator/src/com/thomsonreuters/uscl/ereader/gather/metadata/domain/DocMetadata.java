@@ -81,6 +81,20 @@ public class DocMetadata implements Serializable {
 	/**
 	 */
 
+	@Column(name = "FIRSTLINE_CITE", length = 128)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String firstlineCite;
+	/**
+	 */
+
+	@Column(name = "SECONDLINE_CITE", length = 128)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String secondlineCite;
+	/**
+	 */
+
 	@Column(name = "FIND_ORIG", length = 80)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
@@ -182,6 +196,22 @@ public class DocMetadata implements Serializable {
 	 */
 	public String getNormalizedFirstlineCite() {
 		return this.normalizedFirstlineCite;
+	}
+
+	public String getFirstlineCite() {
+		return firstlineCite;
+	}
+
+	public void setFirstlineCite(String firstlineCite) {
+		this.firstlineCite = firstlineCite;
+	}
+
+	public String getSecondlineCite() {
+		return secondlineCite;
+	}
+
+	public void setSecondlineCite(String secondlineCite) {
+		this.secondlineCite = secondlineCite;
 	}
 
 	/**

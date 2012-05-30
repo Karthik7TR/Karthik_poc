@@ -23,10 +23,12 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private final static String MD_UUID = "md.uuid";
 	private final static String MD_DOC_FAMILY_UUID = "md.doc.family.uuid";
 	private final static String MD_NORMALIZED_CITE = "md.normalizedcite";
+	private final static String MD_FIRSTLINE_CITE = "md.first.line.cite";
+	private final static String MD_SECONDLINE_CITE = "md.second.line.cite";
 	private final static String MD_LEGACY_ID = "md.legacy.id";
 	private final static String MD_DMS_SERIAL = "md.dmsserial";
 	private final static String MD_DOC_TYPE_NAME = "md.doctype.name";
-
+	
 	private String tempVal;
 
 	// to maintain context
@@ -107,11 +109,13 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			docMetadata.setCollectionName(collectionName);
 		}
 	}
+	
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		tempVal = new String(ch, start, length);
 	}
+	
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
@@ -119,6 +123,10 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		if (qName.equalsIgnoreCase(MD_NORMALIZED_CITE)) {
 			// add normalized first line cite
 			docMetadata.setNormalizedFirstlineCite(tempVal);
+		} else if (qName.equalsIgnoreCase(MD_FIRSTLINE_CITE)){
+			docMetadata.setFirstlineCite(tempVal);
+		} else if (qName.equalsIgnoreCase(MD_SECONDLINE_CITE)){
+			docMetadata.setSecondlineCite(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_UUID)) {
 			docMetadata.setDocUuid(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_DOC_FAMILY_UUID)) {
@@ -130,8 +138,8 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
 			docMetadata.setSerialNumber(new Long(tempVal));
 		}
-
 	}
+	
 	@Override
 	public void endDocument() throws SAXException {
 		docMetadata.setLastUpdated(new Date());

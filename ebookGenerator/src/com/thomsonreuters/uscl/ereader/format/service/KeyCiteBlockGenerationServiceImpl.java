@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -23,7 +25,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
     private String hostname;
     private String mudParamRS;
     private String mudParamVR;
-    private String KEYCITE_QUERY="/Search/Results.html?query=KC%3A%20";
+    private String KEYCITE_QUERY="/Search/Results.html?query=kc%3A";
     private static String KEYCITE_DOC_PARAM = "/Link/RelatedInformation/Flag?";
     private static String ORIGINATION_CONTEXT ="ebookBuilder";
 
@@ -46,22 +48,44 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         }
 
         String normalizedCite = docMetadata.getNormalizedFirstlineCite();
+        String firstlineCite = docMetadata.getFirstlineCite();
+        String secondlineCite = docMetadata.getSecondlineCite();
 
-        if (normalizedCite != null)
+        if (normalizedCite != null || firstlineCite != null || secondlineCite != null)
         {
-        	normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
+        	String query = "";
+            try
+            {            	
+            	if (firstlineCite != null)
+            	{
+            		query = query + URLEncoder.encode(firstlineCite + ";", "UTF-8");
+            	}
+            	if (secondlineCite != null)
+            	{
+            		query = query + URLEncoder.encode(secondlineCite + ";", "UTF-8");
+            	}
+            	if (normalizedCite != null)
+            	{
+            		query = query + URLEncoder.encode(normalizedCite + ";", "UTF-8");
+            	}
+            }
+            catch (UnsupportedEncodingException e)
+            {
+            	String message = "Encountered an Encoding issues while trying to encode the normalized cite for the KC URL.";
+            	LOG.error(message, e);
+            	throw new EBookFormatException(message, e);
+            }
+            
+            query = CitationNormalizationRulesUtil.applyNormalizationRules(query);
         	
-        	url = hostname + KEYCITE_QUERY + normalizedCite + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
-        			+ "&amp;rs=" + mudParamRS + "&amp;vr=" + mudParamVR  
-        			+ "&amp;searchPostBody=%7B%7D&amp;searchUri=%2FSearch%2Fv3%2Fsearch%2Fstart%3Fjurisdiction%3DALLCASES%26" 
-        			+ "query%3DKC%253A%2520" + normalizedCite;            
-       
+        	url = hostname + KEYCITE_QUERY + query + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
+        			+ "&amp;rs=" + mudParamRS + "&amp;vr=" + mudParamVR;     
         }
         else
         {
             url = hostname + KEYCITE_DOC_PARAM + "docGuid=" + docMetadata.getDocUuid()
-                + "&amp;originationContext= " + ORIGINATION_CONTEXT + "&amp;transitionType=NegativeTreatment&amp;contextData=%28sc.UserEnteredCitation%29" + "&amp;rs=" + mudParamRS
-                + "&amp;vr=" + mudParamVR;
+            		+ "&amp;originationContext=" + ORIGINATION_CONTEXT + "&amp;transitionType=NegativeTreatment&amp;contextData=(sc.UserEnteredCitation)&amp;rs=" + mudParamRS
+                    + "&amp;vr=" + mudParamVR;
         }
 
         return buildImageBlock(url);  
