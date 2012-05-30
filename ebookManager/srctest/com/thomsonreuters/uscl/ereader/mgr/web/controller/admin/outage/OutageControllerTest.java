@@ -83,6 +83,29 @@ public class OutageControllerTest {
 
 		EasyMock.verify(outageService);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetAllOutages() throws Exception {
+		List<PlannedOutage> outages = new ArrayList<PlannedOutage>();
+		
+		request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_FULL_LIST);
+		request.setMethod(HttpMethod.GET.name());
+		
+		EasyMock.expect(outageService.getAllPlannedOutages()).andReturn(outages);
+		EasyMock.replay(outageService);
+		
+		ModelAndView mav = handlerAdapter.handle(request, response, controller);
+		assertNotNull(mav);
+		assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_FULL_LIST, mav.getViewName());
+		
+		// Check the state of the model
+        Map<String,Object> model = mav.getModel();
+        List<PlannedOutage> actual = (List<PlannedOutage>) model.get(WebConstants.KEY_OUTAGE);
+        Assert.assertEquals(outages, actual);
+
+		EasyMock.verify(outageService);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Test

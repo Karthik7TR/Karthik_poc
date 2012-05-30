@@ -8,16 +8,30 @@
 
 <div class="centerSection">
 	<c:set var="DATE_FORMAT" value="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_CREATE%>">Create State Code</a>
+	<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_CREATE%>">Create Outage Schedule</a>
+	<br/>
 	<%-- Table of ContentType --%>
-	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_STATE_CODE %>" class="displayTagTable" cellpadding="2">
-	  <display:setProperty name="basic.msg.empty_list">No Publish Type Codes were found.</display:setProperty>
+	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_OUTAGE %>" class="displayTagTable" cellpadding="2"
+		pagesize="20"
+		partialList="false">
+	  <display:setProperty name="basic.msg.empty_list">No outage schedule was found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  <display:column>
-	  	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_EDIT%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Edit</a>
-	  	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_DELETE%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Delete</a>
+	  <display:column title="Outage Type" >
+	  	System: ${ vdo.outageType.system } <br/>
+	  	Sub-system: ${ vdo.outageType.subSystem }
 	  </display:column>
-	  <display:column title="Name" property="name" />
+	  <display:column title="Start Date/Time" >
+	  	<fmt:formatDate value="${vdo.startTime}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
+	  <display:column title="End Date/Time" >
+	  	<fmt:formatDate value="${vdo.endTime}" pattern="${DATE_FORMAT}"/>
+	  </display:column>
+	  <display:column title="Reason" property="reason" />
+	  <display:column title="System Impact Description" property="systemImpactDescription" />
+	  <display:column title="Servers Impacted" property="serversImpacted" />
+	  <display:column title="Notification Email Sent?" property="notificationEmailSent" />
+	  <display:column title="All Clear Email Sent?" property="allClearEmailSent" />
+	  <display:column title="Updated By" property="updatedBy" />
 	  <display:column title="Last Updated" >
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
