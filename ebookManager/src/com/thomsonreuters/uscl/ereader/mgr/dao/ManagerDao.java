@@ -21,5 +21,11 @@ public interface ManagerDao {
 	 * @return the number of job step executions that were archived/deleted.
 	 */
 	public int archiveAndDeleteSpringBatchJobRecordsBefore(Date deleteBefore);
+	
+	/**
+	 * Delete old planned_outage records prior to the specified date
+	 * @param deleteBefore delete records before this date.
+	 */
+	public void deletePlannedOutagesBefore(Date deleteBefore);
 
 }

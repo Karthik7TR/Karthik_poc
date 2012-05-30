@@ -13,10 +13,12 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 public class JobCleaner {
 	private ManagerService managerService;
 	private int cleanJobsGreaterThanThisManyDaysOld;
+	private int cleanPlannedOutagesGreaterThanThisManyDaysOld;
 
 	@Scheduled(fixedRate = 24*60*60*1000)
 	public void cleanupOldSpringBatchJobs() {
 		managerService.cleanupOldSpringBatchJobs(cleanJobsGreaterThanThisManyDaysOld);
+		managerService.cleanupOldPlannedOutages(cleanPlannedOutagesGreaterThanThisManyDaysOld);
 	}
 	
 	@Required
@@ -26,5 +28,9 @@ public class JobCleaner {
 	@Required
 	public void setCleanJobsGreaterThanThisManyDaysOld(int daysBack) {
 		this.cleanJobsGreaterThanThisManyDaysOld = daysBack;
+	}
+	@Required
+	public void setCleanPlannedOutagesGreaterThanThisManyDaysOld(int daysBack) {
+		this.cleanPlannedOutagesGreaterThanThisManyDaysOld = daysBack;
 	}
 }

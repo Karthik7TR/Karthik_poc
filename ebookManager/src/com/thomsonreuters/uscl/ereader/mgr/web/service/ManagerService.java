@@ -44,5 +44,11 @@ public interface ManagerService {
 	 * @param daysBack jobs more than this many days old will be deleted. 
 	 */
 	public void cleanupOldSpringBatchJobs(int daysBack);
+	
+	/**
+	 * Delete old records in PLANNED_OUTAGE table.
+	 * @param daysBack records with an end_time more than this many days old will be deleted. 
+	 */
+	public void cleanupOldPlannedOutages(int daysBack);
 
 }

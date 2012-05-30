@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -19,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
 public class ManagerDaoImpl implements ManagerDao {
 	private static final Logger log = Logger.getLogger(ManagerDaoImpl.class);
+	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 	private JobExplorer jobExplorer;
 	
@@ -91,6 +95,15 @@ public class ManagerDaoImpl implements ManagerDao {
 		return stepExecutionIds.size();
 	}
 	
+	@Override
+	public void deletePlannedOutagesBefore(Date deleteBefore) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "delete from PlannedOutage where endTime < :deleteBefore";
+		Query query = session.createQuery(hql);
+		query.setDate("deleteBefore", deleteBefore);
+		query.executeUpdate();
+	}
+	
 	/**
 	 * Archive data from the BATCH_STEP_EXECUTION table into the JOB_HISTORY table.
 	 * This is data that is to be preserved following the deletion of the BATCH_* table data.
@@ -131,6 +144,10 @@ public class ManagerDaoImpl implements ManagerDao {
 		}
 	}
 
+	@Required
+	public void setSessionFactory(SessionFactory factory){
+		this.sessionFactory = factory;
+	}
 	@Required
 	public void setJdbcTemplate(JdbcTemplate template) {
 		this.jdbcTemplate = template;

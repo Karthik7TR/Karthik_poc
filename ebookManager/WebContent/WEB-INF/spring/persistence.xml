@@ -117,6 +117,7 @@
 	</bean>
 	
 	<bean id="managerDao" class="com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDaoImpl"
+		  p:sessionFactory-ref="sessionFactory"
 		  p:jdbcTemplate-ref="jdbcTemplate"
 		  p:jobExplorer-ref="jobExplorer"/>
 		  

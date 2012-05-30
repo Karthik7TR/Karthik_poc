@@ -80,9 +80,7 @@ public class ManagerServiceImpl implements ManagerService {
 	@Transactional
 	public void cleanupOldSpringBatchJobs(int daysBack) {
 		// Calculate the prior point in time before which data is to be removed
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DAY_OF_WEEK, -daysBack);
-		Date deleteJobsBefore = cal.getTime();
+		Date deleteJobsBefore = calculateDaysBackDate(daysBack);
 		
 		// Archive and then delete old BATCH_* database table records
 		log.info(String.format("Archiving/Deleting Spring Batch job data older than %d days old.  These are jobs run before: %s", daysBack, deleteJobsBefore.toString()));
@@ -91,6 +89,21 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		// Remove old filesystem files that were used to create the book in the first place 
 		removeOldJobFiles(deleteJobsBefore);
+	}
+	
+	
+	@Override
+	@Transactional
+	public void cleanupOldPlannedOutages(int daysBack) {
+		Date deleteOutagesBefore = calculateDaysBackDate(daysBack);
+		log.debug(String.format("Deleting expired planned outages older than %d days old.  These are outages that ended before: %s", daysBack, deleteOutagesBefore.toString()));
+		managerDao.deletePlannedOutagesBefore(deleteOutagesBefore);
+	}
+
+	private Date calculateDaysBackDate(int daysBack) {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_WEEK, -daysBack);
+		return  cal.getTime();
 	}
 	
 	/**
