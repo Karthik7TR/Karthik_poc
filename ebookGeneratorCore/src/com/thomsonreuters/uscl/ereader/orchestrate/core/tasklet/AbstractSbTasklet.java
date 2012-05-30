@@ -113,7 +113,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
         
         String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
-        failedJobInfo = "eBook Publishing Failure:  " + jobEnvironment +"  " +bookDefinition.getTitleId() +"  "+bookDefinition.getProviewDisplayName() +"  "+jobInstanceId +"  "+jobExecutionId  ; 
+        failedJobInfo = "eBook Publishing Failure:  " + jobEnvironment +"  " +bookDefinition.getFullyQualifiedTitleId() +"  "+bookDefinition.getProviewDisplayName() +"  "+jobInstanceId +"  "+jobExecutionId  ; 
         bodyMessage = failedJobInfo + "  \n"+ bodyMessage;
         subject = failedJobInfo;
         
