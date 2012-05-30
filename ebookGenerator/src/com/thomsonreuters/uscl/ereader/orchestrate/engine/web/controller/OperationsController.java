@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -31,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -45,7 +46,7 @@ public class OperationsController {
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private AppConfigService appConfigService;
-	private PlannedOutageContainer plannedOutages;
+	private OutageService outageService;
 	private FlowJob job;
 	
 	public OperationsController(FlowJob job) {
@@ -67,9 +68,10 @@ public class OperationsController {
 		
 		SimpleRestServiceResponse opResponse = null;
 		try {
-			PlannedOutage outage = plannedOutages.findOutage(new Date());
+			PlannedOutage outage = outageService.getPlannedOutageContainer().findOutage(new Date());
 			if (outage != null) {
-				String message = String.format("Cannot restart job because we are in a service outage until %s", outage.getEndTime().toString()); 
+				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
+				String message = String.format("Cannot restart job because we are in a planned service outage until %s", sdf.format(outage.getEndTime())); 
 				opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
 			} else {
 				Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
@@ -168,7 +170,7 @@ public class OperationsController {
 		this.messageSourceAccessor = accessor;
 	}
 	@Required
-	public void setPlannedOutages(PlannedOutageContainer container) {
-		this.plannedOutages = container;
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

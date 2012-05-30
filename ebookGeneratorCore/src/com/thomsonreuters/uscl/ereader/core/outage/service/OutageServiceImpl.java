@@ -1,17 +1,25 @@
 package com.thomsonreuters.uscl.ereader.core.outage.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDao;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
+import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 public class OutageServiceImpl implements OutageService {
 	
 	private OutageDao dao;
+	private PlannedOutageContainer plannedOutageContainer;
+	private String outageEmailRecipients;
 	
 	/**
 	 * Returns all Outage entities that are scheduled for current and future.
@@ -74,9 +82,76 @@ public class OutageServiceImpl implements OutageService {
 		dao.deleteOutageType(findOutageTypeByPrimaryKey(id));
 	}
 	
+	@Override
+	public PlannedOutageContainer getPlannedOutageContainer() {
+		return plannedOutageContainer;
+	}
+	
+	/**
+	 * 
+	 * @return the outage object if we are currently in the middle of an outage.
+	 */
+	@Override
+	@Transactional
+	public PlannedOutage processPlannedOutages() {
+		Date timeNow = new Date();
+		PlannedOutage outage = plannedOutageContainer.findOutage(timeNow);
+		if (outage != null) {
+			// If not already sent, send email indicating an outage has started
+			if (!outage.isNotificationEmailSent()) {
+				outage.setNotificationEmailSent(true);
+				this.savePlannedOutage(outage);
+				String subject = String.format("Start of eBook generator outage on host %s", getHostName());
+				sendOutageEmail(subject, outage);
+			}
+		}
+
+		// Check for any outages that have now passed, and remove them from the collection
+		PlannedOutage expiredOutage = plannedOutageContainer.findExpiredOutage(timeNow);
+		if (expiredOutage != null) {
+			// If not already sent, send email indicating that the outage is over
+			if (!expiredOutage.isAllClearEmailSent()) {
+				expiredOutage.setAllClearEmailSent(true);
+				this.savePlannedOutage(expiredOutage);
+				String subject = String.format("End of eBook generator outage on host %s", getHostName());
+				sendOutageEmail(subject, expiredOutage);
+			}
+		}
+		return outage;
+	}
+	
+	private void sendOutageEmail(String subject, PlannedOutage outage) {
+		if (StringUtils.isNotBlank(outageEmailRecipients)) {
+			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
+			String body = subject + "\n\n";
+			body += outage.toString();
+			EmailNotification.send(outageEmailRecipients, subject, body);
+		}
+	}
+	
+	private String getHostName() {
+		try {
+			InetAddress localHost = InetAddress.getLocalHost();
+			return localHost.getHostName();
+		} catch (UnknownHostException e) {
+			return "<unknown>";
+		}
+	}
+	
 	@Required
 	public void setOutageDao(OutageDao dao) {
 		this.dao = dao;
 	}
-
+	@Required
+	public void setPlannedOutageContainer(PlannedOutageContainer container) {
+		this.plannedOutageContainer = container;
+	}
+	/**
+	 * Assign the list of recipients to receive notification when a outage begins and ends.
+	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
+	 */
+	@Required
+	public void setOutageEmailRecipients(String csvRecipients) {
+		this.outageEmailRecipients = csvRecipients;
+	}
 }

@@ -1,13 +1,14 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.engine.domain;
+package com.thomsonreuters.uscl.ereader.core.outage.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 
 /**
  * Container and convenience methods for all the planned outage events.
+ * This container is initially loaded for current or future outages as each generator instance starts.
+ * It is updated via a push from the manager application when the operator adds/updates/deletes on the fly. 
  */
 public class PlannedOutageContainer {
 	//private static final Logger log = Logger.getLogger(PlannedOutageContainer.class);

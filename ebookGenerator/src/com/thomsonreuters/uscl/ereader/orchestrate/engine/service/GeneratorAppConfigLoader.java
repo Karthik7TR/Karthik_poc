@@ -15,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.AppConfigLoader;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
 
 /**
  * Perform initial load of dynamic application configurations.
@@ -26,7 +25,6 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	private MiscConfigSyncService miscConfigSyncService;
 	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
 	private OutageService outageService;
-	private PlannedOutageContainer plannedOutages;
 	
 	@PostConstruct
 	@Override
@@ -49,7 +47,7 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	public void loadPlannedOutages() {
 		Collection<PlannedOutage> allOutages = outageService.getAllActiveAndScheduledPlannedOutages();
 		log.debug(String.format("Loaded %d planned outage(s) from PLANNED_OUTAGE table", allOutages.size()));		
-		this.plannedOutages.saveAll(allOutages);
+		outageService.getPlannedOutageContainer().saveAll(allOutages);
 	}
 
 	@Required
@@ -67,9 +65,5 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	@Required
 	public void setOutageService(OutageService service) {
 		this.outageService = service;
-	}
-	@Required
-	public void setPlannedOutages(PlannedOutageContainer container) {
-		plannedOutages = container;
 	}
 }

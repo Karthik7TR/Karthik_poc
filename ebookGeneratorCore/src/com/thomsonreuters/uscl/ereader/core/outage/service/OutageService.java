@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
 
 public interface OutageService {
 	
@@ -40,5 +41,14 @@ public interface OutageService {
 	public void saveOutageType(OutageType outageType);
 	
 	public void deleteOutageType(Long id);
+	
+	public PlannedOutageContainer getPlannedOutageContainer();
+	
+	/**
+	 * Determine if we are in the middle of a planned outage and 
+	 * send notification email if we are just starting or ending an outage.
+	 * @return the current outage event if we are in one, otherwise null.
+	 */
+	public PlannedOutage processPlannedOutages();
 
 }

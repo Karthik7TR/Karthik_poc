@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -23,9 +25,14 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
@@ -37,7 +44,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String EBOOK_DEFINITON = "bookDefn";
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
-	 
+	
+	private OutageService outageService;
+	
 
 	/**
 	 * Implement this method in the concrete subclass.
@@ -52,19 +61,32 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	 * Wrapper around the user implemented task logic that hides the repeat and transition calculations away.
 	 */
 	public final RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		StepContext stepContext = chunkContext.getStepContext();
 
+		StepContext stepContext = chunkContext.getStepContext();
 		LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
 		StepExecution stepExecution = stepContext.getStepExecution();
-		
 		long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
 		long jobExecutionId = stepExecution.getJobExecutionId();
-        try {
-            
-        ExitStatus stepTransition = executeStep(contribution, chunkContext);
 
-        // Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
-        stepExecution.setExitStatus(stepTransition);
+		try {
+        	// Check if a planned outage has come into affect, if so, fail this step with an outage exception
+        	PlannedOutage plannedOutage = outageService.getPlannedOutageContainer().findOutage(new Date());
+        	if (plannedOutage != null) {
+        		SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
+        		Exception e = new PlannedOutageException("Planned service outage in effect until " + sdf.format(plannedOutage.getEndTime()));
+        		StackTraceElement[] stackTraceElementArray = { };
+        		e.setStackTrace(stackTraceElementArray);
+        		throw e;
+        	}
+        	
+        	// Execute user defined step logic
+        	ExitStatus stepTransition = executeStep(contribution, chunkContext);
+
+        	// Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
+        	stepExecution.setExitStatus(stepTransition);
+        
+        } catch (PlannedOutageException e) {
+        	throw e;
         } catch (Exception e){
         	String stackTrace = getStackTrace(e);
 
@@ -236,5 +258,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
 			  return -1;
 		   }
 		   return file.length();
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

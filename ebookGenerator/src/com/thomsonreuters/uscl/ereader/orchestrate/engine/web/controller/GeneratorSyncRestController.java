@@ -13,8 +13,9 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
 
 /**
  * A common REST service provider embedded into all the web applications to receive new application configuration.
@@ -25,7 +26,7 @@ public class GeneratorSyncRestController {
 	private static final Logger log = Logger.getLogger(GeneratorSyncRestController.class);
 	/** May be null if this is not the generator web app application */
 	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
-	private PlannedOutageContainer plannedOutageContainer;
+	private OutageService outageService;
 
 	/**
 	 * Used only in the ebookGenerator to update the job throttle configuration with the changes
@@ -57,6 +58,7 @@ public class GeneratorSyncRestController {
 		log.debug(">>> " + outage);
 		SimpleRestServiceResponse opResponse = null;
 		String message = null;
+		PlannedOutageContainer plannedOutageContainer = outageService.getPlannedOutageContainer();
 		switch (outage.getOperation()) {
 			case SAVE:
 				plannedOutageContainer.save(outage);
@@ -86,7 +88,7 @@ public class GeneratorSyncRestController {
 		this.jobThrottleConfigSyncService = syncService;
 	}
 	@Required
-	public void setPlannedOutageContainer(PlannedOutageContainer container) {
-		this.plannedOutageContainer = container;
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

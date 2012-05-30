@@ -5,16 +5,12 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -26,10 +22,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
  * A regularly scheduled task to check the batch job run request queue(s) for
@@ -47,8 +41,6 @@ public class JobRunQueuePoller {
 	private ThreadPoolTaskExecutor springBatchTaskExecutor;
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
-	private PlannedOutageContainer plannedOutages;
-	private String outageEmailRecipients;
 
 	@Scheduled(fixedDelay = 15000)
 	public void pollJobQueue() {
@@ -61,7 +53,7 @@ public class JobRunQueuePoller {
 			 * 2) The current number of concurrent job threads equals the configured pool size in the ThreadPoolTaskExecutor.
 			 * 3) The application step specific rules prevent it from running.
 			 */
-			PlannedOutage outage = processPlannedOutages();
+			PlannedOutage outage = outageService.processPlannedOutages();
 			if (outage == null) {
 				// Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
 				// This is dynamic and can be changed through the administrative UI.
@@ -108,56 +100,6 @@ public class JobRunQueuePoller {
 			log.error("Failed run job request: " + jobRequest, e);
 		}
 	}
-	
-	
-	/**
-	 * 
-	 * @return the outage object if we are currently in the middle of an outage.
-	 */
-	private PlannedOutage processPlannedOutages() {
-		Date timeNow = new Date();
-		PlannedOutage outage = plannedOutages.findOutage(timeNow);
-		if (outage != null) {
-			// If not already sent, send email indicating an outage has started
-			if (!outage.isNotificationEmailSent()) {
-				outage.setNotificationEmailSent(true);
-				outageService.savePlannedOutage(outage);
-				String subject = String.format("Start of eBook generator outage on host %s", getHostName());
-				sendOutageEmail(subject, outage);
-			}
-		}
-
-		// Check for any outages that have now passed, and remove them from the collection
-		PlannedOutage expiredOutage = plannedOutages.findExpiredOutage(timeNow);
-		if (expiredOutage != null) {
-			// If not already sent, send email indicating that the outage is over
-			if (!expiredOutage.isAllClearEmailSent()) {
-				expiredOutage.setAllClearEmailSent(true);
-				outageService.savePlannedOutage(expiredOutage);
-				String subject = String.format("End of eBook generator outage on host %s", getHostName());
-				sendOutageEmail(subject, expiredOutage);
-			}
-		}
-		return outage;
-	}
-	
-	private void sendOutageEmail(String subject, PlannedOutage outage) {
-		if (StringUtils.isNotBlank(outageEmailRecipients)) {
-			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
-			String body = subject + "\n\n";
-			body += outage.toString();
-			EmailNotification.send(outageEmailRecipients, subject, body);
-		}
-	}
-	
-	private String getHostName() {
-		try {
-			InetAddress localHost = InetAddress.getLocalHost();
-			return localHost.getHostName();
-		} catch (UnknownHostException e) {
-			return "<unknown>";
-		}
-	}
 
 	@Required
 	public void setEngineService(EngineService engineService) {
@@ -179,18 +121,5 @@ public class JobRunQueuePoller {
 	@Required
 	public void setSpringBatchTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
 		this.springBatchTaskExecutor = taskExecutor;
-	}
-	@Required
-	public void setPlannedOutages(PlannedOutageContainer container) {
-		this.plannedOutages = container;
-	}
-
-	/**
-	 * Assign the list of recipients to receive notification when a outage begins and ends.
-	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
-	 */
-	@Required
-	public void setOutageEmailRecipients(String csvRecipients) {
-		this.outageEmailRecipients = csvRecipients;
 	}
 }

@@ -39,8 +39,7 @@
 		  p:appConfigService-ref="appConfigService"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  p:jobThrottleConfigSyncService-ref="engineService"
-		  p:outageService-ref="outageService"
-		  p:plannedOutages-ref="plannedOutageContainer"/>
+		  p:outageService-ref="outageService"/>
 	         
 	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
 		  p:xsltMapperDao-ref="xsltMapperDao"/>
@@ -205,7 +204,10 @@
 		 p:userPreferenceDao-ref="userPreferenceDao"/>
 		 
 	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
-			p:outageDao-ref="outageDao"/>
-  	      
-				  
+		  p:outageDao-ref="outageDao"
+		  p:outageEmailRecipients="${outage.email.recipients}">
+		<property name="plannedOutageContainer">
+			<bean class="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer"/>
+		</property>
+	</bean>
 </beans>

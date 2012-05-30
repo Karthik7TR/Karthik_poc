@@ -23,7 +23,8 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
-import com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 
 
@@ -37,6 +38,7 @@ public class OperationsControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private EngineService mockEngineService;
+    private OutageService mockOutageService;
     private MessageSourceAccessor mockAccessor;
     private HandlerAdapter handlerAdapter;
 	
@@ -45,20 +47,23 @@ public class OperationsControllerTest {
     	request = new MockHttpServletRequest();
     	response = new MockHttpServletResponse();
     	mockEngineService = EasyMock.createMock(EngineService.class);
+    	mockOutageService = EasyMock.createMock(OutageService.class);
     	mockAccessor = EasyMock.createMock(MessageSourceAccessor.class);
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	controller = new OperationsController(new FlowJob());
     	controller.setEngineService(mockEngineService);
+    	controller.setOutageService(mockOutageService);
     	controller.setMessageSourceAccessor(mockAccessor);
-    	controller.setPlannedOutages(new PlannedOutageContainer());
     }
     @Test
     public void testRestartJob() throws Exception {
     	request.setRequestURI("/service/restart/job/"+JOB_EXEC_ID);
     	request.setMethod(HttpMethod.GET.name());
     	Long restartedJobExecId = new Long(JOB_EXEC_ID.longValue() + 1l);
+    	EasyMock.expect(mockOutageService.getPlannedOutageContainer()).andReturn(new PlannedOutageContainer());
     	EasyMock.expect(mockEngineService.restartJob(JOB_EXEC_ID)).andReturn(restartedJobExecId);
+    	EasyMock.replay(mockOutageService);
     	EasyMock.replay(mockEngineService);
     	
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -70,6 +75,7 @@ public class OperationsControllerTest {
     	SimpleRestServiceResponse opResponseActual = (SimpleRestServiceResponse) model.get(CoreConstants.KEY_SIMPLE_REST_RESPONSE);
     	Assert.assertEquals(restartedJobExecId, opResponseActual.getId());
     	
+    	EasyMock.verify(mockOutageService);
     	EasyMock.verify(mockEngineService);
     }
 

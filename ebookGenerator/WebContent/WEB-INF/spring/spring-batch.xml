@@ -42,10 +42,8 @@
 		  p:engineService-ref="engineService"
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
 		  p:outageService-ref="outageService"
-		  p:plannedOutages-ref="plannedOutageContainer"
 	  	  p:jobRequestService-ref="jobRequestService"
-	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
-	  	  p:outageEmailRecipients="${outage.email.recipients}"/>
+	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"/>
 
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">

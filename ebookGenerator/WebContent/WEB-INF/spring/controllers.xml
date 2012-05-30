@@ -13,21 +13,19 @@
 	
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.AppExceptionController"/>
 	
-	<bean id="plannedOutageContainer" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.domain.PlannedOutageContainer"/>
 	<!-- Handles job STOP and RESTART web service (REST) operations -->
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
 		  p:engineService-ref="engineService"
 		  p:appConfigService-ref="appConfigService"
-		  p:plannedOutages-ref="plannedOutageContainer"
+		  p:outageService-ref="outageService"
 		  p:messageSourceAccessor-ref="messageSourceAccessor">
 		  <constructor-arg ref="ebookGeneratorJob"/>
 	</bean>
-	
 
 	<!-- Handles push of new job throttle config, and planned outages from the manager -->
 	<bean id="generatorSyncRestController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.GeneratorSyncRestController"
 		  p:jobThrottleConfigSyncService-ref="engineService"
-		  p:plannedOutageContainer-ref="plannedOutageContainer"/>
+		  p:outageService-ref="outageService"/>
 		  	
 	<!-- Handles push of new log4j logging levels from manager -->
 	<bean id="miscConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.MiscConfigRestController"
