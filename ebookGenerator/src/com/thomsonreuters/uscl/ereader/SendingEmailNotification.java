@@ -60,10 +60,6 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         
         String moreInfo =  " " + environment +"  "+bookDefinition.getTitleId() +"  "+bookDefinition.getProviewDisplayName()+ "  " +jobInstanceId +"  "+jobExecutionId;
         String subject = "Publishing Successfully : " + moreInfo ;
-        System.out.println(" ************************************************* ");
-        System.out.println(" subject :"+subject);
-        System.out.println(" emailAdd :"+emailAdd);
-        System.out.println(" ************************************************* ");
         EmailNotification.send(emailAdd, subject, " Publishing Successfully Completed! "+"  \n"+ moreInfo);
 		
 	}

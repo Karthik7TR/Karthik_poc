@@ -19,6 +19,8 @@ import org.springframework.batch.core.launch.JobOperator;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl;
 
 public class EngineServiceTest  {
 	private static final String TITLE_ID = "titleId";
@@ -40,12 +42,16 @@ public class EngineServiceTest  {
 	private JobOperator mockJobOperator;
 	private JobRegistry mockJobRegistry;
 	private BookDefinition expectedBookDefinition;
-	
+	private UserPreferenceService mockUserPreferenceService ;
+	private String groupEmail ="dummyEmail@test.com";
+
+
 	@Before
 	public void setUp() throws Exception {
 		this.mockJobLauncher = EasyMock.createMock(JobLauncher.class);
 		this.mockJobOperator = EasyMock.createMock(JobOperator.class);
 		this.mockJobRegistry = EasyMock.createMock(JobRegistry.class);
+		this.mockUserPreferenceService = EasyMock.createMock(UserPreferenceServiceImpl.class);
 		// Set up an expected book definition entity
 		this.expectedBookDefinition = EasyMock.createMock(BookDefinition.class);
 		this.expectedBookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
@@ -53,6 +59,8 @@ public class EngineServiceTest  {
 		service.setJobLauncher(mockJobLauncher);
 		service.setJobOperator(mockJobOperator);
 		service.setJobRegistry(mockJobRegistry);
+		service.setUserPreferenceService(mockUserPreferenceService);
+		service.setGroupEmail(groupEmail);
 	}
 	
 	@Test
