@@ -130,7 +130,6 @@ public class OutageController {
 			model.addAttribute(WebConstants.KEY_OUTAGE, outage);
 			form.initialize(outage);
 		}
-		model.addAttribute("outageType", outageService.getAllOutageType());
 		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_DELETE);
 	}
 	
@@ -144,7 +143,6 @@ public class OutageController {
 		submitPlannedOutage(bindingResult, model, outage);
 
 		model.addAttribute(WebConstants.KEY_OUTAGE, outage);
-		model.addAttribute("outageType", outageService.getAllOutageType());
 		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_DELETE);
 	}
 	

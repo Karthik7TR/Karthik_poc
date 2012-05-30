@@ -22,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer
 public class OutageServiceTest  {
 	private List<PlannedOutage> PLANNED_OUTAGE_LIST;
 
-
 	private OutageDao mockDao;
 	private OutageServiceImpl service;
 	
@@ -59,6 +58,21 @@ public class OutageServiceTest  {
 
 		List<PlannedOutage> actual = service.getAllPlannedOutages();
 		Assert.assertEquals(PLANNED_OUTAGE_LIST, actual);
+		
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testFindPlannedOutageByPrimaryKey() {
+		Long id = 99L;
+		PlannedOutage outage = new PlannedOutage();
+		outage.setId(id);
+		
+		EasyMock.expect(mockDao.findPlannedOutageByPrimaryKey(id)).andReturn(outage);
+		EasyMock.replay(mockDao);
+
+		PlannedOutage actual = service.findPlannedOutageByPrimaryKey(id);
+		Assert.assertEquals(outage, actual);
 		
 		EasyMock.verify(mockDao);
 	}
