@@ -142,7 +142,7 @@ public class OutageServiceImpl implements OutageService {
 	public void setOutageDao(OutageDao dao) {
 		this.dao = dao;
 	}
-	@Required
+
 	public void setPlannedOutageContainer(PlannedOutageContainer container) {
 		this.plannedOutageContainer = container;
 	}
@@ -150,7 +150,6 @@ public class OutageServiceImpl implements OutageService {
 	 * Assign the list of recipients to receive notification when a outage begins and ends.
 	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
 	 */
-	@Required
 	public void setOutageEmailRecipients(String csvRecipients) {
 		this.outageEmailRecipients = csvRecipients;
 	}
