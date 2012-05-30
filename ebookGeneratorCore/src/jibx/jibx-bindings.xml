@@ -88,15 +88,15 @@
 	   		<value name="subSystem" field="subSystem" usage="optional"/>
 	   		<value name="lastUpdated" field="lastUpdated" usage="optional"/>
 	   	</structure>
-        <value name="startTime" field="startTime" usage="required"/>
-		<value name="endTime" field="endTime" usage="required"/>
-		<value name="reason" field="reason" usage="required"/>
+        <value name="startTime" field="startTime" usage="optional"/>
+		<value name="endTime" field="endTime" usage="optional"/>
+		<value name="reason" field="reason" usage="optional"/>
 		<value name="systemImpactDescription" field="systemImpactDescription" usage="optional"/>
 		<value name="serversImpacted" field="serversImpacted" usage="optional"/>
 		<value name="notificationEmailSent" field="notificationEmailSent" usage="optional"/>
 		<value name="allClearEmailSent" field="allClearEmailSent" usage="optional"/>
-		<value name="updatedBy" field="updatedBy" usage="required"/>
-		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		<value name="updatedBy" field="updatedBy" usage="optional"/>
+		<value name="lastUpdated" field="lastUpdated" usage="optional"/>
 		<value name="operation" field="operation" usage="required"/>
     </mapping>
     

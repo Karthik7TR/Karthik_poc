@@ -197,8 +197,8 @@ public class PlannedOutage implements Serializable {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		StringBuffer body = new StringBuffer();
 		body.append(String.format("ID:    %d\n", id));
-		body.append(String.format("Start: %s\n", sdf.format(startTime)));
-		body.append(String.format("End:   %s\n", sdf.format(endTime)));
+		body.append(String.format("Start: %s\n", (startTime != null) ? sdf.format(startTime) : ""));
+		body.append(String.format("End:   %s\n", (endTime != null) ? sdf.format(endTime) : ""));
 		body.append(String.format("Type:  %s\n\n", (outageType != null) ? String.format("%s / %s", outageType.getSystem(), outageType.getSubSystem()) : null));
 		body.append("Reason:\n");
 		body.append(String.format("%s\n\n", reason));
