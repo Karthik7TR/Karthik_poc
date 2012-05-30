@@ -24,6 +24,10 @@
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"/>
         <property name="encoding" value="UTF-8"/>
     </bean>
+    <bean id="outageMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage"/>
+        <property name="encoding" value="UTF-8"/>
+    </bean>
     <bean id="simpleResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse"/>
         <property name="encoding" value="UTF-8"/>
@@ -45,6 +49,16 @@
  	<bean id="miscConfigMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="miscConfigMarshaller" />
         <property name="unmarshaller" ref="miscConfigMarshaller" />
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/xml</value>
+                <value>application/xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="outageMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="outageMarshaller" />
+        <property name="unmarshaller" ref="outageMarshaller" />
         <property name="supportedMediaTypes">
             <list>
                 <value>text/xml</value>
@@ -74,6 +88,7 @@
           <ref bean="jobThrottleConfigMessageConverter"/>
           <ref bean="miscConfigMessageConverter"/>
           <ref bean="simpleResponseMessageConverter"/>
+          <ref bean="outageMessageConverter"/>
         </list>
       </property>
 	</bean>

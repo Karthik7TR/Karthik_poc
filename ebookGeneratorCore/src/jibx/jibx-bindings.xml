@@ -78,5 +78,27 @@
 		    	</structure>
 	    	</collection>
     </mapping>
+    
+    <!-- Planned Outage -->
+    <mapping name="outage" class="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage">
+        <value name="id" field="id" usage="required"/>
+       	<structure name="outageType" field="outageType" usage="optional">
+	   		<value name="id" field="id" usage="optional"/>
+	   		<value name="system" field="system" usage="optional"/>
+	   		<value name="subSystem" field="subSystem" usage="optional"/>
+	   		<value name="lastUpdated" field="lastUpdated" usage="optional"/>
+	   	</structure>
+        <value name="startTime" field="startTime" usage="required"/>
+		<value name="endTime" field="endTime" usage="required"/>
+		<value name="reason" field="reason" usage="required"/>
+		<value name="systemImpactDescription" field="systemImpactDescription" usage="optional"/>
+		<value name="serversImpacted" field="serversImpacted" usage="optional"/>
+		<value name="notificationEmailSent" field="notificationEmailSent" usage="optional"/>
+		<value name="allClearEmailSent" field="allClearEmailSent" usage="optional"/>
+		<value name="updatedBy" field="updatedBy" usage="required"/>
+		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		<value name="operation" field="operation" usage="required"/>
+    </mapping>
+    
   
 </binding>

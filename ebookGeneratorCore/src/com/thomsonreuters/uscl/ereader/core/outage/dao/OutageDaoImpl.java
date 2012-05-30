@@ -56,6 +56,7 @@ public class OutageDaoImpl implements OutageDao {
 	 */
 	public void savePlannedOutage(PlannedOutage outage) {
 		Session session = sessionFactory.getCurrentSession();
+		outage.setLastUpdated(new Date());
 		session.saveOrUpdate(outage);
 		session.flush();
 	}

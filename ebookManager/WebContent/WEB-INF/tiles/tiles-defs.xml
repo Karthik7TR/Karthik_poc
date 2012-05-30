@@ -177,6 +177,36 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/keywordValue/common/createEditForm.jsp"/>
 	</definition>
 	
+	<definition name="_adminOutageActiveList" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/activelist/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/activelist/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageFullList" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/fulllist/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/fulllist/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageEdit" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageDelete" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageCreate" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/common/createEditForm.jsp"/>
+	</definition>
+	
 	<definition name="_adminJobThrottleConfig" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/jobthrottleconfig/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>

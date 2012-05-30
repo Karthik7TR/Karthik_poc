@@ -62,6 +62,7 @@ public class WebConstants {
 	public static final String KEY_PUB_TYPES = "pubTypes";
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
 	public static final String KEY_PUBLISHERS = "publishers";
+	public static final String KEY_OUTAGE = "outage";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
 	public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
@@ -224,7 +225,12 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
-
+	public static final String MVC_ADMIN_OUTAGE_ACTIVE_LIST = "adminOutageActiveList.mvc";
+	public static final String MVC_ADMIN_OUTAGE_FULL_LIST = "adminOutageFullList.mvc";
+	public static final String MVC_ADMIN_OUTAGE_CREATE = "adminOutageCreate.mvc";
+	public static final String MVC_ADMIN_OUTAGE_DELETE = "adminOutageDelete.mvc";
+	public static final String MVC_ADMIN_OUTAGE_EDIT = "adminOutageEdit.mvc";
+	
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
 	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
@@ -273,6 +279,11 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_STATE_CODE_CREATE = "_adminStateCodeCreate";
 	public static final String VIEW_ADMIN_STATE_CODE_DELETE = "_adminStateCodeDelete";
 	public static final String VIEW_ADMIN_STATE_CODE_EDIT = "_adminStateCodeEdit";
+	public static final String VIEW_ADMIN_OUTAGE_ACTIVE_LIST = "_adminOutageActiveList";
+	public static final String VIEW_ADMIN_OUTAGE_FULL_LIST = "_adminOutageFullList";
+	public static final String VIEW_ADMIN_OUTAGE_CREATE = "_adminOutageCreate";
+	public static final String VIEW_ADMIN_OUTAGE_DELETE = "_adminOutageDelete";
+	public static final String VIEW_ADMIN_OUTAGE_EDIT = "_adminOutageEdit";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";

@@ -20,6 +20,7 @@
 	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
 	      		 the controller methods annotated with @RequestBody -->
 	        <ref bean="miscConfigMessageConverter" />
+	        <ref bean="outageMessageConverter" />
 	        <ref bean="stringHttpMessageConverter" />
 	      </list>
 	    </property>

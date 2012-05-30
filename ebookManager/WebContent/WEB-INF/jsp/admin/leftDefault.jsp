@@ -38,4 +38,6 @@
 <a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
 <br/>
 
-<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a>
+<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a><br/>
+<br/>
+<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Planned Outage List</a>

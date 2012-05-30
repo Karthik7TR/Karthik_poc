@@ -634,3 +634,15 @@ div.ui-datepicker{
 	font-size:70%;
 }
 
+#outageForm .row {
+	margin-bottom:1em;
+}
+
+#outageForm .row label {
+	display:block;
+}
+
+#outageForm .row input[type='text'],
+#outageForm .row textarea {
+	width:30em;
+}

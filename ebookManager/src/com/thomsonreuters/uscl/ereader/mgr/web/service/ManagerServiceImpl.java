@@ -69,7 +69,7 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public SimpleRestServiceResponse pushPlannedOutage(PlannedOutage outage, InetSocketAddress socketAddr) {
 		String url = String.format(GENERATOR_REST_SYNC_PLANNED_OUTAGE,
-								   socketAddr.getHostName(), socketAddr.getPort());
+								   socketAddr.getHostName(), socketAddr.getPort(), generatorContextName);
 		log.debug("to URL: " + url);
 		SimpleRestServiceResponse response = (SimpleRestServiceResponse)
 				restTemplate.postForObject(url, outage, SimpleRestServiceResponse.class);

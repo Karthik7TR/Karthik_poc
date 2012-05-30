@@ -65,6 +65,9 @@
 		 p:userPreferenceDao-ref="userPreferenceDao"/>
 	
 	<bean id="serverAccessService" class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
-		  p:jobCleanupService-ref="jobCleanupService"/>  
+		  p:jobCleanupService-ref="jobCleanupService"/>
+		  
+	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
+		  p:outageDao-ref="outageDao"/>  
 		    
 </beans>

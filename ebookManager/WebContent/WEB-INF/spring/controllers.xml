@@ -241,5 +241,16 @@
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesFormValidator"/>
 		</property>
 	</bean>	 
+	
+	<bean id="outageController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageController"
+		  p:outageService-ref="outageService"
+		  p:managerService-ref="managerService"
+		  p:generatorHosts="${generator.hosts}">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageFormValidator"/>
+		 </property>
+		 <!-- make sure the host properties are last, the property is a function of host and port numbers -->
+		 <constructor-arg index="0" value="${generator.port}"/>
+	</bean>
 		 
 </beans>

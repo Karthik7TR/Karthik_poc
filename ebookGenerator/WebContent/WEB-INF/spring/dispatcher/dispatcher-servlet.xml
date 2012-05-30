@@ -24,6 +24,7 @@
 	      		 the controller methods annotated with @RequestBody -->
 	        <ref bean="jobThrottleConfigMessageConverter" />
 	        <ref bean="miscConfigMessageConverter" />
+	        <ref bean="outageMessageConverter" />
 	      </list>
 	    </property>
 	</bean>

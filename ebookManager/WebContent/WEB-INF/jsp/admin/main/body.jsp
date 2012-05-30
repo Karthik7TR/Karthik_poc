@@ -57,3 +57,10 @@
 		<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All Book Generation</a>
 	</div>
 </div>
+
+<div class="centerSection">
+	<h3>Planned Outages</h3>
+	<div class="buttons">
+		<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Active Outage List</a>
+	</div>
+</div>
