@@ -68,6 +68,7 @@
 		<sec:intercept-url pattern="/generateBulkEbookPreview.mvc" access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		
 		<sec:intercept-url pattern="/adminMain.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminOutage*" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminStopGenerator.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminJobThrottleConfig.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminJuris*" access="hasRole('ROLE_SUPERUSER')"/>
@@ -78,7 +79,7 @@
 		
 		<sec:intercept-url pattern="/proviewTitleRemove*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/proviewTitleDelete*" access="hasRole('ROLE_SUPERUSER')"/>
-		<sec:intercept-url pattern="/proviewTitlePromote*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/proviewTitlePromote*" access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>
 		
 		<!-- Catch-all for all other URLs, you must at least be authenticated to the application -->
 		<sec:intercept-url pattern="/**" access="isFullyAuthenticated()"/>

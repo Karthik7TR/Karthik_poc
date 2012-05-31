@@ -21,6 +21,10 @@ function openFullcreenWindow(url)
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="isSuperUser" value="true"/>
 	</sec:authorize>
+	<c:set var="isPlusOrSuperUser" value="false"/>
+	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="isPlusOrSuperUser" value="true"/>
+	</sec:authorize>
 	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
@@ -37,10 +41,12 @@ function openFullcreenWindow(url)
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
-	  	<c:if test="${ isSuperUser == 'true' }">
+	  	<c:if test="${ isPlusOrSuperUser == 'true' }">
 		  	<display:column title="Promote">
 		  		<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
 		  	</display:column>
+		</c:if>
+		<c:if test="${ isSuperUser == 'true' }">
 		  	<display:column title="Remove">
 		  		<input value="Remove" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
 		  	</display:column>
