@@ -11,11 +11,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
@@ -31,7 +31,6 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -65,28 +64,27 @@ public abstract class AbstractSbTasklet implements Tasklet {
 		StepContext stepContext = chunkContext.getStepContext();
 		LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
 		StepExecution stepExecution = stepContext.getStepExecution();
-		long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
+		JobExecution jobExecution = stepExecution.getJobExecution();
+		long jobInstanceId = jobExecution.getJobInstance().getId();
 		long jobExecutionId = stepExecution.getJobExecutionId();
-
+		ExitStatus stepExitStatus = null;
 		try {
-        	// Check if a planned outage has come into affect, if so, fail this step with an outage exception
-        	PlannedOutage plannedOutage = outageService.getPlannedOutageContainer().findOutage(new Date());
+        	// Check if a planned outage has come into effect, if so, fail this step right at the start
+			// with an exit message indicating the interval of the outage.
+        	PlannedOutage plannedOutage = outageService.processPlannedOutages();
         	if (plannedOutage != null) {
+        		LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
         		SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
-        		Exception e = new PlannedOutageException("Planned service outage in effect until " + sdf.format(plannedOutage.getEndTime()));
-        		StackTraceElement[] stackTraceElementArray = { };
-        		e.setStackTrace(stackTraceElementArray);
-        		throw e;
+        		stepExitStatus = new ExitStatus(ExitStatus.FAILED.getExitCode(),
+        							 String.format("Planned service outage in effect from %s to %s",
+        							 sdf.format(plannedOutage.getStartTime()), sdf.format(plannedOutage.getEndTime())));
+        	} else {
+        		// Execute user defined step logic
+        		stepExitStatus = executeStep(contribution, chunkContext);
         	}
-        	
-        	// Execute user defined step logic
-        	ExitStatus stepTransition = executeStep(contribution, chunkContext);
-
         	// Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
-        	stepExecution.setExitStatus(stepTransition);
+        	stepExecution.setExitStatus(stepExitStatus);
         
-        } catch (PlannedOutageException e) {
-        	throw e;
         } catch (Exception e){
         	String stackTrace = getStackTrace(e);
 

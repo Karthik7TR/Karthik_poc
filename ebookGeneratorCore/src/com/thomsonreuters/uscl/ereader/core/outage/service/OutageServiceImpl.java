@@ -93,7 +93,7 @@ public class OutageServiceImpl implements OutageService {
 	 */
 	@Override
 	@Transactional
-	public PlannedOutage processPlannedOutages() {
+	public synchronized PlannedOutage processPlannedOutages() {
 		Date timeNow = new Date();
 		PlannedOutage outage = plannedOutageContainer.findOutage(timeNow);
 		if (outage != null) {
@@ -124,7 +124,7 @@ public class OutageServiceImpl implements OutageService {
 		if (StringUtils.isNotBlank(outageEmailRecipients)) {
 			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
 			String body = subject + "\n\n";
-			body += outage.toString();
+			body += outage.toEmailBody();
 			EmailNotification.send(outageEmailRecipients, subject, body);
 		}
 	}
@@ -143,11 +143,18 @@ public class OutageServiceImpl implements OutageService {
 		this.dao = dao;
 	}
 
+	/**
+	 * Collection of planned outages.
+	 * Used only in the generator.
+	 * @param container
+	 */
 	public void setPlannedOutageContainer(PlannedOutageContainer container) {
 		this.plannedOutageContainer = container;
 	}
+
 	/**
 	 * Assign the list of recipients to receive notification when a outage begins and ends.
+	 * Used only in the generator.
 	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
 	 */
 	public void setOutageEmailRecipients(String csvRecipients) {

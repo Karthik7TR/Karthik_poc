@@ -17,6 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+
 @Entity
 @Table(name="PLANNED_OUTAGE")
 public class PlannedOutage implements Serializable {
@@ -190,11 +195,14 @@ public class PlannedOutage implements Serializable {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 	/**
 	 * Serves as the email notification body.
 	 */
-	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	public String toEmailBody() {
+		SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 		StringBuffer body = new StringBuffer();
 		body.append(String.format("ID:    %d\n", id));
 		body.append(String.format("Start: %s\n", (startTime != null) ? sdf.format(startTime) : ""));

@@ -70,7 +70,7 @@ public class OperationsController {
 		try {
 			PlannedOutage outage = outageService.getPlannedOutageContainer().findOutage(new Date());
 			if (outage != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
+				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 				String message = String.format("Cannot restart job because we are in a planned service outage until %s", sdf.format(outage.getEndTime())); 
 				opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
 			} else {

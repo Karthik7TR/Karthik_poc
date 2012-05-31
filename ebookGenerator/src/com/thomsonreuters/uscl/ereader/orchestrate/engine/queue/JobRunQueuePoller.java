@@ -93,8 +93,7 @@ public class JobRunQueuePoller {
 											activeThreads, coreThreadPoolSize));
 				}
 			} else {
-				log.debug(String.format("A planned outage is in effect until %s, no jobs will be started until the outage is over.",
-										outage.getEndTime().toString()));
+				log.debug(String.format("A planned outage is in effect until %s", outage.getEndTime().toString()));
 			}
 		} catch (Exception e) {
 			log.error("Failed run job request: " + jobRequest, e);

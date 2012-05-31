@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 
@@ -21,7 +20,7 @@ import com.thomsonreuters.uscl.ereader.util.EBookServerException;
  */
 @Controller
 public class JobCleanupController {
-	private static final Logger log = Logger.getLogger(JobCleanupController.class);
+	//private static final Logger log = Logger.getLogger(JobCleanupController.class);
 	
 
 	private JobCleanupService jobCleanupService;
