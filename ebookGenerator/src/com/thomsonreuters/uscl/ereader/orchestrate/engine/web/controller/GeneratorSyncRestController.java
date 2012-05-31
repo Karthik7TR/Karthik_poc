@@ -70,6 +70,7 @@ public class GeneratorSyncRestController {
 			default: // programming error
 				throw new IllegalArgumentException("Unexpected outage operation: " + outage.getOperation());
 		}
+		log.debug(message);
 		opResponse = new SimpleRestServiceResponse(null, true, message);
 		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
 		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);

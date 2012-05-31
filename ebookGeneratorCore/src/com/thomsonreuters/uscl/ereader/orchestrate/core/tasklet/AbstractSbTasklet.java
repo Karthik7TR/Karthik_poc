@@ -31,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -75,16 +76,20 @@ public abstract class AbstractSbTasklet implements Tasklet {
         	if (plannedOutage != null) {
         		LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
         		SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
-        		stepExitStatus = new ExitStatus(ExitStatus.FAILED.getExitCode(),
-        							 String.format("Planned service outage in effect from %s to %s",
-        							 sdf.format(plannedOutage.getStartTime()), sdf.format(plannedOutage.getEndTime())));
+        		Exception e = new PlannedOutageException(String.format("Planned service outage in effect from %s to %s",
+						 				sdf.format(plannedOutage.getStartTime()), sdf.format(plannedOutage.getEndTime())));
+        		StackTraceElement[] stackTraceElementArray = { };
+        		e.setStackTrace(stackTraceElementArray);
+        		throw e;
         	} else {
         		// Execute user defined step logic
         		stepExitStatus = executeStep(contribution, chunkContext);
         	}
         	// Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
         	stepExecution.setExitStatus(stepExitStatus);
-        
+		} catch (PlannedOutageException e) {
+			// Just catch and rethrow as not to send an email message
+			throw e;
         } catch (Exception e){
         	String stackTrace = getStackTrace(e);
 
