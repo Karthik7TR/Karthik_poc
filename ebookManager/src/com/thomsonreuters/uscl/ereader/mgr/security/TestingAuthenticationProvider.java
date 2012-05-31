@@ -40,11 +40,11 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 		if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
 			return SecurityRole.ROLE_GUEST;
 		}
-		if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
-			return SecurityRole.ROLE_PUBLISHER;
-		}
 		if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
 			return SecurityRole.ROLE_PUBLISHER_PLUS;
+		}
+		if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
+			return SecurityRole.ROLE_PUBLISHER;
 		}
 		if (name.contains(SecurityRole.ROLE_SUPERUSER.toString())) {
 			return SecurityRole.ROLE_SUPERUSER;
