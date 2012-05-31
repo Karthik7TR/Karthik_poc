@@ -164,10 +164,12 @@ public class OutageController {
 					
 					// Get latest outage to marshall to generator
 					outage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+					outage.setOperation(Operation.SAVE);
 					infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved outage."));
 				} else {
 					// Get latest outage to marshall to generator
 					outage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+					outage.setOperation(Operation.REMOVE);
 					outageService.deletePlannedOutage(outage.getId());
 					infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully deleted outage."));
 				}
