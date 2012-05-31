@@ -32,6 +32,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -54,6 +56,7 @@ public class BookLibraryControllerTest {
 	private MockHttpServletResponse response;
 	private HandlerAdapter handlerAdapter;
 	private CodeService mockCodeService;
+	private OutageService mockOutageService;
 	private LibraryListService mockLibraryListService;
 
 	@Before
@@ -65,12 +68,14 @@ public class BookLibraryControllerTest {
 		// Mock up the dashboard service
 		this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
 		this.mockCodeService = EasyMock.createMock(CodeService.class);
+		this.mockOutageService = EasyMock.createMock(OutageService.class);
 
 		// Set up the controller
 		this.controller = new BookLibraryController();
 		controller.setLibraryListService(mockLibraryListService);
 		controller.setValidator(new BookLibrarySelectionFormValidator());
 		controller.setCodeService(mockCodeService);
+		controller.setOutageService(mockOutageService);
 	}
 
 	/**
@@ -87,6 +92,9 @@ public class BookLibraryControllerTest {
 		
 		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
 		EasyMock.replay(mockCodeService);
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
 
 		ModelAndView mav;
 		try {
@@ -111,6 +119,7 @@ public class BookLibraryControllerTest {
 		}
 		EasyMock.verify(mockLibraryListService);
 		EasyMock.verify(mockCodeService);
+		EasyMock.verify(mockOutageService);
 
 	}
 
@@ -131,6 +140,9 @@ public class BookLibraryControllerTest {
 		
 		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
 		EasyMock.replay(mockCodeService);
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
 
 		ModelAndView mav;
 		try {
@@ -155,6 +167,7 @@ public class BookLibraryControllerTest {
 		}
 		EasyMock.verify(mockLibraryListService);
 		EasyMock.verify(mockCodeService);
+		EasyMock.verify(mockOutageService);
 	}
 	
 	/**
@@ -173,6 +186,9 @@ public class BookLibraryControllerTest {
 		
 		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
 		EasyMock.replay(mockCodeService);
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
 
 		ModelAndView mav;
 		try {
@@ -199,6 +215,7 @@ public class BookLibraryControllerTest {
 		}
 		EasyMock.verify(mockLibraryListService);
 		EasyMock.verify(mockCodeService);
+		EasyMock.verify(mockOutageService);
 	}
 
 	/**
@@ -271,6 +288,9 @@ public class BookLibraryControllerTest {
 		
 		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
 		EasyMock.replay(mockCodeService);
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
 
 		ModelAndView mav;
 		try {
@@ -296,6 +316,7 @@ public class BookLibraryControllerTest {
 
 			EasyMock.verify(mockLibraryListService);
 			EasyMock.verify(mockCodeService);
+			EasyMock.verify(mockOutageService);
 
 		} catch (Exception e) {
 			e.printStackTrace();

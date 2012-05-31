@@ -27,8 +27,8 @@
 				<div style="clear:both;"></div>
 			</div>
 			<div id="center">
-				
 				<div id="right">
+					<tiles:insertAttribute name="outageHeader"/>
 					<div class="titleWrapper">
 						<div class="title">
 							<tiles:insertAttribute name="title"/>

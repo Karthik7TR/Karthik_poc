@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -40,6 +41,7 @@ public class LoginController {
 	private static final Logger log = Logger.getLogger(LoginController.class);
 	
 	private UserPreferenceService preferenceService;
+	private OutageService outageService;
 
 	/** Validator for the login form - username and password */
 	private Validator validator;
@@ -65,6 +67,7 @@ public class LoginController {
 			httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
 			httpSession.setAttribute(WebConstants.KEY_PROVIEW_DOMAIN, proviewDomain);
 		}
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
 	}
 	
@@ -80,6 +83,7 @@ public class LoginController {
 			   					   Model model) {
 		log.debug(form);
 		String viewName = (!errors.hasErrors()) ? WebConstants.VIEW_SEC_LOGIN_AUTO : WebConstants.VIEW_SEC_LOGIN;
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(viewName);
 	}
 
@@ -132,6 +136,7 @@ public class LoginController {
 		infoMessages.add(mesg);
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
 		model.addAttribute(LoginForm.FORM_NAME, new LoginForm());
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
 	}
 	
@@ -158,10 +163,13 @@ public class LoginController {
 	public void setProviewDomain(String domain) {
 		this.proviewDomain = domain;
 	}
-	
 	@Required
 	public void setUserPreferenceService(UserPreferenceService service) {
 		this.preferenceService = service;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 	
 }

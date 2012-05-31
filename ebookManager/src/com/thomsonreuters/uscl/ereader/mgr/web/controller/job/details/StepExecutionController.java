@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
@@ -39,6 +40,7 @@ public class StepExecutionController {
 	
 	private JobService jobService;
 	private PublishingStatsService publishingStatsService;
+	private OutageService outageService;
 	
 	/**
 	 * Set up model for viewing a specific job step.
@@ -67,6 +69,7 @@ public class StepExecutionController {
 		model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION, stepExecution);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTION_CONTEXT_MAP_ENTRIES, mapEntryList);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 	
 	/**
@@ -93,5 +96,9 @@ public class StepExecutionController {
 	@Required
 	public void setPublishingStatsService(PublishingStatsService service) {
 		this.publishingStatsService = service;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -61,6 +62,7 @@ public class JobExecutionController {
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobSummaryController jobSummaryController;
+	private OutageService outageService;
 	
 	@InitBinder(JobExecutionForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -99,6 +101,7 @@ public class JobExecutionController {
 			vdo = new JobExecutionVdo();
 		}
 		populateModel(model, vdo);
+		
 		return new ModelAndView(WebConstants.VIEW_JOB_EXECUTION_DETAILS);
 	}
 	
@@ -122,6 +125,7 @@ public class JobExecutionController {
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		// Forward to to the job summary controller
 		return jobSummaryController.inboundGet(httpSession, model);
 	}
@@ -146,6 +150,7 @@ public class JobExecutionController {
 			}
 		}
 		model.addAttribute(WebConstants.KEY_INFO_MESSAGES, messages);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		// Forward to to the job summary controller
 		return jobSummaryController.inboundGet(httpSession, model);
 	}
@@ -228,6 +233,7 @@ public class JobExecutionController {
 	
 	private void populateModel(Model model, JobExecutionVdo vdo) {
 		model.addAttribute(WebConstants.KEY_JOB, vdo);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 
 	@Required
@@ -253,5 +259,9 @@ public class JobExecutionController {
 	@Required
 	public void setPublishingStatsService(PublishingStatsService service) {
 		this.publishingStatsService = service;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

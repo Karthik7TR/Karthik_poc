@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty;
@@ -40,6 +42,7 @@ public class QueueControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private JobRequestService mockJobRequestService;
+	private OutageService mockOutageService;
 	//private BookDefinitionService mockBookDefinitionService;
 	private HandlerAdapter handlerAdapter;
 
@@ -59,6 +62,7 @@ public class QueueControllerTest {
     	this.response = new MockHttpServletResponse();
     	request.getSession().setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, PAGE_AND_SORT);
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
+    	this.mockOutageService = EasyMock.createMock(OutageService.class);
     	//this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
    
     	
@@ -68,6 +72,7 @@ public class QueueControllerTest {
     	controller.setJobRequestService(mockJobRequestService);
     	//controller.setBookDefinitionService(mockBookDefinitionService);
     	controller.setValidator(new QueueFormValidator());
+    	controller.setOutageService(mockOutageService);
     }
 
     /**
@@ -83,6 +88,9 @@ public class QueueControllerTest {
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
     	EasyMock.replay(mockJobRequestService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
@@ -91,6 +99,7 @@ public class QueueControllerTest {
     	Map<String,Object> model = mav.getModel();
     	verifyModel(model, httpSession); 
     	EasyMock.verify(mockJobRequestService);
+    	EasyMock.verify(mockOutageService);
 	}
 
 	@Test
@@ -106,6 +115,9 @@ public class QueueControllerTest {
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
     	EasyMock.replay(mockJobRequestService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
@@ -116,7 +128,9 @@ public class QueueControllerTest {
     	PageAndSort<DisplayTagSortProperty> actualPageAndSort = (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
     	Assert.assertEquals(pageNumber, actualPageAndSort.getPageNumber());
     	verifyModel(model, httpSession); 
+    	
     	EasyMock.verify(mockJobRequestService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	/**
@@ -139,6 +153,9 @@ public class QueueControllerTest {
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
     	EasyMock.replay(mockJobRequestService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
@@ -148,6 +165,7 @@ public class QueueControllerTest {
     	// The saved page number should be back to 1 since the list is now empty
     	Assert.assertEquals(new Integer(nextPageNumber-1), actualPageAndSort.getPageNumber());
     	EasyMock.verify(mockJobRequestService);
+    	EasyMock.verify(mockOutageService);
 	}
 
 	@Test
@@ -161,8 +179,10 @@ public class QueueControllerTest {
     	HttpSession httpSession = request.getSession();
     	
     	EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(JOB_REQUESTS);
-    	
     	EasyMock.replay(mockJobRequestService);
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
 
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -185,6 +205,7 @@ public class QueueControllerTest {
 			lastPriority = priority;
     	}
     	EasyMock.verify(mockJobRequestService);
+    	EasyMock.verify(mockOutageService);
 	}
 
 	private void verifyModel(Map<String,Object> model, HttpSession httpSession) {

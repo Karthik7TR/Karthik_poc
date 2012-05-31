@@ -63,6 +63,7 @@ public class WebConstants {
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
 	public static final String KEY_PUBLISHERS = "publishers";
 	public static final String KEY_OUTAGE = "outage";
+	public static final String KEY_DISPLAY_OUTAGE = "displayOutage";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
 	public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
@@ -230,6 +231,10 @@ public class WebConstants {
 	public static final String MVC_ADMIN_OUTAGE_CREATE = "adminOutageCreate.mvc";
 	public static final String MVC_ADMIN_OUTAGE_DELETE = "adminOutageDelete.mvc";
 	public static final String MVC_ADMIN_OUTAGE_EDIT = "adminOutageEdit.mvc";
+	public static final String MVC_ADMIN_OUTAGE_TYPE_LIST = "adminOutageTypeList.mvc";
+	public static final String MVC_ADMIN_OUTAGE_TYPE_CREATE = "adminOutageTypeCreate.mvc";
+	public static final String MVC_ADMIN_OUTAGE_TYPE_DELETE = "adminOutageTypeDelete.mvc";
+	public static final String MVC_ADMIN_OUTAGE_TYPE_EDIT = "adminOutageTypeEdit.mvc";
 	
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
@@ -284,6 +289,10 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_OUTAGE_CREATE = "_adminOutageCreate";
 	public static final String VIEW_ADMIN_OUTAGE_DELETE = "_adminOutageDelete";
 	public static final String VIEW_ADMIN_OUTAGE_EDIT = "_adminOutageEdit";
+	public static final String VIEW_ADMIN_OUTAGE_TYPE_LIST = "_adminOutageTypeList";
+	public static final String VIEW_ADMIN_OUTAGE_TYPE_CREATE = "_adminOutageTypeCreate";
+	public static final String VIEW_ADMIN_OUTAGE_TYPE_DELETE = "_adminOutageTypeDelete";
+	public static final String VIEW_ADMIN_OUTAGE_TYPE_EDIT = "_adminOutageTypeEdit";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";

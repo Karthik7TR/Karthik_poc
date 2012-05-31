@@ -634,15 +634,35 @@ div.ui-datepicker{
 	font-size:70%;
 }
 
-#outageForm .row {
+#outageForm .row,
+#outageTypeForm .row {
 	margin-bottom:1em;
 }
 
-#outageForm .row label {
+#outageForm .row label,
+#outageTypeForm .row label {
 	display:block;
 }
 
 #outageForm .row input[type='text'],
+#outageTypeForm .row input[type='text'],
 #outageForm .row textarea {
 	width:30em;
+}
+
+#outageMessageBox {
+	padding:.5em;
+	background-color: #D71F1F;
+	color: white;
+	font-size: 1 em;
+}
+
+#outageMessageHeader {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#outageMessageBox .outageMessage {
+	border-bottom: black 1px solid;
+	margin:.4em 0em;
 }

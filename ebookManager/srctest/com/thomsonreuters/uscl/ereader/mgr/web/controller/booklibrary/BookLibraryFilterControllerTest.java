@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -34,6 +36,7 @@ public class BookLibraryFilterControllerTest {
 	private MockHttpServletResponse response;
 	private LibraryListService mockLibraryListService;
 	private CodeService mockCodeService;
+	private OutageService mockOutageService;
 	private HandlerAdapter handlerAdapter;
 	
     @Before
@@ -42,12 +45,14 @@ public class BookLibraryFilterControllerTest {
     	this.response = new MockHttpServletResponse();
     	this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
     	this.mockCodeService = EasyMock.createMock(CodeService.class);
+    	this.mockOutageService = EasyMock.createMock(OutageService.class);
     	
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new BookLibraryFilterController();
     	controller.setLibraryListService(mockLibraryListService);
     	controller.setCodeService(mockCodeService);
+    	controller.setOutageService(mockOutageService);
     	
     }
 	@Test
@@ -71,6 +76,9 @@ public class BookLibraryFilterControllerTest {
 		
 		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
 		EasyMock.replay(mockCodeService);
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
     	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -86,5 +94,6 @@ public class BookLibraryFilterControllerTest {
     	
     	EasyMock.verify(mockLibraryListService);
     	EasyMock.verify(mockCodeService);
+    	EasyMock.verify(mockOutageService);
 	}
 }

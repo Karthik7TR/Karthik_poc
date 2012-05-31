@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
@@ -46,6 +48,7 @@ public class JobExecutionControllerTest {
 	private JobService mockJobService;
 	private PublishingStatsService mockPublishingStatsService;
 	private EbookAudit mockJobInstanceBookInfo;
+	private OutageService mockOutageService;
 	private MessageSourceAccessor mockMessageSourceAccessor;
 	private HandlerAdapter handlerAdapter;
 	
@@ -57,6 +60,7 @@ public class JobExecutionControllerTest {
     	this.mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
     	this.mockJobInstanceBookInfo = EasyMock.createMock(EbookAudit.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
+    	this.mockOutageService = EasyMock.createMock(OutageService.class);
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobExecutionController();
@@ -64,6 +68,7 @@ public class JobExecutionControllerTest {
     	controller.setPublishingStatsService(mockPublishingStatsService);
     	controller.setValidator(new JobExecutionFormValidator());
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
+    	controller.setOutageService(mockOutageService);
     }
 
     /**
@@ -83,6 +88,9 @@ public class JobExecutionControllerTest {
     	EasyMock.replay(mockJobService);
     	EasyMock.replay(mockPublishingStatsService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
@@ -94,6 +102,7 @@ public class JobExecutionControllerTest {
     	Assert.assertEquals(bogusStats, job.getPublishingStats());
     	
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 

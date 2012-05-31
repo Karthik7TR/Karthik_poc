@@ -42,6 +42,8 @@
 		    </c:if>	 
 		    
 			<form:hidden path="plannedOutageId" />
+			<form:hidden path="startTimeString" />
+			<form:hidden path="endTimeString" />
 			Are you sure you want to delete this outage: 
 			<div>
 				Start Date/Time: <fmt:formatDate value="${outage.startTime}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>

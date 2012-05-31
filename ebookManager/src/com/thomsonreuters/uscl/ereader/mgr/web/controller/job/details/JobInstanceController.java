@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.StepStartTimeComparator;
@@ -40,6 +41,7 @@ public class JobInstanceController {
 	
 	private JobService jobService;
 	private PublishingStatsService publishingStatsService;
+	private OutageService outageService;
 	
 	/**
 	 * Create a aggregated list of StepExecution's from all JobInstance's specified by id.
@@ -87,6 +89,7 @@ public class JobInstanceController {
 		model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
 		model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
 		model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTIONS, allJobInstanceSteps);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 	@Required
 	public void setJobService(JobService jobService) {
@@ -95,5 +98,9 @@ public class JobInstanceController {
 	@Required
 	public void setPublishingStatsService(PublishingStatsService service) {
 		this.publishingStatsService = service;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

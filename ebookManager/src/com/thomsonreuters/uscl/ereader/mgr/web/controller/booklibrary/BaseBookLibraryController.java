@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -32,6 +33,7 @@ public abstract class BaseBookLibraryController {
 	public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
 	protected LibraryListService libraryService;
 	protected CodeService codeService;
+	protected OutageService outageService;
 	
 	/**
 	 * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -74,6 +76,7 @@ public abstract class BaseBookLibraryController {
 		List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
 		// Add keywords
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, codes);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 	
 	/**
@@ -119,5 +122,10 @@ public abstract class BaseBookLibraryController {
 	@Required
 	public void setCodeService(CodeService service) {
 		this.codeService = service;
+	}
+	
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

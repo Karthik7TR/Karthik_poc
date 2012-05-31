@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.core.outage.service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,17 @@ public class OutageServiceImpl implements OutageService {
 	@Transactional(readOnly=true)
 	public List<PlannedOutage> getAllPlannedOutages() {
 		return dao.getAllPlannedOutages();
+	}
+	
+	/**
+	 * Returns all Outage entities that are scheduled and displayed to the user
+	 */
+	@Transactional(readOnly=true)
+	public List<PlannedOutage> getAllPlannedOutagesToDisplay() {
+		Date midnight = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+		Date endDate = DateUtils.addDays(midnight, PlannedOutage.NUMBER_DAYS_DISPLAY);
+		
+		return dao.getAllPlannedOutagesToDisplay(endDate);
 	}
 	
 	/**

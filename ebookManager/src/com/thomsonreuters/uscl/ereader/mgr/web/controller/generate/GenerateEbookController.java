@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -52,6 +53,7 @@ public class GenerateEbookController {
 	private JobRequestService jobRequestService;
 	private PublishingStatsService publishingStatsService;
 	private ManagerService managerService;
+	private OutageService outageService;
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			WebConstants.DATE_FORMAT_PATTERN);
@@ -258,7 +260,8 @@ public class GenerateEbookController {
 				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
 		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
-
+		
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 
@@ -372,7 +375,8 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
 			form.setFullyQualifiedTitleId(book.getTitleId());
-
+			
+			model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 
 			break;
@@ -441,7 +445,7 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_LIST, booksToGenerate);
 		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_SIZE,
 				booksToGenerate.size());
-
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
 
@@ -483,4 +487,8 @@ public class GenerateEbookController {
 		this.managerService = service;
 	}
 
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
+	}
 }

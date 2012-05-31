@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestComparators;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty;
@@ -41,6 +42,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
 public class QueueController {
 	private static final Logger log = Logger.getLogger(QueueController.class);
 	private JobRequestService jobRequestService;
+	private OutageService outageService;
 	private Validator validator;
 	private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators = new HashMap<DisplayTagSortProperty, Comparator<JobRequest>>();
 	static {
@@ -115,6 +117,7 @@ public class QueueController {
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers list
 		PaginatedList queuedPaginatedList = createPaginatedList(allQueuedJobs, queuedPageAndSort);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, queuedPaginatedList);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 
 	/**
@@ -166,5 +169,9 @@ public class QueueController {
 	@Required
 	public void setValidator(QueueFormValidator validator) {
 		this.validator = validator;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

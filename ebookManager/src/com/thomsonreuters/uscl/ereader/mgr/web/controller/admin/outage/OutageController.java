@@ -168,7 +168,11 @@ public class OutageController {
 					infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved outage."));
 				} else {
 					// Get latest outage to marshall to generator
-					outage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+					PlannedOutage latestOutage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+					// Only replace if the outage entity exists.
+					if(latestOutage != null) {
+						outage = latestOutage;
+					}
 					outage.setOperation(Operation.REMOVE);
 					outageService.deletePlannedOutage(outage.getId());
 					infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully deleted outage."));

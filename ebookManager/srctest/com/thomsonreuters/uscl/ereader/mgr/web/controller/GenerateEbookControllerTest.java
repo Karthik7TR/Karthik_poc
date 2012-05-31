@@ -8,6 +8,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
@@ -31,6 +35,7 @@ public class GenerateEbookControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private HandlerAdapter handlerAdapter;
+	private OutageService mockOutageService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,11 +46,13 @@ public class GenerateEbookControllerTest {
 		// Mock up services
 		BookDefinitionService mockBookDefinitionServiceService = EasyMock.createMock(BookDefinitionService.class);
 		ProviewClient proviewClient = EasyMock.createMock(ProviewClient.class);
+		this.mockOutageService = EasyMock.createMock(OutageService.class);
 
 		// Set up the controller
 		this.controller = new GenerateEbookController();
 		controller.setBookDefinitionService(mockBookDefinitionServiceService);
 		controller.setProviewClient(proviewClient);
+		controller.setOutageService(mockOutageService);
 	}
 
 	/**
@@ -78,6 +85,9 @@ public class GenerateEbookControllerTest {
 				+ WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
 		request.setMethod(HttpMethod.GET.name());
 		request.setParameter("id", "1");
+		
+		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+		EasyMock.replay(mockOutageService);
 
 		ModelAndView mav;
 		try {
@@ -87,6 +97,8 @@ public class GenerateEbookControllerTest {
 
 			Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW,
 					mav.getViewName());
+			
+			EasyMock.verify(mockOutageService);
 
 		} catch (Exception e) {
 			e.printStackTrace();

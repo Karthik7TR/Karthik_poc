@@ -25,9 +25,11 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 @Entity
 @Table(name="PLANNED_OUTAGE")
 public class PlannedOutage implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	public static final int NUMBER_DAYS_DISPLAY = 7;
 	public static enum Operation { SAVE, REMOVE  };
 	
-	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "OUTAGE_ID", nullable = false)
 	@Id

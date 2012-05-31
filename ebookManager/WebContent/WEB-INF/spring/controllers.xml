@@ -94,7 +94,8 @@
 	
 	<bean id="bookLibraryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"
 		p:libraryListService-ref="libraryListService"
-		p:codeService-ref="codeService" >
+		p:codeService-ref="codeService"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator"/>
 		</property>
@@ -102,7 +103,8 @@
 	
 	<bean id="bookLibraryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterController"
 		p:libraryListService-ref="libraryListService" 
-		p:codeService-ref="codeService" >
+		p:codeService-ref="codeService"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterFormValidator"/>
 		</property>
@@ -150,7 +152,8 @@
 		p:jobRequestService-ref="jobRequestService"
 		p:proviewClient-ref="proviewClient"
 		p:publishingStatsService-ref="publishingStatsService" 
-		p:managerService-ref="managerService"/>
+		p:managerService-ref="managerService"
+		p:outageService-ref="outageService"/>
 		  
 	<bean id="promoteController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.promotion.BookPromotionController" />
 
@@ -159,35 +162,41 @@
 		p:generatorRestClient-ref="generatorRestClient"
 		p:publishingStatsService-ref="publishingStatsService"
 		p:messageSourceAccessor-ref="messageSourceAccessor"
-		p:jobSummaryController-ref="jobSummaryController">
+		p:jobSummaryController-ref="jobSummaryController"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionFormValidator"/>
 		</property>
 	</bean>
 	<bean id="jobInstanceController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobInstanceController"
 		p:jobService-ref="jobService"
-		p:publishingStatsService-ref="publishingStatsService"/>
+		p:publishingStatsService-ref="publishingStatsService"
+		p:outageService-ref="outageService"/>
 	<bean id="jobStepExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.StepExecutionController"
 		p:jobService-ref="jobService"
-		p:publishingStatsService-ref="publishingStatsService"/>	
+		p:publishingStatsService-ref="publishingStatsService"
+		p:outageService-ref="outageService"/>	
 	<bean id="jobSummaryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryController"
 		p:jobService-ref="jobService"
 		p:generatorRestClient-ref="generatorRestClient"
 		p:jobExecutionController-ref="jobExecutionController"
-		p:messageSourceAccessor-ref="messageSourceAccessor">
+		p:messageSourceAccessor-ref="messageSourceAccessor"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryValidator"/>
 		</property>
 	</bean>	
 	<bean id="jobSummaryFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterController"
-		p:jobService-ref="jobService">
+		p:jobService-ref="jobService"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterFormValidator"/>
 		</property>
 	</bean>
 	
 	<bean id="jobQueueController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueController"
-		p:jobRequestService-ref="jobRequestService">
+		p:jobRequestService-ref="jobRequestService"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueFormValidator"/>
 		</property>
@@ -212,7 +221,8 @@
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController"
 		p:environmentName-ref="environmentName"
 		p:proviewDomain-ref="proviewDomain"
-		p:userPreferenceService-ref="userPreferenceService">
+		p:userPreferenceService-ref="userPreferenceService"
+		p:outageService-ref="outageService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginFormValidator"/>
 		</property>
@@ -251,6 +261,13 @@
 		 </property>
 		 <!-- make sure the host properties are last, the property is a function of host and port numbers -->
 		 <constructor-arg index="0" value="${generator.port}"/>
+	</bean>
+	
+	<bean id="outageTypeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageTypeController"
+		  p:outageService-ref="outageService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageTypeFormValidator"/>
+		 </property>
 	</bean>
 		 
 </beans>

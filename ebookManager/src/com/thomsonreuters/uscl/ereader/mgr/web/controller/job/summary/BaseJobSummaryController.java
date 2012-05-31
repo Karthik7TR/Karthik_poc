@@ -18,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
@@ -28,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 public abstract class BaseJobSummaryController {
 	//private static final Logger log = Logger.getLogger(BaseJobSummaryController.class);
 	protected JobService jobService;
+	protected OutageService outageService;
 	
 	/**
 	 * Get the current list of job execution ID's saved on the session, if not present then fail-safe to fetching
@@ -83,6 +85,7 @@ public abstract class BaseJobSummaryController {
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
 		PaginatedList paginatedList = createPaginatedList(jobExecutionIds, pageAndSort);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 	}
 	
 	/**
@@ -136,5 +139,9 @@ public abstract class BaseJobSummaryController {
 	@Required
 	public void setJobService(JobService service) {
 		this.jobService = service;
+	}
+	@Required
+	public void setOutageService(OutageService service) {
+		this.outageService = service;
 	}
 }

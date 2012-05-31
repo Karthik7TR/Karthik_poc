@@ -6,11 +6,13 @@
 	
 	<definition name="twoColumnDefinition" template="/WEB-INF/tiles/layouts/two-column-template.jsp">
 		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
+		<put-attribute name="outageHeader" value="/WEB-INF/jsp/outageHeader.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
 	</definition>
 	
 	<definition name="oneColumnDefinition" template="/WEB-INF/tiles/layouts/one-column-template.jsp">
 		<put-attribute name="header" value="/WEB-INF/jsp/standardHeader.jsp"/>
+		<put-attribute name="outageHeader" value="/WEB-INF/jsp/outageHeader.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/jsp/standardFooter.jsp"/>
 	</definition>
 	
@@ -178,33 +180,57 @@
 	</definition>
 	
 	<definition name="_adminOutageActiveList" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/activelist/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/plannedoutage/activelist/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/activelist/body.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/plannedoutage/activelist/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminOutageFullList" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/fulllist/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/plannedoutage/fulllist/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/fulllist/body.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/plannedoutage/fulllist/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminOutageEdit" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/edit/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/plannedoutage/edit/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/edit/body.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/plannedoutage/edit/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminOutageDelete" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/delete/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/plannedoutage/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/delete/body.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/plannedoutage/delete/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminOutageCreate" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/create/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/plannedoutage/create/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/common/createEditForm.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/plannedoutage/common/createEditForm.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageTypeList" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/outagetype/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/outagetype/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageTypeEdit" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/outagetype/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/outagetype/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageTypeDelete" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/outagetype/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/outagetype/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminOutageTypeCreate" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/outage/outagetype/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/outagetype/common/createEditForm.jsp"/>
 	</definition>
 	
 	<definition name="_adminJobThrottleConfig" extends="twoColumnDefinition">

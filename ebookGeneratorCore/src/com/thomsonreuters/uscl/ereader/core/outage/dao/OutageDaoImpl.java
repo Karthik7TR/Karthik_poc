@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.outage.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -43,6 +44,20 @@ public class OutageDaoImpl implements OutageDao {
 	}
 	
 	/**
+	 * Returns all Outage entities that are scheduled and displayed to the user
+	 * @param endDate - filter used to limit PlannedOutages
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PlannedOutage> getAllPlannedOutagesToDisplay(Date endDate) {
+		Session session = sessionFactory.getCurrentSession();
+		return session.createCriteria(PlannedOutage.class)
+				.add(Restrictions.ge("endTime", new Date()))
+				.add(Restrictions.le("endTime", endDate))
+				.addOrder(Order.asc("startTime"))
+				.list();
+	}
+	
+	/**
 	 * Get the Outage entity with the give id.
 	 */
 	public PlannedOutage findPlannedOutageByPrimaryKey(Long id) {
@@ -79,12 +94,16 @@ public class OutageDaoImpl implements OutageDao {
 	}
 	
 	public OutageType findOutageTypeByPrimaryKey(Long id) {
-		return (OutageType) sessionFactory.getCurrentSession().get(
-				OutageType.class, id);
+		Session session = sessionFactory.getCurrentSession();
+		return (OutageType) session.createCriteria(OutageType.class)
+				.setFetchMode("plannedOutage", FetchMode.JOIN)
+				.add(Restrictions.eq("id", id))
+				.uniqueResult();
 	}
 	
 	public void saveOutageType(OutageType outageType) {
 		Session session = sessionFactory.getCurrentSession();
+		outageType.setLastUpdated(new Date());
 		session.saveOrUpdate(outageType);
 		session.flush();
 	}

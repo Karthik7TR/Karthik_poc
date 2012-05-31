@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.easymock.EasyMock;
@@ -21,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginForm;
@@ -37,6 +40,7 @@ public class LoginControllerTest {
     private HandlerAdapter handlerAdapter;
     
     private UserPreferenceService mockPreferenceService;
+    private OutageService mockOutageService;
   
     @Before
     public void setUp() throws Exception {
@@ -45,21 +49,29 @@ public class LoginControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	mockPreferenceService = EasyMock.createMock(UserPreferenceService.class);
+    	mockOutageService = EasyMock.createMock(OutageService.class);
     	
     	controller = new LoginController();
     	controller.setEnvironmentName("workstation");
     	controller.setProviewDomain("ci");
     	controller.setUserPreferenceService(mockPreferenceService);
+    	controller.setOutageService(mockOutageService);
     }
     @Test
     public void testInboundGet() throws Exception {
     	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN);
     	request.setMethod(HttpMethod.GET.name());
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN, mav.getViewName());
     	Map<String,Object> model = mav.getModel();
     	Assert.assertNotNull(model.get(LoginForm.FORM_NAME));
+    	
+    	EasyMock.verify(mockOutageService);
     }
 
     @Test
@@ -70,6 +82,10 @@ public class LoginControllerTest {
     	String password = "barPassword";
     	request.setParameter("username", "fooUser");
     	request.setParameter("password", "barPassword");
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN_AUTO, mav.getViewName());
@@ -78,12 +94,18 @@ public class LoginControllerTest {
     	Assert.assertNotNull(form);
     	Assert.assertEquals(username, form.getJ_username());
     	Assert.assertEquals(password, form.getJ_password());
+    	
+    	EasyMock.verify(mockOutageService);
     }    
 
     @Test
     public void testhandleAuthenticationFailure() throws Exception {
     	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN_FAIL);
     	request.setMethod(HttpMethod.GET.name());
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_SEC_LOGIN, mav.getViewName());
@@ -91,6 +113,8 @@ public class LoginControllerTest {
     	Assert.assertNotNull(model.get(WebConstants.KEY_INFO_MESSAGES));
     	LoginForm form = (LoginForm) model.get(LoginForm.FORM_NAME);
     	Assert.assertNotNull(form);
+    	
+    	EasyMock.verify(mockOutageService);
     }
 
     @Test

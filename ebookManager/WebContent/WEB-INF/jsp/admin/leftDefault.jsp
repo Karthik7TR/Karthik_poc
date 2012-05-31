@@ -40,4 +40,6 @@
 
 <a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a><br/>
 <br/>
-<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Planned Outage List</a>
+<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Planned Outage List</a><br/>
+<br/>
+<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>">Outage Types</a>

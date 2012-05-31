@@ -29,6 +29,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -46,6 +48,7 @@ public class JobSummaryControllerTest {
 	private GeneratorRestClient mockManagerService;
 	private JobExecutionController mockJobExecutionController;
 	private MessageSourceAccessor mockMessageSourceAccessor;
+	private OutageService mockOutageService;
 	private HandlerAdapter handlerAdapter;
 	private List<Long> jobExecutionIds;
 	private List<Long> jobExecutionIdSubList;
@@ -61,6 +64,7 @@ public class JobSummaryControllerTest {
     	this.mockManagerService = EasyMock.createMock(GeneratorRestClient.class);
     	this.mockJobExecutionController = EasyMock.createMock(JobExecutionController.class);
     	this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
+    	this.mockOutageService = EasyMock.createMock(OutageService.class);
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	controller = new JobSummaryController();
@@ -69,6 +73,7 @@ public class JobSummaryControllerTest {
     	controller.setGeneratorRestClient(mockManagerService);
     	controller.setMessageSourceAccessor(mockMessageSourceAccessor);
     	controller.setJobExecutionController(mockJobExecutionController);
+    	controller.setOutageService(mockOutageService);
     	
     	// Set up the Job execution ID list stored in the session
     	this.jobExecutionIds = new ArrayList<Long>();
@@ -97,6 +102,9 @@ public class JobSummaryControllerTest {
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
     	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
@@ -111,6 +119,7 @@ public class JobSummaryControllerTest {
     	Assert.assertEquals(DisplayTagSortProperty.START_TIME, pageAndSort.getSortProperty());
     	
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	@Test
@@ -130,6 +139,9 @@ public class JobSummaryControllerTest {
     	EasyMock.expect(mockJobService.findJobSummary(subList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
     	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
+    	
        	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	
@@ -143,6 +155,7 @@ public class JobSummaryControllerTest {
     	Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
 
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	@Test
@@ -159,6 +172,9 @@ public class JobSummaryControllerTest {
     				EasyMock.anyObject(JobFilter.class), EasyMock.anyObject(JobSort.class))).andReturn(jobExecutionIds);
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
 
        	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -170,6 +186,7 @@ public class JobSummaryControllerTest {
     	validateModel(session, model);
     	
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	@Test
@@ -212,10 +229,12 @@ public class JobSummaryControllerTest {
     	// Common recordings for stop and restart
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.expect(mockJobExecutionController.authorizedForJobOperation(EasyMock.anyLong(), EasyMock.anyObject(String.class), EasyMock.anyObject(List.class))).andReturn(true);
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
     	// Replay
     	EasyMock.replay(mockManagerService);
     	EasyMock.replay(mockJobService);
     	EasyMock.replay(mockJobExecutionController);
+    	EasyMock.replay(mockOutageService);
     	
        	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -229,6 +248,7 @@ public class JobSummaryControllerTest {
     	// Verify calls to the mock methods
     	EasyMock.verify(mockManagerService);
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	/**
@@ -249,6 +269,9 @@ public class JobSummaryControllerTest {
     	//EasyMock.expect(mockJobService.findJobExecutions(jobExecutionIdSubList)).andReturn(jobExecutions.subList(0,EXPECTED_OBJECTS_PER_PAGE));
     	EasyMock.expect(mockJobService.findJobSummary(jobExecutionIds.subList(0, EXPECTED_OBJECTS_PER_PAGE))).andReturn(JOB_SUMMARY_LIST);
     	EasyMock.replay(mockJobService);
+    	
+    	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	EasyMock.replay(mockOutageService);
 
        	// Invoke the controller method via the URL
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -263,6 +286,7 @@ public class JobSummaryControllerTest {
     	Assert.assertEquals(EXPECTED_OBJECTS_PER_PAGE, pageAndSort.getObjectsPerPage().intValue());
     	
     	EasyMock.verify(mockJobService);
+    	EasyMock.verify(mockOutageService);
 	}
 	
 	/**

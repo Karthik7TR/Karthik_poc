@@ -1,12 +1,18 @@
 package com.thomsonreuters.uscl.ereader.core.outage.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,6 +43,11 @@ public class OutageType implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
+	
+	@OneToMany
+	@Basic(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "OUTAGE_TYPE_ID", referencedColumnName = "OUTAGE_TYPE_ID") })
+	private Collection<PlannedOutage> plannedOutage;
 
 	public Long getId() {
 		return id;
@@ -68,6 +79,14 @@ public class OutageType implements Serializable {
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	public Collection<PlannedOutage> getPlannedOutage() {
+		return plannedOutage;
+	}
+
+	public void setPlannedOutage(Collection<PlannedOutage> plannedOutage) {
+		this.plannedOutage = plannedOutage;
 	}
 
 	@Override

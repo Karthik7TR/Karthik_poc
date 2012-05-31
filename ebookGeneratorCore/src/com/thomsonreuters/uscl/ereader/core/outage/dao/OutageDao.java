@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.core.outage.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
@@ -16,6 +17,12 @@ public interface OutageDao {
 	 * Returns all Outage entities including past outages.
 	 */
 	public List<PlannedOutage> getAllPlannedOutages();
+	
+	/**
+	 * Returns all Outage entities that are scheduled and displayed to the user
+	 * @param endDate - filter used to limit PlannedOutages
+	 */
+	public List<PlannedOutage> getAllPlannedOutagesToDisplay(Date endDate);
 	
 	/**
 	 * Get the Outage entity with the give id.
