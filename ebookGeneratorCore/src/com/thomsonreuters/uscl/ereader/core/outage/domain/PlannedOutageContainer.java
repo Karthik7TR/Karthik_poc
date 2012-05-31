@@ -24,14 +24,14 @@ public class PlannedOutageContainer {
 	 * object that already has the same key.
 	 * @param outageToSave the new outage.
 	 */
-	public synchronized void save(PlannedOutage outageToSave) {
+	public synchronized void add(PlannedOutage outageToSave) {
 		remove(outageToSave);
 		outages.add(outageToSave);
 	}
 
-	public synchronized void saveAll(Collection<PlannedOutage> allOutages) {
+	public synchronized void addAll(Collection<PlannedOutage> allOutages) {
 		for (PlannedOutage outage : allOutages) {
-			save(outage);
+			add(outage);
 		}
 	}
 	
@@ -43,8 +43,7 @@ public class PlannedOutageContainer {
 	 */
 	public PlannedOutage findOutage(Date timeInstant) {
 		for (PlannedOutage outage : outages) {
-			if ((timeInstant.equals(outage.getStartTime()) || timeInstant.after(outage.getStartTime()))
-				 && timeInstant.before(outage.getEndTime())) {
+			if (outage.isActive(timeInstant)) {
 				return outage;
 			}
 		}

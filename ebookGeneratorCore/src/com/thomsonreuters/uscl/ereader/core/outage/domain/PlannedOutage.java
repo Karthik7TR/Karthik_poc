@@ -146,6 +146,16 @@ public class PlannedOutage implements Serializable {
 				+ ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
+	/**
+	 * Returns true if we are in the middle of the outage with respect to a specific time.
+	 * @param timeInstant point in time to compare against the outage interval.
+	 * @return true if within the interval.
+	 */
+	public boolean isActive(Date timeInstant) {
+		return (((timeInstant.equals(startTime) || timeInstant.after(startTime))
+				 && timeInstant.before(endTime)));
+	}
 
 	public void setAllClearEmailSent(boolean allClearEmailSent) {
 		this.allClearEmailSent = ( (allClearEmailSent) ? "Y" : "N");
@@ -207,12 +217,12 @@ public class PlannedOutage implements Serializable {
 		body.append(String.format("ID:    %d\n", id));
 		body.append(String.format("Start: %s\n", (startTime != null) ? sdf.format(startTime) : ""));
 		body.append(String.format("End:   %s\n", (endTime != null) ? sdf.format(endTime) : ""));
-		body.append(String.format("Type:  %s\n\n", (outageType != null) ? String.format("%s / %s", outageType.getSystem(), outageType.getSubSystem()) : null));
+		body.append(String.format("Type:  %s\n\n", (outageType != null) ? String.format("%s / %s", outageType.getSystem(), outageType.getSubSystem()) : "<none>"));
 		body.append("Reason:\n");
-		body.append(String.format("%s\n\n", reason));
+		body.append(String.format("%s\n\n", (reason != null) ? reason : ""));
 		body.append("System Impact Description:\n");
-		body.append(String.format("%s\n\n", systemImpactDescription));
-		body.append(String.format("Servers Impacted: %s\n", serversImpacted));
+		body.append(String.format("%s\n\n", (systemImpactDescription != null) ? systemImpactDescription : ""));
+		body.append(String.format("Servers Impacted: %s\n", (serversImpacted != null) ? serversImpacted : ""));
 		return body.toString();
 	}
 }

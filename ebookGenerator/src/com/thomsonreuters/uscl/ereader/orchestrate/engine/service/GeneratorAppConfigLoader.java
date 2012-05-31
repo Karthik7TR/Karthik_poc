@@ -46,8 +46,10 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	 */
 	public void loadPlannedOutages() {
 		Collection<PlannedOutage> allOutages = outageService.getAllActiveAndScheduledPlannedOutages();
-		log.debug(String.format("Loaded %d planned outage(s) from PLANNED_OUTAGE table", allOutages.size()));		
-		outageService.getPlannedOutageContainer().saveAll(allOutages);
+		for (PlannedOutage outage : allOutages) {
+			outageService.addPlannedOutageToContainer(outage);
+		}
+		log.debug(String.format("Loaded %d planned outage(s) from PLANNED_OUTAGE table", allOutages.size()));
 	}
 
 	@Required

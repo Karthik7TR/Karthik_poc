@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.core.outage.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
 
 public interface OutageService {
 	
@@ -41,8 +41,7 @@ public interface OutageService {
 	public void saveOutageType(OutageType outageType);
 	
 	public void deleteOutageType(Long id);
-	
-	public PlannedOutageContainer getPlannedOutageContainer();
+
 	
 	/**
 	 * Determine if we are in the middle of a planned outage and 
@@ -50,5 +49,8 @@ public interface OutageService {
 	 * @return the current outage event if we are in one, otherwise null.
 	 */
 	public PlannedOutage processPlannedOutages();
-
+	public PlannedOutage findPlannedOutageInContainer(Date timeInstant);
+	public PlannedOutage findExpiredOutageInContainer(Date expiredTime);
+	public void addPlannedOutageToContainer(PlannedOutage outage);
+	public boolean deletePlannedOutageFromContainer(PlannedOutage outage);
 }

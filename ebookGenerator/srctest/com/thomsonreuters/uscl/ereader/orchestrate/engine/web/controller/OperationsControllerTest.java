@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -23,7 +24,6 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 
@@ -61,7 +61,7 @@ public class OperationsControllerTest {
     	request.setRequestURI("/service/restart/job/"+JOB_EXEC_ID);
     	request.setMethod(HttpMethod.GET.name());
     	Long restartedJobExecId = new Long(JOB_EXEC_ID.longValue() + 1l);
-    	EasyMock.expect(mockOutageService.getPlannedOutageContainer()).andReturn(new PlannedOutageContainer());
+    	EasyMock.expect(mockOutageService.findPlannedOutageInContainer(EasyMock.anyObject(Date.class))).andReturn(null);
     	EasyMock.expect(mockEngineService.restartJob(JOB_EXEC_ID)).andReturn(restartedJobExecId);
     	EasyMock.replay(mockOutageService);
     	EasyMock.replay(mockEngineService);

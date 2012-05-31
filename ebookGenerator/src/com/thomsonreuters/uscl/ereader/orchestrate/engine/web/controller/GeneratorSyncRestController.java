@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 
@@ -58,15 +57,13 @@ public class GeneratorSyncRestController {
 		log.debug(">>> " + outage);
 		SimpleRestServiceResponse opResponse = null;
 		String message = null;
-		PlannedOutageContainer plannedOutageContainer = outageService.getPlannedOutageContainer();
 		switch (outage.getOperation()) {
 			case SAVE:
-				plannedOutageContainer.save(outage);
-				message = String.format("Successfully saved planned outage with ID %d", outage.getId());
+				outageService.addPlannedOutageToContainer(outage);
+				message = String.format("Successfully added planned outage with ID %d", outage.getId());
 				break;
 			case REMOVE:
-				boolean wasRemoved = plannedOutageContainer.remove(outage);
-				
+				boolean wasRemoved = outageService.deletePlannedOutageFromContainer(outage);
 				message = (wasRemoved) ? String.format("Successfully removed planned outage with ID %d", outage.getId()) :
 										 String.format("There was no outage with ID %d, nothing removed" + outage.getId());
 				break;

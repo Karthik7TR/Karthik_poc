@@ -82,11 +82,6 @@ public class OutageServiceImpl implements OutageService {
 		dao.deleteOutageType(findOutageTypeByPrimaryKey(id));
 	}
 	
-	@Override
-	public PlannedOutageContainer getPlannedOutageContainer() {
-		return plannedOutageContainer;
-	}
-	
 	/**
 	 * 
 	 * @return the outage object if we are currently in the middle of an outage.
@@ -120,6 +115,31 @@ public class OutageServiceImpl implements OutageService {
 		return outage;
 	}
 	
+	@Override
+	public PlannedOutage findPlannedOutageInContainer(Date timeInstant) {
+		return plannedOutageContainer.findOutage(timeInstant);
+	}
+	@Override
+	public PlannedOutage findExpiredOutageInContainer(Date timeInstant) {
+		return plannedOutageContainer.findExpiredOutage(timeInstant);
+	}
+	@Override
+	public void addPlannedOutageToContainer(PlannedOutage outage) {
+		plannedOutageContainer.add(outage);
+	}
+	
+	@Override
+	public boolean deletePlannedOutageFromContainer(PlannedOutage outage) {
+		// If the outage is active at the time the user deletes it, then send an email message stating that
+		// the outage is now over because it was deleted.
+		if (outage.isActive(new Date())) {
+			String subject = String.format("Deleted (end of) eBook generator outage on host %s",
+										   getHostName());
+			sendOutageEmail(subject, outage);
+		}
+		return plannedOutageContainer.remove(outage);
+	}
+	
 	private void sendOutageEmail(String subject, PlannedOutage outage) {
 		if (StringUtils.isNotBlank(outageEmailRecipients)) {
 			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
@@ -129,7 +149,7 @@ public class OutageServiceImpl implements OutageService {
 		}
 	}
 	
-	private String getHostName() {
+	public static String getHostName() {
 		try {
 			InetAddress localHost = InetAddress.getLocalHost();
 			return localHost.getHostName();

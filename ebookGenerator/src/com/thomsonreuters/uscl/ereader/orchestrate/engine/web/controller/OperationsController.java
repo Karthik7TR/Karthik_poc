@@ -68,7 +68,7 @@ public class OperationsController {
 		
 		SimpleRestServiceResponse opResponse = null;
 		try {
-			PlannedOutage outage = outageService.getPlannedOutageContainer().findOutage(new Date());
+			PlannedOutage outage = outageService.findPlannedOutageInContainer(new Date());
 			if (outage != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 				String message = String.format("Cannot restart job because we are in a planned service outage until %s", sdf.format(outage.getEndTime())); 
@@ -84,7 +84,7 @@ public class OperationsController {
 			log.debug(message);
 		} catch (Exception e) {
 			opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, e.getMessage());
-			log.debug("Job RESTART exception: " + e);
+			log.error("Job RESTART exception", e);
 		}
 		model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
 		return new ModelAndView(CoreConstants.VIEW_SIMPLE_REST_RESPONSE);

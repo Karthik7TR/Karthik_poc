@@ -79,8 +79,6 @@ public class OutageServiceTest  {
 	
 	@Test
 	public void testPlannedOutageContainer() {
-		PlannedOutageContainer container = service.getPlannedOutageContainer();
-		Assert.assertNotNull(container);
 		PlannedOutage outage = new PlannedOutage();
 		long id = 1965;
 		outage.setId(id);
@@ -88,18 +86,18 @@ public class OutageServiceTest  {
 		outage.setStartTime(startTime);
 		Date endTime = new Date(1000);
 		outage.setEndTime(endTime);
-		container.save(outage);
+		service.addPlannedOutageToContainer(outage);
 		Date midTime = new Date(500);
 		
 		// Check the finding of an outage
-		PlannedOutage foundOutage = container.findOutage(midTime);
+		PlannedOutage foundOutage = service.findPlannedOutageInContainer(midTime);
 		Assert.assertNotNull(foundOutage);
 		Assert.assertEquals(startTime, foundOutage.getStartTime());
 		Assert.assertEquals(endTime, foundOutage.getEndTime());
 		
 		// Check expired
 		Date expiredTime = new Date(1200);
-		PlannedOutage expiredOutage = container.findExpiredOutage(expiredTime);
+		PlannedOutage expiredOutage = service.findExpiredOutageInContainer(expiredTime);
 		Assert.assertNotNull(expiredOutage);
 		Assert.assertEquals(endTime, expiredOutage.getEndTime());
 	}	
