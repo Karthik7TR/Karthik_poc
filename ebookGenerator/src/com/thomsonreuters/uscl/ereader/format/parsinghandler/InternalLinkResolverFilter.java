@@ -111,7 +111,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             String pubName = urlContents.get("pubNum");
             
             Long pubId = PUB_NOT_PRESENT;
-            if (pubName != null)
+            if (pubName != null && !pubName.trim().isEmpty())
             {
             	pubId =	Long.parseLong(pubName.trim());
             }
