@@ -113,7 +113,15 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             Long pubId = PUB_NOT_PRESENT;
             if (pubName != null && !pubName.trim().isEmpty())
             {
-            	pubId =	Long.parseLong(pubName.trim());
+            	try
+            	{
+            		pubId =	Long.parseLong(pubName.trim());
+            	}
+            	catch (NumberFormatException nfe)
+            	{
+            		//not a valid serial number
+            		LOG.debug("Encountered a pubName: " + pubName + " which is not a valid number.");
+            	}
             }
             
             docMetadata = getNormalizedCiteDocMetadata(cite, pubId);
@@ -127,7 +135,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         {
         	try
         	{
-        		Long serNum = new Long(serialNum);
+        		Long serNum = new Long(serialNum.trim());
         		
         		docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber().get(serNum);
         	}
