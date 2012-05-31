@@ -49,6 +49,8 @@ $(document).ready(function() {
     </c:if>	 
     
 	<form:hidden path="plannedOutageId" />
+	<form:hidden path="notificationEmailSent" />
+	<form:hidden path="allClearEmailSent" />
 	<div class="row">
 		<form:label path="outageTypeId">Outage Type</form:label>
 		<form:select path="outageTypeId">
