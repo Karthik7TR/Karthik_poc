@@ -160,7 +160,33 @@ public class InternalLinkResolverFilterTest
 
         testHelper(inputXML, expectedResult);
     }
-    
+    @Test
+    public void testGetLinkParameterwithSpace() throws Exception
+    {
+        String resourceUrl =
+            "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
+        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        String linkParameter = urlValues.get("reference");
+        String normalizedCite = urlValues.get("cite");
+        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        Assert.assertEquals(expectedLinkParameter, linkParameter);
+
+        DocMetadata dm = new DocMetadata();
+        dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
+
+        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        mp.put(normalizedCite, dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        EasyMock.replay(mockDocumentMetadataAuthority);
+
+        String inputXML =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546%20&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+        String expectedResult =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+
+        testHelper(inputXML, expectedResult);
+    }
     
     @Test
     @Ignore
@@ -232,7 +258,7 @@ public class InternalLinkResolverFilterTest
         expectedNormalizedCite = "CCPEMPS2:89";
         Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
     }
-
+ 
     @Test
     public void testGetSerialNumberFromResourceUrl() throws Exception
     {

@@ -113,7 +113,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             Long pubId = PUB_NOT_PRESENT;
             if (pubName != null)
             {
-            	pubId =	Long.parseLong(pubName);
+            	pubId =	Long.parseLong(pubName.trim());
             }
             
             docMetadata = getNormalizedCiteDocMetadata(cite, pubId);
