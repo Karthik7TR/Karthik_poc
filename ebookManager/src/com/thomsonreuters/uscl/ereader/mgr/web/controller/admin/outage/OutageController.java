@@ -153,7 +153,14 @@ public class OutageController {
 			// Persist/delete the outage
 			try {
 				if(outage.getOperation() == Operation.SAVE) {
-					outageService.savePlannedOutage(outage);  // Persist outage
+					// Retrieve the outage from database to get the status of emails sent if already present
+					if(outage.getId() != null) {
+						PlannedOutage persistentOutage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
+						outage.setAllClearEmailSent(persistentOutage.isAllClearEmailSent());
+						outage.setNotificationEmailSent(persistentOutage.isNotificationEmailSent());
+					}
+					
+					outageService.savePlannedOutage(outage);
 					infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved outage."));
 				} else {
 					outageService.deletePlannedOutage(outage.getId());

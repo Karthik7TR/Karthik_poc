@@ -136,6 +136,7 @@ public class OutageControllerTest {
 		InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 		
 		PlannedOutage outage = setupParametersAndOutage();
+		outage.setId(null);
 		outageService.savePlannedOutage(outage);
 		EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
@@ -185,14 +186,18 @@ public class OutageControllerTest {
 	
 	@Test
 	public void testEditPost() throws Exception {
+		String id = "99";
 		request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_EDIT);
 		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("plannedOutageId", id);
 		
 		InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 		
 		PlannedOutage outage = setupParametersAndOutage();
+		outage.setId(Long.valueOf(id));
 		outageService.savePlannedOutage(outage);
 		EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
+		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(Long.valueOf(id))).andReturn(outage);
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
 		EasyMock.replay(outageService);
 		EasyMock.replay(mockManagerService);
@@ -275,13 +280,11 @@ public class OutageControllerTest {
 	}
 	
 	private PlannedOutage setupParametersAndOutage() throws Exception {
-		String id = "99";
 		String outageTypeId = "1";
 		String startTimeString = "05/30/2012 15:41:55";
 		String endTimeString = "05/30/2012 15:41:56";
 		String reason = "test";
-		
-		request.setParameter("plannedOutageId", id);
+
 		request.setParameter("outageTypeId", outageTypeId);
 		request.setParameter("startTimeString", startTimeString);
 		request.setParameter("endTimeString", endTimeString);
@@ -292,7 +295,6 @@ public class OutageControllerTest {
 		type.setId(Long.valueOf(outageTypeId));
 		outage.setOutageType(type);
 		String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
-		outage.setId(Long.valueOf(id));
 		outage.setStartTime(DateUtils.parseDate(startTimeString, parsePatterns));
 		outage.setEndTime(DateUtils.parseDate(endTimeString, parsePatterns));
 		outage.setReason(reason);

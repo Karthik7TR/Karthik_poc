@@ -28,8 +28,6 @@ public class OutageForm {
 	private String reason;
 	private String systemImpactDescription;
 	private String serversImpacted;
-	private boolean notificationEmailSent;
-	private boolean allClearEmailSent;
 	
 	public OutageForm() {
 		super();
@@ -43,8 +41,6 @@ public class OutageForm {
 		this.reason = outage.getReason();
 		this.systemImpactDescription = outage.getSystemImpactDescription();
 		this.serversImpacted = outage.getServersImpacted();
-		this.notificationEmailSent = outage.isNotificationEmailSent();
-		this.allClearEmailSent = outage.isAllClearEmailSent();
 	}
 	
 	public PlannedOutage createPlannedOutage() {
@@ -60,8 +56,6 @@ public class OutageForm {
 		outage.setSystemImpactDescription(systemImpactDescription);
 		outage.setServersImpacted(serversImpacted);
 		outage.setUpdatedBy(UserUtils.getAuthenticatedUserName());
-		outage.setAllClearEmailSent(allClearEmailSent);
-		outage.setNotificationEmailSent(notificationEmailSent);
 		return outage;
 	}
 
@@ -137,23 +131,6 @@ public class OutageForm {
 		this.serversImpacted = serversImpacted;
 	}
 	
-	
-	public boolean isNotificationEmailSent() {
-		return notificationEmailSent;
-	}
-
-	public void setNotificationEmailSent(boolean notificationEmailSent) {
-		this.notificationEmailSent = notificationEmailSent;
-	}
-
-	public boolean isAllClearEmailSent() {
-		return allClearEmailSent;
-	}
-
-	public void setAllClearEmailSent(boolean allClearEmailSent) {
-		this.allClearEmailSent = allClearEmailSent;
-	}
-
 	public static String parseDate(Date date) {
 		if (date != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(
