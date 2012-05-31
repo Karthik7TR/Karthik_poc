@@ -139,6 +139,7 @@ public class OutageControllerTest {
 		outage.setId(null);
 		outageService.savePlannedOutage(outage);
 		EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
+		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(EasyMock.anyLong())).andReturn(outage);
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
 		EasyMock.replay(outageService);
 		EasyMock.replay(mockManagerService);
@@ -197,7 +198,7 @@ public class OutageControllerTest {
 		outage.setId(Long.valueOf(id));
 		outageService.savePlannedOutage(outage);
 		EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
-		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(Long.valueOf(id))).andReturn(outage);
+		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(Long.valueOf(id))).andReturn(outage).times(2);
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
 		EasyMock.replay(outageService);
 		EasyMock.replay(mockManagerService);
@@ -258,6 +259,7 @@ public class OutageControllerTest {
 		outage.setId(id);
 		
 		outageService.deletePlannedOutage(id);
+		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(id)).andReturn(outage);
 		EasyMock.replay(outageService);
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
 		EasyMock.replay(mockManagerService);
