@@ -21,9 +21,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -84,7 +82,7 @@ public class StopGeneratorControllerTest {
      * Test the POST to the Stop Generator page
      */
 	@Test
-	public void testCreateJurisCodePost() {
+	public void testPostStopGenerator() {
 		String code = "Stop all";
 		String property = "test";
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_STOP_GENERATOR);
@@ -106,9 +104,8 @@ public class StopGeneratorControllerTest {
 			mav = handlerAdapter.handle(request, response, controller);
 			
 			assertNotNull(mav);
-			// Verify mav is a RedirectView
-			View view = mav.getView();
-	        assertEquals(RedirectView.class, view.getClass());
+			// Verify the returned view name
+	        assertEquals(WebConstants.VIEW_ADMIN_STOP_GENERATOR, mav.getViewName());
 	        
 	        // Check the state of the model
 	        Map<String,Object> model = mav.getModel();
@@ -131,7 +128,7 @@ public class StopGeneratorControllerTest {
      * Test the POST to the Stop Generator page validation failure
      */
 	@Test
-	public void testCreateJurisCodePostValidationFail() {
+	public void testPostStopGeneratorFailure() {
 		String code = "random";
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_STOP_GENERATOR);
     	request.setMethod(HttpMethod.POST.name());

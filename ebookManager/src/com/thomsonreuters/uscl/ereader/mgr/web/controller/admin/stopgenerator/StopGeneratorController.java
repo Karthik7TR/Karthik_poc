@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -72,7 +71,6 @@ public class StopGeneratorController {
 				
 				// Clear out the code field
 				form.setCode("");
-				return new ModelAndView(new RedirectView(WebConstants.VIEW_ADMIN_STOP_GENERATOR));
 			}
 			
 			return new ModelAndView(WebConstants.VIEW_ADMIN_STOP_GENERATOR);
