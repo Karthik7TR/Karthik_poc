@@ -617,6 +617,18 @@ a:hover {
 #job.displayTagTable tr.even {
 	background-color: #8CF2B5;
 }
+#step.displayTagTable tr.tableRowEven, 
+#step.displayTagTable tr.even {
+	background-color: #A8FFE2;
+}
+#jobExecutionContextMapEntry.displayTagTable tr.tableRowEven, 
+#jobExecutionContextMapEntry.displayTagTable tr.even {
+	background-color: #F3DBFF;
+}
+#jobParameterMapEntry.displayTagTable tr.tableRowEven, 
+#jobParameterMapEntry.displayTagTable tr.even {
+	background-color: #F3DBFF;
+}
 
 #proviewList.displayTagTable tr.tableRowEven, 
 #proviewList.displayTagTable tr.even {
