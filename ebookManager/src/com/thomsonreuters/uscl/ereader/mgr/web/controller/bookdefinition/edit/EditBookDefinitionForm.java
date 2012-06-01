@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -193,7 +194,7 @@ public class EditBookDefinitionForm {
 			// Determine if Publish Cut-off Date is used
 			Date date = book.getPublishCutoffDate();
 			if (date != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
 				this.publicationCutoffDate = sdf.format(date);
 				this.isPublicationCutoffDateUsed = true;
 			}
@@ -338,7 +339,7 @@ public class EditBookDefinitionForm {
 		book.setProviewDisplayName(proviewDisplayName);
 		
 		// Parse Date
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN); 
 		Date date = publicationCutoffDate != null? (Date)formatter.parse(publicationCutoffDate) : null; 
 		book.setPublishCutoffDate(date);
 

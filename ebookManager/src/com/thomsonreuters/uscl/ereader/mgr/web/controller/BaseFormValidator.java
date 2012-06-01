@@ -14,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
 
 import org.springframework.validation.Errors;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+
 public abstract class BaseFormValidator {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
 
@@ -29,7 +31,7 @@ public abstract class BaseFormValidator {
 		if (StringUtils.isNotEmpty(text)) {
 			try {
 				@SuppressWarnings("unused")
-				Date date = new SimpleDateFormat("MM/dd/yyyy").parse(text);
+				Date date = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN).parse(text);
 			} catch (Exception  e) {
 				errors.rejectValue(fieldName, "error.date.format");
 			}
