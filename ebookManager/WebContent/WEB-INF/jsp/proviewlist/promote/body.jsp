@@ -21,7 +21,7 @@
   			return true; 
   		}
 		
- 		 function submitRemove(cmd){
+ 		 function submitPromote(cmd){
  			 var confirmed = confirm("Are you sure to promote this title version to Final?");
  			 if (confirmed){
  				 submitForm(cmd);
@@ -56,7 +56,7 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="promoteButton" type="button" value="Promote" onclick="submitRemove('<%=ProviewTitleForm.Command.PROMOTE%>');"/>
+			<input id="promoteButton" type="button" value="Promote" onclick="submitPromote('<%=ProviewTitleForm.Command.PROMOTE%>');"/>
 		</div>
 		
 		<td>

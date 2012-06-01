@@ -304,7 +304,7 @@ public class ProviewTitleListController {
 							+ e.getMessage());
 		}
 
-		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
 	}
 
 	/**
