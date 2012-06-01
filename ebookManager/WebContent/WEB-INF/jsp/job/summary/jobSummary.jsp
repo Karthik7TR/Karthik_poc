@@ -10,6 +10,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="org.springframework.batch.core.BatchStatus"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -32,7 +33,7 @@ function submitJobSummaryForm(command) {
 }
 </script>
 
-<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
 <form:form id="multiSelectForm" action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
 		   commandName="<%=JobSummaryForm.FORM_NAME%>" name="theForm" method="post">

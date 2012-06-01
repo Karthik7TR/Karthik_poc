@@ -3,9 +3,11 @@ package com.thomsonreuters.uscl.ereader.core;
 public class CoreConstants {
 	// Data directory path related info used in the InitializeTask (generator) and the cleanup ManagerService (manager).
 	public static final String DATA_DIR = "data";
+	// Date/Time formatting patterns
 	public static final String DIR_DATE_FORMAT = "yyyyMMdd";
-	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy";
+	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy"; // default date presentation
 	public static final String DATE_TIME_FORMAT_PATTERN = DATE_FORMAT_PATTERN + " HH:mm:ss";
+	public static final String DATE_TIME_MS_FORMAT_PATTERN = DATE_TIME_FORMAT_PATTERN + ".SSS";
 	
 	/** We are putting the *.mvc suffix on the URL's because the manager app dispatcher servlet expects the URL's to follow this pattern. */
 	public static final String URI_SYNC_MISC_CONFIG = "service/sync/misc/config.mvc";

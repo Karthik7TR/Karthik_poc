@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -58,7 +59,7 @@ public class EditBookDefinitionController {
 		binder.setAutoGrowNestedPaths(false);
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat(WebConstants.DATE_TIME_FORMAT_PATTERN);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 		dateFormat.setLenient(false);
 		// true passed to CustomDateEditor constructor means convert empty String to null
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));

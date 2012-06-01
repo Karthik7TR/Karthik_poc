@@ -6,6 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -23,7 +24,7 @@
   <display:setProperty name="basic.msg.empty_list">No book definition audits were found.</display:setProperty>
   <display:setProperty name="paging.banner.onepage" value=" " />
  	  <!-- The book name displayed in this column is what the name was when the job was run for this definition ID (it may be different now). -->
-  <display:column title="Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_DATE.toString()%>"><fmt:formatDate value="${audit.lastUpdated}" pattern="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/></display:column>
+  <display:column title="Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_DATE.toString()%>"><fmt:formatDate value="${audit.lastUpdated}" pattern="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/></display:column>
   <display:column title="Book Definition ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_DEFINITION_ID.toString()%>" >
   	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${audit.ebookDefinitionId}">${audit.ebookDefinitionId}</a>
   </display:column>

@@ -12,10 +12,10 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class OutageForm {
 	//private static final Logger log = Logger.getLogger(OutageForm.class);
@@ -134,7 +134,7 @@ public class OutageForm {
 	public static String parseDate(Date date) {
 		if (date != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(
-					WebConstants.DATE_TIME_FORMAT_PATTERN);
+					CoreConstants.DATE_TIME_FORMAT_PATTERN);
 			return sdf.format(date);
 		}
 		return null;
@@ -144,7 +144,7 @@ public class OutageForm {
 		Date date = null;
 		try {
 			if (StringUtils.isNotBlank(dateString)) {
-				String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
+				String[] parsePatterns = { CoreConstants.DATE_TIME_FORMAT_PATTERN };
 				date = DateUtils.parseDate(dateString, parsePatterns);
 			}
 		} catch (ParseException e) {

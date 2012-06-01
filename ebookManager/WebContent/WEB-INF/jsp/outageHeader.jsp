@@ -5,9 +5,10 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <c:if test="${fn:length(displayOutage) gt 0 }">
-	<c:set var="DATE_FORMAT" value="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	<div id="outageMessageBox">
 		<div id="outageMessageHeader">The following schedule indicates an outage for the eBook Generator.</div>
 		<c:forEach items="${displayOutage}" var="plannedOutage" varStatus="status">

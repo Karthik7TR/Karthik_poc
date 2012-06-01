@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 
 
@@ -99,7 +100,7 @@ function submitForm(cmd)
 					</div>
 					<div class="row">
 						<label class="labelCol">Publication Cut-off Date</label>
-						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>" /></span>
+						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
 				</div>
 			</div>
@@ -119,7 +120,7 @@ function submitForm(cmd)
 					</div>
 					<div>
 						<label>Last Updated:</label>
-						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
 					</div>
 				</div>
 			</c:forEach>

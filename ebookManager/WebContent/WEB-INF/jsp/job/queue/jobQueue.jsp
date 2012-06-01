@@ -8,6 +8,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.DisplayTagSortProperty"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -16,7 +17,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
 	<%-- Table of queued job requests (those that will run ASAP) --%>
 	<display:table id="jobRequest" name="<%=WebConstants.KEY_PAGINATED_LIST%>"

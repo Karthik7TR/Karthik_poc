@@ -5,9 +5,10 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <div class="centerSection">
-	<c:set var="DATE_FORMAT" value="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_CREATE%>">Create State Code</a>
 	<%-- Table of ContentType --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_STATE_CODE %>" class="displayTagTable" cellpadding="2">

@@ -8,24 +8,11 @@ package com.thomsonreuters.uscl.ereader.mgr.web;
 
 public class WebConstants {
 
-	// Date/Time formatting patterns
-	public static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy"; // default
-																	// date
-																	// presentation
-	public static final String DATE_TIME_FORMAT_PATTERN = DATE_FORMAT_PATTERN
-			+ " HH:mm:ss";
-	public static final String DATE_TIME_MS_FORMAT_PATTERN = DATE_TIME_FORMAT_PATTERN
-			+ ".SSS";
 	public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS = "height=800,width=768,top=0,resizable=yes,scrollbars=yes";
 
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
 	public static final String KEY_PROVIEW_DOMAIN = "proviewDomain";
-	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library
-																					// search
-																					// criteria
-																					// saved
-																					// on
-																					// session
+	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library search criteria
 	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
@@ -154,40 +141,14 @@ public class WebConstants {
 
 	public static final String MVC_JOB_EXECUTION_DETAILS = "jobExecutionDetails.mvc";
 	public static final String MVC_JOB_EXECUTION_DETAILS_POST = "jobExecutionDetailsPost.mvc";
-	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc"; // SECURED:
-																								// job
-																								// restart
-																								// button
-																								// on
-																								// Job
-																								// Execution
-																								// Details
-																								// page
-	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc"; // SECURED:
-																						// job
-																						// stop
-																						// button
-																						// on
-																						// Job
-																						// Excution
-																						// Details
-																						// page
+	public static final String MVC_JOB_EXECUTION_JOB_RESTART = "jobExecutionJobRestart.mvc";
+	public static final String MVC_JOB_EXECUTION_JOB_STOP = "jobExecutionJobStop.mvc"; 
 	public static final String MVC_JOB_INSTANCE_DETAILS = "jobInstanceDetails.mvc";
 	public static final String MVC_JOB_QUEUE = "jobQueue.mvc";
 	public static final String MVC_JOB_QUEUE_PAGE_AND_SORT = "jobQueuePageAndSort.mvc";
 	public static final String MVC_JOB_SUMMARY = "jobSummary.mvc";
 	public static final String MVC_JOB_SUMMARY_PAGE_AND_SORT = "jobSummaryPageAndSort.mvc";
-	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc"; // SECURED:
-																								// job
-																								// stop
-																								// or
-																								// restart
-																								// button
-																								// on
-																								// the
-																								// Job
-																								// Summary
-																								// page
+	public static final String MVC_JOB_SUMMARY_JOB_OPERATION = "jobSummaryJobOperation.mvc"; 
 	public static final String MVC_JOB_SUMMARY_CHANGE_ROW_COUNT = "jobSummaryChangeRowCount.mvc";
 	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
@@ -313,7 +274,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_AUDIT_DETAIL = "_bookAuditDetail";
 	public static final String VIEW_BOOK_AUDIT_LIST = "_bookAuditList";
 	public static final String VIEW_FRONT_MATTER_PREVIEW = "_bookDefinitionFrontMatterPreview";
-	public static final String VIEW_FRONT_MATTER_PREVIEW_CONTENT = "book/fmpreview/content/preview"; // "_bookDefinitionFrontMatterPreviewContent";
+	public static final String VIEW_FRONT_MATTER_PREVIEW_CONTENT = "book/fmpreview/content/preview";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";
 	public static final String VIEW_JOB_INSTANCE_DETAILS = "_jobInstanceDetails";
 	public static final String VIEW_JOB_QUEUE = "_jobQueue";

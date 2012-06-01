@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -56,7 +57,7 @@ public class GenerateEbookController {
 	private OutageService outageService;
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			WebConstants.DATE_FORMAT_PATTERN);
+			CoreConstants.DATE_FORMAT_PATTERN);
 
 	/**
 	 * 

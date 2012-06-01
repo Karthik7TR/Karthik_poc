@@ -26,6 +26,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -296,7 +297,7 @@ public class OutageControllerTest {
 		OutageType type = new OutageType();
 		type.setId(Long.valueOf(outageTypeId));
 		outage.setOutageType(type);
-		String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
+		String[] parsePatterns = { CoreConstants.DATE_TIME_FORMAT_PATTERN };
 		outage.setStartTime(DateUtils.parseDate(startTimeString, parsePatterns));
 		outage.setEndTime(DateUtils.parseDate(endTimeString, parsePatterns));
 		outage.setReason(reason);

@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 
 public class BookLibraryFilterForm {
 
@@ -161,7 +161,7 @@ public class BookLibraryFilterForm {
 	public static String parseDate(Date date) {
 		if (date != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(
-					WebConstants.DATE_TIME_FORMAT_PATTERN);
+					CoreConstants.DATE_TIME_FORMAT_PATTERN);
 			return sdf.format(date);
 		}
 		return null;
@@ -171,7 +171,7 @@ public class BookLibraryFilterForm {
 		Date date = null;
 		try {
 			if (StringUtils.isNotBlank(dateString)) {
-				String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
+				String[] parsePatterns = { CoreConstants.DATE_TIME_FORMAT_PATTERN };
 				date = DateUtils.parseDate(dateString, parsePatterns);
 			}
 		} catch (ParseException e) {

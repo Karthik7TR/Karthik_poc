@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageTypeForm"%>
 
 <%-- Check if there is a model to render, if not display error message --%>
@@ -15,7 +16,7 @@
 				<div>Following Planned Outages are using this Outage Type.  This Outage Type cannot be deleted.</div>
 				
 				<%-- Table of ContentType --%>
-				<c:set var="DATE_FORMAT" value="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+				<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 				<display:table id="<%= WebConstants.KEY_VDO %>" name="outage.plannedOutage" class="displayTagTable" cellpadding="2"
 					pagesize="20"
 					partialList="false">

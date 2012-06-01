@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <%-- Check if there is a bookAuditDetail model to render, if not don't display a bunch of unvalued labels. --%>
 <c:choose>
@@ -76,7 +77,7 @@
 					</c:choose>
 					<div class="row">
 						<label class="labelCol">Publication Cut-off Date</label>
-						<span class="field"><fmt:formatDate value="${bookAuditDetail.publishCutoffDate}" pattern="<%= WebConstants.DATE_FORMAT_PATTERN %>" /></span>
+						<span class="field"><fmt:formatDate value="${bookAuditDetail.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
 					<div class="row">
 						<label class="labelCol">KeyCite Topline Flag</label>

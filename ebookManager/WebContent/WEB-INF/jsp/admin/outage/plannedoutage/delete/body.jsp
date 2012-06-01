@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageForm"%>
 
 <%-- Check if there is a model to render, if not display error message --%>
@@ -46,10 +47,10 @@
 			<form:hidden path="endTimeString" />
 			Are you sure you want to delete this outage: 
 			<div>
-				Start Date/Time: <fmt:formatDate value="${outage.startTime}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+				Start Date/Time: <fmt:formatDate value="${outage.startTime}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 			</div>
 			<div>
-				End Date/Time: <fmt:formatDate value="${outage.endTime}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+				End Date/Time: <fmt:formatDate value="${outage.endTime}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 			</div>
 			<div class="buttons">
 				<form:button id="delete">Delete</form:button>

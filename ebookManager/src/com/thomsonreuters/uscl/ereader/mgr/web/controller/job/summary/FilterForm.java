@@ -16,7 +16,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.batch.core.BatchStatus;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 
 /**
  * The form backing object that holds the data the user enters into the Job List job filter HTML form.
@@ -118,7 +118,7 @@ public class FilterForm {
 	}
 	public static String parseDate(Date date) {
 		if (date != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(WebConstants.DATE_TIME_FORMAT_PATTERN);
+			SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 			return sdf.format(date);
 		}
 		return null;
@@ -127,7 +127,7 @@ public class FilterForm {
 		Date date = null;
 		try {
 			if (StringUtils.isNotBlank(dateString)) {
-				String[] parsePatterns = { WebConstants.DATE_TIME_FORMAT_PATTERN };
+				String[] parsePatterns = { CoreConstants.DATE_TIME_FORMAT_PATTERN };
 				date = DateUtils.parseDate(dateString, parsePatterns);
 			}
 		} catch (ParseException e) {

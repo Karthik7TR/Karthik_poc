@@ -9,6 +9,7 @@
 <%@page import="java.util.Date"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionForm"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -66,7 +67,7 @@
 	}
 </script>
 
-	<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
+	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
 	
 	<%-- Only a user in the starting user or a superuser role can stop or restart a job --%>
 	<c:set var="operationsDisabled" value="disabled"/>

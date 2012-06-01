@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <html>
 <head>
@@ -64,7 +65,7 @@
 		</tr>
 		<tr>
 			<th class="tableHeader">as of:</th>
-			<td><fmt:formatDate value="${date}" type="both" pattern="<%= WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>" /> </td>
+			<td><fmt:formatDate value="${date}" type="both" pattern="<%= CoreConstants.DATE_TIME_MS_FORMAT_PATTERN %>" /> </td>
 		</tr>
 	</tbody>
 </table>

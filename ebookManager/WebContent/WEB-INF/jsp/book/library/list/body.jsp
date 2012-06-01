@@ -6,6 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -66,11 +67,11 @@
 	  </display:column>
 	  <display:column title="Author" property="authorList" />
 	  <display:column title="Last Generate Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.LAST_GENERATED_DATE.toString() %>">
-	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	  	<fmt:formatDate value="${vdo.lastPublishDate}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	  <display:column title="Definition Status" property="bookStatus" sortable="true" sortProperty="<%=DisplayTagSortProperty.DEFINITION_STATUS.toString() %>" />
 	  <display:column title="Last Definition Edit Date/Time" sortable="true" sortProperty="<%=DisplayTagSortProperty.LAST_EDIT_DATE.toString() %>" >
-	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= WebConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	</display:table>
 	<c:set var="generateBook" value="disabled"/>

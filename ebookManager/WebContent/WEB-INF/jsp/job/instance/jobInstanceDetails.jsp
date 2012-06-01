@@ -9,6 +9,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="org.springframework.batch.core.StepExecution"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -26,7 +27,7 @@
 	<c:set var="operationsDisabled" value=""/>
 </c:if>
 
-<c:set var="DATE_FORMAT" value="<%=WebConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
+<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_MS_FORMAT_PATTERN %>"/>
 	
 <div id="statsDiv">
 <table style="background: #f0f0f0; font-size: 12; font-weight: bold; border: thin double gray; padding: 5px;">
