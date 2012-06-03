@@ -6,6 +6,10 @@
 
 package com.thomsonreuters.uscl.ereader.userpreference.dao;
 
+import java.util.Set;
+
+import javax.mail.internet.InternetAddress;
+
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 
 /**
@@ -17,5 +21,7 @@ public interface UserPreferenceDao {
 	public void save(UserPreference preference);
 
 	public UserPreference findByUsername(String username);
+	
+	public Set<InternetAddress> findAllUniqueEmailAddresses();
 
 }

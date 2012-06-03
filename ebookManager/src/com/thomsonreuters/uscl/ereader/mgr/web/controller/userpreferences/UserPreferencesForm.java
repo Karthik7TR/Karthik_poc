@@ -50,7 +50,7 @@ public class UserPreferencesForm {
 			libraryFilterTitleId = preference.getLibraryTitleId();
 			jobSummaryFilterProviewName = preference.getJobSummaryProviewName();
 			jobSummaryFilterTitleId = preference.getJobSummaryTitleId();
-			emails = preference.getEmailList();
+			emails = preference.getEmailAddressList();
 		}
 	}
 	

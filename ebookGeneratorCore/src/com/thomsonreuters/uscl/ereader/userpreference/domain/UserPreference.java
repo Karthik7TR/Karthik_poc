@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,10 +17,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 @Entity
 @Table(name = "USER_PREFERENCE")
 public class UserPreference implements Serializable {
+	private static Logger log = Logger.getLogger(UserPreference.class);
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "USER_NAME", length = 1024, nullable = false)
@@ -134,14 +138,34 @@ public class UserPreference implements Serializable {
 	}
 
 	@Transient
-	public List<String> getEmailList() {
-		String[] emailArray = StringUtils.split(emails, ",");
-
-		if(emailArray != null) {
-			return Arrays.asList(emailArray);
+	public List<String> getEmailAddressList() {
+		return toStringAddressAddressList(emails);
+	}
+	@Transient
+	public List<InternetAddress> getInternetEmailAddressList() {
+		return toInternetAddressList(toStringAddressAddressList(emails));
+	}
+	
+	public static List<String> toStringAddressAddressList(String addressCsv) {
+		String[] recipientArray = StringUtils.split(addressCsv, ",");
+		if(recipientArray != null) {
+			return Arrays.asList(recipientArray);
 		} else {
 			return new ArrayList<String>();
 		}
+	}
+
+	public static List<InternetAddress> toInternetAddressList(List<String> addrStrings) {
+		List<InternetAddress> uniqueAddresses = new ArrayList<InternetAddress>();
+		for (String addrString : addrStrings) {
+			try {
+				InternetAddress inetAddr = new InternetAddress(addrString);
+				uniqueAddresses.add(inetAddr);
+			} catch (AddressException e) {
+				log.error("Invalid user preference email address - ignored: " + addrString);
+			}
+		}
+		return uniqueAddresses;
 	}
 
 	@Override

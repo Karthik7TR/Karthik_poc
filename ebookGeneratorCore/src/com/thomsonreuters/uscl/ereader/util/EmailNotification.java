@@ -5,12 +5,26 @@
  */
 package com.thomsonreuters.uscl.ereader.util;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -23,6 +37,7 @@ import javax.mail.internet.*;
  */
 public class EmailNotification
 {
+	private static Logger log = Logger.getLogger(EmailNotification.class);
     private static final String from = "no-reply-eReader@thomsonreuters.com";
     private static final String host = "relay.int.westgroup.com";
 
@@ -54,26 +69,37 @@ public class EmailNotification
         msg.setContent(mp);
     }
 
+    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
+    	StringBuffer csvRecipients = new StringBuffer();
+    	boolean firstTime = true;
+    	for (InternetAddress recipient : recipients) {
+    		if (!firstTime) {
+    			csvRecipients.append(",");
+    		}
+    		firstTime = false;
+    		csvRecipients.append(recipient.getAddress());
+    	}
+    	send(csvRecipients.toString(), subject, body);
+    }
+
     /**
      * 
-     * @param toEmail
-     * @param toSubject
-     * @param toText
+     * @param csvRecipients
+     * @param subject
+     * @param body
      */
-    public static void send(final String toEmail, final String toSubject, final String toText)
+    public static void send(final String csvRecipients, final String subject, final String body)
     {
-        if ((toEmail != null) && !toEmail.isEmpty())
+    	log.debug("Recipients: " + csvRecipients);
+        if ((csvRecipients != null) && !csvRecipients.isEmpty())
         {
             try
             {
-                if ((toSubject != null) && toSubject.isEmpty())
-                {
-                    throw new MessagingException("No Subject provided");
+                if ((subject != null) && subject.isEmpty()) {
+                    throw new MessagingException("No subject provided");
                 }
-
-                if ((toEmail != null) && toEmail.isEmpty())
-                {
-                    throw new MessagingException("No text provided.");
+                if (StringUtils.isBlank(csvRecipients)) {
+                    throw new MessagingException("No recipients provided");
                 }
 
                 Properties props = new Properties();
@@ -82,13 +108,13 @@ public class EmailNotification
 
                 Session session = Session.getInstance(props);
 
-                String[] emails = toEmail.split(",");
+                String[] emails = csvRecipients.split(",");
 
                 for (String emailAddress : emails)
                 {
-                    Message msg = prepareMessage(emailAddress.trim(), toSubject, from, session);
+                    Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
 
-                    msg.setText(toText);
+                    msg.setText(body);
 
                     Transport.send(msg);
                 }

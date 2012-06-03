@@ -25,7 +25,7 @@ public class UserPreferenceTest  {
 		UserPreference preference = new UserPreference();
 		preference.setEmails("a@a.com,b@b.com,c@c.com");
 		
-		List<String> actual = preference.getEmailList();
+		List<String> actual = preference.getEmailAddressList();
 		Assert.assertEquals(emails, actual);
 	}
 

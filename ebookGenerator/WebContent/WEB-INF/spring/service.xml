@@ -205,7 +205,8 @@
 		 
 	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
 		  p:outageDao-ref="outageDao"
-		  p:outageEmailRecipients="${outage.email.recipients}">
+		  p:staticEmailRecipients="${outage.email.recipients}"
+		  p:userPreferenceService-ref="userPreferenceService">
 		<property name="plannedOutageContainer">
 			<bean class="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer"/>
 		</property>

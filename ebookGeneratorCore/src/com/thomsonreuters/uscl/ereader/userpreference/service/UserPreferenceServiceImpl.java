@@ -6,6 +6,10 @@
 
 package com.thomsonreuters.uscl.ereader.userpreference.service;
 
+import java.util.Set;
+
+import javax.mail.internet.InternetAddress;
+
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +35,12 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 	@Transactional(readOnly=true)
 	public UserPreference findByUsername(String username) {
 		return userPreferenceDao.findByUsername(username);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public Set<InternetAddress> findAllUniqueEmailAddresses() {
+		return userPreferenceDao.findAllUniqueEmailAddresses();
 	}
 	
 	@Required
