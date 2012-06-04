@@ -60,9 +60,15 @@
 	</definition>
 
 	<definition name="_adminStopGenerator" extends="twoColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/admin/stopgenerator/title.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/generatorswitch/stopgenerator/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/admin/stopgenerator/body.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/generatorswitch/stopgenerator/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminStartGenerator" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/generatorswitch/startgenerator/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/generatorswitch/startgenerator/body.jsp"/>
 	</definition>
 	
 	<definition name="_adminJurisCodeView" extends="twoColumnDefinition">

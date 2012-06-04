@@ -35,10 +35,13 @@
 	<br/>
 </c:if>
 
-<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
-<br/>
+Generator and Gatherer Switch
+<ul>
+	<li><a href="<%=WebConstants.MVC_ADMIN_START_GENERATOR%>">Start Generator and Gatherer</a></li>
+	<li><a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a></li>
+</ul>
 
-<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop Generator and Gatherer</a><br/>
+<a href="<%= WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG %>">Job Throttle Configuration</a><br/>
 <br/>
 <a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Planned Outage List</a><br/>
 <br/>

@@ -12,6 +12,7 @@ package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 public interface JobCleanupService {
@@ -27,7 +28,7 @@ public interface JobCleanupService {
 	 * Gets list of dead jobs caused by all the server instances,  so that jobs owner could be notified to resubmit these jobs.  
 	 * @throws EBookServerException 
 	 */
-	public List<String> findListOfDeadJobs() throws EBookServerException;
+	public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException;
 
 	/**
 	 * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables for given server name 
@@ -40,6 +41,6 @@ public interface JobCleanupService {
 	 * Gets list of dead jobs caused by passed in the server instances,  so that jobs owner could be notified to resubmit these jobs.  
 	 * @throws EBookServerException 
 	 */
-	public List<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException;
+	public List<JobUserInfo> findListOfDeadJobsByServerName(String serverName) throws EBookServerException;
 
 }

@@ -43,6 +43,12 @@
 	background-color: red;
 }
 
+.info {
+	font-size:0.7em;
+	font-style: italic;	
+	list-style: none;
+}
+
 html, body {
 	height:100%;
 	margin: 0px;
@@ -677,4 +683,8 @@ div.ui-datepicker{
 #outageMessageBox .outageMessage {
 	border-bottom: black 1px solid;
 	margin:.4em 0em;
+}
+
+.stopGather {
+	margin: 1em;
 }

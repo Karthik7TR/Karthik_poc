@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch;
 
 public class StopGeneratorForm {
 	//private static final Logger log = Logger.getLogger(KillSwitchForm.class);

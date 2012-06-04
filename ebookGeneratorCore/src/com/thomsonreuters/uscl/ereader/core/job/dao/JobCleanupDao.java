@@ -11,6 +11,7 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
  */
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
@@ -38,7 +39,7 @@ public interface JobCleanupDao {
 	 * Gets list of dead jobs , so that the job owners could be notified to resubmit these jobs.   
 	 * @return
 	 */
-	public List<String> findListOfDeadJobs() throws EBookServerException;;
+	public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException;;
 
 	/**
 	 * Update dead step exit status to 'failed' for given server name
@@ -61,6 +62,6 @@ public interface JobCleanupDao {
 	 * @return
 	 * @throws EBookServerException 
 	 */
-	public List<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException;
+	public List<JobUserInfo> findListOfDeadJobsByServerName(String serverName) throws EBookServerException;
 
 }

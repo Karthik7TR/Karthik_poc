@@ -3,11 +3,12 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,19 +26,23 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch.GeneratorSwitchController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch.StopGeneratorForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch.StopGeneratorFormValidator;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
-public class StopGeneratorControllerTest {
+public class GeneratorSwitchControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+StopGeneratorForm.FORM_NAME;
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     
-    private StopGeneratorController controller;
+    private GeneratorSwitchController controller;
     private StopGeneratorFormValidator validator;
     private ServerAccessService mockServerAccessService;
-	private Properties mockKillSwitchProperties;
+	private Properties mockGeneratorProperties;
     
 	@Before
 	public void setUp() throws Exception {
@@ -46,14 +51,14 @@ public class StopGeneratorControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	mockServerAccessService = EasyMock.createMock(ServerAccessService.class);
-    	mockKillSwitchProperties = EasyMock.createMock(Properties.class);
+    	mockGeneratorProperties = EasyMock.createMock(Properties.class);
     	
     	// Set up the controller
-    	this.controller = new StopGeneratorController();
+    	this.controller = new GeneratorSwitchController();
     	
     	validator = new StopGeneratorFormValidator();
     	controller.setValidator(validator);	
-    	controller.setKillSwitchProperties(mockKillSwitchProperties);
+    	controller.setGeneratorProperties(mockGeneratorProperties);
     	controller.setServerAccessService(mockServerAccessService);
 	}
 
@@ -81,6 +86,7 @@ public class StopGeneratorControllerTest {
 	/**
      * Test the POST to the Stop Generator page
      */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testPostStopGenerator() {
 		String code = "Stop all";
@@ -89,14 +95,14 @@ public class StopGeneratorControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	request.setParameter("code", code);
     	
-    	EasyMock.expect(mockKillSwitchProperties.getProperty(EasyMock.anyObject(String.class))).andReturn(property).times(5);
+    	EasyMock.expect(mockGeneratorProperties.getProperty(EasyMock.anyObject(String.class))).andReturn(property).times(5);
     	try {
-			mockServerAccessService.stopServer(property, property, property, property, property);
+			EasyMock.expect(mockServerAccessService.stopServer(property, property, property, property, property)).andReturn("done");
 		} catch (EBookServerException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    	EasyMock.replay(mockKillSwitchProperties);
+    	EasyMock.replay(mockGeneratorProperties);
     	EasyMock.replay(mockServerAccessService);
     	
     	ModelAndView mav;
@@ -115,12 +121,18 @@ public class StopGeneratorControllerTest {
 	    	assertNotNull(bindingResult);
 	    	Assert.assertFalse(bindingResult.hasErrors());
 	    	
+	    	List<InfoMessage> infoMessages = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
+	    	Assert.assertEquals(1, infoMessages.size());
+	    	
+	    	String message = infoMessages.get(0).getText();
+	    	Assert.assertEquals("done", message);
+	    	
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 		
-		EasyMock.verify(mockKillSwitchProperties);
+		EasyMock.verify(mockGeneratorProperties);
     	EasyMock.verify(mockServerAccessService);
 	}
 	
@@ -156,6 +168,74 @@ public class StopGeneratorControllerTest {
 			Assert.fail(e.getMessage());
 		}
 
+	}
+	
+	
+	/**
+     * Test the GET to the Start Generator page
+     */
+	@Test
+	public void testGetStartGenerator() {
+		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_START_GENERATOR);
+    	request.setMethod(HttpMethod.GET.name());
+    	
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+	        // Verify the returned view name
+	        assertEquals(WebConstants.VIEW_ADMIN_START_GENERATOR, mav.getViewName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	/**
+     * Test the POST to the Start Generator page
+     */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPostStartGenerator() {
+		String property = "test";
+		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_START_GENERATOR);
+    	request.setMethod(HttpMethod.POST.name());
+    	
+    	EasyMock.expect(mockGeneratorProperties.getProperty(EasyMock.anyObject(String.class))).andReturn(property).times(5);
+    	try {
+			EasyMock.expect(mockServerAccessService.startServer(property, property, property, property, property)).andReturn("done");
+		} catch (EBookServerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	EasyMock.replay(mockGeneratorProperties);
+    	EasyMock.replay(mockServerAccessService);
+    	
+    	ModelAndView mav;
+		try {
+			mav = handlerAdapter.handle(request, response, controller);
+			
+			assertNotNull(mav);
+			// Verify the returned view name
+	        assertEquals(WebConstants.VIEW_ADMIN_START_GENERATOR, mav.getViewName());
+	        
+	        // Check the state of the model
+	        Map<String,Object> model = mav.getModel();
+
+	    	List<InfoMessage> infoMessages = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
+	    	Assert.assertEquals(1, infoMessages.size());
+	    	
+	    	String message = infoMessages.get(0).getText();
+	    	Assert.assertEquals("done", message);
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+		
+		EasyMock.verify(mockGeneratorProperties);
+    	EasyMock.verify(mockServerAccessService);
 	}
 }
 

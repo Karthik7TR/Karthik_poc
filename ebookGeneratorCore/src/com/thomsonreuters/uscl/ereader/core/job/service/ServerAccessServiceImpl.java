@@ -6,31 +6,38 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
+import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import com.thomsonreuters.uscl.ereader.util.Ssh;
 
 
 /**
- * Stops all the generator and gather instances from server, 
+ * Stops or starts all the generator and gather instances from server, 
  * notifies user group about server shutdown. 
  * update all the unfinished jobs to failed exit status.
  * 
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 public class ServerAccessServiceImpl implements ServerAccessService {
-
 	private static final Logger log = Logger.getLogger(ServerAccessServiceImpl.class);
-
+	private static enum Operation {START, STOP};
+	
 	private JobCleanupService jobCleanupService;
+	private UserPreferenceService userPreferenceService;
 	
 	/**
 	 * Stops all the generator and gather instances from server, 
@@ -45,30 +52,57 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 * @throws EBookServerException 
 	 */
 	@Override
-	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException{
-
+	public String stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException{
+			String status = checkParametersAndOperate(serverNames, userName, password, appNames, emailGroup, Operation.STOP);	
+			notifyJobOwnerOnServerShutdown(emailGroup);
+			updateJobsInProgress();
+			
+			return status;
+	}
+	
+	/**
+	 * Starts all the generator and gather instances from server, 
+	 * notifies user group about server startup. 
+	 * update all the unfinished jobs to failed exit status.
+	 *  
+	 * @param serverNames ',' separated server names.
+	 * @param userName
+	 * @param password
+	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
+	 * @param emailGroup
+	 * @throws EBookServerException 
+	 */
+	@Override
+	public String startServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException{
+			return checkParametersAndOperate(serverNames, userName, password, appNames, emailGroup, Operation.START);	
+	}
+	
+	/**
+	 * Checks the parameters exists
+	 *  
+	 * @param serverNames ',' separated server names.
+	 * @param userName
+	 * @param password
+	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
+	 * @param emailGroup
+	 * @param operation action to perform on the server.  Start or stop.
+	 * @throws EBookServerException 
+	 */
+	private String checkParametersAndOperate(String serverNames,String userName,String password,String appNames,String emailGroup, Operation operate)  throws EBookServerException {
 		log.debug("In ServerAccessServiceImpl serverNames = "+serverNames +" userName = "+userName +" password = "+password + " appNames = " +appNames +" emailGroup = " +emailGroup);
-			if(serverNames == null || serverNames.isEmpty()){
-				
-				throw new EBookServerException("Failed to kill server(s) as server name is empty.");
-				
-			}
-			
-			if(appNames == null || appNames.isEmpty()){
-				
-				throw new EBookServerException("Failed to kill server(s) as application name is empty.");
-				
-			}
+		if(serverNames == null || serverNames.isEmpty()){
+			throw new EBookServerException("Failed to " + operate.toString().toLowerCase() +" server(s) as server name is empty.");
+		}
+		
+		if(appNames == null || appNames.isEmpty()){
+			throw new EBookServerException("Failed to " + operate.toString().toLowerCase() +" server(s) as application name is empty.");
+		}
 
-			if(emailGroup == null || emailGroup.isEmpty()){
-				
-				throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
-			}
-			
-		   killServerInstances(serverNames, userName, password, appNames);	
-		   notifyJobOwnerOnServerShutdown(emailGroup);
-	       updateJobsInProgress();
-
+		if(emailGroup == null || emailGroup.isEmpty()){
+			throw new EBookServerException("Failed to " + operate.toString().toLowerCase() +" end users as emailGroup is empty.");
+		}
+		
+		return createCommandAndExecute(serverNames, userName, password, appNames, operate);
 	}
 	
 	
@@ -79,26 +113,30 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 * @param userName
 	 * @param password
 	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
+	 * @param operation action to perform on the server.  Start or stop.
 	 * @throws EBookServerException 
 	 */
-	private void killServerInstances(String serverNames,String userName,String password,String appNames) throws EBookServerException {
+	private String createCommandAndExecute(String serverNames,String userName,String password,String appNames, Operation operation) throws EBookServerException {
 		
-
-		String[] targetServerArray =  StringUtils.commaDelimitedListToStringArray(serverNames);
-		String[] appNamesArray =  StringUtils.commaDelimitedListToStringArray(appNames);
+		String[] targetServerArray =  StringUtils.split(serverNames,",");
+		String[] appNamesArray =  StringUtils.split(appNames,",");
         String cmd = null;
+        
+        StringBuffer buffer = new StringBuffer();
         for (String serverName : targetServerArray) {
     	   for (String applicationName : appNamesArray) {
-
-   			cmd = "for i in `ls /appserver/tomcat/"+applicationName+"_*[^X]/bin/stopServer.sh`; do $i; done";
-   		
-   				execute(serverName, userName, password, cmd);
-   			
-   			log.info("Stopped server " + serverName);
-
+	   			cmd = "for i in `ls /appserver/tomcat/"+applicationName+"_*[^X]/bin/"+operation.toString().toLowerCase()+"Server.sh`; do $i; done";
+	   			
+	   			buffer.append(operation.toString()).append(" server: ");
+	   			buffer.append(serverName).append(":").append(applicationName);
+	   			buffer.append("\n status: ");
+	   			buffer.append(execute(serverName, userName, password, cmd));
+	   			buffer.append("\n");
+	   			log.info(buffer.toString());
     	   }
-       }
-
+        }
+        
+        return buffer.toString();
 	}
 	
 	
@@ -121,37 +159,25 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void notifyJobOwnerOnServerStartup(String serverName,String emailGroup) throws EBookServerException{
 		
-		List<String> jobListInfo ;
+		List<JobUserInfo> jobListInfo ;
 			jobListInfo = jobCleanupService.findListOfDeadJobsByServerName(serverName);
-		String subject ;
-		String emailAddress ;
-		String emailBody ;
-		StringBuffer emailBodySB = new StringBuffer();
-
 		
 		if (jobListInfo != null && jobListInfo.size()> 0) {
+			sendEmailsToUsers(emailGroup, jobListInfo);
+		}else{
+			// Send email only to email group
+			StringBuffer emailBodySB = new StringBuffer();
+			emailBodySB.append("Server: ");
+			emailBodySB.append(serverName);
+			emailBodySB.append(" is up");
+			String subject = "Server is up <EOM>";
+			String emailBody = emailBodySB.toString();
 			
-			if(emailGroup == null || emailGroup.isEmpty()){
-				
-				throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
-			}
-
-			emailBodySB.append("Please resubmit these jobs.");
-			emailBodySB.append("\n");
-			for (String string : jobListInfo) {
-				emailBodySB.append(string);
-				emailBodySB.append("\n");
-			}
-			subject = "Server is down, please resubmit these jobs";
-			emailAddress = emailGroup;
-			emailBody = emailBodySB.toString();
-			log.debug("Notification email address : " + emailAddress);
+			log.debug("Notification email address : " + emailGroup);
 			log.debug("Notification email subject : " + subject);
 			log.debug("Notification email body : " + emailBody);
 
-			EmailNotification.send(emailAddress, subject, emailBody);
-
-			
+			EmailNotification.send(emailGroup, subject, emailBody);
 		}
 	}
 	
@@ -163,40 +189,97 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 	 */
 	private void notifyJobOwnerOnServerShutdown(String emailGroup) throws EBookServerException {
 
-		List<String> jobListInfo = jobCleanupService.findListOfDeadJobs();
-		String subject ;
-		String emailAddress ;
-		String emailBody ;
-		StringBuffer emailBodySB = new StringBuffer();
+		List<JobUserInfo> jobListInfo = jobCleanupService.findListOfDeadJobs();
 
-		
 		if (jobListInfo != null && jobListInfo.size()> 0) {
-			emailBodySB.append("Please resubmit these jobs.");
-			emailBodySB.append("\n");
-			for (String string : jobListInfo) {
-				emailBodySB.append(string);
-				emailBodySB.append("\n");
-			}
-			subject = "Server is down , please resubmit these jobs";
-			emailAddress = emailGroup;
-			emailBody = emailBodySB.toString();
-			
+			sendEmailsToUsers(emailGroup, jobListInfo);
+			// Send email only to email group
 		}else{
+			StringBuffer emailBodySB = new StringBuffer();
 			emailBodySB.append("Server is down");
-			subject = "Server is down <EOM>";
-			emailAddress = emailGroup;
-			emailBody = emailBodySB.toString();
+			String subject = "Server is down <EOM>";
+			String emailBody = emailBodySB.toString();
+			
+			log.debug("Notification email address : " + emailGroup);
+			log.debug("Notification email subject : " + subject);
+			log.debug("Notification email body : " + emailBody);
 
+			EmailNotification.send(emailGroup, subject, emailBody);
 		}
-		log.debug("Notification email address : " + emailAddress);
+	}
+	
+	private void sendEmailsToUsers(String emailGroup, List<JobUserInfo> jobListInfo) throws EBookServerException {
+		if(emailGroup == null || emailGroup.isEmpty()){
+			
+			throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
+		}
+		
+		Map<String,List<JobUserInfo>> userMap = new HashMap<String,List<JobUserInfo>>();
+		
+		StringBuffer jobInfoListSB = new StringBuffer();
+		
+		// Populate userMap to send users emails
+		for (JobUserInfo jobUserInfo : jobListInfo) {
+			String username = jobUserInfo.getUsername();
+			
+			// Create a list of JobUserInfo for each username
+			if(!userMap.containsKey(username)) {
+				// username does not exist in the map, create new list
+				List<JobUserInfo> info = new ArrayList<JobUserInfo>();
+				info.add(jobUserInfo);
+				userMap.put(username, info);
+			} else {
+				// username already exists in the map, add to the existing list.
+				List<JobUserInfo> info = userMap.get(username);
+				info.add(jobUserInfo);
+				userMap.put(username, info);
+			}
+			
+			// append all job info for message to email group
+			jobInfoListSB.append(jobUserInfo.getInfoAsCsv());
+			jobInfoListSB.append("\n");
+		}
+		
+		// Email content
+		String subject = "Generator server is down, please resubmit these jobs";
+		String beginningMessage = "Please resubmit these jobs.\n";
+		StringBuffer emailBodySB = new StringBuffer();
+		emailBodySB.append(beginningMessage);
+		emailBodySB.append(jobInfoListSB);
+		
+		log.debug("Notification email address : " + emailGroup);
 		log.debug("Notification email subject : " + subject);
-		log.debug("Notification email body : " + emailBody);
+		log.debug("Notification email body : " + emailBodySB.toString());
 
-		EmailNotification.send(emailAddress, subject, emailBody);
+		// Send email to email group
+		EmailNotification.send(emailGroup, subject, emailBodySB.toString());
+
+		// Send individual emails to users
+		for(Map.Entry<String, List<JobUserInfo>> entry :userMap.entrySet()){
+			String username = entry.getKey();
+			UserPreference userPreference = userPreferenceService.findByUsername(username);
+			String emails = userPreference.getEmails();
+			
+			// check emails were added in UserPreference
+			if(StringUtils.isNotBlank(emails)) {
+				StringBuffer userJobInfoListSB = new StringBuffer();
+				
+				// Create string for job info related to this username
+				for (JobUserInfo jobUserInfo : entry.getValue()) {
+					userJobInfoListSB.append(jobUserInfo.getInfoAsCsv());
+					userJobInfoListSB.append("\n");
+				}
+				StringBuffer userEmailBodySB = new StringBuffer();
+				userEmailBodySB.append(beginningMessage);
+				userEmailBodySB.append(userJobInfoListSB);
+				
+				EmailNotification.send(emails, subject, userEmailBodySB.toString());
+			}
+		}
 	}
 	
 	
-	private void execute(String server, String user, String password, String cmd) throws EBookServerException
+	private String execute(String server, String user, String password, String cmd) throws EBookServerException
 	{
 		log.debug("Starting " + cmd + "...");
 
@@ -207,11 +290,17 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 		String retValue =	Ssh.executeCommand(server, user, password, cmd);						
 
 		log.debug("Execute Command " + retValue + " value ");
-
+		
+		return retValue;
 	}
 	
 	@Required
 	public void setJobCleanupService(JobCleanupService jobCleanupService) {
 		this.jobCleanupService = jobCleanupService;
 	}
+	@Required
+	public void setUserPreferenceService(UserPreferenceService service) {
+		this.userPreferenceService = service;
+	}
+
 }

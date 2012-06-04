@@ -1,5 +1,7 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.stopgenerator;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.validation.Valid;
@@ -19,13 +21,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 
 @Controller
-public class StopGeneratorController {
+public class GeneratorSwitchController {
 	//private static final Logger log = Logger.getLogger(StopGeneratorController.class);
 	
 	private ServerAccessService serverAccessService;
-	private Properties killSwitchProperties;
+	private Properties generatorProperties;
 	protected Validator validator;
 
 	@InitBinder(StopGeneratorForm.FORM_NAME)
@@ -55,19 +58,20 @@ public class StopGeneratorController {
 		
 			if(!bindingResult.hasErrors()) {
 				String serviceError = "";
+				List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 				
 				try {
-				serverAccessService.stopServer(killSwitchProperties.getProperty("serverNames"), 
-				   killSwitchProperties.getProperty("username"), killSwitchProperties.getProperty("password"), 
-				   killSwitchProperties.getProperty("appNames"), killSwitchProperties.getProperty("emailGroup"));
+				String status = serverAccessService.stopServer(generatorProperties.getProperty("serverNames"), 
+								   generatorProperties.getProperty("username"), generatorProperties.getProperty("password"), 
+								   generatorProperties.getProperty("appNames"), generatorProperties.getProperty("emailGroup"));
+				status = StringUtils.replace(status, "\n", "<br />");
+				infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
 				} catch(Exception e) {
 					serviceError = e.getMessage();
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, serviceError);
+					infoMessages.add(new InfoMessage(InfoMessage.Type.ERROR, serviceError));
 				}
 				
-				if(StringUtils.isBlank(serviceError)) {
-					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Generator and gatherer has been stopped.");
-				}
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
 				
 				// Clear out the code field
 				form.setCode("");
@@ -76,14 +80,42 @@ public class StopGeneratorController {
 			return new ModelAndView(WebConstants.VIEW_ADMIN_STOP_GENERATOR);
     }
 	
+	@RequestMapping(value = WebConstants.MVC_ADMIN_START_GENERATOR, method = RequestMethod.GET)
+    public ModelAndView getStartGenerator(
+			Model model) throws Exception {
+		
+           return new ModelAndView(WebConstants.VIEW_ADMIN_START_GENERATOR);
+    }
+	
+	@RequestMapping(value = WebConstants.MVC_ADMIN_START_GENERATOR, method = RequestMethod.POST)
+    public ModelAndView postStartGenerator(Model model) throws Exception {
+			String serviceError = "";
+			List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
+			
+			try {
+			String status = serverAccessService.startServer(generatorProperties.getProperty("serverNames"), 
+							   generatorProperties.getProperty("username"), generatorProperties.getProperty("password"), 
+							   generatorProperties.getProperty("appNames"), generatorProperties.getProperty("emailGroup"));
+			status = StringUtils.replace(status, "\n", "<br />");
+			infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
+			} catch(Exception e) {
+				serviceError = e.getMessage();
+				infoMessages.add(new InfoMessage(InfoMessage.Type.ERROR, serviceError));
+			}
+			
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
+
+			return new ModelAndView(WebConstants.VIEW_ADMIN_START_GENERATOR);
+    }
+	
 	@Required
     public void setServerAccessService(ServerAccessService serverAccessService) {
            this.serverAccessService = serverAccessService;
     }
     
     @Required
-    public void setKillSwitchProperties(Properties properties) {
-           this.killSwitchProperties = properties;
+    public void setGeneratorProperties(Properties properties) {
+           this.generatorProperties = properties;
     }
     
     @Required

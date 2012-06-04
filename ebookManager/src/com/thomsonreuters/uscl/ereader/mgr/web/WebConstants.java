@@ -167,6 +167,7 @@ public class WebConstants {
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
 	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";
+	public static final String MVC_ADMIN_START_GENERATOR = "adminStartGenerator.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_VIEW = "adminJurisCodeView.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_CREATE = "adminJurisCodeCreate.mvc";
 	public static final String MVC_ADMIN_JURIS_CODE_DELETE = "adminJurisCodeDelete.mvc";
@@ -225,6 +226,7 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_BOOK_LOCK_LIST = "_adminBookLockList";
 	public static final String VIEW_ADMIN_BOOK_LOCK_DELETE = "_adminBookLockDelete";
 	public static final String VIEW_ADMIN_STOP_GENERATOR = "_adminStopGenerator";
+	public static final String VIEW_ADMIN_START_GENERATOR = "_adminStartGenerator";
 	public static final String VIEW_ADMIN_JURIS_CODE_VIEW = "_adminJurisCodeView";
 	public static final String VIEW_ADMIN_JURIS_CODE_CREATE = "_adminJurisCodeCreate";
 	public static final String VIEW_ADMIN_JURIS_CODE_DELETE = "_adminJurisCodeDelete";

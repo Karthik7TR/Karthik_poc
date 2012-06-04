@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDao;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
@@ -46,9 +47,8 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 	 * @throws EBookServerException 
 	 */
 	@Override
-	public List<String> findListOfDeadJobs() throws EBookServerException{
+	public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException{
 		return jobCleanupDao.findListOfDeadJobs();
-		
 	}
 	
 	@Required
@@ -72,7 +72,7 @@ public  class JobCleanupServiceImpl implements JobCleanupService {
 	}
 
 	@Override
-	public List<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException 
+	public List<JobUserInfo> findListOfDeadJobsByServerName(String serverName) throws EBookServerException 
 	{
 		return jobCleanupDao.findListOfDeadJobsByServerName(serverName);
 

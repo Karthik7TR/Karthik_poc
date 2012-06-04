@@ -6,10 +6,6 @@
 
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
-import java.util.List;
-
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
@@ -33,7 +29,22 @@ public interface ServerAccessService {
 	 * @param emailGroup
 	 * @throws EBookServerException 
 	 */
-	public void stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException;
+	public String stopServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException;
+	
+	/**
+	 * Starts all the generator and gather instances from server, 
+	 * notifies user group about server startup. 
+	 * update all the unfinished jobs to failed exit status.
+	 *  
+	 * @param serverNames ',' separated server names.
+	 * @param userName
+	 * @param password
+	 * @param appNames	',' separated application names (eBookGatherer,eBookGenerator)
+	 * @param emailGroup
+	 * @throws EBookServerException 
+	 */
+	public String startServer(String serverNames,String userName,String password,String appNames,String emailGroup) throws EBookServerException;
+	
 	/**
 	 * Sends sends email notification on startup only if any of the jobs were updated. 
 	 * @param serverName

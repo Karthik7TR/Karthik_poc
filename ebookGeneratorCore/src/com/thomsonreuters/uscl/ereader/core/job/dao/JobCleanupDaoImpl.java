@@ -17,6 +17,7 @@ import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 /**
@@ -47,7 +48,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<String> findListOfDeadJobs() throws EBookServerException {
+	public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException {
 		StringBuffer hql = new StringBuffer(
 		  "Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");   
 			hql.append(" from batch_job_execution  bje");
@@ -61,13 +62,13 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 			Query query = session.createSQLQuery(hql.toString());
 			List<Object[]> objectList = query.list();
 			
-			List<String> arrayList = new ArrayList<String>();
+			List<JobUserInfo> arrayList = new ArrayList<JobUserInfo>();
 			for(Object[] arr : objectList)
 			{
 				if (arr[1] != null) 
 				{
-					String temp = arr[0].toString()+","+arr[1].toString() +","+arr[2].toString();
-					arrayList.add(temp);
+					JobUserInfo jobUserInfo = new JobUserInfo(arr[0].toString(),arr[1].toString(),arr[2].toString());
+					arrayList.add(jobUserInfo);
 				}
 			}
 			return arrayList;
@@ -211,7 +212,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	 * @throws EBookServerException 
 	 */
 	@Override
-	public ArrayList<String> findListOfDeadJobsByServerName(String serverName) throws EBookServerException {
+	public List<JobUserInfo> findListOfDeadJobsByServerName(String serverName) throws EBookServerException {
 		StringBuffer hql = new StringBuffer(
 				  "Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");   
 					hql.append(" from batch_job_execution  bje");
@@ -227,13 +228,13 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 				@SuppressWarnings("unchecked")
 				List<Object[]> objectList = query.list();
 				
-				ArrayList<String> arrayList = new ArrayList<String>();
+				List<JobUserInfo> arrayList = new ArrayList<JobUserInfo>();
 				for(Object[] arr : objectList)
 				{
 					if (arr[1] != null) 
 					{
-						String temp = arr[0].toString()+","+arr[1].toString() +","+arr[2].toString();
-						arrayList.add(temp);
+						JobUserInfo jobUserInfo = new JobUserInfo(arr[0].toString(),arr[1].toString(),arr[2].toString());
+						arrayList.add(jobUserInfo);
 					}
 				}
 				return arrayList;

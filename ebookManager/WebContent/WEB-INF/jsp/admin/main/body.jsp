@@ -52,8 +52,9 @@
 </div>
 
 <div class="centerSection">
-	<h3>Stop Generator and Gatherer</h3>
+	<h3>Generator and Gatherer Switch</h3>
 	<div class="buttons">
+		<a href="<%=WebConstants.MVC_ADMIN_START_GENERATOR%>">Start All Book Generation</a>
 		<a href="<%=WebConstants.MVC_ADMIN_STOP_GENERATOR%>">Stop All Book Generation</a>
 	</div>
 </div>
