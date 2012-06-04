@@ -50,6 +50,7 @@ public class TitleMetadata implements Serializable {
 	private ArrayList<Asset> assets;
 	private ArrayList<Feature> proviewFeatures;
 	private ArrayList<Keyword> keywords = null;
+	private boolean isPilotBook;
 	
 	public TitleMetadata() {
 		addDefaults();
@@ -64,7 +65,7 @@ public class TitleMetadata implements Serializable {
 
 	public TitleMetadata(String fullyQualifiedTitleId, String versionNumber,
 			ArrayList<Feature> proviewFeatures, ArrayList<Keyword> keyWords,
-			ArrayList<Author> authors) {
+			ArrayList<Author> authors, boolean isPilotBook) {
 		this.titleId = fullyQualifiedTitleId;
 		this.titleVersion = versionNumber;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
@@ -78,6 +79,7 @@ public class TitleMetadata implements Serializable {
 		} else {
 			this.authorNames.add(".");
 		}
+		this.isPilotBook=isPilotBook;
 	}
 
 	private void addDefaults() {
@@ -282,5 +284,15 @@ public class TitleMetadata implements Serializable {
 	public String getOnlineexpiration() {
 		return onlineexpiration;
 	}
+	
+	public void setIsPilotBook(boolean isPilotBook) {
+		this.isPilotBook = isPilotBook;
+	}
+	
+	public boolean getIsPilotBook() {
+	    return isPilotBook;
+	}
+	
+	
 	
 }

@@ -34,6 +34,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -83,9 +84,10 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final String EXPECTED_TOC = "<toc><entry s=\"FrontMatterTitle/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry>";
 	private static final String CASCADED_TOC = "<entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
 	private static final String EXPECTED_DOCS_TOC_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/>";
+	private static final String EXPECTED_ALT_ID_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" altid=\"9 doc_0001\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" altid=\"3 doc_0002\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" altid=\"3 doc_0004\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" altid=\"1 doc_0005\" src=\"WestlawNext.html\"/>";
 	private static final String EXPECTED_DOCS = EXPECTED_DOCS_TOC_ENTRIES + "<doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
-	private static final String EXPECTED_EMPTY_TOC_ELEMENT = "<toc/>";
 	private static final String EXPECTED_END_MANIFEST = "</title>";
+	File altIdDir;
 	
 	String lastupdated = new SimpleDateFormat("yyyyMMdd").format(new Date());
 	
@@ -389,7 +391,6 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		
 		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
 		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
-		
 		assertXMLEqual(expectedInputSource, resultInputSource);
 	}
 	
@@ -464,6 +465,56 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	
 	private String resultStreamToString(ByteArrayOutputStream resultStream) throws Exception {
 		return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
+	}
+	
+	
+	@Test
+	@Ignore
+	public void testAlternativeId() throws Exception {
+		titleMetadata = getTitleMetadataWithPilotBook();
+		titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService);
+		titleManifestFilter.setParent(xmlReader);
+		titleManifestFilter.setContentHandler(serializer.asContentHandler());
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
+		familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
+		familyGuidMap.put("DOC_GUID3", "FAM_GUID1");
+		String input = "<EBook>" +
+				"<EBookToc><Name>1</Name><Guid>TOC_GUID1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>2</Name><Guid>TOC_GUID2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
+				"<EBookToc><Name>4</Name><Guid>TOC_GUID4</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>" +
+				"</EBook>";
+		
+		String expectedDocs = EXPECTED_ALT_ID_ENTRIES +"<doc id=\"FAM_GUID1\" altid=\"test_FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" altid=\"test_FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"GENERATED_FAMILY_GUID\" altid=\"test_FAM_GUID3\" src=\"GENERATED_FAMILY_GUID.html\"/><doc id=\"GENERATED_DOC_GUID\" altid=\"test_GENERATED_DOC_GUID\" src=\"GENERATED_DOC_GUID.html\"/></docs>";
+		String expectedToc = EXPECTED_TOC + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
+		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX +
+				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+		
+		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
+		
+
+		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
+	    mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+	    EasyMock.replay(mockFileUtilsFacade);
+		
+		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
+		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
+		EasyMock.replay(mockUuidGenerator);
+		
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService);
+		filter.setParent(xmlReader);
+		filter.setContentHandler(serializer.asContentHandler());
+		filter.parse(new InputSource(inputXml));
+				
+		System.out.println(resultStreamToString(resultStream));
+		
+		
+		InputSource resultInputSource = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expectedInputSource = new InputSource(new ByteArrayInputStream(expected.getBytes()));
+		assertXMLEqual(expectedInputSource, resultInputSource);
 	}
 	
 }

@@ -5,11 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +71,11 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private File documentsDirectory;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
+	Map<String,String> altIdMap = new HashMap<String,String>();
+	/**
+	 * The file path to the ebookGenerator Alternate ID Directory.
+	 */
+	private static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
 	
 	private TableOfContents tableOfContents = new TableOfContents();
 	private TocNode currentNode;
@@ -134,6 +142,8 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String SRC_ATTRIBUTE = "src";
 	private static final String ID_ATTRIBUTE = "id";
 	private static final String TOC_ELEMENT = "toc";
+	private static final String ALT_ID_ATTRIBUTE = "altid";
+	
 	
 	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService) {
 		if (titleMetadata == null) {
@@ -154,6 +164,8 @@ class TitleManifestFilter extends XMLFilterImpl {
 		if (placeholderDocumentService == null){
 			throw new IllegalArgumentException("placeholderDocumentService must not be null.");
 		}
+		
+		
 		validateTitleMetadata(titleMetadata);
 		this.titleMetadata = titleMetadata;
 		this.familyGuidMap = familyGuidMap;
@@ -162,6 +174,58 @@ class TitleManifestFilter extends XMLFilterImpl {
 		this.fileUtilsFacade = fileUtilsFacade;
 		this.placeholderDocumentService = placeholderDocumentService;
 		this.previousNode = tableOfContents;
+				
+		if (titleMetadata.getIsPilotBook())
+		{
+			String titleId = titleMetadata.getTitleId();
+			String altIdFileName = titleId.replace("/", "_") + ".csv";
+			this.altIdMap = getAltIdMap(altIdFileName);			
+		}
+	}
+	
+	
+	/**
+	 * @param fileName contains altId for corresponding Guid
+	 * @return a map  (Guid as a Key and altId as a Value) 
+	 */
+	private Map<String,String> getAltIdMap(final String fileName) 
+	{
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		File altIdFile = new File(ALT_ID_DIR_PATH, fileName);
+		String line = null; 
+		BufferedReader stream = null;     
+		try 
+		{         
+		   stream = new BufferedReader(new FileReader(altIdFile));        
+		   while ((line = stream.readLine()) != null) 
+		   {             
+			 String[] splitted = line.split(","); 
+			 if (splitted[1].contains("/"))
+			 {
+				 splitted[1] = splitted[1].split("/")[0];
+			 }
+			 altIdMap.put(splitted[1], splitted[0]);       
+		   }
+		} 
+		catch (IOException iox)
+		{
+		   throw new RuntimeException("An IOException occurred while generating the Alternate ID Map.", iox);
+		}
+		finally 
+		{         
+		  if (stream != null)
+		  {
+		    try 
+		    {
+		       stream.close();
+		    }
+		    catch (IOException e) {
+				throw new RuntimeException("An IOException occurred while closing a file ", e);
+			}
+		  }
+		} 
+	
+		return altIdMap;
 	}
 
 	/**
@@ -654,10 +718,23 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 * 
 	 * @param doc the doc to create attributes from.
 	 * @return the attributes for the doc.
+	 * @throws IOException 
 	 */	
 	protected Attributes getAttributes(Doc doc) {
 		AttributesImpl attributes = new AttributesImpl();
-		attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, doc.getId());
+		String docGuid = doc.getId();
+		attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, docGuid);
+				
+		if (titleMetadata.getIsPilotBook())
+		{
+    
+		    String altId = altIdMap.get(docGuid);
+		    if (altId != null)
+		    {
+		      attributes.addAttribute(URI, ALT_ID_ATTRIBUTE, ALT_ID_ATTRIBUTE, CDATA, altId);
+		    }
+		}
+		
 		attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, doc.getSrc());
 		return attributes;
 	}
@@ -782,4 +859,5 @@ class TitleManifestFilter extends XMLFilterImpl {
 	protected void setTableOfContents(final TableOfContents tableOfContents){
 		this.tableOfContents = tableOfContents;
 	}
+	
 }

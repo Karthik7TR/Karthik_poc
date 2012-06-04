@@ -45,7 +45,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
-	
+		
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
@@ -57,7 +57,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 		
-		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors());
+		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors(), bookDefinition.getIsPilotBook());
 		String materialId = bookDefinition.getMaterialId();
 		
 		//TODO: verify that default of 1234 for material id is valid.
@@ -86,6 +86,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		OutputStream titleManifest = new FileOutputStream(titleXml);
 		InputStream tocXml = new FileInputStream(tocXmlFile);
+		
 		try {
 			File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 			//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
