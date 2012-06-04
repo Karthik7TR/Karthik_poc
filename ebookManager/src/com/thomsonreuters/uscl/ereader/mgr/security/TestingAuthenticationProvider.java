@@ -37,7 +37,8 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	}
 	
 	public static SecurityRole mapGroupFromUsername(String name) {
-		if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
+		// Comment this out since we are deploying this code to prod
+/*		if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
 			return SecurityRole.ROLE_GUEST;
 		}
 		if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
@@ -54,7 +55,7 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 		}
 		if (name.contains(SecurityRole.ROLE_EDITOR.toString())) {
 			return SecurityRole.ROLE_EDITOR;
-		}
+		}*/
 		return null;
 	}
 
