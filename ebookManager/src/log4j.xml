@@ -10,7 +10,7 @@
 	
 	<appender name="rollingFileAppender" class="com.thomsonwest.codes.log4j.appender.CodesRollingFileAppender">
 		<param name="File" value="/apps/eBookBuilder/ebookManager-%server%.log"/>
-		<param name="MaxFileSize" value="50MB" />
+		<param name="MaxFileSize" value="10MB" />
 		<param name="MaxBackupIndex" value="5" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n"/>
