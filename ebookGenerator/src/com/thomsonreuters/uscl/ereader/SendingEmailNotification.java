@@ -3,6 +3,10 @@
  */
 package com.thomsonreuters.uscl.ereader;
 
+import java.util.Collection;
+
+import javax.mail.internet.InternetAddress;
+
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
@@ -11,8 +15,10 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -22,7 +28,9 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
  */
 public class SendingEmailNotification extends AbstractSbTasklet {
 	
-	private static final Logger Log = Logger.getLogger(SendingEmailNotification.class);
+	private static final Logger log = Logger.getLogger(SendingEmailNotification.class);
+	
+	private CoreService coreService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -32,7 +40,6 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 	}
 	
     private void sendNotification(ChunkContext chunkContext) {
-		Log.debug("Sending Email messgae to Email ID : " + JobParameterKey.USER_EMAIL);
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 
@@ -42,26 +49,22 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
 		long jobExecutionId = stepExecution.getJobExecutionId();
 
-		String userEmailId =jobParams.getString(JobParameterKey.USER_EMAIL);
-		String jobOwnerEmail = jobParams.getString(JobParameterKey.JOB_OWNERS_GROUP_EMAIL);
+		String username = jobParams.getString(JobParameterKey.USER_NAME);
+		Collection<InternetAddress> recipients = coreService.getEmailRecipientsByUsername(username);
+		log.debug("Sending job completion notification to: " + recipients);
+		
 		String environment  = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
-        String emailAdd;
-        
-
-        if(userEmailId != null &&  !userEmailId.isEmpty())
-        {
-        	emailAdd= userEmailId;	
-        }else{
-        	emailAdd = jobOwnerEmail;
-        }
-
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
-       
         
         String moreInfo =  " " + environment +"  "+bookDefinition.getFullyQualifiedTitleId() +"  "+bookDefinition.getProviewDisplayName()+ "  " +jobInstanceId +"  "+jobExecutionId;
         String subject = "Publishing Successfully : " + moreInfo ;
-        EmailNotification.send(emailAdd, subject, " Publishing Successfully Completed! "+"  \n"+ moreInfo);
+        EmailNotification.send(recipients, subject, " Publishing Successfully Completed! "+"  \n"+ moreInfo);
 		
 	}
+    
+    @Required
+    public void setCoreService(CoreService service) {
+    	this.coreService = service;
+    }
 
 }

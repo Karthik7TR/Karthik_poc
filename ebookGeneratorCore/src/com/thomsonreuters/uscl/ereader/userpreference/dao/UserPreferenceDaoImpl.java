@@ -60,7 +60,7 @@ public class UserPreferenceDaoImpl implements UserPreferenceDao {
 
 		// Parse all the csv strings into a unique list of address objects
 		for (String csvAddr : csvEmailAddrs) {
-			List<String> addrStrings = UserPreference.toStringAddressAddressList(csvAddr);
+			List<String> addrStrings = UserPreference.toStringEmailAddressList(csvAddr);
 			List<InternetAddress> addrs = UserPreference.toInternetAddressList(addrStrings);
 			uniqueAddresses.addAll(addrs);
 		}

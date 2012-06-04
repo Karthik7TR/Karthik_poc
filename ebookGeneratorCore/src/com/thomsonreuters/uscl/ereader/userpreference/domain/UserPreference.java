@@ -139,14 +139,14 @@ public class UserPreference implements Serializable {
 
 	@Transient
 	public List<String> getEmailAddressList() {
-		return toStringAddressAddressList(emails);
+		return toStringEmailAddressList(emails);
 	}
 	@Transient
 	public List<InternetAddress> getInternetEmailAddressList() {
-		return toInternetAddressList(toStringAddressAddressList(emails));
+		return toInternetAddressList(toStringEmailAddressList(emails));
 	}
 	
-	public static List<String> toStringAddressAddressList(String addressCsv) {
+	public static List<String> toStringEmailAddressList(String addressCsv) {
 		String[] recipientArray = StringUtils.split(addressCsv, ",");
 		if(recipientArray != null) {
 			return Arrays.asList(recipientArray);

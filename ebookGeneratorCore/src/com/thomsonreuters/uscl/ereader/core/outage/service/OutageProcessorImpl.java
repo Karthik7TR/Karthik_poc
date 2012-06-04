@@ -2,8 +2,8 @@ package com.thomsonreuters.uscl.ereader.core.outage.service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
-import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
+import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -22,14 +22,9 @@ public class OutageProcessorImpl implements OutageProcessor {
 	private static Logger log = Logger.getLogger(OutageProcessorImpl.class);
 
 	private OutageService outageService;
+	private CoreService coreService;
 	private UserPreferenceService userPreferenceService;
 	private PlannedOutageContainer plannedOutageContainer = new PlannedOutageContainer();
-	
-	/**
-	 * The static set of recipients who will receive notifcation of the outage start/end.
-	 * The actual set of recipients will include the dynamic set from the user preference table.
-	 */
-	private String outageEmailRecipients;
 
 	/**
 	 * 
@@ -40,7 +35,7 @@ public class OutageProcessorImpl implements OutageProcessor {
 	public synchronized PlannedOutage processPlannedOutages() {
 		Date timeNow = new Date();
 		PlannedOutage outage = plannedOutageContainer.findOutage(timeNow);
-		Set<InternetAddress> recipients = null;
+		Collection<InternetAddress> recipients = null;
 		if (outage != null) {
 			recipients = getOutageEmailRecipients();
 			// If not already sent, send email indicating an outage has started
@@ -98,15 +93,12 @@ public class OutageProcessorImpl implements OutageProcessor {
 	 * This is comprised of a static list as specified by a spring property, and a dynamic list which
 	 * comes from the unique set of email addresses from the user preference table.
 	 */
-	public Set<InternetAddress> getOutageEmailRecipients() {
+	public Collection<InternetAddress> getOutageEmailRecipients() {
 		Set<InternetAddress> uniqueRecipients = userPreferenceService.findAllUniqueEmailAddresses();
-		List<String> staticRecipientStringList = UserPreference.toStringAddressAddressList(outageEmailRecipients);
-		List<InternetAddress> staticRecipientInternetAddressList = UserPreference.toInternetAddressList(staticRecipientStringList);
-		uniqueRecipients.addAll(staticRecipientInternetAddressList);
-		return uniqueRecipients;
+		return coreService.createEmailRecipients(uniqueRecipients);
 	}
 	
-	private void sendOutageEmail(Set<InternetAddress> recipients, String subject, PlannedOutage outage) {
+	private void sendOutageEmail(Collection<InternetAddress> recipients, String subject, PlannedOutage outage) {
 		if (recipients.size() > 0) {
 			// Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
 			String body = subject + "\n\n";
@@ -125,15 +117,6 @@ public class OutageProcessorImpl implements OutageProcessor {
 		}
 	}
 	
-	/**
-	 * Collection of planned outages.
-	 * Used only in the generator.
-	 * @param container
-	 */
-	public void setPlannedOutageContainer(PlannedOutageContainer container) {
-		this.plannedOutageContainer = container;
-	}
-	
 	@Required
 	public void setOutageService(OutageService service) {
 		this.outageService = service;
@@ -142,13 +125,8 @@ public class OutageProcessorImpl implements OutageProcessor {
 	public void setUserPreferenceService(UserPreferenceService service) {
 		this.userPreferenceService = service;
 	}
-	/**
-	 * Assign the list of recipients to receive notification when a outage begins and ends.
-	 * Used only in the generator.
-	 * @param csvRecipients a comma-separated list of valid SMTP email addresses
-	 */
 	@Required
-	public void setStaticEmailRecipients(String csvRecipients) {
-		this.outageEmailRecipients = csvRecipients;
+	public void setCoreService(CoreService service) {
+		this.coreService = service;
 	}
 }

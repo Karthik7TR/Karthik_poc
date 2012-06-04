@@ -70,18 +70,10 @@ public class EmailNotification
     }
 
     public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
-    	StringBuffer csvRecipients = new StringBuffer();
-    	boolean firstTime = true;
-    	for (InternetAddress recipient : recipients) {
-    		if (!firstTime) {
-    			csvRecipients.append(",");
-    		}
-    		firstTime = false;
-    		csvRecipients.append(recipient.getAddress());
-    	}
-    	send(csvRecipients.toString(), subject, body);
+    	String csvRecipients = convertToCsv(recipients);
+    	send(csvRecipients, subject, body);
     }
-
+    
     /**
      * 
      * @param csvRecipients
@@ -125,6 +117,13 @@ public class EmailNotification
             }
         }
     }
+    
+    
+    public static void sendWithAttachment(final Collection<InternetAddress> recipients,
+    			final String subject, final String body, final List<String> fileNames) {
+    	String csvRecipients = convertToCsv(recipients);
+    	sendWithAttachment(csvRecipients, subject, body, fileNames);
+    }
 
     /**
      * @param toEmail
@@ -162,6 +161,19 @@ public class EmailNotification
                mex.printStackTrace();
             }
         }
+    }
+    
+    private static String convertToCsv(Collection<InternetAddress> recipients) {
+    	StringBuffer csvRecipients = new StringBuffer();
+    	boolean firstTime = true;
+    	for (InternetAddress recipient : recipients) {
+    		if (!firstTime) {
+    			csvRecipients.append(",");
+    		}
+    		firstTime = false;
+    		csvRecipients.append(recipient.getAddress());
+    	}
+    	return csvRecipients.toString();
     }
 
     /**

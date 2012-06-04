@@ -138,6 +138,7 @@
 	
 	<!-- Define each task here -->
 	<beans:bean id="parentTask" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
+			    p:coreService-ref="coreService"
 				p:outageProcessor-ref="outageProcessor"/>
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="parentTask"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="parentTask"
@@ -145,6 +146,7 @@
 				p:rootWorkDirectory="${root.work.directory}"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:ebookAuditService-ref="eBookAuditService"
+				p:coreService-ref="coreService"
 				p:bookDefnService-ref="bookDefinitionService"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="parentTask"
 				p:gatherService-ref="gatherService"
@@ -177,6 +179,7 @@
 	<beans:bean id="formatHTMLCreateNamedAnchorsTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchors" parent="parentTask"
 				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsService"/>
 	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks" parent="parentTask"
+				p:coreService-ref="coreService"
 				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
 				
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="parentTask"
@@ -192,6 +195,7 @@
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="parentTask" 
 				p:proviewClient-ref="proviewClient"
 				p:publishingStatsService-ref="publishingStatsService"/>	
-	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"/>							
+	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
+				p:coreService-ref="coreService"/>							
 
 </beans:beans>

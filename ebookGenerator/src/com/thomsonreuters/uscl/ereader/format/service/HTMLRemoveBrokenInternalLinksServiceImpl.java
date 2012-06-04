@@ -16,11 +16,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
+import javax.mail.internet.InternetAddress;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -33,7 +35,6 @@ import org.apache.xml.serializer.SerializerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLUnlinkInternalLinksFilter;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -78,13 +79,14 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
+	 * @param emailRecipients who to notify when things go wrong
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId) throws EBookFormatException
+			final String title, final Long jobId, Collection<InternetAddress> emailRecipients) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -140,7 +142,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		{
 		// Send notification for existing anchors.
 			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), title +"_" + jobId +"_anchorTargetUnlinkFile.csv");
-			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile);
+			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile, emailRecipients);
 			
 		}
 		
@@ -409,7 +411,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	}
 	
 	protected void writeUnlinkAnchorReport(String title, Long jobId, ArrayList<String> unlinkDocMetadataList,
-											File anchorUnlinkTargetListFile) throws EBookFormatException
+										   File anchorUnlinkTargetListFile, Collection<InternetAddress> emailRecipients)
+										   throws EBookFormatException
 	{
 		BufferedWriter writer = null;
 		try 
@@ -446,16 +449,15 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 				LOG.error("Unable to close anchor target list file.", e);
 			}
 		}
-        String emailId = JobParameterKey.USER_EMAIL;
-//        String emailId = "kirsten.gunn@thomson.com";
+
 		String subject = "Anchor Links removed for title: " + title +" job: " + jobId;
 		String emailBody = "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash). ";
-		LOG.debug("Notification email address : " + emailId);
+		LOG.debug("Notification email recipients : " + emailRecipients);
 		LOG.debug("Notification email subject : " + subject);
 		LOG.debug("Notification email body : " + emailBody);
 		ArrayList<String> filenames = new ArrayList<String>();
 		filenames.add(anchorUnlinkTargetListFile.getAbsolutePath());
-		EmailNotification.sendWithAttachment(emailId, subject, emailBody, filenames);
+		EmailNotification.sendWithAttachment(emailRecipients, subject, emailBody, filenames);
 		
 	}
 

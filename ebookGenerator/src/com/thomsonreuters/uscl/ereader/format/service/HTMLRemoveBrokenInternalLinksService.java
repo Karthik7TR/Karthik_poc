@@ -6,6 +6,9 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.File;
+import java.util.Collection;
+
+import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 
@@ -25,10 +28,11 @@ public interface HTMLRemoveBrokenInternalLinksService {
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
+	 * @param emailRecipients who to notify when things go wrong
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId) throws EBookFormatException;
+			final String title, final Long jobId, Collection<InternetAddress> emailRecipients) throws EBookFormatException;
 }

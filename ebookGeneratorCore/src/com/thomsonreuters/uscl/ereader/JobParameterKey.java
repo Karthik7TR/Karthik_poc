@@ -11,10 +11,7 @@ public class JobParameterKey {
 	// ===== Standard values from job request and misc =====
 	/** Who started the job. */
 	public static final String USER_NAME = "userName";
-	/** E-mail address of the person who started the job. */
-	public static final String USER_EMAIL = "userEmail";
-	/**  **/
-	public static final String JOB_OWNERS_GROUP_EMAIL = "groupEmail";
+
 	/** Host name on which Spring Batch is running the job. */
 	public static final String HOST_NAME = "hostName";
 	

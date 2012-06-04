@@ -6,16 +6,23 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
+import java.util.Collection;
+
+import javax.mail.internet.InternetAddress;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -30,17 +37,14 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(HTMLRemoveBrokenInternalLinks.class);
 	private HTMLRemoveBrokenInternalLinksService transformerUnlinkService;
+	private CoreService coreService;
 
-	public void setTransformerUnlinkService(HTMLRemoveBrokenInternalLinksService transformerUnlinkService) 
-	{
-		this.transformerUnlinkService = transformerUnlinkService;
-	}
-	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
+		JobParameters jobParams = jobInstance.getJobParameters();
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
@@ -53,13 +57,15 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORM_INTERNAL_LINKS_FIXED_DIR);
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
+		String username = jobParams.getString(JobParameterKey.USER_NAME);
+		Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
 				
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId);
+				transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId, emailRecipients);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
@@ -75,5 +81,14 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	@Required
+	public void setCoreService(CoreService service) {
+		this.coreService = service;
+	}
+	@Required
+	public void setTransformerUnlinkService(HTMLRemoveBrokenInternalLinksService transformerUnlinkService) {
+		this.transformerUnlinkService = transformerUnlinkService;
 	}
 }

@@ -11,7 +11,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import javax.mail.internet.InternetAddress;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -33,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
+import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
@@ -45,8 +49,8 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
 	
+	private CoreService coreService;
 	private OutageProcessor outageProcessor;
-	
 
 	/**
 	 * Implement this method in the concrete subclass.
@@ -106,29 +110,21 @@ public abstract class AbstractSbTasklet implements Tasklet {
         ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 		
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
 		List<String> fileList = new ArrayList<String>();
 		String subject;
 		String failedJobInfo; 
-		String emailAdd;
-		String userEmailId = jobParams.getString(JobParameterKey.USER_EMAIL);
-        String jobOwnerGroupEmail = jobParams.getString(JobParameterKey.JOB_OWNERS_GROUP_EMAIL);
-        
-        String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
+		String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
+		
+		// Determine the recipient of the email, use user preference value(s), otherwise use the group as the default
+		String username = jobParams.getString(JobParameterKey.USER_NAME);
+		Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
 
         failedJobInfo = "eBook Publishing Failure:  " + jobEnvironment +"  " +bookDefinition.getFullyQualifiedTitleId() +"  "+bookDefinition.getProviewDisplayName() +"  "+jobInstanceId +"  "+jobExecutionId  ; 
         bodyMessage = failedJobInfo + "  \n"+ bodyMessage;
         subject = failedJobInfo;
         
         String imgGuidsFile = jobExecutionContext.getString(IMAGE_MISSING_GUIDS_FILE);
-        
-        /*** if job owner has entered email address to notify jobs outcome send email to that address else use default email address.**/
-        if(userEmailId != null &&  !userEmailId.isEmpty())
-        {
-        	emailAdd= userEmailId;	
-        }else{
-        	emailAdd = jobOwnerGroupEmail;
-        }
         
         if (getFileSize(imgGuidsFile) > 0 )
         {
@@ -144,11 +140,11 @@ public abstract class AbstractSbTasklet implements Tasklet {
         
         if (fileList.size() > 0)
         {
-        	EmailNotification.sendWithAttachment(emailAdd, subject, bodyMessage.toString(), fileList);
+        	EmailNotification.sendWithAttachment(emailRecipients, subject, bodyMessage.toString(), fileList);
            
         }
         else {
-        	EmailNotification.send(emailAdd, subject, bodyMessage.toString());
+        	EmailNotification.send(emailRecipients, subject, bodyMessage.toString());
         }
         
     }
@@ -265,5 +261,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	@Required
 	public void setOutageProcessor(OutageProcessor service) {
 		this.outageProcessor = service;
+	}
+	@Required
+	public void setCoreService(CoreService service) {
+		this.coreService = service;
 	}
 }
