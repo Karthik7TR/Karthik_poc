@@ -9,7 +9,7 @@
 
 <html>
 <head>
-	<title>Smoke Test</title>
+	<title>Smoke Test Page</title>
 	<style type="text/css">
 		.displayTagTable {
 		    border: 1px solid #E0E0E0;
@@ -75,8 +75,16 @@
 <h3>Current Image Vertical, ProView Server, and Database Connection</h3>
 <display:table id="<%= WebConstants.KEY_VDO %>" name="currentProperties" class="displayTagTable" cellpadding="2">
 	<display:column title="Server Name" property="name" />
-	<display:column title="Server Address">
-		<a target="_blank" href="${ vdo.address }">${ vdo.address }</a>
+	<display:column title="More Information">
+		<c:choose>
+			<c:when test="${fn:containsIgnoreCase(vdo.address, 'http')}">
+				<a target="_blank" href="${ vdo.address }">${ vdo.address }</a>
+			</c:when>
+			<c:otherwise>
+				${ vdo.address }
+			</c:otherwise>
+		</c:choose>
+		
 	</display:column>
 	<display:column title="Server Status">
 		<c:set var="status" value="Failed" />

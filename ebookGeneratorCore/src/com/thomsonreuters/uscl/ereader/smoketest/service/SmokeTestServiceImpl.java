@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,8 @@ public class SmokeTestServiceImpl implements SmokeTestService
 {
 	//private static final Logger log = Logger.getLogger(SmokeTestServiceImpl.class);
 	private SmokeTestDao dao;
+	@Resource(name = "dataSource")
+	private BasicDataSource basicDataSource;
 	
 	private static final int TIME_OUT = 3000; // In milliseconds
 	
@@ -104,6 +109,10 @@ public class SmokeTestServiceImpl implements SmokeTestService
 			statuses.add(getApplicationStatus("Generator", String.format("http://%s:9002/ebookGenerator", server)));
 		}
 		
+		statuses.add(getApplicationStatus("Manager", "http://qa.ebookmanager.uslf.int.westgroup.com/ebookManager"));
+		statuses.add(getApplicationStatus("Gatherer", "http://qa.ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
+		statuses.add(getApplicationStatus("Generator", "http://qa.ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
+		
 		return statuses;
 	}
 	
@@ -136,17 +145,20 @@ public class SmokeTestServiceImpl implements SmokeTestService
 	public List<SmokeTest> getProdApplicationStatuses() {
 		List<SmokeTest> statuses = new ArrayList<SmokeTest>();
 		
-		// TODO: Update Prod Application links
-//		// List of eBook Manager Servers
-//		for(String server: prodManagerServers) {
-//			statuses.add(getApplicationStatus("Manager", String.format("http://%s:9001/ebookManager", server)));
-//		}
-//		
-//		// List of eBook Generator Servers
-//		for(String server: prodGeneratorServers) {
-//			statuses.add(getApplicationStatus("Gatherer", String.format("http://%s:9001/ebookGatherer", server)));
-//			statuses.add(getApplicationStatus("Generator", String.format("http://%s:9002/ebookGenerator", server)));
-//		}
+		// List of eBook Manager Servers
+		for(String server: prodManagerServers) {
+			statuses.add(getApplicationStatus("Manager", String.format("http://%s:9001/ebookManager", server)));
+		}
+		
+		// List of eBook Generator Servers
+		for(String server: prodGeneratorServers) {
+			statuses.add(getApplicationStatus("Gatherer", String.format("http://%s:9001/ebookGatherer", server)));
+			statuses.add(getApplicationStatus("Generator", String.format("http://%s:9002/ebookGenerator", server)));
+		}
+		
+		statuses.add(getApplicationStatus("Manager", "http://ebookmanager.uslf.int.westgroup.com/ebookManager"));
+		statuses.add(getApplicationStatus("Gatherer", "http://ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
+		statuses.add(getApplicationStatus("Generator", "http://ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
 		
 		return statuses;
 	}
@@ -199,6 +211,9 @@ public class SmokeTestServiceImpl implements SmokeTestService
 	public SmokeTest testConnection() {
 		SmokeTest status = new SmokeTest();
 		status.setName("Database Connection");
+		status.setAddress(String.format("numActive=%d, numIdle=%d, maxActive=%d, maxWait=%d",
+				basicDataSource.getNumActive(), basicDataSource.getNumIdle(),
+				basicDataSource.getMaxActive(), basicDataSource.getMaxWait()));
 		status.setIsRunning(dao.testConnection());
 		
 		return status;
