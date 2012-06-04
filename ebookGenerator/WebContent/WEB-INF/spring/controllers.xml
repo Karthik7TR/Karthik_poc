@@ -17,7 +17,7 @@
 	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
 		  p:engineService-ref="engineService"
 		  p:appConfigService-ref="appConfigService"
-		  p:outageService-ref="outageService"
+		  p:outageProcessor-ref="outageProcessor"
 		  p:messageSourceAccessor-ref="messageSourceAccessor">
 		  <constructor-arg ref="ebookGeneratorJob"/>
 	</bean>
@@ -25,7 +25,7 @@
 	<!-- Handles push of new job throttle config, and planned outages from the manager -->
 	<bean id="generatorSyncRestController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.GeneratorSyncRestController"
 		  p:jobThrottleConfigSyncService-ref="engineService"
-		  p:outageService-ref="outageService"/>
+		  p:outageProcessor-ref="outageProcessor"/>
 		  	
 	<!-- Handles push of new log4j logging levels from manager -->
 	<bean id="miscConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.MiscConfigRestController"

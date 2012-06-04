@@ -32,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
@@ -45,7 +45,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
 	
-	private OutageService outageService;
+	private OutageProcessor outageProcessor;
 	
 
 	/**
@@ -72,7 +72,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 		try {
         	// Check if a planned outage has come into effect, if so, fail this step right at the start
 			// with an exit message indicating the interval of the outage.
-        	PlannedOutage plannedOutage = outageService.processPlannedOutages();
+        	PlannedOutage plannedOutage = outageProcessor.processPlannedOutages();
         	if (plannedOutage != null) {
         		LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
         		SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
@@ -263,7 +263,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 		   return file.length();
 	}
 	@Required
-	public void setOutageService(OutageService service) {
-		this.outageService = service;
+	public void setOutageProcessor(OutageProcessor service) {
+		this.outageProcessor = service;
 	}
 }

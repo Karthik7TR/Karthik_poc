@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.AppConfigLoader;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
@@ -25,6 +26,7 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	private MiscConfigSyncService miscConfigSyncService;
 	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
 	private OutageService outageService;
+	private OutageProcessor outageProcessor;
 	
 	@PostConstruct
 	@Override
@@ -47,7 +49,7 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	public void loadPlannedOutages() {
 		Collection<PlannedOutage> allOutages = outageService.getAllActiveAndScheduledPlannedOutages();
 		for (PlannedOutage outage : allOutages) {
-			outageService.addPlannedOutageToContainer(outage);
+			outageProcessor.addPlannedOutageToContainer(outage);
 		}
 		log.debug(String.format("Loaded %d planned outage(s) from PLANNED_OUTAGE table", allOutages.size()));
 	}
@@ -67,5 +69,9 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 	@Required
 	public void setOutageService(OutageService service) {
 		this.outageService = service;
+	}
+	@Required
+	public void setOutageProcessor(OutageProcessor processor) {
+		this.outageProcessor = processor;
 	}
 }

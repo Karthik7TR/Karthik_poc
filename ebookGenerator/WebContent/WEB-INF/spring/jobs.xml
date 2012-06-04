@@ -138,7 +138,7 @@
 	
 	<!-- Define each task here -->
 	<beans:bean id="parentTask" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
-				p:outageService-ref="outageService"/>
+				p:outageProcessor-ref="outageProcessor"/>
 	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="parentTask"/>
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="parentTask"
 				p:environmentName-ref="environmentName"

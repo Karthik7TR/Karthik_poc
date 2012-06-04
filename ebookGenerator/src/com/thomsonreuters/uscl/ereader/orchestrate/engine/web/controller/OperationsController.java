@@ -32,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
 
@@ -46,7 +46,7 @@ public class OperationsController {
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private AppConfigService appConfigService;
-	private OutageService outageService;
+	private OutageProcessor outageProcessor;
 	private FlowJob job;
 	
 	public OperationsController(FlowJob job) {
@@ -68,7 +68,7 @@ public class OperationsController {
 		
 		SimpleRestServiceResponse opResponse = null;
 		try {
-			PlannedOutage outage = outageService.findPlannedOutageInContainer(new Date());
+			PlannedOutage outage = outageProcessor.findPlannedOutageInContainer(new Date());
 			if (outage != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 				String message = String.format("Cannot restart job because we are in a planned service outage until %s", sdf.format(outage.getEndTime())); 
@@ -170,7 +170,7 @@ public class OperationsController {
 		this.messageSourceAccessor = accessor;
 	}
 	@Required
-	public void setOutageService(OutageService service) {
-		this.outageService = service;
+	public void setOutageProcessor(OutageProcessor service) {
+		this.outageProcessor = service;
 	}
 }

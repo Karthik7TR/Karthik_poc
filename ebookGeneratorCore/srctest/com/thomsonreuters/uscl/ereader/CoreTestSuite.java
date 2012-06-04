@@ -18,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageTest;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
@@ -34,10 +35,10 @@ import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServ
 		BookDefinitionServiceTest.class, FileExtensionFilterTest.class,
 		FileHandlingHelperTest.class, JibxMarshallingTest.class,
 		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class,
-		ProviewClientImplTest.class, EbookAuditDaoTest.class, OutageServiceTest.class,
+		ProviewClientImplTest.class, EbookAuditDaoTest.class,
+		OutageProcessorTest.class, OutageServiceTest.class, PlannedOutageTest.class,
 		EbookAuditServiceTest.class, SmokeTestTest.class, SmokeTestDaoTest.class,
-		UserPreferenceDaoTest.class, UserPreferenceServiceTest.class, UserPreferenceTest.class,
-		PlannedOutageTest.class
+		UserPreferenceDaoTest.class, UserPreferenceServiceTest.class, UserPreferenceTest.class
 
 })
 public class CoreTestSuite {

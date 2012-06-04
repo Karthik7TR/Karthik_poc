@@ -13,7 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
 
 /**
@@ -25,7 +25,7 @@ public class GeneratorSyncRestController {
 	private static final Logger log = Logger.getLogger(GeneratorSyncRestController.class);
 	/** May be null if this is not the generator web app application */
 	private JobThrottleConfigSyncService jobThrottleConfigSyncService;
-	private OutageService outageService;
+	private OutageProcessor outageProcessor;
 
 	/**
 	 * Used only in the ebookGenerator to update the job throttle configuration with the changes
@@ -59,11 +59,11 @@ public class GeneratorSyncRestController {
 		String message = null;
 		switch (outage.getOperation()) {
 			case SAVE:
-				outageService.addPlannedOutageToContainer(outage);
+				outageProcessor.addPlannedOutageToContainer(outage);
 				message = String.format("Successfully added planned outage with ID %d", outage.getId());
 				break;
 			case REMOVE:
-				boolean wasRemoved = outageService.deletePlannedOutageFromContainer(outage);
+				boolean wasRemoved = outageProcessor.deletePlannedOutageFromContainer(outage);
 				message = (wasRemoved) ? String.format("Successfully removed planned outage with ID %d", outage.getId()) :
 										 String.format("There was no outage with ID %d, nothing removed" + outage.getId());
 				break;
@@ -86,7 +86,7 @@ public class GeneratorSyncRestController {
 		this.jobThrottleConfigSyncService = syncService;
 	}
 	@Required
-	public void setOutageService(OutageService service) {
-		this.outageService = service;
+	public void setOutageProcessor(OutageProcessor service) {
+		this.outageProcessor = service;
 	}
 }

@@ -21,7 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 
@@ -37,7 +37,8 @@ public class JobRunQueuePoller {
 	private EngineService engineService;
 	private JobStartupThrottleService jobStartupThrottleService;
 	private JobRequestService jobRequestService;
-	private OutageService outageService;
+	//private OutageService outageService;
+	private OutageProcessor outageProcessor;
 	private ThreadPoolTaskExecutor springBatchTaskExecutor;
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
@@ -53,7 +54,7 @@ public class JobRunQueuePoller {
 			 * 2) The current number of concurrent job threads equals the configured pool size in the ThreadPoolTaskExecutor.
 			 * 3) The application step specific rules prevent it from running.
 			 */
-			PlannedOutage outage = outageService.processPlannedOutages();
+			PlannedOutage outage = outageProcessor.processPlannedOutages();
 			if (outage == null) {
 				// Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
 				// This is dynamic and can be changed through the administrative UI.
@@ -110,8 +111,8 @@ public class JobRunQueuePoller {
 		this.jobStartupThrottleService = jobStartupThrottleService;
 	}
 	@Required
-	public void setOutageService(OutageService service) {
-		this.outageService = service;
+	public void setOutageProcessor(OutageProcessor processor) {
+		this.outageProcessor = processor;
 	}
 	@Required
 	public void setJobRequestService(JobRequestService jobRequestService) {
