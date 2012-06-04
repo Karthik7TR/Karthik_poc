@@ -209,7 +209,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		} 
 		catch (IOException iox)
 		{
-		   throw new RuntimeException("An IOException occurred while generating the Alternate ID Map.", iox);
+		   throw new RuntimeException("Unable to find File : " + ALT_ID_DIR_PATH + "/" + fileName + " " + iox);
 		}
 		finally 
 		{         
