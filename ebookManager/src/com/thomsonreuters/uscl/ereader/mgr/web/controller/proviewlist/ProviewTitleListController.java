@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
 
 @Controller
 public class ProviewTitleListController {
@@ -139,6 +140,8 @@ public class ProviewTitleListController {
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 					allLatestProviewTitleInfo.size());
 		}
+		
+		model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}

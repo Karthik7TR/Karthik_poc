@@ -38,8 +38,8 @@
 	  	
 	  	
 	  	
+	  	<display:column title="ProView Display Name" property="title" sortable="true"/>
 	  	<display:column title="Title ID" property="titleId" sortable="true"/>
-	  	<display:column title="Title" property="title" sortable="true"/>
 	  	<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
 	  	<display:column title="Latest Version" property="version" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
