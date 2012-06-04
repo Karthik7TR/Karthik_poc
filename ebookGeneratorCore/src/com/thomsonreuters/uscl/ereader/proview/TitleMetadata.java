@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class TitleMetadata implements Serializable {
 	private final String apiVersion = "v1";
 	private final String language = "eng";
 	private final String status = "Review";
-	private final String onlineexpiration = "29991231";
+	private String onlineexpiration;
 	
 	private String titleId;
 	private String titleVersion;
@@ -60,6 +61,13 @@ public class TitleMetadata implements Serializable {
 		this.titleId = titleId;
 		this.titleVersion = titleVersion;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
+		
+		// Add 2 years to the current date for online expiration
+	    Calendar calendar = Calendar.getInstance();		
+	    calendar.setTime(new Date());
+	    calendar.add(Calendar.YEAR, 2);		
+		this.onlineexpiration = DATE_FORMAT.format(calendar.getTime());		
+		
 		addDefaults();
 	}
 
@@ -69,6 +77,13 @@ public class TitleMetadata implements Serializable {
 		this.titleId = fullyQualifiedTitleId;
 		this.titleVersion = versionNumber;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
+		
+		// Add 2 years to the current date for online expiration
+	    Calendar calendar = Calendar.getInstance();		
+	    calendar.setTime(new Date());
+	    calendar.add(Calendar.YEAR, 2);		
+		this.onlineexpiration = DATE_FORMAT.format(calendar.getTime());
+		
 		this.proviewFeatures = proviewFeatures;
 		this.keywords = keyWords;
 		this.authorNames = new ArrayList<String>();
