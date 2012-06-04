@@ -467,10 +467,9 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
 	}
 	
-	
 	@Test
 	@Ignore
-	public void testAlternativeId() throws Exception {
+	public void alternativeId() throws Exception {
 		titleMetadata = getTitleMetadataWithPilotBook();
 		titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService);
 		titleManifestFilter.setParent(xmlReader);
