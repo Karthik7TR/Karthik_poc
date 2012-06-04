@@ -28,8 +28,9 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/lock/list/body.jsp"/>
 	</definition>
 	
-	<definition name="_proviewTitles" extends="oneColumnDefinition">
+	<definition name="_proviewTitles" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewlist/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/proviewlist/list/left.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/list/body.jsp"/>
 	</definition>
 	

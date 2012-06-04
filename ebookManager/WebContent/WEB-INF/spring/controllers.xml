@@ -244,6 +244,8 @@
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
 		p:proviewClient-ref="proviewClient"/>	  
+		
+	<bean id="proviewListFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterController"/>
 			  
 	<bean id="userPreferencesController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesController" 
 		p:userPreferenceService-ref="userPreferenceService">

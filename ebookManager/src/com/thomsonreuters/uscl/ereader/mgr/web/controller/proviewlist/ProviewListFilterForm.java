@@ -11,12 +11,42 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ProviewListFilterForm {
 
-	private String title;
+	public static final String FORM_NAME = "proviewListFilterForm";
+
+	public enum FilterCommand {
+		SEARCH, RESET
+	};
+
+	private String proviewDisplayName;
 	private String titleId;
 	private String minVersions;
 	private String maxVersions;
 	private Integer minVersionsInt;
 	private Integer maxVersionsInt;
+	private FilterCommand filterCommand;
+	
+	
+	public void initNull(){
+		init(null,null,null,null);
+	}
+	
+	private void  init(String proviewDisplayName, String titleId,
+			String minVersions, String maxVersions) {
+		
+		this.proviewDisplayName = proviewDisplayName;
+		this.titleId = titleId;
+		this.minVersions = minVersions;
+		this.maxVersions = maxVersions;
+		this.filterCommand = filterCommand;
+	}
+
+	public FilterCommand getFilterCommand() {
+		return filterCommand;
+	}
+
+	public void setFilterCommand(FilterCommand filterCommand) {
+		this.filterCommand = filterCommand;
+	}
 
 	public String getMinVersions() {
 		return minVersions;
@@ -47,14 +77,14 @@ public class ProviewListFilterForm {
 
 	}
 
-	public static final String FORM_NAME = "proviewListFilterForm";
-
-	public String getTitle() {
-		return title;
+	public String getProviewDisplayName() {
+		return proviewDisplayName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title == null ? null : title.trim();
+	public void setProviewDisplayName(String proviewDisplayName) {
+		this.proviewDisplayName = proviewDisplayName;
+		this.proviewDisplayName = proviewDisplayName == null ? null
+				: proviewDisplayName.trim();
 	}
 
 	public String getTitleId() {
