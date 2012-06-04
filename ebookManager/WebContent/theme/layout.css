@@ -25,10 +25,10 @@
 .infoMessageWarning,
 .infoMessageSuccess,
 .infoMessageError {
-	height:2em;
 	line-height:2em;
 	text-align: center;
 	font-weight: bold;
+	list-style: none;
 }
 
 .infoMessageWarning {
