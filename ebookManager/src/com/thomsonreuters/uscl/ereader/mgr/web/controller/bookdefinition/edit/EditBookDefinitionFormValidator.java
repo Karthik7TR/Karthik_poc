@@ -21,6 +21,7 @@ import org.springframework.validation.Validator;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -286,7 +287,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			if(environmentName.equalsIgnoreCase("prod")) {
 				// Check cover image exists
 				if(StringUtils.isNotBlank(titleId)) {
-					fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_KEY_COVER_IMAGE, "validateForm");
+					fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_COVER_IMAGE, "validateForm", "error.not.exist");
+					if(form.getPilotBook() == PilotBookStatus.TRUE) {
+						fileExist(errors, form.createPilotBookCsvName(), WebConstants.LOCATION_PILOT_BOOK_CSV, "pilotBook", "error.pilot.boo.file.not.exist");
+					}
 				}
 				// Check all pdfs on Front Matter
 				i=0;
@@ -297,7 +301,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 						for (FrontMatterPdf pdf : section.getPdfs()) {
 							String filename = pdf.getPdfFilename();
 							if(StringUtils.isNotBlank(filename)) {
-								fileExist(errors, filename, WebConstants.LOCATION_PDF, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename");
+								fileExist(errors, filename, WebConstants.LOCATION_PDF, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", "error.not.exist");
 							}
 							k++;
 						}
@@ -311,6 +315,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	// Adding error message if any validation fails
     	if(errors.hasErrors()) {
 			errors.rejectValue("validateForm", "mesg.errors.form");
+			
+			// Change the book status to false so user can still save the data.
+			if(form.getIsComplete()) {
+				form.setIsComplete(false);
+				errors.rejectValue("validateForm", "mesg.errors.form.status");
+				errors.rejectValue("isComplete", "mesg.errors.form.status");
+			}
 		}
     	
     	// Adding validation message if Validation button was pressed.
@@ -319,10 +330,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		}
 	}
 	
-	private void fileExist(Errors errors, String filename, String location, String fieldName) {
+	private void fileExist(Errors errors, String filename, String location, String fieldName, String errorMessage) {
 		File file = new File(location, filename);
 		if(!file.isFile()) {
-			errors.rejectValue(fieldName, "error.not.exist", new Object[] {filename, location}, "File does not exist on server.");
+			errors.rejectValue(fieldName, errorMessage, new Object[] {filename, location}, "File does not exist on server.");
 		}
 	}
 	

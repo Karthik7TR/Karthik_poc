@@ -250,6 +250,7 @@ public class GenerateEbookController {
 
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
 					book.getEbookDefinitionCompleteFlag());
+			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,book.getPilotBookStatus());
 
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());

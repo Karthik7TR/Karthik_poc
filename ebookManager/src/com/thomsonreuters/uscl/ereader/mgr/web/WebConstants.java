@@ -66,6 +66,7 @@ public class WebConstants {
 	public static final String KEY_MATERIAL_ID = "materialId";
 	public static final String KEY_PUBLISHING_STATS = "publishingStats";
 	public static final String KEY_IS_COMPLETE = "isComplete";
+	public static final String KEY_PILOT_BOOK_STATUS = "pilotBookStatus";
 	public static final String KEY_IS_NEW_ISBN = "isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID = "isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK = "bookDefinitionLock";
@@ -99,10 +100,11 @@ public class WebConstants {
 	public static final String CONFIRM_CODE_DELETE_BOOK = "DELETE BOOK";
 
 	// NAS locations for files
-	public static final String LOCATION_KEY_COVER_IMAGE = "/apps/eBookBuilder/generator/images/cover";
+	public static final String LOCATION_COVER_IMAGE = "/apps/eBookBuilder/generator/images/cover";
 	public static final String LOCATION_FRONT_MATTER_IMAGE = "/apps/eBookBuilder/coreStatic/images";
 	public static final String LOCATION_FRONT_MATTER_CSS = "/apps/eBookBuilder/coreStatic/css";
 	public static final String LOCATION_PDF = "/apps/eBookBuilder/generator/images/pdf";
+	public static final String LOCATION_PILOT_BOOK_CSV = "/apps/eBookBuilder/generator/altId";
 
 	// Page paths
 	public static final String MVC_APP_EXCEPTION = "appException.mvc";

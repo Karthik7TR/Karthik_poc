@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -30,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
 public class ProviewTitleListController {
 
 	private ProviewClient proviewClient;
+	private BookDefinitionService bookDefinitionService;
 
 	/**
 	 * 
@@ -175,6 +178,9 @@ public class ProviewTitleListController {
 			List<ProviewTitleInfo> allTitleVersions = proviewTitleContainer
 					.getProviewTitleInfos();
 			if (allTitleVersions != null) {
+				BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
+				model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDef.getPilotBookStatus());
+				
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 						allTitleVersions);
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
@@ -352,4 +358,9 @@ public class ProviewTitleListController {
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
 	}
+	@Required
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
+	}
+	
 }

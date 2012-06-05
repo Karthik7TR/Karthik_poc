@@ -26,6 +26,7 @@ import org.springframework.util.AutoPopulatingList;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -81,7 +82,7 @@ public class EditBookDefinitionForm {
 	private boolean searchIndex;
 	private boolean isProviewTableView;
 	private boolean enableCopyFeatureFlag;
-	private boolean isPilotBook;
+	private PilotBookStatus pilotBookStatus;
 
 	// Fully qualified title ID parts
 	private String publisher;
@@ -117,7 +118,7 @@ public class EditBookDefinitionForm {
 		this.enableCopyFeatureFlag = false;
 		this.isExcludeDocumentsUsed = false;
 		this.isPublicationCutoffDateUsed = false;
-		this.isPilotBook = false;
+		this.pilotBookStatus = PilotBookStatus.FALSE;
 		this.copyright = "©";
 		this.frontMatterTocLabel = "Publishing Information";
 	}
@@ -137,7 +138,7 @@ public class EditBookDefinitionForm {
 		bookDef.setEbookDefinitionCompleteFlag(false);
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
 		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
-		bookDef.setIsPilotBook(false);
+		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -180,7 +181,7 @@ public class EditBookDefinitionForm {
 			this.isProviewTableView = book.isProviewTableViewFlag();
 			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
 			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
-			this.isPilotBook = book.getIsPilotBook();
+			this.pilotBookStatus = book.getPilotBookStatus();
 			this.frontMatterTocLabel = book.getFrontMatterTocLabel();
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			this.excludeDocuments = book.getExcludeDocuments();
@@ -320,7 +321,7 @@ public class EditBookDefinitionForm {
 		book.setIsProviewTableViewFlag(isProviewTableView);
 		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
-		book.setIsPilotBook(isPilotBook);
+		book.setPilotBookStatus(pilotBookStatus);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
 
 		Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
@@ -641,12 +642,12 @@ public class EditBookDefinitionForm {
 		this.enableCopyFeatureFlag = enableCopyFeatureFlag;
 	}
 
-	public boolean isPilotBook() {
-		return isPilotBook;
+	public PilotBookStatus getPilotBook() {
+		return pilotBookStatus;
 	}
 
-	public void setPilotBook(boolean isPilotBook) {
-		this.isPilotBook = isPilotBook;
+	public void setPilotBook(PilotBookStatus isPilotBook) {
+		this.pilotBookStatus = isPilotBook;
 	}
 
 	public String getAdditionalTrademarkInfo() {
@@ -784,6 +785,13 @@ public class EditBookDefinitionForm {
 		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
 		buffer.append("_cover");
 		buffer.append(".png");
+		return buffer.toString();
+	}
+	
+	public String createPilotBookCsvName() {
+		String[] titleIdArray = titleId.split("/");
+		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
+		buffer.append(".csv");
 		return buffer.toString();
 	}
 	

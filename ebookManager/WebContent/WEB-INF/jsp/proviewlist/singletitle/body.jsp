@@ -7,6 +7,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 
 <html>
 <head>
@@ -42,9 +43,17 @@ function openFullcreenWindow(url)
 	  	<display:column title="Publisher" property="publisher" sortable="true"/>
 	  	<display:column title="Last Update" property="lastupdate" sortable="true"/>
 	  	<display:column title="Status" property="status" sortable="true"/>
-	  	<c:if test="${ isPlusOrSuperUser == 'true' }">
+	  	<c:set var="pilotInProgress" value="<%= PilotBookStatus.IN_PROGRESS.toString() %>" />
+	  	<c:if test="${isPlusOrSuperUser == 'true'}">
 		  	<display:column title="Promote">
-		  		<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
+		  		<c:choose>
+		  			<c:when test="${pilotBookStatus != pilotInProgress}">
+		  				<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
+		  			</c:when>
+		  			<c:otherwise>
+		  				Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting. 
+		  			</c:otherwise>
+		  		</c:choose>
 		  	</display:column>
 		</c:if>
 		<c:if test="${ isSuperUser == 'true' }">

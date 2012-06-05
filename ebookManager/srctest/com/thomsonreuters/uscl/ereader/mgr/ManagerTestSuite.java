@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.BookPromotionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.DeleteBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionFormValidatorTest;
@@ -44,7 +43,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPr
 @RunWith(Suite.class)
 @SuiteClasses( {
 			BookLibraryControllerTest.class,
-			BookPromotionControllerTest.class,
 			EditBookDefinitionControllerTest.class,
 			EditBookDefinitionFormValidatorTest.class,
 			FmPreviewControllerTest.class,

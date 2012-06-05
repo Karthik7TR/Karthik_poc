@@ -1,3 +1,4 @@
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -6,6 +7,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
 <c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
@@ -930,9 +932,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<form:label path="pilotBook" class="labelCol">Is Pilot Book</form:label>
-				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="true" />True
-				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="false" />False
+				<form:label path="pilotBook" class="labelCol">Pilot Book: Notes Migration</form:label>
+				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="<%= PilotBookStatus.TRUE.toString() %>" />True
+				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="<%= PilotBookStatus.FALSE.toString() %>" />False
+				<form:radiobutton disabled="${disableOptions}" path="pilotBook" value="<%= PilotBookStatus.IN_PROGRESS.toString() %>" />In Progress
 				<div class="errorDiv">
 					<form:errors path="pilotBook" cssClass="errorMessage" />
 				</div>

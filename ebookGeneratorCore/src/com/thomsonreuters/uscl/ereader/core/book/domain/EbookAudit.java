@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+
 
 /**
  */
@@ -296,7 +298,7 @@ public class EbookAudit implements Serializable {
 	 */
 	@Column(name = "IS_PILOT_BOOK", length = 1)
 	@Basic(fetch = FetchType.EAGER)
-	String isPilotBook;
+	String pilotBookStatus;
 	
 	/**
 	 */
@@ -726,7 +728,7 @@ public class EbookAudit implements Serializable {
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 		setFrontMatterConcat(that.getFrontMatterConcat());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
-		setIsPilotBook(that.getIsPilotBook());
+		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
 	}
 
@@ -775,7 +777,7 @@ public class EbookAudit implements Serializable {
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
 		setFrontMatterConcat(concatString(that.getFrontMatterPages()));
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
-		setIsPilotBook(that.getIsPilotBook());
+		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
 	}
 	
@@ -844,7 +846,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("authorDisplayVerticalFlag=[").append(authorDisplayVerticalFlag).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
-		buffer.append("isPilotBook=[").append(isPilotBook).append("] ");
+		buffer.append("pilotBookStatus=[").append(pilotBookStatus).append("] ");
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
 		
 		return buffer.toString();
@@ -954,12 +956,32 @@ public class EbookAudit implements Serializable {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
 
-	public boolean getIsPilotBook() {
-		return ( (this.isPilotBook.equalsIgnoreCase("Y") ? true : false));
+	public PilotBookStatus getPilotBookStatus() {
+		if(StringUtils.isBlank(this.pilotBookStatus)) {
+			return PilotBookStatus.FALSE;
+		} else {
+			if(this.pilotBookStatus.equalsIgnoreCase("Y")) {
+				return PilotBookStatus.TRUE;
+			} else if(this.pilotBookStatus.equalsIgnoreCase("I")) {
+				return PilotBookStatus.IN_PROGRESS;
+			} else {
+				return PilotBookStatus.FALSE;
+			}
+		}
 	}
 
-	public void setIsPilotBook(boolean isPilotBook) {
-		this.isPilotBook =( (isPilotBook) ? "Y" : "N");
+	public void setPilotBookStatus(PilotBookStatus status) {
+		switch(status) {
+			case TRUE:
+				this.pilotBookStatus = "Y";
+				break;
+			case IN_PROGRESS:
+				this.pilotBookStatus = "I";
+				break;
+			default:
+				this.pilotBookStatus = "N";
+				break;
+		}
 	}
 
 	public String getExcludeDocumentsConcat() {

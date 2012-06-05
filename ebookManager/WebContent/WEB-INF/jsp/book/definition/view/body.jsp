@@ -162,8 +162,8 @@ function submitForm(cmd)
 						<span class="field">${ book.enableCopyFeatureFlag }</span>
 					</div>
 					<div class="row">
-						<label class="labelCol">Is Pilot Book</label>
-						<span class="field">${ book.isPilotBook }</span>
+						<label class="labelCol">Pilot Book: Notes Migration</label>
+						<span class="field">${ book.pilotBookStatus }</span>
 					</div>
 				</div>
 			</div>

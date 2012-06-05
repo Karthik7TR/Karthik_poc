@@ -29,7 +29,7 @@ public class FileStreamController {
 	@RequestMapping(value=WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
 	public void getCoverImage(@RequestParam String imageName, HttpServletRequest request, HttpServletResponse response) {
 
-		retrieveFile(request, response, WebConstants.LOCATION_KEY_COVER_IMAGE, imageName, MediaType.IMAGE_PNG);
+		retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, MediaType.IMAGE_PNG);
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class FileStreamController {
 		File file = new File(nasLocation, filename);
 		
 		try{
-			if(!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.LOCATION_KEY_COVER_IMAGE)) {
+			if(!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.LOCATION_COVER_IMAGE)) {
 				ServletContext ctx = request.getSession().getServletContext();
 				fin = ctx.getResourceAsStream("/theme/images/missingCover.png");
 			} else {

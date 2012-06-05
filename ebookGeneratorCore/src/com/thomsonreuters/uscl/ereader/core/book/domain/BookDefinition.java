@@ -56,6 +56,8 @@ import com.thomsonreuters.uscl.ereader.proview.Keyword;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "BookDefinition")
 public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static enum PilotBookStatus {TRUE, FALSE, IN_PROGRESS};
 
 	/**
 	 */
@@ -619,16 +621,45 @@ public class BookDefinition implements Serializable {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
 
+	
 	public boolean getIsPilotBook() {
 		if(StringUtils.isBlank(this.isPilotBook)) {
 			return false;
 		} else {
-			return( (this.isPilotBook.equalsIgnoreCase("Y") ? true : false));
+			if(this.isPilotBook.equalsIgnoreCase("Y")) {
+				return true;
+			} else {
+				return false;
+			} 
+		}
+	}
+	
+	public PilotBookStatus getPilotBookStatus() {
+		if(StringUtils.isBlank(this.isPilotBook)) {
+			return PilotBookStatus.FALSE;
+		} else {
+			if(this.isPilotBook.equalsIgnoreCase("Y")) {
+				return PilotBookStatus.TRUE;
+			} else if(this.isPilotBook.equalsIgnoreCase("I")) {
+				return PilotBookStatus.IN_PROGRESS;
+			} else {
+				return PilotBookStatus.FALSE;
+			}
 		}
 	}
 
-	public void setIsPilotBook(boolean isPilotBook) {
-		this.isPilotBook =( (isPilotBook) ? "Y" : "N");
+	public void setPilotBookStatus(PilotBookStatus status) {
+		switch(status) {
+			case TRUE:
+				this.isPilotBook = "Y";
+				break;
+			case IN_PROGRESS:
+				this.isPilotBook = "I";
+				break;
+			default:
+				this.isPilotBook = "N";
+				break;
+		}
 	}
 
 	/**
@@ -787,7 +818,7 @@ public class BookDefinition implements Serializable {
 		this.setIsDeletedFlag(false);
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
-		this.setIsPilotBook(false);
+		this.setPilotBookStatus(PilotBookStatus.FALSE);
 	}
 
 	/**
@@ -820,7 +851,7 @@ public class BookDefinition implements Serializable {
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setIsDeletedFlag(that.isDeletedFlag());
 		setEnableCopyFeatureFlag(that.getEnableCopyFeatureFlag());
-		setIsPilotBook(that.getIsPilotBook());
+		setPilotBookStatus(that.getPilotBookStatus());
 		setLastUpdated(that.getLastUpdated());
 		setPublisherCodes(that.getPublisherCodes());
 		setDocumentTypeCodes(that.getDocumentTypeCodes());
@@ -871,7 +902,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
-		buffer.append("isPilotBook=[").append(isPilotBook).append("] ");
+		buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
 
 		return buffer.toString();
 	}

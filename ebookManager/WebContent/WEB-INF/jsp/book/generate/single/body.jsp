@@ -131,9 +131,10 @@
   function checkVersion(){
 	  
 	  var confirmed = true;
-	  var newVersion = document.getElementById('newVersionNumber').innerHTML
+	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
 	  
-	  if (newVersion==""){
+	  if (newVersion == "TRUE"){
+		  
 		  alert("Cannot generate book: Version must be selected.");
 		  confirmed = false;
 	  }
@@ -144,17 +145,30 @@
 	  return confirmed;
   }
   
+	function checkPilotBookStatus(){
+  
+		var confirmed = true;
+		var pilotBookStatus = document.getElementById('pilotBookStatus').innerHTML;
+		
+		if (pilotBookStatus=="IN_PROGRESS"){
+			confirmed = confirm("You are about to generate a pilot book without notes migration. Customers will not see their annotations and/or notes.  Once the migration CSV file exists, please regenerate the book after updating the Notes Migration to 'True'.");
+		}
+		
+		return confirmed;
+	}
+  
   
   function confirmValues(){
 	  
 	  var confirmed = checkVersion();
 	 
 	  if (confirmed){
-
 		    confirmed = checkPublishingCutoffDate();
-	
 			if (confirmed){
 				confirmed = checkMaterialIdandIsbn();
+				if (confirmed){
+					confirmed = checkPilotBookStatus();
+				}
 			}
 	  }
 	  
@@ -240,6 +254,7 @@
 		  	<p id="materialId">${materialId}</p>
 		  	<p id="isMajorVersion">${isMajorVersion}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
+		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		 </div>	
 		
 		<%-- Informational Messages area --%>

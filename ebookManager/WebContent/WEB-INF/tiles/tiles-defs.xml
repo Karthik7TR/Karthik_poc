@@ -306,16 +306,6 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/generate/bulk/body.jsp"/>
 	</definition>
 	
-	<definition name="_bookDefinitionPromotion" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/book/promotion/single/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/book/promotion/single/body.jsp"/>
-	</definition>
-	
-	<definition name="_bookDefinitionBulkPromotion" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/book/promotion/bulk/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/book/promotion/bulk/body.jsp"/>
-	</definition>
-	
 	<definition name="_bookDefinitionImportView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/import/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/definition/import/left.jsp"/>

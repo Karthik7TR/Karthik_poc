@@ -84,7 +84,6 @@
 	</sec:authorize>
 	<div class="buttons">
 		<input type="submit" value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
-		<input type="submit" value="Promote" ${superUser} onclick="submitForm('<%= BookLibrarySelectionForm.Command.PROMOTE %>')" />
 	</div>
 
 </form:form>
