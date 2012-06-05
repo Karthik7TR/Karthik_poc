@@ -317,7 +317,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			errors.rejectValue("validateForm", "mesg.errors.form");
 			
 			// Change the book status to false so user can still save the data.
-			if(form.getIsComplete()) {
+			if(form.getIsComplete() && !validateForm) {
 				form.setIsComplete(false);
 				errors.rejectValue("validateForm", "mesg.errors.form.status");
 				errors.rejectValue("isComplete", "mesg.errors.form.status");
