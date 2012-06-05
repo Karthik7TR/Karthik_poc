@@ -58,6 +58,11 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private PlaceholderDocumentService placeholderDocumentService;
 	private FileUtilsFacade fileUtilsFacade;
 	private UuidGenerator uuidGenerator;
+	
+	/**
+	 * The file path to the ebookGenerator Alternate ID Directory.
+	 */
+	private static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
 
 	@Override
 	public ArrayList<Asset> createAssets(final File imagesDirectory) {
@@ -104,7 +109,13 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			
 			Map<String, String> familyGuidMap = docMetadataService.findDistinctProViewFamGuidsByJobId(jobInstanceId);
 			
-			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService);
+			String titleId = titleMetadata.getTitleId();
+			String altIdFileName = titleId.replace("/", "_") + ".csv";
+			
+			File altIdFile = new File(ALT_ID_DIR_PATH, altIdFileName);
+			
+			
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService, altIdFile);
 			titleManifestFilter.setParent(xmlReader);
 									
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);

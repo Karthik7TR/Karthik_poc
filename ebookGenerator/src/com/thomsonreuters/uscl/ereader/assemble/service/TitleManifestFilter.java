@@ -72,11 +72,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
 	Map<String,String> altIdMap = new HashMap<String,String>();
-	/**
-	 * The file path to the ebookGenerator Alternate ID Directory.
-	 */
-	private static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
-	
+		
 	private TableOfContents tableOfContents = new TableOfContents();
 	private TocNode currentNode;
 	private TocNode previousNode;
@@ -145,7 +141,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ALT_ID_ATTRIBUTE = "altid";
 	
 	
-	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService) {
+	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService, final File altIdFile) {
 		if (titleMetadata == null) {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
 		}
@@ -177,9 +173,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 				
 		if (titleMetadata.getIsPilotBook())
 		{
-			String titleId = titleMetadata.getTitleId();
-			String altIdFileName = titleId.replace("/", "_") + ".csv";
-			this.altIdMap = getAltIdMap(altIdFileName);			
+			this.altIdMap = getAltIdMap(altIdFile);			
 		}
 	}
 	
@@ -188,10 +182,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 * @param fileName contains altId for corresponding Guid
 	 * @return a map  (Guid as a Key and altId as a Value) 
 	 */
-	private Map<String,String> getAltIdMap(final String fileName) 
+	private Map<String,String> getAltIdMap(final File altIdFile) 
 	{
 		Map<String,String> altIdMap = new HashMap<String,String>();
-		File altIdFile = new File(ALT_ID_DIR_PATH, fileName);
 		String line = null; 
 		BufferedReader stream = null;     
 		try 
@@ -209,7 +202,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		} 
 		catch (IOException iox)
 		{
-		   throw new RuntimeException("Unable to find File : " + ALT_ID_DIR_PATH + "/" + fileName + " " + iox);
+		   throw new RuntimeException("Unable to find File : " + altIdFile.getAbsolutePath() + " " + iox);
 		}
 		finally 
 		{         
