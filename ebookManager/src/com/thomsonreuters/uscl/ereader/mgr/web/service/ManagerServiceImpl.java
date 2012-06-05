@@ -106,6 +106,15 @@ public class ManagerServiceImpl implements ManagerService {
 		return  cal.getTime();
 	}
 	
+	@Override
+	@Transactional
+	public void cleanupOldTransientMetadata(int numberLastMajorVersionKept, int daysBeforeDocMetadataDelete) {
+
+		log.debug(String.format("Deleting Metadata and keeping only %d good major version prior to %d days ago", numberLastMajorVersionKept, daysBeforeDocMetadataDelete));
+			
+		managerDao.deleteTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
+		
+	}
 	/**
 	 * Recursively delete job data file directories that hold data prior to the specified delete before date.
 	 * @param deleteJobsBefore work files created before this date will be deleted.
@@ -147,4 +156,6 @@ public class ManagerServiceImpl implements ManagerService {
 	public void setManagerDao(ManagerDao dao) {
 		this.managerDao = dao;
 	}
+
+
 }

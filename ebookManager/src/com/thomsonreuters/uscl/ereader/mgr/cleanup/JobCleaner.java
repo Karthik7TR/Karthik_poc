@@ -14,11 +14,14 @@ public class JobCleaner {
 	private ManagerService managerService;
 	private int cleanJobsGreaterThanThisManyDaysOld;
 	private int cleanPlannedOutagesGreaterThanThisManyDaysOld;
-
+	private int numberLastMajorVersionKept;
+	private int daysBeforeDocMetadataDelete;
+	
 	@Scheduled(fixedRate = 24*60*60*1000)
 	public void cleanupOldSpringBatchJobs() {
 		managerService.cleanupOldSpringBatchJobs(cleanJobsGreaterThanThisManyDaysOld);
 		managerService.cleanupOldPlannedOutages(cleanPlannedOutagesGreaterThanThisManyDaysOld);
+		managerService.cleanupOldTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
 	}
 	
 	@Required
@@ -32,5 +35,13 @@ public class JobCleaner {
 	@Required
 	public void setCleanPlannedOutagesGreaterThanThisManyDaysOld(int daysBack) {
 		this.cleanPlannedOutagesGreaterThanThisManyDaysOld = daysBack;
+	}
+	@Required
+	public void setNumberLastMajorVersionKept(int numberLastMajorVersionKept) {
+		this.numberLastMajorVersionKept = numberLastMajorVersionKept;
+	}
+
+	public void setDaysBeforeDocMetadataDelete(int daysBeforeDocMetadataDelete) {
+		this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
 	}
 }

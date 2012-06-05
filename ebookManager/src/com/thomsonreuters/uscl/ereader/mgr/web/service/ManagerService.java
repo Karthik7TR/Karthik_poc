@@ -51,4 +51,12 @@ public interface ManagerService {
 	 */
 	public void cleanupOldPlannedOutages(int daysBack);
 
+	/**
+	 * Delete old records in DOCUMENT_METADATA and IMAGE_METADATA tables 
+	 * older than numberLastMajorVersionKept days, but keeping numberLastMajorVersionKept versions.
+	 * @param numberLastMajorVersionKept keep numberLastMajorVersionKept last successful major versions. 
+	 * @param daysBeforeDocMetadataDelete the number of days to subtract from current date before deleting data
+	 */
+	public void cleanupOldTransientMetadata(int numberLastMajorVersionKept, int daysBeforeDocMetadataDelete);
+
 }

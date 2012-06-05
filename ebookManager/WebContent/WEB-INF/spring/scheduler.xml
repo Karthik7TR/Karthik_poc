@@ -24,5 +24,7 @@
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.cleanup.JobCleaner"
 		  p:managerService-ref="managerService"
 		  p:cleanJobsGreaterThanThisManyDaysOld="${cleanup.jobs.older.than.this.many.days.old}"  	 
-		  p:cleanPlannedOutagesGreaterThanThisManyDaysOld="180"/>
+		  p:cleanPlannedOutagesGreaterThanThisManyDaysOld="180"
+		  p:numberLastMajorVersionKept="2"
+		  p:daysBeforeDocMetadataDelete="30"/>
 </beans>

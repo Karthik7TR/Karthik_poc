@@ -27,5 +27,12 @@ public interface ManagerDao {
 	 * @param deleteBefore delete records before this date.
 	 */
 	public void deletePlannedOutagesBefore(Date deleteBefore);
+	
+	/**
+	 * Delete old document_metadata and image_metadata records 
+	 * @param numberLastMajorVersionKept delete records of all but last numberLastMajorVersionKept major versions.
+	 * @param daysBeforeDocMetadataDelete delete records prior to current date minus daysBeforeDocMetadataDelete.
+	 */
+	public void deleteTransientMetadata(int numberLastMajorVersionKept, int daysBeforeDocMetadataDelete);
 
 }

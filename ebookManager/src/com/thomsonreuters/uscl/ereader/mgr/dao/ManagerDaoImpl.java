@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -18,7 +19,10 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 public class ManagerDaoImpl implements ManagerDao {
 	private static final Logger log = Logger.getLogger(ManagerDaoImpl.class);
@@ -103,7 +107,128 @@ public class ManagerDaoImpl implements ManagerDao {
 		query.setDate("deleteBefore", deleteBefore);
 		query.executeUpdate();
 	}
-	
+
+	/**
+	 * Delete document_metadata and image_metadata records older than the specified date.
+	 * @param numberLastMajorVersionKept the number of versions to keep
+	 * @param daysBeforeDocMetadataDelete the number of days to subtract from current date before deleting data
+	 */	
+	@Override
+	public void deleteTransientMetadata(int numberLastMajorVersionKept, int daysBeforeDocMetadataDelete) {
+
+
+		/* If we have both 1.1 and 1.0 as successful runs then just keep 1.1. 
+		 * However, if we have 1.1 and 2.0 then we need to keep both if numberLastMajorVersionKept is set to 2.
+		 * If numberLastMajorVersionKept is set to 1 then for 1.1 and 2.0 keep only 2.0 
+		 * In any case, also keep the last version run. 
+		 * Use the daysBeforeDocMetadataDelete date restriction to avoid books in progress. 
+		 * Note that the image deletes are driven off the document_metadata table so there
+		 * is the potential for orphan rows in image if the document_metadata delete is successful
+		 * but the image delete is not. */
+
+		
+		// JobIds of versions to be cleaned up
+		List<Long> jobInstanceIds = new ArrayList<Long>();
+
+		
+		 // Get VERSIONS and JOB INSTANCES to be cleaned up. (Sort order is CRITICAL)  
+		StringBuffer hql = new StringBuffer("select distinct dm.job_instance_id, ps.ebook_definition_id, book_version_submitted, publish_status ");
+		hql.append(" from publishing_stats ps, document_metadata dm " );
+		hql.append(" where DM.JOB_INSTANCE_ID = ps.job_instance_id " );
+		hql.append(" and ps.last_updated < sysdate - " );
+		hql.append(daysBeforeDocMetadataDelete);
+		hql.append(" order by ebook_definition_id, book_version_submitted desc, job_instance_id desc "  );
+   	
+		try
+		{
+			Session session = sessionFactory.getCurrentSession();
+
+			Query query = session.createSQLQuery(hql.toString());
+			@SuppressWarnings("unchecked")
+			List<Object[]> objectList = query.list();
+
+			long prevBookId = (long) 0;
+			long prevMajorVersion = (long) 0;
+			int maxPublishedCntr = 0;			
+			int maxVersionKept = numberLastMajorVersionKept;
+
+			for(Object[] arr : objectList)
+			{
+				long jobId;
+				long bookId;
+				long majorVersion; 
+				try 
+				{
+					jobId = Long.parseLong(arr[0].toString());
+					bookId = Long.parseLong(arr[1].toString());
+					String fullVersion = arr[2].toString();
+					majorVersion = (long) 0;
+					if (fullVersion.contains(".")) // after the version # change
+					{
+						String[] version = fullVersion.split("\\.", -1);
+						majorVersion = Long.parseLong(version[0]);
+					} 
+					else 
+					{
+						majorVersion = Long.parseLong(fullVersion);
+					}
+				} 
+				catch (NumberFormatException e) 
+				{
+					log.error("Encountered a version which is not a valid number in document metadata for book " + arr[1].toString() + " job " + arr[0].toString() + " version " + arr[2].toString());
+					continue;
+				}
+				String status = "NO_STATUS";
+
+				if (arr[3] != null)
+				{
+					status = arr[3].toString();
+				}
+				if (prevBookId == bookId && 
+						prevMajorVersion == majorVersion
+						&& (!status.equals("Publish Step Completed")
+								||	 maxPublishedCntr >= maxVersionKept)
+				)
+				{
+					// Add to list to be deleted
+					jobInstanceIds.add(jobId); 
+					log.debug("Delete book " + bookId + " jobId " + jobId + " major version " + majorVersion + " status " + status);
+				}
+				else
+				{
+//					log.debug("Keep book " + bookId + " jobId " + jobId + " major version " + majorVersion + " status " + status);
+					if (prevBookId != bookId)
+					{
+						maxPublishedCntr = 0;
+					}
+					// only increment a successful publish 
+					// so if we have a version 1.0 success, 1.1 success but a version 1.2 fail and then a version 2.0
+					// we would want to keep all version 1.1, 1.2 and 2.0.
+					if( status.equals("Publish Step Completed"))
+					{
+						maxPublishedCntr++;
+					}
+					prevBookId = bookId;
+					prevMajorVersion = majorVersion;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			log.error("Failed to get list of docmetadata to delete", e);
+		}	
+		
+		// Delete the old document_metadata rows by job instance
+		if(jobInstanceIds.size() > 0)
+		{
+			deleteSpringBatchRecords("delete from IMAGE_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
+			deleteSpringBatchRecords("delete from DOCUMENT_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
+		}
+		log.debug("Deleted records for " +  jobInstanceIds.size() + " job ids from document_metadata and image_metadata");
+
+	}
+
+
 	/**
 	 * Archive data from the BATCH_STEP_EXECUTION table into the JOB_HISTORY table.
 	 * This is data that is to be preserved following the deletion of the BATCH_* table data.
@@ -137,6 +262,7 @@ public class ManagerDaoImpl implements ManagerDao {
 			String sql = null;
 			try {
 				sql = String.format(sqlTemplate, id);
+//				log.debug("sql: " + sql);
 				jdbcTemplate.update(sql);
 			} catch (Exception e) {
 				log.error(String.format("Error deleting old Spring Batch job record using SQL: %s - %s", sql, e.getMessage()));
@@ -157,4 +283,3 @@ public class ManagerDaoImpl implements ManagerDao {
 		this.jobExplorer = explorer;
 	}
 }
-
