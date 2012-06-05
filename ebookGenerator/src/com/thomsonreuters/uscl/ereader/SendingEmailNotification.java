@@ -57,7 +57,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
         
 		String subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId();
-        String body =  String.format("%s\n\nProview Display Name: %s\nTitle ID: %s\nJob Instance ID: %d\nJob Execution ID: %d\nEnvironment: %s\n",
+        String body =  String.format("%s\n\nProview Display Name: %s \nTitle ID: %s \nJob Instance ID: %d \nJob Execution ID: %d \nEnvironment: %s\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
         EmailNotification.send(recipients, subject, body);
