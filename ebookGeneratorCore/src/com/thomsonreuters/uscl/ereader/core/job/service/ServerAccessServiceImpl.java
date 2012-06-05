@@ -258,22 +258,25 @@ public class ServerAccessServiceImpl implements ServerAccessService {
 		for(Map.Entry<String, List<JobUserInfo>> entry :userMap.entrySet()){
 			String username = entry.getKey();
 			UserPreference userPreference = userPreferenceService.findByUsername(username);
-			String emails = userPreference.getEmails();
 			
-			// check emails were added in UserPreference
-			if(StringUtils.isNotBlank(emails)) {
-				StringBuffer userJobInfoListSB = new StringBuffer();
+			if(userPreference != null) {
+				String emails = userPreference.getEmails();
 				
-				// Create string for job info related to this username
-				for (JobUserInfo jobUserInfo : entry.getValue()) {
-					userJobInfoListSB.append(jobUserInfo.getInfoAsCsv());
-					userJobInfoListSB.append("\n");
+				// check emails were added in UserPreference
+				if(StringUtils.isNotBlank(emails)) {
+					StringBuffer userJobInfoListSB = new StringBuffer();
+					
+					// Create string for job info related to this username
+					for (JobUserInfo jobUserInfo : entry.getValue()) {
+						userJobInfoListSB.append(jobUserInfo.getInfoAsCsv());
+						userJobInfoListSB.append("\n");
+					}
+					StringBuffer userEmailBodySB = new StringBuffer();
+					userEmailBodySB.append(beginningMessage);
+					userEmailBodySB.append(userJobInfoListSB);
+					
+					EmailNotification.send(emails, subject, userEmailBodySB.toString());
 				}
-				StringBuffer userEmailBodySB = new StringBuffer();
-				userEmailBodySB.append(beginningMessage);
-				userEmailBodySB.append(userJobInfoListSB);
-				
-				EmailNotification.send(emails, subject, userEmailBodySB.toString());
 			}
 		}
 	}
