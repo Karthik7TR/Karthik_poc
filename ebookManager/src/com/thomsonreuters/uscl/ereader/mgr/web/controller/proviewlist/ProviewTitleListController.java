@@ -105,6 +105,9 @@ public class ProviewTitleListController {
 					allLatestProviewTitleInfo.size());
 		}
 
+		model.addAttribute(ProviewListFilterForm.FORM_NAME,
+				new ProviewListFilterForm());
+
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
 
@@ -140,8 +143,9 @@ public class ProviewTitleListController {
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 					allLatestProviewTitleInfo.size());
 		}
-		
-		model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
+
+		model.addAttribute(ProviewListFilterForm.FORM_NAME,
+				new ProviewListFilterForm());
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
