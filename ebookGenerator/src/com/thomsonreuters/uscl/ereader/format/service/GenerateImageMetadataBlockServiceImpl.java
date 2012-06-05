@@ -10,11 +10,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.log4j.Logger;
@@ -62,7 +62,7 @@ public class GenerateImageMetadataBlockServiceImpl implements
 	{
 		LOG.info("Generating ImageMetadata block files for each document...");
 		
-		Map<String, Set<String>> docImgMap = new HashMap<String, Set<String>>();
+		Map<String, List<String>> docImgMap = new HashMap<String, List<String>>();
 		readDocToImgMap(docToImgManifest, docImgMap);
 		int numDocsGenerated = 0;
 
@@ -207,7 +207,7 @@ public class GenerateImageMetadataBlockServiceImpl implements
 	 * 
 	 * @throws EBookFormatException 
 	 */
-	protected void readDocToImgMap(File docToImg, Map<String, Set<String>> docToImgMap)
+	protected void readDocToImgMap(File docToImg, Map<String, List<String>> docToImgMap)
 		throws EBookFormatException
 	{
 		BufferedReader reader = null;
@@ -225,13 +225,13 @@ public class GenerateImageMetadataBlockServiceImpl implements
 				if (!line[1].equals(""))
 				{
 					String[] images = line[1].split(",");
-					Set<String> imgSet = new HashSet<String>(Arrays.asList(images));
+					List<String> imgSet = new ArrayList<String>(Arrays.asList(images));
 					numImgs = numImgs + imgSet.size();
 					docToImgMap.put(line[0], imgSet);
 				}
 				else
 				{
-					docToImgMap.put(line[0], new HashSet<String>());
+					docToImgMap.put(line[0], new ArrayList<String>());
 				}
 				input = reader.readLine();
 			}

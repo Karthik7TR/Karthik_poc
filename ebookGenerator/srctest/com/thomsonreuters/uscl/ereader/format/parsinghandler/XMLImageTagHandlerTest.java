@@ -8,8 +8,8 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -35,8 +35,8 @@ public class XMLImageTagHandlerTest {
 	private SAXParserFactory factory;
 	private SAXParser saxParser;
 	private XMLImageTagHandler imgTagHandler;
-	private Set<String> emptyGuidList;
-	private Set<String> guidList;
+	private List<String> emptyGuidList;
+	private List<String> guidList;
 	
 	private String xmlWithImgTags = "<primary.notes><para><bop /><bos /><paratext>The Sentencing Table " +
 			"used to determine the guideline range follows:</paratext>" +
@@ -63,8 +63,8 @@ public class XMLImageTagHandlerTest {
 	public void setUp() throws Exception
 	{
 		imgTagHandler = new XMLImageTagHandler();
-		emptyGuidList = new HashSet<String>();
-		guidList = new HashSet<String>();
+		emptyGuidList = new ArrayList<String>();
+		guidList = new ArrayList<String>();
 		guidList.add("I5d463990094d11e085f5891ac64a9905");
 		guidList.add("I8A302FE4920F47B00079B5381C71638B");
 		
@@ -121,8 +121,7 @@ public class XMLImageTagHandlerTest {
 		imgTagHandler.setGuidList(guidList);
 			
 		saxParser.parse(xmlWithTags, imgTagHandler);
-		//Returns 3, although there are 4 guids, two are duplicates so only the 3 distinct guids are returned
-		assertEquals(3, imgTagHandler.getGuidList().size());
+		assertEquals(4, imgTagHandler.getGuidList().size());
 	}
 	
 	@Test

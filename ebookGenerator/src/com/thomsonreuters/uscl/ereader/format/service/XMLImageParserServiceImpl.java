@@ -13,9 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -81,8 +80,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			throw new EBookFormatException(errMessage, e);
 		}
         
-        Set<String> guids = new HashSet<String>();
-        Map<String, Set<String>> docImgMap = new HashMap<String, Set<String>>();
+        List<String> guids = new ArrayList<String>();
+        Map<String, List<String>> docImgMap = new HashMap<String, List<String>>();
         int numDocsParsed = 0;
         for (File file : fileList)
         {
@@ -108,7 +107,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * 
 	 * @throws EBookFormatException if any parsing issues have been encountered
 	 */
-	protected void parseXMLFile(File xmlFile, Set<String> guidList, Map<String, Set<String>> docImgMap) 
+	protected void parseXMLFile(File xmlFile, List<String> guidList, Map<String, List<String>> docImgMap) 
 			throws EBookFormatException
 	{		
 		FileInputStream xmlStream = null;
@@ -120,15 +119,15 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			SAXParser saxParser = factory.newSAXParser();
 			
 			XMLImageTagHandler handler = new XMLImageTagHandler();
-			Set<String> imgGuids = new HashSet<String>();
+			List<String> imgGuids = new ArrayList<String>();
 			handler.setGuidList(imgGuids);
 			
 			xmlStream = new FileInputStream(xmlFile);
 			
 			saxParser.parse(xmlStream, handler);
-			
-			guidList.addAll(imgGuids);
+
 			docImgMap.put(docGuid, imgGuids);
+			guidList.addAll(imgGuids);
 
 			LOG.debug("Parsed out " + guidList.size() + " image guids from " + xmlFile + "." );
 		}
@@ -178,7 +177,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * @param imgListFile file to which the list will be written to
 	 * @param imgList set of image guids to be written
 	 */
-	protected void createImageList(File imgListFile, Set<String> imgList) throws EBookFormatException
+	protected void createImageList(File imgListFile, List<String> imgList) throws EBookFormatException
 	{
 		BufferedWriter writer = null;
 		try
@@ -226,7 +225,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 	 * @param docToImgMapFile file to which the map will be persisted
 	 * @param docToImgMap the map that contains all the document to image associations
 	 */
-	protected void createDocToImgMap(File docToImgMapFile, Map<String, Set<String>> docToImgMap) 
+	protected void createDocToImgMap(File docToImgMapFile, Map<String, List<String>> docToImgMap) 
 			throws EBookFormatException
 	{
 		BufferedWriter writer = null;

@@ -12,10 +12,10 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -39,8 +39,8 @@ public class XMLImageParserServiceTest {
     
     protected XMLImageParserServiceImpl imgParserService;
     
-    protected Set<String> guidList;
-    protected Map<String, Set<String>> docToImgMap;
+    protected List<String> guidList;
+    protected Map<String, List<String>> docToImgMap;
     
     protected File xmlDir;
     
@@ -48,6 +48,7 @@ public class XMLImageParserServiceTest {
     protected File docToImgMapFile;
     protected File xmlFile;
     protected File xmlFile2;
+    protected File xmlFile3Sorted;
     protected File invalidXmlFile;
     protected File emptyXmlFile;
     
@@ -61,6 +62,14 @@ public class XMLImageParserServiceTest {
 			"used to determine the guideline range follows:</paratext>" +
 			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9905\" /></image.block>" +
 			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9906\" /></image.block>" +
+			"<eos /><eop /></para></primary.notes>";
+	
+	private String xmlText3 = "<primary.notes><para><bop /><bos /><paratext>The Sentencing Table " +
+			"used to determine the guideline range follows:</paratext>" +
+			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9905\" /></image.block>" +
+			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9906\" /></image.block>" +
+			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9907\" /></image.block>" +
+			"<image.block><image.link target=\"I1d163990094d11e085f5891ac64a9908\" /></image.block>" +
 			"<eos /><eop /></para></primary.notes>";
 	
 	private String invalidXml = "<primary.notes><para><bop /><bos /><paratext>The Sentencing Table " +
@@ -95,17 +104,23 @@ public class XMLImageParserServiceTest {
 		outputStream2.flush();
 		outputStream2.close();
 		
+		xmlFile3Sorted = new File(xmlDir, "xmlTestFile3Sorted_11112222222222.xml");
+    	OutputStream outputStream3Sorted = new FileOutputStream(xmlFile3Sorted);
+    	outputStream3Sorted.write(xmlText3.getBytes());
+    	outputStream3Sorted.flush();
+    	outputStream3Sorted.close();
+		
 		invalidXmlFile = testFiles.newFile("invalidXmlTestFile_11112222222222.xml");
     	OutputStream outputStream3 = new FileOutputStream(invalidXmlFile);
 		outputStream3.write(invalidXml.getBytes());
 		outputStream3.flush();
 		outputStream3.close();
     	
-    	guidList = new HashSet<String>();
+    	guidList = new ArrayList<String>();
 		guidList.add("I5d463990094d11e085f5891ac64a9905");
 		guidList.add("I8A302FE4920F47B00079B5381C71638B");
 		
-		docToImgMap = new HashMap<String, Set<String>>();
+		docToImgMap = new HashMap<String, List<String>>();
 		docToImgMap.put("Test02FE4920F47B00079B5381C71638B", guidList);
     }
     
@@ -154,6 +169,29 @@ public class XMLImageParserServiceTest {
     	catch(EBookFormatException e)
     	{
     		
+    	}
+    }
+    
+    @Test
+    public void testSortedImgFileParsingXMLFile()
+    {
+    	try
+    	{
+    		imgParserService.parseXMLFile(xmlFile3Sorted, guidList, docToImgMap);
+    		//Test all the images were parsed
+    		assertEquals(6, guidList.size());
+    		//Test that there are 2 document entries
+    		assertEquals(2, docToImgMap.keySet().size());
+    		//Test order of images in map
+    		List<String> guids = docToImgMap.get("xmlTestFile3Sorted_11112222222222");
+    		assertEquals("I1d163990094d11e085f5891ac64a9905", guids.get(0));
+    		assertEquals("I1d163990094d11e085f5891ac64a9906", guids.get(1));
+    		assertEquals("I1d163990094d11e085f5891ac64a9907", guids.get(2));
+    		assertEquals("I1d163990094d11e085f5891ac64a9908", guids.get(3));
+    	}
+    	catch(EBookFormatException e)
+    	{
+    		fail("Encountered EBookFormatException when not expected.");
     	}
     }
     
