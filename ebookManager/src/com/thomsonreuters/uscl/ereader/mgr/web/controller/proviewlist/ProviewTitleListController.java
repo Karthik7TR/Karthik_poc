@@ -26,7 +26,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
 
 @Controller
 public class ProviewTitleListController {
@@ -49,12 +48,36 @@ public class ProviewTitleListController {
 	/**
 	 * 
 	 * @param httpSession
+	 * @return
+	 */
+	private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(
+			HttpSession httpSession) {
+		List<ProviewTitleInfo> allLatestProviewTitleInfo = (List<ProviewTitleInfo>) httpSession
+				.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES);
+		return allLatestProviewTitleInfo;
+	}
+
+	/**
+	 * 
+	 * @param httpSession
 	 * @param allLatestProviewTitleInfo
 	 */
 	private void saveAllLatestProviewTitleInfo(HttpSession httpSession,
 			List<ProviewTitleInfo> allLatestProviewTitleInfo) {
 		httpSession.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES,
 				allLatestProviewTitleInfo);
+
+	}
+
+	/**
+	 * 
+	 * @param httpSession
+	 * @param selectedProviewTitleInfo
+	 */
+	private void saveSelectedProviewTitleInfo(HttpSession httpSession,
+			List<ProviewTitleInfo> selectedProviewTitleInfo) {
+		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES,
+				selectedProviewTitleInfo);
 
 	}
 
@@ -80,6 +103,21 @@ public class ProviewTitleListController {
 		httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES,
 				allProviewTitleInfo);
 
+	}
+
+	/**
+	 * 
+	 * @param httpSession
+	 * @return
+	 */
+	protected ProviewListFilterForm fetchSavedProviewListFilterForm(
+			HttpSession httpSession) {
+		ProviewListFilterForm form = (ProviewListFilterForm) httpSession
+				.getAttribute(ProviewListFilterForm.FORM_NAME);
+		if (form == null) {
+			form = new ProviewListFilterForm();
+		}
+		return form;
 	}
 
 	/**
@@ -125,30 +163,42 @@ public class ProviewTitleListController {
 	public ModelAndView allLatestProviewTitleInfo(HttpSession httpSession,
 			Model model) throws Exception {
 
-		List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
-		if (allLatestProviewTitleInfo == null) {
+		List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
 
-			Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-			if (allProviewTitleInfo == null) {
-				allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
-				saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+		if (selectedProviewTitleInfo == null) {
+
+			List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
+			if (allLatestProviewTitleInfo == null) {
+
+				Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
+				if (allProviewTitleInfo == null) {
+					allProviewTitleInfo = proviewClient
+							.getAllProviewTitleInfo();
+					saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+				}
+
+				allLatestProviewTitleInfo = proviewClient
+						.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+				saveAllLatestProviewTitleInfo(httpSession,
+						allLatestProviewTitleInfo);
+
+				selectedProviewTitleInfo = allLatestProviewTitleInfo;
+
+				saveSelectedProviewTitleInfo(httpSession,
+						selectedProviewTitleInfo);
+
 			}
-
-			allLatestProviewTitleInfo = proviewClient
-					.getAllLatestProviewTitleInfo(allProviewTitleInfo);
-			saveAllLatestProviewTitleInfo(httpSession,
-					allLatestProviewTitleInfo);
 		}
 
-		if (allLatestProviewTitleInfo != null) {
+		if (selectedProviewTitleInfo != null) {
 			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
-					allLatestProviewTitleInfo);
+					selectedProviewTitleInfo);
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-					allLatestProviewTitleInfo.size());
+					selectedProviewTitleInfo.size());
 		}
 
 		model.addAttribute(ProviewListFilterForm.FORM_NAME,
-				new ProviewListFilterForm());
+				fetchSavedProviewListFilterForm(httpSession));
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
@@ -178,9 +228,11 @@ public class ProviewTitleListController {
 			List<ProviewTitleInfo> allTitleVersions = proviewTitleContainer
 					.getProviewTitleInfos();
 			if (allTitleVersions != null) {
-				BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
-				model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDef.getPilotBookStatus());
-				
+				BookDefinition bookDef = bookDefinitionService
+						.findBookDefinitionByTitle(titleId);
+				model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
+						bookDef.getPilotBookStatus());
+
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 						allTitleVersions);
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
@@ -358,9 +410,10 @@ public class ProviewTitleListController {
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
 	}
+
 	@Required
 	public void setBookDefinitionService(BookDefinitionService service) {
 		this.bookDefinitionService = service;
 	}
-	
+
 }

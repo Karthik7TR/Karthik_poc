@@ -76,8 +76,8 @@
 		<form:input path="maxVersions"/>
 	</div>
 	
-	<input type="button" disabled="disabled" value="Search" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" disabled="disabled" value="Reset" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.RESET%>')"/>
+	<input type="button" value="Search" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.SEARCH%>')"/>
+	<input type="button" value="Reset" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.RESET%>')"/>
 	
 	
 	

@@ -24,20 +24,35 @@ public class ProviewListFilterForm {
 	private Integer minVersionsInt;
 	private Integer maxVersionsInt;
 	private FilterCommand filterCommand;
-	
-	
-	public void initNull(){
-		init(null,null,null,null);
+
+	public void initNull() {
+		init(null, null, null, null);
 	}
-	
-	private void  init(String proviewDisplayName, String titleId,
+
+	private void init(String proviewDisplayName, String titleId,
 			String minVersions, String maxVersions) {
-		
+
 		this.proviewDisplayName = proviewDisplayName;
 		this.titleId = titleId;
 		this.minVersions = minVersions;
 		this.maxVersions = maxVersions;
 		this.filterCommand = filterCommand;
+	}
+
+	public Integer getMinVersionsInt() {
+		return minVersionsInt;
+	}
+
+	public void setMinVersionsInt(Integer minVersionsInt) {
+		this.minVersionsInt = minVersionsInt;
+	}
+
+	public Integer getMaxVersionsInt() {
+		return maxVersionsInt;
+	}
+
+	public void setMaxVersionsInt(Integer maxVersionsInt) {
+		this.maxVersionsInt = maxVersionsInt;
 	}
 
 	public FilterCommand getFilterCommand() {
@@ -82,7 +97,6 @@ public class ProviewListFilterForm {
 	}
 
 	public void setProviewDisplayName(String proviewDisplayName) {
-		this.proviewDisplayName = proviewDisplayName;
 		this.proviewDisplayName = proviewDisplayName == null ? null
 				: proviewDisplayName.trim();
 	}

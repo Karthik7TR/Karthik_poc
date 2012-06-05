@@ -16,6 +16,7 @@ public class WebConstants {
 	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
 	public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
+	public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";
 	public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
