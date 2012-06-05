@@ -76,6 +76,8 @@
 		<form:input path="maxVersions"/>
 	</div>
 	
+	<div class="wildCard">Wildcard: %</div>
+	
 	<input type="button" value="Search" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.SEARCH%>')"/>
 	<input type="button" value="Reset" onclick="submitFilterForm('<%=ProviewListFilterForm.FilterCommand.RESET%>')"/>
 	

@@ -167,19 +167,19 @@ public class ProviewListFilterController {
 						if (titleInfo.getTitleId() == null) {
 							selected = false;
 						} else {
-							if (proviewDisplayNameBothWayWildCard) {
+							if (titleIdBothWayWildCard) {
 								if (!titleInfo.getTitleId().contains(
 										titleIdSearchTerm)) {
 									selected = false;
 								}
 							}
 
-							else if (proviewDisplayNameEndsWithWildCard) {
+							else if (titleIdEndsWithWildCard) {
 								if (!titleInfo.getTitleId().endsWith(
 										titleIdSearchTerm)) {
 									selected = false;
 								}
-							} else if (proviewDisplayNameStartsWithWildCard) {
+							} else if (titleIdStartsWithWildCard) {
 								if (!titleInfo.getTitleId().startsWith(
 										titleIdSearchTerm)) {
 									selected = false;
