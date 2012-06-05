@@ -72,7 +72,7 @@ public class ProviewListFilterForm {
 		try {
 			minVersionsInt = Integer.parseInt(minVersions);
 		} catch (NumberFormatException e) {
-			minVersions = null;
+			this.minVersions = null;
 			minVersionsInt = 0;
 		}
 	}
@@ -86,7 +86,7 @@ public class ProviewListFilterForm {
 		try {
 			maxVersionsInt = Integer.parseInt(maxVersions);
 		} catch (NumberFormatException e) {
-			maxVersions = null;
+			this.maxVersions = null;
 			maxVersionsInt = 99999;
 		}
 
