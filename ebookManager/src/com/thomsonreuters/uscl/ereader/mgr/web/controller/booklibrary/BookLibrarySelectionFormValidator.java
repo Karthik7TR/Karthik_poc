@@ -23,9 +23,14 @@ public class BookLibrarySelectionFormValidator implements Validator {
     	}
     	BookLibrarySelectionForm form = (BookLibrarySelectionForm) obj;
     	
-    	String[] keys = form.getSelectedEbookKeys();
-    	if (keys == null || keys.length == 0) {
-			errors.reject("error.required.bookselection");
-		}
+    	if(form.getCommand() == BookLibrarySelectionForm.Command.GENERATE  ||
+    			form.getCommand() == BookLibrarySelectionForm.Command.EXPORT  ||
+    			form.getCommand() == BookLibrarySelectionForm.Command.IMPORT  ||
+    			form.getCommand() == BookLibrarySelectionForm.Command.PROMOTE) {
+	    	String[] keys = form.getSelectedEbookKeys();
+	    	if (keys == null || keys.length == 0) {
+				errors.reject("error.required.bookselection");
+			}
+    	}
 	}
 }

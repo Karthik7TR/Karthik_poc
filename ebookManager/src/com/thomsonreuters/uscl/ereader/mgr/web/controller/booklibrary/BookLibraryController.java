@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
 
 @Controller
 public class BookLibraryController extends BaseBookLibraryController {
-	// private static final Logger log = Logger.getLogger(BookLibraryController.class);
+	private static final Logger log = Logger.getLogger(BookLibraryController.class);
 
 	private Validator validator;
 
@@ -45,7 +46,7 @@ public class BookLibraryController extends BaseBookLibraryController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
-//		log.debug(">>>");
+		log.debug(">>>");
 		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);	// from session
 		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);	// from session
 		
@@ -116,26 +117,6 @@ public class BookLibraryController extends BaseBookLibraryController {
 							WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW
 									+ parameters.toString()));
 				break;
-			case IMPORT:
-				// TODO:
-				// mav = new ModelAndView(new
-				// RedirectView(WebConstants.MVC_GENERATE+queryString));
-				break;
-			case EXPORT:
-				// TODO:
-				// mav = new ModelAndView(new
-				// RedirectView(WebConstants.MVC_GENERATE+queryString));
-				break;
-			case PROMOTE:
-				if (bookKeys.length > 1)
-					mav = new ModelAndView(new RedirectView(
-							WebConstants.MVC_BOOK_DEFINITION_BULK_PROMOTION
-									+ parameters.toString()));
-				else
-					mav = new ModelAndView(new RedirectView(
-							WebConstants.MVC_BOOK_DEFINITION_PROMOTION
-									+ parameters.toString()));
-				break;
 			default:
 				throw new RuntimeException("Unexpected form command: "
 						+ command);
@@ -150,6 +131,23 @@ public class BookLibraryController extends BaseBookLibraryController {
 		
 		setUpModel(filterForm, pageAndSort, httpSession, model);
 
+		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+	}
+	
+	/**
+	 * Handle URL request that the number of rows displayed in table be changed.
+	 */
+	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT, method = RequestMethod.POST)
+	public ModelAndView handleChangeInItemsToDisplay(HttpSession httpSession,
+							   @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid BookLibrarySelectionForm form,
+							   Model model) {
+		log.debug(form);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
+		pageAndSort.setObjectsPerPage(form.getObjectsPerPage());	// Update the new number of items to be shown at one time
+		// Restore the state of the search filter
+		BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		setUpModel(filterForm, pageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
 	}
 

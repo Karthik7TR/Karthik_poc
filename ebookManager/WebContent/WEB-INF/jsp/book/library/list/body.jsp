@@ -9,6 +9,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -48,7 +49,9 @@
 	    </div>
     </spring:hasBindErrors>
     
-
+	<div class="buttons">
+		<input type="submit" value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+	</div>
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="paginatedList" class="displayTagTable" cellpadding="2" 
@@ -87,3 +90,22 @@
 	</div>
 
 </form:form>
+
+
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form id="itemCountForm" action="<%=WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT%>"
+		     commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="150" value="150"/>
+		<form:option label="300" value="300"/>
+		<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
+		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>	

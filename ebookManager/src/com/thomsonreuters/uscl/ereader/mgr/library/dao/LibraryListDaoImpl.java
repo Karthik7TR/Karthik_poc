@@ -25,7 +25,8 @@ public class LibraryListDaoImpl implements LibraryListDao {
 	@Override
 	@Transactional(readOnly = true)
 	public List<LibraryList> findBookDefinitions(LibraryListFilter filter, LibraryListSort sort) {
-		StringBuffer sql = new StringBuffer("select * from ( select row_.*, ROWNUM rownum_ from ( ");
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from ( select row_.*, ROWNUM rownum_ from ( ");
 		sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, ");
 		sql.append("book.LAST_UPDATED, book.IS_DELETED_FLAG, book.EBOOK_DEFINITION_COMPLETE_FLAG, ps.pub_date from ");
 		sql.append("EBOOK_DEFINITION book LEFT JOIN (SELECT p.EBOOK_DEFINITION_ID, MAX(p.PUBLISH_START_TIMESTAMP) pub_date ");
@@ -61,9 +62,8 @@ public class LibraryListDaoImpl implements LibraryListDao {
 		// Only get a part of the result set back
 		int minIndex = (sort.getPageNumber() - 1) * (sort.getItemsPerPage());
 		int maxIndex = sort.getItemsPerPage() + minIndex;
-		sql.append(String.format(
-				") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex,
-				minIndex));
+		
+		sql.append(String.format(") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex, minIndex));
 
 		if (args != null) {
 			return jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER, args);

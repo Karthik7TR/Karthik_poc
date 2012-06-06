@@ -117,6 +117,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_LIBRARY_LIST = "bookLibraryList.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_PAGING = "bookLibraryListPaging.mvc";
 	public static final String MVC_BOOK_LIBRARY_FILTERED_POST = "bookLibraryListFiltered.mvc";
+	public static final String MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT = "bookLibraryChangeRowCount.mvc";
 	public static final String MVC_PROVIEW_LIST_FILTERED_POST = "proviewListFiltered.mvc";
 	public static final String MVC_BOOK_LIBRARY_LIST_SELECTION_POST = "bookLibraryListSelectionPost.mvc";
 	public static final String MVC_BOOK_LIBRARY_THUMBNAILS = "bookLibraryThumbnails.mvc";
