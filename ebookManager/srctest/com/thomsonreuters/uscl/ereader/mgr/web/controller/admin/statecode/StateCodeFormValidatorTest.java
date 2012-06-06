@@ -32,7 +32,7 @@ public class StateCodeFormValidatorTest {
     	validator.setCodeService(mockCodeService);
     	
     	form = new StateCodeForm();
-    	form.setId(1L);
+    	form.setStateId(1L);
 		form.setName(STATE_NAME);
     	
     	errors = new BindException(form, "form");

@@ -235,7 +235,7 @@ public class KeywordCodeControllerTest {
 		String name = KEYWORD_CODE.getName();
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", KEYWORD_CODE_ID.toString());
+    	request.setParameter("codeId", KEYWORD_CODE_ID.toString());
     	request.setParameter("name", name);
     	
     	EasyMock.expect(mockCodeService.getKeywordTypeCodeByName(name)).andReturn(null);

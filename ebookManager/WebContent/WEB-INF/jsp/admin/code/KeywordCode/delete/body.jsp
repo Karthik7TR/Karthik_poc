@@ -10,7 +10,7 @@
 <c:choose>
 	<c:when test="${keywordTypeCode != null}">
 		<form:form commandName="<%= KeywordCodeForm.FORM_NAME %>">
-			<form:hidden path="id" />
+			<form:hidden path="codeId" />
 			<form:hidden path="name"/>
 			Are you sure you want to delete Keyword Code: ${keywordTypeCode.name}
 			<div class="buttons">

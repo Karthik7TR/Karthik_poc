@@ -32,11 +32,11 @@ public class JurisdictionCodeForm {
 		return code;
 	}
 	
-	public Long getId() {
+	public Long getJurisId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setJurisId(Long id) {
 		this.id = id;
 	}
 	

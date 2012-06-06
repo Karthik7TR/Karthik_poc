@@ -11,7 +11,7 @@
 <c:choose>
 	<c:when test="${stateCode != null}">
 		<form:form commandName="<%= StateCodeForm.FORM_NAME %>">
-			<form:hidden path="id" />
+			<form:hidden path="stateId" />
 			<form:hidden path="name"/>
 			Are you sure you want to delete State Code: ${stateCode.name}
 			<div class="buttons">

@@ -9,7 +9,7 @@
 
 
 <form:form commandName="<%= PublishTypeCodeForm.FORM_NAME %>">
-	<form:hidden path="id" />
+	<form:hidden path="pubTypeId" />
 	<form:label path="name">Name</form:label>
 	<form:input path="name"/>
 	<form:errors path="name" cssClass="errorMessage"/>

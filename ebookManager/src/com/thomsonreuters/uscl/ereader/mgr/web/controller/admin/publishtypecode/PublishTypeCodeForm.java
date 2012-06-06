@@ -32,11 +32,11 @@ public class PublishTypeCodeForm {
 		return code;
 	}
 	
-	public Long getId() {
+	public Long getPubTypeId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setPubTypeId(Long id) {
 		this.id = id;
 	}
 	

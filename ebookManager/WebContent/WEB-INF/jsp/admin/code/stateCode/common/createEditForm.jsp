@@ -9,7 +9,7 @@
 
 
 <form:form commandName="<%= StateCodeForm.FORM_NAME %>">
-	<form:hidden path="id" />
+	<form:hidden path="stateId" />
 	<form:label path="name">Name</form:label>
 	<form:input path="name"/>
 	<form:errors path="name" cssClass="errorMessage"/>

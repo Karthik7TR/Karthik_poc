@@ -107,7 +107,7 @@ public class KeywordCodeController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
 		}
 		
-		KeywordTypeCode code = codeService.getKeywordTypeCodeById(form.getId());
+		KeywordTypeCode code = codeService.getKeywordTypeCodeById(form.getCodeId());
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_CODE_EDIT);
 	}

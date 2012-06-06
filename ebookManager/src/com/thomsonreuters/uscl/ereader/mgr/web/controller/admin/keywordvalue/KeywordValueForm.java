@@ -5,6 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 
@@ -36,11 +39,11 @@ public class KeywordValueForm {
 		return value;
 	}
 	
-	public Long getId() {
+	public Long getTypeId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setTypeId(Long id) {
 		this.id = id;
 	}
 	
@@ -59,5 +62,11 @@ public class KeywordValueForm {
 	public void setKeywordTypeCode(KeywordTypeCode keywordTypeCode) {
 		this.keywordTypeCode = keywordTypeCode;
 	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 	
+
 }

@@ -101,7 +101,7 @@ public class StateCodeController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
 		}
 		
-		StateCode code = codeService.getStateCodeById(form.getId());
+		StateCode code = codeService.getStateCodeById(form.getStateId());
 		model.addAttribute(WebConstants.KEY_STATE_CODE, code);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_EDIT);
 	}

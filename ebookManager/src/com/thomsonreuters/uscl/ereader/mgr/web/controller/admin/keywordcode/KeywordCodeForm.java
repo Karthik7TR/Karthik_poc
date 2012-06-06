@@ -35,11 +35,11 @@ public class KeywordCodeForm {
 		return code;
 	}
 	
-	public Long getId() {
+	public Long getCodeId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setCodeId(Long id) {
 		this.id = id;
 	}
 	

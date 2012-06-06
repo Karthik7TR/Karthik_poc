@@ -40,7 +40,7 @@ public class KeywordValueFormValidatorTest {
     	KEYWORD_CODE.setName(KEYWORD_CODE_NAME);
     	
     	form = new KeywordValueForm();
-    	form.setId(KEYWORD_VALUE_ID);
+    	form.setTypeId(KEYWORD_VALUE_ID);
 		form.setName(KEYWORD_VALUE_NAME);
 		form.setKeywordTypeCode(KEYWORD_CODE);
 		

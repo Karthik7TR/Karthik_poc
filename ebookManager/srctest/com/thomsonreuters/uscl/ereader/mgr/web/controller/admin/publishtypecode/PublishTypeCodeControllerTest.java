@@ -234,7 +234,7 @@ public class PublishTypeCodeControllerTest {
 		String name = PUBLISH_TYPE_CODE.getName();
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", PUBLISH_TYPE_ID.toString());
+    	request.setParameter("pubTypeId", PUBLISH_TYPE_ID.toString());
     	request.setParameter("name", name);
     	
     	EasyMock.expect(mockCodeService.getPubTypeCodeByName(name)).andReturn(null);

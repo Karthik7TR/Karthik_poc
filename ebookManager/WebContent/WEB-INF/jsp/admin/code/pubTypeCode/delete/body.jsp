@@ -12,9 +12,9 @@
 <c:choose>
 	<c:when test="${pubTypeCode != null}">
 		<form:form commandName="<%= PublishTypeCodeForm.FORM_NAME %>">
-			<form:hidden path="id" />
+			<form:hidden path="pubTypeId" />
 			<form:hidden path="name"/>
-			Are you sure you want to delete Jurisdiction Code: ${pubTypeCode.name}
+			Are you sure you want to delete Publish Type Code: ${pubTypeCode.name}
 			<div class="buttons">
 				<form:button id="delete">Delete</form:button>
 				<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW%>';">Cancel</button>

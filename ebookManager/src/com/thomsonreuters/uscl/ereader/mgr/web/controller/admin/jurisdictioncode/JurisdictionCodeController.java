@@ -101,7 +101,7 @@ public class JurisdictionCodeController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_JURIS_CODE_VIEW));
 		}
 		
-		JurisTypeCode code = codeService.getJurisTypeCodeById(form.getId());
+		JurisTypeCode code = codeService.getJurisTypeCodeById(form.getJurisId());
 		model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
 	}

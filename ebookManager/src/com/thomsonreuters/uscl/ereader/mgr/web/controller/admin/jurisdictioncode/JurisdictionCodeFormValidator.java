@@ -43,7 +43,7 @@ public class JurisdictionCodeFormValidator extends BaseFormValidator implements 
     	
     	if(!StringUtils.isBlank(name)) {
 	    	JurisTypeCode code = codeService.getJurisTypeCodeByName(name);
-	    	if(code != null && code.getId() != form.getId()) {
+	    	if(code != null && code.getId() != form.getJurisId()) {
 	    		errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
 	    	}
     	}

@@ -234,7 +234,7 @@ public class JurisdictionCodeControllerTest {
 		String name = JURIS_CODE.getName();
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_JURIS_CODE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", JURIS_ID.toString());
+    	request.setParameter("jurisId", JURIS_ID.toString());
     	request.setParameter("name", name);
     	
     	EasyMock.expect(mockCodeService.getJurisTypeCodeByName(name)).andReturn(null);

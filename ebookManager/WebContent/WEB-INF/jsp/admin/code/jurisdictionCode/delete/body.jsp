@@ -11,7 +11,7 @@
 <c:choose>
 	<c:when test="${jurisTypeCode != null}">
 		<form:form commandName="<%= JurisdictionCodeForm.FORM_NAME %>">
-			<form:hidden path="id" />
+			<form:hidden path="jurisId" />
 			<form:hidden path="name"/>
 			Are you sure you want to delete Jurisdiction Code: ${jurisTypeCode.name}
 			<div class="buttons">

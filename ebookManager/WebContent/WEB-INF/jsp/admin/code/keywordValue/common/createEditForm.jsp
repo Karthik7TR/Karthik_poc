@@ -10,7 +10,7 @@
 <c:choose>
 	<c:when test="${ keywordTypeCode != null }">
 		<form:form commandName="<%= KeywordValueForm.FORM_NAME %>">
-			<form:hidden path="id" />
+			<form:hidden path="typeId" />
 			<form:hidden path="keywordTypeCode.id" />
 			<form:hidden path="keywordTypeCode.name" />
 			<form:label path="name">Name</form:label>

@@ -9,7 +9,7 @@
 
 
 <form:form commandName="<%= JurisdictionCodeForm.FORM_NAME %>">
-	<form:hidden path="id" />
+	<form:hidden path="jurisId" />
 	<form:label path="name">Name</form:label>
 	<form:input path="name"/>
 	<form:errors path="name" cssClass="errorMessage"/>

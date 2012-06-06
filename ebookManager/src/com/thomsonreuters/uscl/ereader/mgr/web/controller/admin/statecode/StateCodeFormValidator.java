@@ -43,7 +43,7 @@ public class StateCodeFormValidator extends BaseFormValidator implements Validat
     	
     	if(!StringUtils.isBlank(name)) {
 	    	StateCode code = codeService.getStateCodeByName(name);
-	    	if(code != null && code.getId() != form.getId()) {
+	    	if(code != null && code.getId() != form.getStateId()) {
 	    		errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
 	    	}
     	}

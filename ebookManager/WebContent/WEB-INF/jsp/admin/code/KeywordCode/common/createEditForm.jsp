@@ -9,7 +9,7 @@
 
 
 <form:form commandName="<%= KeywordCodeForm.FORM_NAME %>">
-	<form:hidden path="id" />
+	<form:hidden path="codeId" />
 	<div class="row">
 		<form:label path="name">Name</form:label>
 		<form:input path="name"/>

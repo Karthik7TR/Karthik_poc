@@ -32,7 +32,7 @@ public class KeywordCodeFormValidatorTest {
     	validator.setCodeService(mockCodeService);
     	
     	form = new KeywordCodeForm();
-    	form.setId(1L);
+    	form.setCodeId(1L);
 		form.setName(KEYWORD_CODE_NAME);
     	
     	errors = new BindException(form, "form");

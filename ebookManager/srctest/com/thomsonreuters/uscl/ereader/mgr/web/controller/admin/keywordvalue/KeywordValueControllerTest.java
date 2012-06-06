@@ -228,7 +228,7 @@ public class KeywordValueControllerTest {
 		String name = KEYWORD_VALUE.getName();
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", KEYWORD_VALUE_ID.toString());
+    	request.setParameter("typeId", KEYWORD_VALUE_ID.toString());
     	request.setParameter("name", name);
     	request.setParameter("keywordTypeCode.id", KEYWORD_CODE_ID.toString());
     	request.setParameter("keywordTypeCode.name", KEYWORD_CODE.getName());
@@ -271,7 +271,7 @@ public class KeywordValueControllerTest {
 	public void testEditKeywordValuePostFail() {
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", KEYWORD_VALUE_ID.toString());
+    	request.setParameter("typeId", KEYWORD_VALUE_ID.toString());
     	request.setParameter("keywordTypeCode.id", KEYWORD_CODE_ID.toString());
     	request.setParameter("keywordTypeCode.name", KEYWORD_CODE.getName());
     	

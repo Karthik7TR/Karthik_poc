@@ -234,7 +234,7 @@ public class StateCodeControllerTest {
 		String name = STATE_CODE.getName();
 		request.setRequestURI("/"+ WebConstants.MVC_ADMIN_STATE_CODE_EDIT);
     	request.setMethod(HttpMethod.POST.name());
-    	request.setParameter("id", STATE_ID.toString());
+    	request.setParameter("stateId", STATE_ID.toString());
     	request.setParameter("name", name);
     	
     	EasyMock.expect(mockCodeService.getStateCodeByName(name)).andReturn(null);

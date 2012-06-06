@@ -32,7 +32,7 @@ public class JurisdictionCodeFormValidatorTest {
     	validator.setCodeService(mockCodeService);
     	
     	form = new JurisdictionCodeForm();
-    	form.setId(1L);
+    	form.setJurisId(1L);
 		form.setName(JURIS_NAME);
     	
     	errors = new BindException(form, "form");

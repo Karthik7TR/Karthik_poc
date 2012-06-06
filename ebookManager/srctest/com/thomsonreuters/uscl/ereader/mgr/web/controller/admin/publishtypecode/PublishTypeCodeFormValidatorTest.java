@@ -32,7 +32,7 @@ public class PublishTypeCodeFormValidatorTest {
     	validator.setCodeService(mockCodeService);
     	
     	form = new PublishTypeCodeForm();
-    	form.setId(1L);
+    	form.setPubTypeId(1L);
 		form.setName(STATE_NAME);
     	
     	errors = new BindException(form, "form");

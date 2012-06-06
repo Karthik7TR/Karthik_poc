@@ -101,7 +101,7 @@ public class PublishTypeCodeController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW));
 		}
 		
-		PubTypeCode code = codeService.getPubTypeCodeById(form.getId());
+		PubTypeCode code = codeService.getPubTypeCodeById(form.getPubTypeId());
 		model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_EDIT);
 	}

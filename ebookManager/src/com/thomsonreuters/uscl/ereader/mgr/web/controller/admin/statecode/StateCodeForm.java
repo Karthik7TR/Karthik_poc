@@ -32,11 +32,11 @@ public class StateCodeForm {
 		return code;
 	}
 	
-	public Long getId() {
+	public Long getStateId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setStateId(Long id) {
 		this.id = id;
 	}
 	

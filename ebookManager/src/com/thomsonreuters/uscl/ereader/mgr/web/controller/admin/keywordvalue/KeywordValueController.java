@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class KeywordValueController {
-	//private static final Logger log = Logger.getLogger(PubdictionCodeController.class);
+	private static final Logger log = Logger.getLogger(KeywordValueController.class);
 	
 	private CodeService codeService;
 	private BookDefinitionService bookService;
@@ -80,7 +81,6 @@ public class KeywordValueController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT, method = RequestMethod.GET)
 	public ModelAndView editKeywordValue(@RequestParam Long id,
 			@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
-			BindingResult bindingResult,
 			Model model) throws Exception {
 		
 		KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
@@ -105,7 +105,7 @@ public class KeywordValueController {
 			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
 		}
 		
-		KeywordTypeValue value = codeService.getKeywordTypeValueById(form.getId());
+		KeywordTypeValue value = codeService.getKeywordTypeValueById(form.getTypeId());
 		
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
@@ -115,14 +115,11 @@ public class KeywordValueController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.GET)
 	public ModelAndView deleteKeywordValue(@RequestParam Long id,
 			@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
-			BindingResult bindingResult,
 			Model model) throws Exception {
-		
+		log.debug(form);
 		KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
-		
 		if(value != null) {
 			List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
-			
 			model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
 			model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
@@ -134,9 +131,9 @@ public class KeywordValueController {
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.POST)
 	public ModelAndView deleteKeywordValuePost(@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
-			BindingResult bindingResult,
 			Model model) throws Exception {
 		KeywordTypeValue value = form.makeKeywordTypeValue();
+		log.debug(form);
 		codeService.deleteKeywordTypeValue(value);
 		
 		// Redirect user
