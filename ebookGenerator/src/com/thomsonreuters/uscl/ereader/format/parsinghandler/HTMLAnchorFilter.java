@@ -115,7 +115,6 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 			{
 				if (atts != null)
 				{
-					
 					//build image tag for image anchors
 					if (atts.getValue("type") != null && atts.getValue("type").equalsIgnoreCase("image/jpeg"))
 					{
@@ -140,7 +139,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							
 							newAtts.addAttribute("", "", "alt", "CDATA", 
 									"Image " + imgEncountered + " within " + firstlineCite + " document.");
-							newAtts.addAttribute("", "", "src", "CDATA", "er:#" + imgGuid);
+							newAtts.addAttribute("", "", "src", "CDATA", PROVIEW_ASSERT_REFERENCE_PREFIX + imgGuid);
 							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
 							
@@ -161,7 +160,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 					{
 						isPDFLink = true;
 						String href = atts.getValue("href");
-						href = href.replace(href.substring(0, href.indexOf("/Link/Document/Blob/") + 20), "er:#");
+						href = href.replace(href.substring(0, href.indexOf("/Link/Document/Blob/") + 20), PROVIEW_ASSERT_REFERENCE_PREFIX);
 						href = href.substring(0, href.indexOf(".pdf"));
 						
 						AttributesImpl newAtts = new AttributesImpl();
@@ -185,9 +184,9 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						String attsHrefValue = atts.getValue("href");
 						// set href to er:#docFamilyGuid/namedAnchor
 						if(attsHrefValue != null && attsHrefValue.startsWith("#"))
-							{
+						{
 //                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
-							attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(1) ;
+							attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(1) ;
 							
 							// Temp fix for sp_pubnumber references from URL builder
 							if( attsHrefValue.contains("_sp_"))
@@ -205,11 +204,10 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 								anchorSet = new HashSet<String>();
 							}
 							anchorSet.add(attsHrefValue);
-							targetAnchors.put(currentGuid, anchorSet );
-								
-							}
-						else if(attsHrefValue != null && attsHrefValue.startsWith("er:#") )
-							{
+							targetAnchors.put(currentGuid, anchorSet );	
+						}
+						else if(attsHrefValue != null && attsHrefValue.startsWith(PROVIEW_ASSERT_REFERENCE_PREFIX) )
+						{
 							if (!attsHrefValue.contains("/"))
 							{
 								//TODO: throw error for this scenario
@@ -217,7 +215,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 										" was changed to er:#"+ currentGuid +"/" +attsHrefValue.substring(4));
 
 //                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
-								attsHrefValue = "er:#"+ currentGuid +"/" +attsHrefValue.substring(4) ;
+								attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(4) ;
 							}
 							// Temp fix for sp_pubnumber references from URL builder
 							if( attsHrefValue.contains("_sp_"))
@@ -230,17 +228,15 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							
 							//                          Add to Target list.	
 							
-							
-								String guidLink = attsHrefValue.substring(4,attsHrefValue.indexOf("/"));
-								HashSet<String> anchorSet = targetAnchors.get(guidLink);
-								if (anchorSet == null)
-								{
-									anchorSet = new HashSet<String>();
-								}
-								anchorSet.add(attsHrefValue);
-								targetAnchors.put(guidLink, anchorSet );
-
+							String guidLink = attsHrefValue.substring(4,attsHrefValue.indexOf("/"));
+							HashSet<String> anchorSet = targetAnchors.get(guidLink);
+							if (anchorSet == null)
+							{
+								anchorSet = new HashSet<String>();
 							}
+							anchorSet.add(attsHrefValue);
+							targetAnchors.put(guidLink, anchorSet );
+						}
 						
 						// Dedupe id Anchor Names
 						if( nameAnchors != null && attsIdValue != null && nameAnchors.contains(atts.getValue("id")))
