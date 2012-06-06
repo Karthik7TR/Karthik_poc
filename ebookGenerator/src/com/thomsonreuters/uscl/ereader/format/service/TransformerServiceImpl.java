@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.SimpleSAXErrorListener;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -345,6 +346,8 @@ public class TransformerServiceImpl implements TransformerService
 	        transFact.setURIResolver(resolver);
 	 
 	        Transformer transformer = transFact.newTransformer(xsltSource);
+	        
+	        transformer.setErrorListener(new SimpleSAXErrorListener());
 	        
 	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 	        transformer.setParameter("IsPersisted", true);
