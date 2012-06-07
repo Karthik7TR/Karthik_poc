@@ -6,9 +6,14 @@
 
 <div class="leftFooter">
 	<b>&copy; 2012 Thomson Reuters</b>
-	<c:if test="${not fn:containsIgnoreCase('prod', environmentName) }">
-		<span style="margin-left: 20px;">Environment: ${environmentName} &nbsp; ProView: ${proviewDomain} &nbsp; (${userRoles})</span>
-	</c:if>
+	<c:choose>
+		<c:when test="${not fn:containsIgnoreCase('prod', environmentName) }">
+			<span style="margin-left: 20px;">Environment: ${environmentName} &nbsp; ProView: ${proviewDomain} &nbsp; (${userRoles})</span>
+		</c:when>
+		<c:otherwise>
+			<span style="margin-left: 20px;">(${userRoles})</span>
+		</c:otherwise>
+	</c:choose>
 </div>
 <div class="rightFooter">
 	<img src="theme/images/trlogo.gif"/>
