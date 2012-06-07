@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDao;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 
 
@@ -69,6 +70,20 @@ public class OutageServiceTest  {
 
 		PlannedOutage actual = service.findPlannedOutageByPrimaryKey(id);
 		Assert.assertEquals(outage, actual);
+		
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testSaveOutageType() {
+		Long id = 99L;
+		OutageType outage = new OutageType();
+		outage.setId(id);
+		
+		mockDao.saveOutageType(outage);
+		EasyMock.expect(mockDao.findOutageTypeByPrimaryKey(id)).andReturn(outage);
+		EasyMock.replay(mockDao);
+		service.saveOutageType(outage);
 		
 		EasyMock.verify(mockDao);
 	}

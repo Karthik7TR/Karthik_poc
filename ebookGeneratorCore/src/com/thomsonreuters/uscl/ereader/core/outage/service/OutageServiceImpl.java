@@ -80,7 +80,15 @@ public class OutageServiceImpl implements OutageService {
 	
 	@Transactional
 	public void saveOutageType(OutageType outageType) {
-		dao.saveOutageType(outageType);
+		
+		if(outageType.getId() != null) {
+			OutageType persistantType = findOutageTypeByPrimaryKey(outageType.getId());
+			persistantType.setSubSystem(outageType.getSubSystem());
+			persistantType.setSystem(outageType.getSystem());
+			dao.saveOutageType(persistantType);
+		} else {
+			dao.saveOutageType(outageType);
+		}
 	}
 	
 	@Transactional
