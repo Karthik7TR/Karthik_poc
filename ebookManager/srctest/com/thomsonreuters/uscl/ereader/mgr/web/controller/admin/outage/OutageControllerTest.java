@@ -24,7 +24,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
@@ -139,7 +141,6 @@ public class OutageControllerTest {
 		PlannedOutage outage = setupParametersAndOutage();
 		outage.setId(null);
 		outageService.savePlannedOutage(outage);
-		EasyMock.expect(outageService.getAllOutageType()).andReturn(new ArrayList<OutageType>());
 		EasyMock.expect(outageService.findPlannedOutageByPrimaryKey(EasyMock.anyLong())).andReturn(outage);
 		EasyMock.expect(mockManagerService.pushPlannedOutage(outage, socketAddr)).andReturn(new SimpleRestServiceResponse()).times(2);
 		EasyMock.replay(outageService);
@@ -148,15 +149,9 @@ public class OutageControllerTest {
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		
 		assertNotNull(mav);
-		assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_CREATE, mav.getViewName());
-		Map<String,Object> model = mav.getModel();
-		@SuppressWarnings("unchecked")
-		List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
-		// Expect 3 info messages 1 success, and 2 failures for inability to push to host
-		assertEquals(3, mesgs.size());
-		assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());
-		assertEquals(InfoMessage.Type.FAIL, mesgs.get(1).getType());
-		assertEquals(InfoMessage.Type.FAIL, mesgs.get(2).getType());
+		// Verify mav is a RedirectView
+		View view = mav.getView();
+        assertEquals(RedirectView.class, view.getClass());
 		
 		EasyMock.verify(outageService);
 		EasyMock.verify(mockManagerService);	

@@ -22,13 +22,14 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 
 public class OutageTypeControllerTest {
 
@@ -96,13 +97,9 @@ public class OutageTypeControllerTest {
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		
 		assertNotNull(mav);
-		assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE, mav.getViewName());
-		Map<String,Object> model = mav.getModel();
-		@SuppressWarnings("unchecked")
-		List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
-		// Expect 1 info messages 1 success,
-		assertEquals(1, mesgs.size());
-		assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());
+		// Verify mav is a RedirectView
+		View view = mav.getView();
+        assertEquals(RedirectView.class, view.getClass());
 		
 		EasyMock.verify(outageService);
 	}
@@ -134,20 +131,16 @@ public class OutageTypeControllerTest {
 		request.setMethod(HttpMethod.POST.name());
 		request.setParameter("outageTypeId", id);
 		
-		OutageType outage = setupParametersAndOutage();
+		setupParametersAndOutage();
 		outageService.saveOutageType(EasyMock.anyObject(OutageType.class));
 		EasyMock.replay(outageService);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		
 		assertNotNull(mav);
-		assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_EDIT, mav.getViewName());
-		Map<String,Object> model = mav.getModel();
-		@SuppressWarnings("unchecked")
-		List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
-		// Expect 1 info messages 1 success
-		assertEquals(1, mesgs.size());
-		assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());
+		// Verify mav is a RedirectView
+		View view = mav.getView();
+        assertEquals(RedirectView.class, view.getClass());
 		
 		EasyMock.verify(outageService);
 	}
@@ -193,13 +186,9 @@ public class OutageTypeControllerTest {
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		
 		assertNotNull(mav);
-		assertEquals(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE, mav.getViewName());
-		Map<String,Object> model = mav.getModel();
-		@SuppressWarnings("unchecked")
-		List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
-		// Expect 1 info messages 1 success
-		assertEquals(1, mesgs.size());
-		assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());
+		// Verify mav is a RedirectView
+		View view = mav.getView();
+        assertEquals(RedirectView.class, view.getClass());
 		
 		EasyMock.verify(outageService);	
 	}

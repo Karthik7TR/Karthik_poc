@@ -8,6 +8,21 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <div class="centerSection">
+	<%-- Informational messages --%>
+    <c:if test="${fn:length(infoMessages) > 0}">
+	 	<ul>
+	 	<c:forEach items="${infoMessages}" var="message">
+	 		<c:if test="${message.type == 'SUCCESS'}">
+	 			<c:set var="cssStyle" value="color:darkgreen;"/>
+	 		</c:if>
+	 		 <c:if test="${message.type == 'FAIL' || message.type == 'ERROR'}">
+	 			<c:set var="cssStyle" value="color:red;"/>
+	 		</c:if>
+			<li style="${cssStyle}">${message.text}</li>
+		</c:forEach>
+	 	</ul>
+    </c:if>	 
+    
 	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_CREATE%>">Create Outage Schedule</a>
 	<br/>

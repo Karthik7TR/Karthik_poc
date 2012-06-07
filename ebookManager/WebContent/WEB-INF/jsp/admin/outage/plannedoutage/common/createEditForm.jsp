@@ -33,7 +33,7 @@ $(document).ready(function() {
 	    </div>
     </spring:hasBindErrors>
     
-    <%-- Informational messages - used to report status of job stop and/or restart operations. --%>
+    <%-- Informational messages --%>
     <c:if test="${fn:length(infoMessages) > 0}">
 	 	<ul>
 	 	<c:forEach items="${infoMessages}" var="message">
