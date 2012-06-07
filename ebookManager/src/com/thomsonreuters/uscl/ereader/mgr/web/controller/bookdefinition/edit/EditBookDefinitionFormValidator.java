@@ -315,13 +315,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	// Adding error message if any validation fails
     	if(errors.hasErrors()) {
 			errors.rejectValue("validateForm", "mesg.errors.form");
-			
-			// Change the book status to false so user can still save the data.
-			if(form.getIsComplete() && !validateForm) {
-				form.setIsComplete(false);
-				errors.rejectValue("validateForm", "mesg.errors.form.status");
-				errors.rejectValue("isComplete", "mesg.errors.form.status");
-			}
 		}
     	
     	// Adding validation message if Validation button was pressed.
