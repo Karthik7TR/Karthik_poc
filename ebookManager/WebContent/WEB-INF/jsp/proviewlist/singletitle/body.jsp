@@ -14,7 +14,7 @@
 <script type="text/javascript">
 function openFullcreenWindow(url)
 {
-	window.open(url, "","channelmode,scrollbars");
+	window.open(url, "","channelmode,scrollbars,resizable");
 }
 
 </script>
