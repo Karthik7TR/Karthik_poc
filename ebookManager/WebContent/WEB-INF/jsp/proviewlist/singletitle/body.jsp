@@ -30,7 +30,7 @@ function openFullcreenWindow(url)
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
+				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>"
 				   pagesize="10"
 				   partialList="true"
 				   size="resultSize"
