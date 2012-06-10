@@ -35,6 +35,7 @@ public class WebConstants {
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
 	public static final String KEY_IS_ASCENDING = "isAscending";
+	public static final String KEY_LAST_UPDATE = "lastUpdate";
 	public static final String KEY_VDO = "vdo";
 	public static final String KEY_JOB = "job";
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
@@ -166,6 +167,10 @@ public class WebConstants {
 	public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
 	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
+	
+	public static final String MVC_PROVIEW_AUDIT_LIST = "proviewAuditList.mvc";
+	public static final String MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT = "proviewAuditListPageAndSort.mvc";
+	public static final String MVC_PROVIEW_AUDIT_LIST_FILTER_POST = "proviewAuditListFilterPost.mvc";
 
 	// Administration related URI's
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
@@ -281,6 +286,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_AUDIT = "_bookAudit";
 	public static final String VIEW_BOOK_AUDIT_DETAIL = "_bookAuditDetail";
 	public static final String VIEW_BOOK_AUDIT_LIST = "_bookAuditList";
+	public static final String VIEW_PROVIEW_AUDIT_LIST = "_proviewAuditList";
 	public static final String VIEW_FRONT_MATTER_PREVIEW = "_bookDefinitionFrontMatterPreview";
 	public static final String VIEW_FRONT_MATTER_PREVIEW_CONTENT = "book/fmpreview/content/preview";
 	public static final String VIEW_JOB_EXECUTION_DETAILS = "_jobExecutionDetails";

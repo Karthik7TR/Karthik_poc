@@ -69,6 +69,10 @@
 			<td id="status"><b>Status:</b></td>
 			<td>&nbsp;&nbsp;&nbsp;${status}</td>
 		</tr>
+		<tr>
+			<td>Comments (Optional)</td>
+			<td><form:textarea path="comments" /></td>
+		</tr>
 		</table>
 		
 		<div class="buttons">
@@ -79,6 +83,7 @@
 				<form:hidden path="titleId"/>
 				<form:hidden path="version"/>
 				<form:hidden path="status"/>
+				<form:hidden path="lastUpdate"/>
 				<form:hidden path="command"/>
 		</td>
 		

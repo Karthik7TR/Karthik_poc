@@ -50,6 +50,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchStepExecution</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
 		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
+		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
 		  </list>
 		</property>
   	</bean>
@@ -101,6 +102,10 @@
 		  p:authorService-ref="authorService"/>
 	
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
+	
+	<bean id="proviewAuditDao" class="com.thomsonreuters.uscl.ereader.proviewaudit.dao.ProviewAuditDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
 	

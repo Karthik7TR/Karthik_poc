@@ -209,6 +209,16 @@
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterFormValidator"/>
 		</property>
 	</bean>
+	
+	<bean id="proviewAuditController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditController"
+		p:auditService-ref="proviewAuditService"/>
+	
+	<bean id="proviewAuditFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterController"
+		p:auditService-ref="proviewAuditService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterFormValidator"/>
+		</property>
+	</bean>
 
 	<bean id="frontMatterPreviewController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview.FmPreviewController"
 		p:bookDefinitionService-ref="bookDefinitionService"
@@ -242,6 +252,7 @@
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
 		p:proviewClient-ref="proviewClient"
+		p:proviewAuditService-ref="proviewAuditService"
 		p:bookDefinitionService-ref="bookDefinitionService"/>	  
 		
 	<bean id="proviewListFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterController"/>

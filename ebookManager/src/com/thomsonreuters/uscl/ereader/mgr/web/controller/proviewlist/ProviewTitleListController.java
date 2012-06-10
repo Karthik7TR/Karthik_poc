@@ -26,12 +26,14 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 
 @Controller
 public class ProviewTitleListController {
 
 	private ProviewClient proviewClient;
 	private BookDefinitionService bookDefinitionService;
+	private ProviewAuditService proviewAuditService;
 
 	/**
 	 * 
@@ -254,14 +256,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
 	public ModelAndView proviewTitleDelete(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
 			Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
-				new ProviewTitleForm(titleId, versionNumber, status));
+				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
@@ -277,14 +279,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
 	public ModelAndView proviewTitleRemove(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
 			Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
-				new ProviewTitleForm(titleId, versionNumber, status));
+				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
 
@@ -299,14 +301,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.GET)
 	public ModelAndView proviewTitlePromote(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
 			Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
-				new ProviewTitleForm(titleId, versionNumber, status));
+				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
 	}
 
@@ -331,7 +333,8 @@ public class ProviewTitleListController {
 			proviewClient.removeTitle(form.getTitleId(), form.getVersion());
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: removed from Proview.");
-
+			
+			proviewAuditService.save(form.createAudit());
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to remove from proview. " + e.getMessage());
@@ -361,7 +364,8 @@ public class ProviewTitleListController {
 			proviewClient.promoteTitle(form.getTitleId(), form.getVersion());
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: promoted to Final in Proview.");
-
+			
+			proviewAuditService.save(form.createAudit());
 		} catch (Exception e) {
 			model.addAttribute(
 					WebConstants.KEY_ERR_MESSAGE,
@@ -394,6 +398,7 @@ public class ProviewTitleListController {
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: deleted from Proview.");
 
+			proviewAuditService.save(form.createAudit());
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to delete from proview. " + e.getMessage());
@@ -401,7 +406,7 @@ public class ProviewTitleListController {
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
-
+	
 	/**
 	 * 
 	 * @param proviewClient
@@ -415,5 +420,11 @@ public class ProviewTitleListController {
 	public void setBookDefinitionService(BookDefinitionService service) {
 		this.bookDefinitionService = service;
 	}
+	
+	@Required
+	public void setProviewAuditService(ProviewAuditService service) {
+		this.proviewAuditService = service;
+	}
+	
 
 }

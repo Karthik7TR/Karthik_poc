@@ -48,7 +48,7 @@ function openFullcreenWindow(url)
 		  	<display:column title="Promote">
 		  		<c:choose>
 		  			<c:when test="${pilotBookStatus != pilotInProgress}">
-		  				<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
+		  				<input value="Promote to Final" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}')"/>
 		  			</c:when>
 		  			<c:otherwise>
 		  				Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting. 
@@ -58,10 +58,10 @@ function openFullcreenWindow(url)
 		</c:if>
 		<c:if test="${ isSuperUser == 'true' }">
 		  	<display:column title="Remove">
-		  		<input value="Remove" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
+		  		<input value="Remove" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_REMOVE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}')"/>
 		  	</display:column>
 		  	<display:column title="Delete">
-		  		<input value="Delete" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}')"/>
+		  		<input value="Delete" type="button" onclick="disabled=true; openFullcreenWindow('<%=WebConstants.MVC_PROVIEW_TITLE_DELETE%>?<%=WebConstants.KEY_TITLE_ID%>=${vdo.titleId}&<%=WebConstants.KEY_VERSION_NUMBER%>=${vdo.version}&<%=WebConstants.KEY_STATUS%>=${vdo.status}&<%=WebConstants.KEY_LAST_UPDATE%>=${vdo.lastupdate}')"/>
 		  	</display:column>
 	  	</c:if>
 	</display:table>
