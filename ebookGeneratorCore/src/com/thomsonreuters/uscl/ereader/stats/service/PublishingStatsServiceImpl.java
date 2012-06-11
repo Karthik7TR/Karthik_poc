@@ -97,13 +97,17 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 							.equalsIgnoreCase(lastSuccessfulPublishingStat
 									.getPublishStatus())) {
 
+				long lastSuccessfulAuditId = lastSuccessfulPublishingStat
+						.getAuditId();
+
 				List<EbookAudit> ebookAudits = findJobStatsAuditByEbookDef(EbookDefId);
 
 				if (ebookAudits != null && ebookAudits.size() > 0) {
 					lastAuditSuccessful = ebookAudits.get(0);
 					for (EbookAudit ebookAudit : ebookAudits) {
-						if (ebookAudit.getAuditId() == lastSuccessfulPublishingStat
-								.getAuditId()) {
+						long auditId = ebookAudit.getAuditId();
+
+						if (auditId == lastSuccessfulAuditId) {
 							lastAuditSuccessful = ebookAudit;
 						}
 					}
