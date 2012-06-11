@@ -59,6 +59,7 @@ public class WebConstants {
 	public static final String KEY_VERSION_NUMBER = "versionNumber";
 	public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
 	public static final String KEY_NEW_MINOR_VERSION_NUMBER = "newMinorVersionNumber";
+	public static final String KEY_NEW_OVERWRITE_VERSION_NUMBER = "newOverwriteVersionNumber";
 	public static final String KEY_PUBLISHING_CUT_OFF_DATE = "publishingCutOffDate";
 	public static final String KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY = "publishingCutOffDateGreaterOrEqualToday";
 	public static final String KEY_USE_PUBLISHING_CUT_OFF_DATE = "usePublishingCutOffDate";

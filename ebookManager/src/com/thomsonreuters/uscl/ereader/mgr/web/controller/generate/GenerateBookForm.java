@@ -15,13 +15,43 @@ public class GenerateBookForm {
 		EDIT, GENERATE, CANCEL
 	};
 
+	public enum Version {
+		MAJOR, MINOR, OVERWRITE
+	};
+
 	private boolean highPriorityJob;
-	private boolean majorVersion;
 	private String fullyQualifiedTitleId;
 	private Command command;
 	private Long id;
+	private String currentVersion;
+	private String newOverwriteVersion;
 	private String newMajorVersion;
 	private String newMinorVersion;
+	private Version newVersion;
+
+	public String getCurrentVersion() {
+		return currentVersion;
+	}
+
+	public void setCurrentVersion(String currentVersion) {
+		this.currentVersion = currentVersion;
+	}
+
+	public String getNewOverwriteVersion() {
+		return newOverwriteVersion;
+	}
+
+	public void setNewOverwriteVersion(String newOverwriteVersion) {
+		this.newOverwriteVersion = newOverwriteVersion;
+	}
+
+	public Version getNewVersion() {
+		return newVersion;
+	}
+
+	public void setNewVersion(Version newVersion) {
+		this.newVersion = newVersion;
+	}
 
 	public String getNewMajorVersion() {
 		return newMajorVersion;
@@ -53,14 +83,6 @@ public class GenerateBookForm {
 
 	public void setCommand(Command command) {
 		this.command = command;
-	}
-
-	public boolean isMajorVersion() {
-		return majorVersion;
-	}
-
-	public void setMajorVersion(boolean majorVersion) {
-		this.majorVersion = majorVersion;
 	}
 
 	public String getFullyQualifiedTitleId() {

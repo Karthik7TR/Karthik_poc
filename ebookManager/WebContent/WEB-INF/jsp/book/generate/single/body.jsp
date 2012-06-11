@@ -14,22 +14,13 @@
 <html>
 <head>
 
-<body onload='clearRadioButtons()'>
+<body>
 
   <script type="text/javascript">
  
-  function clearRadioButtons(){
-  	$("input:radio").attr("checked", false);
-  }
-  
-  function changeMajorVersion(newVersion){
-	  document.getElementById('newVersionNumber').innerHTML = newVersion;
-	  document.getElementById('isMajorVersion').innerHTML = "Y";
-  }
-  
-  function changeMinorVersion(newVersion){
-	  document.getElementById('newVersionNumber').innerHTML = newVersion;
-	  document.getElementById('isMajorVersion').innerHTML = "N";
+  function changeNewVersion(newVersion, isMajorVersion){
+	 document.getElementById('newVersionNumber').innerHTML = newVersion;
+	 document.getElementById('isMajorVersion').innerHTML = isMajorVersion;
   }
   
   function submitForm(cmd){
@@ -96,13 +87,13 @@
   function checkMaterialIdandIsbn(){
 	  
 	  var  confirmed = true;
-	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
 	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
 	  var isNewMaterialId = document.getElementById('isNewMaterialId').innerHTML;
-	  var isbn = document.getElementById('isbn').innerHTML
-	  var materialId = document.getElementById('materialId').innerHTML
+	  var isbn = document.getElementById('isbn').innerHTML;
+	  var materialId = document.getElementById('materialId').innerHTML;
+	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
+		
 	   
-	  
 	  if (isMajorVersion == "Y"){
 		
 		  if(isNewISBN =="N" && isNewMaterialId=="N"){
@@ -133,8 +124,7 @@
 	  var confirmed = true;
 	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
 	  
-	  if (newVersion == "TRUE"){
-		  
+	  if (newVersion == ""){
 		  alert("Cannot generate book: Version must be selected.");
 		  confirmed = false;
 	  }
@@ -207,6 +197,7 @@
 				<form:hidden path="command"/>
 				<form:hidden path="newMajorVersion"/>
 				<form:hidden path="newMinorVersion"/>
+				<form:hidden path="newOverwriteVersion"/>
 				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>
@@ -214,8 +205,8 @@
 			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:select path="highPriorityJob">
-			    <form:option label="Normal" value="false"/>
-				<form:option label="High" value="true"/>
+			    <form:option label="NORMAL" value="false"/>
+				<form:option label="HIGH" value="true"/>
 			  </form:select>
 			 </td>
 		  </tr>
@@ -223,8 +214,12 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  <form:radiobutton path="majorVersion" onclick='changeMinorVersion("${newMinorVersionNumber}")' value="false"/>Minor
-			  <form:radiobutton path="majorVersion" onclick='changeMajorVersion("${newMajorVersionNumber}")' value="true"/>Major
+			  	<form:select path="newVersion">
+			  		<form:option label="Select version" value="" onclick='changeNewVersion("", "N")'/>
+					<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick='changeNewVersion("${newOverwriteVersionNumber}", "N")'/>
+					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>" onclick='changeNewVersion("${newMinorVersionNumber}", "N")'/>
+					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>" onclick='changeNewVersion("${newMajorVersionNumber}", "Y")'/>
+				</form:select>
 			 </td>
 		  </tr>
 		  
@@ -248,11 +243,11 @@
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
 		  	<p id="isNewMaterialId">${isNewMaterialId}</p>
+			<p id="isMajorVersion"></p>
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
 		  	<p id="isComplete">${isComplete}</p>
 		 	<p id="isbn">${isbn}</p>
 		  	<p id="materialId">${materialId}</p>
-		  	<p id="isMajorVersion">${isMajorVersion}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		 </div>	

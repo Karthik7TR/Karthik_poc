@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import antlr.Version;
+
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -70,6 +72,7 @@ public class GenerateEbookController {
 
 		String newMajorVersion;
 		String newMinorVersion;
+		String newOverwriteVersion;
 		String majorPart;
 		String minorPart;
 		Integer newMajorPartInteger;
@@ -78,6 +81,7 @@ public class GenerateEbookController {
 		if (currentVersion.equals("Not published")) {
 			newMajorVersion = "1.0";
 			newMinorVersion = "1.0";
+			newOverwriteVersion = "1.0";
 		} else {
 			if (currentVersion.startsWith("v")) {
 				currentVersion = currentVersion.substring(1);
@@ -101,14 +105,19 @@ public class GenerateEbookController {
 
 			newMajorVersion = newMajorPartInteger.toString() + ".0";
 			newMinorVersion = majorPart + "." + newMinorPartInteger.toString();
+			newOverwriteVersion = currentVersion;
 
 		}
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
+		model.addAttribute(WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER,
+				newOverwriteVersion);
 		model.addAttribute(WebConstants.KEY_NEW_MAJOR_VERSION_NUMBER,
 				newMajorVersion);
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
 
+		form.setCurrentVersion(currentVersion);
+		form.setNewOverwriteVersion(newOverwriteVersion);
 		form.setNewMajorVersion(newMajorVersion);
 		form.setNewMinorVersion(newMinorVersion);
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
@@ -138,7 +147,7 @@ public class GenerateEbookController {
 				currentVersion = proviewTitleInfo.getVersion();
 
 			}
-
+			form.setCurrentVersion(currentVersion);
 			calculateVersionNumbers(model, form, currentVersion);
 
 		} catch (ProviewException e) {
@@ -250,7 +259,8 @@ public class GenerateEbookController {
 
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE,
 					book.getEbookDefinitionCompleteFlag());
-			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,book.getPilotBookStatus());
+			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
+					book.getPilotBookStatus());
 
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
@@ -262,8 +272,9 @@ public class GenerateEbookController {
 				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
 		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
-		
-		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE,
+				outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 	}
 
@@ -294,8 +305,18 @@ public class GenerateEbookController {
 					.getMessage("label.high") : messageSourceAccessor
 					.getMessage("label.normal");
 
-			String version = form.isMajorVersion() ? form.getNewMajorVersion()
-					: form.getNewMinorVersion();
+			String version = "";
+
+			if (GenerateBookForm.Version.MAJOR.equals(form.getNewVersion())) {
+				version = form.getNewMajorVersion();
+			} else if (GenerateBookForm.Version.MINOR.equals(form
+					.getNewVersion())) {
+				version = form.getNewMinorVersion();
+			} else if (GenerateBookForm.Version.OVERWRITE.equals(form
+					.getNewVersion())) {
+				version = form.getNewOverwriteVersion();
+			}
+
 			Integer priority;
 			String submittedBy = UserUtils.getAuthenticatedUserName();
 
@@ -377,8 +398,9 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
 			form.setFullyQualifiedTitleId(book.getTitleId());
-			
-			model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+
+			model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE,
+					outageService.getAllPlannedOutagesToDisplay());
 			mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
 
 			break;
@@ -447,7 +469,8 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_LIST, booksToGenerate);
 		model.addAttribute(WebConstants.KEY_BULK_PUBLISH_SIZE,
 				booksToGenerate.size());
-		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
+		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE,
+				outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
 	}
 
