@@ -230,15 +230,19 @@ public class ProviewTitleListController {
 			List<ProviewTitleInfo> allTitleVersions = proviewTitleContainer
 					.getProviewTitleInfos();
 			if (allTitleVersions != null) {
-				BookDefinition bookDef = bookDefinitionService
-						.findBookDefinitionByTitle(titleId);
-				model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
-						bookDef.getPilotBookStatus());
-
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 						allTitleVersions);
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 						allTitleVersions.size());
+				
+				// Check book definition exists in database
+				BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
+				if(bookDef != null) {
+					// If it exists, check to see if the book is marked as a pilot book
+					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
+							bookDef.getPilotBookStatus());
+				}
+
 			}
 		}
 
