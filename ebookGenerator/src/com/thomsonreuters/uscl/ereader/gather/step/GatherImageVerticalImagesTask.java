@@ -10,11 +10,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
@@ -32,7 +35,6 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.log4j.Logger;
 
 
 /**
@@ -69,11 +71,13 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 
 		// Create list of image guids gathered from a previous step and stored in a flat text file, one per line
 		Map<String,String> imgDocGuidMap = readLinesFromTextFile(imageGuidFile);
+		
+		Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
 				
 		// Fetch the image metadata and file bytes
 		long jobInstanceId = jobInstance.getId();
 		String titleId = bookDefinition.getFullyQualifiedTitleId();
-		int imageGuidNum = imgDocGuidMap.size();
+		int imageGuidNum = imgGuidSet.size();
 		try {
 			
 			imageService.fetchImageVerticalImages(imgDocGuidMap, dynamicImageDestinationDirectory, jobInstanceId, titleId);
@@ -128,7 +132,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 	 * Reads the contents of a text file and return each line as an element in the returned list.
 	 * The file is assumed to already exist.
 	 * @file textFile the text file to process
-	 * @return a list of text strings, representing each file of the specified file
+	 * @return a map of text strings, representing each file of the specified file
 	 */
 	public static Map<String,String> readLinesFromTextFile(File textFile) throws IOException {
 		Map<String,String> imgDocGuidMap = new HashMap<String,String>();
@@ -155,6 +159,40 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		}
 		return imgDocGuidMap;
 	}
+	
+	/**
+	 * Reads the contents of a text file and return each line as an element in the returned list.
+	 * The file is assumed to already exist.
+	 * @file textFile the text file to process
+	 * @return a set of text strings, representing each file of the specified file
+	 */
+	private static Set<String> readImageGuidsFromTextFile(File textFile) throws IOException {
+		Set<String> imgGuidSet = new HashSet<String>();
+		FileReader fileReader = new FileReader(textFile);
+		try {
+			BufferedReader reader = new BufferedReader(fileReader);
+			String textLine;
+			while ((textLine = reader.readLine()) != null) {
+				if (StringUtils.isNotBlank(textLine)) {
+					String[] imgGuids = textLine.split("\\|");
+					if (imgGuids.length > 1)
+					{
+						String[] imgGuidsList = imgGuids[1].split(",");
+						for (String imgGuid : imgGuidsList)
+						{
+						  imgGuidSet.add(imgGuid);
+						}
+					}
+				}
+			}
+		} finally {
+			if (fileReader != null) {
+				fileReader.close();
+			}
+		}
+		return imgGuidSet;
+	}
+	
 
 	@Required
 	public void setImageService(ImageService imageService) {
