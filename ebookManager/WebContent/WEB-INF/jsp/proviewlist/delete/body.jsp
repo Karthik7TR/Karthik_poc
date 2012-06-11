@@ -70,7 +70,7 @@
 			<td>&nbsp;&nbsp;&nbsp;${status}</td>
 		</tr>
 		<tr>
-			<td>Comments (Optional)</td>
+			<td><b>Comments (Optional)</b></td>
 			<td><form:textarea path="comments" /></td>
 		</tr>
 		</table>

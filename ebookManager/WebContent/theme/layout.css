@@ -692,3 +692,9 @@ div.ui-datepicker{
 .pilotBook {
 	margin-left: 13.1em;
 }
+
+#proviewTitleInfoForm #comments {
+	width: 20em;
+	height: 10em;
+	margin-left:1em;
+}
