@@ -21,6 +21,7 @@
   function changeNewVersion(newVersion, isMajorVersion){
 	 document.getElementById('newVersionNumber').innerHTML = newVersion;
 	 document.getElementById('isMajorVersion').innerHTML = isMajorVersion;
+	 return true;
   }
   
   function submitForm(cmd){
@@ -215,10 +216,10 @@
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  	<form:select path="newVersion">
-			  		<form:option label="Select version" value="" onclick='changeNewVersion("", "N")'/>
-					<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick='changeNewVersion("${newOverwriteVersionNumber}", "N")'/>
-					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>" onclick='changeNewVersion("${newMinorVersionNumber}", "N")'/>
-					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>" onclick='changeNewVersion("${newMajorVersionNumber}", "Y")'/>
+			  		<form:option label="Select version" value="" onclick="changeNewVersion('', 'N')"/>
+					<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick="changeNewVersion('${newOverwriteVersionNumber}', 'N')"/>
+					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>" onclick="changeNewVersion('${newMinorVersionNumber}', 'N')"/>
+					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>" onclick="changeNewVersion('${newMajorVersionNumber}', 'Y')"/>
 				</form:select>
 			 </td>
 		  </tr>
