@@ -124,7 +124,7 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
 		model.addAttribute(WebConstants.KEY_OVERWRITE_ALOOWED,
-				REVIEW_STATUS.equals(status) ? "Y":"N");
+				REVIEW_STATUS.equals(status) ? "Y" : "N");
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
 
 	}
@@ -140,6 +140,8 @@ public class GenerateEbookController {
 			String titleId) throws Exception {
 
 		String currentVersion;
+		String status;
+
 		try {
 
 			ProviewTitleInfo proviewTitleInfo = proviewClient
@@ -147,14 +149,15 @@ public class GenerateEbookController {
 
 			if (proviewTitleInfo == null) {
 				currentVersion = "Not published";
+				status = null;
 
 			} else {
 				currentVersion = proviewTitleInfo.getVersion();
+				status = proviewTitleInfo.getStatus();
 
 			}
 			form.setCurrentVersion(currentVersion);
-			calculateVersionNumbers(model, form, currentVersion,
-					proviewTitleInfo.getStatus());
+			calculateVersionNumbers(model, form, currentVersion, status);
 
 		} catch (ProviewException e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
