@@ -217,7 +217,9 @@
 			<td>
 			  	<form:select path="newVersion">
 			  		<form:option label="Select version" value="" onclick="changeNewVersion('', 'N')"/>
-					<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick="changeNewVersion('${newOverwriteVersionNumber}', 'N')"/>
+					<c:if test="${overwriteAllowed == 'Y'}">
+						<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick="changeNewVersion('${newOverwriteVersionNumber}', 'N')"/>
+					</c:if>
 					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>" onclick="changeNewVersion('${newMinorVersionNumber}', 'N')"/>
 					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>" onclick="changeNewVersion('${newMajorVersionNumber}', 'Y')"/>
 				</form:select>

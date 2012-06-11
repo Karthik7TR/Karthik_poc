@@ -73,6 +73,7 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_ISBN = "isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID = "isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK = "bookDefinitionLock";
+	public static final String KEY_OVERWRITE_ALOOWED = "overwriteAllowed";
 
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 

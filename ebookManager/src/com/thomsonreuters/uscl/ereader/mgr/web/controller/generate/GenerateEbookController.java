@@ -57,6 +57,7 @@ public class GenerateEbookController {
 	private PublishingStatsService publishingStatsService;
 	private ManagerService managerService;
 	private OutageService outageService;
+	private static final String REVIEW_STATUS = "Review";
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			CoreConstants.DATE_FORMAT_PATTERN);
@@ -66,9 +67,10 @@ public class GenerateEbookController {
 	 * @param model
 	 * @param form
 	 * @param currentVersion
+	 * @param status
 	 */
 	private void calculateVersionNumbers(Model model, GenerateBookForm form,
-			String currentVersion) {
+			String currentVersion, String status) {
 
 		String newMajorVersion;
 		String newMinorVersion;
@@ -108,6 +110,12 @@ public class GenerateEbookController {
 			newOverwriteVersion = currentVersion;
 
 		}
+
+		form.setCurrentVersion(currentVersion);
+		form.setNewOverwriteVersion(newOverwriteVersion);
+		form.setNewMajorVersion(newMajorVersion);
+		form.setNewMinorVersion(newMinorVersion);
+
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, currentVersion);
 		model.addAttribute(WebConstants.KEY_NEW_OVERWRITE_VERSION_NUMBER,
 				newOverwriteVersion);
@@ -115,11 +123,8 @@ public class GenerateEbookController {
 				newMajorVersion);
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
-
-		form.setCurrentVersion(currentVersion);
-		form.setNewOverwriteVersion(newOverwriteVersion);
-		form.setNewMajorVersion(newMajorVersion);
-		form.setNewMinorVersion(newMinorVersion);
+		model.addAttribute(WebConstants.KEY_OVERWRITE_ALOOWED,
+				REVIEW_STATUS.equals(status) ? "Y":"N");
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
 
 	}
@@ -148,7 +153,8 @@ public class GenerateEbookController {
 
 			}
 			form.setCurrentVersion(currentVersion);
-			calculateVersionNumbers(model, form, currentVersion);
+			calculateVersionNumbers(model, form, currentVersion,
+					proviewTitleInfo.getStatus());
 
 		} catch (ProviewException e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
