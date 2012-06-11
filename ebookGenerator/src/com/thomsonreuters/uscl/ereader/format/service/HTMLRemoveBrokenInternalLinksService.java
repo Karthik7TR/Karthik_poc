@@ -27,12 +27,14 @@ public interface HTMLRemoveBrokenInternalLinksService {
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
-	 * @param jobId the job identifier of the current transformation run
+	 * @param jobId the job instance identifier of the current transformation run
+	 * @param envName the current execution environment name, like ci or prod
 	 * @param emailRecipients who to notify when things go wrong
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId, Collection<InternetAddress> emailRecipients) throws EBookFormatException;
+			final String title, final Long jobId, String envName,
+			Collection<InternetAddress> emailRecipients) throws EBookFormatException;
 }

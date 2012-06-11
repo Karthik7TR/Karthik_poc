@@ -78,7 +78,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param title title of the book being published
-	 * @param jobId the job identifier of the current transformation run
+	 * @param jobInstanceId the job identifier of the current transformation run
+	 * @param envName the current execution environment name, like ci or prod
 	 * @param emailRecipients who to notify when things go wrong
 	 * @return the number of documents that had post transformations run on them
 	 * 
@@ -86,7 +87,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, 
-			final String title, final Long jobId, Collection<InternetAddress> emailRecipients) throws EBookFormatException
+			final String title, final Long jobInstanceId, String envName,
+			Collection<InternetAddress> emailRecipients) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -129,20 +131,20 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		HashMap<String, String>  anchorDupTargets = readReplaceTargetAnchorFile(anchorDupListFile);
 
 	
-		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobId);
+		DocumentMetadataAuthority documentMetadataAuthority = docMetadataService.findAllDocMetadataForTitleByJobId(jobInstanceId);
 
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, title, jobId, documentMetadataAuthority, targetAnchors, unlinkDocMetadataList, anchorDupTargets);
+			transformHTMLFile(htmlFile, targetDir, title, jobInstanceId, documentMetadataAuthority, targetAnchors, unlinkDocMetadataList, anchorDupTargets);
 			numDocs++;
 		}
 		
 		if (unlinkDocMetadataList != null && unlinkDocMetadataList.size() > 0)
 		{
 		// Send notification for existing anchors.
-			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), title +"_" + jobId +"_anchorTargetUnlinkFile.csv");
-			writeUnlinkAnchorReport(title, jobId, unlinkDocMetadataList, anchorUnlinkTargetListFile, emailRecipients);
+			File anchorUnlinkTargetListFile = new File(targetDir.getAbsolutePath(), title +"_" + jobInstanceId +"_anchorTargetUnlinkFile.csv");
+			writeUnlinkAnchorReport(title, jobInstanceId, envName, unlinkDocMetadataList, anchorUnlinkTargetListFile, emailRecipients);
 			
 		}
 		
@@ -410,7 +412,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		
 	}
 	
-	protected void writeUnlinkAnchorReport(String title, Long jobId, ArrayList<String> unlinkDocMetadataList,
+	protected void writeUnlinkAnchorReport(String title, Long jobInstanceId, String envName, ArrayList<String> unlinkDocMetadataList,
 										   File anchorUnlinkTargetListFile, Collection<InternetAddress> emailRecipients)
 										   throws EBookFormatException
 	{
@@ -450,8 +452,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			}
 		}
 
-		String subject = "Anchor Links removed for title: " + title +" job: " + jobId;
-		String emailBody = "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash). ";
+		String subject = String.format("Anchor links removed for title \"%s\", job: %s, env: %s" + title, jobInstanceId.toString(), envName);
+		String emailBody = "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash).";
 		LOG.debug("Notification email recipients : " + emailRecipients);
 		LOG.debug("Notification email subject : " + subject);
 		LOG.debug("Notification email body : " + emailBody);

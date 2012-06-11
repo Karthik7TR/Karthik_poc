@@ -58,6 +58,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		String username = jobParams.getString(JobParameterKey.USER_NAME);
+		String envName = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 		Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
 				
 		File transformDir = new File(transformDirectory);
@@ -65,7 +66,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId, emailRecipients);
+				transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId, envName, emailRecipients);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
