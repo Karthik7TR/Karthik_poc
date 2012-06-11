@@ -9,15 +9,74 @@
 
 <script>
 $(document).ready(function() {
+	var timeOffset = 300000; // in milliseconds.
+	var timeOffset2 = 7200000;
+	
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
-	$( ".datetimepicker" ).datetimepicker({
+	$( "#startDatetimepicker" ).datetimepicker({
 		showSecond: true,
 		timeFormat: 'hh:mm:ss',
-		minDate: new Date()
+		minDateTime: new Date(),
+		onClose: function(dateText, inst) {
+			var milliseconds = new Date(dateText).getTime();
+			var offsetMilliseconds = milliseconds + timeOffset;
+			
+	        var endDateTextBox = $('#endDatetimepicker');
+	        if (endDateTextBox.val() != '') {
+	            var offsetStartDate = new Date(offsetMilliseconds);
+	            var testEndDate = new Date(endDateTextBox.val());
+	            
+	            <%-- Change end date/time if it is within the offset time --%>
+	            if (offsetStartDate > testEndDate) {
+	            	endDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
+	            }
+	        }
+	        else {
+	        	// Default set to 2 hours after start date/time if end date is not populated
+	            endDateTextBox.datetimepicker('setDate',(new Date(milliseconds + timeOffset2)));
+	        }
+	    }
+	});
+	
+	$( "#endDatetimepicker" ).datetimepicker({
+		showSecond: true,
+		timeFormat: 'hh:mm:ss',
+		minDateTime: new Date(new Date().getTime() + timeOffset),
+		onClose: function(dateText, inst) {
+			var milliseconds = new Date(dateText).getTime();
+			var offsetMilliseconds = milliseconds - timeOffset;
+			
+	        var startDateTextBox = $('#startDatetimepicker');
+	        if (startDateTextBox.val() != '') {
+	            var testStartDate = new Date(startDateTextBox.val());
+	            var offsetEndDate = new Date(offsetMilliseconds);
+	            
+	            <%-- Change start date/time if it is within the offset time --%>
+	            if (testStartDate > offsetEndDate) {
+	            	startDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
+	            }
+	        }
+	        else {
+	        	// Default set to 2 hours before end date/time if start date is not populated
+	        	startDateTextBox.datetimepicker('setDate',(new Date(milliseconds - timeOffset2)));
+	        }
+	    }
+	});
+	
+	$("#save").click(function() {
+		var confirmation = true;
+		var startDate = $('#startDatetimepicker').datetimepicker('getDate');
+		if(startDate < new Date()) {
+			confirmation = confirm("The planned outage will start immediately.  This will stop all currently running jobs.  Are you sure?");
+		}
+		
+		if(confirmation) {
+			$("#<%= OutageForm.FORM_NAME %>").submit();
+		}
 	});
 });
 </script>
-<form:form commandName="<%= OutageForm.FORM_NAME %>">
+<form:form id="<%= OutageForm.FORM_NAME %>" commandName="<%= OutageForm.FORM_NAME %>">
 	<%-- Validation Error Message Presentation (if any) --%>
 	<spring:hasBindErrors name="<%=OutageForm.FORM_NAME%>">
 		<div class="errorBox">
@@ -60,11 +119,11 @@ $(document).ready(function() {
 	</div>
 	<div class="row">
 		<form:label path="startTimeString">Start Date/Time</form:label>
-		<form:input cssClass="datetimepicker" path="startTimeString"/>
+		<form:input id="startDatetimepicker" path="startTimeString"/>
 	</div>
 	<div class="row">
 		<form:label path="endTimeString">End Date/Time</form:label>
-		<form:input cssClass="datetimepicker" path="endTimeString"/>
+		<form:input id="endDatetimepicker" path="endTimeString"/>
 	</div>
 	<div class="row">
 		<form:label path="reason">Reason</form:label>
@@ -79,7 +138,7 @@ $(document).ready(function() {
 		<form:input path="serversImpacted"/>
 	</div>
 	<div class="buttons">
-		<form:button type="submit">Save</form:button>
+		<form:button type="button" id="save">Save</form:button>
 		<button type="button" onclick="location.href ='<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>';">Cancel</button>
 	</div>
 </form:form>
