@@ -31,6 +31,8 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 public class SmokeTestServiceImpl implements SmokeTestService
 {
 	//private static final Logger log = Logger.getLogger(SmokeTestServiceImpl.class);
+	public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
+	
 	private SmokeTestDao dao;
 	@Resource(name = "dataSource")
 	private BasicDataSource basicDataSource;
@@ -175,11 +177,13 @@ public class SmokeTestServiceImpl implements SmokeTestService
 	
 	public List<String> getRunningApplications() {
 		List<String> appNames = null;
-		File file = new File("/appserver/tomcat");
+		
 		
 		try {
 			AppFilenameFilter filter = new AppFilenameFilter();
-			appNames = new ArrayList<String>(Arrays.asList(file.list(filter)));
+			if (APPSERVER_TOMCAT_DIR.exists()) {
+				appNames = new ArrayList<String>(Arrays.asList(APPSERVER_TOMCAT_DIR.list(filter)));
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

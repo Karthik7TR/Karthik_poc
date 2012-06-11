@@ -6,6 +6,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl"%>
 
 <html>
 <head>
@@ -65,7 +66,14 @@
 		</tr>
 		<tr>
 			<th class="tableHeader">Applications:</th>
-			<td>${ applications }</td>
+			<td>
+				<c:if test="${applications != null}">
+					${applications}
+				</c:if>
+				<c:if test="${applications == null}">
+					Expected filesystem folder structure (<%=SmokeTestServiceImpl.APPSERVER_TOMCAT_DIR%>) does not exist!
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th class="tableHeader">as of:</th>
