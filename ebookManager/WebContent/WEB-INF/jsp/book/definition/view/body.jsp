@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
@@ -163,7 +164,7 @@ function submitForm(cmd)
 					</div>
 					<div class="row">
 						<label class="labelCol">Pilot Book: Notes Migration</label>
-						<span class="field">${ book.pilotBookStatus }</span>
+						<span class="field">${ fn:toLowerCase(book.pilotBookStatus) }</span>
 					</div>
 				</div>
 			</div>
