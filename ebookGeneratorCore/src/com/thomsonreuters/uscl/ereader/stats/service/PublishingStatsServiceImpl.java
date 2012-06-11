@@ -83,8 +83,8 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		if (publishingStats != null && publishingStats.size() > 0) {
 			lastSuccessfulPublishingStat = publishingStats.get(0);
 			for (PublishingStats publishingStat : publishingStats) {
-				if (publishingStat.getJobInstanceId() >= lastSuccessfulPublishingStat
-						.getJobInstanceId()
+				if (publishingStat.getJobInstanceId().longValue() >= lastSuccessfulPublishingStat
+						.getJobInstanceId().longValue()
 						&& SUCCESFULL_PUBLISH_STATUS
 								.equalsIgnoreCase(publishingStat
 										.getPublishStatus())) {
@@ -106,7 +106,6 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 					lastAuditSuccessful = ebookAudits.get(0);
 					for (EbookAudit ebookAudit : ebookAudits) {
 						long auditId = ebookAudit.getAuditId();
-
 						if (auditId == lastSuccessfulAuditId) {
 							lastAuditSuccessful = ebookAudit;
 						}
