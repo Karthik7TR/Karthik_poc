@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -151,48 +150,6 @@ public class JobDaoImpl implements JobDao {
 			default:
 				throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
 		}
-	}
-
-	/**
-	 * Delete Spring Batch job records older than the specified date.
-	 */
-	@Override
-	public void deleteJobsBefore(Date deleteJobsDataBefore) {
-		Object[] args = { deleteJobsDataBefore };
-		int[] argTypes = { Types.TIMESTAMP };
-		
-		List<Long> jobExecutionIds = jdbcTemplate.queryForList(
-				String.format("select JOB_EXECUTION_ID from JOB_EXECUTION where START_TIME < ?"), args, argTypes, Long.class);
-		
-		if (jobExecutionIds.size() > 0) {
-			String csvJobExecutionIds = createCsvString(jobExecutionIds);
-			List<Long> jobInstanceIds = jdbcTemplate.queryForList(
-					String.format("select unique JOB_INSTANCE_ID from JOB_EXECUTION where START_TIME < ?"), args, argTypes, Long.class);
-			String csvJobInstanceIds = createCsvString(jobInstanceIds);
-			List<Long> stepExecutionIds = jdbcTemplate.queryForList(
-					String.format("select STEP_EXECUTION_ID from STEP_EXECUTION where JOB_EXECUTION_ID in (%s)", csvJobExecutionIds), Long.class);
-			String csvStepExecutionIds = createCsvString(stepExecutionIds);
-	
-			jdbcTemplate.update(String.format("delete from JOB_PARAMS where JOB_INSTANCE_ID in (%s)", csvJobInstanceIds));
-			jdbcTemplate.update(String.format("delete from JOB_EXECUTION_CONTEXT where JOB_EXECUTION_ID in (%s)", csvJobExecutionIds));
-			jdbcTemplate.update(String.format("delete from STEP_EXECUTION_CONTEXT where STEP_EXECUTION_ID in (%s)", csvStepExecutionIds));
-			jdbcTemplate.update(String.format("delete from STEP_EXECUTION where JOB_EXECUTION_ID in (%s)", csvJobExecutionIds));
-			jdbcTemplate.update(String.format("delete from JOB_EXECUTION where JOB_EXECUTION_ID in (%s)", csvJobExecutionIds));
-			jdbcTemplate.update(String.format("delete from JOB_INSTANCE where JOB_INSTANCE_ID in (%s)", csvJobInstanceIds));
-		}
-	}
-	
-	private String createCsvString(List<Long> ids) {
-		int index = 0;
-		int listSize = ids.size();
-		StringBuffer csv = new StringBuffer();
-		for (Long id : ids) {
-			csv.append(id);
-			if (++index < listSize) {
-				csv.append(",");
-			}
-		}
-		return csv.toString();
 	}
 	
 	@Required

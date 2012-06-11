@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.web.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -31,12 +33,15 @@ public class MiscConfigRestController {
 	 * @param newConfiguration the updated configuration as changed on the ebookManager administration page.
 	 */
 	@RequestMapping(value=CoreConstants.URI_SYNC_MISC_CONFIG, method = RequestMethod.POST)
-	public ModelAndView synchronizeMiscConfiguration(@RequestBody MiscConfig config, Model model) throws Exception {
-		log.debug(">>> " + config);
+	public ModelAndView synchronizeMiscConfiguration(HttpSession httpSession,
+									@RequestBody MiscConfig config, Model model) throws Exception {
+//log.debug(">>> " + config);
 		SimpleRestServiceResponse opResponse = null;
 		try {
 			String message = "Successfully synchronized misc configuration";
-			miscConfigSyncService.syncMiscConfig(config);
+			miscConfigSyncService.sync(config);
+			httpSession.getServletContext().setAttribute(CoreConstants.KEY_PROVIEW_HOST,
+														 config.getProviewHost().getHostName());
 			log.debug(String.format("%s: %s", message, config.toString()));
 			opResponse = new SimpleRestServiceResponse(null, true, message);
 		} catch (Exception e) {

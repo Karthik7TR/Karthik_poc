@@ -1,3 +1,4 @@
+<%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment"%>
 <%@page import="org.apache.log4j.Level"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
@@ -42,7 +43,7 @@
 	</c:forEach>
  	</ul>
     </c:if>
-    <b>Log4j logging levels</b><br/>
+
 	<table>
 	<tr>
 	<td>App Logger Level:</td>
@@ -70,6 +71,20 @@
 	</form:select>
 	</td>
 	</tr>
+	<tr>
+		<td>Novus Environment:</td>
+		<td>
+			<form:select path="<%=MiscConfig.Key.novusEnvironment.toString()%>">
+				<form:option label="<%=NovusEnvironment.Client.toString()%>" value="<%=NovusEnvironment.Client.toString()%>"/>
+				<form:option label="<%=NovusEnvironment.Prod.toString()%>" value="<%=NovusEnvironment.Prod.toString()%>"/>
+			</form:select>
+		</td>
+	</tr>
+	<tr>
+		<td>ProView Host:</td>
+		<td><form:input path="proviewHostname" size="48"/></td>
+	</tr>
+	
 	</table>		   
 	
 <div class="buttons">

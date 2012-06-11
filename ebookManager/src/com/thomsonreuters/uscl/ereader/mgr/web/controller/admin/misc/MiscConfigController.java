@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
@@ -43,6 +44,7 @@ public class MiscConfigController {
 	private int managerPort;
 	private ManagerService managerService;
 	private AppConfigService appConfigService;
+	private MiscConfigSyncService miscConfigSyncService;
 	private Validator validator;
 	
 	public MiscConfigController(int gathererPort, int generatorPort, int managerPort) {
@@ -59,7 +61,7 @@ public class MiscConfigController {
 	@RequestMapping(value = WebConstants.MVC_ADMIN_MISC, method = RequestMethod.GET)
 	public ModelAndView inboundGet(@ModelAttribute(MiscConfigForm.FORM_NAME) MiscConfigForm form,
 								   Model model) throws Exception {
-		MiscConfig miscConfig = appConfigService.loadMiscConfig();
+		MiscConfig miscConfig = miscConfigSyncService.getMiscConfig();
 		form.initialize(miscConfig);
 		return new ModelAndView(WebConstants.VIEW_ADMIN_MISC);
 	}
@@ -68,12 +70,13 @@ public class MiscConfigController {
 	public ModelAndView submitMiscConfigForm(
 					@ModelAttribute(MiscConfigForm.FORM_NAME) @Valid MiscConfigForm form,
 					BindingResult errors, Model model) throws Exception {
+		log.debug("Form: " + form);
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 		if (!errors.hasErrors()) {
 			boolean anySaveErrors = false;
 			// Persist the changed configuration
+			MiscConfig miscConfig = form.createMiscConfig();
 			try {
-				MiscConfig miscConfig = form.getMiscConfig();
 				appConfigService.saveMiscConfig(miscConfig);  // Persist the changed configuration
 				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved misc configuration."));
 			} catch (Exception e) {
@@ -86,8 +89,6 @@ public class MiscConfigController {
 			// If no data persistence errors, then 
 			// Push/synchronize the new configuration out to all listening ebookGenerator hosts who care about the change.
 			if (!anySaveErrors) {
-				// Fetch the complete current state of the application configuration
-				MiscConfig miscConfig = appConfigService.loadMiscConfig();
 				// Push the config to all generator, gatherer applications (which are assumed to be on the same host)
 				for (int i = 0; i < generatorSocketAddrs.size(); i++) {
 					InetSocketAddress generatorSocketAddr = generatorSocketAddrs.get(i);
@@ -174,6 +175,10 @@ public class MiscConfigController {
 	@Required
 	public void setAppConfigService(AppConfigService service) {
 		this.appConfigService = service;
+	}
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService service) {
+		this.miscConfigSyncService = service;
 	}
 	@Required
 	public void setManagerService(ManagerService service) {

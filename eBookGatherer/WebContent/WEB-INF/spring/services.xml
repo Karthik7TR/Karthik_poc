@@ -32,15 +32,10 @@
 		  p:novusUtility-ref="novusUtility"/>
 
 	<!-- Below is used to fetch the initial misc config (log4j logging levels) from a generator REST service that serves up the MiscConfig object
-		 as read from the database. -->
-	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncServiceImpl"/>
+		 as read from the database. --> 
+	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.gather.services.GathererMiscConfigSyncService"
+		  p:novusFactory-ref="novusFactory"/>
 
-	<!-- TODO: currently hangs Tomcat boot when gatherer and generator are running on the same Tomcat instance 
-	<bean id="generatorRestClient" class="com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClientImpl"
-		  p:restTemplate-ref="generatorRestTemplate"
-		  p:generatorContextUrl="${generator.context.url}"/>
-	<bean class="com.thomsonreuters.uscl.ereader.gather.services.GathererAppConfigLoader"
-		  p:miscConfigSyncService-ref="miscConfigSyncService"
-		  p:generatorRestClient-ref="generatorRestClient"/>
-	 -->
+	<bean class="com.thomsonreuters.uscl.ereader.gather.services.GathererAppConfigLoader"/>
+
 </beans>

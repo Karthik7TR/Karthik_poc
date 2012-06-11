@@ -16,11 +16,11 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">      
 
 	<bean id="basicAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory">
-		<constructor-arg type="java.lang.String" value="${proview.domain}"/>
+		<constructor-arg value="${proview.host}"/>
 		<constructor-arg type="java.lang.String" value="${proview.username}"/>
 		<constructor-arg type="java.lang.String" value="${proview.password}"/>
 	</bean>
-	
+
 	<bean id="basicAuthenticationHttpClient" factory-bean="basicAuthenticationHttpClientFactory" factory-method="getBasicAuthenticationHttpClient"/>
 
 	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
@@ -46,8 +46,9 @@
 		  p:jobRequestDao-ref="jobRequestDao"/>
 		  
 	<bean id="appConfigService" class="com.thomsonreuters.uscl.ereader.core.job.service.AppConfigServiceImpl"
-		  p:appParameterDao-ref="appParameterDao"/>
-	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncServiceImpl"/>
+		  p:appParameterDao-ref="appParameterDao"
+		  p:defaultProviewHostname="${proview.host}"
+		  p:defaultNovusEnvironment="${novus.environment}"/>
 		  
 	<bean id="ssh" class="com.thomsonreuters.uscl.ereader.util.Ssh"/>
 	
@@ -60,13 +61,13 @@
 		  p:jobCleanupService-ref="jobCleanupService"
 		  p:userPreferenceService-ref="userPreferenceService"/>
 	
-	
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
-		  p:getTitlesUriTemplate="http://${proview.domain}/v1/titles/uscl/all"
-		  p:publishTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
-		  p:removeTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}/status/removed"
-		  p:promoteTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}/status/final"
-		  p:deleteTitleUriTemplate="http://${proview.domain}/v1/title/{titleId}/{eBookVersionNumber}"
+		  p:proviewHostname="${proview.host}"
+		  p:getTitlesUriTemplate="http://{proviewHost}/v1/titles/uscl/all"
+		  p:publishTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}"
+		  p:removeTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/status/removed"
+		  p:promoteTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/status/final"
+		  p:deleteTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:restTemplate-ref="proviewRestTemplate"
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
 		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>
@@ -84,6 +85,5 @@
 	
 	<bean id="smokeTestService" class="com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl" 
 		  p:smokeTestDao-ref="smokeTestDao" />
-
-
+	
 </beans>	

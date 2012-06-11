@@ -20,6 +20,7 @@
 	</bean>
 	<bean id="miscConfigController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController"
 		  p:appConfigService-ref="appConfigService"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  p:managerService-ref="managerService"
 		  p:generatorContextName="${generator.context.name}"
 		  p:gathererContextName="${gatherer.context.name}"
@@ -228,9 +229,9 @@
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.AccessDeniedController"/>
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController"
 		p:environmentName-ref="environmentName"
-		p:proviewDomain-ref="proviewDomain"
 		p:userPreferenceService-ref="userPreferenceService"
-		p:outageService-ref="outageService">
+		p:outageService-ref="outageService"
+		p:miscConfigSyncService-ref="miscConfigSyncService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginFormValidator"/>
 		</property>
@@ -238,9 +239,9 @@
 	
 	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.smoketest.SmokeTestController"
 		p:environmentName-ref="environmentName"
-		p:proviewDomain-ref="proviewDomain" 
 		p:imageVertical-ref="imageVertical"
-		p:smokeTestService-ref="smokeTestService" />
+		p:smokeTestService-ref="smokeTestService"
+		p:miscConfigSyncService-ref="miscConfigSyncService"/>
 	  
 	<bean id="eBookJobHistoryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history.EBookJobHistoryController"
 		p:bookDefinitionService-ref="bookDefinitionService"

@@ -28,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 
 
 public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
@@ -37,11 +38,10 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	private JobOperator jobOperator;
 	private JobLauncher jobLauncher;
 	private ThreadPoolTaskExecutor springBatchTaskExecutor;
-	private String proviewDomainName; // like "ci" or "demo" or "qed"
 	private String imageService;
-	private String novusEnvironment;
 	private String dbServiceName;
 	private JobStartupThrottleService jobStartupThrottleService;
+	private MiscConfigSyncService miscConfigSyncService;
 
 	@Override
 	public void syncJobThrottleConfig(JobThrottleConfig config) throws Exception {
@@ -118,10 +118,10 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 		jobParamMap.put(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));	
 		jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
 		jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
-		jobParamMap.put(JobParameterKey.PROVIEW_DOMAIN_NAME, new JobParameter(proviewDomainName));
+		jobParamMap.put(JobParameterKey.PROVIEW_HOST_NAME, new JobParameter(miscConfigSyncService.getProviewHost().getHostName()));
 		jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(jobRequest.getSubmittedAt()));  // When the job entered the JOB_REQUEST run queue
-		jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));	
-		jobParamMap.put(JobParameterKey.NOVUS_ENV, new JobParameter(novusEnvironment));	
+		jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));
+		jobParamMap.put(JobParameterKey.NOVUS_ENV, new JobParameter(miscConfigSyncService.getNovusEnvironment().toString()));	
 		jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
 		return new JobParameters(jobParamMap);
 	}
@@ -147,18 +147,11 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	public void setJobLauncher(JobLauncher jobLauncher) {
 		this.jobLauncher = jobLauncher;
 	}
-	@Required
-	public void setProviewDomain(String proviewDomain) {
-		this.proviewDomainName = proviewDomain;
-	}
 	@Required	
 	public void setImageService(String imageService) {
 		this.imageService = imageService;
 	}
-	@Required
-	public void setNovusEnvironment(String novusEnvironment) {
-		this.novusEnvironment = novusEnvironment;
-	}
+
 	@Required	
 	public void setDbServiceName(String dbServiceName) {
 		this.dbServiceName = dbServiceName;
@@ -170,5 +163,9 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	@Required
 	public void setJobStartupThrottleService(JobStartupThrottleService service) {
 		this.jobStartupThrottleService = service;
+	}
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService service) {
+		this.miscConfigSyncService = service;
 	}
 }

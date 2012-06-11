@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
@@ -21,9 +20,4 @@ public interface JobDao {
 	 */
 	public List<Long> findJobExecutions(JobFilter filter, JobSort sort);
 	
-	/**
-	 * Delete all Spring Batch job data before the specified date.
-	 * @param deleteJobDataBefore job data before this point in time will be removed.
-	 */
-	public void deleteJobsBefore(Date deleteJobDataBefore);
 }

@@ -5,6 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -22,6 +25,12 @@ public class MiscConfigFormValidator extends BaseFormValidator implements Valida
 	@Override
     public void validate(Object obj, Errors errors) {
     	//log.debug(">>>");
-		//MiscConfigForm form = (MiscConfigForm) obj;
+		MiscConfigForm form = (MiscConfigForm) obj;
+		try {
+			InetAddress.getByName(form.getProviewHostname());
+		} catch (UnknownHostException e) {
+			Object[] args = { form.getProviewHostname() };
+			errors.reject("error.unknown.proview.host", args, "Unknown/Invalid Proview Host");
+		}
 	}
 }

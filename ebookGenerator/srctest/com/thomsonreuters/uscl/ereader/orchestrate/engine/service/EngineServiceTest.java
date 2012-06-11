@@ -7,6 +7,8 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.net.InetAddress;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,8 +19,10 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 
 public class EngineServiceTest  {
 	private static final String TITLE_ID = "titleId";
@@ -39,6 +43,7 @@ public class EngineServiceTest  {
 	private JobLauncher mockJobLauncher;
 	private JobOperator mockJobOperator;
 	private JobRegistry mockJobRegistry;
+	private MiscConfigSyncService mockMiscConfigSyncService;
 	private BookDefinition expectedBookDefinition;
 
 	@Before
@@ -46,6 +51,7 @@ public class EngineServiceTest  {
 		this.mockJobLauncher = EasyMock.createMock(JobLauncher.class);
 		this.mockJobOperator = EasyMock.createMock(JobOperator.class);
 		this.mockJobRegistry = EasyMock.createMock(JobRegistry.class);
+		this.mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
 		// Set up an expected book definition entity
 		this.expectedBookDefinition = EasyMock.createMock(BookDefinition.class);
 		this.expectedBookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
@@ -53,14 +59,20 @@ public class EngineServiceTest  {
 		service.setJobLauncher(mockJobLauncher);
 		service.setJobOperator(mockJobOperator);
 		service.setJobRegistry(mockJobRegistry);
+		service.setMiscConfigSyncService(mockMiscConfigSyncService);
 	}
 	
 	@Test
-	public void testCreateDynamicJobParameters() {
+	public void testCreateDynamicJobParameters() throws Exception {
+		EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
+		EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);
+		EasyMock.replay(mockMiscConfigSyncService);
 		JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);
 		Assert.assertNotNull(JobParameterKey.HOST_NAME);
 		assertEquals(SUBMITTED_BY, dynamicJobParams.getString(JobParameterKey.USER_NAME));
 		assertEquals(VERSION, dynamicJobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
+		
+		EasyMock.verify(mockMiscConfigSyncService);
 	}
 
 	@Test

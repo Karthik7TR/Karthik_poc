@@ -9,12 +9,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
@@ -22,23 +25,23 @@ import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
 
 @Controller
 public class SmokeTestController {
-	//private static final Logger log = Logger.getLogger(SmokeTestController.class);
+	private static final Logger log = Logger.getLogger(SmokeTestController.class);
 
+	private MiscConfigSyncService miscConfigSyncService;
 	private SmokeTestService smokeTestService;
 	private String environmentName;
 	private String imageVertical;
-	private String proviewDomain;
 	
 	/**
 	 * Handle the inbound GET to the smoke test page.
 	 */
 	@RequestMapping(value = WebConstants.MVC_SMOKE_TEST, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpSession httpSession, Model model) {
-		
+		InetAddress proviewHost = miscConfigSyncService.getProviewHost();
 		try {
 			model.addAttribute("localHost", InetAddress.getLocalHost().getHostName());
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		
 		// Proview and Image vertical
@@ -46,14 +49,15 @@ public class SmokeTestController {
 		URI uri = URI.create(imageVertical);
 		
 		statuses.add(smokeTestService.getApplicationStatus("Image Vertical", String.format("http://%s/CheckStatus", uri.getAuthority() )));
-		statuses.add(smokeTestService.getApplicationStatus("ProView", String.format("http://%s/v1/statuscheck", proviewDomain)));
+		statuses.add(smokeTestService.getApplicationStatus("ProView", String.format("http://%s/v1/statuscheck", proviewHost.getHostName())));
 		statuses.add(smokeTestService.testConnection());
 		model.addAttribute("currentProperties", statuses);
 		
 		model.addAttribute("date", new Date());
 		model.addAttribute("applications", smokeTestService.getRunningApplications());
 		model.addAttribute("environmentName", environmentName);
-		model.addAttribute("proviewDomain", proviewDomain);
+		model.addAttribute("proviewHost", proviewHost.getHostName());
+		model.addAttribute("novusEnvironment", miscConfigSyncService.getNovusEnvironment().toString());
 		model.addAttribute("ci", smokeTestService.getCIServerStatuses());
 		model.addAttribute("ciApps", smokeTestService.getCIApplicationStatuses());
 		model.addAttribute("test", smokeTestService.getTestServerStatuses());
@@ -73,10 +77,6 @@ public class SmokeTestController {
 		this.environmentName = name;
 	}
 	
-	@Required
-	public void setProviewDomain(String domain) {
-		this.proviewDomain = domain;
-	}
 	
 	@Required
 	public void setImageVertical(String imageVertical) {
@@ -87,6 +87,8 @@ public class SmokeTestController {
 	public void setSmokeTestService(SmokeTestService service) {
 		this.smokeTestService = service;
 	}
-	
-	
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService service) {
+		this.miscConfigSyncService = service;
+	}
 }

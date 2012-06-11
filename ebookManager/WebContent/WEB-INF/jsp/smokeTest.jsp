@@ -56,8 +56,12 @@
 			<td>${ localHost }</td>
 		</tr>
 		<tr>
-			<th class="tableHeader">ProView:</th>
-			<td>${ proviewDomain }</td>
+			<th class="tableHeader">ProView Host:</th>
+			<td>${ proviewHost }</td>
+		</tr>
+		<tr>
+			<th class="tableHeader">Novus Environment:</th>
+			<td>${ novusEnvironment }</td>
 		</tr>
 		<tr>
 			<th class="tableHeader">Applications:</th>

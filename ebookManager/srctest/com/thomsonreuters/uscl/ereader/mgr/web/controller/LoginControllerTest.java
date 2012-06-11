@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.security.LoginForm;
@@ -41,6 +43,7 @@ public class LoginControllerTest {
     
     private UserPreferenceService mockPreferenceService;
     private OutageService mockOutageService;
+    private MiscConfigSyncService mockMiscConfigSyncService;
   
     @Before
     public void setUp() throws Exception {
@@ -50,20 +53,25 @@ public class LoginControllerTest {
     	
     	mockPreferenceService = EasyMock.createMock(UserPreferenceService.class);
     	mockOutageService = EasyMock.createMock(OutageService.class);
+    	mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
     	
     	controller = new LoginController();
     	controller.setEnvironmentName("workstation");
-    	controller.setProviewDomain("ci");
     	controller.setUserPreferenceService(mockPreferenceService);
     	controller.setOutageService(mockOutageService);
+    	controller.setMiscConfigSyncService(mockMiscConfigSyncService);
     }
     @Test
     public void testInboundGet() throws Exception {
     	request.setRequestURI("/"+WebConstants.MVC_SEC_LOGIN);
     	request.setMethod(HttpMethod.GET.name());
     	
+    	EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
     	EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+    	
+    	EasyMock.replay(mockMiscConfigSyncService);
     	EasyMock.replay(mockOutageService);
+    	
     	
     	ModelAndView mav = handlerAdapter.handle(request, response, controller);
     	Assert.assertNotNull(mav);
@@ -71,6 +79,7 @@ public class LoginControllerTest {
     	Map<String,Object> model = mav.getModel();
     	Assert.assertNotNull(model.get(LoginForm.FORM_NAME));
     	
+    	EasyMock.verify(mockMiscConfigSyncService);
     	EasyMock.verify(mockOutageService);
     }
 

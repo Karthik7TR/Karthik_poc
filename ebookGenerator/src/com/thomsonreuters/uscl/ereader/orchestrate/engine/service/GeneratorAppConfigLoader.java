@@ -35,7 +35,7 @@ public class GeneratorAppConfigLoader implements AppConfigLoader  {
 		try {
 			MiscConfig miscConfig = appConfigService.loadMiscConfig();
 			JobThrottleConfig jobThrottleConfig = appConfigService.loadJobThrottleConfig();
-			miscConfigSyncService.syncMiscConfig(miscConfig);
+			miscConfigSyncService.sync(miscConfig);
 			jobThrottleConfigSyncService.syncJobThrottleConfig(jobThrottleConfig);
 			loadPlannedOutages();
 		} catch (Exception e) {

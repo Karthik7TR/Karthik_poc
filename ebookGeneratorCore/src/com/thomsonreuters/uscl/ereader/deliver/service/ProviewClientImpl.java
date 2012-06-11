@@ -8,14 +8,16 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -33,11 +35,14 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFact
 public class ProviewClientImpl implements ProviewClient {
 
 	private static final Logger LOG = Logger.getLogger(ProviewClientImpl.class);
+	public static final String PROVIEW_HOST_PARAM = "proviewHost";
+	private InetAddress proviewHost;
+	
 	private RestTemplate restTemplate;
-	private String validationUriTemplate;
+//	private String validationUriTemplate;
 	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
-	private String publishingStatusUriTemplate;
+//	private String publishingStatusUriTemplate;
 	private String deleteTitleUriTemplate;
 	private String removeTitleUriTemplate;
 	private String promoteTitleUriTemplate;
@@ -76,6 +81,7 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
@@ -116,6 +122,7 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
@@ -151,6 +158,7 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
@@ -186,6 +194,7 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("titleId", fullyQualifiedTitleId);
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
@@ -202,14 +211,16 @@ public class ProviewClientImpl implements ProviewClient {
 
 	@Override
 	public String getAllPublishedTitles() throws ProviewException {
-		Map<String, String> urlVariables = new HashMap<String, String>();
-
 		String response = null;
 		try {
+			Map<String, String> urlParameters = new HashMap<String, String>();
+LOG.debug("Proview host: " + proviewHost.getHostName());		
+			urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 			response = restTemplate.execute(getTitlesUriTemplate,
 					HttpMethod.GET,
 					proviewRequestCallbackFactory.getRequestCallback(),
-					proviewResponseExtractorFactory.getResponseExtractor());
+					proviewResponseExtractorFactory.getResponseExtractor(),
+					urlParameters);
 		} catch (Exception e) {
 			LOG.debug(e);
 			throw new ProviewException(e.getMessage());
@@ -218,24 +229,25 @@ public class ProviewClientImpl implements ProviewClient {
 		return response;
 	}
 
-	@Override
-	public String getPublishingStatus(String fullyQualifiedTitleId)
-			throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"Cannot get publishing status for titleId: "
-							+ fullyQualifiedTitleId
-							+ ". The titleId must not be null or empty.");
-		}
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		ResponseEntity responseEntity = restTemplate.getForEntity(
-				publishingStatusUriTemplate, String.class, urlParameters);
-		logResponse(responseEntity);
-
-		return responseEntity.getBody().toString();
-	}
+//	@Override
+//	public String getPublishingStatus(String fullyQualifiedTitleId)
+//			throws ProviewException {
+//		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+//			throw new IllegalArgumentException(
+//					"Cannot get publishing status for titleId: "
+//							+ fullyQualifiedTitleId
+//							+ ". The titleId must not be null or empty.");
+//		}
+//
+//		Map<String, String> urlParameters = new HashMap<String, String>();
+//		urlParameters.put("titleId", fullyQualifiedTitleId);
+//		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+//		ResponseEntity responseEntity = restTemplate.getForEntity(
+//				publishingStatusUriTemplate, String.class, urlParameters);
+//		logResponse(responseEntity);
+//
+//		return responseEntity.getBody().toString();
+//	}
 
 	/*
 	 * (non-Javadoc)
@@ -367,47 +379,61 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 	}
 
-	private void logResponse(final ResponseEntity responseEntity) {
-		LOG.debug("Response Headers: "
-				+ responseEntity.getHeaders().toSingleValueMap());
-		LOG.debug("Response Body:" + responseEntity.getBody().toString());
+//	private void logResponse(final ResponseEntity responseEntity) {
+//		LOG.debug("Response Headers: "
+//				+ responseEntity.getHeaders().toSingleValueMap());
+//		LOG.debug("Response Body:" + responseEntity.getBody().toString());
+//	}
+	
+	/**
+	 * Allows for the dynamic setting of this host name "on the fly".
+	 * @param host the new host name to use.  For example a production or test host.
+	 */
+	@Override
+	public void setProviewHostname(String hostname) throws UnknownHostException {
+		setProviewHost(InetAddress.getByName(hostname));
+	}
+
+	public void setProviewHost(InetAddress host) {
+		this.proviewHost = host;
 	}
 
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
 
-	public void setValidationUriTemplate(String validationUriTemplate) {
-		this.validationUriTemplate = validationUriTemplate;
-	}
+//	public void setValidationUriTemplate(String validationUriTemplate) {
+//		this.validationUriTemplate = validationUriTemplate;
+//	}
 
+	@Required
 	public void setPublishTitleUriTemplate(String publishTitleUriTemplate) {
 		this.publishTitleUriTemplate = publishTitleUriTemplate;
 	}
-
+	@Required
 	public void setGetTitlesUriTemplate(String getTitlesUriTemplate) {
 		this.getTitlesUriTemplate = getTitlesUriTemplate;
 	}
 
-	public void setPublishingStatusUriTemplate(
-			String publishingStatusUriTemplate) {
-		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
-	}
-
+//	public void setPublishingStatusUriTemplate(
+//			String publishingStatusUriTemplate) {
+//		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
+//	}
+	@Required
 	public void setProviewRequestCallbackFactory(
 			ProviewRequestCallbackFactory proviewRequestCallbackFactory) {
 		this.proviewRequestCallbackFactory = proviewRequestCallbackFactory;
 	}
-
+	@Required
 	public void setProviewResponseExtractorFactory(
 			ProviewResponseExtractorFactory proviewResponseExtractorFactory) {
 		this.proviewResponseExtractorFactory = proviewResponseExtractorFactory;
 	}
-
 	public String getDeleteTitleUriTemplate() {
 		return deleteTitleUriTemplate;
 	}
 
+	@Required
 	public void setDeleteTitleUriTemplate(String deleteTitleUriTemplate) {
 		this.deleteTitleUriTemplate = deleteTitleUriTemplate;
 	}
@@ -415,7 +441,7 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getRemoveTitleUriTemplate() {
 		return removeTitleUriTemplate;
 	}
-
+	@Required
 	public void setRemoveTitleUriTemplate(String removeTitleUriTemplate) {
 		this.removeTitleUriTemplate = removeTitleUriTemplate;
 	}
@@ -423,7 +449,7 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getPromoteTitleUriTemplate() {
 		return promoteTitleUriTemplate;
 	}
-
+	@Required
 	public void setPromoteTitleUriTemplate(String promoteTitleUriTemplate) {
 		this.promoteTitleUriTemplate = promoteTitleUriTemplate;
 	}

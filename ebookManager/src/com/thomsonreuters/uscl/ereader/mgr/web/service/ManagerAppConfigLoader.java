@@ -27,7 +27,7 @@ public class ManagerAppConfigLoader implements AppConfigLoader {
 		log.debug(">>>");
 		try {
 			MiscConfig miscConfig = appConfigService.loadMiscConfig();
-			miscConfigSyncService.syncMiscConfig(miscConfig);
+			miscConfigSyncService.sync(miscConfig);
 		} catch (Exception e) {
 			log.error(e);
 		}

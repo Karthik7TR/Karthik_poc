@@ -6,6 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.gather.services;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.westgroup.novus.productapi.Novus;
 
 /**
@@ -18,5 +19,11 @@ public interface NovusFactory {
 	 * Create the Novus system connection.
 	 */
 	public Novus createNovus();
+	
+	/**
+	 * Which environment "Client" | "Prod" are we working with.
+	 * @param env the typesafe environment name
+	 */
+	public void setNovusEnvironment(NovusEnvironment env);
 
 }

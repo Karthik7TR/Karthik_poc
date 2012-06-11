@@ -22,6 +22,8 @@
     <mapping name="miscConfig" class="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig">
         <value name="rootLogLevel" field="rootLogLevel" usage="required"/>
         <value name="appLogLevel" field="appLogLevel" usage="required"/>
+        <value name="novusEnvironment" field="novusEnvironment" usage="required"/>
+        <value name="proviewHostname" field="proviewHostname" usage="required"/>
     </mapping>
     
     <!-- Gather service REST response body for Toc and Doc requests -->

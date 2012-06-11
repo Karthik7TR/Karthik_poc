@@ -8,6 +8,7 @@ import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
@@ -16,6 +17,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 public class AppConfigServiceImpl implements AppConfigService {
 	private static final int DEFAULT_SIZE = 2;
 	private AppParameterDao dao;
+	private String defaultProviewHostname;
+	private NovusEnvironment defaultNovusEnvironment;
 	
 	public AppConfigServiceImpl() {
 		super();
@@ -44,8 +47,12 @@ public class AppConfigServiceImpl implements AppConfigService {
 	public MiscConfig loadMiscConfig() {
 		Level appLogLevel = fetchLogLevel(MiscConfig.Key.appLogLevel.toString(), Level.INFO);
 		Level rootLogLevel = fetchLogLevel(MiscConfig.Key.rootLogLevel.toString(), Level.ERROR);
-		
-		MiscConfig config = new MiscConfig(appLogLevel, rootLogLevel);
+		String proviewHostname = getConfigValue(MiscConfig.Key.proviewHostname.toString());
+		if (StringUtils.isBlank(proviewHostname)) {
+			proviewHostname = defaultProviewHostname;
+		}
+		MiscConfig config = new MiscConfig(appLogLevel, rootLogLevel,
+								defaultNovusEnvironment, proviewHostname);
 		return config;
 	}
 
@@ -78,6 +85,8 @@ public class AppConfigServiceImpl implements AppConfigService {
 		dao.save(param);
 		param = new AppParameter(MiscConfig.Key.rootLogLevel.toString(), config.getRootLogLevel());
 		dao.save(param);
+		param = new AppParameter(MiscConfig.Key.proviewHostname.toString(), config.getProviewHost().getHostName());
+		dao.save(param);
 	}	
 	
 	private List<AppParameter> createJobThrottleConfigAppParameterList(JobThrottleConfig config) {
@@ -92,5 +101,11 @@ public class AppConfigServiceImpl implements AppConfigService {
 	@Required
 	public void setAppParameterDao(AppParameterDao dao) {
 		this.dao = dao;
+	}
+	public void setDefaultProviewHostname(String hostname) {
+		this.defaultProviewHostname = hostname;
+	}
+	public void setDefaultNovusEnvironment(NovusEnvironment env) {
+		this.defaultNovusEnvironment = env;
 	}
 }

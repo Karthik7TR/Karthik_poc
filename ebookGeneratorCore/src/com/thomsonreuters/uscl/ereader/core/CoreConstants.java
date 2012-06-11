@@ -1,6 +1,10 @@
 package com.thomsonreuters.uscl.ereader.core;
 
 public class CoreConstants {
+	
+	/** The name of the current Novus environment */
+	public static enum NovusEnvironment { Client, Prod };
+	
 	// Data directory path related info used in the InitializeTask (generator) and the cleanup ManagerService (manager).
 	public static final String DATA_DIR = "data";
 	// Date/Time formatting patterns
@@ -18,6 +22,8 @@ public class CoreConstants {
 	public static final String URI_GET_MISC_CONFIG = "service/get/misc/config";
 	
 	public static final String KEY_SIMPLE_REST_RESPONSE = "simpleResponse";
+	
+	public static final String KEY_PROVIEW_HOST = "proviewHost";
 	
 	/** Marshalling view to JiBX marshal the GenerRestServiceResponse into XML that is returned to requesting clients. */
 	public static final String VIEW_SIMPLE_REST_RESPONSE = "simpleResponseView";

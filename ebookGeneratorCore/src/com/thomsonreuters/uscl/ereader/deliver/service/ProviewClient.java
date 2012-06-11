@@ -6,6 +6,8 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -22,14 +24,17 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
  */
 public interface ProviewClient {
 
+	public void setProviewHostname(String hostname) throws UnknownHostException;
+	public void setProviewHost(InetAddress host);
+	
 	public String publishTitle(final String fullyQualifiedTitleId,
 			final String versionNumber, final File eBook)
 			throws ProviewException;
 
 	public String getAllPublishedTitles() throws ProviewException;
 
-	public String getPublishingStatus(final String fullyQualifiedTitleId)
-			throws ProviewException;
+//	public String getPublishingStatus(final String fullyQualifiedTitleId)
+//			throws ProviewException;
 
 	public ProviewTitleInfo getLatestProviewTitleInfo(
 			final String fullyQualifiedTitleId) throws ProviewException;

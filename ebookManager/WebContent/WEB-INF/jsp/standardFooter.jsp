@@ -8,7 +8,7 @@
 	<b>&copy; 2012 Thomson Reuters</b>
 	<c:choose>
 		<c:when test="${not fn:containsIgnoreCase('prod', environmentName) }">
-			<span style="margin-left: 20px;">Environment: ${environmentName} &nbsp; ProView: ${proviewDomain} &nbsp; (${userRoles})</span>
+			<span style="margin-left: 20px;">Environment: ${environmentName} &nbsp; ProView: ${proviewHost} &nbsp; (${userRoles})</span>
 		</c:when>
 		<c:otherwise>
 			<span style="margin-left: 20px;">(${userRoles})</span>

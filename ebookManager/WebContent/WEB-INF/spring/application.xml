@@ -23,6 +23,10 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
        	  <list>
+       	  	<!-- Common properties (defined in core project) -->
+       	   	<value>classpath:spring/properties/default-spring.properties</value>
+           	<value>classpath:spring/properties/${environment}-spring.properties</value>
+           	<!-- Application Specific properties -->
           	<value>/WEB-INF/spring/properties/default-spring.properties</value>
            	<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
          </list>
@@ -41,10 +45,6 @@
                 </props>
         </property>
 	</bean>
-	
-	<bean id="proviewDomain" class="java.lang.String">
-  		<constructor-arg value="${proview.domain}"/>
-  	</bean>
   	
 	<bean id="environmentName" class="java.lang.String">
   		<constructor-arg value="#{systemProperties['environment']}"/>

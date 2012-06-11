@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.westgroup.novus.productapi.Novus;
 
 /**
@@ -16,13 +17,13 @@ import com.westgroup.novus.productapi.Novus;
  */
 public class NovusFactoryImpl implements NovusFactory {
 	
-	private String novusEnvironment;  // "Client" | "Prod"
+	private NovusEnvironment novusEnvironment;
 	private String productName;
 	private String businessUnit;
 	
 	public Novus createNovus() {
 		Novus novus = new Novus();
-		novus.setQueueCriteria(null, novusEnvironment);
+		novus.setQueueCriteria(null, novusEnvironment.toString());
 		novus.setResponseTimeout(30000);
 		novus.useLatestPit();
 		novus.setProductName(productName);
@@ -31,8 +32,8 @@ public class NovusFactoryImpl implements NovusFactory {
 	}
 
 	@Required
-	public void setNovusEnvironment(String envName) {
-		this.novusEnvironment = envName;
+	public void setNovusEnvironment(NovusEnvironment env) {
+		this.novusEnvironment = env;
 	}
 	@Required
 	public void setProductName(String productName) {

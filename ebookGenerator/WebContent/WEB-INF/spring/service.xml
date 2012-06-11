@@ -19,18 +19,23 @@
 
   	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
+
+  	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorMiscConfigSyncService"
+  		  p:proviewClient-ref="proviewClient"
+  		  p:httpClientFactory-ref="basicAuthenticationHttpClientFactory"
+  		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
+  		  
 	<!-- Holds the current (in-memory) application configuration and may be changed on the fly. -->
 	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
 		  p:environmentName-ref="environmentName"
-		  p:proviewDomain="${proview.domain}"
 		  p:imageService="${image.vertical.context.url}"
-		  p:novusEnvironment="${novus.environment}"
 		  p:dbServiceName="${db.service.name}"		  
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"
 		  p:taskExecutor-ref="springBatchTaskExecutor"
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  />
 		  
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"

@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.smoketest.SmokeTestController;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
@@ -33,6 +36,7 @@ public class SmokeTestControllerTest {
 	private List<String> APP_NAMES;
 	
 	private SmokeTestService mockService;
+	 private MiscConfigSyncService mockMiscConfigSyncService;
 	
     private SmokeTestController controller;
     private MockHttpServletRequest request;
@@ -46,12 +50,13 @@ public class SmokeTestControllerTest {
     	handlerAdapter = new AnnotationMethodHandlerAdapter();
     	
     	mockService = EasyMock.createMock(SmokeTestService.class);
+    	mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
     	
     	controller = new SmokeTestController();
     	controller.setEnvironmentName("workstation");
-    	controller.setProviewDomain("ci");
     	controller.setImageVertical("image");
     	controller.setSmokeTestService(mockService);
+    	controller.setMiscConfigSyncService(mockMiscConfigSyncService);
     	
     	SMOKE_TEST = new SmokeTest();
     	SMOKE_TEST.setName("name");
@@ -65,6 +70,8 @@ public class SmokeTestControllerTest {
     	APP_NAMES.add("1");
     	APP_NAMES.add("2");
     	
+    	EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
+    	EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);
     	EasyMock.expect(mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(SMOKE_TEST);
     	EasyMock.expect(mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class))).andReturn(SMOKE_TEST);
     	EasyMock.expect(mockService.testConnection()).andReturn(SMOKE_TEST);
@@ -79,6 +86,8 @@ public class SmokeTestControllerTest {
     	EasyMock.expect(mockService.getProdServerStatuses()).andReturn(SMOKE_TEST_LIST);
     	EasyMock.expect(mockService.getProdApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
     	EasyMock.expect(mockService.getProdDatabaseServerStatuses()).andReturn(SMOKE_TEST_LIST);
+
+    	EasyMock.replay(mockMiscConfigSyncService);
     	EasyMock.replay(mockService);
     	
     }
@@ -92,6 +101,7 @@ public class SmokeTestControllerTest {
     	Assert.assertNotNull(mav);
     	Assert.assertEquals(WebConstants.VIEW_SMOKE_TEST, mav.getViewName());
     	
+    	EasyMock.verify(mockMiscConfigSyncService);
     	EasyMock.verify(mockService);
     }
 }

@@ -20,7 +20,7 @@ public class JobParameterKey {
 	
 	public static final String ENVIRONMENT_NAME = "environmentName";
 	
-	public static final String PROVIEW_DOMAIN_NAME = "proviewDomain";	
+	public static final String PROVIEW_HOST_NAME = "proviewHost";	
 	public static final String TIMESTAMP = "timestamp";
 	public static final String IMAGESVC_DOMAIN_NAME = "imageService";
 	

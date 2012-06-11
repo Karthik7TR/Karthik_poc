@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -42,11 +44,11 @@ public class LoginController {
 	
 	private UserPreferenceService preferenceService;
 	private OutageService outageService;
+	private MiscConfigSyncService miscConfigSyncService;
 
 	/** Validator for the login form - username and password */
 	private Validator validator;
 	private String environmentName;
-	private String proviewDomain;
 	
 	@InitBinder(LoginForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -65,7 +67,8 @@ public class LoginController {
 		if(!environmentName.equalsIgnoreCase("prod")) {
 			// Store the environment name in session so it can be displayed on each page
 			httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
-			httpSession.setAttribute(WebConstants.KEY_PROVIEW_DOMAIN, proviewDomain);
+			httpSession.getServletContext().setAttribute(CoreConstants.KEY_PROVIEW_HOST,
+											miscConfigSyncService.getProviewHost().getHostName());
 		}
 		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_SEC_LOGIN);
@@ -160,16 +163,16 @@ public class LoginController {
 		this.environmentName = name;
 	}
 	@Required
-	public void setProviewDomain(String domain) {
-		this.proviewDomain = domain;
-	}
-	@Required
 	public void setUserPreferenceService(UserPreferenceService service) {
 		this.preferenceService = service;
 	}
 	@Required
 	public void setOutageService(OutageService service) {
 		this.outageService = service;
+	}
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService service) {
+		this.miscConfigSyncService = service;
 	}
 	
 }

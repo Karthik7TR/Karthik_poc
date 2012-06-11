@@ -25,6 +25,10 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
        	  <list>
+       	    <!-- Common properties (defined in core project) -->
+       	   	<value>classpath:spring/properties/default-spring.properties</value>
+           	<value>classpath:spring/properties/${environment}-spring.properties</value>
+           	<!-- Application Specific properties -->
           	<value>/WEB-INF/spring/properties/default-spring.properties</value>
            	<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
          </list>
