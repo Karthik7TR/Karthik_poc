@@ -9,8 +9,7 @@
 
 <script>
 $(document).ready(function() {
-	var timeOffset = 300000; // in milliseconds.
-	var timeOffset2 = 7200000;
+	var timeOffset = 300000;
 	
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
 	$( "#startDatetimepicker" ).datetimepicker({
@@ -20,7 +19,6 @@ $(document).ready(function() {
 		onClose: function(dateText, inst) {
 			var milliseconds = new Date(dateText).getTime();
 			var offsetMilliseconds = milliseconds + timeOffset;
-			
 	        var endDateTextBox = $('#endDatetimepicker');
 	        if (endDateTextBox.val() != '') {
 	            var offsetStartDate = new Date(offsetMilliseconds);
@@ -30,10 +28,8 @@ $(document).ready(function() {
 	            if (offsetStartDate > testEndDate) {
 	            	endDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
 	            }
-	        }
-	        else {
-	        	// Default set to 2 hours after start date/time if end date is not populated
-	            endDateTextBox.datetimepicker('setDate',(new Date(milliseconds + timeOffset2)));
+	        } else {
+	        	endDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
 	        }
 	    }
 	});
@@ -55,10 +51,8 @@ $(document).ready(function() {
 	            if (testStartDate > offsetEndDate) {
 	            	startDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
 	            }
-	        }
-	        else {
-	        	// Default set to 2 hours before end date/time if start date is not populated
-	        	startDateTextBox.datetimepicker('setDate',(new Date(milliseconds - timeOffset2)));
+	        } else {
+	        	startDateTextBox.datetimepicker('setDate',(new Date(offsetMilliseconds)));
 	        }
 	    }
 	});
