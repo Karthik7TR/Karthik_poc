@@ -18,9 +18,29 @@
 
   <script type="text/javascript">
  
-  function changeNewVersion(newVersion, isMajorVersion){
+  function changeNewVersion(versionTypeSelection){
+	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
+	 var newVersion;
+	 var isMajorVersion;
+	 
+	
+	 if (newVersionType == "OVERWRITE"){
+		 newVersion = ${newOverwriteVersionNumber};
+		 isMajorVersion = "N";
+	 }
+	 else if (newVersionType == "MINOR"){
+		 newVersion = ${newMinorVersionNumber};
+		 isMajorVersion = "N";
+	 }
+	 else if (newVersionType == "MAJOR"){
+		 newVersion = ${newMajorVersionNumber};
+		 isMajorVersion = "Y";
+	 }
+	 
+	 
 	 document.getElementById('newVersionNumber').innerHTML = newVersion;
 	 document.getElementById('isMajorVersion').innerHTML = isMajorVersion;
+	 
 	 return true;
   }
   
@@ -215,13 +235,13 @@
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
-			  	<form:select path="newVersion">
-			  		<form:option label="Select version" value="" onclick="changeNewVersion('', 'N')"/>
+			  	<form:select path="newVersion" onchange="changeNewVersion(this)">
+			  		<form:option label="Select version" value=""/>
 					<c:if test="${overwriteAllowed == 'Y'}">
-						<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" onclick="changeNewVersion('${newOverwriteVersionNumber}', 'N')"/>
+						<form:option label="<%=GenerateBookForm.Version.OVERWRITE.toString()%>" value="<%=GenerateBookForm.Version.OVERWRITE.toString()%>"/>
 					</c:if>
-					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>" onclick="changeNewVersion('${newMinorVersionNumber}', 'N')"/>
-					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>" onclick="changeNewVersion('${newMajorVersionNumber}', 'Y')"/>
+					<form:option label="<%=GenerateBookForm.Version.MINOR.toString()%>" value="<%=GenerateBookForm.Version.MINOR.toString()%>"/>
+					<form:option label="<%=GenerateBookForm.Version.MAJOR.toString()%>" value="<%=GenerateBookForm.Version.MAJOR.toString()%>"/>
 				</form:select>
 			 </td>
 		  </tr>
