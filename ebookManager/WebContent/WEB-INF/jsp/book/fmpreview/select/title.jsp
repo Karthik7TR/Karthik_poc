@@ -14,9 +14,9 @@
 		<img alt="${book.proviewDisplayName}" src="<%= WebConstants.MVC_COVER_IMAGE %>?imageName=${ book.coverImage }">
 	</div>
 	<div class="titleData">
-		<div><label>Title ID:</label> ${book.fullyQualifiedTitleId}</div>
-		<div><label>ProView Display Name:</label> ${book.proviewDisplayName}</div>
-		<div class="bookStatus"><label>Current Status:</label> ${book.bookStatus}</div>
+		<div><label>Title ID: </label> <a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?id=${book.ebookDefinitionId}">${book.fullyQualifiedTitleId}</a></div>
+		<div><label>ProView Display Name: </label> ${book.proviewDisplayName}</div>
+		<div class="bookStatus"><label>Current Status: </label> ${book.bookStatus}</div>
 	</div>
 </div>
 </c:otherwise>
