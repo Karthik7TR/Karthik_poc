@@ -243,7 +243,7 @@
 		  </tr>
 		
 		  <tr>
-		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
+		  	<td>Generate Version Type:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  	<form:select path="newVersion" onchange="changeNewVersion(this)">
 			  		<form:option label="Select version" value=""/>
@@ -257,7 +257,7 @@
 		  </tr>
 		  
 		  <tr>
-			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
+			<td>Job Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
 			  <form:select path="highPriorityJob">
 			    <form:option label="NORMAL" value="false"/>
