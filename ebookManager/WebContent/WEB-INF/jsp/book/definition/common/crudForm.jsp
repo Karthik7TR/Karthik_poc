@@ -207,8 +207,8 @@
 		// Add another additional Front Matter Page row
 		var addFrontMatterPageRow = function() {
 			var appendTxt = "<div class='row frontMatterPage'>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\"/>";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\" class=\"pageTocLabel\" />";
+			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\" class=\"pageHeadingLabel\" />";
 			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\" maxlength=\"9\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" title=\"Delete Page, Sections, and Pdfs?\" deleteMessage=\"This will also delete all the sections and pdfs in this front matter page.\" />";
 			appendTxt = appendTxt + "<input type=\"button\" value=\"Preview\" class=\"fmPreview\"/>"; 
@@ -534,6 +534,17 @@
 					}
 				});
 				$( "#delete-confirm" ).dialog( "open" );
+			});
+			
+			$("#additionFrontMatterBlock").delegate(".pageTocLabel", "focusout", function () {
+				var pageHeadingLabel = $(this).siblings(".pageHeadingLabel");
+				if(pageHeadingLabel.val() == "Page Heading Label"){
+					// Add pageTocLabel to pageHeadingLabel if it is blank
+					if($(this).val() != "") {
+						pageHeadingLabel.val($(this).val());
+						pageHeadingLabel.removeClass("blur");
+					}
+				}
 			});
 			
 			$('#addFrontMatterPage').click(function () {
@@ -1106,8 +1117,8 @@
 	<c:forEach items="${editBookDefinitionForm.frontMatters}" var="page" varStatus="pageStatus">
 		<div class="row frontMatterPage">
 			<form:hidden path="frontMatters[${pageStatus.index}].id"/>
-			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" />
-			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" />
+			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" />
+			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" />
 			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" maxlength="9" />
 			<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
 			<input type="button" value="Preview" class="fmPreview"/>   
