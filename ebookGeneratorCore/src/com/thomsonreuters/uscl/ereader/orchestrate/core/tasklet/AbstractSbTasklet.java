@@ -49,7 +49,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
 	
-	private CoreService coreService;
+	protected CoreService coreService;
 	private OutageProcessor outageProcessor;
 
 	/**

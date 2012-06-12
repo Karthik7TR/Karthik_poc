@@ -15,10 +15,8 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -29,8 +27,6 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 public class SendingEmailNotification extends AbstractSbTasklet {
 	
 	private static final Logger log = Logger.getLogger(SendingEmailNotification.class);
-	
-	private CoreService coreService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -62,10 +58,4 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         					jobInstanceId, jobExecutionId, environment);
         EmailNotification.send(recipients, subject, body);
 	}
-    
-    @Required
-    public void setCoreService(CoreService service) {
-    	this.coreService = service;
-    }
-
 }

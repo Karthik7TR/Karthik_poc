@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -37,7 +36,6 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(HTMLRemoveBrokenInternalLinks.class);
 	private HTMLRemoveBrokenInternalLinksService transformerUnlinkService;
-	private CoreService coreService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
@@ -83,11 +81,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 		
 		return ExitStatus.COMPLETED;
 	}
-	
-	@Required
-	public void setCoreService(CoreService service) {
-		this.coreService = service;
-	}
+
 	@Required
 	public void setTransformerUnlinkService(HTMLRemoveBrokenInternalLinksService transformerUnlinkService) {
 		this.transformerUnlinkService = transformerUnlinkService;

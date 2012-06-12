@@ -452,7 +452,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			}
 		}
 
-		String subject = String.format("Anchor links removed for title \"%s\", job: %s, env: %s" + title, jobInstanceId.toString(), envName);
+		String subject = String.format("Anchor links removed for title \"%s\", job: %s, env: %s", title, jobInstanceId.toString(), envName);
 		String emailBody = "Attached is the file of links removed this book. Format is comma seperated list of guids and Proview enhanced links (relevant portion follows the slash).";
 		LOG.debug("Notification email recipients : " + emailRecipients);
 		LOG.debug("Notification email subject : " + subject);
