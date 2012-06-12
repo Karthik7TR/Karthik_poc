@@ -36,6 +36,10 @@
 		 newVersion = ${newMajorVersionNumber};
 		 isMajorVersion = "Y";
 	 }
+	 else if (newVersionType == ""){
+		 newVersion = "";
+		 isMajorVersion = "N";
+	 }
 	 
 	 
 	 document.getElementById('newVersionNumber').innerHTML = newVersion;
@@ -222,16 +226,22 @@
 				<form:hidden path="<%=WebConstants.KEY_ID%>"/>
 			</td>
 		</tr>
-		<tr>
-			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
-			<td>
-			  <form:select path="highPriorityJob">
-			    <form:option label="NORMAL" value="false"/>
-				<form:option label="HIGH" value="true"/>
-			  </form:select>
-			 </td>
+		  
+		  <tr>
+		  	<td>ProView Status Current:</td>
+		  	<td id="bookStatusInProview">${bookStatusInProview}</td>
 		  </tr>
 		  
+		  <tr>
+		  	<td>ProView Version Current:</td>
+		  	<td id="currentVersionNumber">${versionNumber}</td>
+		  </tr>
+		
+		  <tr>
+		  	<td>ProView Version New:
+		  	<td id="newVersionNumber"></td>
+		  </tr>
+		
 		  <tr>
 		  	<td>Version:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>
@@ -247,15 +257,18 @@
 		  </tr>
 		  
 		  <tr>
-		  	<td>ProView Version Current:
-		  	<td id="currentVersionNumber">${versionNumber}</td>
+			<td>Priority:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
+			<td>
+			  <form:select path="highPriorityJob">
+			    <form:option label="NORMAL" value="false"/>
+				<form:option label="HIGH" value="true"/>
+			  </form:select>
+			 </td>
 		  </tr>
 		  
-		  <tr>
-		  	<td>ProView Version New:
-		  	<td id="newVersionNumber"></td>
-		  </tr>
+		
 		  
+		
 		</table>
 		<div class="buttons">
 			<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />

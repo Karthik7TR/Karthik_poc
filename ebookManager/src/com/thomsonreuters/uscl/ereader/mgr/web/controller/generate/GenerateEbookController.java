@@ -123,8 +123,10 @@ public class GenerateEbookController {
 				newMajorVersion);
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
+		model.addAttribute(WebConstants.BOOK_STATUS_IN_PROVIEW, status);
 		model.addAttribute(WebConstants.KEY_OVERWRITE_ALOOWED,
 				REVIEW_STATUS.equals(status) ? "Y" : "N");
+		
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
 
 	}
