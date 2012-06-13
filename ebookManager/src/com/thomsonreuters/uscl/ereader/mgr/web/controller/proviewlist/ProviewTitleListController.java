@@ -6,9 +6,12 @@
 
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -25,8 +28,10 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 @Controller
 public class ProviewTitleListController {
@@ -120,6 +125,19 @@ public class ProviewTitleListController {
 			form = new ProviewListFilterForm();
 		}
 		return form;
+	}
+
+	private void sendEmail(String emailAddressString, String subject,
+			String body) {
+
+		ArrayList<InternetAddress> emailAddresses = new ArrayList<InternetAddress>();
+		try {
+			emailAddresses.add(new InternetAddress(emailAddressString));
+			EmailNotification.send(emailAddresses, subject, body);
+		} catch (AddressException e) {
+
+		}
+
 	}
 
 	/**
@@ -234,11 +252,13 @@ public class ProviewTitleListController {
 						allTitleVersions);
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 						allTitleVersions.size());
-				
+
 				// Check book definition exists in database
-				BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
-				if(bookDef != null) {
-					// If it exists, check to see if the book is marked as a pilot book
+				BookDefinition bookDef = bookDefinitionService
+						.findBookDefinitionByTitle(titleId);
+				if (bookDef != null) {
+					// If it exists, check to see if the book is marked as a
+					// pilot book
 					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
 							bookDef.getPilotBookStatus());
 				}
@@ -260,13 +280,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
 	public ModelAndView proviewTitleDelete(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
-			Model model) throws Exception {
+			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
-		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
+		model.addAttribute(
+				WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
 				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
@@ -283,13 +304,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
 	public ModelAndView proviewTitleRemove(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
-			Model model) throws Exception {
+			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
-		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
+		model.addAttribute(
+				WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
 				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
@@ -305,13 +327,14 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.GET)
 	public ModelAndView proviewTitlePromote(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status, @RequestParam String lastUpdate,
-			Model model) throws Exception {
+			@RequestParam String versionNumber, @RequestParam String status,
+			@RequestParam String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
 		model.addAttribute(WebConstants.KEY_STATUS, status);
-		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
+		model.addAttribute(
+				WebConstants.KEY_PROVIEW_TITLE_INFO_FORM,
 				new ProviewTitleForm(titleId, versionNumber, status, lastUpdate));
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
 	}
@@ -333,16 +356,28 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
+		String emailBody = "Proview Remove Request Status: ";
+		String emailSubject = "Proview Remove Request Status: ";
+
 		try {
 			proviewClient.removeTitle(form.getTitleId(), form.getVersion());
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: removed from Proview.");
-			
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion() + " removed from Proview.";
+			emailSubject += "Success";
+
 			proviewAuditService.save(form.createAudit());
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to remove from proview. " + e.getMessage());
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion() + " could not be removed from Proview.";
+			emailSubject += "Unsuccessful";
 		}
+
+		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
@@ -364,18 +399,31 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
+		String emailBody = "Proview Promote Request Status: ";
+		String emailSubject = "Proview Promote Request Status: ";
+
 		try {
 			proviewClient.promoteTitle(form.getTitleId(), form.getVersion());
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: promoted to Final in Proview.");
-			
+
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion() + " promoted from Proview.";
+			emailSubject += "Success";
 			proviewAuditService.save(form.createAudit());
 		} catch (Exception e) {
 			model.addAttribute(
 					WebConstants.KEY_ERR_MESSAGE,
 					"Failed to promote this version in proview. "
 							+ e.getMessage());
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion()
+					+ " could not be promoted from Proview.";
+			emailSubject += "Unsuccessful";
 		}
+
+		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
 	}
@@ -397,20 +445,31 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
+		String emailBody = "Proview Delete Request Status: ";
+		String emailSubject = "Proview Delete Request Status: ";
+
 		try {
 			proviewClient.deleteTitle(form.getTitleId(), form.getVersion());
 			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
 					"Success: deleted from Proview.");
-
 			proviewAuditService.save(form.createAudit());
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion() + " deleted from Proview.";
+			emailSubject += "Success";
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to delete from proview. " + e.getMessage());
+			emailBody = "Title id: " + form.getTitleId() + ", version: "
+					+ form.getVersion() + " could not be deleted from Proview.";
+			emailSubject += "Unsuccessful";
 		}
+
+		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
-	
+
 	/**
 	 * 
 	 * @param proviewClient
@@ -424,11 +483,10 @@ public class ProviewTitleListController {
 	public void setBookDefinitionService(BookDefinitionService service) {
 		this.bookDefinitionService = service;
 	}
-	
+
 	@Required
 	public void setProviewAuditService(ProviewAuditService service) {
 		this.proviewAuditService = service;
 	}
-	
 
 }
