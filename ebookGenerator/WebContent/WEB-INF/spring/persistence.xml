@@ -98,10 +98,6 @@
 	<bean id="eBookAuditDAO" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		  <constructor-arg ref="sessionFactory"/>
 	</bean>	
-		 
-	<bean id="engineDao" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.dao.EngineDaoImpl"
-		  p:jdbcTemplate-ref="jdbcTemplate"
-		  p:tablePrefix="${spring.batch.table.prefix}"/>
 		  
 	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
 		<constructor-arg ref="sessionFactory"/>

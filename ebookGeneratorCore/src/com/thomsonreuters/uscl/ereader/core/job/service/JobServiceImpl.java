@@ -68,6 +68,12 @@ public class JobServiceImpl implements JobService {
 		return stepExecution;
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public int getStartedJobCount() {
+		return dao.getStartedJobCount();
+	}
+	
 	@Required
 	public void setJobDao(JobDao dao) {
 		this.dao = dao;

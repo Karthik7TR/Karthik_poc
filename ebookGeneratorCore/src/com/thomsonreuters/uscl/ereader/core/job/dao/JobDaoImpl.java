@@ -27,6 +27,14 @@ public class JobDaoImpl implements JobDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
+	public int getStartedJobCount() {
+		String sql = String.format("select count(*) from BATCH_JOB_EXECUTION where (status = '%s') or (status = '%s')",
+								   BatchStatus.STARTING.toString(), BatchStatus.STARTED.toString());
+		int count = jdbcTemplate.queryForInt(sql);
+		return count;
+	}
+
+	@Override
 	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds) {
 
 		List<JobSummary> list = new ArrayList<JobSummary>(jobExecutionIds.size());

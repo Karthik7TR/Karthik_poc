@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -15,9 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 
@@ -29,7 +33,7 @@ public class ManagerServiceImpl implements ManagerService {
 	private static final String GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE =
 							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
 	private static final String GENERATOR_REST_SYNC_PLANNED_OUTAGE =
-			"http://%s:%d/%s/"+CoreConstants.URI_SYNC_PLANNED_OUTAGE;
+							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_PLANNED_OUTAGE;
 
 	private String environmentName;
 	private String generatorContextName;
@@ -38,6 +42,26 @@ public class ManagerServiceImpl implements ManagerService {
 	private RestTemplate restTemplate;
 	/** The root web application context URL for the ebook generator. */
 	private ManagerDao managerDao;
+	private JobService jobService;
+	private JobRequestService jobRequestService;
+	
+	@Override
+	@Transactional(readOnly=true)
+	public boolean isAnyJobsStartedOrQueued() {
+		// Check for running jobs (in the generator web app)
+		int startedJobs = jobService.getStartedJobCount();
+		if (startedJobs > 0) {
+			log.debug(String.format("There are %d started job executions", startedJobs));
+			return true;
+		}
+		// Check for queued jobs
+		List<JobRequest> jobRequests = jobRequestService.findAllJobRequests();
+		if (jobRequests.size() > 0) {
+			log.debug(String.format("There are %d queued jobs", jobRequests.size()));
+			return true;
+		}
+		return false;
+	}
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -156,6 +180,12 @@ public class ManagerServiceImpl implements ManagerService {
 	public void setManagerDao(ManagerDao dao) {
 		this.managerDao = dao;
 	}
-
-
+	@Required
+	public void setJobService(JobService service) {
+		this.jobService = service;
+	}
+	@Required
+	public void setJobRequestService(JobRequestService jobRequestService) {
+		this.jobRequestService = jobRequestService;
+	}
 }

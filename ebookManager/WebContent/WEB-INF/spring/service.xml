@@ -56,7 +56,9 @@
   		  p:generatorContextName="${generator.context.name}"
 		  p:rootWorkDirectory="${root.work.directory}"
   		  p:restTemplate-ref="generatorRestTemplate"
-  		  p:managerDao-ref="managerDao"/>
+  		  p:managerDao-ref="managerDao"
+  		  p:jobService-ref="jobService"
+  		  p:jobRequestService-ref="jobRequestService"/>
   		  
 	<bean id="generatorRestClient" class="com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClientImpl"
 		  p:restTemplate-ref="generatorRestTemplate"

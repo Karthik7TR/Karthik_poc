@@ -12,6 +12,12 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 public interface ManagerService {
 	
 	/**
+	 * Returns true if there is any currently running batch job or a job queued to run
+	 * (i.e. a row present in the JOB_REQUEST table).
+	 */
+	public boolean isAnyJobsStartedOrQueued();
+	
+	/**
 	 * Returns the job execution for a job that is running with the specified id and version.
 	 * @param bookDefinitionId id of the book definition 
 	 * @param bookVersion the version number to compare against

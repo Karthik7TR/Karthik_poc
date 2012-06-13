@@ -70,14 +70,28 @@ public class MiscConfigController {
 	public ModelAndView submitMiscConfigForm(
 					@ModelAttribute(MiscConfigForm.FORM_NAME) @Valid MiscConfigForm form,
 					BindingResult errors, Model model) throws Exception {
-		log.debug("Form: " + form);
+		log.debug(form);
 		List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
-		if (!errors.hasErrors()) {
-			boolean anySaveErrors = false;
+		boolean anyFormValidationErrors = errors.hasErrors();
+
+		if (!anyFormValidationErrors) {
+			
+			// Check if the Proview host has changed.  If it has, then reject the change if there are any started or queued jobs. 
+			MiscConfig originalMiscConfig = miscConfigSyncService.getMiscConfig();
+			if (!originalMiscConfig.getProviewHost().equals(form.getProviewHost())) {  // If the Proview hostname has changed
+				if (managerService.isAnyJobsStartedOrQueued()) {
+					// Restore the original host name value
+					form.setProviewHost(originalMiscConfig.getProviewHost());
+					infoMessages.add(new InfoMessage(InfoMessage.Type.ERROR, "ProView host name was not changed because there are running or queued jobs."));
+				}
+			}
+		
+			MiscConfig newMiscConfig = form.createMiscConfig();
+
 			// Persist the changed configuration
-			MiscConfig miscConfig = form.createMiscConfig();
+			boolean anySaveErrors = false;
 			try {
-				appConfigService.saveMiscConfig(miscConfig);  // Persist the changed configuration
+				appConfigService.saveMiscConfig(newMiscConfig);  // Persist the changed configuration
 				infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved misc configuration."));
 			} catch (Exception e) {
 				anySaveErrors = true;
@@ -94,13 +108,13 @@ public class MiscConfigController {
 					InetSocketAddress generatorSocketAddr = generatorSocketAddrs.get(i);
 					InetSocketAddress gathererSocketAddr = gathererSocketAddrs.get(i);
 					
-					pushMiscConfiguration(miscConfig, generatorSocketAddr, generatorContextName, infoMessages);
-					pushMiscConfiguration(miscConfig, gathererSocketAddr, gathererContextName, infoMessages);
+					pushMiscConfiguration(newMiscConfig, generatorSocketAddr, generatorContextName, infoMessages);
+					pushMiscConfiguration(newMiscConfig, gathererSocketAddr, gathererContextName, infoMessages);
 				}
 
 				// Push the config out to the manager applications
 				for (InetSocketAddress managerSocketAddr : managerSocketAddrs) {
-					pushMiscConfiguration(miscConfig, managerSocketAddr, managerContextName, infoMessages);
+					pushMiscConfiguration(newMiscConfig, managerSocketAddr, managerContextName, infoMessages);
 				}
 			}
 		}
