@@ -25,15 +25,15 @@
 	 
 	
 	 if (newVersionType == "OVERWRITE"){
-		 newVersion = ${newOverwriteVersionNumber};
+		 newVersion = '${newOverwriteVersionNumber}';
 		 isMajorVersion = "N";
 	 }
 	 else if (newVersionType == "MINOR"){
-		 newVersion = ${newMinorVersionNumber};
+		 newVersion = '${newMinorVersionNumber}';
 		 isMajorVersion = "N";
 	 }
 	 else if (newVersionType == "MAJOR"){
-		 newVersion = ${newMajorVersionNumber};
+		 newVersion = '${newMajorVersionNumber}';
 		 isMajorVersion = "Y";
 	 }
 	 else if (newVersionType == ""){
