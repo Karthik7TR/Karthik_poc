@@ -37,6 +37,7 @@ public class WebConstants {
 	public static final String KEY_LAST_UPDATE = "lastUpdate";
 	public static final String KEY_VDO = "vdo";
 	public static final String KEY_JOB = "job";
+	public static final String KEY_DISMISS_OUTAGE = "dismissOutage";
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
@@ -227,6 +228,7 @@ public class WebConstants {
 
 	public static final String MVC_SMOKE_TEST = "smokeTest.mvc";
 	public static final String MVC_USER_PREFERENCES = "userPreferences.mvc";
+	public static final String MVC_DISMISS_OUTAGE = "dismissOutage.mvc";
 
 	// Error related URI's
 	public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";

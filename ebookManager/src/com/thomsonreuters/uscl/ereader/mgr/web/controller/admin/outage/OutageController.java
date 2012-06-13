@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -230,6 +231,15 @@ public class OutageController {
 			log.error(errorMessage, e);
 			infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
 		}
+	}
+	
+	/* AJAX call to dismiss the outage warning. Puts a boolean in session to not show
+	 * the outage.
+	 * @return boolean
+	 */
+	@RequestMapping(value=WebConstants.MVC_DISMISS_OUTAGE, method = RequestMethod.GET)
+	public @ResponseBody void dismissOutage(HttpSession session) {
+		session.setAttribute(WebConstants.KEY_DISMISS_OUTAGE, true);
 	}
 	
 	/**

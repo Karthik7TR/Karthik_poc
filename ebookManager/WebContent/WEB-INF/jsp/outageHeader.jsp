@@ -8,17 +8,33 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 
 <c:if test="${fn:length(displayOutage) gt 0 }">
-	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-	<div id="outageMessageBox">
-		<div id="outageMessageHeader">The following schedule indicates an outage for the eBook Generator.</div>
-		<c:forEach items="${displayOutage}" var="plannedOutage" varStatus="status">
-			<div class="outageMessage">
-				Start: <fmt:formatDate value="${plannedOutage.startTime}" pattern="${DATE_FORMAT}"/> 
-				End: <fmt:formatDate value="${plannedOutage.endTime}" pattern="${DATE_FORMAT}"/> 
-				<c:if test="${plannedOutage.systemImpactDescription != null}">
-					Reason: ${plannedOutage.systemImpactDescription}
-				</c:if>
-			</div>
-		</c:forEach>
-	</div>
+	<c:if test="${ dismissOutage != true }">
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$('#dismiss').click(function () {
+				$.ajax({
+					type: "GET",
+					url: "<%= WebConstants.MVC_DISMISS_OUTAGE %>",
+					beforeSend: function() {
+						$("#outageMessageBox").slideUp("slow");
+					}
+				})
+			});
+		});
+		</script>
+		<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+		<div id="outageMessageBox">
+			<div id="outageMessageHeader">The following schedule indicates an outage for the eBook Generator.</div>
+			<c:forEach items="${displayOutage}" var="plannedOutage" varStatus="status">
+				<div class="outageMessage">
+					Start: <fmt:formatDate value="${plannedOutage.startTime}" pattern="${DATE_FORMAT}"/> 
+					End: <fmt:formatDate value="${plannedOutage.endTime}" pattern="${DATE_FORMAT}"/> 
+					<c:if test="${plannedOutage.systemImpactDescription != null}">
+						Reason: ${plannedOutage.systemImpactDescription}
+					</c:if>
+				</div>
+			</c:forEach>
+			<button id="dismiss">Dismiss</button>
+		</div>
+	</c:if>
 </c:if>
