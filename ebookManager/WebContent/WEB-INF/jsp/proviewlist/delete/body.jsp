@@ -16,22 +16,13 @@
  	<script type="text/javascript">
 		
  	function submitForm(cmd){
+ 			document.getElementById('submitStatus').innerHTML = "Proview request submitted... waiting for response.";
 			$('#command').val(cmd);
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
 			return true; 
 		}
 	
- 	 	function checkStatus(){
- 	 		var status = document.getElementById('status').innerHTML;
- 	 		var confirmed = true;
- 	 		
- 	 		if (status != "Removed"){
-				 alert("Cannot submit delete request: Status must be 'Removed' to delete from Proview");
-				 confirmed = false;
-		 	}
-	 	}
- 	
-		 function submitRemove(cmd){
+ 	 	function submitDelete(cmd){
 			 
 			 var confirmed = true;
 			 
@@ -76,7 +67,7 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="deleteButton" type="button" value="Delete" onclick="submitRemove('<%=ProviewTitleForm.Command.DELETE%>');"/>
+			<input id="deleteButton" type="button" value="Delete" onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"/>
 		</div>
 		
 		<td>
@@ -88,6 +79,8 @@
 		</td>
 		
 		<%-- Informational Messages area --%>
+		<div id="submitStatus" style="background: yellow;">
+		</div>
 	    <c:if test="${infoMessage != null}">
 	    <div style="background: lightgreen;">
 	    	${infoMessage}

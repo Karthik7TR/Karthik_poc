@@ -16,6 +16,7 @@
  	<script type="text/javascript">
 		
  		function submitForm(cmd){
+ 			document.getElementById('submitStatus').innerHTML = "Proview request submitted... waiting for response.";
  			$('#command').val(cmd);
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
   			return true; 
@@ -72,6 +73,8 @@
 		</td>
 		
 		<%-- Informational Messages area --%>
+		<div id="submitStatus" style="background: yellow;">
+		</div>
 	    <c:if test="${infoMessage != null}">
 	    <div style="background: lightgreen;">
 	    	${infoMessage}
