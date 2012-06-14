@@ -115,7 +115,7 @@ public class EditBookDefinitionForm {
 		this.keyCiteToplineFlag = true;
 		this.autoUpdateSupport = true;
 		this.searchIndex = true;
-		this.enableCopyFeatureFlag = false;
+		this.enableCopyFeatureFlag = true;
 		this.isExcludeDocumentsUsed = false;
 		this.isPublicationCutoffDateUsed = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
