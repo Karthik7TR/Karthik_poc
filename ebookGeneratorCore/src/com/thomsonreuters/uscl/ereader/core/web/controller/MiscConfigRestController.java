@@ -40,7 +40,7 @@ public class MiscConfigRestController {
 		try {
 			String message = "Successfully synchronized misc configuration";
 			miscConfigSyncService.sync(config);
-			httpSession.getServletContext().setAttribute(CoreConstants.KEY_PROVIEW_HOST,
+			httpSession.setAttribute(CoreConstants.KEY_PROVIEW_HOST,
 														 config.getProviewHost().getHostName());
 			log.debug(String.format("%s: %s", message, config.toString()));
 			opResponse = new SimpleRestServiceResponse(null, true, message);

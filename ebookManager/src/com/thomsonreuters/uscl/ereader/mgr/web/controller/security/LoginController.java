@@ -67,7 +67,7 @@ public class LoginController {
 		if(!environmentName.equalsIgnoreCase("prod")) {
 			// Store the environment name in session so it can be displayed on each page
 			httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
-			httpSession.getServletContext().setAttribute(CoreConstants.KEY_PROVIEW_HOST,
+			httpSession.setAttribute(CoreConstants.KEY_PROVIEW_HOST,
 											miscConfigSyncService.getProviewHost().getHostName());
 		}
 		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
