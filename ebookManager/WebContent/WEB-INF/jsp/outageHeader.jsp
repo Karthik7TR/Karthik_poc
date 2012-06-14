@@ -12,13 +12,9 @@
 		<script type="text/javascript">
 		$(document).ready(function() {
 			$('#dismiss').click(function () {
-				$.ajax({
-					type: "GET",
-					url: "<%= WebConstants.MVC_DISMISS_OUTAGE %>",
-					beforeSend: function() {
+				$.post("<%= WebConstants.MVC_DISMISS_OUTAGE %>", function() {
 						$("#outageMessageBox").slideUp("slow");
-					}
-				})
+					});
 			});
 		});
 		</script>

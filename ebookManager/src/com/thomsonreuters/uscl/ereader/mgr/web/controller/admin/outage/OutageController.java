@@ -237,8 +237,9 @@ public class OutageController {
 	 * the outage.
 	 * @return boolean
 	 */
-	@RequestMapping(value=WebConstants.MVC_DISMISS_OUTAGE, method = RequestMethod.GET)
+	@RequestMapping(value=WebConstants.MVC_DISMISS_OUTAGE, method = RequestMethod.POST)
 	public @ResponseBody void dismissOutage(HttpSession session) {
+		log.debug("<<< Ajax call for outage");
 		session.setAttribute(WebConstants.KEY_DISMISS_OUTAGE, true);
 	}
 	
