@@ -49,8 +49,17 @@
 	    </div>
     </spring:hasBindErrors>
     
+    <c:set var="generateBook" value="disabled"/>
+	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+		<c:set var="generateBook" value=""/>
+	</sec:authorize>
+	<c:set var="superUser" value="disabled"/>
+	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+		<c:set var="superUser" value=""/>
+	</sec:authorize>
+	
 	<div class="buttons">
-		<input type="submit" value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
+		<input type="submit" ${generateBook} value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
 	</div>
 	<c:set var="selectAll" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<%-- Table of book library --%>
@@ -77,14 +86,7 @@
 	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	  </display:column>
 	</display:table>
-	<c:set var="generateBook" value="disabled"/>
-	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-		<c:set var="generateBook" value=""/>
-	</sec:authorize>
-	<c:set var="superUser" value="disabled"/>
-	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-		<c:set var="superUser" value=""/>
-	</sec:authorize>
+	
 	<div class="buttons">
 		<input type="submit" value="Generate" ${generateBook} onclick="submitForm('<%= BookLibrarySelectionForm.Command.GENERATE %>')" />
 	</div>
