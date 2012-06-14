@@ -34,6 +34,20 @@ function submitJobSummaryForm(command) {
 </script>
 
 <c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form id="itemCountForm" action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
+		     commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
+	Items per page: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="250" value="250"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>	
 
 <form:form id="multiSelectForm" action="<%=WebConstants.MVC_JOB_SUMMARY_JOB_OPERATION%>"
 		   commandName="<%=JobSummaryForm.FORM_NAME%>" name="theForm" method="post">
@@ -111,18 +125,5 @@ function submitJobSummaryForm(command) {
 	</c:if>  <%-- if (table row count > 0) --%>
 </form:form>
 
-<%-- Select for how may items (rows) per page to show --%>
-<c:if test="${fn:length(paginatedList.list) != 0}">
-  <form:form id="itemCountForm" action="<%=WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT%>"
-		     commandName="<%=JobSummaryForm.FORM_NAME%>" method="post">
-	Items to display: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submit()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
-		<form:option label="50" value="50"/>
-		<form:option label="100" value="100"/>
-		<form:option label="250" value="250"/>
-	</form:select>
-  </form:form>
-</c:if>  <%-- if (table row count > 0) --%>	
+
 
