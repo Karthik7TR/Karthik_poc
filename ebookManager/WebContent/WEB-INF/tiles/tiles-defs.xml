@@ -240,16 +240,47 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/outage/outagetype/common/createEditForm.jsp"/>
 	</definition>
 	
+	<definition name="_adminSupportView" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/support/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/support/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminSupportEdit" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/support/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/support/edit/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminSupportDelete" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/support/delete/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/support/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminSupportCreate" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/support/create/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/support/common/createEditForm.jsp"/>
+	</definition>
+	
 	<definition name="_adminJobThrottleConfig" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/jobthrottleconfig/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/jobthrottleconfig/jobThrottleConfig.jsp"/>
 	</definition>
+	
 	<definition name="_adminMisc" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/misc/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/misc/body.jsp"/>
 	</definition>	
+	
+	<definition name="_supportPageView" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/support/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/support/body.jsp"/>
+	</definition>
+	
 	<definition name="_bookLibraryList" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/library/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/book/library/list/left.jsp"/>

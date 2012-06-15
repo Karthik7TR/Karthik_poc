@@ -51,6 +51,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
 		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
 		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
+		    <value>com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink</value>
 		  </list>
 		</property>
   	</bean>
@@ -127,6 +128,10 @@
 		  p:jobExplorer-ref="jobExplorer"/>
 		  
 	<bean id="outageDao" class="com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDaoImpl">  
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="supportPageLinkDao" class="com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDaoImpl">  
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
 </beans>

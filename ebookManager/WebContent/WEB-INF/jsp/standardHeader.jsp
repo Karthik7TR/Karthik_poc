@@ -35,6 +35,7 @@
 		<c:if test="${showAdmin}">
 			<li><a href="<%=WebConstants.MVC_ADMIN_MAIN%>">ADMIN</a></li>
 		</c:if>
+		<li><a href="<%=WebConstants.MVC_SUPPORT_PAGE_VIEW%>">SUPPORT LINKS</a></li>
 		<li><a href="j_spring_security_logout">LOGOUT</a></li>
 	</ul>
 </div>

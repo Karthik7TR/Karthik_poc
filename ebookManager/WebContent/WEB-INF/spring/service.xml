@@ -78,6 +78,9 @@
 		  p:jobCleanupService-ref="jobCleanupService"/>
 		  
 	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
-		  p:outageDao-ref="outageDao"/>  
+		  p:outageDao-ref="outageDao"/>
+		  
+	<bean id="supportPageLinkService" class="com.thomsonreuters.uscl.ereader.support.service.SupportPageLinkServiceImpl"
+		  p:supportPageLinkDao-ref="supportPageLinkDao"/>  
 		    
 </beans>

@@ -5,7 +5,7 @@
 .job-details-table-label {
 	background: #8fff8f;
 	padding: 4px;
-	font-size: 14;
+	font-size: 14px;
 	font-weight: bold;
 	border: thin double gray;
 }
@@ -300,7 +300,8 @@ a:hover {
 }
 
 .bookDefinitionCRUD .row,
-.bookDefinitionView .row {
+.bookDefinitionView .row,
+#supportForm .row {
 	clear:both;
 	margin:.65em .35em;
 }
@@ -641,6 +642,11 @@ a:hover {
 	background-color: #FFFF66;
 }
 
+#support.displayTagTable tr.tableRowEven, 
+#support.displayTagTable tr.even {
+	background-color: #CFD2F1;
+}
+
 /* css for timepicker addon */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
@@ -697,4 +703,10 @@ div.ui-datepicker{
 	width: 20em;
 	height: 10em;
 	margin-left:1em;
+}
+
+
+#supportForm #linkDescription,
+#supportForm #linkAddress {
+	width: 20em;
 }

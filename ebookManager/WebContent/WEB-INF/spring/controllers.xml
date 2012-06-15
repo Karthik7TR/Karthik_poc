@@ -282,5 +282,12 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageTypeFormValidator"/>
 		 </property>
 	</bean>
+	
+	<bean id="supportController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support.SupportController"
+		  p:supportPageLinkService-ref="supportPageLinkService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support.SupportFormValidator"/>
+		 </property>
+	</bean>
 		 
 </beans>

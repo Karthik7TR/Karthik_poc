@@ -70,13 +70,16 @@
 		
 		<sec:intercept-url pattern="/adminMain.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminOutage*" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
-		<sec:intercept-url pattern="/adminStopGenerator.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminSupport*" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminStartGenerator*" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminStopGenerator*" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminJobThrottleConfig.mvc" access="hasAnyRole('ROLE_SUPPORT,ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminJuris*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminPublish*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminState*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminKeyword*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminBookLock*" access="hasRole('ROLE_SUPERUSER')"/>
+		<sec:intercept-url pattern="/adminMisc*" access="hasRole('ROLE_SUPERUSER')"/>
 		
 		<sec:intercept-url pattern="/proviewTitleRemove*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/proviewTitleDelete*" access="hasRole('ROLE_SUPERUSER')"/>

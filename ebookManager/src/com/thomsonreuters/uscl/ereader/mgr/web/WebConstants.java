@@ -26,6 +26,7 @@ public class WebConstants {
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
 	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
 	public static final String KEY_STATE_CODE = "stateCode";
+	public static final String KEY_SUPPORT = "support";
 	public static final String KEY_KEYWORD_TYPE_CODE = "keywordTypeCode";
 	public static final String KEY_KEYWORD_TYPE_VALUE = "keywordTypeValue";
 	public static final String KEY_ID = "id";
@@ -174,6 +175,8 @@ public class WebConstants {
 	public static final String MVC_PROVIEW_AUDIT_LIST = "proviewAuditList.mvc";
 	public static final String MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT = "proviewAuditListPageAndSort.mvc";
 	public static final String MVC_PROVIEW_AUDIT_LIST_FILTER_POST = "proviewAuditListFilterPost.mvc";
+	
+	public static final String MVC_SUPPORT_PAGE_VIEW = "supportPageView.mvc";
 
 	// Administration related URI's
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
@@ -202,6 +205,10 @@ public class WebConstants {
 	public static final String MVC_ADMIN_STATE_CODE_CREATE = "adminStateCodeCreate.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_DELETE = "adminStateCodeDelete.mvc";
 	public static final String MVC_ADMIN_STATE_CODE_EDIT = "adminStateCodeEdit.mvc";
+	public static final String MVC_ADMIN_SUPPORT_VIEW = "adminSupportView.mvc";
+	public static final String MVC_ADMIN_SUPPORT_CREATE = "adminSupportCreate.mvc";
+	public static final String MVC_ADMIN_SUPPORT_DELETE = "adminSupportDelete.mvc";
+	public static final String MVC_ADMIN_SUPPORT_EDIT = "adminSupportEdit.mvc";
 	public static final String MVC_ADMIN_OUTAGE_ACTIVE_LIST = "adminOutageActiveList.mvc";
 	public static final String MVC_ADMIN_OUTAGE_FULL_LIST = "adminOutageFullList.mvc";
 	public static final String MVC_ADMIN_OUTAGE_CREATE = "adminOutageCreate.mvc";
@@ -271,6 +278,10 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_OUTAGE_TYPE_CREATE = "_adminOutageTypeCreate";
 	public static final String VIEW_ADMIN_OUTAGE_TYPE_DELETE = "_adminOutageTypeDelete";
 	public static final String VIEW_ADMIN_OUTAGE_TYPE_EDIT = "_adminOutageTypeEdit";
+	public static final String VIEW_ADMIN_SUPPORT_VIEW = "_adminSupportView";
+	public static final String VIEW_ADMIN_SUPPORT_CREATE = "_adminSupportCreate";
+	public static final String VIEW_ADMIN_SUPPORT_DELETE = "_adminSupportDelete";
+	public static final String VIEW_ADMIN_SUPPORT_EDIT = "_adminSupportEdit";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";
@@ -306,6 +317,7 @@ public class WebConstants {
 	public static final String VIEW_ERROR_BOOK_DELETED = "_errorBookDeleted";
 	public static final String VIEW_ERROR_BOOK_DEFINTION = "_errorBookDefinition";
 	public static final String VIEW_SMOKE_TEST = "smokeTest";
+	public static final String VIEW_SUPPORT_PAGE_VIEW = "_supportPageView";
 	public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
 	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
 	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";

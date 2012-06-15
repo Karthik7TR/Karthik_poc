@@ -9,18 +9,16 @@
 
 <div class="centerSection">
 	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_CREATE%>">Create State Code</a>
 	<%-- Table of ContentType --%>
-	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%= WebConstants.KEY_STATE_CODE %>" class="displayTagTable" cellpadding="2">
-	  <display:setProperty name="basic.msg.empty_list">No State Codes were found.</display:setProperty>
+	<display:table id="support" name="<%= WebConstants.KEY_SUPPORT %>" class="displayTagTable" cellpadding="2">
+	  <display:setProperty name="basic.msg.empty_list">No Support Links were found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  <display:column>
-	  	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_EDIT%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Edit</a>
-	  	<a href="<%=WebConstants.MVC_ADMIN_STATE_CODE_DELETE%>?<%=WebConstants.KEY_ID%>=${vdo.id}">Delete</a>
+	  <display:column title="Link Description" property="linkDescription" />
+	  <display:column title="Address">
+	  	<a href="${support.linkAddress}" target="_blank">${support.linkAddress}</a>
 	  </display:column>
-	  <display:column title="Name" property="name" />
 	  <display:column title="Last Updated" >
-	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
+	  	<fmt:formatDate value="${support.lastUpdated}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
 </div>

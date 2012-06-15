@@ -17,7 +17,7 @@
 	<task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
 	
 	<!-- Job start scheduler -->
-	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.BookDefinitionLockCleanScheduler"
+	<bean class="com.thomsonreuters.uscl.ereader.mgr.cleanup.BookDefinitionLockCleaner"
 		  p:bookDefinitionLockService-ref="bookDefintionLockService"/>  	 
 
 	<!-- Scheduled task to remove old Spring Batch job database table data and filesystem work files -->

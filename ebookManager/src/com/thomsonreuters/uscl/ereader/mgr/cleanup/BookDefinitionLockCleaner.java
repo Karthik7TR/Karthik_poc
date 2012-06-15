@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web;
+package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 
 //import org.apache.log4j.Logger;
 import org.apache.log4j.Logger;
@@ -16,8 +16,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockServi
  * A regularly scheduled task to clean up the BOOK_DEFINITION_LOCK table.
  * Removes locks that has expired
  */
-public class BookDefinitionLockCleanScheduler {
-	private static final Logger log = Logger.getLogger(BookDefinitionLockCleanScheduler.class);
+public class BookDefinitionLockCleaner {
+	private static final Logger log = Logger.getLogger(BookDefinitionLockCleaner.class);
 
 	private BookDefinitionLockService lockService;
 

@@ -45,4 +45,6 @@ Generator and Gatherer Switch
 <br/>
 <a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Planned Outage List</a><br/>
 <br/>
-<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>">Outage Types</a>
+<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>">Outage Types</a><br/>
+<br/>
+<a href="<%=WebConstants.MVC_ADMIN_SUPPORT_VIEW%>">View Support Links</a>
