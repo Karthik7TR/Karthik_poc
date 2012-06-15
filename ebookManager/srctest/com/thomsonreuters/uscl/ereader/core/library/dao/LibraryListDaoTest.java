@@ -36,7 +36,7 @@ public class LibraryListDaoTest {
 		LibraryListFilter filter = new LibraryListFilter();
 		LibraryListSort sort = new LibraryListSort();
 		
-		EasyMock.expect(mockJdbcTemplate.query(EasyMock.anyObject(String.class), EasyMock.anyObject(LibraryListRowMapper.class))).andReturn(EXPECTED_LIBRARY_LIST);
+		EasyMock.expect(mockJdbcTemplate.query(EasyMock.anyObject(String.class), EasyMock.anyObject(LibraryListRowMapper.class), new Object[]{})).andReturn(EXPECTED_LIBRARY_LIST);
 		EasyMock.replay(mockJdbcTemplate);
 		
 		List<LibraryList> actualList = dao.findBookDefinitions(filter, sort);
@@ -50,7 +50,7 @@ public class LibraryListDaoTest {
 	public void testCountNumberOfBookDefinitions() {
 		LibraryListFilter filter = new LibraryListFilter();
 		
-		EasyMock.expect(mockJdbcTemplate.queryForInt(EasyMock.anyObject(String.class))).andReturn(EXPECTED_NUMBER_BOOKS);
+		EasyMock.expect(mockJdbcTemplate.queryForInt(EasyMock.anyObject(String.class), new Object[]{})).andReturn(EXPECTED_NUMBER_BOOKS);
 		EasyMock.replay(mockJdbcTemplate);
 		
 		Integer actual = dao.numberOfBookDefinitions(filter);

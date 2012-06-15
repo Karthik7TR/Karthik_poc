@@ -70,6 +70,28 @@ public class JobDaoImpl implements JobDao {
 			sql.append(", PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
 		}
 		sql.append("where ");
+		
+		sql.append(addFiltersToQuery(filter, sort));
+		
+		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
+		sql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
+		
+//log.debug("SQL: " + sql.toString());
+		Object[] args = argumentsAddToFilter(filter, sort);
+		
+		jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER, args);
+		
+		return jobExecutionIds;
+	}
+	
+	/**
+	 * Generate sql query that matches the filters user inputs
+	 * @param filter
+	 * @return
+	 */
+	private String addFiltersToQuery(JobFilter filter, JobSort sort) {
+		StringBuffer sql = new StringBuffer();
+		
 		if (filter.getFrom() != null) {
 		/* 	We want to show jobs that are in the STARTING status even if they have no start time because
 			these are restarted jobs that are waiting for a thread (from the pool) to run and have not yet
@@ -99,40 +121,47 @@ public class JobDaoImpl implements JobDao {
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+)) and ");
 			
 			if (StringUtils.isNotBlank(filter.getBookName())) {
-				sql.append(String.format("(UPPER(auditTable.PROVIEW_DISPLAY_NAME) like UPPER('%s')) and ", filter.getBookName()));
+				sql.append("(UPPER(auditTable.PROVIEW_DISPLAY_NAME) like UPPER(?)) and ");
 			}
 			if (StringUtils.isNotBlank(filter.getTitleId())) {
-				sql.append(String.format("(UPPER(auditTable.TITLE_ID) like UPPER('%s')) and ", filter.getTitleId()));
+				sql.append("(UPPER(auditTable.TITLE_ID) like UPPER(?)) and ");
 			}
 			if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
-				sql.append(String.format("(UPPER(stats.JOB_SUBMITTER_NAME) like UPPER('%s')) and ", filter.getSubmittedBy()));
+				sql.append("(UPPER(stats.JOB_SUBMITTER_NAME) like UPPER(?)) and ");
 			}
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
-		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
-		sql.append(String.format("order by %s %s", orderByColumn, sort.getSortDirection()));
-		
-//log.debug("SQL: " + sql.toString());
-		Object[] args = null;
-		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
-			args = new Object[2];
-			args[0] = filter.getFrom();
-			args[1] = filter.getTo();
+		return sql.toString();
+	}
+	
+	/**
+	 * Creates the arguments list to use in jdbcTemplate.query.
+	 * The order of the arguements being added needs to match the filter order in 
+	 * @param filter
+	 * @return
+	 */
+	private Object[] argumentsAddToFilter(JobFilter filter, JobSort sort) {
+		List<Object> args = new ArrayList<Object>();
+
+		if (filter.getFrom() != null) {
+			args.add(filter.getFrom());
 		}
-		else if (filter.getFrom() != null) {
-			args = new Object[1];
-			args[0] = filter.getFrom();
-		} else if (filter.getTo() != null) {
-			args = new Object[1];
-			args[0] = filter.getTo();
+		if (filter.getTo() != null) {
+			args.add(filter.getTo());
 		}
-		if (args != null) {
-			jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER, args);
-		} else {
-			jobExecutionIds = jdbcTemplate.query(sql.toString(), JOB_EXECUTION_ID_ROW_MAPPER);
+		if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
+			if (StringUtils.isNotBlank(filter.getBookName())) {
+				args.add(filter.getBookName());
+			}
+			if (StringUtils.isNotBlank(filter.getTitleId())) {
+				args.add(filter.getTitleId());
+			}
+			if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
+				args.add(filter.getSubmittedBy());
+			}
 		}
-		return jobExecutionIds;
+		return args.toArray();
 	}
 
 	/**

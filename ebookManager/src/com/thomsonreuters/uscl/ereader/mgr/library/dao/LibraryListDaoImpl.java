@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.library.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -65,11 +66,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
 		
 		sql.append(String.format(") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex, minIndex));
 
-		if (args != null) {
-			return jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER, args);
-		} else {
-			return jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER);
-		}
+		return jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER, args);
 	}
 	
 	@Override
@@ -82,11 +79,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
 		
 		Object[] args = argumentsAddToFilter(filter);
 		
-		if (args != null) {
-			return(Integer) jdbcTemplate.queryForInt(sql.toString(), args);
-		} else {
-			return (Integer) jdbcTemplate.queryForInt(sql.toString());
-		}
+		return(Integer) jdbcTemplate.queryForInt(sql.toString(), args);
 	}
 	
 	
@@ -124,16 +117,16 @@ public class LibraryListDaoImpl implements LibraryListDao {
 			}
 		}
 		if (StringUtils.isNotBlank(filter.getIsbn())) {
-			sql.append(String.format("(book.ISBN LIKE '%s') and ", filter.getIsbn()));
+			sql.append(String.format("(book.ISBN LIKE ?) and ", filter.getIsbn()));
 		}
 		if (StringUtils.isNotBlank(filter.getMaterialId())) {
-			sql.append(String.format("(book.MATERIAL_ID LIKE '%s') and ", filter.getMaterialId()));
+			sql.append(String.format("(book.MATERIAL_ID LIKE ?) and ", filter.getMaterialId()));
 		}
 		if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
-			sql.append(String.format("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER('%s')) and ", filter.getProviewDisplayName()));
+			sql.append(String.format("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER(?)) and ", filter.getProviewDisplayName()));
 		}
 		if (StringUtils.isNotBlank(filter.getTitleId())) {
-			sql.append(String.format("(UPPER(book.TITLE_ID) LIKE UPPER('%s')) and ", filter.getTitleId()));
+			sql.append(String.format("(UPPER(book.TITLE_ID) LIKE UPPER(?)) and ", filter.getTitleId()));
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
@@ -141,21 +134,29 @@ public class LibraryListDaoImpl implements LibraryListDao {
 	}
 	
 	private Object[] argumentsAddToFilter(LibraryListFilter filter) {
-		Object[] args = null;
-		if ((filter.getFrom() != null) && (filter.getTo() != null)) {  // two args
-			args = new Object[2];
-			args[0] = filter.getFrom();
-			args[1] = filter.getTo();
+		List<Object> args = new ArrayList<Object>();
+		// The order of the arguments being added needs to match the order in
+		// addFiltersToQuery method.
+		if (filter.getFrom() != null) {
+			args.add(filter.getFrom());
 		}
-		else if (filter.getFrom() != null) {
-			args = new Object[1];
-			args[0] = filter.getFrom();
-		} else if (filter.getTo() != null) {
-			args = new Object[1];
-			args[0] = filter.getTo();
+		if (filter.getTo() != null) {
+			args.add(filter.getTo());
+		}
+		if (StringUtils.isNotBlank(filter.getIsbn())) {
+			args.add(filter.getIsbn());
+		}
+		if (StringUtils.isNotBlank(filter.getMaterialId())) {
+			args.add(filter.getMaterialId());
+		}
+		if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
+			args.add(filter.getProviewDisplayName());
+		}
+		if (StringUtils.isNotBlank(filter.getTitleId())) {
+			args.add(filter.getTitleId());
 		}
 		
-		return args;
+		return args.toArray();
 	}
 	
 	@Required
