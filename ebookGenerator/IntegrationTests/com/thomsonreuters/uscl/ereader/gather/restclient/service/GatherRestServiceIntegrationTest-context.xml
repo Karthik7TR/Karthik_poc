@@ -1,8 +1,4 @@
-<!-- 
-	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-	Proprietary and Confidential information of TRGR. Disclosure, Use or
-	Reproduction without the written authorization of TRGR is prohibited
--->
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -82,7 +78,5 @@
 		  p:restTemplate-ref="restTemplate"
 		  p:gatherAppContextUrl="http://localhost:8080/eBookGatherer"/>
 	
-	<!--bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl" 
-	autowire="byType"/-->
 	
 </beans>

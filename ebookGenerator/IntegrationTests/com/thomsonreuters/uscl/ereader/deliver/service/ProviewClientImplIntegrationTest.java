@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.net.InetAddress;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -79,6 +80,7 @@ public class ProviewClientImplIntegrationTest
 	
 	@Test
 	public void testGetAllTitlesHappyPath() throws Exception {
+		proviewClient.setProviewHost(InetAddress.getLocalHost());
 		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 		String publisherInformation = proviewClient.getAllPublishedTitles();
 		System.out.println(publisherInformation);
@@ -87,12 +89,13 @@ public class ProviewClientImplIntegrationTest
 	
 	@Test
 	public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
+		proviewClient.setProviewHost(InetAddress.getLocalHost());
 		proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
 		String integrationTestTitleId = "uscl/cr/generator_integration_test";
 		String eBookVersionNumber = "v2";
 
-		File eBookDirectory = new File("/nas/ebookbuilder/data/");
-		File eBook = new File(eBookDirectory, "proview_client_integration_test.gz");
+		File eBookDirectory = new File("/apps/ebookbuilder/staticContent");
+		File eBook = new File(eBookDirectory, "UrlsAndPaths.dtd");
 		try {
 			proviewClient.publishTitle(integrationTestTitleId, eBookVersionNumber, eBook);
 			fail("Expected an exception related to the title already existing on ProView!");

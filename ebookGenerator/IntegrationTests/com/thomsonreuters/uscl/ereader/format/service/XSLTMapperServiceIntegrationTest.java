@@ -60,8 +60,10 @@ public class XSLTMapperServiceIntegrationTest {
 	@Test
 	public void testGetXsltFromDatabaseEmptyDocType() {
 		String COLLECTION = "w_3rd_plirpub";
-		String DOC_TYPE = "";
+		String DOC_TYPE = "3E";
 		String XSLT = "AnalyticalEaganProducts.xsl";
+		String hello = xsltMapperService.getXSLT(COLLECTION, DOC_TYPE);
+		System.out.println(hello);
 		assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
 	}
 	

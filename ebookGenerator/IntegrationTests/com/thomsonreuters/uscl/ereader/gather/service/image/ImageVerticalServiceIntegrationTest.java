@@ -40,14 +40,6 @@ public class ImageVerticalServiceIntegrationTest  {
 	private static final Logger log = Logger.getLogger(ImageVerticalServiceIntegrationTest.class);
 	private static final String GUID_TIF = "I5d463990094d11e085f5891ac64a9905";	// TIF image
 	
-//	    "Iead82f50a28811dbb436d78163d7301d",  // From bwray
-//		"I449A045209354D19BADD202B264B3076",
-//		"IA1F5243AA999498889F4D32E3D141970",
-//		"IB813AED2574D4765839DD8196BBF692E",
-//		"I3B6D30935B874190B99CE23DCD71F420",
-//		"I8D6644A823A14778BFA4074B6D597D1D",
-//		"IB815E4C168D7419AB24C4134C9E728D2" 
-
 	
 	FileOutputStream stream = null;
 	Writer writer = null; 
@@ -56,28 +48,25 @@ public class ImageVerticalServiceIntegrationTest  {
 
 	@Test
 	public void testFetchImageVerticalImage() {
-//		File tmpImageDir = temporaryFolder.getRoot();
 		File tmpImageDir = new File(System.getProperty("java.io.tmpdir")); // use this to save the image(s)
 		long jobInstanceId = 1965;
 		Map<String,String> DOC_IMAGE_GUID_MAP = new HashMap<String,String>();
 		String titleId = "bogusTitleId";
-		DOC_IMAGE_GUID_MAP.put("I8A302FE4920F47B00079B5381C71638B",	"123456789");
-		DOC_IMAGE_GUID_MAP.put("I03a62830fca111e0961b0000837bc6dd",	"123456789");
-		DOC_IMAGE_GUID_MAP.put("I5d463990094d11e085f5891ac64a9905",	"123456789");
-		DOC_IMAGE_GUID_MAP.put("Ie043fac0675a11da90ebf04471783734",	"123456789");
+		DOC_IMAGE_GUID_MAP.put("I8A302FE4920F47B00079B5381C71638B",	"I03a62830fca111e0961b0000837bc6dd");
+		DOC_IMAGE_GUID_MAP.put("I03a62830fca111e0961b0000837bc6dd",	"I8A302FE4920F47B00079B5381C71638B");
+		DOC_IMAGE_GUID_MAP.put("I5d463990094d11e085f5891ac64a9905",	"Ie043fac0675a11da90ebf04471783734");
+		DOC_IMAGE_GUID_MAP.put("Ie043fac0675a11da90ebf04471783734",	"I5d463990094d11e085f5891ac64a9905");
 		try {
 			System.out.println("Writing files to: " + tmpImageDir);
 			imageService.fetchImageVerticalImages(DOC_IMAGE_GUID_MAP, tmpImageDir, jobInstanceId, titleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
-		} finally {
-			
-		}
+		} 
 	}
 	
 	
-//	@Test
+	@Test
 	public void testFetchImageVerticalImageMetadata() {
 		
 		try {
@@ -91,15 +80,14 @@ public class ImageVerticalServiceIntegrationTest  {
 		} 
 		
 	
-//	@Test
+	@Test
 	public void testFetchImageMetadataBadGuid() {
-		String badGuid = "IA31BCD5F18364C9BBDCD008012AFFFFF";
+		String badGuid = "I5d463990094d11e085f5891ac64a9905";
 		try {
 			stream = new FileOutputStream(temporaryFolder + "_img_missing_guids.txt");
 			writer = new OutputStreamWriter(stream, "UTF-8");			
 			SingleImageMetadataResponse response = imageService.fetchImageVerticalImageMetadata(badGuid, writer, "88787878787");
-			Assert.assertNotNull(response);
-			System.out.println(response);
+			Assert.assertNotNull(response);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,7 +95,7 @@ public class ImageVerticalServiceIntegrationTest  {
 	
 
 	
-//	@Test
+	@Test
 	public void testPersistImageMetadata() {
 		Long jobInstanceId = -999l;
 		String titleId = "bogusTitleId";
@@ -133,7 +121,7 @@ public class ImageVerticalServiceIntegrationTest  {
 		Assert.assertEquals(dimUnit, actualEntity.getDimUnits());
 	}
 	
-//	@Test
+	@Test
 	public void testFindImageMetadataByPrimaryKey() throws Exception {
 		try {
 			long jobInstanceId = 1151;

@@ -128,8 +128,7 @@ public class HTMLTransforServiceIntegrationTest
     public void testInternalDocumentLinks()
         throws EBookFormatException, FileNotFoundException, IOException
     {
-        int count = getInternalLinkInfo1();
-        System.out.println(count);
+        int count = getInternalLinkInfo();
         Assert.isTrue(count == 0, "Unable to transform as Table View");
     }
 

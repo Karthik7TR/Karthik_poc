@@ -14,13 +14,14 @@
 	
 	<!-- Pooled Datasource -->
   	<bean id="xsltDataSource" class="org.apache.commons.dbcp.BasicDataSource">
-    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-    	<property name="url" value="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = dyersville.int.westgroup.com)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = orc212a.int.westgroup.com)))"/>
-    	<property name="username" value="EBOOK_USER"/>
-    	<property name="password" value="eb00k"/>
-    	<property name="initialSize" value="3"/>
-    	<property name="maxActive" value="8"/>
-  	</bean>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c111cujctdbux-vip.int.westgroup.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=c111wuyctdbux-vip.int.westgroup.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_dev.int.westgroup.com)))" />
+		<property name="username" value="EBOOK_USER" />
+		<property name="password" value="eb00k" />
+		<property name="initialSize" value="3" />
+		<property name="maxActive" value="8" />
+	</bean>
   	
   	<!--
 		Hibernate session factory definition that uses annotations in the entities to map to tables/columns.
@@ -46,5 +47,8 @@
     
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
 		  p:sessionFactory-ref="xsltSessionFactory"/>
+		  
+	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
+		  p:xsltMapperDao-ref="xsltMapperDao"/>
   
 </beans>

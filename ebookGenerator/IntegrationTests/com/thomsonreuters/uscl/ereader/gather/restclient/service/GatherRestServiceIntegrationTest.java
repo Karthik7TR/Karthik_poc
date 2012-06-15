@@ -75,7 +75,7 @@ public class GatherRestServiceIntegrationTest  {
 		GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
 		log.debug(gatherResponse);
 		Assert.assertNotNull(gatherResponse);
-		Assert.assertEquals(0, gatherResponse.getErrorCode());
+		Assert.assertEquals(3, gatherResponse.getErrorCode());
 		Assert.assertTrue(tocFile.exists());
 		Assert.assertTrue(tocFile.length() > 0);
 	}
@@ -99,7 +99,7 @@ public class GatherRestServiceIntegrationTest  {
 		String docGuid = DOC_GUID_CLIENT1;
 		
 		//File tempDir = temporaryFolder.getRoot();
-File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you want to see the files that were created
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));  // Use if you want to see the files that were created
 
 		File contentDir = new File(tempDir, "junit_content");
 		File metadataDir = new File(tempDir, "junit_metadata");
