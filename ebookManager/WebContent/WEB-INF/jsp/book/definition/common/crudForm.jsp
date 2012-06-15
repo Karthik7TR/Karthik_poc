@@ -736,6 +736,14 @@
 				</div>	
 			</div>
 			<div class="row">
+				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
+				<form:radiobutton path="includeAnnotations" value="true" />Yes
+				<form:radiobutton path="includeAnnotations" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="includeAnnotations" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
 				<form:label path="excludeDocumentsUsed" class="labelCol">Enable Exclude Documents</form:label>
 				<form:radiobutton path="excludeDocumentsUsed" value="true" />Yes
 				<form:radiobutton path="excludeDocumentsUsed" value="false" />No

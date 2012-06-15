@@ -68,6 +68,7 @@ public class EditBookDefinitionForm {
 	private String isbn;
 	private boolean isPublicationCutoffDateUsed;
 	private String publicationCutoffDate;
+	private boolean includeAnnotations;
 
 	private String publishDateText;
 	
@@ -118,6 +119,7 @@ public class EditBookDefinitionForm {
 		this.enableCopyFeatureFlag = true;
 		this.isExcludeDocumentsUsed = false;
 		this.isPublicationCutoffDateUsed = false;
+		this.includeAnnotations = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
 		this.copyright = "©";
 		this.frontMatterTocLabel = "Publishing Information";
@@ -186,6 +188,7 @@ public class EditBookDefinitionForm {
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			this.excludeDocuments = book.getExcludeDocuments();
 			this.excludeDocumentsCopy = book.getExcludeDocuments();
+			this.includeAnnotations = book.getIncludeAnnotations();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -357,6 +360,7 @@ public class EditBookDefinitionForm {
 		book.setDocCollectionName(docCollectionName);
 		book.setIsAuthorDisplayVertical(isAuthorDisplayVertical);
 		book.setFrontMatterTocLabel(frontMatterTocLabel);
+		book.setIncludeAnnotations(includeAnnotations);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -592,6 +596,14 @@ public class EditBookDefinitionForm {
 
 	public void setPublicationCutoffDate(String publicationCutoffDate) {
 		this.publicationCutoffDate = publicationCutoffDate;
+	}
+
+	public boolean isIncludeAnnotations() {
+		return includeAnnotations;
+	}
+
+	public void setIncludeAnnotations(boolean includeAnnotations) {
+		this.includeAnnotations = includeAnnotations;
 	}
 
 	public String getPublishDateText() {

@@ -252,6 +252,11 @@ public class BookDefinition implements Serializable {
 	@Column(name = "IS_PILOT_BOOK", length = 1)
 	@Basic(fetch = FetchType.EAGER)
 	String isPilotBook;	
+	
+	/**
+	 */
+	@Column(name = "INCLUDE_ANNOTATIONS", length = 1)
+	String includeAnnotations;	
 
 	/**
 	 */
@@ -620,7 +625,18 @@ public class BookDefinition implements Serializable {
 	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
 	}
-
+	
+	/**
+	 */
+	public void setIncludeAnnotations(boolean includeAnnotations) {
+		this.includeAnnotations =( (includeAnnotations) ? "Y" : "N");
+	}
+	
+	/**
+	 */
+	public boolean getIncludeAnnotations() {
+		return( (this.includeAnnotations.equalsIgnoreCase("Y") ? true : false));
+	}
 	
 	public boolean getIsPilotBook() {
 		if(StringUtils.isBlank(this.isPilotBook)) {
@@ -818,6 +834,7 @@ public class BookDefinition implements Serializable {
 		this.setIsDeletedFlag(false);
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
+		this.setIncludeAnnotations(false);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
 	}
 
@@ -862,6 +879,7 @@ public class BookDefinition implements Serializable {
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
+		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 
 	/**
@@ -903,6 +921,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
+		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 
 		return buffer.toString();
 	}

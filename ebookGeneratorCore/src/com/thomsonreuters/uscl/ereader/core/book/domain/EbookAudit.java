@@ -302,6 +302,11 @@ public class EbookAudit implements Serializable {
 	
 	/**
 	 */
+	@Column(name = "INCLUDE_ANNOTATIONS", length = 1)
+	String includeAnnotations;	
+	
+	/**
+	 */
 	@Column(name = "EXCLUDED_DOCUMENTS_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String excludeDocumentsConcat;
@@ -730,6 +735,7 @@ public class EbookAudit implements Serializable {
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
+		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 
 	/**
@@ -779,6 +785,7 @@ public class EbookAudit implements Serializable {
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
+		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 	
 	@Transient
@@ -848,6 +855,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("pilotBookStatus=[").append(pilotBookStatus).append("] ");
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
+		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		
 		return buffer.toString();
 	}
@@ -954,6 +962,14 @@ public class EbookAudit implements Serializable {
 
 	public void setAdditionalTrademarkInfo(String additionalTrademarkInfo) {
 		this.additionalTrademarkInfo = additionalTrademarkInfo;
+	}
+	
+	public void setIncludeAnnotations(boolean includeAnnotations) {
+		this.includeAnnotations =( (includeAnnotations) ? "Y" : "N");
+	}
+	
+	public boolean getIncludeAnnotations() {
+		return( (this.includeAnnotations.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	public PilotBookStatus getPilotBookStatus() {

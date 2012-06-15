@@ -57,6 +57,10 @@ function submitForm(cmd)
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Include Annotations</label>
+						<span class="field">${ book.includeAnnotations }</span>
+					</div>
 				</div>
 				
 				<div class="rightDefinitionForm">
