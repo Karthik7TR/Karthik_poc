@@ -192,12 +192,14 @@ class TitleManifestFilter extends XMLFilterImpl {
 		   stream = new BufferedReader(new FileReader(altIdFile));        
 		   while ((line = stream.readLine()) != null) 
 		   {             
-			 String[] splitted = line.split(","); 
+			 String[] splitted = line.split(",");
+			 if (splitted.length > 2) {
 			 if (splitted[1].contains("/"))
 			 {
 				 splitted[1] = splitted[1].split("/")[0];
 			 }
 			 altIdMap.put(splitted[1], splitted[0]);       
+		   }
 		   }
 		} 
 		catch (IOException iox)
