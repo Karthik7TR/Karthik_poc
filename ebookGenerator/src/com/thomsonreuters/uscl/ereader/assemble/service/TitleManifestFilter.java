@@ -193,7 +193,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		   while ((line = stream.readLine()) != null) 
 		   {             
 			 String[] splitted = line.split(",");
-			 if (splitted.length > 2) {
+			 if (splitted.length >= 2) {
 			 if (splitted[1].contains("/"))
 			 {
 				 splitted[1] = splitted[1].split("/")[0];
