@@ -16,7 +16,7 @@
  	<script type="text/javascript">
 		
  	function submitForm(cmd){
- 			document.getElementById('submitStatus').innerHTML = "Proview request submitted... waiting for response.";
+ 			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response.";
 			$('#command').val(cmd);
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
 			return true; 

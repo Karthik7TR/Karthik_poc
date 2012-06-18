@@ -23,7 +23,7 @@
 
 	window.onbeforeunload = function() { 
 	  if (warning) {
-	    return "Navigating away from this page without using the Save or Cancel button will keep the book Definition locked.  Please use the Save or Cancel button below to unlock the book Definition so other users will be able to edit.";
+	    return "Navigating away from this page without using the Save or Cancel button will keep the Book Definition locked.  Please use the Save or Cancel button below to unlock the Book Definition so other users will be able to edit.";
 	  }
 	};
 	
