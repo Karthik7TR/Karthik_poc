@@ -14,7 +14,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,11 +27,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -39,6 +43,9 @@ public class ProviewTitleListController {
 	private ProviewClient proviewClient;
 	private BookDefinitionService bookDefinitionService;
 	private ProviewAuditService proviewAuditService;
+	private ManagerService managerService;
+	private MessageSourceAccessor messageSourceAccessor;
+	private JobRequestService jobRequestService;
 
 	/**
 	 * 
@@ -341,6 +348,48 @@ public class ProviewTitleListController {
 
 	/**
 	 * 
+	 * @param model
+	 * @param titleId
+	 * @param version
+	 * @return
+	 */
+	private boolean isJobRunningForBook(Model model, String titleId,
+			String version) {
+		boolean isJobRunning = false;
+		BookDefinition book = bookDefinitionService
+				.findBookDefinitionByTitle(titleId);
+		if (book != null) {
+
+			if (jobRequestService.isBookInJobRequest(book
+					.getEbookDefinitionId())) {
+				Object[] args = { book.getFullyQualifiedTitleId(), "",
+						"This book is already in the job queue" };
+				String infoMessage = messageSourceAccessor.getMessage(
+						"mesg.job.enqueued.fail", args);
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);
+				isJobRunning = true;
+			}
+
+			else {
+				JobExecution runningJobExecution = managerService
+						.findRunningJob(book.getEbookDefinitionId(), version);
+
+				if (runningJobExecution != null) {
+					Object[] args = { book.getFullyQualifiedTitleId(), version,
+							runningJobExecution.getId().toString() };
+					String infoMessage = messageSourceAccessor.getMessage(
+							"mesg.job.enqueued.in.progress", args);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+							infoMessage);
+					isJobRunning = true;
+				}
+			}
+		}
+		return isJobRunning;
+	}
+
+	/**
+	 * 
 	 * @param form
 	 * @param model
 	 * @return
@@ -356,28 +405,31 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
-		String emailBody = "Proview Remove Request Status: ";
+		String emailBody = "";
 		String emailSubject = "Proview Remove Request Status: ";
 
 		try {
-			proviewClient.removeTitle(form.getTitleId(), form.getVersion());
-			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
-					"Success: removed from Proview.");
-			emailBody = "Title id: " + form.getTitleId() + ", version: "
-					+ form.getVersion() + " removed from Proview.";
-			emailSubject += "Success";
-
-			proviewAuditService.save(form.createAudit());
+			if (!isJobRunningForBook(model, form.getTitleId(),
+					form.getVersion())) {
+				proviewClient.removeTitle(form.getTitleId(), form.getVersion());
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+						"Success: removed from Proview.");
+				emailBody = "Title id: " + form.getTitleId() + ", version: "
+						+ form.getVersion() + " removed from Proview.";
+				emailSubject += "Success";
+				sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+						emailBody);
+				proviewAuditService.save(form.createAudit());
+			}
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to remove from proview. " + e.getMessage());
 			emailBody = "Title id: " + form.getTitleId() + ", version: "
 					+ form.getVersion() + " could not be removed from Proview.";
 			emailSubject += "Unsuccessful";
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+					emailBody);
 		}
-
-		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
-				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_REMOVE);
 	}
@@ -399,18 +451,25 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
-		String emailBody = "Proview Promote Request Status: ";
+		String emailBody = "";
 		String emailSubject = "Proview Promote Request Status: ";
 
 		try {
-			proviewClient.promoteTitle(form.getTitleId(), form.getVersion());
-			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
-					"Success: promoted to Final in Proview.");
+			if (!isJobRunningForBook(model, form.getTitleId(),
+					form.getVersion())) {
+				proviewClient
+						.promoteTitle(form.getTitleId(), form.getVersion());
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+						"Success: promoted to Final in Proview.");
 
-			emailBody = "Title id: " + form.getTitleId() + ", version: "
-					+ form.getVersion() + " promoted from Proview.";
-			emailSubject += "Success";
-			proviewAuditService.save(form.createAudit());
+				emailBody = "Title id: " + form.getTitleId() + ", version: "
+						+ form.getVersion() + " promoted from Proview.";
+				emailSubject += "Success";
+
+				sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+						emailBody);
+				proviewAuditService.save(form.createAudit());
+			}
 		} catch (Exception e) {
 			model.addAttribute(
 					WebConstants.KEY_ERR_MESSAGE,
@@ -420,10 +479,9 @@ public class ProviewTitleListController {
 					+ form.getVersion()
 					+ " could not be promoted from Proview.";
 			emailSubject += "Unsuccessful";
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+					emailBody);
 		}
-
-		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
-				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_PROMOTE);
 	}
@@ -445,27 +503,32 @@ public class ProviewTitleListController {
 		model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
 		model.addAttribute(WebConstants.KEY_PROVIEW_TITLE_INFO_FORM, form);
 
-		String emailBody = "Proview Delete Request Status: ";
+		String emailBody = "";
 		String emailSubject = "Proview Delete Request Status: ";
 
 		try {
-			proviewClient.deleteTitle(form.getTitleId(), form.getVersion());
-			model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
-					"Success: deleted from Proview.");
-			proviewAuditService.save(form.createAudit());
-			emailBody = "Title id: " + form.getTitleId() + ", version: "
-					+ form.getVersion() + " deleted from Proview.";
-			emailSubject += "Success";
+			if (!isJobRunningForBook(model, form.getTitleId(),
+					form.getVersion())) {
+				proviewClient.deleteTitle(form.getTitleId(), form.getVersion());
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE,
+						"Success: deleted from Proview.");
+				emailBody = "Title id: " + form.getTitleId() + ", version: "
+						+ form.getVersion() + " deleted from Proview.";
+				emailSubject += "Success";
+				sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+						emailBody);
+				proviewAuditService.save(form.createAudit());
+
+			}
 		} catch (Exception e) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 					"Failed to delete from proview. " + e.getMessage());
 			emailBody = "Title id: " + form.getTitleId() + ", version: "
 					+ form.getVersion() + " could not be deleted from Proview.";
 			emailSubject += "Unsuccessful";
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
+					emailBody);
 		}
-
-		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject,
-				emailBody);
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
 	}
@@ -487,6 +550,34 @@ public class ProviewTitleListController {
 	@Required
 	public void setProviewAuditService(ProviewAuditService service) {
 		this.proviewAuditService = service;
+	}
+
+	public ManagerService getManagerService() {
+		return managerService;
+	}
+
+	@Required
+	public void setManagerService(ManagerService managerService) {
+		this.managerService = managerService;
+	}
+
+	public MessageSourceAccessor getMessageSourceAccessor() {
+		return messageSourceAccessor;
+	}
+
+	@Required
+	public void setMessageSourceAccessor(
+			MessageSourceAccessor messageSourceAccessor) {
+		this.messageSourceAccessor = messageSourceAccessor;
+	}
+
+	public JobRequestService getJobRequestService() {
+		return jobRequestService;
+	}
+
+	@Required
+	public void setJobRequestService(JobRequestService jobRequestService) {
+		this.jobRequestService = jobRequestService;
 	}
 
 }
