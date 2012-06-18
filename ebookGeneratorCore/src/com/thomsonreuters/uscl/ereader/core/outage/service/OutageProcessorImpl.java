@@ -59,6 +59,8 @@ public class OutageProcessorImpl implements OutageProcessor {
 				String subject = String.format("End of eBook generator outage on host %s", getHostName());
 				sendOutageEmail(recipients, subject, expiredOutage);
 			}
+			// Removed the expired outage now that it is complete
+			plannedOutageContainer.remove(expiredOutage);
 		}
 		return outage;
 	}
