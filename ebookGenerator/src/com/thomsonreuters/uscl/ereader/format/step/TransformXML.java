@@ -72,7 +72,7 @@ public class TransformXML extends AbstractSbTasklet
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = transformerService.transformXMLDocuments(
-				xmlDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId);
+				xmlDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations());
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

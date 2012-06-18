@@ -822,7 +822,7 @@ public class PersistentUrlTransformIntegrationTests
                 transformerService.transformFile(
                     novusXmlDocument, novusXmlDocument.getParentFile(),
                     novusXmlDocument.getParentFile(), transformedDirectory, titleId, jobId,
-                    xsltCache);
+                    xsltCache, false);
             }
         }
 
@@ -920,7 +920,7 @@ public class PersistentUrlTransformIntegrationTests
 
         transformerService.transformFile(
             novusXml, novusXml.getParentFile(), novusXml.getParentFile(), transformedDirectory,
-            titleId, jobId, xsltCache);
+            titleId, jobId, xsltCache, false);
 
         verifyAll();
 

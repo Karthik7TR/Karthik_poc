@@ -25,10 +25,32 @@ import org.apache.log4j.Logger;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class XSLIncludeResolver implements URIResolver {
+public class XSLIncludeResolver implements URIResolver 
+{
+	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL = new File("/nas/Xslt/Universal/_Empty.xsl");
-	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
+	private boolean includeAnnotations = false;
+	
+	public boolean getIncludeAnnotations() 
+	{
+		return includeAnnotations;
+	}
+
+	public void setIncludeAnnotations(boolean includeAnnotations) 
+	{
+		this.includeAnnotations = includeAnnotations;
+	}
+
+	public File getEmptyXSL() 
+	{
+		return emptyXSL;
+	}
+
+	public void setEmptyXSL(File emptyXSL) 
+	{
+		this.emptyXSL = emptyXSL;
+	}
 
 	public Source resolve(String href, String base) throws TransformerException
 	{
@@ -40,7 +62,8 @@ public class XSLIncludeResolver implements URIResolver {
 			
 			if (includeXSLT.exists())
 			{
-				if (includedXSLTs.contains(includeXSLT.getCanonicalPath()))
+				if (includedXSLTs.contains(includeXSLT.getCanonicalPath())
+					|| (includeAnnotations && includeXSLT.getName().equals("ContextAndAnalysis.xsl")))
 				{
 					source = new StreamSource(emptyXSL);
 				}
@@ -69,5 +92,15 @@ public class XSLIncludeResolver implements URIResolver {
 		}
 		
 		return source;
+	}
+
+	protected List<String> getIncludedXSLTs() 
+	{
+		return includedXSLTs;
+	}
+
+	protected void setIncludedXSLTs(List<String> includedXSLTs) 
+	{
+		this.includedXSLTs = includedXSLTs;
 	}
 }

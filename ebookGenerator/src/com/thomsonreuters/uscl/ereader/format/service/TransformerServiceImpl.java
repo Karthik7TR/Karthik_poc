@@ -96,6 +96,7 @@ public class TransformerServiceImpl implements TransformerService
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup document metadata
+     * @param includeAnnotations flag that is used to allow annotations to flow through into the documents of the book.
      * 
      * @return The number of documents that were transformed
      * 
@@ -103,7 +104,8 @@ public class TransformerServiceImpl implements TransformerService
 	 */
 	@Override
 	public int transformXMLDocuments(final File xmlDir, final File metaDir, final File imgMetaDir,
-			final File transDir, final String titleID, final Long jobID) throws EBookFormatException 
+			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations) 
+					throws EBookFormatException 
 	{
         if (xmlDir == null || !xmlDir.isDirectory())
         {
@@ -136,7 +138,7 @@ public class TransformerServiceImpl implements TransformerService
         int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleID, jobID, xsltCache);
+        	transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleID, jobID, xsltCache, includeAnnotations);
         	docCount++;
         }
         LOG.info("Transformed all XML files");
@@ -154,11 +156,12 @@ public class TransformerServiceImpl implements TransformerService
 	 * @param targetDir directory to which the ".transformed" files will be written
 	 * @param titleId the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobId the identifier of the job currently running, used to lookup document metadata
+     * @param includeAnnos determines if the annotations XSL will be applied or not
      * 
 	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
 	 */
 	final void transformFile(File xmlFile, File metadataDir, File imgMetadataDir, File targetDir, String titleId, 
-			Long jobId, Map<String, Transformer> stylesheetCache) throws EBookFormatException
+			Long jobId, Map<String, Transformer> stylesheetCache, boolean includeAnnos) throws EBookFormatException
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
@@ -203,7 +206,7 @@ public class TransformerServiceImpl implements TransformerService
 	       
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
-	        	trans = createTransformer(xslt, stylesheetCache);
+	        	trans = createTransformer(xslt, stylesheetCache, includeAnnos);
 	        }
 	        else
 	        {
@@ -329,11 +332,12 @@ public class TransformerServiceImpl implements TransformerService
 	 * @param transformer transformer to be created and configured
 	 * @param xslt stylesheet for which the transformer will be created
 	 * @param xsltCache cache of stylesheets to be updated with new transformer
+	 * @param includeAnnotations used to specify if Annotations XSL should be applied
 	 * 
 	 * @return configured transformer
 	 * @throws EBookFormatException if the transformer could not be configured correctly
 	 */
-	protected Transformer createTransformer(File xslt, Map<String, Transformer> xsltCache)
+	protected Transformer createTransformer(File xslt, Map<String, Transformer> xsltCache, boolean includeAnnotations)
 		throws EBookFormatException
 	{
 		try
@@ -343,6 +347,7 @@ public class TransformerServiceImpl implements TransformerService
 	        TransformerFactory transFact = TransformerFactory.newInstance();
 	        
 	        XSLIncludeResolver resolver = new XSLIncludeResolver();
+	        resolver.setIncludeAnnotations(includeAnnotations);
 	        transFact.setURIResolver(resolver);
 	 
 	        Transformer transformer = transFact.newTransformer(xsltSource);

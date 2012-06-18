@@ -143,7 +143,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(null, null, null, null, null, null);
+    		transService.transformXMLDocuments(null, null, null, null, null, null, false);
     	}
     	catch(EBookFormatException e)
     	{
@@ -160,7 +160,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId);
+    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, false);
     	}
     	catch(EBookFormatException e)
     	{
@@ -177,7 +177,7 @@ public class TransformerServiceTest
     	{
     		assertEquals(0, transDir.listFiles().length);
     		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
-    		transService.transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, xsltCache);
+    		transService.transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, xsltCache, false);
     		assertEquals(1, transDir.listFiles().length);
     	}
     	catch(EBookFormatException e)
@@ -192,7 +192,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId));
+    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId, false));
     	}
     	catch(EBookFormatException e)
     	{

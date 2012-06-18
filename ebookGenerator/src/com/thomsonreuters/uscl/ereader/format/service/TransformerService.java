@@ -29,11 +29,13 @@ public interface TransformerService
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
      * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup appropriate document metadata
+     * @param includeAnnotations flag that is used to allow annotations to flow through into the documents of the book.
      *
      * @return number of documents that were transformed
      *
      * @throws EBookFormatException if an error occurs during the process.
 	 */
 	public int transformXMLDocuments(final File xmlDir, final File metaDir, final File imgMetaDir,
-			final File transDir, final String titleID, final Long jobID) throws EBookFormatException;
+			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations) 
+					throws EBookFormatException;
 }

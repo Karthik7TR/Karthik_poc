@@ -54,12 +54,16 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl {
 		}
 		else if (ANCHOR_CASCADE_TAG.equals(qName))
 		{
-			for (String anchor : anchors)
+			if (anchors != null && anchors.size() > 0)
 			{
-				AttributesImpl newAtts = new AttributesImpl();
-				newAtts.addAttribute("", "", "name", "CDATA", anchor);
-				super.startElement("", ANCHOR_TAG, ANCHOR_TAG, newAtts);
-				super.endElement("", ANCHOR_TAG, ANCHOR_TAG);
+				for (int i = anchors.size()-1; i >= 0; i--)
+				{
+					String anchor = anchors.get(i);
+					AttributesImpl newAtts = new AttributesImpl();
+					newAtts.addAttribute("", "", "name", "CDATA", anchor);
+					super.startElement("", ANCHOR_TAG, ANCHOR_TAG, newAtts);
+					super.endElement("", ANCHOR_TAG, ANCHOR_TAG);
+				}
 			}
 		}
 		else if (ANCHOR_TAG.equals(qName)) {

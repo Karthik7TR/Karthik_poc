@@ -57,6 +57,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .bookname2
@@ -72,6 +73,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .bookname3
@@ -87,6 +89,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .currency
@@ -102,6 +105,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .author1
@@ -123,6 +127,7 @@
 	margin-bottom:0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .authorNext
@@ -150,6 +155,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .copyright_page_text
@@ -162,10 +168,11 @@
 
 .copyright_page_text p
 {
-	margin-top: 1em;
+	margin-top: 0em;
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .copyright_disclaimer
@@ -194,6 +201,7 @@
 	margin-bottom: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
+	min-height: 1em;
 }
 
 .research_assistance_title
@@ -253,6 +261,7 @@
 	text-indent : 1em; 
 	margin-top:1em;
 	margin-bottom:0.3em;
+	min-height: 1em;
 }
 
 .section_pdf
