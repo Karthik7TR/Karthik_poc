@@ -7,11 +7,13 @@ WHERE P.STD_PUB_NAME = 'BLUESKYL';
 
 COMMIT;
 
+-- NPD needs to decide weather links within Ehrhardt's should remain external links or become internal
+/**
 UPDATE EBOOK_AUTHORITY.PACE_METADATA p
 SET P.PUBLICATION_NAME = '1FLPRAC'
 WHERE P.STD_PUB_NAME = 'FLST';
 
-COMMIT;
+COMMIT;*/
 
 UPDATE EBOOK_AUTHORITY.PACE_METADATA p
 SET P.PUBLICATION_NAME = '1FLPRAC'
