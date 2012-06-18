@@ -355,7 +355,12 @@ public class ProviewTitleListController {
 	 */
 	private boolean isJobRunningForBook(Model model, String titleId,
 			String version) {
+
 		boolean isJobRunning = false;
+
+		if (version.startsWith("v")) {
+			version = version.substring(1);
+		}
 		BookDefinition book = bookDefinitionService
 				.findBookDefinitionByTitle(titleId);
 		if (book != null) {
