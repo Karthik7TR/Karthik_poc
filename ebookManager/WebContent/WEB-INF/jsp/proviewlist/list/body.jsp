@@ -19,6 +19,21 @@
 </head>
 
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+	
+		<%-- Informational Messages area --%>
+	    <c:if test="${infoMessage != null}">
+	    <div class="infoMessageSuccess">
+	    	${infoMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+	    <%-- Error Messages area --%>
+	    <c:if test="${errMessage != null}">
+	    <div class="infoMessageError">
+	    	${errMessage}
+	    </div>
+	    <br/>
+	    </c:if>
 
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
