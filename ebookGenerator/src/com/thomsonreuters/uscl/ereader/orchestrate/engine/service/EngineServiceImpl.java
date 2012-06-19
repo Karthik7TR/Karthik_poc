@@ -64,7 +64,6 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 	 */
 	@Override
 	public JobExecution runJob(String jobName, JobParameters jobParameters) throws Exception {
-		log.debug(String.format("Starting job: %s", jobName));
 
 		// Lookup job object from set of defined collection of jobs 
 		Job job = jobRegistry.getJob(jobName);
@@ -73,6 +72,7 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
 		}
 		
 		// Launch the job with the specified set of JobParameters
+		log.debug("Launch Job Parameters: " + jobParameters);
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		return jobExecution;
 	}
