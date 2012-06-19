@@ -691,6 +691,10 @@
 		<form:hidden path="pubInfo"/>
 	</c:otherwise>
 </c:choose>
+<c:set var="disableOptions" value="true"/>
+<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+	<c:set var="disableOptions" value=""/>
+</sec:authorize>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
 	<div class="sectionLabel">
@@ -735,10 +739,15 @@
 					<form:errors path="materialId" cssClass="errorMessage" />
 				</div>	
 			</div>
+			<c:if test="${disableOptions}">
+				<%-- Hidden fields needed when options are disabled.
+					 Options reset to defaults if hidden fields are missing. --%>
+				<form:hidden path="includeAnnotations"/>
+			</c:if>
 			<div class="row">
 				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
-				<form:radiobutton path="includeAnnotations" value="true" />Yes
-				<form:radiobutton path="includeAnnotations" value="false" />No
+				<form:radiobutton disabled="${disableOptions}" path="includeAnnotations" value="true" />Yes
+				<form:radiobutton disabled="${disableOptions}" path="includeAnnotations" value="false" />No
 				<div class="errorDiv">
 					<form:errors path="includeAnnotations" cssClass="errorMessage" />
 				</div>
