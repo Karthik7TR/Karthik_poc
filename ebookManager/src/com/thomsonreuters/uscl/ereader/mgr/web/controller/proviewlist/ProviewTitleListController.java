@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -198,26 +199,36 @@ public class ProviewTitleListController {
 			if (allLatestProviewTitleInfo == null) {
 
 				Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-				if (allProviewTitleInfo == null) {
-					allProviewTitleInfo = proviewClient
-							.getAllProviewTitleInfo();
-					saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+				try {
+					if (allProviewTitleInfo == null) {
+
+						allProviewTitleInfo = proviewClient
+								.getAllProviewTitleInfo();
+						saveAllProviewTitleInfo(httpSession,
+								allProviewTitleInfo);
+					}
+
+					allLatestProviewTitleInfo = proviewClient
+							.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+					saveAllLatestProviewTitleInfo(httpSession,
+							allLatestProviewTitleInfo);
+
+					selectedProviewTitleInfo = allLatestProviewTitleInfo;
+
+					saveSelectedProviewTitleInfo(httpSession,
+							selectedProviewTitleInfo);
+
+				} catch (ProviewException e) {
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+							"Proview Exception occured. Please contact your administrator.");
+
 				}
-
-				allLatestProviewTitleInfo = proviewClient
-						.getAllLatestProviewTitleInfo(allProviewTitleInfo);
-				saveAllLatestProviewTitleInfo(httpSession,
-						allLatestProviewTitleInfo);
-
-				selectedProviewTitleInfo = allLatestProviewTitleInfo;
-
-				saveSelectedProviewTitleInfo(httpSession,
-						selectedProviewTitleInfo);
-
 			}
+
 		}
 
 		if (selectedProviewTitleInfo != null) {
+
 			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 					selectedProviewTitleInfo);
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
