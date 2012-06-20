@@ -18,8 +18,9 @@ public class JobCleaner {
 	private int daysBeforeDocMetadataDelete;
 	
 	@Scheduled(fixedRate = 24*60*60*1000)
-	public void cleanupOldSpringBatchJobs() {
-		managerService.cleanupOldSpringBatchJobs(cleanJobsGreaterThanThisManyDaysOld);
+	public void cleanupOldData() {
+		managerService.cleanupOldSpringBatchDatabaseRecords(cleanJobsGreaterThanThisManyDaysOld);
+		managerService.cleanupOldFilesystemFiles(cleanJobsGreaterThanThisManyDaysOld);
 		managerService.cleanupOldPlannedOutages(cleanPlannedOutagesGreaterThanThisManyDaysOld);
 		managerService.cleanupOldTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
 	}

@@ -49,7 +49,14 @@ public interface ManagerService {
 	 * Delete old database table and filesystem job data.
 	 * @param daysBack jobs more than this many days old will be deleted. 
 	 */
-	public void cleanupOldSpringBatchJobs(int daysBack);
+	public void cleanupOldSpringBatchDatabaseRecords(int daysBack);
+	
+	/**
+	 * Delete all the old files that were created while generating an ebook that are older than the specified
+	 * number of days.
+	 * @param daysBack
+	 */
+	public void cleanupOldFilesystemFiles(int daysBack);
 	
 	/**
 	 * Delete old records in PLANNED_OUTAGE table.

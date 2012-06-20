@@ -102,19 +102,25 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	@Transactional
-	public void cleanupOldSpringBatchJobs(int daysBack) {
+	public void cleanupOldSpringBatchDatabaseRecords(int daysBack) {
 		// Calculate the prior point in time before which data is to be removed
 		Date deleteJobsBefore = calculateDaysBackDate(daysBack);
 		
 		// Archive and then delete old BATCH_* database table records
-		log.info(String.format("Archiving/Deleting Spring Batch job data older than %d days old.  These are jobs run before: %s", daysBack, deleteJobsBefore.toString()));
+		log.info(String.format("Starting to archive/delete Spring Batch job records older than %d days old.  These are jobs run before: %s", daysBack, deleteJobsBefore.toString()));
 		int oldJobStepExecutionsRemoved = managerDao.archiveAndDeleteSpringBatchJobRecordsBefore(deleteJobsBefore);
-		log.info(String.format("Archived/Deleted %d old step executions that were older than %d days old.", oldJobStepExecutionsRemoved, daysBack));
-		
-		// Remove old filesystem files that were used to create the book in the first place 
-		removeOldJobFiles(deleteJobsBefore);
+		log.info(String.format("Finished archiving/deleting %d old step executions that were older than %d days old.", oldJobStepExecutionsRemoved, daysBack));
 	}
 	
+	@Override
+	public void cleanupOldFilesystemFiles(int daysBack) {
+		// Calculate the prior point in time before which data is to be removed
+		Date deleteFilesBefore = calculateDaysBackDate(daysBack);
+		// Remove old filesystem files that were used to create the book in the first place
+		log.info(String.format("Starting to remove job filesystem files older than %d days old.  These are files created before: %s", daysBack, deleteFilesBefore.toString()));
+		removeOldJobFiles(deleteFilesBefore);
+		log.info(String.format("Finished removing job files older than %d days old.", daysBack));
+	}
 	
 	@Override
 	@Transactional
