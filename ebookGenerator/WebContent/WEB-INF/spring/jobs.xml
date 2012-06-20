@@ -122,13 +122,21 @@
 			<next on="COMPLETED" to="deliverEBook"/>
 			<fail on="FAILED"/>
 		</step>
-		
+
 		<!-- Deliver the title to ProView -->
 		<step id="deliverEBook">
 			<tasklet ref="deliverEBookTask"/>
 			<fail on="FAILED"/>
+			<next on="COMPLETED" to="archiveBook"/>
+		</step>
+
+		<!-- Production only: archive the last book created -->
+		<step id="archiveBook">
+			<tasklet ref="archiveBookTask"/>
+			<fail on="FAILED"/>
 			<next on="COMPLETED" to="sendEmailNotification"/>
 		</step>
+
 		<step id="sendEmailNotification">
 			<tasklet ref="sendNotificationTask"/>
 			<fail on="FAILED"/>
@@ -192,7 +200,11 @@
 				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="parentTask" 
 				p:proviewClient-ref="proviewClient"
-				p:publishingStatsService-ref="publishingStatsService"/>	
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="archiveBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.ArchiveBook" parent="parentTask"
+				p:environmentName-ref="environmentName"
+				p:archiveBaseDirectory="${root.work.directory}/archive"/>
+
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"/>							
 
 </beans:beans>
