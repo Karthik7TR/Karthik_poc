@@ -17,7 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
@@ -42,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  * into a specified image destination directory.
  */
 public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
-	private static final Logger log = Logger.getLogger(GatherImageVerticalImagesTask.class);
+	//private static final Logger log = Logger.getLogger(GatherImageVerticalImagesTask.class);
 	private ImageService imageService;
 	private PublishingStatsService publishingStatsService;
 
@@ -81,12 +80,12 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		try {
 			
 			imageService.fetchImageVerticalImages(imgDocGuidMap, dynamicImageDestinationDirectory, jobInstanceId, titleId);
-			updateImageRetrivalStats(imageGuidNum, jobInstanceId,null);
+			updateImageRetrievalStats(imageGuidNum, jobInstanceId,null);
 
 			
 		} catch (ImageException e) {
 			
-			updateImageRetrivalStats(imageGuidNum, jobInstanceId,e);
+			updateImageRetrievalStats(imageGuidNum, jobInstanceId,e);
 			throw e; 
 		}
 		
@@ -95,7 +94,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 
 
 
-	private void updateImageRetrivalStats(int imageGuidsSize,
+	private void updateImageRetrievalStats(int imageGuidsSize,
 			long jobInstanceId,ImageException e) {
 
 		Long jobInstanceLong = jobInstanceId;
@@ -111,6 +110,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		jobstatsDoc.setJobInstanceId(jobInstanceLong);
 		jobstatsDoc.setGatherImageExpectedCount(imageGuidsSize);
 		jobstatsDoc.setGatherImageRetrievedCount(retrievedCound);
+		jobstatsDoc.setPublishStatus("Image Vertical image retrieval complete");
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
 	}
 	

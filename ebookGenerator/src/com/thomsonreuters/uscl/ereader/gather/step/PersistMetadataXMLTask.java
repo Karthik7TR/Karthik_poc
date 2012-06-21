@@ -93,6 +93,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		PublishingStats jobstatsFormat = new PublishingStats();
 		jobstatsFormat.setJobInstanceId(jobId);
 		jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
+		jobstatsFormat.setPublishStatus("Persist Metadata complete");
 		
 		LOG.debug("titleDupDocCount ="+titleDupDocCount);
 

@@ -13,7 +13,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,9 +133,13 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			LOG.error("Unknown StatsUpdateTypeEnum");
 			// TODO: failure logic
 		}
-		hql.append(", publishStatus = '");
-		hql.append(jobstats.getPublishStatus());
-		hql.append("', lastUpdated = sysdate ");
+		if (StringUtils.isNotBlank(jobstats.getPublishStatus())) {
+			hql.append(String.format(", publishStatus = '%s'", jobstats.getPublishStatus()));
+		} else {
+			hql.append(", publishStatus = null");
+		}
+		
+		hql.append(", lastUpdated = sysdate ");
 
 		hql.append(" where jobInstanceId =  "); // WHERE clause
 		hql.append(jobstats.getJobInstanceId());
