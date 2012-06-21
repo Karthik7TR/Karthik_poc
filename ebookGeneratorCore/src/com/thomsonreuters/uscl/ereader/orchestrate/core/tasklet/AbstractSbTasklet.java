@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
@@ -48,6 +49,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
 	public static final String EBOOK_DEFINITON = "bookDefn";
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
+	public static final String GATHER_DOCS_DIR = "gatherDocsDir";
 	
 	protected CoreService coreService;
 	private OutageProcessor outageProcessor;
@@ -131,7 +133,9 @@ public abstract class AbstractSbTasklet implements Tasklet {
         	fileList.add(imgGuidsFile);
         }
         
-        String missingGuidsFile = jobExecutionContext.getString(DOCS_MISSING_GUIDS_FILE);
+        String gatherDir = jobExecutionContext.getString(GATHER_DOCS_DIR);
+        
+        String missingGuidsFile = StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator")) + "_doc_missing_guids.txt";
         
         if (getFileSize(missingGuidsFile) > 0 )
         {

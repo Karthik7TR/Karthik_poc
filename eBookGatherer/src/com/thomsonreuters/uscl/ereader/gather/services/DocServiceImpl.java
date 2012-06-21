@@ -88,7 +88,7 @@ public class DocServiceImpl implements DocService {
 
 		try {
 			
-			stream = new FileOutputStream(StringUtils.substringBeforeLast(contentDestinationDirectory.getAbsolutePath(), "/") + "_doc_missing_guids.txt");
+			stream = new FileOutputStream(StringUtils.substringBeforeLast(contentDestinationDirectory.getAbsolutePath(), System.getProperty("file.separator")) + "_doc_missing_guids.txt");
 			String charset = "UTF-8";	// explicitly set the character set
 			writer = new OutputStreamWriter(stream, charset);
 			
