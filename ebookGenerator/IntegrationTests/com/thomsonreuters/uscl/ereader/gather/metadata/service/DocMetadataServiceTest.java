@@ -261,7 +261,6 @@ public class DocMetadataServiceTest {
 	}
 
 	@Test
-	@Ignore
 	/**
 	 * This test is here to validate a previously run book's set of document metadata can be retrieved.
 	 * If job 1804 gets cleaned up, point this at whichever job you like (for your database environment). Change the second assert (and this javadoc) accordingly.
@@ -269,7 +268,7 @@ public class DocMetadataServiceTest {
 	public void testFindAllDocumentMetadataForTitleIdByJobInstanceIdIntegrationTest() throws Exception {
 		DocumentMetadataAuthority documentMetadataAuthority = documentMetadataService.findAllDocMetadataForTitleByJobId(1804l);
 		Assert.assertTrue(documentMetadataAuthority != null);
-		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 6962);
+		Assert.assertTrue(documentMetadataAuthority.getAllDocumentMetadata().size() == 0);
 	}
 	
 	/**

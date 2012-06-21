@@ -29,10 +29,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -79,8 +77,6 @@ public class PersistentUrlTransformIntegrationTests
         "//div[@id='co_prelimGoldenLeaf']/a[@href]";
     private static final String PARAGRAPH_TEXT_XPATH_EXPR =
         "//div[@class='co_paragraph']/div[@class='co_paragraphText']/a[@href]";
-    private static final String PRINT_HEADING_XPATH_EXPR =
-        "//div[@class='co_notesOfDecisions']/div[@class='co_printHeading']/div[@class='co_notesOfDecisionsHeading']/a[@href]";
     TransformerServiceImpl transformerService;
     XSLTMapperService mockXsltMapperService;
     DocMetadata mockDocMetadata;
@@ -147,76 +143,6 @@ public class PersistentUrlTransformIntegrationTests
         Assert.isTrue(
             result != 0,
             "Unable to find Url location " + DOCUMENT_HEAD_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN13AAADB07CC011DC828EC052D3B59944ContentBlock()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N13AAADB07CC011DC828EC052D3B59944");
-
-        int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N13AAADB07CC011DC828EC052D3B59944_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
-
-        System.out.println(result);
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN13AAADB07CC011DC828EC052D3B59944ParagraphText()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N13AAADB07CC011DC828EC052D3B59944");
-
-        int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N13AAADB07CC011DC828EC052D3B59944_expected_wln.html", PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN13AAADB07CC011DC828EC052D3B59944PrelimGoldenLeaf()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N13AAADB07CC011DC828EC052D3B59944");
-
-        int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N13AAADB07CC011DC828EC052D3B59944_expected_wln.html", PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
             + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
     }
 
@@ -353,98 +279,7 @@ public class PersistentUrlTransformIntegrationTests
             + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
     }
 
-    @Test
-    @Ignore
-    public void testN2129FB908D7111D8A8ACD145B11214D7PrintHeading()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N2129FB908D7111D8A8ACD145B11214D7");
-
-        int result = buildUrlsFromString(renderedOutput, PRINT_HEADING_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRINT_HEADING_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N2129FB908D7111D8A8ACD145B11214D7_expected_wln.html", PRINT_HEADING_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRINT_HEADING_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN588DDF107CC011DC83339EA319FEB44FContentBlock()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N588DDF107CC011DC83339EA319FEB44F");
-
-        int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N588DDF107CC011DC83339EA319FEB44F_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN588DDF107CC011DC83339EA319FEB44FParagraphText()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N588DDF107CC011DC83339EA319FEB44F");
-
-        int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N588DDF107CC011DC83339EA319FEB44F_expected_wln.html", PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN588DDF107CC011DC83339EA319FEB44FPrelimGoldenLeaf()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N588DDF107CC011DC83339EA319FEB44F");
-
-        int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N588DDF107CC011DC83339EA319FEB44F_expected_wln.html", PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
+   
     @Test
     public void testN5AE4A3C0D2A311DFA872E294CFCC8A91ContentBlock()
         throws Exception
@@ -512,121 +347,6 @@ public class PersistentUrlTransformIntegrationTests
     }
 
     @Test
-    @Ignore
-    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91PrintHeading()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N5AE4A3C0D2A311DFA872E294CFCC8A91");
-
-        int result = buildUrlsFromString(renderedOutput, PRINT_HEADING_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRINT_HEADING_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N5AE4A3C0D2A311DFA872E294CFCC8A91_expected_wln.html", PRINT_HEADING_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRINT_HEADING_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN7BE432707CC011DC8B69829BAAB1B5B5ContentBlock()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N7BE432707CC011DC8B69829BAAB1B5B5");
-
-        int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N7BE432707CC011DC8B69829BAAB1B5B5_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN7BE432707CC011DC8B69829BAAB1B5B5ParagraphText()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N7BE432707CC011DC8B69829BAAB1B5B5");
-
-        int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N7BE432707CC011DC8B69829BAAB1B5B5_expected_wln.html", PARAGRAPH_TEXT_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PARAGRAPH_TEXT_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN7BE432707CC011DC8B69829BAAB1B5B5PrelimGoldenLeaf()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N7BE432707CC011DC8B69829BAAB1B5B5");
-
-        int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N7BE432707CC011DC8B69829BAAB1B5B5_expected_wln.html", PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
-    @Ignore
-    public void testN98740E607CC011DC8B69829BAAB1B5B57ContentBlock()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N98740E607CC011DC8B69829BAAB1B5B5");
-
-        int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR + "  in prerendered output  "
-            + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N98740E607CC011DC8B69829BAAB1B5B5_expected_wln.html", CONTENT_BLOCK_XPATH_EXPR);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + CONTENT_BLOCK_XPATH_EXPR
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
-    @Test
     public void testN98740E607CC011DC8B69829BAAB1B5B5ParagraphText()
         throws Exception
     {
@@ -648,29 +368,7 @@ public class PersistentUrlTransformIntegrationTests
             + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
     }
 
-    @Test
-    @Ignore
-    public void testN98740E607CC011DC8B69829BAAB1B5B5PrelimGoldenLeaf()
-        throws Exception
-    {
-        String renderedOutput = getWestLawNextRenderedOutput("N98740E607CC011DC8B69829BAAB1B5B5");
-
-        int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in prerendered output  " + renderedOutput);
-
-        result = buildUrlsFromFile(
-                "N98740E607CC011DC8B69829BAAB1B5B5_expected_wln.html", PRELIMGOLDENLEAF_XPATH_EXPR_3);
-
-        Assert.isTrue(
-            result != 0,
-            "Unable to find Url location " + PRELIMGOLDENLEAF_XPATH_EXPR_3
-            + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
-    }
-
+  
     @Test
     public void testNB915D0707CBD11DC8EE4814D1B0549C2ContentBlock()
         throws Exception
@@ -804,30 +502,7 @@ public class PersistentUrlTransformIntegrationTests
             + "  in West_Law_rendered xml  " + WEST_LAW_RENDERED_XML);
     }
 
-    @Ignore
-    @Test
-    public void testUrlBuilderForImphAnalyticalProduct()
-        throws Exception
-    {
-        File transformedDirectory = tempDirectory.newFolder("transformed");
-        File novusXmlDirectory = new File("/nas/imph/gather/documents");
-        Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
-
-        setExpectationsForNovusDocumentCalls(novusXmlDirectory);
-
-        for (File novusXmlDocument : novusXmlDirectory.listFiles())
-        {
-            if (!novusXmlDocument.isDirectory())
-            {
-                transformerService.transformFile(
-                    novusXmlDocument, novusXmlDocument.getParentFile(),
-                    novusXmlDocument.getParentFile(), transformedDirectory, titleId, jobId,
-                    xsltCache, false);
-            }
-        }
-
-        verifyAll();
-    }
+  
 
     private int buildUrlsFromFile(final String xmlFile, final String xpathString)
     {
@@ -835,7 +510,7 @@ public class PersistentUrlTransformIntegrationTests
             new File(PersistentUrlTransformIntegrationTests.class.getResource(xmlFile).getFile());
 
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-        domFactory.setNamespaceAware(true);
+        domFactory.setNamespaceAware(true);    
 
         DocumentBuilder builder;
         NodeList nodes = null;
@@ -932,38 +607,7 @@ public class PersistentUrlTransformIntegrationTests
         return renderedOutput;
     }
 
-    private void setExpectationsForNovusDocumentCalls(File novusXmlDirectory)
-    {
-        mockXsltMapperService = EasyMock.createMock(XSLTMapperService.class);
-        mockDocMetadata = EasyMock.createMock(DocMetadata.class);
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
-
-        for (File novusXmlDocument : novusXmlDirectory.listFiles())
-        {
-            if (!novusXmlDocument.isDirectory())
-            {
-                EasyMock.expect(
-                    mockDocMetadataService.findDocMetadataByPrimaryKey(
-                        "uscl/an/IMPH", new Long(12345),
-                        StringUtils.substringBefore(novusXmlDocument.getName(), ".")))
-                        .andReturn(mockDocMetadata);
-
-                EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION)
-                        .times(2);
-                EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
-                EasyMock.expect(mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE))
-                        .andReturn(ANALYTICAL_XSLT);
-            }
-        }
-
-        EasyMock.replay(mockDocMetadataService);
-        EasyMock.replay(mockDocMetadata);
-        EasyMock.replay(mockXsltMapperService);
-        transformerService = new TransformerServiceImpl();
-        transformerService.setxsltMapperService(mockXsltMapperService);
-        transformerService.setdocMetadataService(mockDocMetadataService);
-    }
-
+   
     private void verifyAll()
     {
         EasyMock.verify(mockDocMetadataService);
