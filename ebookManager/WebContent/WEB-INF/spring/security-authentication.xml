@@ -31,6 +31,7 @@
 <!--  TESTING ONLY - NOT FOR PRODUCTION -->
 <bean id="testingUserDetailsService" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingUserDetailsService"/>
 <bean id="testingAuthenticationProvider" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingAuthenticationProvider"
+	  p:environmentName-ref="environmentName"
   	  p:userDetailsService-ref="testingUserDetailsService"/>
 	
   	<sec:authentication-manager alias="authenticationManager">

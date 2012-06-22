@@ -18,6 +18,7 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	//private static final Logger log = Logger.getLogger(TestingAuthenticationProvider.class);
 	
 	private UserDetailsService userDetailsService;
+	private static String environmentName;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -37,25 +38,29 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	}
 	
 	public static SecurityRole mapGroupFromUsername(String name) {
-		// Comment this out since we are deploying this code to prod
-/*		if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
-			return SecurityRole.ROLE_GUEST;
+		// Only allow this to work in Test, CI, and Workstation for testing purposes.
+		if(environmentName != null && (environmentName.equalsIgnoreCase("ci") ||
+				environmentName.equalsIgnoreCase("test") ||
+				environmentName.equalsIgnoreCase("workstation"))) {
+			if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
+				return SecurityRole.ROLE_GUEST;
+			}
+			if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
+				return SecurityRole.ROLE_PUBLISHER_PLUS;
+			}
+			if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
+				return SecurityRole.ROLE_PUBLISHER;
+			}
+			if (name.contains(SecurityRole.ROLE_SUPERUSER.toString())) {
+				return SecurityRole.ROLE_SUPERUSER;
+			}
+			if (name.contains(SecurityRole.ROLE_SUPPORT.toString())) {
+				return SecurityRole.ROLE_SUPPORT;
+			}
+			if (name.contains(SecurityRole.ROLE_EDITOR.toString())) {
+				return SecurityRole.ROLE_EDITOR;
+			}
 		}
-		if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
-			return SecurityRole.ROLE_PUBLISHER_PLUS;
-		}
-		if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
-			return SecurityRole.ROLE_PUBLISHER;
-		}
-		if (name.contains(SecurityRole.ROLE_SUPERUSER.toString())) {
-			return SecurityRole.ROLE_SUPERUSER;
-		}
-		if (name.contains(SecurityRole.ROLE_SUPPORT.toString())) {
-			return SecurityRole.ROLE_SUPPORT;
-		}
-		if (name.contains(SecurityRole.ROLE_EDITOR.toString())) {
-			return SecurityRole.ROLE_EDITOR;
-		}*/
 		return null;
 	}
 
@@ -67,5 +72,9 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	@Required
 	public void setUserDetailsService(UserDetailsService service) {
 		this.userDetailsService = service;
+	}
+	@Required
+	public static void setEnvironmentName(String environment) {
+		environmentName = environment;
 	}
 }
