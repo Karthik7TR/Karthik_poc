@@ -137,8 +137,8 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						{
 							AttributesImpl newAtts = new AttributesImpl();
 							
-							newAtts.addAttribute("", "", "alt", "CDATA", 
-									"Image " + imgEncountered + " within " + firstlineCite + " document.");
+/*							newAtts.addAttribute("", "", "alt", "CDATA", 
+									"Image " + imgEncountered + " within " + firstlineCite + " document.");*/
 							newAtts.addAttribute("", "", "src", "CDATA", PROVIEW_ASSERT_REFERENCE_PREFIX + imgGuid);
 							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
