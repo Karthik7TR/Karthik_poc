@@ -34,6 +34,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
@@ -135,6 +136,32 @@ public class ProviewTitleListController {
 		return form;
 	}
 
+	/**
+	 * 
+	 * @param httpSession
+	 * @return
+	 */
+	protected ProviewTitleForm fetchSavedProviewTitleForm(
+			HttpSession httpSession) {
+		ProviewTitleForm form = (ProviewTitleForm) httpSession
+				.getAttribute(ProviewTitleForm.FORM_NAME);
+		if (form == null) {
+			form = new ProviewTitleForm();
+		}
+		return form;
+	}
+
+	/**
+	 * 
+	 * @param httpSession
+	 * @param form
+	 */
+	private void saveProviewTitleForm(HttpSession httpSession,
+			ProviewTitleForm form) {
+		httpSession.setAttribute(ProviewTitleForm.FORM_NAME, form);
+
+	}
+
 	private void sendEmail(String emailAddressString, String subject,
 			String body) {
 
@@ -157,25 +184,61 @@ public class ProviewTitleListController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.POST)
 	public ModelAndView refreshAllLatestProviewTitleInfo(
-			HttpSession httpSession, Model model) throws Exception {
+			@ModelAttribute ProviewTitleForm form, HttpSession httpSession,
+			Model model) throws Exception {
 
-		Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewClient
-				.getAllProviewTitleInfo();
-		List<ProviewTitleInfo> allLatestProviewTitleInfo = proviewClient
-				.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+		Command command = form.getCommand();
 
-		saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
-		saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
+		switch (command) {
 
-		if (allLatestProviewTitleInfo != null) {
-			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
+		case REFRESH:
+
+			Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewClient
+					.getAllProviewTitleInfo();
+			List<ProviewTitleInfo> allLatestProviewTitleInfo = proviewClient
+					.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+
+			saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
+			saveAllLatestProviewTitleInfo(httpSession,
 					allLatestProviewTitleInfo);
-			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-					allLatestProviewTitleInfo.size());
-		}
 
-		model.addAttribute(ProviewListFilterForm.FORM_NAME,
-				new ProviewListFilterForm());
+			if (allLatestProviewTitleInfo != null) {
+				model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
+						allLatestProviewTitleInfo);
+				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
+						allLatestProviewTitleInfo.size());
+			}
+
+			model.addAttribute(ProviewListFilterForm.FORM_NAME,
+					new ProviewListFilterForm());
+
+			
+			ProviewTitleForm proviewTitleForm=fetchSavedProviewTitleForm(httpSession);
+			if (proviewTitleForm==null){
+				proviewTitleForm= new ProviewTitleForm();
+				proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+				saveProviewTitleForm(httpSession, proviewTitleForm);
+			}
+			model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+			model.addAttribute(WebConstants.KEY_PAGE_SIZE,
+					proviewTitleForm.getObjectsPerPage());
+			break;
+
+		case PAGESIZE:
+			List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
+					selectedProviewTitleInfo);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
+					selectedProviewTitleInfo.size());
+			model.addAttribute(ProviewListFilterForm.FORM_NAME,
+					fetchSavedProviewListFilterForm(httpSession));
+
+			model.addAttribute(ProviewTitleForm.FORM_NAME, form);
+			model.addAttribute(WebConstants.KEY_PAGE_SIZE,
+					form.getObjectsPerPage());
+			saveProviewTitleForm(httpSession, form);
+			break;
+		}
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
@@ -237,6 +300,13 @@ public class ProviewTitleListController {
 
 		model.addAttribute(ProviewListFilterForm.FORM_NAME,
 				fetchSavedProviewListFilterForm(httpSession));
+
+		ProviewTitleForm proviewTitleForm = new ProviewTitleForm();
+		proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+
+		model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+		model.addAttribute(WebConstants.KEY_PAGE_SIZE,
+				proviewTitleForm.getObjectsPerPage());
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}

@@ -19,7 +19,7 @@ public class ProviewTitleForm {
 	public static final String FORM_NAME = "proviewTitleInfoForm";
 
 	public enum Command {
-		REMOVE, DELETE, PROMOTE
+		REMOVE, DELETE, PROMOTE, REFRESH, PAGESIZE
 	};
 
 	private String titleId;
@@ -28,12 +28,13 @@ public class ProviewTitleForm {
 	private String lastUpdate;
 	private String comments;
 	private Command command;
+	private String objectsPerPage;
 
 	public ProviewTitleForm() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public ProviewAudit createAudit() {
 		ProviewAudit audit = new ProviewAudit();
 		audit.setAuditNote(comments);
@@ -43,17 +44,25 @@ public class ProviewTitleForm {
 		audit.setRequestDate(new Date());
 		audit.setTitleId(titleId);
 		audit.setUsername(UserUtils.getAuthenticatedUserName());
-		
-		
+
 		return audit;
 	}
 
-	public ProviewTitleForm(String titleId, String version, String status, String lastUpdate) {
+	public ProviewTitleForm(String titleId, String version, String status,
+			String lastUpdate) {
 		super();
 		this.titleId = titleId;
 		this.version = version;
 		this.status = status;
 		this.lastUpdate = lastUpdate;
+	}
+
+	public String getObjectsPerPage() {
+		return objectsPerPage;
+	}
+
+	public void setObjectsPerPage(String objectsPerPage) {
+		this.objectsPerPage = objectsPerPage;
 	}
 
 	public String getTitleId() {
@@ -103,7 +112,7 @@ public class ProviewTitleForm {
 	public void setCommand(Command cmd) {
 		this.command = cmd;
 	}
-	
+
 	private Date parseDate(String dateString) {
 		Date date = null;
 		try {

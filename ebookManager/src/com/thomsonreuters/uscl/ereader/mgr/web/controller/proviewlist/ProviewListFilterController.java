@@ -70,6 +70,32 @@ public class ProviewListFilterController {
 	}
 
 	/**
+	 * 
+	 * @param httpSession
+	 * @return
+	 */
+	protected ProviewTitleForm fetchSavedProviewTitleForm(
+			HttpSession httpSession) {
+		ProviewTitleForm form = (ProviewTitleForm) httpSession
+				.getAttribute(ProviewTitleForm.FORM_NAME);
+		if (form == null) {
+			form = new ProviewTitleForm();
+		}
+		return form;
+	}
+
+	/**
+	 * 
+	 * @param httpSession
+	 * @param form
+	 */
+	private void saveProviewTitleForm(HttpSession httpSession,
+			ProviewTitleForm form) {
+		httpSession.setAttribute(ProviewTitleForm.FORM_NAME, form);
+
+	}
+
+	/**
 	 * Handle submit/post of a new set of filter criteria.
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_LIST_FILTERED_POST, method = RequestMethod.POST)
@@ -218,6 +244,16 @@ public class ProviewListFilterController {
 
 		saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
 		saveProviewListFilterForm(httpSession, filterForm);
+
+		ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
+		if (proviewTitleForm == null) {
+			proviewTitleForm = new ProviewTitleForm();
+			proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+			saveProviewTitleForm(httpSession, proviewTitleForm);
+		}
+		model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
+		model.addAttribute(WebConstants.KEY_PAGE_SIZE,
+				proviewTitleForm.getObjectsPerPage());
 
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 				selectedProviewTitleInfo);

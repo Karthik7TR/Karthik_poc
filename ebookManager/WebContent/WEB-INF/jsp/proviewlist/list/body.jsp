@@ -11,7 +11,14 @@
 <html>
 <head>
 <script type="text/javascript">
-		function submitForm(cmd){
+		function refresh(){
+			$('#command').val('<%=ProviewTitleForm.Command.REFRESH%>');
+			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
+			return true; 
+		}
+		
+		function changePageSize(){
+			$('#command').val('<%=ProviewTitleForm.Command.PAGESIZE%>');
 			$('#<%=ProviewTitleForm.FORM_NAME%>').submit();
 			return true; 
 		}
@@ -37,14 +44,27 @@
 
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLES%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
+			   
+	<form:hidden path="command"/>
 	
+	Items per page:
+	<form:select path="objectsPerPage" onchange="changePageSize();">
+		<form:option label="20" value="20"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="250" value="250"/>
+		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
+	</form:select>
+	<br>
+			   
 	<display:table id="proviewList" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 				   requestURI="<%=WebConstants.MVC_PROVIEW_TITLES%>"
-				   pagesize="20"
+				   pagesize="${pageSize}"
 				   partialList="false"
 				   size="resultSize"
 				   export="true"
 				   >
+				   
 		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:setProperty name="export.xml" value="false" />
@@ -69,9 +89,11 @@
 	  	
 	</display:table>
 	
+	
 	<div class="buttons">
-			<input id="refreshButton" type="button" value="Refresh from ProView" onclick="submitForm();"/>
+			<input id="refreshButton" type="button" value="Refresh from ProView" onclick="refresh();"/>
 	</div>
+	
 	
 	</form:form>
 
