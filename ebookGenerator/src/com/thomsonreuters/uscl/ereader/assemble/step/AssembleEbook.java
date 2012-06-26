@@ -44,17 +44,28 @@ public class AssembleEbook extends AbstractSbTasklet {
 		
 		long startTime = System.currentTimeMillis();
 		
-		eBookAssemblyService.assembleEBook(eBookDirectory, eBookFile);
+		try 
+		{
+		    eBookAssemblyService.assembleEBook(eBookDirectory, eBookFile);
+		}
+		catch (Exception e)
+		{
+			PublishingStats jobstatsFormat = new PublishingStats();
+			jobstatsFormat.setJobInstanceId(jobInstanceId);
+			jobstatsFormat.setPublishStatus("AssembleEbook : Failed");
+			throw (e);
+		}
+		
+		
+		long gzipLength = eBookFile.length();
+		updateAssembleEbookStats(gzipLength,jobInstanceId,eBookDirectoryPath );
+		updateTitleDocumentCount(jobInstanceId, eBookDirectoryPath);
+		
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
 		//TODO: Consider defining the time spent in assembly as a JODA-Time interval.
 		LOG.debug("Assembled eBook in " + elapsedTime + " milliseconds");
-		long gzipLength = eBookFile.length();
-		
-		updateAssembleEbookStats(gzipLength,jobInstanceId,eBookDirectoryPath );
-		updateTitleDocumentCount(jobInstanceId, eBookDirectoryPath);
-		
 		
 		return ExitStatus.COMPLETED;
 	}

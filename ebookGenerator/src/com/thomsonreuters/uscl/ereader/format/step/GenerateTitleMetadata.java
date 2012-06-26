@@ -22,9 +22,11 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -33,6 +35,8 @@ import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This class is responsible for generating title metadata based on information taken from the Job Parameters, Execution Context, and the file-system.
@@ -45,11 +49,17 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
+	
+	/**
+	 * To update publishingStatsService table.
+	 */
+	private PublishingStatsService publishingStatsService;
 		
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		JobParameters jobParameters = getJobParameters(chunkContext);
+		Long jobId = getJobInstance(chunkContext).getId();
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
@@ -86,14 +96,25 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		OutputStream titleManifest = new FileOutputStream(titleXml);
 		InputStream tocXml = new FileInputStream(tocXmlFile);
-		
+		String status = "Completed";
 		try {
 			File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 			//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
 			titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
-		} finally {
+		} 
+		catch(Exception e)
+		{
+		  status = "Failed";
+		  throw (e);
+		}
+		finally {
+		
 			tocXml.close();
 			titleManifest.close();
+			PublishingStats jobstats = new PublishingStats();
+		    jobstats.setJobInstanceId(jobId);
+		    jobstats.setPublishStatus("GenerateTitleMetadata: " + status);
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		}
 		
 		return ExitStatus.COMPLETED;
@@ -172,6 +193,11 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 
 	public void setTitleMetadataService(TitleMetadataService titleMetadataService) {
 		this.titleMetadataService = titleMetadataService;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 	
 }

@@ -75,7 +75,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		jobstatsDoc.setGatherMetaRetryCount(gatherResponse.getRetryCount2());
 		jobstatsDoc.setGatherMetaRetrievedCount(gatherResponse.getDocCount2());
 		jobstatsDoc.setGatherMetaExpectedCount(gatherResponse.getNodeCount());
-		jobstatsDoc.setPublishStatus(gatherResponse.getPublishStatus());
+		jobstatsDoc.setPublishStatus("GatherDocAndMetadataTask: " + gatherResponse.getPublishStatus());
        
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
 		

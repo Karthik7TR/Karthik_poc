@@ -21,9 +21,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * Fetch static book images from a filesystem tree and copy them to the holding destination directory.
@@ -31,10 +34,13 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 public class GatherStaticImagesTask extends AbstractSbTasklet {
 	//private static final Logger log = Logger.getLogger(GatherStaticImagesTask.class);
 	private ImageService imageService;
+	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		
+		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
 		// Assert the state of the filesystem image directory and expected input files
 		File staticImageDestinationDirectory = new File(getRequiredStringProperty(jobExecutionContext,
@@ -57,6 +63,11 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 		
 		// Copy all the static image files from their location in the tree to the destination directory
 		imageService.fetchStaticImages(basenames, staticImageDestinationDirectory);
+		
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobInstance);
+	    jobstats.setPublishStatus("GatherStaticImagesTask: Completed");
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		return ExitStatus.COMPLETED;
 	}
@@ -92,5 +103,10 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 	@Required
 	public void setImageService(ImageService imageService) {
 		this.imageService = imageService;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

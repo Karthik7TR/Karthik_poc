@@ -12,16 +12,21 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step is responsible for moving resources, identified by well-known JobExecutionKeys, to the assembly directory
@@ -57,6 +62,11 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	private static final String DEFAULT_EBOOK_COVER_FILE = "/apps/eBookBuilder/staticContent/coverArt.PNG";
 
 	
+	/**
+	 * To update publishingStatsService table.
+	 */
+	private PublishingStatsService publishingStatsService;
+	
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet#executeStep(org.springframework.batch.core.StepContribution, org.springframework.batch.core.scope.context.ChunkContext)
 	 */
@@ -64,7 +74,7 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		
+		Long jobId = getJobInstance(chunkContext).getId();
 		File ebookDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey  .EBOOK_DIRECTORY));
 		File assetsDirectory = createAssetsDirectory(ebookDirectory);
 		File artworkDirectory = createArtworkDirectory(ebookDirectory);
@@ -76,6 +86,11 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		moveStylesheet(jobExecutionContext, assetsDirectory);
 		moveFrontMatterHTML(jobExecutionContext, documentsDirectory);
 		moveDocuments(jobExecutionContext, documentsDirectory);
+		
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobId);
+	    jobstats.setPublishStatus("MoveResourcesToAssemblyDirectory: Completed");
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		return ExitStatus.COMPLETED;
 	}
@@ -159,6 +174,12 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	private File createAssetsDirectory (final File parentDirectory) {
 		File assetsDirectory = new File(parentDirectory, "assets");
 		return assetsDirectory;
+	}
+	
+
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 	
 }

@@ -100,17 +100,23 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		Long jobInstanceLong = jobInstanceId;
 		int retrievedCound = imageGuidsSize;
 		
-		if(null == e){
-			retrievedCound = imageGuidsSize;;
-		}else{
-			retrievedCound = getMissingGuidsCount(e);
-		}
-		
 		PublishingStats jobstatsDoc = new PublishingStats();
 		jobstatsDoc.setJobInstanceId(jobInstanceLong);
 		jobstatsDoc.setGatherImageExpectedCount(imageGuidsSize);
 		jobstatsDoc.setGatherImageRetrievedCount(retrievedCound);
-		jobstatsDoc.setPublishStatus("Image Vertical image retrieval complete");
+		
+		
+		if(null == e)
+		{
+			retrievedCound = imageGuidsSize;
+			jobstatsDoc.setPublishStatus("GatherImageVerticalImagesTask: Failed");
+		}
+		else
+		{
+			retrievedCound = getMissingGuidsCount(e);
+			jobstatsDoc.setPublishStatus("GatherImageVerticalImagesTask: Completed");
+		}
+		
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
 	}
 	

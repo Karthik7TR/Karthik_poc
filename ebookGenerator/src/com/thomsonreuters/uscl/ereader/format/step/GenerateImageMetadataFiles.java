@@ -13,11 +13,15 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.GenerateImageMetadataBlockService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  *
@@ -29,6 +33,8 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 	private static final Logger LOG = Logger.getLogger(GenerateImageMetadataFiles.class);
 	
 	private GenerateImageMetadataBlockService imgMetaBlockService;
+	
+	private PublishingStatsService publishingStatsService;
 
 	public void setimgMetaBlockService(GenerateImageMetadataBlockService imgMetaBlockService) 
 	{
@@ -61,6 +67,9 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobId);
+		
 		//TODO: Update to check value is equal to execution context value (numDocsInTOC)
 		if (numImgMetaDocsCreated == 0)
 		{
@@ -69,13 +78,23 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 					numImgMetaDocsCreated + " documents while the eBook TOC had " + 
 					numDocsInTOC + " documents.";
 			LOG.error(message);
+			jobstats.setPublishStatus("GenerateImageMetadataFiles : Failed");
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
+		
+		jobstats.setPublishStatus("GenerateImageMetadataFiles : Completed");
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		//TODO: Improve metrics
 		LOG.debug("Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + 
 				elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

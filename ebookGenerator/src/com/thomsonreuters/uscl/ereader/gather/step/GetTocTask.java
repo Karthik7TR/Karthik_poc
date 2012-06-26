@@ -10,20 +10,16 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -54,7 +50,6 @@ public class GetTocTask  extends AbstractSbTasklet {
 		GatherResponse gatherResponse = null;
 			
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
 		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
@@ -104,8 +99,9 @@ public class GetTocTask  extends AbstractSbTasklet {
         jobstats.setGatherTocNodeCount(gatherResponse.getNodeCount());
         jobstats.setGatherTocSkippedCount(gatherResponse.getSkipCount());
         jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());
-        jobstats.setPublishStatus(gatherResponse.getPublishStatus());
-       
+        jobstats.setPublishStatus("GetTocTask: " + gatherResponse.getPublishStatus());
+        
+               
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
 		
 		// TODO: update doc count used in Job Execution Context

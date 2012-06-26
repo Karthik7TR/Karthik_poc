@@ -43,7 +43,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
-			ChunkContext chunkContext) throws Exception {
+			ChunkContext chunkContext)  throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
@@ -67,33 +67,45 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		if (metaDataDirectory.isDirectory()) {
 
 			File allFiles[] = metaDataDirectory.listFiles();
-			for (File metadataFile : allFiles) {
+			for (File metadataFile : allFiles) 
+			{
 				String fileName =  metadataFile.getName();
 				if (fileName.lastIndexOf("-") > -1)
 				{
 					docCollectionName = fileName.substring(fileName.indexOf("-")+1, fileName.lastIndexOf("-")); 
 				}
-				docMetadataService.parseAndStoreDocMetadata(titleId,
-						jobInstanceId, docCollectionName, metadataFile);
-				numDocsMetaDataRun++;
+				String publishStatus =  "Completed";
+				try
+				{
+				    docMetadataService.parseAndStoreDocMetadata(titleId,
+					        jobInstanceId, docCollectionName, metadataFile);				     
+				    numDocsMetaDataRun++;
+				}
+				catch(Exception e)
+				{
+					publishStatus =  "Failed " + e.getMessage();
+					throw(e);
+				}
+				finally 
+				{
+					int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
+					updateTitleDocCountStats(jobInstanceId,dupDocCount,publishStatus);
+				}
 			}
 			LOG.debug("Persisted " + numDocsMetaDataRun
 					+ " Metadata XML files from "
 					+ metaDataDirectory.getAbsolutePath());
 		}
-		
-		int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
-		updateTitleDocCountStats(jobInstanceId,dupDocCount);
 		return ExitStatus.COMPLETED;
 	}
 
-	private void updateTitleDocCountStats(Long jobId,int titleDupDocCount) 
+	private void updateTitleDocCountStats(Long jobId,int titleDupDocCount, String status) 
 	{
 		
 		PublishingStats jobstatsFormat = new PublishingStats();
 		jobstatsFormat.setJobInstanceId(jobId);
 		jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
-		jobstatsFormat.setPublishStatus("Persist Metadata complete");
+		jobstatsFormat.setPublishStatus("PersistMetadataXMLTask : " +  status);
 		
 		LOG.debug("titleDupDocCount ="+titleDupDocCount);
 

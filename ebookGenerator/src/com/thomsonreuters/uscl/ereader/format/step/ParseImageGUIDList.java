@@ -12,11 +12,15 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.XMLImageParserService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step generates the Image GUID list file that is used to retrieve the images referenced
@@ -27,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 public class ParseImageGUIDList extends AbstractSbTasklet {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(ParseImageGUIDList.class);
+	private PublishingStatsService publishingStatsService;
 	
 	private XMLImageParserService xmlImageParserService;
 
@@ -39,6 +44,8 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+				
+		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
 		String xmlDirectory = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 		String imgGuidListFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_GUIDS_FILE);
@@ -55,18 +62,32 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobInstance);
+		
 		if (numDocsParsed != numDocsInTOC)
 		{
 			String message = "The number of documents wrapped by the HTMLWrapper Service did " +
 					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
 					numDocsParsed + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
+			jobstats.setPublishStatus("ParseImageGUIDList: Failed");
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
+		
+		
+	    jobstats.setPublishStatus("ParseImageGUIDList: Completed");
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 
 				+ numDocsParsed + " xml documents.");
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

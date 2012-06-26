@@ -129,12 +129,22 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			hql.append(jobstats.getLargestPdfSize());
 		} else if (updateType.equals(StatsUpdateTypeEnum.FINALPUBLISH)) {
 			hql.append("publishEndTimestamp = sysdate");
-		} else {
+		} else if (updateType.equals(StatsUpdateTypeEnum.GENERAL)) {
+			
+		}
+		else {
 			LOG.error("Unknown StatsUpdateTypeEnum");
 			// TODO: failure logic
 		}
 		if (StringUtils.isNotBlank(jobstats.getPublishStatus())) {
-			hql.append(String.format(", publishStatus = '%s'", jobstats.getPublishStatus()));
+			if (updateType.equals(StatsUpdateTypeEnum.GENERAL))
+			{
+			  hql.append(String.format("publishStatus = '%s'", jobstats.getPublishStatus()));
+			}
+			else 
+			{
+		      hql.append(String.format(", publishStatus = '%s'", jobstats.getPublishStatus()));
+			}
 		} else {
 			hql.append(", publishStatus = null");
 		}

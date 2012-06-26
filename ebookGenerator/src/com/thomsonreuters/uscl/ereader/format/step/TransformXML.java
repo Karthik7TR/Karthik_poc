@@ -18,11 +18,14 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This step transforms the Novus extracted XML documents into HTML.
@@ -35,6 +38,7 @@ public class TransformXML extends AbstractSbTasklet
 	private static final Logger LOG = Logger.getLogger(TransformXML.class);
 	private TransformerService transformerService;
 	private BookDefinitionService bookDefnService;
+	private PublishingStatsService publishingStatsService;
 	
 
 	public void settransformerService(TransformerService transformerService) 
@@ -76,14 +80,21 @@ public class TransformXML extends AbstractSbTasklet
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobId);
+	    
 		if (numDocsTransformed != numDocsInTOC)
 		{
 			String message = "The number of documents transformed did not match the number " +
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
 					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
+			jobstats.setPublishStatus("TransformXML : Failed");
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
+		jobstats.setPublishStatus("TransformXML : Completed");
+		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		
@@ -93,6 +104,11 @@ public class TransformXML extends AbstractSbTasklet
 	@Required
 	public void setBookDefnService(BookDefinitionService bookDefnService) {
 		this.bookDefnService = bookDefnService;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 
 }
