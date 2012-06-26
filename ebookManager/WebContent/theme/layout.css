@@ -178,6 +178,15 @@ html, body {
 	line-height: 2.2em;
 }
 
+.headerLeftSide .environment {
+	text-align: right;
+	font-weight: bold;
+	margin-left:3em;
+	color: lime;
+}
+
+
+
 .headerRightSide {
 	display:block;
 	position:relative;
@@ -314,6 +323,10 @@ a:hover {
 	text-align: center;	
 }
 
+.bookDefinitionCRUD .guid {
+	width: 18em;
+}
+
 
 .bookDefinitionCRUD .centerSection {
 	width:61.3em;
@@ -330,8 +343,6 @@ a:hover {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
 
 .centerSection > div {
 	overflow:hidden;

@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.UserUtils" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -7,7 +8,11 @@
 
 <div class="headerLeftSide">
 	<span class="programTitle">THOMSON REUTERS <span style="color:orange">eBook Manager</span></span>  <span class="welcomeMessage"> - Welcome ${userFullName}</span>
+	<c:if test="${not fn:containsIgnoreCase('prod', environmentName) }">
+		<span class="environment">Environment: ${environmentName}</span>
+	</c:if>
 </div>
+
 <div class="headerRightSide">
 	<ul class="navList">
 		<li><a href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
