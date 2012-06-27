@@ -63,4 +63,6 @@ public interface DocMetadataService {
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId);
 	
 	public Map<String, String> findDistinctProViewFamGuidsByJobId(Long jobInstanceId);
+	
+	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite);	
 }

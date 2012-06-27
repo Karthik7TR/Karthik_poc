@@ -163,4 +163,10 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		
 		return mapping;
 	}
+
+
+	@Transactional(readOnly = true)
+	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite){
+		return docMetadataDAO.findDocMetadataMapByPartialCiteMatchAndJobId(jobInstanceId, cite);
+	}
 }

@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
@@ -46,6 +47,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private DocumentMetadataAuthority documentMetadataAuthority;
     private File docsGuidFile;
     private PaceMetadataService paceMetadataService;
+    private DocMetadataService docMetadataService;
+    private Long jobId;
 
     public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
     {
@@ -60,7 +63,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
     public InternalLinkResolverFilter(
         final DocumentMetadataAuthority documentMetadataAuthority, final File docsGuidFile,
-        final PaceMetadataService paceMetadataService)
+        final PaceMetadataService paceMetadataService, final DocMetadataService docMetadataService, final Long jobId)
     {
         if (documentMetadataAuthority == null)
         {
@@ -71,6 +74,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         this.documentMetadataAuthority = documentMetadataAuthority;
         this.docsGuidFile = docsGuidFile;
         this.paceMetadataService = paceMetadataService;
+        this.docMetadataService = docMetadataService;
+        this.jobId = jobId;
     }
 
     @Override
@@ -124,7 +129,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             	}
             }
             
-            docMetadata = getNormalizedCiteDocMetadata(cite, pubId);
+            docMetadata = getNormalizedCiteDocMetadata(cite, pubId, jobId);
         }
         else if (StringUtils.isNotEmpty(documentUuid))
         {
@@ -156,7 +161,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
      *
      * @return docMetadata DocumentMetadata
      */
-    private DocMetadata getNormalizedCiteDocMetadata(String cite, Long pubId)
+    private DocMetadata getNormalizedCiteDocMetadata(String cite, Long pubId, Long jobId)
     {
        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
 
@@ -175,6 +180,12 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                     cite = cite.replace(stdPubName, pubName);
                     cite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
                     docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
+                    
+                    if (docMetadata == null)  {
+                    	// look for a partial match with cite (this will fix multiple volumes) Bug #33426
+                    	docMetadata = docMetadataService.findDocMetadataMapByPartialCiteMatchAndJobId(jobId, cite);
+                    }
+                    
                 }
             }
         }

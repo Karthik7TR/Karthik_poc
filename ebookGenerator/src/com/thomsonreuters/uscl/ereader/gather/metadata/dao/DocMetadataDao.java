@@ -51,4 +51,11 @@ public interface DocMetadataDao {
 	 */
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId);
 
+	/**
+	 * Query - findDocMetadataMapByPartialCiteMatch
+	 * 
+	 */
+	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite)
+			throws DataAccessException;
+
 }

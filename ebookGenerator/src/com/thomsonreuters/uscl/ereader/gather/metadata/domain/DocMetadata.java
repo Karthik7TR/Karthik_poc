@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +28,9 @@ import javax.xml.bind.annotation.XmlType;
 /**
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
+@NamedQueries({ @NamedQuery(name = "findDocumentMetaDataByCiteAndJobId", 
+		query = "select docM from DocMetadata docM where docM.jobInstanceId = :jobInstaneId " +
+				"and docM.normalizedFirstlineCite like :normalizedCite ")})
 @Entity
 @Table(name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)

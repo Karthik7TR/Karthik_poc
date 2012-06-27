@@ -218,7 +218,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
 			
-			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile, paceMetadataService);
+			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile, paceMetadataService, docMetadataService, jobIdentifier);
 			internalLinkResolverFilter.setParent(piZapperFilter);
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();

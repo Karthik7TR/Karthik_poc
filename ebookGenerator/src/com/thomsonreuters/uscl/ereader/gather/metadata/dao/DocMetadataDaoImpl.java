@@ -188,4 +188,33 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
 		return documentMetadataAuthority;
 	}
+
+	/**
+	 * Query - findDocMetadataMapByPartialCiteMatchAndJobId
+	 * 
+	 * @param jobInstanceId
+	 *            jobinstanceId from the run
+	 * @param cite
+	 *            from the document           
+	 * @returns a documentMetadata
+	 * 
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite)
+			throws DataAccessException {
+	
+		Query query = createNamedQuery("findDocumentMetaDataByCiteAndJobId");
+		query.setParameter("jobInstaneId", jobInstanceId);
+		query.setParameter("normalizedCite", "%" + cite);		
+	
+		List<DocMetadata> docMetaDataList = query.list();
+		
+		if (docMetaDataList.size() > 0) {
+			return (DocMetadata)docMetaDataList.get(0);
+		} else {
+			return null;
+		}
+	}
 }
