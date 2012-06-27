@@ -105,7 +105,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		PublishingStats jobstatsFormat = new PublishingStats();
 		jobstatsFormat.setJobInstanceId(jobId);
 		jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
-		jobstatsFormat.setPublishStatus("PersistMetadataXMLTask : " +  status);
+		jobstatsFormat.setPublishStatus("persistMetadataXMLTask : " +  status);
 		
 		LOG.debug("titleDupDocCount ="+titleDupDocCount);
 

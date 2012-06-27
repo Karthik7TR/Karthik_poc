@@ -55,19 +55,29 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 		Assert.isTrue(manifestFile.exists(), "The static image manifest file does not exist: " + manifestFile +
 						" - This file contains static image basenames (no directory path info), one per line, that are copied to a destination directory.");
 		
-		// Remove all existing image files from the static image destination directory, covers case of this step failing and restarting the step.
-		ImageServiceImpl.removeAllFilesInDirectory(staticImageDestinationDirectory);
-
-		// Read the image file basenames, one per line from the manifest file
-		List<String> basenames = readLinesFromTextFile(manifestFile);
-		
-		// Copy all the static image files from their location in the tree to the destination directory
-		imageService.fetchStaticImages(basenames, staticImageDestinationDirectory);
-		
-		PublishingStats jobstats = new PublishingStats();
-	    jobstats.setJobInstanceId(jobInstance);
-	    jobstats.setPublishStatus("GatherStaticImagesTask: Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+        String publishStatus = "Completed"; 
+		try 
+		{
+			// Remove all existing image files from the static image destination directory, covers case of this step failing and restarting the step.
+			ImageServiceImpl.removeAllFilesInDirectory(staticImageDestinationDirectory);
+	
+			// Read the image file basenames, one per line from the manifest file
+			List<String> basenames = readLinesFromTextFile(manifestFile);
+			
+			// Copy all the static image files from their location in the tree to the destination directory
+			imageService.fetchStaticImages(basenames, staticImageDestinationDirectory);
+		}
+		catch (Exception e)
+		{
+			publishStatus = "Failed";
+		}
+		finally 
+		{
+			PublishingStats jobstats = new PublishingStats();
+		    jobstats.setJobInstanceId(jobInstance);
+		    jobstats.setPublishStatus("gatherStaticImagesTask: " + publishStatus);
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+		}
 		
 		return ExitStatus.COMPLETED;
 	}

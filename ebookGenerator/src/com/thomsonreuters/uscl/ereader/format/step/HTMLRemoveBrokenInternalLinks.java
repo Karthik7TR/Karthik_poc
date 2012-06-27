@@ -81,12 +81,12 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
 					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("HTMLRemoveBrokenInternalLinks: Failed");
+			jobstats.setPublishStatus("htmlRemoveBrokenInternalLinks: Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
 		
-		jobstats.setPublishStatus("HTMLRemoveBrokenInternalLinks: Completed");
+		jobstats.setPublishStatus("htmlRemoveBrokenInternalLinks: Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");

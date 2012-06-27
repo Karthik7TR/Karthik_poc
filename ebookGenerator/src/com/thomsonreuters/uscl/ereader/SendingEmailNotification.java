@@ -15,9 +15,12 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
@@ -27,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 public class SendingEmailNotification extends AbstractSbTasklet {
 	
 	private static final Logger log = Logger.getLogger(SendingEmailNotification.class);
+	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -38,6 +42,8 @@ public class SendingEmailNotification extends AbstractSbTasklet {
     private void sendNotification(ChunkContext chunkContext) {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
+		Long jobId = getJobInstance(chunkContext).getId();
+		String publishStatus = "Completed";
 
 		StepContext stepContext = chunkContext.getStepContext();
 		StepExecution stepExecution = stepContext.getStepExecution();
@@ -56,6 +62,26 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         String body =  String.format("%s\n\nProview Display Name: %s \nTitle ID: %s \nJob Instance ID: %d \nJob Execution ID: %d \nEnvironment: %s\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
-        EmailNotification.send(recipients, subject, body);
+        try 
+        {
+        	EmailNotification.send(recipients, subject, body);
+        }
+        catch (Exception e)
+        {
+        	publishStatus = "Failed";
+			log.error("Failed to send Email notification to the user ", e);
+        }
+        finally 
+        {
+	        PublishingStats jobstats = new PublishingStats();
+		    jobstats.setJobInstanceId(jobId);
+		    jobstats.setPublishStatus("sendingEmailNotification: " + publishStatus);
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+        }
+	}
+    
+    @Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

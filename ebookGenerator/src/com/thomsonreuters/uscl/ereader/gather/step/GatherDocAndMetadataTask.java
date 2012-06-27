@@ -47,8 +47,10 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	
 	
 	@Override
-	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
+	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+		String publishStatus = "Completed";
 				
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
@@ -58,48 +60,61 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		File docsGuidsFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOCS_DYNAMIC_GUIDS_FILE));
 		String docCollectionName = bookDefinition.getDocCollectionName();
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
-
-		docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
-       
-		List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
-    	
-		GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir);
-		GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
-		LOG.debug(gatherResponse);
-
 		PublishingStats jobstatsDoc = new PublishingStats();
 		jobstatsDoc.setJobInstanceId(jobInstance);
-		jobstatsDoc.setGatherDocRetrievedCount(gatherResponse.getDocCount());
-		jobstatsDoc.setGatherDocExpectedCount(gatherResponse.getNodeCount());
-		jobstatsDoc.setGatherDocRetryCount(gatherResponse.getRetryCount());
-		jobstatsDoc.setGatherMetaRetryCount(gatherResponse.getRetryCount2());
-		jobstatsDoc.setGatherMetaRetrievedCount(gatherResponse.getDocCount2());
-		jobstatsDoc.setGatherMetaExpectedCount(gatherResponse.getNodeCount());
-		jobstatsDoc.setPublishStatus("GatherDocAndMetadataTask: " + gatherResponse.getPublishStatus());
-       
-		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
 		
-		jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
-		
-		if (gatherResponse.getErrorCode() != 0 ) {
-		
-			GatherException gatherException = new GatherException(
-					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
-			throw gatherException;
+		try 
+		{
+			docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
+	       
+			List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
+	    	
+			GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir);
+			GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
+			LOG.debug(gatherResponse);	
+			
+			jobstatsDoc.setGatherDocRetrievedCount(gatherResponse.getDocCount());
+			jobstatsDoc.setGatherDocExpectedCount(gatherResponse.getNodeCount());
+			jobstatsDoc.setGatherDocRetryCount(gatherResponse.getRetryCount());
+			jobstatsDoc.setGatherMetaRetryCount(gatherResponse.getRetryCount2());
+			jobstatsDoc.setGatherMetaRetrievedCount(gatherResponse.getDocCount2());
+			jobstatsDoc.setGatherMetaExpectedCount(gatherResponse.getNodeCount());
+			jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
+			
+			if (gatherResponse.getErrorCode() != 0 ) {
+			
+				GatherException gatherException = new GatherException(
+						gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
+				throw gatherException;
+			}
 		}
+		catch (Exception e)
+		{
+			publishStatus = "Failed";
+			throw (e);
+		}
+		finally 
+		{
+			jobstatsDoc.setPublishStatus("gatherDocAndMetadataTask: " + publishStatus);		       
+			publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
+		}
+		
 		return ExitStatus.COMPLETED;      
 	}
 
 	@Required
-	public void setDocMetadataGuidParserService(DocMetaDataGuidParserService docMetadataSvc) {
+	public void setDocMetadataGuidParserService(DocMetaDataGuidParserService docMetadataSvc) 
+	{
 		this.docMetaDataParserService = docMetadataSvc;
 	}
 	@Required
-	public void setGatherService(GatherService service) {
+	public void setGatherService(GatherService service) 
+	{
 		this.gatherService = service;
 	}
 	@Required
-	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) 
+	{
 		this.publishingStatsService = publishingStatsService;
 	}
 
@@ -110,7 +125,8 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	 * @file textFile the text file to process
 	 * @return a list of text strings, representing each file of the specified file
 	 */
-	public static List<String> readDocGuidsFromTextFile(File textFile) throws IOException {
+	public static List<String> readDocGuidsFromTextFile(File textFile) throws IOException 
+	{
 		List<String> lineList = new ArrayList<String>();
 		FileReader fileReader = new FileReader(textFile);
 		try {

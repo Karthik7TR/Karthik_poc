@@ -82,7 +82,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		
 		long startTime = System.currentTimeMillis();
 		
-		String stepStatus =  "All Format Steps Completed";
+		String stepStatus =  "Completed";
 		int numDocsWrapped = -1;
 		try
 		{
@@ -90,7 +90,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		}
 		catch (EBookFormatException e)
 		{
-			stepStatus = "Failed in Wrapper Format Step";
+			stepStatus = "Failed";
 			throw e;
 		}
 		finally
@@ -98,7 +98,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 			  PublishingStats jobstats = new PublishingStats();
 		      jobstats.setJobInstanceId(jobId);
 		      jobstats.setFormatDocCount(numDocsWrapped);
-		      jobstats.setPublishStatus(stepStatus);
+		      jobstats.setPublishStatus("addHTMLWrapper : " + stepStatus);
 			  publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FORMATDOC);
 		}
 		long endTime = System.currentTimeMillis();

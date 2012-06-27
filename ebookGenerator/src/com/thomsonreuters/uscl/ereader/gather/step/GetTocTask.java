@@ -48,6 +48,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 			ChunkContext chunkContext) throws Exception {
 		
 		GatherResponse gatherResponse = null;
+		String publishStatus = "Completed";
 			
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
@@ -70,40 +71,48 @@ public class GetTocTask  extends AbstractSbTasklet {
 			nortCutoffDate = (Date)(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(DateFormatUtils.ISO_DATETIME_FORMAT
 					.format(bookDefinition.getPublishCutoffDate()).replace("T", " ")));			
 		}
-
-		if(tocCollectionName != null) // TOC
-		{
-		GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments);
-		LOG.debug(gatherTocRequest);
-	
-		gatherResponse = gatherService.getToc(gatherTocRequest);
-		}
-		else if(nortDomainName != null) // NORT
-		{
-//			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
-			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments);
-			LOG.debug(gatherNortRequest);
-	
-			gatherResponse = gatherService.getNort(gatherNortRequest);
-		}
-		else
-		{
-			String errorMessage = "Neither tocCollectionName nor nortDomainName were defined for eBook" ;
-			LOG.error(errorMessage);
-			gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage, 0,0,0,"TOC STEP FAILED UNDEFINED KEY");
-		}
+		PublishingStats jobstats = new PublishingStats();
+        try 
+        {
+			if(tocCollectionName != null) // TOC
+			{
+			GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments);
+			LOG.debug(gatherTocRequest);
 		
-        PublishingStats jobstats = new PublishingStats();
-        jobstats.setJobInstanceId(jobInstance);
-        jobstats.setGatherTocDocCount(gatherResponse.getDocCount());
-        jobstats.setGatherTocNodeCount(gatherResponse.getNodeCount());
-        jobstats.setGatherTocSkippedCount(gatherResponse.getSkipCount());
-        jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());
-        jobstats.setPublishStatus("GetTocTask: " + gatherResponse.getPublishStatus());
-        
-               
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
+			gatherResponse = gatherService.getToc(gatherTocRequest);
+			}
+			else if(nortDomainName != null) // NORT
+			{
+	//			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
+				GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments);
+				LOG.debug(gatherNortRequest);
 		
+				gatherResponse = gatherService.getNort(gatherNortRequest);
+			}
+			else
+			{
+				String errorMessage = "Neither tocCollectionName nor nortDomainName were defined for eBook" ;
+				LOG.error(errorMessage);
+				gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage, 0,0,0,"TOC STEP FAILED UNDEFINED KEY");
+			}
+			jobstats.setGatherTocDocCount(gatherResponse.getDocCount());
+            jobstats.setGatherTocNodeCount(gatherResponse.getNodeCount());
+            jobstats.setGatherTocSkippedCount(gatherResponse.getSkipCount());
+            jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());            
+        }
+        catch (Exception e)
+        {
+        	publishStatus = "Failed";
+        	throw (e);
+        }
+        finally 
+        {
+        	jobstats.setJobInstanceId(jobInstance);
+            jobstats.setPublishStatus("getTocTask: " + publishStatus);
+            publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
+        }
+		
+       
 		// TODO: update doc count used in Job Execution Context
 		
 		LOG.debug(gatherResponse);

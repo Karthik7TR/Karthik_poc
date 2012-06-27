@@ -58,7 +58,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
 		JobInstance jobInstance = jobExecution.getJobInstance();
 		JobParameters jobParams = jobInstance.getJobParameters();
-		String publishStatus = "Failed";
+		String publishStatus="Completed";
 		try 
 		{
 						
@@ -226,12 +226,12 @@ public class InitializeTask extends AbstractSbTasklet {
 			jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
 	
 			log.info("Image Service URL: " + System.getProperty("image.vertical.context.url") );
-			log.info("Proview Domain URL: " + System.getProperty("proview.domain") );
-			publishStatus="Completed";
+			log.info("Proview Domain URL: " + System.getProperty("proview.domain") );			
 			
 		}
 		catch (Exception e)
 		{
+			publishStatus="Failed";
 			throw (e);
 		}
 		finally 
@@ -249,7 +249,7 @@ public class InitializeTask extends AbstractSbTasklet {
 			pubStats.setJobInstanceId(Long.valueOf(jobInstance.getId().toString()));
 			pubStats.setJobSubmitterName(jobParams.getString(JobParameterKey.USER_NAME));
 			pubStats.setJobSubmitTimestamp(jobParams.getDate(JobParameterKey.TIMESTAMP)); 
-			pubStats.setPublishStatus("InitializeTask: " + publishStatus);
+			pubStats.setPublishStatus("initializeTask: " + publishStatus);
 			pubStats.setPublishStartTimestamp(rightNow); 
 			pubStats.setLastUpdated(rightNow);
 			

@@ -82,12 +82,12 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
 					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("HTMLCreateNamedAnchors: Failed");
+			jobstats.setPublishStatus("htmlCreateNamedAnchors: Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
 		
-		jobstats.setPublishStatus("HTMLCreateNamedAnchors: Completed");
+		jobstats.setPublishStatus("htmlCreateNamedAnchors: Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");

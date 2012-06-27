@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -18,8 +19,11 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
  * This class is responsible for archiving the created book artifact.
@@ -34,9 +38,14 @@ public class ArchiveBook extends AbstractSbTasklet {
 
 	private String environmentName;
 	private File archiveBaseDirectory;
+	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) {
+		JobInstance jobInstance = getJobInstance(chunkContext);
+		String publishStatus = "Completed";
+		PublishingStats jobstats = new PublishingStats();
+	    jobstats.setJobInstanceId(jobInstance.getId());
 		try {
 			// We only archive in the production environment
 			if ("prod".equals(environmentName)) {
@@ -59,8 +68,16 @@ public class ArchiveBook extends AbstractSbTasklet {
 				File targetFile = new File(archiveDirectory, targetBasename);
 				copyFile(sourceFile, targetFile);
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
+			publishStatus = "Failed";
 			log.error("Failed to archive ebook file", e);
+		}
+		finally 
+		{
+			jobstats.setPublishStatus("archiveBook: " + publishStatus);
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);	
 		}
 		return ExitStatus.COMPLETED;
 	}
@@ -76,5 +93,10 @@ public class ArchiveBook extends AbstractSbTasklet {
 	@Required
 	public void setArchiveBaseDirectory(File archiveBaseDirectory) {
 		this.archiveBaseDirectory = archiveBaseDirectory;
+	}
+	
+	@Required
+	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
+		this.publishingStatsService = publishingStatsService;
 	}
 }

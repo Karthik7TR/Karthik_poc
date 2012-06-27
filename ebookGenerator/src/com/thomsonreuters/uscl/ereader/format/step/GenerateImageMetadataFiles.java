@@ -78,12 +78,12 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 					numImgMetaDocsCreated + " documents while the eBook TOC had " + 
 					numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("GenerateImageMetadataFiles : Failed");
+			jobstats.setPublishStatus("generateImageMetadataFiles : Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
 		
-		jobstats.setPublishStatus("GenerateImageMetadataFiles : Completed");
+		jobstats.setPublishStatus("generateImageMetadataFiles : Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		//TODO: Improve metrics

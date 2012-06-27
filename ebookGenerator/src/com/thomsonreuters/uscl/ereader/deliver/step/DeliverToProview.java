@@ -52,7 +52,7 @@ public class DeliverToProview extends AbstractSbTasklet {
 		
 		long startTime = System.currentTimeMillis();
 		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");
-		String publishStatus =  "Publish Step Completed";
+		String publishStatus =  "Completed";
 
 		try 
 		{
@@ -60,14 +60,14 @@ public class DeliverToProview extends AbstractSbTasklet {
 		} 
 		catch (Exception e) 
 		{
-			publishStatus =  "Publish Step Failed to Proview";
+			publishStatus =  "Failed";
 			throw(e);
 		}
 		finally
 		{
 		    PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobInstance);
-		    jobstats.setPublishStatus("DeliverToProview: " + publishStatus);
+		    jobstats.setPublishStatus("deliverToProview: " + publishStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FINALPUBLISH);
 		}
 		

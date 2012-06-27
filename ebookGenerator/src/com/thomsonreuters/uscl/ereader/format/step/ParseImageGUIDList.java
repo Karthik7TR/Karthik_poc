@@ -71,13 +71,13 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
 					numDocsParsed + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("ParseImageGUIDList: Failed");
+			jobstats.setPublishStatus("parseImageGUIDList: Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
 		
 		
-	    jobstats.setPublishStatus("ParseImageGUIDList: Completed");
+	    jobstats.setPublishStatus("parseImageGUIDList: Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 

@@ -89,7 +89,7 @@ public class AssembleEbook extends AbstractSbTasklet {
 		jobstatsFormat.setLargestImageSize(largestImage);
 		jobstatsFormat.setLargestPdfSize(largestPdf);
 		jobstatsFormat.setBookSize(gzipeSize);
-		jobstatsFormat.setPublishStatus("Assemble stats update complete");
+		jobstatsFormat.setPublishStatus("assembleEbook : Complete");
 	
 		publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.ASSEMBLEDOC);
 		
@@ -105,7 +105,7 @@ public class AssembleEbook extends AbstractSbTasklet {
 		PublishingStats jobstatsTitle = new PublishingStats();
 		jobstatsTitle.setJobInstanceId(jobId);
 		jobstatsTitle.setTitleDocCount((int)titleDocumentCount);
-		jobstatsTitle.setPublishStatus("Assemble complete");
+		jobstatsTitle.setPublishStatus("assembleEbook : Complete");
 		publishingStatsService.updatePublishingStats(jobstatsTitle, StatsUpdateTypeEnum.TITLEDOC);
 		
 	}

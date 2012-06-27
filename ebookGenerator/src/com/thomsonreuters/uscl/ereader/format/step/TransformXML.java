@@ -89,11 +89,11 @@ public class TransformXML extends AbstractSbTasklet
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
 					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("TransformXML : Failed");
+			jobstats.setPublishStatus("transformXML : Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
-		jobstats.setPublishStatus("TransformXML : Completed");
+		jobstats.setPublishStatus("transformXML : Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
