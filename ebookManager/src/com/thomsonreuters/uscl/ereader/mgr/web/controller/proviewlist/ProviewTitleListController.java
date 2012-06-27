@@ -183,9 +183,8 @@ public class ProviewTitleListController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.POST)
-	public ModelAndView refreshAllLatestProviewTitleInfo(
-			@ModelAttribute ProviewTitleForm form, HttpSession httpSession,
-			Model model) throws Exception {
+	public ModelAndView postSelections(@ModelAttribute ProviewTitleForm form,
+			HttpSession httpSession, Model model) throws Exception {
 
 		Command command = form.getCommand();
 
@@ -201,6 +200,7 @@ public class ProviewTitleListController {
 			saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
 			saveAllLatestProviewTitleInfo(httpSession,
 					allLatestProviewTitleInfo);
+			saveSelectedProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
 			if (allLatestProviewTitleInfo != null) {
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
@@ -212,11 +212,11 @@ public class ProviewTitleListController {
 			model.addAttribute(ProviewListFilterForm.FORM_NAME,
 					new ProviewListFilterForm());
 
-			
-			ProviewTitleForm proviewTitleForm=fetchSavedProviewTitleForm(httpSession);
-			if (proviewTitleForm==null){
-				proviewTitleForm= new ProviewTitleForm();
-				proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+			ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
+			if (proviewTitleForm == null) {
+				proviewTitleForm = new ProviewTitleForm();
+				proviewTitleForm
+						.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
 				saveProviewTitleForm(httpSession, proviewTitleForm);
 			}
 			model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
