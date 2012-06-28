@@ -14,6 +14,7 @@ public class WebConstants {
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library search criteria
 	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
+	public static final String KEY_PUBLISHING_STATS_LIST = "publishingStatsList";
 	public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
 	public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";
 	public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
