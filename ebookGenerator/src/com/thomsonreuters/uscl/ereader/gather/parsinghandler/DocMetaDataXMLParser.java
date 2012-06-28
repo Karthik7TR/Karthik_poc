@@ -122,6 +122,11 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 
 		if (qName.equalsIgnoreCase(MD_NORMALIZED_CITE)) {
 			// add normalized first line cite
+			
+			// Fix for Bug 339843 replace a hyphen with a dash
+			// so that the normalized cite matches with one form the
+			// document
+			tempVal = tempVal.replaceAll("\u2013", "\u002D");
 			docMetadata.setNormalizedFirstlineCite(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_FIRSTLINE_CITE)){
 			docMetadata.setFirstlineCite(tempVal);
