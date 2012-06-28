@@ -48,5 +48,7 @@ public interface PublishingStatsService {
 	
 	public Date findLastPublishDateForBook(Long EbookDefId);
 	
+	public List<PublishingStats> findAllPublishingStats();
+	
 	
 }

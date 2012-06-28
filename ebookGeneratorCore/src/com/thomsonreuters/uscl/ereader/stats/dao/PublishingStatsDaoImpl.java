@@ -130,31 +130,29 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		} else if (updateType.equals(StatsUpdateTypeEnum.FINALPUBLISH)) {
 			hql.append("publishEndTimestamp = sysdate");
 		} else if (updateType.equals(StatsUpdateTypeEnum.GENERAL)) {
-			
-		}
-		else {
+
+		} else {
 			LOG.error("Unknown StatsUpdateTypeEnum");
 			// TODO: failure logic
 		}
 		if (StringUtils.isNotBlank(jobstats.getPublishStatus())) {
-			if (updateType.equals(StatsUpdateTypeEnum.GENERAL))
-			{
-			  hql.append(String.format("publishStatus = '%s'", jobstats.getPublishStatus()));
-			}
-			else 
-			{
-		      hql.append(String.format(", publishStatus = '%s'", jobstats.getPublishStatus()));
+			if (updateType.equals(StatsUpdateTypeEnum.GENERAL)) {
+				hql.append(String.format("publishStatus = '%s'",
+						jobstats.getPublishStatus()));
+			} else {
+				hql.append(String.format(", publishStatus = '%s'",
+						jobstats.getPublishStatus()));
 			}
 		} else {
 			hql.append(", publishStatus = null");
 		}
-		
+
 		hql.append(", lastUpdated = sysdate ");
 
 		hql.append(" where jobInstanceId =  "); // WHERE clause
 		hql.append(jobstats.getJobInstanceId());
 
-		LOG.debug("hql.toString() ="+hql.toString());
+		LOG.debug("hql.toString() =" + hql.toString());
 		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());
@@ -234,6 +232,15 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 		return (List<PublishingStats>) query.list();
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<PublishingStats> findAllPublishingStats() {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from PublishingStats");
+		return query.list();
 	}
 
 }

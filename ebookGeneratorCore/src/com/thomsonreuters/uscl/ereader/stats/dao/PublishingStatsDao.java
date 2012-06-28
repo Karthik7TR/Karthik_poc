@@ -55,5 +55,7 @@ public interface PublishingStatsDao {
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
 
 	public EbookAudit findAuditInfoByJobId(Long jobId);
+	
+	public List<PublishingStats> findAllPublishingStats();
 
 }

@@ -148,4 +148,8 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		return lastPublishDate;
 	}
 
+	public List<PublishingStats> findAllPublishingStats() {
+		return publishingStatsDAO.findAllPublishingStats();
+	}
+
 }
