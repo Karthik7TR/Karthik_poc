@@ -49,15 +49,24 @@ public class HTMLSpecialMarkupFilter extends XMLFilterImpl {
 	{
 		//Remove any del tags and replace with span tag
 
-		if (isdelTag) {
-			if (qName.equalsIgnoreCase("del")) {
-			super.endElement(uri, localName, "span");
-			isdelTag = false;
-		} else if (!qName.equalsIgnoreCase("ins")){
-			super.endElement(uri, localName, qName);
+		if (isdelTag) 
+		{
+			if (qName.equalsIgnoreCase("del")) 
+			{
+				super.endElement(uri, localName, "span");
+				isdelTag = false;
+		    } 
+			else if (!qName.equalsIgnoreCase("ins"))
+			{
+			    super.endElement(uri, localName, qName);
+		    }
 		}
-		} else {
-			super.endElement(uri, localName, qName);
+		else 
+		{
+			if (!qName.equalsIgnoreCase("ins"))
+			{
+			    super.endElement(uri, localName, qName);
+			}
 		}
 	}	
 }
