@@ -145,9 +145,7 @@ public class ProviewTitleListController {
 			HttpSession httpSession) {
 		ProviewTitleForm form = (ProviewTitleForm) httpSession
 				.getAttribute(ProviewTitleForm.FORM_NAME);
-		if (form == null) {
-			form = new ProviewTitleForm();
-		}
+
 		return form;
 	}
 
@@ -225,18 +223,18 @@ public class ProviewTitleListController {
 			break;
 
 		case PAGESIZE:
+			saveProviewTitleForm(httpSession, form);
 			List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
 			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
 					selectedProviewTitleInfo);
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 					selectedProviewTitleInfo.size());
-			model.addAttribute(ProviewListFilterForm.FORM_NAME,
-					fetchSavedProviewListFilterForm(httpSession));
-
-			model.addAttribute(ProviewTitleForm.FORM_NAME, form);
 			model.addAttribute(WebConstants.KEY_PAGE_SIZE,
 					form.getObjectsPerPage());
-			saveProviewTitleForm(httpSession, form);
+			model.addAttribute(ProviewListFilterForm.FORM_NAME,
+					fetchSavedProviewListFilterForm(httpSession));
+			model.addAttribute(ProviewTitleForm.FORM_NAME, form);
+
 			break;
 		}
 
@@ -301,8 +299,12 @@ public class ProviewTitleListController {
 		model.addAttribute(ProviewListFilterForm.FORM_NAME,
 				fetchSavedProviewListFilterForm(httpSession));
 
-		ProviewTitleForm proviewTitleForm = new ProviewTitleForm();
-		proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+		ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
+		if (proviewTitleForm == null) {
+			proviewTitleForm = new ProviewTitleForm();
+			proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+			saveProviewTitleForm(httpSession, proviewTitleForm);
+		}
 
 		model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
 		model.addAttribute(WebConstants.KEY_PAGE_SIZE,
