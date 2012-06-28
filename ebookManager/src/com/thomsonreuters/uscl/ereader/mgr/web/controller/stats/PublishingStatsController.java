@@ -90,12 +90,17 @@ public class PublishingStatsController {
 					.findAllPublishingStats();
 			savePublishingStatsList(httpSession, publishingStatsList);
 		}
+
+		PublishingStatsForm form = fetchSavedPublishingStatsForm(httpSession);
+		if (form.getObjectsPerPage() == null) {
+			form.setObjectsPerPage("5");
+		}
+
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, publishingStatsList);
 		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
 				publishingStatsList.size());
-		model.addAttribute(WebConstants.KEY_PAGE_SIZE, "5");
-		model.addAttribute(PublishingStatsForm.FORM_NAME,
-				fetchSavedPublishingStatsForm(httpSession));
+		model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
+		model.addAttribute(PublishingStatsForm.FORM_NAME, form);
 
 		return new ModelAndView(WebConstants.VIEW_STATS);
 	}
