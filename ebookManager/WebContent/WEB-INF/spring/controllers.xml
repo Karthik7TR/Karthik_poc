@@ -292,5 +292,8 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support.SupportFormValidator"/>
 		 </property>
 	</bean>
+	
+	<bean id="publishingStatsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsController"
+		p:publishingStatsService-ref="publishingStatsService" />
 		 
 </beans>

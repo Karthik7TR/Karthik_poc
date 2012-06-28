@@ -21,6 +21,7 @@
 		<li><a href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
 		
+		
 		<%-- Check if user has role to access create book definition --%>
 		<c:set var="showCreate" value="false"/>
 		<sec:authorize access="hasAnyRole('ROLE_PUBLISHER,ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
@@ -40,6 +41,7 @@
 		<c:if test="${showAdmin}">
 			<li><a href="<%=WebConstants.MVC_ADMIN_MAIN%>">ADMIN</a></li>
 		</c:if>
+		<li><a href="<%=WebConstants.MVC_STATS%>">STATS</a></li>
 		<li><a href="<%=WebConstants.MVC_SUPPORT_PAGE_VIEW%>">SUPPORT LINKS</a></li>
 		<li><a href="j_spring_security_logout">LOGOUT</a></li>
 	</ul>

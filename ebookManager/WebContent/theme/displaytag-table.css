@@ -84,3 +84,9 @@
 .displayTagTable .topbar {
     position: static;
 }
+.displayTagTable td.hidden { 
+     display: none; 
+} 
+.displayTagTable th.hidden { 
+     display: none; 
+} 

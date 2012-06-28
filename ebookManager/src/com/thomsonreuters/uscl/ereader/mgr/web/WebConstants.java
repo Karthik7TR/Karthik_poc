@@ -183,6 +183,7 @@ public class WebConstants {
 	// Administration related URI's
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
 	public static final String MVC_ADMIN_MISC = "adminMisc.mvc";
+	public static final String MVC_STATS = "stats.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
 	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";
@@ -247,6 +248,7 @@ public class WebConstants {
 	public static final String VIEW_APP_EXCEPTION = "appException";
 	public static final String VIEW_ADMIN_MAIN = "_adminMain";
 	public static final String VIEW_ADMIN_MISC = "_adminMisc";
+	public static final String VIEW_STATS = "_stats";
 	public static final String VIEW_ADMIN_BOOK_LOCK_LIST = "_adminBookLockList";
 	public static final String VIEW_ADMIN_BOOK_LOCK_DELETE = "_adminBookLockDelete";
 	public static final String VIEW_ADMIN_STOP_GENERATOR = "_adminStopGenerator";

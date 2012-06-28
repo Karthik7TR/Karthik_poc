@@ -409,5 +409,10 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/userpreferences/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/userpreferences/body.jsp"/>
 	</definition>
+
+	<definition name="_stats" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/stats/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/stats/body.jsp"/>
+	</definition>
  
 </tiles-definitions>
