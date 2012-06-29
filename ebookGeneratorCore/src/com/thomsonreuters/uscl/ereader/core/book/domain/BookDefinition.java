@@ -979,7 +979,10 @@ public class BookDefinition implements Serializable {
 		ArrayList<Feature> proviewFeatures = new ArrayList<Feature>();
 		proviewFeatures.add(new Feature("AutoUpdate"));
 		if (getSearchIndexFlag()) proviewFeatures.add(new Feature("SearchIndex"));
-		if (getOnePassSsoLinkFlag()) proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));		
+		if (getOnePassSsoLinkFlag()) {
+			proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));	
+			proviewFeatures.add(new Feature("OnePassSSO", "next.westlaw.com"));			
+		}
 		return (proviewFeatures);
 	}
 
