@@ -111,6 +111,15 @@
 			var id = "authorInfo" + authorIndex;
 			var name = "authorInfo[" + authorIndex + "]";
 			
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			
+			// Add sequence number
+			var lastChild = $("#addAuthorHere .expandingBox:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			
 			// Add author name input boxes
 			expandingBox.append(addDynamicRow(id, name, "authorNamePrefix", "Prefix"));
 			expandingBox.append(addDynamicRow(id, name, "authorFirstName", "First Name"));
@@ -123,13 +132,7 @@
 			additionalText.append($("<label>").html("Additional Text"));
 			additionalText.append($("<textarea>").attr("id",id +".authorAddlText").attr("name", name + ".authorAddlText"));
 			expandingBox.append(additionalText);
-			
-			// Add sequence number input box
-			var sequenceBox = $("<div>").addClass("dynamicRow");
-			sequenceBox.append("Sequence Number");
-			sequenceBox.append($("<input>").addClass("sequenceNumber").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("type", "text").attr("maxlength", 9));
-			expandingBox.append(sequenceBox);
-			
+
 			// Add Comma checkbox
 			var useCommaBeforeSuffix = $("<div>").addClass("dynamicRow");
 			useCommaBeforeSuffix.append("Use Comma Before Suffix");
@@ -139,7 +142,7 @@
 			// Add delete button
 			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").val("Delete"));
 		
-			$("#addAuthorHere").before(expandingBox);
+			$("#addAuthorHere").append(expandingBox);
 			authorIndex = authorIndex + 1;
 		};
 		
@@ -206,16 +209,29 @@
 		
 		// Add another additional Front Matter Page row
 		var addFrontMatterPageRow = function() {
-			var appendTxt = "<div class='row frontMatterPage'>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageTocLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageTocLabel\" type=\"text\" title=\"Page TOC Label\" class=\"pageTocLabel\" />";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + frontMatterPageIndex + ".pageHeadingLabel\" name=\"frontMatters[" + frontMatterPageIndex + "].pageHeadingLabel\" type=\"text\" title=\"Page Heading Label\" class=\"pageHeadingLabel\" />";
-			appendTxt = appendTxt + "<input class=\"sequenceNumber\" id=\"frontMatters" + frontMatterPageIndex + ".sequenceNum\" name=\"frontMatters[" + frontMatterPageIndex + "].sequenceNum\" type=\"text\" title=\"Page Seq Num.\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Page\" class=\"rdelete\" title=\"Delete Page, Sections, and Pdfs?\" deleteMessage=\"This will also delete all the sections and pdfs in this front matter page.\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Preview\" class=\"fmPreview\"/>"; 
-			appendTxt = appendTxt + "<div id='addAdditionalSection_" + frontMatterPageIndex + "'></div>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Section\" class=\"addSection\" pageIndex=\"" + frontMatterPageIndex + "\" sectionIndex=\"0\" />";
-			appendTxt = appendTxt + "</div>";
-			$("#addAdditionPageHere").before(appendTxt);
+			var expandingBox = $("<div>").addClass("row frontMatterPage");
+			var id = "frontMatters" + frontMatterPageIndex;
+			var name = "frontMatters[" + frontMatterPageIndex + "]";
+			
+			// Add sequence number
+			var lastChild = $("#addAdditionPageHere .frontMatterPage:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			expandingBox.append($("<input>").attr("type","text").attr("id",id +".pageTocLabel").attr("name", name + ".pageTocLabel").attr("title", "Page TOC Label").addClass("pageTocLabel"));
+			expandingBox.append($("<input>").attr("type","text").attr("id",id +".pageHeadingLabel").attr("name", name + ".pageHeadingLabel").attr("title", "Page Heading Label").addClass("pageHeadingLabel"));
+			
+			// Add buttons
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Page, Sections, and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the sections and pdfs in this front matter page.").val("Delete Page"));
+			expandingBox.append($("<button>").attr("type","button").addClass("fmPreview").html("Preview"));
+			
+			var section = $("<div>").attr("id", "addAdditionalSection_" + frontMatterPageIndex);
+			section.append($("<input>").addClass("addSection").attr("pageIndex", frontMatterPageIndex).attr("sectionIndex", 0).attr("type", "button").val("Add Section"));
+			expandingBox.append(section);
+
+			$("#addAdditionPageHere").append(expandingBox);
 			frontMatterPageIndex = frontMatterPageIndex + 1;
 			
 			textboxHint("additionFrontMatterBlock");
@@ -223,28 +239,61 @@
 		
 		// Add another additional Front Matter Section row
 		var addFrontMatterSectionRow = function(pageIndex, sectionIndex) {
-			var appendTxt = "<div class='row frontMatterSection'>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionHeading\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionHeading\" type=\"text\" title=\"Section Heading\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Section\" class=\"rdelete\" title=\"Delete Section and Pdfs?\" deleteMessage=\"This will also delete all the pdfs in this front matter section.\" />";
-			appendTxt = appendTxt + "<textarea id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".sectionText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].sectionText\" title=\"Section Text\" class=\"frontMatterSectionTextArea\"/>";
-			appendTxt = appendTxt + "<div id='addAdditionalPdf_" + pageIndex + "_" + sectionIndex + "'></div>";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Add Pdf\" class=\"addPdf\" pageIndex=\"" + pageIndex + "\" sectionIndex=\"" + sectionIndex + "\" pdfIndex=\"0\"  />";
-			appendTxt = appendTxt + "</div>";
-			$("#addAdditionalSection_" + pageIndex).before(appendTxt);
+			var expandingBox = $("<div>").addClass("row frontMatterSection");
+			var id = "frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex;
+			var name = "frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"]";
+			
+			var addAdditionalSection = "#addAdditionalSection_" + pageIndex;
+			// Add sequence number
+			var lastChild = $(addAdditionalSection + " .frontMatterSection:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			expandingBox.append($("<input>").attr("type","text").attr("id",id +".sectionHeading").attr("name", name + ".sectionHeading").attr("title", "Section Heading"));
+			
+			// Add buttons
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Section and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the pdfs in this front matter section.").val("Delete Section"));
+
+			// Add addition text input box
+			var additionalText = $("<div>").addClass("dynamicRow");
+			additionalText.append($("<textarea>").attr("id",id +".sectionText").attr("name", name + ".sectionText").addClass("frontMatterSectionTextArea"));
+			expandingBox.append(additionalText);
+
+			var pdfSection = $("<div>").attr("id", "addAdditionalPdf_" + pageIndex + "_" + sectionIndex);
+			pdfSection.append($("<input>").addClass("addPdf").attr("pageIndex", pageIndex).attr("sectionIndex", sectionIndex).attr("pdfIndex", 0).attr("type", "button").val("Add Pdf"));
+			expandingBox.append(pdfSection);
+			
+			$(addAdditionalSection).append(expandingBox);
 			
 			textboxHint("additionFrontMatterBlock");
 		};
 		
 		// Add another additional Front Matter Pdf row
 		var addFrontMatterPdfRow = function(pageIndex, sectionIndex, pdfIndex) {
-			var appendTxt = "<div class='row frontMatterPdf'>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfLinkText\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfLinkText\" type=\"text\" title=\"PDF Link Text\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".pdfFilename\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].pdfFilename\" type=\"text\" title=\"PDF Filename\"/>";
-			appendTxt = appendTxt + "<input id=\"frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex +".sequenceNum\" name=\"frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"].sequenceNum\" type=\"text\" title=\"Section Seq Num.\" class=\"sequenceNumber\" maxlength=\"9\" />";
-			appendTxt = appendTxt + "<input type=\"button\" value=\"Delete Pdf\" class=\"rdelete\" title=\"Delete Pdf?\" />";
-			appendTxt = appendTxt + "</div>";
-			$("#addAdditionalPdf_" + pageIndex + "_" + sectionIndex).before(appendTxt);
+			
+			var expandingBox = $("<div>").addClass("row frontMatterPdf");
+			var id = "frontMatters" + pageIndex + ".frontMatterSections" + sectionIndex + ".pdfs"+ pdfIndex;
+			var name = "frontMatters[" + pageIndex + "].frontMatterSections["+ sectionIndex +"].pdfs["+ pdfIndex +"]";
+			
+			var addAdditionalPdf = "#addAdditionalPdf_" + pageIndex + "_" + sectionIndex;
+			// Add sequence number
+			var lastChild = $(addAdditionalPdf + " .row:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			
+			// Add input boxes
+			expandingBox.append($("<input>").attr("id",id +".pdfLinkText").attr("name", name + ".pdfLinkText").attr("type", "text").attr("title","PDF Link Text"));
+			expandingBox.append($("<input>").attr("id",id +".pdfFilename").attr("name", name + ".pdfFilename").attr("type", "text").attr("title","PDF Filename"));
+			
+			// Add buttons
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf"));
+			
+			$(addAdditionalPdf).append(expandingBox);
 			
 			textboxHint("additionFrontMatterBlock");
 		};
@@ -353,7 +402,15 @@
 		};
 
 		
-	
+		var getSequenceNumber = function(element) {
+			var sequenceNum = parseInt(element.children(".sequence").val());
+			// No sequence number, set sequence to zero
+			if(isNaN(sequenceNum)) {
+				sequenceNum = 0;
+			}
+			
+			return sequenceNum;
+		};
 
 		
 		$(document).ready(function() {
@@ -569,10 +626,37 @@
 				pdfIndex = $(this).attr("pdfIndex");
 				addFrontMatterPdfRow(pageIndex, sectionIndex, pdfIndex);
 				
-				// Increment sectionIndex
+				// Increment pdfIndex
 				nextIndex = parseInt(pdfIndex) + 1;
 				$(this).attr("pdfIndex", nextIndex);
 			});
+			
+			$('body').delegate(".moveUp", "click", function(){
+			  var current = $(this).parent();
+			  var currentSequence = getSequenceNumber(current);
+			  var previous = current.prev();
+			  var previousSequence = getSequenceNumber(previous);
+			  
+			  if(previousSequence != 0) {
+				  current.children(".sequence").val(previousSequence);
+				  previous.children(".sequence").val(currentSequence);
+				  previous.before(current);
+			  }
+			});
+			
+			$('body').delegate(".moveDown", "click",function(){
+				var current = $(this).parent();
+				var currentSequence = getSequenceNumber(current);
+				var next = current.next();
+				var nextSequence = getSequenceNumber(next);
+				
+				if(nextSequence != 0) {
+				 current.children(".sequence").val(nextSequence);
+				 next.children(".sequence").val(currentSequence);
+				 next.after(current);
+				}
+			});
+
 			
 			// Initialize Global variables
 			publisher = $('#publisher').val();
@@ -763,10 +847,6 @@
 		</div>
 		
 		<div class="rightDefinitionForm">
-			<c:set var="disableOptions" value="true"/>
-			<sec:authorize access="hasRole('ROLE_SUPERUSER')">
-				<c:set var="disableOptions" value=""/>
-			</sec:authorize>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
@@ -1060,66 +1140,66 @@
 				<div class="errorDiv">
 					<form:errors path="authorInfo" cssClass="errorMessage" />
 				</div>
-				<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
-					<div class="expandingBox">
-						<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
-						<div class="dynamicRow">
-							<label>Prefix</label>
-							<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>First Name</label>
-							<form:input path="authorInfo[${aStatus.index}].authorFirstName" />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Middle Name</label>
-							<form:input path="authorInfo[${aStatus.index}].authorMiddleName" />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Last Name</label>
-							<form:input path="authorInfo[${aStatus.index}].authorLastName" />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Suffix</label>
-							<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							<label>Additional Text</label>
-							<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" />
-							<div class="errorDiv">
-								<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
-							</div>
-						</div>
-						<div class="dynamicRow">
-							Sequence Number
-							<form:input path="authorInfo[${aStatus.index}].sequenceNum" class="sequenceNumber" maxlength="9" />
+				<div id="addAuthorHere">
+					<c:forEach items="${editBookDefinitionForm.authorInfo}" var="author" varStatus="aStatus">
+						<div class="expandingBox">
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 							</div>
+							<button class="moveUp" type="button">Up</button>
+							<button class="moveDown" type="button">Down</button>
+							<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
+							<form:hidden path="authorInfo[${aStatus.index}].sequenceNum" class="sequence"/>
+							<div class="dynamicRow">
+								<label>Prefix</label>
+								<form:input path="authorInfo[${aStatus.index}].authorNamePrefix" />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorNamePrefix" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>First Name</label>
+								<form:input path="authorInfo[${aStatus.index}].authorFirstName" />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorFirstName" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>Middle Name</label>
+								<form:input path="authorInfo[${aStatus.index}].authorMiddleName" />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorMiddleName" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>Last Name</label>
+								<form:input path="authorInfo[${aStatus.index}].authorLastName" />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorLastName" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>Suffix</label>
+								<form:input path="authorInfo[${aStatus.index}].authorNameSuffix"  />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorNameSuffix" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>Additional Text</label>
+								<form:textarea path="authorInfo[${aStatus.index}].authorAddlText" />
+								<div class="errorDiv">
+									<form:errors path="authorInfo[${aStatus.index}].authorAddlText" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								Use Comma Before Suffix
+								<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
+							</div>
+							<input type="button" value="Delete" class="rdelete" title="Delete Author" />
 						</div>
-						<div class="dynamicRow">
-							Use Comma Before Suffix
-							<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
-						</div>
-						<input type="button" value="Delete" class="rdelete" title="Delete Author" />
-					</div>
-				</c:forEach>
-				<div id="addAuthorHere"></div>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -1131,63 +1211,72 @@
 	<div class="errorDiv">
 		<form:errors path="frontMatters" cssClass="errorMessage" />
 	</div>
-	<c:forEach items="${editBookDefinitionForm.frontMatters}" var="page" varStatus="pageStatus">
-		<div class="row frontMatterPage">
-			<form:hidden path="frontMatters[${pageStatus.index}].id"/>
-			<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" />
-			<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" />
-			<form:input path="frontMatters[${pageStatus.index}].sequenceNum" title="Page Seq Num." class="sequenceNumber" maxlength="9" />
-			<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
-			<input type="button" value="Preview" class="fmPreview"/>   
-
-			<div class="errorDiv2">
-				<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
-				<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
-				<form:errors path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="errorMessage" />
-			</div>
-			<c:set var="sectionIndex" value="0"/>
-			<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
-				<div class="row frontMatterSection">
-					<c:set var="sectionIndex" value="${sectionStatus.index}"/>
-					<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
-					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
-					<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" title="Section Seq Num." class="sequenceNumber" maxlength="9" />
-					<input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
-					<div class="errorDiv2">
-						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
-						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
-					</div>
-					<form:textarea path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" title="Section Text" class="frontMatterSectionTextArea" />
-					<div class="errorDiv2">
-						<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" cssClass="errorMessage" />
-					</div>
-					<c:set var="pdfIndex" value="0"/>
-					<c:forEach items="${section.pdfs}" var="pdf" varStatus="pdfStatus">
-						<div class="row">
-							<c:set var="pdfIndex" value="${pdfStatus.index}"/>
-							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum"   title="Section Seq Num." class="sequenceNumber" maxlength="9" />
-							<input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?" />
+	<div id="addAdditionPageHere">
+		<c:forEach items="${editBookDefinitionForm.frontMatters}" var="page" varStatus="pageStatus">
+			<div class="row frontMatterPage">
+				<form:hidden path="frontMatters[${pageStatus.index}].id"/>
+				<form:hidden path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="sequence" />
+				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" />
+				<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" />
+				<button class="moveUp" type="button">Up</button>
+				<button class="moveDown" type="button">Down</button>
+				<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
+				<input type="button" value="Preview" class="fmPreview"/>   
+	
+				<div class="errorDiv2">
+					<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
+					<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
+					<form:errors path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="errorMessage" />
+				</div>
+				<c:set var="sectionIndex" value="0"/>
+				<div id="addAdditionalSection_${pageStatus.index}">
+					<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
+						<div class="row frontMatterSection">
+							<c:set var="sectionIndex" value="${sectionStatus.index}"/>
+							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
+							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="sequence" />
+							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
+							<button class="moveUp" type="button">Up</button>
+							<button class="moveDown" type="button">Down</button>
+							<input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
 							<div class="errorDiv2">
-								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
-								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />
-								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="errorMessage" />
+								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
+								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
 							</div>
+							<form:textarea path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" title="Section Text" class="frontMatterSectionTextArea" />
+							<div class="errorDiv2">
+								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionText" cssClass="errorMessage" />
+							</div>
+							<c:set var="pdfIndex" value="0"/>
+							<div id="addAdditionalPdf_${pageStatus.index}_${sectionStatus.index}">
+								<c:forEach items="${section.pdfs}" var="pdf" varStatus="pdfStatus">
+									<div class="row">
+										<c:set var="pdfIndex" value="${pdfStatus.index}"/>
+										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
+										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="sequence" />
+										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" />
+										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" />								
+										<button class="moveUp" type="button">Up</button>
+										<button class="moveDown" type="button">Down</button>
+										<input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?" />
+										<div class="errorDiv2">
+											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
+											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />
+											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="errorMessage" />
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+							<input type="button" value="Add Pdf" class="addPdf" pageIndex="${pageStatus.index}" sectionIndex="${sectionStatus.index}" pdfIndex="${pdfIndex + 1}"  />
 						</div>
 					</c:forEach>
-					<div id="addAdditionalPdf_${pageStatus.index}_${sectionStatus.index}"></div>
-					<input type="button" value="Add Pdf" class="addPdf" pageIndex="${pageStatus.index}" sectionIndex="${sectionStatus.index}" pdfIndex="${pdfIndex + 1}"  />
 				</div>
-			</c:forEach>
-			<div id="addAdditionalSection_${pageStatus.index}"></div>
-			<input type="button" value="Add Section" class="addSection" pageIndex="${pageStatus.index}" sectionIndex="${sectionIndex + 1}"  />
-			<div class="errorDiv2">
+				<input type="button" value="Add Section" class="addSection" pageIndex="${pageStatus.index}" sectionIndex="${sectionIndex + 1}"  />
+				<div class="errorDiv2">
+				</div>
 			</div>
-		</div>
-	</c:forEach>
-	<div id="addAdditionPageHere"></div>
+		</c:forEach>
+	</div>
 </div> 
 
 <div id="modal"> 

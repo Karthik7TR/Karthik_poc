@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -313,7 +312,7 @@ public class FrontMatterAdditionalFrontMatterPageFilterTest {
 		
 		List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 		FrontMatterPage frontMatterPage4 = fmps.get(0);
-		Collection<FrontMatterSection> frontMatterSections4 = frontMatterPage4.getFrontMatterSections();
+		List<FrontMatterSection> frontMatterSections4 = frontMatterPage4.getFrontMatterSections();
 		FrontMatterSection frontMatterSectionNew = new FrontMatterSection();
 		frontMatterSectionNew.setId((long) 42);
 		// add another section and extra newline 

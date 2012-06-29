@@ -51,8 +51,8 @@ public class EditBookDefinitionForm {
 	private String copyright;
 	private String copyrightPageText;
 	private String materialId;
-	private Collection<Author> authorInfo;
-	private Collection<FrontMatterPage> frontMatters;
+	private List<Author> authorInfo;
+	private List<FrontMatterPage> frontMatters;
 	private boolean isExcludeDocumentsUsed;
 	private Collection<ExcludeDocument> excludeDocuments;
 	private Collection<ExcludeDocument> excludeDocumentsCopy;
@@ -248,11 +248,15 @@ public class EditBookDefinitionForm {
 		book.setEbookDefinitionId(bookdefinitionId);
 		
 		List<Author> authors = new ArrayList<Author>();
+		int i = 1;
 		for(Author author : authorInfo) {
 			Author authorCopy = new Author();
 			authorCopy.copy(author);
 			authorCopy.setEbookDefinition(book);
+			// Update the sequence number to be in order
+			authorCopy.setSequenceNum(i);
 			authors.add(authorCopy);
+			i++;
 		}
 		book.setAuthors(authors);
 		
@@ -273,20 +277,33 @@ public class EditBookDefinitionForm {
 		book.setEbookNames(ebookNames);
 
 		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
+		i = 1;
 		for(FrontMatterPage page : frontMatters) {
 			FrontMatterPage pageCopy = new FrontMatterPage();
 			pageCopy.copy(page);
+			
+			int j = 1;
 			for(FrontMatterSection section : pageCopy.getFrontMatterSections()) {
+				int k = 1;
 				for(FrontMatterPdf pdf : section.getPdfs()){
 					//Set foreign key on Pdf
 					pdf.setSection(section);
+					// Update the sequence numbers to be in order
+					pdf.setSequenceNum(k);
+					k++;
 				}
+				// Update the sequence numbers to be in order
+				section.setSequenceNum(j);
 				// Set foreign key on Section
 				section.setFrontMatterPage(pageCopy);
+				j++;
 			}
 			// Set foreign key on Page
 			pageCopy.setEbookDefinition(book);
+			// Update the sequence numbers to be in order
+			pageCopy.setSequenceNum(i);
 			pages.add(pageCopy);
+			i++;
 		}
 		book.setFrontMatterPages(pages);
 		
@@ -436,11 +453,11 @@ public class EditBookDefinitionForm {
 	}
 
 	
-	public Collection<FrontMatterPage> getFrontMatters() {
+	public List<FrontMatterPage> getFrontMatters() {
 		return frontMatters;
 	}
 
-	public void setFrontMatters(Collection<FrontMatterPage> frontMatters) {
+	public void setFrontMatters(List<FrontMatterPage> frontMatters) {
 		this.frontMatters = frontMatters;
 	}
 
@@ -494,11 +511,11 @@ public class EditBookDefinitionForm {
 		this.materialId = materialId;
 	}
 
-	public Collection<Author> getAuthorInfo() {
+	public List<Author> getAuthorInfo() {
 		return authorInfo;
 	}
 
-	public void setAuthorInfo(Collection<Author> authorInfo) {
+	public void setAuthorInfo(List<Author> authorInfo) {
 		this.authorInfo = authorInfo;
 	}
 

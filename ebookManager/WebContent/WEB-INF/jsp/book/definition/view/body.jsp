@@ -244,18 +244,15 @@ function submitForm(cmd)
 					<div class="row frontMatterPage">
 						<div><label class="labelCol">Page TOC Label</label> ${page.pageTocLabel}</div>
 						<div><label class="labelCol">Page Heading Label</label> ${page.pageHeadingLabel}</div>
-						<div><label class="labelCol">Page Sequence Number</label> ${page.sequenceNum}</div>
 						<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
 							<div class="row frontMatterSection">
 								<div><label class="labelCol">Section Heading</label> ${section.sectionHeading}</div>
-								<div><label class="labelCol">Section Sequence Number</label> ${section.sequenceNum}</div>
 								<label class="labelCol">Section Text</label>
 								<div class="wordwrap">${section.sectionText}</div>
 								<c:forEach items="${section.pdfs}" var="pdf" varStatus="pdfStatus">
 									<div class="row">
 										<div><label class="labelCol">PDF Link Text</label>${pdf.pdfLinkText}</div>
 										<div><label class="labelCol">PDF Filename</label>${pdf.pdfFilename}</div>
-										<div><label class="labelCol">PDF Sequence Number</label>${pdf.sequenceNum}</div>
 									</div>
 								</c:forEach>
 							</div>

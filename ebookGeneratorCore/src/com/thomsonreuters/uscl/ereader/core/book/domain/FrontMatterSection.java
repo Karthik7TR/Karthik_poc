@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -65,7 +65,7 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
 	@OneToMany(mappedBy = "section", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	@Fetch(FetchMode.SELECT)
-	Collection<FrontMatterPdf> pdfs;
+	List<FrontMatterPdf> pdfs;
 	/**
 	 */
 	
@@ -114,7 +114,7 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
 		this.sequenceNum = sequenceNum;
 	}
 
-	public Collection<FrontMatterPdf> getPdfs() {
+	public List<FrontMatterPdf> getPdfs() {
 		if(this.pdfs == null){
 			this.pdfs = new ArrayList<FrontMatterPdf>();
 		}
@@ -122,7 +122,7 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
 		return pdfs;
 	}
 
-	public void setPdfs(Collection<FrontMatterPdf> pdf) {
+	public void setPdfs(List<FrontMatterPdf> pdf) {
 		this.pdfs = pdf;
 	}
 
