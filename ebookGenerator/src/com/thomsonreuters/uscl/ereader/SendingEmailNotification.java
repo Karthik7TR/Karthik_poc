@@ -75,7 +75,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         {
 	        PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobId);
-		    jobstats.setPublishStatus("sendingEmailNotification: " + publishStatus);
+		    jobstats.setPublishStatus("sendEmailNotification : " + publishStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
 	}

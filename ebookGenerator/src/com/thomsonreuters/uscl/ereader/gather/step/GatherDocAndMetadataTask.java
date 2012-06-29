@@ -95,7 +95,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		}
 		finally 
 		{
-			jobstatsDoc.setPublishStatus("gatherDocAndMetadataTask: " + publishStatus);		       
+			jobstatsDoc.setPublishStatus("getDocAndMetadata : " + publishStatus);		       
 			publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
 		}
 		

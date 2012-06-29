@@ -57,7 +57,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
 
 		
 		long startTime = System.currentTimeMillis();
-		String publishStatus =  "generateFrontMatterHTMLPages : Completed";
+		String publishStatus =  "generateFrontMatterHTML : Completed";
 
 		try 
 		{
@@ -65,7 +65,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
 		} 
 		catch (Exception e) 
 		{
-			publishStatus =  "generateFrontMatterHTMLPages : Failed";
+			publishStatus =  "generateFrontMatterHTML : Failed";
 			throw(e);
 		}
 		finally

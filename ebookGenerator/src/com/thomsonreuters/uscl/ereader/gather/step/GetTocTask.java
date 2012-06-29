@@ -108,7 +108,7 @@ public class GetTocTask  extends AbstractSbTasklet {
         finally 
         {
         	jobstats.setJobInstanceId(jobInstance);
-            jobstats.setPublishStatus("getTocTask: " + publishStatus);
+            jobstats.setPublishStatus("getToc : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
         }
 		

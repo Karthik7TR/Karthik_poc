@@ -88,12 +88,12 @@ public class HTMLPostTransform extends AbstractSbTasklet
 					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
 					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 			LOG.error(message);
-			jobstats.setPublishStatus("transformXML : Failed");
+			jobstats.setPublishStatus("formatHTMLTransformer : Failed");
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
 		
-		jobstats.setPublishStatus("transformXML : Completed");
+		jobstats.setPublishStatus("formatHTMLTransformer : Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");

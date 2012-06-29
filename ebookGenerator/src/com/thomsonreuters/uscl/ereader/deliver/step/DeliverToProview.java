@@ -67,7 +67,7 @@ public class DeliverToProview extends AbstractSbTasklet {
 		{
 		    PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobInstance);
-		    jobstats.setPublishStatus("deliverToProview: " + publishStatus);
+		    jobstats.setPublishStatus("deliverEBook : " + publishStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FINALPUBLISH);
 		}
 		

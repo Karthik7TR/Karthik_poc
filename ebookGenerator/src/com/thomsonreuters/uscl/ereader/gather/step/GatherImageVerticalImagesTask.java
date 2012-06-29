@@ -109,12 +109,12 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		if(null == e)
 		{
 			retrievedCound = imageGuidsSize;
-			jobstatsDoc.setPublishStatus("gatherImageVerticalImagesTask: Failed");
+			jobstatsDoc.setPublishStatus("getDynamicImages : Failed");
 		}
 		else
 		{
 			retrievedCound = getMissingGuidsCount(e);
-			jobstatsDoc.setPublishStatus("gatherImageVerticalImagesTask: Completed");
+			jobstatsDoc.setPublishStatus("getDynamicImages : Completed");
 		}
 		
 		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);

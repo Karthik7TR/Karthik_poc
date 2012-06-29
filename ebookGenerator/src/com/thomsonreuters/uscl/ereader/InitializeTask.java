@@ -249,7 +249,7 @@ public class InitializeTask extends AbstractSbTasklet {
 			pubStats.setJobInstanceId(Long.valueOf(jobInstance.getId().toString()));
 			pubStats.setJobSubmitterName(jobParams.getString(JobParameterKey.USER_NAME));
 			pubStats.setJobSubmitTimestamp(jobParams.getDate(JobParameterKey.TIMESTAMP)); 
-			pubStats.setPublishStatus("initializeTask: " + publishStatus);
+			pubStats.setPublishStatus("initializeJob : " + publishStatus);
 			pubStats.setPublishStartTimestamp(rightNow); 
 			pubStats.setLastUpdated(rightNow);
 			

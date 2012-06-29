@@ -113,7 +113,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 			titleManifest.close();
 			PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobId);
-		    jobstats.setPublishStatus("generateTitleMetadata: " + status);
+		    jobstats.setPublishStatus("generateTitleManifest : " + status);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		}
 		

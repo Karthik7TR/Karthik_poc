@@ -93,7 +93,7 @@ public class TransformXML extends AbstractSbTasklet
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 			throw new EBookFormatException(message);
 		}
-		jobstats.setPublishStatus("transformXML : Completed");
+		jobstats.setPublishStatus("formatTransformXML : Completed");
 		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		
 		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
