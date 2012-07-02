@@ -324,7 +324,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .guid {
-	width: 18em;
+	width: 26em;
 }
 
 
@@ -333,7 +333,8 @@ a:hover {
 }
 
 .bookDefinitionView .centerSection,
-.bookDefinitionView #displayExcludeDocument {
+.bookDefinitionView #displayExcludeDocument,
+.bookDefinitionView #displayRenameTocEntry {
 	width:58em;
 }
 
@@ -581,22 +582,47 @@ a:hover {
 	right:.5em;
 }
 
-#displayExcludeDocument {
+.bookDefinitionView #displayExcludeDocument label,
+.bookDefinitionView #displayRenameTocEntry label {
+	text-align: left;
+	font-weight: bold;
+}
+
+.bookDefinitionView #displayExcludeDocument .expandingBox,
+.bookDefinitionView #displayRenameTocEntry .expandingBox {
+	border: gray solid .1em;
+	text-align: left;
+	padding: .2em;
+}
+
+#displayExcludeDocument,
+#displayRenameTocEntry {
 	width:55.4em;
 	margin: 1em auto 0em auto;
 }
 
-#displayExcludeDocument .expandingBox .dynamicRow {
+#displayExcludeDocument .expandingBox,
+#displayRenameTocEntry .expandingBox {
+	border: gray solid .2em;
+	text-align: center;
+	padding: .2em;
+}
+
+#displayExcludeDocument .expandingBox .dynamicRow,
+#displayRenameTocEntry .expandingBox .dynamicRow {
 	display: inline-block;
 	zoom:1; /* IE7 hack */
 	*display: inline; /* IE7 hack */
 	vertical-align: top;
-	margin:0em 1em;
+	margin:0em .2em;
+	text-align: left;
 }
 
-#displayExcludeDocument .expandingBox .dynamicRow label {
+#displayExcludeDocument .expandingBox .dynamicRow label,
+#displayRenameTocEntry .expandingBox .dynamicRow label {
 	vertical-align: top;
 	margin-right:.3em;
+	display:block;
 }
 
 #frontMatterLinks {

@@ -8,15 +8,13 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 
 public class GatherNortRequest {
 
@@ -25,18 +23,20 @@ public class GatherNortRequest {
 	private String expressionFilter;
 	private File nortFile;
 	private ArrayList<ExcludeDocument> excludeDocuments;
+	private ArrayList<RenameTocEntry> renameTocEntries;
 
 	public GatherNortRequest(){
 		super();
 	}
 	
-	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments) {
+	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
 		this.nortFile = nortFile;
 		this.cutoffDate = cutoffDate;
 		this.excludeDocuments = excludeDocuments;
+		this.renameTocEntries = renameTocEntries;
 	}
 	
 	public String getDomainName() {
@@ -70,6 +70,15 @@ public class GatherNortRequest {
 	public void setExcludeDocuments(ArrayList<ExcludeDocument> excludeDocuments) {
 		this.excludeDocuments = excludeDocuments;
 	}
+	
+	public ArrayList<RenameTocEntry> getRenameTocEntries() {
+		return renameTocEntries;
+	}
+
+	public void setRenameTocEntries(ArrayList<RenameTocEntry> renameTocEntries) {
+		this.renameTocEntries = renameTocEntries;
+	}
+
 	public void setCutoffDate(Date cutoffDate) {
 		this.cutoffDate = cutoffDate;
 	}

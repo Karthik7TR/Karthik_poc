@@ -115,17 +115,45 @@ function submitForm(cmd)
 			<label class="labelCol">Exclude Documents</label>
 			<c:forEach items="${ book.excludeDocuments }" var="document">
 				<div class="expandingBox">
-					<div>
+					<div class="dynamicRow">
 						<label>Document Guid:</label>
 						<span class="field"> ${ document.documentGuid }</span>
 					</div>
-					<div>
+					<div class="dynamicRow">
 						<label>Note:</label>
 						<span class="field"> ${ document.note } </span>
 					</div>
-					<div>
+					<div class="dynamicRow">
 						<label>Last Updated:</label>
 						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div id="displayRenameTocEntry">
+			<label class="labelCol">Rename TOC Labels</label>
+			<c:forEach items="${ book.renameTocEntries }" var="toc">
+				<div class="expandingBox">
+					<div class="dynamicRow">
+						<label>Guid:</label>
+						<span class="field"> ${ toc.tocGuid }</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Old Label:</label>
+						<span class="field"> ${ toc.oldLabel } </span>
+					</div>
+					<div class="dynamicRow">
+						<label>New Label:</label>
+						<span class="field"> ${ toc.newLabel } </span>
+					</div>
+					<div class="dynamicRow">
+						<label>Note:</label>
+						<span class="field"> ${ toc.note } </span>
+					</div>
+					<div class="dynamicRow">
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${toc.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
 					</div>
 				</div>
 			</c:forEach>

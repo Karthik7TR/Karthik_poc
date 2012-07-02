@@ -44,6 +44,7 @@ public class WebConstants {
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
 	public static final String KEY_NUMBER_OF_EXCLUDE_DOCUMENTS = "numberOfExcludeDocuments";
+	public static final String KEY_NUMBER_OF_RENAME_TOC_ENTRIES = "numberOfRenameTocEntries";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_INFO_MESSAGES = "infoMessages";
 	public static final String KEY_ERR_MESSAGE = "errMessage";

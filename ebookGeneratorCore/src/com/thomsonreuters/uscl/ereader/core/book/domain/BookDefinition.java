@@ -297,6 +297,11 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<ExcludeDocument> excludeDocuments;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<RenameTocEntry> renameTocEntries;
 
 	/**
 	 */
@@ -792,6 +797,20 @@ public class BookDefinition implements Serializable {
 		this.excludeDocuments = new HashSet<ExcludeDocument>(excludeDocuments);
 	}
 
+	public List<RenameTocEntry> getRenameTocEntries() {
+		if(renameTocEntries == null) {
+			renameTocEntries = new HashSet<RenameTocEntry>();
+		}
+		// Change to list
+		List<RenameTocEntry> labels = new ArrayList<RenameTocEntry>();
+		labels.addAll(renameTocEntries);
+		return labels;
+	}
+
+	public void setRenameTocEntries(Collection<RenameTocEntry> renameTocEntries) {
+		this.renameTocEntries = new HashSet<RenameTocEntry>(renameTocEntries);
+	}
+
 	public List<FrontMatterPage> getFrontMatterPages() {
 		if (frontMatterPages == null) {
 			frontMatterPages = new java.util.LinkedHashSet<FrontMatterPage>();
@@ -879,6 +898,7 @@ public class BookDefinition implements Serializable {
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
+		setRenameTocEntries(new HashSet<RenameTocEntry>(that.getRenameTocEntries()));
 		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 

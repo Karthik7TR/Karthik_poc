@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -48,7 +49,7 @@ public class TocServiceImpl implements TocService {
 
 	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
 			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent, ArrayList<ExcludeDocument> excludeDocuments,
-			ArrayList<ExcludeDocument> copyExcludeDocuments)
+			ArrayList<ExcludeDocument> copyExcludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, ArrayList<RenameTocEntry> copyRenameTocEntries)
 			throws GatherException {
 
 		TOCNode[] tocNodes = null;
@@ -100,7 +101,7 @@ public class TocServiceImpl implements TocService {
 			tocNodes = new TOCNode[1];
 			tocNodes[0] = tocNode;
 			printNodes(tocNodes, _tocManager, out, counter, docCounter,
-					intParent, excludeDocuments, copyExcludeDocuments);
+					intParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 		}  catch (GatherException e) {
 			LOG.error("Failed with GatherException in TOC");
 			throw e;
@@ -114,7 +115,8 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNodes(TOCNode[] nodes, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments,
+			ArrayList<RenameTocEntry> renameTocEntries, ArrayList<RenameTocEntry> copyRenameTocEntries)
 			throws GatherException {
 		boolean docFound = true;
 
@@ -122,7 +124,7 @@ public class TocServiceImpl implements TocService {
 			try {
 				for (TOCNode node : nodes) {
 					docFound = printNode(node, _tocManager, out, counter,
-							docCounter, iParent, excludeDocuments, copyExcludeDocuments);
+							docCounter, iParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 				}
 				if (iParent[0] > 0) {
 					if (docFound == false) {
@@ -153,7 +155,8 @@ public class TocServiceImpl implements TocService {
 	}
 
 	public boolean printNode(TOCNode node, TOC _tocManager, Writer out,
-			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments)
+			int[] counter, int[] docCounter, int[] iParent, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<ExcludeDocument> copyExcludeDocuments,
+			ArrayList<RenameTocEntry> renameTocEntries, ArrayList<RenameTocEntry> copyRenameTocEntries)
 			throws GatherException, NovusException {
 		boolean docFound = true;
 		boolean excludeDocumentFound = false;
@@ -170,8 +173,8 @@ public class TocServiceImpl implements TocService {
 							excludeDocumentFound = true;
 							copyExcludeDocuments.remove(excludeDocument);
 							break;
-					} 
-			}
+						} 
+					}
 				}
 			}
 			
@@ -188,60 +191,75 @@ public class TocServiceImpl implements TocService {
 			}
 			
 			if (!excludeDocumentFound) {
-			name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
-					.append(EBConstants.TOC_START_NAME_ELEMENT)
-					.append(node.getName().replaceAll("\\<.*?>", ""))
-					.append(EBConstants.TOC_END_NAME_ELEMENT);
-			StringBuffer tocGuid = new StringBuffer();
-			tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
-					.append(node.getGuid().replaceAll("\\<.*?>", ""))
-					.append(EBConstants.TOC_END_GUID_ELEMENT);
-
-			StringBuffer docGuid = new StringBuffer();
-
-			if (documentGuid != null) {
-				docFound = true;
-				docCounter[0]++;
-				docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
-						.append(documentGuid)
-						.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
+				String label = node.getName().replaceAll("\\<.*?>", "");
+				String guid = node.getGuid().replaceAll("\\<.*?>", "");
+				
+				// Check if name needs to be relabelled
+				if ((renameTocEntries != null) &&(renameTocEntries.size() > 0)
+						&& (copyRenameTocEntries != null)){
+					for (RenameTocEntry renameTocEntry : renameTocEntries) {
+						if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
+							label = renameTocEntry.getNewLabel();
+							copyRenameTocEntries.remove(renameTocEntry);
+							break;
+						}
+					}
 				}
-
-
-			if (node.getChildrenCount() == 0) {
-				if (docFound == false) {
-					docGuid.append("<MissingDocument></MissingDocument>");
+				
+				name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
+						.append(EBConstants.TOC_START_NAME_ELEMENT)
+						.append(label)
+						.append(EBConstants.TOC_END_NAME_ELEMENT);
+				StringBuffer tocGuid = new StringBuffer();
+				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
+						.append(guid)
+						.append(EBConstants.TOC_END_GUID_ELEMENT);
+	
+				StringBuffer docGuid = new StringBuffer();
+	
+				if (documentGuid != null) {
 					docFound = true;
+					docCounter[0]++;
+					docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
+							.append(documentGuid)
+							.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
+					}
+	
+	
+				if (node.getChildrenCount() == 0) {
+					if (docFound == false) {
+						docGuid.append("<MissingDocument></MissingDocument>");
+						docFound = true;
+					}
+					docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
+				} else {
+					iParent[0]++;
 				}
-				docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
-			} else {
-				iParent[0]++;
-			}
-
-			// Example of output:
-			// <EBookToc>
-			// <Name>Primary Source with Annotations</Name>
-			// <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
-
-			String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
-					.toString());
-
-			counter[0]++;
-
-			// LOG.debug(" document count : " + docCounter + " out of " +
-			// counter + " nodes" );
-
-			try {
-				out.write(payloadFormatted);
-				out.write("\r\n");
-				out.flush();
-			} catch (IOException e) {
-				LOG.error(e.getMessage());
-				GatherException ge = new GatherException(
-						"Failed writing to TOC ", e,
-						GatherResponse.CODE_FILE_ERROR);
-				throw ge;
-			}
+	
+				// Example of output:
+				// <EBookToc>
+				// <Name>Primary Source with Annotations</Name>
+				// <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
+	
+				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
+						.toString());
+	
+				counter[0]++;
+	
+				// LOG.debug(" document count : " + docCounter + " out of " +
+				// counter + " nodes" );
+	
+				try {
+					out.write(payloadFormatted);
+					out.write("\r\n");
+					out.flush();
+				} catch (IOException e) {
+					LOG.error(e.getMessage());
+					GatherException ge = new GatherException(
+							"Failed writing to TOC ", e,
+							GatherResponse.CODE_FILE_ERROR);
+					throw ge;
+				}
 			}
 
 			TOCNode[] tocNodes = null;
@@ -292,7 +310,7 @@ public class TocServiceImpl implements TocService {
 
 			if (tocNodes != null) {
 				docFound = printNodes(tocNodes, _tocManager, out, counter,
-						docCounter, iParent, excludeDocuments, copyExcludeDocuments);
+						docCounter, iParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 			}
 		}
 		return docFound;
@@ -306,7 +324,7 @@ public class TocServiceImpl implements TocService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String guid,
-			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments) throws GatherException {
+			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) throws GatherException {
 		TOC _tocManager = null;
 		Writer out = null;
 		int[] counter = { 0 };
@@ -328,11 +346,22 @@ public class TocServiceImpl implements TocService {
 		if (excludeDocuments != null) {
 			copyExcludDocs = new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
 		}
+		
+		ArrayList<RenameTocEntry> copyRenameTocs = null;
+		
+		// Make a copy of the original rename TOC entries to check that all have been accounted for
+		if (renameTocEntries != null) {
+			copyRenameTocs = new ArrayList<RenameTocEntry>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
+		}
 
 		try {
 			
 			if (excludeDocuments != null) {
-			Collections.copy(copyExcludDocs, excludeDocuments);
+				Collections.copy(copyExcludDocs, excludeDocuments);
+			}
+			
+			if (renameTocEntries != null) {
+				Collections.copy(copyRenameTocs, renameTocEntries);
 			}
 
 			out = new BufferedWriter(new OutputStreamWriter(
@@ -341,7 +370,7 @@ public class TocServiceImpl implements TocService {
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
 			retrieveNodes(guid, _tocManager, out, counter, docCounter,
-					retryCounter, iParent, excludeDocuments, copyExcludDocs);
+					retryCounter, iParent, excludeDocuments, copyExcludDocs, renameTocEntries, copyRenameTocs);
 
 			LOG.info(docCounter[0] + " documents and " + counter[0]
 					+ " nodes in the TOC hierarchy for guid " + guid
@@ -393,6 +422,17 @@ public class TocServiceImpl implements TocService {
 							"Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString()
 					);
 					publishStatus = "TOC Step Failed with Not all Excluded Docs accounted for error";
+					throw ge;				
+				}
+				if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
+					StringBuffer unaccountedRenameTocs = new StringBuffer();
+					for (RenameTocEntry renameTocEntry : copyRenameTocs) {
+						unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
+					}
+					GatherException ge = new GatherException(
+							"Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs.toString()
+					);
+					publishStatus = "TOC Step Failed with Not all Rename TOCs accounted for error";
 					throw ge;				
 				}
 				

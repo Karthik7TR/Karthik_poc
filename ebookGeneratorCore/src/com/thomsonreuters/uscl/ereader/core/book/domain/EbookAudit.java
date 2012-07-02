@@ -310,6 +310,12 @@ public class EbookAudit implements Serializable {
 	@Column(name = "EXCLUDED_DOCUMENTS_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String excludeDocumentsConcat;
+	
+	/**
+	 */
+	@Column(name = "RENAME_TOC_ENTRY_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String renameTocEntryConcat;
 
 	/**
 	 */
@@ -736,6 +742,7 @@ public class EbookAudit implements Serializable {
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
 		setIncludeAnnotations(that.getIncludeAnnotations());
+		setRenameTocEntryConcat(that.getRenameTocEntryConcat());
 	}
 
 	/**
@@ -785,6 +792,7 @@ public class EbookAudit implements Serializable {
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
+		setRenameTocEntryConcat(maxString(concatString(that.getRenameTocEntries()), MAX_CHARACTER_2048));
 		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 	
@@ -856,6 +864,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("pilotBookStatus=[").append(pilotBookStatus).append("] ");
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
+		buffer.append("renameTocEntryConcat=[").append(renameTocEntryConcat).append("] ");
 		
 		return buffer.toString();
 	}
@@ -1006,6 +1015,14 @@ public class EbookAudit implements Serializable {
 
 	public void setExcludeDocumentsConcat(String excludeDocumentsConcat) {
 		this.excludeDocumentsConcat = excludeDocumentsConcat;
+	}
+
+	public String getRenameTocEntryConcat() {
+		return renameTocEntryConcat;
+	}
+
+	public void setRenameTocEntryConcat(String renameTocEntryConcat) {
+		this.renameTocEntryConcat = renameTocEntryConcat;
 	}
 
 	public String getFrontMatterTocLabel() {

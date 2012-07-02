@@ -34,6 +34,7 @@
 		var authorIndex = ${numberOfAuthors};
 		var frontMatterPageIndex = ${numberOfFrontMatters};
 		var excludeDocumentIndex = ${numberOfExcludeDocuments};
+		var renameTocEntryIndex = ${numberOfRenameTocEntries};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -146,13 +147,16 @@
 			authorIndex = authorIndex + 1;
 		};
 		
-		var addDynamicRow = function(id, name, fieldName, label, maxLength) {
+		var addDynamicRow = function(id, name, fieldName, label, maxLength, cssClass) {
 			var dynamicRow = $("<div>").addClass("dynamicRow");
 			dynamicRow.append($("<label>").html(label));
 			
 			var input = $("<input>").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName).attr("type", "text");
 			if(maxLength != null) {
 				input.attr("maxlength", maxLength);
+			}
+			if(cssClass != null) {
+				input.attr("class", cssClass);
 			}
 			
 			dynamicRow.append(input);
@@ -186,7 +190,7 @@
 			var name = "excludeDocuments[" + excludeDocumentIndex + "]";
 			
 			// Add Document Guid input boxes
-			expandingBox.append(addDynamicRow(id, name, "documentGuid", "Document Guid", 33));
+			expandingBox.append(addDynamicRow(id, name, "documentGuid", "Document Guid", 33, "guid"));
 			
 			// Add Note text box
 			var additionalText = $("<div>").addClass("dynamicRow");
@@ -205,6 +209,38 @@
 		
 			$("#addExcludeDocumentHere").before(expandingBox);
 			excludeDocumentIndex = excludeDocumentIndex + 1;
+		};
+		
+		// Add another Rename TOC Entry row
+		var addRenameTocEntryRow = function() {
+			var expandingBox = $("<div>").addClass("expandingBox");
+			var id = "renameTocEntries" + renameTocEntryIndex;
+			var name = "renameTocEntries[" + renameTocEntryIndex + "]";
+			
+			// Add Document Guid input boxes
+			expandingBox.append(addDynamicRow(id, name, "tocGuid", "Guid", 33, "guid"));
+			
+			// Add old and new labels
+			expandingBox.append(addDynamicRow(id, name, "oldLabel", "Old Label"));
+			expandingBox.append(addDynamicRow(id, name, "newLabel", "New Label"));
+			
+			// Add Note text box
+			var additionalText = $("<div>").addClass("dynamicRow");
+			additionalText.append($("<label>").html("Note"));
+			additionalText.append($("<textarea>").attr("id",id +".note").attr("name", name + ".note"));
+			expandingBox.append(additionalText);
+			
+			// Add Date input box
+			var lastUpdated = $("<div>").addClass("dynamicRow");
+			lastUpdated.append($("<label>").html("Last Updated"));
+			lastUpdated.append($("<input>").attr("id",id +".lastUpdated").attr("name", name + ".lastUpdated").attr("type", "text").attr("disabled","disabled").val(getDateTimeString(new Date())));
+			expandingBox.append(lastUpdated);
+			
+			// Add delete button
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Rename TOC Entry").attr("type", "button").val("Delete"));
+		
+			$("#addRenameTocEntryHere").before(expandingBox);
+			renameTocEntryIndex = renameTocEntryIndex + 1;
 		};
 		
 		// Add another additional Front Matter Page row
@@ -365,13 +401,13 @@
 			}
 		};
 		
-		var showExcludeDocument = function() {
-			var displayExcludeDocument = $('input:radio[name=excludeDocumentsUsed]:checked').val();
-			if(displayExcludeDocument == "true") {
-				$("#displayExcludeDocument").show();
+		var showSelectOptions = function(radioName, elementName) {
+			var display = $('input:radio[name='+ radioName +']:checked').val();
+			if(display == "true") {
+				$(elementName).show();
 			} else {
-				$("#displayExcludeDocument").hide();
-				$("#displayExcludeDocument .expandingBox").remove();
+				$(elementName).hide();
+				$(elementName +" .expandingBox").remove();
 			};
 		};
 		
@@ -464,6 +500,10 @@
 				addExcludeDocumentRow();
 			});
 			
+			$('#addRenameTocEntry').click(function () {
+				addRenameTocEntryRow();
+			});
+			
 			// Clicking the Additional Front Matter preview button 
 			$('.fmPreview').live("click", function() {
 				var pageSequenceNumber = $(this).parent().children(".sequenceNumber").val();
@@ -535,7 +575,11 @@
 			
 			// Determine to show Exclude Document
 			$('input:radio[name=excludeDocumentsUsed]').change(function () {
-				showExcludeDocument();
+				showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
+			});
+			
+			$('input:radio[name=renameTocEntriesUsed]').change(function () {
+				showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
 			});
 			
 			// Close or open the Keyword values
@@ -672,7 +716,8 @@
 			$('#titleIdBox').val($('#titleId').val());
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			showPubCutoffDateBox();
-			showExcludeDocument();
+			showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
+			showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
@@ -844,6 +889,14 @@
 					<form:errors path="excludeDocumentsUsed" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="row">
+				<form:label path="renameTocEntriesUsed" class="labelCol">Enable Rename TOC Labels</form:label>
+				<form:radiobutton path="renameTocEntriesUsed" value="true" />Yes
+				<form:radiobutton path="renameTocEntriesUsed" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="renameTocEntriesUsed" cssClass="errorMessage" />
+				</div>
+			</div>
 		</div>
 		
 		<div class="rightDefinitionForm">
@@ -946,7 +999,7 @@
 		<div class="expandingBox">
 			<div class="dynamicRow">
 				<label>Document Guid</label>
-				<form:input path="excludeDocuments[${aStatus.index}].documentGuid" maxlength="33" />
+				<form:input cssClass="guid" path="excludeDocuments[${aStatus.index}].documentGuid" maxlength="33" />
 				<div class="errorDiv">
 					<form:errors path="excludeDocuments[${aStatus.index}].documentGuid" cssClass="errorMessage" />
 				</div>
@@ -970,6 +1023,63 @@
 		</div>
 	</c:forEach>
 	<div id="addExcludeDocumentHere"></div>
+</div>
+
+<div id="displayRenameTocEntry" style="display:none;">
+	<c:forEach items="${editBookDefinitionForm.renameTocEntriesCopy}" var="tocCopy" varStatus="aStatus">
+			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].tocGuid" />
+			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].oldLabel" />
+			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].newLabel" />
+			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].note" />
+			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].lastUpdated"/>
+	</c:forEach>
+	<label class="labelCol">Rename TOC Labels</label>
+	<input type="button" id="addRenameTocEntry" value="add" />
+	<div class="errorDiv">
+		<form:errors path="renameTocEntries" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.renameTocEntries}" var="toc" varStatus="aStatus">
+		<div class="expandingBox">
+			<div class="dynamicRow">
+				<label>Guid</label>
+				<form:input cssClass="guid" path="renameTocEntries[${aStatus.index}].tocGuid" maxlength="33" />
+				<div class="errorDiv">
+					<form:errors path="renameTocEntries[${aStatus.index}].tocGuid" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Old Label</label>
+				<form:input path="renameTocEntries[${aStatus.index}].oldLabel" />
+				<div class="errorDiv">
+					<form:errors path="renameTocEntries[${aStatus.index}].oldLabel" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>New Label</label>
+				<form:input path="renameTocEntries[${aStatus.index}].newLabel" />
+				<div class="errorDiv">
+					<form:errors path="renameTocEntries[${aStatus.index}].newLabel" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Note</label>
+				<form:textarea path="renameTocEntries[${aStatus.index}].note" />
+				<div class="errorDiv">
+					<form:errors path="renameTocEntries[${aStatus.index}].note" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Last Updated</label>
+				<form:input disabled="true" path="renameTocEntries[${aStatus.index}].lastUpdated" />
+				<form:hidden path="renameTocEntries[${aStatus.index}].lastUpdated"/>
+				<div class="errorDiv">
+					<form:errors path="renameTocEntries[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+				</div>
+			</div>
+			<input type="button" value="Delete" class="rdelete" title="Delete Rename TOC Entry" />
+		</div>
+	</c:forEach>
+	<div id="addRenameTocEntryHere"></div>
 </div>
 
 <div id="proviewSection" class="section">

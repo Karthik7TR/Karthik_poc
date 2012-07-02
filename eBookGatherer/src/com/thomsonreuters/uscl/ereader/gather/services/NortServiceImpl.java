@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -58,7 +59,8 @@ public class NortServiceImpl implements NortService {
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
 			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments,
-			ArrayList<ExcludeDocument> copyExcludeDocuments)
+			ArrayList<ExcludeDocument> copyExcludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
+			ArrayList<RenameTocEntry> copyRenameTocEntries)
 			throws GatherException {
 
 		NortNode[] nortNodes = null;
@@ -105,7 +107,7 @@ public class NortServiceImpl implements NortService {
 			counters[RETRYCOUNT] += novusNortRetryCounter;
 			Map<String, String> tocGuidDateMap = new HashMap<String, String>();
 			printNodes(nortNodes, _nortManager, out, counters, iParent,
-					YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
+					YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 		} 
 		catch (GatherException e) {
 			LOG.error("Failed with Exception in NORT");
@@ -123,14 +125,15 @@ public class NortServiceImpl implements NortService {
 	public boolean printNodes(NortNode[] nodes, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
 			Map<String, String> tocGuidDateMap,	ArrayList<ExcludeDocument> excludeDocuments, 
-			ArrayList<ExcludeDocument> copyExcludeDocuments) throws GatherException,
+			ArrayList<ExcludeDocument> copyExcludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
+			ArrayList<RenameTocEntry> copyRenameTocEntries) throws GatherException,
 			ParseException {
 		boolean docFound = true;
 		if (nodes != null) {
 			try {
 				for (NortNode node : nodes) {
 					docFound = printNode(node, _nortManager, out, counters,
-							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
+							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 					// if (docFound == false)
 					// {
 					// LOG.debug("docFound set false for " + node.getLabel());
@@ -173,7 +176,8 @@ public class NortServiceImpl implements NortService {
 	public boolean printNode(NortNode node, NortManager _nortManager,
 			Writer out, int[] counters, int[] iParent, String YYYYMMDDHHmmss,
 			Map<String, String> tocGuidDateMap, ArrayList<ExcludeDocument> excludeDocuments,
-			ArrayList<ExcludeDocument> copyExcludeDocuments) throws GatherException,
+			ArrayList<ExcludeDocument> copyExcludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
+			ArrayList<RenameTocEntry> copyRenameTocEntries) throws GatherException,
 			NovusException, ParseException {
 		boolean docFound = true;
 		boolean excludeDocumentFound = false;
@@ -203,14 +207,16 @@ public class NortServiceImpl implements NortService {
 							excludeDocumentFound = true;
 							copyExcludeDocuments.remove(excludeDocument);
 							break;
-					} 
+						}
 					}
 				} 
 			}
-				
+			
+			String guid = node.getGuid().replaceAll("\\<.*?>", "");
+
 			if (!excludeDocumentFound) {
 				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
-						.append(node.getGuid().replaceAll("\\<.*?>", ""))
+						.append(guid)
 						.append(counters[NODECOUNT])
 						.append(EBConstants.TOC_END_GUID_ELEMENT);
 			}
@@ -223,142 +229,154 @@ public class NortServiceImpl implements NortService {
 			// _nortManager.setNortVersion and remove above.
 			{
 				if (!excludeDocumentFound){
-				if (node.getLabel() == null ) // Fail with empty Name
-				{
-					String err = "Failed with empty node Label for guid " + node.getGuid();
-						LOG.error(err);
-				GatherException ge = new GatherException(
-						err,
-						GatherResponse.CODE_NOVUS_ERROR);
-					throw ge;
-				}
-				
-				String endDate = node
-						.getPayloadElement("/n-nortpayload/n-end-date");
-				String startDate = node
-						.getPayloadElement("/n-nortpayload/n-start-date");
-				DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-				DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
-
-				if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss)) {
-					Date date = formatter.parse(startDate);
-					boolean bAncestorFound = false;
-
-					String startDateFinal = formatterFinal.format(date);
-
-					// String payload = node.getPayload();
-					// Determine if date is already used by this ancestor
-					// for (String tocAncestor : tocGuidDateMap.keySet())
-					// {
-					// if (payload.contains(tocAncestor) )
-					// {
-					// String ancestorDate = tocGuidDateMap.get(tocAncestor);
-					// if(ancestorDate.equals(startDate))
-					// {
-					// bAncestorFound = true;
-					// name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
-					// break;
-					// }
-					//
-					// }
-					// }
-					if (bAncestorFound == false) {
-						name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
-								.append(EBConstants.TOC_START_NAME_ELEMENT)
-								.append(node.getLabel().replaceAll("\\<.*?>",
-										"")).append(" (effective ")
-								.append(startDateFinal).append(") ")
-								.append(EBConstants.TOC_END_NAME_ELEMENT);
-						tocGuidDateMap.put(
-								tocGuid.toString().replaceAll("\\<.*?>", ""),
-								startDate);
-					}
-				} else if (Long.valueOf(endDate) < Long
-						.valueOf("20970101235959")) {
-
-					Date date = formatter.parse(endDate);
-					boolean bAncestorFound = false;
-
-					// String payload = node.getPayload();
-					// Determine if date is already used by this ancestor
-					// for (String tocAncestor : tocGuidDateMap.keySet())
-					// {
-					// if (payload.contains(tocAncestor) )
-					// {
-					// String ancestorDate = tocGuidDateMap.get(tocAncestor);
-					// if(ancestorDate.equals(endDate))
-					// {
-					// bAncestorFound = true;
-					// name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
-					// break;
-					// }
-					//
-					// }
-					// }
-					if (bAncestorFound == false) {
-
-						String endDateFinal = formatterFinal.format(date);
-
-						name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
-								.append(EBConstants.TOC_START_NAME_ELEMENT)
-								.append(node.getLabel().replaceAll("\\<.*?>",
-										"")).append(" (end effective ")
-								.append(endDateFinal).append(") ")
-								.append(EBConstants.TOC_END_NAME_ELEMENT);
-
-						tocGuidDateMap.put(
-								tocGuid.toString().replaceAll("\\<.*?>", ""),
-								endDate);
-					}
-				} else {
-					name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
-							.append(EBConstants.TOC_START_NAME_ELEMENT)
-							.append(node.getLabel().replaceAll("\\<.*?>", ""))
-							.append(EBConstants.TOC_END_NAME_ELEMENT);
-				}
-				
-				if (docFound) {
-					docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
-					.append(documentGuid)
-					.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
-					docFound = true;
-					counters[DOCCOUNT]++;
-				}
-				
-
-				if (node.getChildrenCount() == 0) {
-					if (docFound == false) {
-						docGuid.append("<MissingDocument></MissingDocument>");
-						docFound = true;
-					}
-					docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
-				} else {
-					iParent[0]++;
-				}
-
-				// Example of output:
-				// <EBookToc>
-				// <Name>Primary Source with Annotations</Name>
-				// <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
-
-				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
-						.toString());
-
-				// LOG.debug(" document count : " + docCounter + " out of " +
-				// counter + " nodes" );
-
-				try {
-					out.write(payloadFormatted);
-					out.write("\r\n");
-					out.flush();
-				} catch (IOException e) {
-					LOG.debug(e.getMessage());
+					if (node.getLabel() == null ) // Fail with empty Name
+					{
+						String err = "Failed with empty node Label for guid " + node.getGuid();
+							LOG.error(err);
 					GatherException ge = new GatherException(
-							"Failed writing to NORT TOC ", e,
-							GatherResponse.CODE_FILE_ERROR);
-					throw ge;
+							err,
+							GatherResponse.CODE_NOVUS_ERROR);
+						throw ge;
+					}
+					
+					String label = node.getLabel().replaceAll("\\<.*?>", "");
+					
+					// Check if name needs to be relabelled
+					if ((renameTocEntries != null) &&(renameTocEntries.size() > 0)
+							&& (copyRenameTocEntries != null)){
+						for (RenameTocEntry renameTocEntry : renameTocEntries) {
+							if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
+								label = renameTocEntry.getNewLabel();
+								copyRenameTocEntries.remove(renameTocEntry);
+								break;
+							}
+						}
+					}
+					
+					String endDate = node
+							.getPayloadElement("/n-nortpayload/n-end-date");
+					String startDate = node
+							.getPayloadElement("/n-nortpayload/n-start-date");
+					DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+					DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
+	
+					if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss)) {
+						Date date = formatter.parse(startDate);
+						boolean bAncestorFound = false;
+	
+						String startDateFinal = formatterFinal.format(date);
+	
+						// String payload = node.getPayload();
+						// Determine if date is already used by this ancestor
+						// for (String tocAncestor : tocGuidDateMap.keySet())
+						// {
+						// if (payload.contains(tocAncestor) )
+						// {
+						// String ancestorDate = tocGuidDateMap.get(tocAncestor);
+						// if(ancestorDate.equals(startDate))
+						// {
+						// bAncestorFound = true;
+						// name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+						// break;
+						// }
+						//
+						// }
+						// }
+						if (bAncestorFound == false) {
+							name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
+									.append(EBConstants.TOC_START_NAME_ELEMENT)
+									.append(label).append(" (effective ")
+									.append(startDateFinal).append(") ")
+									.append(EBConstants.TOC_END_NAME_ELEMENT);
+							tocGuidDateMap.put(
+									tocGuid.toString().replaceAll("\\<.*?>", ""),
+									startDate);
+						}
+					} else if (Long.valueOf(endDate) < Long
+							.valueOf("20970101235959")) {
+	
+						Date date = formatter.parse(endDate);
+						boolean bAncestorFound = false;
+	
+						// String payload = node.getPayload();
+						// Determine if date is already used by this ancestor
+						// for (String tocAncestor : tocGuidDateMap.keySet())
+						// {
+						// if (payload.contains(tocAncestor) )
+						// {
+						// String ancestorDate = tocGuidDateMap.get(tocAncestor);
+						// if(ancestorDate.equals(endDate))
+						// {
+						// bAncestorFound = true;
+						// name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT).append(EBConstants.TOC_START_NAME_ELEMENT).append(node.getLabel().replaceAll("\\<.*?>","")).append(EBConstants.TOC_END_NAME_ELEMENT);
+						// break;
+						// }
+						//
+						// }
+						// }
+						if (bAncestorFound == false) {
+	
+							String endDateFinal = formatterFinal.format(date);
+	
+							name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
+									.append(EBConstants.TOC_START_NAME_ELEMENT)
+									.append(label).append(" (end effective ")
+									.append(endDateFinal).append(") ")
+									.append(EBConstants.TOC_END_NAME_ELEMENT);
+	
+							tocGuidDateMap.put(
+									tocGuid.toString().replaceAll("\\<.*?>", ""),
+									endDate);
+						}
+					} else {
+						name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
+								.append(EBConstants.TOC_START_NAME_ELEMENT)
+								.append(label)
+								.append(EBConstants.TOC_END_NAME_ELEMENT);
+					}
+					
+					if (docFound) {
+						docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
+						.append(documentGuid)
+						.append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
+						docFound = true;
+						counters[DOCCOUNT]++;
+					}
+					
+	
+					if (node.getChildrenCount() == 0) {
+						if (docFound == false) {
+							docGuid.append("<MissingDocument></MissingDocument>");
+							docFound = true;
+						}
+						docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
+					} else {
+						iParent[0]++;
+					}
+	
+					// Example of output:
+					// <EBookToc>
+					// <Name>Primary Source with Annotations</Name>
+					// <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
+	
+					String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
+							.toString());
+	
+					// LOG.debug(" document count : " + docCounter + " out of " +
+					// counter + " nodes" );
+	
+					try {
+						out.write(payloadFormatted);
+						out.write("\r\n");
+						out.flush();
+					} catch (IOException e) {
+						LOG.debug(e.getMessage());
+						GatherException ge = new GatherException(
+								"Failed writing to NORT TOC ", e,
+								GatherResponse.CODE_FILE_ERROR);
+						throw ge;
+					}
 				}
-			}
 				
 
 				NortNode[] nortNodes = null;
@@ -402,7 +420,7 @@ public class NortServiceImpl implements NortService {
 					}
 
 					docFound = printNodes(nortNodes, _nortManager, out,
-							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments);
+							counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
 				}
 
 			} else {
@@ -428,7 +446,7 @@ public class NortServiceImpl implements NortService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String domainName,
-			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments)
+			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries)
 			throws GatherException {
 		NortManager _nortManager = null;
 		Writer out = null;
@@ -447,13 +465,24 @@ public class NortServiceImpl implements NortService {
 		// Make a copy of the original excluded documents to check that all have been accounted for
 		if (excludeDocuments != null) {
 			copyExcludDocs = new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
-		}		
+		}
+		
+		ArrayList<RenameTocEntry> copyRenameTocs = null;
+		
+		// Make a copy of the original rename toc entries to check that all have been accounted for
+		if(renameTocEntries != null) {
+			copyRenameTocs = new ArrayList<RenameTocEntry>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
+		}
 
 		try {
 			
 			if (excludeDocuments != null) {
 				Collections.copy(copyExcludDocs, excludeDocuments);
-				}
+			}
+			
+			if (renameTocEntries != null) {
+				Collections.copy(copyRenameTocs, renameTocEntries);
+			}
 			
 			// TODO: fix after Test1 testing.
 			String YYYYMMDDHHmmss;
@@ -475,7 +504,7 @@ public class NortServiceImpl implements NortService {
 			out.write(EBConstants.TOC_XML_ELEMENT);
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
-			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss, excludeDocuments, copyExcludDocs);
+			retrieveNodes(_nortManager, out, counters, iParent, YYYYMMDDHHmmss, excludeDocuments, copyExcludDocs, renameTocEntries, copyRenameTocs);
 
 			LOG.info(counters[DOCCOUNT] + " documents " + counters[SKIPCOUNT]
 					+ " skipped nodes  and " + counters[NODECOUNT]
@@ -522,7 +551,18 @@ public class NortServiceImpl implements NortService {
 					);
 					publishStatus = "TOC NORT Step Failed with Not all Excluded Docs accounted for error";
 					throw ge;				
-				}				
+				}
+				if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
+					StringBuffer unaccountedRenameTocs = new StringBuffer();
+					for (RenameTocEntry renameTocEntry : copyRenameTocs) {
+						unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
+					}
+					GatherException ge = new GatherException(
+							"Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs.toString()
+					);
+					publishStatus = "TOC NORT Step Failed with Not all Rename TOCs accounted for error";
+					throw ge;				
+				}
 			} catch (IOException e) {
 				LOG.error(e.getMessage());
 				GatherException ge = new GatherException(

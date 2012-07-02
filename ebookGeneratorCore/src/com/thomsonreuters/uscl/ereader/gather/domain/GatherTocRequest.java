@@ -13,24 +13,27 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 
 public class GatherTocRequest {
 
 	private String guid;
 	private String collectionName;
 	private File tocFile;
-	private ArrayList<ExcludeDocument> excludeDocuments;	
+	private ArrayList<ExcludeDocument> excludeDocuments;
+	private ArrayList<RenameTocEntry> renameTocEntries;
 
 	public GatherTocRequest(){
 		super();
 	}
 	
-	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments) {
+	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) {
 		super();
 		this.guid = guid;
 		this.collectionName = collectionName;
 		this.tocFile = tocFile;
-		this.excludeDocuments = excludeDocuments;		
+		this.excludeDocuments = excludeDocuments;
+		this.renameTocEntries = renameTocEntries;
 	}
 
 	public String getCollectionName() {
@@ -105,7 +108,12 @@ public class GatherTocRequest {
 		this.excludeDocuments = excludeDocuments;
 	}
 
+	public ArrayList<RenameTocEntry> getRenameTocEntries() {
+		return renameTocEntries;
+	}
+
+	public void setRenameTocEntries(ArrayList<RenameTocEntry> renameTocEntries) {
+		this.renameTocEntries = renameTocEntries;
+	}
 	
-
-
 }

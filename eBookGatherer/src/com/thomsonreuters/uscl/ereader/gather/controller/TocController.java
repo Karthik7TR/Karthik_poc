@@ -42,7 +42,7 @@ public class TocController {
 		try {
 			File tocXmlFile = tocRequest.getTocFile();
 
-			gatherResponse = tocService.findTableOfContents(tocRequest.getGuid(), tocRequest.getCollectionName(), tocXmlFile, tocRequest.getExcludeDocuments());
+			gatherResponse = tocService.findTableOfContents(tocRequest.getGuid(), tocRequest.getCollectionName(), tocXmlFile, tocRequest.getExcludeDocuments(), tocRequest.getRenameTocEntries());
 			// Create EBook TOC file on specified path
 		} catch (GatherException e) {
 			String errorMessage = e.getMessage();

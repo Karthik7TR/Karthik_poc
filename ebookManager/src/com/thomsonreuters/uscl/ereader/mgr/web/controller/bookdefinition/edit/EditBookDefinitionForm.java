@@ -36,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class EditBookDefinitionForm {
@@ -56,6 +57,9 @@ public class EditBookDefinitionForm {
 	private boolean isExcludeDocumentsUsed;
 	private Collection<ExcludeDocument> excludeDocuments;
 	private Collection<ExcludeDocument> excludeDocumentsCopy;
+	private boolean isRenameTocEntriesUsed;
+	private Collection<RenameTocEntry> renameTocEntries;
+	private Collection<RenameTocEntry> renameTocEntriesCopy;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
 	private boolean isTOC;
@@ -109,6 +113,8 @@ public class EditBookDefinitionForm {
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.excludeDocuments = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
 		this.excludeDocumentsCopy = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
+		this.renameTocEntries = new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class);
+		this.renameTocEntriesCopy = new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class);
 		this.keywords = new AutoPopulatingList<String>(String.class);
 		this.isProviewTableView = false;
 		this.isComplete = false;
@@ -118,6 +124,7 @@ public class EditBookDefinitionForm {
 		this.searchIndex = true;
 		this.enableCopyFeatureFlag = true;
 		this.isExcludeDocumentsUsed = false;
+		this.isRenameTocEntriesUsed = false;
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
@@ -140,6 +147,7 @@ public class EditBookDefinitionForm {
 		bookDef.setEbookDefinitionCompleteFlag(false);
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
 		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
+		bookDef.setRenameTocEntries(new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class));
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		
 		// Need to null surrogate and foreign keys.
@@ -188,11 +196,18 @@ public class EditBookDefinitionForm {
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			this.excludeDocuments = book.getExcludeDocuments();
 			this.excludeDocumentsCopy = book.getExcludeDocuments();
+			this.renameTocEntries = book.getRenameTocEntries();
+			this.renameTocEntriesCopy = book.getRenameTocEntries();
 			this.includeAnnotations = book.getIncludeAnnotations();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
 				this.isExcludeDocumentsUsed = true;
+			}
+			
+			// Determine if RenameTocEntries are present in Book Definition
+			if (book.getRenameTocEntries().size() > 0) {
+				this.isRenameTocEntriesUsed = true;
 			}
 			
 			// Determine if Publish Cut-off Date is used
@@ -323,6 +338,21 @@ public class EditBookDefinitionForm {
 		}
 		book.setExcludeDocuments(excludeDocuments);
 		
+		// Compare with copy to determine if date needs update
+		for(RenameTocEntry label : renameTocEntries) {
+			boolean exists = false;
+			label.setBookDefinition(book);
+			for(RenameTocEntry labelCopy : renameTocEntriesCopy) {
+				if(label.equals(labelCopy)) {
+					exists = true;
+				}
+			}
+			// Update date
+			if(!exists) {
+				label.setLastUpdated(new Date());
+			}
+		}
+		book.setRenameTocEntries(renameTocEntries);
 		
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
 		book.setCopyright(copyright);
@@ -485,6 +515,31 @@ public class EditBookDefinitionForm {
 	public void setExcludeDocumentsCopy(
 			Collection<ExcludeDocument> excludeDocumentsCopy) {
 		this.excludeDocumentsCopy = excludeDocumentsCopy;
+	}
+
+	public boolean isRenameTocEntriesUsed() {
+		return isRenameTocEntriesUsed;
+	}
+
+	public void setRenameTocEntriesUsed(boolean isRenameTocEntriesUsed) {
+		this.isRenameTocEntriesUsed = isRenameTocEntriesUsed;
+	}
+
+	public Collection<RenameTocEntry> getRenameTocEntries() {
+		return renameTocEntries;
+	}
+
+	public void setRenameTocEntries(Collection<RenameTocEntry> renameTocEntries) {
+		this.renameTocEntries = renameTocEntries;
+	}
+
+	public Collection<RenameTocEntry> getRenameTocEntriesCopy() {
+		return renameTocEntriesCopy;
+	}
+
+	public void setRenameTocEntriesCopy(
+			Collection<RenameTocEntry> renameTocEntriesCopy) {
+		this.renameTocEntriesCopy = renameTocEntriesCopy;
 	}
 
 	public String getCopyright() {
@@ -837,6 +892,14 @@ public class EditBookDefinitionForm {
         for (Iterator<ExcludeDocument> i = excludeDocuments.iterator(); i.hasNext();) {
         	ExcludeDocument document = i.next();
             if (document == null || document.isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        //Clear out empty RenameTocEntry
+        for (Iterator<RenameTocEntry> i = renameTocEntries.iterator(); i.hasNext();) {
+        	RenameTocEntry label = i.next();
+            if (label == null || label.isEmpty()) {
                 i.remove();
             }
         }

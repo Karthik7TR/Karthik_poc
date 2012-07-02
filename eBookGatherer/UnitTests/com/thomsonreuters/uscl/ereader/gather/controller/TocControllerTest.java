@@ -43,11 +43,11 @@ public class TocControllerTest {
 		File tocFile = new File(TOC_DIR, "file");
 //		Long jobId =  new Long(1);
 		GatherResponse gatherResponse = new GatherResponse();
-		EasyMock.expect(mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile, null)).andReturn(gatherResponse);
+		EasyMock.expect(mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile, null, null)).andReturn(gatherResponse);
 		EasyMock.replay(mockTocService);
 
     	// Invoke the controller
-    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile, null);
+    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile, null, null);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
     	
@@ -71,7 +71,7 @@ public class TocControllerTest {
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
-			mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile, null);
+			mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile, null, null);
 			EasyMock.expectLastCall().andThrow(expectedException);
 			EasyMock.replay(mockTocService);
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class TocControllerTest {
 		}
 
     	// Invoke the controller
-    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile, null);
+    	GatherTocRequest tocRequest = new GatherTocRequest(guid, COLLECTION_NAME, tocFile, null, null);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
 

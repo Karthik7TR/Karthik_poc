@@ -28,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -191,6 +192,31 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				} else {
 					checkGuidFormat(errors, documentGuid, "excludeDocuments["+ i +"].documentGuid");
 					documentGuids.add(documentGuid);
+				}
+			}
+			i++;
+		}
+		
+		// Validate RenameTocEntry has all required fields
+		i=0;
+		List<String> tocGuids = new ArrayList<String>();
+		for(RenameTocEntry label: form.getRenameTocEntries()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries["+ i +"].tocGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries["+ i +"].oldLabel", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries["+ i +"].newLabel", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, label.getOldLabel(), "renameTocEntries["+ i +"].oldLabel", new Object[] {"Old Label", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, label.getNewLabel(), "renameTocEntries["+ i +"].newLabel", new Object[] {"New Label", MAXIMUM_CHARACTER_1024});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, label.getNote(), "renameTocEntries["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			
+			// Check if there are duplicate guids
+			String tocGuid = label.getTocGuid();
+			if(StringUtils.isNotBlank(tocGuid)) {
+				if(tocGuids.contains(tocGuid)) {
+					errors.rejectValue("renameTocEntries["+ i +"].tocGuid", "error.duplicate", new Object[] {"Guid"}, "Duplicate Guid");
+				} else {
+					checkGuidFormat(errors, tocGuid, "renameTocEntries["+ i +"].tocGuid");
+					tocGuids.add(tocGuid);
 				}
 			}
 			i++;

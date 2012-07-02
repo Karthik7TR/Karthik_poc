@@ -63,7 +63,16 @@
 		    		<value name="note" field="note" usage="required"/>
 		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
 		    	</structure>
-	    	</collection>        
+	    	</collection>
+	    	<collection field="renameTocEntries" usage="optional">
+		    	<structure name="renameTocEntry" type="com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry" usage="optional" value-style="attribute">
+		    		<value name="tocGuid" field="tocGuid" usage="required"/>
+		    		<value name="oldLabel" field="oldLabel" usage="required"/>
+		    		<value name="newLabel" field="newLabel" usage="required"/>
+		    		<value name="note" field="note" usage="required"/>
+		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		    	</structure>
+	    	</collection>  
     </mapping>
     
     <!-- Gather table of contents (nort) service REST request body -->
@@ -79,6 +88,15 @@
 		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
 		    	</structure>
 	    	</collection>
+	    	<collection field="renameTocEntries" usage="optional">
+		    	<structure name="renameTocEntry" type="com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry" usage="optional" value-style="attribute">
+		    		<value name="tocGuid" field="tocGuid" usage="required"/>
+		    		<value name="oldLabel" field="oldLabel" usage="required"/>
+		    		<value name="newLabel" field="newLabel" usage="required"/>
+		    		<value name="note" field="note" usage="required"/>
+		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
+		    	</structure>
+	    	</collection>  
     </mapping>
     
     <!-- Planned Outage -->

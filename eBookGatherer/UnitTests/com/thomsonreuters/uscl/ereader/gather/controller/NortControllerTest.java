@@ -44,11 +44,11 @@ public class NortControllerTest {
 		File tocFile = new File(NORTDIR_DIR, "file");
 		Date cutoffDate = new Date();
 		GatherResponse gatherResponse = new GatherResponse();
-		EasyMock.expect(mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, cutoffDate, null)).andReturn(gatherResponse);
+		EasyMock.expect(mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, cutoffDate, null, null)).andReturn(gatherResponse);
 		EasyMock.replay(mockNortService);
 
     	// Invoke the controller
-    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, cutoffDate, null);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, cutoffDate, null, null);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
     	
@@ -73,7 +73,7 @@ public class NortControllerTest {
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
-			mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, null, null);
+			mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, null, null, null);
 			EasyMock.expectLastCall().andThrow(expectedException);
 			EasyMock.replay(mockNortService);
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class NortControllerTest {
 		}
 
     	// Invoke the controller
-    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, null, null);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, null, null, null);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
 

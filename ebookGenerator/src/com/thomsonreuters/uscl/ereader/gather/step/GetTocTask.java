@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
@@ -63,6 +64,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 		String nortDomainName = bookDefinition.getNortDomain();
 		String nortExpressionFilter = bookDefinition.getNortFilterView();
 		ArrayList<ExcludeDocument> excludeDocuments = (ArrayList<ExcludeDocument>) bookDefinition.getExcludeDocuments();
+		ArrayList<RenameTocEntry> renameTocEntries = (ArrayList<RenameTocEntry>) bookDefinition.getRenameTocEntries();
 		
 		Date nortCutoffDate = null;
 		
@@ -76,7 +78,7 @@ public class GetTocTask  extends AbstractSbTasklet {
         {
 			if(tocCollectionName != null) // TOC
 			{
-			GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments);
+			GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments, renameTocEntries);
 			LOG.debug(gatherTocRequest);
 		
 			gatherResponse = gatherService.getToc(gatherTocRequest);
@@ -84,7 +86,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 			else if(nortDomainName != null) // NORT
 			{
 	//			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
-				GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments);
+				GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments, renameTocEntries);
 				LOG.debug(gatherNortRequest);
 		
 				gatherResponse = gatherService.getNort(gatherNortRequest);
