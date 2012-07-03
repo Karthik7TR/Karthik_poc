@@ -62,40 +62,41 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 
 		int numDocsMetaDataRun = 0;
 
-		// recursively read the directory for parsing the document metadata
-
-		if (metaDataDirectory.isDirectory()) {
-
-			File allFiles[] = metaDataDirectory.listFiles();
-			for (File metadataFile : allFiles) 
+		String publishStatus =  "Completed";
+		try 
+		{
+			// recursively read the directory for parsing the document metadata
+			if (metaDataDirectory.isDirectory()) 
 			{
-				String fileName =  metadataFile.getName();
-				if (fileName.lastIndexOf("-") > -1)
+				File allFiles[] = metaDataDirectory.listFiles();
+				for (File metadataFile : allFiles) 
 				{
-					docCollectionName = fileName.substring(fileName.indexOf("-")+1, fileName.lastIndexOf("-")); 
-				}
-				String publishStatus =  "Completed";
-				try
-				{
-				    docMetadataService.parseAndStoreDocMetadata(titleId,
-					        jobInstanceId, docCollectionName, metadataFile);				     
-				    numDocsMetaDataRun++;
-				}
-				catch(Exception e)
-				{
-					publishStatus =  "Failed " + e.getMessage();
-					throw(e);
-				}
-				finally 
-				{
-					int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
-					updateTitleDocCountStats(jobInstanceId,dupDocCount,publishStatus);
+					String fileName =  metadataFile.getName();
+					if (fileName.lastIndexOf("-") > -1)
+					{
+						docCollectionName = fileName.substring(fileName.indexOf("-")+1, fileName.lastIndexOf("-")); 
+					}
+					docMetadataService.parseAndStoreDocMetadata(titleId,
+						        jobInstanceId, docCollectionName, metadataFile);				     
+					    numDocsMetaDataRun++;
+					
 				}
 			}
-			LOG.debug("Persisted " + numDocsMetaDataRun
+		}
+		catch(Exception e)
+		{
+			publishStatus =  "Failed " + e.getMessage();
+			throw(e);
+		}
+		finally 
+		{
+			int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
+			updateTitleDocCountStats(jobInstanceId,dupDocCount,publishStatus);
+		}
+		LOG.debug("Persisted " + numDocsMetaDataRun
 					+ " Metadata XML files from "
 					+ metaDataDirectory.getAbsolutePath());
-		}
+		
 		return ExitStatus.COMPLETED;
 	}
 
