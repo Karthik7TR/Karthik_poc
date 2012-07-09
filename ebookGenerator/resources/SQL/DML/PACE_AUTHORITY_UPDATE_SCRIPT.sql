@@ -51,3 +51,28 @@ and p.publication_name = '1WAPRAC';
 
 commit;
 
+
+update pace_metadata
+set publication_name = 'LWETR'
+where std_pub_name = 'LOFWETLANDSREG';
+
+update pace_metadata
+set publication_name = 'LWETRDMY'
+where std_pub_name = 'LWETRDMY';
+
+commit;
+
+update pace_metadata
+set std_pub_name = 'MASSPRACLANDLORDANDTENANTLAW'
+where std_pub_name = 'MAPRAC'
+and publication_name = '1WAPRAC';
+
+commit;
+
+update pace_metadata
+set 
+publication_name = 'MAPRAC'
+where std_pub_name = 'MASSPRACLANDLORDANDTENANTLAW';
+
+commit;
+
