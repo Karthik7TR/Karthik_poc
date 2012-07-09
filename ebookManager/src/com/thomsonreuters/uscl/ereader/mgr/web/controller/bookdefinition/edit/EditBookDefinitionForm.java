@@ -130,6 +130,7 @@ public class EditBookDefinitionForm {
 		this.pilotBookStatus = PilotBookStatus.FALSE;
 		this.copyright = "©";
 		this.frontMatterTocLabel = "Publishing Information";
+		this.publishDateText = "see Title page for currentness";
 	}
 	
 	/**
