@@ -100,7 +100,16 @@ public class GetTocTask  extends AbstractSbTasklet {
 			jobstats.setGatherTocDocCount(gatherResponse.getDocCount());
             jobstats.setGatherTocNodeCount(gatherResponse.getNodeCount());
             jobstats.setGatherTocSkippedCount(gatherResponse.getSkipCount());
-            jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());            
+            jobstats.setGatherTocRetryCount(gatherResponse.getRetryCount());
+            
+            // TODO: update doc count used in Job Execution Context
+    		
+    		LOG.debug(gatherResponse);
+    		if (gatherResponse.getErrorCode() != 0 ) {
+    			GatherException gatherException = new GatherException(
+    					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
+    			throw gatherException;
+    		}
         }
         catch (Exception e)
         {
@@ -113,16 +122,6 @@ public class GetTocTask  extends AbstractSbTasklet {
             jobstats.setPublishStatus("getToc : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
         }
-		
-       
-		// TODO: update doc count used in Job Execution Context
-		
-		LOG.debug(gatherResponse);
-		if (gatherResponse.getErrorCode() != 0 ) {
-			GatherException gatherException = new GatherException(
-					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
-			throw gatherException;
-		}
 		
 		return ExitStatus.COMPLETED;
 	}
