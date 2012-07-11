@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -199,7 +200,7 @@ public class TocServiceImpl implements TocService {
 						&& (copyRenameTocEntries != null)){
 					for (RenameTocEntry renameTocEntry : renameTocEntries) {
 						if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
-							label = renameTocEntry.getNewLabel();
+							label = StringEscapeUtils.escapeXml(renameTocEntry.getNewLabel());
 							copyRenameTocEntries.remove(renameTocEntry);
 							break;
 						}

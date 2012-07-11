@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -246,7 +247,7 @@ public class NortServiceImpl implements NortService {
 							&& (copyRenameTocEntries != null)){
 						for (RenameTocEntry renameTocEntry : renameTocEntries) {
 							if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
-								label = renameTocEntry.getNewLabel();
+								label = StringEscapeUtils.escapeXml(renameTocEntry.getNewLabel());
 								copyRenameTocEntries.remove(renameTocEntry);
 								break;
 							}

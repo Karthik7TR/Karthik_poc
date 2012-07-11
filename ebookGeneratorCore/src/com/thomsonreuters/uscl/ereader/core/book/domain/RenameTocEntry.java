@@ -103,7 +103,8 @@ public class RenameTocEntry implements Serializable {
 	public boolean isEmpty() {
 		return StringUtils.isBlank(this.oldLabel) &&
 				StringUtils.isBlank(this.newLabel) &&
-				StringUtils.isBlank(this.tocGuid);
+				StringUtils.isBlank(this.tocGuid) &&
+				StringUtils.isBlank(this.note);
 	}
 	
 	@Override
