@@ -506,7 +506,7 @@
 			
 			// Clicking the Additional Front Matter preview button 
 			$('.fmPreview').live("click", function() {
-				var pageSequenceNumber = $(this).parent().children(".sequenceNumber").val();
+				var pageSequenceNumber = $(this).parent().children(".sequence").val();
 				$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
 				submitFormForValidation();
 			});
