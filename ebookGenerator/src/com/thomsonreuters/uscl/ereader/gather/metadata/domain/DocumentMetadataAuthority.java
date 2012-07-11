@@ -36,7 +36,15 @@ public class DocumentMetadataAuthority {
 		}
 		this.docMetadataSet = docMetadataSet;
 		for (DocMetadata docMetadata : docMetadataSet) {
-			docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
+			if (docMetadata.getNormalizedFirstlineCite() == null && docMetadata.getFindOrig() != null)
+			{
+				//handle content that does not have normalized cite in metadata, for example: Sampson and Tindall
+				docMetadataKeyedByCite.put(docMetadata.getFindOrig(), docMetadata);
+			}
+			else
+			{
+				docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
+			}
 			docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
 			docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
 		}
