@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -197,6 +198,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			i++;
 		}
 		
+		if(form.isExcludeDocumentsUsed()) {
+			if(form.getExcludeDocuments().size() == 0) {
+				errors.rejectValue("excludeDocuments","error.used.selected", new Object[] {"Exclude Documents"}, "Please select 'No' if Exclude Documents will not be used.");
+			}
+		}
+		
 		// Validate RenameTocEntry has all required fields
 		i=0;
 		List<String> tocGuids = new ArrayList<String>();
@@ -220,6 +227,39 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				}
 			}
 			i++;
+		}
+		
+		if(form.isRenameTocEntriesUsed()) {
+			if(form.getRenameTocEntries().size() == 0) {
+				errors.rejectValue("renameTocEntries","error.rename.toc.entry.used");
+			}
+		}
+		
+		// Validate Table Viewers has all required fields
+		i=0;
+		documentGuids = new ArrayList<String>();
+		for(TableViewer document: form.getTableViewers()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers["+ i +"].documentGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, document.getNote(), "tableViewers["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			
+			// Check if there are duplicate guids
+			String documentGuid = document.getDocumentGuid();
+			if(StringUtils.isNotBlank(documentGuid)) {
+				if(documentGuids.contains(documentGuid)) {
+					errors.rejectValue("tableViewers["+ i +"].documentGuid", "error.duplicate", new Object[] {"Document Guid"}, "Duplicate Document Guid");
+				} else {
+					checkGuidFormat(errors, documentGuid, "tableViewers["+ i +"].documentGuid");
+					documentGuids.add(documentGuid);
+				}
+			}
+			i++;
+		}
+		
+		if(form.isTableViewersUsed()) {
+			if(form.getTableViewers().size() == 0) {
+				errors.rejectValue("tableViewers","error.used.selected", new Object[] {"Table Viewer"}, "Please select 'No' if Table Viewer will not be used.");
+			}
 		}
 		
 		// Sort the list before validations
@@ -283,12 +323,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		}
 		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 		
-		if(form.isExcludeDocumentsUsed()) {
-			if(form.getExcludeDocuments().size() == 0) {
-				errors.rejectValue("excludeDocuments","error.exclude.document.used");
-			}
-		}
-
 		// Only run these validation when Validate Button or Book Definition is set as Complete.
     	if(form.getIsComplete() || validateForm) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");

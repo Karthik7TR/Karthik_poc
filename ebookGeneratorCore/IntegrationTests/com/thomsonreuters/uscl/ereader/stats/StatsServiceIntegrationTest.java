@@ -130,7 +130,6 @@ public class StatsServiceIntegrationTest {
 		eBook.setAutoUpdateSupportFlag(true);
 		eBook.setEbookDefinitionCompleteFlag(true);
 		eBook.setIsDeletedFlag(false);
-		eBook.setIsProviewTableViewFlag(false);
 		eBook.setKeyciteToplineFlag(true);
 		eBook.setOnePassSsoLinkFlag(true);
 		eBook.setSearchIndexFlag(true);
@@ -163,7 +162,6 @@ public class StatsServiceIntegrationTest {
 		ebookAudit.setAutoUpdateSupportFlag(true);
 		ebookAudit.setEbookDefinitionCompleteFlag(true);
 		ebookAudit.setIsDeletedFlag(false);
-		ebookAudit.setIsProviewTableViewFlag(false);
 		ebookAudit.setKeyciteToplineFlag(true);
 		ebookAudit.setOnePassSsoLinkFlag(true);
 		ebookAudit.setSearchIndexFlag(true);

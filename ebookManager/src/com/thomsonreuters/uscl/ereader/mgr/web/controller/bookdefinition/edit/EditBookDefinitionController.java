@@ -355,6 +355,7 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_EXCLUDE_DOCUMENTS, form.getExcludeDocuments().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_RENAME_TOC_ENTRIES, form.getRenameTocEntries().size());
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_TABLE_VIEWERS, form.getTableViewers().size());
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());

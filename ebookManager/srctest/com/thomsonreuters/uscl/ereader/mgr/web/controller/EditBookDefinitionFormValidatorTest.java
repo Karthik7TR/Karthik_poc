@@ -24,6 +24,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -532,7 +534,162 @@ public class EditBookDefinitionFormValidatorTest {
     	
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.exclude.document.used", errors.getFieldError("excludeDocuments").getCode());
+		Assert.assertEquals("error.used.selected", errors.getFieldError("excludeDocuments").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test RenameTocEntry required fields
+	 */
+	@Test
+	public void testRenameTocEntryRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	RenameTocEntry document = new RenameTocEntry();
+    	document.setNote("test");
+    	form.getRenameTocEntries().add(document);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].tocGuid").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].oldLabel").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("renameTocEntries[0].newLabel").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test RenameTocEntry duplicate guids
+	 */
+	@Test
+	public void testRenameTocEntryDuplicateGuids() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	RenameTocEntry document = new RenameTocEntry();
+    	document.setNote("Test1");
+    	document.setTocGuid("123456789012345678901234567890123");
+		document.setNewLabel("123456789012345678901234567890123");
+		document.setOldLabel("123456789012345678901234567890123");
+    	
+    	RenameTocEntry document2 = new RenameTocEntry();
+    	document2.setNote("Test2");
+    	document2.setTocGuid("123456789012345678901234567890123");
+		document2.setNewLabel("123456789012345678901234567890123");
+		document2.setOldLabel("123456789012345678901234567890123");
+    	
+    	form.getRenameTocEntries().add(document);
+    	form.getRenameTocEntries().add(document2);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.duplicate", errors.getFieldError("renameTocEntries[1].tocGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test RenameTocEntry enabled but not documents listed
+	 */
+	@Test
+	public void testRenameTocEntryEnabled() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	form.setRenameTocEntriesUsed(true);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.rename.toc.entry.used", errors.getFieldError("renameTocEntries").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+
+	/**
+	 * Test TableViewer required fields
+	 */
+	@Test
+	public void testTableViewerRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+		EasyMock.replay(mockBookDefinitionService);
+		
+		EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+		
+		populateFormDataAnalyticalToc();
+		TableViewer document = new TableViewer();
+		document.setNote("test");
+		form.getTableViewers().add(document);
+		
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required", errors.getFieldError("tableViewers[0].documentGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test TableViewer duplicate guids
+	 */
+	@Test
+	public void testTableViewerDuplicateGuids() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+		EasyMock.replay(mockBookDefinitionService);
+		
+		EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+		
+		populateFormDataAnalyticalToc();
+		TableViewer document = new TableViewer();
+		document.setNote("Test1");
+		document.setDocumentGuid("123456789012345678901234567890123");
+		
+		TableViewer document2 = new TableViewer();
+		document2.setNote("Test2");
+		document2.setDocumentGuid("123456789012345678901234567890123");
+		
+		form.getTableViewers().add(document);
+		form.getTableViewers().add(document2);
+		
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.duplicate", errors.getFieldError("tableViewers[1].documentGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test TableViewer enabled but not documents listed
+	 */
+	@Test
+	public void testTableViewerEnabled() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+		EasyMock.replay(mockBookDefinitionService);
+		
+		EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+		
+		populateFormDataAnalyticalToc();
+		form.setTableViewersUsed(true);
+		
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.used.selected", errors.getFieldError("tableViewers").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -750,7 +907,6 @@ public class EditBookDefinitionFormValidatorTest {
 		book.setFullyQualifiedTitleId(titleId);
 		book.setIsTocFlag(false);
     	book.setIsDeletedFlag(false);
-    	book.setIsProviewTableViewFlag(false);
     	book.setEbookDefinitionCompleteFlag(false);
     	book.setAutoUpdateSupportFlag(true);
     	book.setSearchIndexFlag(true);

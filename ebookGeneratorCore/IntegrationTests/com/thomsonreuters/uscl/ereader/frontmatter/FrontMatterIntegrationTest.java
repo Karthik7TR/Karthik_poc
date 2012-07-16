@@ -62,7 +62,6 @@ public class FrontMatterIntegrationTest {
 		eBook.setAutoUpdateSupportFlag(true);
 		eBook.setEbookDefinitionCompleteFlag(true);
 		eBook.setIsDeletedFlag(false);
-		eBook.setIsProviewTableViewFlag(false);
 		eBook.setKeyciteToplineFlag(true);
 		eBook.setOnePassSsoLinkFlag(true);
 		eBook.setSearchIndexFlag(true);

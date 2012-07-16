@@ -179,10 +179,6 @@ function submitForm(cmd)
 				</div>
 				<div class="rightDefinitionForm">
 					<div class="row">
-						<label class="labelCol">Use ProView Table View</label>
-						<span class="field">${ book.proviewTableViewFlag }</span>
-					</div>
-					<div class="row">
 						<label class="labelCol">Auto-update Support</label>
 						<span class="field">${ book.autoUpdateSupportFlag }</span>
 					</div>
@@ -200,6 +196,26 @@ function submitForm(cmd)
 					</div>
 				</div>
 			</div>
+		</div>
+		
+		<div id="displayTableViewer">
+			<label class="labelCol">Table Viewer</label>
+			<c:forEach items="${ book.tableViewers }" var="document">
+				<div class="expandingBox">
+					<div class="dynamicRow">
+						<label>Document Guid:</label>
+						<span class="field"> ${ document.documentGuid }</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Note:</label>
+						<span class="field"> ${ document.note } </span>
+					</div>
+					<div class="dynamicRow">
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${document.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 		
 		<div class="section">

@@ -1021,7 +1021,6 @@ public class EditBookDefinitionControllerTest {
     	book.setCopyright("something");
     	book.setIsTocFlag(false);
     	book.setIsDeletedFlag(false);
-    	book.setIsProviewTableViewFlag(false);
     	book.setEbookDefinitionCompleteFlag(false);
     	book.setAutoUpdateSupportFlag(true);
     	book.setSearchIndexFlag(true);

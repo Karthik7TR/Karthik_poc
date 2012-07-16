@@ -213,7 +213,6 @@ public class BookDefinition implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String isDeletedFlag;
 	
-	
 	/**
 	 */
 
@@ -302,6 +301,11 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<RenameTocEntry> renameTocEntries;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<TableViewer> tableViewers;
 
 	/**
 	 */
@@ -810,6 +814,20 @@ public class BookDefinition implements Serializable {
 	public void setRenameTocEntries(Collection<RenameTocEntry> renameTocEntries) {
 		this.renameTocEntries = new HashSet<RenameTocEntry>(renameTocEntries);
 	}
+	
+	public List<TableViewer> getTableViewers() {
+		if(tableViewers == null) {
+			tableViewers = new HashSet<TableViewer>();
+		}
+		// Change to list
+		List<TableViewer> documents = new ArrayList<TableViewer>();
+		documents.addAll(tableViewers);
+		return documents;
+	}
+
+	public void setTableViewers(Collection<TableViewer> tableViewers) {
+		this.tableViewers = new HashSet<TableViewer>(tableViewers);
+	}
 
 	public List<FrontMatterPage> getFrontMatterPages() {
 		if (frontMatterPages == null) {
@@ -899,6 +917,7 @@ public class BookDefinition implements Serializable {
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
 		setRenameTocEntries(new HashSet<RenameTocEntry>(that.getRenameTocEntries()));
+		setTableViewers(new HashSet<TableViewer>(that.getTableViewers()));
 		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 

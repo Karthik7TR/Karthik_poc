@@ -583,33 +583,38 @@ a:hover {
 }
 
 .bookDefinitionView #displayExcludeDocument label,
-.bookDefinitionView #displayRenameTocEntry label {
+.bookDefinitionView #displayRenameTocEntry label,
+.bookDefinitionView #displayTableViewer label {
 	text-align: left;
 	font-weight: bold;
 }
 
 .bookDefinitionView #displayExcludeDocument .expandingBox,
-.bookDefinitionView #displayRenameTocEntry .expandingBox {
+.bookDefinitionView #displayRenameTocEntry .expandingBox,
+.bookDefinitionView #displayTableViewer .expandingBox {
 	border: gray solid .1em;
 	text-align: left;
 	padding: .2em;
 }
 
 #displayExcludeDocument,
-#displayRenameTocEntry {
+#displayRenameTocEntry,
+#displayTableViewer {
 	width:55.4em;
 	margin: 1em auto 0em auto;
 }
 
 #displayExcludeDocument .expandingBox,
-#displayRenameTocEntry .expandingBox {
+#displayRenameTocEntry .expandingBox,
+#displayTableViewer .expandingBox {
 	border: gray solid .2em;
 	text-align: center;
 	padding: .2em;
 }
 
 #displayExcludeDocument .expandingBox .dynamicRow,
-#displayRenameTocEntry .expandingBox .dynamicRow {
+#displayRenameTocEntry .expandingBox .dynamicRow,
+#displayTableViewer .expandingBox .dynamicRow {
 	display: inline-block;
 	zoom:1; /* IE7 hack */
 	*display: inline; /* IE7 hack */
@@ -619,7 +624,8 @@ a:hover {
 }
 
 #displayExcludeDocument .expandingBox .dynamicRow label,
-#displayRenameTocEntry .expandingBox .dynamicRow label {
+#displayRenameTocEntry .expandingBox .dynamicRow label,
+#displayTableViewer .expandingBox .dynamicRow label {
 	vertical-align: top;
 	margin-right:.3em;
 	display:block;

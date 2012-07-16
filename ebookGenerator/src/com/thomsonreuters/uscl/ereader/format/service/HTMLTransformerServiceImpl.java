@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.SequenceInputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +39,7 @@ import org.apache.xml.serializer.SerializerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
@@ -108,13 +111,21 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final boolean isTableViewRequired, 
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final List<TableViewer> tableViewers, 
 			final String title, final Long jobId,HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
         	throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
+        
+        List<TableViewer> copyTableViewers = null;
+
+		// Make a copy of the original table viewers to check that all have been accounted for
+		if (tableViewers != null) {
+			copyTableViewers = new ArrayList<TableViewer>(Arrays.asList(new TableViewer[tableViewers.size()]));
+			Collections.copy(copyTableViewers, tableViewers);
+		}
 		
         //retrieve list of all transformed files that need HTML wrappers
 		List<File> htmlFiles = new ArrayList<File>();
@@ -148,8 +159,20 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages,isTableViewRequired, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile);
+			transformHTMLFile(htmlFile, targetDir, staticImages, tableViewers, copyTableViewers, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile);
 			numDocs++;
+		}
+		
+		// Check all the document guids has been accounted for Table Viewer
+		if ((copyTableViewers != null) && (copyTableViewers.size() > 0)) {
+			StringBuffer unaccountedDocs = new StringBuffer();
+			for (TableViewer document : copyTableViewers) {
+				unaccountedDocs.append(document.getDocumentGuid() + ",");
+			}
+			
+			String errMessage = "Not all Table Viewer guids are accounted for and those are " + unaccountedDocs.toString();
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage);
 		}
 		
 		createStaticImageList(staticImgList, staticImages);
@@ -175,7 +198,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final boolean isTableViewRequired,
+	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final List<TableViewer> tableViewers, List<TableViewer> copyTableViewers,
 			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
 	{
 
@@ -207,6 +230,19 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLTagIdDedupingFilter tagIdDedupingFilter = new HTMLTagIdDedupingFilter(guid);
 			
 			tagIdDedupingFilter.setParent(emptyH2Filter);
+			
+			boolean isTableViewRequired = false;
+			// Check if table viewer is turned on for this document guid
+			if ((tableViewers != null) &&(tableViewers.size() > 0)
+					&& (copyTableViewers != null)){
+				for(TableViewer document: tableViewers) {
+					if(document.getDocumentGuid().equalsIgnoreCase(guid)){
+						isTableViewRequired = true;
+						copyTableViewers.remove(document);
+						break;
+					}
+				}
+			}
 			
 			HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
 			tableFilter.setParent(tagIdDedupingFilter);

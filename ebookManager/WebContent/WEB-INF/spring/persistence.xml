@@ -50,9 +50,11 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.BatchStepExecution</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer</value>
 		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
 		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
 		    <value>com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink</value>
+		    
 		  </list>
 		</property>
   	</bean>

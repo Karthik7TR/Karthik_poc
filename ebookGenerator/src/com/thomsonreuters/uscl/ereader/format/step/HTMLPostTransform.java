@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -64,7 +66,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT); 
 		
-		boolean isTableViewRequired = bookDefinition.isProviewTableViewFlag();
+		List<TableViewer> tableViewers = bookDefinition.getTableViewers();
 		
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
@@ -75,7 +77,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		
 		long startTime = System.currentTimeMillis();
 		int numDocsTransformed = 
-				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, isTableViewRequired,titleId, jobId, null, docsGuidFile, deDuppingFile);
+				transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, tableViewers, titleId, jobId, null, docsGuidFile, deDuppingFile);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
 		

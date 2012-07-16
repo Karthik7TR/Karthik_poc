@@ -93,7 +93,6 @@ public class DeleteBookDefinitionControllerTest {
     	BOOK_DEFINITION.setCopyright("something");
     	BOOK_DEFINITION.setIsTocFlag(false);
     	BOOK_DEFINITION.setIsDeletedFlag(false);
-    	BOOK_DEFINITION.setIsProviewTableViewFlag(false);
     	BOOK_DEFINITION.setEbookDefinitionCompleteFlag(false);
     	BOOK_DEFINITION.setAutoUpdateSupportFlag(true);
     	BOOK_DEFINITION.setSearchIndexFlag(true);

@@ -35,6 +35,7 @@
 		var frontMatterPageIndex = ${numberOfFrontMatters};
 		var excludeDocumentIndex = ${numberOfExcludeDocuments};
 		var renameTocEntryIndex = ${numberOfRenameTocEntries};
+		var tableViewerIndex = ${numberOfTableViewers};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -183,11 +184,11 @@
 			return str;
 		}
 		
-		// Add another Exclude Document row
-		var addExcludeDocumentRow = function() {
+		// Add Exclude Document or Table Viewer row
+		var addDocumentGuidRow = function(elementName, index, titleMessage, addHere) {
 			var expandingBox = $("<div>").addClass("expandingBox");
-			var id = "excludeDocuments" + excludeDocumentIndex;
-			var name = "excludeDocuments[" + excludeDocumentIndex + "]";
+			var id = elementName + index;
+			var name = elementName + "[" + index + "]";
 			
 			// Add Document Guid input boxes
 			expandingBox.append(addDynamicRow(id, name, "documentGuid", "Document Guid", 33, "guid"));
@@ -205,10 +206,9 @@
 			expandingBox.append(lastUpdated);
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Exclude Document").attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title",titleMessage).attr("type", "button").val("Delete"));
 		
-			$("#addExcludeDocumentHere").before(expandingBox);
-			excludeDocumentIndex = excludeDocumentIndex + 1;
+			addHere.before(expandingBox);
 		};
 		
 		// Add another Rename TOC Entry row
@@ -497,7 +497,13 @@
 			});
 			
 			$('#addExcludeDocument').click(function () {
-				addExcludeDocumentRow();
+				addDocumentGuidRow("excludeDocuments", excludeDocumentIndex, "Delete Exclude Document", $('#addExcludeDocumentHere'));
+				excludeDocumentIndex = excludeDocumentIndex + 1;
+			});
+			
+			$('#addTableViewer').click(function () {
+				addDocumentGuidRow("tableViewers", tableViewerIndex, "Delete ProView Table Viewer Entry", $('#addTableViewerHere'));
+				tableViewerIndex = tableViewerIndex + 1;
 			});
 			
 			$('#addRenameTocEntry').click(function () {
@@ -573,13 +579,17 @@
 				$("#generalSection").show();
 			});
 			
-			// Determine to show Exclude Document
+			// Determine to show block
 			$('input:radio[name=excludeDocumentsUsed]').change(function () {
 				showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
 			});
 			
 			$('input:radio[name=renameTocEntriesUsed]').change(function () {
 				showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
+			});
+			
+			$('input:radio[name=tableViewersUsed]').change(function () {
+				showSelectOptions("tableViewersUsed", "#displayTableViewer");
 			});
 			
 			// Close or open the Keyword values
@@ -718,6 +728,7 @@
 			showPubCutoffDateBox();
 			showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
 			showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
+			showSelectOptions("tableViewersUsed", "#displayTableViewer");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
@@ -1118,14 +1129,6 @@
 				<form:hidden path="pilotBook"/>
 			</c:if>
 			<div class="row">
-				<form:label path="isProviewTableView" class="labelCol">Use ProView Table View</form:label>
-				<form:radiobutton disabled="${disableOptions}" path="isProviewTableView" value="true" />True
-				<form:radiobutton disabled="${disableOptions}" path="isProviewTableView" value="false" />False
-				<div class="errorDiv">
-					<form:errors path="isProviewTableView" cssClass="errorMessage" />
-				</div>
-			</div>
-			<div class="row">
 				<form:label path="autoUpdateSupport" class="labelCol">Auto-update Support</form:label>
 				<form:radiobutton disabled="${disableOptions}" path="autoUpdateSupport" value="true" />True
 				<form:radiobutton disabled="${disableOptions}" path="autoUpdateSupport" value="false" />False
@@ -1161,8 +1164,57 @@
 			<div class="row" style="font-size:.7em; text-align: center;">
 				*Only Super Users are able to modify above options.
 			</div>
+			<div class="row">
+				<form:label path="tableViewersUsed" class="labelCol">Enable Table Viewer</form:label>
+				<form:radiobutton path="tableViewersUsed" value="true" />Yes
+				<form:radiobutton path="tableViewersUsed" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="tableViewersUsed" cssClass="errorMessage" />
+				</div>
+			</div>
 		</div>
 	</div>
+</div>
+
+<div id="displayTableViewer" style="display:none;">
+	<c:forEach items="${editBookDefinitionForm.tableViewersCopy}" var="documentCopy" varStatus="aStatus">
+			<form:hidden path="tableViewersCopy[${aStatus.index}].documentGuid" maxlength="33" />
+			<form:hidden path="tableViewersCopy[${aStatus.index}].note" />
+			<form:hidden path="tableViewersCopy[${aStatus.index}].lastUpdated"/>
+	</c:forEach>
+	<label class="labelCol">Table Viewer</label>
+	<input type="button" id="addTableViewer" value="add" />
+	<div class="errorDiv">
+		<form:errors path="tableViewers" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.tableViewers}" var="document" varStatus="aStatus">
+		<div class="expandingBox">
+			<div class="dynamicRow">
+				<label>Document Guid</label>
+				<form:input cssClass="guid" path="tableViewers[${aStatus.index}].documentGuid" maxlength="33" />
+				<div class="errorDiv">
+					<form:errors path="tableViewers[${aStatus.index}].documentGuid" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Note</label>
+				<form:textarea path="tableViewers[${aStatus.index}].note" />
+				<div class="errorDiv">
+					<form:errors path="tableViewers[${aStatus.index}].note" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Last Updated</label>
+				<form:input disabled="true" path="tableViewers[${aStatus.index}].lastUpdated" />
+				<form:hidden path="tableViewers[${aStatus.index}].lastUpdated"/>
+				<div class="errorDiv">
+					<form:errors path="tableViewers[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+				</div>
+			</div>
+			<input type="button" value="Delete" class="rdelete" title="Delete ProView Table Viewer Entry" />
+		</div>
+	</c:forEach>
+	<div id="addTableViewerHere"></div>
 </div>
 
 <div class="section">

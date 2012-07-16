@@ -8,7 +8,9 @@ package com.thomsonreuters.uscl.ereader.format.service;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 
 /**
@@ -26,7 +28,7 @@ public interface HTMLTransformerService {
 	 * @param srcDir source directory that contains the html files
 	 * @param targetDir target directory where the resulting post transformation files are written to
 	 * @param staticImg target file to which a list of referenced static files will be written out to
-	 * @param isTableViewRequired will decide to apply TableView or not.
+	 * @param tableViewers will decide to apply TableView or not.
 	 * @param title title of the book being published
 	 * @param jobId the job identifier of the current transformation run
 	 * @param targetAnchors the list of guids with their set of anchors
@@ -37,6 +39,6 @@ public interface HTMLTransformerService {
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
-	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final boolean isTableViewRequired,
+	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final List<TableViewer> tableViewers,
 			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile ) throws EBookFormatException;
 }

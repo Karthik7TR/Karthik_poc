@@ -100,10 +100,6 @@
 				</div>
 				<div class="rightDefinitionForm">
 					<div class="row">
-						<label class="labelCol">Use ProView Table View</label>
-						<span class="field">${ bookAuditDetail.isProviewTableViewFlag }</span>
-					</div>
-					<div class="row">
 						<label class="labelCol">Auto-update Support</label>
 						<span class="field">${ bookAuditDetail.autoUpdateSupportFlag }</span>
 					</div>

@@ -187,13 +187,6 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 	
-	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	String isProviewTableViewFlag;
-	
-	/**
-	 */
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PUBLISH_CUTOFF_DATE")
 	@Basic(fetch = FetchType.EAGER)
@@ -316,6 +309,12 @@ public class EbookAudit implements Serializable {
 	@Column(name = "RENAME_TOC_ENTRY_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String renameTocEntryConcat;
+	
+	/**
+	 */
+	@Column(name = "TABLE_VIEWER_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String tableViewerConcat;
 
 	/**
 	 */
@@ -723,7 +722,6 @@ public class EbookAudit implements Serializable {
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
 		setSearchIndexFlag(that.getSearchIndexFlag());
 		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
-		setIsProviewTableViewFlag(that.getIsProviewTableViewFlag());
 		setPublishCutoffDate(that.getPublishCutoffDate());
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
@@ -743,6 +741,7 @@ public class EbookAudit implements Serializable {
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setRenameTocEntryConcat(that.getRenameTocEntryConcat());
+		setTableViewerConcat(that.getTableViewerConcat());
 	}
 
 	/**
@@ -773,7 +772,6 @@ public class EbookAudit implements Serializable {
 		setAutoUpdateSupportFlag(that.getAutoUpdateSupportFlag());
 		setSearchIndexFlag(that.getSearchIndexFlag());
 		setOnePassSsoLinkFlag(that.getOnePassSsoLinkFlag());
-		setIsProviewTableViewFlag(that.isProviewTableViewFlag());
 		setPublishCutoffDate(that.getPublishCutoffDate());
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
@@ -793,6 +791,7 @@ public class EbookAudit implements Serializable {
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
 		setRenameTocEntryConcat(maxString(concatString(that.getRenameTocEntries()), MAX_CHARACTER_2048));
+		setTableViewerConcat(maxString(concatString(that.getTableViewers()), MAX_CHARACTER_2048));
 		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 	
@@ -845,7 +844,6 @@ public class EbookAudit implements Serializable {
 		buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
 		buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
 		buffer.append("onePassSsoLinkFlag=[").append(onePassSsoLinkFlag).append("] ");
-		buffer.append("isProviewTableViewFlag=[").append(isProviewTableViewFlag).append("] ");
 		buffer.append("publishCutoffDate=[").append(publishCutoffDate).append("] ");
 		buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
 		buffer.append("publishedOnceFlag=[").append(publishedOnceFlag).append("] ");
@@ -865,6 +863,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		buffer.append("renameTocEntryConcat=[").append(renameTocEntryConcat).append("] ");
+		buffer.append("tableViewerConcat=[").append(tableViewerConcat).append("] ");
 		
 		return buffer.toString();
 	}
@@ -936,18 +935,6 @@ public class EbookAudit implements Serializable {
 	 */
 	public boolean getIsDeletedFlag() {
 		return( (this.isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
-	}
-
-	/**
-	 */
-	public void setIsProviewTableViewFlag(boolean isProviewTableViewFlag) {
-		this.isProviewTableViewFlag =( (isProviewTableViewFlag) ? "Y" : "N");
-	}
-
-	/**
-	 */
-	public boolean getIsProviewTableViewFlag() {
-		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	public boolean getEnableCopyFeatureFlag() {
@@ -1023,6 +1010,14 @@ public class EbookAudit implements Serializable {
 
 	public void setRenameTocEntryConcat(String renameTocEntryConcat) {
 		this.renameTocEntryConcat = renameTocEntryConcat;
+	}
+
+	public String getTableViewerConcat() {
+		return tableViewerConcat;
+	}
+
+	public void setTableViewerConcat(String tableViewerConcat) {
+		this.tableViewerConcat = tableViewerConcat;
 	}
 
 	public String getFrontMatterTocLabel() {

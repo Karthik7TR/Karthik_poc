@@ -37,6 +37,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class EditBookDefinitionForm {
@@ -60,6 +61,9 @@ public class EditBookDefinitionForm {
 	private boolean isRenameTocEntriesUsed;
 	private Collection<RenameTocEntry> renameTocEntries;
 	private Collection<RenameTocEntry> renameTocEntriesCopy;
+	private boolean isTableViewersUsed;
+	private Collection<TableViewer> tableViewers;
+	private Collection<TableViewer> tableViewersCopy;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
 	private boolean isTOC;
@@ -85,7 +89,6 @@ public class EditBookDefinitionForm {
 	private boolean keyCiteToplineFlag;
 	private boolean autoUpdateSupport;
 	private boolean searchIndex;
-	private boolean isProviewTableView;
 	private boolean enableCopyFeatureFlag;
 	private PilotBookStatus pilotBookStatus;
 
@@ -115,8 +118,9 @@ public class EditBookDefinitionForm {
 		this.excludeDocumentsCopy = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
 		this.renameTocEntries = new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class);
 		this.renameTocEntriesCopy = new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class);
+		this.tableViewers = new AutoPopulatingList<TableViewer>(TableViewer.class);
+		this.tableViewersCopy = new AutoPopulatingList<TableViewer>(TableViewer.class);
 		this.keywords = new AutoPopulatingList<String>(String.class);
-		this.isProviewTableView = false;
 		this.isComplete = false;
 		this.validateForm = false;
 		this.keyCiteToplineFlag = true;
@@ -125,6 +129,7 @@ public class EditBookDefinitionForm {
 		this.enableCopyFeatureFlag = true;
 		this.isExcludeDocumentsUsed = false;
 		this.isRenameTocEntriesUsed = false;
+		this.isTableViewersUsed = false;
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
@@ -149,6 +154,7 @@ public class EditBookDefinitionForm {
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
 		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
 		bookDef.setRenameTocEntries(new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class));
+		bookDef.setTableViewers(new AutoPopulatingList<TableViewer>(TableViewer.class));
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		
 		// Need to null surrogate and foreign keys.
@@ -189,7 +195,6 @@ public class EditBookDefinitionForm {
 			this.keyCiteToplineFlag = book.getKeyciteToplineFlag();
 			this.autoUpdateSupport = book.getAutoUpdateSupportFlag();
 			this.searchIndex = book.getSearchIndexFlag();
-			this.isProviewTableView = book.isProviewTableViewFlag();
 			this.isAuthorDisplayVertical = book.isAuthorDisplayVertical();
 			this.enableCopyFeatureFlag = book.getEnableCopyFeatureFlag();
 			this.pilotBookStatus = book.getPilotBookStatus();
@@ -199,6 +204,8 @@ public class EditBookDefinitionForm {
 			this.excludeDocumentsCopy = book.getExcludeDocuments();
 			this.renameTocEntries = book.getRenameTocEntries();
 			this.renameTocEntriesCopy = book.getRenameTocEntries();
+			this.tableViewers = book.getTableViewers();
+			this.tableViewersCopy = book.getTableViewers();
 			this.includeAnnotations = book.getIncludeAnnotations();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
@@ -209,6 +216,10 @@ public class EditBookDefinitionForm {
 			// Determine if RenameTocEntries are present in Book Definition
 			if (book.getRenameTocEntries().size() > 0) {
 				this.isRenameTocEntriesUsed = true;
+			}
+			
+			if(this.tableViewers.size() > 0) {
+				this.isTableViewersUsed = true;
 			}
 			
 			// Determine if Publish Cut-off Date is used
@@ -355,6 +366,22 @@ public class EditBookDefinitionForm {
 		}
 		book.setRenameTocEntries(renameTocEntries);
 		
+		// Compare with copy to determine if date needs update
+		for(TableViewer document : tableViewers) {
+			boolean exists = false;
+			document.setBookDefinition(book);
+			for(TableViewer documentCopy : tableViewersCopy) {
+				if(document.equals(documentCopy)) {
+					exists = true;
+				}
+			}
+			// Update date
+			if(!exists) {
+				document.setLastUpdated(new Date());
+			}
+		}
+		book.setTableViewers(tableViewers);
+		
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
 		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
@@ -369,7 +396,6 @@ public class EditBookDefinitionForm {
 		book.setCoverImage(this.createCoverImageName());
 		
 		book.setIsbn(isbn);
-		book.setIsProviewTableViewFlag(isProviewTableView);
 		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setPilotBookStatus(pilotBookStatus);
@@ -543,6 +569,30 @@ public class EditBookDefinitionForm {
 		this.renameTocEntriesCopy = renameTocEntriesCopy;
 	}
 
+	public boolean isTableViewersUsed() {
+		return isTableViewersUsed;
+	}
+
+	public void setTableViewersUsed(boolean isTableViewersUsed) {
+		this.isTableViewersUsed = isTableViewersUsed;
+	}
+
+	public Collection<TableViewer> getTableViewers() {
+		return tableViewers;
+	}
+
+	public void setTableViewers(Collection<TableViewer> tableViewers) {
+		this.tableViewers = tableViewers;
+	}
+
+	public Collection<TableViewer> getTableViewersCopy() {
+		return tableViewersCopy;
+	}
+
+	public void setTableViewersCopy(Collection<TableViewer> tableViewersCopy) {
+		this.tableViewersCopy = tableViewersCopy;
+	}
+
 	public String getCopyright() {
 		return copyright;
 	}
@@ -709,14 +759,6 @@ public class EditBookDefinitionForm {
 
 	public void setIsComplete(boolean isComplete) {
 		this.isComplete = isComplete;
-	}
-
-	public boolean getIsProviewTableView() {
-		return isProviewTableView;
-	}
-
-	public void setIsProviewTableView(boolean isProviewTableView) {
-		this.isProviewTableView = isProviewTableView;
 	}
 
 	public boolean isEnableCopyFeatureFlag() {
@@ -901,6 +943,14 @@ public class EditBookDefinitionForm {
         for (Iterator<RenameTocEntry> i = renameTocEntries.iterator(); i.hasNext();) {
         	RenameTocEntry label = i.next();
             if (label == null || label.isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        // Clear out empty Tableviewer
+        for (Iterator<TableViewer> i = tableViewers.iterator(); i.hasNext();) {
+        	TableViewer document = i.next();
+            if (document == null || document.isEmpty()) {
                 i.remove();
             }
         }
