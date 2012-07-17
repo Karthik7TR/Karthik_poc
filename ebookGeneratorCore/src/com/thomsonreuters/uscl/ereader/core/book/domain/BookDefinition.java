@@ -872,6 +872,7 @@ public class BookDefinition implements Serializable {
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
 		this.setIncludeAnnotations(false);
+		this.setIsProviewTableViewFlag(false);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
 	}
 
