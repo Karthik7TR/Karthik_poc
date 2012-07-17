@@ -332,9 +332,7 @@ a:hover {
 	width:61.3em;
 }
 
-.bookDefinitionView .centerSection,
-.bookDefinitionView #displayExcludeDocument,
-.bookDefinitionView #displayRenameTocEntry {
+.bookDefinitionView .centerSection {
 	width:58em;
 }
 
@@ -602,6 +600,12 @@ a:hover {
 #displayTableViewer {
 	width:55.4em;
 	margin: 1em auto 0em auto;
+}
+
+#displayExcludeDocument .wordwrap,
+#displayRenameTocEntry .wordwrap,
+#displayTableViewer .wordwrap {
+	max-width:53.4em;
 }
 
 #displayExcludeDocument .expandingBox,

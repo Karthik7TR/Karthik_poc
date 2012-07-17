@@ -121,7 +121,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<span class="field"> ${ document.note } </span>
+						<div class="wordwrap">${ document.note }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -141,15 +141,15 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Old Label:</label>
-						<span class="field"> ${ toc.oldLabel } </span>
+						<div class="wordwrap">${ toc.oldLabel }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>New Label:</label>
-						<span class="field"> ${ toc.newLabel } </span>
+						<div class="wordwrap">${ toc.newLabel }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<span class="field"> ${ toc.note } </span>
+						<div class="wordwrap">${ toc.note }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -208,7 +208,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<span class="field"> ${ document.note } </span>
+						<div class="wordwrap">${ document.note }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>

@@ -1122,7 +1122,6 @@
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
-				<form:hidden path="isProviewTableView"/>
 				<form:hidden path="autoUpdateSupport"/>
 				<form:hidden path="searchIndex"/>
 				<form:hidden path="enableCopyFeatureFlag"/>
