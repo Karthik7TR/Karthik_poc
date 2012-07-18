@@ -104,7 +104,7 @@ public class JobDaoImpl implements JobDao {
 		if (filter.getTo() != null) {
 			sql.append("(execution.START_TIME < ?) and ");
 		}
-		if (filter.getBatchStatus() != null) {
+		if (filter.getBatchStatus() != null && filter.getBatchStatus().length > 0) {
 			StringBuffer csvStatus = new StringBuffer();
 			boolean firstTime = true;
 			for (BatchStatus status : filter.getBatchStatus()) {
