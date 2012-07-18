@@ -87,6 +87,15 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		try
 		{
 			numDocsWrapped = htmlWrapperService.addHTMLWrappers(postTransformDir, htmlDir, docToTocFile, titleId, jobId, keyciteToplineFlag);
+			
+			if (numDocsWrapped != numDocsInTOC)
+			{
+				String message = "The number of documents wrapped by the HTMLWrapper Service did " +
+						"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
+						numDocsWrapped + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
 		}
 		catch (EBookFormatException e)
 		{
@@ -101,18 +110,10 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		      jobstats.setPublishStatus("formatAddHTMLWrapper : " + stepStatus);
 			  publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.FORMATDOC);
 		}
+		
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
-		
-		if (numDocsWrapped != numDocsInTOC)
-		{
-			String message = "The number of documents wrapped by the HTMLWrapper Service did " +
-					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
-					numDocsWrapped + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
-			LOG.error(message);
-			throw new EBookFormatException(message);
-		}
-		
+
 		LOG.debug("Added HTML and ProView document wrappers to " + numDocsWrapped + " documents in " + 
 				elapsedTime + " milliseconds");
 		

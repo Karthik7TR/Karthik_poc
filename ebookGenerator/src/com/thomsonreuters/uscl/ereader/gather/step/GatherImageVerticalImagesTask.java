@@ -65,62 +65,45 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		Assert.isTrue(imageGuidFile.exists(), "The dynamic image GUID list text file does not exist: " + imageGuidFile +
 						" - This file contains image GUID's, one per line, that are requested from the Image Vertical REST service.");
 		
-		// Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
-		ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
-
-		// Create list of image guids gathered from a previous step and stored in a flat text file, one per line
-		Map<String,String> imgDocGuidMap = readLinesFromTextFile(imageGuidFile);
-		
-		Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
-				
 		// Fetch the image metadata and file bytes
 		long jobInstanceId = jobInstance.getId();
 		String titleId = bookDefinition.getFullyQualifiedTitleId();
-		int imageGuidNum = imgGuidSet.size();
+		int imageGuidNum = 0;
+		int retrievedCound = 0;
+		
+		String stepStatus = "Completed";
 		try {
+			// Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
+			ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
+	
+			// Create list of image guids gathered from a previous step and stored in a flat text file, one per line
+			Map<String,String> imgDocGuidMap = readLinesFromTextFile(imageGuidFile);
+			
+			Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
+					
+			imageGuidNum = imgGuidSet.size();
 			
 			imageService.fetchImageVerticalImages(imgDocGuidMap, dynamicImageDestinationDirectory, jobInstanceId, titleId);
-			updateImageRetrievalStats(imageGuidNum, jobInstanceId,null);
-
+			retrievedCound = imageGuidNum;
 			
 		} catch (ImageException e) {
-			
-			updateImageRetrievalStats(imageGuidNum, jobInstanceId,e);
+			retrievedCound = getMissingGuidsCount(e);
+			stepStatus = "Failed";
 			throw e; 
+		} catch (Exception e) {
+			stepStatus = "Failed";
+			throw e;
+		} finally {
+			PublishingStats jobstatsDoc = new PublishingStats();
+			jobstatsDoc.setJobInstanceId(jobInstanceId);
+			jobstatsDoc.setGatherImageExpectedCount(imageGuidNum);
+			jobstatsDoc.setGatherImageRetrievedCount(retrievedCound);
+			jobstatsDoc.setPublishStatus("getDynamicImages : " + stepStatus);
+			publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
 		}
 		
 		return ExitStatus.COMPLETED;
 	}
-
-
-
-	private void updateImageRetrievalStats(int imageGuidsSize,
-			long jobInstanceId,ImageException e) {
-
-		Long jobInstanceLong = jobInstanceId;
-		int retrievedCound = imageGuidsSize;
-		
-		PublishingStats jobstatsDoc = new PublishingStats();
-		jobstatsDoc.setJobInstanceId(jobInstanceLong);
-		jobstatsDoc.setGatherImageExpectedCount(imageGuidsSize);
-		jobstatsDoc.setGatherImageRetrievedCount(retrievedCound);
-		
-		
-		if(null == e)
-		{
-			retrievedCound = imageGuidsSize;
-			jobstatsDoc.setPublishStatus("getDynamicImages : Failed");
-		}
-		else
-		{
-			retrievedCound = getMissingGuidsCount(e);
-			jobstatsDoc.setPublishStatus("getDynamicImages : Completed");
-		}
-		
-		publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
-	}
-	
-	
 	
 	private int getMissingGuidsCount(ImageException e) {
 		int missingGuidNo = 0;

@@ -57,31 +57,35 @@ public class ParseImageGUIDList extends AbstractSbTasklet {
 		File imgGuidList = new File(imgGuidListFile);
 		File imgDocMap = new File(imgDocMapFile);
 		
-		long startTime = System.currentTimeMillis();
-		int numDocsParsed = xmlImageParserService.generateImageList(xmlDir, imgGuidList, imgDocMap);
-		long endTime = System.currentTimeMillis();
-		long elapsedTime = endTime - startTime;
-		
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobInstance);
-		
-		if (numDocsParsed != numDocsInTOC)
-		{
-			String message = "The number of documents wrapped by the HTMLWrapper Service did " +
-					"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
-					numDocsParsed + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
-			LOG.error(message);
-			jobstats.setPublishStatus("parseImageGuids : Failed");
+	    String publishingStatus = "Completed";
+	    
+		try {
+			long startTime = System.currentTimeMillis();
+			int numDocsParsed = xmlImageParserService.generateImageList(xmlDir, imgGuidList, imgDocMap);
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
+			
+			if (numDocsParsed != numDocsInTOC)
+			{
+				String message = "The number of documents wrapped by the HTMLWrapper Service did " +
+						"not match the number of documents retrieved from the eBook TOC. Wrapped " + 
+						numDocsParsed + " documents while the eBook TOC had " + numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
+			
+			LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 
+					+ numDocsParsed + " xml documents.");
+			
+		} catch (Exception e) {
+			publishingStatus = "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("parseImageGuids : " + publishingStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-			throw new EBookFormatException(message);
 		}
-		
-		
-	    jobstats.setPublishStatus("parseImageGuids : Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		
-		LOG.debug("Generate Image Guid list in " + elapsedTime + " milliseconds from " + 
-				+ numDocsParsed + " xml documents.");
 		
 		return ExitStatus.COMPLETED;
 	}

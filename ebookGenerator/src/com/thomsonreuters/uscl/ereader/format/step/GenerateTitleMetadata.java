@@ -94,10 +94,14 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
-		OutputStream titleManifest = new FileOutputStream(titleXml);
-		InputStream tocXml = new FileInputStream(tocXmlFile);
+		OutputStream titleManifest = null;
+		InputStream tocXml = null;
 		String status = "Completed";
+
 		try {
+			titleManifest = new FileOutputStream(titleXml);
+			tocXml = new FileInputStream(tocXmlFile);
+			
 			File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 			//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
 			titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
@@ -108,7 +112,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		  throw (e);
 		}
 		finally {
-		
 			tocXml.close();
 			titleManifest.close();
 			PublishingStats jobstats = new PublishingStats();

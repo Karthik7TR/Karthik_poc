@@ -74,29 +74,34 @@ public class TransformXML extends AbstractSbTasklet
 		File transformDir = new File(transformDirectory);
 		File imgMetadataDir = new File(imgMetadataDirectory);
 		
-		long startTime = System.currentTimeMillis();
-		int numDocsTransformed = transformerService.transformXMLDocuments(
-				xmlDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations());
-		long endTime = System.currentTimeMillis();
-		long elapsedTime = endTime - startTime;
-		
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
+		String stepStatus = "Completed";
 	    
-		if (numDocsTransformed != numDocsInTOC)
-		{
-			String message = "The number of documents transformed did not match the number " +
-					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
-					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
-			LOG.error(message);
-			jobstats.setPublishStatus("transformXML : Failed");
+		try {
+			long startTime = System.currentTimeMillis();
+			int numDocsTransformed = transformerService.transformXMLDocuments(
+					xmlDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations());
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
+			
+			if (numDocsTransformed != numDocsInTOC)
+			{
+				String message = "The number of documents transformed did not match the number " +
+						"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
+						" documents while the eBook TOC had " + numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
+			
+			LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
+		} catch (Exception e) {
+			stepStatus= "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("formatTransformXML : " + stepStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-			throw new EBookFormatException(message);
 		}
-		jobstats.setPublishStatus("formatTransformXML : Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		
-		LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}

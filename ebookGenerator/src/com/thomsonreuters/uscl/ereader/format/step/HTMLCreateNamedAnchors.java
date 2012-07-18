@@ -68,29 +68,33 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
 		File postTransformDir = new File(postTransformDirectory);
 		File docToTocFile = new File(docToTocFileName);
 		
-		long startTime = System.currentTimeMillis();
-		int numDocsTransformed = 
-				transformerCreateAnchorService.transformHTML(transformDir, postTransformDir,titleId, jobId, docToTocFile);
-		long endTime = System.currentTimeMillis();
-		long elapsedTime = endTime - startTime;
-		
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
-		if (numDocsTransformed != numDocsInTOC)
-		{
-			String message = "The number of post transformed documents did not match the number " +
-					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
-					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
-			LOG.error(message);
-			jobstats.setPublishStatus("formatHTMLCreateNamedAnchors : Failed");
+	    String stepStatus = "Completed";
+		try {
+			long startTime = System.currentTimeMillis();
+			int numDocsTransformed = 
+					transformerCreateAnchorService.transformHTML(transformDir, postTransformDir,titleId, jobId, docToTocFile);
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
+
+			if (numDocsTransformed != numDocsInTOC)
+			{
+				String message = "The number of post transformed documents did not match the number " +
+						"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
+						" documents while the eBook TOC had " + numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
+			
+			LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
+		} catch (Exception e) {
+			stepStatus = "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("formatHTMLCreateNamedAnchors : " + stepStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-			throw new EBookFormatException(message);
 		}
-		
-		jobstats.setPublishStatus("formatHTMLCreateNamedAnchors : Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		
-		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
 
 		return ExitStatus.COMPLETED;
 	}

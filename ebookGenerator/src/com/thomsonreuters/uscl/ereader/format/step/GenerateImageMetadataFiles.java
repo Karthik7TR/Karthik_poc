@@ -60,35 +60,40 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 		
 		File docToImgFile = new File(docToImgFileName);
 		File imgMetadataDir = new File(imgMetadataDirName);
-		
-		long startTime = System.currentTimeMillis();
-		int numImgMetaDocsCreated = imgMetaBlockService.generateImageMetadata(docToImgFile, 
-				imgMetadataDir, jobId);
-		long endTime = System.currentTimeMillis();
-		long elapsedTime = endTime - startTime;
-		
+
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
-		
-		//TODO: Update to check value is equal to execution context value (numDocsInTOC)
-		if (numImgMetaDocsCreated == 0)
-		{
-			String message = "The number of ImageMetadata documents created did " +
-					"not match the number of documents retrieved from the eBook TOC. Created " + 
-					numImgMetaDocsCreated + " documents while the eBook TOC had " + 
-					numDocsInTOC + " documents.";
-			LOG.error(message);
-			jobstats.setPublishStatus("generateImageMetadataFiles : Failed");
+	    String publishStatus = "Completed";
+	    
+		try{
+			long startTime = System.currentTimeMillis();
+			int numImgMetaDocsCreated = imgMetaBlockService.generateImageMetadata(docToImgFile, 
+					imgMetadataDir, jobId);
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
+			
+			//TODO: Update to check value is equal to execution context value (numDocsInTOC)
+			if (numImgMetaDocsCreated == 0)
+			{
+				String message = "The number of ImageMetadata documents created did " +
+						"not match the number of documents retrieved from the eBook TOC. Created " + 
+						numImgMetaDocsCreated + " documents while the eBook TOC had " + 
+						numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
+			
+			//TODO: Improve metrics
+			LOG.debug("Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + 
+					elapsedTime + " milliseconds");
+			
+		} catch (EBookFormatException e) {
+			publishStatus = "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("generateImageMetadataFiles : " + publishStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-			throw new EBookFormatException(message);
 		}
-		
-		jobstats.setPublishStatus("generateImageMetadataFiles : Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		
-		//TODO: Improve metrics
-		LOG.debug("Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + 
-				elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}

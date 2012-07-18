@@ -66,30 +66,33 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 		File transformDir = new File(transformDirectory);
 		File postTransformDir = new File(postTransformDirectory);
 		
-		long startTime = System.currentTimeMillis();
-		int numDocsTransformed = 
-				transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId, envName, emailRecipients);
-		long endTime = System.currentTimeMillis();
-		long elapsedTime = endTime - startTime;
-		
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
-		
-		if (numDocsTransformed != numDocsInTOC)
-		{
-			String message = "The number of post transformed documents did not match the number " +
-					"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
-					" documents while the eBook TOC had " + numDocsInTOC + " documents.";
-			LOG.error(message);
-			jobstats.setPublishStatus("formatHTMLRemoveBrokenInternalLinks : Failed");
+	    String stepStatus = "Completed";
+		try {
+			long startTime = System.currentTimeMillis();
+			int numDocsTransformed = 
+					transformerUnlinkService.transformHTML(transformDir, postTransformDir,titleId, jobId, envName, emailRecipients);
+			long endTime = System.currentTimeMillis();
+			long elapsedTime = endTime - startTime;
+			
+			if (numDocsTransformed != numDocsInTOC)
+			{
+				String message = "The number of post transformed documents did not match the number " +
+						"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
+						" documents while the eBook TOC had " + numDocsInTOC + " documents.";
+				LOG.error(message);
+				throw new EBookFormatException(message);
+			}
+			
+			LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
+		} catch (Exception e) {
+			stepStatus = "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("formatHTMLRemoveBrokenInternalLinks : " + stepStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-			throw new EBookFormatException(message);
 		}
-		
-		jobstats.setPublishStatus("formatHTMLRemoveBrokenInternalLinks : Completed");
-		publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		
-		LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
 		
 		return ExitStatus.COMPLETED;
 	}

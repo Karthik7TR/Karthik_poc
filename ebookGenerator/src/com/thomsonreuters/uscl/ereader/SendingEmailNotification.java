@@ -35,15 +35,29 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
-		sendNotification(chunkContext);
+		
+		Long jobId = getJobInstance(chunkContext).getId();
+		String publishStatus = "Completed";
+		
+		try {
+			sendNotification(chunkContext);
+		} catch (Exception e) {
+			publishStatus = "Failed";
+			log.error("Failed to send Email notification to the user ", e);
+			throw e;
+		} finally {
+			PublishingStats jobstats = new PublishingStats();
+		    jobstats.setJobInstanceId(jobId);
+		    jobstats.setPublishStatus("sendEmailNotification : " + publishStatus);
+			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+		}
+		
 		return ExitStatus.COMPLETED;
 	}
 	
-    private void sendNotification(ChunkContext chunkContext) {
+    private void sendNotification(ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);
-		Long jobId = getJobInstance(chunkContext).getId();
-		String publishStatus = "Completed";
 
 		StepContext stepContext = chunkContext.getStepContext();
 		StepExecution stepExecution = stepContext.getStepExecution();
@@ -62,22 +76,8 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         String body =  String.format("%s\n\nProview Display Name: %s \nTitle ID: %s \nJob Instance ID: %d \nJob Execution ID: %d \nEnvironment: %s\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
-        try 
-        {
-        	EmailNotification.send(recipients, subject, body);
-        }
-        catch (Exception e)
-        {
-        	publishStatus = "Failed";
-			log.error("Failed to send Email notification to the user ", e);
-        }
-        finally 
-        {
-	        PublishingStats jobstats = new PublishingStats();
-		    jobstats.setJobInstanceId(jobId);
-		    jobstats.setPublishStatus("sendEmailNotification : " + publishStatus);
-			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-        }
+
+        EmailNotification.send(recipients, subject, body);
 	}
     
     @Required

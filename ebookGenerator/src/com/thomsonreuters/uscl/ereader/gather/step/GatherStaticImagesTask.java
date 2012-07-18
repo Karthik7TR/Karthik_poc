@@ -70,6 +70,7 @@ public class GatherStaticImagesTask extends AbstractSbTasklet {
 		catch (Exception e)
 		{
 			publishStatus = "Failed";
+			throw e;
 		}
 		finally 
 		{

@@ -41,7 +41,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 
 	@Override
-	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) {
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		String publishStatus = "Completed";
 		PublishingStats jobstats = new PublishingStats();
@@ -74,6 +74,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 		{
 			publishStatus = "Failed";
 			log.error("Failed to archive ebook file", e);
+			throw e;
 		}
 		finally 
 		{
