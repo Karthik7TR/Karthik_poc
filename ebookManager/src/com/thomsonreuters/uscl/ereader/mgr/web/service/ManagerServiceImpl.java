@@ -65,8 +65,8 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public JobExecution findRunningJob(long bookDefinitionId, String bookVersion) {
-		JobExecution jobExecution = managerDao.findRunningJobExecution(bookDefinitionId, bookVersion);
+	public JobExecution findRunningJob(long bookDefinitionId) {
+		JobExecution jobExecution = managerDao.findRunningJobExecution(bookDefinitionId);
 		return jobExecution;
 	}
 	

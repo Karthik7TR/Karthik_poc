@@ -18,12 +18,11 @@ public interface ManagerService {
 	public boolean isAnyJobsStartedOrQueued();
 	
 	/**
-	 * Returns the job execution for a job that is running with the specified id and version.
+	 * Returns the job execution for a job that is running with the specified id.
 	 * @param bookDefinitionId id of the book definition 
-	 * @param bookVersion the version number to compare against
 	 * @return the job execution of the matching job, or null if none found
 	 */
-	public JobExecution findRunningJob(long bookDefinitionId, String bookVersion);
+	public JobExecution findRunningJob(long bookDefinitionId);
 	
 	/**
 	 * 

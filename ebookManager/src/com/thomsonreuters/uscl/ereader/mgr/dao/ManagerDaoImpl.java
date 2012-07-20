@@ -31,13 +31,12 @@ public class ManagerDaoImpl implements ManagerDao {
 	private JobExplorer jobExplorer;
 	
 	@Override
-	public JobExecution findRunningJobExecution(Long bookDefinitionId, String bookVersion) {
+	public JobExecution findRunningJobExecution(Long bookDefinitionId) {
 		Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(JobRequest.JOB_NAME_CREATE_EBOOK);
 		for (JobExecution jobExec : runningJobs) {
 			JobParameters params = jobExec.getJobInstance().getJobParameters();
 			Long bookDefIdParamValue = params.getLong(JobParameterKey.BOOK_DEFINITION_ID);
-			String bookVersionParamValue = params.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-			if (bookDefinitionId.equals(bookDefIdParamValue) && bookVersion.equals(bookVersionParamValue)) {
+			if (bookDefinitionId.equals(bookDefIdParamValue)) {
 				return jobExec;
 			}
 		}
