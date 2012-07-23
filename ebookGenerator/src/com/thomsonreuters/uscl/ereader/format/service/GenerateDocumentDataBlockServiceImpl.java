@@ -37,13 +37,13 @@ public class GenerateDocumentDataBlockServiceImpl implements
 
 	/**
 	 * Builds document data block using passed in collection,version information.
-	 * @param version
+	 * @param versioned
 	 * @param guidCollection
 	 * @param docGuid
 	 * @return
 	 * 
 	 */
-	private InputStream buildDocumentDataBlock(boolean version,
+	private InputStream buildDocumentDataBlock(String versioned,
 			String collectionName, String cite) {
 			String currentDate = dateString();
 			StringBuffer documentDataBlocks = new StringBuffer();
@@ -53,7 +53,7 @@ public class GenerateDocumentDataBlockServiceImpl implements
 			documentDataBlocks.append("</collection>");
 			documentDataBlocks.append("<datetime>"+currentDate+"</datetime>");  
 			documentDataBlocks.append("<versioned>");
-			documentDataBlocks.append(version);
+			documentDataBlocks.append(versioned);
 			documentDataBlocks.append("</versioned>");
 			documentDataBlocks.append("<doc-type></doc-type>");
 			documentDataBlocks.append("<cite></cite>"); 
@@ -87,9 +87,9 @@ public class GenerateDocumentDataBlockServiceImpl implements
 			 }
 			 
 			 String collectionName = docMetadata.getCollectionName();
-			 boolean version = false;
+			 String versioned = "False";
 			 String cite = null;
-			 InputStream stringBuffer = buildDocumentDataBlock(version, collectionName, cite);
+			 InputStream stringBuffer = buildDocumentDataBlock(versioned, collectionName, cite);
 			 
 		return stringBuffer;
 	}
