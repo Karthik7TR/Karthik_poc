@@ -1014,23 +1014,20 @@
 				<div class="errorDiv">
 					<form:errors path="excludeDocuments[${aStatus.index}].documentGuid" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Note</label>
 				<form:textarea path="excludeDocuments[${aStatus.index}].note" />
 				<div class="errorDiv">
 					<form:errors path="excludeDocuments[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Last Updated</label>
 				<form:input disabled="true" path="excludeDocuments[${aStatus.index}].lastUpdated" />
 				<form:hidden path="excludeDocuments[${aStatus.index}].lastUpdated"/>
 				<div class="errorDiv">
 					<form:errors path="excludeDocuments[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
 				</div>
-			</div>
-			<input type="button" value="Delete" class="rdelete" title="Delete Exclude Document" />
+			</div><input type="button" value="Delete" class="rdelete" title="Delete Exclude Document" />
 		</div>
 	</c:forEach>
 	<div id="addExcludeDocumentHere"></div>
@@ -1057,37 +1054,32 @@
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].tocGuid" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Old Label</label>
 				<form:input path="renameTocEntries[${aStatus.index}].oldLabel" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].oldLabel" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>New Label</label>
 				<form:input path="renameTocEntries[${aStatus.index}].newLabel" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].newLabel" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Note</label>
 				<form:textarea path="renameTocEntries[${aStatus.index}].note" />
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Last Updated</label>
 				<form:input disabled="true" path="renameTocEntries[${aStatus.index}].lastUpdated" />
 				<form:hidden path="renameTocEntries[${aStatus.index}].lastUpdated"/>
 				<div class="errorDiv">
 					<form:errors path="renameTocEntries[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
 				</div>
-			</div>
-			<input type="button" value="Delete" class="rdelete" title="Delete Rename TOC Entry" />
+			</div><input type="button" value="Delete" class="rdelete" title="Delete Rename TOC Entry" />
 		</div>
 	</c:forEach>
 	<div id="addRenameTocEntryHere"></div>
@@ -1194,23 +1186,20 @@
 				<div class="errorDiv">
 					<form:errors path="tableViewers[${aStatus.index}].documentGuid" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Note</label>
 				<form:textarea path="tableViewers[${aStatus.index}].note" />
 				<div class="errorDiv">
 					<form:errors path="tableViewers[${aStatus.index}].note" cssClass="errorMessage" />
 				</div>
-			</div>
-			<div class="dynamicRow">
+			</div><div class="dynamicRow">
 				<label>Last Updated</label>
 				<form:input disabled="true" path="tableViewers[${aStatus.index}].lastUpdated" />
 				<form:hidden path="tableViewers[${aStatus.index}].lastUpdated"/>
 				<div class="errorDiv">
 					<form:errors path="tableViewers[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
 				</div>
-			</div>
-			<input type="button" value="Delete" class="rdelete" title="Delete ProView Table Viewer Entry" />
+			</div><input type="button" value="Delete" class="rdelete" title="Delete ProView Table Viewer Entry" />
 		</div>
 	</c:forEach>
 	<div id="addTableViewerHere"></div>
@@ -1377,13 +1366,7 @@
 			<div class="row frontMatterPage">
 				<form:hidden path="frontMatters[${pageStatus.index}].id"/>
 				<form:hidden path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="sequence" />
-				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" />
-				<form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" />
-				<button class="moveUp" type="button">Up</button>
-				<button class="moveDown" type="button">Down</button>
-				<input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." />
-				<input type="button" value="Preview" class="fmPreview"/>   
-	
+				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" /><form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." /><input type="button" value="Preview" class="fmPreview"/>   
 				<div class="errorDiv2">
 					<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
 					<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
@@ -1396,10 +1379,7 @@
 							<c:set var="sectionIndex" value="${sectionStatus.index}"/>
 							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].id"   />
 							<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="sequence" />
-							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" />
-							<button class="moveUp" type="button">Up</button>
-							<button class="moveDown" type="button">Down</button>
-							<input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
+							<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" title="Section Heading" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Section" class="rdelete" title="Delete Section and Pdfs?" deleteMessage="This will also delete all the pdfs in this front matter section."/>
 							<div class="errorDiv2">
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sectionHeading" cssClass="errorMessage" />
 								<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].sequenceNum" cssClass="errorMessage" />
@@ -1415,11 +1395,7 @@
 										<c:set var="pdfIndex" value="${pdfStatus.index}"/>
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].id" />
 										<form:hidden path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].sequenceNum" cssClass="sequence" />
-										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" />
-										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" />								
-										<button class="moveUp" type="button">Up</button>
-										<button class="moveDown" type="button">Down</button>
-										<input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?" />
+										<form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText"   title="PDF Link Text" /><form:input path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename"   title="PDF Filename" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Pdf" class="rdelete" title="Delete Pdf?" />
 										<div class="errorDiv2">
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfLinkText" cssClass="errorMessage" />
 											<form:errors path="frontMatters[${pageStatus.index}].frontMatterSections[${sectionStatus.index}].pdfs[${pdfStatus.index}].pdfFilename" cssClass="errorMessage" />
