@@ -249,7 +249,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 					if (imgGuid == null || imgGuid.length() < 30 || imgGuid.length() > 36)
 					{
 						String message = "Invalid image GUID encountered in the Document to Image GUID map: " 
-								+ imgGuid;
+								+ imgGuid + " for the docuemnt guid " + doc;
 						LOG.error(message);
 						throw new EBookFormatException(message);
 					}
