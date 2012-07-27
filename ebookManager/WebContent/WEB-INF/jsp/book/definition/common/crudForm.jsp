@@ -590,6 +590,7 @@
 			
 			$('input:radio[name=tableViewersUsed]').change(function () {
 				showSelectOptions("tableViewersUsed", "#displayTableViewer");
+				showSelectOptions("tableViewersUsed", "#addTableViewerRow");
 			});
 			
 			// Close or open the Keyword values
@@ -729,6 +730,7 @@
 			showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
 			showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
 			showSelectOptions("tableViewersUsed", "#displayTableViewer");
+			showSelectOptions("tableViewersUsed", "#addTableViewerRow");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
@@ -1163,6 +1165,10 @@
 					<form:errors path="tableViewersUsed" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div id="addTableViewerRow" class="row" style="display:none;">
+				<label class="labelCol">Table Viewer</label>
+				<input type="button" id="addTableViewer" value="add" />
+			</div>
 		</div>
 	</div>
 </div>
@@ -1173,8 +1179,6 @@
 			<form:hidden path="tableViewersCopy[${aStatus.index}].note" />
 			<form:hidden path="tableViewersCopy[${aStatus.index}].lastUpdated"/>
 	</c:forEach>
-	<label class="labelCol">Table Viewer</label>
-	<input type="button" id="addTableViewer" value="add" />
 	<div class="errorDiv">
 		<form:errors path="tableViewers" cssClass="errorMessage" />
 	</div>
