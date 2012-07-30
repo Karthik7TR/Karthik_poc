@@ -48,8 +48,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 	    jobstats.setJobInstanceId(jobInstance.getId());
 		try {
 			// We only archive in the production environment
-			// Nirupam included test too for Ray to test. would revert back once it's done
-			if (("prod".equals(environmentName)) || ("test".equals(environmentName))) {
+			if ("prod".equals(environmentName)) {
 				ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 				JobParameters jobParameters = getJobParameters(chunkContext);
 				String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
