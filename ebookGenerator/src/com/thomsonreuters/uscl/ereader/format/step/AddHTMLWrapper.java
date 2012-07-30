@@ -10,17 +10,14 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -38,17 +35,11 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 	private static final Logger LOG = Logger.getLogger(AddHTMLWrapper.class);
 	private HTMLWrapperService htmlWrapperService;
 	
-	private BookDefinitionService bookDefnService;
 	private PublishingStatsService publishingStatsService;
 	
 	public void sethtmlWrapperService(HTMLWrapperService htmlWrapperService) 
 	{
 		this.htmlWrapperService = htmlWrapperService;
-	}
-	
-	@Required
-	public void setBookDefnService(BookDefinitionService bookDefnService) {
-		this.bookDefnService = bookDefnService;
 	}
 	
 	@Required
@@ -67,9 +58,8 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 					
-		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
-		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
 		String titleId = bookDefinition.getTitleId();
 		boolean keyciteToplineFlag = bookDefinition.getKeyciteToplineFlag();
 		

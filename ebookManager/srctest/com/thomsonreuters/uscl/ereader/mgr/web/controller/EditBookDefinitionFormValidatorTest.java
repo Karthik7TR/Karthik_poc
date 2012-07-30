@@ -614,7 +614,7 @@ public class EditBookDefinitionFormValidatorTest {
     	
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
-		Assert.assertEquals("error.rename.toc.entry.used", errors.getFieldError("renameTocEntries").getCode());
+		Assert.assertEquals("error.used.selected", errors.getFieldError("renameTocEntries").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

@@ -32,6 +32,7 @@ public class GatherDocRequest implements Serializable {
 	private File contentDestinationDirectory;
 	/** Filesystem directory where document metadata will be placed as guid.xml */
 	private File metadataDestinationDirectory;
+	private boolean isFinalStage;
 	
 	public GatherDocRequest() {
 		super();
@@ -45,11 +46,13 @@ public class GatherDocRequest implements Serializable {
 	 */
 	public GatherDocRequest(Collection<String> guids, String collectionName,
 							File contentDestinationDirectory,
-							File metadataDestinationDirectory) {
+							File metadataDestinationDirectory,
+							boolean isFinalStage) {
 		setGuids(guids);
 		setCollectionName(collectionName);
 		setContentDestinationDirectory(contentDestinationDirectory);
 		setMetadataDestinationDirectory(metadataDestinationDirectory);
+		setFinalStage(isFinalStage);
 	}
 	public Collection<String> getGuids() {
 		return guids;
@@ -63,6 +66,9 @@ public class GatherDocRequest implements Serializable {
 	public File getMetadataDestinationDirectory() {
 		return metadataDestinationDirectory;
 	}
+	public boolean isFinalStage() {
+		return isFinalStage;
+	}
 	public void setGuids(Collection<String> guidCollection) {
 		this.guids = new ArrayList<String>(guidCollection);
 	}
@@ -74,6 +80,9 @@ public class GatherDocRequest implements Serializable {
 	}
 	public void setMetadataDestinationDirectory(File destinationDirectory) {
 		this.metadataDestinationDirectory = destinationDirectory;
+	}
+	public void setFinalStage(boolean isFinalStage) {
+		this.isFinalStage = isFinalStage;
 	}
 	
 	@Override
@@ -92,6 +101,7 @@ public class GatherDocRequest implements Serializable {
 				+ ((contentDestinationDirectory == null) ? 0
 						: contentDestinationDirectory.hashCode());
 		result = prime * result + ((guids == null) ? 0 : guids.hashCode());
+		result = prime * result + (isFinalStage ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((metadataDestinationDirectory == null) ? 0
@@ -123,6 +133,8 @@ public class GatherDocRequest implements Serializable {
 			if (other.guids != null)
 				return false;
 		} else if (!guids.equals(other.guids))
+			return false;
+		if (isFinalStage != other.isFinalStage)
 			return false;
 		if (metadataDestinationDirectory == null) {
 			if (other.metadataDestinationDirectory != null)

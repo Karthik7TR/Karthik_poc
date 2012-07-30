@@ -21,9 +21,11 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
  * @param expressionFilter named slice filter
  * @param nortXmlFile the files that contains the toc hierarchy and document guids.
  * @param cutoffDate the date from the ebook definition to be used to filter based on start/end dates in payload.
+ * @param isFinalStage determines to retrieve content from Final or Review stage
  */
 public interface NortService {
 	
-	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) throws GatherException; 
+	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate, 
+			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) throws GatherException; 
 
 }

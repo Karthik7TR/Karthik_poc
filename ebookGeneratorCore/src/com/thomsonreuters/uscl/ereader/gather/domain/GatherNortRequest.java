@@ -24,12 +24,14 @@ public class GatherNortRequest {
 	private File nortFile;
 	private ArrayList<ExcludeDocument> excludeDocuments;
 	private ArrayList<RenameTocEntry> renameTocEntries;
+	private boolean isFinalStage;
 
 	public GatherNortRequest(){
 		super();
 	}
 	
-	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) {
+	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, 
+			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
@@ -37,6 +39,7 @@ public class GatherNortRequest {
 		this.cutoffDate = cutoffDate;
 		this.excludeDocuments = excludeDocuments;
 		this.renameTocEntries = renameTocEntries;
+		this.isFinalStage = isFinalStage;
 	}
 	
 	public String getDomainName() {
@@ -79,6 +82,14 @@ public class GatherNortRequest {
 		this.renameTocEntries = renameTocEntries;
 	}
 
+	public boolean isFinalStage() {
+		return isFinalStage;
+	}
+
+	public void setFinalStage(boolean isFinalStage) {
+		this.isFinalStage = isFinalStage;
+	}
+
 	public void setCutoffDate(Date cutoffDate) {
 		this.cutoffDate = cutoffDate;
 	}
@@ -92,10 +103,15 @@ public class GatherNortRequest {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+				+ ((cutoffDate == null) ? 0 : cutoffDate.hashCode());
+		result = prime * result
 				+ ((domainName == null) ? 0 : domainName.hashCode());
-		result = prime * result + ((expressionFilter == null) ? 0 : expressionFilter.hashCode());
-		result = prime * result + ((nortFile == null) ? 0 : nortFile.hashCode());
-		result = prime * result + ((cutoffDate == null) ? 0 : cutoffDate.hashCode());
+		result = prime
+				* result
+				+ ((expressionFilter == null) ? 0 : expressionFilter.hashCode());
+		result = prime * result + (isFinalStage ? 1231 : 1237);
+		result = prime * result
+				+ ((nortFile == null) ? 0 : nortFile.hashCode());
 		return result;
 	}
 
@@ -108,6 +124,11 @@ public class GatherNortRequest {
 		if (getClass() != obj.getClass())
 			return false;
 		GatherNortRequest other = (GatherNortRequest) obj;
+		if (cutoffDate == null) {
+			if (other.cutoffDate != null)
+				return false;
+		} else if (!cutoffDate.equals(other.cutoffDate))
+			return false;
 		if (domainName == null) {
 			if (other.domainName != null)
 				return false;
@@ -118,15 +139,12 @@ public class GatherNortRequest {
 				return false;
 		} else if (!expressionFilter.equals(other.expressionFilter))
 			return false;
+		if (isFinalStage != other.isFinalStage)
+			return false;
 		if (nortFile == null) {
 			if (other.nortFile != null)
 				return false;
 		} else if (!nortFile.equals(other.nortFile))
-			return false;
-		if (cutoffDate == null) {
-			if (other.cutoffDate != null)
-				return false;
-		} else if (!cutoffDate.equals(other.cutoffDate))
 			return false;
 		return true;
 	}

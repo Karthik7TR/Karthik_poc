@@ -58,6 +58,16 @@
     <bean id="xmlFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
 		  p:filter-ref="xmlFilter"/>
 		  
+	<bean id="preprocessFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.preprocess</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="preprocessFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+		  p:filter-ref="preprocessFilter"/>
+		  
 	<bean id="transformedFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
   	  <property name="acceptedFileExtensions">
         <list>
@@ -98,11 +108,15 @@
 	<bean id="postUnlinkFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
   		  p:filter-ref="postUnlinkFileFilter"/>
   		  
+  	<bean id="preprocessService" class="com.thomsonreuters.uscl.ereader.format.service.XMLPreprocessServiceImpl"
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+  		  
 	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
 		  p:docMetadataService-ref="docMetadataService"
 		  p:xsltMapperService-ref="xsltMapperService"
 		  p:generateDocumentDataBlockService-ref="generateDocumentDataBlockService"
-		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+		  p:fileHandlingHelper-ref="preprocessFileHandlingHelper"/>
+		  
 	<bean id="generateImgMetaBlockService" class="com.thomsonreuters.uscl.ereader.format.service.GenerateImageMetadataBlockServiceImpl"
 		  p:imgService-ref="imageService"/>
 	

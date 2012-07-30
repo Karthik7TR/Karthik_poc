@@ -34,6 +34,7 @@ public class DocControllerTest {
 	private static final String COLLECTION_NAME = "bogusCollname";
 	private static final File CONTENT_DIR = new File("docContent");
 	private static final File METADATADIR_DIR = new File("docMetadata");
+	private static final boolean IS_FINAL_STAGE = true;
 
 	@Before
 	public void setUp() {
@@ -49,11 +50,11 @@ public class DocControllerTest {
 	public void testFetchDocumentsSuccessfully() throws Exception {
 		
 		GatherResponse gatherResponse1 = new GatherResponse();
-		EasyMock.expect(mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR)).andReturn(gatherResponse1);
+		EasyMock.expect(mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR, IS_FINAL_STAGE)).andReturn(gatherResponse1);
 		EasyMock.replay(mockDocService);
 		
     	// Invoke the controller
-    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR, IS_FINAL_STAGE);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.fetchDocuments(docRequest, model);
     	
@@ -76,7 +77,7 @@ public class DocControllerTest {
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
-			mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+			mockDocService.fetchDocuments(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR, IS_FINAL_STAGE);
 			EasyMock.expectLastCall().andThrow(expectedException);
 			EasyMock.replay(mockDocService);
 		} catch (Exception e) {
@@ -84,7 +85,7 @@ public class DocControllerTest {
 		}
 
     	// Invoke the controller
-    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR);
+    	GatherDocRequest docRequest = new GatherDocRequest(guids, COLLECTION_NAME, CONTENT_DIR, METADATADIR_DIR, IS_FINAL_STAGE);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.fetchDocuments(docRequest, model);
 

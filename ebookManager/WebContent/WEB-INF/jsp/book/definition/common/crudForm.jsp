@@ -36,6 +36,8 @@
 		var excludeDocumentIndex = ${numberOfExcludeDocuments};
 		var renameTocEntryIndex = ${numberOfRenameTocEntries};
 		var tableViewerIndex = ${numberOfTableViewers};
+		var documentCopyrightIndex = ${numberOfDocumentCopyrights};
+		var documentCurrencyIndex = ${numberOfDocumentCurrencies};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -119,21 +121,17 @@
 			// Add sequence number
 			var lastChild = $("#addAuthorHere .expandingBox:last-child");
 			var lastSequenceNum = getSequenceNumber(lastChild);
-			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
-			expandingBox.append(sequenceBox);
+			expandingBox.append(addDynamicRow("input", id, name, "sequenceNum", null, null, "sequence", "hidden", lastSequenceNum + 1));
 			
 			// Add author name input boxes
-			expandingBox.append(addDynamicRow(id, name, "authorNamePrefix", "Prefix"));
-			expandingBox.append(addDynamicRow(id, name, "authorFirstName", "First Name"));
-			expandingBox.append(addDynamicRow(id, name, "authorMiddleName", "Middle Name"));
-			expandingBox.append(addDynamicRow(id, name, "authorLastName", "Last Name"));
-			expandingBox.append(addDynamicRow(id, name, "authorNameSuffix", "Suffix"));
+			expandingBox.append(addDynamicRow("input", id, name, "authorNamePrefix", "Prefix"));
+			expandingBox.append(addDynamicRow("input", id, name, "authorFirstName", "First Name"));
+			expandingBox.append(addDynamicRow("input", id, name, "authorMiddleName", "Middle Name"));
+			expandingBox.append(addDynamicRow("input", id, name, "authorLastName", "Last Name"));
+			expandingBox.append(addDynamicRow("input", id, name, "authorNameSuffix", "Suffix"));
 			
 			// Add addition text input box
-			var additionalText = $("<div>").addClass("dynamicRow");
-			additionalText.append($("<label>").html("Additional Text"));
-			additionalText.append($("<textarea>").attr("id",id +".authorAddlText").attr("name", name + ".authorAddlText"));
-			expandingBox.append(additionalText);
+			expandingBox.append(addDynamicRow("textarea", id, name, "authorAddlText", "Additional Text"));
 
 			// Add Comma checkbox
 			var useCommaBeforeSuffix = $("<div>").addClass("dynamicRow");
@@ -148,16 +146,28 @@
 			authorIndex = authorIndex + 1;
 		};
 		
-		var addDynamicRow = function(id, name, fieldName, label, maxLength, cssClass) {
+		var addDynamicRow = function(elementName, id, name, fieldName, label, maxLength, cssClass, type, value) {
 			var dynamicRow = $("<div>").addClass("dynamicRow");
-			dynamicRow.append($("<label>").html(label));
 			
-			var input = $("<input>").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName).attr("type", "text");
+			if(label != null) {
+				dynamicRow.append($("<label>").html(label));
+			}
+			
+			var input = $("<"+ elementName +">").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName);
 			if(maxLength != null) {
 				input.attr("maxlength", maxLength);
 			}
 			if(cssClass != null) {
 				input.attr("class", cssClass);
+			}
+			if(elementName == "input") {
+				input.attr("type", "text");
+			}
+			if(value != null) {
+				input.attr("value", value);
+			}
+			if(type != null) {
+				input.attr("type", type);
 			}
 			
 			dynamicRow.append(input);
@@ -184,20 +194,24 @@
 			return str;
 		}
 		
-		// Add Exclude Document or Table Viewer row
-		var addDocumentGuidRow = function(elementName, index, titleMessage, addHere) {
+		// Add rows for Table Viewer, exclude document, rename toc entry, document copyright, and document currency
+		var addGuidRow = function(elementName, index, guidAttrName, guidLabelName, titleMessage, textAttrArray, textLabelArray, addHere) {
 			var expandingBox = $("<div>").addClass("expandingBox");
 			var id = elementName + index;
 			var name = elementName + "[" + index + "]";
 			
 			// Add Document Guid input boxes
-			expandingBox.append(addDynamicRow(id, name, "documentGuid", "Document Guid", 33, "guid"));
+			expandingBox.append(addDynamicRow("input", id, name, guidAttrName, guidLabelName, 33, "guid"));
+			
+			// Add new text
+			if(textAttrArray != null) {
+				for(var i = 0; i < textAttrArray.length; i++) {
+					expandingBox.append(addDynamicRow("input", id, name, textAttrArray[i], textLabelArray[i]));
+				}
+			}
 			
 			// Add Note text box
-			var additionalText = $("<div>").addClass("dynamicRow");
-			additionalText.append($("<label>").html("Note"));
-			additionalText.append($("<textarea>").attr("id",id +".note").attr("name", name + ".note"));
-			expandingBox.append(additionalText);
+			expandingBox.append(addDynamicRow("textarea", id, name, "note", "Note"));
 			
 			// Add Date input box
 			var lastUpdated = $("<div>").addClass("dynamicRow");
@@ -207,40 +221,8 @@
 			
 			// Add delete button
 			expandingBox.append($("<input>").addClass("rdelete").attr("title",titleMessage).attr("type", "button").val("Delete"));
-		
+
 			addHere.before(expandingBox);
-		};
-		
-		// Add another Rename TOC Entry row
-		var addRenameTocEntryRow = function() {
-			var expandingBox = $("<div>").addClass("expandingBox");
-			var id = "renameTocEntries" + renameTocEntryIndex;
-			var name = "renameTocEntries[" + renameTocEntryIndex + "]";
-			
-			// Add Document Guid input boxes
-			expandingBox.append(addDynamicRow(id, name, "tocGuid", "Guid", 33, "guid"));
-			
-			// Add old and new labels
-			expandingBox.append(addDynamicRow(id, name, "oldLabel", "Old Label"));
-			expandingBox.append(addDynamicRow(id, name, "newLabel", "New Label"));
-			
-			// Add Note text box
-			var additionalText = $("<div>").addClass("dynamicRow");
-			additionalText.append($("<label>").html("Note"));
-			additionalText.append($("<textarea>").attr("id",id +".note").attr("name", name + ".note"));
-			expandingBox.append(additionalText);
-			
-			// Add Date input box
-			var lastUpdated = $("<div>").addClass("dynamicRow");
-			lastUpdated.append($("<label>").html("Last Updated"));
-			lastUpdated.append($("<input>").attr("id",id +".lastUpdated").attr("name", name + ".lastUpdated").attr("type", "text").attr("disabled","disabled").val(getDateTimeString(new Date())));
-			expandingBox.append(lastUpdated);
-			
-			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Rename TOC Entry").attr("type", "button").val("Delete"));
-		
-			$("#addRenameTocEntryHere").before(expandingBox);
-			renameTocEntryIndex = renameTocEntryIndex + 1;
 		};
 		
 		// Add another additional Front Matter Page row
@@ -401,9 +383,8 @@
 			}
 		};
 		
-		var showSelectOptions = function(radioName, elementName) {
-			var display = $('input:radio[name='+ radioName +']:checked').val();
-			if(display == "true") {
+		var showSelectOptions = function(choice, elementName) {
+			if(choice == "true" || choice == true) {
 				$(elementName).show();
 			} else {
 				$(elementName).hide();
@@ -497,17 +478,28 @@
 			});
 			
 			$('#addExcludeDocument').click(function () {
-				addDocumentGuidRow("excludeDocuments", excludeDocumentIndex, "Delete Exclude Document", $('#addExcludeDocumentHere'));
+				addGuidRow("excludeDocuments", excludeDocumentIndex, "documentGuid", "Document Guid", "Delete Exclude Document", null, null, $('#addExcludeDocumentHere'));
 				excludeDocumentIndex = excludeDocumentIndex + 1;
 			});
 			
 			$('#addTableViewer').click(function () {
-				addDocumentGuidRow("tableViewers", tableViewerIndex, "Delete ProView Table Viewer Entry", $('#addTableViewerHere'));
+				addGuidRow("tableViewers", tableViewerIndex, "documentGuid", "Document Guid", "Delete Table Viewer", null, null, $('#addTableViewerHere'));
 				tableViewerIndex = tableViewerIndex + 1;
 			});
 			
 			$('#addRenameTocEntry').click(function () {
-				addRenameTocEntryRow();
+				addGuidRow("renameTocEntries", renameTocEntryIndex, "tocGuid", "Guid", "Delete Rename TOC Entry", new Array("oldLabel", "newLabel"), new Array("Old Label", "New Label"), $("#addRenameTocEntryHere"));
+				renameTocEntryIndex = renameTocEntryIndex + 1;
+			});
+			
+			$('#addDocumentCopyright').click(function () {
+				addGuidRow("documentCopyrights", documentCopyrightIndex, "copyrightGuid", "Copyright Guid", "Delete Document Copyright", new Array("newText"), new Array("New Text"), $("#addDocumentCopyrightHere"));
+				documentCopyrightIndex = documentCopyrightIndex + 1;
+			});
+			
+			$('#addDocumentCurrency').click(function () {
+				addGuidRow("documentCurrencies", documentCurrencyIndex, "currencyGuid", "Currency Guid", "Delete Document Currency", new Array("newText"), new Array("New Text"), $("#addDocumentCurrencyHere"));
+				documentCurrencyIndex = documentCurrencyIndex + 1;
 			});
 			
 			// Clicking the Additional Front Matter preview button 
@@ -581,15 +573,20 @@
 			
 			// Determine to show block
 			$('input:radio[name=excludeDocumentsUsed]').change(function () {
-				showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
+				showSelectOptions($(this).val(), "#displayExcludeDocument");
 			});
 			
 			$('input:radio[name=renameTocEntriesUsed]').change(function () {
-				showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
+				showSelectOptions($(this).val(), "#displayRenameTocEntry");
 			});
 			
 			$('input:radio[name=tableViewersUsed]').change(function () {
-				showSelectOptions("tableViewersUsed", "#displayTableViewer");
+				showSelectOptions($(this).val(), "#displayTableViewer");
+			});
+			
+			$('input:radio[name=finalStage]').change(function () {
+				showSelectOptions($(this).val() == "false", "#displayDocumentCopyright");
+				showSelectOptions($(this).val() == "false", "#displayDocumentCurrency");
 				showSelectOptions("tableViewersUsed", "#addTableViewerRow");
 			});
 			
@@ -727,9 +724,11 @@
 			$('#titleIdBox').val($('#titleId').val());
 			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
 			showPubCutoffDateBox();
-			showSelectOptions("excludeDocumentsUsed", "#displayExcludeDocument");
-			showSelectOptions("renameTocEntriesUsed", "#displayRenameTocEntry");
-			showSelectOptions("tableViewersUsed", "#displayTableViewer");
+			showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
+			showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
+			showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
+			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCopyright");
+			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCurrency");
 			showSelectOptions("tableViewersUsed", "#addTableViewerRow");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
@@ -993,11 +992,19 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<form:label path="finalStage" class="labelCol">Novus Stage</form:label>
+				<form:radiobutton path="finalStage" value="true" />Final
+				<form:radiobutton path="finalStage" value="false" />Review
+				<div class="errorDiv">
+					<form:errors path="finalStage" cssClass="errorMessage" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
-<div id="displayExcludeDocument" style="display:none;">
+<div id="displayExcludeDocument" class="dynamicContent" style="display:none;">
 	<c:forEach items="${editBookDefinitionForm.excludeDocumentsCopy}" var="documentCopy" varStatus="aStatus">
 			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].documentGuid" maxlength="33" />
 			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].note" />
@@ -1035,7 +1042,7 @@
 	<div id="addExcludeDocumentHere"></div>
 </div>
 
-<div id="displayRenameTocEntry" style="display:none;">
+<div id="displayRenameTocEntry" class="dynamicContent" style="display:none;">
 	<c:forEach items="${editBookDefinitionForm.renameTocEntriesCopy}" var="tocCopy" varStatus="aStatus">
 			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].tocGuid" />
 			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].oldLabel" />
@@ -1085,6 +1092,104 @@
 		</div>
 	</c:forEach>
 	<div id="addRenameTocEntryHere"></div>
+</div>
+
+<div id="displayDocumentCopyright" class="dynamicContent" style="display:none;">
+	<c:forEach items="${editBookDefinitionForm.documentCopyrightsCopy}" varStatus="aStatus">
+			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].copyrightGuid" />
+			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].newText" />
+			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].note" />
+			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].lastUpdated"/>
+	</c:forEach>
+	<label class="labelCol">Document Copyright</label>
+	<input type="button" id="addDocumentCopyright" value="add" />
+	<div class="errorDiv">
+		<form:errors path="documentCopyrights" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.documentCopyrights}" varStatus="aStatus">
+		<div class="expandingBox">
+			<div class="dynamicRow">
+				<label>Copyright Guid</label>
+				<form:input cssClass="guid" path="documentCopyrights[${aStatus.index}].copyrightGuid" maxlength="33" />
+				<div class="errorDiv">
+					<form:errors path="documentCopyrights[${aStatus.index}].copyrightGuid" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>New Text</label>
+				<form:input path="documentCopyrights[${aStatus.index}].newText" />
+				<div class="errorDiv">
+					<form:errors path="documentCopyrights[${aStatus.index}].newText" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Note</label>
+				<form:textarea path="documentCopyrights[${aStatus.index}].note" />
+				<div class="errorDiv">
+					<form:errors path="documentCopyrights[${aStatus.index}].note" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Last Updated</label>
+				<form:input disabled="true" path="documentCopyrights[${aStatus.index}].lastUpdated" />
+				<form:hidden path="documentCopyrights[${aStatus.index}].lastUpdated"/>
+				<div class="errorDiv">
+					<form:errors path="documentCopyrights[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+				</div>
+			</div>
+			<input type="button" value="Delete" class="rdelete" title="Delete Document Copyright" />
+		</div>
+	</c:forEach>
+	<div id="addDocumentCopyrightHere"></div>
+</div>
+
+<div id="displayDocumentCurrency" class="dynamicContent" style="display:none;">
+	<c:forEach items="${editBookDefinitionForm.documentCurrenciesCopy}" varStatus="aStatus">
+			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].currencyGuid" />
+			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].newText" />
+			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].note" />
+			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].lastUpdated"/>
+	</c:forEach>
+	<label class="labelCol">Document Currency</label>
+	<input type="button" id="addDocumentCurrency" value="add" />
+	<div class="errorDiv">
+		<form:errors path="documentCurrencies" cssClass="errorMessage" />
+	</div>
+	<c:forEach items="${editBookDefinitionForm.documentCurrencies}" varStatus="aStatus">
+		<div class="expandingBox">
+			<div class="dynamicRow">
+				<label>Currency Guid</label>
+				<form:input cssClass="guid" path="documentCurrencies[${aStatus.index}].currencyGuid" maxlength="33" />
+				<div class="errorDiv">
+					<form:errors path="documentCurrencies[${aStatus.index}].currencyGuid" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>New Text</label>
+				<form:input path="documentCurrencies[${aStatus.index}].newText" />
+				<div class="errorDiv">
+					<form:errors path="documentCurrencies[${aStatus.index}].newText" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Note</label>
+				<form:textarea path="documentCurrencies[${aStatus.index}].note" />
+				<div class="errorDiv">
+					<form:errors path="documentCurrencies[${aStatus.index}].note" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="dynamicRow">
+				<label>Last Updated</label>
+				<form:input disabled="true" path="documentCurrencies[${aStatus.index}].lastUpdated" />
+				<form:hidden path="documentCurrencies[${aStatus.index}].lastUpdated"/>
+				<div class="errorDiv">
+					<form:errors path="documentCurrencies[${aStatus.index}].lastUpdated" cssClass="errorMessage" />
+				</div>
+			</div>
+			<input type="button" value="Delete" class="rdelete" title="Delete Document Currency" />
+		</div>
+	</c:forEach>
+	<div id="addDocumentCurrencyHere"></div>
 </div>
 
 <div id="proviewSection" class="section">
@@ -1173,7 +1278,7 @@
 	</div>
 </div>
 
-<div id="displayTableViewer" style="display:none;">
+<div id="displayTableViewer" class="dynamicContent" style="display:none;">
 	<c:forEach items="${editBookDefinitionForm.tableViewersCopy}" var="documentCopy" varStatus="aStatus">
 			<form:hidden path="tableViewersCopy[${aStatus.index}].documentGuid" maxlength="33" />
 			<form:hidden path="tableViewersCopy[${aStatus.index}].note" />

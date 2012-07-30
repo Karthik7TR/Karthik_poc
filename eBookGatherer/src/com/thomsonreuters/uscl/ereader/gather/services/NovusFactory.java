@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.westgroup.novus.productapi.Novus;
+import com.westgroup.novus.productapi.NovusException;
 
 /**
  * Factory to create the main Novus API object for communicating with Novus
@@ -17,8 +18,9 @@ public interface NovusFactory {
 	
 	/**
 	 * Create the Novus system connection.
+	 * @param isFinalStage determines to retrieve content from Final or Review stage
 	 */
-	public Novus createNovus();
+	public Novus createNovus(boolean isFinalStage) throws NovusException;
 	
 	/**
 	 * Which environment "Client" | "Prod" are we working with.

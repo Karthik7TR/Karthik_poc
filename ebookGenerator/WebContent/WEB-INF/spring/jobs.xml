@@ -59,6 +59,12 @@
 		
 		<step id="generateImageMetadataFiles">
 			<tasklet ref="generateImageMetadataTask"/>
+			<next on="COMPLETED" to="formatPreprocessXML"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="formatPreprocessXML">
+			<tasklet ref="formatPreprocessXMLTask"/>
 			<next on="COMPLETED" to="formatTransformXML"/>
 			<fail on="FAILED"/>
 		</step>
@@ -163,8 +169,7 @@
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="parentTask"
-				p:docMetadataService-ref="docMetadataService"				
-				p:bookDefnService-ref="bookDefinitionService"
+				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask" parent="parentTask"
 				p:imageService-ref="imageService"
@@ -181,10 +186,12 @@
 	<beans:bean id="generateImageMetadataTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateImageMetadataFiles" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:imgMetaBlockService-ref="generateImgMetaBlockService"/>
+	<beans:bean id="formatPreprocessXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.PreprocessXML" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:preprocessService-ref="preprocessService"/>
 	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
-				p:transformerService-ref="tranformerService"
-				p:bookDefnService-ref="bookDefinitionService"/>
+				p:transformerService-ref="tranformerService"/>
 	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:transformerService-ref="htmlTransformerService"/>
@@ -197,7 +204,6 @@
 				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
 				
 	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="parentTask"
-				p:bookDefnService-ref="bookDefinitionService"
 				p:htmlWrapperService-ref="htmlWrapperService"
 				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="parentTask"

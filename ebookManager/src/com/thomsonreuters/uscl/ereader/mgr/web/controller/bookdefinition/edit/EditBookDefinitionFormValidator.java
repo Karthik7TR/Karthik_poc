@@ -22,6 +22,8 @@ import org.springframework.validation.Validator;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -66,14 +68,88 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	// Set validate error to prevent saving the form
 		boolean validateForm = form.isValidateForm();
 		
-    	Long contentTypeId = form.getContentTypeId();
+    	validateTitleId(form, errors);
+    	
+		// MaxLength Validations
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getProviewDisplayName(), "proviewDisplayName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyright(), "copyright", new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyrightPageText(), "copyrightPageText", new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getMaterialId(), "materialId", new Object[] {"Material ID", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getRootTocGuid(), "rootTocGuid", new Object[] {"Root TOC Guid", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getTocCollectionName(), "tocCollectionName", new Object[] {"TOC Collection", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortDomain(), "nortDomain", new Object[] {"NORT Domain", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortFilterView(), "nortFilterView", new Object[] {"NORT Filter View", MAXIMUM_CHARACTER_64});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getPublishDateText(), "publishDateText", new Object[] {"Publish Date Text", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getAdditionalTrademarkInfo(), "currency", new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterTitle().getBookNameText(), "frontMatterTitle.bookNameText", new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
+		
+		validateAuthors(form, errors);
+		validateExcludeDocuments(form, errors);
+		validateRenameTocEntries(form, errors);
+		validateTableViewers(form, errors);
+		validateAdditionalFrontMatter(form, errors);
+		validateDocumentCopyrights(form, errors);
+		validateDocumentCurrencies(form, errors);
+		
+		if(form.isPublicationCutoffDateUsed()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
+		}
+		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
+		
+		// Only run these validation when Validate Button or Book Definition is set as Complete.
+    	if(form.getIsComplete() || validateForm) {
+    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
+
+			if (form.getIsTOC()) {
+				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
+			} else {
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
+			}
+			
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
+			
+			checkIsbnNumber(errors, form.getIsbn(), "isbn");
+			
+			validateProviewKeywords(errors);
+			validateProdOnlyRequirements(form, errors);
+		}
+    	
+    	// Adding error message if any validation fails
+    	if(errors.hasErrors()) {
+			errors.rejectValue("validateForm", "mesg.errors.form");
+		}
+    	
+    	// Adding validation message if Validation button was pressed.
+    	if(validateForm) {
+			errors.rejectValue("validateForm", "mesg.validate.form");
+		}
+	}
+	
+	// All the validations to verify that the Title ID is formed with all requirements
+	private void validateTitleId(EditBookDefinitionForm form, Errors errors) {
+		Long contentTypeId = form.getContentTypeId();
 		DocumentTypeCode contentType = (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
     	String titleId = form.getTitleId();
+    	
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
     	checkForSpaces(errors, titleId, "titleId", "Title ID");
+		checkMaxLength(errors, MAXIMUM_CHARACTER_40, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
     	
-    	// Validate publication and title ID
+		// Validate publication and title ID
     	if (form.getContentTypeId() != null && StringUtils.isNotEmpty(titleId)) {
     		// Validate publisher information
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
@@ -136,25 +212,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     		checkForSpaces(errors, pubInfo, "pubInfo", "Pub Info");
     		checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
     	}
-    	
-		// MaxLength Validations
-		checkMaxLength(errors, MAXIMUM_CHARACTER_40, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getProviewDisplayName(), "proviewDisplayName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyright(), "copyright", new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCopyrightPageText(), "copyrightPageText", new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getMaterialId(), "materialId", new Object[] {"Material ID", MAXIMUM_CHARACTER_64});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getRootTocGuid(), "rootTocGuid", new Object[] {"Root TOC Guid", MAXIMUM_CHARACTER_64});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getTocCollectionName(), "tocCollectionName", new Object[] {"TOC Collection", MAXIMUM_CHARACTER_64});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortDomain(), "nortDomain", new Object[] {"NORT Domain", MAXIMUM_CHARACTER_64});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_64, form.getNortFilterView(), "nortFilterView", new Object[] {"NORT Filter View", MAXIMUM_CHARACTER_64});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getPublishDateText(), "publishDateText", new Object[] {"Publish Date Text", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getCurrency(), "currency", new Object[] {"Currentness Message", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getComment(), "comment", new Object[] {"Comment", MAXIMUM_CHARACTER_1024});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getAdditionalTrademarkInfo(), "currency", new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterTitle().getBookNameText(), "frontMatterTitle.bookNameText", new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
-		
+	}
+	
+	private void validateAuthors(EditBookDefinitionForm form, Errors errors) {
 		// Require last name to be filled if there are authors
 		// Also check max character length for all the fields
     	List<Author> authors = form.getAuthorInfo();
@@ -176,9 +236,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			checkDuplicateSequenceNumber(errors, author.getSequenceNum(), "authorInfo["+ i +"].sequenceNum", authorSequenceChecker);
 			i++;
 		}
-		
+	}
+	
+	private void validateExcludeDocuments(EditBookDefinitionForm form, Errors errors) {
 		// Validate Exclude Documents has all required fields
-		i=0;
+		int i=0;
 		List<String> documentGuids = new ArrayList<String>();
 		for(ExcludeDocument document: form.getExcludeDocuments()) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments["+ i +"].documentGuid", "error.required");
@@ -197,15 +259,16 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			}
 			i++;
 		}
-		
 		if(form.isExcludeDocumentsUsed()) {
 			if(form.getExcludeDocuments().size() == 0) {
 				errors.rejectValue("excludeDocuments","error.used.selected", new Object[] {"Exclude Documents"}, "Please select 'No' if Exclude Documents will not be used.");
 			}
 		}
-		
+	}
+	
+	private void validateRenameTocEntries(EditBookDefinitionForm form, Errors errors) {
 		// Validate RenameTocEntry has all required fields
-		i=0;
+		int i=0;
 		List<String> tocGuids = new ArrayList<String>();
 		for(RenameTocEntry label: form.getRenameTocEntries()) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries["+ i +"].tocGuid", "error.required");
@@ -231,13 +294,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		
 		if(form.isRenameTocEntriesUsed()) {
 			if(form.getRenameTocEntries().size() == 0) {
-				errors.rejectValue("renameTocEntries","error.rename.toc.entry.used");
+				errors.rejectValue("renameTocEntries","error.used.selected", new Object[] {"Rename TOC Labels"}, "Please select 'No' if Rename TOC Labels will not be used.");
 			}
 		}
-		
+	}
+	
+	private void validateTableViewers(EditBookDefinitionForm form, Errors errors) {
 		// Validate Table Viewers has all required fields
-		i=0;
-		documentGuids = new ArrayList<String>();
+		int i=0;
+		List<String> documentGuids = new ArrayList<String>();
 		for(TableViewer document: form.getTableViewers()) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers["+ i +"].documentGuid", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers["+ i +"].note", "error.required");
@@ -261,14 +326,66 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				errors.rejectValue("tableViewers","error.used.selected", new Object[] {"Table Viewer"}, "Please select 'No' if Table Viewer will not be used.");
 			}
 		}
-		
+	}
+	
+	private void validateDocumentCopyrights(EditBookDefinitionForm form, Errors errors) {
+		// Validate document copyright has all required fields
+		int i=0;
+		List<String> copyrightGuids = new ArrayList<String>();
+		for(DocumentCopyright documentCopyright: form.getDocumentCopyrights()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCopyrights["+ i +"].copyrightGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCopyrights["+ i +"].newText", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCopyrights["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, documentCopyright.getNote(), "documentCopyrights["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, documentCopyright.getNewText(), "documentCopyrights["+ i +"].newText", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			
+			// Check if there are duplicate guids
+			String documentGuid = documentCopyright.getCopyrightGuid();
+			if(StringUtils.isNotBlank(documentGuid)) {
+				if(copyrightGuids.contains(documentGuid)) {
+					errors.rejectValue("documentCopyrights["+ i +"].copyrightGuid", "error.duplicate", new Object[] {"Copyright Guid"}, "Duplicate Copyright Guid");
+				} else {
+					checkGuidFormat(errors, documentGuid, "documentCopyrights["+ i +"].copyrightGuid");
+					copyrightGuids.add(documentGuid);
+				}
+			}
+			i++;
+		}
+	}
+	
+	private void validateDocumentCurrencies(EditBookDefinitionForm form, Errors errors) {
+		// Validate document currency has all required fields
+		int i=0;
+		List<String> currencyGuids = new ArrayList<String>();
+		for(DocumentCurrency documentCurrency: form.getDocumentCurrencies()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCurrencies["+ i +"].currencyGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCurrencies["+ i +"].newText", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "documentCurrencies["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, documentCurrency.getNote(), "documentCurrencies["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, documentCurrency.getNewText(), "documentCurrencies["+ i +"].newText", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			
+			// Check if there are duplicate guids
+			String documentGuid = documentCurrency.getCurrencyGuid();
+			if(StringUtils.isNotBlank(documentGuid)) {
+				if(currencyGuids.contains(documentGuid)) {
+					errors.rejectValue("documentCurrencies["+ i +"].currencyGuid", "error.duplicate", new Object[] {"Currency Guid"}, "Duplicate Currency Guid");
+				} else {
+					checkGuidFormat(errors, documentGuid, "documentCurrencies["+ i +"].currencyGuid");
+					currencyGuids.add(documentGuid);
+				}
+			}
+			i++;
+		}
+	}
+	
+	private void validateAdditionalFrontMatter(EditBookDefinitionForm form, Errors errors) {
 		// Sort the list before validations
 		List<FrontMatterPage> pages = form.getFrontMatters();
 		Collections.sort(pages);
 		form.setFrontMatters(pages);
 		
 		// Check max character and required fields for Front Matter
-		i=0;
+		int i=0;
 		List<Integer> pageSequenceChecker = new ArrayList<Integer>();
 		for(FrontMatterPage page: pages) {				
 			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, page.getPageTocLabel(), "frontMatters["+ i +"].pageTocLabel", new Object[] {"Page TOC Label", MAXIMUM_CHARACTER_1024});
@@ -317,86 +434,51 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			}
 			i++;
 		}
-		
-		if(form.isPublicationCutoffDateUsed()) {
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
-		}
-		checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
-		
-		// Only run these validation when Validate Button or Book Definition is set as Complete.
-    	if(form.getIsComplete() || validateForm) {
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
-
-			if (form.getIsTOC()) {
-				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
-			} else {
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
+	}
+	
+	private void validateProviewKeywords(Errors errors) {
+		// Validate that required keyword are selected
+		// getAllKeywordTypeCodes must be in sorted order by the name because
+		// form.getKeywords returns a String Collection of KeywordTypeValues placed
+		// in the order of KeywordTypeCodes.
+		List<KeywordTypeCode> keywordCodes = codeService.getAllKeywordTypeCodes();
+		int i = 0;
+		for(KeywordTypeCode code : keywordCodes) {
+			// Check that user has selected a keyword if that KeywordTypeCode is required
+			if(code.getIsRequired()) {
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords["+ i +"]", "error.required");
 			}
-			
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
-			
-			checkIsbnNumber(errors, form.getIsbn(), "isbn");
-			
-			// Validate that required keyword are selected
-			// getAllKeywordTypeCodes must be in sorted order by the name because
-			// form.getKeywords returns a String Collection of KeywordTypeValues placed
-			// in the order of KeywordTypeCodes.
-			List<KeywordTypeCode> keywordCodes = codeService.getAllKeywordTypeCodes();
-			i = 0;
-			for(KeywordTypeCode code : keywordCodes) {
-				// Check that user has selected a keyword if that KeywordTypeCode is required
-				if(code.getIsRequired()) {
-					ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords["+ i +"]", "error.required");
+			i++;
+		}
+	}
+	
+	private void validateProdOnlyRequirements(EditBookDefinitionForm form, Errors errors) {
+		// Check if pdf file and cover image exists on NAS location when on prod server
+		if(environmentName.equalsIgnoreCase("prod")) {
+			// Check cover image exists
+			if(StringUtils.isNotBlank(form.getTitleId())) {
+				fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_COVER_IMAGE, "validateForm", "error.not.exist");
+				if(form.getPilotBook() == PilotBookStatus.TRUE) {
+					fileExist(errors, form.createPilotBookCsvName(), WebConstants.LOCATION_PILOT_BOOK_CSV, "pilotBook", "error.pilot.boo.file.not.exist");
+				}
+			}
+			// Check all pdfs on Front Matter
+			int i=0;
+			for(FrontMatterPage page: form.getFrontMatters()) {
+				int j = 0;
+				for(FrontMatterSection section : page.getFrontMatterSections()) {
+					int k = 0;
+					for (FrontMatterPdf pdf : section.getPdfs()) {
+						String filename = pdf.getPdfFilename();
+						if(StringUtils.isNotBlank(filename)) {
+							fileExist(errors, filename, WebConstants.LOCATION_PDF, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", "error.not.exist");
+						}
+						k++;
+					}
+					j++;
 				}
 				i++;
 			}
-			
-			// Check if pdf file and cover image exists on NAS location when on prod server
-			if(environmentName.equalsIgnoreCase("prod")) {
-				// Check cover image exists
-				if(StringUtils.isNotBlank(titleId)) {
-					fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_COVER_IMAGE, "validateForm", "error.not.exist");
-					if(form.getPilotBook() == PilotBookStatus.TRUE) {
-						fileExist(errors, form.createPilotBookCsvName(), WebConstants.LOCATION_PILOT_BOOK_CSV, "pilotBook", "error.pilot.boo.file.not.exist");
-					}
-				}
-				// Check all pdfs on Front Matter
-				i=0;
-				for(FrontMatterPage page: form.getFrontMatters()) {
-					int j = 0;
-					for(FrontMatterSection section : page.getFrontMatterSections()) {
-						int k = 0;
-						for (FrontMatterPdf pdf : section.getPdfs()) {
-							String filename = pdf.getPdfFilename();
-							if(StringUtils.isNotBlank(filename)) {
-								fileExist(errors, filename, WebConstants.LOCATION_PDF, "frontMatters["+ i +"].frontMatterSections["+ j +"].pdfs["+ k +"].pdfFilename", "error.not.exist");
-							}
-							k++;
-						}
-						j++;
-					}
-					i++;
-				}
-			}
-		}
-    	
-    	// Adding error message if any validation fails
-    	if(errors.hasErrors()) {
-			errors.rejectValue("validateForm", "mesg.errors.form");
-		}
-    	
-    	// Adding validation message if Validation button was pressed.
-    	if(validateForm) {
-			errors.rejectValue("validateForm", "mesg.validate.form");
 		}
 	}
 	

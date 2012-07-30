@@ -27,6 +27,8 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -64,6 +66,11 @@ public class EditBookDefinitionForm {
 	private boolean isTableViewersUsed;
 	private Collection<TableViewer> tableViewers;
 	private Collection<TableViewer> tableViewersCopy;
+	private Collection<DocumentCopyright> documentCopyrights;
+	private Collection<DocumentCopyright> documentCopyrightsCopy;
+	private Collection<DocumentCurrency> documentCurrencies;
+	private Collection<DocumentCurrency> documentCurrenciesCopy;
+	private boolean isFinalStage;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
 	private boolean isTOC;
@@ -120,6 +127,10 @@ public class EditBookDefinitionForm {
 		this.renameTocEntriesCopy = new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class);
 		this.tableViewers = new AutoPopulatingList<TableViewer>(TableViewer.class);
 		this.tableViewersCopy = new AutoPopulatingList<TableViewer>(TableViewer.class);
+		this.documentCopyrights = new AutoPopulatingList<DocumentCopyright>(DocumentCopyright.class);
+		this.documentCopyrightsCopy = new AutoPopulatingList<DocumentCopyright>(DocumentCopyright.class);
+		this.documentCurrencies = new AutoPopulatingList<DocumentCurrency>(DocumentCurrency.class);
+		this.documentCurrenciesCopy = new AutoPopulatingList<DocumentCurrency>(DocumentCurrency.class);
 		this.keywords = new AutoPopulatingList<String>(String.class);
 		this.isComplete = false;
 		this.validateForm = false;
@@ -130,6 +141,7 @@ public class EditBookDefinitionForm {
 		this.isExcludeDocumentsUsed = false;
 		this.isRenameTocEntriesUsed = false;
 		this.isTableViewersUsed = false;
+		this.isFinalStage = true;
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
@@ -155,6 +167,8 @@ public class EditBookDefinitionForm {
 		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
 		bookDef.setRenameTocEntries(new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class));
 		bookDef.setTableViewers(new AutoPopulatingList<TableViewer>(TableViewer.class));
+		bookDef.setDocumentCopyrights(new AutoPopulatingList<DocumentCopyright>(DocumentCopyright.class));
+		bookDef.setDocumentCurrencies(new AutoPopulatingList<DocumentCurrency>(DocumentCurrency.class));
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		
 		// Need to null surrogate and foreign keys.
@@ -206,7 +220,12 @@ public class EditBookDefinitionForm {
 			this.renameTocEntriesCopy = book.getRenameTocEntries();
 			this.tableViewers = book.getTableViewers();
 			this.tableViewersCopy = book.getTableViewers();
+			this.documentCopyrights = book.getDocumentCopyrights();
+			this.documentCopyrightsCopy = book.getDocumentCopyrights();
+			this.documentCurrencies = book.getDocumentCurrencies();
+			this.documentCurrenciesCopy = book.getDocumentCurrencies();
 			this.includeAnnotations = book.getIncludeAnnotations();
+			this.isFinalStage = book.isFinalStage();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -221,6 +240,7 @@ public class EditBookDefinitionForm {
 			if(this.tableViewers.size() > 0) {
 				this.isTableViewersUsed = true;
 			}
+			
 			
 			// Determine if Publish Cut-off Date is used
 			Date date = book.getPublishCutoffDate();
@@ -382,6 +402,36 @@ public class EditBookDefinitionForm {
 		}
 		book.setTableViewers(tableViewers);
 		
+		for(DocumentCopyright documentCopyright: documentCopyrights) {
+			boolean exists = false;
+			documentCopyright.setBookDefinition(book);
+			for(DocumentCopyright documentCopyrightCopy : documentCopyrightsCopy) {
+				if(documentCopyright.equals(documentCopyrightCopy)) {
+					exists = true;
+				}
+			}
+			// Update date
+			if(!exists) {
+				documentCopyright.setLastUpdated(new Date());
+			}
+		}
+		book.setDocumentCopyrights(documentCopyrights);
+		
+		for(DocumentCurrency documentCurrency : documentCurrencies) {
+			boolean exists = false;
+			documentCurrency.setBookDefinition(book);
+			for(DocumentCurrency documentCurrencyCopy : documentCurrenciesCopy) {
+				if(documentCurrency.equals(documentCurrencyCopy)) {
+					exists = true;
+				}
+			}
+			// Update date
+			if(!exists) {
+				documentCurrency.setLastUpdated(new Date());
+			}
+		}
+		book.setDocumentCurrencies(documentCurrencies);
+		
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
 		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
@@ -435,6 +485,7 @@ public class EditBookDefinitionForm {
 		book.setIsAuthorDisplayVertical(isAuthorDisplayVertical);
 		book.setFrontMatterTocLabel(frontMatterTocLabel);
 		book.setIncludeAnnotations(includeAnnotations);
+		book.setIsFinalStage(isFinalStage);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -591,6 +642,50 @@ public class EditBookDefinitionForm {
 
 	public void setTableViewersCopy(Collection<TableViewer> tableViewersCopy) {
 		this.tableViewersCopy = tableViewersCopy;
+	}
+
+	public Collection<DocumentCopyright> getDocumentCopyrights() {
+		return documentCopyrights;
+	}
+
+	public void setDocumentCopyrights(
+			Collection<DocumentCopyright> documentCopyrights) {
+		this.documentCopyrights = documentCopyrights;
+	}
+
+	public Collection<DocumentCopyright> getDocumentCopyrightsCopy() {
+		return documentCopyrightsCopy;
+	}
+
+	public void setDocumentCopyrightsCopy(
+			Collection<DocumentCopyright> documentCopyrightsCopy) {
+		this.documentCopyrightsCopy = documentCopyrightsCopy;
+	}
+
+	public Collection<DocumentCurrency> getDocumentCurrencies() {
+		return documentCurrencies;
+	}
+
+	public void setDocumentCurrencies(
+			Collection<DocumentCurrency> documentCurrencies) {
+		this.documentCurrencies = documentCurrencies;
+	}
+
+	public Collection<DocumentCurrency> getDocumentCurrenciesCopy() {
+		return documentCurrenciesCopy;
+	}
+
+	public void setDocumentCurrenciesCopy(
+			Collection<DocumentCurrency> documentCurrenciesCopy) {
+		this.documentCurrenciesCopy = documentCurrenciesCopy;
+	}
+
+	public boolean isFinalStage() {
+		return isFinalStage;
+	}
+
+	public void setFinalStage(boolean isFinalStage) {
+		this.isFinalStage = isFinalStage;
 	}
 
 	public String getCopyright() {
@@ -951,6 +1046,22 @@ public class EditBookDefinitionForm {
         for (Iterator<TableViewer> i = tableViewers.iterator(); i.hasNext();) {
         	TableViewer document = i.next();
             if (document == null || document.isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        // Clear out empty DocumentCurrency
+        for (Iterator<DocumentCurrency> i = documentCurrencies.iterator(); i.hasNext();) {
+        	DocumentCurrency currency = i.next();
+            if (currency == null || currency.isEmpty()) {
+                i.remove();
+            }
+        }
+        
+        // Clear out empty DocumentCopyright
+        for (Iterator<DocumentCopyright> i = documentCopyrights.iterator(); i.hasNext();) {
+        	DocumentCopyright copyright = i.next();
+            if (copyright == null || copyright.isEmpty()) {
                 i.remove();
             }
         }

@@ -78,7 +78,8 @@ public class GetTocTask  extends AbstractSbTasklet {
         {
 			if(tocCollectionName != null) // TOC
 			{
-			GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments, renameTocEntries);
+			GatherTocRequest gatherTocRequest = new GatherTocRequest(tocRootGuid, tocCollectionName, tocFile, excludeDocuments, 
+					renameTocEntries, bookDefinition.isFinalStage());
 			LOG.debug(gatherTocRequest);
 		
 			gatherResponse = gatherService.getToc(gatherTocRequest);
@@ -86,7 +87,8 @@ public class GetTocTask  extends AbstractSbTasklet {
 			else if(nortDomainName != null) // NORT
 			{
 	//			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
-				GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, excludeDocuments, renameTocEntries);
+				GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, 
+						nortCutoffDate, excludeDocuments, renameTocEntries, bookDefinition.isFinalStage());
 				LOG.debug(gatherNortRequest);
 		
 				gatherResponse = gatherService.getNort(gatherNortRequest);

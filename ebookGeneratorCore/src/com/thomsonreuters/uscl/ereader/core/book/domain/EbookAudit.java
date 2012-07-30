@@ -315,6 +315,23 @@ public class EbookAudit implements Serializable {
 	@Column(name = "TABLE_VIEWER_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String tableViewerConcat;
+	
+	/**
+	 */
+	@Column(name = "DOCUMENT_COPYRIGHT_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String documentCopyrightConcat;
+	
+	/**
+	 */
+	@Column(name = "DOCUMENT_CURRENCY_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String documentCurrencyConcat;
+	
+	/**
+	 */
+	@Column(name = "IS_FINAL_STAGE", length = 1)
+	String isFinalStage;	
 
 	/**
 	 */
@@ -742,6 +759,9 @@ public class EbookAudit implements Serializable {
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setRenameTocEntryConcat(that.getRenameTocEntryConcat());
 		setTableViewerConcat(that.getTableViewerConcat());
+		setDocumentCopyrightConcat(that.getDocumentCopyrightConcat());
+		setDocumentCurrencyConcat(that.getDocumentCurrencyConcat());
+		setIsFinalStage(that.isFinalStage());
 	}
 
 	/**
@@ -792,6 +812,9 @@ public class EbookAudit implements Serializable {
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
 		setRenameTocEntryConcat(maxString(concatString(that.getRenameTocEntries()), MAX_CHARACTER_2048));
 		setTableViewerConcat(maxString(concatString(that.getTableViewers()), MAX_CHARACTER_2048));
+		setDocumentCopyrightConcat(maxString(concatString(that.getDocumentCopyrights()), MAX_CHARACTER_2048));
+		setDocumentCurrencyConcat(maxString(concatString(that.getDocumentCurrencies()), MAX_CHARACTER_2048));
+		setIsFinalStage(that.isFinalStage());
 		setIncludeAnnotations(that.getIncludeAnnotations());
 	}
 	
@@ -864,6 +887,9 @@ public class EbookAudit implements Serializable {
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		buffer.append("renameTocEntryConcat=[").append(renameTocEntryConcat).append("] ");
 		buffer.append("tableViewerConcat=[").append(tableViewerConcat).append("] ");
+		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
+		buffer.append("documentCopyrightConcat=[").append(documentCopyrightConcat).append("] ");
+		buffer.append("documentCurrencyConcat=[").append(documentCurrencyConcat).append("] ");
 		
 		return buffer.toString();
 	}
@@ -1026,5 +1052,28 @@ public class EbookAudit implements Serializable {
 
 	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
 		this.frontMatterTocLabel = frontMatterTocLabel;
+	}
+	public String getDocumentCopyrightConcat() {
+		return documentCopyrightConcat;
+	}
+
+	public void setDocumentCopyrightConcat(String documentCopyrightConcat) {
+		this.documentCopyrightConcat = documentCopyrightConcat;
+	}
+
+	public String getDocumentCurrencyConcat() {
+		return documentCurrencyConcat;
+	}
+
+	public void setDocumentCurrencyConcat(String documentCurrencyConcat) {
+		this.documentCurrencyConcat = documentCurrencyConcat;
+	}
+
+	public boolean isFinalStage() {
+		return ( (this.isFinalStage.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsFinalStage(boolean isFinalStage) {
+		this.isFinalStage =( (isFinalStage) ? "Y" : "N");
 	}
 }

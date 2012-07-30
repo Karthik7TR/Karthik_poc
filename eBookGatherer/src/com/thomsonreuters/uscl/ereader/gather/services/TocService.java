@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public interface TocService {
 	
-	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) throws GatherException; 
+	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, 
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) throws GatherException; 
 
 }

@@ -71,121 +71,121 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 
-	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Column(name = "TITLE_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String fullyQualifiedTitleId;
 	/**
 	 */
 
-	@Column(name = "PROVIEW_DISPLAY_NAME", length = 1024)
+	@Column(name = "PROVIEW_DISPLAY_NAME")
 	@Basic(fetch = FetchType.EAGER)
 	String proviewDisplayName;
 	/**
 	 */
 
-	@Column(name = "COPYRIGHT", length = 2048, nullable = false)
+	@Column(name = "COPYRIGHT", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String copyright;
 	/**
 	 */
 
-	@Column(name = "COPYRIGHT_PAGE_TEXT", length = 2048)
+	@Column(name = "COPYRIGHT_PAGE_TEXT")
 	@Basic(fetch = FetchType.EAGER)
 	String copyrightPageText;
 	/**
 	 */
 
-	@Column(name = "MATERIAL_ID", length = 64, nullable = false)
+	@Column(name = "MATERIAL_ID", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String materialId;
 	/**
 	 */
 
-	@Column(name = "IS_TOC_FLAG", length = 1, nullable = false)
+	@Column(name = "IS_TOC_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String isTocFlag;
 	/**
 	 */
 
-	@Column(name = "ROOT_TOC_GUID", length = 64)
+	@Column(name = "ROOT_TOC_GUID")
 	@Basic(fetch = FetchType.EAGER)
 	String rootTocGuid;
 	/**
 	 */
 
-	@Column(name = "DOC_COLLECTION_NAME", length = 64)
+	@Column(name = "DOC_COLLECTION_NAME")
 	@Basic(fetch = FetchType.EAGER)
 	String docCollectionName;
 	/**
 	 */
 
-	@Column(name = "TOC_COLLECTION_NAME", length = 64)
+	@Column(name = "TOC_COLLECTION_NAME")
 	@Basic(fetch = FetchType.EAGER)
 	String tocCollectionName;
 	/**
 	 */
 
-	@Column(name = "NORT_DOMAIN", length = 64)
+	@Column(name = "NORT_DOMAIN")
 	@Basic(fetch = FetchType.EAGER)
 	String nortDomain;
 	/**
 	 */
 
-	@Column(name = "NORT_FILTER_VIEW", length = 64)
+	@Column(name = "NORT_FILTER_VIEW")
 	@Basic(fetch = FetchType.EAGER)
 	String nortFilterView;
 	/**
 	 */
 
-	@Column(name = "COVER_IMAGE", length = 256)
+	@Column(name = "COVER_IMAGE")
 	@Basic(fetch = FetchType.EAGER)
 	String coverImage;
 	/**
 	 */
 
-	@Column(name = "ISBN", length = 64)
+	@Column(name = "ISBN")
 	@Basic(fetch = FetchType.EAGER)
 	String isbn;
 	/**
 	 */
 
-	@Column(name = "PUBLISH_DATE_TEXT", length = 1024)
+	@Column(name = "PUBLISH_DATE_TEXT")
 	@Basic(fetch = FetchType.EAGER)
 	String publishDateText;
 	/**
 	 */
 
-	@Column(name = "CURRENCY", length = 2048)
+	@Column(name = "CURRENCY")
 	@Basic(fetch = FetchType.EAGER)
 	String currency;
 	/**
 	 */
 
-	@Column(name = "KEYCITE_TOPLINE_FLAG", length = 1)
+	@Column(name = "KEYCITE_TOPLINE_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String keyciteToplineFlag;
 	/**
 	 */
 
-	@Column(name = "ENABLE_COPY_FEATURE_FLAG", length = 1)
+	@Column(name = "ENABLE_COPY_FEATURE_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String enableCopyFeatureFlag;
 	/**
 	 */
 
-	@Column(name = "AUTO_UPDATE_SUPPORT_FLAG", length = 1)
+	@Column(name = "AUTO_UPDATE_SUPPORT_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String autoUpdateSupportFlag;
 	/**
 	 */
 
-	@Column(name = "SEARCH_INDEX_FLAG", length = 1)
+	@Column(name = "SEARCH_INDEX_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String searchIndexFlag;
 	/**
 	 */
 
-	@Column(name = "ONE_PASS_SSO_LINK_FLAG", length = 1)
+	@Column(name = "ONE_PASS_SSO_LINK_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String onePassSsoLinkFlag;
 	/**
@@ -197,32 +197,37 @@ public class BookDefinition implements Serializable {
 	/**
 	 */
 
-	@Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", length = 1, nullable = false)
+	@Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String ebookDefinitionCompleteFlag;
 	/**
 	 */
 
-	@Column(name = "PUBLISHED_ONCE_FLAG", length = 1, nullable = false)
+	@Column(name = "PUBLISHED_ONCE_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String publishedOnceFlag;
 	/**
 	 */
 
-	@Column(name = "IS_DELETED_FLAG", length = 1, nullable = false)
+	@Column(name = "IS_DELETED_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String isDeletedFlag;
 	
 	/**
 	 */
 
-	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", length = 1, nullable = false)
+	@Column(name = "PROVIEW_TABLE_VIEW_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String isProviewTableViewFlag;	
-	
-	
 	/**
 	 */
+	
+	@Column(name = "IS_FINAL_STAGE", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isFinalStage;
+	/**
+	 */
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
@@ -230,31 +235,31 @@ public class BookDefinition implements Serializable {
 	
 	/**
 	 */
-	@Column(name = "FRONT_MATTER_TOC_LABEL", length = 1024)
+	@Column(name = "FRONT_MATTER_TOC_LABEL")
 	@Basic(fetch = FetchType.EAGER)
 	String frontMatterTocLabel;	
 	
 	/**
 	 */
-	@Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG", length = 1)
+	@Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG")
 	@Basic(fetch = FetchType.EAGER)
 	String isAuthorDisplayVertical;	
 	
 	/**
 	 */
-	@Column(name = "ADDITIONAL_TRADEMARK_INFO", length = 2048)
+	@Column(name = "ADDITIONAL_TRADEMARK_INFO")
 	@Basic(fetch = FetchType.EAGER)
 	String additionalTrademarkInfo;	
 	
 	/**
 	 */
-	@Column(name = "IS_PILOT_BOOK", length = 1)
+	@Column(name = "IS_PILOT_BOOK")
 	@Basic(fetch = FetchType.EAGER)
 	String isPilotBook;	
 	
 	/**
 	 */
-	@Column(name = "INCLUDE_ANNOTATIONS", length = 1)
+	@Column(name = "INCLUDE_ANNOTATIONS")
 	String includeAnnotations;	
 
 	/**
@@ -306,6 +311,16 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<TableViewer> tableViewers;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<DocumentCopyright> documentCopyrights;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<DocumentCurrency> documentCurrencies;
 
 	/**
 	 */
@@ -509,6 +524,18 @@ public class BookDefinition implements Serializable {
 	 */
 	public boolean isProviewTableViewFlag() {
 		return( (this.isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	/**
+	 */
+	public void setIsFinalStage(boolean isFinalStage) {
+		this.isFinalStage =( (isFinalStage) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isFinalStage() {
+		return( (this.isFinalStage.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	/**
@@ -828,6 +855,34 @@ public class BookDefinition implements Serializable {
 	public void setTableViewers(Collection<TableViewer> tableViewers) {
 		this.tableViewers = new HashSet<TableViewer>(tableViewers);
 	}
+	
+	public List<DocumentCopyright> getDocumentCopyrights() {
+		if(documentCopyrights == null) {
+			documentCopyrights = new HashSet<DocumentCopyright>();
+		}
+		// Change to list
+		List<DocumentCopyright> copyrights = new ArrayList<DocumentCopyright>();
+		copyrights.addAll(documentCopyrights);
+		return copyrights;
+	}
+
+	public void setDocumentCopyrights(Collection<DocumentCopyright> documentCopyrights) {
+		this.documentCopyrights = new HashSet<DocumentCopyright>(documentCopyrights);
+	}
+	
+	public List<DocumentCurrency> getDocumentCurrencies() {
+		if(documentCurrencies == null) {
+			documentCurrencies = new HashSet<DocumentCurrency>();
+		}
+		// Change to list
+		List<DocumentCurrency> documents = new ArrayList<DocumentCurrency>();
+		documents.addAll(documentCurrencies);
+		return documents;
+	}
+
+	public void setDocumentCurrencies(Collection<DocumentCurrency> documentCurrencies) {
+		this.documentCurrencies = new HashSet<DocumentCurrency>(documentCurrencies);
+	}
 
 	public List<FrontMatterPage> getFrontMatterPages() {
 		if (frontMatterPages == null) {
@@ -873,6 +928,7 @@ public class BookDefinition implements Serializable {
 		this.setOnePassSsoLinkFlag(true);
 		this.setIncludeAnnotations(false);
 		this.setIsProviewTableViewFlag(false);
+		this.setIsFinalStage(true);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
 	}
 
@@ -919,7 +975,10 @@ public class BookDefinition implements Serializable {
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
 		setRenameTocEntries(new HashSet<RenameTocEntry>(that.getRenameTocEntries()));
 		setTableViewers(new HashSet<TableViewer>(that.getTableViewers()));
+		setDocumentCopyrights(new HashSet<DocumentCopyright>(that.getDocumentCopyrights()));
+		setDocumentCurrencies(new HashSet<DocumentCurrency>(that.getDocumentCurrencies()));
 		setIncludeAnnotations(that.getIncludeAnnotations());
+		setIsFinalStage(that.isFinalStage());
 	}
 
 	/**
@@ -962,7 +1021,8 @@ public class BookDefinition implements Serializable {
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
-
+		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
+		
 		return buffer.toString();
 	}
 

@@ -447,7 +447,8 @@ public class NortServiceImpl implements NortService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String domainName,
-			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries)
+			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, 
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage)
 			throws GatherException {
 		NortManager _nortManager = null;
 		Writer out = null;
@@ -456,7 +457,15 @@ public class NortServiceImpl implements NortService {
 		String publishStatus = "TOC NORT Step Completed";
 		GatherResponse gatherResponse = new GatherResponse();
 
-		Novus novusObject = novusFactory.createNovus();
+		Novus novusObject = null;
+		try {
+			novusObject = novusFactory.createNovus(isFinalStage);
+		} catch (NovusException e) {
+			GatherException ge = new GatherException(
+					"Novus error occurred while creating Novus object " + e,
+					GatherResponse.CODE_NOVUS_ERROR);
+			throw ge;
+		}
 
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");

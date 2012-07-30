@@ -50,6 +50,7 @@
         <value name="collectionName" field="collectionName" usage="optional"/>
         <value name="contentDestinationDirectory" field="contentDestinationDirectory" usage="required"/>
         <value name="metadataDestinationDirectory" field="metadataDestinationDirectory" usage="required"/>
+        <value name="isFinalStage" field="isFinalStage" usage="required"/>
     </mapping>
 
 	<!-- Gather table of contents (toc) service REST request body -->
@@ -73,6 +74,7 @@
 		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
 		    	</structure>
 	    	</collection>  
+	    <value name="isFinalStage" field="isFinalStage" usage="required"/>
     </mapping>
     
     <!-- Gather table of contents (nort) service REST request body -->
@@ -96,7 +98,8 @@
 		    		<value name="note" field="note" usage="required"/>
 		    		<value name="lastUpdated" field="lastUpdated" usage="required"/>
 		    	</structure>
-	    	</collection>  
+	    	</collection> 
+	    <value name="isFinalStage" field="isFinalStage" usage="required"/>
     </mapping>
     
     <!-- Planned Outage -->

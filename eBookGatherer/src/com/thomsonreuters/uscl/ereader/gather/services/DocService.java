@@ -21,9 +21,10 @@ public interface DocService {
 	 * @param contentDestinationDirectory the filesystem directory where the content files will be created.
 	 * @param metadataDestinationDirectory the filesystem directory where the metadata files will be created.
 	 * Two files are created per docGuid, a content file, and a meta-data file.
+	 * @param isFinalStage determines to retrieve content from Final or Review stage
 	 * @return a document object, or null if not found
 	 */
 	public GatherResponse fetchDocuments(Collection<String> docGuids, String collectionName,
 							   File contentDestinationDirectory,
-							   File metadataDestinationDirectory) throws GatherException;	
+							   File metadataDestinationDirectory, boolean isFinalStage) throws GatherException;	
 }

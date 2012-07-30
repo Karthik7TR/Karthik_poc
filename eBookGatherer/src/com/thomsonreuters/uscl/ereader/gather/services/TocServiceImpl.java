@@ -325,7 +325,8 @@ public class TocServiceImpl implements TocService {
 	 */
 	@Override
 	public GatherResponse findTableOfContents(String guid,
-			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) throws GatherException {
+			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
+			boolean isFinalStage) throws GatherException {
 		TOC _tocManager = null;
 		Writer out = null;
 		int[] counter = { 0 };
@@ -338,7 +339,17 @@ public class TocServiceImpl implements TocService {
 
 		/*** for ebook builder we will always get Collection. ***/
 		String type = EBConstants.COLLECTION_TYPE;
-		Novus novusObject = novusFactory.createNovus();
+
+		 Novus novusObject = null;
+		try {
+			novusObject = novusFactory.createNovus(isFinalStage);
+		} catch (NovusException e) {
+			GatherException ge = new GatherException(
+					"Novus error occurred while creating Novus object " + e,
+					GatherResponse.CODE_NOVUS_ERROR);
+			throw ge;
+		}
+			
 		_tocManager = getTocObject(collectionName, type, novusObject);
 		
 		ArrayList<ExcludeDocument> copyExcludDocs = null;

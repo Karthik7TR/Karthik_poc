@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.westgroup.novus.productapi.Novus;
+import com.westgroup.novus.productapi.NovusException;
 
 /**
  * Factory to create the main Novus API object for communicating with Novus
@@ -21,11 +22,16 @@ public class NovusFactoryImpl implements NovusFactory {
 	private String productName;
 	private String businessUnit;
 	
-	public Novus createNovus() {
+	public Novus createNovus(boolean isFinalStage) throws NovusException  {
 		Novus novus = new Novus();
 		novus.setQueueCriteria(null, novusEnvironment.toString());
 		novus.setResponseTimeout(30000);
-		novus.useLatestPit();
+		
+		if(isFinalStage) {
+			novus.useLatestPit();
+		} else {
+			novus.createRPit();
+		}
 		novus.setProductName(productName);
 		novus.setBusinessUnit(businessUnit);
 		return novus;

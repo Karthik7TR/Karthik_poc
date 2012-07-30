@@ -27,7 +27,7 @@ public class JibxMarshallingTest  {
 	@Test
 	public void testGatherTocRequestMarshalling() {
 		try {
-			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"), null, null);
+			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"), null, null, true);
 			String xml = marshal(expected, GatherTocRequest.class);
 			GatherTocRequest actual = unmarshal(xml, GatherTocRequest.class);
 			Assert.assertEquals(expected, actual);
@@ -40,7 +40,7 @@ public class JibxMarshallingTest  {
 	public void testGatherNortRequestMarshalling() {
 		try {
 //			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null, new Long(1));
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date(), null, null);
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date(), null, null, true);
 			String xml = marshal(expected, GatherNortRequest.class);
 			GatherNortRequest actual = unmarshal(xml, GatherNortRequest.class);
 			Assert.assertEquals(expected, actual);
@@ -57,7 +57,7 @@ public class JibxMarshallingTest  {
 			String collectionName = "bogusCollname";
 			File contentDir = new File("/foo");
 			File metadataDir = new File("/bar");
-			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir);
+			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true);
 			String xml = marshal(expected, GatherDocRequest.class);
 			GatherDocRequest actual = unmarshal(xml, GatherDocRequest.class);
 			Assert.assertEquals(expected, actual);

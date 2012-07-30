@@ -10,18 +10,15 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -38,17 +35,15 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 	private static final Logger LOG = Logger
 			.getLogger(PersistMetadataXMLTask.class);
 	private DocMetadataService docMetadataService;
-	private BookDefinitionService bookDefnService;
 	private PublishingStatsService publishingStatsService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 			ChunkContext chunkContext)  throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
-		BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));		
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
 
 		String titleId = bookDefinition.getTitleId();
 		Long jobInstanceId = jobInstance.getId();
@@ -119,10 +114,6 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 		this.docMetadataService = docMetadataSvc;
 	}
 	
-	@Required
-	public void setBookDefnService(BookDefinitionService bookDefnService) {
-		this.bookDefnService = bookDefnService;
-	}
 	@Required
 	public void setPublishingStatsService(
 			PublishingStatsService publishingStatsService) {

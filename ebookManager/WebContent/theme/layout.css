@@ -580,45 +580,33 @@ a:hover {
 	right:.5em;
 }
 
-.bookDefinitionView #displayExcludeDocument label,
-.bookDefinitionView #displayRenameTocEntry label,
-.bookDefinitionView #displayTableViewer label {
+.bookDefinitionView .dynamicContent label {
 	text-align: left;
 	font-weight: bold;
 }
 
-.bookDefinitionView #displayExcludeDocument .expandingBox,
-.bookDefinitionView #displayRenameTocEntry .expandingBox,
-.bookDefinitionView #displayTableViewer .expandingBox {
+.bookDefinitionView .dynamicContent .expandingBox {
 	border: gray solid .1em;
 	text-align: left;
 	padding: .2em;
 }
 
-#displayExcludeDocument,
-#displayRenameTocEntry,
-#displayTableViewer {
+.dynamicContent {
 	width:55.4em;
 	margin: 1em auto 0em auto;
 }
 
-#displayExcludeDocument .wordwrap,
-#displayRenameTocEntry .wordwrap,
-#displayTableViewer .wordwrap {
+.dynamicContent .wordwrap {
 	max-width:53.4em;
 }
 
-#displayExcludeDocument .expandingBox,
-#displayRenameTocEntry .expandingBox,
-#displayTableViewer .expandingBox {
+.dynamicContent .expandingBox {
 	border: gray solid .2em;
 	text-align: center;
 	padding: .2em;
 }
 
-#displayExcludeDocument .expandingBox .dynamicRow,
-#displayRenameTocEntry .expandingBox .dynamicRow,
-#displayTableViewer .expandingBox .dynamicRow {
+.dynamicContent .expandingBox .dynamicRow {
 	display: inline-block;
 	zoom:1; /* IE7 hack */
 	*display: inline; /* IE7 hack */
@@ -627,9 +615,7 @@ a:hover {
 	text-align: left;
 }
 
-#displayExcludeDocument .expandingBox .dynamicRow label,
-#displayRenameTocEntry .expandingBox .dynamicRow label,
-#displayTableViewer .expandingBox .dynamicRow label {
+.dynamicContent .expandingBox .dynamicRow label {
 	vertical-align: top;
 	margin-right:.3em;
 	display:block;

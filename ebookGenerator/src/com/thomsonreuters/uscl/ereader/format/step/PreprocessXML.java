@@ -19,28 +19,22 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.format.service.TransformerService;
+import com.thomsonreuters.uscl.ereader.format.service.XMLPreprocessService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 /**
- * This step transforms the Novus extracted XML documents into HTML.
+ * This step transforms the Novus extracted XML documents by adding additional mark ups and content 
  * 
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class TransformXML extends AbstractSbTasklet
+public class PreprocessXML extends AbstractSbTasklet
 {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(TransformXML.class);
-	private TransformerService transformerService;
+	private static final Logger LOG = Logger.getLogger(PreprocessXML.class);
+	private XMLPreprocessService preprocessService;
 	private PublishingStatsService publishingStatsService;
-	
-
-	public void settransformerService(TransformerService transformerService) 
-	{
-		this.transformerService = transformerService;
-	}
 	
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
@@ -49,25 +43,18 @@ public class TransformXML extends AbstractSbTasklet
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
-		String titleId = bookDefinition.getTitleId();		
-		
+
 		Long jobId = jobInstance.getId();
 
+		String xmlDirectory = 
+				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR);
 		String preprocessDirectory = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_PREPROCESS_DIR);
-		String metadataDirectory = 
-				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_METADATA_DIR);
-		String transformDirectory = 
-				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
-		String imgMetadataDirectory =
-				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_IMAGE_METADATA_DIR);
 
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 		
+		File xmlDir = new File(xmlDirectory);
 		File preprocessDir = new File(preprocessDirectory);
-		File metadataDir = new File(metadataDirectory);
-		File transformDir = new File(transformDirectory);
-		File imgMetadataDir = new File(imgMetadataDirectory);
 		
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
@@ -75,26 +62,26 @@ public class TransformXML extends AbstractSbTasklet
 	    
 		try {
 			long startTime = System.currentTimeMillis();
-			int numDocsTransformed = transformerService.transformXMLDocuments(
-					preprocessDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations());
+			int numDocsTransformed = preprocessService.transformXML(
+					xmlDir, preprocessDir, bookDefinition.isFinalStage(), bookDefinition.getDocumentCopyrights(), bookDefinition.getDocumentCurrencies());
 			long endTime = System.currentTimeMillis();
 			long elapsedTime = endTime - startTime;
 			
 			if (numDocsTransformed != numDocsInTOC)
 			{
-				String message = "The number of documents transformed did not match the number " +
-						"of documents retrieved from the eBook TOC. Transformed " + numDocsTransformed + 
+				String message = "The number of documents preprocessed did not match the number " +
+						"of documents retrieved from the eBook TOC. Preprocessed " + numDocsTransformed + 
 						" documents while the eBook TOC had " + numDocsInTOC + " documents.";
 				LOG.error(message);
 				throw new EBookFormatException(message);
 			}
 			
-			LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
+			LOG.debug("Preprocessed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
 		} catch (Exception e) {
 			stepStatus= "Failed";
 			throw e;
 		} finally {
-			jobstats.setPublishStatus("formatTransformXML : " + stepStatus);
+			jobstats.setPublishStatus("formatPreprocessXML : " + stepStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		}
 		
@@ -104,6 +91,12 @@ public class TransformXML extends AbstractSbTasklet
 	@Required
 	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
 		this.publishingStatsService = publishingStatsService;
+	}
+	
+	@Required
+	public void setPreprocessService(XMLPreprocessService preprocessService) 
+	{
+		this.preprocessService = preprocessService;
 	}
 
 }

@@ -111,7 +111,7 @@ function submitForm(cmd)
 			</div>
 		</div>
 		
-		<div id="displayExcludeDocument">
+		<div class="dynamicContent">
 			<label class="labelCol">Exclude Documents</label>
 			<c:forEach items="${ book.excludeDocuments }" var="document">
 				<div class="expandingBox">
@@ -131,7 +131,7 @@ function submitForm(cmd)
 			</c:forEach>
 		</div>
 		
-		<div id="displayRenameTocEntry">
+		<div class="dynamicContent">
 			<label class="labelCol">Rename TOC Labels</label>
 			<c:forEach items="${ book.renameTocEntries }" var="toc">
 				<div class="expandingBox">
@@ -154,6 +154,54 @@ function submitForm(cmd)
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
 						<span class="field"><fmt:formatDate value="${toc.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div class="dynamicContent">
+			<label class="labelCol">Document Copyright</label>
+			<c:forEach items="${ book.documentCopyrights }" var="copyright">
+				<div class="expandingBox">
+					<div class="dynamicRow">
+						<label>Copyright Guid:</label>
+						<span class="field"> ${ copyright.copyrightGuid }</span>
+					</div>
+					<div class="dynamicRow">
+						<label>New Text:</label>
+						<div class="wordwrap">${ copyright.newText }</div>
+					</div>
+					<div class="dynamicRow">
+						<label>Note:</label>
+						<div class="wordwrap">${ copyright.note }</div>
+					</div>
+					<div class="dynamicRow">
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${copyright.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+		
+		<div class="dynamicContent">
+			<label class="labelCol">Document Currency</label>
+			<c:forEach items="${ book.documentCurrencies }" var="currency">
+				<div class="expandingBox">
+					<div class="dynamicRow">
+						<label>Currency Guid:</label>
+						<span class="field"> ${ currency.currencyGuid }</span>
+					</div>
+					<div class="dynamicRow">
+						<label>New Text:</label>
+						<div class="wordwrap">${ currency.newText }</div>
+					</div>
+					<div class="dynamicRow">
+						<label>Note:</label>
+						<div class="wordwrap">${ currency.note }</div>
+					</div>
+					<div class="dynamicRow">
+						<label>Last Updated:</label>
+						<span class="field"><fmt:formatDate value="${currency.lastUpdated}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>" /></span>
 					</div>
 				</div>
 			</c:forEach>
@@ -198,7 +246,7 @@ function submitForm(cmd)
 			</div>
 		</div>
 		
-		<div id="displayTableViewer">
+		<div class="dynamicContent">
 			<label class="labelCol">Table Viewer</label>
 			<c:forEach items="${ book.tableViewers }" var="document">
 				<div class="expandingBox">

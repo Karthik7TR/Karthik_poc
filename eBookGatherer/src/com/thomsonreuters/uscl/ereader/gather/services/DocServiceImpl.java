@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
@@ -57,7 +56,7 @@ public class DocServiceImpl implements DocService {
 	@Override
 	public GatherResponse  fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
-			File metadataDestinationDirectory) throws GatherException {
+			File metadataDestinationDirectory, boolean isFinalStage) throws GatherException {
 		Assert.isTrue(contentDestinationDirectory.exists(),
 				"The content destination directory for the documents does not exist: "
 						+ contentDestinationDirectory);
@@ -66,7 +65,17 @@ public class DocServiceImpl implements DocService {
 						+ metadataDestinationDirectory);
 
 		GatherResponse gatherResponse = new GatherResponse();
-		Novus novus = novusFactory.createNovus();
+		
+		Novus novus = null;
+		try {
+			novus = novusFactory.createNovus(isFinalStage);
+		} catch (NovusException e) {
+			GatherException ge = new GatherException(
+					"Novus error occurred while creating Novus object " + e,
+					GatherResponse.CODE_NOVUS_ERROR);
+			throw ge;
+		}
+		
 		final Integer docRetryCount = new Integer(novusUtility.getDocRetryCount());		
 		boolean anyException = false;
 		String docGuid = null;

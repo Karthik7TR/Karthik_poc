@@ -30,6 +30,7 @@ public class NortControllerTest {
     private String domain;
 	private static final String FILTER_NAME = "bogusName";
 	private static final File NORTDIR_DIR = new File("NortData");
+	private static final boolean IS_FINAL_STAGE = true;
 
 	@Before
 	public void setUp() {
@@ -44,11 +45,11 @@ public class NortControllerTest {
 		File tocFile = new File(NORTDIR_DIR, "file");
 		Date cutoffDate = new Date();
 		GatherResponse gatherResponse = new GatherResponse();
-		EasyMock.expect(mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, cutoffDate, null, null)).andReturn(gatherResponse);
+		EasyMock.expect(mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, cutoffDate, null, null, IS_FINAL_STAGE)).andReturn(gatherResponse);
 		EasyMock.replay(mockNortService);
 
     	// Invoke the controller
-    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, cutoffDate, null, null);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, cutoffDate, null, null, IS_FINAL_STAGE);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
     	
@@ -73,7 +74,7 @@ public class NortControllerTest {
 		String errorMesg = "bogus error";
 		GatherException expectedException = new GatherException(errorMesg, errorCode);
 		try {
-			mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, null, null, null);
+			mockNortService.findTableOfContents(domain, FILTER_NAME, tocFile, null, null, null, IS_FINAL_STAGE);
 			EasyMock.expectLastCall().andThrow(expectedException);
 			EasyMock.replay(mockNortService);
 		} catch (Exception e) {
@@ -81,7 +82,7 @@ public class NortControllerTest {
 		}
 
     	// Invoke the controller
-    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, null, null, null);
+    	GatherNortRequest tocRequest = new GatherNortRequest(domain, FILTER_NAME, tocFile, null, null, null, IS_FINAL_STAGE);
     	Model model = new ExtendedModelMap();
     	ModelAndView mav = controller.getTableOfContents(tocRequest, model);
 

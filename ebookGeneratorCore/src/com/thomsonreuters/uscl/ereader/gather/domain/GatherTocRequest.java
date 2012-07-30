@@ -22,18 +22,21 @@ public class GatherTocRequest {
 	private File tocFile;
 	private ArrayList<ExcludeDocument> excludeDocuments;
 	private ArrayList<RenameTocEntry> renameTocEntries;
+	private boolean isFinalStage;
 
 	public GatherTocRequest(){
 		super();
 	}
 	
-	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries) {
+	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, 
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) {
 		super();
 		this.guid = guid;
 		this.collectionName = collectionName;
 		this.tocFile = tocFile;
 		this.excludeDocuments = excludeDocuments;
 		this.renameTocEntries = renameTocEntries;
+		this.isFinalStage = isFinalStage;
 	}
 
 	public String getCollectionName() {
@@ -69,6 +72,7 @@ public class GatherTocRequest {
 		result = prime * result
 				+ ((collectionName == null) ? 0 : collectionName.hashCode());
 		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
+		result = prime * result + (isFinalStage ? 1231 : 1237);
 		result = prime * result + ((tocFile == null) ? 0 : tocFile.hashCode());
 		return result;
 	}
@@ -92,6 +96,8 @@ public class GatherTocRequest {
 				return false;
 		} else if (!guid.equals(other.guid))
 			return false;
+		if (isFinalStage != other.isFinalStage)
+			return false;
 		if (tocFile == null) {
 			if (other.tocFile != null)
 				return false;
@@ -114,6 +120,14 @@ public class GatherTocRequest {
 
 	public void setRenameTocEntries(ArrayList<RenameTocEntry> renameTocEntries) {
 		this.renameTocEntries = renameTocEntries;
+	}
+	
+	public boolean isFinalStage() {
+		return isFinalStage;
+	}
+
+	public void setFinalStage(boolean isFinalStage) {
+		this.isFinalStage = isFinalStage;
 	}
 	
 }

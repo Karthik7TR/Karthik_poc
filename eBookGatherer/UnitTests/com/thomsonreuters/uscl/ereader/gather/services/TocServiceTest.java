@@ -34,6 +34,7 @@ import com.westgroup.novus.productapi.TOCNode;
 public class TocServiceTest {
 	private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
 	private static final String TOC_GUID = "I7b3ec600675a11da90ebf04471783734";
+	private static final boolean IS_FINAL_STAGE = true;
 	private NovusFactory mockNovusFactory;
 	private Novus mockNovus;
 	private TOC mockToc;
@@ -72,7 +73,7 @@ public class TocServiceTest {
 		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
-		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
 		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
@@ -103,7 +104,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -144,7 +145,7 @@ public class TocServiceTest {
 		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
-		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
 		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
@@ -172,7 +173,7 @@ public class TocServiceTest {
 
 	
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
 		} 
 		catch (Exception e)
 		{
@@ -194,7 +195,7 @@ public class TocServiceTest {
 		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
-		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
 		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("1").anyTimes();		
 		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 		mockToc.setCollection(COLLECTION_NAME);
@@ -230,7 +231,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockTocNode);
 		EasyMock.replay(mockNovusUtility);		
 		try {
-			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null);
+			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -273,7 +274,7 @@ public class TocServiceTest {
 		File tocFile = new File(tocDir, "FAIL"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 
 		// Record expected calls
-		EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
 		EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
 		EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
 		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);			
@@ -290,7 +291,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
 		} 
 		finally
 		{
@@ -351,7 +352,7 @@ public class TocServiceTest {
 			File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
 	
 			// Record expected calls
-			EasyMock.expect(mockNovusFactory.createNovus()).andReturn(mockNovus);
+			EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
 			EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("1").anyTimes();		
 			EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
 			mockToc.setCollection(COLLECTION_NAME);
@@ -390,7 +391,7 @@ public class TocServiceTest {
 				ArrayList<ExcludeDocument> excludeDocuments = new ArrayList();
 				mockExcludeDocument.setDocumentGuid("UUID_1a");
 				excludeDocuments.add(mockExcludeDocument);
-				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments, null);
+				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments, null, IS_FINAL_STAGE);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Assert.fail(e.getMessage());
