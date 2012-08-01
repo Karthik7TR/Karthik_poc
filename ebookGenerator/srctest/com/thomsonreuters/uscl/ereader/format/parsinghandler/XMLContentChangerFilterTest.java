@@ -10,7 +10,10 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -25,6 +28,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 
 /**
  * Test various XMLContentChangerFilterTest data scenarios.
@@ -41,17 +47,26 @@ public class XMLContentChangerFilterTest {
 		factory.setNamespaceAware(true);
 		SAXParser saxParser = factory.newSAXParser();
 		
-		HashMap<String, String> currencyMap = new HashMap<String, String>();
-		currencyMap.put("123456789", "Currency");
+		List<DocumentCurrency> currencies = new ArrayList<DocumentCurrency>();
+		DocumentCurrency currency = new DocumentCurrency();
+		currency.setCurrencyGuid("123456789");
+		currency.setNewText("Currency");
+		currencies.add(currency);
 
-		HashMap<String, String> copyrightMap = new HashMap<String, String>();
-		copyrightMap.put("987654321", "Copyright");
+		List<DocumentCopyright> copyrights = new ArrayList<DocumentCopyright>();
+		DocumentCopyright copyright = new DocumentCopyright();
+		copyright.setCopyrightGuid("987654321");
+		copyright.setNewText("Copyright");
+		copyrights.add(copyright);
 		
-		contentChangeFilter = new XMLContentChangerFilter();
+		List<DocumentCurrency> copyCurrencies = new ArrayList<DocumentCurrency>(Arrays.asList(new DocumentCurrency[currencies.size()]));
+		List<DocumentCopyright> copyCopyrights = new ArrayList<DocumentCopyright>(Arrays.asList(new DocumentCopyright[copyrights.size()]));
+		Collections.copy(copyCurrencies, currencies);
+		Collections.copy(copyCopyrights, copyrights);
+		
+		contentChangeFilter = new XMLContentChangerFilter(false, copyrights, copyCopyrights, currencies, copyCurrencies);
 		contentChangeFilter.setParent(saxParser.getXMLReader());
-		contentChangeFilter.setFinalStage(false);
-		contentChangeFilter.setCurrencyMap(currencyMap);
-		contentChangeFilter.setCopyrightMap(copyrightMap);
+
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 		props.setProperty("omit-xml-declaration", "yes");
@@ -146,11 +161,11 @@ public class XMLContentChangerFilterTest {
 	@Test
 	public void testFinalStage() throws SAXException
 	{	
+		this.contentChangeFilter.setFinalStage(true);
+		
 		String xmlTestStr = "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>" +
 				"<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
 		String expectedResult = xmlTestStr;
-		
-		contentChangeFilter.setFinalStage(true);
 		
 		testHelper(xmlTestStr, expectedResult);
 	}

@@ -5,11 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 
 /**
  * Filter that handles various content changes
@@ -17,30 +20,33 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
 public class XMLContentChangerFilter extends XMLFilterImpl {
+	private static final String GUID_ATTR = "n-include_guid";
 	private static final String CURRENCY_TAG = "include.currency";
 	private boolean isCurrencyChanging = false;;
 	private String currencyMessage;
-	private HashMap<String, String> currencyMap;
+	private List<DocumentCopyright> copyrights;
+	private List<DocumentCopyright> copyCopyrights;
 	
 	private static final String COPYRIGHT_TAG = "include.copyright";
 	private boolean isCopyrightChanging = false;
 	private String copyrightMessage;
-	private HashMap<String, String> copyrightMap;
-	
-	private static final String GUID_ATTR = "n-include_guid";
+	private List<DocumentCurrency> currencies;
+	private List<DocumentCurrency> copyCurrencies;
 	
 	private boolean isFinalStage;
-
+	
+	public XMLContentChangerFilter(boolean isFinalStage, List<DocumentCopyright> copyrights, List<DocumentCopyright> copyCopyrights,
+			List<DocumentCurrency> currencies, List<DocumentCurrency> copyCurrencies) {
+		super();
+		this.isFinalStage = isFinalStage;
+		this.copyrights = copyrights;
+		this.copyCopyrights = copyCopyrights;
+		this.currencies = currencies;
+		this.copyCurrencies = copyCurrencies;
+	}
+	
 	public void setFinalStage(boolean isFinalStage) {
 		this.isFinalStage = isFinalStage;
-	}
-
-	public void setCurrencyMap(HashMap<String, String> currencyMap) {
-		this.currencyMap = currencyMap;
-	}
-
-	public void setCopyrightMap(HashMap<String, String> copyrightMap) {
-		this.copyrightMap = copyrightMap;
 	}
 
 	@Override
@@ -51,17 +57,23 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         if (!isFinalStage && qName.equalsIgnoreCase(CURRENCY_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
-        	if(currencyMap.containsKey(guid)) {
-        		isCurrencyChanging = true;
-        		currencyMessage = currencyMap.get(guid);
+        	for(DocumentCurrency currency: currencies) {
+        		if(currency.getCurrencyGuid().equalsIgnoreCase(guid)) {
+        			isCurrencyChanging = true;
+        			currencyMessage = currency.getNewText();
+        			copyCurrencies.remove(currency);
+        		}
         	}
         }
         else if (!isFinalStage && qName.equalsIgnoreCase(COPYRIGHT_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
-        	if(copyrightMap.containsKey(guid)) {
-        		isCopyrightChanging = true;
-        		copyrightMessage = copyrightMap.get(guid);
+        	for(DocumentCopyright copyright: copyrights) {
+        		if(copyright.getCopyrightGuid().equalsIgnoreCase(guid)) {
+        			isCopyrightChanging = true;
+        			copyrightMessage = copyright.getNewText();
+        			copyCopyrights.remove(copyright);
+        		}
         	}
         }
         

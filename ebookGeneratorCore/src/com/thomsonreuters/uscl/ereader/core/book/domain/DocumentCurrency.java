@@ -91,6 +91,7 @@ public class DocumentCurrency implements Serializable {
 	@Transient
 	public boolean isEmpty() {
 		return StringUtils.isBlank(this.note) &&
+				StringUtils.isBlank(this.newText) &&
 				StringUtils.isBlank(this.currencyGuid);
 	}
 	

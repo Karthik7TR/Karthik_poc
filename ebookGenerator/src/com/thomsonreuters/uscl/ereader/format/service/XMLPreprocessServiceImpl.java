@@ -11,7 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -73,14 +74,19 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         	throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
         
-        HashMap<String, String> copyrightMap = new HashMap<String, String>();
-        for(DocumentCopyright copyright : copyrights) {
-        	copyrightMap.put(copyright.getCopyrightGuid(), copyright.getNewText());
-        }
-        HashMap<String, String> currencyMap = new HashMap<String, String>();
-        for(DocumentCurrency currency : currencies) {
-        	currencyMap.put(currency.getCurrencyGuid(), currency.getNewText());
-        }
+        List<DocumentCopyright> copyCopyrights = null;
+        List<DocumentCurrency> copyCurrencies = null;
+
+		// Make a copy of the original to check that all have been accounted for
+		if (copyrights != null) {
+			copyCopyrights = new ArrayList<DocumentCopyright>(Arrays.asList(new DocumentCopyright[copyrights.size()]));
+			Collections.copy(copyCopyrights, copyrights);
+		}
+		
+		if (currencies != null) {
+			copyCurrencies = new ArrayList<DocumentCurrency>(Arrays.asList(new DocumentCurrency[currencies.size()]));
+			Collections.copy(copyCurrencies, currencies);
+		}
 
         //retrieve list of all xml files that need preprocessing
 		List<File> xmlFiles = new ArrayList<File>();
@@ -107,8 +113,35 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
 		int numDocs = 0;
 		for(File xmlFile : xmlFiles)
 		{
-			transformXMLFile(xmlFile, targetDir, isFinalStage, copyrightMap, currencyMap);
+			transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
 			numDocs++;
+		}
+		
+		// Check all the guids has been accounted for
+		StringBuffer errMessage = new StringBuffer();
+		
+		if ((copyCopyrights != null) && (copyCopyrights.size() > 0)) {
+			StringBuffer unaccountedCopyrights = new StringBuffer();
+			for (DocumentCopyright copyright : copyCopyrights) {
+				unaccountedCopyrights.append(copyright.getCopyrightGuid() + ",");
+			}
+			errMessage.append("Not all copyright guids are accounted for and those are ");
+			errMessage.append(unaccountedCopyrights);
+			errMessage.append(". ");
+		}
+		if ((copyCurrencies != null) && (copyCurrencies.size() > 0)) {
+			StringBuffer unaccountedCurrencies = new StringBuffer();
+			for (DocumentCurrency currency : copyCurrencies) {
+				unaccountedCurrencies.append(currency.getCurrencyGuid() + ",");
+			}
+			errMessage.append("Not all currency guids are accounted for and those are ");
+			errMessage.append(unaccountedCurrencies);
+			errMessage.append(". ");
+		}
+		
+		if (errMessage.length() > 0) {
+			LOG.error(errMessage.toString());
+			throw new EBookFormatException(errMessage.toString());
 		}
 
 		LOG.info("Preprocess successfully applied to " + numDocs + " files.");
@@ -122,13 +155,15 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
 	 * @param sourceFile source file to be transformed
 	 * @param targetDir target directory where the resulting post transformation file is to be written
 	 * @param isFinalStage detemines if content is from Final or Review stage
-	 * @param copyrightMap map of currency guids and message
-	 * @param currencyMap map of copyright guids and message
+	 * @param copyrights list of DocumentCopyright used in filter to change copyright message
+	 * @param copyCopyrights list of DocumentCopyright used for validation
+	 * @param currencies list of DocumentCurrency used in filter to change currency message
+	 * @param copyCurrencies list of DocumentCurrency used validation
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformXMLFile(File sourceFile, File targetDir, boolean isFinalStage, HashMap<String, String> copyrightMap,
-			HashMap<String, String> currencyMap) throws EBookFormatException
+	protected void transformXMLFile(File sourceFile, File targetDir, boolean isFinalStage, List<DocumentCopyright> copyrights, List<DocumentCopyright> copyCopyrights,
+			List<DocumentCurrency> currencies, List<DocumentCurrency> copyCurrencies) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -141,10 +176,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
 			factory.setNamespaceAware(true);
 			SAXParser saxParser = factory.newSAXParser();
 
-			XMLContentChangerFilter contentChangerFilter = new XMLContentChangerFilter();
-			contentChangerFilter.setFinalStage(isFinalStage);
-			contentChangerFilter.setCopyrightMap(copyrightMap);
-			contentChangerFilter.setCurrencyMap(currencyMap);
+			XMLContentChangerFilter contentChangerFilter = new XMLContentChangerFilter(isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
 			contentChangerFilter.setParent(saxParser.getXMLReader());
 			
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
