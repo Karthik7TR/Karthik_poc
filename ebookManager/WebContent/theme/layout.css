@@ -648,6 +648,11 @@ a:hover {
 	font-size: 1.2em;
 }
 
+#stats.displayTagTable tr.tableRowEven, 
+#stats.displayTagTable tr.even {
+	background-color: #F0A6A6;
+}
+
 #audit.displayTagTable tr.tableRowEven, 
 #audit.displayTagTable tr.even {
 	background-color: #FFB259;

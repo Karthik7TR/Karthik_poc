@@ -38,7 +38,7 @@
 	
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 
-	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
+	<display:table id="stats" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 		requestURI="<%=WebConstants.MVC_STATS_PAGE_AND_SORT%>"
 		sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
@@ -46,10 +46,10 @@
 	  
 	  <display:column title="jobSubmitTimestamp" property="jobSubmitTimestamp" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP.toString() %>"/>
 	  <display:column title="jobInstanceId" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_INSTANCE_ID.toString() %>">
-	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">${vdo.jobInstanceId}</a>
+	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${stats.jobInstanceId}">${stats.jobInstanceId}</a>
 	  </display:column>
 	  <display:column title="titleId" sortable="true" sortProperty="<%= DisplayTagSortProperty.TITLE_ID.toString() %>">
-	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.ebookDefId}">${ vdo.audit.titleId }</a>
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${stats.ebookDefId}">${ stats.audit.titleId }</a>
 	  </display:column>
 	  <display:column title="Book Version" property="bookVersionSubmitted" />
 	  <display:column title="publishStatus" property="publishStatus" sortable="true" sortProperty="<%= DisplayTagSortProperty.PUBLISH_STATUS.toString() %>"/>
@@ -58,7 +58,7 @@
 	  <display:column title="largestImageSize" property="largestImageSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_IMAGE_SIZE.toString() %>" />
 	  <display:column title="largestPdfSize" property="largestPdfSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_PDF_SIZE.toString() %>" />
 	  <display:column title="Metrics" sortable="false">
-	  	<a href="<%=WebConstants.MVC_BOOK_JOB_METRICS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">View Metrics</a>
+	  	<a href="<%=WebConstants.MVC_BOOK_JOB_METRICS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${stats.jobInstanceId}">View Metrics</a>
 	  </display:column>
 	</display:table>
 	
