@@ -15,6 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +29,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 
 /**
  */
@@ -49,10 +54,10 @@ public class PublishingStats implements Serializable {
 	/**
 	 */
 	
-	@Column(name = "AUDIT_ID", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "AUDIT_ID", referencedColumnName = "AUDIT_ID", nullable = false) })
 	@XmlElement
-	Long auditId;
+	EbookAudit audit;
 
 	/**
 	 */
@@ -434,14 +439,14 @@ public class PublishingStats implements Serializable {
 
 	/**
 	 */
-	public void setAuditId(Long auditId) {
-		this.auditId = auditId;
+	public void setAudit(EbookAudit audit) {
+		this.audit = audit;
 	}
 
 	/**
 	 */
-	public Long getAuditId() {
-		return this.auditId;
+	public EbookAudit getAudit() {
+		return this.audit;
 	}
 
 	
@@ -596,7 +601,7 @@ public class PublishingStats implements Serializable {
 		result = prime
 				* result
 				+ ((assembleDocCount == null) ? 0 : assembleDocCount.hashCode());
-		result = prime * result + ((auditId == null) ? 0 : auditId.hashCode());
+		result = prime * result + ((audit == null) ? 0 : audit.hashCode());
 		result = prime * result
 				+ ((bookSize == null) ? 0 : bookSize.hashCode());
 		result = prime
@@ -711,10 +716,10 @@ public class PublishingStats implements Serializable {
 				return false;
 		} else if (!assembleDocCount.equals(other.assembleDocCount))
 			return false;
-		if (auditId == null) {
-			if (other.auditId != null)
+		if (audit == null) {
+			if (other.audit != null)
 				return false;
-		} else if (!auditId.equals(other.auditId))
+		} else if (!audit.equals(other.audit))
 			return false;
 		if (bookSize == null) {
 			if (other.bookSize != null)

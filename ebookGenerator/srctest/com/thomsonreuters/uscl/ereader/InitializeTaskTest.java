@@ -30,6 +30,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -86,7 +87,9 @@ public class InitializeTaskTest {
 		EasyMock.expect(jobExecution.getExecutionContext()).andReturn(jobExecutionContext);
 
 		PublishingStats pubStats = new PublishingStats();
-		pubStats.setAuditId(new Long(1));
+		EbookAudit audit = new EbookAudit();
+		audit.setAuditId(new Long(1));
+		pubStats.setAudit(audit);
 		pubStats.setBookVersionSubmitted("0");
 		pubStats.setJobHostName("hostname");
 		pubStats.setJobInstanceId(new Long(1));

@@ -21,11 +21,6 @@
 	</tr>	
 	
 	<tr>
-		<td><b>Audit ID:</b></td> 
-		<td>${publishingStats.auditId}</td>
-	</tr>
-	
-	<tr>
 		<td><b>Book Definition ID:</b></td>
 		<td>${publishingStats.ebookDefId}</td>
 	</tr>

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -247,7 +248,9 @@ public class InitializeTask extends AbstractSbTasklet {
 			Long ebookDefId = jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID);
 			pubStats.setEbookDefId(ebookDefId);
 			Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
-			pubStats.setAuditId(auditId);
+			EbookAudit audit = new EbookAudit();
+			audit.setAuditId(auditId);
+			pubStats.setAudit(audit);
 			pubStats.setBookVersionSubmitted(jobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
 			pubStats.setJobHostName(jobParams.getString(JobParameterKey.HOST_NAME));
 			pubStats.setJobInstanceId(Long.valueOf(jobInstance.getId().toString()));

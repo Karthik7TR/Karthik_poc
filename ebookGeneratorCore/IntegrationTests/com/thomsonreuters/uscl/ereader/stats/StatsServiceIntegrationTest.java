@@ -99,7 +99,9 @@ public class StatsServiceIntegrationTest {
 		jobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 		jobStats.setEbookDefId(bookDef.getEbookDefinitionId());
-		jobStats.setAuditId(auditId);
+		EbookAudit audit = new EbookAudit();
+		audit.setAuditId(auditId);
+		jobStats.setAudit(audit);
 		jobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+seqNum);
 		jobStats.setBookVersionSubmitted( "1.1");
 		jobStats.setJobHostName("jobHostName Integration test");
@@ -196,7 +198,7 @@ public class StatsServiceIntegrationTest {
 
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId((long) 1);
-		expectedJobStats.setAuditId(ebookAudit.getAuditId());
+		expectedJobStats.setAudit(ebookAudit);
 		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");
@@ -233,7 +235,7 @@ public class StatsServiceIntegrationTest {
 		
 		PublishingStats expectedJobStats = new com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats();
 		expectedJobStats.setEbookDefId(eBook.getEbookDefinitionId());
-		expectedJobStats.setAuditId(ebookAudit.getAuditId());
+		expectedJobStats.setAudit(ebookAudit);
 		expectedJobStats.setJobInstanceId( (long) JOB_INSTANCE_ID+1);
 		expectedJobStats.setBookVersionSubmitted( "1.1");
 		expectedJobStats.setJobHostName("jobHostName Integration test");
@@ -260,12 +262,12 @@ public class StatsServiceIntegrationTest {
 	public void findJobStatsAuditByEbookDefTest() 
 	{
 		PublishingStats responseJobStats = jobStatsService.findPublishingStatsByJobId(JOB_INSTANCE_ID+1);
-		LOG.debug("responseJobStats audit_id is " + responseJobStats.getAuditId());
+		LOG.debug("responseJobStats audit_id is " + responseJobStats.getAudit().getAuditId());
 	
 		Long ebookMax =  ebookAuditService.findEbookAuditByEbookDefId(eBook.getEbookDefinitionId());
 		LOG.debug(" ebookMax " + ebookMax); 
 		
-		EbookAudit ebookData =  ebookAuditService.findEBookAuditByPrimaryKey(responseJobStats.getAuditId());
+		EbookAudit ebookData =  ebookAuditService.findEBookAuditByPrimaryKey(responseJobStats.getAudit().getAuditId());
 		LOG.debug("ebookAudit audit_id is " + ebookData.getAuditId());
 
 	

@@ -212,6 +212,43 @@ public class BookAuditControllerTest {
 	}
 	
 	/**
+	 * Test the submission of the multi-selected rows, or changing the number of objects displayed per page.
+	 * @throws Exception
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testChangeDisplayedRowsPerPage() throws Exception {
+		int EXPECTED_OBJECTS_PER_PAGE = 33;
+    	// Set up the request URL
+    	request.setRequestURI("/"+WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT);
+    	request.setMethod(HttpMethod.POST.name());
+    	request.setParameter("objectsPerPage", String.valueOf(EXPECTED_OBJECTS_PER_PAGE));
+    	HttpSession session = request.getSession();
+
+    	// Record expected service calls
+    	EasyMock.expect(mockAuditService.findEbookAudits(
+    				EasyMock.anyObject(EbookAuditFilter.class), EasyMock.anyObject(EbookAuditSort.class))).andReturn(new ArrayList<EbookAudit>());
+    	EasyMock.expect(mockAuditService.numberEbookAudits(
+				EasyMock.anyObject(EbookAuditFilter.class))).andReturn(33);
+    	EasyMock.replay(mockAuditService);
+    	
+
+       	// Invoke the controller method via the URL
+    	ModelAndView mav = handlerAdapter.handle(request, response, controller);
+    	
+    	// Verify
+    	assertNotNull(mav);
+    	Assert.assertEquals(WebConstants.VIEW_BOOK_AUDIT_LIST, mav.getViewName());
+    	Map<String,Object> model = mav.getModel();
+    	validateModel(session, model);
+    	// Ensure the number of rows was changed
+    	PageAndSort<DisplayTagSortProperty> pageAndSort = (PageAndSort<DisplayTagSortProperty>) session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME);
+    	Assert.assertEquals(EXPECTED_OBJECTS_PER_PAGE, pageAndSort.getObjectsPerPage().intValue());
+    	
+    	EasyMock.verify(mockAuditService);
+	}
+	
+	/**
 	 * Verify the state of the session and request (model) as expected before the
 	 * rendering of the Audit List page.
 	 */

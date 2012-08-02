@@ -2,13 +2,12 @@ package com.thomsonreuters.uscl.ereader.stats.dao;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 
 public interface PublishingStatsDao {
 	
@@ -20,18 +19,23 @@ public interface PublishingStatsDao {
 	public PublishingStats findJobStatsByJobId(Long JobId);	
 	
 	/**
-	 * Find Job Stats by Ebook Definition Id
-	 * @param  Ebook Definition Id
-	 * @return Stats for that Ebook Definition
-	 */
-	public List<EbookAudit> findJobStatsAuditByEbookDef(Long EbookDefId);	
-	
-	/**
 	 * Find Publishing stats for ebook
 	 * @param EbookDefId
 	 * @return
 	 */
 	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
+	
+	/**
+	 * Find Publishing stats
+	 * @param filter
+	 * @param sort
+	 * @return
+	 */
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
+	
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
+	
+	public int numberOfPublishingStats(PublishingStatsFilter filter); 
 	
 	/**
 	 * Save an Job Stats entry

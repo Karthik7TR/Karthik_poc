@@ -242,10 +242,6 @@
 		p:imageVertical-ref="imageVertical"
 		p:smokeTestService-ref="smokeTestService"
 		p:miscConfigSyncService-ref="miscConfigSyncService"/>
-	  
-	<bean id="eBookJobHistoryController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.history.EBookJobHistoryController"
-		p:bookDefinitionService-ref="bookDefinitionService"
-		p:publishingStatsService-ref="publishingStatsService" />
 		  
 	<bean id="eBookJobMetricsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.metrics.EBookJobMetricsController"
 		p:bookDefinitionService-ref="bookDefinitionService"
@@ -295,5 +291,11 @@
 	
 	<bean id="publishingStatsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsController"
 		p:publishingStatsService-ref="publishingStatsService" />
+	<bean id="publishingStatsFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterController"
+		p:publishingStatsService-ref="publishingStatsService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFormValidator"/>
+		 </property>
+	</bean>
 		 
 </beans>

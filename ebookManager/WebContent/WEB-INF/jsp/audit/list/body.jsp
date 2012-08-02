@@ -17,6 +17,24 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form id="itemCountForm" action="<%=WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT%>"
+		     commandName="<%=BookAuditForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="150" value="150"/>
+		<form:option label="300" value="300"/>
+		<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
+		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>	
+
 <%-- Table of job executions --%>
 <display:table id="audit" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 			   requestURI="<%=WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT%>"
@@ -34,4 +52,3 @@
   <display:column title="Action" property="auditType" sortable="true" sortProperty="<%=DisplayTagSortProperty.ACTION.toString()%>"/>
   <display:column title="Comment" property="auditNote" />
 </display:table>
-

@@ -9,18 +9,23 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;;
 
 public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
@@ -38,7 +43,6 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK) {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -46,20 +50,19 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public PublishingStats findJobStatsByJobId(Long JobId) {
 
 		Session session = sessionFactory.getCurrentSession();
 
 		PublishingStats pubStats = (PublishingStats) session
 				.createCriteria(PublishingStats.class)
+				.setFetchMode("audit", FetchMode.JOIN)
 				.add(Restrictions.eq("jobInstanceId", JobId)).uniqueResult();
 
 		return (pubStats);
 	}
 
 	@Override
-	@Transactional
 	public void saveJobStats(PublishingStats jobstats) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(jobstats);
@@ -67,7 +70,6 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 	}
 
-	@Transactional
 	public void deleteJobStats(PublishingStats toRemove) {
 		toRemove = (PublishingStats) sessionFactory.getCurrentSession().merge(
 				toRemove);
@@ -76,7 +78,6 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public int updateJobStats(PublishingStats jobstats,
 			StatsUpdateTypeEnum updateType) {
 		StringBuffer hql = new StringBuffer("update PublishingStats set   ");
@@ -180,7 +181,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		hql.append(jobId);
 		// hql.append(" and PublishingStats.ebookDefId = EbookAudit.ebookDefId "
 		// );
-		hql.append(" and ps.auditId = ea.auditId ");
+		hql.append(" and ps.audit.auditId = ea.auditId ");
 
 		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
@@ -191,26 +192,6 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public List<EbookAudit> findJobStatsAuditByEbookDef(Long EbookDefId) {
-		StringBuffer hql = new StringBuffer(
-				"select ea from PublishingStats ps, EbookAudit ea  ");
-
-		hql.append(" where ps.ebookDefId =  "); // WHERE clause
-		hql.append(EbookDefId);
-		// hql.append(" and PublishingStats.ebookDefId = EbookAudit.ebookDefId "
-		// );
-		hql.append(" and ps.auditId = ea.auditId ");
-
-		// Create query and populate it with where clause values
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(hql.toString());
-
-		return (List<EbookAudit>) query.list();
-	}
-
 	/**
 	 * Find Publishing stats for ebook
 	 * 
@@ -219,24 +200,116 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
 	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId) {
-		StringBuffer hql = new StringBuffer(
-				"select ps from PublishingStats ps ");
-
-		hql.append(" where ps.ebookDefId =  ");
-		hql.append(EbookDefId);
-
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(hql.toString());
+		
+		Criteria criteria = session.createCriteria(PublishingStats.class)
+				.createAlias("audit", "book")
+				.setFetchMode("audit", FetchMode.JOIN)
+				.add(Restrictions.eq("ebookDefId", EbookDefId));
 
-		return (List<PublishingStats>) query.list();
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort) {
 
+		Criteria criteria = addFilters(filter);
+		
+		String orderByColumn = getOrderByColumnName(sort.getSortProperty());
+		if(sort.isAscending()) {
+			criteria.addOrder(Order.asc(orderByColumn));
+		} else {
+			criteria.addOrder(Order.desc(orderByColumn));
+		}
+		
+		int itemsPerPage = sort.getItemsPerPage();
+		criteria.setFirstResult((sort.getPageNumber()-1)*(itemsPerPage));
+		criteria.setMaxResults(itemsPerPage);
+		
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter) {
+		Criteria criteria = addFilters(filter);
+		
+		return criteria.list();
+	}
+	
+	public int numberOfPublishingStats(PublishingStatsFilter filter) {
+		Criteria criteria = addFilters(filter);
+		
+		Number rows = (Number) criteria.setProjection(Projections.rowCount()).uniqueResult();
+		
+		return rows.intValue();
+	}
+	
+	/**
+	 * Map the sort column enumeration into the actual column identifier used in the HQL query.
+	 * @param sortProperty enumerated value that reflects the database table sort column to sort on.
+	 */
+	private String getOrderByColumnName(SortProperty sortProperty) {
+		switch (sortProperty) {
+			case AUDIT_ID:
+				return "book.auditId";
+			case BOOK_SIZE:
+				return "bookSize";
+			case BOOK_VERSION:
+				return "bookVersionSubmitted";
+			case EBOOK_DEFINITION_ID:
+				return "ebookDefId";
+			case JOB_INSTANCE_ID:
+				return "jobInstanceId";
+			case JOB_SUBMIT_TIMESTAMP:
+				return "jobSubmitTimestamp";
+			case JOB_SUBMITTER:
+				return "jobSubmitterName";
+			case LARGEST_DOC_SIZE:
+				return "largestDocSize";
+			case LARGEST_IMAGE_SIZE:
+				return "largestImageSize";
+			case LARGEST_PDF_SIZE:
+				return "largestPdfSize";
+			case PUBLISH_STATUS:
+				return "publishStatus";
+			case PROVIEW_DISPLAY_NAME:
+				return "book.proviewDisplayName";
+			case TITLE_ID:
+				return "book.titleId";
+			default:
+				throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
+		}
+	}
+	
+	private Criteria addFilters(PublishingStatsFilter filter) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Criteria criteria = session.createCriteria(PublishingStats.class)
+				.createAlias("audit", "book")
+				.setFetchMode("audit", FetchMode.JOIN);
+
+		if (filter.getFrom() != null) {
+			criteria.add(Restrictions.ge("jobSubmitTimestamp", filter.getFrom()));
+		}
+		if (filter.getTo() != null) {
+			criteria.add(Restrictions.le("jobSubmitTimestamp", filter.getTo()));
+		}
+		if (StringUtils.isNotBlank(filter.getBookName())) {
+			criteria.add(Restrictions.like("book.proviewDisplayName", filter.getBookName()).ignoreCase());
+		}
+		if (StringUtils.isNotBlank(filter.getTitleId())) {
+			criteria.add(Restrictions.like("book.titleId", filter.getTitleId()).ignoreCase());
+		}
+		if (filter.getBookDefinitionId() != null) {
+			criteria.add(Restrictions.eq("ebookDefId", filter.getBookDefinitionId()));
+		}
+		
+		return criteria;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
 	public List<PublishingStats> findAllPublishingStats() {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("from PublishingStats");

@@ -57,8 +57,8 @@ public class JobInstanceController {
 		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
 		if (jobInstance != null) {
 			long totalDurationOfAllExecutions = 0;
-			EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
 			PublishingStats publishingStats = publishingStatsService.findPublishingStatsByJobId(jobInstance.getId());
+			EbookAudit bookInfo = publishingStats.getAudit();
 			List<JobExecution> jobExecutions = jobService.findJobExecutions(jobInstance);
 			List<StepExecution> allJobInstanceSteps = new ArrayList<StepExecution>();
 			for (JobExecution je : jobExecutions) {

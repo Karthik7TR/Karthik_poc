@@ -208,9 +208,9 @@ public class JobExecutionController {
 		PublishingStats stats = null;
 		JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
 		if (jobExecution != null) {
-			bookInfo = publishingStatsService.findAuditInfoByJobId(jobExecution.getJobId());
 			Long jobInstanceId = jobExecution.getJobId();
 			stats = publishingStatsService.findPublishingStatsByJobId(jobInstanceId);
+			bookInfo = stats.getAudit();
 		}
 		JobExecutionVdo vdo = new JobExecutionVdo(jobExecution, bookInfo, stats);
 		return vdo;

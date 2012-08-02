@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +51,7 @@ public class BookAuditController extends BaseBookAuditController {
 	 * Setup of Form and sorting shared by two different incoming HTTP get request
 	 */
 	private ModelAndView setupInitialView(Model model, BookAuditFilterForm filterForm, HttpSession httpSession) {
-		PageAndSort<DisplayTagSortProperty> savedPageAndSort = new PageAndSort<DisplayTagSortProperty>(1, DisplayTagSortProperty.SUBMITTED_DATE, false);
+		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
 		
 		BookAuditForm ebookAuditForm = new BookAuditForm();
 		ebookAuditForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
@@ -85,6 +86,22 @@ public class BookAuditController extends BaseBookAuditController {
 		}
 		setUpModel(filterForm, pageAndSort, httpSession, model);
 		
+		return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
+	}
+	
+	/**
+	 * Handle URL request that the number of rows displayed in table be changed.
+	 */
+	@RequestMapping(value=WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT, method = RequestMethod.POST)
+	public ModelAndView handleChangeInItemsToDisplay(HttpSession httpSession,
+							   @ModelAttribute(BookAuditForm.FORM_NAME) @Valid BookAuditForm form,
+							   Model model) {
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
+		pageAndSort.setObjectsPerPage(form.getObjectsPerPage());	// Update the new number of items to be shown at one time
+		// Restore the state of the search filter
+		BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		setUpModel(filterForm, pageAndSort, httpSession, model);
 		return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
 	}
 	

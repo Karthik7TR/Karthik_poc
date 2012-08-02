@@ -379,10 +379,6 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/job/summary/jobSummaryFilter.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/summary/jobSummary.jsp"/>
 	</definition>
-	<definition name="_eBookJobHistory" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/job/history/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/job/history/body.jsp"/>
-	</definition>
 	<definition name="_eBookJobMetrics" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/job/metrics/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/job/metrics/body.jsp"/>
@@ -410,7 +406,8 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/userpreferences/body.jsp"/>
 	</definition>
 
-	<definition name="_stats" extends="oneColumnDefinition">
+	<definition name="_stats" extends="twoColumnDefinition">
+	<put-attribute name="left" value="/WEB-INF/jsp/stats/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/stats/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/stats/body.jsp"/>
 	</definition>

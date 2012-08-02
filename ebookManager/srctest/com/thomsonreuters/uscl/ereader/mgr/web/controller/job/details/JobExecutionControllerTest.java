@@ -81,9 +81,9 @@ public class JobExecutionControllerTest {
     	request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, JEID.toString());
     	request.setMethod(HttpMethod.GET.name());
     	PublishingStats bogusStats = new PublishingStats();
+    	bogusStats.setAudit(mockJobInstanceBookInfo);
     	
     	EasyMock.expect(mockJobService.findJobExecution(JEID)).andReturn(JOB_EXECUTION);
-    	EasyMock.expect(mockPublishingStatsService.findAuditInfoByJobId(JOB_EXECUTION.getJobId())).andReturn(mockJobInstanceBookInfo);
     	EasyMock.expect(mockPublishingStatsService.findPublishingStatsByJobId((JOB_INSTANCE.getId()))).andReturn(bogusStats);
     	EasyMock.replay(mockJobService);
     	EasyMock.replay(mockPublishingStatsService);

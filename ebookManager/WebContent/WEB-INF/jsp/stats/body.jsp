@@ -13,72 +13,57 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty"%>
+<%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort"%>
 
-<html>
-<head>
-<script type="text/javascript">
-		
-		function changePageSize(){
-			$('#<%=PublishingStatsForm.FORM_NAME%>').submit();
-			return true; 
-		}
-</script>		
-</head>
-
+<%-- Select for how may items (rows) per page to show --%>
+	<c:if test="${fn:length(paginatedList.list) != 0}">
+	  <form:form id="itemCountForm" action="<%=WebConstants.MVC_STATS_CHANGE_ROW_COUNT%>"
+			     commandName="<%=PublishingStatsForm.FORM_NAME%>" method="post">
+		Items to display: 
+		<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+		<form:select path="objectsPerPage" onchange="submit()">
+			<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+			<form:option label="50" value="50"/>
+			<form:option label="100" value="100"/>
+			<form:option label="150" value="150"/>
+			<form:option label="300" value="300"/>
+			<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
+			<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
+		</form:select>
+	  </form:form>
+	</c:if>  <%-- if (table row count > 0) --%>	
+	
 	<%-- Table of publishing stats for a specific book --%>
 	
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-	
-	<form:form action="<%=WebConstants.MVC_STATS%>"
-			   commandName="<%=PublishingStatsForm.FORM_NAME%>" name="theForm" method="post">
-	
+
 	<display:table id="<%= WebConstants.KEY_VDO %>" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_STATS%>"
-				   pagesize="${pageSize}"
-				   partialList="false"
-				   export="true">
-				   
-
+		requestURI="<%=WebConstants.MVC_STATS_PAGE_AND_SORT%>"
+		sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
-	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  <display:setProperty name="export.xml" value="false" />
-	  <display:setProperty name="export.csv" value="false" />
-	  <display:setProperty name="export.excel.filename" value="PublishingStats.xls" />
 	  
-	  <display:column title="jobInstanceId" property="jobInstanceId" />
-	  <display:column title="auditId" property="auditId"  />
-	  <display:column title="ebookDefId" property="ebookDefId"  />
-	  <display:column title="jobSubmitterName" property="jobSubmitterName"  />
-	  <display:column title="jobSubmitTimestamp" property="jobSubmitTimestamp"/>
-	  <display:column title="bookVersionSubmitted" property="bookVersionSubmitted"  />
-	  <display:column title="publishStartTimestamp" property="publishStartTimestamp"/>
-	  <display:column title="gatherTocNodeCount" property="gatherTocNodeCount"  />
-	  <display:column title="gatherTocSkippedCount" property="gatherTocSkippedCount"  />
-	  <display:column title="gatherTocDocCount" property="gatherTocDocCount"  />
-	  <display:column title="gatherTocRetryCount" property="gatherTocRetryCount"  />
-	  <display:column title="gatherDocExpectedCount" property="gatherDocExpectedCount"  />
-	  <display:column title="gatherDocRetryCount" property="gatherDocRetryCount"  />
-	  <display:column title="gatherDocRetrievedCount" property="gatherDocRetrievedCount"  />
-	  <display:column title="gatherMetaExpectedCount" property="gatherMetaExpectedCount"  />
-	  <display:column title="gatherMetaRetryCount" property="gatherMetaRetryCount"  />
-	  <display:column title="gatherMetaRetrievedCount" property="gatherMetaRetrievedCount"  />
-	  <display:column title="gatherImageExpectedCount" property="gatherImageExpectedCount"  />
-	  <display:column title="gatherImageRetryCount" property="gatherImageRetryCount"  />
-	  <display:column title="gatherImageRetrievedCount" property="gatherImageRetrievedCount"  />
-	  <display:column title="formatDocCount" property="formatDocCount"  />
-	  <display:column title="assembleDocCount" property="assembleDocCount"  />
-	  <display:column title="titleDupDocCount" property="titleDupDocCount"  />
-	  <display:column title="publishStatus" property="publishStatus"  />
-	  <display:column title="publishEndTimestamp" property="publishEndTimestamp"/>
-	  <display:column title="lastUpdated" property="lastUpdated"/>
-	  <display:column title="bookSize" property="bookSize"  />
-	  <display:column title="largestDocSize" property="largestDocSize"  />
-	  <display:column title="largestImageSize" property="largestImageSize"  />
-	  <display:column title="largestPdfSize" property="largestPdfSize"  />
-	  
+	  <display:column title="jobSubmitTimestamp" property="jobSubmitTimestamp" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP.toString() %>"/>
+	  <display:column title="jobInstanceId" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_INSTANCE_ID.toString() %>">
+	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">${vdo.jobInstanceId}</a>
+	  </display:column>
+	  <display:column title="titleId" sortable="true" sortProperty="<%= DisplayTagSortProperty.TITLE_ID.toString() %>">
+	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.ebookDefId}">${ vdo.audit.titleId }</a>
+	  </display:column>
+	  <display:column title="Book Version" property="bookVersionSubmitted" />
+	  <display:column title="publishStatus" property="publishStatus" sortable="true" sortProperty="<%= DisplayTagSortProperty.PUBLISH_STATUS.toString() %>"/>
+	  <display:column title="bookSize" property="bookSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.BOOK_SIZE.toString() %>" />
+	  <display:column title="largestDocSize" property="largestDocSize"  sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_DOC_SIZE.toString() %>"/>
+	  <display:column title="largestImageSize" property="largestImageSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_IMAGE_SIZE.toString() %>" />
+	  <display:column title="largestPdfSize" property="largestPdfSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_PDF_SIZE.toString() %>" />
+	  <display:column title="Metrics" sortable="false">
+	  	<a href="<%=WebConstants.MVC_BOOK_JOB_METRICS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${vdo.jobInstanceId}">View Metrics</a>
+	  </display:column>
 	</display:table>
-	</form:form>
+	
+	<div>
+		The filter is applied to the results shown in the file.  The maximum amount of rows on the Excel file cannot exceed 65535.
+	</div>
+	<a href="<%= WebConstants.MVC_STATS_DOWNLOAD %>">Download Excel</a>
 
-</html>

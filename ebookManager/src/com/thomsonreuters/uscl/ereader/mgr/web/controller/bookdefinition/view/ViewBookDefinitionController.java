@@ -89,8 +89,8 @@ public class ViewBookDefinitionController {
 			case AUDIT_LOG:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC+queryString));
 				break;
-			case BOOK_JOB_HISTORY:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_JOB_HISTORY+queryString));
+			case BOOK_PUBLISH_STATS:
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS_SPECIFIC_BOOK+queryString));
 				break;
 			case COPY:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY+queryString));

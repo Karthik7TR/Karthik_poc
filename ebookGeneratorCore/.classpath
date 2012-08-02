@@ -99,5 +99,6 @@
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.47.jar"/>
 	<classpathentry kind="lib" path="lib/commons-validator-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.8-20120326.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

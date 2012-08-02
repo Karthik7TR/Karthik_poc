@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.library.vdo;
+package com.thomsonreuters.uscl.ereader.stats.domain;
 
 import java.util.Date;
 
@@ -11,35 +11,40 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * The filter criteria used when searching for book definitions to display in the Library List table.
+ * The filter criteria used when searching for publishing stats to display in the PUBLISHING_STATS table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
-public class LibraryListFilter {
+public class PublishingStatsFilter {
 
+	// Publishing Stats properties
+	private Date from;	// job submit date on and after this calendar date (inclusive)
+	private Date to;	// job submit date on and before this calendar date (inclusive)
+	
 	// Book Definition properties
-	private Date from;	// start date on and after this calendar date (inclusive)
-	private Date to;	// start date on and before this calendar date (inclusive)
 	private String titleId;
-	private String proviewDisplayName;
-	private String action;
-	private String isbn;
-	private String materialId;
-	private Long keywordValue;
+	private String bookName;
+	private Long bookDefinitionId;
 	
-	
-	public LibraryListFilter() {
+	public PublishingStatsFilter() {
 		super();
 	}
-	public LibraryListFilter(Date from, Date to, String action, String titleId, 
-			String proviewDisplayName, String isbn, String materialId, Long keywordValue) {
+	
+	public PublishingStatsFilter(Long bookDefinitionId) {
+		super();
+		populate(null, null, null, null, bookDefinitionId);
+	}
+	
+	public PublishingStatsFilter(Date from, Date to, String titleId, String bookName, Long bookDefinitionId) {
+		super();
+		populate(from, to, titleId, bookName, bookDefinitionId);
+	}
+	
+	private void populate(Date from, Date to, String titleId, String bookName, Long bookDefinitionId) {
 		this.from = from;
 		this.to = to;
-		this.action = action;
 		this.titleId = (titleId != null) ? titleId.trim() : null;
-		this.proviewDisplayName = (proviewDisplayName != null) ? proviewDisplayName.trim() : null;
-		this.isbn = (isbn != null) ? isbn.trim() : null;
-		this.materialId = (materialId != null) ? materialId.trim() : null;
-		this.keywordValue = keywordValue;
+		this.bookName = (bookName != null) ? bookName.trim() : null;
+		this.bookDefinitionId = bookDefinitionId;
 	}
 	
 	/** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
@@ -50,9 +55,7 @@ public class LibraryListFilter {
 	public Date getTo() {
 		return to;
 	}
-	public String getAction() {
-		return action;
-	}
+
 	/**
 	 * Get the match-anywhere title ID, where this string will be compared against
 	 * the actual definition title ID as a 'like' comparison '%titleID%'.
@@ -61,23 +64,12 @@ public class LibraryListFilter {
 	public String getTitleId() {
 		return titleId;
 	}
-	public String getProviewDisplayName() {
-		return proviewDisplayName;
+	public String getBookName() {
+		return bookName;
 	}
-	
-	public String getIsbn() {
-		return isbn;
+	public Long getBookDefinitionId() {
+		return bookDefinitionId;
 	}
-	
-	public String getMaterialId() {
-		return materialId;
-	}
-	
-	public Long getKeywordValue() {
-		return keywordValue;
-	}
-	
-
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

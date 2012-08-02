@@ -3,11 +3,14 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 
 public interface PublishingStatsService {
 	
@@ -31,16 +34,18 @@ public interface PublishingStatsService {
 	 * 
 	 */
 	public int updatePublishingStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType);
-
-
-	public List<EbookAudit> findJobStatsAuditByEbookDef(Long ebookDefId);
 	
 	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
+	
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
+	
+	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
+	
+	public int numberOfPublishingStats(PublishingStatsFilter filter); 
 	
 	public EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(Long EbookDefId);
 	
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
-
 
 	public void deleteJobStats(PublishingStats jobStats);
 
@@ -50,5 +55,6 @@ public interface PublishingStatsService {
 	
 	public List<PublishingStats> findAllPublishingStats();
 	
+	public Workbook createExcelDocument(PublishingStatsFilter filter);
 	
 }

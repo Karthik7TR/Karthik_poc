@@ -30,6 +30,23 @@
 			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
 		};
 	</script>
+<%-- Select for how may items (rows) per page to show --%>
+<c:if test="${fn:length(paginatedList.list) != 0}">
+  <form:form id="itemCountForm" action="<%=WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT%>"
+		     commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post">
+	Items to display: 
+	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
+	<form:select path="objectsPerPage" onchange="submit()">
+		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
+		<form:option label="50" value="50"/>
+		<form:option label="100" value="100"/>
+		<form:option label="150" value="150"/>
+		<form:option label="300" value="300"/>
+		<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
+		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
+	</form:select>
+  </form:form>
+</c:if>  <%-- if (table row count > 0) --%>	
 
 <form:form commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post" action="<%= WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST%>">
 	<form:hidden path="command"/>
@@ -92,22 +109,3 @@
 	</div>
 
 </form:form>
-
-
-<%-- Select for how may items (rows) per page to show --%>
-<c:if test="${fn:length(paginatedList.list) != 0}">
-  <form:form id="itemCountForm" action="<%=WebConstants.MVC_BOOK_LIBRARY_CHANGE_ROW_COUNT%>"
-		     commandName="<%=BookLibrarySelectionForm.FORM_NAME%>" method="post">
-	Items to display: 
-	<c:set var="defaultItemsPerPage" value="<%=PageAndSort.DEFAULT_ITEMS_PER_PAGE%>"/>
-	<form:select path="objectsPerPage" onchange="submit()">
-		<form:option label="${defaultItemsPerPage}" value="${defaultItemsPerPage}"/>
-		<form:option label="50" value="50"/>
-		<form:option label="100" value="100"/>
-		<form:option label="150" value="150"/>
-		<form:option label="300" value="300"/>
-		<%-- Shows to MAX_INT.  Needs to get updated once number of books reach this amount --%>
-		<form:option label="ALL" value="<%= Integer.MAX_VALUE %>"/>
-	</form:select>
-  </form:form>
-</c:if>  <%-- if (table row count > 0) --%>	

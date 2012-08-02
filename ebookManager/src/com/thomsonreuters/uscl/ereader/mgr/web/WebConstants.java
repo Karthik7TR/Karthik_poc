@@ -171,11 +171,14 @@ public class WebConstants {
 	public static final String MVC_JOB_SUMMARY_FILTER_POST = "jobSummaryFilterPost.mvc";
 	public static final String MVC_JOB_STEP_EXECUTION_DETAILS = "jobStepExecutionDetails.mvc";
 	public static final String MVC_BOOK_JOB_HISTORY = "eBookJobHistory.mvc";
+	public static final String MVC_BOOK_JOB_HISTORY_PAGE_AND_SORT = "eBookJobHistoryPageAndSort.mvc";
+	public static final String MVC_BOOK_JOB_HISTORY_CHANGE_ROW_COUNT = "eBookJobHistoryChangeRowCount.mvc";
 	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
 
 	public static final String MVC_BOOK_AUDIT_LIST = "bookAuditList.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT = "bookAuditListPageAndSort.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
+	public static final String MVC_BOOK_AUDIT_CHANGE_ROW_COUNT = "bookAuditChangeRowCount.mvc";
 	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
@@ -189,6 +192,11 @@ public class WebConstants {
 	public static final String MVC_ADMIN_MAIN = "adminMain.mvc";
 	public static final String MVC_ADMIN_MISC = "adminMisc.mvc";
 	public static final String MVC_STATS = "stats.mvc";
+	public static final String MVC_STATS_SPECIFIC_BOOK = "statsSpecificBook.mvc";
+	public static final String MVC_STATS_FILTER = "statsFilter.mvc";
+	public static final String MVC_STATS_PAGE_AND_SORT = "statsPageAndSort.mvc";
+	public static final String MVC_STATS_CHANGE_ROW_COUNT = "statsChangeRowCount.mvc";
+	public static final String MVC_STATS_DOWNLOAD = "publishingStats.xls";
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
 	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";

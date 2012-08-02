@@ -389,7 +389,7 @@ function submitForm(cmd)
 					</c:otherwise>
 				</c:choose>
 				<input type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
-				<input type="submit" value="Job History" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_JOB_HISTORY%>')"/>
+				<input type="submit" value="Publishing Stats" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_PUBLISH_STATS%>')"/>
 				<input type="button" value="Front Matter Preview" onclick="location.href='<%=WebConstants.MVC_FRONT_MATTER_PREVIEW%>?id=${book.ebookDefinitionId}'"/>
 			</div>
 		</form:form>

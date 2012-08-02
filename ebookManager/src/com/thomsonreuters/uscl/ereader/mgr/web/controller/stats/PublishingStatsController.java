@@ -3,133 +3,128 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
-import java.util.List;
-
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Required;
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
+
 
 @Controller
-public class PublishingStatsController {
-
-	private PublishingStatsService publishingStatsService;
-
+public class PublishingStatsController extends BasePublishingStatsController {
+	
+	private static final Logger log = Logger.getLogger(PublishingStatsController.class);
+	
 	/**
-	 * 
-	 * @param httpSession
-	 * @return
+	 * Handle initial in-bound HTTP get request to the page.
+	 * No query string parameters are expected.
 	 */
-	protected PublishingStatsForm fetchSavedPublishingStatsForm(
-			HttpSession httpSession) {
-
-		PublishingStatsForm form = (PublishingStatsForm) httpSession
-				.getAttribute(PublishingStatsForm.FORM_NAME);
-
-		if (form == null) {
-			form = new PublishingStatsForm();
-		}
-		return form;
+	@RequestMapping(value=WebConstants.MVC_STATS, method = RequestMethod.GET)
+	public ModelAndView stats(HttpSession httpSession, Model model) {
+		PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		
+		return setupInitialView(model, filterForm, httpSession);
 	}
-
+	
 	/**
-	 * 
-	 * @param httpSession
-	 * @param form
+	 * Handle initial in-bound HTTP get request for specific book definition publishing stats.
+	 * Used from the View Book Definition page.
 	 */
-	private void savePublishingStatsForm(HttpSession httpSession,
-			PublishingStatsForm form) {
-		httpSession.setAttribute(PublishingStatsForm.FORM_NAME, form);
-
+	@RequestMapping(value=WebConstants.MVC_STATS_SPECIFIC_BOOK, method = RequestMethod.GET)
+	public ModelAndView specificBookStat(HttpSession httpSession, @RequestParam Long id, Model model) {
+		PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm(id);	// from session
+		
+		return setupInitialView(model, filterForm, httpSession);
 	}
-
+	
 	/**
-	 * 
-	 * @param httpSession
-	 * @return
+	 * Setup of Form and sorting shared by two different incoming HTTP get request
 	 */
-	private List<PublishingStats> fetchPublishingStatsList(
-			HttpSession httpSession) {
-		List<PublishingStats> publishingStats = (List<PublishingStats>) httpSession
-				.getAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST);
-		return publishingStats;
-	}
+	private ModelAndView setupInitialView(Model model, PublishingStatsFilterForm filterForm, HttpSession httpSession) {
+		PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
+		
+		PublishingStatsForm publishingStatsForm = new PublishingStatsForm();
+		publishingStatsForm.setObjectsPerPage(savedPageAndSort.getObjectsPerPage());
 
-	/**
-	 * 
-	 * @param httpSession
-	 * @param publishingStatsList
-	 */
-	private void savePublishingStatsList(HttpSession httpSession,
-			List<PublishingStats> publishingStatsList) {
-		httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST,
-				publishingStatsList);
-
-	}
-
-	@RequestMapping(value = WebConstants.MVC_STATS, method = RequestMethod.GET)
-	public ModelAndView publishingStatsGet(Model model, HttpSession httpSession)
-			throws Exception {
-
-		List<PublishingStats> publishingStatsList = fetchPublishingStatsList(httpSession);
-
-		if (publishingStatsList == null) {
-			publishingStatsList = publishingStatsService
-					.findAllPublishingStats();
-			savePublishingStatsList(httpSession, publishingStatsList);
-		}
-
-		PublishingStatsForm form = fetchSavedPublishingStatsForm(httpSession);
-		if (form.getObjectsPerPage() == null) {
-			form.setObjectsPerPage("5");
-		}
-
-		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, publishingStatsList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-				publishingStatsList.size());
-		model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
-		model.addAttribute(PublishingStatsForm.FORM_NAME, form);
-
+		setUpModel(filterForm, savedPageAndSort, httpSession, model);
+		model.addAttribute(PublishingStatsForm.FORM_NAME, publishingStatsForm);
+	
 		return new ModelAndView(WebConstants.VIEW_STATS);
 	}
 
-	@RequestMapping(value = WebConstants.MVC_STATS, method = RequestMethod.POST)
-	public ModelAndView postSelections(
-			@ModelAttribute PublishingStatsForm form, HttpSession httpSession,
-			Model model) throws Exception {
+	/**
+	 * Handle paging and sorting of audit list.
+	 * Handles clicking of column headers to sort, or use of page number navigation links, like prev/next.
+	 */
+	@RequestMapping(value=WebConstants.MVC_STATS_PAGE_AND_SORT, method = RequestMethod.GET)
+	public ModelAndView publishingStatsPagingAndSorting(HttpSession httpSession, 
+								@ModelAttribute(PublishingStatsForm.FORM_NAME) PublishingStatsForm form,
+								Model model) {
+		PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
+		Integer nextPageNumber = form.getPage();
 
-		List<PublishingStats> publishingStatsList = fetchPublishingStatsList(httpSession);
-
-		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, publishingStatsList);
-		model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-				publishingStatsList.size());
-		model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
-		model.addAttribute(PublishingStatsForm.FORM_NAME, form);
-		savePublishingStatsForm(httpSession, form);
-
+		// If there was a page=n query string parameter, then we assume we are paging since this
+		// parameter is not present on the query string when display tag sorting.
+		if (nextPageNumber != null) {  // PAGING
+			pageAndSort.setPageNumber(nextPageNumber);
+		} else {  // SORTING
+			pageAndSort.setPageNumber(1);
+			pageAndSort.setSortProperty(form.getSort());
+			pageAndSort.setAscendingSort(form.isAscendingSort());
+		}
+		setUpModel(filterForm, pageAndSort, httpSession, model);
+		
 		return new ModelAndView(WebConstants.VIEW_STATS);
 	}
-
-	@Required
-	public PublishingStatsService getPublishingStatsService() {
-		return publishingStatsService;
+	
+	/**
+	 * Handle URL request that the number of rows displayed in table be changed.
+	 */
+	@RequestMapping(value=WebConstants.MVC_STATS_CHANGE_ROW_COUNT, method = RequestMethod.POST)
+	public ModelAndView handleChangeInItemsToDisplay(HttpSession httpSession,
+							   @ModelAttribute(PublishingStatsForm.FORM_NAME) @Valid PublishingStatsForm form, Model model) {
+		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+		pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
+		pageAndSort.setObjectsPerPage(form.getObjectsPerPage());	// Update the new number of items to be shown at one time
+		// Restore the state of the search filter
+		PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		setUpModel(filterForm, pageAndSort, httpSession, model);
+		return new ModelAndView(WebConstants.VIEW_STATS);
 	}
-
-	public void setPublishingStatsService(
-			PublishingStatsService publishingStatsService) {
-		this.publishingStatsService = publishingStatsService;
+	
+	@RequestMapping(value=WebConstants.MVC_STATS_DOWNLOAD, method = RequestMethod.GET)
+	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+		
+		PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+		PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
+		Workbook wb = publishingStatsService.createExcelDocument(publishingStatsFilter);
+		
+		try {
+			ServletOutputStream out = response.getOutputStream();
+			wb.write(out);
+			out.flush();
+		} catch(Exception e) {
+			log.error(e.getMessage());
+		}
 	}
-
+	
 }

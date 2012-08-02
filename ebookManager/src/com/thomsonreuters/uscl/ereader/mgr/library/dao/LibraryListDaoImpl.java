@@ -117,16 +117,16 @@ public class LibraryListDaoImpl implements LibraryListDao {
 			}
 		}
 		if (StringUtils.isNotBlank(filter.getIsbn())) {
-			sql.append(String.format("(book.ISBN LIKE ?) and ", filter.getIsbn()));
+			sql.append("(book.ISBN LIKE ?) and ");
 		}
 		if (StringUtils.isNotBlank(filter.getMaterialId())) {
-			sql.append(String.format("(book.MATERIAL_ID LIKE ?) and ", filter.getMaterialId()));
+			sql.append("(book.MATERIAL_ID LIKE ?) and ");
 		}
 		if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
-			sql.append(String.format("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER(?)) and ", filter.getProviewDisplayName()));
+			sql.append("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER(?)) and ");
 		}
 		if (StringUtils.isNotBlank(filter.getTitleId())) {
-			sql.append(String.format("(UPPER(book.TITLE_ID) LIKE UPPER(?)) and ", filter.getTitleId()));
+			sql.append("(UPPER(book.TITLE_ID) LIKE UPPER(?)) and ");
 		}
 		sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
 		
