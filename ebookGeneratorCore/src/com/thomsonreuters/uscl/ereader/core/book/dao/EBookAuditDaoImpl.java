@@ -138,6 +138,10 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 			criteria.addOrder(Order.desc(orderByColumn));
 		}
 		
+		if(sort.getSortProperty() != EbookAuditSort.SortProperty.SUBMITTED_DATE) {
+			criteria.addOrder(Order.desc(getOrderByColumnName(EbookAuditSort.SortProperty.SUBMITTED_DATE)));
+		}
+		
 		int itemsPerPage = sort.getItemsPerPage();
 		criteria.setFirstResult((sort.getPageNumber()-1)*(itemsPerPage));
 		criteria.setMaxResults(itemsPerPage);
