@@ -5,6 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -119,6 +122,11 @@ public class PublishingStatsController extends BasePublishingStatsController {
 		Workbook wb = publishingStatsService.createExcelDocument(publishingStatsFilter);
 		
 		try {
+			Date date = new Date();
+			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
+			String stringDate = s.format(date);
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-Disposition", "attachment; filename=publishingStats_"+ stringDate +".xls");
 			ServletOutputStream out = response.getOutputStream();
 			wb.write(out);
 			out.flush();

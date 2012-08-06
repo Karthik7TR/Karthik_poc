@@ -196,7 +196,7 @@ public class WebConstants {
 	public static final String MVC_STATS_FILTER = "statsFilter.mvc";
 	public static final String MVC_STATS_PAGE_AND_SORT = "statsPageAndSort.mvc";
 	public static final String MVC_STATS_CHANGE_ROW_COUNT = "statsChangeRowCount.mvc";
-	public static final String MVC_STATS_DOWNLOAD = "publishingStats.xls";
+	public static final String MVC_STATS_DOWNLOAD = "statsDownload.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_LIST = "adminBookLockList.mvc";
 	public static final String MVC_ADMIN_BOOK_LOCK_DELETE = "adminBookLockDelete.mvc";
 	public static final String MVC_ADMIN_STOP_GENERATOR = "adminStopGenerator.mvc";
