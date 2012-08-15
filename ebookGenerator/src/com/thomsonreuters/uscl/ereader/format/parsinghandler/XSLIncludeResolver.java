@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 public class XSLIncludeResolver implements URIResolver 
 {
 	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
+	private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL = new File("/nas/Xslt/Universal/_Empty.xsl");
 	private boolean includeAnnotations = false;
@@ -62,10 +63,19 @@ public class XSLIncludeResolver implements URIResolver
 			
 			if (includeXSLT.exists())
 			{
-				if (includedXSLTs.contains(includeXSLT.getCanonicalPath())
-					|| (includeAnnotations && includeXSLT.getName().equals("ContextAndAnalysis.xsl")))
+				if (includedXSLTs.contains(includeXSLT.getCanonicalPath()))
 				{
 					source = new StreamSource(emptyXSL);
+				}
+				else if (includeAnnotations && includeXSLT.getName().equals(CONTEXT_AND_ANALYSIS))
+				{
+					includedXSLTs.add(includeXSLT.getCanonicalPath());
+					
+					// Use a different XSL style sheet if annotations is enabled for Context and Analysis content
+					href = href.replaceFirst(CONTEXT_AND_ANALYSIS, "eBook" + CONTEXT_AND_ANALYSIS);
+					includeXSLT = new File(xsltBase.getParentFile(), href);
+					LOG.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
+					source = new StreamSource(includeXSLT);
 				}
 				else
 				{

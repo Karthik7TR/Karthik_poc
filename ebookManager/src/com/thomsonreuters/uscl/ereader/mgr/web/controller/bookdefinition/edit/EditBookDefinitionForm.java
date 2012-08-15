@@ -145,7 +145,7 @@ public class EditBookDefinitionForm {
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
-		this.copyright = "©";
+		this.copyright = "\u00A9";
 		this.frontMatterTocLabel = "Publishing Information";
 		this.publishDateText = "see Title page for currentness";
 	}

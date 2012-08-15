@@ -266,7 +266,7 @@ public class InternalLinkResolverFilterTest
         throws Exception
     {
         String resourceUrl =
-            "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&pubNum=119616&cite=SECOPINION§39%3A7&originationContext=ebook";
+            "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&pubNum=119616&cite=SECOPINION\u00A739%3A7&originationContext=ebook";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
         String normalizedCite = urlValues.get("cite");
         String expectedNormalizedCite = "SECOPINIONS39:7";

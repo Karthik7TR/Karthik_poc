@@ -11,7 +11,7 @@ public class CitationNormalizationRulesUtilTest
 {
 	@Test
 	public void testGetNormalizedCiteForParagraphSymbol() throws Exception {
-		String normalizedCite = "test¶_888";
+		String normalizedCite = "test\u00B6_888";
 		normalizedCite =  CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
 		String expectedNormalizedCite = "TESTP_888";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
@@ -20,7 +20,7 @@ public class CitationNormalizationRulesUtilTest
 	
 	@Test
 	public void testGetNormalizedCiteForSectionSymbol() throws Exception {
-		String normalizedCite = "test§6666";
+		String normalizedCite = "test\u00A76666";
 		normalizedCite =  CitationNormalizationRulesUtil.applyNormalizationRules(normalizedCite);
 		String expectedNormalizedCite = "TESTS6666";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));

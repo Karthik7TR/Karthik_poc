@@ -100,7 +100,7 @@ public class XSLIncludeResolverTest
 		resolver.setIncludeAnnotations(true);
 		assertEquals(0, resolver.getIncludedXSLTs().size());
 		Source src = resolver.resolve(xsl.getName(), xsl.toURI().toString());
-		assertEquals(0, resolver.getIncludedXSLTs().size());
-		assertTrue(src.getSystemId().endsWith("_Empty.xsl"));
+		assertEquals(1, resolver.getIncludedXSLTs().size());
+		assertTrue(src.getSystemId().endsWith("eBookContextAndAnalysis.xsl"));
 	}
 }
