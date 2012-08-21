@@ -16,7 +16,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * The filter changes the following xml elements
  * 
  * Input xml element : <del>Tell the Feds Mike drove you away from the bank.</del>
- * Output xml element: <span class=”co_crosshatch”>Tell the Feds Mike drove you away from the bank.</span>
+ * Output xml element: <span class=ï¿½co_crosshatchï¿½>Tell the Feds Mike drove you away from the bank.</span>
  *
  * @author <a href="mailto:nirupam.chatterjee@thomsonreuters.com">Nirupam Chatterjee</a> u0072938
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
@@ -26,7 +26,7 @@ public class HTMLSpecialMarkupFilter extends XMLFilterImpl
 	protected static final String DEL_TAG = "del";
 	protected static final String INS_TAG = "ins";
 	protected static final String SPAN_TAG = "span";
-	protected static final String INS_STYLE = "background-color: #ccffff; text-decoration: none;";
+	protected static final String INS_STYLE = "background-color: #ccffff; color: #000000; text-decoration: none;";
 	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
