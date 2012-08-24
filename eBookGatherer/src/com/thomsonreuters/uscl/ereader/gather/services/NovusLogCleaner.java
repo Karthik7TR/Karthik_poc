@@ -22,33 +22,36 @@ public class NovusLogCleaner {
 	{
 		File dir = new File(NOVUS_LOG_FOLDER);
 		
-		FileFilter fileFilter = new FileFilter() 
+		if(dir.isDirectory())
 		{
-			@Override
-			public boolean accept(File dir) 
+			FileFilter fileFilter = new FileFilter() 
 			{
-				if(dir.isFile())
+				@Override
+				public boolean accept(File dir) 
 				{
-					String name = dir.getName();
-					if(StringUtils.isNotBlank(name))
+					if(dir.isFile())
 					{
-						return name.matches("^MC-(Client|Prod).txt.\\d{2}-\\d{2}-\\d{4}$");
+						String name = dir.getName();
+						if(StringUtils.isNotBlank(name))
+						{
+							return name.matches("^MC-(Client|Prod).txt.\\d{2}-\\d{2}-\\d{4}$");
+						}
 					}
+					
+					return false;
 				}
-				
-				return false;
-			}
-		};
-		
-		File[] files = dir.listFiles(fileFilter);
-		
-		for(File file : files)
-		{
-			try {
-				log.debug("Novus Log Clean-up: " + file.getCanonicalPath());
-				file.delete();
-			} catch (IOException e) {
-				log.debug("Novus Log Clean-up failed. " + e.getMessage());
+			};
+			
+			File[] files = dir.listFiles(fileFilter);
+			
+			for(File file : files)
+			{
+				try {
+					log.debug("Novus Log Clean-up: " + file.getCanonicalPath());
+					file.delete();
+				} catch (IOException e) {
+					log.debug("Novus Log Clean-up failed. " + e.getMessage());
+				}
 			}
 		}
 	}
