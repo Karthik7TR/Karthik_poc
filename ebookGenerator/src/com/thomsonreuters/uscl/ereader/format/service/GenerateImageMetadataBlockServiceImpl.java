@@ -225,7 +225,7 @@ public class GenerateImageMetadataBlockServiceImpl implements
 				if (!line[1].equals(""))
 				{
 					String[] images = line[1].split(",");
-					List<String> imgSet = new ArrayList<String>(Arrays.asList(images));
+					List<String> imgSet = dedupList(new ArrayList<String>(Arrays.asList(images)));
 					numImgs = numImgs + imgSet.size();
 					docToImgMap.put(line[0], imgSet);
 				}
@@ -258,5 +258,18 @@ public class GenerateImageMetadataBlockServiceImpl implements
 				LOG.error("Unable to close Document to Image mapping file reader.", e);
 			}
 		}
+	}
+	
+	protected List<String> dedupList(List<String> list)
+	{
+		List<String> dedupedList = new ArrayList<String>();
+		for (String item : list)
+		{
+			if (!dedupedList.contains(item))
+			{
+				dedupedList.add(item);
+			}
+		}
+		return dedupedList;
 	}
 }
