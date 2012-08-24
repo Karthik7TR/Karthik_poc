@@ -238,10 +238,22 @@
 		  </tr>
 		
 		  <tr>
-		  	<td>ProView Version New:
+		  	<td>ProView Version New:</td>
 		  	<td id="newVersionNumber"></td>
 		  </tr>
-		
+		  <tr>
+		  	<td>Novus Stage:</td>
+		  	<td>
+		  		<c:choose>
+					<c:when test="${ book.finalStage == true }">
+						Final Stage
+					</c:when>
+					<c:otherwise>
+						<span style="color:red;font-weight: bold;">Review Stage</span>
+					</c:otherwise>
+				</c:choose>
+			</td>
+		  </tr>
 		  <tr>
 		  	<td>Generate Version Type:&nbsp;</td>  <%-- Indicates which launch queue to place job request on --%>
 			<td>

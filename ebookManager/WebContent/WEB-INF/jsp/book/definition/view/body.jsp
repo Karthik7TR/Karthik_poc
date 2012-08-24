@@ -107,6 +107,19 @@ function submitForm(cmd)
 						<label class="labelCol">Publication Cut-off Date</label>
 						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Novus Stage</label>
+						<span class="field">
+							<c:choose>
+								<c:when test="${ book.finalStage == true }">
+									Final Stage
+								</c:when>
+								<c:otherwise>
+									Review Stage
+								</c:otherwise>
+							</c:choose>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
