@@ -27,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 @Entity
-@Table(name = "JOB_REQUEST_SELVEDIN")
+@Table(name = "JOB_REQUEST")
 public class JobRequest implements Serializable {
 
 	@Deprecated

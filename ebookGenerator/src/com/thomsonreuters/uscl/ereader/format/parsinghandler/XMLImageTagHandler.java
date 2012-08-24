@@ -25,14 +25,7 @@ public class XMLImageTagHandler extends DefaultHandler
 	{
 		if (qName.equalsIgnoreCase("image.link"))
 		{
-			if(atts.getValue("target") != null)
-			{
-				guidList.add(atts.getValue("target"));
-			}
-			else if(atts.getValue("tuuid") != null)
-			{
-				guidList.add(atts.getValue("tuuid"));
-			}
+			guidList.add(atts.getValue("target"));
 		}
 	}
 	

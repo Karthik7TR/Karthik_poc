@@ -420,7 +420,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	 */
 	private void handleDuplicates() throws SAXException {
 		String documentGuid = docGuid.toString();
-		if (uniqueDocumentIds.contains(documentGuid) && false) {
+		if (uniqueDocumentIds.contains(documentGuid)) {
 			// We've already seen this document, it's a duplicate.
 			// Generate a new guid for it and add that to the list.
 			String uniqueGuid = uuidGenerator.generateUuid();
@@ -432,7 +432,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		}
 		else {
 			//Replace docGuid with the corresponding family Guid.
-			if (familyGuidMap.containsKey(documentGuid) && false) {
+			if (familyGuidMap.containsKey(documentGuid)) {
 				docGuid = new StringBuilder();
 				String familyGuid = familyGuidMap.get(documentGuid);
 				if (uniqueFamilyGuids.contains(familyGuid)) { //Have we already come across this family GUID?
