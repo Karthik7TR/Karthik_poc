@@ -117,14 +117,14 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	@Override
 	public int updateBatchStepExecution() throws EBookServerException {
 				
-		StringBuffer hql= new StringBuffer("update batch_step_execution set");
-		hql.append(String.format(" EXIT_CODE = '%s',", EXIT_STATUS_FAILED));
-		hql.append(String.format(" STATUS = '%s',", BATCH_STATUS_FAILED));
-		hql.append(" END_TIME = sysdate,");
-		hql.append(String.format(" EXIT_MESSAGE = '%s',", DEAD_JOB_MESSAGE));
-		hql.append(" LAST_UPDATED = sysdate");
-		hql.append(String.format(" where exit_code = '%s'", EXIT_STATUS_EXECUTING));
-		hql.append(String.format(" and job_execution_id in (select  job_instance_id  from batch_job_execution where exit_code = '%s')", EXIT_STATUS_UNKNOWN ));
+		StringBuffer hql= new StringBuffer("update batch_step_execution bse set");
+		hql.append(String.format(" bse.EXIT_CODE = '%s',", EXIT_STATUS_FAILED));
+		hql.append(String.format(" bse.STATUS = '%s',", BATCH_STATUS_FAILED));
+		hql.append(" bse.END_TIME = sysdate,");
+		hql.append(String.format(" bse.EXIT_MESSAGE = '%s',", DEAD_JOB_MESSAGE));
+		hql.append(" bse.LAST_UPDATED = sysdate");
+		hql.append(String.format(" where bse.exit_code = '%s'", EXIT_STATUS_EXECUTING));
+		hql.append(String.format(" and bse.job_execution_id in (select  bje.job_execution_id  from batch_job_execution bje where bje.exit_code = '%s')", EXIT_STATUS_UNKNOWN ));
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
