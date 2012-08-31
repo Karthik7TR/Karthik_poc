@@ -121,7 +121,8 @@
 			// Add sequence number
 			var lastChild = $("#addAuthorHere .expandingBox:last-child");
 			var lastSequenceNum = getSequenceNumber(lastChild);
-			expandingBox.append(addDynamicRow("input", id, name, "sequenceNum", null, null, "sequence", "hidden", lastSequenceNum + 1));
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
 			
 			// Add author name input boxes
 			expandingBox.append(addDynamicRow("input", id, name, "authorNamePrefix", "Prefix"));
