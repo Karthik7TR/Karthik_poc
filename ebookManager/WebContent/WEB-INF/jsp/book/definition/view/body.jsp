@@ -134,7 +134,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<div class="wordwrap">${ document.note }</div>
+						<div class="wordwrap">${ fn:escapeXml(document.note) }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -162,7 +162,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<div class="wordwrap">${ toc.note }</div>
+						<div class="wordwrap">${ fn:escapeXml(toc.note) }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -186,7 +186,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<div class="wordwrap">${ copyright.note }</div>
+						<div class="wordwrap">${ fn:escapeXml(copyright.note) }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -210,7 +210,7 @@ function submitForm(cmd)
 					</div>
 					<div class="dynamicRow">
 						<label>Note:</label>
-						<div class="wordwrap">${ currency.note }</div>
+						<div class="wordwrap">${ fn:escapeXml(currency.note) }</div>
 					</div>
 					<div class="dynamicRow">
 						<label>Last Updated:</label>
@@ -301,39 +301,39 @@ function submitForm(cmd)
 								<c:set var="frontMatterNameLabel" value="Series" />
 							</c:if>
 							<label class="labelCol">${frontMatterNameLabel}</label>
-							<div class="field">${name.bookNameText}</div>
+							<div class="field wordwrap">${fn:escapeXml(name.bookNameText)}</div>
 						</div>
 					</c:forEach>
 					<div class="row">
 						<label class="labelCol">Copyright</label>
-						<div class="field">${ book.copyright }</div>
+						<div class="field wordwrap">${ fn:escapeXml(book.copyright) }</div>
 					</div>
 					<div class="row">
 						<label class="labelCol">Copyright Page Text</label>
-						<div class="field">${ book.copyrightPageText }</div>
+						<div class="field wordwrap">${ fn:escapeXml(book.copyrightPageText) }</div>
 					</div>					
 				</div>
 				<div class="rightDefinitionForm">
 					<div class="row">
 						<label class="labelCol">Additional Patent/Trademark Message</label>
-						<div class="field">${ book.additionalTrademarkInfo }</div>
+						<div class="field wordwrap">${ fn:escapeXml(book.additionalTrademarkInfo) }</div>
 					</div>
 					<div class="row">
 						<label class="labelCol">Currentness Message</label>
-						<div class="field">${ book.currency }</div>
+						<div class="field wordwrap">${ fn:escapeXml(book.currency) }</div>
 					</div>
 					
 					<div class="row">
 						<label class="labelCol">Author Display</label>
 						<c:set var="authorDisplay" value="${ book.authorDisplayVertical ? 'Vertical' : 'Horizontal'  }"/>
-						<span class="field">${ authorDisplay }</span>
+						<span class="field wordwrap">${ authorDisplay }</span>
 					</div>
 					
 					<div class="row">
 						<label class="labelCol">Author Information</label>
 						<c:forEach items="${book.authors}" var="author">
 								<div class="field">${fn:escapeXml(author.fullName) }</div>
-								<div class="field"> ${author.authorAddlText}</div>
+								<div class="field wordwrap"> ${fn:escapeXml(author.authorAddlText)}</div>
 								<br>
 						</c:forEach>
 					</div>
@@ -347,17 +347,17 @@ function submitForm(cmd)
 			<div class="centerSection">
 				<c:forEach items="${book.frontMatterPages}" var="page" varStatus="pageStatus">
 					<div class="row frontMatterPage">
-						<div class="wordwrap"><label class="labelCol">Page TOC Label</label> ${page.pageTocLabel}</div>
-						<div class="wordwrap"><label class="labelCol">Page Heading Label</label> ${page.pageHeadingLabel}</div>
+						<div class="wordwrap"><label class="labelCol">Page TOC Label</label> ${fn:escapeXml(page.pageTocLabel)}</div>
+						<div class="wordwrap"><label class="labelCol">Page Heading Label</label> ${fn:escapeXml(page.pageHeadingLabel)}</div>
 						<c:forEach items="${page.frontMatterSections}" var="section" varStatus="sectionStatus">
 							<div class="row frontMatterSection">
-								<div class="wordwrap"><label class="labelCol">Section Heading</label> ${section.sectionHeading}</div>
+								<div class="wordwrap"><label class="labelCol">Section Heading</label> ${fn:escapeXml(section.sectionHeading)}</div>
 								<label class="labelCol">Section Text</label>
-								<div class="wordwrap">${section.sectionText}</div>
+								<div class="wordwrap">${fn:escapeXml(section.sectionText)}</div>
 								<c:forEach items="${section.pdfs}" var="pdf" varStatus="pdfStatus">
 									<div class="row">
-										<div class="wordwrap"><label class="labelCol">PDF Link Text</label>${pdf.pdfLinkText}</div>
-										<div class="wordwrap"><label class="labelCol">PDF Filename</label>${pdf.pdfFilename}</div>
+										<div class="wordwrap"><label class="labelCol">PDF Link Text</label>${fn:escapeXml(pdf.pdfLinkText)}</div>
+										<div class="wordwrap"><label class="labelCol">PDF Filename</label>${fn:escapeXml(pdf.pdfFilename)}</div>
 									</div>
 								</c:forEach>
 							</div>

@@ -7,7 +7,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -19,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -51,8 +46,7 @@ public class ViewBookDefinitionController {
 		
 		if(bookDef != null) {
 			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
-			formatTextAreaStrings(bookDef);
-			
+
 			// Check if user canceled from Generate page
 			String generateCanceled = (String) session.getAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);
 			session.removeAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);	// Clear the HTML out of the session
@@ -102,32 +96,6 @@ public class ViewBookDefinitionController {
 				throw new RuntimeException("Unexpected form command: " + command);
 		}
 		return mav;
-	}
-	
-	/**
-	 * format strings to replace \n in text areas with <br>
-	 * @param book
-	 */
-	private void formatTextAreaStrings(BookDefinition book) {
-		book.setCurrency(StringUtils.replace(book.getCurrency(), "\n", "<br>"));
-		book.setCopyright(StringUtils.replace(book.getCopyright(), "\n", "<br>"));
-		book.setCopyrightPageText(StringUtils.replace(book.getCopyrightPageText(), "\n", "<br>"));
-		book.setAdditionalTrademarkInfo(StringUtils.replace(book.getAdditionalTrademarkInfo(), "\n", "<br>"));
-
-		for(EbookName name: book.getEbookNames()) {
-			name.setBookNameText(StringUtils.replace(name.getBookNameText(), "\n", "<br>"));
-		}
-		
-		for(Author author: book.getAuthors()) {
-			author.setAuthorAddlText(StringUtils.replace(author.getAuthorAddlText(), "\n", "<br>"));
-		}
-		
-		for(FrontMatterPage page : book.getFrontMatterPages()) {
-			for(FrontMatterSection section : page.getFrontMatterSections()) {
-				section.setSectionText(StringUtils.replace(section.getSectionText(), "\n", "<br>"));
-				section.setSectionText(StringUtils.replace(section.getSectionText(), "\t", "&nbsp;&nbsp;&nbsp;&nbsp;"));
-			}
-		}
 	}
 	
 	@Required
