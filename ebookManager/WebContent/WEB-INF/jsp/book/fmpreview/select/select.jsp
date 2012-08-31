@@ -8,6 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 
 <html>
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
@@ -38,13 +39,13 @@ function openStaticPreviewWindow(url, id, name) {
 
 <%-- Do not display the links if there is no book ID --%>
 <c:if test="${book != null}">
-${book.frontMatterTocLabel}<br/>
+${fn:escapeXml(book.frontMatterTocLabel)}<br/>
 <div id="frontMatterLinks">
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE%>', '${book.ebookDefinitionId}', 'titleWin')">Title Page</a><br/>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT%>', '${book.ebookDefinitionId}', 'copyrightWin')">Copyright Page</a><br/>
 	<c:forEach items="${book.frontMatterPages}" var="page">
 		<a onclick="win=window.open('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL%>?bookDefinitionId=${book.ebookDefinitionId}&frontMatterPageId=${page.id}', 'additionalWin', '${winSpecs}');win.focus()">
-			${page.pageTocLabel}
+			${fn:escapeXml(page.pageTocLabel)}
 		</a><br/>
 	</c:forEach>
 	<a onclick="openStaticPreviewWindow('<%=WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH%>', '${book.ebookDefinitionId}', 'researchWin')">Additional Information or Research Assistance</a><br/>
