@@ -84,7 +84,7 @@
         <fileset dir ="Xslt"/>
       </copy>
 
-	  <copy todir="${dir.dist}/WLN">
+	  <copy todir="${dir.dist}">
 		<fileset dir ="WLN/Xslt"/>
 	  </copy>
 		
