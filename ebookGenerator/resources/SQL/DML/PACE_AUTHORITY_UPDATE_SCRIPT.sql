@@ -76,3 +76,10 @@ where std_pub_name = 'MASSPRACLANDLORDANDTENANTLAW';
 
 commit;
 
+update pace_metadata
+set 
+publication_name = 'MAPRAC'
+where std_pub_name = 'MASSPRACCONSUMERLAW';
+
+commit;
+
