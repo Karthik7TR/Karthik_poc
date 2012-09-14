@@ -6,6 +6,9 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.xml.transform.TransformerException;
 
@@ -21,7 +24,8 @@ import static junit.framework.Assert.*;
 /**
  * Unit test to validate XSL include resolutions.
  *
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869.
+ * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568.
  */
 public class XSLIncludeResolverTest 
 {
@@ -41,6 +45,8 @@ public class XSLIncludeResolverTest
 		
 		resolver = new XSLIncludeResolver();
 		resolver.setEmptyXSL(emptyXSL);
+		resolver.setPlatformDir(sourceDir);
+		resolver.setWestlawNextDir(sourceDir);
 	}
 	
 	@Test
@@ -64,6 +70,7 @@ public class XSLIncludeResolverTest
 	{
 		File xsl = new File(sourceDir, "testDefaultPassthroughCase.xsl");
 		assertTrue(xsl.createNewFile());
+		AddContentToXsl(xsl);
 		
 		assertEquals(0, resolver.getIncludedXSLTs().size());
 		Source src = resolver.resolve(xsl.getName(), xsl.toURI().toString());
@@ -76,6 +83,7 @@ public class XSLIncludeResolverTest
 	{
 		File xsl = new File(sourceDir, "testSameXSLMultipleIncludes.xsl");
 		assertTrue(xsl.createNewFile());
+		AddContentToXsl(xsl);
 		
 		assertEquals(0, resolver.getIncludedXSLTs().size());
 		Source src = resolver.resolve(xsl.getName(), xsl.toURI().toString());
@@ -96,11 +104,28 @@ public class XSLIncludeResolverTest
 	{
 		File xsl = new File(sourceDir, "ContextAndAnalysis.xsl");
 		assertTrue(xsl.createNewFile());
+		AddContentToXsl(xsl);
 		
+		File xsl2 = new File(sourceDir, "eBookContextAndAnalysis.xsl");
+		assertTrue(xsl2.createNewFile());
+
 		resolver.setIncludeAnnotations(true);
 		assertEquals(0, resolver.getIncludedXSLTs().size());
 		Source src = resolver.resolve(xsl.getName(), xsl.toURI().toString());
 		assertEquals(1, resolver.getIncludedXSLTs().size());
 		assertTrue(src.getSystemId().endsWith("eBookContextAndAnalysis.xsl"));
+	}
+	
+	private void AddContentToXsl(File file)
+	{
+		try {
+			FileWriter fileOut = new FileWriter(file);
+			fileOut.write("<nothing></nothing>");
+			fileOut.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
