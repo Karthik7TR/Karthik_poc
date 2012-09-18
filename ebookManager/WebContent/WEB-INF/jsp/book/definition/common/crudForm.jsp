@@ -583,12 +583,12 @@
 			
 			$('input:radio[name=tableViewersUsed]').change(function () {
 				showSelectOptions($(this).val(), "#displayTableViewer");
+				showSelectOptions($(this).val(), "#addTableViewerRow");
 			});
 			
 			$('input:radio[name=finalStage]').change(function () {
 				showSelectOptions($(this).val() == "false", "#displayDocumentCopyright");
 				showSelectOptions($(this).val() == "false", "#displayDocumentCurrency");
-				showSelectOptions("tableViewersUsed", "#addTableViewerRow");
 			});
 			
 			// Close or open the Keyword values
@@ -730,7 +730,7 @@
 			showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCopyright");
 			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCurrency");
-			showSelectOptions("tableViewersUsed", "#addTableViewerRow");
+			showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
 				minDate: new Date()
