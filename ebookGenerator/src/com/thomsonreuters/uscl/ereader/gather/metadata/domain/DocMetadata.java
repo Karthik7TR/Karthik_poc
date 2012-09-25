@@ -99,7 +99,42 @@ public class DocMetadata implements Serializable {
 	String secondlineCite;
 	/**
 	 */
+	
+	@Column(name = "THIRDLINE_CITE", length = 512)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String thirdlineCite;
+	/**
+	 */
+	
+	@Column(name = "FIRSTLINE_CITE_PUBPAGE", length = 512)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String firstlineCitePubpage;
+	/**
+	 */
+	
+	@Column(name = "FIRSTLINE_CITE_PUB_ID")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Long firstlineCitePubId;
+	/**
+	 */
+	
+	@Column(name = "SECONDLINE_CITE_PUB_ID")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Long secondlineCitePubId;
+	/**
+	 */
 
+	@Column(name = "THIRDLINE_CITE_PUB_ID")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Long thirdlineCitePubId;
+	/**
+	 */
+	
 	@Column(name = "FIND_ORIG", length = 80)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
@@ -217,6 +252,46 @@ public class DocMetadata implements Serializable {
 
 	public void setSecondlineCite(String secondlineCite) {
 		this.secondlineCite = secondlineCite;
+	}
+
+	public String getThirdlineCite() {
+		return thirdlineCite;
+	}
+
+	public void setThirdlineCite(String thirdlineCite) {
+		this.thirdlineCite = thirdlineCite;
+	}
+
+	public String getFirstlineCitePubpage() {
+		return firstlineCitePubpage;
+	}
+
+	public void setFirstlineCitePubpage(String firstlineCitePubpage) {
+		this.firstlineCitePubpage = firstlineCitePubpage;
+	}
+
+	public Long getFirstlineCitePubId() {
+		return firstlineCitePubId;
+	}
+
+	public void setFirstlineCitePubId(Long firstlineCitePubId) {
+		this.firstlineCitePubId = firstlineCitePubId;
+	}
+
+	public Long getSecondlineCitePubId() {
+		return secondlineCitePubId;
+	}
+
+	public void setSecondlineCitePubId(Long secondlineCitePubId) {
+		this.secondlineCitePubId = secondlineCitePubId;
+	}
+
+	public Long getThirdlineCitePubId() {
+		return thirdlineCitePubId;
+	}
+
+	public void setThirdlineCitePubId(Long thirdlineCitePubId) {
+		this.thirdlineCitePubId = thirdlineCitePubId;
 	}
 
 	/**

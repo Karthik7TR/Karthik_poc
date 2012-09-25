@@ -44,4 +44,20 @@ public class CitationNormalizationRulesUtilTest
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 		
 	}
+	
+	@Test
+	public void testNoSpacesNormalizationRules() throws Exception {
+		String normalizedCite = "te ST [39 ]";
+		normalizedCite =  CitationNormalizationRulesUtil.noSpacesNormalizationRules(normalizedCite);
+		String expectedNormalizedCite = "TEST(39)";
+		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
+	}
+	
+	@Test
+	public void testTrimNormalizationRules() throws Exception {
+		String normalizedCite = " teST[39] ";
+		normalizedCite =  CitationNormalizationRulesUtil.noSpacesNormalizationRules(normalizedCite);
+		String expectedNormalizedCite = "TEST(39)";
+		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
+	}
 }

@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -29,6 +30,7 @@ public class DocumentMetadataAuthority {
 	private Map<String, DocMetadata> docMetadataKeyedByCite = new HashMap<String, DocMetadata>();
 	private Map<Long, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<Long, DocMetadata>();
 	private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<String, DocMetadata>();
+	private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<String, DocMetadata>();
 	
 	public DocumentMetadataAuthority (Set<DocMetadata> docMetadataSet){
 		if (docMetadataSet == null) {
@@ -47,6 +49,23 @@ public class DocumentMetadataAuthority {
 			}
 			docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
 			docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
+			
+			if(StringUtils.isNotBlank(docMetadata.getFirstlineCitePubpage())) 
+			{
+				if (docMetadata.getFirstlineCitePubId() != null)
+				{
+					docMetadataKeyedByPubIdAndPubPage.put(docMetadata.getFirstlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
+				}
+				if (docMetadata.getSecondlineCitePubId() != null)
+				{
+					docMetadataKeyedByPubIdAndPubPage.put(docMetadata.getSecondlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
+				}
+				if (docMetadata.getThirdlineCitePubId() != null)
+				{
+					docMetadataKeyedByPubIdAndPubPage.put(docMetadata.getThirdlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
+				}
+				
+			}
 		}
 	}
 	
@@ -88,6 +107,10 @@ public class DocumentMetadataAuthority {
 	 */
 	public Map<String, DocMetadata> getDocMetadataKeyedByDocumentUuid() {
 		return Collections.unmodifiableMap(docMetadataKeyedByDocumentUuid);
+	}
+	
+	public Map<String, DocMetadata> getDocMetadataKeyedByPubIdAndPubPage() {
+		return Collections.unmodifiableMap(docMetadataKeyedByPubIdAndPubPage);
 	}
 
 	@Override

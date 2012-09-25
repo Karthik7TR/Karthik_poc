@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 
  * @author Ravi Nandikolla c139353
@@ -35,5 +37,17 @@ public class CitationNormalizationRulesUtil
         }
 
         return normalizedCite;
+    }
+    
+    public static String noSpacesNormalizationRules(String cite)
+    {
+    	if(StringUtils.isNotBlank(cite))
+    	{
+    		cite = applyNormalizationRules(cite);
+    		cite = cite.replaceAll("\\s", "");
+    		cite = cite.trim();
+    	}
+    	
+    	return cite;
     }
 }

@@ -42,7 +42,6 @@ import org.xml.sax.SAXException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
@@ -62,7 +61,6 @@ public class InternalLinkResolverFilterTest
     private DocumentMetadataAuthority mockDocumentMetadataAuthority;
     private PaceMetadataService mockPaceMetadataService;
     private PaceMetadata mockPaceMetadata;
-    private DocMetadataService mockDocMetadataService;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private File tempDir = null;
@@ -90,8 +88,6 @@ public class InternalLinkResolverFilterTest
         EasyMock.replay(mockPaceMetadataService);
         mockDocumentMetadataAuthority = EasyMock.createMock(DocumentMetadataAuthority.class);
         internalLinkResolverFilter = new InternalLinkResolverFilter(mockDocumentMetadataAuthority);
-        
-        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);        
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -106,8 +102,7 @@ public class InternalLinkResolverFilterTest
         internalLinkResolverTestFile.exists();
 
         internalLinksFilter = new InternalLinkResolverFilter(
-                mockDocumentMetadataAuthority, internalLinkResolverTestFile, mockPaceMetadataService,
-                mockDocMetadataService, new Long("1234"));
+                mockDocumentMetadataAuthority, internalLinkResolverTestFile, mockPaceMetadataService, new Long("1234"));
         internalLinksFilter.setParent(saxParser.getXMLReader());
 
         Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);

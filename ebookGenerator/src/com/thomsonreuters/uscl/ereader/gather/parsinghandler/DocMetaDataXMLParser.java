@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 
 public class DocMetaDataXMLParser extends DefaultHandler {
 
@@ -25,9 +26,12 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private final static String MD_NORMALIZED_CITE = "md.normalizedcite";
 	private final static String MD_FIRSTLINE_CITE = "md.first.line.cite";
 	private final static String MD_SECONDLINE_CITE = "md.second.line.cite";
+	private final static String MD_THIRDLINE_CITE = "md.third.line.cite";
 	private final static String MD_LEGACY_ID = "md.legacy.id";
 	private final static String MD_DMS_SERIAL = "md.dmsserial";
 	private final static String MD_DOC_TYPE_NAME = "md.doctype.name";
+	private final static String MD_PUB_ID = "md.pubid";
+	private final static String MD_PUB_PAGE = "md.pubpage";
 	
 	private String tempVal;
 
@@ -37,6 +41,10 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private Long jobInstanceId;
 	private String docUuid;
 	private String collectionName;
+	private boolean processedPubPage = false;
+	private boolean processedFirstPubId = false;
+	private boolean processedSecondPubId = false;
+	private boolean processedThirdPubId = false;
 
 	
 	/**
@@ -132,6 +140,8 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			docMetadata.setFirstlineCite(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_SECONDLINE_CITE)){
 			docMetadata.setSecondlineCite(tempVal);
+		} else if (qName.equalsIgnoreCase(MD_THIRDLINE_CITE)){
+			docMetadata.setThirdlineCite(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_UUID)) {
 			docMetadata.setDocUuid(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_DOC_FAMILY_UUID)) {
@@ -142,6 +152,28 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 			docMetadata.setFindOrig(tempVal);
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
 			docMetadata.setSerialNumber(new Long(tempVal));
+		} else if (qName.equalsIgnoreCase(MD_PUB_PAGE) && !processedPubPage) {
+			String normalizedPubpage = CitationNormalizationRulesUtil.noSpacesNormalizationRules(tempVal);
+			docMetadata.setFirstlineCitePubpage(normalizedPubpage);
+			processedPubPage = true;
+		} else if (qName.equalsIgnoreCase(MD_PUB_ID)) {
+			
+			try {
+				Long pubId = Long.parseLong(tempVal);
+				
+				if(!processedFirstPubId) {
+					docMetadata.setFirstlineCitePubId(pubId);
+					processedFirstPubId = true;
+				} else if(!processedSecondPubId) {
+					docMetadata.setSecondlineCitePubId(pubId);
+					processedSecondPubId = true;
+				} else if(!processedThirdPubId) {
+					docMetadata.setThirdlineCitePubId(pubId);
+					processedThirdPubId = true;
+				}
+			} catch (NumberFormatException e) {
+				
+			}
 		}
 	}
 	
