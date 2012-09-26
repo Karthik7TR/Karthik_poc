@@ -185,6 +185,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                     	
                     	if (splitCite.length > 0) {
                     		String pubpage = splitCite[splitCite.length - 1];
+                    		pubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(pubpage);
                     		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
                     	}
                     }

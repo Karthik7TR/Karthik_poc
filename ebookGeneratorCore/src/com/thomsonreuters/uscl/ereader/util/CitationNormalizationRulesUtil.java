@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.util;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -39,11 +40,31 @@ public class CitationNormalizationRulesUtil
         return normalizedCite;
     }
     
-    public static String noSpacesNormalizationRules(String cite)
+    public static String pubPageNormalizationRules(String cite)
     {
     	if(StringUtils.isNotBlank(cite))
     	{
+    		cite = StringEscapeUtils.unescapeXml(cite);
+    		cite = StringEscapeUtils.unescapeHtml(cite);
     		cite = applyNormalizationRules(cite);
+    		
+    		// Replace special apostrophe
+            // unicode values u2018 and u2019
+            cite = StringUtils.replace(cite, "\u2018", "'");
+            cite = StringUtils.replace(cite, "\u2019", "'");
+            cite = StringUtils.replace(cite, "\ufffd", "'");
+            
+            // Replace special double quotes
+            cite = StringUtils.replace(cite, "\u201C", "\"");
+            cite = StringUtils.replace(cite, "\u201D", "\"");
+
+            // Replace special dashes
+            cite = StringUtils.replace(cite, "\u2012", "-");
+            cite = StringUtils.replace(cite, "\u2013", "-");
+            cite = StringUtils.replace(cite, "\u2014", "-");
+            cite = StringUtils.replace(cite, "\u2015", "-");
+
+            // Remove spaces
     		cite = cite.replaceAll("\\s", "");
     		cite = cite.trim();
     	}

@@ -48,7 +48,7 @@ public class CitationNormalizationRulesUtilTest
 	@Test
 	public void testNoSpacesNormalizationRules() throws Exception {
 		String normalizedCite = "te ST [39 ]";
-		normalizedCite =  CitationNormalizationRulesUtil.noSpacesNormalizationRules(normalizedCite);
+		normalizedCite =  CitationNormalizationRulesUtil.pubPageNormalizationRules(normalizedCite);
 		String expectedNormalizedCite = "TEST(39)";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 	}
@@ -56,7 +56,7 @@ public class CitationNormalizationRulesUtilTest
 	@Test
 	public void testTrimNormalizationRules() throws Exception {
 		String normalizedCite = " teST[39] ";
-		normalizedCite =  CitationNormalizationRulesUtil.noSpacesNormalizationRules(normalizedCite);
+		normalizedCite =  CitationNormalizationRulesUtil.pubPageNormalizationRules(normalizedCite);
 		String expectedNormalizedCite = "TEST(39)";
 		Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 	}

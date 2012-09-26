@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -19,7 +20,8 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
 
 public class DocMetaDataXMLParser extends DefaultHandler {
-
+	private static final Logger LOG = Logger.getLogger(DocMetaDataXMLParser.class);
+	
 	private final static String MD_ROOT_ID = "n-metadata";
 	private final static String MD_UUID = "md.uuid";
 	private final static String MD_DOC_FAMILY_UUID = "md.doc.family.uuid";
@@ -33,7 +35,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private final static String MD_PUB_ID = "md.pubid";
 	private final static String MD_PUB_PAGE = "md.pubpage";
 	
-	private String tempVal;
+	private StringBuffer tempValBuffer;
 
 	// to maintain context
 	private DocMetadata docMetadata;
@@ -45,7 +47,6 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	private boolean processedFirstPubId = false;
 	private boolean processedSecondPubId = false;
 	private boolean processedThirdPubId = false;
-
 	
 	/**
 	 * Create factory method to defend against it being created as a Spring bean, which it should not be since it is not thread safe. 
@@ -107,7 +108,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// reset
-		tempVal = "";
+		tempValBuffer = new StringBuffer();
 		if (qName.equalsIgnoreCase(MD_ROOT_ID)) {
 			// create a new instance of doc metadata
 			docMetadata = new DocMetadata();
@@ -121,12 +122,14 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		tempVal = new String(ch, start, length);
+		tempValBuffer.append(new String(ch, start, length));
 	}
 	
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		
+		String tempVal = tempValBuffer.toString();
 
 		if (qName.equalsIgnoreCase(MD_NORMALIZED_CITE)) {
 			// add normalized first line cite
@@ -153,26 +156,27 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
 			docMetadata.setSerialNumber(new Long(tempVal));
 		} else if (qName.equalsIgnoreCase(MD_PUB_PAGE) && !processedPubPage) {
-			String normalizedPubpage = CitationNormalizationRulesUtil.noSpacesNormalizationRules(tempVal);
+			String normalizedPubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(tempVal);
 			docMetadata.setFirstlineCitePubpage(normalizedPubpage);
 			processedPubPage = true;
 		} else if (qName.equalsIgnoreCase(MD_PUB_ID)) {
 			
 			try {
-				Long pubId = Long.parseLong(tempVal);
+				Long publicationCode = Long.parseLong(tempVal);
 				
 				if(!processedFirstPubId) {
-					docMetadata.setFirstlineCitePubId(pubId);
+					docMetadata.setFirstlineCitePubId(publicationCode);
 					processedFirstPubId = true;
 				} else if(!processedSecondPubId) {
-					docMetadata.setSecondlineCitePubId(pubId);
+					docMetadata.setSecondlineCitePubId(publicationCode);
 					processedSecondPubId = true;
 				} else if(!processedThirdPubId) {
-					docMetadata.setThirdlineCitePubId(pubId);
+					docMetadata.setThirdlineCitePubId(publicationCode);
 					processedThirdPubId = true;
 				}
 			} catch (NumberFormatException e) {
-				
+				//not a valid serial number
+        		LOG.debug("Encountered a publicationCode: " + tempVal + " which is not a valid number.");
 			}
 		}
 	}
