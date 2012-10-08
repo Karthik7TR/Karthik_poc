@@ -83,3 +83,10 @@ where std_pub_name = 'MASSPRACCONSUMERLAW';
 
 commit;
 
+
+update pace_metadata
+set 
+publication_name = 'CTPRAC'
+where std_pub_name = 'CONNPRACFAMILYLAWPRAC' and publication_code = 140876;  -- old publication_name = 'Conn. Prac., Family Law & Prac.'
+
+commit;
