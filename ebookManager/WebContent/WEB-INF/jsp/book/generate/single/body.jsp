@@ -109,36 +109,22 @@
   }
   
   
-  function checkMaterialIdandIsbn(){
+  function checkIsbn(){
 	  
-	  var  confirmed = true;
+	  var confirmed = true;
 	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
-	  var isNewMaterialId = document.getElementById('isNewMaterialId').innerHTML;
 	  var isbn = document.getElementById('isbn').innerHTML;
-	  var materialId = document.getElementById('materialId').innerHTML;
 	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
 		
 	   
 	  if (isMajorVersion == "Y"){
-		
-		  if(isNewISBN =="N" && isNewMaterialId=="N"){
-			  alert("Cannot generate book: ISBN and Sub Material Number must be changed for major version.");
-			  confirmed= false;
-		  }
-		  else{
-		  	if(isNewISBN =="N"){
-				alert("Cannot generate book: ISBN must be changed for major version.");
-			  	confirmed= false;
-		  	}
-		  
-		  	if(isNewMaterialId=="N"){
-			  	alert("Cannot generate book: Sub Material Number must be changed for major version.");
-			  	confirmed= false;
-		  	}  	
-		  }
+	  	if(isNewISBN =="N"){
+			alert("Cannot generate book: ISBN must be changed for major version.");
+		  	confirmed= false;
+	  	}
 	  }
 	  if (confirmed){
-		  confirmed = confirm("Generate with ISBN: " + isbn + ", Sub Material Number: " + materialId);
+		  confirmed = confirm("Generate with ISBN: " + isbn);
   	  }
 	  return confirmed;
   }
@@ -180,7 +166,7 @@
 	  if (confirmed){
 		    confirmed = checkPublishingCutoffDate();
 			if (confirmed){
-				confirmed = checkMaterialIdandIsbn();
+				confirmed = checkIsbn();
 				if (confirmed){
 					confirmed = checkPilotBookStatus();
 				}
@@ -290,12 +276,10 @@
 		<div style="visibility: hidden"> 
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
-		  	<p id="isNewMaterialId">${isNewMaterialId}</p>
 			<p id="isMajorVersion"></p>
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
 		  	<p id="isComplete">${isComplete}</p>
 		 	<p id="isbn">${isbn}</p>
-		  	<p id="materialId">${materialId}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		 </div>	

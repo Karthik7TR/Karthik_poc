@@ -172,22 +172,15 @@ public class GenerateEbookController {
 	 * @param book
 	 * @param model
 	 */
-	private void setModelMaterialIdandIsbn(Long bookDefinitionId,
+	private void setModelIsbn(Long bookDefinitionId,
 			BookDefinition book, Model model) {
 
 		EbookAudit ebookAudit = publishingStatsService
 				.findLastSuccessfulJobStatsAuditByEbookDef(bookDefinitionId);
 
 		boolean isNewIsbn = true;
-		boolean isNewMaterialId = true;
 
 		if (ebookAudit != null) {
-
-			if (book.getMaterialId() != null) {
-				isNewMaterialId = !(book.getMaterialId()
-						.equalsIgnoreCase(ebookAudit.getMaterialId()));
-
-			}
 
 			if (book.getIsbn() != null) {
 				isNewIsbn = !(book.getIsbn().equalsIgnoreCase(ebookAudit
@@ -196,8 +189,6 @@ public class GenerateEbookController {
 			}
 		}
 		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isNewIsbn ? "Y" : "N");
-		model.addAttribute(WebConstants.KEY_IS_NEW_MTERIAL_ID,
-				isNewMaterialId ? "Y" : "N");
 
 	}
 
@@ -252,8 +243,6 @@ public class GenerateEbookController {
 
 			model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
-			model.addAttribute(WebConstants.KEY_MATERIAL_ID,
-					book.getMaterialId());
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE,
 					cutOffDate);
@@ -273,7 +262,7 @@ public class GenerateEbookController {
 
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
-			setModelMaterialIdandIsbn(id, book, model);
+			setModelIsbn(id, book, model);
 
 		}
 
