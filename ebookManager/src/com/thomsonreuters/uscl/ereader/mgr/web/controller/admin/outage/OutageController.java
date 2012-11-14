@@ -104,7 +104,7 @@ public class OutageController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editOutage(@RequestParam Long id,
+	public ModelAndView editOutage(@RequestParam("id") Long id,
 			@ModelAttribute(OutageForm.FORM_NAME) OutageForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -133,7 +133,7 @@ public class OutageController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteOutage(@RequestParam Long id,
+	public ModelAndView deleteOutage(@RequestParam("id") Long id,
 			@ModelAttribute(OutageForm.FORM_NAME) OutageForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

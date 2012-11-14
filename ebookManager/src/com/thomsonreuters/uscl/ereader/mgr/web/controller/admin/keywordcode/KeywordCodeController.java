@@ -80,7 +80,7 @@ public class KeywordCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editKeywordCode(@RequestParam Long id,
+	public ModelAndView editKeywordCode(@RequestParam("id") Long id,
 			@ModelAttribute(KeywordCodeForm.FORM_NAME) KeywordCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -113,7 +113,7 @@ public class KeywordCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteKeywordCode(@RequestParam Long id,
+	public ModelAndView deleteKeywordCode(@RequestParam("id") Long id,
 			@ModelAttribute(KeywordCodeForm.FORM_NAME) KeywordCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

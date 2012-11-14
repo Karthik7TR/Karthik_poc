@@ -74,7 +74,7 @@ public class JobExecutionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_DETAILS, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpServletRequest request,
-							  @RequestParam Long jobExecutionId,
+							  @RequestParam("jobExecutionId") Long jobExecutionId,
 							  Model model) throws Exception {
 		JobExecutionVdo vdo = createJobExecutionVdo(jobExecutionId);
 		populateModel(model, vdo);
@@ -111,7 +111,7 @@ public class JobExecutionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_RESTART, method = RequestMethod.GET)
 	public ModelAndView restartJob(HttpSession httpSession,
-								   @RequestParam Long jobExecutionId, Model model) throws Exception {
+								   @RequestParam("jobExecutionId") Long jobExecutionId, Model model) throws Exception {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		if (authorizedForJobOperation(jobExecutionId, LABEL_RESTART, messages)) {
 			try {
@@ -136,7 +136,7 @@ public class JobExecutionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_EXECUTION_JOB_STOP, method = RequestMethod.GET)
 	public ModelAndView stopJob(HttpSession httpSession,
-								@RequestParam Long jobExecutionId, Model model) throws Exception {
+								@RequestParam("jobExecutionId") Long jobExecutionId, Model model) throws Exception {
 		List<InfoMessage> messages = new ArrayList<InfoMessage>();
 		if (authorizedForJobOperation(jobExecutionId, LABEL_STOP, messages)) {
 			try {

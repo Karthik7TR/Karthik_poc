@@ -50,7 +50,7 @@ public class DeleteBookDefinitionController {
 	 * @param surrogate key
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_DELETE, method = RequestMethod.GET)
-	public ModelAndView getDeleteBookDefintion(@RequestParam Long id,
+	public ModelAndView getDeleteBookDefintion(@RequestParam("id") Long id,
 				@ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) DeleteBookDefinitionForm form,
 				Model model) {
 		
@@ -108,7 +108,7 @@ public class DeleteBookDefinitionController {
 	 * @param surrogate key
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_RESTORE, method = RequestMethod.GET)
-	public ModelAndView getRestoreBookDefintion(@RequestParam Long id,
+	public ModelAndView getRestoreBookDefintion(@RequestParam("id") Long id,
 				@ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) DeleteBookDefinitionForm form,
 				Model model) {
 		

@@ -219,7 +219,7 @@ public class GenerateEbookController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateEbookPreview(@RequestParam Long id,
+	public ModelAndView generateEbookPreview(@RequestParam("id") Long id,
 			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
 			Model model) throws Exception {
 
@@ -440,7 +440,7 @@ public class GenerateEbookController {
 	}
 
 	@RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateBulkEbookPreview(@RequestParam List<Long> id,
+	public ModelAndView generateBulkEbookPreview(@RequestParam("id") List<Long> id,
 			Model model) throws Exception {
 
 		List<GenerateBulkBooksContainer> booksToGenerate = new ArrayList<GenerateBulkBooksContainer>();

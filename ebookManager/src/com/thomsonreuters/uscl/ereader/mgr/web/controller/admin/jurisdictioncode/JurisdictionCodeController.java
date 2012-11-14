@@ -74,7 +74,7 @@ public class JurisdictionCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editJurisCode(@RequestParam Long id,
+	public ModelAndView editJurisCode(@RequestParam("id") Long id,
 			@ModelAttribute(JurisdictionCodeForm.FORM_NAME) JurisdictionCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -107,7 +107,7 @@ public class JurisdictionCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteJurisCode(@RequestParam Long id,
+	public ModelAndView deleteJurisCode(@RequestParam("id") Long id,
 			@ModelAttribute(JurisdictionCodeForm.FORM_NAME) JurisdictionCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

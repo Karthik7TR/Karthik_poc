@@ -124,7 +124,7 @@ public class EditBookDefinitionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_EDIT, method = RequestMethod.GET)
 	public ModelAndView editBookDefintionGet(
-				@RequestParam Long id,
+				@RequestParam("id") Long id,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {
@@ -269,7 +269,7 @@ public class EditBookDefinitionController {
 	 * AJAX call to remove lock on book definition
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_UNLOCK, method = RequestMethod.POST)
-	public @ResponseBody String unlockBookDefinition(@RequestParam Long id) {
+	public @ResponseBody String unlockBookDefinition(@RequestParam("id") Long id) {
 		String username = UserUtils.getAuthenticatedUserName();
 		
 		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
@@ -290,7 +290,7 @@ public class EditBookDefinitionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_COPY, method = RequestMethod.GET)
 	public ModelAndView copyBookDefintionGet(
-				@RequestParam Long id,
+				@RequestParam("id") Long id,
 				@ModelAttribute(EditBookDefinitionForm.FORM_NAME) EditBookDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {

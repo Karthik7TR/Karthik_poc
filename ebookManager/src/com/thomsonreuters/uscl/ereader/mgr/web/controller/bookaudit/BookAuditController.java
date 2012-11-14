@@ -41,7 +41,7 @@ public class BookAuditController extends BaseBookAuditController {
 	 * Used from the View Book Definition page.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_AUDIT_SPECIFIC, method = RequestMethod.GET)
-	public ModelAndView specificBookAuditList(HttpSession httpSession, @RequestParam Long id, Model model) {
+	public ModelAndView specificBookAuditList(HttpSession httpSession, @RequestParam("id") Long id, Model model) {
 		BookAuditFilterForm filterForm = new BookAuditFilterForm(id);	// from session
 		
 		return setupInitialView(model, filterForm, httpSession);
@@ -109,7 +109,7 @@ public class BookAuditController extends BaseBookAuditController {
 	 * Handle initial in-bound HTTP get request for specific book audit detail.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_AUDIT_DETAIL, method = RequestMethod.GET)
-	public ModelAndView auditDetail(HttpSession httpSession, @RequestParam Long id, Model model) {
+	public ModelAndView auditDetail(HttpSession httpSession, @RequestParam("id") Long id, Model model) {
 		EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
 		model.addAttribute(WebConstants.KEY_BOOK_AUDIT_DETAIL, audit);
 		

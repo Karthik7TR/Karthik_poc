@@ -74,7 +74,7 @@ public class PublishTypeCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editPublishTypeCode(@RequestParam Long id,
+	public ModelAndView editPublishTypeCode(@RequestParam("id") Long id,
 			@ModelAttribute(PublishTypeCodeForm.FORM_NAME) PublishTypeCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -107,7 +107,7 @@ public class PublishTypeCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deletePublishTypeCode(@RequestParam Long id,
+	public ModelAndView deletePublishTypeCode(@RequestParam("id") Long id,
 			@ModelAttribute(PublishTypeCodeForm.FORM_NAME) PublishTypeCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

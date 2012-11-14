@@ -67,7 +67,7 @@ public class OutageTypeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editOutageType(@RequestParam Long id,
+	public ModelAndView editOutageType(@RequestParam("id") Long id,
 			@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -99,7 +99,7 @@ public class OutageTypeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteOutageType(@RequestParam Long id,
+	public ModelAndView deleteOutageType(@RequestParam("id") Long id,
 			@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

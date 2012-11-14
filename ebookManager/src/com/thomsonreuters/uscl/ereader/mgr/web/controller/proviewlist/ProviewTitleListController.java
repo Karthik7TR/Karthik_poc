@@ -322,7 +322,7 @@ public class ProviewTitleListController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS, method = RequestMethod.GET)
-	public ModelAndView singleTitleAllVersions(@RequestParam String titleId,
+	public ModelAndView singleTitleAllVersions(@RequestParam("titleId") String titleId,
 			HttpSession httpSession, Model model) throws Exception {
 
 		Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
@@ -369,9 +369,9 @@ public class ProviewTitleListController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.GET)
-	public ModelAndView proviewTitleDelete(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
-			@RequestParam String lastUpdate, Model model) throws Exception {
+	public ModelAndView proviewTitleDelete(@RequestParam("titleId") String titleId,
+			@RequestParam("versionNumber") String versionNumber, @RequestParam("status") String status,
+			@RequestParam("lastUpdate") String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
@@ -393,9 +393,9 @@ public class ProviewTitleListController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.GET)
-	public ModelAndView proviewTitleRemove(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
-			@RequestParam String lastUpdate, Model model) throws Exception {
+	public ModelAndView proviewTitleRemove(@RequestParam("titleId") String titleId,
+			@RequestParam("versionNumber") String versionNumber, @RequestParam("status") String status,
+			@RequestParam("lastUpdate") String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
@@ -416,9 +416,9 @@ public class ProviewTitleListController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.GET)
-	public ModelAndView proviewTitlePromote(@RequestParam String titleId,
-			@RequestParam String versionNumber, @RequestParam String status,
-			@RequestParam String lastUpdate, Model model) throws Exception {
+	public ModelAndView proviewTitlePromote(@RequestParam("titleId") String titleId,
+			@RequestParam("versionNumber") String versionNumber, @RequestParam("status") String status,
+			@RequestParam("lastUpdate") String lastUpdate, Model model) throws Exception {
 
 		model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
 		model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);

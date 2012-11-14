@@ -51,7 +51,7 @@ public class PublishingStatsController extends BasePublishingStatsController {
 	 * Used from the View Book Definition page.
 	 */
 	@RequestMapping(value=WebConstants.MVC_STATS_SPECIFIC_BOOK, method = RequestMethod.GET)
-	public ModelAndView specificBookStat(HttpSession httpSession, @RequestParam Long id, Model model) {
+	public ModelAndView specificBookStat(HttpSession httpSession, @RequestParam("id") Long id, Model model) {
 		PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm(id);	// from session
 		
 		return setupInitialView(model, filterForm, httpSession);

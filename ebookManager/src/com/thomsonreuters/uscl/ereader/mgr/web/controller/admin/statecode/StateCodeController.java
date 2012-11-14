@@ -74,7 +74,7 @@ public class StateCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editStateCode(@RequestParam Long id,
+	public ModelAndView editStateCode(@RequestParam("id") Long id,
 			@ModelAttribute(StateCodeForm.FORM_NAME) StateCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -107,7 +107,7 @@ public class StateCodeController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteStateCode(@RequestParam Long id,
+	public ModelAndView deleteStateCode(@RequestParam("id") Long id,
 			@ModelAttribute(StateCodeForm.FORM_NAME) StateCodeForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

@@ -50,9 +50,9 @@ public class StepExecutionController {
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_STEP_EXECUTION_DETAILS, method = RequestMethod.GET)
 	public ModelAndView inboundGet(HttpServletRequest request,
-							  @RequestParam Long jobInstanceId,  	// job instance ID
-							  @RequestParam Long jobExecutionId,  	// job execution ID
-							  @RequestParam Long stepExecutionId,	// step execution ID
+							  @RequestParam("jobInstanceId") Long jobInstanceId,  	// job instance ID
+							  @RequestParam("jobExecutionId") Long jobExecutionId,  	// job execution ID
+							  @RequestParam("stepExecutionId") Long stepExecutionId,	// step execution ID
 							  Model model) throws Exception {
 //		log.debug(">>> jobInstanceId="+jobInstanceId + ",jobExecutionId="+jobExecutionId + ",stepExecutionId="+stepExecutionId);
 		JobInstance jobInstance = jobService.findJobInstance(jobInstanceId);

@@ -87,7 +87,7 @@ public class SupportController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_EDIT, method = RequestMethod.GET)
-	public ModelAndView editSupportPageLink(@RequestParam Long id,
+	public ModelAndView editSupportPageLink(@RequestParam("id") Long id,
 			@ModelAttribute(SupportForm.FORM_NAME) SupportForm form,
 			Model model) throws Exception {
 		
@@ -119,7 +119,7 @@ public class SupportController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteSupportPageLink(@RequestParam Long id,
+	public ModelAndView deleteSupportPageLink(@RequestParam("id") Long id,
 			@ModelAttribute(SupportForm.FORM_NAME) SupportForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

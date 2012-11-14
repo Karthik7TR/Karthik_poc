@@ -27,19 +27,19 @@ public class FileStreamController {
 	private static final Logger log = Logger.getLogger(AppExceptionController.class);
 	
 	@RequestMapping(value=WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
-	public void getCoverImage(@RequestParam String imageName, HttpServletRequest request, HttpServletResponse response) {
+	public void getCoverImage(@RequestParam("imageName") String imageName, HttpServletRequest request, HttpServletResponse response) {
 
 		retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, MediaType.IMAGE_PNG);
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
-	public void getFrontMatterImage(@RequestParam String imageName, HttpServletRequest request, HttpServletResponse response) {
+	public void getFrontMatterImage(@RequestParam("imageName") String imageName, HttpServletRequest request, HttpServletResponse response) {
 		
 		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_IMAGE, imageName, MediaType.IMAGE_PNG);
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_CSS, method = RequestMethod.GET)
-	public void getFrontMatterCss(@RequestParam String cssName, HttpServletRequest request, HttpServletResponse response) {
+	public void getFrontMatterCss(@RequestParam("cssName") String cssName, HttpServletRequest request, HttpServletResponse response) {
 
 		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_CSS, cssName, MediaType.TEXT_HTML);
 	}

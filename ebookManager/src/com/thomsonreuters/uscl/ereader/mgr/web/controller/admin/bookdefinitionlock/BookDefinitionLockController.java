@@ -38,7 +38,7 @@ public class BookDefinitionLockController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_BOOK_LOCK_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteBookLock(@RequestParam Long id,
+	public ModelAndView deleteBookLock(@RequestParam("id") Long id,
 			@ModelAttribute(BookDefinitionLockForm.FORM_NAME) BookDefinitionLockForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {

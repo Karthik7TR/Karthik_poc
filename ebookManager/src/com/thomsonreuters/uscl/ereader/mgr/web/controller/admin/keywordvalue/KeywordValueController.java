@@ -50,7 +50,7 @@ public class KeywordValueController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_CREATE, method = RequestMethod.GET)
 	public ModelAndView createKeywordValue(
-			@RequestParam Long keywordCodeId,
+			@RequestParam("keywordCodeId") Long keywordCodeId,
 			@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
 			BindingResult bindingResult,
 			Model model) throws Exception {
@@ -79,7 +79,7 @@ public class KeywordValueController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editKeywordValue(@RequestParam Long id,
+	public ModelAndView editKeywordValue(@RequestParam("id") Long id,
 			@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
 			Model model) throws Exception {
 		
@@ -113,7 +113,7 @@ public class KeywordValueController {
 	}
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteKeywordValue(@RequestParam Long id,
+	public ModelAndView deleteKeywordValue(@RequestParam("id") Long id,
 			@ModelAttribute(KeywordValueForm.FORM_NAME) KeywordValueForm form,
 			Model model) throws Exception {
 		log.debug(form);

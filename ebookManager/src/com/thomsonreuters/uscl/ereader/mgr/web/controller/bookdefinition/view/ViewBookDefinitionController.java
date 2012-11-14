@@ -36,7 +36,7 @@ public class ViewBookDefinitionController {
 	 * @param titleId the primary key of the book to be viewed as a required query string parameter.
 	 */
 	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
-	public ModelAndView viewBookDefintion(@RequestParam Long id,
+	public ModelAndView viewBookDefintion(@RequestParam("id") Long id,
 				@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
 				Model model, HttpSession session) {
 

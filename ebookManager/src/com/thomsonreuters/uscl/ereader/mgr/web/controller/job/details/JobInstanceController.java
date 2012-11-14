@@ -51,7 +51,7 @@ public class JobInstanceController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value=WebConstants.MVC_JOB_INSTANCE_DETAILS, method = RequestMethod.GET)
-	public ModelAndView inboundGet(@RequestParam Long jobInstanceId,
+	public ModelAndView inboundGet(@RequestParam("jobInstanceId") Long jobInstanceId,
 							  Model model) throws Exception {
 //		log.debug(">>> jobInstanceId="+jobInstanceId);
 		JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
