@@ -115,7 +115,6 @@ public class PersistentUrlTransformIntegrationTests
         EasyMock.replay(mockXsltMapperService);
 
         transformerService = new TransformerServiceImpl();
-        transformerService.setxsltMapperService(mockXsltMapperService);
         transformerService.setdocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
 

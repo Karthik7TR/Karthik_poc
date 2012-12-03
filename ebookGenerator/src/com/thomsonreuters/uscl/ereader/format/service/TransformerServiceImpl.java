@@ -38,6 +38,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.SimpleSAXErrorListener;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLMapperParser;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
@@ -60,9 +61,9 @@ public class TransformerServiceImpl implements TransformerService
 	
 	private GenerateDocumentDataBlockService generateDocumentDataBlockService;
 	
-	private XSLTMapperService xsltMapperService;
-	
 	private FileHandlingHelper fileHandlingHelper;
+	
+	private Map<String, String> xsltFileNameByCollectionName = new HashMap<String, String>();
 	
 	@Required
 	public void setGenerateDocumentDataBlockService(
@@ -73,11 +74,6 @@ public class TransformerServiceImpl implements TransformerService
 	public void setdocMetadataService(DocMetadataService docMetadataService) 
 	{
 		this.docMetadataService = docMetadataService;
-	}
-	
-	public void setxsltMapperService(XSLTMapperService xsltMapperService) 
-	{
-		this.xsltMapperService = xsltMapperService;
 	}
 	
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper)
@@ -132,6 +128,20 @@ public class TransformerServiceImpl implements TransformerService
 			LOG.error(errMessage);
 			throw new EBookFormatException(errMessage, e);
 		}
+        
+        try
+        {
+	        File mapperFile = new File("/apps/eBookBuilder/staticContent/ContentTypeMapData.xml");
+	        
+	        XSLMapperParser xslMapperParser = new XSLMapperParser();
+	        xsltFileNameByCollectionName = xslMapperParser.parseDocument(mapperFile);
+        } 
+        catch (Exception e)
+        {
+        	String errMessage = "Error processing XSLT Mapper file. " + e.getMessage();
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, e);
+        }
         
         Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
         
@@ -440,12 +450,19 @@ public class TransformerServiceImpl implements TransformerService
 			throws EBookFormatException
 	{
 		File xsltDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/ContentTypes");
-		String xsltName;		
+		String xsltName = null;		
 		
 		File xslt = null;
-		xsltName = xsltMapperService.getXSLT(collection, docType);
+		//xsltName = xsltMapperService.getXSLT(collection, docType);
 		
-		if (xsltName != null)
+		if (StringUtils.isNotBlank(docType)) {
+			xsltName = xsltFileNameByCollectionName.get(collection + " " + docType);
+		}
+		if (StringUtils.isBlank(xsltName)) {
+			xsltName = xsltFileNameByCollectionName.get(collection);
+		}
+		
+		if (StringUtils.isNotBlank(xsltName))
 		{
 			xslt = new File(xsltDir, xsltName);
 			
