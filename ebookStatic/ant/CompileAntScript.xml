@@ -98,7 +98,7 @@
       </fileset>
     </copy>
     <copy todir="${dir.dist}">
-      <fileset dir="ContentMapper">
+      <fileset dir="Provider/ContentMapper">
         <include name="ContentTypeMapData.xml"/>
       </fileset>
     </copy>
