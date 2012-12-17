@@ -130,7 +130,7 @@ public class XSLMapperParser extends DefaultHandler {
 				xsltFileNameByCollectionName.put(collectionName, xslFileName);
 			}
     		
-    		LOG.debug(collectionName + ";" + docType + ";"+ xsltMapperEntity.getCONTENT_TYPE() + ";"+ xslFileName);
+    		//LOG.debug(collectionName + ";" + docType + ";"+ xsltMapperEntity.getCONTENT_TYPE() + ";"+ xslFileName);
     		
         	xsltMapperEntity = null;
         }

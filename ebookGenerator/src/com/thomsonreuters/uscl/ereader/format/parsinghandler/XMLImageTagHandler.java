@@ -25,7 +25,13 @@ public class XMLImageTagHandler extends DefaultHandler
 	{
 		if (qName.equalsIgnoreCase("image.link"))
 		{
-			guidList.add(atts.getValue("target"));
+			String targetGuid = atts.getValue("target");
+			
+			// TODO: If it is determined order does not matter, change type to HashSet
+			if (!guidList.contains(targetGuid)) 
+			{
+				guidList.add(targetGuid);
+			}
 		}
 	}
 	

@@ -120,8 +120,9 @@ public class XMLImageTagHandlerTest {
 	{
 		imgTagHandler.setGuidList(guidList);
 			
+		// Duplicate guid is filtered out
 		saxParser.parse(xmlWithTags, imgTagHandler);
-		assertEquals(4, imgTagHandler.getGuidList().size());
+		assertEquals(3, imgTagHandler.getGuidList().size());
 	}
 	
 	@Test
