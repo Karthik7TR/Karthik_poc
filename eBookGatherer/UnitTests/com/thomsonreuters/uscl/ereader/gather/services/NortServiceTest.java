@@ -34,7 +34,7 @@ import com.westgroup.novus.productapi.Novus;
 
 public class NortServiceTest {
 
-	private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT = " &lt; Root &amp;  §  &quot; Node&apos;s &gt; ";
+	private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT = " &lt; Root &amp;  ï¿½  &quot; Node&apos;s &gt; ";
 	private static final String DOMAIN_NAME = "w_wlbkrexp";
 	private static final String FILTER = "BankruptcyExplorer";
 	private static final boolean IS_FINAL_STAGE = true;
@@ -106,10 +106,11 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
-//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setShowFutureNodes(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
-//			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(1); 
+//			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  ï¿½  &quot; Node&apos;s &gt; ").times(1); 
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(LT_ROOT_AMP_QUOT_NODE_APOS_S_GT).times(2); 
 			EasyMock.expect(mockNortNode.getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNortNode.getPayload()).andReturn("Root").anyTimes();
@@ -156,7 +157,7 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
@@ -217,11 +218,12 @@ public class NortServiceTest {
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.fillNortNodes(rootChildren, 0, 3);
-//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setShowFutureNodes(true);
         
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
-			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
-			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt; ").times(2); 
 			EasyMock.expect(mockNort2NodeRoot[0].getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[1].getGuid()).andReturn("nortGuid").times(1); 
 			
@@ -277,7 +279,7 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
@@ -298,7 +300,7 @@ public class NortServiceTest {
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0b (effective ");
@@ -346,11 +348,12 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
-//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setShowFutureNodes(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
-			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").anyTimes(); 
-			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; ").anyTimes(); 
+			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt; ").anyTimes(); 
+			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt; ").anyTimes(); 
 			EasyMock.expect(mockNort2NodeRoot[0].getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[1].getGuid()).andReturn("nortGuid").times(1); 
 
@@ -407,7 +410,7 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
@@ -428,7 +431,7 @@ public class NortServiceTest {
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
 			expectedTocContent.append("<MissingDocument></MissingDocument></EBookToc>\r\n");
@@ -473,12 +476,13 @@ public class NortServiceTest {
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.fillNortNodes(rootChildren, 0, 2);
-//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setShowFutureNodes(true);
 
 	       
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
-			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
-			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockNort2NodeRoot[1].getLabel()).andReturn(" &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt; ").times(2); 
 			EasyMock.expect(mockNort2NodeRoot[0].getGuid()).andReturn("nortGuid").times(1); 
 			EasyMock.expect(mockNort2NodeRoot[1].getGuid()).andReturn("nortGuid").times(1); 
 			
@@ -534,7 +538,7 @@ public class NortServiceTest {
 
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 1 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0a (effective ");
@@ -555,7 +559,7 @@ public class NortServiceTest {
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>NORT_UUID_4a6</Guid><DocumentGuid>UUID_4a</DocumentGuid></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0b (effective ");
@@ -601,7 +605,8 @@ public class NortServiceTest {
 			mockNortManager.setFilterName(FILTER, 0);
 			mockNortManager.setShowChildrenCount(true);
 			mockNortManager.fillNortNodes(children, 0, 1);
-//			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+			mockNortManager.setShowFutureNodes(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(LT_ROOT_AMP_QUOT_NODE_APOS_S_GT).times(2); 
@@ -652,7 +657,7 @@ public class NortServiceTest {
 			
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt;  (effective ");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  ï¿½  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
 			expectedTocContent.append(") </Name><Guid>nortGuid1</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child c (effective ");
@@ -818,6 +823,8 @@ public class NortServiceTest {
 		mockNortManager.setDomainDescriptor(DOMAIN_NAME);
 		mockNortManager.setFilterName(FILTER, 0);
 		mockNortManager.setShowChildrenCount(true);
+		mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+		mockNortManager.setShowFutureNodes(true);
 
 		EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 		EasyMock.expect(mockNortNode.getLabel()).andReturn(null).times(1); 
