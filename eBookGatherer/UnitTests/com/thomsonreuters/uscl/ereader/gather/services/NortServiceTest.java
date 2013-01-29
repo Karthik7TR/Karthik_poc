@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -369,7 +368,7 @@ public class NortServiceTest {
 			EasyMock.expect(mockNort2NodeRoot[0].getPayloadElement("/n-nortpayload/n-start-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getPayloadElement("/n-nortpayload/n-start-date")).andReturn(YYYYM1DDHHmmss).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildrenCount()).andReturn(5).anyTimes();
-			EasyMock.expect(mockNort2NodeRoot[1].getChildrenCount()).andReturn(5).anyTimes();
+			EasyMock.expect(mockNort2NodeRoot[1].getChildrenCount()).andReturn(0).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[0].getChildren()).andReturn(children).anyTimes();
 			EasyMock.expect(mockNort2NodeRoot[1].getChildren()).andReturn(null).anyTimes();
 			
@@ -433,7 +432,7 @@ public class NortServiceTest {
 			expectedTocContent.append("</EBookToc>\r\n");
 			expectedTocContent.append("<EBookToc><Name> &lt; Root 2 &amp;  �  &quot; Node&apos;s &gt;  (effective ");
 			expectedTocContent.append(startDateFinal);
-			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>\r\n");
+			expectedTocContent.append(") </Name><Guid>nortGuid7</Guid>");
 			expectedTocContent.append("<MissingDocument></MissingDocument></EBookToc>\r\n");
 			expectedTocContent.append("</EBook>\r\n");
 			LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());

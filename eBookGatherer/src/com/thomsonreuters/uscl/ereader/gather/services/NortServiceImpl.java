@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -132,14 +133,19 @@ public class NortServiceImpl implements NortService {
 		boolean docFound = true;
 		if (nodes != null) {
 			try {
+				List<Boolean> documentsFound = new ArrayList<Boolean>();
 				for (NortNode node : nodes) {
-					docFound = printNode(node, _nortManager, out, counters,
-							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
+					documentsFound.add(printNode(node, _nortManager, out, counters,
+							iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries));
 					// if (docFound == false)
 					// {
 					// LOG.debug("docFound set false for " + node.getLabel());
 					// }
 				}
+				
+				// Only add MissingDocuments if all nodes return false
+				docFound = documentsFound.contains(true);
+				
 				if (iParent[0] > 0) {
 					if (docFound == false) {
 						out.write("<MissingDocument></MissingDocument>");
@@ -197,7 +203,6 @@ public class NortServiceImpl implements NortService {
 			counters[NODECOUNT]++;			
 			
 			if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null) {
-				docFound = true;
 				documentGuid = node.getPayloadElement(
 				"/n-nortpayload/n-doc-guid").replaceAll(
 						"\\<.*?>", "");
@@ -210,19 +215,21 @@ public class NortServiceImpl implements NortService {
 							break;
 						}
 					}
-				} 
+				}
+				
+				if(!excludeDocumentFound){
+					docFound = true;
+				}
 			}
 			
 			String guid = node.getGuid().replaceAll("\\<.*?>", "");
-
-			if (!excludeDocumentFound) {
-				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
-						.append(guid)
-						.append(counters[NODECOUNT])
-						.append(EBConstants.TOC_END_GUID_ELEMENT);
-			}
 				
 			if (!excludeDocumentFound){
+				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
+				.append(guid)
+				.append(counters[NODECOUNT])
+				.append(EBConstants.TOC_END_GUID_ELEMENT);
+				
 				if (node.getLabel() == null ) // Fail with empty Name
 				{
 					String err = "Failed with empty node Label for guid " + node.getGuid();
@@ -413,8 +420,9 @@ public class NortServiceImpl implements NortService {
 					_nortManager.fillNortNodes(nortNodes, i, length);
 				}
 
-				docFound = printNodes(nortNodes, _nortManager, out,
+				printNodes(nortNodes, _nortManager, out,
 						counters, iParent, YYYYMMDDHHmmss, tocGuidDateMap, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
+				docFound = true;
 			}
 
 		} else {

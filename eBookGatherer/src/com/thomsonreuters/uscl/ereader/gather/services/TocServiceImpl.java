@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
@@ -123,10 +124,15 @@ public class TocServiceImpl implements TocService {
 
 		if (nodes != null) {
 			try {
+				List<Boolean> documentsFound = new ArrayList<Boolean>();
 				for (TOCNode node : nodes) {
-					docFound = printNode(node, _tocManager, out, counter,
-							docCounter, iParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
+					documentsFound.add(printNode(node, _tocManager, out, counter,
+							docCounter, iParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries));
 				}
+				
+				// Only add MissingDocuments if all nodes return false
+				docFound = documentsFound.contains(true);
+				
 				if (iParent[0] > 0) {
 					if (docFound == false) {
 						out.write("<MissingDocument></MissingDocument>");
@@ -310,8 +316,9 @@ public class TocServiceImpl implements TocService {
 			}
 
 			if (tocNodes != null) {
-				docFound = printNodes(tocNodes, _tocManager, out, counter,
+				printNodes(tocNodes, _tocManager, out, counter,
 						docCounter, iParent, excludeDocuments, copyExcludeDocuments, renameTocEntries, copyRenameTocEntries);
+				docFound = true;
 			}
 		}
 		return docFound;
