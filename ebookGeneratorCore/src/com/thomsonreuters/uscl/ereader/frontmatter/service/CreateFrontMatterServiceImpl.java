@@ -52,7 +52,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	private static final Logger LOG = Logger.getLogger(CreateFrontMatterServiceImpl.class);
 	private static final String HTML_EXTENSION = ".html";
 	private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
-	private static final String WEST_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestLogo";
+	private static final String TR_LOGO_PLACEHOLDER = "er:#EBook_Generator_TRLogo";
 	private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";
 	
 	private ResourceLoader resourceLoader;
@@ -109,8 +109,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	{
 		String output = generateTitlePage(bookDefinition).replace(CSS_PLACEHOLDER, 
 				"frontMatterCss.mvc?cssName=ebook_generator.css");
-		output = output.replace(WEST_LOGO_PLACEHOLDER, 
-				"frontMatterImage.mvc?imageName=EBook_Generator_WestLogo.png");
+		output = output.replace(TR_LOGO_PLACEHOLDER, 
+				"frontMatterImage.mvc?imageName=EBook_Generator_TRLogo.png");
 		return output;
 	}
 
