@@ -29,22 +29,22 @@ public class FileStreamController {
 	@RequestMapping(value=WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
 	public void getCoverImage(@RequestParam("imageName") String imageName, HttpServletRequest request, HttpServletResponse response) {
 
-		retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, MediaType.IMAGE_PNG);
+		retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, "image/png");
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_IMAGE, method = RequestMethod.GET)
 	public void getFrontMatterImage(@RequestParam("imageName") String imageName, HttpServletRequest request, HttpServletResponse response) {
 		
-		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_IMAGE, imageName, MediaType.IMAGE_PNG);
+		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_IMAGE, imageName, "image/png");
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_FRONT_MATTER_CSS, method = RequestMethod.GET)
 	public void getFrontMatterCss(@RequestParam("cssName") String cssName, HttpServletRequest request, HttpServletResponse response) {
 
-		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_CSS, cssName, MediaType.TEXT_HTML);
+		retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_CSS, cssName, "text/css");
 	}
 	
-	private void retrieveFile(HttpServletRequest request, HttpServletResponse response, String nasLocation,String filename, MediaType mediaType) {
+	private void retrieveFile(HttpServletRequest request, HttpServletResponse response, String nasLocation,String filename, String mediaType) {
 		InputStream fin = null;
 		byte[] content = null;
 		
@@ -59,7 +59,7 @@ public class FileStreamController {
 			}
 
 			content = IOUtils.toByteArray(fin);
-			response.setContentType(mediaType.toString());
+			response.setContentType(mediaType);
 			response.setContentLength(content.length);
 			
 			ServletOutputStream out = response.getOutputStream();
