@@ -19,6 +19,7 @@ public class XSLForcePlatformAttributeFilter extends DefaultHandler {
 	private static final String FORCE_PLATFORM_ATTR = "forcePlatform";
 	private static final String HREF_ATTR = "href";
 	private static final String INCLUDE_TAG = "xsl:include";
+	private static final String IMPORT_TAG = "xsl:import";
 	private boolean isForcePlatform = false;
 	private String href;
 
@@ -36,7 +37,7 @@ public class XSLForcePlatformAttributeFilter extends DefaultHandler {
         final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException
     {
-        if (qName.equalsIgnoreCase(INCLUDE_TAG))
+        if (qName.equalsIgnoreCase(INCLUDE_TAG) || qName.equalsIgnoreCase(IMPORT_TAG))
         {
         	String hrefAttributeValue = atts.getValue(HREF_ATTR);
         	
