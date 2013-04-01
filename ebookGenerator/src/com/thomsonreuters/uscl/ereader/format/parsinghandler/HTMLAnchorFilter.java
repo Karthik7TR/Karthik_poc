@@ -115,8 +115,11 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 			{
 				if (atts != null)
 				{
+					String mime = atts.getValue("type");
 					//build image tag for image anchors
-					if (atts.getValue("type") != null && atts.getValue("type").equalsIgnoreCase("image/jpeg"))
+					if (mime != null && (mime.equalsIgnoreCase("image/jpeg") ||
+							mime.equalsIgnoreCase("image/x-png") || mime.equalsIgnoreCase("image/gif") ||
+							mime.equalsIgnoreCase("image/png")))
 					{
 						isImageLink = true;
 						imgEncountered++;
@@ -125,7 +128,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						String href = atts.getValue("href");
 						if (!StringUtils.isEmpty(href))
 						{
-							imgGuid = href.substring(href.indexOf("/Blob/") + 6, href.indexOf(".jpg?"));
+							imgGuid = href.substring(href.indexOf("/Blob/") + 6, href.indexOf(imageSpecialExtension(mime)));
 							
 							if (imgGuid.length() > 34)
 							{
@@ -185,7 +188,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						// set href to er:#docFamilyGuid/namedAnchor
 						if(attsHrefValue != null && attsHrefValue.startsWith("#"))
 						{
-//                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
+//                              Change to this format: href=ï¿½er:#currentDocFamilyGuid/namedAnchorï¿½
 							attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(1) ;
 							
 							// Temp fix for sp_pubnumber references from URL builder
@@ -214,7 +217,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 								LOG.error("Internal link was badly formed. " + attsHrefValue +
 										" was changed to er:#"+ currentGuid +"/" +attsHrefValue.substring(4));
 
-//                              Change to this format: href=”er:#currentDocFamilyGuid/namedAnchor”
+//                              Change to this format: href=ï¿½er:#currentDocFamilyGuid/namedAnchorï¿½
 								attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(4) ;
 							}
 							// Temp fix for sp_pubnumber references from URL builder
@@ -328,5 +331,19 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 				}
 			}
 		}
+	}
+	
+	private String imageSpecialExtension(String imageMime) {
+		String extension = "";
+		
+		if (imageMime.equalsIgnoreCase("image/jpeg")) {
+			extension = ".jpg?";
+		} else if (imageMime.equalsIgnoreCase("image/gif")) {
+			extension = ".gif?";
+		} else {
+			extension = ".png?";
+		}
+		
+		return extension;
 	}
 }
