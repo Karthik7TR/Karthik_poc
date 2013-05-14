@@ -36,7 +36,7 @@ $(document).ready(function() {
 		<tr>
 			<td>Username:</td>
 			<td><form:input path="username"/><td>
-			<i style="color:grey;">network username (eg: u1234567)</i>
+			<i style="color:grey;">network username (eg: 1234567 or c123456)</i>
 		</tr>
 		<tr>
 			<td>Password:</td>
