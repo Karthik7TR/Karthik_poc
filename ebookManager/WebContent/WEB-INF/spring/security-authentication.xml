@@ -8,38 +8,69 @@
 						   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
   	<!-- Filter used to find a user by username in the LDAP directory tree. -->
-	<bean id="ldapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch"
+	<bean id="ldsLdapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch"
 		  p:searchTimeLimit="15000">
   		<constructor-arg index="0" value=""/>
   		<constructor-arg index="1" value="(cn={0})"/>
-  		<constructor-arg index="2" ref="ldapContextSource" />
+  		<constructor-arg index="2" ref="ldsLdapContextSource" />
+	</bean>
+	<bean id="tenLdapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch"
+		  p:searchTimeLimit="15000">
+  		<constructor-arg index="0" value=""/>
+  		<constructor-arg index="1" value="(cn={0})"/>
+  		<constructor-arg index="2" ref="tenLdapContextSource" />
+	</bean>
+	<bean id="tlrLdapUserSearchFilter" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch"
+		  p:searchTimeLimit="15000">
+  		<constructor-arg index="0" value=""/>
+  		<constructor-arg index="1" value="(cn={0})"/>
+  		<constructor-arg index="2" ref="tlrLdapContextSource" />
 	</bean>
 	
 	<!-- LDAP Authentication Provider, comprised of authentication operation,
 		 followed by fetching user details for the authenticated user. -->  	
-  	<bean id="ldapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"
+  	<bean id="ldsLdapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"
   		  p:userDetailsContextMapper-ref="userDetailsContextMapper">
   		<constructor-arg>
 			<!-- Perform the LDAP bind authentication by checking that the provided credentials can log in to the directory server. -->
 			<bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
-				<constructor-arg ref="ldapContextSource"/>
-				<property name="userSearch" ref="ldapUserSearchFilter"/>
+				<constructor-arg ref="ldsLdapContextSource"/>
+				<property name="userSearch" ref="ldsLdapUserSearchFilter"/>
+			</bean>
+  		</constructor-arg>
+     </bean>
+     <bean id="tenLdapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"
+  		  p:userDetailsContextMapper-ref="userDetailsContextMapper">
+  		<constructor-arg>
+			<!-- Perform the LDAP bind authentication by checking that the provided credentials can log in to the directory server. -->
+			<bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<constructor-arg ref="tenLdapContextSource"/>
+				<property name="userSearch" ref="tenLdapUserSearchFilter"/>
+			</bean>
+  		</constructor-arg>
+     </bean>
+     <bean id="tlrLdapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"
+  		  p:userDetailsContextMapper-ref="userDetailsContextMapper">
+  		<constructor-arg>
+			<!-- Perform the LDAP bind authentication by checking that the provided credentials can log in to the directory server. -->
+			<bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<constructor-arg ref="tlrLdapContextSource"/>
+				<property name="userSearch" ref="tlrLdapUserSearchFilter"/>
 			</bean>
   		</constructor-arg>
      </bean>
      
-<!--  TESTING ONLY - NOT FOR PRODUCTION -->
-<bean id="testingUserDetailsService" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingUserDetailsService"/>
-<bean id="testingAuthenticationProvider" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingAuthenticationProvider"
-	  p:environmentName-ref="environmentName"
-  	  p:userDetailsService-ref="testingUserDetailsService"/>
+	<!--  TESTING ONLY - NOT FOR PRODUCTION -->
+	<bean id="testingUserDetailsService" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingUserDetailsService"/>
+	<bean id="testingAuthenticationProvider" class="com.thomsonreuters.uscl.ereader.mgr.security.TestingAuthenticationProvider"
+		  p:environmentName-ref="environmentName"
+	  	  p:userDetailsService-ref="testingUserDetailsService"/>
 	
   	<sec:authentication-manager alias="authenticationManager">
-  		<sec:authentication-provider ref="ldapAuthenticationProvider"/>
-  		
-<!--  TESTING ONLY - NOT FOR PRODUCTION -->
-<sec:authentication-provider ref="testingAuthenticationProvider"/> <!--  TESTING ONLY - NOT FOR PRODUCTION -->
-
+  		<sec:authentication-provider ref="ldsLdapAuthenticationProvider"/>
+  		<!-- <sec:authentication-provider ref="tenLdapAuthenticationProvider"/>
+  		<sec:authentication-provider ref="tlrLdapAuthenticationProvider"/>  -->
+		<sec:authentication-provider ref="testingAuthenticationProvider"/> <!--  TESTING ONLY - NOT FOR PRODUCTION -->
   	</sec:authentication-manager>
 	
 	<sec:http use-expressions="true" access-denied-page="/accessDenied.mvc">
