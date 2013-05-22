@@ -165,7 +165,8 @@ public class XMLContentChangerFilterTest {
 		
 		String xmlTestStr = "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>" +
 				"<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
-		String expectedResult = xmlTestStr;
+		String expectedResult =  "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>" +
+				"<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
