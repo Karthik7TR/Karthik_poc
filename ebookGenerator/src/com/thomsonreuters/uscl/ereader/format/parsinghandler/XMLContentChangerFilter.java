@@ -54,7 +54,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException
     {
-        if (!isFinalStage && qName.equalsIgnoreCase(CURRENCY_TAG))
+        if (qName.equalsIgnoreCase(CURRENCY_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
         	for(DocumentCurrency currency: currencies) {
@@ -65,7 +65,7 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         		}
         	}
         }
-        else if (!isFinalStage && qName.equalsIgnoreCase(COPYRIGHT_TAG))
+        else if (qName.equalsIgnoreCase(COPYRIGHT_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
         	for(DocumentCopyright copyright: copyrights) {

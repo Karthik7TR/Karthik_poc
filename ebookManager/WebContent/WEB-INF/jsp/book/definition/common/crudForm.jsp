@@ -586,11 +586,6 @@
 				showSelectOptions($(this).val(), "#addTableViewerRow");
 			});
 			
-			$('input:radio[name=finalStage]').change(function () {
-				showSelectOptions($(this).val() == "false", "#displayDocumentCopyright");
-				showSelectOptions($(this).val() == "false", "#displayDocumentCurrency");
-			});
-			
 			// Close or open the Keyword values
 			$( ".keywordLabel" ).click(function() {
 					var divId = $(this).attr("id");
@@ -728,8 +723,6 @@
 			showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
 			showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 			showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
-			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCopyright");
-			showSelectOptions($("input:radio[name=finalStage]:checked").val() == "false", "#displayDocumentCurrency");
 			showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
 			textboxHint("additionFrontMatterBlock");
 			$('#publicationCutoffDate').datepicker({
@@ -1095,7 +1088,7 @@
 	<div id="addRenameTocEntryHere"></div>
 </div>
 
-<div id="displayDocumentCopyright" class="dynamicContent" style="display:none;">
+<div id="displayDocumentCopyright" class="dynamicContent">
 	<c:forEach items="${editBookDefinitionForm.documentCopyrightsCopy}" varStatus="aStatus">
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].copyrightGuid" />
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].newText" />
@@ -1144,7 +1137,7 @@
 	<div id="addDocumentCopyrightHere"></div>
 </div>
 
-<div id="displayDocumentCurrency" class="dynamicContent" style="display:none;">
+<div id="displayDocumentCurrency" class="dynamicContent">
 	<c:forEach items="${editBookDefinitionForm.documentCurrenciesCopy}" varStatus="aStatus">
 			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].currencyGuid" />
 			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].newText" />
