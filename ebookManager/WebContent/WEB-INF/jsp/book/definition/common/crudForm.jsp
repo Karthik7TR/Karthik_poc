@@ -325,6 +325,7 @@
 				$("#displayTOC").show();
 				$("#nortFilterView").val("");
 				$("#nortDomain").val("");
+				$("input:radio[name=useReloadContent][value=false]").attr('checked', true);
 			} else {
 				$("#displayNORT").show();
 				$("#rootTocGuid").val("");
@@ -916,6 +917,7 @@
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="nortFilterView"/>
 				<form:hidden path="keyCiteToplineFlag"/>
+				<form:hidden path="useReloadContent"/>
 			</c:if>
 			<div class="row">
 				<label class="labelCol">TOC or NORT</label>
@@ -958,6 +960,14 @@
 					<form:input disabled="${disableOptions}" path="nortFilterView" />
 					<div class="errorDiv">
 						<form:errors path="nortFilterView" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div class="row">
+					<form:label path="useReloadContent" class="labelCol">Use Reload Content</form:label>
+					<form:radiobutton disabled="${disableOptions}" path="useReloadContent" value="true" />True
+					<form:radiobutton disabled="${disableOptions}" path="useReloadContent" value="false" />False
+					<div class="errorDiv">
+						<form:errors path="useReloadContent" cssClass="errorMessage" />
 					</div>
 				</div>
 			</div>

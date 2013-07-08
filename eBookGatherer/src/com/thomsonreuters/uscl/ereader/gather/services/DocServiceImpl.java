@@ -56,7 +56,7 @@ public class DocServiceImpl implements DocService {
 	@Override
 	public GatherResponse  fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
-			File metadataDestinationDirectory, boolean isFinalStage) throws GatherException {
+			File metadataDestinationDirectory, boolean isFinalStage, boolean useReloadContent) throws GatherException {
 		Assert.isTrue(contentDestinationDirectory.exists(),
 				"The content destination directory for the documents does not exist: "
 						+ contentDestinationDirectory);
@@ -75,7 +75,7 @@ public class DocServiceImpl implements DocService {
 					GatherResponse.CODE_NOVUS_ERROR);
 			throw ge;
 		}
-		
+
 		final Integer docRetryCount = new Integer(novusUtility.getDocRetryCount());		
 		boolean anyException = false;
 		String docGuid = null;
@@ -103,6 +103,7 @@ public class DocServiceImpl implements DocService {
 			
 			Find finder = novus.getFind();
 			finder.setResolveIncludes(true);
+			finder.setUseReloadContent(useReloadContent);
 
 			int tocSequence = 0;
 			for (String guid : docGuids) {

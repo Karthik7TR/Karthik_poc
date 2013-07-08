@@ -40,7 +40,7 @@ public class JibxMarshallingTest  {
 	public void testGatherNortRequestMarshalling() {
 		try {
 //			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), null, new Long(1));
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date(), null, null, true);
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date(), null, null, true, true);
 			String xml = marshal(expected, GatherNortRequest.class);
 			GatherNortRequest actual = unmarshal(xml, GatherNortRequest.class);
 			Assert.assertEquals(expected, actual);
@@ -57,7 +57,7 @@ public class JibxMarshallingTest  {
 			String collectionName = "bogusCollname";
 			File contentDir = new File("/foo");
 			File metadataDir = new File("/bar");
-			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true);
+			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
 			String xml = marshal(expected, GatherDocRequest.class);
 			GatherDocRequest actual = unmarshal(xml, GatherDocRequest.class);
 			Assert.assertEquals(expected, actual);

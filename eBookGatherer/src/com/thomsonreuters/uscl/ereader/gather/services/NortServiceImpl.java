@@ -442,7 +442,7 @@ public class NortServiceImpl implements NortService {
 	@Override
 	public GatherResponse findTableOfContents(String domainName,
 			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, 
-			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage)
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, boolean useReloadContent)
 			throws GatherException {
 		NortManager _nortManager = null;
 		Writer out = null;
@@ -503,6 +503,7 @@ public class NortServiceImpl implements NortService {
 			_nortManager.setFilterName(expressionFilter, 0);
 			_nortManager.setNortVersion(YYYYMMDDHHmmss);
 			_nortManager.setShowFutureNodes(true);
+			_nortManager.setUseReloadContent(useReloadContent);
 
 			out = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(nortXmlFile.getPath()), "UTF8"));

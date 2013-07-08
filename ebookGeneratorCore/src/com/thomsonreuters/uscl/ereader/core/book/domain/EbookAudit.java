@@ -32,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBook
 @Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
 	//private static final Logger log = Logger.getLogger(EbookAudit.class);
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	// Lowered the Max characters to account for some unicode characters
 	private static final int MAX_CHARACTER_1024 = 1000;
@@ -332,6 +332,11 @@ public class EbookAudit implements Serializable {
 	 */
 	@Column(name = "IS_FINAL_STAGE", length = 1)
 	String isFinalStage;	
+	
+	/**
+	 */
+	@Column(name = "USE_RELOAD_CONTENT", length = 1)
+	String useReloadContent;	
 
 	/**
 	 */
@@ -762,6 +767,7 @@ public class EbookAudit implements Serializable {
 		setDocumentCopyrightConcat(that.getDocumentCopyrightConcat());
 		setDocumentCurrencyConcat(that.getDocumentCurrencyConcat());
 		setIsFinalStage(that.isFinalStage());
+		setUseReloadContent(that.getUseReloadContent());
 	}
 
 	/**
@@ -816,6 +822,7 @@ public class EbookAudit implements Serializable {
 		setDocumentCurrencyConcat(maxString(concatString(that.getDocumentCurrencies()), MAX_CHARACTER_2048));
 		setIsFinalStage(that.isFinalStage());
 		setIncludeAnnotations(that.getIncludeAnnotations());
+		setUseReloadContent(that.getUseReloadContent());
 	}
 	
 	@Transient
@@ -890,6 +897,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
 		buffer.append("documentCopyrightConcat=[").append(documentCopyrightConcat).append("] ");
 		buffer.append("documentCurrencyConcat=[").append(documentCurrencyConcat).append("] ");
+		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
 		
 		return buffer.toString();
 	}
@@ -1075,5 +1083,13 @@ public class EbookAudit implements Serializable {
 
 	public void setIsFinalStage(boolean isFinalStage) {
 		this.isFinalStage =( (isFinalStage) ? "Y" : "N");
+	}
+	
+	public boolean getUseReloadContent() {
+		return ( (this.useReloadContent.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setUseReloadContent(boolean isFinalStage) {
+		this.useReloadContent =( (isFinalStage) ? "Y" : "N");
 	}
 }

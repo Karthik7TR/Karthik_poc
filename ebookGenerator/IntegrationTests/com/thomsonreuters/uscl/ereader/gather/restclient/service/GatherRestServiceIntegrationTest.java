@@ -70,7 +70,7 @@ public class GatherRestServiceIntegrationTest  {
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
-		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile, new Date(),null, null, true);
+		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile, new Date(),null, null, true, true);
 		
 		GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
 		log.debug(gatherResponse);
@@ -109,7 +109,7 @@ public class GatherRestServiceIntegrationTest  {
 		File metadataFile = new File(metadataDir, "1-"+DOC_COLLECTION_NAME_CLIENT1 + "-"+docGuid+".xml");
 		Collection<String> guids = new ArrayList<String>();
 		guids.add(docGuid);
-		GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true);
+		GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
 		
 		GatherResponse gatherResponse = gatherService.getDoc(docRequest);
 		

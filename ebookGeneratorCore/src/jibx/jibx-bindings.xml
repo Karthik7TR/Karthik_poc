@@ -51,6 +51,7 @@
         <value name="contentDestinationDirectory" field="contentDestinationDirectory" usage="required"/>
         <value name="metadataDestinationDirectory" field="metadataDestinationDirectory" usage="required"/>
         <value name="isFinalStage" field="isFinalStage" usage="required"/>
+        <value name="useReloadContent" field="useReloadContent" usage="required"/>
     </mapping>
 
 	<!-- Gather table of contents (toc) service REST request body -->
@@ -100,6 +101,7 @@
 		    	</structure>
 	    	</collection> 
 	    <value name="isFinalStage" field="isFinalStage" usage="required"/>
+	    <value name="useReloadContent" field="useReloadContent" usage="required"/>
     </mapping>
     
     <!-- Planned Outage -->

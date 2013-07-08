@@ -37,6 +37,8 @@ public class NortServiceTest {
 	private static final String DOMAIN_NAME = "w_wlbkrexp";
 	private static final String FILTER = "BankruptcyExplorer";
 	private static final boolean IS_FINAL_STAGE = true;
+	private static final boolean USE_RELOAD_CONTENT = true;
+	
 	private static Logger LOG = Logger.getLogger(NortServiceTest.class);
 
 	@Rule
@@ -107,6 +109,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 			mockNortManager.setShowFutureNodes(true);
+			mockNortManager.setUseReloadContent(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 //			EasyMock.expect(mockNortNode.getLabel()).andReturn(" &lt; Root &amp;  �  &quot; Node&apos;s &gt; ").times(1); 
@@ -133,7 +136,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNovusUtility);	
 			
-			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			LOG.debug(gatherResponse);
 			
 			// Verify created files and directories
@@ -219,6 +222,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(rootChildren, 0, 3);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 			mockNortManager.setShowFutureNodes(true);
+			mockNortManager.setUseReloadContent(true);
         
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  �  &quot; Node&apos;s &gt; ").times(2); 
@@ -256,7 +260,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode2);
 			EasyMock.replay(mockNovusUtility);			
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -349,6 +353,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(children, 0, 6);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 			mockNortManager.setShowFutureNodes(true);
+			mockNortManager.setUseReloadContent(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
 			EasyMock.expect(mockNort2NodeRoot[0].getLabel()).andReturn(" &lt; Root 1 &amp;  �  &quot; Node&apos;s &gt; ").anyTimes(); 
@@ -387,7 +392,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNovusUtility);			
 //			EasyMock.replay(mockpublishingStatsService);
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -477,6 +482,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(rootChildren, 0, 2);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 			mockNortManager.setShowFutureNodes(true);
+			mockNortManager.setUseReloadContent(true);
 
 	       
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNort2NodeRoot);
@@ -515,7 +521,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode2);
 			EasyMock.replay(mockNovusUtility);			
 			
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			
 			// Verify created files and directories
 			Assert.assertTrue(nortFile.exists());
@@ -606,6 +612,7 @@ public class NortServiceTest {
 			mockNortManager.fillNortNodes(children, 0, 1);
 			mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 			mockNortManager.setShowFutureNodes(true);
+			mockNortManager.setUseReloadContent(true);
 
 			EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 			EasyMock.expect(mockNortNode.getLabel()).andReturn(LT_ROOT_AMP_QUOT_NODE_APOS_S_GT).times(2); 
@@ -633,7 +640,7 @@ public class NortServiceTest {
 			EasyMock.replay(mockNortNode);
 			EasyMock.replay(mockNovusUtility);	
 			
-			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			GatherResponse gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			LOG.debug(gatherResponse);
 			
 			// Verify created files and directories
@@ -824,6 +831,7 @@ public class NortServiceTest {
 		mockNortManager.setShowChildrenCount(true);
 		mockNortManager.setNortVersion(YYYYMMDDHHmmss);
 		mockNortManager.setShowFutureNodes(true);
+		mockNortManager.setUseReloadContent(true);
 
 		EasyMock.expect(mockNortManager.getRootNodes()).andReturn(mockNortNodeRoot);
 		EasyMock.expect(mockNortNode.getLabel()).andReturn(null).times(1); 
@@ -851,7 +859,7 @@ public class NortServiceTest {
 		GatherResponse gatherResponse = new GatherResponse();
 		try
 		{
-			gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			gatherResponse = nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 		}
 		catch (Exception e)
 		{
@@ -901,7 +909,7 @@ public class NortServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE);
+			nortService.findTableOfContents(DOMAIN_NAME, FILTER, nortFile, date, null, null, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 		} 
 		finally
 		{

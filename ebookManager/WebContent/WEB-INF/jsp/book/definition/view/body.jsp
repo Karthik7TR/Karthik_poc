@@ -96,6 +96,10 @@ function submitForm(cmd)
 								<label class="labelCol">NORT Filter View</label>
 								<span class="field">${ book.nortFilterView }</span>
 							</div>
+							<div class="row">
+								<label class="labelCol">Use Reload Content</label>
+								<span class="field">${ book.useReloadContent }</span>
+							</div>
 						</div>
 					</c:otherwise>
 					</c:choose>

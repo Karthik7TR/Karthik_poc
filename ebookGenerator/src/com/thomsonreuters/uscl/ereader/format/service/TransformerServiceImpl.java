@@ -230,7 +230,7 @@ public class TransformerServiceImpl implements TransformerService
 	        
 	        trans.transform(xmlSource, result);
 
-	        LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
+	        //LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
         }
         catch (TransformerException te)
         {
@@ -522,6 +522,6 @@ public class TransformerServiceImpl implements TransformerService
 		metadata[0] = collection;
 		metadata[1] = docType;
 		
-		LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
+		//LOG.debug("Retrieved " + collection + " collection and " + docType + " doc type for " + guid + " document.");
 	}
 }

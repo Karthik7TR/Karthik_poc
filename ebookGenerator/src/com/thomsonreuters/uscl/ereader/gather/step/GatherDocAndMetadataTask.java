@@ -69,7 +69,8 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 	       
 			List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
 	    	
-			GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir,bookDefinition.isFinalStage());
+			GatherDocRequest gatherDocRequest = new GatherDocRequest(docGuids, docCollectionName, docsDir, docsMetadataDir,
+					bookDefinition.isFinalStage(), bookDefinition.getUseReloadContent());
 			GatherResponse gatherResponse = gatherService.getDoc(gatherDocRequest);
 			LOG.debug(gatherResponse);	
 			

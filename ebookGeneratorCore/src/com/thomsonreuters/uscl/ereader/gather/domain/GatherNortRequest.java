@@ -25,13 +25,15 @@ public class GatherNortRequest {
 	private ArrayList<ExcludeDocument> excludeDocuments;
 	private ArrayList<RenameTocEntry> renameTocEntries;
 	private boolean isFinalStage;
+	private boolean useReloadContent;
 
 	public GatherNortRequest(){
 		super();
 	}
 	
 	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, 
-			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) {
+			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, 
+			boolean isFinalStage, boolean useReloadContent) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
@@ -40,6 +42,7 @@ public class GatherNortRequest {
 		this.excludeDocuments = excludeDocuments;
 		this.renameTocEntries = renameTocEntries;
 		this.isFinalStage = isFinalStage;
+		this.useReloadContent = useReloadContent;
 	}
 	
 	public String getDomainName() {
@@ -90,6 +93,14 @@ public class GatherNortRequest {
 		this.isFinalStage = isFinalStage;
 	}
 
+	public boolean getUseReloadContent() {
+		return useReloadContent;
+	}
+
+	public void setUseReloadContent(boolean useReloadContent) {
+		this.useReloadContent = useReloadContent;
+	}
+	
 	public void setCutoffDate(Date cutoffDate) {
 		this.cutoffDate = cutoffDate;
 	}
@@ -108,10 +119,17 @@ public class GatherNortRequest {
 				+ ((domainName == null) ? 0 : domainName.hashCode());
 		result = prime
 				* result
+				+ ((excludeDocuments == null) ? 0 : excludeDocuments.hashCode());
+		result = prime
+				* result
 				+ ((expressionFilter == null) ? 0 : expressionFilter.hashCode());
 		result = prime * result + (isFinalStage ? 1231 : 1237);
 		result = prime * result
 				+ ((nortFile == null) ? 0 : nortFile.hashCode());
+		result = prime
+				* result
+				+ ((renameTocEntries == null) ? 0 : renameTocEntries.hashCode());
+		result = prime * result + (useReloadContent ? 1231 : 1237);
 		return result;
 	}
 
@@ -134,6 +152,11 @@ public class GatherNortRequest {
 				return false;
 		} else if (!domainName.equals(other.domainName))
 			return false;
+		if (excludeDocuments == null) {
+			if (other.excludeDocuments != null)
+				return false;
+		} else if (!excludeDocuments.equals(other.excludeDocuments))
+			return false;
 		if (expressionFilter == null) {
 			if (other.expressionFilter != null)
 				return false;
@@ -146,9 +169,15 @@ public class GatherNortRequest {
 				return false;
 		} else if (!nortFile.equals(other.nortFile))
 			return false;
+		if (renameTocEntries == null) {
+			if (other.renameTocEntries != null)
+				return false;
+		} else if (!renameTocEntries.equals(other.renameTocEntries))
+			return false;
+		if (useReloadContent != other.useReloadContent)
+			return false;
 		return true;
 	}
-
 
 //	public void setJobInstance(Long jobInstance) {
 //		this.jobInstance = jobInstance;

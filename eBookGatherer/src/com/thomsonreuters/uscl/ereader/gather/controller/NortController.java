@@ -43,8 +43,8 @@ public class NortController {
 			File nortXmlFile = nortRequest.getNortFile();
 
 			gatherResponse = nortService.findTableOfContents(nortRequest.getDomainName(), nortRequest.getExpressionFilter(), 
-					nortXmlFile, nortRequest.getCutoffDate(),nortRequest.getExcludeDocuments(),nortRequest.getRenameTocEntries()
-					, nortRequest.isFinalStage());
+					nortXmlFile, nortRequest.getCutoffDate(),nortRequest.getExcludeDocuments(),nortRequest.getRenameTocEntries(), 
+					nortRequest.isFinalStage(), nortRequest.getUseReloadContent());
 			
 				
 		} catch (GatherException e) {

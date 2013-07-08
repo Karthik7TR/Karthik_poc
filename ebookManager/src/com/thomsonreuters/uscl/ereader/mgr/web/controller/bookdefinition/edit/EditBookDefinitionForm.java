@@ -84,6 +84,7 @@ public class EditBookDefinitionForm {
 	private boolean isPublicationCutoffDateUsed;
 	private String publicationCutoffDate;
 	private boolean includeAnnotations;
+	private boolean useReloadContent;
 
 	private String publishDateText;
 	
@@ -144,6 +145,7 @@ public class EditBookDefinitionForm {
 		this.isFinalStage = true;
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
+		this.useReloadContent = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
 		this.copyright = "\u00A9";
 		this.frontMatterTocLabel = "Publishing Information";
@@ -170,6 +172,7 @@ public class EditBookDefinitionForm {
 		bookDef.setDocumentCopyrights(new AutoPopulatingList<DocumentCopyright>(DocumentCopyright.class));
 		bookDef.setDocumentCurrencies(new AutoPopulatingList<DocumentCurrency>(DocumentCurrency.class));
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
+		bookDef.setUseReloadContent(false);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -226,6 +229,7 @@ public class EditBookDefinitionForm {
 			this.documentCurrenciesCopy = book.getDocumentCurrencies();
 			this.includeAnnotations = book.getIncludeAnnotations();
 			this.isFinalStage = book.isFinalStage();
+			this.useReloadContent = book.getUseReloadContent();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -486,6 +490,7 @@ public class EditBookDefinitionForm {
 		book.setFrontMatterTocLabel(frontMatterTocLabel);
 		book.setIncludeAnnotations(includeAnnotations);
 		book.setIsFinalStage(isFinalStage);
+		book.setUseReloadContent(useReloadContent);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -902,6 +907,14 @@ public class EditBookDefinitionForm {
 
 	public void setSearchIndex(boolean searchIndex) {
 		this.searchIndex = searchIndex;
+	}
+	
+	public boolean getUseReloadContent() {
+		return useReloadContent;
+	}
+	
+	public void setUseReloadContent(boolean useReloadContent) {
+		this.useReloadContent = useReloadContent;
 	}
 
 	public String getState() {

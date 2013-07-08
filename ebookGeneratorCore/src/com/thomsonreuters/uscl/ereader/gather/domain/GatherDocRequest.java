@@ -19,8 +19,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Eventually serialized into XML for transmission over the wire.
  */
 public class GatherDocRequest implements Serializable {
-	private static final long serialVersionUID = 3753175682349575546L;
-	
+	private static final long serialVersionUID = -3445724162855653304L;
+
 	/**
 	 * Document GUID's, the document key.
 	 * This is an ArrayList (as opposed to a Collection)because JiBX required a concrete class.
@@ -33,6 +33,7 @@ public class GatherDocRequest implements Serializable {
 	/** Filesystem directory where document metadata will be placed as guid.xml */
 	private File metadataDestinationDirectory;
 	private boolean isFinalStage;
+	private boolean useReloadContent;
 	
 	public GatherDocRequest() {
 		super();
@@ -47,13 +48,23 @@ public class GatherDocRequest implements Serializable {
 	public GatherDocRequest(Collection<String> guids, String collectionName,
 							File contentDestinationDirectory,
 							File metadataDestinationDirectory,
-							boolean isFinalStage) {
+							boolean isFinalStage,
+							boolean useReloadContent) {
 		setGuids(guids);
 		setCollectionName(collectionName);
 		setContentDestinationDirectory(contentDestinationDirectory);
 		setMetadataDestinationDirectory(metadataDestinationDirectory);
 		setFinalStage(isFinalStage);
+		setUseReloadContent(useReloadContent);
 	}
+	public boolean getUseReloadContent() {
+		return useReloadContent;
+	}
+
+	public void setUseReloadContent(boolean useReloadContent) {
+		this.useReloadContent = useReloadContent;
+	}
+
 	public Collection<String> getGuids() {
 		return guids;
 	}
@@ -106,6 +117,7 @@ public class GatherDocRequest implements Serializable {
 				* result
 				+ ((metadataDestinationDirectory == null) ? 0
 						: metadataDestinationDirectory.hashCode());
+		result = prime * result + (useReloadContent ? 1231 : 1237);
 		return result;
 	}
 
@@ -141,6 +153,8 @@ public class GatherDocRequest implements Serializable {
 				return false;
 		} else if (!metadataDestinationDirectory
 				.equals(other.metadataDestinationDirectory))
+			return false;
+		if (useReloadContent != other.useReloadContent)
 			return false;
 		return true;
 	}

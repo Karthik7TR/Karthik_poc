@@ -34,7 +34,8 @@ public class DocController {
 		try {
 			gatherResponse = docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
 					   				  docRequest.getContentDestinationDirectory(),
-					   				  docRequest.getMetadataDestinationDirectory(), docRequest.isFinalStage());
+					   				  docRequest.getMetadataDestinationDirectory(), docRequest.isFinalStage(),
+					   				  docRequest.getUseReloadContent());
 		} catch (GatherException e) {
 			String errorMessage = e.getMessage();
 			Throwable cause = e.getCause();

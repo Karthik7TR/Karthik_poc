@@ -20,6 +20,7 @@ public class DocServiceTest {
 	private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
 	private static final String GUID = "I8A302FE4920F47B00079B5381C71638B";
 	private static final boolean IS_FINAL_STAGE = true;
+	private static final boolean USE_RELOAD_CONTENT = true;
 	
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -59,6 +60,7 @@ public class DocServiceTest {
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(COLLECTION_NAME, null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
+			mockFinder.setUseReloadContent(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
 			EasyMock.expect(mockDocument.getErrorCode()).andReturn("1200").times(2);	
@@ -80,7 +82,7 @@ public class DocServiceTest {
 			
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
-			docService.fetchDocuments(guids, COLLECTION_NAME, contentDir, metadataDir, IS_FINAL_STAGE);
+			docService.fetchDocuments(guids, COLLECTION_NAME, contentDir, metadataDir, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			
 			// Verify created files and directories
 			Assert.assertTrue(contentFile.exists());
@@ -112,6 +114,7 @@ public class DocServiceTest {
 			EasyMock.expect(mockNovus.getFind()).andReturn(mockFinder);
 			EasyMock.expect(mockFinder.getDocument(null, GUID)).andReturn(mockDocument);
 			mockFinder.setResolveIncludes(true);
+			mockFinder.setUseReloadContent(true);
 			EasyMock.expect(mockDocument.getGuid()).andReturn(GUID).times(2);
 			EasyMock.expect(mockDocument.getText()).andReturn("This is a novus document");
 			EasyMock.expect(mockDocument.getErrorCode()).andReturn(null);	
@@ -133,7 +136,7 @@ public class DocServiceTest {
 			
 			List<String> guids = new ArrayList<String>();
 			guids.add(GUID);
-			docService.fetchDocuments(guids, null, contentDir, metadataDir, IS_FINAL_STAGE);
+			docService.fetchDocuments(guids, null, contentDir, metadataDir, IS_FINAL_STAGE, USE_RELOAD_CONTENT);
 			
 			// Verify created files and directories
 			Assert.assertTrue(contentFile.exists());

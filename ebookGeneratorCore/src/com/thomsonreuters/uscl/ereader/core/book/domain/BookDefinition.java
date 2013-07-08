@@ -261,6 +261,12 @@ public class BookDefinition implements Serializable {
 	 */
 	@Column(name = "INCLUDE_ANNOTATIONS")
 	String includeAnnotations;	
+	
+	/**
+	 */
+	@Column(name = "USE_RELOAD_CONTENT")
+	@Basic(fetch = FetchType.EAGER)
+	String useReloadContent;	
 
 	/**
 	 */
@@ -617,6 +623,18 @@ public class BookDefinition implements Serializable {
 	public boolean getEbookDefinitionCompleteFlag() {
 		return ((this.ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
 	}
+	
+	/**
+	 */
+	public void setUseReloadContent(boolean useReloadContent) {
+		this.useReloadContent = ( (useReloadContent) ? "Y" : "N");		
+	}
+
+	/**
+	 */
+	public boolean getUseReloadContent() {
+		return ((this.useReloadContent.equalsIgnoreCase("Y") ? true : false));
+	}
 
 	/**
 	 */
@@ -930,6 +948,7 @@ public class BookDefinition implements Serializable {
 		this.setIsProviewTableViewFlag(false);
 		this.setIsFinalStage(true);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
+		this.setUseReloadContent(false);
 	}
 
 	/**
@@ -979,6 +998,7 @@ public class BookDefinition implements Serializable {
 		setDocumentCurrencies(new HashSet<DocumentCurrency>(that.getDocumentCurrencies()));
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setIsFinalStage(that.isFinalStage());
+		setUseReloadContent(that.getUseReloadContent());
 	}
 
 	/**
@@ -1022,6 +1042,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
+		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
 		
 		return buffer.toString();
 	}
