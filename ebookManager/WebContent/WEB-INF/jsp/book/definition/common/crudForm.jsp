@@ -917,7 +917,6 @@
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="nortFilterView"/>
 				<form:hidden path="keyCiteToplineFlag"/>
-				<form:hidden path="useReloadContent"/>
 			</c:if>
 			<div class="row">
 				<label class="labelCol">TOC or NORT</label>
