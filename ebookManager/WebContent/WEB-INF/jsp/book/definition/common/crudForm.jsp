@@ -964,8 +964,8 @@
 				</div>
 				<div class="row">
 					<form:label path="useReloadContent" class="labelCol">Use Reload Content</form:label>
-					<form:radiobutton disabled="${disableOptions}" path="useReloadContent" value="true" />True
-					<form:radiobutton disabled="${disableOptions}" path="useReloadContent" value="false" />False
+					<form:radiobutton path="useReloadContent" value="true" />True
+					<form:radiobutton path="useReloadContent" value="false" />False
 					<div class="errorDiv">
 						<form:errors path="useReloadContent" cssClass="errorMessage" />
 					</div>
