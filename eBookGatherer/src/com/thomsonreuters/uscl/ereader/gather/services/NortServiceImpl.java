@@ -439,7 +439,6 @@ public class NortServiceImpl implements NortService {
 	 * @throws ParseException
 	 * @throws Exception
 	 */
-	@Override
 	public GatherResponse findTableOfContents(String domainName,
 			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, 
 			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, boolean useReloadContent)

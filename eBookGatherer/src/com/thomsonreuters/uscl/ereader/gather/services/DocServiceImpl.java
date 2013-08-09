@@ -53,7 +53,6 @@ public class DocServiceImpl implements DocService {
 	 * com.thomsonreuters.uscl.ereader.gather.services.DocService#fetchDocuments
 	 * (java.util.Collection, java.lang.String, java.io.File, java.io.File)
 	 */
-	@Override
 	public GatherResponse  fetchDocuments(Collection<String> docGuids,
 			String collectionName, File contentDestinationDirectory,
 			File metadataDestinationDirectory, boolean isFinalStage, boolean useReloadContent) throws GatherException {

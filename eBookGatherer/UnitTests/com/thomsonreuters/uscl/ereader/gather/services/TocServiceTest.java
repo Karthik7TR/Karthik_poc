@@ -85,7 +85,7 @@ public class TocServiceTest {
 		children = getChildNodes(5, 'a', 999).toArray(new TOCNode[]{});
 //		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
 		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
-		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  &quot; Node&apos;s &gt; ").times(2); 
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
 		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
@@ -121,7 +121,7 @@ public class TocServiceTest {
 
 		expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 		expectedTocContent.append("<EBook>\r\n");
-		expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
+		expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
 		expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>TOC_UUID_0a</Guid><DocumentGuid>UUID_0a</DocumentGuid>\r\n");
 		expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>TOC_UUID_0b</Guid><DocumentGuid>UUID_0b</DocumentGuid></EBookToc>\r\n");
 		expectedTocContent.append("</EBookToc>\r\n");
@@ -213,7 +213,7 @@ public class TocServiceTest {
 		children = getChildNodes(5, 'a', 1).toArray(new TOCNode[]{});
 //		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
 		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
-		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  &quot; Node&apos;s &gt; ").times(2); 
 		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
 		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
@@ -251,7 +251,7 @@ public class TocServiceTest {
 
 		expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 		expectedTocContent.append("<EBook>\r\n");
-		expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
+		expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
 		expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>TOC_UUID_0a</Guid><DocumentGuid>UUID_0a</DocumentGuid>\r\n");
 		expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>TOC_UUID_0b</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 		expectedTocContent.append("</EBookToc>\r\n");
@@ -370,7 +370,7 @@ public class TocServiceTest {
 			children = getChildNodes(5, 'a', 1).toArray(new TOCNode[]{});
 	//		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
 			EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
-			EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  §  &quot; Node&apos;s &gt; ").times(2); 
+			EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  &quot; Node&apos;s &gt; ").times(2); 
 			EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
 			EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
 			EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
@@ -411,7 +411,7 @@ public class TocServiceTest {
 	
 			expectedTocContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 			expectedTocContent.append("<EBook>\r\n");
-			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  §  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
+			expectedTocContent.append("<EBookToc><Name> &lt; Root &amp;  &quot; Node&apos;s &gt; </Name><Guid>tocGuid</Guid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0a</Name><Guid>TOC_UUID_0a</Guid><DocumentGuid>UUID_0a</DocumentGuid>\r\n");
 			expectedTocContent.append("<EBookToc><Name>Child 0b</Name><Guid>TOC_UUID_0b</Guid><MissingDocument></MissingDocument></EBookToc>\r\n");
 			expectedTocContent.append("</EBookToc>\r\n");

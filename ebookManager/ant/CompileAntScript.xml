@@ -76,11 +76,11 @@
   <!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
-                        folder. The code will be compiled using version 1.6 of the SDK.
+                        folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.6" target="1.6" debug="on">
+    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.7" target="1.7" debug="on">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
@@ -105,11 +105,11 @@
   <!-- - - - - - - - - - - - - - - - - - 
           target: -compile_unitTests                      
           description: Compile the unit test source code and place the compiled libraries in the 
-                       respective binary folder. The code will be compiled using version 1.6 of the SDK.
+                       respective binary folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_unitTests">
     <echo level="verbose">Compiling the unit test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.6" target="1.6">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
@@ -136,11 +136,11 @@
   <!-- - - - - - - - - - - - - - - - - - 
           target: -compile_integrationTests                      
           description: Compile the integration test source code and place the compiled libraries in the 
-                       respective binary folder. The code will be compiled using version 1.6 of the SDK.
+                       respective binary folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_integrationTests">
     <echo level="verbose">Compiling the integration test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.6" target="1.6">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
       <src path="${dir.integrationTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>

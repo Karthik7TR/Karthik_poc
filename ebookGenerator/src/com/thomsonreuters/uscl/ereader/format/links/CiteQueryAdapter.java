@@ -90,6 +90,14 @@ public class CiteQueryAdapter
         return this.getCiteQueryLinkIntermediary(
             linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
     }
+    
+    public String GetCiteQueryLink(
+            Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
+            String param2, String param3, String param4, String param5)
+        {
+            return this.getCiteQueryLinkIntermediary(
+                linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
+        }
 
     public void setHostname(final String hostname)
     {

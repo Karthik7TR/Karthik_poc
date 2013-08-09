@@ -330,7 +330,6 @@ public class TocServiceImpl implements TocService {
 	 * 
 	 * @throws Exception
 	 */
-	@Override
 	public GatherResponse findTableOfContents(String guid,
 			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
 			boolean isFinalStage) throws GatherException {

@@ -11,7 +11,6 @@ public class GathererAppConfigLoader implements AppConfigLoader  {
 	//private static Logger log = Logger.getLogger(GathererAppConfigLoader.class);
 	
 	@PostConstruct
-	@Override
 	public void loadApplicationConfiguration() throws Exception {
 		//log.debug(">>>");
 	}

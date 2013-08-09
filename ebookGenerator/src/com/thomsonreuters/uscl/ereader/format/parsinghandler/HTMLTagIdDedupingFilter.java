@@ -18,7 +18,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * Filter that de-duping the id’s which were causing issues while we tried to publish certain book as needed.
+ * Filter that de-duping the id's which were causing issues while we tried to publish certain book as needed.
  *
  * @author <a href="mailto:Ravi.Nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */

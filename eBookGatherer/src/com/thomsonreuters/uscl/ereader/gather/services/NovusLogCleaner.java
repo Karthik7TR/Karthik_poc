@@ -26,7 +26,6 @@ public class NovusLogCleaner {
 		{
 			FileFilter fileFilter = new FileFilter() 
 			{
-				@Override
 				public boolean accept(File dir) 
 				{
 					if(dir.isFile())

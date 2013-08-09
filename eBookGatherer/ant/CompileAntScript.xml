@@ -74,7 +74,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.6" target="1.6"
+    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.7" target="1.7"
            debug="${IsCoverageBuild}">
       <src path="${dir.source}"/>
       <classpath refid="classpath.compile"/>
@@ -104,7 +104,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_unitTests">
     <echo level="verbose">Compiling the unit test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.6" target="1.6">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
@@ -135,7 +135,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_integrationTests">
     <echo level="verbose">Compiling the integration test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.6" target="1.6">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
       <src path="${dir.integrationTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>

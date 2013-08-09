@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -26,11 +27,16 @@ public class XMLImageTagHandler extends DefaultHandler
 		if (qName.equalsIgnoreCase("image.link"))
 		{
 			String targetGuid = atts.getValue("target");
+			String tuuid = atts.getValue("tuuid");
 			
 			// TODO: If it is determined order does not matter, change type to HashSet
-			if (!guidList.contains(targetGuid)) 
+			if (!StringUtils.isBlank(targetGuid) && !guidList.contains(targetGuid)) 
 			{
 				guidList.add(targetGuid);
+			} else if(!StringUtils.isBlank(tuuid) && !guidList.contains(tuuid)) {
+				guidList.add(tuuid);
+			} else if(!guidList.contains(targetGuid)) {
+				
 			}
 		}
 	}

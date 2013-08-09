@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,15 +127,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    resultStream = new ByteArrayOutputStream(1024);
 	    serializer.setOutputStream(resultStream);
 	    
-	    
-	    
-	   String currentDir = new java.io.File(".").toURI().toString();
-	   
-	   String pathToClass = TitleManifestFilterTest.class.getResource("yarr_pirates.csv").toString();
-	    
-	   pathToClass = pathToClass.substring( currentDir.length() - 2  );
-	   
-	   altIdFile = new File(pathToClass);
+	    URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
+	    altIdFile = new File(pathToClass.getFile());
 		
 	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
 	    
