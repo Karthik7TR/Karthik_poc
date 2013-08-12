@@ -36,7 +36,7 @@ public class XMLImageTagHandler extends DefaultHandler
 			} else if(!StringUtils.isBlank(tuuid) && !guidList.contains(tuuid)) {
 				guidList.add(tuuid);
 			} else if(!guidList.contains(targetGuid)) {
-				
+				guidList.add(targetGuid);
 			}
 		}
 	}
