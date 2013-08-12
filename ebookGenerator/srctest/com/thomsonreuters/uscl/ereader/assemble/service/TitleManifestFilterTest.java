@@ -128,7 +128,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    serializer.setOutputStream(resultStream);
 	    
 	    URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
-	    altIdFile = new File(pathToClass.getFile());
+	    altIdFile = new File(pathToClass.toURI());
 		
 	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
 	    
