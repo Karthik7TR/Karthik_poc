@@ -30,12 +30,23 @@ public class XMLImageTagHandler extends DefaultHandler
 			String tuuid = atts.getValue("tuuid");
 			
 			// TODO: If it is determined order does not matter, change type to HashSet
-			if (!StringUtils.isBlank(targetGuid) && !guidList.contains(targetGuid)) 
+			if (StringUtils.isNotBlank(targetGuid)) 
 			{
-				guidList.add(targetGuid);
-			} else if(!StringUtils.isBlank(tuuid) && !guidList.contains(tuuid)) {
-				guidList.add(tuuid);
-			} else if(!guidList.contains(targetGuid)) {
+				if(!guidList.contains(targetGuid)) 
+				{
+					guidList.add(targetGuid);
+				}
+			// 8/9/2013 - different document pathway puts image guid in tuuid attribute
+			} else if(StringUtils.isNotBlank(tuuid)) {
+				if(!guidList.contains(tuuid))
+				{
+					guidList.add(tuuid);
+				}
+			// Last condition adds one blank into guid list.  This will happen if an image.link element
+			// does not have a guid in either target or tuuid attribute.  This will cause the step to fail
+			// and have developer look into image.link element to see if a new attribute is used to hold
+			// the image guid.
+			} else if (!guidList.contains(targetGuid)) {
 				guidList.add(targetGuid);
 			}
 		}
