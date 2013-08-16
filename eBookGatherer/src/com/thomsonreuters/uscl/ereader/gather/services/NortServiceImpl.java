@@ -294,7 +294,7 @@ public class NortServiceImpl implements NortService {
 								startDate);
 					}
 				} else if (Long.valueOf(endDate) < Long
-						.valueOf("20970101235959")) {
+						.valueOf("20970101000000")) {
 
 					Date date = formatter.parse(endDate);
 					boolean bAncestorFound = false;
