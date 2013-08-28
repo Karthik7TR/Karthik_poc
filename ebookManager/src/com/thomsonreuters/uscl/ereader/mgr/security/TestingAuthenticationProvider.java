@@ -40,6 +40,7 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 	public static SecurityRole mapGroupFromUsername(String name) {
 		// Only allow this to work in Test, CI, and Workstation for testing purposes.
 		if(environmentName != null && (environmentName.equalsIgnoreCase("ci") ||
+				environmentName.equalsIgnoreCase("cicontent") ||
 				environmentName.equalsIgnoreCase("test") ||
 				environmentName.equalsIgnoreCase("workstation"))) {
 			if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
