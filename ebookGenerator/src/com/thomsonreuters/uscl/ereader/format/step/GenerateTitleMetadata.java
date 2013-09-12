@@ -47,7 +47,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 
 	private static final Logger LOG = Logger.getLogger(GenerateTitleMetadata.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
-	private static final String COPY_FEATURE_NAME = "Copy";
 	private TitleMetadataService titleMetadataService;
 	
 	/**
@@ -76,11 +75,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName());
 		titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
 		titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
-		
-		if (bookDefinition.getEnableCopyFeatureFlag())
-		{
-			titleMetadata.addFeature(COPY_FEATURE_NAME);
-		}
 		
 		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
