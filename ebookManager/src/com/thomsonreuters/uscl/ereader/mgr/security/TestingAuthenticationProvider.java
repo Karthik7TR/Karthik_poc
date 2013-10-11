@@ -42,6 +42,7 @@ public class TestingAuthenticationProvider implements AuthenticationProvider {
 		if(environmentName != null && (environmentName.equalsIgnoreCase("ci") ||
 				environmentName.equalsIgnoreCase("cicontent") ||
 				environmentName.equalsIgnoreCase("test") ||
+				environmentName.equalsIgnoreCase("testcontent") ||
 				environmentName.equalsIgnoreCase("workstation"))) {
 			if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
 				return SecurityRole.ROLE_GUEST;
