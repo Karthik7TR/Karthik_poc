@@ -45,7 +45,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 	public CobaltUserAttributesMapper(String environmentName,
 									  Map<String,String> productionGroupToRoleMap,
 									  Map<String,String> nonProductionGroupToRoleMap) {
-		if ("prod".equals(environmentName)) {
+		if ("prodcontent".equals(environmentName)) {
 			this.groupToRoleMap = productionGroupToRoleMap;
 		} else {
 			this.groupToRoleMap = nonProductionGroupToRoleMap;	
