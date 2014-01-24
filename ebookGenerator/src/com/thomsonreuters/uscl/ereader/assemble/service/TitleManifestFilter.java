@@ -27,6 +27,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
@@ -343,7 +344,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 				currentNode.setDocumentUuid(missingDocumentGuid);
 				cascadeAnchors();
 				List<String> anchors = getAnchorsToBeGenerated(currentNode);
-				placeholderDocumentService.generatePlaceholderDocument(missingDocumentOutputStream, currentNode.getText(), currentNode.getTocGuid(), anchors);
+				placeholderDocumentService.generatePlaceholderDocument(new EntityDecodedOutputStream(missingDocumentOutputStream), currentNode.getText(), currentNode.getTocGuid(), anchors);
 				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
 				nodesContainingDocuments.add(currentNode);  //need to cascade anchors into placeholder document text.
 			}
