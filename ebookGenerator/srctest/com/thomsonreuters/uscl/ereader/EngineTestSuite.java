@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
+import com.thomsonreuters.uscl.ereader.format.text.DocumentExtensionAdapterTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
@@ -50,6 +51,7 @@ import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClien
 			ProcessingInstructionZapperFilterTest.class,
 			TitleXMLTOCFilterTest.class,
 			XMLImageTagHandlerTest.class,
+			DocumentExtensionAdapterTest.class,
 			//
 			ImageDaoTest.class,
 			ImageServiceTest.class,
