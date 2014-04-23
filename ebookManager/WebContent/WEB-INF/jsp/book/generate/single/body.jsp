@@ -119,7 +119,7 @@
 	   
 	  if (isMajorVersion == "Y"){
 	  	if(isNewISBN =="N"){
-			alert("Cannot generate book: ISBN must be changed for major version.");
+			alert("Cannot generate book: Current ISBN " + isbn + " has already been used to publish a book. ISBN must be changed for major version.");
 		  	confirmed= false;
 	  	}
 	  }

@@ -28,7 +28,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
@@ -175,21 +174,10 @@ public class GenerateEbookController {
 	private void setModelIsbn(Long bookDefinitionId,
 			BookDefinition book, Model model) {
 
-		EbookAudit ebookAudit = publishingStatsService
-				.findLastSuccessfulJobStatsAuditByEbookDef(bookDefinitionId);
+		boolean isPublished = publishingStatsService.hasIsbnBeenPublished(book.getIsbn());
 
-		boolean isNewIsbn = true;
-
-		if (ebookAudit != null) {
-
-			if (book.getIsbn() != null) {
-				isNewIsbn = !(book.getIsbn().equalsIgnoreCase(ebookAudit
-						.getIsbn()));
-
-			}
-		}
-		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isNewIsbn ? "Y" : "N");
-
+		// If publised, ISBN is not new
+		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isPublished ? "N": "Y");
 	}
 
 	/**

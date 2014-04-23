@@ -8,8 +8,6 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +16,6 @@ import org.junit.Test;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 
 public class PublishingStatsServiceTest  {
 	private static final Long BOOK_DEFINITION_ID = 1L;
@@ -49,9 +46,9 @@ public class PublishingStatsServiceTest  {
 	private String publishStatusMessage(int i) {
 		switch(i) {
 		case 3:
-			return PublishingStatsServiceImpl.SEND_EMAIL_COMPLETE;
+			return PublishingStats.SEND_EMAIL_COMPLETE;
 		case 5:
-			return PublishingStatsServiceImpl.SUCCESFULL_PUBLISH_STATUS;
+			return PublishingStats.SUCCESFULL_PUBLISH_STATUS;
 		default:
 			return "not this one";
 		}
@@ -66,6 +63,38 @@ public class PublishingStatsServiceTest  {
 		
 		Long auditId = 5L;
 		Assert.assertEquals(auditId, audit.getAuditId());
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testHasIsbnBeenPublished() {
+		List<String> isbns = new ArrayList<String>();
+		isbns.add("1-2-3");
+		isbns.add("1-1");
+		isbns.add("1-2");
+		
+		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbn()).andReturn(isbns);
+		EasyMock.replay(mockDao);
+		
+		String isbn = "123";
+		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
+		Assert.assertEquals(true, hasBeenPublished);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testHasIsbnBeenPublished2() {
+		List<String> isbns = new ArrayList<String>();
+		isbns.add("1-2-3");
+		isbns.add("1-1");
+		isbns.add("1-2");
+		
+		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbn()).andReturn(isbns);
+		EasyMock.replay(mockDao);
+		
+		String isbn = "1";
+		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
+		Assert.assertEquals(false, hasBeenPublished);
 		EasyMock.verify(mockDao);
 	}
 	

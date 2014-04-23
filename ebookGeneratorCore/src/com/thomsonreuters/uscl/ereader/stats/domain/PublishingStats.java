@@ -40,6 +40,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/job/domain", name = "PublishingStats")
 public class PublishingStats implements Serializable {
+	public static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
+	public static final String SEND_EMAIL_COMPLETE = "sendEmailNotification : Completed";
 	private static final long serialVersionUID = 1L;
 
 

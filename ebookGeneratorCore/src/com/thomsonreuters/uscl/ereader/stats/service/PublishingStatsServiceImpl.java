@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -27,8 +28,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class PublishingStatsServiceImpl implements PublishingStatsService {
 
 	// private static final Logger LOG = Logger.getLogger(PublishingStatsServiceImpl.class);
-	public static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
-	public static final String SEND_EMAIL_COMPLETE = "sendEmailNotification : Completed";
 	public static final int MAX_EXCEL_SHEET_ROW_NUM = 65535;
 	private static final String[] EXCEL_HEADER = {"TITLE_ID","PROVIEW_DISPLAY_NAME","JOB_INSTANCE_ID","AUDIT_ID","EBOOK_DEFINITION_ID",
 		"BOOK_VERSION_SUBMITTED","JOB_HOST_NAME"," JOB_SUBMITTER_NAME"," JOB_SUBMIT_TIMESTAMP","PUBLISH_START_TIMESTAMP","GATHER_TOC_NODE_COUNT",
@@ -100,6 +99,30 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	public void deleteJobStats(PublishingStats jobStats) {
 		publishingStatsDAO.deleteJobStats(jobStats);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Boolean hasIsbnBeenPublished(String isbn) {
+		String replacedIsbn = "";
+		Boolean hasBeenPublished = false;
+		
+		if(StringUtils.isNotBlank(isbn)) {
+			replacedIsbn = isbn.replace("-", "");
+		}
+		
+		List<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbn();
+		for(String publishedIsbn : publishedIsbns) {
+			if(StringUtils.isNotBlank(publishedIsbn)) {
+				String replacedPublishedIsbn = publishedIsbn.replace("-", "");
+				if(replacedPublishedIsbn.equalsIgnoreCase(replacedIsbn)) {
+					// ISBN has been published
+					hasBeenPublished = true;
+					break;
+				}
+			}
+		}
+		return hasBeenPublished;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -114,8 +137,9 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 			lastSuccessfulPublishingStat = publishingStats.get(0);
 			for (PublishingStats publishingStat : publishingStats) {
 				if (publishingStat.getJobInstanceId().longValue() >= lastSuccessfulPublishingStat.getJobInstanceId().longValue()
-						&& (SUCCESFULL_PUBLISH_STATUS.equalsIgnoreCase(publishingStat.getPublishStatus()) || 
-								SEND_EMAIL_COMPLETE.equalsIgnoreCase(publishingStat.getPublishStatus()))) {
+						&& (PublishingStats.SUCCESFULL_PUBLISH_STATUS.equalsIgnoreCase(
+								publishingStat.getPublishStatus()) || 
+								PublishingStats.SEND_EMAIL_COMPLETE.equalsIgnoreCase(publishingStat.getPublishStatus()))) {
 					lastSuccessfulPublishingStat = publishingStat;
 					lastAuditSuccessful = publishingStat.getAudit();
 				}
