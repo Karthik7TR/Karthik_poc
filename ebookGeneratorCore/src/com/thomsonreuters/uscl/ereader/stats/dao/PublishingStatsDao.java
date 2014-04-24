@@ -25,7 +25,7 @@ public interface PublishingStatsDao {
 	 */
 	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 	
-	public List<String> findSuccessfullyPublishedIsbn();
+	public List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId);
 	
 	/**
 	 * Find Publishing stats

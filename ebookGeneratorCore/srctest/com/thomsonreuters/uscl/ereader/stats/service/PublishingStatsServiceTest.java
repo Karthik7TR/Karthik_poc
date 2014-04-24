@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 public class PublishingStatsServiceTest  {
 	private static final Long BOOK_DEFINITION_ID = 1L;
+	private static final String TITLE_ID = "uscl/an/book";
 	private List<PublishingStats> STATS = new ArrayList<PublishingStats>();
 
 	private PublishingStatsServiceImpl service;
@@ -73,11 +74,11 @@ public class PublishingStatsServiceTest  {
 		isbns.add("1-1");
 		isbns.add("1-2");
 		
-		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbn()).andReturn(isbns);
+		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleId(TITLE_ID)).andReturn(isbns);
 		EasyMock.replay(mockDao);
 		
 		String isbn = "123";
-		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
+		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn, TITLE_ID);
 		Assert.assertEquals(true, hasBeenPublished);
 		EasyMock.verify(mockDao);
 	}
@@ -89,11 +90,11 @@ public class PublishingStatsServiceTest  {
 		isbns.add("1-1");
 		isbns.add("1-2");
 		
-		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbn()).andReturn(isbns);
+		EasyMock.expect(mockDao.findSuccessfullyPublishedIsbnByTitleId(TITLE_ID)).andReturn(isbns);
 		EasyMock.replay(mockDao);
 		
 		String isbn = "1";
-		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn);
+		Boolean hasBeenPublished = service.hasIsbnBeenPublished(isbn, TITLE_ID);
 		Assert.assertEquals(false, hasBeenPublished);
 		EasyMock.verify(mockDao);
 	}

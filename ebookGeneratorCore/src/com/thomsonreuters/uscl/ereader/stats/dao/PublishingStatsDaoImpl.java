@@ -212,12 +212,13 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<String> findSuccessfullyPublishedIsbn() {
+	public List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		Criteria criteria = session.createCriteria(PublishingStats.class)
 				.createAlias("audit", "book")
 				.setFetchMode("audit", FetchMode.JOIN)
+				.add(Restrictions.eq("book.titleId", titleId))
 				.add(Restrictions.in("publishStatus", new String[]{PublishingStats.SEND_EMAIL_COMPLETE, 
 						PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
 				.setProjection( Projections.distinct( Projections.property("book.isbn")));

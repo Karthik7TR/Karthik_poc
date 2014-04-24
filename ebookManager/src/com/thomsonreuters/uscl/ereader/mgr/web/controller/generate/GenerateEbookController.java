@@ -174,7 +174,7 @@ public class GenerateEbookController {
 	private void setModelIsbn(Long bookDefinitionId,
 			BookDefinition book, Model model) {
 
-		boolean isPublished = publishingStatsService.hasIsbnBeenPublished(book.getIsbn());
+		boolean isPublished = publishingStatsService.hasIsbnBeenPublished(book.getIsbn(), book.getFullyQualifiedTitleId());
 
 		// If publised, ISBN is not new
 		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isPublished ? "N": "Y");

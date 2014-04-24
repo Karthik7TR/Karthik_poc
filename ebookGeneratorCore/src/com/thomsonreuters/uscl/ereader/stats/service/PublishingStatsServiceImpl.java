@@ -102,7 +102,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Boolean hasIsbnBeenPublished(String isbn) {
+	public Boolean hasIsbnBeenPublished(String isbn,  String titleId) {
 		String replacedIsbn = "";
 		Boolean hasBeenPublished = false;
 		
@@ -110,7 +110,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 			replacedIsbn = isbn.replace("-", "");
 		}
 		
-		List<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbn();
+		List<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbnByTitleId(titleId);
 		for(String publishedIsbn : publishedIsbns) {
 			if(StringUtils.isNotBlank(publishedIsbn)) {
 				String replacedPublishedIsbn = publishedIsbn.replace("-", "");
