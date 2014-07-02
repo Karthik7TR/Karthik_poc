@@ -24,7 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TOCXmlHandler extends DefaultHandler {
 	private HashMap<String, List<String>> docGuidList = new HashMap<String, List<String>>();
 	private List<String> tocGuidList = new ArrayList<String>();
-	private String tempVal;
+	private StringBuffer tempVal = null;
 
 	private static final String DOCUMENT_GUID_ELEMENT = "DocumentGuid";
 	private static final String TOC_GUID_ELEMENT = "Guid";
@@ -33,13 +33,19 @@ public class TOCXmlHandler extends DefaultHandler {
 			Attributes atts) throws SAXParseException {
 		if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT)
 				|| qName.equalsIgnoreCase(TOC_GUID_ELEMENT)) {
-			tempVal = "";
+			tempVal = new StringBuffer();
+		} else {
+			tempVal = null;
 		}
 	}
 
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		tempVal = new String(ch, start, length);
+		if(tempVal != null) {
+			for(int i=start; i<start+length; i++) {
+				tempVal.append(ch[i]);
+			}
+		}
 	}
 
 	public void endElement(String uri, String localName, String qName)
@@ -51,14 +57,14 @@ public class TOCXmlHandler extends DefaultHandler {
 				// check to see if there is already a toc guid list list for
 				// this doc uuid
 				if (!docGuidList.containsKey(tempVal)) {
-					docGuidList.put(tempVal, tocGuidList);
+					docGuidList.put(tempVal.toString(), tocGuidList);
 				} else { // append to the list of exisitng toc guids
 					List<String> existingTocGuidList = docGuidList.get(tempVal);
 					for (int i = 0; i < existingTocGuidList.size(); i++) {
 						tocGuidList.add(existingTocGuidList.get(i));
 					}
 					docGuidList.remove(tempVal);
-					docGuidList.put(tempVal, tocGuidList);
+					docGuidList.put(tempVal.toString(), tocGuidList);
 				}
 				tocGuidList = new ArrayList<String>();
 			}
@@ -67,7 +73,7 @@ public class TOCXmlHandler extends DefaultHandler {
 		if (qName.equalsIgnoreCase(TOC_GUID_ELEMENT)) {
 			if (tempVal.length() != 0) {
 				// add only if there is a guid available
-				tocGuidList.add(tempVal);
+				tocGuidList.add(tempVal.toString());
 			}
 		}
 	}

@@ -37,6 +37,11 @@ public class DocumentExtensionAdapter
     	return defaultText;
     }
     
+    public String RetrieveLocaleValue(String language, String context, String key, String defaultText)
+    {
+    	return defaultText;
+    }
+    
     public String GenerateSponsorHash(String sponsorId, String documentGuid)
 	{
 		if (StringUtils.isEmpty(sponsorId) || StringUtils.isEmpty(documentGuid))
