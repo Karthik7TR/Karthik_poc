@@ -103,13 +103,14 @@
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
 			$('#productCodeDiv').hide();
+			$('#contentTypeDiv').hide();
 			
 			if (publisher && publisher != "uscl") {
 				$('#productCodeDiv').show();
 				$('#publishDetailDiv').show();
 
 			} else {
-
+				$('#contentTypeDiv').show();
 				if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
 					$('#pubAbbrDiv').show();
 				} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
