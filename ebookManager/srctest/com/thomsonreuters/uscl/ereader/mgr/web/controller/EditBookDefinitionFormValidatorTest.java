@@ -89,7 +89,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
 		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-		Assert.assertEquals(3, errors.getAllErrors().size());
+		Assert.assertEquals(7, errors.getAllErrors().size());
 	}
 	
 	/**
