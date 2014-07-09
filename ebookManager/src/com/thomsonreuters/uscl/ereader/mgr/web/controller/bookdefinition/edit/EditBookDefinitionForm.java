@@ -47,6 +47,7 @@ public class EditBookDefinitionForm {
 	public static final String FORM_NAME = "editBookDefinitionForm";
 	
 	private static final int PUBLISHER_INDEX = 0;
+	private static final int PRODUCT_CODE_INDEX = 1;
 	private static final int TITLE_NAME_INDEX = 2;
 
 	private Long bookdefinitionId;
@@ -107,6 +108,7 @@ public class EditBookDefinitionForm {
 	private String pubAbbr;
 	private String jurisdiction;
 	private String pubInfo;
+	private String productCode;
 	private String comment;
 	private EbookName frontMatterTitle = new EbookName();
 	private EbookName frontMatterSubtitle = new EbookName();
@@ -443,7 +445,7 @@ public class EditBookDefinitionForm {
 		book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
 		
 		DocumentTypeCode dtc = new DocumentTypeCode();
-		dtc.setId(contentTypeId);
+		dtc.setId(contentTypeId != null ? contentTypeId : 0L);
 		book.setDocumentTypeCodes(dtc);
 		book.setEbookDefinitionCompleteFlag(isComplete);
 		book.setFullyQualifiedTitleId(titleId);
@@ -495,7 +497,9 @@ public class EditBookDefinitionForm {
 	
 	private void parseTitleId(BookDefinition book) {
 		DocumentTypeCode documentType = book.getDocumentTypeCodes(); 
-		this.contentTypeId = documentType.getId();
+		if(documentType != null) {
+			this.contentTypeId = documentType.getId();
+		}
 		
 		// Parse titleId
 		String[] fullyqualifiedtitleArray = this.titleId.split("/");
@@ -514,6 +518,7 @@ public class EditBookDefinitionForm {
 			this.jurisdiction = titleIdArray[0];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
 		} else {
+			this.productCode = fullyqualifiedtitleArray[PRODUCT_CODE_INDEX];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
 		}
 	}
@@ -949,6 +954,14 @@ public class EditBookDefinitionForm {
 		this.pubInfo = pubInfo;
 	}
 	
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
 	public String getPublisher() {
 		return publisher;
 	}

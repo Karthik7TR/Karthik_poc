@@ -45,6 +45,7 @@
 		var pubAbbr = "";
 		var pubInfo = "";
 		var jurisdiction = "";
+		var productCode = "";
 		
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
@@ -72,7 +73,15 @@
 			};
 
 			// Set up Namespace
-			if (contentType) {
+			if(productCode) {
+				var fullyQualifiedTitleIdArray = [];
+				fullyQualifiedTitleIdArray.push(publisher, productCode, titleId.join("_"));
+				
+				var fullyQualifiedTitleId = fullyQualifiedTitleIdArray.join("/").toLowerCase();
+				
+				$('#titleId').val(fullyQualifiedTitleId);
+				$('#titleIdBox').val(fullyQualifiedTitleId);
+			} else if (contentType) {
 				var fullyQualifiedTitleIdArray = [];
 				fullyQualifiedTitleIdArray.push(publisher, contentType, titleId.join("_"));
 				
@@ -93,19 +102,28 @@
 			$('#pubTypeDiv').hide();
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
-			if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
-				$('#pubAbbrDiv').show();
-			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
-				$('#stateDiv').show();
-				$('#pubTypeDiv').show();
-			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
-				$('#jurisdictionDiv').show();
-			}
+			$('#productCodeDiv').hide();
 			
-			if (contentType) {
+			if (publisher && publisher != "uscl") {
+				$('#productCodeDiv').show();
 				$('#publishDetailDiv').show();
+
 			} else {
-				$('#publishDetailDiv').hide();
+
+				if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
+					$('#pubAbbrDiv').show();
+				} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
+					$('#stateDiv').show();
+					$('#pubTypeDiv').show();
+				} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
+					$('#jurisdictionDiv').show();
+				}
+				
+				if (contentType) {
+					$('#publishDetailDiv').show();
+				} else {
+					$('#publishDetailDiv').hide();
+				}
 			}
 		};
 		
@@ -334,9 +352,13 @@
 			}
 		};
 		
+		var clearTitleAndContentInformation = function() {
+			contentType = "";
+			$('#contentTypeId option:first-child').attr("selected", true);
+			clearTitleInformation();
+		};
+		
 		var clearTitleInformation = function() {
-			publisher = "";
-			$('#publisher').val("");
 			state = "";
 			$('#state').val("");
 			pubType = "";
@@ -347,6 +369,8 @@
 			$('#pubInfo').val("");
 			jurisdiction = "";
 			$('#jurisdiction').val("");
+			productCode = "";
+			$('#productCode').val("");
 		};
 		
 		// Only allow number inputs
@@ -438,15 +462,22 @@
 			
 			<%-- Setup change handlers  --%>
 			$('#contentTypeId').change(function () {
-				// Clear out information when content type changes
-				clearTitleInformation();
 				$('.generateTitleID .errorDiv').hide();
-				
+				clearTitleInformation();
 				getContentTypeAbbr();
 				showPubCutoffDateBox();
 			});
 			$('#publisher').change(function () {
 				publisher = $(this).val();
+				if(publisher == "uscl") {
+					$('#contentTypeDiv').show();
+				} else {
+					$('#contentTypeDiv').hide();
+				}
+				determineOptions();
+				
+				// Clear out information when publisher changes
+				clearTitleAndContentInformation();
 				updateTitleId();
 			});
 			$('#state').change(function () {
@@ -467,6 +498,10 @@
 			});
 			$('#pubInfo').change(function () {
 				pubInfo = $.trim($(this).val());
+				updateTitleId();
+			});
+			$('#productCode').change(function () {
+				productCode = $.trim($(this).val());
 				updateTitleId();
 			});
 			
@@ -715,6 +750,7 @@
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
 			contentType = getContentTypeIdElement().attr("abbr");
+			productCode = $('#productCode').val();
 			
 			// Setup view
 			determineOptions();
@@ -744,18 +780,8 @@
 <c:choose>
 	<c:when test="${!isPublished}">
 		<div class="generateTitleID">
-			<div>
-				<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
-				<form:select path="contentTypeId" >
-					<form:option value="" label="SELECT" />
-					<c:forEach items="${contentTypes}" var="contentType">
-						<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
-					</c:forEach>
-				</form:select>
-				<form:errors path="contentTypeId" cssClass="errorMessage" />
-			</div>
-			<div id="publishDetailDiv" style="display:none">
-				<div>
+			<div id="publisherChooseDiv">
+				<div id="publisherDiv">
 					<form:label path="publisher" class="labelCol">Publisher</form:label>
 					<form:select path="publisher" >
 						<form:option value="" label="SELECT" />
@@ -765,6 +791,18 @@
 						<form:errors path="publisher" cssClass="errorMessage" />
 					</div>
 				</div>
+				<div id="contentTypeDiv" style="display:none">
+					<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
+					<form:select path="contentTypeId" >
+						<form:option value="" label="SELECT" />
+						<c:forEach items="${contentTypes}" var="contentType">
+							<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
+						</c:forEach>
+					</form:select>
+					<form:errors path="contentTypeId" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="publishDetailDiv" style="display:none">
 				<div id="stateDiv">
 					<form:label path="state" class="labelCol">State</form:label>
 					<form:select path="state" >
@@ -802,6 +840,13 @@
 						<form:errors path="pubAbbr" cssClass="errorMessage" />
 					</div>
 				</div>
+				<div id="productCodeDiv">
+					<form:label path="productCode" class="labelCol">Product Code</form:label>
+					<form:input path="productCode" maxlength="40"/>
+					<div class="errorDiv">
+						<form:errors path="productCode" cssClass="errorMessage" />
+					</div>
+				</div>
 				<div>
 					<form:label path="pubInfo" class="labelCol">Pub Info</form:label>
 					<form:input path="pubInfo" maxlength="40"/>
@@ -825,6 +870,7 @@
 		<form:hidden path="pubType"/>
 		<form:hidden path="pubAbbr"/>
 		<form:hidden path="pubInfo"/>
+		<form:hidden path="productCode" />
 	</c:otherwise>
 </c:choose>
 <c:set var="disableOptions" value="true"/>
