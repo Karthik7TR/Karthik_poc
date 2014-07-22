@@ -140,50 +140,36 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	
 	// All the validations to verify that the Title ID is formed with all requirements
 	private void validateTitleId(EditBookDefinitionForm form, Errors errors) {
-
+		Long contentTypeId = form.getContentTypeId();
+		DocumentTypeCode contentType = (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
     	String titleId = form.getTitleId();
+    	
+    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
     	checkForSpaces(errors, titleId, "titleId", "Title ID");
 		checkMaxLength(errors, MAXIMUM_CHARACTER_40, titleId, "titleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_40});
-		
-		// Validate publisher information
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
     	
 		// Validate publication and title ID
-    	if (StringUtils.isNotEmpty(titleId)) {
-    		Long contentTypeId = form.getContentTypeId();
-    		String publisher = form.getPublisher();
-    		DocumentTypeCode contentType = (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
-
-    		if("uscl".equalsIgnoreCase(publisher)) {
-	    		if(contentType != null && WebConstants.DOCUMENT_TYPE_ANALYTICAL.equalsIgnoreCase(contentType.getName())) {
-	    			// Validate Analytical fields are filled out
-	    			String pubAbbr = form.getPubAbbr();
-	        		checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
-	        		checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
-	        	} else if (contentType != null &&WebConstants.DOCUMENT_TYPE_COURT_RULES.equalsIgnoreCase(contentType.getName())) {
-	        		// Validate Court Rules fields are filled out
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
-	        	} else if (contentType != null && WebConstants.DOCUMENT_TYPE_SLICE_CODES.equalsIgnoreCase(contentType.getName())) {
-	        		// Validate Slice Codes fields are filled out
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-	        	} else {
-	        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-	        	}
-	    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
-	    		
-    		}else {
+    	if (form.getContentTypeId() != null && StringUtils.isNotEmpty(titleId)) {
+    		// Validate publisher information
+    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
+    		String contentTypeName = contentType.getName();
+    		if(contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_ANALYTICAL)) {
+    			// Validate Analytical fields are filled out
+    			String pubAbbr = form.getPubAbbr();
+        		checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
+        		checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_COURT_RULES)) {
+        		// Validate Court Rules fields are filled out
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
+        	} else if (contentTypeName.equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
+        		// Validate Slice Codes fields are filled out
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
         		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-        		
-        		// Validate Product Code
-        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", "error.required");
-        		String productCode = form.getProductCode();
-        		checkForSpaces(errors, productCode, "productCode", "Product Code");
-        		checkSpecialCharacters(errors, productCode, "productCode", true);
-
+        	} else {
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
         	}
     		
     		Long bookDefinitionId = form.getBookdefinitionId();
@@ -225,11 +211,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     		String pubInfo = form.getPubInfo();
     		checkForSpaces(errors, pubInfo, "pubInfo", "Pub Info");
     		checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
-    	} else {
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", "error.required");
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
     	}
 	}
 	

@@ -83,26 +83,11 @@ public class EditBookDefinitionFormValidatorTest {
      * Test No data set on form
      */
 	@Test
-	public void testNoTitleId() {
-		// verify errors
-		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
-		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-		Assert.assertEquals(7, errors.getAllErrors().size());
-	}
-	
-	/**
-     * Test No data set on form
-     */
-	@Test
 	public void testNoContentType() {
-		form.setTitleId("uscl");
-		form.setPublisher("uscl");
 		// verify errors
 		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
 		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
 		Assert.assertEquals(3, errors.getAllErrors().size());
 	}
@@ -112,25 +97,18 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testAnalyticalTitleId() {
-		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 4, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 		
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
 		Assert.assertFalse(errors.hasErrors());
 		
 		// Verify Analytical content type requirements
+		form.setPublisher(null);
 		form.setPubAbbr(null);
 		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("pubAbbr").getCode());
-		
-		form.setContentTypeId(null);
-		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("pubAbbr").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
-		
-		form.setPublisher(null);
-		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("pubAbbr").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
@@ -147,28 +125,20 @@ public class EditBookDefinitionFormValidatorTest {
     	courtRulesCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR);
     	courtRulesCode.setName(WebConstants.DOCUMENT_TYPE_COURT_RULES);
 		
-		setupPublisherAndTitleId("uscl/cr/tx_state", courtRulesCode, 4, 2);
+		setupPublisherAndTitleId("uscl/cr/tx_state", courtRulesCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
 		Assert.assertFalse(errors.hasErrors());
 		
 		// Verify Analytical content type requirements
+		form.setPublisher(null);
 		form.setState(null);
 		form.setPubType(null);
 		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("state").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("pubType").getCode());
-		
-		form.setContentTypeId(null);
-		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("state").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("pubType").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
-
-		form.setPublisher(null);
-		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("state").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("pubType").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -184,27 +154,20 @@ public class EditBookDefinitionFormValidatorTest {
     	sliceCodesCode.setAbbreviation(WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR);
     	sliceCodesCode.setName(WebConstants.DOCUMENT_TYPE_SLICE_CODES);
     	
-		setupPublisherAndTitleId("uscl/sc/us_abcd", sliceCodesCode, 4, 2);
+		setupPublisherAndTitleId("uscl/sc/us_abcd", sliceCodesCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
 		Assert.assertFalse(errors.hasErrors());
 		
 		// Verify Analytical content type requirements
+		form.setPublisher(null);
 		form.setJurisdiction(null);
 		form.setPubInfo(null);
 		validator.validate(form, errors);
+		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("jurisdiction").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
-		
-		form.setContentTypeId(null);
-		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
-		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
-
-		form.setPublisher(null);
-		validator.validate(form, errors);
-		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
@@ -215,7 +178,7 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testSpecialCharacters() {
-		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -237,7 +200,7 @@ public class EditBookDefinitionFormValidatorTest {
      */
 	@Test
 	public void testNoSpaces() {
-		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2, 2);
+		setupPublisherAndTitleId("uscl/an/abcd", analyticalCode, 2);
 
 		// Check Valid Analytical Title
 		validator.validate(form, errors);
@@ -876,17 +839,17 @@ public class EditBookDefinitionFormValidatorTest {
 		EasyMock.verify(mockBookDefinitionService);
 	}
 
-	private void setupPublisherAndTitleId(String titleId, DocumentTypeCode contentType, int mockBookIdReplay, int mockDocTypeReplay) {
+	private void setupPublisherAndTitleId(String titleId, DocumentTypeCode contentType, int mockReplayTimes) {
 		BookDefinition book = initializeBookDef(titleId, contentType);
 
 		form.initialize(book, KEYWORD_CODES);
 		form.setIsComplete(book.getEbookDefinitionCompleteFlag());
 		form.setBookdefinitionId(Long.parseLong("1"));
 		
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyObject(Long.class))).andReturn(book).times(mockBookIdReplay);
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(EasyMock.anyObject(Long.class))).andReturn(book).times(mockReplayTimes);
     	EasyMock.replay(mockBookDefinitionService);
 
-		EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(contentType).times(mockDocTypeReplay);
+		EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(contentType).times(mockReplayTimes);
 		EasyMock.replay(mockCodeService);
 	}
 	

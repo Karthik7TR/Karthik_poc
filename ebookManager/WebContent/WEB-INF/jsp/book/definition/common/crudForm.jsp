@@ -45,7 +45,6 @@
 		var pubAbbr = "";
 		var pubInfo = "";
 		var jurisdiction = "";
-		var productCode = "";
 		
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
@@ -73,15 +72,7 @@
 			};
 
 			// Set up Namespace
-			if(productCode) {
-				var fullyQualifiedTitleIdArray = [];
-				fullyQualifiedTitleIdArray.push(publisher, productCode, titleId.join("_"));
-				
-				var fullyQualifiedTitleId = fullyQualifiedTitleIdArray.join("/").toLowerCase();
-				
-				$('#titleId').val(fullyQualifiedTitleId);
-				$('#titleIdBox').val(fullyQualifiedTitleId);
-			} else if (contentType) {
+			if (contentType) {
 				var fullyQualifiedTitleIdArray = [];
 				fullyQualifiedTitleIdArray.push(publisher, contentType, titleId.join("_"));
 				
@@ -102,29 +93,19 @@
 			$('#pubTypeDiv').hide();
 			$('#pubAbbrDiv').hide();
 			$('#publishDetailDiv').hide();
-			$('#productCodeDiv').hide();
-			$('#contentTypeDiv').hide();
+			if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
+				$('#pubAbbrDiv').show();
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
+				$('#stateDiv').show();
+				$('#pubTypeDiv').show();
+			} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
+				$('#jurisdictionDiv').show();
+			}
 			
-			if (publisher && publisher != "uscl") {
-				$('#productCodeDiv').show();
+			if (contentType) {
 				$('#publishDetailDiv').show();
-
 			} else {
-				$('#contentTypeDiv').show();
-				if(contentType == "<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>") {
-					$('#pubAbbrDiv').show();
-				} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>") {
-					$('#stateDiv').show();
-					$('#pubTypeDiv').show();
-				} else if(contentType == "<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>") {
-					$('#jurisdictionDiv').show();
-				}
-				
-				if (contentType) {
-					$('#publishDetailDiv').show();
-				} else {
-					$('#publishDetailDiv').hide();
-				}
+				$('#publishDetailDiv').hide();
 			}
 		};
 		
@@ -353,13 +334,9 @@
 			}
 		};
 		
-		var clearTitleAndContentInformation = function() {
-			contentType = "";
-			$('#contentTypeId option:first-child').attr("selected", true);
-			clearTitleInformation();
-		};
-		
 		var clearTitleInformation = function() {
+			publisher = "";
+			$('#publisher').val("");
 			state = "";
 			$('#state').val("");
 			pubType = "";
@@ -370,8 +347,6 @@
 			$('#pubInfo').val("");
 			jurisdiction = "";
 			$('#jurisdiction').val("");
-			productCode = "";
-			$('#productCode').val("");
 		};
 		
 		// Only allow number inputs
@@ -463,22 +438,15 @@
 			
 			<%-- Setup change handlers  --%>
 			$('#contentTypeId').change(function () {
-				$('.generateTitleID .errorDiv').hide();
+				// Clear out information when content type changes
 				clearTitleInformation();
+				$('.generateTitleID .errorDiv').hide();
+				
 				getContentTypeAbbr();
 				showPubCutoffDateBox();
 			});
 			$('#publisher').change(function () {
 				publisher = $(this).val();
-				if(publisher == "uscl") {
-					$('#contentTypeDiv').show();
-				} else {
-					$('#contentTypeDiv').hide();
-				}
-				determineOptions();
-				
-				// Clear out information when publisher changes
-				clearTitleAndContentInformation();
 				updateTitleId();
 			});
 			$('#state').change(function () {
@@ -499,10 +467,6 @@
 			});
 			$('#pubInfo').change(function () {
 				pubInfo = $.trim($(this).val());
-				updateTitleId();
-			});
-			$('#productCode').change(function () {
-				productCode = $.trim($(this).val());
 				updateTitleId();
 			});
 			
@@ -751,7 +715,6 @@
 			pubAbbr = $('#pubAbbr').val();
 			pubInfo = $('#pubInfo').val();
 			contentType = getContentTypeIdElement().attr("abbr");
-			productCode = $('#productCode').val();
 			
 			// Setup view
 			determineOptions();
@@ -781,8 +744,18 @@
 <c:choose>
 	<c:when test="${!isPublished}">
 		<div class="generateTitleID">
-			<div id="publisherChooseDiv">
-				<div id="publisherDiv">
+			<div>
+				<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
+				<form:select path="contentTypeId" >
+					<form:option value="" label="SELECT" />
+					<c:forEach items="${contentTypes}" var="contentType">
+						<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
+					</c:forEach>
+				</form:select>
+				<form:errors path="contentTypeId" cssClass="errorMessage" />
+			</div>
+			<div id="publishDetailDiv" style="display:none">
+				<div>
 					<form:label path="publisher" class="labelCol">Publisher</form:label>
 					<form:select path="publisher" >
 						<form:option value="" label="SELECT" />
@@ -792,18 +765,6 @@
 						<form:errors path="publisher" cssClass="errorMessage" />
 					</div>
 				</div>
-				<div id="contentTypeDiv" style="display:none">
-					<form:label path="contentTypeId" class="labelCol">Content Type</form:label>
-					<form:select path="contentTypeId" >
-						<form:option value="" label="SELECT" />
-						<c:forEach items="${contentTypes}" var="contentType">
-							<form:option path="contentTypeId" value="${ contentType.id }" label="${ contentType.name }" abbr="${ contentType.abbreviation }" usecutoffdate="${contentType.usePublishCutoffDateFlag}" />
-						</c:forEach>
-					</form:select>
-					<form:errors path="contentTypeId" cssClass="errorMessage" />
-				</div>
-			</div>
-			<div id="publishDetailDiv" style="display:none">
 				<div id="stateDiv">
 					<form:label path="state" class="labelCol">State</form:label>
 					<form:select path="state" >
@@ -841,13 +802,6 @@
 						<form:errors path="pubAbbr" cssClass="errorMessage" />
 					</div>
 				</div>
-				<div id="productCodeDiv">
-					<form:label path="productCode" class="labelCol">Product Code</form:label>
-					<form:input path="productCode" maxlength="40"/>
-					<div class="errorDiv">
-						<form:errors path="productCode" cssClass="errorMessage" />
-					</div>
-				</div>
 				<div>
 					<form:label path="pubInfo" class="labelCol">Pub Info</form:label>
 					<form:input path="pubInfo" maxlength="40"/>
@@ -871,12 +825,15 @@
 		<form:hidden path="pubType"/>
 		<form:hidden path="pubAbbr"/>
 		<form:hidden path="pubInfo"/>
-		<form:hidden path="productCode" />
 	</c:otherwise>
 </c:choose>
 <c:set var="disableOptions" value="true"/>
 <sec:authorize access="hasRole('ROLE_SUPERUSER')">
 	<c:set var="disableOptions" value=""/>
+</sec:authorize>
+<c:set var="disableUnderPubPlusRole" value="true"/>
+<sec:authorize access="hasAnyRole('ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
+	<c:set var="disableUnderPubPlusRole" value=""/>
 </sec:authorize>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
@@ -922,15 +879,15 @@
 					<form:errors path="materialId" cssClass="errorMessage" />
 				</div>	
 			</div>
-			<c:if test="${disableOptions}">
+			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="includeAnnotations"/>
 			</c:if>
 			<div class="row">
 				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
-				<form:radiobutton disabled="${disableOptions}" path="includeAnnotations" value="true" />Yes
-				<form:radiobutton disabled="${disableOptions}" path="includeAnnotations" value="false" />No
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="true" />Yes
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="false" />No
 				<div class="errorDiv">
 					<form:errors path="includeAnnotations" cssClass="errorMessage" />
 				</div>
@@ -954,7 +911,7 @@
 		</div>
 		
 		<div class="rightDefinitionForm">
-			<c:if test="${disableOptions}">
+			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="isTOC"/>
@@ -963,31 +920,33 @@
 				<form:hidden path="rootTocGuid"/>
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="nortFilterView"/>
+			</c:if>
+			<c:if test="${disableOptions}" >
 				<form:hidden path="keyCiteToplineFlag"/>
 			</c:if>
 			<div class="row">
 				<label class="labelCol">TOC or NORT</label>
-				<form:radiobutton disabled="${disableOptions}" path="isTOC" value="true" />TOC
-				<form:radiobutton disabled="${disableOptions}" path="isTOC" value="false" />NORT
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="isTOC" value="true" />TOC
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="isTOC" value="false" />NORT
 			</div>
 			<div id="displayTOC" style="display:none">
 				<div class="row">
-					<form:label disabled="${disableOptions}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
-					<form:input disabled="${disableOptions}" path="tocCollectionName" />
+					<form:label disabled="${disableUnderPubPlusRole}" path="tocCollectionName" class="labelCol">TOC Collection</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="tocCollectionName" />
 					<div class="errorDiv">
 						<form:errors path="tocCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label disabled="${disableOptions}" path="docCollectionName" class="labelCol">DOC Collection</form:label>
-					<form:input disabled="${disableOptions}" path="docCollectionName" />
+					<form:label disabled="${disableUnderPubPlusRole}" path="docCollectionName" class="labelCol">DOC Collection</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="docCollectionName" />
 					<div class="errorDiv">
 						<form:errors path="docCollectionName" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label disabled="${disableOptions}" path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
-					<form:input disabled="${disableOptions}" path="rootTocGuid" maxlength="33"/>
+					<form:label disabled="${disableUnderPubPlusRole}" path="rootTocGuid" class="labelCol">Root TOC Guid</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="rootTocGuid" maxlength="33"/>
 					<div class="errorDiv">
 						<form:errors path="rootTocGuid" cssClass="errorMessage" />
 					</div>
@@ -995,15 +954,15 @@
 			</div>
 			<div id="displayNORT" style="display:none">
 				<div class="row">
-					<form:label disabled="${disableOptions}" path="nortDomain" class="labelCol">NORT Domain</form:label>
-					<form:input disabled="${disableOptions}" path="nortDomain" />
+					<form:label disabled="${disableUnderPubPlusRole}" path="nortDomain" class="labelCol">NORT Domain</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="nortDomain" />
 					<div class="errorDiv">
 						<form:errors path="nortDomain" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">
-					<form:label disabled="${disableOptions}" path="nortFilterView" class="labelCol">NORT Filter View</form:label>
-					<form:input disabled="${disableOptions}" path="nortFilterView" />
+					<form:label disabled="${disableUnderPubPlusRole}" path="nortFilterView" class="labelCol">NORT Filter View</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="nortFilterView" />
 					<div class="errorDiv">
 						<form:errors path="nortFilterView" cssClass="errorMessage" />
 					</div>
