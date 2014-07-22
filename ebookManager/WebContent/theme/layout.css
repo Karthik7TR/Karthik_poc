@@ -430,10 +430,12 @@ a:hover {
 .bookDefinitionCRUD .generateTitleID input {
 	margin: 0px 5px; 
 }
-.bookDefinitionCRUD #publishDetailDiv {
+.bookDefinitionCRUD #publishDetailDiv,
+.bookDefinitionCRUD #publisherChooseDiv {
 	margin:10px 0px 0px;
 }
-.bookDefinitionCRUD #publishDetailDiv > div {
+.bookDefinitionCRUD #publishDetailDiv > div, 
+.bookDefinitionCRUD #publisherChooseDiv > div{
 	vertical-align:top;
 	display:inline-block;
 	zoom:1; /* IE7 hack */
