@@ -56,15 +56,16 @@ public class TOCXmlHandler extends DefaultHandler {
 			if (tempVal.length() != 0) {
 				// check to see if there is already a toc guid list list for
 				// this doc uuid
-				if (!docGuidList.containsKey(tempVal)) {
-					docGuidList.put(tempVal.toString(), tocGuidList);
+				String docGuid = tempVal.toString();
+				if (!docGuidList.containsKey(docGuid)) {
+					docGuidList.put(docGuid, tocGuidList);
 				} else { // append to the list of exisitng toc guids
-					List<String> existingTocGuidList = docGuidList.get(tempVal);
+					List<String> existingTocGuidList = docGuidList.get(docGuid);
 					for (int i = 0; i < existingTocGuidList.size(); i++) {
 						tocGuidList.add(existingTocGuidList.get(i));
 					}
-					docGuidList.remove(tempVal);
-					docGuidList.put(tempVal.toString(), tocGuidList);
+					docGuidList.remove(docGuid);
+					docGuidList.put(docGuid, tocGuidList);
 				}
 				tocGuidList = new ArrayList<String>();
 			}

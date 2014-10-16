@@ -227,7 +227,6 @@ public class NortServiceImpl implements NortService {
 			if (!excludeDocumentFound){
 				tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
 				.append(guid)
-				.append(counters[NODECOUNT])
 				.append(EBConstants.TOC_END_GUID_ELEMENT);
 				
 				if (node.getLabel() == null ) // Fail with empty Name

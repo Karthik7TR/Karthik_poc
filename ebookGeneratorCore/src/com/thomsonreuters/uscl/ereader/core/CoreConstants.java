@@ -28,4 +28,6 @@ public class CoreConstants {
 	/** Marshalling view to JiBX marshal the GenerRestServiceResponse into XML that is returned to requesting clients. */
 	public static final String VIEW_SIMPLE_REST_RESPONSE = "simpleResponseView";
 	
+	public static final String PROD_ENVIRONMENT_NAME = "prodcontent";
+	
 }

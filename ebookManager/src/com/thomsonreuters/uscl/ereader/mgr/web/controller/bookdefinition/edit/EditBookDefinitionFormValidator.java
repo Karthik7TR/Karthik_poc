@@ -19,6 +19,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
@@ -473,7 +474,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	
 	private void validateProdOnlyRequirements(EditBookDefinitionForm form, Errors errors) {
 		// Check if pdf file and cover image exists on NAS location when on prod server
-		if(environmentName.equalsIgnoreCase("prod")) {
+		if(environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
 			// Check cover image exists
 			if(StringUtils.isNotBlank(form.getTitleId())) {
 				fileExist(errors, form.createCoverImageName(), WebConstants.LOCATION_COVER_IMAGE, "validateForm", "error.not.exist");

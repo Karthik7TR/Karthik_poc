@@ -64,7 +64,7 @@ public class LoginController {
 	public ModelAndView inboundGet(HttpSession httpSession, @ModelAttribute(LoginForm.FORM_NAME) LoginForm form, Model model) {
 		log.debug(">>> environment="+environmentName);
 		
-		if(!environmentName.equalsIgnoreCase("prodcontent")) {
+		if(!environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
 			// Store the environment name in session so it can be displayed on each page
 			httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
 			httpSession.setAttribute(CoreConstants.KEY_PROVIEW_HOST,

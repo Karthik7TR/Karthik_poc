@@ -32,16 +32,36 @@ public class DocumentExtensionAdapter
     public DocumentExtensionAdapter() throws Exception
     {}
 
+    /**
+     * Returns the default text.
+     * @param context
+     * @param key
+     * @param defaultText
+     * @return
+     */
     public String RetrieveContextValue(String context, String key, String defaultText)
     {
     	return defaultText;
     }
     
+    /**
+     * Returns the default text.
+     * @param context
+     * @param key
+     * @param defaultText
+     * @return
+     */
     public String RetrieveLocaleValue(String language, String context, String key, String defaultText)
     {
     	return defaultText;
     }
     
+	/**
+	 *  Generates hash for Sponsor ID.
+	 * @param sponsorId
+	 * @param documentGuid
+	 * @return Hash for use with sponsor.
+	 */
     public String GenerateSponsorHash(String sponsorId, String documentGuid)
 	{
 		if (StringUtils.isEmpty(sponsorId) || StringUtils.isEmpty(documentGuid))
@@ -72,6 +92,11 @@ public class DocumentExtensionAdapter
 		return str;
 	}
     
+    /**
+     * 
+     * @param inputText - The text that we want to check for encoding issues
+     * @return The encoded text.
+     */
 	public String ToXmlEncodedString(String inputText)
 	{
 		if (inputText == null)
@@ -104,6 +129,12 @@ public class DocumentExtensionAdapter
 		return outputText.toString();
 	}
 	
+	/**
+	 * IsMatch - simple regular expression match
+	 * @param input string to search
+	 * @param pattern regex pattern to match
+	 * @return
+	 */
 	public boolean IsMatch(String input, String pattern)
 	{
 		Validate.notEmpty(pattern);
@@ -116,5 +147,7 @@ public class DocumentExtensionAdapter
 
 		return input.matches(pattern);
 	}
+	
+	
 
 }

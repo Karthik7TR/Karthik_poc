@@ -21,6 +21,8 @@ import org.springframework.ldap.core.LdapRdn;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+
 /**
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
@@ -45,7 +47,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper {
 	public CobaltUserAttributesMapper(String environmentName,
 									  Map<String,String> productionGroupToRoleMap,
 									  Map<String,String> nonProductionGroupToRoleMap) {
-		if ("prodcontent".equals(environmentName)) {
+		if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
 			this.groupToRoleMap = productionGroupToRoleMap;
 		} else {
 			this.groupToRoleMap = nonProductionGroupToRoleMap;	

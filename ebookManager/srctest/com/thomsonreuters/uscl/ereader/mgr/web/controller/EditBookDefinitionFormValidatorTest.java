@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -53,7 +54,7 @@ public class EditBookDefinitionFormValidatorTest {
     	validator = new EditBookDefinitionFormValidator();
     	validator.setBookDefinitionService(mockBookDefinitionService);
     	validator.setCodeService(mockCodeService);
-    	validator.setEnvironmentName("prod");
+    	validator.setEnvironmentName(CoreConstants.PROD_ENVIRONMENT_NAME);
     	
     	form = new EditBookDefinitionForm();
     	

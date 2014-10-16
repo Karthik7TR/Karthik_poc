@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -48,7 +49,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 	    jobstats.setJobInstanceId(jobInstance.getId());
 		try {
 			// We only archive in the production environment
-			if ("prod".equals(environmentName)) {
+			if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
 				ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 				JobParameters jobParameters = getJobParameters(chunkContext);
 				String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
