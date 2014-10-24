@@ -41,7 +41,7 @@ public class XSLIncludeResolver implements URIResolver
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL = new File("/apps/eBookBuilder/staticContent/Platform/Universal/_Empty.xsl");
 	private File platformDir = new File("/apps/eBookBuilder/staticContent/Platform");
-	private File westlawNextDir = new File("/apps/eBookBuilder/staticContent/WestlawNext");
+	private File westlawNextDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/DefaultProductView");
 	
 	public File getPlatformDir() {
 		return platformDir;
@@ -152,6 +152,7 @@ public class XSLIncludeResolver implements URIResolver
 		{
 			if(!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "CobaltMobile") && 
 					!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "web2") &&
+					!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "Weblinks") &&
 					xsl.getName().equals(filename)) 
 			{
 				return xsl;

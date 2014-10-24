@@ -449,12 +449,10 @@ public class TransformerServiceImpl implements TransformerService
 	protected File getXSLT(String collection, String docType) 
 			throws EBookFormatException
 	{
-		File xsltDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/ContentTypes");
+		File xsltDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/DefaultProductView/ContentTypes");
 		String xsltName = null;		
 		
 		File xslt = null;
-		//xsltName = xsltMapperService.getXSLT(collection, docType);
-		
 		if (StringUtils.isNotBlank(docType)) {
 			xsltName = xsltFileNameByCollectionName.get(collection + " " + docType);
 		}
