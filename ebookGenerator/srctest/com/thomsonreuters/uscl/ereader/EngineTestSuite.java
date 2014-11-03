@@ -30,11 +30,11 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
-import com.thomsonreuters.uscl.ereader.proview.rest.BasicAuthenticationHttpClientFactoryTest;
+import com.thomsonreuters.uscl.ereader.proview.rest.CloseableAuthenticationHttpClientFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses( {
-			BasicAuthenticationHttpClientFactoryTest.class,
+			CloseableAuthenticationHttpClientFactoryTest.class,
 			EbookAssemblyServiceTest.class,
 			EngineServiceTest.class,
 			//Format tests

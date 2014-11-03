@@ -7,13 +7,13 @@ import org.springframework.web.client.RestTemplate;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.service.AbstractMiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
-import com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 
 public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
 	private static Logger log = Logger.getLogger(ManagerMiscConfigSyncService.class);
 	
-	private BasicAuthenticationHttpClientFactory httpClientFactory;
+	private CloseableAuthenticationHttpClientFactory httpClientFactory;
 	private ProviewClient proviewClient;
 	private RestTemplate proviewRestTemplate;
 	
@@ -25,7 +25,7 @@ public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService 
 	
 	@Required
 	public void setHttpClientFactory(
-			BasicAuthenticationHttpClientFactory httpClientFactory) {
+			CloseableAuthenticationHttpClientFactory httpClientFactory) {
 		this.httpClientFactory = httpClientFactory;
 	}
 	@Required

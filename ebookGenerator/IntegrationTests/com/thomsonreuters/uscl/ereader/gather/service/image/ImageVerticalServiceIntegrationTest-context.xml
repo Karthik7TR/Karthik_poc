@@ -12,7 +12,7 @@
   	
 
 	<!-- Message converters and REST template for interacting with the RESTful web services -->
-	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
+	<bean id="jsonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 	<bean id="imageMetadataHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
 			  p:objectMapper-ref="jsonObjectMapper"/>
 	<!-- bean id="imageStreamHttpMessageConverter" class="com.thomsonreuters.uscl.ereader.gather.service.image.ImageStreamHttpMessageConverter"/ -->

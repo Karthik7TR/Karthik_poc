@@ -44,7 +44,7 @@
 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService"
 	  	  p:proviewClient-ref="proviewClient"
-  		  p:httpClientFactory-ref="basicAuthenticationHttpClientFactory"
+  		  p:httpClientFactory-ref="closeableAuthenticationHttpClientFactory"
   		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
 	
 	<bean id="managerAppConfigLoader" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerAppConfigLoader"

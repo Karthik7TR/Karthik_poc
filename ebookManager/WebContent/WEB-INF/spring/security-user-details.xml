@@ -8,7 +8,7 @@
   	   					   http://www.springframework.org/schema/util
 	   					   http://www.springframework.org/schema/util/spring-util-3.0.xsd
 						   http://www.springframework.org/schema/security
-						   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+						   http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<!-- PRODUCTION Group-to-role mappings.  Used when the environment is "prod".
 		 The mapping of physical LDAP groups to logical roles/authorities used for role-base access control.

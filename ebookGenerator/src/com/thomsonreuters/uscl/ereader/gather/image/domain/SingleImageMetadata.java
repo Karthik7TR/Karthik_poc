@@ -7,8 +7,9 @@ package com.thomsonreuters.uscl.ereader.gather.image.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The meta-data JSON object when fetching Image Vertical REST service image meta-data for a single image.

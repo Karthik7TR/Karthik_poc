@@ -22,7 +22,7 @@
 
   	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorMiscConfigSyncService"
   		  p:proviewClient-ref="proviewClient"
-  		  p:httpClientFactory-ref="basicAuthenticationHttpClientFactory"
+  		  p:httpClientFactory-ref="closeableAuthenticationHttpClientFactory"
   		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
   		  
 	<!-- Holds the current (in-memory) application configuration and may be changed on the fly. -->

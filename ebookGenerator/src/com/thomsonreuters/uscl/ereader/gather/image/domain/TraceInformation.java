@@ -7,7 +7,8 @@ package com.thomsonreuters.uscl.ereader.gather.image.domain;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The TraceInformation JSON object that comes back from a Image Vertical HTTP REST web service request.

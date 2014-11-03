@@ -15,20 +15,21 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">      
 
-	<bean id="basicAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory">
+	<bean id="closeableAuthenticationHttpClientFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory">
 		<constructor-arg value="${proview.host}"/>
 		<constructor-arg type="java.lang.String" value="${proview.username}"/>
 		<constructor-arg type="java.lang.String" value="${proview.password}"/>
 	</bean>
 
-	<bean id="basicAuthenticationHttpClient" factory-bean="basicAuthenticationHttpClientFactory" factory-method="getBasicAuthenticationHttpClient"/>
+	<bean id="closeableAuthenticationHttpClient" factory-bean="closeableAuthenticationHttpClientFactory" factory-method="getCloseableAuthenticationHttpClient"/>
 
 	<bean id="proviewRestTemplate" class="org.springframework.web.client.RestTemplate">
-		<property name="requestFactory">
-			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
-				<property name="httpClient" ref="basicAuthenticationHttpClient"/>
-			</bean>
-		</property>
+		<constructor-arg>
+			<bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory" 
+					p:bufferRequestBody="false"
+					p:httpClient-ref="closeableAuthenticationHttpClient"
+				/>
+		</constructor-arg>
 		<property name="messageConverters">
 			<list>
 				<bean class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter"/>

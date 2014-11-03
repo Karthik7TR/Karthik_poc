@@ -7,13 +7,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
-import com.thomsonreuters.uscl.ereader.deliver.rest.BasicAuthenticationHttpClientFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 
 /**
@@ -74,15 +73,16 @@ public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncSer
 	 * @param config  Contains the new proview host name
 	 */
 	public static void syncProviewHost(MiscConfig config,
-			 						BasicAuthenticationHttpClientFactory httpClientFactory,
+			 						CloseableAuthenticationHttpClientFactory httpClientFactory,
 			 						ProviewClient proviewClient,
 			 						RestTemplate proviewRestTemplate) throws UnknownHostException {
 		// Set a new proview host for authentication and
 		InetAddress host = config.getProviewHost();
 		proviewClient.setProviewHostname(config.getProviewHostname());
 		httpClientFactory.setHost(host);
-		HttpClient httpClient = httpClientFactory.getBasicAuthenticationHttpClient();
-		ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		HttpClient httpClient = httpClientFactory.getCloseableAuthenticationHttpClient();
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		requestFactory.setBufferRequestBody(false);
 		proviewRestTemplate.setRequestFactory(requestFactory);
 	}
 }

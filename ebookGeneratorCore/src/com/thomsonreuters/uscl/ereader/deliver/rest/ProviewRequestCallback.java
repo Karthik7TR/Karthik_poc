@@ -7,9 +7,12 @@ package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.http.MediaType;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
 
@@ -32,7 +35,9 @@ public class ProviewRequestCallback implements RequestCallback {
 
 	@Override
 	public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
-		clientHttpRequest.getHeaders().add(ACCEPT_HEADER, APPLICATION_XML_MIMETYPE);
+		//clientHttpRequest.getHeaders().add(ACCEPT_HEADER, APPLICATION_XML_MIMETYPE);
+		clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
+		
 		/* 
 		 * TODO: Determine why the Authorization header is not being set/used prior to this point.
 		 * Once the root cause is identified remove this workaround. It is possible that registering a callback
@@ -41,7 +46,15 @@ public class ProviewRequestCallback implements RequestCallback {
 		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
 		if (ebookInputStream != null) {
 			long startTime = System.currentTimeMillis();
-			IOUtils.copy(ebookInputStream, clientHttpRequest.getBody());
+			//IOUtils.copy(ebookInputStream, clientHttpRequest.getBody());
+			
+			((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
+			    @Override
+			    public void writeTo(final OutputStream outputStream) throws IOException {
+			      IOUtils.copy(ebookInputStream, outputStream);
+			    }
+			  });
+			
 			long duration = System.currentTimeMillis() - startTime;
 			System.out.println("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
 		}

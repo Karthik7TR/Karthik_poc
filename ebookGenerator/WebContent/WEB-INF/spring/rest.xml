@@ -31,8 +31,8 @@
 	<!-- Message Converters (for use in RestTemplate(s)) -->
 	
 	<!-- JSON mapper (for image service) -->
-	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
-	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
+	<bean id="jsonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"
 		  p:objectMapper-ref="jsonObjectMapper"/>
   	
 	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
