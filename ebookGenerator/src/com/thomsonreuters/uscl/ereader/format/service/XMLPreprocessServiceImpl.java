@@ -176,7 +176,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
 			factory.setNamespaceAware(true);
 			SAXParser saxParser = factory.newSAXParser();
 
-			XMLContentChangerFilter contentChangerFilter = new XMLContentChangerFilter(isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
+			XMLContentChangerFilter contentChangerFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
 			contentChangerFilter.setParent(saxParser.getXMLReader());
 			
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);

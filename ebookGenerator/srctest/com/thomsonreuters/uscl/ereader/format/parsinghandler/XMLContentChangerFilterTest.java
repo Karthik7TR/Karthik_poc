@@ -64,7 +64,7 @@ public class XMLContentChangerFilterTest {
 		Collections.copy(copyCurrencies, currencies);
 		Collections.copy(copyCopyrights, copyrights);
 		
-		contentChangeFilter = new XMLContentChangerFilter(false, copyrights, copyCopyrights, currencies, copyCurrencies);
+		contentChangeFilter = new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
 		contentChangeFilter.setParent(saxParser.getXMLReader());
 
 		
@@ -153,19 +153,6 @@ public class XMLContentChangerFilterTest {
 		String xmlTestStr = "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>" +
 				"<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
 		String expectedResult = "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>" +
-				"<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
-		
-		testHelper(xmlTestStr, expectedResult);
-	}
-
-	@Test
-	public void testFinalStage() throws SAXException
-	{	
-		this.contentChangeFilter.setFinalStage(true);
-		
-		String xmlTestStr = "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>" +
-				"<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
-		String expectedResult =  "<body><test><include.copyright n-include_guid=\"987654321\">Copyright</include.copyright></test>" +
 				"<test><include.currency n-include_guid=\"123456789\">Currency</include.currency></test></body>";
 		
 		testHelper(xmlTestStr, expectedResult);

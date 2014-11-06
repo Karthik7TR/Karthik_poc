@@ -22,31 +22,21 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 public class XMLContentChangerFilter extends XMLFilterImpl {
 	private static final String GUID_ATTR = "n-include_guid";
 	private static final String CURRENCY_TAG = "include.currency";
-	private boolean isCurrencyChanging = false;;
-	private String currencyMessage;
+	private boolean isChanging = false;
 	private List<DocumentCopyright> copyrights;
 	private List<DocumentCopyright> copyCopyrights;
 	
 	private static final String COPYRIGHT_TAG = "include.copyright";
-	private boolean isCopyrightChanging = false;
-	private String copyrightMessage;
 	private List<DocumentCurrency> currencies;
 	private List<DocumentCurrency> copyCurrencies;
 	
-	private boolean isFinalStage;
-	
-	public XMLContentChangerFilter(boolean isFinalStage, List<DocumentCopyright> copyrights, List<DocumentCopyright> copyCopyrights,
+	public XMLContentChangerFilter(List<DocumentCopyright> copyrights, List<DocumentCopyright> copyCopyrights,
 			List<DocumentCurrency> currencies, List<DocumentCurrency> copyCurrencies) {
 		super();
-		this.isFinalStage = isFinalStage;
 		this.copyrights = copyrights;
 		this.copyCopyrights = copyCopyrights;
 		this.currencies = currencies;
 		this.copyCurrencies = copyCurrencies;
-	}
-	
-	public void setFinalStage(boolean isFinalStage) {
-		this.isFinalStage = isFinalStage;
 	}
 
 	@Override
@@ -57,59 +47,61 @@ public class XMLContentChangerFilter extends XMLFilterImpl {
         if (qName.equalsIgnoreCase(CURRENCY_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
-        	for(DocumentCurrency currency: currencies) {
-        		if(currency.getCurrencyGuid().equalsIgnoreCase(guid)) {
-        			isCurrencyChanging = true;
-        			currencyMessage = currency.getNewText();
+        	for(DocumentCurrency currency: currencies) 
+        	{
+        		if(currency.getCurrencyGuid().equalsIgnoreCase(guid)) 
+        		{
+        			isChanging = true;
         			copyCurrencies.remove(currency);
+        			replaceMessageElement(uri, localName, qName, atts, currency.getNewText());
         		}
         	}
         }
         else if (qName.equalsIgnoreCase(COPYRIGHT_TAG))
         {
         	String guid = atts.getValue(GUID_ATTR);
-        	for(DocumentCopyright copyright: copyrights) {
-        		if(copyright.getCopyrightGuid().equalsIgnoreCase(guid)) {
-        			isCopyrightChanging = true;
-        			copyrightMessage = copyright.getNewText();
+        	for(DocumentCopyright copyright: copyrights) 
+        	{
+        		if(copyright.getCopyrightGuid().equalsIgnoreCase(guid)) 
+        		{
+        			isChanging = true;
         			copyCopyrights.remove(copyright);
+        			replaceMessageElement(uri, localName, qName, atts, copyright.getNewText());
         		}
         	}
+        } 
+        // Only use current element is it is not changing
+        if(!isChanging) 
+        {
+        	super.startElement(uri, localName, qName, atts);
         }
-        
-        super.startElement(uri, localName, qName, atts);
     }
+	
+	private void replaceMessageElement(String uri, String localName, String qName, Attributes atts, String message) 
+			throws SAXException {
+		super.startElement(uri, localName, qName, atts);
+		super.characters(message.toCharArray(), 0, message.length());
+		super.endElement(uri, localName, qName);
+	}
 	
 	@Override
 	public void characters(char buf[], int offset, int len) throws SAXException
 	{
-		if (isCurrencyChanging)
+		if (!isChanging)
 		{
-			buf = updateMessage(buf, offset, len, currencyMessage);
-			len = currencyMessage.length();
+			super.characters(buf, offset, len);
 		}
-		else if (isCopyrightChanging)
-		{
-			buf = updateMessage(buf, offset, len, copyrightMessage);
-			len = copyrightMessage.length();
-		}
-		
-		super.characters(buf, offset, len);
-	}
-	
-	private char[] updateMessage(char buf[], int offset, int len, String message) {
-		StringBuilder buffer = new StringBuilder(String.valueOf(buf));
-		buffer = buffer.replace(offset, offset + len, message);
-		return buffer.toString().toCharArray();
 	}
 
     @Override
     public void endElement(final String uri, final String localName, final String qName)
         throws SAXException
     {
-    	isCurrencyChanging = false;
-    	isCopyrightChanging = false;
+    	if(isChanging) {
+        	isChanging = false;
+    	} else {
+            super.endElement(uri, localName, qName);
+    	}
     	
-        super.endElement(uri, localName, qName);
     }
 }
