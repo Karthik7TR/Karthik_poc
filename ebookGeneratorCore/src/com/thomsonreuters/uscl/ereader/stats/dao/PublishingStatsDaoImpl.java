@@ -81,7 +81,8 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	public int updateJobStats(PublishingStats jobstats,
 			StatsUpdateTypeEnum updateType) {
 		StringBuffer hql = new StringBuffer("update PublishingStats set   ");
-		if (updateType.equals(StatsUpdateTypeEnum.GATHERTOC)) {
+		if (updateType.equals(StatsUpdateTypeEnum.GATHERTOC) ||
+				updateType.equals(StatsUpdateTypeEnum.GENERATETOC)) {
 			hql.append("gatherTocNodeCount = ");
 			hql.append(jobstats.getGatherTocNodeCount());
 			hql.append(", gatherTocDocCount = ");
@@ -90,7 +91,8 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			hql.append(jobstats.getGatherTocRetryCount());
 			hql.append(", gatherTocSkippedCount = ");
 			hql.append(jobstats.getGatherTocSkippedCount());
-		} else if (updateType.equals(StatsUpdateTypeEnum.GATHERDOC)) {
+		} else if (updateType.equals(StatsUpdateTypeEnum.GATHERDOC) ||
+				updateType.equals(StatsUpdateTypeEnum.GENERATEDOC)) {
 			hql.append("gatherDocExpectedCount = ");
 			hql.append(jobstats.getGatherDocExpectedCount());
 			hql.append(", gatherDocRetrievedCount = ");

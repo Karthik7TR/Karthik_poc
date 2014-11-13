@@ -26,14 +26,14 @@ public class ProviewAuditDaoTest  {
 	private static final List<ProviewAudit> PROVIEW_AUDIT_LIST = new ArrayList<ProviewAudit>();
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private Criteria mockCriteria;
 	private ProviewAuditDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new ProviewAuditDaoImpl(mockSessionFactory);
 	}

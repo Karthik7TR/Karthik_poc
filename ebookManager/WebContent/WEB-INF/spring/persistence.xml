@@ -3,18 +3,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        				   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-        				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<!--
 		Hibernate session factory definition that uses annotations in the entities to map to tables/columns.
 	-->
-  	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+  	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="hibernateProperties">
 	      <props>
@@ -56,6 +54,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		  </list>
 		</property>
   	</bean>
@@ -63,7 +62,7 @@
   	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
   		  p:dataSource-ref="dataSource"/>
   	
-  	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+  	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
 		  p:sessionFactory-ref="sessionFactory"/>
 
 	<!-- Enable the configuration of transactional behavior based on @Transactional annotations -->

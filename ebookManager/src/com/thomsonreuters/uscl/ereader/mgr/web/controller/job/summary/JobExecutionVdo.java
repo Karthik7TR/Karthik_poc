@@ -118,7 +118,7 @@ public class JobExecutionVdo {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public List<Map.Entry<String,?>> getJobParameterMapEntryList() {
 		if (jobExecution != null) {
-			JobParameters jobParameters = jobExecution.getJobInstance().getJobParameters();
+			JobParameters jobParameters = jobExecution.getJobParameters();
 			Map<String,JobParameter> jobParameterMap = jobParameters.getParameters();
 			Set entrySet = jobParameterMap.entrySet();
 			return createMapEntryList(entrySet);

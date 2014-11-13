@@ -117,6 +117,8 @@ public class DocMetaDataGuidParserServiceImpl implements
 					+ xmlFile.getAbsolutePath();
 			LOG.error(message);
 			throw new EBookGatherException(message, e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return handler.getDocGuidList();

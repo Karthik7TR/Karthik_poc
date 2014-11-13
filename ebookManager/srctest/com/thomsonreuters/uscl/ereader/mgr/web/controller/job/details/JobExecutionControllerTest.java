@@ -39,8 +39,8 @@ public class JobExecutionControllerTest {
 	private static final Long RESTARTED_ID = 1970l;
 	private static final Long ID_TO_STOP = 1997l;
 	private static final String RESOURCE_BUNDLE_MESSAGE = "Status of operation";
-	private static final JobInstance JOB_INSTANCE = new JobInstance(JIID, new JobParameters(), "bogusJobName");
-	private static final JobExecution JOB_EXECUTION = new JobExecution(JOB_INSTANCE);
+	private static final JobInstance JOB_INSTANCE = new JobInstance(JIID, "bogusJobName");
+	private static final JobExecution JOB_EXECUTION = new JobExecution(JOB_INSTANCE, new JobParameters());
 	
 	private JobExecutionController controller;
 	private MockHttpServletRequest request;

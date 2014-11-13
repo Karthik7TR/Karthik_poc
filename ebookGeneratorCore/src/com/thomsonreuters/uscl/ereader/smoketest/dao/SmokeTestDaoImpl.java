@@ -6,9 +6,12 @@
 
 package com.thomsonreuters.uscl.ereader.smoketest.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.jdbc.ReturningWork;
 
 /**
  * DAO to test DB connection
@@ -27,14 +30,17 @@ public class SmokeTestDaoImpl implements SmokeTestDao {
 	public boolean testConnection() {
 		boolean status = false;
 		try {
-			status = sessionFactory.getCurrentSession().connection().isValid(5000);
+			status = sessionFactory.getCurrentSession().doReturningWork( new ReturningWork<Boolean>() {
+	            @Override
+	            public Boolean execute(Connection connection) throws SQLException 
+	            { 
+	                return connection.isValid(5000);
+	            }
+	        });
 		} catch (HibernateException e) {
 			status = false;
 			e.printStackTrace();
-		} catch (SQLException e) {
-			status = false;
-			e.printStackTrace();
-		}
+		} 
 		return status;
 	}
 }

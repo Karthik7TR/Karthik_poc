@@ -100,7 +100,7 @@ public class InitializeTaskTest {
 		publishingStatsService.savePublishingStats(pubStats);
 
 		EasyMock.expect(jobExecution.getJobInstance()).andReturn(jobInstance);
-		EasyMock.expect(jobInstance.getJobParameters()).andReturn(jobParams);
+		EasyMock.expect(jobExecution.getJobParameters()).andReturn(jobParams);
 		EasyMock.expect(jobInstance.getId()).andReturn(JOB_ID);
 		EasyMock.replay(chunkContext);
 		EasyMock.replay(stepContext);

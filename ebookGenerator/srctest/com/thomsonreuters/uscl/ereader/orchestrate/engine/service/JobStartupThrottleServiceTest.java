@@ -66,7 +66,7 @@ public class JobStartupThrottleServiceTest  {
 
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3); 
-		JobExecution jobExecutionTest = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
+		JobExecution jobExecutionTest = new JobExecution(new JobInstance(234l, "ThrottleTestJob"), new JobParameters(), "ThrottleTestJob");
 		runningJobExecutions.add(jobExecutionTest);
 		
 		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
@@ -95,9 +95,9 @@ public class JobStartupThrottleServiceTest  {
 		service.setJobThrottleConfig(config);
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(2);
-		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
-		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
-		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
+		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
+		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
+		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
 		
 		runningJobExecutions.add(jobExecutionTest_1);
 		runningJobExecutions.add(jobExecutionTest_2);
@@ -138,9 +138,9 @@ public class JobStartupThrottleServiceTest  {
 		service.setJobThrottleConfig(config);
 		// test specific setup.
 		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3);
-		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
-		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
-		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,new JobParameters(),"ThrottleTestJob"));
+		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
+		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
+		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
 		
 		runningJobExecutions.add(jobExecutionTest_1);
 		runningJobExecutions.add(jobExecutionTest_2);

@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
+import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
 import com.westgroup.novus.productapi.Document;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;

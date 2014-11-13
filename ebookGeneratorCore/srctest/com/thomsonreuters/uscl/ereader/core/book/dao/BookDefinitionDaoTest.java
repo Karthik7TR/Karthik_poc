@@ -19,13 +19,13 @@ public class BookDefinitionDaoTest  {
 	private static final BookDefinition BOOK_DEFINITION = new BookDefinition();
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private BookDefinitionDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.dao = new BookDefinitionDaoImpl(mockSessionFactory);
 	}
 	

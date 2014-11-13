@@ -11,7 +11,7 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.junit.Assert;
 import org.junit.Before;

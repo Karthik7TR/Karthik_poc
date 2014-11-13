@@ -4,16 +4,21 @@
      xmlns:context="http://www.springframework.org/schema/context"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="
-           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
  
 	<job id="ebookGeneratorJob">
 		<step id="initializeJob">
 			<tasklet ref="initializeTask"/>
-			<next on="COMPLETED" to="getToc"/>
+			<next on="COMPLETED" to="decision"/>
 			<fail on="FAILED"/>
 		</step>
+		
+		<decision id="decision" decider="NovusOrFileDecider">
+			<next on="NAS_FILE" to="generateToc" />
+			<next on="NOVUS" to="getToc" />
+		</decision>
 		
 		<!-- Fetch TOC from Gather REST service -->
 		<step id="getToc">
@@ -25,6 +30,20 @@
 		<!-- Fetch document(s) and their metadata from Gather REST service using TOC info from previous step -->
 		<step id="getDocAndMetadata">
 			<tasklet ref="getDocAndMetadataTask"/>
+			<next on="COMPLETED" to="persistMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Generate TOC from Codes Workbench NORT file -->
+		<step id="generateToc">
+			<tasklet ref="generateTocTask"/>
+			<next on="COMPLETED" to="generateDocAndMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Generate document(s) and their metadata from Codes Workbench DOC file using TOC info from previous step -->
+		<step id="generateDocAndMetadata">
+			<tasklet ref="generateDocAndMetadataTask"/>
 			<next on="COMPLETED" to="persistMetadata"/>
 			<fail on="FAILED"/>
 		</step>
@@ -158,16 +177,25 @@
 	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="parentTask"
 				p:environmentName-ref="environmentName"
 				p:rootWorkDirectory="${root.work.directory}"
+				p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:ebookAuditService-ref="eBookAuditService"
 				p:bookDefnService-ref="bookDefinitionService"/>
+	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="parentTask"
 				p:gatherService-ref="gatherService"
 				p:publishingStatsService-ref="publishingStatsService"/>				
 	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="parentTask"
 				p:gatherService-ref="gatherService"
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
-				p:publishingStatsService-ref="publishingStatsService"/>							
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="generateTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="parentTask"
+				p:novusNortFileService-ref="novusNortFileService"
+				p:publishingStatsService-ref="publishingStatsService"/>				
+	<beans:bean id="generateDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="parentTask"
+				p:novusDocFileService-ref="novusDocFileService"
+				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
+				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="parentTask"
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>							

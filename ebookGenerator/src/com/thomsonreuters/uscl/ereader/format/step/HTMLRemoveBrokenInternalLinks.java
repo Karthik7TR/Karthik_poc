@@ -46,7 +46,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
 	{
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
-		JobParameters jobParams = jobInstance.getJobParameters();
+		JobParameters jobParams = getJobParameters(chunkContext);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		

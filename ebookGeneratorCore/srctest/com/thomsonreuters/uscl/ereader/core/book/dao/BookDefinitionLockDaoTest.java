@@ -28,14 +28,14 @@ public class BookDefinitionLockDaoTest  {
 	private final static BookDefinitionLock BOOK_LOCK = new BookDefinitionLock();
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private Criteria mockCriteria;
 	private BookDefinitionLockDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new BookDefinitionLockDaoImpl(mockSessionFactory);
 	}

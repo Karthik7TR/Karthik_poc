@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 
 
 /**
@@ -336,7 +337,19 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 	@Column(name = "USE_RELOAD_CONTENT", length = 1)
-	String useReloadContent;	
+	String useReloadContent;
+	
+	@Column(name = "NORT_FILE_LOCATION_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String nortFileLocationConcat;
+	
+	/**
+	 */
+	@Column(name = "SOURCE_TYPE", length = 10)
+	String sourceType;	
+	
+	@Column(name = "CWB_BOOK_NAME", length = 1028)
+	String cwbBookName;
 
 	/**
 	 */
@@ -768,6 +781,9 @@ public class EbookAudit implements Serializable {
 		setDocumentCurrencyConcat(that.getDocumentCurrencyConcat());
 		setIsFinalStage(that.isFinalStage());
 		setUseReloadContent(that.getUseReloadContent());
+		setNortFileLocationConcat(that.getNortFileLocationConcat());
+		setSourceType(that.getSourceType());
+		setCwbBookName(that.getCwbBookName());
 	}
 
 	/**
@@ -823,6 +839,9 @@ public class EbookAudit implements Serializable {
 		setIsFinalStage(that.isFinalStage());
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setUseReloadContent(that.getUseReloadContent());
+		setNortFileLocationConcat(maxString(concatString(that.getNortFileLocations()), MAX_CHARACTER_2048));
+		setSourceType(that.getSourceType());
+		setCwbBookName(that.getCwbBookName());
 	}
 	
 	@Transient
@@ -898,6 +917,9 @@ public class EbookAudit implements Serializable {
 		buffer.append("documentCopyrightConcat=[").append(documentCopyrightConcat).append("] ");
 		buffer.append("documentCurrencyConcat=[").append(documentCurrencyConcat).append("] ");
 		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
+		buffer.append("nortFileLocationConcat=[").append(nortFileLocationConcat).append("] ");
+		buffer.append("sourceType=[").append(sourceType).append("] ");
+		buffer.append("cwbBookName=[").append(cwbBookName).append("] ");
 		
 		return buffer.toString();
 	}
@@ -1091,5 +1113,53 @@ public class EbookAudit implements Serializable {
 
 	public void setUseReloadContent(boolean isFinalStage) {
 		this.useReloadContent =( (isFinalStage) ? "Y" : "N");
+	}
+	
+	/**
+	 */
+	public void setNortFileLocationConcat(String nortFileLocationConcat) {
+		this.nortFileLocationConcat = nortFileLocationConcat;
+	}
+
+	/**
+	 */
+	public String getNortFileLocationConcat() {
+		return this.nortFileLocationConcat;
+	}
+	
+	public SourceType getSourceType() {
+		if(StringUtils.isBlank(this.sourceType)) {
+			return SourceType.TOC;
+		} else {
+			if(this.sourceType.equalsIgnoreCase("NORT")) {
+				return SourceType.NORT;
+			} else if(this.sourceType.equalsIgnoreCase("FILE")) {
+				return SourceType.FILE;
+			} else {
+				return SourceType.TOC;
+			}
+		}
+	}
+
+	public void setSourceType(SourceType type) {
+		switch(type) {
+			case NORT:
+				this.sourceType = "NORT";
+				break;
+			case FILE:
+				this.sourceType = "FILE";
+				break;
+			default:
+				this.sourceType = "TOC";
+				break;
+		}
+	}
+
+	public String getCwbBookName() {
+		return cwbBookName;
+	}
+
+	public void setCwbBookName(String cwbBookName) {
+		this.cwbBookName = cwbBookName;
 	}
 }

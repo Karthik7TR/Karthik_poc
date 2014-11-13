@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -44,6 +45,7 @@ public class InitializeTask extends AbstractSbTasklet {
 	private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
 
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
+	private File rootCodesWorkbenchLandingStrip;
 	private String environmentName;
 	private PublishingStatsService publishingStatsService;
 	private EBookAuditService eBookAuditService;
@@ -58,7 +60,7 @@ public class InitializeTask extends AbstractSbTasklet {
 		JobExecution jobExecution = stepExecution.getJobExecution();
 		ExecutionContext jobExecutionContext = jobExecution.getExecutionContext();
 		JobInstance jobInstance = jobExecution.getJobInstance();
-		JobParameters jobParams = jobInstance.getJobParameters();
+		JobParameters jobParams = jobExecution.getJobParameters();
 		String publishStatus="Completed";
 		try 
 		{
@@ -75,7 +77,18 @@ public class InitializeTask extends AbstractSbTasklet {
 			log.info("TOC Collection: " + bookDefinition.getTocCollectionName());
 			log.info("TOC Root Guid: " + bookDefinition.getRootTocGuid());
 			log.info("NORT Domain: " + bookDefinition.getNortDomain());
-			log.info("NORT Filter: " + bookDefinition.getNortFilterView());		
+			log.info("NORT Filter: " + bookDefinition.getNortFilterView());	
+			
+			if(bookDefinition.getSourceType().equals(SourceType.FILE)) {
+				if (!rootCodesWorkbenchLandingStrip.exists()) {
+					throw new IllegalStateException("Expected Codes Workbench landing strip directory does not exist: " + 
+							rootCodesWorkbenchLandingStrip.getAbsolutePath());
+				}
+				
+				jobExecutionContext.putString(
+						JobExecutionKey.CODES_WORKBENCH_ROOT_LANDING_STRIP_DIR, 
+						rootCodesWorkbenchLandingStrip.getAbsolutePath());
+			}
 	
 			// Create the work directory for the ebook and create the physical directory in the filesystem
 			// "<yyyyMMdd>/<titleId>/<jobInstanceId>"
@@ -269,6 +282,10 @@ public class InitializeTask extends AbstractSbTasklet {
 	@Required
 	public void setRootWorkDirectory(File rootDir) {
 		this.rootWorkDirectory = rootDir;
+	}
+	@Required
+	public void setRootCodesWorkbenchLandingStrip(File rootDir) {
+		this.rootCodesWorkbenchLandingStrip = rootDir;
 	}
 	@Required
 	public void setEnvironmentName(String envName) {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -19,10 +18,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
 public class ManagerDaoImpl implements ManagerDao {
 	private static final Logger log = Logger.getLogger(ManagerDaoImpl.class);
@@ -34,7 +30,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	public JobExecution findRunningJobExecution(Long bookDefinitionId) {
 		Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(JobRequest.JOB_NAME_CREATE_EBOOK);
 		for (JobExecution jobExec : runningJobs) {
-			JobParameters params = jobExec.getJobInstance().getJobParameters();
+			JobParameters params = jobExec.getJobParameters();
 			Long bookDefIdParamValue = params.getLong(JobParameterKey.BOOK_DEFINITION_ID);
 			if (bookDefinitionId.equals(bookDefIdParamValue)) {
 				return jobExec;

@@ -42,6 +42,8 @@ public class JobExecutionKey {
 	public static final String GATHER_TOC_DIR = "gatherTocDir";
 	public static final String GATHER_TOC_FILE = "gatherTocFile";
 	
+	public static final String CODES_WORKBENCH_ROOT_LANDING_STRIP_DIR = "rootCodesWorkbenchLandingStripDir";
+	
 	/**
 	 * Destination directory for images fetched from the Image Vertical REST service, these are considered dynamic images.
 	 */

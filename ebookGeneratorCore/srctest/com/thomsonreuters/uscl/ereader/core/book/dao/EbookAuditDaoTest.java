@@ -29,7 +29,7 @@ public class EbookAuditDaoTest  {
 	private static final List<EbookAudit> BOOK_AUDIT_LIST = new ArrayList<EbookAudit>();
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private Query mockQuery;
 	private Criteria mockCriteria;
 	private EBookAuditDaoImpl dao;
@@ -37,7 +37,7 @@ public class EbookAuditDaoTest  {
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockQuery = EasyMock.createMock(Query.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new EBookAuditDaoImpl(mockSessionFactory);

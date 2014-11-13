@@ -23,7 +23,7 @@ public class ImageDaoTest  {
 	private static long JOB_INSTANCE_ID = 1965;
 	
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private Criteria mockCriteria;
 	private ImageDaoImpl dao;
 	
@@ -31,7 +31,7 @@ public class ImageDaoTest  {
 	public void setUp() throws Exception {
 		
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new ImageDaoImpl(mockSessionFactory);
 	}

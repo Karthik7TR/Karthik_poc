@@ -17,13 +17,13 @@ import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 public class UserPreferenceDaoTest  {
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private UserPreferenceDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.dao = new UserPreferenceDaoImpl(mockSessionFactory);
 	}
 	

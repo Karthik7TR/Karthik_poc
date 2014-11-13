@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -70,7 +69,7 @@ public class JobSummaryFilterControllerTest {
     	jobExecutionIds.add(JEID);
     	List<JobExecution> jobExecutions = new ArrayList<JobExecution>();
     	JobExecution jobExecution = new JobExecution(JEID);
-    	jobExecution.setJobInstance(new JobInstance(3456l, new JobParameters(), "bogusJobName"));
+    	jobExecution.setJobInstance(new JobInstance(3456l, "bogusJobName"));
     	jobExecutions.add(jobExecution);
     	
     	EasyMock.expect(mockJobService.findJobExecutions(

@@ -24,14 +24,14 @@ public class OutageDaoTest  {
 	private List<PlannedOutage> PLANNED_OUTAGE_LIST;
 
 	private SessionFactory mockSessionFactory;
-	private org.hibernate.classic.Session mockSession;
+	private org.hibernate.Session mockSession;
 	private Criteria mockCriteria;
 	private OutageDaoImpl dao;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-		this.mockSession = EasyMock.createMock(org.hibernate.classic.Session.class);
+		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new OutageDaoImpl(mockSessionFactory);
 		

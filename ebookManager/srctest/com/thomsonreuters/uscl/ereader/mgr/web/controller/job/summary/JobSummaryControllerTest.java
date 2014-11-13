@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -81,7 +80,7 @@ public class JobSummaryControllerTest {
     	for (long id = 0; id < JOB_EXEC_ID_COUNT; id++) {
     		jobExecutionIds.add(id);
     		JobExecution jobExecution = new JobExecution(id);
-    		jobExecution.setJobInstance(new JobInstance(id+100, new JobParameters(), "bogusJobName"));
+    		jobExecution.setJobInstance(new JobInstance(id+100, "bogusJobName"));
     		jobExecutions.add(jobExecution);
     	}
     	this.jobExecutionIdSubList = jobExecutionIds.subList(0, PageAndSort.DEFAULT_ITEMS_PER_PAGE);

@@ -58,6 +58,7 @@ public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static enum PilotBookStatus {TRUE, FALSE, IN_PROGRESS};
+	public static enum SourceType {TOC, NORT, FILE};
 
 	/**
 	 */
@@ -327,6 +328,21 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<DocumentCurrency> documentCurrencies;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
+	Set<NortFileLocation> nortFileLocations;
+	/**
+	 */
+	@Column(name = "SOURCE_TYPE")
+	@Basic(fetch = FetchType.EAGER)
+	String sourceType;
+	/**
+	 */
+	@Column(name = "CWB_BOOK_NAME")
+	@Basic(fetch = FetchType.EAGER)
+	String cwbBookName;
 
 	/**
 	 */
@@ -731,6 +747,42 @@ public class BookDefinition implements Serializable {
 				break;
 		}
 	}
+	
+	public SourceType getSourceType() {
+		if(StringUtils.isBlank(this.sourceType)) {
+			return SourceType.TOC;
+		} else {
+			if(this.sourceType.equalsIgnoreCase("NORT")) {
+				return SourceType.NORT;
+			} else if(this.sourceType.equalsIgnoreCase("FILE")) {
+				return SourceType.FILE;
+			} else {
+				return SourceType.TOC;
+			}
+		}
+	}
+
+	public void setSourceType(SourceType type) {
+		switch(type) {
+			case NORT:
+				this.sourceType = "NORT";
+				break;
+			case FILE:
+				this.sourceType = "FILE";
+				break;
+			default:
+				this.sourceType = "TOC";
+				break;
+		}
+	}
+
+	public String getCwbBookName() {
+		return cwbBookName;
+	}
+
+	public void setCwbBookName(String cwbBookName) {
+		this.cwbBookName = cwbBookName;
+	}
 
 	/**
 	 */
@@ -809,6 +861,25 @@ public class BookDefinition implements Serializable {
 		authorList.addAll(authors);
 		Collections.sort(authorList);	
 		return authorList;
+	}
+	
+	/**
+	 */
+	public void setNortFileLocations(Collection<NortFileLocation> nortFileLocations) {
+		this.nortFileLocations = new java.util.LinkedHashSet<NortFileLocation>(nortFileLocations);
+	}
+
+	/**
+	 */
+	public ArrayList<NortFileLocation> getNortFileLocations() {
+		if (nortFileLocations == null) {
+			nortFileLocations = new java.util.LinkedHashSet<NortFileLocation>();
+		}	
+		// Sort by sequence numbers
+		ArrayList<NortFileLocation> nortFileLocationList = new ArrayList<NortFileLocation>();
+		nortFileLocationList.addAll(nortFileLocations);
+		Collections.sort(nortFileLocationList);	
+		return nortFileLocationList;
 	}
 
 	/**
@@ -948,6 +1019,7 @@ public class BookDefinition implements Serializable {
 		this.setIsProviewTableViewFlag(false);
 		this.setIsFinalStage(true);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
+		this.setSourceType(SourceType.TOC);
 		this.setUseReloadContent(false);
 	}
 
@@ -989,6 +1061,7 @@ public class BookDefinition implements Serializable {
 		setIsAuthorDisplayVertical(that.isAuthorDisplayVertical());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
+		setNortFileLocations(new java.util.LinkedHashSet<NortFileLocation>(that.getNortFileLocations()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
@@ -999,6 +1072,8 @@ public class BookDefinition implements Serializable {
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setIsFinalStage(that.isFinalStage());
 		setUseReloadContent(that.getUseReloadContent());
+		setSourceType(that.getSourceType());
+		setCwbBookName(that.getCwbBookName());
 	}
 
 	/**
@@ -1043,6 +1118,8 @@ public class BookDefinition implements Serializable {
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
 		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
+		buffer.append("sourceType=[").append(sourceType).append("] ");
+		buffer.append("cwbBookName=[").append(cwbBookName).append("] ");
 		
 		return buffer.toString();
 	}

@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
+import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.westgroup.novus.productapi.Document;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;

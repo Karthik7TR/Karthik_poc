@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.gather.util.EBConstants;
+import com.thomsonreuters.uscl.ereader.core.EBConstants;
 
 /**
  * Test for HomeController
