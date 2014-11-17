@@ -83,7 +83,12 @@ public class NovusDocFileServiceImpl implements NovusDocFileService {
 					if (fileName.lastIndexOf("-") > -1)
 					{
 						docCollectionName = fileName.substring(0, fileName.lastIndexOf("-")); 
+					} 
+					else
+					{
+						throw new IllegalStateException("Codes Workbench doc file does not have DOC collection name.");
 					}
+						
 					
 					NovusDocFileParser parser = new NovusDocFileParser(docCollectionName, docGuidsMap, 
 							contentDestinationDirectory, metadataDestinationDirectory, gatherResponse, tocSequence);
