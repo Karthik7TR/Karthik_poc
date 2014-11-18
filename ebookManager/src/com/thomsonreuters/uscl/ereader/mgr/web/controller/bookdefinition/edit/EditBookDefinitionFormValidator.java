@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -31,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -87,6 +89,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterTitle().getBookNameText(), "frontMatterTitle.bookNameText", new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCodesWorkbenchBookName(), "codesWorkbenchBookName", new Object[] {"Codes Workbench Book Name", MAXIMUM_CHARACTER_1024});
 		
 		validateAuthors(form, errors);
 		validateExcludeDocuments(form, errors);
@@ -109,13 +112,17 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
 
-			if (form.getIsTOC()) {
+			if(form.getSourceType().equals(SourceType.TOC)) {
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
-			} else {
+			} else if(form.getSourceType().equals(SourceType.NORT)) {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
+			} else {
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "codesWorkbenchBookName", "error.required");
+				validateNortFileLocations(form, errors);
+				
 			}
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
@@ -257,6 +264,30 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			i++;
 		}
 	}
+	
+	private void validateNortFileLocations(EditBookDefinitionForm form, Errors errors) {
+		// Require at least one file location
+		// Also check max character length for all the fields
+    	List<NortFileLocation> nortFileLocations = form.getNortFileLocations();
+    	// Sort the list before validations
+		Collections.sort(nortFileLocations);
+		form.setNortFileLocations(nortFileLocations);
+		List<Integer> sequenceChecker = new ArrayList<Integer>();
+    	int i = 0;
+		for(NortFileLocation fileLocation : nortFileLocations) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, fileLocation.getLocationName(), "nortFileLocations["+ i +"].locationName", new Object[] {"Location Name", MAXIMUM_CHARACTER_1024});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].locationName", "error.required.field");
+			// Check duplicate sequence numbers exist
+			checkDuplicateSequenceNumber(errors, fileLocation.getSequenceNum(), "nortFileLocations["+ i +"].sequenceNum", sequenceChecker);
+			i++;
+		}
+		
+		if(i == 0) {
+			errors.rejectValue("nortFileLocations", "error.at.least.one", new Object[]{"Content Information"}, "At Least 1 Content Information is required");
+		}
+	}
+	
 	
 	private void validateExcludeDocuments(EditBookDefinitionForm form, Errors errors) {
 		// Validate Exclude Documents has all required fields

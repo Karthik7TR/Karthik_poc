@@ -94,7 +94,7 @@ public class GenerateTocTask  extends AbstractSbTasklet {
         		File contentDirectory = new File(rootCodesWorkbenchLandingStrip, contentPath);
         		if (!contentDirectory.exists()) 
         		{
-					throw new IllegalStateException("Expected Codes Workbench content direction does not exist: " + 
+					throw new IllegalStateException("Expected Codes Workbench content directory does not exist: " + 
 							contentDirectory.getAbsolutePath());
 				}
 

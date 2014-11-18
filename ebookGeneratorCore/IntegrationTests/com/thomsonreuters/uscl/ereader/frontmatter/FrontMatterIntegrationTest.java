@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 
@@ -58,7 +59,7 @@ public class FrontMatterIntegrationTest {
 		eBook.setTocCollectionName("invalidTocCollection");
 		eBook.setIsbn("1234");
 		eBook.setMaterialId("12345");
-		eBook.setIsTocFlag(true);
+		eBook.setSourceType(SourceType.TOC);
 		eBook.setAutoUpdateSupportFlag(true);
 		eBook.setEbookDefinitionCompleteFlag(true);
 		eBook.setIsDeletedFlag(false);

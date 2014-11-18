@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -798,7 +803,8 @@ public class EbookAudit implements Serializable {
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
 		setMaterialId(that.getMaterialId());
-		setIsTocFlag(that.isTocFlag());
+		// TODO: remove setIsTocFlag once column is removed from table
+		setIsTocFlag(true);
 		setRootTocGuid(that.getRootTocGuid());
 		setDocCollectionName(that.getDocCollectionName());
 		setTocCollectionName(that.getTocCollectionName());
@@ -877,7 +883,6 @@ public class EbookAudit implements Serializable {
 		buffer.append("copyright=[").append(copyright).append("] ");
 		buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
 		buffer.append("materialId=[").append(materialId).append("] ");
-		buffer.append("isTocFlag=[").append(isTocFlag).append("] ");
 		buffer.append("rootTocGuid=[").append(rootTocGuid).append("] ");
 		buffer.append("docCollectionName=[").append(docCollectionName).append("] ");
 		buffer.append("tocCollectionName=[").append(tocCollectionName).append("] ");

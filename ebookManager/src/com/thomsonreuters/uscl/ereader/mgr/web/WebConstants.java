@@ -48,6 +48,7 @@ public class WebConstants {
 	public static final String KEY_NUMBER_OF_TABLE_VIEWERS = "numberOfTableViewers";
 	public static final String KEY_NUMBER_OF_DOCUMENT_COPYRIGHTS = "numberOfDocumentCopyrights";
 	public static final String KEY_NUMBER_OF_DOCUMENT_CURRENCIES = "numberOfDocumentCurrencies";
+	public static final String KEY_NUMBER_OF_NORT_FILE_LOCATIONS = "numberOfNortFileLocations";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_INFO_MESSAGES = "infoMessages";
 	public static final String KEY_ERR_MESSAGE = "errMessage";

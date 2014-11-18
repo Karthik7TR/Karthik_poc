@@ -25,8 +25,10 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -405,6 +407,45 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
+		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+		EasyMock.verify(mockCodeService);
+	}
+	
+	/**
+	 * Test all required fields when put on Complete with File source type
+	 */
+	@Test
+	public void testAllRequiredFieldsFile() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+		EasyMock.replay(mockCodeService);
+    	
+		populateFormDataAnalyticalFile();
+    	form.setIsComplete(true);
+		form.setProviewDisplayName(null);
+		form.setFrontMatterTitle(new EbookName());
+		form.setCopyright(null);
+		form.setMaterialId(null);
+		form.setIsbn(null);
+		form.setCodesWorkbenchBookName(null);
+		form.setNortFileLocations(new ArrayList<NortFileLocation>());
+		form.setRootTocGuid(null);
+		form.setFrontMatterTocLabel(null);
+		validator.validate(form, errors);
+		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("copyright").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("codesWorkbenchBookName").getCode());
+		Assert.assertEquals("error.at.least.one", errors.getFieldError("nortFileLocations").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
@@ -891,11 +932,31 @@ public class EditBookDefinitionFormValidatorTest {
 		EasyMock.replay(mockCodeService);
 	}
 	
+	private BookDefinition populateFormDataAnalyticalFile() {
+		String titleId = "uscl/an/abcd";
+		BookDefinition book = initializeBookDef(titleId, analyticalCode);
+		book.setSourceType(SourceType.FILE);
+		populateFormData(book);
+		form.setCodesWorkbenchBookName("book");
+		EbookName nameLine = new EbookName();
+		nameLine.setEbookNameId(1);
+		nameLine.setBookNameText("Book Title");
+		nameLine.setSequenceNum(1);
+		form.setFrontMatterTitle(nameLine);
+		form.setFrontMatterTocLabel("Label");
+		NortFileLocation fileLocation = new NortFileLocation();
+		fileLocation.setNortFileLocationId(1L);
+		fileLocation.setSequenceNum(1);
+		fileLocation.setLocationName("content");
+		form.getNortFileLocations().add(fileLocation);
+		
+		return book;
+	}
 	
 	private BookDefinition populateFormDataAnalyticalNort() {
 		String titleId = "uscl/an/abcd";
 		BookDefinition book = initializeBookDef(titleId, analyticalCode);
-		book.setIsTocFlag(false);
+		book.setSourceType(SourceType.NORT);
 		populateFormData(book);
 		form.setNortDomain("1234");
 		form.setNortFilterView("1234");
@@ -912,7 +973,7 @@ public class EditBookDefinitionFormValidatorTest {
 	private BookDefinition populateFormDataAnalyticalToc() {
 		String titleId = "uscl/an/abcd";
 		BookDefinition book = initializeBookDef(titleId, analyticalCode);
-		book.setIsTocFlag(true);
+		book.setSourceType(SourceType.TOC);
 		populateFormData(book);
 		form.setTocCollectionName("1234");
 		form.setDocCollectionName("doc collection");
@@ -936,14 +997,14 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setKeyCiteToplineFlag(book.getKeyciteToplineFlag());
 		form.setIsComplete(book.getEbookDefinitionCompleteFlag());
 		form.setValidateForm(false);
-		form.setIsTOC(book.isTocFlag());
+		form.setSourceType(book.getSourceType());
 	}
 	
 	private BookDefinition initializeBookDef(String titleId, DocumentTypeCode contentType) {
 		BookDefinition book = new BookDefinition();
 		book.setDocumentTypeCodes(contentType);
 		book.setFullyQualifiedTitleId(titleId);
-		book.setIsTocFlag(false);
+		book.setSourceType(SourceType.NORT);
     	book.setIsDeletedFlag(false);
     	book.setEbookDefinitionCompleteFlag(false);
     	book.setAutoUpdateSupportFlag(true);

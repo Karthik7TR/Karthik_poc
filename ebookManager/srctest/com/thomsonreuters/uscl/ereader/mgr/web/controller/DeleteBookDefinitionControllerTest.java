@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -91,7 +92,7 @@ public class DeleteBookDefinitionControllerTest {
     	BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_ID);
     	BOOK_DEFINITION.setFullyQualifiedTitleId("something");
     	BOOK_DEFINITION.setCopyright("something");
-    	BOOK_DEFINITION.setIsTocFlag(false);
+    	BOOK_DEFINITION.setSourceType(SourceType.NORT);
     	BOOK_DEFINITION.setIsDeletedFlag(false);
     	BOOK_DEFINITION.setEbookDefinitionCompleteFlag(false);
     	BOOK_DEFINITION.setAutoUpdateSupportFlag(true);

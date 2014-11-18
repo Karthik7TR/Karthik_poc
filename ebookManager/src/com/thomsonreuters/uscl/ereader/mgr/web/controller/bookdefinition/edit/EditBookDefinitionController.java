@@ -358,6 +358,7 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_TABLE_VIEWERS, form.getTableViewers().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_DOCUMENT_COPYRIGHTS, form.getDocumentCopyrights().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_DOCUMENT_CURRENCIES, form.getDocumentCurrencies().size());
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_NORT_FILE_LOCATIONS,form.getNortFileLocations().size());
 		
 		// Set drop down lists
 		model.addAttribute(WebConstants.KEY_STATES, editBookDefinitionService.getStates());

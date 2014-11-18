@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -13,9 +18,12 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -104,6 +112,11 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
 		setLocationName(that.getLocationName());
 		setSequenceNum(that.getSequenceNum());
 		setEbookDefinition(that.getEbookDefinition());
+	}
+	
+	@Transient
+	public boolean isEmpty() {
+		return StringUtils.isBlank(this.locationName);
 	}
 	
 

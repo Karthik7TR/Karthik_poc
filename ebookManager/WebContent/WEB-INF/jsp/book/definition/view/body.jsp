@@ -65,12 +65,11 @@ function submitForm(cmd)
 				
 				<div class="rightDefinitionForm">
 					<div class="row">
-						<label class="labelCol">TOC or NORT</label>
-						<c:set var="tocOrNort" value="${ book.tocFlag ? 'TOC' : 'NORT'  }"/>
-						<span class="field">${tocOrNort}</span>
+						<label class="labelCol">Source Type</label>
+						<span class="field">${book.sourceType}</span>
 					</div>
 					<c:choose>
-					<c:when test="${ book.tocFlag }">
+					<c:when test="${ book.sourceType == 'TOC' }">
 						<div id="displayTOC">
 							<div class="row">
 								<label class="labelCol">TOC Collection</label>
@@ -86,7 +85,7 @@ function submitForm(cmd)
 							</div>
 						</div>
 					</c:when>
-					<c:otherwise>
+					<c:when test="${ book.sourceType == 'NORT' }">
 						<div id="displayNORT">
 							<div class="row">
 								<label class="labelCol">NORT Domain</label>
@@ -99,6 +98,26 @@ function submitForm(cmd)
 							<div class="row">
 								<label class="labelCol">Use Reload Content</label>
 								<span class="field">${ book.useReloadContent }</span>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div id="displayFile">
+							<div class="row">
+								<label class="labelCol">Codes Workbench Book Name</label>
+								<span class="field">${ book.cwbBookName }</span>
+							</div>
+							<div class="row">
+								<div class="dynamicContent">
+									<label class="labelCol">Content Set</label>
+									<c:forEach items="${ book.nortFileLocations }" var="fileLocation">
+										<div class="expandingBox">
+											<div class="dynamicRow">
+												<span class="field"> ${ fileLocation.locationName }</span>
+											</div>
+										</div>
+									</c:forEach>
+								</div>
 							</div>
 						</div>
 					</c:otherwise>

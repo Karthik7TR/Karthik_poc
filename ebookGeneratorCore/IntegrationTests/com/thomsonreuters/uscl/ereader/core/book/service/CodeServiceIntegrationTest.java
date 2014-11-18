@@ -32,6 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 
 
 
@@ -363,7 +364,7 @@ public class CodeServiceIntegrationTest  {
     	
     	book.setMaterialId("random");
     	book.setCopyright("something");
-    	book.setIsTocFlag(false);
+    	book.setSourceType(SourceType.NORT);
     	book.setIsDeletedFlag(false);
     	book.setEbookDefinitionCompleteFlag(false);
     	book.setAutoUpdateSupportFlag(true);

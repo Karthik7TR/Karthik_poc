@@ -418,18 +418,6 @@ public class BookDefinition implements Serializable {
 
 	/**
 	 */
-	public void setIsTocFlag(boolean isTocFlag) {
-		this.isTocFlag = ( (isTocFlag) ? "Y" : "N");		
-	}
-
-	/**
-	 */
-	public boolean isTocFlag() {
-		return ((this.isTocFlag.equalsIgnoreCase("Y") ? true : false));		
-	}
-
-	/**
-	 */
 	public void setRootTocGuid(String rootTocGuid) {
 		this.rootTocGuid = rootTocGuid;
 	}
@@ -1034,7 +1022,6 @@ public class BookDefinition implements Serializable {
 		setCopyright(that.getCopyright());
 		setCopyrightPageText(that.getCopyrightPageText());
 		setMaterialId(that.getMaterialId());
-		setIsTocFlag(that.isTocFlag());
 		setRootTocGuid(that.getRootTocGuid());
 		setDocCollectionName(that.getDocCollectionName());
 		setTocCollectionName(that.getTocCollectionName());

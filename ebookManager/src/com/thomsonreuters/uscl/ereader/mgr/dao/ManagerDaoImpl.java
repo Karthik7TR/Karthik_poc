@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.dao;
 
 import java.sql.Types;
@@ -85,6 +90,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	
 			// Delete the old Spring Batch job instance/execution/step rows
 			deleteSpringBatchRecords("delete from BATCH_JOB_PARAMS where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
+			deleteSpringBatchRecords("delete from BATCH_JOB_EXECUTION_PARAMS where (JOB_EXECUTION_ID = %d)", jobExecutionIds);
 			deleteSpringBatchRecords("delete from BATCH_JOB_EXECUTION_CONTEXT where (JOB_EXECUTION_ID = %d)", jobExecutionIds);
 			deleteSpringBatchRecords("delete from BATCH_STEP_EXECUTION_CONTEXT where (STEP_EXECUTION_ID = %d)", stepExecutionIds);
 			deleteSpringBatchRecords("delete from BATCH_STEP_EXECUTION where (JOB_EXECUTION_ID = %d)", jobExecutionIds);

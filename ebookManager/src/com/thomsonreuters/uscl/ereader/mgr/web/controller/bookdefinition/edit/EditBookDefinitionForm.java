@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -37,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
+import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
@@ -57,6 +59,7 @@ public class EditBookDefinitionForm {
 	private String copyrightPageText;
 	private String materialId;
 	private List<Author> authorInfo;
+	private List<NortFileLocation> nortFileLocations;
 	private List<FrontMatterPage> frontMatters;
 	private boolean isExcludeDocumentsUsed;
 	private Collection<ExcludeDocument> excludeDocuments;
@@ -71,10 +74,13 @@ public class EditBookDefinitionForm {
 	private Collection<DocumentCopyright> documentCopyrightsCopy;
 	private Collection<DocumentCurrency> documentCurrencies;
 	private Collection<DocumentCurrency> documentCurrenciesCopy;
+	private String codesWorkbenchBookName;
+	private SourceType sourceType;
+	
 	private boolean isFinalStage;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
-	private boolean isTOC;
+	
 	private String rootTocGuid;
 	private String docCollectionName;
 	private String tocCollectionName;
@@ -123,6 +129,7 @@ public class EditBookDefinitionForm {
 	public EditBookDefinitionForm() {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
+		this.nortFileLocations = new AutoPopulatingList<NortFileLocation>(NortFileLocation.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.excludeDocuments = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
 		this.excludeDocumentsCopy = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
@@ -152,6 +159,7 @@ public class EditBookDefinitionForm {
 		this.copyright = "\u00A9";
 		this.frontMatterTocLabel = "Publishing Information";
 		this.publishDateText = "see Title page for currentness";
+		this.sourceType = SourceType.NORT;
 	}
 	
 	/**
@@ -182,10 +190,13 @@ public class EditBookDefinitionForm {
 			name.setEbookDefinition(null);
 			name.setEbookNameId(null);
 		}
-		
 		for(Author author: bookDef.getAuthors()) {
 			author.setAuthorId(null);
 			author.setEbookDefinition(null);
+		}
+		for(NortFileLocation fileLocation : bookDef.getNortFileLocations()) {
+			fileLocation.setNortFileLocationId(null);
+			fileLocation.setEbookDefinition(null);
 		}
 		
 		initialize(bookDef, keywordCodes);
@@ -206,10 +217,10 @@ public class EditBookDefinitionForm {
 			this.nortFilterView = book.getNortFilterView();
 			this.isbn = book.getIsbn();
 			this.authorInfo = book.getAuthors();
+			this.nortFileLocations = book.getNortFileLocations();
 			this.frontMatters = book.getFrontMatterPages();
 			this.publishDateText = book.getPublishDateText();
 			this.currency = book.getCurrency();
-			this.isTOC = book.isTocFlag();
 			this.isComplete = book.getEbookDefinitionCompleteFlag();
 			this.keyCiteToplineFlag = book.getKeyciteToplineFlag();
 			this.autoUpdateSupport = book.getAutoUpdateSupportFlag();
@@ -232,6 +243,8 @@ public class EditBookDefinitionForm {
 			this.includeAnnotations = book.getIncludeAnnotations();
 			this.isFinalStage = book.isFinalStage();
 			this.useReloadContent = book.getUseReloadContent();
+			this.sourceType = book.getSourceType();
+			this.codesWorkbenchBookName = book.getCwbBookName();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -452,7 +465,6 @@ public class EditBookDefinitionForm {
 		book.setCoverImage(this.createCoverImageName());
 		
 		book.setIsbn(isbn);
-		book.setIsTocFlag(isTOC);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setPilotBookStatus(pilotBookStatus);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
@@ -493,6 +505,22 @@ public class EditBookDefinitionForm {
 		book.setIncludeAnnotations(includeAnnotations);
 		book.setIsFinalStage(isFinalStage);
 		book.setUseReloadContent(useReloadContent);
+		
+		book.setSourceType(sourceType);
+		book.setCwbBookName(codesWorkbenchBookName);
+		
+		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
+		i = 1;
+		for(NortFileLocation nortFileLocation : nortFileLocations) {
+			NortFileLocation fileLocationCopy = new NortFileLocation();
+			fileLocationCopy.copy(nortFileLocation);
+			fileLocationCopy.setEbookDefinition(book);
+			// Update the sequence number to be in order
+			fileLocationCopy.setSequenceNum(i);
+			tempNortFileLocations.add(fileLocationCopy);
+			i++;
+		}
+		book.setNortFileLocations(tempNortFileLocations);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -744,14 +772,6 @@ public class EditBookDefinitionForm {
 
 	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
 		this.frontMatterTocLabel = frontMatterTocLabel;
-	}
-
-	public boolean getIsTOC() {
-		return isTOC;
-	}
-
-	public void setIsTOC(boolean isTOC) {
-		this.isTOC = isTOC;
 	}
 
 	public String getRootTocGuid() {
@@ -1023,6 +1043,30 @@ public class EditBookDefinitionForm {
 	public void setSelectedFrontMatterPreviewPage(Long fmPageSeqNum) {
 		this.selectedFrontMatterPreviewPage = fmPageSeqNum;
 	}
+	
+	public SourceType getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(SourceType sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public String getCodesWorkbenchBookName() {
+		return codesWorkbenchBookName;
+	}
+
+	public void setCodesWorkbenchBookName(String codesWorkbenchBookName) {
+		this.codesWorkbenchBookName = codesWorkbenchBookName;
+	}
+
+	public List<NortFileLocation> getNortFileLocations() {
+		return nortFileLocations;
+	}
+
+	public void setNortFileLocations(List<NortFileLocation> nortFileLocations) {
+		this.nortFileLocations = nortFileLocations;
+	}
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
@@ -1048,6 +1092,14 @@ public class EditBookDefinitionForm {
         for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
         	Author author = i.next();
             if (author == null || author.isNameEmpty()) {
+                i.remove();
+            }
+        }
+        
+        //Clear out empty NortFileLocation
+        for (Iterator<NortFileLocation> i = nortFileLocations.iterator(); i.hasNext();) {
+        	NortFileLocation fileLocation = i.next();
+            if (fileLocation == null || fileLocation.isEmpty()) {
                 i.remove();
             }
         }

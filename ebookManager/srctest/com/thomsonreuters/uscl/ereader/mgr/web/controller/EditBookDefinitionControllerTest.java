@@ -35,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
@@ -293,7 +294,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
-    	request.setParameter("isTOC", "true");
+    	request.setParameter("sourceType", "TOC");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
@@ -510,7 +511,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
-    	request.setParameter("isTOC", "true");
+    	request.setParameter("sourceType", "TOC");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
@@ -584,7 +585,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("titleId", fullyQualifiedTitleId);
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
-    	request.setParameter("isTOC", "true");
+    	request.setParameter("sourceType", "TOC");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
@@ -658,7 +659,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
-    	request.setParameter("isTOC", "true");
+    	request.setParameter("sourceType", "TOC");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
@@ -936,7 +937,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("frontMatterTitle.sequenceNum", "1");
     	request.setParameter("copyright", "Somethings");
     	request.setParameter("materialId", "123456789012345678");
-    	request.setParameter("isTOC", "true");
+    	request.setParameter("sourceType", "TOC");
     	request.setParameter("rootTocGuid", "a12345678123456781234567812345678");
     	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
@@ -1019,7 +1020,7 @@ public class EditBookDefinitionControllerTest {
     	names.add(bookName);
     	book.setEbookNames(names);
     	book.setCopyright("something");
-    	book.setIsTocFlag(false);
+    	book.setSourceType(SourceType.NORT);
     	book.setIsDeletedFlag(false);
     	book.setEbookDefinitionCompleteFlag(false);
     	book.setAutoUpdateSupportFlag(true);

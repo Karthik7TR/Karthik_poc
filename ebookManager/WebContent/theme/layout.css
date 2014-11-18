@@ -750,3 +750,10 @@ div.ui-datepicker{
 #supportForm #linkAddress {
 	width: 20em;
 }
+
+#displayFile .dynamicContent .expandingBox {
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	padding-left:.5em;
+}

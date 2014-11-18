@@ -1,4 +1,3 @@
-<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -8,6 +7,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType"%>
 
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
 <c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
@@ -38,6 +38,7 @@
 		var tableViewerIndex = ${numberOfTableViewers};
 		var documentCopyrightIndex = ${numberOfDocumentCopyrights};
 		var documentCurrencyIndex = ${numberOfDocumentCurrencies};
+		var nortFileLocationIndex = ${numberOfNortFileLocations};
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -164,6 +165,31 @@
 		
 			$("#addAuthorHere").append(expandingBox);
 			authorIndex = authorIndex + 1;
+		};
+		
+		// Add another NORT file location row
+		var addNortLocationNameRow = function() {
+			var expandingBox = $("<div>").addClass("expandingBox");
+			var id = "nortFileLocations" + nortFileLocationIndex;
+			var name = "nortFileLocations[" + nortFileLocationIndex + "]";
+			
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			
+			// Add sequence number
+			var lastChild = $("#addNortFileLocationHere .expandingBox:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			
+			// Add input boxes
+			expandingBox.append(addDynamicRow("input", id, name, "locationName", "Name"));
+			
+			// Add delete button
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Content Information").attr("type", "button").val("Delete"));
+		
+			$("#addNortFileLocationHere").append(expandingBox);
+			nortFileLocationIndex = nortFileLocationIndex + 1;
 		};
 		
 		var addDynamicRow = function(elementName, id, name, fieldName, label, maxLength, cssClass, type, value) {
@@ -336,20 +362,35 @@
 			textboxHint("additionFrontMatterBlock");
 		};
 		
-		var updateTOCorNORT = function(isTOC) {
+		var updateSourceType = function(sourceType) {
 			$("#displayTOC").hide();
 			$("#displayNORT").hide();
+			$("#displayFILE").hide();
+			$("#displayFinalStage").hide();
 			
-			if(isTOC == "true") {
+			if(sourceType == "TOC") {
 				$("#displayTOC").show();
+				$("#displayFinalStage").show();
 				$("#nortFilterView").val("");
 				$("#nortDomain").val("");
 				$("input:radio[name=useReloadContent][value=false]").attr('checked', true);
-			} else {
+				$("#codesWorkbenchBookName").val("");
+				$("#addNortFileLocationHere .expandingBox").remove();
+			} else if(sourceType == "NORT") {
 				$("#displayNORT").show();
+				$("#displayFinalStage").show();
 				$("#rootTocGuid").val("");
 				$("#tocCollectionName").val("");
 				$("#docCollectionName").val("");
+				$("#codesWorkbenchBookName").val("");
+				$("#addNortFileLocationHere .expandingBox").remove();
+			} else {
+				$("#displayFILE").show();
+				$("#rootTocGuid").val("");
+				$("#tocCollectionName").val("");
+				$("#docCollectionName").val("");
+				$("#nortFilterView").val("");
+				$("#nortDomain").val("");
 			}
 		};
 		
@@ -515,6 +556,14 @@
 				$('#authorName').show();
 			});
 			
+			$('#addLocationName').click(function () {
+				addNortLocationNameRow();
+				
+				<%-- IE8 bug: forcing reflow/redraw to resize the parent div --%>
+				$('#addLocationName').hide();
+				$('#addLocationName').show();
+			});
+			
 			$('#addExcludeDocument').click(function () {
 				addGuidRow("excludeDocuments", excludeDocumentIndex, "documentGuid", "Document Guid", "Delete Exclude Document", null, null, $('#addExcludeDocumentHere'));
 				excludeDocumentIndex = excludeDocumentIndex + 1;
@@ -595,9 +644,9 @@
 		    });         
 		     
 			
-			// Determine to show NORT or TOC fields
-			$('input:radio[name=isTOC]').change(function () {
-				updateTOCorNORT($(this).val());
+			// Determine to show sourceType
+			$('input:radio[name=sourceType]').change(function () {
+				updateSourceType($(this).val());
 			});
 			
 			// Determine to show publication cut-off date
@@ -756,7 +805,7 @@
 			// Setup view
 			determineOptions();
 			$('#titleIdBox').val($('#titleId').val());
-			updateTOCorNORT($('input:radio[name=isTOC]:checked').val());
+			updateSourceType($('input:radio[name=sourceType]:checked').val());
 			showPubCutoffDateBox();
 			showSelectOptions($("input:radio[name=excludeDocumentsUsed]:checked").val(), "#displayExcludeDocument");
 			showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
@@ -879,8 +928,10 @@
 	<c:set var="disableOptions" value=""/>
 </sec:authorize>
 <c:set var="disableUnderPubPlusRole" value="true"/>
+<c:set var="disableUnderPubPlusRoleButton" value="disabled"/>
 <sec:authorize access="hasAnyRole('ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
 	<c:set var="disableUnderPubPlusRole" value=""/>
+	<c:set var="disableUnderPubPlusRoleButton" value=""/>
 </sec:authorize>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
@@ -961,12 +1012,18 @@
 			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
-				<form:hidden path="isTOC"/>
 				<form:hidden path="tocCollectionName"/>
 				<form:hidden path="docCollectionName"/>
 				<form:hidden path="rootTocGuid"/>
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="nortFilterView"/>
+				<form:hidden path="codesWorkbenchBookName"/>
+				<form:hidden path="sourceType"/>
+				<c:forEach items="${editBookDefinitionForm.nortFileLocations}" var="fileLocation" varStatus="aStatus">
+					<form:hidden path="nortFileLocations[${aStatus.index}].nortFileLocationId" />
+					<form:hidden path="nortFileLocations[${aStatus.index}].sequenceNum" />
+					<form:hidden path="nortFileLocations[${aStatus.index}].locationName" />
+				</c:forEach>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -974,9 +1031,13 @@
 				<form:hidden path="keyCiteToplineFlag"/>
 			</c:if>
 			<div class="row">
-				<label class="labelCol">TOC or NORT</label>
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="isTOC" value="true" />TOC
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="isTOC" value="false" />NORT
+				<label class="labelCol">Source Type</label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.TOC.toString() %>" />TOC
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.NORT.toString() %>" />NORT
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.FILE.toString() %>" />FILE
+				<div class="errorDiv">
+					<form:errors path="sourceType" cssClass="errorMessage" />
+				</div>
 			</div>
 			<div id="displayTOC" style="display:none">
 				<div class="row">
@@ -1025,6 +1086,47 @@
 					</div>
 				</div>
 			</div>
+			<div id="displayFILE" style="display:none">
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="codesWorkbenchBookName" class="labelCol">Codes Workbench Book Name</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="codesWorkbenchBookName" />
+					<div class="errorDiv">
+						<form:errors path="codesWorkbenchBookName" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="nortFileLocations" class="labelCol">Content Information</form:label>
+					<input ${disableUnderPubPlusRoleButton} type="button" id="addLocationName" value="add" />
+					<div class="errorDiv">
+						<form:errors path="nortFileLocations" cssClass="errorMessage" />
+					</div>
+					<div id="addNortFileLocationHere">
+						<c:forEach items="${editBookDefinitionForm.nortFileLocations}" var="fileLocation" varStatus="aStatus">
+							<div class="expandingBox">
+								<div class="errorDiv">
+									<form:errors path="nortFileLocations[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+								</div>
+								<c:if test="${not disableUnderPubPlusRole}">
+									<button class="moveUp" type="button">Up</button>
+									<button class="moveDown" type="button">Down</button>
+									<form:hidden disabled="${disableUnderPubPlusRole}" path="nortFileLocations[${aStatus.index}].nortFileLocationId"/>
+									<form:hidden disabled="${disableUnderPubPlusRole}" path="nortFileLocations[${aStatus.index}].sequenceNum" class="sequence"/>
+								</c:if>
+								<div class="dynamicRow">
+									<label>Name</label>
+									<form:input disabled="${disableUnderPubPlusRole}" path="nortFileLocations[${aStatus.index}].locationName" />
+									<div class="errorDiv">
+										<form:errors path="nortFileLocations[${aStatus.index}].locationName" cssClass="errorMessage" />
+									</div>
+								</div>
+								<c:if test="${not disableUnderPubPlusRole}">
+									<input type="button" value="Delete" class="rdelete" title="Delete Content Information" />
+								</c:if>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
 				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="true" />True
@@ -1050,7 +1152,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div id="displayFinalStage" class="row">
 				<form:label path="finalStage" class="labelCol">Novus Stage</form:label>
 				<form:radiobutton path="finalStage" value="true" />Final
 				<form:radiobutton path="finalStage" value="false" />Review
