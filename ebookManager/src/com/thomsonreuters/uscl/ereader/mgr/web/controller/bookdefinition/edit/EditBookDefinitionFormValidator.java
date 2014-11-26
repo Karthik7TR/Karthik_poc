@@ -53,6 +53,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	private BookDefinitionService bookDefinitionService;
 	private CodeService codeService;
 	private String environmentName;
+	private File rootCodesWorkbenchLandingStrip;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -89,8 +90,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterTitle().getBookNameText(), "frontMatterTitle.bookNameText", new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSubtitle().getBookNameText(), "frontMatterSubtitle.bookNameText", new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
-		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCodesWorkbenchBookName(), "codesWorkbenchBookName", new Object[] {"Codes Workbench Book Name", MAXIMUM_CHARACTER_1024});
-		
+
 		validateAuthors(form, errors);
 		validateExcludeDocuments(form, errors);
 		validateRenameTocEntries(form, errors);
@@ -120,7 +120,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
 			} else {
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "codesWorkbenchBookName", "error.required");
+				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCodesWorkbenchBookName(), "codesWorkbenchBookName", new Object[] {"CWB Book Name", MAXIMUM_CHARACTER_1024});
 				validateNortFileLocations(form, errors);
 				
 			}
@@ -273,19 +273,42 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		Collections.sort(nortFileLocations);
 		form.setNortFileLocations(nortFileLocations);
 		List<Integer> sequenceChecker = new ArrayList<Integer>();
-    	int i = 0;
-		for(NortFileLocation fileLocation : nortFileLocations) {
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
-			checkMaxLength(errors, MAXIMUM_CHARACTER_1024, fileLocation.getLocationName(), "nortFileLocations["+ i +"].locationName", new Object[] {"Location Name", MAXIMUM_CHARACTER_1024});
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].locationName", "error.required.field");
-			// Check duplicate sequence numbers exist
-			checkDuplicateSequenceNumber(errors, fileLocation.getSequenceNum(), "nortFileLocations["+ i +"].sequenceNum", sequenceChecker);
-			i++;
-		}
 		
-		if(i == 0) {
-			errors.rejectValue("nortFileLocations", "error.at.least.one", new Object[]{"Content Information"}, "At Least 1 Content Information is required");
+		// Check if book Folder exists
+		String bookFolderName = form.getCodesWorkbenchBookName();
+		
+		if(validateFileExists(errors, "codesWorkbenchBookName", this.rootCodesWorkbenchLandingStrip, bookFolderName)) {
+			File bookDirectory = new File(this.rootCodesWorkbenchLandingStrip, bookFolderName);
+	    	int i = 0;
+			for(NortFileLocation fileLocation : nortFileLocations) {
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, fileLocation.getLocationName(), "nortFileLocations["+ i +"].locationName", new Object[] {"Name", MAXIMUM_CHARACTER_1024});
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFileLocations["+ i +"].locationName", "error.required.field");
+				validateFileExists(errors, "nortFileLocations["+ i +"].locationName", bookDirectory, fileLocation.getLocationName());
+				
+				// Check duplicate sequence numbers exist
+				checkDuplicateSequenceNumber(errors, fileLocation.getSequenceNum(), "nortFileLocations["+ i +"].sequenceNum", sequenceChecker);
+				i++;
+			}
+			
+			if(i == 0) {
+				errors.rejectValue("nortFileLocations", "error.at.least.one", new Object[]{"Content Set"}, "At Least 1 Content Set is required");
+			}
 		}
+	}
+	
+	private boolean validateFileExists(Errors errors, String fieldName, File directory, String fileName) {
+		if(StringUtils.isBlank(fileName)) {
+			errors.rejectValue(fieldName, "error.required");
+			return false;
+		} else {
+			File file = new File(directory, fileName);
+			if(!file.exists()) {
+				errors.rejectValue(fieldName, "error.not.exist", new Object[]{fileName, directory.getPath()}, "File/Directory does not exist in " + directory.getPath());
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	
@@ -602,5 +625,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 	@Required
 	public void setEnvironmentName(String environmentName) {
 		this.environmentName = environmentName;
+	}
+	@Required
+	public void setRootCodesWorkbenchLandingStrip(File rootDir) {
+		this.rootCodesWorkbenchLandingStrip = rootDir;
 	}
 }

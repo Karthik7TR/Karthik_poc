@@ -5,10 +5,13 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -22,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 public class EditBookDefinitionServiceImpl implements EditBookDefinitionService {
 	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
 	private CodeService codeService;
+	private File rootCodesWorkbenchLandingStrip;
 
 	public List<DocumentTypeCode> getDocumentTypes() {
 		return codeService.getAllDocumentTypeCodes();
@@ -79,8 +83,25 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 		return codeService.getDocumentTypeCodeById(id);
 	}
 	
+	public List<String> getCodesWorkbenchDirectory(String folder) {
+		if(StringUtils.isNotBlank(folder)) {
+			File dir = new File(rootCodesWorkbenchLandingStrip, folder);
+			if(dir.exists()) {
+				return Arrays.asList(dir.list());
+			} else {
+				return null;
+			}
+		} else {
+			return Arrays.asList(rootCodesWorkbenchLandingStrip.list());
+		}
+	}
+	
 	@Required
 	public void setCodeService(CodeService service) {
 		codeService = service;
+	}
+	@Required
+	public void setRootCodesWorkbenchLandingStrip(File rootDir) {
+		this.rootCodesWorkbenchLandingStrip = rootDir;
 	}
 }

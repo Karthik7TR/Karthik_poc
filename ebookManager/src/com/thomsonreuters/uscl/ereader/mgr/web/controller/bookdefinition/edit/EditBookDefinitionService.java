@@ -26,4 +26,6 @@ public interface EditBookDefinitionService {
 	public List<KeywordTypeCode> getKeywordCodes();
 	
 	public DocumentTypeCode getContentTypeById(Long id);
+	
+	public List<String> getCodesWorkbenchDirectory(String folder);
 }

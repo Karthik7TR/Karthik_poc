@@ -38,7 +38,8 @@
   		  p:libraryListDao-ref="libraryListDao"/>
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl"
-  		  p:codeService-ref="codeService"/>
+  		  p:codeService-ref="codeService"
+  		  p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"/>
 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService"
 	  	  p:proviewClient-ref="proviewClient"

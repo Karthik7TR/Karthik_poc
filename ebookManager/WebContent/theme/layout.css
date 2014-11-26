@@ -18,7 +18,7 @@
 	color:red;
 }
 
-.errorMessage {
+.errorMessage, .error {
 	color:red;
 }
 
@@ -373,7 +373,7 @@ a:hover {
 }
 
 .bookDefinitionCRUD .expandingBox  {
-	text-align: right;
+	text-align: left;
 	margin: .5em 0em;
 }
 
@@ -756,4 +756,13 @@ div.ui-datepicker{
 	margin: 0px;
 	padding: 0px;
 	padding-left:.5em;
+}
+
+#codesWorkbenchFolder #cwbFolderList .cwbFolderBookName {
+	color: blue;
+	font-weight: bold;
+	margin-bottom: .5em;
+}
+#codesWorkbenchFolder #cwbFolderList .cwbFolderBookName label {
+	cursor: pointer;
 }

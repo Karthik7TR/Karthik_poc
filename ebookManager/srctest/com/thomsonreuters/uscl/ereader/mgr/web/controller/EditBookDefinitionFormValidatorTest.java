@@ -445,7 +445,6 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("materialId").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("codesWorkbenchBookName").getCode());
-		Assert.assertEquals("error.at.least.one", errors.getFieldError("nortFileLocations").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());

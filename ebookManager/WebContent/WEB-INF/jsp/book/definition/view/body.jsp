@@ -66,7 +66,19 @@ function submitForm(cmd)
 				<div class="rightDefinitionForm">
 					<div class="row">
 						<label class="labelCol">Source Type</label>
-						<span class="field">${book.sourceType}</span>
+						<span class="field">
+							<c:choose>
+							<c:when test="${ book.sourceType == 'TOC' }">
+							TOC
+							</c:when>
+							<c:when test="${ book.sourceType == 'NORT' }">
+							NORT
+							</c:when>
+							<c:otherwise>
+							CWB File
+							</c:otherwise>
+							</c:choose>
+						</span>
 					</div>
 					<c:choose>
 					<c:when test="${ book.sourceType == 'TOC' }">
@@ -104,7 +116,7 @@ function submitForm(cmd)
 					<c:otherwise>
 						<div id="displayFile">
 							<div class="row">
-								<label class="labelCol">Codes Workbench Book Name</label>
+								<label class="labelCol">Extract Name</label>
 								<span class="field">${ book.cwbBookName }</span>
 							</div>
 							<div class="row">

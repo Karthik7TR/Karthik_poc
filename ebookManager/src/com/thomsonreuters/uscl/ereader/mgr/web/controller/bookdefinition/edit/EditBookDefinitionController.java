@@ -343,6 +343,12 @@ public class EditBookDefinitionController {
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
 	}
 	
+	@RequestMapping(value = WebConstants.MVC_CODES_WORKBENCH_FOLDERS, method = RequestMethod.GET)
+    @ResponseBody
+	public List<String> getCodesWorkbenchFolders(@RequestParam("folderName") String folderName) {
+		return editBookDefinitionService.getCodesWorkbenchDirectory(folderName);
+	}
+	
 	
 	/**
 	 * Initializes the model for the Create/Edit Book Definition View
