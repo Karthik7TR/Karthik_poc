@@ -31,7 +31,7 @@ $(function() {
 					var tfoot = $("<tfoot>");
 					$(table).append(tfoot);
 					$(tfoot).append($("<tr>").append($("<td>").append($("<button>").attr("type","button").addClass("back").html("back")))
-							.append($("<td>").append($("<input>").attr("type","submit").addClass("submit").html("save"))));
+							.append($("<td>").append($("<input>").attr("type","submit").addClass("submit").val("save"))));
 					
 					var validator = $("#cwbForm").validate({
 						success: "valid",
