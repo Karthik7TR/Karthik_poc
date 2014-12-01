@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -184,33 +184,20 @@ public class TransformerServiceImpl implements TransformerService
 		//LOG.debug("Transforming XML file: " + xmlFile.getAbsolutePath());
         File tranFile = new File(targetDir, fileNameUUID + ".transformed");
         
-        SequenceInputStream inStream1 = null;
-        SequenceInputStream inStream2 = null;
-        SequenceInputStream inStream3 = null;
-        SequenceInputStream inStream4 = null;
-        SequenceInputStream inStream0 = null;
-        
         Transformer trans = null;
 		
-        try
+        try (InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId, fileNameUUID);
+        		ByteArrayInputStream startTagStream = new ByteArrayInputStream(START_WRAPPER_TAG.getBytes());
+        		SequenceInputStream inStream0 = new SequenceInputStream(startTagStream, documentDataStream);
+        		FileInputStream docbodyStream = new FileInputStream(xmlFile);
+        		SequenceInputStream inStream1 = new SequenceInputStream(inStream0, docbodyStream);
+        		FileInputStream metadataStream = new FileInputStream(getMetadataFile(metadataDir, fileNameUUID));
+        		SequenceInputStream inStream2 = new SequenceInputStream(inStream1, metadataStream);
+        		FileInputStream imageStream = new FileInputStream(getImageMetadataFile(imgMetadataDir, fileNameUUID));
+        		SequenceInputStream inStream3 = new SequenceInputStream(inStream2, imageStream);
+        		SequenceInputStream inStream4 = new SequenceInputStream(inStream3,
+            			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));)
         {   
-        	InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId, fileNameUUID);
-        	
-        	inStream0 = new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()),
-        			documentDataStream);
-        	
-        	inStream1 = new SequenceInputStream(inStream0,
-        			new FileInputStream(xmlFile));
-        	
-        	inStream2 = new SequenceInputStream(inStream1, 
-        			new FileInputStream(getMetadataFile(metadataDir, fileNameUUID)));
-        	
-        	inStream3 = new SequenceInputStream(inStream2,
-        			new FileInputStream(getImageMetadataFile(imgMetadataDir, fileNameUUID)));
-         	
-        	inStream4 = new SequenceInputStream(inStream3,
-        			new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
-        	
 	        Source xmlSource =
 	                new StreamSource(inStream4);    
 	       
@@ -245,29 +232,13 @@ public class TransformerServiceImpl implements TransformerService
         	LOG.error(errMessage, e);
         	throw new EBookFormatException(errMessage, e);
         }
-        finally
-        {
-        	try
-        	{
-	        	if (inStream3 != null)
-	        	{
-	        		inStream3.close();
-	        	}
-	        	if (inStream2 != null)
-	        	{
-	        		inStream2.close();
-	        	}
-	        	if (inStream1 != null)
-	        	{
-	        		inStream1.close();
-	        	}
-        	}
-        	catch (IOException e)
-        	{
-        		LOG.error("Unable to close files related to the " + xmlFile.getAbsolutePath() 
-        				+ " file transformation.", e);
-        	}
-        }
+        catch (IOException e)
+    	{
+        	String errMessage = "Unable to close files related to the " + xmlFile.getAbsolutePath() 
+    				+ " file transformation.";
+    		LOG.error(errMessage, e);
+        	throw new EBookFormatException(errMessage, e);
+    	}
 	}
 	
 	/**

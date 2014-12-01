@@ -1,3 +1,8 @@
+/*
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
@@ -5,6 +10,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -53,20 +59,23 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
 
         if (normalizedCite != null || firstlineCite != null || secondlineCite != null)
         {
-        	String query = "";
+        	StringBuilder buffer = new StringBuilder();
             try
             {            	
             	if (firstlineCite != null)
             	{
-            		query = query + URLEncoder.encode(firstlineCite + ";", "UTF-8");
+            		String normalizedString = normalizeCitation(firstlineCite);
+            		buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
             	}
             	if (secondlineCite != null)
             	{
-            		query = query + URLEncoder.encode(secondlineCite + ";", "UTF-8");
+            		String normalizedString = normalizeCitation(secondlineCite);
+            		buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
             	}
             	if (normalizedCite != null)
             	{
-            		query = query + URLEncoder.encode(normalizedCite + ";", "UTF-8");
+            		String normalizedString = normalizeCitation(normalizedCite);
+            		buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
             	}
             }
             catch (UnsupportedEncodingException e)
@@ -75,10 +84,8 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
             	LOG.error(message, e);
             	throw new EBookFormatException(message, e);
             }
-            
-            query = CitationNormalizationRulesUtil.applyNormalizationRules(query);
         	
-        	url = hostname + KEYCITE_QUERY + query + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
+        	url = hostname + KEYCITE_QUERY + buffer.toString() + "&amp;jurisdiction=ALLCASES&amp;contentType=ALL&amp;startIndex=1&amp;transitionType=Search&amp;contextData=(sc.Default)"
         			+ "&amp;rs=" + mudParamRS + "&amp;vr=" + mudParamVR;     
         }
         else
@@ -89,6 +96,16 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         }
 
         return buildImageBlock(url);  
+    }
+    
+    private String normalizeCitation(String cite) {
+    	String normalizedCite = "";
+    	if(StringUtils.isNotBlank(cite)) 
+    	{
+    		cite = cite.replaceAll("\\p{javaSpaceChar}", " ");
+    		normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+    	}
+    	return normalizedCite;
     }
 
     @Required
