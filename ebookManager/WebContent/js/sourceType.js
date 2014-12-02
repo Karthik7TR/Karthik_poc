@@ -22,9 +22,15 @@ $(function() {
 					$(tbody).append($("<tr>").append($("<td>").html("&nbsp;"))
 							.append($("<td>").html("Sort Order (ascending)")));
 					for(var index = 0; index < data.length; index++) {
+						var sortInput = $("<input>").attr("id", "item-contentSet-" + index)
+							.attr("name", "item-contentSet-" + index).attr("class", "contentSet").attr("contentSet", data[index]);
+						// Insert value when only 1 item
+						if(data.length == 1) {
+							$(sortInput).val(1);
+						}
+						
 						$(tbody).append($("<tr>").append($("<td>").append($("<label>").html("Content Set: " + data[index])))
-								.append($("<td>").attr("class", "contentSet").append($("<input>").attr("id", "item-contentSet-" + index)
-										.attr("name", "item-contentSet-" + index).attr("class", "contentSet").attr("contentSet", data[index])))
+								.append($("<td>").attr("class", "contentSet").append(sortInput))
 								.append($("<td>").attr("class", "contentSet-error")));
 					}
 					

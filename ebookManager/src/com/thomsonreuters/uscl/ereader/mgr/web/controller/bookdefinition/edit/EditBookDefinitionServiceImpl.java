@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,12 +88,16 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 		if(StringUtils.isNotBlank(folder)) {
 			File dir = new File(rootCodesWorkbenchLandingStrip, folder);
 			if(dir.exists()) {
-				return Arrays.asList(dir.list());
+				List<String> files = Arrays.asList(dir.list());
+				Collections.sort(files, String.CASE_INSENSITIVE_ORDER);
+				return files;
 			} else {
 				return null;
 			}
 		} else {
-			return Arrays.asList(rootCodesWorkbenchLandingStrip.list());
+			List<String> files = Arrays.asList(rootCodesWorkbenchLandingStrip.list());
+			Collections.sort(files, String.CASE_INSENSITIVE_ORDER);
+			return files;
 		}
 	}
 	
