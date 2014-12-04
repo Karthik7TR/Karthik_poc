@@ -107,13 +107,14 @@ $(function() {
 			var id = "nortFileLocations" + index;
 			var name = "nortFileLocations[" + index + "]";
 			var locationName = $("<input>").attr("type","hidden").attr("id",id +".locationName").attr("name", name + ".locationName").attr("value", $(this).attr("contentSet"));
-			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value", index);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value", index + 1);
 			
 			var dynamicRow = $("<div>").attr("class", "dynamicRow");
-			$(dynamicRow).append($("<label>").html("Name")).append($("<span>").html($(this).attr("contentSet")));
+			$(dynamicRow).append($("<span>").html($(this).attr("contentSet"))).append(locationName);
 			
 			var expandingBox = $("<div>").attr("class", "expandingBox");
-			$(expandingBox).append(locationName).append(sequenceBox).append(dynamicRow);
+			$(expandingBox).append(sequenceBox).append($("<button>").attr("type","button").attr("class","moveUp").html("Up"))
+				.append($("<button>").attr("type","button").attr("class","moveDown").html("Down")).append(dynamicRow);
 			
 			$("#addNortFileLocationHere").append(expandingBox);
 		});

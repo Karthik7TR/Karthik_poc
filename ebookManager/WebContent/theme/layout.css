@@ -118,7 +118,7 @@ html, body {
 	display:block;
 }
 
-#left .wildCard {
+#left .wildCard, label.wildCard {
 	color:gray;
 	font-style: italic;
 	margin:1em 0em;
@@ -765,4 +765,20 @@ div.ui-datepicker{
 }
 #codesWorkbenchFolder #cwbFolderList .cwbFolderBookName label {
 	cursor: pointer;
+}
+
+#auditListLabel {
+	margin-top: 1em;
+}
+
+#addNortFileLocationHere .dynamicRow {
+	display: inline-block;
+}
+
+#addNortFileLocationHere .moveUp {
+	margin-left:9.5em;
+}
+#addNortFileLocationHere .moveUp,
+#addNortFileLocationHere .moveDown {
+	margin-right:0.2em;
 }
