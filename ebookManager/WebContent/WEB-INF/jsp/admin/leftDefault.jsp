@@ -29,6 +29,7 @@
 	Book Definition
 	<ul>
 		<li><a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a></li>
+		<li><a href="<%= WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST %>">Audit</a></li>
 	</ul>
 	<br/>
 	<a href="<%= WebConstants.MVC_ADMIN_MISC %>">Miscellanous Configuration</a><br/>

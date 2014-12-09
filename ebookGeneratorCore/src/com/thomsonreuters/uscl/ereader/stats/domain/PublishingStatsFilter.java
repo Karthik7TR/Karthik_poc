@@ -24,27 +24,33 @@ public class PublishingStatsFilter {
 	private String titleId;
 	private String bookName;
 	private Long bookDefinitionId;
+	private String isbn;
 	
 	public PublishingStatsFilter() {
 		super();
 	}
 	
+	public PublishingStatsFilter(String titleId, String bookName, String isbn) {
+		populate(null, null, titleId, bookName, null, isbn);
+	}
+	
 	public PublishingStatsFilter(Long bookDefinitionId) {
 		super();
-		populate(null, null, null, null, bookDefinitionId);
+		populate(null, null, null, null, bookDefinitionId, null);
 	}
 	
 	public PublishingStatsFilter(Date from, Date to, String titleId, String bookName, Long bookDefinitionId) {
 		super();
-		populate(from, to, titleId, bookName, bookDefinitionId);
+		populate(from, to, titleId, bookName, bookDefinitionId, null);
 	}
 	
-	private void populate(Date from, Date to, String titleId, String bookName, Long bookDefinitionId) {
+	private void populate(Date from, Date to, String titleId, String bookName, Long bookDefinitionId, String isbn) {
 		this.from = from;
 		this.to = to;
 		this.titleId = (titleId != null) ? titleId.trim() : null;
 		this.bookName = (bookName != null) ? bookName.trim() : null;
 		this.bookDefinitionId = bookDefinitionId;
+		this.isbn = (isbn != null) ? isbn.trim() : null;
 	}
 	
 	/** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
@@ -69,6 +75,9 @@ public class PublishingStatsFilter {
 	}
 	public Long getBookDefinitionId() {
 		return bookDefinitionId;
+	}
+	public String getIsbn() {
+		return isbn;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

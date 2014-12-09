@@ -34,6 +34,7 @@
 			<h3>Book Definition</h3>
 			<div class="buttons">
 				<a href="<%= WebConstants.MVC_ADMIN_BOOK_LOCK_LIST %>">Locks</a>
+				<a href="<%= WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST %>">Audit</a>
 			</div>
 		</div>
 		

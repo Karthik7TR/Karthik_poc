@@ -54,6 +54,7 @@
   		  p:environmentName-ref="environmentName"
   		  p:generatorContextName="${generator.context.name}"
 		  p:rootWorkDirectory="${root.work.directory}"
+		  p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
   		  p:restTemplate-ref="generatorRestTemplate"
   		  p:managerDao-ref="managerDao"
   		  p:jobService-ref="jobService"

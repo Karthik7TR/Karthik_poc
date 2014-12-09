@@ -48,5 +48,7 @@ public interface EBookAuditService {
 	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
 	
 	public int numberEbookAudits(EbookAuditFilter filter);
+	
+	public void editIsbn(String titleId, String isbn);
 
 }

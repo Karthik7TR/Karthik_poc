@@ -298,5 +298,13 @@
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFormValidator"/>
 		 </property>
 	</bean>
+	
+	<bean id="adminBookAuditController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit.BookAuditController"
+		p:auditService-ref="eBookAuditService"
+		p:publishingStatsService-ref="publishingStatsService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit.AdminAuditFilterFormValidator"/>
+		</property>
+	</bean>
 		 
 </beans>

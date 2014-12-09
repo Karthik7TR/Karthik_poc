@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import java.io.File;
@@ -38,6 +43,7 @@ public class ManagerServiceImpl implements ManagerService {
 	private String environmentName;
 	private String generatorContextName;
 	private File rootWorkDirectory;
+	private File rootCodesWorkbenchLandingStrip;
 	/** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
 	private RestTemplate restTemplate;
 	/** The root web application context URL for the ebook generator. */
@@ -120,6 +126,11 @@ public class ManagerServiceImpl implements ManagerService {
 		log.info(String.format("Starting to remove job filesystem files older than %d days old.  These are files created before: %s", daysBack, deleteFilesBefore.toString()));
 		removeOldJobFiles(deleteFilesBefore);
 		log.info(String.format("Finished removing job files older than %d days old.", daysBack));
+		
+		// Remove old codes workbench files
+		log.info(String.format("Starting to remove codes workbench files older than %d days old.  These are files created before: %s", daysBack, deleteFilesBefore.toString()));
+		removeOldCwbFiles(deleteFilesBefore);
+		log.info(String.format("Finished removing codes workbench files older than %d days old.", daysBack));
 	}
 	
 	@Override
@@ -166,6 +177,26 @@ public class ManagerServiceImpl implements ManagerService {
 			}
 		}
 	}
+	/**
+	 * Recursively delete codes workbench data file directories that hold data prior to the specified delete before date.
+	 * @param deleteBefore work files created before this date will be deleted.
+	 */
+	private void removeOldCwbFiles(Date deleteBefore) {
+		File codeWorkbenchDir = rootCodesWorkbenchLandingStrip;
+		String deleteBeforeDateString = new SimpleDateFormat(CoreConstants.DIR_DATE_FORMAT).format(deleteBefore); // like "20120513"
+		String[] dateFileArray = codeWorkbenchDir.list();
+		for (String dateDirString : dateFileArray) {
+			if (dateDirString.compareTo(deleteBeforeDateString) < 0) {
+				File dateDir = new File(codeWorkbenchDir, dateDirString);
+				try {
+					FileUtils.deleteDirectory(dateDir);
+					log.debug("Deleted codes workbench directory: " + dateDir.getAbsolutePath());
+				} catch (IOException e) {
+					log.error(String.format("Failed to recursively delete directory %s - %s", dateDir.getAbsolutePath(), e.getMessage()));
+				}
+			}
+		}
+	}
 	@Required
 	public void setGeneratorContextName(String contextName) {
 		this.generatorContextName = contextName;
@@ -173,6 +204,10 @@ public class ManagerServiceImpl implements ManagerService {
 	@Required
 	public void setRootWorkDirectory(File dir) {
 		this.rootWorkDirectory = dir;
+	}
+	@Required
+	public void setRootCodesWorkbenchLandingStrip(File dir) {
+		this.rootCodesWorkbenchLandingStrip = dir;
 	}
 	@Required
 	public void setEnvironmentName(String envName) {

@@ -320,6 +320,9 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		if (filter.getBookDefinitionId() != null) {
 			criteria.add(Restrictions.eq("ebookDefId", filter.getBookDefinitionId()));
 		}
+		if (StringUtils.isNotBlank(filter.getIsbn())) {
+			criteria.add(Restrictions.like("book.isbn", filter.getIsbn()).ignoreCase());
+		}
 		
 		return criteria;
 	}

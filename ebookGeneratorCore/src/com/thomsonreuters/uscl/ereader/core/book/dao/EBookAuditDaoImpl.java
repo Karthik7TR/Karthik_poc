@@ -89,7 +89,6 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 	}
 
 	@Override
-	@Transactional
 	public void saveAudit(EbookAudit audit) {
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -109,6 +108,16 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		Query query = createNamedQuery("findEbookAuditByPrimaryKey");
 		query.setLong("auditId", auditId);
 		return (EbookAudit)query.uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly=true)
+	public List<EbookAudit> findEbookAuditByTitleIdAndIsbn(String titleId, String isbn) {
+		EbookAuditFilter filter = new EbookAuditFilter(titleId, null, isbn);
+		Criteria criteria = addFilters(filter);
+		
+		return criteria.list();
 	}
 	
 	@Transactional(readOnly=true)
@@ -186,6 +195,12 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		}
 		if (filter.getBookDefinitionId() != null) {
 			criteria.add(Restrictions.eq("ebookDefinitionId", filter.getBookDefinitionId()));
+		}
+		if (StringUtils.isNotBlank(filter.getIsbn())) {
+			criteria.add(Restrictions.like("isbn", filter.getIsbn()).ignoreCase());
+		}
+		if(filter.getFilterEditedIsbn()) {
+			criteria.add(Restrictions.not(Restrictions.like("isbn", EbookAuditDao.MOD_TEXT + "%")));
 		}
 		
 		return criteria;

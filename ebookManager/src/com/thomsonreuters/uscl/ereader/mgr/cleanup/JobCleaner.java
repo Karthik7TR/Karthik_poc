@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -41,7 +41,7 @@ public class JobCleaner {
 	public void setNumberLastMajorVersionKept(int numberLastMajorVersionKept) {
 		this.numberLastMajorVersionKept = numberLastMajorVersionKept;
 	}
-
+	@Required
 	public void setDaysBeforeDocMetadataDelete(int daysBeforeDocMetadataDelete) {
 		this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
 	}

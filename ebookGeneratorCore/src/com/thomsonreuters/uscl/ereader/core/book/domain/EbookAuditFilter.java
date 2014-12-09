@@ -25,10 +25,18 @@ public class EbookAuditFilter {
 	private String bookName;
 	private String submittedBy;
 	private String action;
+	private String isbn;
 	private Long bookDefinitionId;
+	private Boolean filterEditedIsbn = false;
 	
 	public EbookAuditFilter() {
 		super();
+	}
+	public EbookAuditFilter(String titleId, String bookName, String isbn) {
+		this.titleId = (titleId != null) ? titleId.trim() : null;
+		this.bookName = (bookName != null) ? bookName.trim() : null;
+		this.isbn = (isbn != null) ? isbn.trim() : null;
+		this.filterEditedIsbn = true;
 	}
 	public EbookAuditFilter(Date from, Date to, String action, String titleId, String bookName, String submittedBy, Long bookDefinitionId) {
 		this.from = from;
@@ -62,11 +70,17 @@ public class EbookAuditFilter {
 	public String getBookName() {
 		return bookName;
 	}
+	public String getIsbn() {
+		return isbn;
+	}
 	public String getSubmittedBy() {
 		return submittedBy;
 	}
 	public Long getBookDefinitionId() {
 		return bookDefinitionId;
+	}
+	public Boolean getFilterEditedIsbn() {
+		return filterEditedIsbn;
 	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

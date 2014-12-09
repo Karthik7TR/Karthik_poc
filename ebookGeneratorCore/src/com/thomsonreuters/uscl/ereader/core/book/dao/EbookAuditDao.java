@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
  * 
  */
 public interface EbookAuditDao {
+	public static final String MOD_TEXT = "modified-";
 
 	/**
 	 * Query - findEbookAuditByPrimaryKey
@@ -28,6 +29,8 @@ public interface EbookAuditDao {
 			throws DataAccessException;
 
 	public void remove(EbookAudit toRemove) throws DataAccessException;
+	
+	public List<EbookAudit> findEbookAuditByTitleIdAndIsbn(String titleId, String isbn);
 
 	public void saveAudit(EbookAudit eBookAuditRecord);
 	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)

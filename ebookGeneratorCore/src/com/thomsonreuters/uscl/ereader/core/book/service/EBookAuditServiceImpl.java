@@ -68,6 +68,18 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	public int numberEbookAudits(EbookAuditFilter filter) {
 		return eBookAuditDAO.numberEbookAudits(filter);
 	}
+	
+	@Transactional
+	public void editIsbn(String titleId, String isbn) {
+		List<EbookAudit> audits = eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn);
+		for(EbookAudit audit: audits) {
+			StringBuilder buffer = new StringBuilder();
+			buffer.append(EbookAuditDao.MOD_TEXT);
+			buffer.append(audit.getIsbn());
+			audit.setIsbn(buffer.toString());
+			eBookAuditDAO.saveAudit(audit);
+		}
+	}
 
 	@Required
 	/**

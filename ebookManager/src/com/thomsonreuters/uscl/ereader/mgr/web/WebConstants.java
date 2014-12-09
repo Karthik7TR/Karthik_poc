@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -236,6 +236,9 @@ public class WebConstants {
 	public static final String MVC_ADMIN_OUTAGE_TYPE_CREATE = "adminOutageTypeCreate.mvc";
 	public static final String MVC_ADMIN_OUTAGE_TYPE_DELETE = "adminOutageTypeDelete.mvc";
 	public static final String MVC_ADMIN_OUTAGE_TYPE_EDIT = "adminOutageTypeEdit.mvc";
+	public static final String MVC_ADMIN_AUDIT_BOOK_LIST = "adminAuditBookList.mvc";
+	public static final String MVC_ADMIN_AUDIT_BOOK_SEARCH = "adminAuditBookSearch.mvc";
+	public static final String MVC_ADMIN_AUDIT_BOOK_MODIFY_ISBN = "adminAuditBookModifyIsbn.mvc";
 	
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
@@ -301,6 +304,8 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_SUPPORT_CREATE = "_adminSupportCreate";
 	public static final String VIEW_ADMIN_SUPPORT_DELETE = "_adminSupportDelete";
 	public static final String VIEW_ADMIN_SUPPORT_EDIT = "_adminSupportEdit";
+	public static final String VIEW_ADMIN_AUDIT_BOOK_LIST = "_adminAuditBookList";
+	public static final String VIEW_ADMIN_AUDIT_BOOK_MODIFY_ISBN = "_adminAuditBookModifyIsbn";
 	public static final String VIEW_BOOK_DEFINITION_BULK_PROMOTION = "_bookDefinitionBulkPromotion";
 	public static final String VIEW_BOOK_DEFINITION_CREATE = "_bookDefinitionCreate";
 	public static final String VIEW_BOOK_DEFINITION_EDIT = "_bookDefinitionEdit";

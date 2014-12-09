@@ -411,5 +411,17 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/stats/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/stats/body.jsp"/>
 	</definition>
+	
+	<definition name="_adminAuditBookList" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/audit/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/audit/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminAuditBookModifyIsbn" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/audit/modify/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/bookdefinition/audit/modify/body.jsp"/>
+	</definition>
  
 </tiles-definitions>
