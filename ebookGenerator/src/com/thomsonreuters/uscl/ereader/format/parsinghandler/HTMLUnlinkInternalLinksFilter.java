@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -8,8 +8,12 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -28,10 +32,13 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	private HashMap<String, HashSet<String>> targetAnchors;
 	private HashMap<String, String> anchorDupTargets;
 	private ArrayList<String> unlinkDocMetadataList;
+	private Map<String, DocMetadata> docMetadataKeyedByProViewId;
 	private DocMetadata unlinkDocMetadata;
 	private int badLinkCntr = 0;
 	private int goodAnchorCntr = 0;
 	private String currentGuid;
+	
+	private Pattern pattern = Pattern.compile("^er:#([a-zA-Z0-9_]+)/[a-zA-Z0-9_]+$");
 	
 	public String getCurrentGuid() 
 	{
@@ -72,6 +79,13 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	public DocMetadata getUnlinkDocMetadata() 
 	{
 		return unlinkDocMetadata;
+	}
+	public Map<String, DocMetadata> getDocMetadataKeyedByProViewId() {
+		return docMetadataKeyedByProViewId;
+	}
+	public void setDocMetadataKeyedByProViewId(
+			Map<String, DocMetadata> docMetadataKeyedByProViewId) {
+		this.docMetadataKeyedByProViewId = docMetadataKeyedByProViewId;
 	}
 	public void setUnlinkDocMetadata(DocMetadata unlinkDocMetadata) 
 	{
@@ -167,7 +181,37 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 							sbDocMetadata.append(unlinkDocMetadata.getCollectionName());
 						}
 						sbDocMetadata.append(",");
-						sbDocMetadata.append(atts.getValue("href"));
+						String link = atts.getValue("href");
+						sbDocMetadata.append(link);
+
+						Matcher matcher = pattern.matcher(link);
+						if(matcher.find()) {
+							String proViewId = matcher.group(1);
+							DocMetadata targetDocMetadata = docMetadataKeyedByProViewId.get(proViewId);
+							if(targetDocMetadata != null) {
+								sbDocMetadata.append(",");
+								if(StringUtils.isNotBlank(targetDocMetadata.getDocUuid())) 
+								{
+									sbDocMetadata.append(targetDocMetadata.getDocUuid());
+								}
+								sbDocMetadata.append(",");
+								if(StringUtils.isNotBlank(targetDocMetadata.getDocFamilyUuid())) 
+								{
+									sbDocMetadata.append(targetDocMetadata.getDocFamilyUuid());
+								}
+								sbDocMetadata.append(",");
+								if(StringUtils.isNotBlank(targetDocMetadata.getNormalizedFirstlineCite())) 
+								{
+									sbDocMetadata.append(targetDocMetadata.getNormalizedFirstlineCite());
+								}
+								sbDocMetadata.append(",");
+								if(targetDocMetadata.getSerialNumber() != null) 
+								{
+									sbDocMetadata.append(targetDocMetadata.getSerialNumber());
+								}
+							}
+						}
+						
 						unlinkDocMetadataList.add(sbDocMetadata.toString());
 					}
 				}

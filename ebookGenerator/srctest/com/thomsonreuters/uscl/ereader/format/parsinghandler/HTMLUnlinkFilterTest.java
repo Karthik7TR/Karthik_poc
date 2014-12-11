@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -65,6 +66,8 @@ public class HTMLUnlinkFilterTest {
 		unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
 		unlinkFilter.setUnlinkDocMetadata(unlinkDocMetadata);
 		
+		Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<String, DocMetadata>();
+		unlinkFilter.setDocMetadataKeyedByProViewId(docMetadataKeyedByProViewId);
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
 		serializer = SerializerFactory.getSerializer(props);

@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -203,6 +203,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			unlinkFilter.setTargetAnchors(targetAnchors);
 			unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
 			unlinkFilter.setAnchorDupTargets(anchorDupTargets);
+			unlinkFilter.setDocMetadataKeyedByProViewId(documentMetadataAuthority.getDocMetadataKeyedByProViewId());
 						
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 			props.setProperty("omit-xml-declaration", "yes");
@@ -421,7 +422,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		{
 			writer = new BufferedWriter(new FileWriter(anchorUnlinkTargetListFile));
 			
-			writer.write("Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, Removed Link");
+			writer.write("Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, "
+					+ "Removed Link, Target Document Guid, Target Doc Family Guid, Target "
+					+ "Normalized Firstline Cite, Target Serial Number");
 			
 			writer.newLine();
 			

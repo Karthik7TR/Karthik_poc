@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -31,6 +31,7 @@ public class DocumentMetadataAuthority {
 	private Map<Long, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<Long, DocMetadata>();
 	private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<String, DocMetadata>();
 	private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<String, DocMetadata>();
+	private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<String, DocMetadata>();
 	
 	public DocumentMetadataAuthority (Set<DocMetadata> docMetadataSet){
 		if (docMetadataSet == null) {
@@ -49,6 +50,7 @@ public class DocumentMetadataAuthority {
 			}
 			docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
 			docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
+			docMetadataKeyedByProViewId.put(docMetadata.getProViewId(), docMetadata);
 			
 			if(StringUtils.isNotBlank(docMetadata.getFirstlineCitePubpage())) 
 			{
@@ -111,6 +113,10 @@ public class DocumentMetadataAuthority {
 	
 	public Map<String, DocMetadata> getDocMetadataKeyedByPubIdAndPubPage() {
 		return Collections.unmodifiableMap(docMetadataKeyedByPubIdAndPubPage);
+	}
+	
+	public Map<String, DocMetadata> getDocMetadataKeyedByProViewId() {
+		return Collections.unmodifiableMap(docMetadataKeyedByProViewId);
 	}
 
 	@Override
