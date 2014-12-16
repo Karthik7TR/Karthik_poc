@@ -20,6 +20,7 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	private boolean isRootNode = false;
 	private String documentGuid;
 	private String nodeType;
+	private List<String> views = new ArrayList<String>();
 	
 	
 	public String getNortGuid() {
@@ -89,6 +90,23 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 		this.nodeType = nodeType;
 	}
 
+	public List<String> getViews() {
+		return views;
+	}
+	public void setViews(List<String> views) {
+		this.views = views;
+	}
+	
+	public boolean isDeletedNode() {
+		int deletedViewCount = 0;
+		for(String view : views) {
+			if(view.matches("(^DELER_[a-zA-z0-9_\\-]+)|([a-zA-z0-9_\\-]+DEL$)")) {
+				deletedViewCount++;
+			}
+		}
+		return deletedViewCount == views.size();
+	}
+	
 	@Override
 	public int compareTo(RelationshipNode o) {
 		Integer node1 = this.getRank();

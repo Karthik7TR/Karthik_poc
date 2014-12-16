@@ -136,6 +136,70 @@ public class NovusNortFileParserTest {
 
 	}
 	
+	@Test
+	public void testDeletedChildNode() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"NAEC7C17087FE11D98CEADD8B3DFE30E4\" "
+				+ "control=\"ADD\"><n-relbase>NAEBD884087FE11D98CEADD8B3DFE30E4</n-relbase>"
+				+ "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
+				+ "<n-relpayload><n-nortpayload><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
+				+ "<heading>TITLE 42—PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>DELER_StaTX_DBAS</n-view></n-nortpayload>"
+				+ "</n-relpayload></n-relationship></n-load>");
+		
+		RelationshipNode root = parser.parseDocument(nort);
+		
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(null, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1 , root.getRank());
+
+	}
+	
+	@Test
+	public void testDeletedChildNode2() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"NAEC7C17087FE11D98CEADD8B3DFE30E4\" "
+				+ "control=\"ADD\"><n-relbase>NAEBD884087FE11D98CEADD8B3DFE30E4</n-relbase>"
+				+ "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
+				+ "<n-relpayload><n-nortpayload><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
+				+ "<heading>TITLE 42—PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>TAXDEL</n-view></n-nortpayload>"
+				+ "</n-relpayload></n-relationship></n-load>");
+		
+		RelationshipNode root = parser.parseDocument(nort);
+		
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(null, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1 , root.getRank());
+
+	}
+	
 	private void addContentToFile(File file, String text) {
 		try {
 			FileWriter fileOut = new FileWriter(file);

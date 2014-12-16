@@ -48,6 +48,7 @@ public class NovusNortFileParser extends DefaultHandler {
 	private static final String LABEL = "n-label"; 
 	private static final String NODE_TYPE = "node-type"; 
 	private static final String GRAFT_POINT_FLAG = "graft-point-flag";
+	private static final String N_VIEW = "n-view";
 	private Date cutoffDate;
 	
 	private HashMap<String, RelationshipNode> nortNodeMap = new HashMap<String, RelationshipNode>();
@@ -133,7 +134,7 @@ public class NovusNortFileParser extends DefaultHandler {
 			}
     		
     		// Only add nodes if they have not expired yet.
-    		if (endDate != null && endDate.after(cutoffDate)) {
+    		if (endDate != null && endDate.after(cutoffDate) && !currentNode.isDeletedNode()) {
 	    		nortNodeMap.put(currentNode.getNortGuid(), currentNode);
 	    		if (currentNode.isRootNode()) {
 	        		root = currentNode;
@@ -166,6 +167,8 @@ public class NovusNortFileParser extends DefaultHandler {
 	        		isRootNode = true;
 	        	}
 	        	currentNode.setRootNode(isRootNode);
+	        } else if (qName.equalsIgnoreCase(N_VIEW)) {
+	        	currentNode.getViews().add(value);
 	        }
     	}
     }
