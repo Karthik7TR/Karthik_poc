@@ -162,36 +162,43 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private DocMetadata getNormalizedCiteDocMetadata(String cite, Long pubId, Long jobId)
     {
        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
+       
+       // Fix for cite that contains whitespaces which prevents metadata match
+       if	(docMetadata == null) 
+       {
+    	   String citeWithoutSpaces = cite.replaceAll("\\s", "");
+    	   docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citeWithoutSpaces);
+       }
 
-        if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT))
-        {
-            List<PaceMetadata> paceMetadataInfo =
-                paceMetadataService.findAllPaceMetadataForPubCode(pubId);
-
-            if ((paceMetadataInfo != null) && (paceMetadataInfo.size() > 0))
-            {
-                String stdPubName = paceMetadataInfo.get(0).getStdPubName();
-
-                if (cite.contains(stdPubName))
-                {
-                    String pubName = paceMetadataInfo.get(0).getPublicationName();
-                    String pubNameCite = cite.replace(stdPubName, pubName);
-                    pubNameCite = CitationNormalizationRulesUtil.applyNormalizationRules(pubNameCite);
-                    docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
-                    
-                    if (docMetadata == null)  {
-                    	// look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
-                    	String[] splitCite = cite.split(stdPubName);
-                    	
-                    	if (splitCite.length > 0) {
-                    		String pubpage = splitCite[splitCite.length - 1];
-                    		pubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(pubpage);
-                    		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
-                    	}
-                    }
-                    
-                }
-            }
+       if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT))
+       {
+    	   List<PaceMetadata> paceMetadataInfo =
+    			   paceMetadataService.findAllPaceMetadataForPubCode(pubId);
+	
+    	   if ((paceMetadataInfo != null) && (paceMetadataInfo.size() > 0))
+			{
+			    String stdPubName = paceMetadataInfo.get(0).getStdPubName();
+			
+			    if (cite.contains(stdPubName))
+			    {
+			        String pubName = paceMetadataInfo.get(0).getPublicationName();
+			        String pubNameCite = cite.replace(stdPubName, pubName);
+			        pubNameCite = CitationNormalizationRulesUtil.applyNormalizationRules(pubNameCite);
+			        docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
+			        
+			        if (docMetadata == null)  {
+			        	// look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
+			        	String[] splitCite = cite.split(stdPubName);
+			        	
+			        	if (splitCite.length > 0) {
+			        		String pubpage = splitCite[splitCite.length - 1];
+			        		pubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(pubpage);
+			        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
+			        	}
+			        }
+			        
+			    }
+			}
         }
         else if (docMetadata == null && pubId.equals(PUB_NOT_PRESENT))
         {	
