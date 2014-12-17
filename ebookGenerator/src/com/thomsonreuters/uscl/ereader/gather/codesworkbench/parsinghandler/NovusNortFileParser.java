@@ -134,11 +134,16 @@ public class NovusNortFileParser extends DefaultHandler {
 			}
     		
     		// Only add nodes if they have not expired yet.
-    		if (endDate != null && endDate.after(cutoffDate) && !currentNode.isDeletedNode()) {
-	    		nortNodeMap.put(currentNode.getNortGuid(), currentNode);
-	    		if (currentNode.isRootNode()) {
-	        		root = currentNode;
+    		if (endDate != null && endDate.after(cutoffDate)) {
+    			if(!currentNode.isDeletedNode()) {
+		    		nortNodeMap.put(currentNode.getNortGuid(), currentNode);
+		    		if (currentNode.isRootNode()) {
+		        		root = currentNode;
+		    		} 
+	    		} else {
+	    			LOG.debug("Novus NORT GUID " + currentNode.getNortGuid() + " not included because it has been deleted.");
 	    		}
+    			
     		}
         } 
     	if(tempVal.length() != 0) {
