@@ -16,7 +16,7 @@
 			<form:hidden path="proviewDisplayName"/>
 			<form:hidden path="isbn"/>
 			<form:hidden path="titleId"/>
-			Are you sure you want to modify ISBN ${audit.isbn} for Title ID ${audit.titleId} in Audit ID ${audit.auditId}?
+			Are you sure you want to modify ISBN ${audit.isbn} for Title ID ${audit.titleId}?
 			<br>
 			<div class="buttons">
 				<button type="submit" name="editParam" value="EditIsbnAll">Modify All matching Title ID and ISBN</button>

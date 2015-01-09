@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -91,7 +91,11 @@ public class BookAuditController {
 	
 	@RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_SEARCH, method = RequestMethod.POST)
 	public String search(@ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid AdminAuditFilterForm form,
-			BindingResult errors, RedirectAttributes ra) throws Exception {
+			@RequestParam String submit, BindingResult errors, RedirectAttributes ra) throws Exception {
+		
+		if ("reset".equalsIgnoreCase(submit)) {
+			form.initialize();
+		}
 		
 		ra.addFlashAttribute(AdminAuditFilterForm.FORM_NAME, form);
 		return "redirect:/" + WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST;

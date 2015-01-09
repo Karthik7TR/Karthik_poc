@@ -36,7 +36,8 @@
 		<label>ISBN:</label>
 		<form:input path="isbn"/>
 		<label class="wildCard">Wildcard: %</label>
-		<input type="submit" value="Search" />
+		<input type="submit" name="submit" value="Search" />
+		<input type="submit" name="submit" value="Reset" />
 	</div>
 </form:form>
 
@@ -44,7 +45,7 @@
 	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	<c:choose>
 		<c:when test="${publishingStats != null}">
-			<div id="auditListLabel">Only up to 100 results are displayed:</div>
+			<div id="auditListLabel">${fn:length(publishingStats)} results are displayed:</div>
 			<table id="auditList" class="displayTagTable">
 				<thead>
 					<tr>

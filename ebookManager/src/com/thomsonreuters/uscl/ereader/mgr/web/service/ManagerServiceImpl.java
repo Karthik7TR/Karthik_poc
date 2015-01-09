@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -183,16 +183,15 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	private void removeOldCwbFiles(Date deleteBefore) {
 		File codeWorkbenchDir = rootCodesWorkbenchLandingStrip;
-		String deleteBeforeDateString = new SimpleDateFormat(CoreConstants.DIR_DATE_FORMAT).format(deleteBefore); // like "20120513"
-		String[] dateFileArray = codeWorkbenchDir.list();
-		for (String dateDirString : dateFileArray) {
-			if (dateDirString.compareTo(deleteBeforeDateString) < 0) {
-				File dateDir = new File(codeWorkbenchDir, dateDirString);
+		for (File file : codeWorkbenchDir.listFiles()) {
+			Long lastModified = file.lastModified();
+			Long deleteBeforeTime = deleteBefore.getTime();
+			if (lastModified.compareTo(deleteBeforeTime) < 0) {
 				try {
-					FileUtils.deleteDirectory(dateDir);
-					log.debug("Deleted codes workbench directory: " + dateDir.getAbsolutePath());
+					FileUtils.deleteDirectory(file);
+					log.debug("Deleted codes workbench directory: " + file.getAbsolutePath());
 				} catch (IOException e) {
-					log.error(String.format("Failed to recursively delete directory %s - %s", dateDir.getAbsolutePath(), e.getMessage()));
+					log.error(String.format("Failed to recursively delete directory %s - %s", file.getAbsolutePath(), e.getMessage()));
 				}
 			}
 		}
