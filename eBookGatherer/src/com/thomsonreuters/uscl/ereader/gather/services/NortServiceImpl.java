@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -34,6 +34,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
+import com.thomsonreuters.uscl.ereader.gather.parser.NortLabelParser;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
@@ -58,6 +60,8 @@ public class NortServiceImpl implements NortService {
 	private NovusUtility novusUtility;
 
 	private Integer nortRetryCount;
+	
+	private NortLabelParser labelParser = new NortLabelParser();
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
 			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments,
@@ -175,6 +179,12 @@ public class NortServiceImpl implements NortService {
 						"NORT ParseException for start/end node date ", e,
 						GatherResponse.CODE_FILE_ERROR);
 				throw ge;
+			} catch (NortLabelParseException e) {
+				LOG.error(e.getMessage());
+				GatherException ge = new GatherException(
+						"NORT LabelParseException ", e,
+						GatherResponse.CODE_DATA_ERROR);
+				throw ge;
 			}
 		}
 		return docFound;
@@ -185,7 +195,7 @@ public class NortServiceImpl implements NortService {
 			Map<String, String> tocGuidDateMap, ArrayList<ExcludeDocument> excludeDocuments,
 			ArrayList<ExcludeDocument> copyExcludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
 			ArrayList<RenameTocEntry> copyRenameTocEntries) throws GatherException,
-			NovusException, ParseException {
+			NovusException, ParseException, NortLabelParseException {
 		boolean docFound = true;
 		boolean excludeDocumentFound = false;
 		String documentGuid = null;
@@ -240,7 +250,10 @@ public class NortServiceImpl implements NortService {
 					throw ge;
 				}
 				
-				String label = node.getLabel().replaceAll("\\<.*?>", "");
+				
+				String labelRaw = node.getLabel();
+				//String labelHeading = labelRaw.substring(labelRaw.indexOf("<heading>"), labelRaw.indexOf("</heading"));
+				String label = labelParser.parse(labelRaw);
 				
 				// Check if name needs to be relabelled
 				if ((renameTocEntries != null) &&(renameTocEntries.size() > 0)
