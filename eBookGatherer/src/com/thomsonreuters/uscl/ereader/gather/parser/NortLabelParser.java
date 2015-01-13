@@ -34,7 +34,6 @@ public class NortLabelParser {
 	public NortLabelParser() {
 		factory = XMLInputFactory.newInstance();
 		factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false);
-		factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
 	}
 
 	public String parse(String text) throws NortLabelParseException {
@@ -56,7 +55,6 @@ public class NortLabelParser {
 				
 				if(event.isStartElement()) {
 					StartElement element = event.asStartElement();
-					System.out.println(element.getName().getLocalPart());
 					if(element.getName().getLocalPart().equalsIgnoreCase(HEADING_ELEMENT_NAME)) {
 						inHeadingElement = true;
 					} else {

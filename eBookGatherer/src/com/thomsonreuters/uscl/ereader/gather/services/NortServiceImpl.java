@@ -60,8 +60,6 @@ public class NortServiceImpl implements NortService {
 	private NovusUtility novusUtility;
 
 	private Integer nortRetryCount;
-	
-	private NortLabelParser labelParser = new NortLabelParser();
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
 			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments,
@@ -250,10 +248,11 @@ public class NortServiceImpl implements NortService {
 					throw ge;
 				}
 				
-				
 				String labelRaw = node.getLabel();
-				//String labelHeading = labelRaw.substring(labelRaw.indexOf("<heading>"), labelRaw.indexOf("</heading"));
+
+				NortLabelParser labelParser = new NortLabelParser();
 				String label = labelParser.parse(labelRaw);
+				//String labelHeading = labelRaw.substring(labelRaw.indexOf("<heading>"), labelRaw.indexOf("</heading"));
 				
 				// Check if name needs to be relabelled
 				if ((renameTocEntries != null) &&(renameTocEntries.size() > 0)
