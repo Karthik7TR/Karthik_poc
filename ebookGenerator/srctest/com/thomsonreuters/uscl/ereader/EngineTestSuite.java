@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewExceptionTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLClassAttributeFilterTest;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEditorNotesFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2FilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilterTest;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilterTest;
@@ -58,6 +59,7 @@ import com.thomsonreuters.uscl.ereader.proview.rest.CloseableAuthenticationHttpC
 			TitleXMLTOCFilterTest.class,
 			XMLImageTagHandlerTest.class,
 			DocumentExtensionAdapterTest.class,
+			HTMLEditorNotesFilterTest.class,
 			//
 			ImageDaoTest.class,
 			ImageServiceTest.class,

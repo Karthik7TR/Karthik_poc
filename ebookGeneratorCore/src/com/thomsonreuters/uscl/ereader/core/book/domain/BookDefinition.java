@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -343,6 +343,22 @@ public class BookDefinition implements Serializable {
 	@Column(name = "CWB_BOOK_NAME")
 	@Basic(fetch = FetchType.EAGER)
 	String cwbBookName;
+	/**
+	 */
+	@Column(name = "IS_INS_STYLE_FLAG", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isInsStyleFlag;
+	/**
+	 */
+	@Column(name = "IS_DEL_STYLE_FLAG", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isDelStyleFlag;
+	/**
+	 */
+	@Column(name = "IS_REMOVE_EDNOTE_HEAD_FLAG", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isRemoveEditorNoteHeadFlag;
+	
 
 	/**
 	 */
@@ -783,6 +799,43 @@ public class BookDefinition implements Serializable {
 	public void setCwbBookName(String cwbBookName) {
 		this.cwbBookName = cwbBookName;
 	}
+	
+	 /**
+	 */
+	public void setIsInsStyleFlag(boolean isInsStyleFlag) {
+		this.isInsStyleFlag =( (isInsStyleFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isInsStyleFlag() {
+		return( (this.isInsStyleFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	/**
+	 */
+	public void setIsDelStyleFlag(boolean isDelStyleFlag) {
+		this.isDelStyleFlag =( (isDelStyleFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isDelStyleFlag() {
+		return( (this.isDelStyleFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	/**
+	 */
+	public void setIsRemoveEditorNoteHeadFlag(boolean isRemoveEditorNoteHeadFlag) {
+		this.isRemoveEditorNoteHeadFlag =( (isRemoveEditorNoteHeadFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isRemoveEditorNoteHeadFlag() {
+		return( (this.isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	
 
 	/**
 	 */
@@ -1022,6 +1075,9 @@ public class BookDefinition implements Serializable {
 		this.setSourceType(SourceType.TOC);
 		this.setUseReloadContent(false);
 		this.setIsTocFlag(false);
+		this.setIsInsStyleFlag(false);
+		this.setIsDelStyleFlag(false);
+		this.setIsRemoveEditorNoteHeadFlag(false);
 	}
 
 	/**
@@ -1075,6 +1131,9 @@ public class BookDefinition implements Serializable {
 		setUseReloadContent(that.getUseReloadContent());
 		setSourceType(that.getSourceType());
 		setCwbBookName(that.getCwbBookName());
+		setIsInsStyleFlag(that.isInsStyleFlag());
+		setIsDelStyleFlag(that.isDelStyleFlag());
+		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 	}
 
 	/**
@@ -1121,6 +1180,9 @@ public class BookDefinition implements Serializable {
 		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
 		buffer.append("sourceType=[").append(sourceType).append("] ");
 		buffer.append("cwbBookName=[").append(cwbBookName).append("] ");
+		buffer.append("isInsStyleFlag=[").append(isInsStyleFlag).append("] ");
+		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
+		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
 		
 		return buffer.toString();
 	}

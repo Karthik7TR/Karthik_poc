@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLAnchorFilter;
+import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEditorNotesFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLEmptyHeading2Filter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLImageFilter;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.HTMLInputFilter;
@@ -106,13 +107,18 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * @param jobId the job identifier of the current transformation run
 	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
 	 * @param deDuppingFile target file where dedupping anchors are updated.
+	 * @param isHighlight setting to enable light blue highlighting on text for ins HTML tags
+	 * @param isStrikethrough setting to enable strike-through on text for del HTML tags
+	 * @param delEditorNodeHeading setting to remove HTML tags and text of Editors' Notes 
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final List<TableViewer> tableViewers, 
-			final String title, final Long jobId,HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
+			final String title, final Long jobId,HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, 
+			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading) 
+					throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
         {
@@ -159,7 +165,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		int numDocs = 0;
 		for(File htmlFile : htmlFiles)
 		{
-			transformHTMLFile(htmlFile, targetDir, staticImages, tableViewers, copyTableViewers, title, jobId, documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile);
+			transformHTMLFile(htmlFile, targetDir, staticImages, tableViewers, copyTableViewers, title, jobId, 
+					documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile, isHighlight, isStrikethrough,
+					delEditorNodeHeading);
 			numDocs++;
 		}
 		
@@ -198,8 +206,10 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	 * 
 	 * @throws if any parsing/transformation exception are encountered
 	 */
-	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final List<TableViewer> tableViewers, List<TableViewer> copyTableViewers,
-			String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile) throws EBookFormatException
+	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final List<TableViewer> tableViewers, 
+			List<TableViewer> copyTableViewers, String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, 
+			HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile, boolean isHighlight, 
+			boolean isStrikethrough, boolean delEditorNodeHeading) throws EBookFormatException
 	{
 
 		String fileName = sourceFile.getName();
@@ -261,14 +271,17 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			inputFilter.setParent(internalLinkResolverFilter);
 			
 			// Add strike through filter (Special Markup Filter)
-			HTMLSpecialMarkupFilter spmrkUpFilter = new HTMLSpecialMarkupFilter();
+			HTMLSpecialMarkupFilter spmrkUpFilter = new HTMLSpecialMarkupFilter(isHighlight, isStrikethrough);
 			spmrkUpFilter.setParent(inputFilter);
+			
+			HTMLEditorNotesFilter editNotesFilter = new HTMLEditorNotesFilter(delEditorNodeHeading);
+			editNotesFilter.setParent(spmrkUpFilter);
 			
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
 			anchorFilter.setjobInstanceId(jobIdentifier);
 			anchorFilter.setFirstlineCite(firstlineCite);
-			anchorFilter.setParent(spmrkUpFilter);
+			anchorFilter.setParent(editNotesFilter);
 			anchorFilter.setTargetAnchors(targetAnchors);
 			if (docMetadata != null && docMetadata.getProViewId() != null )
 			{

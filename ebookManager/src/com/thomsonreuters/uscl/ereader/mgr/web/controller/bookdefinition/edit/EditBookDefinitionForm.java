@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -92,6 +92,9 @@ public class EditBookDefinitionForm {
 	private String publicationCutoffDate;
 	private boolean includeAnnotations;
 	private boolean useReloadContent;
+	private boolean isInsTagStyleEnabled;
+	private boolean isDelTagStyleEnabled;
+	private boolean isRemoveEditorNoteHeading;
 
 	private String publishDateText;
 	
@@ -160,6 +163,9 @@ public class EditBookDefinitionForm {
 		this.frontMatterTocLabel = "Publishing Information";
 		this.publishDateText = "see Title page for currentness";
 		this.sourceType = SourceType.NORT;
+		this.isInsTagStyleEnabled = false;
+		this.isDelTagStyleEnabled = false;
+		this.isRemoveEditorNoteHeading = false;
 	}
 	
 	/**
@@ -245,6 +251,9 @@ public class EditBookDefinitionForm {
 			this.useReloadContent = book.getUseReloadContent();
 			this.sourceType = book.getSourceType();
 			this.codesWorkbenchBookName = book.getCwbBookName();
+			this.isInsTagStyleEnabled = book.isInsStyleFlag();
+			this.isDelTagStyleEnabled = book.isDelStyleFlag();
+			this.isRemoveEditorNoteHeading = book.isRemoveEditorNoteHeadFlag();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -508,6 +517,10 @@ public class EditBookDefinitionForm {
 		
 		book.setSourceType(sourceType);
 		book.setCwbBookName(codesWorkbenchBookName);
+		
+		book.setIsInsStyleFlag(isInsTagStyleEnabled);
+		book.setIsDelStyleFlag(isDelTagStyleEnabled);
+		book.setIsRemoveEditorNoteHeadFlag(isRemoveEditorNoteHeading);
 		
 		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
 		i = 1;
@@ -1066,6 +1079,30 @@ public class EditBookDefinitionForm {
 
 	public void setNortFileLocations(List<NortFileLocation> nortFileLocations) {
 		this.nortFileLocations = nortFileLocations;
+	}
+
+	public boolean isInsTagStyleEnabled() {
+		return isInsTagStyleEnabled;
+	}
+
+	public void setInsTagStyleEnabled(boolean isInsTagStyleEnabled) {
+		this.isInsTagStyleEnabled = isInsTagStyleEnabled;
+	}
+
+	public boolean isDelTagStyleEnabled() {
+		return isDelTagStyleEnabled;
+	}
+
+	public void setDelTagStyleEnabled(boolean isDelTagStyleEnabled) {
+		this.isDelTagStyleEnabled = isDelTagStyleEnabled;
+	}
+	
+	public boolean isRemoveEditorNoteHeading() {
+		return isRemoveEditorNoteHeading;
+	}
+	
+	public void setRemoveEditorNoteHeading(boolean isRemoveEditorNoteHeading) {
+		this.isRemoveEditorNoteHeading = isRemoveEditorNoteHeading;
 	}
 
 	public String toString() {

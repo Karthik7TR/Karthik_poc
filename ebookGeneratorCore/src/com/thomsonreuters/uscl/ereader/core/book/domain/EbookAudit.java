@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -352,10 +352,26 @@ public class EbookAudit implements Serializable {
 	 */
 	@Column(name = "SOURCE_TYPE", length = 10)
 	String sourceType;	
-	
+	/**
+	 */
 	@Column(name = "CWB_BOOK_NAME", length = 1028)
 	String cwbBookName;
-
+	/**
+	 */
+	@Column(name = "IS_INS_STYLE_FLAG")
+	@Basic(fetch = FetchType.EAGER)
+	String isInsStyleFlag;
+	/**
+	 */
+	@Column(name = "IS_DEL_STYLE_FLAG")
+	@Basic(fetch = FetchType.EAGER)
+	String isDelStyleFlag;
+	/**
+	 */
+	@Column(name = "IS_REMOVE_EDNOTE_HEAD_FLAG")
+	@Basic(fetch = FetchType.EAGER)
+	String isRemoveEditorNoteHeadFlag;
+	
 	/**
 	 */
 	public void setAuditId(Long auditId) {
@@ -789,6 +805,9 @@ public class EbookAudit implements Serializable {
 		setNortFileLocationConcat(that.getNortFileLocationConcat());
 		setSourceType(that.getSourceType());
 		setCwbBookName(that.getCwbBookName());
+		setIsInsStyleFlag(that.isInsStyleFlag());
+		setIsDelStyleFlag(that.isDelStyleFlag());
+		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 	}
 
 	/**
@@ -848,6 +867,10 @@ public class EbookAudit implements Serializable {
 		setNortFileLocationConcat(maxString(concatString(that.getNortFileLocations()), MAX_CHARACTER_2048));
 		setSourceType(that.getSourceType());
 		setCwbBookName(that.getCwbBookName());
+		setIsInsStyleFlag(that.isInsStyleFlag());
+		setIsDelStyleFlag(that.isDelStyleFlag());
+		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
+		
 	}
 	
 	@Transient
@@ -925,7 +948,10 @@ public class EbookAudit implements Serializable {
 		buffer.append("nortFileLocationConcat=[").append(nortFileLocationConcat).append("] ");
 		buffer.append("sourceType=[").append(sourceType).append("] ");
 		buffer.append("cwbBookName=[").append(cwbBookName).append("] ");
-		
+		buffer.append("isInsStyleFlag=[").append(isInsStyleFlag).append("] ");
+		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
+		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
+
 		return buffer.toString();
 	}
 
@@ -1167,4 +1193,41 @@ public class EbookAudit implements Serializable {
 	public void setCwbBookName(String cwbBookName) {
 		this.cwbBookName = cwbBookName;
 	}
+	
+	 /**
+	 */
+	public void setIsInsStyleFlag(boolean isInsStyleFlag) {
+		this.isInsStyleFlag =( (isInsStyleFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isInsStyleFlag() {
+		return( (this.isInsStyleFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	/**
+	 */
+	public void setIsDelStyleFlag(boolean isDelStyleFlag) {
+		this.isDelStyleFlag =( (isDelStyleFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isDelStyleFlag() {
+		return( (this.isDelStyleFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	/**
+	 */
+	public void setIsRemoveEditorNoteHeadFlag(boolean isRemoveEditorNoteHeadFlag) {
+		this.isRemoveEditorNoteHeadFlag =( (isRemoveEditorNoteHeadFlag) ? "Y" : "N");
+	}
+
+	/**
+	 */
+	public boolean isRemoveEditorNoteHeadFlag() {
+		return( (this.isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+
 /**
  * Test various HTMLMarkUpFilter data scenarios.
  *
@@ -42,7 +43,7 @@ public class HTMLSpecialMarkUpFilterTest {
 		factory.setNamespaceAware(true);
 		SAXParser saxParser = factory.newSAXParser();
 		
-		specialMarkUpFilter = new HTMLSpecialMarkupFilter();
+		specialMarkUpFilter = new HTMLSpecialMarkupFilter(true, true);
 		specialMarkUpFilter.setParent(saxParser.getXMLReader());
 
 
@@ -154,6 +155,5 @@ public class HTMLSpecialMarkUpFilterTest {
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
 
 }

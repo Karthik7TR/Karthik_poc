@@ -155,6 +155,18 @@ function submitForm(cmd)
 							</c:choose>
 						</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Added Material Blue Highlighting</label>
+						<span class="field">${ book.insStyleFlag }</span>
+					</div>
+					<div class="row">
+						<label class="labelCol">Deleted Material Strike-Through</label>
+						<span class="field">${ book.delStyleFlag }</span>
+					</div>
+					<div class="row">
+						<label class="labelCol">Remove Editors' Notes Heading</label>
+						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
+					</div>
 				</div>
 			</div>
 		</div>

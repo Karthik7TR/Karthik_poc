@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -34,11 +34,15 @@ public interface HTMLTransformerService {
 	 * @param targetAnchors the list of guids with their set of anchors
 	 * @param docsGuidFile contains the list of doc GUID's that represent the physical docs.
 	 * @param deDuppingFile target file where dedupping anchors are updated.
+	 * @param isHighlight setting to enable light blue highlighting on text for ins HTML tags
+	 * @param isStrikethrough setting to enable strike-through on text for del HTML tags
+	 * @param delEditorNodeHeading setting to remove HTML tags and text of Editors' Notes 
 	 * 
 	 * @return the number of documents that had post transformations run on them
 	 * 
 	 * @throws if no source files are found or any parsing/transformation exception are encountered
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final List<TableViewer> tableViewers,
-			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile ) throws EBookFormatException;
+			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, 
+			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading ) throws EBookFormatException;
 }

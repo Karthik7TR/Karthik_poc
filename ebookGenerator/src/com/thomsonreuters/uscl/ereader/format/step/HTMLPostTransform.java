@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -80,7 +80,9 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		try {
 			long startTime = System.currentTimeMillis();
 			int numDocsTransformed = 
-					transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, tableViewers, titleId, jobId, null, docsGuidFile, deDuppingFile);
+					transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, tableViewers, 
+							titleId, jobId, null, docsGuidFile, deDuppingFile, bookDefinition.isInsStyleFlag(), 
+							bookDefinition.isDelStyleFlag(), bookDefinition.isRemoveEditorNoteHeadFlag());
 			long endTime = System.currentTimeMillis();
 			long elapsedTime = endTime - startTime;
 			

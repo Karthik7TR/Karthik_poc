@@ -231,6 +231,9 @@
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="nortFilterView"/>
 				<form:hidden path="sourceType"/>
+				<form:hidden path="removeEditorNoteHeading"/>
+				<form:hidden path="delTagStyleEnabled"/>
+				<form:hidden path="insTagStyleEnabled"/>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -366,6 +369,30 @@
 				<form:radiobutton path="finalStage" value="false" />Review
 				<div class="errorDiv">
 					<form:errors path="finalStage" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="insTagStyleEnabled" class="labelCol">Added Material Blue Highlighting</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="true" />True
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="insTagStyleEnabled" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="delTagStyleEnabled" class="labelCol">Deleted Material Strike-Through</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="true" />True
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="delTagStyleEnabled" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="removeEditorNoteHeading" class="labelCol">Remove Editors' Notes Heading</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="true" />True
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="removeEditorNoteHeading" cssClass="errorMessage" />
 				</div>
 			</div>
 		</div>

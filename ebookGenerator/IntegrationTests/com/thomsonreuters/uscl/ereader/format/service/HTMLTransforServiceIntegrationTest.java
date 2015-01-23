@@ -1,3 +1,8 @@
+/*
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
@@ -263,7 +268,8 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
+            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
+            titleId, jobId, mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
 
         String renderedOutput =
             IOUtils.toString(
@@ -369,7 +375,8 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
+            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
+            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
 
         String renderedOutput =
             IOUtils.toString(
@@ -579,7 +586,8 @@ public class HTMLTransforServiceIntegrationTest
             new File(
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFileName1).getFile());
         htmlTransforService.transformHTMLFile(
-            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile);
+            novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
+            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
         String renderedOutput =
             IOUtils.toString(
                 new FileInputStream(
