@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -21,12 +21,14 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortPrope
 
 public class EbookAuditServiceTest  {
 	private static final long BOOK_KEY = 1L;
-	private static final List<EbookAudit> BOOK_AUDIT_LIST = new ArrayList<EbookAudit>();
-
+	private static final String TITLE_ID = "book/title";
+	private static final String ISBN = "123456789";
+	private List<EbookAudit> BOOK_AUDIT_LIST = null;
+	private EbookAudit expectedAudit = null;
+	
 	private EBookAuditServiceImpl service;
 	
 	private EbookAuditDao mockDao;
-	private EbookAudit expectedAudit = new EbookAudit();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -34,6 +36,12 @@ public class EbookAuditServiceTest  {
 		
 		this.service = new EBookAuditServiceImpl();
 		service.seteBookAuditDAO(mockDao);
+		
+		BOOK_AUDIT_LIST = new ArrayList<EbookAudit>();
+		expectedAudit = new EbookAudit();
+		expectedAudit.setAuditId(BOOK_KEY);
+		expectedAudit.setTitleId(TITLE_ID);
+		expectedAudit.setIsbn(ISBN);
 	}
 	
 	@Test
@@ -77,6 +85,20 @@ public class EbookAuditServiceTest  {
 		
 		int actual = service.numberEbookAudits(filter);
 		Assert.assertEquals(number, actual);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testEditIsbn() {
+		
+		BOOK_AUDIT_LIST.add(expectedAudit);
+		EasyMock.expect(mockDao.findEbookAuditByTitleIdAndIsbn(TITLE_ID, ISBN)).andReturn(BOOK_AUDIT_LIST);
+		mockDao.saveAudit(expectedAudit);
+		EasyMock.replay(mockDao);
+		
+		EbookAudit actualAudit = service.editIsbn(TITLE_ID, ISBN);
+
+		Assert.assertEquals(EbookAuditDao.MOD_TEXT + ISBN, actualAudit.getIsbn());
 		EasyMock.verify(mockDao);
 	}
 }

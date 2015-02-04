@@ -1,3 +1,8 @@
+/*
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.Date;
@@ -70,15 +75,23 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	}
 	
 	@Transactional
-	public void editIsbn(String titleId, String isbn) {
+	public EbookAudit editIsbn(String titleId, String isbn) {
 		List<EbookAudit> audits = eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn);
+		EbookAudit latestAudit = null;
+		
 		for(EbookAudit audit: audits) {
 			StringBuilder buffer = new StringBuilder();
 			buffer.append(EbookAuditDao.MOD_TEXT);
 			buffer.append(audit.getIsbn());
 			audit.setIsbn(buffer.toString());
 			eBookAuditDAO.saveAudit(audit);
+			
+			if(latestAudit == null || latestAudit.getAuditId() < audit.getAuditId()) {
+				latestAudit = audit;
+			}
 		}
+		
+		return latestAudit;
 	}
 
 	@Required

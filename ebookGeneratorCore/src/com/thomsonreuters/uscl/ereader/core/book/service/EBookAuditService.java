@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -49,6 +49,6 @@ public interface EBookAuditService {
 	
 	public int numberEbookAudits(EbookAuditFilter filter);
 	
-	public void editIsbn(String titleId, String isbn);
+	public EbookAudit editIsbn(String titleId, String isbn);
 
 }
