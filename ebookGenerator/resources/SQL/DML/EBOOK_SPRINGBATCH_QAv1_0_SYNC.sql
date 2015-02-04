@@ -1,5 +1,8 @@
 --------------Spring Batch Changes--------------------------
 --------------------------------------------------------
+INSERT INTO EBOOK_SPRINGBATCH_QA.SCHEMA_VERSION (SCHEMA_VERSION, COMMENTS, CHANGE_DATE)
+VALUES (2.0, 'Update tables to support Spring Batch 3.0', TO_DATE('11/20/2014', 'MM/DD/YYYY'));
+
 
 CREATE TABLE EBOOK_SPRINGBATCH_QA.BATCH_JOB_EXECUTION_PARAMS
 (

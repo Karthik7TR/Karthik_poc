@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -104,7 +104,9 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 				deletedViewCount++;
 			}
 		}
-		return deletedViewCount == views.size();
+		
+		int viewCount = views.size();
+		return viewCount != 0 && deletedViewCount == viewCount;
 	}
 	
 	@Override
