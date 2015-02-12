@@ -160,7 +160,7 @@ public class NovusNortFileParser extends DefaultHandler {
 	        } else if (qName.equalsIgnoreCase(DOC_GUID)) {
 	        	currentNode.setDocumentGuid(value);
 	        } else if (qName.equalsIgnoreCase(RANK)) {
-	        	int rank = Math.round(Float.valueOf(value));
+	        	double rank = Double.valueOf(value);
 	        	currentNode.setRank(rank);
 	        } else if (qName.equalsIgnoreCase(LABEL)) {
 	        	currentNode.setLabel(value);

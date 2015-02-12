@@ -13,7 +13,7 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	private String parentNortGuid;
 	private RelationshipNode parentNode;
 	private List<RelationshipNode> childNodes = new ArrayList<RelationshipNode>();
-	private int rank;
+	private double rank;
 	private String label;
 	private String startDateStr;
 	private String endDateStr;
@@ -47,10 +47,10 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	public void setChildNodes(List<RelationshipNode> children) {
 		this.childNodes = children;
 	}
-	public int getRank() {
+	public double getRank() {
 		return rank;
 	}
-	public void setRank(int rank) {
+	public void setRank(double rank) {
 		this.rank = rank;
 	}
 	public String getLabel() {
@@ -111,8 +111,8 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	
 	@Override
 	public int compareTo(RelationshipNode o) {
-		Integer node1 = this.getRank();
-		Integer node2 = o.getRank();
+		Double node1 = this.getRank();
+		Double node2 = o.getRank();
 
 		if (node1 > node2 ) {
 			return 1;

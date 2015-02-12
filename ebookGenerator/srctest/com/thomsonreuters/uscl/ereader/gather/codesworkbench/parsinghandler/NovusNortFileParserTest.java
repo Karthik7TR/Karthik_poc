@@ -1,5 +1,5 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -100,7 +100,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1 , root.getRank());
+		assertEquals(1.0 , root.getRank());
 
 	}
 	
@@ -132,7 +132,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1 , root.getRank());
+		assertEquals(1.0 , root.getRank());
 
 	}
 	
@@ -164,7 +164,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1 , root.getRank());
+		assertEquals(1.0 , root.getRank());
 
 	}
 	
@@ -196,7 +196,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1 , root.getRank());
+		assertEquals(1.0 , root.getRank());
 
 	}
 	
