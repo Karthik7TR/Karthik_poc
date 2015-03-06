@@ -26,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.text.DocumentExtensionAdapterTest;
+import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortNodeFilterTest;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusNortFileParserTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
@@ -44,6 +45,7 @@ import com.thomsonreuters.uscl.ereader.proview.rest.CloseableAuthenticationHttpC
 			NovusDocFileServiceTest.class,
 			NovusNortFileServiceTest.class,
 			NovusNortFileParserTest.class,
+			NortNodeFilterTest.class,
 			//Format tests
 			HTMLWrapperServiceTest.class,
 			TransformerServiceTest.class,

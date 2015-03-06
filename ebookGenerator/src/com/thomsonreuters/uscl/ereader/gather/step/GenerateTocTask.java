@@ -1,36 +1,47 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
 
 package com.thomsonreuters.uscl.ereader.gather.step;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import javax.jms.IllegalStateException;
+import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortFilenameFilter;
+import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortNodeFilter;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusNortFileParser;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -38,13 +49,15 @@ import com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 /**
  * Create TOC file from NORT files created by Codes Workbench
  * 
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class GenerateTocTask  extends AbstractSbTasklet {
+public class GenerateTocTask  extends AbstractSbTasklet 
+{
 	//TODO: Use logger API to get Logger instance to job-specific appender.
 	private static final Logger LOG = Logger.getLogger(GenerateTocTask.class);
 	private PublishingStatsService publishingStatsService;
@@ -52,16 +65,23 @@ public class GenerateTocTask  extends AbstractSbTasklet {
 	private NovusNortFileService novusNortFileService;
 
 	@Override
-	public ExitStatus executeStep(StepContribution contribution,
-			ChunkContext chunkContext) throws Exception {
-		
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
+	{
 		GatherResponse gatherResponse = null;
 		String publishStatus = "Completed";
 			
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		File rootCodesWorkbenchLandingStrip = new File(jobExecutionContext.getString(JobExecutionKey.CODES_WORKBENCH_ROOT_LANDING_STRIP_DIR));
-		File tocFile = new File(jobExecutionContext.getString(JobExecutionKey.GATHER_TOC_FILE));
-		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
+		JobInstance jobInstance = getJobInstance(chunkContext);
+		JobParameters jobParams = getJobParameters(chunkContext);
+		Long jobInstanceId = jobInstance.getId();
+		
+		File rootCodesWorkbenchLandingStrip = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.CODES_WORKBENCH_ROOT_LANDING_STRIP_DIR));
+		File tocFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
+		String tocDir = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_DIR);
+		
+		String username = jobParams.getString(JobParameterKey.USER_NAME);
+		String envName = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
+		Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		
@@ -117,6 +137,19 @@ public class GenerateTocTask  extends AbstractSbTasklet {
         		}
         	}
         	
+        	// Remove empty nodes
+        	NortNodeFilter nodeFilter = new NortNodeFilter(rootNodes);
+        	List<RelationshipNode> removedNodes = nodeFilter.filterEmptyNodes();
+        	
+        	if (removedNodes != null && removedNodes.size() > 0)
+    		{
+    		// Send notification for empty nodes.
+        		String titleId = bookDefinition.getTitleId();
+    			File emptyNodeTargetListFile = new File(tocDir, titleId +"_" + jobInstanceId +"_emptyNodeFile.csv");
+    			writeEmtpyNodeReport(titleId, jobInstanceId, envName, removedNodes, emptyNodeTargetListFile, emailRecipients);
+    			
+    		}
+        	
 			if(bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
 			{
 				gatherResponse = novusNortFileService.findTableOfContents(rootNodes, tocFile, cutoffDate, 
@@ -150,12 +183,51 @@ public class GenerateTocTask  extends AbstractSbTasklet {
         }
         finally 
         {
-        	jobstats.setJobInstanceId(jobInstance);
+        	jobstats.setJobInstanceId(jobInstanceId);
             jobstats.setPublishStatus("generateTocFromNortFile : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERATETOC);
         }
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	protected void writeEmtpyNodeReport(String title, Long jobInstanceId, String envName, List<RelationshipNode> removedNodes,
+			File removedNodesListFile, Collection<InternetAddress> emailRecipients) throws EBookFormatException 
+	{
+		try (BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(removedNodesListFile),"UTF-8")))
+		{
+			writer.write("NORT GUID (NOTE: First character \"N\" needs to change to \"I\" to find node in CWB), Label, TOC Hierarchy");
+			writer.newLine();
+
+			for (RelationshipNode node : removedNodes) 
+			{
+				writer.write(node.getNortGuid());
+				writer.write(",");
+				writer.write(node.getLabel().replaceAll("\\s|,", " "));
+				writer.write(",");
+				writer.write(node.getTocHierarchy());
+				writer.newLine();
+			}
+			writer.flush();
+		} 
+		catch (IOException e) 
+		{
+			String errMessage = "Encountered an IO Exception while processing: "
+					+ removedNodesListFile.getAbsolutePath();
+			LOG.error(errMessage);
+			throw new EBookFormatException(errMessage, e);
+		} 
+
+		String subject = String.format( "Empty nodes removed for title \"%s\", job: %s, env: %s",
+				title, jobInstanceId.toString(), envName);
+		String emailBody = "Attached is the file of empty nodes removed from the TOC in this book. Format is comma seperated list of NORT guids and label.";
+		LOG.debug("Notification email recipients : " + emailRecipients);
+		LOG.debug("Notification email subject : " + subject);
+		LOG.debug("Notification email body : " + emailBody);
+		ArrayList<String> filenames = new ArrayList<String>();
+		filenames.add(removedNodesListFile.getAbsolutePath());
+		EmailNotification.sendWithAttachment(emailRecipients, subject,
+				emailBody, filenames);
 	}
 
 	@Required

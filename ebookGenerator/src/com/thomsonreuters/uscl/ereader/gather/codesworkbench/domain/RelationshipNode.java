@@ -7,6 +7,7 @@ package com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class RelationshipNode implements Comparable<RelationshipNode> {
 	private String nortGuid;
@@ -97,6 +98,26 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 		this.views = views;
 	}
 	
+	public String getTocHierarchy() {
+		Stack<String> stack = new Stack<String>();
+		getParentLabels(parentNode, stack);
+		
+		StringBuffer buffer = new StringBuffer();
+		while(!stack.empty()) {
+			buffer.append(stack.pop());
+			buffer.append("|");
+		}
+		return buffer.toString();
+		
+	}
+	
+	private void getParentLabels(RelationshipNode parent, Stack<String> stack) {
+		if(parent != null) {
+			stack.push(parent.getLabel());
+			getParentLabels(parent.getParentNode(), stack);
+		}
+	}
+	
 	public boolean isDeletedNode() {
 		int deletedViewCount = 0;
 		for(String view : views) {
@@ -121,6 +142,101 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 		} else {
 			return 0;
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((childNodes == null) ? 0 : childNodes.hashCode());
+		result = prime * result
+				+ ((documentGuid == null) ? 0 : documentGuid.hashCode());
+		result = prime * result
+				+ ((endDateStr == null) ? 0 : endDateStr.hashCode());
+		result = prime * result + (isRootNode ? 1231 : 1237);
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result
+				+ ((nodeType == null) ? 0 : nodeType.hashCode());
+		result = prime * result
+				+ ((nortGuid == null) ? 0 : nortGuid.hashCode());
+		result = prime * result
+				+ ((parentNode == null) ? 0 : parentNode.hashCode());
+		result = prime * result
+				+ ((parentNortGuid == null) ? 0 : parentNortGuid.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(rank);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result
+				+ ((startDateStr == null) ? 0 : startDateStr.hashCode());
+		result = prime * result + ((views == null) ? 0 : views.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RelationshipNode other = (RelationshipNode) obj;
+		if (childNodes == null) {
+			if (other.childNodes != null)
+				return false;
+		} else if (!childNodes.equals(other.childNodes))
+			return false;
+		if (documentGuid == null) {
+			if (other.documentGuid != null)
+				return false;
+		} else if (!documentGuid.equals(other.documentGuid))
+			return false;
+		if (endDateStr == null) {
+			if (other.endDateStr != null)
+				return false;
+		} else if (!endDateStr.equals(other.endDateStr))
+			return false;
+		if (isRootNode != other.isRootNode)
+			return false;
+		if (label == null) {
+			if (other.label != null)
+				return false;
+		} else if (!label.equals(other.label))
+			return false;
+		if (nodeType == null) {
+			if (other.nodeType != null)
+				return false;
+		} else if (!nodeType.equals(other.nodeType))
+			return false;
+		if (nortGuid == null) {
+			if (other.nortGuid != null)
+				return false;
+		} else if (!nortGuid.equals(other.nortGuid))
+			return false;
+		if (parentNode == null) {
+			if (other.parentNode != null)
+				return false;
+		} else if (!parentNode.equals(other.parentNode))
+			return false;
+		if (parentNortGuid == null) {
+			if (other.parentNortGuid != null)
+				return false;
+		} else if (!parentNortGuid.equals(other.parentNortGuid))
+			return false;
+		if (Double.doubleToLongBits(rank) != Double
+				.doubleToLongBits(other.rank))
+			return false;
+		if (startDateStr == null) {
+			if (other.startDateStr != null)
+				return false;
+		} else if (!startDateStr.equals(other.startDateStr))
+			return false;
+		if (views == null) {
+			if (other.views != null)
+				return false;
+		} else if (!views.equals(other.views))
+			return false;
+		return true;
 	}
 	
 }

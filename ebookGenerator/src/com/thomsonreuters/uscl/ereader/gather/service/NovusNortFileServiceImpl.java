@@ -348,7 +348,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 			}
 
 			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(nortXmlFile.getPath()), "UTF8"));
+					new FileOutputStream(nortXmlFile.getPath()), "UTF-8"));
 			out.write(EBConstants.TOC_XML_ELEMENT);
 			out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
