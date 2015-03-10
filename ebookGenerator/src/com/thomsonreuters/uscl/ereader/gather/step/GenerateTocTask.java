@@ -205,7 +205,7 @@ public class GenerateTocTask  extends AbstractSbTasklet
 				writer.write(",");
 				writer.write(node.getLabel().replaceAll("\\s|,", " "));
 				writer.write(",");
-				writer.write(node.getTocHierarchy());
+				writer.write(node.getTocHierarchy().replaceAll("\\s|,", " "));
 				writer.newLine();
 			}
 			writer.flush();
