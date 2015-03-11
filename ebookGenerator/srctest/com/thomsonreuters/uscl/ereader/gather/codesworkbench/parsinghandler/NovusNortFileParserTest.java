@@ -69,8 +69,8 @@ public class NovusNortFileParserTest {
 	@Test
 	public void testNoRootNode() throws UnsupportedEncodingException, IOException, ParserConfigurationException {
 		File nort = new File(cwbDir, "none.xml");
-		addContentToFile(nort, "<n-relationship guid=\"N6E4FBD50582711DB99C8C2EC4C695390\" control=\"ADD\">"
-				+ "<n-end-date>20071202235959</n-end-date></n-relationship>");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N6E4FBD50582711DB99C8C2EC4C695390\" control=\"ADD\">"
+				+ "<n-end-date>20071202235959</n-end-date></n-relationship></n-load>");
 		try {
 			parser.parseDocument(nort);
 			fail("Test should throw SAXException");
@@ -82,13 +82,13 @@ public class NovusNortFileParserTest {
 	@Test
 	public void testRootFound() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
 		File nort = new File(cwbDir, "none.xml");
-		addContentToFile(nort, "<n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
 				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
 				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
 				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
 				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
 				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
-				+ "</n-nortpayload></n-relpayload></n-relationship>");
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
 		
 		RelationshipNode root = parser.parseDocument(nort);
 		
@@ -126,6 +126,41 @@ public class NovusNortFileParserTest {
 		
 		assertEquals(1, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(null, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1.0 , root.getRank());
+
+	}
+	
+	@Test
+	public void testLabel() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS <cite.query>other text</cite.query> ending</heading><a>not here</a><section-heading type=\"statute\">"
+				+ "<section.designator>2308.</section.designator><cite.query w-ref-type=\"VQ\" "
+				+ "w-normalized-cite=\"NB4CA2840AF-F711D8803AE-0632FEDDFBF\" w-pub-number=\"1000546\">Implied warranties</cite.query>"
+				+ "</section-heading><citation-heading>15 USCA USCA USCA 2308</citation-heading></n-label>"
+				+ "<node-type>gradehead</node-type><graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"NAEC7C17087FE11D98CEADD8B3DFE30E4\" "
+				+ "control=\"ADD\"><n-relbase>NAEBD884087FE11D98CEADD8B3DFE30E4</n-relbase>"
+				+ "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
+				+ "<n-relpayload><n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
+				+ "<heading>TITLE 42—PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term></n-nortpayload></n-relpayload>"
+				+ "</n-relationship></n-load>");
+		
+		RelationshipNode root = parser.parseDocument(nort);
+		
+		assertEquals(1, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS other text ending", root.getLabel());
 		assertEquals(null, root.getDocumentGuid());
 		assertEquals("gradehead", root.getNodeType());
 		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
