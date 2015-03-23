@@ -75,6 +75,7 @@ public class FrontMatterIntegrationTest {
 		eBook.setExcludeDocuments(new HashSet<ExcludeDocument>());
 		DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
 		eBook.setDocumentTypeCodes(dc);
+		eBook.setFrontMatterTheme("West");
 		
 		PublisherCode publisherCode = codeService.getPublisherCodeById((long) 1);
 		eBook.setPublisherCodes(publisherCode);
