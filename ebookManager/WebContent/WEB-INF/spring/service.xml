@@ -37,9 +37,16 @@
 	<bean id="libraryListService" class="com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListServiceImpl"
   		  p:libraryListDao-ref="libraryListDao"/>
   		  
-  	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl"
-  		  p:codeService-ref="codeService"
-  		  p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"/>
+  	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl">
+  		  <property name="codeService" ref="codeService" />
+  		  <property name ="rootCodesWorkbenchLandingStrip" value="${codes.workbench.root.dir}" />
+  		  <property name="frontMatterThemes">
+             <list>                
+                <value>WestLaw Next</value>               
+                <value>AAJ Press</value>
+            </list>
+         </property>
+  	</bean>
 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService"
 	  	  p:proviewClient-ref="proviewClient"

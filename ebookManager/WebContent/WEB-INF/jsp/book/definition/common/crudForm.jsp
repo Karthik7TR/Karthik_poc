@@ -780,6 +780,13 @@
 				</div>
 			</div>
 			<div class="row">
+						<form:label path="fmThemeText" class="labelCol">Front Matter Theme</form:label>
+						<form:select path="fmThemeText" >
+							<form:options items="${frontMatterThemes}" />
+						</form:select>
+							
+					</div>
+			<div class="row">
 				<form:label path="isAuthorDisplayVertical" class="labelCol">Author Display</form:label>
 				<form:radiobutton path="isAuthorDisplayVertical" value="true" />Vertical
 				<form:radiobutton path="isAuthorDisplayVertical" value="false" />Horizontal

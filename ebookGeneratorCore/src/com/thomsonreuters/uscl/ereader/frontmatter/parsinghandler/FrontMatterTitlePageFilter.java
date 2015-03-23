@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -31,19 +31,24 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 	private static final String BOOK_NAME3_TAG = "frontMatterPlaceholder_bookname3";
 	private static final String CURRENCY_TAG = "frontMatterPlaceholder_currency";
 	private static final String AUTHORS_TAG = "frontMatterPlaceholder_authors";
+	private static final String THEME_TAG = "frontMatterPlaceholder_theme";
 	
 	/** Defines the HTML tags that will be created by the filter */
 	private static final String HTML_DIV_TAG = "div";
 	private static final String HTML_PARAGRAPH_TAG = "p";
 	private static final String HTML_ANCHOR_TAG = "a";
+	private static final String HTML_IMG_TAG = "img";
 	
 	private static final String HTML_TAG_NAME_ATTRIBUTE = "name";
 	private static final String HTML_TAG_CLASS_ATTRIBUTE = "class";
+	private static final String HTML_TAG_SRC_ATTRIBUTE = "src";
+	private static final String HTML_TAG_ALT_ATTRIBUTE = "alt";
 	
 	private static final String CDATA = "CDATA";
 	
 	private static final boolean MULTI_LINE_FIELD = true;
 	private static final boolean SINGLE_LINE_FIELD = false;
+	public static final String AAJ_PRESS_THEME = "AAJ Press";
 	
 	private BookDefinition bookDefinition;
 	
@@ -111,6 +116,10 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		{
 			createAuthorSection();
 		}
+		else if (qName.equalsIgnoreCase(THEME_TAG))
+		{
+			createFrontMatterThemeSection();
+		}
 		else
 		{
 			super.startElement(uri, localName, qName, atts);
@@ -136,7 +145,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 		}
 		else if (qName.equalsIgnoreCase(BOOK_NAME_TAG) || qName.equalsIgnoreCase(BOOK_NAME2_TAG)
 				|| qName.equalsIgnoreCase(BOOK_NAME3_TAG)
-				|| qName.equalsIgnoreCase(CURRENCY_TAG) || qName.equalsIgnoreCase(AUTHORS_TAG))
+				|| qName.equalsIgnoreCase(CURRENCY_TAG) || qName.equalsIgnoreCase(AUTHORS_TAG)
+				|| qName.equalsIgnoreCase(THEME_TAG))
 		{
 			//Remove the placeholder tag
 		}
@@ -179,6 +189,25 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 			{
 				super.characters(text.toCharArray(), 0, text.length());
 			}
+		}
+	}
+	
+	private void createFrontMatterThemeSection() throws SAXException
+	{
+		String template = bookDefinition.getFrontMatterTheme();
+		
+		if (template.equalsIgnoreCase(AAJ_PRESS_THEME)){
+			
+			AttributesImpl newAtts = new AttributesImpl();
+			newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "logo");
+			
+			super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
+			newAtts = new AttributesImpl();
+			newAtts.addAttribute("", HTML_TAG_SRC_ATTRIBUTE, HTML_TAG_SRC_ATTRIBUTE, CDATA, "er:#AAJ_PRESS");
+			newAtts.addAttribute("", HTML_TAG_ALT_ATTRIBUTE, HTML_TAG_ALT_ATTRIBUTE, CDATA, "AAJ Press logo");
+			super.startElement("", HTML_IMG_TAG, HTML_IMG_TAG, newAtts);
+			super.endElement("", HTML_IMG_TAG, HTML_IMG_TAG);			
+			super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
 		}
 	}
 	

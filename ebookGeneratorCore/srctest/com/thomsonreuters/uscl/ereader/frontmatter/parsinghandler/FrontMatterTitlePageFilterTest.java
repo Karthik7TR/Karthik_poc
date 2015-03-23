@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -94,6 +94,7 @@ public class FrontMatterTitlePageFilterTest {
 		
 		bookDefinition.setAuthors(authors);
 		bookDefinition.setIsAuthorDisplayVertical(true);
+		bookDefinition.setFrontMatterTheme("AAJ Press");
 		
 		titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
 		titlePageFilter.setParent(saxParser.getXMLReader());
@@ -157,6 +158,26 @@ public class FrontMatterTitlePageFilterTest {
 				fail("Couldn't clean up resources: " + e.getMessage());
 			}
 		}
+	}
+	
+	@Test
+	public void testFrontMatterPlaceholder_theme() throws SAXException
+	{	
+		String xmlTestStr = "<test><frontMatterPlaceholder_theme/></test>";
+		String expectedResult = "<test><div class=\"logo\"><img src=\"er:#AAJ_PRESS\" alt=\"AAJ Press logo\"/></div></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
+	@Test
+	public void testFrontMatterPlaceholder_themeNone() throws SAXException
+	{	
+		bookDefinition.setFrontMatterTheme("west");
+		
+		String xmlTestStr = "<test><frontMatterPlaceholder_theme/></test>";
+		String expectedResult = "<test/>";
+		
+		testHelper(xmlTestStr, expectedResult);
 	}
 	
 	@Test
@@ -261,7 +282,7 @@ public class FrontMatterTitlePageFilterTest {
 		EbookName series = new EbookName();
 		series.setBookNameText("TEST Series");
 		series.setSequenceNum(3);
-		ebookNames.add(series);
+		//ebookNames.add(series);
 		bookDefinition.setEbookNames(ebookNames);
 				
 		titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
@@ -271,7 +292,7 @@ public class FrontMatterTitlePageFilterTest {
 				"<bookname2><frontMatterPlaceholder_bookname2/></bookname2>" +
 				"<bookname3><frontMatterPlaceholder_bookname3/></bookname3></test>";
 		String expectedResult = "<test><bookname1>TEST Title</bookname1><bookname2/><bookname3>TEST Series</bookname3></test>";
-		
+				
 		testHelper(xmlTestStr, expectedResult);
 	}
 }

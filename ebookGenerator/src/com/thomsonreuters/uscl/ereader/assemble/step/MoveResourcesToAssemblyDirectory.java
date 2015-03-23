@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.frontmatter.parsinghandler.FrontMatterTitlePageFilter;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -152,11 +153,19 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 	}
 	
 	private void moveFrontMatterImages(final ExecutionContext jobExecutionContext,final File assetsDirectory) throws IOException {
-		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
-		FileUtils.copyDirectory(frontMatterImagesDir, assetsDirectory);
-
+		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
-		 
+		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
+		
+		List<File> filter = filterFiles(frontMatterImagesDir,bookDefinition);
+		
+		for (File file: frontMatterImagesDir.listFiles()){
+			if(!filter.contains(file)){
+				FileUtils.copyFileToDirectory(file, assetsDirectory);
+			}
+			
+		}
+				 
 		ArrayList<FrontMatterPdf> pdfList = new ArrayList<FrontMatterPdf>();
 		 List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 		 for (FrontMatterPage fmp : fmps)
@@ -174,6 +183,29 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		}
 	}
 
+	/**
+	 * Add only image files that are required.
+	 * @param frontMatterImagesDir
+	 * @param bookDefinition
+	 * @return
+	 */
+	public List<File> filterFiles(File frontMatterImagesDir, BookDefinition bookDefinition) {		
+	List<File> filter = new ArrayList<File>();
+
+		for (File file : frontMatterImagesDir.listFiles()) {
+			if (!bookDefinition.getFrontMatterTheme().equalsIgnoreCase(FrontMatterTitlePageFilter.AAJ_PRESS_THEME)
+					&& file.getName().startsWith("AAJ")) {
+				filter.add(file);
+			}
+			if (!bookDefinition.getKeyciteToplineFlag() && file.getName().startsWith("keycite")) {
+				filter.add(file);
+			}
+		}
+
+		return filter;
+
+	}
+	
 	
 	private void moveStylesheet(final ExecutionContext jobExecutionContext, final File assetsDirectory) throws IOException {
 		File stylesheet = new File(DOCUMENT_CSS_FILE);

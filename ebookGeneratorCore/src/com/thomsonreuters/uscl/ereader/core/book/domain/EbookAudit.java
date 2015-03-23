@@ -187,6 +187,10 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
+	@Column(name = "FRONT_MATTER_THEME")
+	@Basic(fetch = FetchType.EAGER)
+	String frontMatterTheme;
+	
 	@Column(name = "ONE_PASS_SSO_LINK_FLAG", length = 1)
 	@Basic(fetch = FetchType.EAGER)
 	String onePassSsoLinkFlag;
@@ -749,6 +753,14 @@ public class EbookAudit implements Serializable {
 	public EbookAudit() {
 	}
 	
+	public String getFrontMatterTheme() {
+		return frontMatterTheme;
+	}
+
+	public void setFrontMatterTheme(String frontMatterTheme) {
+		this.frontMatterTheme = frontMatterTheme;
+	}
+	
 	/**
 	 * Copies the contents of the specified bean into this bean.
 	 *
@@ -808,6 +820,7 @@ public class EbookAudit implements Serializable {
 		setIsInsStyleFlag(that.isInsStyleFlag());
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
+		setFrontMatterTheme(that.frontMatterTheme);
 	}
 
 	/**
@@ -870,6 +883,7 @@ public class EbookAudit implements Serializable {
 		setIsInsStyleFlag(that.isInsStyleFlag());
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
+		setFrontMatterTheme(that.frontMatterTheme);
 		
 	}
 	
@@ -951,6 +965,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("isInsStyleFlag=[").append(isInsStyleFlag).append("] ");
 		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
 		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
+		buffer.append("frontMatterTheme=[").append(frontMatterTheme).append("] ");
 
 		return buffer.toString();
 	}

@@ -369,6 +369,10 @@ function submitForm(cmd)
 						<label class="labelCol">Currentness Message</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.currency) }</div>
 					</div>
+					<div class="row">
+						<label class="labelCol">Front Matter Theme</label>
+						<div class="field wordwrap">${ fn:escapeXml(book.frontMatterTheme) }</div>
+					</div>
 					
 					<div class="row">
 						<label class="labelCol">Author Display</label>

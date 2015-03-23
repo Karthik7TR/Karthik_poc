@@ -20,6 +20,7 @@
 					</div>
 					<div class="currency"><p><frontMatterPlaceholder_currency/></p></div>
 					<frontMatterPlaceholder_authors/>
+					<frontMatterPlaceholder_theme/>
 					<div class="logo"><img src="er:#EBook_Generator_TRLogo" alt="Thomson Reuters logo"/></div>
 				</div>
 			</div>

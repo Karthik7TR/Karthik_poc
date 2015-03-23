@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -371,6 +371,7 @@ public class EditBookDefinitionController {
 		model.addAttribute(WebConstants.KEY_CONTENT_TYPES, editBookDefinitionService.getDocumentTypes());
 		model.addAttribute(WebConstants.KEY_PUB_TYPES, editBookDefinitionService.getPubTypes());
 		model.addAttribute(WebConstants.KEY_JURISDICTIONS, editBookDefinitionService.getJurisdictions());
+		model.addAttribute(WebConstants.KEY_FRONT_MATTER_THEMES, editBookDefinitionService.getFrontMatterThemes());
 		model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
 		model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
 	}

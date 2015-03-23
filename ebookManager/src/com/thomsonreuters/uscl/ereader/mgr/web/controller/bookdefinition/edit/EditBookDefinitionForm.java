@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -87,6 +88,8 @@ public class EditBookDefinitionForm {
 	private String nortDomain;
 	private String nortFilterView;
 	private Long contentTypeId;
+	private String fmThemeText;
+
 	private String isbn;
 	private boolean isPublicationCutoffDateUsed;
 	private String publicationCutoffDate;
@@ -100,7 +103,7 @@ public class EditBookDefinitionForm {
 	
 	// Keywords used in Proview
 	private Collection<String> keywords;
-	
+
 	private String currency;
 	private String additionalTrademarkInfo;
 	private boolean isComplete;
@@ -254,6 +257,7 @@ public class EditBookDefinitionForm {
 			this.isInsTagStyleEnabled = book.isInsStyleFlag();
 			this.isDelTagStyleEnabled = book.isDelStyleFlag();
 			this.isRemoveEditorNoteHeading = book.isRemoveEditorNoteHeadFlag();
+			this.fmThemeText = book.getFrontMatterTheme();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -294,7 +298,7 @@ public class EditBookDefinitionForm {
 			}
 			
 			this.keywords.addAll(keywordMap.values());
-			
+					
 			setupFrontMatterNames(book.getEbookNames());
 			
 			parseTitleId(book);
@@ -498,7 +502,6 @@ public class EditBookDefinitionForm {
 		Date date = publicationCutoffDate != null? (Date)formatter.parse(publicationCutoffDate) : null; 
 		book.setPublishCutoffDate(date);
 
-		
 		book.setPublishDateText(publishDateText);
 		
 		PublisherCode publishercode = new PublisherCode();
@@ -534,6 +537,7 @@ public class EditBookDefinitionForm {
 			i++;
 		}
 		book.setNortFileLocations(tempNortFileLocations);
+		book.setFrontMatterTheme(fmThemeText);
 	}
 	
 	private void parseTitleId(BookDefinition book) {
@@ -834,6 +838,14 @@ public class EditBookDefinitionForm {
 	public void setContentTypeId(Long contentTypeId) {
 		this.contentTypeId = contentTypeId;
 	}
+	
+	public String getFmThemeText() {
+		return fmThemeText;
+	}
+
+	public void setFmThemeText(String fmThemeText) {
+		this.fmThemeText = fmThemeText;
+	}
 
 	public String getIsbn() {
 		return isbn;
@@ -882,7 +894,7 @@ public class EditBookDefinitionForm {
 	public void setKeywords(Collection<String> keywords) {
 		this.keywords = keywords;
 	}
-
+	
 	public String getCurrency() {
 		return currency;
 	}

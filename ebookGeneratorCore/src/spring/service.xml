@@ -73,13 +73,20 @@
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
 		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>
 		  
-	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl"
-		  p:frontMatterTitlePageTemplateLocation="classpath:templates/frontMatterTitleTemplate.xml"
-		  p:frontMatterCopyrightPageTemplateLocation="classpath:templates/frontMatterCopyrightTemplate.xml"
-		  p:frontMatterAdditionalPagesTemplateLocation="classpath:templates/frontMatterAdditionalPagesTemplate.xml"
-		  p:frontMatterResearchAssistancePageTemplateLocation="classpath:templates/frontMatterResearchAssistanceTemplate.xml"
-		  p:frontMatterWestlawNextPageTemplateLocation="classpath:templates/frontMatterWestlawNextTemplate.xml"/>		  
-
+	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
+	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>
+		  <property name="frontMatterCopyrightPageTemplateLocation" value="classpath:templates/frontMatterCopyrightTemplate.xml"/>
+		  <property name="frontMatterAdditionalPagesTemplateLocation" value="classpath:templates/frontMatterAdditionalPagesTemplate.xml"/>
+		  <property name="frontMatterResearchAssistancePageTemplateLocation" value="classpath:templates/frontMatterResearchAssistanceTemplate.xml"/>
+		  <property name="frontMatterWestlawNextPageTemplateLocation" value="classpath:templates/frontMatterWestlawNextTemplate.xml"/>
+		  <property name ="frontMatterLogoPlaceHolder">
+		  	<map>
+		  		<entry key="er:#EBook_Generator_TRLogo" value="EBook_Generator_TRLogo.png"/>
+		  		<entry key="er:#AAJ_PRESS" value="AAJ_PRESS.png"/>
+		  	</map>
+		  </property>		  
+	</bean>
+	
 	<bean id="smokeTestDao" class="com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	

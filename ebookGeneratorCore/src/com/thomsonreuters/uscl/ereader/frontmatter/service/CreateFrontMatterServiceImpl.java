@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,9 +54,10 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	private static final Logger LOG = Logger.getLogger(CreateFrontMatterServiceImpl.class);
 	private static final String HTML_EXTENSION = ".html";
 	private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
-	private static final String TR_LOGO_PLACEHOLDER = "er:#EBook_Generator_TRLogo";
 	private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";
 	
+	private Map<String,String> frontMatterLogoPlaceHolder = new HashMap<String,String>();	
+
 	private ResourceLoader resourceLoader;
 	private String frontMatterTitlePageTemplateLocation;
 	private String frontMatterCopyrightPageTemplateLocation;
@@ -109,10 +112,20 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 	{
 		String output = generateTitlePage(bookDefinition).replace(CSS_PLACEHOLDER, 
 				"frontMatterCss.mvc?cssName=ebook_generator.css");
-		output = output.replace(TR_LOGO_PLACEHOLDER, 
-				"frontMatterImage.mvc?imageName=EBook_Generator_TRLogo.png");
+		for (Map.Entry<String, String> entry : this.frontMatterLogoPlaceHolder.entrySet()) {
+			output = output.replace(entry.getKey(), "frontMatterImage.mvc?imageName="+entry.getValue());
+		}	   
 		return output;
 	}
+	
+	public Map<String, String> getFrontMatterLogoPlaceHolder() {
+		return frontMatterLogoPlaceHolder;
+	}
+
+	public void setFrontMatterLogoPlaceHolder(Map<String, String> frontMatterLogoPlaceHolder) {
+		this.frontMatterLogoPlaceHolder = frontMatterLogoPlaceHolder;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getCopyrightPage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)

@@ -185,6 +185,10 @@ public class BookDefinition implements Serializable {
 	String searchIndexFlag;
 	/**
 	 */
+	
+	@Column(name = "FRONT_MATTER_THEME")
+	@Basic(fetch = FetchType.EAGER)
+	String frontMatterTheme;
 
 	@Column(name = "ONE_PASS_SSO_LINK_FLAG")
 	@Basic(fetch = FetchType.EAGER)
@@ -800,6 +804,16 @@ public class BookDefinition implements Serializable {
 		this.cwbBookName = cwbBookName;
 	}
 	
+
+
+	public String getFrontMatterTheme() {
+		return frontMatterTheme;
+	}
+
+	public void setFrontMatterTheme(String frontMatterTheme) {
+		this.frontMatterTheme = frontMatterTheme;
+	}
+	
 	 /**
 	 */
 	public void setIsInsStyleFlag(boolean isInsStyleFlag) {
@@ -1183,6 +1197,7 @@ public class BookDefinition implements Serializable {
 		buffer.append("isInsStyleFlag=[").append(isInsStyleFlag).append("] ");
 		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
 		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
+		buffer.append("frontMatterTheme=[").append(frontMatterTheme).append("] ");
 		
 		return buffer.toString();
 	}

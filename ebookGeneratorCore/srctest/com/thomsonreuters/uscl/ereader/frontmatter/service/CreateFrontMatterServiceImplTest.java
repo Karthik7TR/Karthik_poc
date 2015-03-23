@@ -1,20 +1,22 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
-
-import static org.junit.Assert.assertEquals;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -26,13 +28,13 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 /**
  * Test the Service that generates HTML for all the Front Matter pages.
  *
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a>
+ *         u0095869
  */
-public class CreateFrontMatterServiceImplTest 
-{
+public class CreateFrontMatterServiceImplTest {
 	private CreateFrontMatterServiceImpl frontMatterService;
 	private BookDefinition bookDefinition;
-	
+
 	@Before
 	public void setUp()
 	{
@@ -49,6 +51,11 @@ public class CreateFrontMatterServiceImplTest
 				"classpath:templates/frontMatterResearchAssistanceTemplate.xml");
 		frontMatterService.setFrontMatterWestlawNextPageTemplateLocation(
 				"classpath:templates/frontMatterWestlawNextTemplate.xml");
+		
+		Map<String,String> logoMap = new HashMap<String,String>();
+		logoMap.put("er:#EBook_Generator_TRLogo", "EBook_Generator_TRLogo.png");
+		
+		frontMatterService.setFrontMatterLogoPlaceHolder(logoMap);
 		
 		bookDefinition = new BookDefinition();
 		List<EbookName> ebookNames = new ArrayList<EbookName>();
@@ -74,6 +81,7 @@ public class CreateFrontMatterServiceImplTest
 		bookDefinition.setAdditionalTrademarkInfo("McKINNEY'S is registerd in the U.S. Patent and Trademark Office.\r\n" +
 				"McKINNEY'S NEW YORK CIVIL PRACTICE LAW AND RULES\r\n" +
 				"is a trademark of West Publishing Corporation.");
+		bookDefinition.setFrontMatterTheme("Westlaw Next");
 		
 		List<Author> authors = new ArrayList<Author>();
 		Author author1 = new Author();
@@ -131,18 +139,12 @@ public class CreateFrontMatterServiceImplTest
 		
 		bookDefinition.setFrontMatterPages(pages);
 	}
-	
-	@Ignore
+
 	@Test
-	public void testTitlePage() throws Exception
-	{
-		String expected = IOUtils.toString(getClass().getResourceAsStream(
-				"TitlePage.html")).replace("/apps/eBookBuilder/coreStatic/images/", 
-				"C:\\apps\\eBookBuilder\\coreStatic\\images\\").replace(
-				"/apps/eBookBuilder/coreStatic/css/", 
-				"C:\\apps\\eBookBuilder\\coreStatic\\css\\");
-		assertEquals(expected,
-				frontMatterService.getTitlePage(bookDefinition));
+	public void testTitlePage() throws Exception {
+		String expected = IOUtils.toString(getClass().getResourceAsStream("TitlePage.html"));
+		String actual = frontMatterService.getTitlePage(bookDefinition).replaceAll("(?m)^[ \t]*\r?\n", "");		
+		assertEquals(expected, actual);
 	}
 
 	@Ignore

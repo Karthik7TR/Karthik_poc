@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -57,6 +57,7 @@ public class WebConstants {
 	public static final String KEY_YEARS = "years";
 	public static final String KEY_PUB_TYPES = "pubTypes";
 	public static final String KEY_JURISDICTIONS = "jurisdictions";
+	public static final String KEY_FRONT_MATTER_THEMES = "frontMatterThemes";
 	public static final String KEY_PUBLISHERS = "publishers";
 	public static final String KEY_OUTAGE = "outage";
 	public static final String KEY_PLANNED_OUTAGE_INFO_MESSAGES = "plannedOutageInfoMessage";

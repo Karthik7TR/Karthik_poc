@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -81,7 +81,12 @@ public class EditBookDefinitionControllerTest {
     	this.mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	this.mockAuditService = EasyMock.createMock(EBookAuditService.class);
-    	this.mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
+    	this.mockLockService = EasyMock.createMock(BookDefinitionLockService.class);    	
+    	
+    	List<String> frontMatterThemes = new ArrayList<String>();
+    	frontMatterThemes.add("WestLaw Next");
+    	
+    	EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
     	
     	// Set up the controller
     	this.controller = new EditBookDefinitionController();
