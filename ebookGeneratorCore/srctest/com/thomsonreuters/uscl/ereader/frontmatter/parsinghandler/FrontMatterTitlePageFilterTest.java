@@ -282,7 +282,7 @@ public class FrontMatterTitlePageFilterTest {
 		EbookName series = new EbookName();
 		series.setBookNameText("TEST Series");
 		series.setSequenceNum(3);
-		//ebookNames.add(series);
+		ebookNames.add(series);
 		bookDefinition.setEbookNames(ebookNames);
 				
 		titlePageFilter = new FrontMatterTitlePageFilter(bookDefinition);
