@@ -140,6 +140,7 @@ public class CreateFrontMatterServiceImplTest {
 		bookDefinition.setFrontMatterPages(pages);
 	}
 
+	@Ignore
 	@Test
 	public void testTitlePage() throws Exception {
 		String expected = IOUtils.toString(getClass().getResourceAsStream("TitlePage.html"));
