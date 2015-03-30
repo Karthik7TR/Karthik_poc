@@ -16,6 +16,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -149,5 +150,13 @@ public class DocumentExtensionAdapter
 	}
 	
 	
-
+	/// <summary>
+	/// Applies TOC capitalization rules to the <paramref name="tocNodeName"/> string
+	/// </summary>
+	/// <param name="tocNodeName">A string to apply capitalization rules to</param>
+	/// <returns><paramref name="tocNodeName"/> after applying capitalization rules</returns>
+	public String TocToTitleCase(String tocNodeName)
+	{
+		return WordUtils.capitalize(tocNodeName);
+	}
 }

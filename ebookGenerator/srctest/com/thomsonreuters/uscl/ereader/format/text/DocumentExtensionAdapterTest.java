@@ -81,4 +81,17 @@ public class DocumentExtensionAdapterTest {
 		actual = adapter.ToXmlEncodedString("ab");
 		Assert.assertEquals("ab", actual);	
 	}
+	
+	@Test
+	public void titleCaseTest() {
+		// Null input
+		String actual = adapter.TocToTitleCase(null);
+		Assert.assertEquals(null, actual);
+		
+		actual = adapter.TocToTitleCase("");
+		Assert.assertEquals("", actual);
+		
+		actual = adapter.TocToTitleCase("this is title case");
+		Assert.assertEquals("This Is Title Case", actual);
+	}
 }
