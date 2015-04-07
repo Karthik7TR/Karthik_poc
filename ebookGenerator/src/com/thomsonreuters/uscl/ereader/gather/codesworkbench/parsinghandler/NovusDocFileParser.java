@@ -88,8 +88,7 @@ public class NovusDocFileParser {
 						if(docGuidsMap.containsKey(docGuid)) {
 							foundDocument = true;
 							tocSequence++;
-							Integer count = docGuidsMap.get(docGuid);
-							docGuidsMap.put(docGuid, --count);
+							docGuidsMap.remove(docGuid);
 							
 							// Create file names
 							String docbodyBasename = docGuid + EBConstants.XML_FILE_EXTENSION;
@@ -101,7 +100,7 @@ public class NovusDocFileParser {
 							docbodyWriter = xmlOutFactory.createXMLEventWriter(docbodyOutput, CHARSET);
 							metadataWriter = xmlOutFactory.createXMLEventWriter(metadataOutput, CHARSET);
 						} else {
-							Log.debug("Match Not Found for Novus Document GUID " + docGuid);
+							Log.debug("Match Not Found for Novus Document GUID or was already processed: " + docGuid);
 						}
 					} else if(element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && foundDocument) {
 						isDocbody = true;
@@ -189,7 +188,9 @@ public class NovusDocFileParser {
 				}
 			} 
 			try {
-				reader.close();
+				if(reader != null) {
+					reader.close();
+				}
 			} catch (XMLStreamException e) {
 				GatherException ge = new GatherException("Closing reader doc file error", e,
 						GatherResponse.CODE_FILE_ERROR);
