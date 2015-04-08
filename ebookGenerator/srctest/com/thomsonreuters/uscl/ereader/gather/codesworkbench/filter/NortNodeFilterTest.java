@@ -28,15 +28,49 @@ public class NortNodeFilterTest {
 	
 	@Test
 	public void noEmptyNodesTest() {
-		nodes.add(createNodes(1, true));
+		nodes.add(createNodes(1, true, false));
 		List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
 		Assert.assertEquals(0, emptyNodes.size());
+		List<RelationshipNode> wlNodes =  filter.getWLNotificationNodes();
+		Assert.assertEquals(0, wlNodes.size());
+	}
+	
+	@Test
+	public void wlNodesTest() {
+		RelationshipNode rootNode = createNodes(1, true,false);
+		rootNode.setLabel("no WL pubtag");
+		nodes.add(rootNode);
+		 filter.filterEmptyNodes();
+		 List<RelationshipNode> wlNodes =  filter.getWLNotificationNodes();
+		Assert.assertEquals(1, wlNodes.size());
+	}
+	
+	@Test
+	public void noWLNodesTest() {
+		RelationshipNode rootNode = createNodes(1, false, false);
+		rootNode.setLabel("no WL pubtag");
+		nodes.add(rootNode);
+		 filter.filterEmptyNodes();
+		 List<RelationshipNode> wlNodes =  filter.getWLNotificationNodes();
+		Assert.assertEquals(1, wlNodes.size());
+	}
+	
+	@Test
+	public void threeWLNodesTest() {
+		int numRemovedNodes = 3;
+		RelationshipNode rootNode = createNodes(3, false, true);
+		nodes.add(rootNode);
+		List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
+		 List<RelationshipNode> wlNodes =  filter.getWLNotificationNodes();
+		Assert.assertEquals(0, wlNodes.size());
+		Assert.assertEquals(numRemovedNodes, emptyNodes.size());
+		
 	}
 	
 	@Test
 	public void oneEmptyNodeTest() {
 		int numRemovedNodes = 1;
-		nodes.add(createNodes(numRemovedNodes, false));
+		nodes.add(createNodes(numRemovedNodes, false, false));
 		List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
 		Assert.assertEquals(numRemovedNodes, emptyNodes.size());
 	}
@@ -44,12 +78,14 @@ public class NortNodeFilterTest {
 	@Test
 	public void fiveEmptyNodeTest() {
 		int numRemovedNodes = 5;
-		nodes.add(createNodes(numRemovedNodes, false));
+		nodes.add(createNodes(numRemovedNodes, false, false));
 		List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
 		Assert.assertEquals(numRemovedNodes, emptyNodes.size());
+		List<RelationshipNode> wlNodes =  filter.getWLNotificationNodes();
+		Assert.assertEquals(0, wlNodes.size());
 	}
 	
-	private RelationshipNode createNodes(int numChildren, boolean leafContainsDocument) {
+	private RelationshipNode createNodes(int numChildren, boolean leafContainsDocument, boolean wlNode) {
 		RelationshipNode rootNode = new RelationshipNode();
 		rootNode.setLabel("Root node");
 		rootNode.setNortGuid("0");
@@ -63,6 +99,11 @@ public class NortNodeFilterTest {
 			rootNode.setNortGuid("Child Guid " + i);
 			parentNode.getChildNodes().add(node);
 			node.setParentNode(parentNode);
+			
+			if (wlNode){
+				node.setLabel("no WL pubtag");
+				wlNode = false;
+			}
 			
 			if(leafContainsDocument && (numChildren - 1) == i) {
 				node.setDocumentGuid("Contains Document");

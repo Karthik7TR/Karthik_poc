@@ -141,12 +141,19 @@ public class GenerateTocTask  extends AbstractSbTasklet
         	NortNodeFilter nodeFilter = new NortNodeFilter(rootNodes);
         	List<RelationshipNode> removedNodes = nodeFilter.filterEmptyNodes();
         	
-        	if (removedNodes != null && removedNodes.size() > 0)
-    		{
+        	List<RelationshipNode> wlNotificationNodeList = nodeFilter.getWLNotificationNodes();
+        	
+        	if ( (removedNodes != null && removedNodes.size() > 0) || wlNotificationNodeList.size() > 0)
+    		{  
+        		int wlNotificationNodeSize = wlNotificationNodeList.size();
+        		int removedNodeSize = removedNodes.size();
+        		if (removedNodeSize > 0){
+        			wlNotificationNodeList.addAll(removedNodes);
+        		}
     		// Send notification for empty nodes.
         		String titleId = bookDefinition.getTitleId();
     			File emptyNodeTargetListFile = new File(tocDir, titleId +"_" + jobInstanceId +"_emptyNodeFile.csv");
-    			writeEmtpyNodeReport(titleId, jobInstanceId, envName, removedNodes, emptyNodeTargetListFile, emailRecipients);
+    			writeEmtpyNodeReport(titleId, jobInstanceId, envName, wlNotificationNodeList, emptyNodeTargetListFile, emailRecipients, wlNotificationNodeSize, removedNodeSize);
     			
     		}
         	
@@ -191,22 +198,36 @@ public class GenerateTocTask  extends AbstractSbTasklet
 		return ExitStatus.COMPLETED;
 	}
 	
-	protected void writeEmtpyNodeReport(String title, Long jobInstanceId, String envName, List<RelationshipNode> removedNodes,
-			File removedNodesListFile, Collection<InternetAddress> emailRecipients) throws EBookFormatException 
+		
+	
+	protected void writeEmtpyNodeReport(String title, Long jobInstanceId, String envName, List<RelationshipNode> notificationNodes,
+			File removedNodesListFile, Collection<InternetAddress> emailRecipients, int wlNotificationNodeSize, int removedNodeSize) throws EBookFormatException 
 	{
 		try (BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(removedNodesListFile),"UTF-8")))
 		{
 			writer.write("NORT GUID (NOTE: First character \"N\" needs to change to \"I\" to find node in CWB), Label, TOC Hierarchy");
 			writer.newLine();
+			
+			int i = 0;
+			if (wlNotificationNodeSize > 0) {
+				writer.write("Bad  \"no WL pubtag\" list ");
+				writer.newLine();
+			}
 
-			for (RelationshipNode node : removedNodes) 
-			{
+			for (RelationshipNode node : notificationNodes) 
+			{	
+
+				if (i == wlNotificationNodeSize && removedNodeSize > 0){
+					writer.write("Empty nodes removed list ");
+					writer.newLine();
+				}
 				writer.write(node.getNortGuid());
 				writer.write(",");
 				writer.write(node.getLabel().replaceAll("\\s|,", " "));
 				writer.write(",");
 				writer.write(node.getTocHierarchy().replaceAll("\\s|,", " "));
 				writer.newLine();
+				i++;
 			}
 			writer.flush();
 		} 
@@ -218,9 +239,9 @@ public class GenerateTocTask  extends AbstractSbTasklet
 			throw new EBookFormatException(errMessage, e);
 		} 
 
-		String subject = String.format( "Empty nodes removed for title \"%s\", job: %s, env: %s",
+		String subject = String.format( "eBook user Notification for title \"%s\", job: %s, env: %s",
 				title, jobInstanceId.toString(), envName);
-		String emailBody = "Attached is the file of empty nodes removed from the TOC in this book. Format is comma seperated list of NORT guids and label.";
+		String emailBody = "Attached is the file of empty nodes removed and/or bad \"no WL pubtag\" from the TOC in this book. Format is comma seperated list of NORT guids and label.";
 		LOG.debug("Notification email recipients : " + emailRecipients);
 		LOG.debug("Notification email subject : " + subject);
 		LOG.debug("Notification email body : " + emailBody);

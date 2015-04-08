@@ -17,10 +17,18 @@ public class NortNodeFilter {
 	private List<RelationshipNode> markedForRemovalNodes = new ArrayList<RelationshipNode>();
 	private List<RelationshipNode> removedNodes = new ArrayList<RelationshipNode>();
 	
+	private List<RelationshipNode> wlNotificationNodes = new ArrayList<RelationshipNode>();
+	
+	private static final String NO_WLN_PUB = "no WL pubtag";
+	
 	public NortNodeFilter(List<RelationshipNode> rootNodes) {
 		this.rootNodes = rootNodes;
 	}
 	
+	public List<RelationshipNode> getWLNotificationNodes() {
+		return wlNotificationNodes;
+	}	
+
 	public List<RelationshipNode> filterEmptyNodes() {
 		for(RelationshipNode node : rootNodes) {
 			checkNode(node);
@@ -34,6 +42,10 @@ public class NortNodeFilter {
 	}
 	
 	private void checkNode(RelationshipNode node) {
+		if(node.getLabel() != null && node.getLabel().equalsIgnoreCase(NO_WLN_PUB)
+				&& ( node.getChildNodes().size() > 0 || !StringUtils.isEmpty(node.getDocumentGuid()) )){
+			wlNotificationNodes.add(node);
+		}
 		if(node.getChildNodes().size() == 0 && StringUtils.isEmpty(node.getDocumentGuid())) {
 			markedForRemovalNodes.add(node);
 		} else if (node.getChildNodes().size() > 0) {
@@ -51,6 +63,9 @@ public class NortNodeFilter {
 			if(parentNode != null) {
 				List<RelationshipNode> childNodes = parentNode.getChildNodes();
 				if(childNodes.remove(node)) {
+					if (wlNotificationNodes.contains(node)){
+						wlNotificationNodes.remove(node);
+					}
 					removedNodes.add(node);
 					removeNodeAndCheckParent(parentNode); 
 				} else {
