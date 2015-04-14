@@ -119,7 +119,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public void cleanupOldFilesystemFiles(int daysBack) {
+	public void cleanupOldFilesystemFiles(int daysBack, int cwbFilesDaysBack) {
 		// Calculate the prior point in time before which data is to be removed
 		Date deleteFilesBefore = calculateDaysBackDate(daysBack);
 		// Remove old filesystem files that were used to create the book in the first place
@@ -128,8 +128,9 @@ public class ManagerServiceImpl implements ManagerService {
 		log.info(String.format("Finished removing job files older than %d days old.", daysBack));
 		
 		// Remove old codes workbench files
+		Date cwbDeleteFilesBefore = calculateDaysBackDate(cwbFilesDaysBack);
 		log.info(String.format("Starting to remove codes workbench files older than %d days old.  These are files created before: %s", daysBack, deleteFilesBefore.toString()));
-		removeOldCwbFiles(deleteFilesBefore);
+		removeOldCwbFiles(cwbDeleteFilesBefore);
 		log.info(String.format("Finished removing codes workbench files older than %d days old.", daysBack));
 	}
 	

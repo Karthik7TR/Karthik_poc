@@ -54,8 +54,9 @@ public interface ManagerService {
 	 * Delete all the old files that were created while generating an ebook that are older than the specified
 	 * number of days.
 	 * @param daysBack
+	 * @param cwbFilesDaysBack
 	 */
-	public void cleanupOldFilesystemFiles(int daysBack);
+	public void cleanupOldFilesystemFiles(int daysBack, int cwbFilesDaysBack);
 	
 	/**
 	 * Delete old records in PLANNED_OUTAGE table.
