@@ -56,8 +56,8 @@ public class ProviewRequestCallback implements RequestCallback {
 			  });
 			
 			long duration = System.currentTimeMillis() - startTime;
-			System.out.println("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
+			LOG.debug("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
 		}
-		System.out.println("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
+		LOG.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
 	}
 }

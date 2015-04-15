@@ -9,18 +9,23 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
@@ -171,6 +176,68 @@ public class ProviewClientImplIntegrationTest {
 			// expected
 		}
 	}
+	
+	@Test
+	public void testCreateGroup()
+			throws Exception {
+		proviewClient.setCreateGroupUriTemplate("http://"
+				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
+		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
+		GroupDefinition groupDefinition = new GroupDefinition();
+		groupDefinition.setGroupId("uscl/groupTest");
+		groupDefinition.setGroupVersion("v1");
+		groupDefinition.setName("Group Test");
+		groupDefinition.setType("standard");
+		groupDefinition.setOrder("newerfirst");
+		groupDefinition.setHeadTitle("uscl/sc/ca_evid");
+		
+		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
+		SubGroupInfo subGroupInfo = new SubGroupInfo();
+		subGroupInfo.setHeading("2014");
+		List<String> titleList = new ArrayList<String>();
+		titleList.add("uscl/sc/ca_evid");
+		titleList.add("uscl/an/ilcv");
+		subGroupInfo.setTitles(titleList);
+		subGroupInfoList.add(subGroupInfo);
+		groupDefinition.setSubGroupInfoList(subGroupInfoList);
+
+		
+		try {
+			String response =  proviewClient.createGroup(groupDefinition);
+			Assert.assertEquals(response.length(),0);
+			proviewClient.setGetGroupUriTemplate("http://"
+					+ PROVIEW_DOMAIN_PREFIX + "/v1/group/{groupId}/{groupVersionNumber}/info");
+			response = proviewClient.getGroupDefinition(groupDefinition);
+			Assert.assertEquals(response.length(),325);
+			updateStatusAndDelete(groupDefinition);
+			
+		} catch (ProviewRuntimeException e) {
+			// not expected
+		}
+	}
+	
+	private void updateStatusAndDelete(GroupDefinition groupDefinition) throws Exception{
+		proviewClient.setUpdateGroupStatusUriTemplate("http://"
+		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/removed");
+		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
+		groupDefinition.setGroupId("uscl/groupTest");
+		groupDefinition.setGroupVersion("v1");
+
+		
+		try {
+			String response = proviewClient.updateGroupStatus(groupDefinition);
+			Assert.assertEquals(response.contains("Title status changed to removed"),true);
+			response = proviewClient.deleteGroup(groupDefinition);
+			Assert.assertEquals(response.length(),0);
+			
+		} catch (ProviewRuntimeException e) {
+			// expected
+		}
+		
+	}
+	
+	
+	
 
 	@Test
 	public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception {

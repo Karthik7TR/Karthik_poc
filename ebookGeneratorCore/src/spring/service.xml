@@ -71,7 +71,10 @@
 		  p:deleteTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:restTemplate-ref="proviewRestTemplate"
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
-		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"/>
+		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"
+		  p:createGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
+		  p:updateGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/removed"
+		  p:getGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/info"/>
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
 	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>

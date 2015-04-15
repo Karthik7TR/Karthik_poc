@@ -5,14 +5,22 @@
  */
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,10 +28,13 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
+import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
 
 /**
  * This class is responsible for interacting with ProView via their REST
@@ -46,7 +57,12 @@ public class ProviewClientImpl implements ProviewClient {
 	private String deleteTitleUriTemplate;
 	private String removeTitleUriTemplate;
 	private String promoteTitleUriTemplate;
+	private String createGroupUriTemplate;	
+	private String updateGroupStatusUriTemplate;
+	private String getGroupUriTemplate;
 
+	public static final String ROOT_ELEMENT = "group";
+	
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 
@@ -86,7 +102,7 @@ public class ProviewClientImpl implements ProviewClient {
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getRequestCallback();
+				.getStreamRequestCallback();
 		proviewRequestCallback.setEbookInputStream(ebookInputStream);
 
 		String proviewResponse = restTemplate.execute(publishTitleUriTemplate,
@@ -100,6 +116,162 @@ public class ProviewClientImpl implements ProviewClient {
 
 		return proviewResponse;
 	}
+	
+	
+	public String createGroup(final GroupDefinition groupDefinition)
+			throws ProviewException {	
+
+		InputStream requestBody = new ByteArrayInputStream(buildRequestBody(groupDefinition).getBytes());
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupDefinition.getGroupId());
+		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+		proviewXMLRequestCallback.setRequestInputStream(requestBody);
+
+		String proviewResponse = restTemplate.execute(createGroupUriTemplate,
+				HttpMethod.PUT, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * This request will update Group status to removed
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String updateGroupStatus(final GroupDefinition groupDefinition)
+			throws ProviewException {	
+
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupDefinition.getGroupId());
+		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+
+		String proviewResponse = restTemplate.execute(updateGroupStatusUriTemplate,
+				HttpMethod.PUT, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * Request will delete group
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String deleteGroup(final GroupDefinition groupDefinition)
+			throws ProviewException {	
+
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupDefinition.getGroupId());
+		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+
+		String proviewResponse = restTemplate.execute(createGroupUriTemplate,
+				HttpMethod.DELETE, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		//to-do response could be "status cannot be changed from removed to removed"
+		return proviewResponse;
+	}
+	
+	/**
+	 * Request will get group definition
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getGroupDefinition(final GroupDefinition groupDefinition)
+			throws ProviewException {	
+
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupDefinition.getGroupId());
+		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+
+		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		//to-do response could be "stats cannot be changed from removed to removed"
+		return proviewResponse;
+	}
+	
+	
+	protected String buildRequestBody(GroupDefinition groupDefinition)
+	{
+		
+			OutputStream output = new ByteArrayOutputStream();
+    	
+    	XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+        try {
+            XMLStreamWriter writer = outputFactory.createXMLStreamWriter(
+                    output, "UTF-8");
+
+            writer.writeStartElement(ROOT_ELEMENT);
+            writer.writeAttribute("id", groupDefinition.getGroupId());
+           
+            writeElement(writer, "name", groupDefinition.getName());
+            writeElement(writer, "type",groupDefinition.getType());
+            writeElement(writer, "order", groupDefinition.getOrder());
+            writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
+            writer.writeStartElement("members");
+            for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList())
+            {    writer.writeStartElement("subgroup");  
+            		writer.writeAttribute("heading", subGroupInfo.getHeading());
+            	for (String title : subGroupInfo.getTitles()){
+            		writeElement(writer, "title", title); 
+            	}
+                writer.writeEndElement();
+            }
+            writer.writeEndElement();
+            writer.writeEndElement();
+            writer.close();
+
+        } catch (XMLStreamException e) {
+            throw new RuntimeException(e.toString(), e);
+        }
+    	
+        LOG.debug("Proview[+ Request: "+output.toString()+"]");
+    	return output.toString();
+	}
+	
+	 /**
+	    * Compose the search request body.
+	    * @param writer
+	    * @param name
+	    * @param value
+	    * @throws XMLStreamException
+	    */   		
+	 protected void writeElement(XMLStreamWriter writer, String name, Object value) throws XMLStreamException {
+	        if (value != null) {
+	            writer.writeStartElement(name);
+	            writer.writeCharacters(value.toString().trim());
+	            writer.writeEndElement();
+	        }
+	    }
 
 	/*
 	 * (non-Javadoc)
@@ -127,7 +299,7 @@ public class ProviewClientImpl implements ProviewClient {
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getRequestCallback();
+				.getStreamRequestCallback();
 
 		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
 				HttpMethod.DELETE, proviewRequestCallback,
@@ -163,7 +335,7 @@ public class ProviewClientImpl implements ProviewClient {
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getRequestCallback();
+				.getStreamRequestCallback();
 
 		String proviewResponse = restTemplate.execute(removeTitleUriTemplate,
 				HttpMethod.PUT, proviewRequestCallback,
@@ -199,7 +371,7 @@ public class ProviewClientImpl implements ProviewClient {
 		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getRequestCallback();
+				.getStreamRequestCallback();
 
 		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
 				HttpMethod.PUT, proviewRequestCallback,
@@ -218,7 +390,7 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 			urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 			response = restTemplate.execute(getTitlesUriTemplate,
 					HttpMethod.GET,
-					proviewRequestCallbackFactory.getRequestCallback(),
+					proviewRequestCallbackFactory.getStreamRequestCallback(),
 					proviewResponseExtractorFactory.getResponseExtractor(),
 					urlParameters);
 		} catch (Exception e) {
@@ -414,6 +586,16 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 	public void setGetTitlesUriTemplate(String getTitlesUriTemplate) {
 		this.getTitlesUriTemplate = getTitlesUriTemplate;
 	}
+	
+	@Required
+	public String getCreateGroupUriTemplate() {
+		return createGroupUriTemplate;
+	}
+
+	@Required
+	public void setCreateGroupUriTemplate(String createGroupUriTemplate) {
+		this.createGroupUriTemplate = createGroupUriTemplate;
+	}
 
 //	public void setPublishingStatusUriTemplate(
 //			String publishingStatusUriTemplate) {
@@ -452,5 +634,26 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 	@Required
 	public void setPromoteTitleUriTemplate(String promoteTitleUriTemplate) {
 		this.promoteTitleUriTemplate = promoteTitleUriTemplate;
+	}
+	
+
+	public String getUpdateGroupStatusUriTemplate() {
+		return updateGroupStatusUriTemplate;
+	}
+
+	@Required
+	public void setUpdateGroupStatusUriTemplate(String updateGroupStatusUriTemplate) {
+		this.updateGroupStatusUriTemplate = updateGroupStatusUriTemplate;
+	}
+	
+
+	
+	public String getGetGroupUriTemplate() {
+		return getGroupUriTemplate;
+	}
+
+	@Required
+	public void setGetGroupUriTemplate(String getGroupUriTemplate) {
+		this.getGroupUriTemplate = getGroupUriTemplate;
 	}
 }

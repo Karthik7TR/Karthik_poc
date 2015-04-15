@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 
 /**
@@ -29,6 +30,18 @@ public interface ProviewClient {
 	
 	public String publishTitle(final String fullyQualifiedTitleId,
 			final String versionNumber, final File eBook)
+			throws ProviewException;
+	
+	public String createGroup(final GroupDefinition groupDefinition)
+			throws ProviewException;
+	
+	public String updateGroupStatus(final GroupDefinition groupDefinition)
+			throws ProviewException;
+	
+	public String deleteGroup(final GroupDefinition groupDefinition)
+			throws ProviewException;
+	
+	public String getGroupDefinition(final GroupDefinition groupDefinition)
 			throws ProviewException;
 
 	public String getAllPublishedTitles() throws ProviewException;
