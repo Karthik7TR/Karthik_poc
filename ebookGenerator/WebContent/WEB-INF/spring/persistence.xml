@@ -59,6 +59,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer</value>
 		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		  </list>

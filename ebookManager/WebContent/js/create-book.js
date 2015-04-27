@@ -7,7 +7,7 @@ $(function() {
 		var renameTocEntryIndex = $("#numberOfRenameTocEntries").val();
 		var tableViewerIndex = $("#numberOfTableViewers").val();
 		var documentCopyrightIndex = $("#numberOfDocumentCopyrights").val();
-		var documentCurrencyIndex = $("#numberOfDocumentCurrencies").val();
+		var documentCurrencyIndex = $("#numberOfDocumentCurrencies").val();		
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -15,7 +15,10 @@ $(function() {
 		var pubAbbr = "";
 		var pubInfo = "";
 		var jurisdiction = "";
-		var productCode = "";
+		var productCode = "";	
+		var splitDocumentIndex =  $("#numberOfSplitDocuments").val();	
+		var isSplitTypeAuto = true;
+		var splitSize ="";
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
@@ -183,6 +186,23 @@ $(function() {
 			return str;
 		};
 		
+		var addSplitGuidRow = function(elementName, index, guidAttrName, guidLabelName, addHere) {
+			var expandingBox = $("<div>").addClass("expandingBox");
+			
+			var id = elementName + index;
+			var name = elementName + "[" + index + "]";	
+			
+			// Add Document Guid input boxes
+			expandingBox.append(addDynamicRow("input", id, name, guidAttrName, guidLabelName, 33, "guid"));
+		
+			// Add Note text box
+			expandingBox.append(addDynamicRow("textarea", id, name, "note", "Note"));
+				
+
+			addHere.before(expandingBox);
+		};
+		
+	
 		// Add rows for Table Viewer, exclude document, rename toc entry, document copyright, and document currency
 		var addGuidRow = function(elementName, index, guidAttrName, guidLabelName, titleMessage, textAttrArray, textLabelArray, addHere) {
 			var expandingBox = $("<div>").addClass("expandingBox");
@@ -431,6 +451,64 @@ $(function() {
 			clearTitleAndContentInformation();
 			updateTitleId();
 		});
+		
+		$('input:radio[name=splitBook]').change(function () {
+			var isSplitBook = $.trim($(this).val());
+			$("#splitTypeDiv").hide();			
+			if(isSplitBook == "true" || isSplitBook == true) {				
+				$("#splitTypeDiv").show();		
+			} 
+			else{
+				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);
+				$("#ebookSizeDiv").hide();
+				$("#splitTypeDiv").hide();
+				$("#displaySplitDocument").hide();				
+				$("#displaySplitDocument").remove();
+				$("#ebookSizeDiv").remove();
+				$("#splitTypeAuto").remove();
+				//$('#splitEBookParts option:first-child').attr("selected", true);
+				//	
+			}
+			
+		});
+		
+		$('input:radio[name=splitTypeAuto]').change(function () {
+			$("#ebookSizeDiv").hide();		
+			isSplitTypeAuto = $.trim($(this).val());
+			if(isSplitTypeAuto == "false" || isSplitTypeAuto == false) {
+				$("#ebookSizeDiv").show();	
+			} 
+			else{
+				$("#displaySplitDocument").hide();
+			}
+		});		
+		
+		
+		$('#splitEBookParts').change(function () {
+			splitSize = $(this).val();	
+			var size = 1;
+			
+			$('#displaySplitDocument').children('.expandingBox').each(function() {
+				size = size + 1;
+				if (size > splitSize)
+				{
+					$(this).remove();
+				}
+			});			
+			
+			
+			$("#displaySplitDocument").show();
+			
+			if (splitSize > size){			
+				for(var i = size; i < splitSize; i++) {
+					addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
+					splitDocumentIndex = splitDocumentIndex + 1;
+				}
+			}
+		});
+		
+		
+		
 		$('#state').change(function () {
 			state = $(this).val();
 			updateTitleId();
@@ -696,6 +774,8 @@ $(function() {
 		pubInfo = $('#pubInfo').val();
 		contentType = getContentTypeIdElement().attr("abbr");
 		productCode = $('#productCode').val();
+		isSplitTypeAuto = $("input:radio[name=splitTypeAuto]:checked").val()
+		splitSize = $('#splitEBookParts').val();
 		
 		// Setup view
 		determineOptions();
@@ -705,6 +785,16 @@ $(function() {
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
+		
+		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
+		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")
+			showSelectOptions(true, "#ebookSizeDiv");
+		var aaa = splitDocumentIndex;
+		var aa = splitSize;
+		if (splitSize > 1 ) {
+			showSelectOptions("true", "#displaySplitDocument");
+		}
+		
 		textboxHint("additionFrontMatterBlock");
 		$('#publicationCutoffDate').datepicker({
 			minDate: new Date()

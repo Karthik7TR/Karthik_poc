@@ -49,6 +49,7 @@ public class WebConstants {
 	public static final String KEY_NUMBER_OF_DOCUMENT_COPYRIGHTS = "numberOfDocumentCopyrights";
 	public static final String KEY_NUMBER_OF_DOCUMENT_CURRENCIES = "numberOfDocumentCurrencies";
 	public static final String KEY_NUMBER_OF_NORT_FILE_LOCATIONS = "numberOfNortFileLocations";
+	public static final String KEY_NUMBER_OF_SPLIT_DOCUMENTS = "numberOfSplitDocuments";
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_INFO_MESSAGES = "infoMessages";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
@@ -355,5 +356,6 @@ public class WebConstants {
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
+	public static final int MAX_EBOOK_SPLIT_SIZE = 5;
 
 }

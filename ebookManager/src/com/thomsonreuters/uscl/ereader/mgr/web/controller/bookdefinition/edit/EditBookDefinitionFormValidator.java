@@ -34,6 +34,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
@@ -127,12 +128,20 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyCiteToplineFlag", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle", "error.required");			
 			
 			checkIsbnNumber(errors, form.getIsbn(), "isbn");
 			
 			validateProviewKeywords(errors);
 			validateProdOnlyRequirements(form, errors);
+		}
+    	
+
+		if(!form.isSplitTypeAuto()){
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", "error.required");
+			if(form.getSplitEBookParts() != null && form.getSplitEBookParts() > 0){
+				validateSplitDocuments(form, errors);			
+			}
 		}
     	
     	// Adding error message if any validation fails
@@ -311,6 +320,28 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		return true;
 	}
 	
+	private void validateSplitDocuments(EditBookDefinitionForm form, Errors errors){
+		int i=0;
+		List<String> tocGuids = new ArrayList<String>();
+		for(SplitDocument document: form.getSplitDocuments()) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments["+ i +"].tocGuid", "error.required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments["+ i +"].note", "error.required");
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, document.getNote(), "splitDocuments["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+				
+			// Check if there are duplicate guids
+			String tocGuid = document.getTocGuid();
+			if(StringUtils.isNotBlank(tocGuid)) {
+				if(tocGuids.contains(tocGuid)) {
+					errors.rejectValue("splitDocuments["+ i +"].tocGuid", "error.duplicate", new Object[] {"TOC/NORT GUID"}, "Duplicate Toc Guid");
+				} else {
+					checkGuidFormat(errors, tocGuid, "splitDocuments["+ i +"].tocGuid");
+					tocGuids.add(tocGuid);
+				}
+			}
+			i++;
+		}
+		
+	}
 	
 	private void validateExcludeDocuments(EditBookDefinitionForm form, Errors errors) {
 		// Validate Exclude Documents has all required fields

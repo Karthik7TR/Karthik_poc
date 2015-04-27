@@ -316,6 +316,11 @@ public class BookDefinition implements Serializable {
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
+	Set<SplitDocument> splitDocuments;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	Set<RenameTocEntry> renameTocEntries;
 	/**
 	 */
@@ -362,6 +367,23 @@ public class BookDefinition implements Serializable {
 	@Column(name = "IS_REMOVE_EDNOTE_HEAD_FLAG", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	String isRemoveEditorNoteHeadFlag;
+	/**
+	 */
+	@Column(name = "IS_SPLIT_BOOK", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isSplitBook;	
+
+	/**
+	 */
+	@Column(name = "IS_SPLIT_TYPE_AUTO", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
+	String isSplitTypeAuto;
+	
+	/**
+	 */
+	@Column(name = "SPLIT_EBOOK_PARTS")
+	@Basic(fetch = FetchType.EAGER)
+	Integer splitEBookParts;
 	
 
 	/**
@@ -849,6 +871,31 @@ public class BookDefinition implements Serializable {
 		return( (this.isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
 	}
 	
+
+	public boolean isSplitBook() {
+		return ( (this.isSplitBook.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsSplitBook(boolean isSplitBook) {
+		this.isSplitBook = ( (isSplitBook) ? "Y" : "N");
+	}
+
+	public boolean isSplitTypeAuto() {
+		return ( (this.isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsSplitTypeAuto(boolean isSplitTypeAuto) {
+		this.isSplitTypeAuto = ( (isSplitTypeAuto) ? "Y" : "N");
+	}
+
+	public Integer getSplitEBookParts() {
+		return this.splitEBookParts;
+	}
+
+	public void setSplitEBookParts(Integer splitEBookParts) {
+		this.splitEBookParts = splitEBookParts;
+	}
+	
 	
 
 	/**
@@ -982,6 +1029,20 @@ public class BookDefinition implements Serializable {
 
 	public void setExcludeDocuments(Collection<ExcludeDocument> excludeDocuments) {
 		this.excludeDocuments = new HashSet<ExcludeDocument>(excludeDocuments);
+	}
+	
+	public List<SplitDocument> getSplitDocuments() {
+		if(splitDocuments == null) {
+			splitDocuments = new HashSet<SplitDocument>();
+		}
+		// Change to list
+		List<SplitDocument> documents = new ArrayList<SplitDocument>();
+		documents.addAll(splitDocuments);
+		return documents;
+	}
+
+	public void setSplitDocuments(Collection<SplitDocument> splitDocuments) {
+		this.splitDocuments = new HashSet<SplitDocument>(splitDocuments);
 	}
 
 	public List<RenameTocEntry> getRenameTocEntries() {
@@ -1136,6 +1197,7 @@ public class BookDefinition implements Serializable {
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));
 		setExcludeDocuments(new HashSet<ExcludeDocument>(that.getExcludeDocuments()));
+		setSplitDocuments(new HashSet<SplitDocument>(that.getSplitDocuments()));
 		setRenameTocEntries(new HashSet<RenameTocEntry>(that.getRenameTocEntries()));
 		setTableViewers(new HashSet<TableViewer>(that.getTableViewers()));
 		setDocumentCopyrights(new HashSet<DocumentCopyright>(that.getDocumentCopyrights()));
@@ -1148,6 +1210,7 @@ public class BookDefinition implements Serializable {
 		setIsInsStyleFlag(that.isInsStyleFlag());
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
+		setIsSplitBook(that.isSplitBook());
 	}
 
 	/**

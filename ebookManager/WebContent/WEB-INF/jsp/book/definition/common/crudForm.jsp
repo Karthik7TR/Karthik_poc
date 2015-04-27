@@ -11,6 +11,7 @@
 
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
 <c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
+<c:set var="splitSize" value="<%=WebConstants.MAX_EBOOK_SPLIT_SIZE %>"/>
 <c:choose>
 
 <c:when test="${previewHtml != null}">
@@ -234,6 +235,7 @@
 				<form:hidden path="removeEditorNoteHeading"/>
 				<form:hidden path="delTagStyleEnabled"/>
 				<form:hidden path="insTagStyleEnabled"/>
+				<form:hidden path="splitBook"/>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -395,6 +397,64 @@
 					<form:errors path="removeEditorNoteHeading" cssClass="errorMessage" />
 				</div>
 			</div>
+			<div class="row">
+				<form:label path="splitBook" class="labelCol">Split book</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="true" />True
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="false" />False
+				<div class="errorDiv">
+						<form:errors path="splitBook" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="splitTypeDiv" style="display:none">
+				<div class="row">
+					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>	
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="true" />Auto				
+				    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual					
+				</div>
+				<div class="errorDiv">
+						<form:errors path="splitTypeAuto" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="ebookSizeDiv" style="display:none">
+				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
+						<form:select path="splitEBookParts">
+							<form:option value="" label="SELECT" />
+							<c:forEach var="i" begin="2" end="${splitSize}" step="1" varStatus ="status">
+								<form:option label="${i}" value="${i}"/>
+							</c:forEach>
+						</form:select>
+				<div class="errorDiv">
+						<form:errors path="splitEBookParts" cssClass="errorMessage" />
+				</div>
+			</div>	
+			
+			<div id="displaySplitDocument" style="display:none;">
+				<div class="row" style="font-size:.7em; text-align: center;">
+						Enter Toc/Nort GUID of split location(s). GUID entered indicates the beginning of the next eBook part.
+				</div>	
+				
+				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="toc" varStatus ="status">
+						<div class="expandingBox">
+							<div class="dynamicRow">
+								<label>TOC/NORT GUID</label>
+								<form:input cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+								<div class="errorDiv">
+									<form:errors path="splitDocuments[${status.index}].tocGuid" cssClass="errorMessage" />
+								</div>
+							</div>
+							<div class="dynamicRow">
+								<label>Note</label>
+								<form:textarea path="splitDocuments[${status.index}].note" />
+								<div class="errorDiv">
+									<form:errors path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
+								</div>								
+						    </div>								
+						</div>						
+				</c:forEach>				
+				<div id="addSplitDocumentsHere"></div>
+			</div>
+			
+					
 		</div>
 	</div>
 </div>
@@ -783,8 +843,7 @@
 						<form:label path="fmThemeText" class="labelCol">Front Matter Theme</form:label>
 						<form:select path="fmThemeText" >
 							<form:options items="${frontMatterThemes}" />
-						</form:select>
-							
+						</form:select>							
 					</div>
 			<div class="row">
 				<form:label path="isAuthorDisplayVertical" class="labelCol">Author Display</form:label>
@@ -954,6 +1013,7 @@
 <input id="numberOfAuthors" type="hidden" value="${numberOfAuthors}" />
 <input id="numberOfFrontMatters" type="hidden" value="${numberOfFrontMatters}" />
 <input id="numberOfExcludeDocuments" type="hidden" value="${numberOfExcludeDocuments}" />
+<input id="numberOfSplitDocuments" type="hidden" value="${numberOfSplitDocuments}" />
 <input id="numberOfRenameTocEntries" type="hidden" value="${numberOfRenameTocEntries}" />
 <input id="numberOfTableViewers" type="hidden" value="${numberOfTableViewers}" />
 <input id="numberOfDocumentCopyrights" type="hidden" value="${numberOfDocumentCopyrights}" />

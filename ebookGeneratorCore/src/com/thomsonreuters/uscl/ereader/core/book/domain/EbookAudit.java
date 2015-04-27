@@ -376,6 +376,29 @@ public class EbookAudit implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String isRemoveEditorNoteHeadFlag;
 	
+	@Column(name = "IS_SPLIT_BOOK")
+	@Basic(fetch = FetchType.EAGER)
+	String isSplitBook;	
+
+	/**
+	 */
+	@Column(name = "IS_SPLIT_TYPE_AUTO")
+	@Basic(fetch = FetchType.EAGER)
+	String isSplitTypeAuto;
+	
+	/**
+	 */
+	@Column(name = "SPLIT_EBOOK_PARTS")
+	@Basic(fetch = FetchType.EAGER)
+	Integer splitEBookParts;
+	
+	/**
+	 */
+	@Column(name = "SPLIT_DOCUMENTS_CONCAT", length = 2048)
+	@Basic(fetch = FetchType.EAGER)
+	String splitDocumentsConcat;
+	
+	
 	/**
 	 */
 	public void setAuditId(Long auditId) {
@@ -807,6 +830,7 @@ public class EbookAudit implements Serializable {
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
+		setSplitDocumentsConcat(that.getSplitDocumentsConcat());
 		setIncludeAnnotations(that.getIncludeAnnotations());
 		setRenameTocEntryConcat(that.getRenameTocEntryConcat());
 		setTableViewerConcat(that.getTableViewerConcat());
@@ -821,6 +845,9 @@ public class EbookAudit implements Serializable {
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 		setFrontMatterTheme(that.frontMatterTheme);
+		setIsSplitBook(that.isSplitBook());
+		setIsSplitTypeAuto(that.isSplitTypeAuto());
+		setSplitEBookParts(that.getSplitEBookParts());
 	}
 
 	/**
@@ -870,6 +897,7 @@ public class EbookAudit implements Serializable {
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setPilotBookStatus(that.getPilotBookStatus());
 		setExcludeDocumentsConcat(maxString(concatString(that.getExcludeDocuments()), MAX_CHARACTER_2048));
+		setSplitDocumentsConcat(maxString(concatString(that.getSplitDocuments()), MAX_CHARACTER_2048));
 		setRenameTocEntryConcat(maxString(concatString(that.getRenameTocEntries()), MAX_CHARACTER_2048));
 		setTableViewerConcat(maxString(concatString(that.getTableViewers()), MAX_CHARACTER_2048));
 		setDocumentCopyrightConcat(maxString(concatString(that.getDocumentCopyrights()), MAX_CHARACTER_2048));
@@ -884,7 +912,9 @@ public class EbookAudit implements Serializable {
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 		setFrontMatterTheme(that.frontMatterTheme);
-		
+		setIsSplitBook(that.isSplitBook());
+		setIsSplitTypeAuto(that.isSplitTypeAuto());
+		setSplitEBookParts(that.getSplitEBookParts());		
 	}
 	
 	@Transient
@@ -952,6 +982,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
 		buffer.append("pilotBookStatus=[").append(pilotBookStatus).append("] ");
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
+		buffer.append("splitDocumentsConcat=[").append(splitDocumentsConcat).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
 		buffer.append("renameTocEntryConcat=[").append(renameTocEntryConcat).append("] ");
 		buffer.append("tableViewerConcat=[").append(tableViewerConcat).append("] ");
@@ -966,6 +997,9 @@ public class EbookAudit implements Serializable {
 		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
 		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
 		buffer.append("frontMatterTheme=[").append(frontMatterTheme).append("] ");
+		buffer.append("isSplitTypeAuto=[").append(isSplitTypeAuto).append("] ");
+		buffer.append("isSplitBook=[").append(isSplitBook).append("] ");
+		buffer.append("SplitEBookParts=[").append(splitEBookParts).append("] ");
 
 		return buffer.toString();
 	}
@@ -1105,6 +1139,14 @@ public class EbookAudit implements Serializable {
 	public void setExcludeDocumentsConcat(String excludeDocumentsConcat) {
 		this.excludeDocumentsConcat = excludeDocumentsConcat;
 	}
+	
+	public String getSplitDocumentsConcat() {
+		return excludeDocumentsConcat;
+	}
+
+	public void setSplitDocumentsConcat(String splitDocumentsConcat) {
+		this.splitDocumentsConcat = splitDocumentsConcat;
+	}
 
 	public String getRenameTocEntryConcat() {
 		return renameTocEntryConcat;
@@ -1243,6 +1285,30 @@ public class EbookAudit implements Serializable {
 	 */
 	public boolean isRemoveEditorNoteHeadFlag() {
 		return( (this.isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
+	}
+	
+	public boolean isSplitBook() {
+		return ( (this.isSplitBook.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsSplitBook(boolean isSplitBook) {
+		this.isSplitBook = ( (isSplitBook) ? "Y" : "N");
+	}
+
+	public boolean isSplitTypeAuto() {
+		return ( (this.isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
+	}
+
+	public void setIsSplitTypeAuto(boolean isSplitTypeAuto) {
+		this.isSplitTypeAuto = ( (isSplitTypeAuto) ? "Y" : "N");
+	}
+
+	public Integer getSplitEBookParts() {
+		return this.splitEBookParts;
+	}
+
+	public void setSplitEBookParts(Integer splitEBookParts) {
+		this.splitEBookParts = splitEBookParts;
 	}
 	
 }

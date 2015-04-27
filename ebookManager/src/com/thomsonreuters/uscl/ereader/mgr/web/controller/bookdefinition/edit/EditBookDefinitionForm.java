@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +41,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
@@ -98,6 +98,10 @@ public class EditBookDefinitionForm {
 	private boolean isInsTagStyleEnabled;
 	private boolean isDelTagStyleEnabled;
 	private boolean isRemoveEditorNoteHeading;
+	private boolean isSplitBook;
+	private boolean isSplitTypeAuto;
+	private Integer splitEBookParts;
+	private Collection<SplitDocument> splitDocuments;
 
 	private String publishDateText;
 	
@@ -169,6 +173,9 @@ public class EditBookDefinitionForm {
 		this.isInsTagStyleEnabled = false;
 		this.isDelTagStyleEnabled = false;
 		this.isRemoveEditorNoteHeading = false;
+		this.isSplitBook = false;
+		this.isSplitTypeAuto = true;
+		this.splitDocuments = new AutoPopulatingList<SplitDocument>(SplitDocument.class);
 	}
 	
 	/**
@@ -186,6 +193,7 @@ public class EditBookDefinitionForm {
 		bookDef.setEbookDefinitionCompleteFlag(false);
 		bookDef.setFrontMatterPages(new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class));
 		bookDef.setExcludeDocuments(new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class));
+		bookDef.setSplitDocuments(new AutoPopulatingList<SplitDocument>(SplitDocument.class));
 		bookDef.setRenameTocEntries(new AutoPopulatingList<RenameTocEntry>(RenameTocEntry.class));
 		bookDef.setTableViewers(new AutoPopulatingList<TableViewer>(TableViewer.class));
 		bookDef.setDocumentCopyrights(new AutoPopulatingList<DocumentCopyright>(DocumentCopyright.class));
@@ -241,6 +249,7 @@ public class EditBookDefinitionForm {
 			this.additionalTrademarkInfo = book.getAdditionalTrademarkInfo();
 			this.excludeDocuments = book.getExcludeDocuments();
 			this.excludeDocumentsCopy = book.getExcludeDocuments();
+			this.splitDocuments = book.getSplitDocuments();
 			this.renameTocEntries = book.getRenameTocEntries();
 			this.renameTocEntriesCopy = book.getRenameTocEntries();
 			this.tableViewers = book.getTableViewers();
@@ -257,6 +266,9 @@ public class EditBookDefinitionForm {
 			this.isInsTagStyleEnabled = book.isInsStyleFlag();
 			this.isDelTagStyleEnabled = book.isDelStyleFlag();
 			this.isRemoveEditorNoteHeading = book.isRemoveEditorNoteHeadFlag();
+			this.isSplitBook = book.isSplitBook();
+			this.isSplitTypeAuto = book.isSplitTypeAuto();
+			this.splitEBookParts = book.getSplitEBookParts();
 			this.fmThemeText = book.getFrontMatterTheme();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
@@ -401,6 +413,11 @@ public class EditBookDefinitionForm {
 			}
 		}
 		book.setExcludeDocuments(excludeDocuments);
+				
+		for(SplitDocument document : splitDocuments) {
+			document.setBookDefinition(book);
+		}
+		book.setSplitDocuments(splitDocuments);
 		
 		// Compare with copy to determine if date needs update
 		for(RenameTocEntry label : renameTocEntries) {
@@ -524,6 +541,10 @@ public class EditBookDefinitionForm {
 		book.setIsInsStyleFlag(isInsTagStyleEnabled);
 		book.setIsDelStyleFlag(isDelTagStyleEnabled);
 		book.setIsRemoveEditorNoteHeadFlag(isRemoveEditorNoteHeading);
+		book.setIsSplitBook(isSplitBook);
+		book.setIsSplitTypeAuto(isSplitTypeAuto);
+		book.setSplitEBookParts(splitEBookParts);
+		
 		
 		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
 		i = 1;
@@ -648,7 +669,7 @@ public class EditBookDefinitionForm {
 	public void setExcludeDocumentsCopy(
 			Collection<ExcludeDocument> excludeDocumentsCopy) {
 		this.excludeDocumentsCopy = excludeDocumentsCopy;
-	}
+	}	
 
 	public boolean isRenameTocEntriesUsed() {
 		return isRenameTocEntriesUsed;
@@ -1116,6 +1137,41 @@ public class EditBookDefinitionForm {
 	public void setRemoveEditorNoteHeading(boolean isRemoveEditorNoteHeading) {
 		this.isRemoveEditorNoteHeading = isRemoveEditorNoteHeading;
 	}
+	
+
+	public boolean isSplitBook() {
+		return isSplitBook;
+	}
+
+	public void setSplitBook(boolean isSplitBook) {
+		this.isSplitBook = isSplitBook;
+	}
+		
+	public Collection<SplitDocument> getSplitDocuments() {
+		return splitDocuments;
+	}
+
+	public void setSplitDocuments(Collection<SplitDocument> splitDocuments) {
+		this.splitDocuments = splitDocuments;
+	}
+
+	public boolean isSplitTypeAuto() {
+		return isSplitTypeAuto;
+	}
+
+	public void setSplitTypeAuto(boolean isSplitTypeAuto) {
+		this.isSplitTypeAuto = isSplitTypeAuto;
+	}
+	
+
+	public Integer getSplitEBookParts() {
+		return splitEBookParts;
+	}
+
+	public void setSplitEBookParts(Integer splitEBookParts) {
+		this.splitEBookParts = splitEBookParts;
+	}
+	
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

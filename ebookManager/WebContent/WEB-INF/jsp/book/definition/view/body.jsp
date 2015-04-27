@@ -167,6 +167,48 @@ function submitForm(cmd)
 						<label class="labelCol">Remove Editors' Notes Heading</label>
 						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Split book</label>
+						<span class="field">${ book.splitBook }</span>
+					</div>
+					<c:choose>
+						<c:when test="${ book.splitBook == true }">
+							<div class="row">
+								<label class="labelCol">Split Type</label>
+								<span class="field">
+									<c:choose>
+										<c:when test="${ book.splitTypeAuto == true }">
+											Auto											
+										</c:when>
+										<c:otherwise>
+											Manual
+											<div class="row">
+												<label class="labelCol">Number of eBook Splits</label>
+												<span class="field">${ book.splitEBookParts }</span>
+											</div>
+											<div class="row">
+												
+													<label class="labelCol">Split Documents</label>
+													<c:forEach items="${ book.splitDocuments }" var="toc">
+														<div class="expandingBox">
+															<div class="dynamicRow">
+																<label>TOC/NORT GUID:</label>
+																<span class="field"> ${ toc.tocGuid }</span>
+															</div>
+															<div class="dynamicRow">
+																<label>Note:</label>
+																<span class="wordwrap">${ fn:escapeXml(toc.note) }</span>
+															</div>
+														</div>
+													</c:forEach>
+												
+											</div>
+										</c:otherwise>
+									</c:choose>
+								</span>
+						    </div>
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 		</div>
