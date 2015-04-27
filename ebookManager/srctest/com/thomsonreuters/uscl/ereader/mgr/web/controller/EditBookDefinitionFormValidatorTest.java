@@ -18,6 +18,7 @@ import org.springframework.validation.Errors;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -27,8 +28,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -438,6 +439,10 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setNortFileLocations(new ArrayList<NortFileLocation>());
 		form.setRootTocGuid(null);
 		form.setFrontMatterTocLabel(null);
+		form.setSplitBook(true);
+    	form.setSplitTypeAuto(false);
+    	form.setSplitEBookParts(null);
+    	    	
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTitle.bookNameText").getCode());
@@ -448,6 +453,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("splitEBookParts").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
@@ -566,6 +572,31 @@ public class EditBookDefinitionFormValidatorTest {
 		EasyMock.verify(mockBookDefinitionService);
 	}
 	
+	
+	/**
+	 * Test ExcludeDocument required fields
+	 */
+	@Test
+	public void testSplitDocumentRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	SplitDocument document = new SplitDocument();
+    	document.setNote("test");
+    	form.getSplitDocuments().add(document);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required", errors.getFieldError("splitDocuments[0].tocGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	
 	/**
 	 * Test ExcludeDocument duplicate guids
 	 */
@@ -595,6 +626,37 @@ public class EditBookDefinitionFormValidatorTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}
+	
+	/**
+	 * Test SpliteDocument duplicate guids
+	 */
+	@Test
+	public void testSplitDocumentDuplicateGuids() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	SplitDocument document = new SplitDocument();
+    	document.setNote("Test1");
+    	document.setTocGuid("123456789012345678901234567890123");
+    	
+    	SplitDocument document2 = new SplitDocument();
+    	document2.setNote("Test2");
+    	document2.setTocGuid("123456789012345678901234567890123");
+    	
+    	form.getSplitDocuments().add(document);
+    	form.getSplitDocuments().add(document2);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.duplicate", errors.getFieldError("splitDocuments[1].tocGuid").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+		
 	
 	/**
 	 * Test ExcludeDocument enabled but not documents listed
@@ -1014,6 +1076,10 @@ public class EditBookDefinitionFormValidatorTest {
     	book.setIsAuthorDisplayVertical(true);
     	book.setEnableCopyFeatureFlag(false);
 		
+
+    	book.setIsSplitBook(true);
+    	book.setIsSplitTypeAuto(false);
+    	book.setSplitEBookParts(new Integer(1));
 		return book;
 	}
 	

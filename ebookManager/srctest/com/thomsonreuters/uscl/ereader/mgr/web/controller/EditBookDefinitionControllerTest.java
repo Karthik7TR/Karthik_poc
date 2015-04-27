@@ -995,7 +995,9 @@ public class EditBookDefinitionControllerTest {
 	
 	private void checkInitialValuesDynamicContent(Map<String,Object> model) {
         int numAuthors = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_AUTHORS).toString());
+        int splitDocs = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_SPLIT_DOCUMENTS).toString());
         assertEquals(0, numAuthors);
+        assertEquals(0, splitDocs);
 	}
 	
 	
