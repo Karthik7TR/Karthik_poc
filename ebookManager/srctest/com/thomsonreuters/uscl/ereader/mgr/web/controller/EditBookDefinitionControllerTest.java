@@ -1037,6 +1037,8 @@ public class EditBookDefinitionControllerTest {
     	book.setKeyciteToplineFlag(true);
     	book.setIsAuthorDisplayVertical(true);
     	book.setEnableCopyFeatureFlag(false);
+    	book.setIsSplitBook(false);
+    	book.setIsSplitTypeAuto(true);
     	return book;
 	}
 	

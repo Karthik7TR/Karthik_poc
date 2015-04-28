@@ -104,6 +104,8 @@ public class DeleteBookDefinitionControllerTest {
     	BOOK_DEFINITION.setEnableCopyFeatureFlag(false);
     	BOOK_DEFINITION.setDocumentTypeCodes(new DocumentTypeCode());
     	BOOK_DEFINITION.setPublisherCodes(new PublisherCode());
+    	BOOK_DEFINITION.setIsSplitBook(false);
+    	BOOK_DEFINITION.setIsSplitTypeAuto(true);
 	}
 
 	/**
