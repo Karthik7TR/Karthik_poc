@@ -456,18 +456,18 @@ $(function() {
 			var isSplitBook = $.trim($(this).val());
 			$("#splitTypeDiv").hide();			
 			if(isSplitBook == "true" || isSplitBook == true) {				
-				$("#splitTypeDiv").show();		
+				$("#splitTypeDiv").show();	
+				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
 			} 
 			else{
-				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);
+				$("#splitTypeAuto").remove();
+				$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
 				$("#ebookSizeDiv").hide();
 				$("#splitTypeDiv").hide();
-				$("#displaySplitDocument").hide();				
-				$("#displaySplitDocument").remove();
-				$("#ebookSizeDiv").remove();
-				$("#splitTypeAuto").remove();
-				//$('#splitEBookParts option:first-child').attr("selected", true);
-				//	
+				$("#displaySplitDocument").hide();	
+				$("#displaySplitDocument .expandingBox").remove();
+				splitDocumentIndex = 0;
+				$("#splitEBookParts").find('option').removeAttr('selected');
 			}
 			
 		});
@@ -476,10 +476,14 @@ $(function() {
 			$("#ebookSizeDiv").hide();		
 			isSplitTypeAuto = $.trim($(this).val());
 			if(isSplitTypeAuto == "false" || isSplitTypeAuto == false) {
+				$('#splitEBookParts option:first-child').attr("selected", true);
 				$("#ebookSizeDiv").show();	
 			} 
 			else{
 				$("#displaySplitDocument").hide();
+				$("#displaySplitDocument .expandingBox").remove();
+				splitDocumentIndex = 0;
+				$("#splitEBookParts").find('option').removeAttr('selected');
 			}
 		});		
 		
@@ -789,8 +793,6 @@ $(function() {
 		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
 		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")
 			showSelectOptions(true, "#ebookSizeDiv");
-		var aaa = splitDocumentIndex;
-		var aa = splitSize;
 		if (splitSize > 1 ) {
 			showSelectOptions("true", "#displaySplitDocument");
 		}
