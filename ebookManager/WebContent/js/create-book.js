@@ -500,6 +500,9 @@ $(function() {
 				}
 			});			
 			
+			if (splitSize == "" ){
+				splitDocumentIndex = 0;
+			}
 			
 			$("#displaySplitDocument").show();
 			
