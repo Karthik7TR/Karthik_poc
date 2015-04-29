@@ -506,7 +506,7 @@ $(function() {
 			if (splitSize > size){			
 				for(var i = size; i < splitSize; i++) {
 					addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
-					splitDocumentIndex = splitDocumentIndex + 1;
+					splitDocumentIndex = parseInt(splitDocumentIndex) + 1;
 				}
 			}
 		});

@@ -325,12 +325,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		List<String> tocGuids = new ArrayList<String>();
 		for(SplitDocument document: form.getSplitDocuments()) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments["+ i +"].tocGuid", "error.required");
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments["+ i +"].note", "error.required");
-			checkMaxLength(errors, MAXIMUM_CHARACTER_512, document.getNote(), "splitDocuments["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments["+ i +"].note", "error.required");		
 				
+			String tocGuid = null;
 			// Check if there are duplicate guids
-			String tocGuid = document.getTocGuid();
+			if (document != null && !document.isEmpty()) {
+					tocGuid = document.getTocGuid();
+			}
 			if(StringUtils.isNotBlank(tocGuid)) {
+				checkMaxLength(errors, MAXIMUM_CHARACTER_512, document.getNote(), "splitDocuments["+ i +"].note", new Object[] {"Note", MAXIMUM_CHARACTER_512});
 				if(tocGuids.contains(tocGuid)) {
 					errors.rejectValue("splitDocuments["+ i +"].tocGuid", "error.duplicate", new Object[] {"TOC/NORT GUID"}, "Duplicate Toc Guid");
 				} else {
