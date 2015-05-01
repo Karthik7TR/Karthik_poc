@@ -236,6 +236,12 @@
 				<form:hidden path="delTagStyleEnabled"/>
 				<form:hidden path="insTagStyleEnabled"/>
 				<form:hidden path="splitBook"/>
+				<form:hidden path="splitTypeAuto"/>
+				<form:hidden path="splitEBookParts"/>
+				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="document" varStatus="status">
+					<form:hidden path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+					<form:hidden path="splitDocuments[${status.index}].note" />
+				</c:forEach>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -417,7 +423,7 @@
 			</div>
 			<div id="ebookSizeDiv" style="display:none">
 				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
-						<form:select path="splitEBookParts">
+						<form:select  disabled="${disableUnderPubPlusRole}" path="splitEBookParts">
 							<form:option value="" label="SELECT" />
 							<c:forEach var="i" begin="2" end="${splitSize}" step="1" varStatus ="status">
 								<form:option label="${i}" value="${i}"/>
@@ -433,20 +439,20 @@
 						Enter Toc/Nort GUID of split location(s). GUID entered indicates the beginning of the next eBook part.
 				</div>	
 				
-				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="toc" varStatus ="status">
+				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="toc" varStatus ="status">	
 						<div class="expandingBox">
 							<div class="dynamicRow">
 								<label>TOC/NORT GUID</label>
-								<form:input cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+								<form:input disabled="${disableUnderPubPlusRole}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 								<div class="errorDiv">
 									<form:errors path="splitDocuments[${status.index}].tocGuid" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Note</label>
-								<form:textarea path="splitDocuments[${status.index}].note" />
+								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" />
 								<div class="errorDiv">
-									<form:errors path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
+									<form:errors  path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
 								</div>								
 						    </div>								
 						</div>						
