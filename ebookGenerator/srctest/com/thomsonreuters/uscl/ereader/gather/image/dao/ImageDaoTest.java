@@ -58,7 +58,8 @@ public class ImageDaoTest  {
 	@Test
 	public void testSaveImageMetadata() {
 		String bogusGuid = "someBogusGuid";
-		ImageMetadataEntityKey expectedPk = new ImageMetadataEntityKey(JOB_INSTANCE_ID, bogusGuid);
+		String docGuid = "dummyDocGuid";
+		ImageMetadataEntityKey expectedPk = new ImageMetadataEntityKey(JOB_INSTANCE_ID, bogusGuid, docGuid);
 		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
 		EasyMock.expect(mockSession.save((ImageMetadataEntity) EasyMock.anyObject())).andReturn(expectedPk);
 		EasyMock.replay(mockSessionFactory);

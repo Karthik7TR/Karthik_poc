@@ -51,7 +51,16 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 
 	private String firstlineCite;
 	
+	private String docGuid;
+	
 
+	public String getDocGuid() {
+		return docGuid;
+	}
+	public void setDocGuid(String docGuid) {
+		this.docGuid = docGuid;
+	}
+	
 	public void setTargetAnchors(HashMap<String, HashSet<String>> targetAnchors )
 	{
 		this.targetAnchors = targetAnchors;
@@ -143,7 +152,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 /*							newAtts.addAttribute("", "", "alt", "CDATA", 
 									"Image " + imgEncountered + " within " + firstlineCite + " document.");*/
 							newAtts.addAttribute("", "", "src", "CDATA", PROVIEW_ASSERT_REFERENCE_PREFIX + imgGuid);
-							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid);
+							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid, docGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
 							
 							if (imgMetadata.getHeight() > imgMaxHeight 

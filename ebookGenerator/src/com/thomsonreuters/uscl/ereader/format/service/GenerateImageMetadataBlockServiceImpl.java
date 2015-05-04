@@ -76,7 +76,7 @@ public class GenerateImageMetadataBlockServiceImpl implements
 			imageMetadataBlocks.append("<ImageMetadata>");
 			for (String imgId : docImgMap.get(docGuid))
 			{
-				appendImageBlock(imageMetadataBlocks, jobInstanceId, imgId);
+				appendImageBlock(imageMetadataBlocks, jobInstanceId, imgId, docGuid);
 			}
 			imageMetadataBlocks.append("</ImageMetadata>");
 			
@@ -139,10 +139,10 @@ public class GenerateImageMetadataBlockServiceImpl implements
 	 * 
 	 * @throws EBookFormatException if image metadata for the passed in image guid is not found
 	 */
-	protected void appendImageBlock(StringBuffer imgBlocks, long jobId, String imgGuid)
+	protected void appendImageBlock(StringBuffer imgBlocks, long jobId, String imgGuid, String docGuid)
 		throws EBookFormatException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobId, imgGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobId, imgGuid, docGuid);
 		ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
 		if (imgMetadata == null)
 		{

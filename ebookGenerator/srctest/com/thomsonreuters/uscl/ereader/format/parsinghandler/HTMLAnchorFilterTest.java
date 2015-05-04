@@ -44,6 +44,7 @@ public class HTMLAnchorFilterTest {
 	private Serializer serializer;
 	private final long testJobId = 123L;
 	private final String testGuid = "NFA730F80D58A11DCBFA7F697EE59258B";
+	private final String docGuid = "1FA730F80D58A11DCBFA7F697EE59258B";
 	private final String invalidGuid = "badGuid";
 	private final String firstlineCite = "ABC";
 	private final String currentGuid = "ABC1234";
@@ -63,6 +64,7 @@ public class HTMLAnchorFilterTest {
 		
 		anchorFilter = new HTMLAnchorFilter();
 		anchorFilter.setjobInstanceId(testJobId);
+		anchorFilter.setDocGuid(docGuid);
 		anchorFilter.setFirstlineCite(firstlineCite);
 		anchorFilter.setParent(saxParser.getXMLReader());
 		anchorFilter.setCurrentGuid(currentGuid);
@@ -154,7 +156,7 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testSimpleImageAnchorTag() throws SAXException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(regularImgMetadata);
@@ -171,7 +173,7 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testSimpleImageAnchorTagWithV1URI() throws SAXException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(regularImgMetadata);
@@ -202,7 +204,7 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testSimpleLargeHeightImageAnchorTag() throws SAXException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(largeHeightImgMetadata);
@@ -219,7 +221,7 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testSimpleLargeWidthImageAnchorTag() throws SAXException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(largeWidthImgMetadata);
@@ -236,7 +238,7 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testSimpleLargeImageAnchorTag() throws SAXException
 	{
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(largeImgMetadata);
@@ -436,7 +438,7 @@ public class HTMLAnchorFilterTest {
 		long newMaxHeight = 27L;
 		anchorFilter.setImgMaxWidth(newMaxHeight);
 		
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -457,7 +459,7 @@ public class HTMLAnchorFilterTest {
 		long newMaxWidth = 27L;
 		anchorFilter.setImgMaxWidth(newMaxWidth);
 		
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 		
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -475,8 +477,8 @@ public class HTMLAnchorFilterTest {
 	@Test
 	public void testMultipleAnchors() throws SAXException
 	{		
-		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid);
-		ImageMetadataEntityKey key2 = new ImageMetadataEntityKey(testJobId, "AFA730F80D58A11DCBFA7F697EE59258B");
+		ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
+		ImageMetadataEntityKey key2 = new ImageMetadataEntityKey(testJobId, "AFA730F80D58A11DCBFA7F697EE59258B", docGuid);
 		
 		ImageService mockImgService = EasyMock.createMock(ImageService.class);
 		EasyMock.expect(mockImgService.findImageMetadata(key)).andReturn(regularImgMetadata);

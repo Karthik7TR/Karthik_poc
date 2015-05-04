@@ -34,9 +34,10 @@ public class ImageServiceTest {
 	private static final Long JOB_INSTANCE_ID = 1965l;
 	private static final String TITLE_ID = "bogusTitleId";
 	private static final String GUID = "junitBogusGuid";
+	private static final String DOC_GUID = "dummyDocGuid";
 	private static final int MAX_RETRIES = 3;
 	private static final String MISSING_GUIDS_FILE_BASENAME = "missingImageGuidsFile.txt";
-	private static final ImageMetadataEntityKey METADATA_PK = new ImageMetadataEntityKey(JOB_INSTANCE_ID, GUID);
+	private static final ImageMetadataEntityKey METADATA_PK = new ImageMetadataEntityKey(JOB_INSTANCE_ID, GUID, DOC_GUID);
 	private URL SERVICE_CONTEXT_URL;
 	private static String SERVICE_VERSION = "v1";
 	private ImageDao mockImageDao;
@@ -185,7 +186,7 @@ public class ImageServiceTest {
 		SingleImageMetadataResponse metadataResponse = new SingleImageMetadataResponse();
 		metadataResponse.setImageMetadata(SINGLE_IMAGE_METADATA);
 		ImageMetadataEntity entity = ImageServiceImpl.createImageMetadataEntity(metadataResponse,
-											JOB_INSTANCE_ID,  TITLE_ID);
+											JOB_INSTANCE_ID,  TITLE_ID, DOC_GUID);
 		Assert.assertEquals(JOB_INSTANCE_ID, entity.getPrimaryKey().getJobInstanceId());
 		Assert.assertEquals(SINGLE_IMAGE_METADATA.getGuid(), entity.getPrimaryKey().getImageGuid());
 		Assert.assertEquals(TITLE_ID, entity.getTitleId());
@@ -205,7 +206,7 @@ public class ImageServiceTest {
 		EasyMock.expect(mockImageDao.saveImageMetadata((ImageMetadataEntity) EasyMock.anyObject())).andReturn(METADATA_PK);
 		EasyMock.replay(mockImageDao);
 		
-		ImageMetadataEntityKey pk = imageService.saveImageMetadata(metadataResponse, METADATA_PK.getJobInstanceId(), TITLE_ID);
+		ImageMetadataEntityKey pk = imageService.saveImageMetadata(metadataResponse, METADATA_PK.getJobInstanceId(), TITLE_ID, DOC_GUID);
 		Assert.assertNotNull(pk);
 		Assert.assertEquals(METADATA_PK, pk);
 		

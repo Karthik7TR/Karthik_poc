@@ -129,10 +129,8 @@ public class XMLImageParserServiceTest {
     {
     	try
     	{
-    		long initFileSize = imgListFile.length();
     		long initMapFileSize = docToImgMapFile.length();
     		imgParserService.generateImageList(xmlDir, imgListFile, docToImgMapFile);
-    		assertTrue(initFileSize < imgListFile.length());
     		assertTrue(initMapFileSize < docToImgMapFile.length());
     	}
     	catch(EBookFormatException e)

@@ -77,6 +77,6 @@ public interface ImageService {
 	 * @param titleId the unique key for the book for which we are gathering images
 	 * @return the primary key of the created record.
 	 */
-	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId);	
+	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId, String docGuid);	
 	
 }

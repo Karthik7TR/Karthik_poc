@@ -280,6 +280,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 			HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
 			anchorFilter.setimgService(imgService);
 			anchorFilter.setjobInstanceId(jobIdentifier);
+			anchorFilter.setDocGuid(guid);
 			anchorFilter.setFirstlineCite(firstlineCite);
 			anchorFilter.setParent(editNotesFilter);
 			anchorFilter.setTargetAnchors(targetAnchors);

@@ -67,7 +67,8 @@ public class ImageMetadataEntity implements Serializable {
 	@EmbeddedId
 	@AttributeOverrides({
 		@AttributeOverride(name = "jobInstanceId", column = @Column(name="JOB_INSTANCE_ID", nullable=false)),
-		@AttributeOverride(name = "imageGuid", column = @Column(name="IMAGE_GUID", nullable=false))
+		@AttributeOverride(name = "imageGuid", column = @Column(name="IMAGE_GUID", nullable=false)),
+		@AttributeOverride(name = "docUuid", column = @Column(name="DOC_UUID", nullable=false))
 	})
 	public ImageMetadataEntityKey getPrimaryKey() {
 		return primaryKey;

@@ -64,12 +64,14 @@ public class ImageServiceImpl implements ImageService {
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		int missingImageCount = 0;
 		int missingImageMetadataCount = 0;
-		List<String> deDupImagesArray = new ArrayList<String>();
+		
 		
 		try {
 			// Iterate the image GUID's and first fetch image data and then download the image bytes
 			for (String docGuid : imgDocGuidMap.keySet()) {
+				List<String> deDupImagesArray = new ArrayList<String>();
 				String imgGuidList = imgDocGuidMap.get(docGuid);
+				
 				if (imgGuidList != null)
 				{
 				   String[] imgDocsArray = imgGuidList.split(",");
@@ -87,8 +89,8 @@ public class ImageServiceImpl implements ImageService {
 						}
 						ServiceStatus serviceStatus = metadataResponse.getServiceStatus();
 						if (serviceStatus.getStatusCode() == 0) { // success
-							imageMetadata = metadataResponse.getImageMetadata();
-							saveImageMetadata(metadataResponse, jobInstanceId, titleId);
+							imageMetadata = metadataResponse.getImageMetadata();							
+							saveImageMetadata(metadataResponse, jobInstanceId, titleId, docGuid);
 						} else { // failure
 							missingImageMetadataCount++;
 							log.error(String.format("Status code %d (a failure) was returned from Image Vertical when fetching image metadata for guid [%s], error description: %s, continuing on...",
@@ -235,9 +237,10 @@ public class ImageServiceImpl implements ImageService {
 	 * @return the entity to be persisted to a database table
 	 */
 	public static ImageMetadataEntity createImageMetadataEntity(SingleImageMetadataResponse responseMetadata,
-																long jobInstanceId, String titleId) {
+																long jobInstanceId, String titleId, String docGid) {
+		
 		SingleImageMetadata singleImageMetadata = responseMetadata.getImageMetadata();
-		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, singleImageMetadata.getGuid());
+		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, singleImageMetadata.getGuid(), docGid);
 		// Convert the media type from say "image/tif" to "image/png" which reflect the image as we want it to be converted,
 		// and as we expect it to be returned from the Image Vertical REST service.
 		MediaType desiredMediaType = fetchDesiredMediaType(singleImageMetadata.getMediaType());
@@ -262,8 +265,8 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	@Transactional
-	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadataResponse, long jobInstanceId, String titleId) {
-		ImageMetadataEntity entity = createImageMetadataEntity(metadataResponse, jobInstanceId, titleId);
+	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadataResponse, long jobInstanceId, String titleId, String docGuid) {
+		ImageMetadataEntity entity = createImageMetadataEntity(metadataResponse, jobInstanceId, titleId, docGuid);
 		// Persist the image meta-data entity
 		return this.saveImageMetadata(entity);
 	}

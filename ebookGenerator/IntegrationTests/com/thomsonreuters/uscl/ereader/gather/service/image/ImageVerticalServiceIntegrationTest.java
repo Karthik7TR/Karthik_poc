@@ -102,7 +102,8 @@ public class ImageVerticalServiceIntegrationTest  {
 		String guid = "someBogusTestingGuid";
 		Long width = 100l, height = 200l, size = 300l, dpi = 400l;
 		String dimUnit = "px";
-		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, guid);
+		String docGuid = "dummyDocGuid";
+		ImageMetadataEntityKey pk = new ImageMetadataEntityKey(jobInstanceId, guid, docGuid);
 		ImageMetadataEntity expectedEntity = new ImageMetadataEntity(pk, titleId,
 																	 width, height, size, dpi, dimUnit, MediaType.IMAGE_PNG);
 		imageService.saveImageMetadata(expectedEntity);
@@ -126,7 +127,8 @@ public class ImageVerticalServiceIntegrationTest  {
 		try {
 			long jobInstanceId = 1151;
 			String imageGuid = "I7d5ecd90675f11da90ebf04471783734";
-			ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imageGuid);
+			String docGuid = "dummyDocGuid";
+			ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imageGuid, docGuid);
 			ImageMetadataEntity entity = imageService.findImageMetadata(key);
 			log.debug("Image metadata by PK: " + entity);
 		}catch (Exception e) {
