@@ -170,7 +170,7 @@ public class DocMetadata implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	Long docSize;
 
-	@Column(name = "SPLIT_BOOK_TITLE_D", length = 64)
+	@Column(name = "SPLIT_BOOK_TITLE_ID", length = 64)
 	@Basic(fetch = FetchType.EAGER)
 	String splitBookTitleId;
 
