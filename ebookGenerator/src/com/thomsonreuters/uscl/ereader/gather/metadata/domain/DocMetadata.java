@@ -165,6 +165,14 @@ public class DocMetadata implements Serializable {
 	@Column(name = "PROVIEW_FAMILY_UUID_DEDUP")
 	@Basic(fetch = FetchType.EAGER)
 	Integer proviewFamilyUUIDDedup;
+	
+	@Column(name = "DOC_SIZE")
+	@Basic(fetch = FetchType.EAGER)
+	Long docSize;
+
+	@Column(name = "SPLIT_BOOK_TITLE", length = 64)
+	@Basic(fetch = FetchType.EAGER)
+	String splitBookTitle;
 
 	/**
 	 */
@@ -351,6 +359,22 @@ public class DocMetadata implements Serializable {
 
 	public void setProviewFamilyUUIDDedup(Integer proviewFamilyUUIDDedup) {
 		this.proviewFamilyUUIDDedup = proviewFamilyUUIDDedup;
+	}
+	
+	public Long getDocSize() {
+		return docSize;
+	}
+
+	public void setDocSize(Long docSize) {
+		this.docSize = docSize;
+	}
+
+	public String getSplitBookTitle() {
+		return splitBookTitle;
+	}
+
+	public void setSpitBookTitle(String splitBookTitle) {
+		this.splitBookTitle = splitBookTitle;
 	}
 	
 	/**
