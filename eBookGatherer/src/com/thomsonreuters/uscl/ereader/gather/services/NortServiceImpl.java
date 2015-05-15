@@ -36,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
 import com.thomsonreuters.uscl.ereader.gather.parser.NortLabelParser;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
@@ -265,6 +266,9 @@ public class NortServiceImpl implements NortService {
 						}
 					}
 				}
+				
+				// Normalize label text
+				label = NormalizationRulesUtil.applyTableOfContentNormalizationRules(label);
 				
 				String endDate = node
 						.getPayloadElement("/n-nortpayload/n-end-date");

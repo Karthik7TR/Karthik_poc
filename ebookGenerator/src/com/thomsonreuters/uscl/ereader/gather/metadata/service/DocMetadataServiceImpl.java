@@ -1,3 +1,8 @@
+/*
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.File;
@@ -12,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.parsinghandler.DocMetaDataXMLParser;
-import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -34,7 +39,7 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 	public void saveDocMetadata(DocMetadata docmetadata) {
 		//TODO: Add full set of character encodings here.
 		String cite = docmetadata.getNormalizedFirstlineCite();
-		String normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+		String normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
 		docmetadata.setNormalizedFirstlineCite(normalizedCite);
 
 		DocMetadataPK existingDocPk = new DocMetadataPK();

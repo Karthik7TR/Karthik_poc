@@ -28,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
@@ -212,6 +213,9 @@ public class TocServiceImpl implements TocService {
 						}
 					}
 				}
+				
+				// Normalize label text
+				label = NormalizationRulesUtil.applyTableOfContentNormalizationRules(label);
 				
 				name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
 						.append(EBConstants.TOC_START_NAME_ELEMENT)

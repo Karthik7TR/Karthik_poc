@@ -1,5 +1,5 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 
 
 /**
@@ -103,7 +103,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
     	if(StringUtils.isNotBlank(cite)) 
     	{
     		cite = cite.replaceAll("\\p{javaSpaceChar}", " ");
-    		normalizedCite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+    		normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
     	}
     	return normalizedCite;
     }

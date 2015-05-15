@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -35,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 
 /**
  * Creates toc.xml from the Novus NORT XML from Codes Workbench
@@ -198,6 +199,9 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 						}
 					}
 				}
+				
+				// Normalize label text
+				label = NormalizationRulesUtil.applyTableOfContentNormalizationRules(label);
 				
 				String endDate = node.getEndDateStr();
 				String startDate = node.getStartDateStr();

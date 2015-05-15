@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 
 public class DocMetaDataXMLParser extends DefaultHandler {
 	private static final Logger LOG = Logger.getLogger(DocMetaDataXMLParser.class);
@@ -156,7 +156,7 @@ public class DocMetaDataXMLParser extends DefaultHandler {
 		} else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
 			docMetadata.setSerialNumber(new Long(tempVal));
 		} else if (qName.equalsIgnoreCase(MD_PUB_PAGE) && !processedPubPage) {
-			String normalizedPubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(tempVal);
+			String normalizedPubpage = NormalizationRulesUtil.pubPageNormalizationRules(tempVal);
 			docMetadata.setFirstlineCitePubpage(normalizedPubpage);
 			processedPubPage = true;
 		} else if (qName.equalsIgnoreCase(MD_PUB_ID)) {

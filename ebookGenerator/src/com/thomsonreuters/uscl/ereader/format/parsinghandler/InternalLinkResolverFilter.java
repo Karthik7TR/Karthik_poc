@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -24,7 +24,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
-import com.thomsonreuters.uscl.ereader.util.CitationNormalizationRulesUtil;
+import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
 
 
@@ -183,7 +183,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 			    {
 			        String pubName = paceMetadataInfo.get(0).getPublicationName();
 			        String pubNameCite = cite.replace(stdPubName, pubName);
-			        pubNameCite = CitationNormalizationRulesUtil.applyNormalizationRules(pubNameCite);
+			        pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
 			        docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
 			        
 			        if (docMetadata == null)  {
@@ -192,7 +192,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 			        	
 			        	if (splitCite.length > 0) {
 			        		String pubpage = splitCite[splitCite.length - 1];
-			        		pubpage = CitationNormalizationRulesUtil.pubPageNormalizationRules(pubpage);
+			        		pubpage = NormalizationRulesUtil.pubPageNormalizationRules(pubpage);
 			        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
 			        	}
 			        }
@@ -202,7 +202,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         }
         else if (docMetadata == null && pubId.equals(PUB_NOT_PRESENT))
         {	
-        	cite = CitationNormalizationRulesUtil.applyNormalizationRules(cite);
+        	cite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
         	if(cite.startsWith("LK("))
         	{
         		docMetadata = getRefsAnnosPage(cite);
