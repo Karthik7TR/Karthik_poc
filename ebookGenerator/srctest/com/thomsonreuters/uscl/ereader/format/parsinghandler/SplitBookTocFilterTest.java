@@ -68,7 +68,6 @@ public class SplitBookTocFilterTest {
 	@Test
 	public void testSplitTocXML() throws SAXException
 	{	
-		splitBookFilter.setNumber(0);
 		String xmlTestStr = "<EBook>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
@@ -86,9 +85,7 @@ public class SplitBookTocFilterTest {
 	
 	@Test
 	public void testSplitTocXMLNomatchUUID() throws SAXException
-	{			
-		splitBookFilter.setNumber(0);
-
+	{	
 		String xmlTestStr = "<EBook>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
@@ -104,8 +101,7 @@ public class SplitBookTocFilterTest {
 	
 	@Test
 	public void testSplitTocXMLSingleUUID() throws SAXException
-	{	
-		splitBookFilter.setNumber(0);
+	{			
 		String xmlTestStr = "<EBook>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "</EBook>";

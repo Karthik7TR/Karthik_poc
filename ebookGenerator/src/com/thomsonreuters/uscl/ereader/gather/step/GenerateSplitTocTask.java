@@ -106,12 +106,9 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 
 	public void generateAndUpdateSplitToc(InputStream tocXml, OutputStream splitTocXml, List<String> splitTocGuidList,
 			String titleBreakLabel, File transformDir, Long jobInstanceId) throws Exception {
-
-		LOG.debug("generateSplitBookToc---------------------------------------------------------");
+		
 		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel);
 		
-		System.out.println("documentInfoMap-3--"+documentInfoMap.size());
-
 		if (transformDir == null || !transformDir.isDirectory()) {
 			throw new IllegalArgumentException("transformDir must be a directory, not null or a regular file.");
 		}

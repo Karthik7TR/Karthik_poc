@@ -38,7 +38,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	
 	private StringBuilder tocGuid = new StringBuilder();
 	private StringBuilder textBuffer = new StringBuilder();
-	private static int number = 0;
+	private int number = 0;
 
 	private String titleBreakText;
 	Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
@@ -63,13 +63,13 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	}
 	
 
-	public static int getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
 
-	public static void setNumber(int number) {
-		SplitBookTocFilter.number = number;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 

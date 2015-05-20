@@ -33,9 +33,9 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
-public class GenerateSplitTocTaskTest {
+public class GenerateSplitTocXMLTest {
 
-	private static Logger LOG = Logger.getLogger(GenerateSplitTocTaskTest.class);
+	private static Logger LOG = Logger.getLogger(GenerateSplitTocXMLTest.class);
 	private static final String FINE_NAME = "split_toc_InputFile.xml";
 
 	GenerateSplitTocTask generateSplitTocTask;
@@ -147,11 +147,6 @@ public class GenerateSplitTocTaskTest {
 		DocumentInfo docInfo2 = documentInfoMap.get("Iff5a5a9b7c8f11da9de6e47d6d5aa7a5");
 		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
 		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
-
-		System.out.println("-----taskMap---------");
-		for (Map.Entry<String, DocumentInfo> entry : generateSplitTocTask.getDocumentInfoMap().entrySet()) {
-			System.out.println(entry.getKey() + "/" + entry.getValue().toString());
-		}
 
 	}
 

@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -94,8 +93,6 @@ public class GenerateSplitTaskTest {
 		
 		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-		System.out.println("tocXml------***********-----"+tocXml.toString());
-		
 		String titleBreakLabel = "Title part";
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
 				tranformedDirectory, jobInstanceId);
@@ -106,7 +103,7 @@ public class GenerateSplitTaskTest {
 				+ "<titlebreak>Title part1</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>";
 		
-		System.out.println(splitTocXml.toString());
+		//System.out.println(splitTocXml.toString());
 		
 		
 		Assert.assertEquals(expected,splitTocXml.toString());
@@ -132,7 +129,7 @@ public class GenerateSplitTaskTest {
 
 	}
 	
-	@Ignore
+	@Test
 	public void testGenerateSplitToc() throws Exception {
 		String titleBreakLabel = "Main";
 		FileExtensionFilter fileExtFilter;
@@ -185,7 +182,7 @@ public class GenerateSplitTaskTest {
 		List<EbookName> names = mockNames();
 		names.remove(1);		
 		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, names);
-		System.out.println(titleBreakText);
+		//LOG.debug(titleBreakText);
 		Assert.assertEquals("Main part",titleBreakText);
 	}
 	
