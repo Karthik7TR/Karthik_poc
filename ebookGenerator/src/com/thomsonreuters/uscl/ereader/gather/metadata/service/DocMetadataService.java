@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 
@@ -51,6 +52,10 @@ public interface DocMetadataService {
 	 * @return 
 	 */
 	public int updateProviewFamilyUUIDDedupFields(Long jobInstanceId) throws Exception;
+	
+	/**
+	 */
+	public void updateSplitBookFields(Long jobInstanceId, Map<String,DocumentInfo> documentInfoMap) throws Exception;
 	
 	/**
 	 * Retrieves the full set of document metadata for a given title.

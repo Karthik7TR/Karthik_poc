@@ -147,6 +147,7 @@ public class InitializeTask extends AbstractSbTasklet {
 			File preprocessDirectory = new File(formatDirectory, "Preprocess");
 			File transformedDirectory = new File(formatDirectory, "Transformed");
 			File formatImageMetadataDirectory = new File(formatDirectory, "ImageMetadata");
+			File splitEbookDirectory = new File(formatDirectory, "splitEbook");
 			File postTransformDirectory = new File(formatDirectory, "PostTransform");
 			File createdLinksTransformDirectory = new File(formatDirectory, "CreatedLinksTransform");
 			File fixedTransformDirectory = new File(formatDirectory, "FixedTransform");
@@ -156,11 +157,14 @@ public class InitializeTask extends AbstractSbTasklet {
 			preprocessDirectory.mkdir();
 			transformedDirectory.mkdir();
 			formatImageMetadataDirectory.mkdir();
+			splitEbookDirectory.mkdir();
 			postTransformDirectory.mkdir();
 			createdLinksTransformDirectory.mkdir();
 			fixedTransformDirectory.mkdir();
 			htmlWrapperDirectory.mkdir();
 			frontMatterHTMLDiretory.mkdir();
+
+			File splitTocFile = new File(splitEbookDirectory, "splitToc.xml");
 			File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 			
 			File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
@@ -224,6 +228,10 @@ public class InitializeTask extends AbstractSbTasklet {
 					JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.FORMAT_IMAGE_METADATA_DIR, formatImageMetadataDirectory.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.SPLIT_EBOOK_DIR, splitEbookDirectory.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.FORMAT_SPLITTOC_FILE, splitTocFile.getAbsolutePath());			
 			jobExecutionContext.putString(
 					JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 			jobExecutionContext.putString(

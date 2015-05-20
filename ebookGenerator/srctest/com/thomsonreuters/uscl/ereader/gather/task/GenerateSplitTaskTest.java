@@ -1,0 +1,245 @@
+package com.thomsonreuters.uscl.ereader.gather.task;
+
+import static org.junit.Assert.assertTrue;
+
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.easymock.EasyMock;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseServiceImpl;
+import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.step.GenerateSplitTocTask;
+import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
+
+public class GenerateSplitTaskTest {
+
+	InputStream tocXml;
+	OutputStream splitTocXml;
+	File tranformedDirectory;
+	File splitTocFile;
+	SplitBookTocParseServiceImpl splitBookTocParseService;
+	private final String testExtension = ".transformed";
+	Long jobInstanceId;
+	private DocMetadataService mockDocMetadataService;
+	List<String> splitTocGuidList;
+	GenerateSplitTocTask generateSplitTocTask;
+	
+	
+	private static Logger LOG = Logger.getLogger(GenerateSplitTaskTest.class);
+	
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+	@Before
+	public void setUp() throws Exception{
+		generateSplitTocTask = new GenerateSplitTocTask();
+		splitTocGuidList = new ArrayList<String>();
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_2";
+		splitTocGuidList.add(guid1);
+		
+		this.mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
+		generateSplitTocTask.setDocMetadataService(mockDocMetadataService);
+		
+		splitTocXml = new ByteArrayOutputStream(1024);
+
+		tocXml = new ByteArrayInputStream(
+				"<EBook><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>"
+						.getBytes());
+		
+		jobInstanceId = new Long(1);
+		
+		File workDir = temporaryFolder.getRoot();
+		tranformedDirectory = new File(workDir, "transforned");
+		tranformedDirectory.mkdirs();
+		
+		splitBookTocParseService = new SplitBookTocParseServiceImpl();
+		FileHandlingHelper fileHandlingHelper = new FileHandlingHelper();
+		FileExtensionFilter fileExtFilter = new FileExtensionFilter();
+		fileExtFilter.setAcceptedFileExtensions(new String[] { testExtension });
+		fileHandlingHelper.setFilter(fileExtFilter);
+		generateSplitTocTask.setfileHandlingHelper(fileHandlingHelper);
+		
+		generateSplitTocTask.setSplitBookTocParseService(splitBookTocParseService);
+	}
+	
+	@Test
+	public void testSplitTocHappyPath() throws Exception {
+		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
+		File documentFile1 = new File(tranformedDirectory, "DOC_GUID1.transformed");
+		writeDocumentLinkFile(documentFile1, false);
+		File documentFile2 = new File(tranformedDirectory, "DOC_GUID2.transformed");
+		writeDocumentLinkFile(documentFile2, false);
+		
+		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
+		
+		System.out.println("tocXml------***********-----"+tocXml.toString());
+		
+		String titleBreakLabel = "Title part";
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+				tranformedDirectory, jobInstanceId);
+		
+		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				+ "<EBook><titlebreak>Title part0</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>";
+		
+		System.out.println(splitTocXml.toString());
+		
+		
+		Assert.assertEquals(expected,splitTocXml.toString());
+		
+		Assert.assertTrue(splitTocXml.toString().length() > 0);
+
+		assertTrue(splitTocXml.toString().contains("<titlebreak>"));
+		
+		documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
+		
+		DocumentInfo expectedDocInfo1  = new DocumentInfo();
+		expectedDocInfo1.setDocSize(new Long(14));
+		expectedDocInfo1.setSplitTitleId("Title part0");
+		
+		DocumentInfo expectedDocInfo2  = new DocumentInfo();
+		expectedDocInfo2.setDocSize(new Long(14));
+		expectedDocInfo2.setSplitTitleId("Title part1");
+		
+		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
+		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
+		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
+		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
+
+	}
+	
+	@Ignore
+	public void testGenerateSplitToc() throws Exception {
+		String titleBreakLabel = "Main";
+		FileExtensionFilter fileExtFilter;
+		FileHandlingHelper mockfileHandlingHelper;
+		fileExtFilter = EasyMock.createMock(FileExtensionFilter.class);
+	    mockfileHandlingHelper = EasyMock.createMock(FileHandlingHelper.class);
+	    fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
+	    mockfileHandlingHelper.setFilter(fileExtFilter);
+	    
+	    generateSplitTocTask.setfileHandlingHelper(mockfileHandlingHelper);	 
+    	
+    	mockfileHandlingHelper.getFileList(tranformedDirectory, new ArrayList<File>());	    
+	        
+	        EasyMock.replay(fileExtFilter);
+	        EasyMock.replay(mockfileHandlingHelper);
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+				tranformedDirectory, jobInstanceId);
+		
+		Map<String, DocumentInfo> documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
+		
+		DocumentInfo expectedDocInfo1  = new DocumentInfo();
+		expectedDocInfo1.setSplitTitleId("Main0");
+		
+		DocumentInfo expectedDocInfo2  = new DocumentInfo();
+		expectedDocInfo2.setSplitTitleId("Main1");
+		
+		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
+		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
+		
+		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
+		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
+	
+	}
+	
+	@Test
+	public void testGetTitleBreakLabel(){
+		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
+		documentTypeCode.setId(new Long(1));
+		
+		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, mockNames());
+		
+		Assert.assertEquals("Main-Series part",titleBreakText);
+	}
+	
+	@Test
+	public void testGetTitleBreakLabelNoSeries(){
+		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
+		documentTypeCode.setId(new Long(1));
+		
+		List<EbookName> names = mockNames();
+		names.remove(1);		
+		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, names);
+		System.out.println(titleBreakText);
+		Assert.assertEquals("Main part",titleBreakText);
+	}
+	
+	protected List<EbookName> mockNames(){
+		List<EbookName> names = new ArrayList<EbookName>();
+		EbookName name1 = new EbookName();
+		name1.setSequenceNum(1);
+		name1.setBookNameText("Main");
+		
+		EbookName name2 = new EbookName();
+		name2.setSequenceNum(2);
+		name2.setBookNameText("Series");
+		
+		names.add(name1);
+		names.add(name2);
+		
+		return names;
+	}
+	
+	
+
+	
+	
+	
+	
+	protected void writeDocumentLinkFile(File tFile, boolean addNewLine) {
+		BufferedWriter writer = null;
+
+		try {
+			writer = new BufferedWriter(new FileWriter(tFile));
+
+			writer.write("Write anything");
+
+			writer.flush();
+		} catch (IOException e) {
+			String errMessage = "Encountered an IO Exception while processing: " + tFile.getAbsolutePath();
+			LOG.error(errMessage);
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				LOG.error("Unable to close anchor target list file.", e);
+			}
+		}
+
+		LOG.debug("size of file : " + tFile.length());
+	}
+
+	@Test
+	public void testHandler() throws Exception {
+
+	
+	}
+
+}

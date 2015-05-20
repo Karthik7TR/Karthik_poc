@@ -7,11 +7,13 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.DocMetadataDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
@@ -148,7 +150,25 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		}
 		return duplicateDocCounter;
 	}
+	
 
+	/**
+	 */
+	@Transactional
+	public void updateSplitBookFields(Long jobInstanceId, Map<String, DocumentInfo> documentInfoMap) throws Exception {
+
+		DocumentMetadataAuthority docAuthority = findAllDocMetadataForTitleByJobId(jobInstanceId);
+		for (DocMetadata docMeta : docAuthority.getAllDocumentMetadata()) {
+			String key = docMeta.getDocUuid();
+			if (documentInfoMap.containsKey(key)) {
+				DocumentInfo documentInfo = documentInfoMap.get(key);
+				docMeta.setDocSize(documentInfo.getDocSize());
+				docMeta.setSpitBookTitle(documentInfo.getSplitTitleId());
+				updateDocMetadata(docMeta);
+			}
+		}
+	}
+	
 	@Required
 	public void setdocMetadataDAO(DocMetadataDao dao) {
 		this.docMetadataDAO = dao;
