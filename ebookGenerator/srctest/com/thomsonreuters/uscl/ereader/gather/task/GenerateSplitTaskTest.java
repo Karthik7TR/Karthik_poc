@@ -93,14 +93,14 @@ public class GenerateSplitTaskTest {
 		
 		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-		String titleBreakLabel = "Title part";
+		String titleBreakLabel = "Title part ";
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
 				tranformedDirectory, jobInstanceId);
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-				+ "<EBook><titlebreak>Title part0</titlebreak>"
+				+ "<EBook><titlebreak>Title part 1</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part1</titlebreak>"
+				+ "<titlebreak>Title part 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>";
 		
 		//System.out.println(splitTocXml.toString());
@@ -116,11 +116,11 @@ public class GenerateSplitTaskTest {
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
 		expectedDocInfo1.setDocSize(new Long(14));
-		expectedDocInfo1.setSplitTitleId("Title part0");
+		expectedDocInfo1.setSplitTitleId("Title part 1");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
 		expectedDocInfo2.setDocSize(new Long(14));
-		expectedDocInfo2.setSplitTitleId("Title part1");
+		expectedDocInfo2.setSplitTitleId("Title part 2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -151,10 +151,10 @@ public class GenerateSplitTaskTest {
 		Map<String, DocumentInfo> documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("Main0");
+		expectedDocInfo1.setSplitTitleId("Main1");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("Main1");
+		expectedDocInfo2.setSplitTitleId("Main2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -171,7 +171,7 @@ public class GenerateSplitTaskTest {
 		
 		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, mockNames());
 		
-		Assert.assertEquals("Main-Series part",titleBreakText);
+		Assert.assertEquals("Main-Series part ",titleBreakText);
 	}
 	
 	@Test
@@ -183,7 +183,7 @@ public class GenerateSplitTaskTest {
 		names.remove(1);		
 		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, names);
 		//LOG.debug(titleBreakText);
-		Assert.assertEquals("Main part",titleBreakText);
+		Assert.assertEquals("Main part ",titleBreakText);
 	}
 	
 	protected List<EbookName> mockNames(){
@@ -193,7 +193,7 @@ public class GenerateSplitTaskTest {
 		name1.setBookNameText("Main");
 		
 		EbookName name2 = new EbookName();
-		name2.setSequenceNum(2);
+		name2.setSequenceNum(3);
 		name2.setBookNameText("Series");
 		
 		names.add(name1);

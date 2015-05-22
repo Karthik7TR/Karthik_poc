@@ -6,7 +6,9 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -17,10 +19,13 @@ import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 
 
 public class SplitBookTocFilterTest {
@@ -44,7 +49,7 @@ public class SplitBookTocFilterTest {
 		splitBookFilter.setParent(saxParser.getXMLReader());
 		splitBookFilter.setSplitTocGuidList(splitTocGuidList);
 		
-		splitBookFilter.setTitleBreakText("Title part");
+		splitBookFilter.setTitleBreakText("Title part ");
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 		props.setProperty("omit-xml-declaration", "yes");
@@ -57,13 +62,96 @@ public class SplitBookTocFilterTest {
 		serializer = null;
 		splitBookFilter = null;
 	}
+		
+	
 	
 	@Test
-	public void testStringOutofBoundsInParser() throws Exception{
+	public void test2() throws Exception{
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><dummyTag>dummyValue</dummyTag><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "</EBook>";
 		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><dummyTag>dummyValue</dummyTag><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "</EBook>";
+		
+		testHelper(xmlTestStr,expectedResult);
 		
 	}
-
+	
+	@Test
+	public void test3() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBook>";
+		
+		testHelper(xmlTestStr,expectedResult);
+		
+	}
+	
+	@Test
+	public void test4() throws Exception{
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><dummyTag>dummyValue</dummyTag><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><dummyTag>dummyValue</dummyTag><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "</EBook>";
+		
+		testHelper(xmlTestStr,expectedResult);
+		
+	}
+	
+	@Test
+	public void test5() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBook>";
+		
+		testHelper(xmlTestStr,expectedResult);
+		
+	}
+	
+	
 	
 	@Test
 	public void testSplitTocXML() throws SAXException
@@ -74,9 +162,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part0</titlebreak>"
+				+ "<titlebreak>Title part 1</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part1</titlebreak>"
+				+ "<titlebreak>Title part 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
@@ -84,21 +172,27 @@ public class SplitBookTocFilterTest {
 	}
 	
 	@Test
-	public void testSplitTocXMLNomatchUUID() throws SAXException
-	{	
+	public void testSplitBookTocDuplicateDoc() throws Exception {
+		
 		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part0</titlebreak>"
-				+ "<titlebreak>Title part1</titlebreak>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
 		testHelper(xmlTestStr, expectedResult);
+		
 	}
 	
+		
 	@Test
 	public void testSplitTocXMLSingleUUID() throws SAXException
 	{			
@@ -107,7 +201,7 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part0</titlebreak>"
+				+ "<titlebreak>Title part 1</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		

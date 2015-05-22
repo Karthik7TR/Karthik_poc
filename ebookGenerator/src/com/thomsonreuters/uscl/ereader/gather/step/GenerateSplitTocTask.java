@@ -145,17 +145,17 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 				mainTitle.append(name.getBookNameText());
 				if (documentTypeCode == null
 						|| (documentTypeCode != null && !documentTypeCode.getId().equals(ANALYTICAL))) {
-					return mainTitle.append(" part").toString();
+					return mainTitle.append(" part ").toString();
 				}
 			}
 			// Add series if the content type is Analytical or by default it
 			// should be main title.
-			else if (name.getSequenceNum() == 2) {
+			else if (name.getSequenceNum() == 3) {
 				series = "-" + name.getBookNameText();
 			}
 		}
 
-		mainTitle.append(series).append(" part");
+		mainTitle.append(series).append(" part ");
 
 		LOG.debug("titlebreak label" + mainTitle.toString());
 

@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -11,24 +13,18 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
-import com.thomsonreuters.uscl.ereader.proview.TocEntry;
-import com.thomsonreuters.uscl.ereader.proview.TocNode;
 
 public class SplitBookTocFilter extends XMLFilterImpl {
 		
 	private List<String> splitTocGuidList;
-	private TocNode currentNode  = new TocEntry(1);
 	private static final Logger LOG = Logger.getLogger(SplitBookTocFilter.class);
 	
 	private boolean bufferingTocGuid = false;
-	private boolean bufferingText = false;
-	private boolean isDocGuid = false;
 	private boolean foundMatch = false;
 	private boolean isEbook = false;
 	
 	private static final String URI = "";
 	private static final String TITLE_BREAK = "titlebreak";
-	private static final String NAME = "Name";
 	private static final String TOC_GUID = "Guid";
 	private static final String EBOOK = "EBook";
 	private static final String EBOOK_TOC = "EBookToc";
@@ -36,13 +32,14 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	private static final String DOCUMENT_GUID = "DocumentGuid";
 	
 	
-	private StringBuilder tocGuid = new StringBuilder();
-	private StringBuilder textBuffer = new StringBuilder();
-	private int number = 0;
+	private int number = 1;
 
 	private String titleBreakText;
-	Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
-	
+	private String tmpValue;
+	private Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
+	private Map<String,String>  elementValueMap = new LinkedHashMap<String,String>();
+
+
 	public Map<String, DocumentInfo> getDocumentInfoMap() {
 		return documentInfoMap;
 	}
@@ -92,7 +89,8 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		 }
 		 if (EBOOK_TOC.equals(qName)) {
 			 if(isEbook){
-					String text = titleBreakText+0;
+				 	super.startElement(URI, EBOOK, EBOOK,EMPTY_ATTRIBUTES);
+					String text = titleBreakText+1;
 					super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 					super.characters(text.toCharArray(), 0, text.length());
 					super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
@@ -102,15 +100,6 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		 else if (TOC_GUID.equals(qName)){
 				bufferingTocGuid = Boolean.TRUE;
 			}
-		 else if (NAME.equals(qName)) {
-				bufferingText = Boolean.TRUE;
-			}
-		 else {
-			 	if (DOCUMENT_GUID.equals(qName)){
-			 		isDocGuid = Boolean.TRUE;
-			 	}
-			 	super.startElement(uri, localName, qName, atts);
-		 }
 
 	}
 	
@@ -118,36 +107,20 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException
 	{
-				 
+		tmpValue = new String(ch, start, length);
+		
 		if (bufferingTocGuid) {
-			String tocGuidText = new String(ch, start, length);
-			tocGuid.append(ch, start, length);
-			if (splitTocGuidList.contains(tocGuidText.substring(0, 33))){
+			if (splitTocGuidList.contains(StringUtils.substring(tmpValue, 0,33))){
 				foundMatch = true;					
 			}
-		}
-		else if (bufferingText) {
-			textBuffer.append(ch, start, length);
-		}
-		else {
-			
-			 if (isDocGuid){
-				String documentGuidText = new String(ch, start, length);
-				if (!documentInfoMap.containsKey(documentGuidText)){
-					DocumentInfo documentInfo = new DocumentInfo();
-					documentInfo.setSplitTitleId(titleBreakText+number);
-					documentInfoMap.put(documentGuidText,documentInfo);
-				}
-				isDocGuid = Boolean.FALSE;
-			}
-			super.characters(ch, start, length);
+			bufferingTocGuid = Boolean.FALSE;
 		}
 		   
 	}
 	
 		
 	
-	private void writeSplitToc(TocNode node,boolean isSplit) throws SAXException {
+	private void writeSplitToc(boolean isSplit) throws SAXException {
 		if(isSplit){
 			super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 			number++;
@@ -157,48 +130,44 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		}
 		
 		super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);
-		super.startElement(URI, NAME, NAME, EMPTY_ATTRIBUTES);
-		String nameText = currentNode.getText();
-		super.characters(nameText.toCharArray(), 0, nameText.length());
-		super.endElement(URI, NAME, NAME);
-		
-		super.startElement(URI, TOC_GUID, TOC_GUID, EMPTY_ATTRIBUTES);
-		String tocDocGuidText = currentNode.getTocGuid();
-		super.characters(tocDocGuidText.toCharArray(), 0, tocDocGuidText.length());
+		for (Map.Entry<String, String> entry : elementValueMap.entrySet()) {
+			//Adding Document Info
+			if(entry.getKey().equals(DOCUMENT_GUID) ){
+					DocumentInfo documentInfo = new DocumentInfo();
+					documentInfo.setSplitTitleId(titleBreakText+number);
+					documentInfoMap.put(entry.getValue(),documentInfo);
+			}
+			super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);
+			super.characters(entry.getValue().toCharArray(), 0, entry.getValue().length());
+			super.endElement(URI, entry.getKey(), entry.getKey());
+		}
+		super.endElement(URI, EBOOK_TOC, EBOOK_TOC);
+		elementValueMap.clear();
 		
 	}
 	
 	
-	
-
     @Override
     public void endElement(final String uri, final String localName, final String qName)
         throws SAXException
-    {
-    	if (TOC_GUID.equals(qName)) {
-			bufferingTocGuid = Boolean.FALSE;
-			currentNode.setTocNodeUuid(tocGuid.toString());
-			tocGuid = new StringBuilder();
-			if (!foundMatch) {
-				writeSplitToc(currentNode,false);
+    {    	
+    	if(EBOOK_TOC.equals(qName)){
+    		if (!foundMatch) {
+				writeSplitToc(false);
 			}
 			else{
-				writeSplitToc(currentNode,true);
+				writeSplitToc(true);
 				foundMatch = Boolean.FALSE;
 			}
-		}
-    	if (NAME.equals(qName)) {
-			bufferingText = Boolean.FALSE;
-			currentNode.setText(textBuffer.toString());
-			textBuffer = new StringBuilder();
-		}
+    	}
+    	else if (EBOOK.equals(qName)){
+        		super.endElement(uri, localName, qName);        		
+    	}
     	else{
-
-    		super.endElement(uri, localName, qName);
+    		elementValueMap.put(qName, tmpValue);
+    		tmpValue = new String();
     	}
     	
-    }  
-
-    
+    }    
    
 }

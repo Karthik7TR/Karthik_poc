@@ -57,17 +57,51 @@ public class SplitBookTocParseServiceTest {
 		}*/
 
 		DocumentInfo expectedDocInfo1 = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("title0");
+		expectedDocInfo1.setSplitTitleId("title1");
 
 		DocumentInfo expectedDocInfo2 = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("title1");
+		expectedDocInfo2.setSplitTitleId("title2");
 
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
 		Assert.assertEquals(expectedDocInfo1.toString(), docInfo1.toString());
 		Assert.assertEquals(expectedDocInfo2.toString(), docInfo2.toString());
 	}
+	
+	@Test
+	public void testSplitTocDuplicateDoc() 
+	{			
+		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "</EBook>";
 
+		tocXml = new ByteArrayInputStream(xmlTestStr.getBytes());
+
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title);
+
+		/*System.out.println("-----taskMap---------");
+		for (Map.Entry<String, DocumentInfo> entry : documentInfoMap.entrySet()) {
+			System.out.println(entry.getKey() + "/" + entry.getValue().toString());
+		}*/
+		
+		DocumentInfo expectedDocInfo1 = new DocumentInfo();
+		expectedDocInfo1.setSplitTitleId("title1");
+
+		DocumentInfo expectedDocInfo2 = new DocumentInfo();
+		expectedDocInfo2.setSplitTitleId("title2");
+
+		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
+		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
+		Assert.assertEquals(expectedDocInfo1.toString(), docInfo1.toString());
+		Assert.assertEquals(expectedDocInfo2.toString(), docInfo2.toString());
+		Assert.assertEquals(documentInfoMap.size(), 2);
+	}
+	
+	
 	@Test
 	public void testSplitBookTocNoUUID() throws Exception {
 
