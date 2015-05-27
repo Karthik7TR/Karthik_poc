@@ -22,6 +22,8 @@ import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.SplitBookTocFilter;
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
+import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 
 public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 
@@ -42,14 +44,15 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 			SplitBookTocFilter splitBookTocFilter = new SplitBookTocFilter();
 			splitBookTocFilter.setParent(xmlReader);
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+			props.setProperty("omit-xml-declaration", "yes");
 			Serializer serializer = SerializerFactory.getSerializer(props);
-			serializer.setOutputStream(splitTocXml);
+			serializer.setOutputStream(new EntityDecodedOutputStream(splitTocXml, true));
 
 			splitBookTocFilter.setContentHandler(serializer.asContentHandler());
 			splitBookTocFilter.setSplitTocGuidList(splitTocGuidList);
 			splitBookTocFilter.setTitleBreakText(titleBreakLabel);
 
-			splitBookTocFilter.parse(new InputSource(tocXml));
+			splitBookTocFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
 						
 			return splitBookTocFilter.getDocumentInfoMap();
 
