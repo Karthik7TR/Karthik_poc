@@ -57,10 +57,10 @@ public class SplitBookTocParseServiceTest {
 		}*/
 
 		DocumentInfo expectedDocInfo1 = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("title1");
+		expectedDocInfo1.setSplitTitleId("1");
 
 		DocumentInfo expectedDocInfo2 = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("title2");
+		expectedDocInfo2.setSplitTitleId("2");
 
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -89,10 +89,10 @@ public class SplitBookTocParseServiceTest {
 		}*/
 		
 		DocumentInfo expectedDocInfo1 = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("title1");
+		expectedDocInfo1.setSplitTitleId("1");
 
 		DocumentInfo expectedDocInfo2 = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("title2");
+		expectedDocInfo2.setSplitTitleId("2");
 
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");

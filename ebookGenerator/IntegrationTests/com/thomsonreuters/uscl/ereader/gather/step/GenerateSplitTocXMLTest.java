@@ -25,9 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.SplitBookTocFilter;
 import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseServiceImpl;
-import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseServiceTest;
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
@@ -137,11 +135,11 @@ public class GenerateSplitTocXMLTest {
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
 		expectedDocInfo1.setDocSize(new Long(146));
-		expectedDocInfo1.setSplitTitleId("Title part 3");
+		expectedDocInfo1.setSplitTitleId("3");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
 		expectedDocInfo2.setDocSize(new Long(219));
-		expectedDocInfo2.setSplitTitleId("Title part 1");
+		expectedDocInfo2.setSplitTitleId("1");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("Iff5a81a27c8f11da9de6e47d6d5aa7a5");
 		DocumentInfo docInfo2 = documentInfoMap.get("Iff5a5a9b7c8f11da9de6e47d6d5aa7a5");

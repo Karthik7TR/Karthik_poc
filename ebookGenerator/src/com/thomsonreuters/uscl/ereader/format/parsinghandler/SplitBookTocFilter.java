@@ -148,7 +148,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 			//Adding Document Info
 			if(entry.getKey().equals(DOCUMENT_GUID) ){
 					DocumentInfo documentInfo = new DocumentInfo();
-					documentInfo.setSplitTitleId(titleBreakText+number);
+					documentInfo.setSplitTitleId(""+number);
 					documentInfoMap.put(entry.getValue(),documentInfo);
 			}
 			super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);

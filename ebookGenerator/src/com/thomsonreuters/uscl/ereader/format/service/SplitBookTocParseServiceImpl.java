@@ -44,7 +44,6 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 			SplitBookTocFilter splitBookTocFilter = new SplitBookTocFilter();
 			splitBookTocFilter.setParent(xmlReader);
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-			props.setProperty("omit-xml-declaration", "yes");
 			Serializer serializer = SerializerFactory.getSerializer(props);
 			serializer.setOutputStream(new EntityDecodedOutputStream(splitTocXml, true));
 

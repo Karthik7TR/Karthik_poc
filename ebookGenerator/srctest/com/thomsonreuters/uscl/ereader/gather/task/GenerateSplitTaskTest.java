@@ -116,11 +116,11 @@ public class GenerateSplitTaskTest {
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
 		expectedDocInfo1.setDocSize(new Long(14));
-		expectedDocInfo1.setSplitTitleId("Title part 1");
+		expectedDocInfo1.setSplitTitleId("1");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
 		expectedDocInfo2.setDocSize(new Long(14));
-		expectedDocInfo2.setSplitTitleId("Title part 2");
+		expectedDocInfo2.setSplitTitleId("2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -151,10 +151,10 @@ public class GenerateSplitTaskTest {
 		Map<String, DocumentInfo> documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("Main1");
+		expectedDocInfo1.setSplitTitleId("1");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("Main2");
+		expectedDocInfo2.setSplitTitleId("2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
