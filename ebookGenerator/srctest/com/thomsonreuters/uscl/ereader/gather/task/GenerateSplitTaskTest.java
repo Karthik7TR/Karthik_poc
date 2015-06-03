@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -84,6 +85,23 @@ public class GenerateSplitTaskTest {
 	}
 	
 	@Test
+	public void stringTest()
+	{
+		String s = "er:uscl/an/book_lohisplittoctest28_2/0#I90AD73D079DE11DDB771B1D8BA9725E3/NDFF943C0B65511D8983DF34406B5929B1";
+		
+		System.out.println(" # "+s.indexOf("#"));
+		int i = StringUtils.indexOf(s, "/", s.indexOf("#"));
+		System.out.println(" / "+StringUtils.indexOf(s, "/", s.indexOf("#")));
+		System.out.println(" guid "+s.substring(s.indexOf("#")+1,i));
+		
+		String attsHrefValue = "er:#I90AD73D079DE11DDB771B1D8BA9725E3/NDFF943C0B65511D8983DF34406B5929B1";
+		
+		int indexOfSlash = StringUtils.indexOf(attsHrefValue, "/", attsHrefValue.indexOf("#"));				
+		
+		System.out.println(" guid2 "+StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#") + 1, indexOfSlash) ) ;
+	}
+	
+	@Test
 	public void testSplitTocHappyPath() throws Exception {
 		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
 		File documentFile1 = new File(tranformedDirectory, "DOC_GUID1.transformed");
@@ -95,7 +113,7 @@ public class GenerateSplitTaskTest {
 		
 		String titleBreakLabel = "Title part ";
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
-				tranformedDirectory, jobInstanceId);
+				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 				+ "<EBook><titlebreak>Title part 1</titlebreak>"
@@ -116,11 +134,11 @@ public class GenerateSplitTaskTest {
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
 		expectedDocInfo1.setDocSize(new Long(14));
-		expectedDocInfo1.setSplitTitleId("1");
+		expectedDocInfo1.setSplitTitleId("splitTitle");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
 		expectedDocInfo2.setDocSize(new Long(14));
-		expectedDocInfo2.setSplitTitleId("2");
+		expectedDocInfo2.setSplitTitleId("splitTitle_pt2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -146,15 +164,15 @@ public class GenerateSplitTaskTest {
 	        EasyMock.replay(fileExtFilter);
 	        EasyMock.replay(mockfileHandlingHelper);
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
-				tranformedDirectory, jobInstanceId);
+				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		Map<String, DocumentInfo> documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
 		
 		DocumentInfo expectedDocInfo1  = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("1");
+		expectedDocInfo1.setSplitTitleId("splitTitle");
 		
 		DocumentInfo expectedDocInfo2  = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("2");
+		expectedDocInfo2.setSplitTitleId("splitTitle_pt2");
 		
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");

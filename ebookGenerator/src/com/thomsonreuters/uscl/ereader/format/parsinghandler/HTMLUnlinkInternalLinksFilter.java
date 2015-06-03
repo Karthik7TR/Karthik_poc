@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 
 /**
@@ -97,10 +98,16 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 		if (qName.equalsIgnoreCase("a"))
 		{
 			if (atts != null && atts.getValue("href") != null && 
-					atts.getValue("href").startsWith("er:#") && atts.getValue("href").contains("/"))
+					atts.getValue("href").startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT) && atts.getValue("href").contains("/"))
 			{
 				String guid = currentGuid;
-				String guidList[] = atts.getValue("href").split("/");
+				
+				String attsHrefValue = atts.getValue("href");		
+				//hrefLink value is links without split title 
+				attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX+StringUtils.substring(attsHrefValue,attsHrefValue.indexOf("#") + 1)  ;
+				
+				//Get the string list after # regex '/'
+				String guidList[] = attsHrefValue.split("/");
 
 				if (guidList.length > 1 )
 				{
@@ -112,7 +119,6 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				{
 					nameAnchors =  targetAnchors.get(guid);
 				}
-				String attsHrefValue = atts.getValue("href");
 
 				if ( nameAnchors != null && nameAnchors.contains(attsHrefValue))
 				{

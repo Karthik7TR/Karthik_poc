@@ -33,7 +33,7 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 
 	@Override
 	public Map<String,DocumentInfo> generateSplitBookToc(final InputStream tocXml, final OutputStream splitTocXml,
-			final List<String> splitTocGuidList, final String titleBreakLabel){
+			final List<String> splitTocGuidList, final String titleBreakLabel, final String splitTitleId){
 		try {
 
 			// Obtain a new instance of a SAXParserFactory.
@@ -50,6 +50,7 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 			splitBookTocFilter.setContentHandler(serializer.asContentHandler());
 			splitBookTocFilter.setSplitTocGuidList(splitTocGuidList);
 			splitBookTocFilter.setTitleBreakText(titleBreakLabel);
+			splitBookTocFilter.setSplitTilteId(splitTitleId);
 
 			splitBookTocFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
 						

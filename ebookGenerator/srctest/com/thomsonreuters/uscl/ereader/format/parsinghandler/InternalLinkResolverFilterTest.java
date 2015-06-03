@@ -64,6 +64,8 @@ public class InternalLinkResolverFilterTest
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private File tempDir = null;
+    String version = "1";
+    String docGuid = "dummyDocGuid";
 
     @Before
     public void setUp() throws Exception
@@ -102,7 +104,7 @@ public class InternalLinkResolverFilterTest
         internalLinkResolverTestFile.exists();
 
         internalLinksFilter = new InternalLinkResolverFilter(
-                mockDocumentMetadataAuthority, internalLinkResolverTestFile, mockPaceMetadataService, new Long("1234"));
+                mockDocumentMetadataAuthority, internalLinkResolverTestFile, mockPaceMetadataService, new Long("1234"), docGuid, version);
         internalLinksFilter.setParent(saxParser.getXMLReader());
 
         Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
@@ -151,6 +153,13 @@ public class InternalLinkResolverFilterTest
         Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
         String inputXML =
@@ -160,6 +169,82 @@ public class InternalLinkResolverFilterTest
 
         testHelper(inputXML, expectedResult);
     }
+    
+    @Test
+    public void testSplitDocLink() throws Exception
+    {
+        String resourceUrl =
+            "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
+        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        String linkParameter = urlValues.get("reference");
+        String normalizedCite = urlValues.get("cite");
+        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        Assert.assertEquals(expectedLinkParameter, linkParameter);
+
+        DocMetadata dm = new DocMetadata();
+        dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
+        dm.setSpitBookTitle("us/an/splitBookTitle");
+
+        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        mp.put(normalizedCite, dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitDm.setSpitBookTitle("us/an/splitBookTitle1");
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
+        EasyMock.replay(mockDocumentMetadataAuthority);
+
+        String inputXML =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+        String expectedResult =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:us/an/splitBookTitle/v1#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+
+        testHelper(inputXML, expectedResult);
+    }
+    
+    @Test
+    public void testLinkwithinDoc() throws Exception
+    {
+        String resourceUrl =
+            "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
+        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        String linkParameter = urlValues.get("reference");
+        String normalizedCite = urlValues.get("cite");
+        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        Assert.assertEquals(expectedLinkParameter, linkParameter);
+
+        DocMetadata dm = new DocMetadata();
+        dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
+        dm.setSpitBookTitle("us/an/splitBookTitle");
+
+        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        mp.put(normalizedCite, dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitDm.setSpitBookTitle("us/an/splitBookTitle");
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
+        EasyMock.replay(mockDocumentMetadataAuthority);
+
+        String inputXML =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+        String expectedResult =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+
+        testHelper(inputXML, expectedResult);
+    }
+    
+    
     @Test
     public void testGetLinkParameterwithSpace() throws Exception
     {
@@ -178,8 +263,16 @@ public class InternalLinkResolverFilterTest
         Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
-
+               
         String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546%20&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
         String expectedResult =
@@ -205,6 +298,14 @@ public class InternalLinkResolverFilterTest
         Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
         String inputXML =
@@ -233,6 +334,13 @@ public class InternalLinkResolverFilterTest
         Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
         String inputXML =
@@ -317,6 +425,13 @@ public class InternalLinkResolverFilterTest
         Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
+        DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+        
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
         String inputXML =

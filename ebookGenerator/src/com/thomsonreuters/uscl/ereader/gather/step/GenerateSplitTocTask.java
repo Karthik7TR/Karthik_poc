@@ -66,6 +66,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 				JobExecutionKey.FORMAT_TRANSFORMED_DIR);
 		File transformDir = new File(transformDirectory);
 		String titleBreakLabel = null;
+		String splitTitleId = bookDefinition.getFullyQualifiedTitleId();
 
 		InputStream tocXml = null;
 		OutputStream splitTocXml = null;
@@ -83,7 +84,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 				splitTocGuidList.add(splitDocument.getTocGuid());
 			}
 
-			generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel, transformDir, jobInstanceId);
+			generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel, transformDir, jobInstanceId, splitTitleId);
 			
 			
 
@@ -105,9 +106,9 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 	}
 
 	public void generateAndUpdateSplitToc(InputStream tocXml, OutputStream splitTocXml, List<String> splitTocGuidList,
-			String titleBreakLabel, File transformDir, Long jobInstanceId) throws Exception {
+			String titleBreakLabel, File transformDir, Long jobInstanceId, String splitTitleId) throws Exception {
 		
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel, splitTitleId);
 		
 		if (transformDir == null || !transformDir.isDirectory()) {
 			throw new IllegalArgumentException("transformDir must be a directory, not null or a regular file.");

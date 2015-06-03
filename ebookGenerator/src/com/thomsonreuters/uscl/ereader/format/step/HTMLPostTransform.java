@@ -11,12 +11,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
@@ -53,7 +55,9 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		
 		String titleId = bookDefinition.getTitleId();
 		Long jobId = jobInstance.getId();
+		JobParameters jobParams = getJobParameters(chunkContext);
 
+		String version = jobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 		String transformDirectory = 
 				getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
 		String postTransformDirectory = 
@@ -77,12 +81,13 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
 	    String stepStatus = "Completed";
+	    
 		try {
 			long startTime = System.currentTimeMillis();
 			int numDocsTransformed = 
 					transformerService.transformHTML(transformDir, postTransformDir, staticImgFile, tableViewers, 
 							titleId, jobId, null, docsGuidFile, deDuppingFile, bookDefinition.isInsStyleFlag(), 
-							bookDefinition.isDelStyleFlag(), bookDefinition.isRemoveEditorNoteHeadFlag());
+							bookDefinition.isDelStyleFlag(), bookDefinition.isRemoveEditorNoteHeadFlag(),version);
 			long endTime = System.currentTimeMillis();
 			long elapsedTime = endTime - startTime;
 			

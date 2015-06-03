@@ -44,5 +44,5 @@ public interface HTMLTransformerService {
 	 */
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImg, final List<TableViewer> tableViewers,
 			final String title, final Long jobId, HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, 
-			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading ) throws EBookFormatException;
+			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading, String version) throws EBookFormatException;
 }

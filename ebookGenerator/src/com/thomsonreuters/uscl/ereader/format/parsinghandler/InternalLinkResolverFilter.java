@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
@@ -42,14 +43,15 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private static final Logger LOG = Logger.getLogger(InternalLinkResolverFilter.class);
     private static final String ANCHOR_ELEMENT = "a";
     private static final String HREF = "href";
-    private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
     private static final Long PUB_NOT_PRESENT = Long.MIN_VALUE;
     private DocumentMetadataAuthority documentMetadataAuthority;
     private File docsGuidFile;
     private PaceMetadataService paceMetadataService;
     private Long jobId;
+    private String docGuid;
+    private String version;
 
-    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
+	public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
     {
         if (documentMetadataAuthority == null)
         {
@@ -62,7 +64,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
     public InternalLinkResolverFilter(
         final DocumentMetadataAuthority documentMetadataAuthority, final File docsGuidFile,
-        final PaceMetadataService paceMetadataService, final Long jobId)
+        final PaceMetadataService paceMetadataService, final Long jobId, String docGuid, String version)
     {
         if (documentMetadataAuthority == null)
         {
@@ -74,6 +76,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         this.docsGuidFile = docsGuidFile;
         this.paceMetadataService = paceMetadataService;
         this.jobId = jobId;
+        this.docGuid = docGuid;
+        this.version = version;
     }
 
     @Override
@@ -308,14 +312,24 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         {
             return resolvedAttributes;
         }
-
-        String ebookResourceIdentifier = docMetadata.getProViewId();
+        
+        StringBuffer ebookResourceIdentifier = new StringBuffer();
+        
+        String splitTitleId = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()
+                .get(docGuid).getSplitBookTitle();
+        
+        if (splitTitleId!=null && docMetadata.getSplitBookTitle()!=null && !splitTitleId.equalsIgnoreCase(docMetadata.getSplitBookTitle())){
+        	 ebookResourceIdentifier.append(docMetadata.getSplitBookTitle()+"/v"+version);
+        }
+        
+        ebookResourceIdentifier.append("#");
+        ebookResourceIdentifier.append(docMetadata.getProViewId());
 
         String reference = urlContents.get("reference");
 
         if (StringUtils.isNotEmpty(reference))
         {
-            ebookResourceIdentifier = ebookResourceIdentifier + "/" + reference;
+            ebookResourceIdentifier.append("/" + reference);
         }
         else
         {
@@ -327,12 +341,12 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                     "Could not find TOC guid for " + docMetadata.getDocUuid() + " document.");
             }
 
-            ebookResourceIdentifier = ebookResourceIdentifier + "/" + tocGuid;
+            ebookResourceIdentifier.append("/" + tocGuid);
         }
 
         int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
         resolvedAttributes.setValue(
-            anchorReferenceIndex, PROVIEW_ASSERT_REFERENCE_PREFIX + ebookResourceIdentifier); //add the new value
+            anchorReferenceIndex, FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT + ebookResourceIdentifier); //add the new value
 
         return resolvedAttributes;
     }

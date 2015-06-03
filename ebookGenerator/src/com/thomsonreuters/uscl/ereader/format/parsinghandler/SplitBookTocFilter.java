@@ -34,12 +34,22 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	
 	private int number = 1;
 
+	private String splitTilteId;
 	private String titleBreakText;
 	private StringBuffer tmpValue = new StringBuffer();
 	private Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
 	private Map<String,String>  elementValueMap = new LinkedHashMap<String,String>();
 
 
+	public String getSplitTilteId() {
+		return splitTilteId;
+	}
+
+
+	public void setSplitTilteId(String splitTilteId) {
+		this.splitTilteId = splitTilteId;
+	}
+	
 	public Map<String, DocumentInfo> getDocumentInfoMap() {
 		return documentInfoMap;
 	}
@@ -148,7 +158,12 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 			//Adding Document Info
 			if(entry.getKey().equals(DOCUMENT_GUID) ){
 					DocumentInfo documentInfo = new DocumentInfo();
-					documentInfo.setSplitTitleId(""+number);
+					if (number > 1){
+						documentInfo.setSplitTitleId(splitTilteId+"_pt"+number);
+					}
+					else {
+						documentInfo.setSplitTitleId(splitTilteId);
+					}
 					documentInfoMap.put(entry.getValue(),documentInfo);
 			}
 			super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);

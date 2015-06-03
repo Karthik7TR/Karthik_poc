@@ -117,7 +117,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	@Override
 	public int transformHTML(final File srcDir, final File targetDir, final File staticImgList, final List<TableViewer> tableViewers, 
 			final String title, final Long jobId,HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, 
-			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading) 
+			final File deDuppingFile, boolean isHighlight, boolean isStrikethrough, boolean delEditorNodeHeading, String version) 
 					throws EBookFormatException
 	{
         if (srcDir == null || !srcDir.isDirectory())
@@ -167,7 +167,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		{
 			transformHTMLFile(htmlFile, targetDir, staticImages, tableViewers, copyTableViewers, title, jobId, 
 					documentMetadataAuthority, targetAnchors, docsGuidFile, deDuppingFile, isHighlight, isStrikethrough,
-					delEditorNodeHeading);
+					delEditorNodeHeading, version);
 			numDocs++;
 		}
 		
@@ -209,9 +209,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 	protected void transformHTMLFile(File sourceFile, File targetDir, Set<String> staticImgRef, final List<TableViewer> tableViewers, 
 			List<TableViewer> copyTableViewers, String titleID, Long jobIdentifier, final DocumentMetadataAuthority documentMetadataAuthority, 
 			HashMap<String, HashSet<String>> targetAnchors, final File docsGuidFile, final File deDuppingFile, boolean isHighlight, 
-			boolean isStrikethrough, boolean delEditorNodeHeading) throws EBookFormatException
-	{
-
+			boolean isStrikethrough, boolean delEditorNodeHeading, String version) throws EBookFormatException
+	{		
 		String fileName = sourceFile.getName();
 		String guid = fileName.substring(0, fileName.indexOf("."));
 		FileInputStream inStream = null;
@@ -263,9 +262,18 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 
 			ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
 			piZapperFilter.setParent(imageFilter);
+			if (version.indexOf(".") > 0){
+				version = StringUtils.substring(version, 0, version.indexOf(".") )  ;
+			}
+			else{
+				version = StringUtils.substring(version, 0)  ;
+			}
 			
-			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile, paceMetadataService, jobIdentifier);
+			InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(documentMetadataAuthority, docsGuidFile, paceMetadataService, jobIdentifier, guid, version);
 			internalLinkResolverFilter.setParent(piZapperFilter);
+			
+			
+			
 			
 			HTMLInputFilter inputFilter = new HTMLInputFilter();
 			inputFilter.setParent(internalLinkResolverFilter);

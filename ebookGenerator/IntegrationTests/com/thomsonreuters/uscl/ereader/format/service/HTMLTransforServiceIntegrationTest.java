@@ -68,6 +68,7 @@ public class HTMLTransforServiceIntegrationTest
     File docsGuidFile;
     @Rule
     public TemporaryFolder tempDirectory = new TemporaryFolder();
+    String version = "1";
 
     @Before
     public void setUp()
@@ -255,6 +256,13 @@ public class HTMLTransforServiceIntegrationTest
     	doc7.setTitleId(titleId);
     	docMetaList.add(doc7);
     	
+    	DocMetadata doc8 = new DocMetadata();
+    	doc8.setDocFamilyUuid("123x123456789");
+    	doc8.setDocUuid("NADB029C0880F11D881E9FEF4A4D44D69");
+    	doc8.setJobInstanceId(12345l);
+    	doc8.setTitleId(titleId);
+    	docMetaList.add(doc8);
+    	
     	documentMetadataSet.addAll(docMetaList);
     	
     	    	
@@ -269,7 +277,7 @@ public class HTMLTransforServiceIntegrationTest
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
             novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
-            titleId, jobId, mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
+            titleId, jobId, mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false, version);
 
         String renderedOutput =
             IOUtils.toString(
@@ -303,6 +311,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc.setDocFamilyUuid("123456789");
     	doc.setJobInstanceId(12345l);
     	doc.setTitleId(titleId);
+    	doc.setSpitBookTitle("splitBookTitle");
     	docMetaList.add(doc);
     	    	
     	DocMetadata doc1 = new DocMetadata();
@@ -311,6 +320,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc1.setDocUuid("222222");
     	doc1.setJobInstanceId(12345l);
     	doc1.setTitleId(titleId);
+    	doc1.setSpitBookTitle("splitBookTitle1");
     	docMetaList.add(doc1);
     	
     	
@@ -319,6 +329,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc2.setDocFamilyUuid("x123456789");
     	doc2.setJobInstanceId(12345l);
     	doc2.setTitleId(titleId);
+    	doc2.setSpitBookTitle("splitBookTitle2");
     	docMetaList.add(doc2);
     	
     	DocMetadata doc3 = new DocMetadata();
@@ -326,6 +337,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc3.setDocFamilyUuid("x123456789");
     	doc3.setJobInstanceId(12345l);
     	doc3.setTitleId(titleId);
+    	doc3.setSpitBookTitle("splitBookTitle3");
     	docMetaList.add(doc3);
     	
     	DocMetadata doc4 = new DocMetadata();
@@ -334,6 +346,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc4.setDocUuid("555555");
     	doc4.setJobInstanceId(12345l);
     	doc4.setTitleId(titleId);
+    	doc4.setSpitBookTitle("splitBookTitle4");
     	docMetaList.add(doc4);
     	
     	DocMetadata doc5 = new DocMetadata();
@@ -342,6 +355,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc5.setDocUuid("666666");
     	doc5.setJobInstanceId(12345l);
     	doc5.setTitleId(titleId);
+    	doc5.setSpitBookTitle("splitBookTitle5");
     	docMetaList.add(doc5);
     	
     	DocMetadata doc6 = new DocMetadata();
@@ -350,6 +364,7 @@ public class HTMLTransforServiceIntegrationTest
     	doc6.setDocUuid("777777");
     	doc6.setJobInstanceId(12345l);
     	doc6.setTitleId(titleId);
+    	doc6.setSpitBookTitle("splitBookTitle6");
     	docMetaList.add(doc6);
     	
     	//IF35149D0465911E1AD76A188D0BE1F6D
@@ -359,7 +374,17 @@ public class HTMLTransforServiceIntegrationTest
     	doc7.setDocUuid("IF35149D0465911E1AD76A188D0BE1F6D");
     	doc7.setJobInstanceId(12345l);
     	doc7.setTitleId(titleId);
+    	doc7.setSpitBookTitle("splitBookTitle7");
     	docMetaList.add(doc7);
+    	
+    	DocMetadata doc8 = new DocMetadata();
+    	doc8.setDocFamilyUuid("123x123456789");
+    	doc8.setDocUuid("NADB029C0880F11D881E9FEF4A4D44D69");
+    	doc8.setJobInstanceId(12345l);
+    	doc8.setTitleId(titleId);
+    	doc8.setSpitBookTitle("splitBookTitle8");
+    	docMetaList.add(doc8);
+    	
     	
     	documentMetadataSet.addAll(docMetaList);
     	
@@ -376,7 +401,7 @@ public class HTMLTransforServiceIntegrationTest
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFilename).getFile());
         htmlTransforService.transformHTMLFile(
             novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
-            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
+            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false, version);
 
         String renderedOutput =
             IOUtils.toString(
@@ -572,6 +597,15 @@ public class HTMLTransforServiceIntegrationTest
     	doc12.setJobInstanceId(12345l);
     	doc12.setTitleId(titleId);
     	docMetaList.add(doc12);
+    	
+    	DocMetadata doc13 = new DocMetadata();
+    	doc13.setSerialNumber(new Long(1924122438));
+    	doc13.setDocFamilyUuid("777x123456789");
+    	doc13.setDocUuid("NADB029C0880F11D881E9FEF4A4D44D69");
+    	doc13.setJobInstanceId(12345l);
+    	doc13.setTitleId(titleId);
+    	docMetaList.add(doc13);
+    	
     	    	
     	documentMetadataSet.addAll(docMetaList);
     	
@@ -587,7 +621,7 @@ public class HTMLTransforServiceIntegrationTest
                 HTMLTransforServiceIntegrationTest.class.getResource(novusXmlFileName1).getFile());
         htmlTransforService.transformHTMLFile(
             novusXml, transformedDirectory, staticImages, new ArrayList<TableViewer>(), new ArrayList<TableViewer>(), 
-            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false);
+            titleId, jobId,mockDocumentMetadataAuthority, targetAnchors, docsGuidFile, docsGuidFile, false, false, false, version);
         String renderedOutput =
             IOUtils.toString(
                 new FileInputStream(

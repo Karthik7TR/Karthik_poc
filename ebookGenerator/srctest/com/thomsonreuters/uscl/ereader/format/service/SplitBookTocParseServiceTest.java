@@ -26,6 +26,7 @@ public class SplitBookTocParseServiceTest {
 	private OutputStream splitTocXml;
 	private List<String> splitTocGuidList;
 	private String title = "title";
+	private String splitTitleId = "splitTitle";
 
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -49,7 +50,7 @@ public class SplitBookTocParseServiceTest {
 
 		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
 
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
 
 		/*System.out.println("-----taskMap---------");
 		for (Map.Entry<String, DocumentInfo> entry : documentInfoMap.entrySet()) {
@@ -57,10 +58,10 @@ public class SplitBookTocParseServiceTest {
 		}*/
 
 		DocumentInfo expectedDocInfo1 = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("1");
+		expectedDocInfo1.setSplitTitleId("splitTitle");
 
 		DocumentInfo expectedDocInfo2 = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("2");
+		expectedDocInfo2.setSplitTitleId("splitTitle_pt2");
 
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -81,7 +82,7 @@ public class SplitBookTocParseServiceTest {
 
 		tocXml = new ByteArrayInputStream(xmlTestStr.getBytes());
 
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
 
 		/*System.out.println("-----taskMap---------");
 		for (Map.Entry<String, DocumentInfo> entry : documentInfoMap.entrySet()) {
@@ -89,10 +90,10 @@ public class SplitBookTocParseServiceTest {
 		}*/
 		
 		DocumentInfo expectedDocInfo1 = new DocumentInfo();
-		expectedDocInfo1.setSplitTitleId("1");
+		expectedDocInfo1.setSplitTitleId("splitTitle");
 
 		DocumentInfo expectedDocInfo2 = new DocumentInfo();
-		expectedDocInfo2.setSplitTitleId("2");
+		expectedDocInfo2.setSplitTitleId("splitTitle_pt2");
 
 		DocumentInfo docInfo1 = documentInfoMap.get("DOC_GUID1");
 		DocumentInfo docInfo2 = documentInfoMap.get("DOC_GUID2");
@@ -111,7 +112,7 @@ public class SplitBookTocParseServiceTest {
 				"<EBook><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid></EBookToc><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid></EBookToc></EBook>"
 						.getBytes());
 
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
 
 		Assert.assertEquals(0, documentInfoMap.size());
 	}

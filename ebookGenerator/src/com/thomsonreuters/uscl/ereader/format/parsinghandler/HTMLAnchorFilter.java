@@ -15,6 +15,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
@@ -39,8 +40,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	
 	private long jobInstanceId;
 	
-    private static final String PROVIEW_ASSERT_REFERENCE_PREFIX = "er:#";
-	private HashSet<String> nameAnchors;
+    private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
 	private static final Logger LOG = Logger.getLogger(HTMLAnchorFilter.class);
 
@@ -151,7 +151,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							
 /*							newAtts.addAttribute("", "", "alt", "CDATA", 
 									"Image " + imgEncountered + " within " + firstlineCite + " document.");*/
-							newAtts.addAttribute("", "", "src", "CDATA", PROVIEW_ASSERT_REFERENCE_PREFIX + imgGuid);
+							newAtts.addAttribute("", "", "src", "CDATA", FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX + imgGuid);
 							ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobInstanceId, imgGuid, docGuid);
 							ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
 							
@@ -172,7 +172,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 					{
 						isPDFLink = true;
 						String href = atts.getValue("href");
-						href = href.replace(href.substring(0, href.indexOf("/Link/Document/Blob/") + 20), PROVIEW_ASSERT_REFERENCE_PREFIX);
+						href = href.replace(href.substring(0, href.indexOf("/Link/Document/Blob/") + 20), FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX);
 						href = href.substring(0, href.indexOf(".pdf"));
 						
 						AttributesImpl newAtts = new AttributesImpl();
@@ -198,7 +198,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 						if(attsHrefValue != null && attsHrefValue.startsWith("#"))
 						{
 //                              Change to this format: href=�er:#currentDocFamilyGuid/namedAnchor�
-							attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(1) ;
+							attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(1) ;
 							
 							// Temp fix for sp_pubnumber references from URL builder
 							if( attsHrefValue.contains("_sp_"))
@@ -218,7 +218,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							anchorSet.add(attsHrefValue);
 							targetAnchors.put(currentGuid, anchorSet );	
 						}
-						else if(attsHrefValue != null && attsHrefValue.startsWith(PROVIEW_ASSERT_REFERENCE_PREFIX) )
+						else if(attsHrefValue != null && attsHrefValue.startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT) )
 						{
 							if (!attsHrefValue.contains("/"))
 							{
@@ -227,7 +227,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 										" was changed to er:#"+ currentGuid +"/" +attsHrefValue.substring(4));
 
 //                              Change to this format: href=�er:#currentDocFamilyGuid/namedAnchor�
-								attsHrefValue = PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(4) ;
+								attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX + currentGuid +"/" +attsHrefValue.substring(4) ;
 							}
 							// Temp fix for sp_pubnumber references from URL builder
 							if( attsHrefValue.contains("_sp_"))
@@ -239,14 +239,23 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 							}
 							
 							//                          Add to Target list.	
+							int indexOfSlash = StringUtils.indexOf(attsHrefValue, "/", attsHrefValue.indexOf("#"));				
 							
-							String guidLink = attsHrefValue.substring(4,attsHrefValue.indexOf("/"));
+							String guidLink = StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#") + 1, indexOfSlash)  ;
 							HashSet<String> anchorSet = targetAnchors.get(guidLink);
 							if (anchorSet == null)
 							{
 								anchorSet = new HashSet<String>();
+								
 							}
-							anchorSet.add(attsHrefValue);
+							String removeSplitTitle = "";
+							if (attsHrefValue.startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX)){
+								removeSplitTitle = attsHrefValue;
+							}
+							else{
+								removeSplitTitle = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX+StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#") + 1);
+							}
+							anchorSet.add(removeSplitTitle);
 							targetAnchors.put(guidLink, anchorSet );
 						}
 						
