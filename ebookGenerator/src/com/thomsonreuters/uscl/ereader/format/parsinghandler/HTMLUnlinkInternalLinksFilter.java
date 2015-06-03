@@ -103,8 +103,8 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 				String guid = currentGuid;
 				
 				String attsHrefValue = atts.getValue("href");		
-				//hrefLink value is links without split title 
-				attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX+StringUtils.substring(attsHrefValue,attsHrefValue.indexOf("#") + 1)  ;
+				//hrefLink value without split title 
+				attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT+StringUtils.substring(attsHrefValue,attsHrefValue.indexOf("#"))  ;
 				
 				//Get the string list after # regex '/'
 				String guidList[] = attsHrefValue.split("/");
@@ -136,10 +136,18 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 							}
 						}
 						AttributesImpl newAtts = new AttributesImpl(atts);
-										
-						if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(newAtts.getValue("href")))
+						String newAttsHrefValue = newAtts.getValue("href");	
+						//hrefLink value without split title 
+						String splitTitle = StringUtils.substring(newAttsHrefValue,newAttsHrefValue.indexOf("er:")+3,newAttsHrefValue.indexOf("#")); 
+						newAttsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT+StringUtils.substring(newAttsHrefValue,newAttsHrefValue.indexOf("#"))  ;	
+						
+						if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(newAttsHrefValue))
 						{
 							int indexHrefId = newAtts.getIndex("href");
+							//Add split title to the new link if exists
+							if (splitTitle.length() > 0){
+								attsHrefValue =  FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT+splitTitle+StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#"));
+							}
 							newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
 						}
 						super.startElement(uri, localName, qName, newAtts);
