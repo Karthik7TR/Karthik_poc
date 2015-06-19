@@ -18,10 +18,12 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	private String label;
 	private String startDateStr;
 	private String endDateStr;
-	private boolean isRootNode = false;
 	private String documentGuid;
 	private String nodeType;
 	private List<String> views = new ArrayList<String>();
+	// Default to false.  Will be set to true if element is found
+	private boolean isRootNode = false;
+	private boolean pubTaggedHeadingExists = false;
 	
 	
 	public String getNortGuid() {
@@ -91,6 +93,12 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 		this.nodeType = nodeType;
 	}
 
+	public boolean getPubTaggedHeadingExists() {
+		return pubTaggedHeadingExists;
+	}
+	public void setPubTaggedHeadingExists(boolean pubTaggedHeadingExists) {
+		this.pubTaggedHeadingExists = pubTaggedHeadingExists;
+	}
 	public List<String> getViews() {
 		return views;
 	}

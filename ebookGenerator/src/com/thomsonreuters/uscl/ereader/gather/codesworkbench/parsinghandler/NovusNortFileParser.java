@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -47,6 +48,7 @@ public class NovusNortFileParser extends DefaultHandler {
 	
 	private static final String START_DATE = NORT_PAYLOAD + "/n-start-date"; 
 	private static final String END_DATE = NORT_PAYLOAD + "/n-end-date"; 
+	private static final String PUB_TAGGED_HEADING = NORT_PAYLOAD + "/pub-tagged-heading"; 
 	private static final String DOC_GUID = NORT_PAYLOAD + "/n-doc-guid"; 
 	private static final String RANK = NORT_PAYLOAD + "/n-rank"; 
 	private static final String LABEL = NORT_PAYLOAD + "/n-label/heading";
@@ -139,6 +141,7 @@ public class NovusNortFileParser extends DefaultHandler {
 			case NODE_TYPE:
 			case GRAFT_POINT_FLAG:
 			case N_VIEW:
+			case PUB_TAGGED_HEADING:
 				extractPath = true;
 				break;
 			default:
@@ -166,6 +169,11 @@ public class NovusNortFileParser extends DefaultHandler {
 		        currentNode.setStartDateStr(value);
 	        } else if (currentXpath.equalsIgnoreCase(END_DATE)) {
 		        currentNode.setEndDateStr(value);
+	        } else if (currentXpath.equalsIgnoreCase(PUB_TAGGED_HEADING)) {
+	        	if(StringUtils.isNotBlank(value)) {
+	        		boolean pubTaggedHeadingExists = (value.equalsIgnoreCase("Y") ? true : false);
+		        	currentNode.setPubTaggedHeadingExists(pubTaggedHeadingExists);
+	        	}
 	        } else if (currentXpath.equalsIgnoreCase(DOC_GUID)) {
 	        	currentNode.setDocumentGuid(value);
 	        } else if (currentXpath.equalsIgnoreCase(RANK)) {

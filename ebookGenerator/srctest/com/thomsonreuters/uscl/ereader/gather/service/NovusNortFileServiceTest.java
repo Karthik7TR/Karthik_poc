@@ -39,7 +39,7 @@ public class NovusNortFileServiceTest {
 
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		nortDir = temporaryFolder.newFolder("junit_nortFile");
 		
 		// The object under test

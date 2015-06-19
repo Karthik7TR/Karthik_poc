@@ -63,7 +63,7 @@ public class NortServiceTest {
 
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		this.mockNovusFactory = EasyMock.createMock(NovusFactory.class);
 		this.mockNovus = EasyMock.createMock(Novus.class);
 		this.mockNovusUtility = EasyMock.createMock(NovusUtility.class);		

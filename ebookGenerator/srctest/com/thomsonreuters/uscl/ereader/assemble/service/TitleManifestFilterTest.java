@@ -96,9 +96,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	String onlineexpiration = null;
 	
 
-	
 	@Rule
-	public TemporaryFolder tempDirectory = new TemporaryFolder();
+	public static TemporaryFolder tempDirectory = new TemporaryFolder();
 	File temporaryDirectory;
 	
 	@Before
@@ -110,6 +109,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    calendar.add(Calendar.YEAR, 2);		
 		onlineexpiration = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
 		
+		tempDirectory.create();
 		temporaryDirectory = tempDirectory.newFolder("temp");
 		uuidGenerator = new UuidGenerator();
 		saxParserFactory = SAXParserFactory.newInstance();
@@ -308,7 +308,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
 		
-		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+		mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID1.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_DOC_GUID.html"));
 	    EasyMock.replay(mockFileUtilsFacade);
 		
 		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
@@ -346,8 +346,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
 		
 		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
-		
-		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
+		mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID3.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_FAMILY_GUID.html"));
 	    EasyMock.replay(mockFileUtilsFacade);
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.replay(mockUuidGenerator);
@@ -388,8 +387,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
 		
 
-		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
-	    mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+		mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID3.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_FAMILY_GUID.html"));
+	    mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID1.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_DOC_GUID.html"));
 	    EasyMock.replay(mockFileUtilsFacade);
 		
 		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);
@@ -509,8 +508,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());
 		
 
-		mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID3.html"), new File("temp\\GENERATED_FAMILY_GUID.html"));
-	    mockFileUtilsFacade.copyFile(new File("temp\\DOC_GUID1.html"), new File("temp\\GENERATED_DOC_GUID.html"));
+		mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID3.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_FAMILY_GUID.html"));
+	    mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID1.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_DOC_GUID.html"));
 	    EasyMock.replay(mockFileUtilsFacade);
 		
 		UuidGenerator mockUuidGenerator = EasyMock.createMock(UuidGenerator.class);

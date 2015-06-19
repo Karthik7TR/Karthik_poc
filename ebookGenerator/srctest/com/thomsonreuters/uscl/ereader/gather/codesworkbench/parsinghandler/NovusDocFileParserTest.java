@@ -39,7 +39,7 @@ public class NovusDocFileParserTest {
 	private Integer numberOfDocuments = 0;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		cwbDir = testFiles.newFolder("cwb");
 		docGuidsMap = new HashMap<String, Integer>();
 		docGuidsMap.put("1", 1);

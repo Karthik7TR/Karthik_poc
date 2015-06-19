@@ -46,7 +46,11 @@ public class NortNodeFilter {
 				&& ( node.getChildNodes().size() > 0 || !StringUtils.isEmpty(node.getDocumentGuid()) )){
 			wlNotificationNodes.add(node);
 		}
-		if(node.getChildNodes().size() == 0 && StringUtils.isEmpty(node.getDocumentGuid())) {
+		
+		if(node.getChildNodes().size() == 0  && StringUtils.isEmpty(node.getDocumentGuid()) && !node.getPubTaggedHeadingExists()) {
+			// Remove leaf node that does not contain Document GUID.
+			// Do not remove node if pub-tagged-heading is marked true on node.  
+			// This indicates for blank document to be placed in the book.
 			markedForRemovalNodes.add(node);
 		} else if (node.getChildNodes().size() > 0) {
 			for(RelationshipNode childNode : node.getChildNodes()) {

@@ -37,7 +37,7 @@ public class NovusNortFileParserTest {
 	private NovusNortFileParser parser;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		cwbDir = testFiles.newFolder("cwb");
 		Date date = new Date();
 		parser = new NovusNortFileParser(date);
@@ -131,6 +131,7 @@ public class NovusNortFileParserTest {
 		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(false, root.getPubTaggedHeadingExists());
 		assertEquals(null , root.getParentNortGuid());
 		assertEquals(1.0 , root.getRank());
 
@@ -142,7 +143,7 @@ public class NovusNortFileParserTest {
 		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
 				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
 				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
-				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<n-end-date>20970101235959</n-end-date><pub-tagged-heading>Y</pub-tagged-heading><n-rank>1.0</n-rank><n-label>"
 				+ "<heading>CODE OF FEDERAL REGULATIONS <cite.query>other text</cite.query> ending</heading><a>not here</a><section-heading type=\"statute\">"
 				+ "<section.designator>2308.</section.designator><cite.query w-ref-type=\"VQ\" "
 				+ "w-normalized-cite=\"NB4CA2840AF-F711D8803AE-0632FEDDFBF\" w-pub-number=\"1000546\">Implied warranties</cite.query>"
@@ -166,6 +167,7 @@ public class NovusNortFileParserTest {
 		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(true, root.getPubTaggedHeadingExists());
 		assertEquals(null , root.getParentNortGuid());
 		assertEquals(1.0 , root.getRank());
 
