@@ -39,9 +39,11 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockServi
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService;
 
 @Controller
 public class EditBookDefinitionController {
@@ -52,6 +54,7 @@ public class EditBookDefinitionController {
 	private EBookAuditService auditService;
 	private BookDefinitionLockService bookLockService;
 	private CreateFrontMatterService frontMatterService;
+	private MiscConfigSyncService miscConfigService;
 	protected Validator validator;
 
 	@InitBinder(EditBookDefinitionForm.FORM_NAME)
@@ -130,6 +133,7 @@ public class EditBookDefinitionController {
 				Model model) throws Exception {
 		
 		boolean isPublished = false;
+		boolean disableTitleFromSplit = true;
 		String username = UserUtils.getAuthenticatedUserName();
 		
 		// Lookup the book by its primary key
@@ -161,10 +165,17 @@ public class EditBookDefinitionController {
 			bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
 			
 			isPublished = bookDef.getPublishedOnceFlag();
+			
+			// Lock multivolume splitting for titles already published as single.
+			disableTitleFromSplit = miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit()
+					&& bookDef.isSplitLock();
+			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
 		}
 		
 		form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+		model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
+
 		initializeModel(model, form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
@@ -199,6 +210,7 @@ public class EditBookDefinitionController {
 		setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
 		boolean isPublished = false;
+		boolean disableTitleFromSplit = true;
 		Long bookDefinitionId = form.getBookdefinitionId();
 		String username = UserUtils.getAuthenticatedUserName();
 		
@@ -235,6 +247,11 @@ public class EditBookDefinitionController {
 			}
 
 			isPublished = bookDef.getPublishedOnceFlag();
+			
+			// Lock multivolume splitting for titles already published as single.
+			disableTitleFromSplit = miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit()
+					&& bookDef.isSplitLock();
+			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
 		} else {
 			// Book Definition has been deleted from the database when user saved the book.
 			// Show error page
@@ -260,6 +277,7 @@ public class EditBookDefinitionController {
 		}
 
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
+		model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
 		initializeModel(model, form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);
@@ -427,4 +445,11 @@ public class EditBookDefinitionController {
 	public void setFrontMatterService(CreateFrontMatterService service) {
 		this.frontMatterService = service;
 	}
+	
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService miscConfigService) {
+		this.miscConfigService = miscConfigService;
+	}
+	
+	
 }

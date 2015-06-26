@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 public class MiscConfig {
 	private static Logger log = Logger.getLogger(MiscConfig.class);
 	/** Typesafe representation of the keys used to represent the throttling configuration */
-	public static enum Key { appLogLevel, rootLogLevel, novusEnvironment, proviewHostname };
+	public static enum Key { appLogLevel, rootLogLevel, novusEnvironment, proviewHostname, disableExistingSingleTitleSplit };
 	
 	public static final Level DEFAULT_APP_LOG_LEVEL = Level.INFO;
 	public static final Level DEFAULT_ROOT_LOG_LEVEL = Level.ERROR;
@@ -31,6 +31,7 @@ public class MiscConfig {
 	/** Proview service provider host - needed also as a String field because for the JiBX mapping, InetAddress is not serializable, thus
 	 * two properties to store the same property value so that we can have a serializable String field. */
 	private String proviewHostname;
+	private boolean disableExistingSingleTitleSplit;
 	
 	
 	public MiscConfig() {
@@ -38,6 +39,7 @@ public class MiscConfig {
 		setAppLogLevel(DEFAULT_APP_LOG_LEVEL);
 		setRootLogLevel(DEFAULT_ROOT_LOG_LEVEL);
 		setNovusEnvironment(NovusEnvironment.Client); // Initial default
+		setDisableExistingSingleTitleSplit(true);
 		try {
 			setProviewHost(InetAddress.getLocalHost());
 		} catch (UnknownHostException e) {
@@ -48,8 +50,8 @@ public class MiscConfig {
 	 * Full constructor.
 	 */
 	public MiscConfig(Level appLogLevel, Level rootLogLevel,
-					  NovusEnvironment novusEnv, String proviewHostname) {
-		setAllProperties(appLogLevel, rootLogLevel, novusEnv, proviewHostname);
+					  NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit) {
+		setAllProperties(appLogLevel, rootLogLevel, novusEnv, proviewHostname, disableExistingSingleTitleSplit);
 	}
 
 	/**
@@ -58,15 +60,16 @@ public class MiscConfig {
 	 */
 	public void copy(MiscConfig config) {
 		setAllProperties(config.getAppLogLevel(), config.getRootLogLevel(),
-						 config.getNovusEnvironment(), config.getProviewHostname());
+						 config.getNovusEnvironment(), config.getProviewHostname(), config.getDisableExistingSingleTitleSplit());
 	}
 
 	private synchronized void setAllProperties(Level appLogLevel, Level rootLogLevel,
-											   NovusEnvironment novusEnv, String proviewHostname) {
+											   NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit) {
 		setAppLogLevel(appLogLevel);
 		setRootLogLevel(rootLogLevel);
 		setNovusEnvironment(novusEnv);
 		setProviewHostname(proviewHostname);
+		setDisableExistingSingleTitleSplit(disableExistingSingleTitleSplit);
 	}
 
 	public Level getAppLogLevel() {
@@ -104,6 +107,13 @@ public class MiscConfig {
 	public void setProviewHostname(String hostname) {
 		this.proviewHostname = hostname;
 	}
+	public boolean getDisableExistingSingleTitleSplit() {
+		return disableExistingSingleTitleSplit;
+	}
+	public void setDisableExistingSingleTitleSplit(
+			boolean disableExistingSingleTitleSplit) {
+		this.disableExistingSingleTitleSplit = disableExistingSingleTitleSplit;
+	}
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
@@ -116,6 +126,7 @@ public class MiscConfig {
 				+ ((appLogLevel == null) ? 0 : appLogLevel.hashCode());
 		result = prime * result
 				+ ((rootLogLevel == null) ? 0 : rootLogLevel.hashCode());
+		result = prime * result + (disableExistingSingleTitleSplit ? 1231 : 1237);
 		return result;
 	}
 
@@ -132,6 +143,8 @@ public class MiscConfig {
 			if (other.appLogLevel != null)
 				return false;
 		} else if (!appLogLevel.equals(other.appLogLevel))
+			return false;
+		if (disableExistingSingleTitleSplit != other.disableExistingSingleTitleSplit)
 			return false;
 		if (rootLogLevel == null) {
 			if (other.rootLogLevel != null)

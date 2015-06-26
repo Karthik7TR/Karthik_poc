@@ -40,7 +40,9 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockServi
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
@@ -64,6 +66,7 @@ public class EditBookDefinitionControllerTest {
     private EBookAuditService mockAuditService;
     private BookDefinitionLockService mockLockService;
     private EditBookDefinitionFormValidator validator;
+    private MiscConfigSyncService mockMiscConfigService;
     
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -81,7 +84,8 @@ public class EditBookDefinitionControllerTest {
     	this.mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
     	this.mockJobRequestService = EasyMock.createMock(JobRequestService.class);
     	this.mockAuditService = EasyMock.createMock(EBookAuditService.class);
-    	this.mockLockService = EasyMock.createMock(BookDefinitionLockService.class);    	
+    	this.mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
+    	this.mockMiscConfigService = EasyMock.createMock(MiscConfigSyncService.class);
     	
     	List<String> frontMatterThemes = new ArrayList<String>();
     	frontMatterThemes.add("WestLaw Next");
@@ -95,6 +99,7 @@ public class EditBookDefinitionControllerTest {
     	controller.setJobRequestService(mockJobRequestService);
     	controller.setAuditService(mockAuditService);
     	controller.setBookLockService(mockLockService);
+    	controller.setMiscConfigSyncService(mockMiscConfigService);
     	
     	validator = new EditBookDefinitionFormValidator();
     	validator.setBookDefinitionService(mockBookDefinitionService);
@@ -362,6 +367,12 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
 		EasyMock.replay(mockJobRequestService);
 		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
+		
+		
+		
 		BOOK_DEFINITION_LOCK.setEbookDefinition(book);
 		EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
 		mockLockService.lockBookDefinition(book, null, null);
@@ -388,6 +399,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockJobRequestService);
 		EasyMock.verify(mockEditBookDefinitionService);
 		EasyMock.verify(mockLockService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -534,6 +546,10 @@ public class EditBookDefinitionControllerTest {
     	EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
     	mockLockService.removeLock(book);
 		EasyMock.replay(mockLockService);
+		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
     	
     	DocumentTypeCode code = new DocumentTypeCode();
 		code.setId(Long.parseLong("1"));
@@ -574,6 +590,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
 		EasyMock.verify(mockLockService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -617,6 +634,10 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
 		EasyMock.replay(mockLockService);
 		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
+		
 		setupDropdownMenuAndKeywords(1);
     	
     	ModelAndView mav;
@@ -645,6 +666,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockJobRequestService);
 		EasyMock.verify(mockEditBookDefinitionService);
 		EasyMock.verify(mockLockService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**

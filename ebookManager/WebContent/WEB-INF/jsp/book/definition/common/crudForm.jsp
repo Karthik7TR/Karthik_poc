@@ -147,6 +147,12 @@
 	<c:set var="disableUnderPubPlusRole" value=""/>
 	<c:set var="disableUnderPubPlusRoleButton" value=""/>
 </sec:authorize>
+
+<c:if test="${!disableTitleFromSplit}">
+	<c:set var="disableTitleFromSplit" value="${disableUnderPubPlusRole}"/>
+</c:if>
+
+<form:hidden path="splitLock"/>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
 	<div class="sectionLabel">
@@ -235,6 +241,10 @@
 				<form:hidden path="removeEditorNoteHeading"/>
 				<form:hidden path="delTagStyleEnabled"/>
 				<form:hidden path="insTagStyleEnabled"/>
+			</c:if>
+			<c:if test="${disableTitleFromSplit}">
+				<%-- Hidden fields needed when options are disabled.
+					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="splitBook"/>
 				<form:hidden path="splitTypeAuto"/>
 				<form:hidden path="splitEBookParts"/>
@@ -405,8 +415,8 @@
 			</div>
 			<div class="row">
 				<form:label path="splitBook" class="labelCol">Split book</form:label>
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="true" />True
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="false" />False
+				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="true" />True
+				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="false" />False
 				<div class="errorDiv">
 						<form:errors path="splitBook" cssClass="errorMessage" />
 				</div>
@@ -414,8 +424,8 @@
 			<div id="splitTypeDiv" style="display:none">
 				<div class="row">
 					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>	
-					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="true" />Auto				
-				    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual					
+					<form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="true" />Auto				
+				    <form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="false" />Manual					
 				</div>
 				<div class="errorDiv">
 						<form:errors path="splitTypeAuto" cssClass="errorMessage" />
@@ -423,7 +433,7 @@
 			</div>
 			<div id="ebookSizeDiv" style="display:none">
 				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
-						<form:select  disabled="${disableUnderPubPlusRole}" path="splitEBookParts">
+						<form:select  disabled="${disableTitleFromSplit}" path="splitEBookParts">
 							<form:option value="" label="SELECT" />
 							<c:forEach var="i" begin="2" end="${splitSize}" step="1" varStatus ="status">
 								<form:option label="${i}" value="${i}"/>
@@ -443,14 +453,14 @@
 						<div class="expandingBox">
 							<div class="dynamicRow">
 								<label>TOC/NORT GUID</label>
-								<form:input disabled="${disableUnderPubPlusRole}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+								<form:input disabled="${disableTitleFromSplit}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 								<div class="errorDiv">
 									<form:errors path="splitDocuments[${status.index}].tocGuid" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Note</label>
-								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" />
+								<form:textarea disabled="${disableTitleFromSplit}" path="splitDocuments[${status.index}].note" />
 								<div class="errorDiv">
 									<form:errors  path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
 								</div>								

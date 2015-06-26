@@ -100,6 +100,7 @@ public class EditBookDefinitionForm {
 	private boolean isRemoveEditorNoteHeading;
 	private boolean isSplitBook;
 	private boolean isSplitTypeAuto;
+	private boolean isSplitLock;
 	private Integer splitEBookParts;
 	private Collection<SplitDocument> splitDocuments;
 
@@ -174,6 +175,7 @@ public class EditBookDefinitionForm {
 		this.isDelTagStyleEnabled = false;
 		this.isRemoveEditorNoteHeading = false;
 		this.isSplitBook = false;
+		this.isSplitLock = false;
 		this.isSplitTypeAuto = true;
 		this.splitDocuments = new AutoPopulatingList<SplitDocument>(SplitDocument.class);
 	}
@@ -200,6 +202,7 @@ public class EditBookDefinitionForm {
 		bookDef.setDocumentCurrencies(new AutoPopulatingList<DocumentCurrency>(DocumentCurrency.class));
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		bookDef.setUseReloadContent(false);
+		bookDef.setIsSplitLock(false);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -269,6 +272,7 @@ public class EditBookDefinitionForm {
 			this.isSplitBook = book.isSplitBook();
 			this.isSplitTypeAuto = book.isSplitTypeAuto();
 			this.splitEBookParts = book.getSplitEBookParts();
+			this.isSplitLock = book.isSplitLock();
 			this.fmThemeText = book.getFrontMatterTheme();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
@@ -544,6 +548,7 @@ public class EditBookDefinitionForm {
 		book.setIsSplitBook(isSplitBook);
 		book.setIsSplitTypeAuto(isSplitTypeAuto);
 		book.setSplitEBookParts(splitEBookParts);
+		book.setIsSplitLock(isSplitLock);
 		
 		
 		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
@@ -1172,6 +1177,14 @@ public class EditBookDefinitionForm {
 		this.splitEBookParts = splitEBookParts;
 	}
 	
+
+	public boolean isSplitLock() {
+		return isSplitLock;
+	}
+
+	public void setSplitLock(boolean isSplitLock) {
+		this.isSplitLock = isSplitLock;
+	}
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

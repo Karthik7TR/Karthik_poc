@@ -51,8 +51,12 @@ public class AppConfigServiceImpl implements AppConfigService {
 		if (StringUtils.isBlank(proviewHostname)) {
 			proviewHostname = defaultProviewHostname;
 		}
+		// TODO: clean up once ProView adds notes migration for multivolume books
+		String disableExistingSingleTitleSplitString = getConfigValue(MiscConfig.Key.disableExistingSingleTitleSplit.toString());
+		boolean disableExistingSingleTitleSplit = (StringUtils.isNotBlank(disableExistingSingleTitleSplitString)) ? Boolean.valueOf(disableExistingSingleTitleSplitString) : true;
+
 		MiscConfig config = new MiscConfig(appLogLevel, rootLogLevel,
-								defaultNovusEnvironment, proviewHostname);
+								defaultNovusEnvironment, proviewHostname, disableExistingSingleTitleSplit);
 		return config;
 	}
 
@@ -86,6 +90,8 @@ public class AppConfigServiceImpl implements AppConfigService {
 		param = new AppParameter(MiscConfig.Key.rootLogLevel.toString(), config.getRootLogLevel());
 		dao.save(param);
 		param = new AppParameter(MiscConfig.Key.proviewHostname.toString(), config.getProviewHost().getHostName());
+		dao.save(param);
+		param = new AppParameter(MiscConfig.Key.disableExistingSingleTitleSplit.toString(), config.getDisableExistingSingleTitleSplit());
 		dao.save(param);
 	}	
 	

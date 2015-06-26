@@ -125,7 +125,8 @@
 		p:jobRequestService-ref="jobRequestService"
 		p:auditService-ref="eBookAuditService"
 		p:frontMatterService-ref="createFrontMatterService"
-		p:bookLockService-ref="bookDefintionLockService">
+		p:bookLockService-ref="bookDefintionLockService"
+		p:miscConfigSyncService-ref="miscConfigSyncService">
 		<property name="validator">
 			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator"
 			p:bookDefinitionService-ref="bookDefinitionService" 

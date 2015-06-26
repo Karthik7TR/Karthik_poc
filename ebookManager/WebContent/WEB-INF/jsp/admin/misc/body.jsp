@@ -84,6 +84,13 @@
 		<td>ProView Host:</td>
 		<td><form:input path="proviewHostname" size="48"/></td>
 	</tr>
+	<tr>
+		<td>Disable Split Book for Existing Single Titles:</td>
+		<td>
+			<form:radiobutton path="<%=MiscConfig.Key.disableExistingSingleTitleSplit.toString()%>" label="True" value="<%=Boolean.TRUE%>"/>
+			<form:radiobutton path="<%=MiscConfig.Key.disableExistingSingleTitleSplit.toString()%>" label="False" value="<%=Boolean.FALSE%>"/>
+		</td>
+	</tr>
 	
 	</table>		   
 	

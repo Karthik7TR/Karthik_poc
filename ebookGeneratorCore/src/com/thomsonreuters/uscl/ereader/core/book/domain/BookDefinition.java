@@ -385,6 +385,12 @@ public class BookDefinition implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	Integer splitEBookParts;
 	
+	/**
+	 */
+	@Column(name = "IS_SPLIT_LOCK")
+	@Basic(fetch = FetchType.EAGER)
+	String isSplitLock;
+	
 
 	/**
 	 */
@@ -879,7 +885,15 @@ public class BookDefinition implements Serializable {
 	public void setIsSplitBook(boolean isSplitBook) {
 		this.isSplitBook = ( (isSplitBook) ? "Y" : "N");
 	}
+	
+	public boolean isSplitLock() {
+		return ( (this.isSplitLock.equalsIgnoreCase("Y") ? true : false));
+	}
 
+	public void setIsSplitLock(boolean isSplitLock) {
+		this.isSplitLock = ( (isSplitLock) ? "Y" : "N");
+	}
+	
 	public boolean isSplitTypeAuto() {
 		return ( (this.isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
 	}
@@ -1153,6 +1167,7 @@ public class BookDefinition implements Serializable {
 		this.setIsInsStyleFlag(false);
 		this.setIsDelStyleFlag(false);
 		this.setIsRemoveEditorNoteHeadFlag(false);
+		this.setIsSplitLock(false);
 	}
 
 	/**
@@ -1211,6 +1226,7 @@ public class BookDefinition implements Serializable {
 		setIsDelStyleFlag(that.isDelStyleFlag());
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 		setIsSplitBook(that.isSplitBook());
+		setIsSplitLock(that.isSplitLock());
 	}
 
 	/**
