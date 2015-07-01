@@ -88,6 +88,7 @@ public class WebConstants {
 	public static final String KEY_PAGE_SIZE = "pageSize";
 	public static final String DEFAULT_PAGE_SIZE = "20";
 	public static final String KEY_DISABLE_TITLE_FROM_SPLIT = "disableTitleFromSplit";
+	public static final String KEY_IS_SPLIT_BOOK = "isSplitBook";
 	
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 

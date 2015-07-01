@@ -22,6 +22,8 @@
 	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
 	 var newVersion;
 	 var isMajorVersion;
+	 var isSplitBook = document.getElementById('isSplitBook').innerHTML;
+	 var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
 	 
 	
 	 if (newVersionType == "OVERWRITE"){
@@ -39,6 +41,16 @@
 	 else if (newVersionType == ""){
 		 newVersion = "";
 		 isMajorVersion = "N";
+	 }
+	 
+	 if (newVersion > 1.0 && isSplitBook == "true" && disableTitleFromSplit == "true") {
+		 if(newVersionType == "MAJOR" || newVersionType == "MINOR") {
+			 $("#splitWarning").show();
+		 } else {
+			 $("#splitWarning").hide();
+		 }
+	 } else {
+		 $("#splitWarning").hide();
 	 }
 	 
 	 
@@ -159,28 +171,48 @@
 	}
   
   
-  function confirmValues(){
-	  
-	  var confirmed = checkVersion();
-	 
-	  if (confirmed){
-		    confirmed = checkPublishingCutoffDate();
-			if (confirmed){
+	function checkSplitStatus() {
+
+		var confirmed = true;
+		var isSplitBook = document.getElementById('isSplitBook').innerHTML;
+		var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
+
+		if (isSplitBook == "true" && disableTitleFromSplit == "true") {
+			confirmed = confirm("You are about to generate a split book with minor/major update. ProView notes migration enhancements are still in process.  Be aware customers might lose their annotations and/or notes if the split location(s) has changed from the previous book version.");
+		}
+
+		return confirmed;
+	}
+
+	function confirmValues() {
+
+		var confirmed = checkVersion();
+
+		if (confirmed) {
+			confirmed = checkPublishingCutoffDate();
+			if (confirmed) {
 				confirmed = checkIsbn();
-				if (confirmed){
+				if (confirmed) {
 					confirmed = checkPilotBookStatus();
+					if (confirmed) {
+						confirmed = checkSplitStatus();
+					}
 				}
 			}
-	  }
-	  
-	  return confirmed;
-  }
+		}
+
+		return confirmed;
+	}
   
     
   </script>
   
  <c:choose>
  <c:when test="${book != null}">
+ 
+ 	<div id="splitWarning" class="infoMessageWarning">
+ 		You are about to generate a split book with minor/major update. ProView notes migration enhancements are still in process.  Be aware customers might lose their annotations and/or notes if the split location(s) has changed from the previous book version.
+ 	</div>
  
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
 			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
@@ -282,6 +314,8 @@
 		 	<p id="isbn">${isbn}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
+		  	<p id="isSplitBook">${isSplitBook}</p>
+		  	<p id="disableTitleFromSplit">${disableTitleFromSplit}</p>
 		 </div>	
 		
 		<%-- Informational Messages area --%>

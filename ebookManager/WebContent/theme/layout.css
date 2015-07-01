@@ -782,3 +782,7 @@ div.ui-datepicker{
 #addNortFileLocationHere .moveDown {
 	margin-right:0.2em;
 }
+
+#splitWarning {
+	display: none;
+}

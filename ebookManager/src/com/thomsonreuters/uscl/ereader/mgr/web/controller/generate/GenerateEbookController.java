@@ -31,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -54,6 +55,7 @@ public class GenerateEbookController {
 	private PublishingStatsService publishingStatsService;
 	private ManagerService managerService;
 	private OutageService outageService;
+	private MiscConfigSyncService miscConfigService;
 	private static final String REVIEW_STATUS = "Review";
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
@@ -247,7 +249,9 @@ public class GenerateEbookController {
 					book.getEbookDefinitionCompleteFlag());
 			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
 					book.getPilotBookStatus());
-
+			model.addAttribute(WebConstants.KEY_IS_SPLIT_BOOK, book.isSplitBook());
+			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit());
+			
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
 			setModelIsbn(id, book, model);
@@ -501,5 +505,10 @@ public class GenerateEbookController {
 	@Required
 	public void setOutageService(OutageService service) {
 		this.outageService = service;
+	}
+	
+	@Required
+	public void setMiscConfigSyncService(MiscConfigSyncService miscConfigService) {
+		this.miscConfigService = miscConfigService;
 	}
 }
