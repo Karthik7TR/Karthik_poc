@@ -210,7 +210,7 @@
  <c:choose>
  <c:when test="${book != null}">
  
- 	<div id="splitWarning" class="infoMessageWarning">
+ 	<div id="splitWarning" class="infoMessageWarning" style="display:none">
  		You are about to generate a split book with minor/major update. ProView notes migration enhancements are still in process.  Be aware customers might lose their annotations and/or notes if the split location(s) has changed from the previous book version.
  	</div>
  
