@@ -93,7 +93,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	File altIdDir;
 	
 	String lastupdated = new SimpleDateFormat("yyyyMMdd").format(new Date());
-	String onlineexpiration = null;
+	String onlineexpiration = "29991231";
 	
 
 	@Rule
@@ -106,8 +106,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		// Add 2 years to the current date for online expiration
 	    Calendar calendar = Calendar.getInstance();		
 	    calendar.setTime(new Date());
-	    calendar.add(Calendar.YEAR, 2);		
-		onlineexpiration = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
+	    calendar.add(Calendar.YEAR, 2);
 		
 		tempDirectory.create();
 		temporaryDirectory = tempDirectory.newFolder("temp");
@@ -239,7 +238,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-		Assert.assertTrue(differences.size() == 2); //the only things that should be different between the control file and this run are the last updated date and online expiration  dates.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
@@ -438,7 +437,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-		Assert.assertTrue(differences.size() == 2); //the only thing that should be different between the control file and this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
@@ -455,7 +454,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		System.out.println(diff.getAllDifferences());
 		List<Difference> differences = diff.getAllDifferences();
-		Assert.assertTrue(differences.size() == 2); //the only thing that should be different between the control file and this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
