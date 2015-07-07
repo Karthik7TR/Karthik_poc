@@ -1,0 +1,145 @@
+﻿<?xml version="1.0"?>
+<project name="Cobalt ebookGeneratorCore Developer Ant Build" basedir="." default="main">
+  <property file="ant-global.properties" />
+  <property name="testResultsFolder" location="../TestResults"/>
+
+  <!-- *************************************** 
+          The developerbuild.xml is a high-level driver that calls the same Ant 
+          build/test/etc. scripts that Team Build calls on the CM build machines.
+          
+          The intention of developerbuild.xml is to allow developers the ability to 
+          call the same build process on their local machine as the CM group runs 
+          on the autonomous build machines.
+    
+          The developerbuild.xml can also be added to if you find that locally you'd 
+          like to do additional Tasks.  An example might be to deploy to your 
+          local Tomcat instance or maybe run some tests locally.
+          
+          Note: All the ANT scripts require the "buildextensionroot" environment variable
+                to be set. This variable should point to the location where the common
+                libraries for the cobalt group are stored. Make sure this location and the 
+                library files are according to the pre-requisites laid down by the CM team. 
+	    *************************************** -->
+
+  <!-- ================================= 
+          target: main
+          description: This is the default entry target that will inturn 
+                       call all the other targets.
+         ================================= -->
+  <target name="main" depends="-init, -build, -checkStyle, -findBugs, -codeCoverageInstrumentation, -unitTests, -codeCoverageReporting, -cleanup">
+    <echo message="Developer build has completed!" />
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -init
+          description: Perform all initialization tasks like cleaning up old directories, 
+                       perform some pre compile tasks etc.
+                       
+                       This target is not called by Team Build. It is a local target.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-init">
+    <echo level="debug">Initializing developer build ...</echo>
+
+    <delete dir="..\${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="..\${logs.dir}" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${testResultsFolder}" failonerror="false" includeemptydirs="true"/>
+
+    <mkdir dir="..\${dir.tmpBuildDir}"/>
+    <mkdir dir="..\${logs.dir}"/>
+    <mkdir dir="${testResultsFolder}"/>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -build
+          description: Calls the CM supported CompileAntScript.xml, which is responsible for 
+                       compiling the java project.
+                       
+                       The CompileAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-build">
+    <echo level="info">Compiling the source code and test cases via the CompileAntScript.xml file ...</echo>
+    <ant antfile="CompileAntScript.xml" target="coverage_build" inheritall="false" inheritrefs="false">
+      <property name="IsCoverageBuild" value="true" />
+    </ant>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -findBugs
+          description: Calls the CM supported FindBugsAntScript.xml, which is responsible for 
+                       detecting possible bugs in the code. The external tool "FindBugs"
+                       is used to detect the possible problems.
+                       
+                       The FindBugsAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-findBugs">
+    <echo level="info">Determining the bugs in source code, using FindBugs, via the FindBugsAntScript.xml file ...</echo>
+    <ant antfile="FindBugsAntScript.xml" target="findBugsMain" inheritall="false" inheritrefs="false"/>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -checkStyle
+          description: Calls the CM supported CheckStyleAntScript.xml, which is responsible for 
+                       verifying if the coding standards for the project have been followed. The 
+                       external tool "CheckStyle" is used to verify the source code.
+                       
+                       The CheckStyleAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-checkStyle">
+    <echo level="info">Verifying if the coding standards have been followed ...</echo>
+    <ant antfile="CheckStyleAntScript.xml" target="checkStyleMain" inheritall="false" inheritrefs="false">
+      <property name="log.file" value="CheckStyleLog.xml" />
+    </ant>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -codeCoverageInstrumentation
+          description: Calls the CM supported CoberturaAntScript.xml, which is responsible for 
+                       instrumenting the binaries for code coverage.
+                       
+                       The CoberturaAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-codeCoverageInstrumentation">
+    <echo level="info">Code coverage - Instrumenting the binaries via the CoberturaAntScript.xml file ...</echo>
+    <ant antfile="CoberturaAntScript.xml" target="coverage-instrumentation" inheritall="false" inheritrefs="false"/>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -unitTests
+          description: Calls the CM supported UnitTestAntScript.xml, which is responsible for 
+                       executing the test cases for the project.
+                       
+                       The UnitTestAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-unitTests">
+    <echo level="info">Executing unit test cases via the UnitTestAntScript.xml file ...</echo>
+    <ant antfile="UnitTestAntScript.xml" inheritall="false" inheritrefs="false">
+      <property name="dir.TestResultsFolder" value="${testResultsFolder}" />
+      <property name="log.file" value="MergedTestResults.xml" />
+    </ant>
+  </target>
+
+  <!-- - - - - - - - - - - - - - - - - - 
+          target: -codeCoverageReporting
+          description: Calls the CM supported CoberturaAntScript.xml, which is responsible for 
+                       creating the reports of the code coverage.
+                       
+                       The CoberturaAntScript.xml ANT script is also called by Team Build.
+         - - - - - - - - - - - - - - - - - -->
+  <target name="-codeCoverageReporting">
+    <echo level="info">Code coverage - Generating the code coverage report via the CoberturaAntScript.xml file ...</echo>
+    <ant antfile="CoberturaAntScript.xml" target="coverage-report" inheritall="false" inheritrefs="false">
+    </ant>
+  </target>
+
+  <target name="-cleanup">
+    <echo level="info">Temporary folders are being cleaned up.</echo>
+    <delete dir="..\${dir.binaries}\com" failonerror="false" includeemptydirs="true" />
+    <delete dir="..\${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+    <delete dir="..\${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true" />
+    <delete dir="..\${logs.dir}" failonerror="false" includeemptydirs="true" />
+  	<ant dir="../../ebookGeneratorCore" antfile="ant/CompileAntScript.xml" target="realclean" inheritAll="false"/>
+    <!-- These two folders are hard coded in the CompileAntScript.xml file -->
+    <delete dir="..\standalone" failonerror="false" includeemptydirs="true" />
+    <delete dir="..\dist" failonerror="false" includeemptydirs="true" />
+  </target>
+</project>
