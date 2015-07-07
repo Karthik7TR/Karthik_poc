@@ -20,7 +20,7 @@
  
   function changeNewVersion(versionTypeSelection){
 	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
-	 var newVersion;
+	 var newVersion = "";
 	 var isMajorVersion;
 	 var isSplitBook = document.getElementById('isSplitBook').innerHTML;
 	 var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
@@ -44,11 +44,7 @@
 	 }
 	 
 	 if (newVersion > 1.0 && isSplitBook == "true" && disableTitleFromSplit == "true") {
-		 if(newVersionType == "MAJOR" || newVersionType == "MINOR") {
-			 $("#splitWarning").show();
-		 } else {
-			 $("#splitWarning").hide();
-		 }
+		 $("#splitWarning").show();
 	 } else {
 		 $("#splitWarning").hide();
 	 }
