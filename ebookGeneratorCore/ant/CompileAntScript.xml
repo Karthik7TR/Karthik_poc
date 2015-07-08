@@ -28,7 +28,7 @@
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -compile, -createJar, -compile_unitTests">
+  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -compile_unitTests">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
@@ -37,7 +37,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core, -compile, -compile_unitTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core, -compile_unitTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
