@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Spring Web MVC dispatcher servlet configuration.
+	The DispatcherServlet is the front-controller servlet for Spring MVC framework.
+	It serves to funnel HTTP requests to their correct controller (handler).
+	These are the beans used in configuring the DispatcherServlet servlet as defined in web.xml.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context
+	   					   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	   					   http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- Map inbound REST HTTP request into a POJO -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	    <property name="messageConverters">
+	      <list>
+	      	<!-- These converters are for the HTTP request body XML that needs to be unmarshaled to to object for
+	      		 the controller methods annotated with @RequestBody -->
+	        <ref bean="jobThrottleConfigMessageConverter" />
+	        <ref bean="miscConfigMessageConverter" />
+	        <ref bean="outageMessageConverter" />
+	      </list>
+	    </property>
+	</bean>
+
+	<!-- Used to marshal the object for REST HTTP response body. -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"	
+		  p:order="1"/>
+	
+	<!-- Map logical view name to a physical JSP file located at /WEB-INF/jsp/<viewName>.jsp --> 
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		  p:order="2"
+		  p:prefix="/WEB-INF/jsp/"
+		  p:suffix=".jsp"/>
+
+</beans>

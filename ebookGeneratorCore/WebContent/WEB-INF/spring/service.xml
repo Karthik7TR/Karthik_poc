@@ -1,0 +1,240 @@
+<!-- 
+	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Proprietary and Confidential information of TRGR. Disclosure, Use or
+	Reproduction without the written authorization of TRGR is prohibited
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">      
+	
+
+
+  	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
+  		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
+
+  	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorMiscConfigSyncService"
+  		  p:proviewClient-ref="proviewClient"
+  		  p:httpClientFactory-ref="closeableAuthenticationHttpClientFactory"
+  		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
+  		  
+	<!-- Holds the current (in-memory) application configuration and may be changed on the fly. -->
+	<bean id="engineService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceImpl"
+		  p:environmentName-ref="environmentName"
+		  p:imageService="${image.vertical.context.url}"
+		  p:dbServiceName="${db.service.name}"		  
+		  p:jobRegistry-ref="jobRegistry"
+		  p:jobOperator-ref="jobOperator"
+		  p:jobLauncher-ref="jobLauncher"
+		  p:taskExecutor-ref="springBatchTaskExecutor"
+		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"
+		  />
+		  
+	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"
+		  p:appConfigService-ref="appConfigService"
+		  p:miscConfigSyncService-ref="miscConfigSyncService"
+		  p:jobThrottleConfigSyncService-ref="engineService"
+		  p:outageService-ref="outageService"
+		  p:outageProcessor-ref="outageProcessor"/>
+	         
+	<bean id="xsltMapperService" class="com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceImpl"
+		  p:xsltMapperDao-ref="xsltMapperDao"/>
+		  
+	<bean id="xmlFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.xml</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="xmlFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+		  p:filter-ref="xmlFilter"/>
+		  
+	<bean id="preprocessFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.preprocess</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="preprocessFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+		  p:filter-ref="preprocessFilter"/>
+		  
+	<bean id="transformedFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.transformed</value>
+        </list>
+      </property>
+    </bean>
+    <bean id="transformedFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="transformedFileFilter"/>
+  		  
+	<bean id="postTransformFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.posttransform</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postTransformFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postTransformFileFilter"/>
+
+	<bean id="postAnchorFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.postanchor</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postAnchorFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postAnchorFileFilter"/>
+  		  
+	<bean id="postUnlinkFileFilter" class="com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter">
+  	  <property name="acceptedFileExtensions">
+        <list>
+          <value>.postunlink</value>
+        </list>
+      </property>
+	</bean>
+	<bean id="postUnlinkFileHandlingHelper" class="com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper"
+  		  p:filter-ref="postUnlinkFileFilter"/>
+  		  
+  	<bean id="preprocessService" class="com.thomsonreuters.uscl.ereader.format.service.XMLPreprocessServiceImpl"
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+  		  
+	<bean id="tranformerService" class="com.thomsonreuters.uscl.ereader.format.service.TransformerServiceImpl"
+		  p:docMetadataService-ref="docMetadataService"
+		  p:generateDocumentDataBlockService-ref="generateDocumentDataBlockService"
+		  p:fileHandlingHelper-ref="preprocessFileHandlingHelper"/>
+		  
+	<bean id="generateImgMetaBlockService" class="com.thomsonreuters.uscl.ereader.format.service.GenerateImageMetadataBlockServiceImpl"
+		  p:imgService-ref="imageService"/>
+	
+	<bean id="generateDocumentDataBlockService" class="com.thomsonreuters.uscl.ereader.format.service.GenerateDocumentDataBlockServiceImpl"
+			p:docMetadataService-ref="docMetadataService"/>
+		  
+	<bean id="htmlTransformerService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl"
+		  p:fileHandlingHelper-ref="transformedFileHandlingHelper"
+		  p:imgService-ref="imageService"
+  		  p:docMetadataService-ref="docMetadataService"
+  		  p:paceMetadataService-ref="paceMetadataService"/>
+  		  
+    <bean id="splitBookTocParseService" class="com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseServiceImpl"/>
+  		  
+	<bean id="htmlCreateNamedAnchorsService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLCreateNamedAnchorsServiceImpl"
+		  p:fileHandlingHelper-ref="postTransformFileHandlingHelper"
+  		  p:docMetadataService-ref="docMetadataService"/>  		
+  	<bean id="htmlRemoveBrokenInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksServiceImpl"
+		  p:fileHandlingHelper-ref="postAnchorFileHandlingHelper"
+  		  p:docMetadataService-ref="docMetadataService"  	
+		  p:emailNotification-ref="emailNotification"/>
+		  
+  		  	  
+	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"
+		  p:keyCiteBlockGenerationService-ref="keyCiteBlockGenerationService"
+		  p:fileHandlingHelper-ref="postUnlinkFileHandlingHelper"/>
+	<bean id="xmlImageParserService" class="com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceImpl"
+		  p:fileHandlingHelper-ref="xmlFileHandlingHelper"/>
+	<bean id="titleMetadataAnchorUpdateService" class="com.thomsonreuters.uscl.ereader.format.service.TitleMetadataAnchorUpdateServiceImpl"/>
+	
+	<bean id="titleMetadataService" class="com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl"
+		  p:docMetadataService-ref="docMetadataService"
+		  p:uuidGenerator-ref="uuidGenerator"
+		  p:fileUtilsFacade-ref="fileUtilsFacade"
+		  p:placeholderDocumentService-ref="placeholderDocumentService"/>
+	
+	<bean id="fileUtilsFacade" class="com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl"/>
+	
+	<bean id="uuidGenerator" class="com.thomsonreuters.uscl.ereader.util.UuidGenerator"
+		  p:uuidFactory-ref="uuidFactory"/>
+	<bean id="uuidFactory" class="com.westgroup.publishingservices.uuidgenerator.UUIDFactory"/>
+	
+	<bean id="eBookAssemblyService" class="com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl"/>
+	
+	<bean id="placeholderDocumentService" class="com.thomsonreuters.uscl.ereader.assemble.service.PlaceholderDocumentServiceImpl"
+		p:placeholderDocumentTemplateLocation="classpath:templates/placeholderDocumentTemplate.xml"/>
+
+	<!-- readTimeout: defines the read timeout (ms) for downloading images from the Image Vertical REST service -->
+	<bean id="imageVerticalHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"
+		   p:readTimeout="${image.vertical.read.timeout}"/>
+	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"
+		  p:requestFactory-ref="imageVerticalHttpRequestFactory"/>
+	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
+		  p:singletonRestTemplate-ref="imageJsonRestTemplate"
+		  p:imageVerticalRestServiceUrl="${image.vertical.context.url}"
+		  p:sleepIntervalBetweenImages="500"
+		  p:urlVersion="v1"
+		  p:imageDao-ref="imageDao"
+		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"		  
+		  p:imageServiceMaxRetries="3"
+		  p:imageMetadataServiceMaxRetries="3"
+		  p:missingImageGuidsFileBasename="missing_image_guids.txt"/>		  
+		  
+	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
+			p:docMetadataDAO-ref="docMetaDataDao"/>	
+			
+	<bean id="paceMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl"
+			p:paceMetadataDAO-ref="paceMetaDataDao"/>	
+	
+	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
+			p:publishingStatsDAO-ref="publishingStatsDao"/>			
+
+	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
+		  p:restTemplate-ref="restTemplate"
+		  p:gatherAppContextUrl="${gather.context.url}"/>
+		  
+	<bean id="docMetadataGuidParserService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserServiceImpl"/>
+		  
+	<bean id="jobStartupThrottleService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleServiceImpl">
+		<constructor-arg ref="jobExplorer"/>
+		<constructor-arg ref="jobRepository"/>
+	</bean>		
+			
+  	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
+  		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	
+  		  
+  	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
+  		  p:codeDao-ref="codeDao"/>
+    <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
+  	      p:hostname="${mud.domain}" 
+  	      p:rs="${mud.parameter.rs}"
+  	      p:vr="${mud.parameter.vr}"/>
+  	<bean class="com.thomsonreuters.uscl.ereader.format.links.CiteQueryAdapter" 
+  	      p:hostname="${mud.domain}" 
+  	      p:rs="${mud.parameter.rs}"
+  	      p:vr="${mud.parameter.vr}"/>
+  	      
+  	 <bean id="keyCiteBlockGenerationService" class="com.thomsonreuters.uscl.ereader.format.service.KeyCiteBlockGenerationServiceImpl"
+		  p:docMetadataService-ref="docMetadataService"
+		  p:hostname="${mud.domain}" 
+  	      p:mudparamrs="${mud.parameter.rs}"
+  	      p:mudparamvr="${mud.parameter.vr}"/>
+
+	<bean id="userPreferenceService" class="com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl"
+		  p:userPreferenceDao-ref="userPreferenceDao"/>
+		 
+	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
+		  p:outageDao-ref="outageDao"/>
+	
+	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.core.service.CoreServiceImpl"
+		  p:userPreferenceService-ref="userPreferenceService"
+		  p:groupEmailAddress="${job.owner.email.group}"/>
+
+	<bean id="outageProcessor" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorImpl"
+		  p:outageService-ref="outageService"
+		  p:userPreferenceService-ref="userPreferenceService"
+		  p:coreService-ref="coreService"/>
+		  
+	<bean id="novusNortFileService" class="com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileServiceImpl" />
+	<bean id="novusDocFileService" class="com.thomsonreuters.uscl.ereader.gather.service.NovusDocFileServiceImpl" />
+		  
+</beans>

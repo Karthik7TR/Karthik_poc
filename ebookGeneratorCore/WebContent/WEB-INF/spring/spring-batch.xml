@@ -1,0 +1,57 @@
+<beans  
+     xmlns="http://www.springframework.org/schema/beans"
+     xmlns:batch="http://www.springframework.org/schema/batch"
+     xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+	
+	
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"
+                    p:dataSource-ref="dataSource"
+                    p:tablePrefix="${spring.batch.table.prefix}"
+                    p:lobHandler-ref="oracleLobHandler"
+                    p:transactionManager-ref="transactionManager"
+                    p:maxVarCharLength="2400"/>
+
+	<!-- Map of job names to Job objects - the actual job definitions containing steps.  Used for restart logic. -->	  
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
+	<!-- This is a bean post-processor that can register all jobs as they are created. -->
+	<bean id="jobRegistryBeanPostProcessor" class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor"
+		  p:jobRegistry-ref="jobRegistry"/>
+
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
+		  p:dataSource-ref="dataSource"
+		  p:tablePrefix="${spring.batch.table.prefix}"/>
+
+	<!-- The task executor corePoolSize is the max # of thread's that will run concurrently before the task
+	     will be placed into the blocking queue.
+		 Also note that the DB connection pool maxActive parameter should be greater than the corePoolSize (like twice) since
+		 each Spring Batch job itself takes up one pooled connection.
+		 The corePoolSize supplied here is just an initial default and
+		 is dynamically changed once the job throttle configuration is loaded from the database. -->
+	<bean id="springBatchTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+		  p:corePoolSize="1"/>
+	
+	<!-- Job start scheduler, make sure this follows setup of the spring batch task executor since the 
+		 core thread pool size is dynamically set in the throttle config loader -->
+	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.JobRunQueuePoller"
+		  p:engineService-ref="engineService"
+		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
+		  p:outageProcessor-ref="outageProcessor"
+	  	  p:jobRequestService-ref="jobRequestService"
+	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"/>
+
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">
+	</bean>
+
+	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator"
+		  p:jobExplorer-ref="jobExplorer"
+		  p:jobRepository-ref="jobRepository"
+		  p:jobRegistry-ref="jobRegistry"
+		  p:jobLauncher-ref="jobLauncher"/>	
+</beans>

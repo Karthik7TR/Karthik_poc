@@ -1,0 +1,275 @@
+<beans:beans xmlns="http://www.springframework.org/schema/batch" 
+     xmlns:beans="http://www.springframework.org/schema/beans"
+     xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+ 
+	<job id="ebookGeneratorJob">
+		<step id="initializeJob">
+			<tasklet ref="initializeTask"/>
+			<next on="COMPLETED" to="decision"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<decision id="decision" decider="NovusOrFileDecider">
+			<next on="NAS_FILE" to="generateToc" />
+			<next on="NOVUS" to="getToc" />
+		</decision>
+		
+		<!-- Fetch TOC from Gather REST service -->
+		<step id="getToc">
+			<tasklet ref="getTocTask"/>
+			<next on="COMPLETED" to="getDocAndMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Fetch document(s) and their metadata from Gather REST service using TOC info from previous step -->
+		<step id="getDocAndMetadata">
+			<tasklet ref="getDocAndMetadataTask"/>
+			<next on="COMPLETED" to="persistMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Generate TOC from Codes Workbench NORT file -->
+		<step id="generateToc">
+			<tasklet ref="generateTocTask"/>
+			<next on="COMPLETED" to="generateDocAndMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Generate document(s) and their metadata from Codes Workbench DOC file using TOC info from previous step -->
+		<step id="generateDocAndMetadata">
+			<tasklet ref="generateDocAndMetadataTask"/>
+			<next on="COMPLETED" to="persistMetadata"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Parse and Persist meta data obtained from Gather step -->
+		<step id="persistMetadata">
+			<tasklet ref="persistDocMetadataTask"/>
+			<next on="COMPLETED" to="parseImageGuids"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Parses out all referenced image guids and generates a static file used to download images -->
+		<step id="parseImageGuids">
+			<tasklet ref="parseImageGuidsTask"/>
+			<next on="COMPLETED" to="getDynamicImages"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Fetch images from Image Vertical REST service -->
+		<step id="getDynamicImages">
+			<tasklet ref="getDynamicImagesTask"/>
+			<next on="COMPLETED" to="generateFrontMatterHTML"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Format the XML documents -->
+		<step id="generateFrontMatterHTML">
+			<tasklet ref="generateFrontMatterTask"/>
+			<next on="COMPLETED" to="generateImageMetadataFiles"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="generateImageMetadataFiles">
+			<tasklet ref="generateImageMetadataTask"/>
+			<next on="COMPLETED" to="formatPreprocessXML"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="formatPreprocessXML">
+			<tasklet ref="formatPreprocessXMLTask"/>
+			<next on="COMPLETED" to="formatTransformXML"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="formatTransformXML">
+			<tasklet ref="formatTransformXMLTask"/>
+			<next on="COMPLETED" to="splitDecision"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<decision id="splitDecision" decider="splitBookDecider">
+			<next on="SPLIT_BOOK" to="generateSplitToc" />
+			<next on="SINGLE_BOOK" to="formatHTMLTransformer" />
+		</decision>
+		
+		<step id="generateSplitToc">
+			<tasklet ref="generateSplitTocTask"/>
+			<next on="COMPLETED" to="formatHTMLTransformer"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Cleanup or modify any HTML elements that need to be changed for ProView -->
+		<step id="formatHTMLTransformer">
+			<tasklet ref="formatHTMLTransformerTask"/>
+			<next on="COMPLETED" to="formatHTMLCreateNamedAnchors"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Add missing HTML anchor elements for ProView internal linking -->
+        <step id="formatHTMLCreateNamedAnchors">
+                  <tasklet ref="formatHTMLCreateNamedAnchorsTask"/>
+                  <next on="COMPLETED" to="formatHTMLRemoveBrokenInternalLinks"/>
+                  <fail on="FAILED"/>
+        </step>
+        
+		<!-- Remove HTML anchor elements for broken anchors for ProView internal linking -->
+        <step id="formatHTMLRemoveBrokenInternalLinks">
+                  <tasklet ref="formatHTMLRemoveBrokenInternalLinksTask"/>
+                  <next on="COMPLETED" to="formatAddHTMLWrapper"/>
+                  <fail on="FAILED"/>
+        </step>		
+		
+		<!-- Wrap HTML in required HTML header and footer -->
+		<step id="formatAddHTMLWrapper">
+			<tasklet ref="formatAddHTMLWrapperTask"/>
+			<next on="COMPLETED" to="getStaticImages"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Fetch static images from a pre-existing filesystem directory tree -->
+		<step id="getStaticImages">
+			<tasklet ref="getStaticImagesTask"/>
+			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Assemble the title -->
+		<step id="moveResourcesToAssemblyDirectory">
+			<tasklet ref="moveResourcesToAssemblyDirectoryTask"/>
+			<next on="COMPLETED" to="generateTitleManifest"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="generateTitleManifest">
+			<tasklet ref="generateTitleManifestTask"/>
+			<next on="COMPLETED" to="assembleEBook"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<step id="assembleEBook">
+			<tasklet ref="assembleEBookTask"/>
+			<next on="COMPLETED" to="deliverEBook"/>
+			<fail on="FAILED"/>
+		</step>
+
+		<!-- Deliver the title to ProView -->
+		<step id="deliverEBook">
+			<tasklet ref="deliverEBookTask"/>
+			<fail on="FAILED"/>
+			<next on="COMPLETED" to="archiveBook"/>
+		</step>
+
+		<!-- Production only: archive the last book created -->
+		<step id="archiveBook">
+			<tasklet ref="archiveBookTask"/>
+			<fail on="FAILED"/>
+			<next on="COMPLETED" to="sendEmailNotification"/>
+		</step>
+
+		<step id="sendEmailNotification">
+			<tasklet ref="sendNotificationTask"/>
+			<fail on="FAILED"/>
+			<end on="COMPLETED"/>
+		</step>
+	</job>
+	
+	<!-- Define each task here -->
+	<beans:bean id="parentTask" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
+			    p:coreService-ref="coreService"
+				p:outageProcessor-ref="outageProcessor"/>
+	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="parentTask"/>
+	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="parentTask"
+				p:environmentName-ref="environmentName"
+				p:rootWorkDirectory="${root.work.directory}"
+				p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:ebookAuditService-ref="eBookAuditService"
+				p:bookDefnService-ref="bookDefinitionService"/>
+	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
+	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="parentTask"
+				p:gatherService-ref="gatherService"
+				p:publishingStatsService-ref="publishingStatsService"/>				
+	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="parentTask"
+				p:gatherService-ref="gatherService"
+				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="generateTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="parentTask"
+				p:novusNortFileService-ref="novusNortFileService"
+				p:publishingStatsService-ref="publishingStatsService"/>				
+	<beans:bean id="generateDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="parentTask"
+				p:novusDocFileService-ref="novusDocFileService"
+				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="parentTask"
+				p:docMetadataService-ref="docMetadataService"		
+				p:publishingStatsService-ref="publishingStatsService"/>							
+	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask" parent="parentTask"
+				p:imageService-ref="imageService"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" parent="parentTask"
+	            p:publishingStatsService-ref="publishingStatsService"
+				p:imageService-ref="imageService"/>
+	<beans:bean id="parseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:xmlImageParserService-ref="xmlImageParserService"/>
+	<beans:bean id="generateFrontMatterTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateFrontMatterHTMLPages" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:frontMatterService-ref="createFrontMatterService"/>
+	<beans:bean id="generateImageMetadataTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateImageMetadataFiles" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:imgMetaBlockService-ref="generateImgMetaBlockService"/>
+	<beans:bean id="formatPreprocessXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.PreprocessXML" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:preprocessService-ref="preprocessService"/>
+	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:transformerService-ref="tranformerService"/>
+				
+	<beans:bean id="splitBookDecider" class="com.thomsonreuters.uscl.ereader.decider.SplitBookDecider"/>
+	<beans:bean id="generateSplitTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateSplitTocTask" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:splitBookTocParseService-ref="splitBookTocParseService"
+				p:fileHandlingHelper-ref="transformedFileHandlingHelper"
+				p:docMetadataService-ref="docMetadataService"/>  
+							
+	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:transformerService-ref="htmlTransformerService"/>
+				
+	<beans:bean id="formatHTMLCreateNamedAnchorsTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchors" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsService"/>
+	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
+				
+	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="parentTask"
+				p:htmlWrapperService-ref="htmlWrapperService"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="parentTask"
+	            p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="parentTask"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:titleMetadataService-ref="titleMetadataService"/>						
+	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" parent="parentTask"
+				p:eBookAssemblyService-ref="eBookAssemblyService"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="parentTask" 
+				p:proviewClient-ref="proviewClient"
+				p:publishingStatsService-ref="publishingStatsService"/>
+	<beans:bean id="archiveBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.ArchiveBook" parent="parentTask"
+				p:environmentName-ref="environmentName"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:archiveBaseDirectory="${root.work.directory}/archive"/>
+
+	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
+	            p:publishingStatsService-ref="publishingStatsService" />							
+
+</beans:beans>

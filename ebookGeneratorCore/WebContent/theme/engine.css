@@ -1,0 +1,20 @@
+
+.arialFont12 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12;
+}
+.arialFont18 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18;
+}
+.arialFont20 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20;
+}
+.colorRed {
+	color: red;
+}
+.mesgBox { 
+	background-color: yellow;
+	padding: 5;
+}

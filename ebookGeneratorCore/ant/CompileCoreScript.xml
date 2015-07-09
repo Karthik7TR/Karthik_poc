@@ -6,9 +6,6 @@
   <property name="DisplayCopiedFilesInWar" value="true"/>
   <property name="warFilename" value="eBookGeneratorCore.war"/>
 
-  <!-- Context.xml file -->
-  <property name="context.xml.dir" value="deploy"/>
-	
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
@@ -91,7 +88,7 @@
   		description: Compile helper project
 	- - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
-    <ant antfile="CompileAntScript.xml" target="normal_build" inheritAll="false"/>
+    <ant antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
 	  <copy file="dist/ebookGeneratorCore.jar" todir="${dir.tmpBuildDir}/WEB-INF/lib"/>
 
     <!-- copy core lib jars-->
@@ -188,14 +185,6 @@
       <classes file="${dir.source}/messages.properties"/>  		
       <classes file="${dir.source}/log4j.xml"/>  
     </war>
-		
-    <!-- copy context files to dir.binaries -->
-    <copy todir="${dir.binaries}">
-      <fileset dir="${context.xml.dir}">
-        <include name="**/*.xml"/>
-      </fileset>	    	
-    </copy>
-	
  
   </target>
 </project>
