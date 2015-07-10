@@ -6,6 +6,9 @@
   <property name="DisplayCopiedFilesInWar" value="true"/>
   <property name="warFilename" value="eBookGeneratorCore.war"/>
 
+  <!-- Context.xml file -->
+  <property name="context.xml.dir" value="deploy"/>
+
   <!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
@@ -185,6 +188,13 @@
       <classes file="${dir.source}/messages.properties"/>  		
       <classes file="${dir.source}/log4j.xml"/>  
     </war>
- 
+
+    <!-- copy context files to dir.binaries -->
+    <copy todir="${dir.binaries}">
+      <fileset dir="${context.xml.dir}">
+        <include name="**/*.xml"/>
+      </fileset>
+    </copy>
+    
   </target>
 </project>
