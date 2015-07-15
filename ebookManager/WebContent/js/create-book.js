@@ -1,13 +1,13 @@
 $(function() {
 	$(document).ready(function() {
 		// Declare Global Variables
-		var authorIndex = $("#numberOfAuthors").val();
-		var frontMatterPageIndex = $("#numberOfFrontMatters").val();
-		var excludeDocumentIndex = $("#numberOfExcludeDocuments").val();
-		var renameTocEntryIndex = $("#numberOfRenameTocEntries").val();
-		var tableViewerIndex = $("#numberOfTableViewers").val();
-		var documentCopyrightIndex = $("#numberOfDocumentCopyrights").val();
-		var documentCurrencyIndex = $("#numberOfDocumentCurrencies").val();		
+		var authorIndex = parseInt($("#numberOfAuthors").val());
+		var frontMatterPageIndex = parseInt($("#numberOfFrontMatters").val());
+		var excludeDocumentIndex = parseInt($("#numberOfExcludeDocuments").val());
+		var renameTocEntryIndex = parseInt($("#numberOfRenameTocEntries").val());
+		var tableViewerIndex = parseInt($("#numberOfTableViewers").val());
+		var documentCopyrightIndex = parseInt($("#numberOfDocumentCopyrights").val());
+		var documentCurrencyIndex = parseInt($("#numberOfDocumentCurrencies").val());		
 		var contentType = "";
 		var publisher = "";
 		var state = "";
@@ -16,7 +16,7 @@ $(function() {
 		var pubInfo = "";
 		var jurisdiction = "";
 		var productCode = "";	
-		var splitDocumentIndex =  $("#numberOfSplitDocuments").val();	
+		var splitDocumentIndex =  parseInt($("#numberOfSplitDocuments").val());	
 		var isSplitTypeAuto = true;
 		var splitSize ="";
 		
