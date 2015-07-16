@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Vertical>
-  <BuildNumber>0.0.0</BuildNumber>
-  <!-- Update this value when you change the Vertical API. The Vertical API is used to determine what features you support.-->
-  <VerticalAPI>1.0.0</VerticalAPI>
-</Vertical>
