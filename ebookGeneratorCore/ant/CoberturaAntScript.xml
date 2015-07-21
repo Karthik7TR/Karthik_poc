@@ -50,8 +50,8 @@
     <echo level="verbose">Instrumenting the compiled binaries in folder - '${dir.binaries}' ...</echo>
     <cobertura-instrument todir="${cobertura.instrumentedPath}"
                           datafile="${cobertura.data.file}">
-      <fileset dir="${dir.tmpBuildDir}/WEB-INF/classes" casesensitive="false">
-      <!--<fileset dir="${dir.binaries}" casesensitive="false">-->
+      <!-- <fileset dir="${dir.tmpBuildDir}/WEB-INF/classes" casesensitive="false">-->
+      <fileset dir="${dir.binaries}" casesensitive="false">
         <include name="**/*.class"/>
       </fileset>
     </cobertura-instrument>
