@@ -37,7 +37,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core, -compile_unitTests">
+  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-core, -createJar, -compile_unitTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
