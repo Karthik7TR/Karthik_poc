@@ -54,7 +54,8 @@
       <!--<fileset dir="${dir.binaries}" casesensitive="false">-->
         <include name="**/*.class"/>
     	<exclude name="**/*Test*.class"/>
-    	<exclude name="**/domain/*.class"/> </fileset>
+    	<exclude name="**/domain/*.class"/>
+    </fileset>
     </cobertura-instrument>
   </target>
 
