@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.proview;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -24,6 +25,9 @@ public class TocEntry implements TocNode {
 	protected List<TocNode> children = new ArrayList<TocNode>();
 	protected TocNode parent;
 	private int depth;
+	protected String splitTitle; 
+	protected String titleBreakString;
+	
 
 	public TocEntry(int depth){
 		this.depth = depth;
@@ -37,7 +41,28 @@ public class TocEntry implements TocNode {
 	}
 		
 	public String getAnchorReference() {
+		if (!StringUtils.isBlank(splitTitle)) {
+			return (docGuid != null) ? splitTitle + "#" + docGuid + SOLIDUS + tocGuid : splitTitle + "#" + tocGuid;
+		}
 		return (docGuid != null) ? docGuid + SOLIDUS + tocGuid : tocGuid;
+	}
+	
+
+	public String getSplitTitle() {
+		return splitTitle;
+	}
+
+	public void setSplitTitle(String splitTitle) {
+		this.splitTitle = splitTitle;
+	}
+	
+
+	public String getTitleBreakString() {
+		return titleBreakString;
+	}
+
+	public void setTitleBreakString(String titleBreakString) {
+		this.titleBreakString = titleBreakString;
 	}
 
 	public String getText() {

@@ -34,9 +34,9 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
 		titleMetadata.setCopyright("The High Seas Trading Company.");
 		titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
-		Doc pirates = new Doc("1", "pirates.htm");
-		Doc scallywags = new Doc("2", "scallywags.htm");
-		Doc landlubbers = new Doc("3", "landlubbers.htm");
+		Doc pirates = new Doc("1", "pirates.htm", 0,null);
+		Doc scallywags = new Doc("2", "scallywags.htm", 0,null);
+		Doc landlubbers = new Doc("3", "landlubbers.htm", 0,null);
 		ArrayList<Doc> documents = new ArrayList<Doc>();
 		documents.add(pirates);
 		documents.add(scallywags);
@@ -87,9 +87,9 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		titleMetadata.setCopyright("The High Seas Trading Company.");
 		titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
 		titleMetadata.setIsPilotBook(true);
-		Doc pirates = new Doc("1", "pirates.htm");
-		Doc scallywags = new Doc("2", "scallywags.htm");
-		Doc landlubbers = new Doc("3", "landlubbers.htm");
+		Doc pirates = new Doc("1", "pirates.htm", 0,null);
+		Doc scallywags = new Doc("2", "scallywags.htm", 0,null);
+		Doc landlubbers = new Doc("3", "landlubbers.htm", 0,null);
 		ArrayList<Doc> documents = new ArrayList<Doc>();
 		documents.add(pirates);
 		documents.add(scallywags);

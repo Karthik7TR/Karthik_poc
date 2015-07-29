@@ -5,11 +5,9 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,7 +140,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ALT_ID_ATTRIBUTE = "altid";
 	
 	
-	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService, final File altIdFile) {
+	public TitleManifestFilter(final TitleMetadata titleMetadata, final Map<String, String> familyGuidMap, final UuidGenerator uuidGenerator, final File documentsDirectory, final FileUtilsFacade fileUtilsFacade, final PlaceholderDocumentService placeholderDocumentService, final Map<String,String> altIdMap) {
 		if (titleMetadata == null) {
 			throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
 		}
@@ -174,56 +172,11 @@ class TitleManifestFilter extends XMLFilterImpl {
 				
 		if (titleMetadata.getIsPilotBook())
 		{
-			this.altIdMap = getAltIdMap(altIdFile);			
+			this.altIdMap = altIdMap;			
 		}
 	}
 	
 	
-	/**
-	 * @param fileName contains altId for corresponding Guid
-	 * @return a map  (Guid as a Key and altId as a Value) 
-	 */
-	private Map<String,String> getAltIdMap(final File altIdFile) 
-	{
-		Map<String,String> altIdMap = new HashMap<String,String>();
-		String line = null; 
-		BufferedReader stream = null;     
-		try 
-		{         
-		   stream = new BufferedReader(new FileReader(altIdFile));        
-		   while ((line = stream.readLine()) != null) 
-		   {             
-			 String[] splitted = line.split(",");
-			 if (splitted.length >= 2) {
-			 if (splitted[1].contains("/"))
-			 {
-				 splitted[1] = splitted[1].split("/")[0];
-			 }
-			 altIdMap.put(splitted[1], splitted[0]);       
-		   }
-		   }
-		} 
-		catch (IOException iox)
-		{
-		   throw new RuntimeException("Unable to find File : " + altIdFile.getAbsolutePath() + " " + iox);
-		}
-		finally 
-		{         
-		  if (stream != null)
-		  {
-		    try 
-		    {
-		       stream.close();
-		    }
-		    catch (IOException e) {
-				throw new RuntimeException("An IOException occurred while closing a file ", e);
-			}
-		  }
-		} 
-	
-		return altIdMap;
-	}
-
 	/**
 	 * Responsible for validating the title metadata is complete prior to generating the manifest.
 	 * @param metadata the title metadata.
@@ -304,7 +257,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		parentNode.addChild(currentNode);
 		previousDepth = currentDepth;
 		previousNode = currentNode;
-		orderedDocuments.add(new Doc(guidBase, guidBase+HTML_EXTENSION));
+		orderedDocuments.add(new Doc(guidBase, guidBase+HTML_EXTENSION, 0, null));
 		nodesContainingDocuments.add(currentNode);  
 	}
 	
@@ -345,7 +298,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 				cascadeAnchors();
 				List<String> anchors = getAnchorsToBeGenerated(currentNode);
 				placeholderDocumentService.generatePlaceholderDocument(new EntityDecodedOutputStream(missingDocumentOutputStream), currentNode.getText(), currentNode.getTocGuid(), anchors);
-				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename));
+				orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename, 0, null));
 				nodesContainingDocuments.add(currentNode);  //need to cascade anchors into placeholder document text.
 			}
 			catch (FileNotFoundException e) {
@@ -428,7 +381,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 			LOG.debug("encountered a duplicate uuid [" + docGuid.toString() + "]. Generating a new uuid [" + uniqueGuid + "] and copying the HTML file.");
 			uniqueDocumentIds.add(uniqueGuid);
 			copyHtmlDocument(documentGuid, uniqueGuid); //copy and rename the html file identified by the GUID listed in the gathered toc.
-			orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION));
+			orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION, 0, null));
 			currentNode.setDocumentUuid(uniqueGuid);
 		}
 		else {
@@ -439,11 +392,11 @@ class TitleManifestFilter extends XMLFilterImpl {
 				if (uniqueFamilyGuids.contains(familyGuid)) { //Have we already come across this family GUID?
 					LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
 					familyGuid = uuidGenerator.generateUuid();
-					orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION));
+					orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION, 0, null));
 					copyHtmlDocument(documentGuid, familyGuid);
 				}
 				else {
-					orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION));
+					orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION, 0, null));
 				}
 				currentNode.setDocumentUuid(familyGuid);
 				docGuid.append(familyGuid); //perform the replacement
@@ -451,7 +404,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 			}
 			else {
 				uniqueDocumentIds.add(docGuid.toString());
-				orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION));
+				orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION, 0, null));
 			}
 		}
 	}

@@ -70,6 +70,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	ByteArrayOutputStream resultStream;
 	FileUtilsFacade mockFileUtilsFacade;
     PlaceholderDocumentService mockPlaceholderDocumentService;
+    TitleMetadataServiceImpl titleMetadataService;
     File altIdFile;
     	    
     
@@ -119,6 +120,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    xmlReader = saxParser.getXMLReader();
 	    mockFileUtilsFacade = EasyMock.createMock(FileUtilsFacade.class);
 	    mockPlaceholderDocumentService = EasyMock.createMock(PlaceholderDocumentService.class);
+	    titleMetadataService = new  TitleMetadataServiceImpl();
 	    Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 	    props.setProperty("omit-xml-declaration", "yes");
 	    
@@ -130,8 +132,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    altIdFile = new File(pathToClass.toURI());
 		
 	    tocXml = new ByteArrayInputStream("<EBook><EBookToc><Name>BLARGH</Name><Guid>TOC_GUID</Guid><DocumentGuid>DOC_GUID</DocumentGuid></EBookToc></EBook>".getBytes());
-	    
-	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+	    Map<String,String> altIdMap = new HashMap<String,String>();
+	    titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 	    titleManifestFilter.setParent(xmlReader);
 		titleManifestFilter.setContentHandler(serializer.asContentHandler());
 	}
@@ -272,8 +274,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		List <FrontMatterPage> frontMatterPages = new ArrayList<FrontMatterPage>();
 		frontMatterPages.add(fmPage);
 		titleMetadata.setFrontMatterPages(frontMatterPages);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -309,8 +311,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		
 		mockFileUtilsFacade.copyFile(new File(temporaryDirectory.getAbsolutePath() + "\\DOC_GUID1.html"), new File(temporaryDirectory.getAbsolutePath() + "\\GENERATED_DOC_GUID.html"));
 	    EasyMock.replay(mockFileUtilsFacade);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+	    Map<String,String> altIdMap = new HashMap<String,String>();
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -349,8 +351,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	    EasyMock.replay(mockFileUtilsFacade);
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.replay(mockUuidGenerator);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -394,8 +396,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
@@ -425,8 +427,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_2");
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_PLACEHOLDER_DOCUMENT_UUID_3");
 		EasyMock.replay(mockUuidGenerator);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		
@@ -484,7 +486,12 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	@Test
 	public void testAlternativeId() throws Exception {
 		titleMetadata = getTitleMetadataWithPilotBook();
-		titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
+	    altIdFile = new File(pathToClass.toURI());
+	    System.out.println(altIdFile.getAbsolutePath()+" : "+altIdFile.getParent());
+	    Map<String,String> altIdMap = titleMetadataService.getAltIdMap("yarr_pirates",altIdFile.getParent());
+		//Map<String,String> altIdMap = new HashMap<String,String>();
+		titleManifestFilter = new TitleManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		titleManifestFilter.setParent(xmlReader);
 		titleManifestFilter.setContentHandler(serializer.asContentHandler());
 		Map<String, String> familyGuidMap = new HashMap<String, String>();
@@ -515,8 +522,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_FAMILY_GUID");
 		EasyMock.expect(mockUuidGenerator.generateUuid()).andReturn("GENERATED_DOC_GUID");
 		EasyMock.replay(mockUuidGenerator);
-		
-		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdFile);
+		TitleManifestFilter filter = new TitleManifestFilter(titleMetadata, familyGuidMap, mockUuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, altIdMap);
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));

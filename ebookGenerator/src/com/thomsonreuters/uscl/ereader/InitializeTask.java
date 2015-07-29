@@ -165,6 +165,8 @@ public class InitializeTask extends AbstractSbTasklet {
 			frontMatterHTMLDiretory.mkdir();
 
 			File splitTocFile = new File(splitEbookDirectory, "splitToc.xml");
+			//Format\splitEbook\doc-To-SplitBook.txt holds Doc Information
+			File docToSplitBook = new File(splitEbookDirectory, "doc-To-SplitBook.txt");
 			File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 			
 			File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
@@ -182,6 +184,8 @@ public class InitializeTask extends AbstractSbTasklet {
 			// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
 			File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
 			File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
+			//Format\splitEbook\splitTitle.xml holds Toc which is same in all split books.
+			File splitTitleXmlFile = new File(splitEbookDirectory, "splitTitle.xml");
 			
 			jobExecutionContext.putString(
 					JobExecutionKey.DEDUPPING_FILE, deDuppingAnchorFile.getAbsolutePath());
@@ -231,7 +235,9 @@ public class InitializeTask extends AbstractSbTasklet {
 			jobExecutionContext.putString(
 					JobExecutionKey.SPLIT_EBOOK_DIR, splitEbookDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
-					JobExecutionKey.FORMAT_SPLITTOC_FILE, splitTocFile.getAbsolutePath());			
+					JobExecutionKey.FORMAT_SPLITTOC_FILE, splitTocFile.getAbsolutePath());	
+			jobExecutionContext.putString(
+					JobExecutionKey.DOC_TO_SPLITBOOK_FILE, docToSplitBook.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
@@ -244,12 +250,15 @@ public class InitializeTask extends AbstractSbTasklet {
 					JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR, frontMatterHTMLDiretory.getAbsolutePath());
 			
 			jobExecutionContext.putString(
-					JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());
+					JobExecutionKey.ASSEMBLE_DIR, assembleDirectory.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR, assembleDocumentsDirectory.getAbsolutePath());				
 			jobExecutionContext.putString(
 					JobExecutionKey.ASSEMBLE_ASSETS_DIR, assembleAssetsDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.ASSEMBLE_ARTWORK_DIR, assembleArtworkDirectory.getAbsolutePath());
 			jobExecutionContext.putString(JobExecutionKey.TITLE_XML_FILE, titleXmlFile.getAbsolutePath());
+			jobExecutionContext.putString(JobExecutionKey.SPLIT_TITLE_XML_FILE, splitTitleXmlFile.getAbsolutePath());
 	
 			log.info("Image Service URL: " + System.getProperty("image.vertical.context.url") );
 			log.info("Proview Domain URL: " + System.getProperty("proview.domain") );			

@@ -15,9 +15,11 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
@@ -319,6 +321,35 @@ public class ImageServiceImpl implements ImageService {
 				destination.close();
 			}
 		}
+	}
+	
+	/**
+	 * This method gives document Image mapping for a jobInstanceId.
+	 * @param jobInstanceId
+	 * @return mapping all the Images corresponding to a document
+	 */
+	@Override
+	public Map<String, List<String>> getDocImageListMap(Long jobInstanceId)
+	{
+		List<ImageMetadataEntity> imageMetadataEntityList = findImageMetadata(jobInstanceId);
+		Map<String, List<String>> mapping = new HashMap<String, List<String>>();
+		for (ImageMetadataEntity imageMetadataEntity : imageMetadataEntityList)
+		{
+			ImageMetadataEntityKey primaryKey = imageMetadataEntity.getPrimaryKey();
+			   String key = primaryKey.getDocUuid();
+			   //img holds file name. IMG guid + mediatype (application/pdf)
+			   String img = primaryKey.getImageGuid()+"."+StringUtils.substringAfterLast(imageMetadataEntity.getContentType(), "/");
+			   List<String> value = new ArrayList<String>();
+			   
+			   if (mapping.containsKey(key)){
+				   value = mapping.get(key);
+				   mapping.put(key,value);
+			   }				   
+			   value.add(img);
+			   mapping.put(key,value);
+		}
+		
+		return mapping;
 	}
 
 	@Required

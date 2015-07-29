@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.image.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,5 +79,7 @@ public interface ImageService {
 	 * @return the primary key of the created record.
 	 */
 	public ImageMetadataEntityKey saveImageMetadata(final SingleImageMetadataResponse metadata, long jobInstanceId, String titleId, String docGuid);	
+	
+	public Map<String, List<String>> getDocImageListMap(Long jobInstanceId);
 	
 }

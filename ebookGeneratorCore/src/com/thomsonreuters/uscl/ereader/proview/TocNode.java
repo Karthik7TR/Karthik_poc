@@ -51,6 +51,14 @@ public interface TocNode {
 	 */
 	public void setParent(TocNode parent);
 	
+	public void setSplitTitle(String splitTitle);
+	
+	public String getSplitTitle();
+	
+	public String getTitleBreakString();
+
+	public void setTitleBreakString(String titleBreakString);
+	
 	/**
 	 * Assigns a toc node uuid to this toc node.
 	 * @param tocNodeUuid the node uuid to assign.

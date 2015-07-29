@@ -77,9 +77,9 @@ public class AssembleAndDeliverIntegrationTest {
 	private File assetsDirectory;
 	private File artworkDirectory;
 	
-	Doc codeOfConduct = new Doc(DOCUMENT_ONE_ID, "codeOfConduct.htm");
-	Doc plundering = new Doc(DOCUMENT_TWO_ID, "plundering.htm");
-	Doc landlubbers = new Doc(DOCUMENT_THREE_ID, "landlubbers.htm");
+	Doc codeOfConduct = new Doc(DOCUMENT_ONE_ID, "codeOfConduct.htm", 0,null);
+	Doc plundering = new Doc(DOCUMENT_TWO_ID, "plundering.htm", 0,null);
+	Doc landlubbers = new Doc(DOCUMENT_THREE_ID, "landlubbers.htm", 0,null);
 	Artwork artwork = new Artwork("yarrCoverArt.gif");
 	
 	@Before

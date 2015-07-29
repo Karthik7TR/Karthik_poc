@@ -30,6 +30,9 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_FILE = "eBookFile";
 	
+	//Assemble directory for split files
+	public static final String ASSEMBLE_DIR = "assembleDirectory";
+	
 	public static final String GATHER_DIR = "gatherDir";
 
 	/**
@@ -152,6 +155,15 @@ public class JobExecutionKey {
 	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.
 	 */
 	public static final String TITLE_XML_FILE = "titleXmlFile";
+	
+	/**
+	 * The path to title.xml within the assemble directory.  The GenerateTitleMetadata step writes the title metadata to this file.
+	 */
+	public static final String SPLIT_TITLE_XML_FILE = "splitTitleXmlFile";
+	
+	public static final String DOC_TO_SPLITBOOK_FILE = "documentToSplitBook";
+	
+	public static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
 	
 	/**
 	 * Path to the flat text file that contains the list (one per line) of doc GUID's that represent the physical

@@ -5,12 +5,17 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ContentHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -19,7 +24,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -28,11 +35,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
+import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
@@ -49,7 +59,7 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  */
 public class TitleMetadataServiceImpl implements TitleMetadataService {
 
-	//private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImpl.class);
 	private static final String STYLESHEET_ID = "css";
 	//These FilenameFilter instances are de-facto singletons. As there is only ONE instance of TitleMetadataServiceImpl in the Spring Application Context.
 //	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 
@@ -58,11 +68,12 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	private PlaceholderDocumentService placeholderDocumentService;
 	private FileUtilsFacade fileUtilsFacade;
 	private UuidGenerator uuidGenerator;
-	
+	private ImageService imageService;
+
 	/**
 	 * The file path to the ebookGenerator Alternate ID Directory.
 	 */
-	private static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
+	
 
 	@Override
 	public ArrayList<Asset> createAssets(final File imagesDirectory) {
@@ -98,7 +109,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 
 	@Override
-	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File documentsDirectory) {
+	public void generateTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File documentsDirectory,final String altIdDirPath) {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 				
 		try {
@@ -109,13 +120,14 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			
 			Map<String, String> familyGuidMap = docMetadataService.findDistinctProViewFamGuidsByJobId(jobInstanceId);
 			
-			String titleId = titleMetadata.getTitleId();
-			String altIdFileName = titleId.replace("/", "_") + ".csv";
+			Map<String,String> altIdMap = new HashMap<String,String>();
+			if (titleMetadata.getIsPilotBook())
+			{
+				altIdMap = getAltIdMap(titleMetadata.getTitleId(),altIdDirPath);			
+			}
 			
-			File altIdFile = new File(ALT_ID_DIR_PATH, altIdFileName);
 			
-			
-			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService, altIdFile);
+			TitleManifestFilter titleManifestFilter = new TitleManifestFilter(titleMetadata, familyGuidMap, uuidGenerator, documentsDirectory, fileUtilsFacade, placeholderDocumentService, altIdMap);
 			titleManifestFilter.setParent(xmlReader);
 									
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
@@ -139,6 +151,207 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		}
 	}
 	
+	/**
+	 * Generates splitToc.xml file for split books. 
+	 * This file contains TOC information which is same for all splitBooks that belongs to a book
+	 */
+	@Override
+	public void generateSplitTitleManifest(final OutputStream titleManifest, final InputStream tocXml,
+			final TitleMetadata titleMetadata, final Long jobInstanceId, final File transformedDocsDir, final String docToSplitBookFile) {
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+
+		try {
+
+			saxParserFactory.setNamespaceAware(Boolean.TRUE);
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			XMLReader xmlReader = saxParser.getXMLReader();
+
+			Map<String, String> familyGuidMap = docMetadataService.findDistinctProViewFamGuidsByJobId(jobInstanceId);
+
+			Map<String, List<String>> docImageMap = imageService.getDocImageListMap(jobInstanceId);
+
+			SplitTocManifestFilter splitTitleManifestFilter = new SplitTocManifestFilter(titleMetadata,
+					familyGuidMap, uuidGenerator, transformedDocsDir, fileUtilsFacade, placeholderDocumentService,docImageMap);
+			splitTitleManifestFilter.setParent(xmlReader);
+
+			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+			props.setProperty("omit-xml-declaration", "yes");
+
+			Serializer serializer = SerializerFactory.getSerializer(props);
+			serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
+
+			splitTitleManifestFilter.setContentHandler(serializer.asContentHandler());
+			splitTitleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
+			
+			List<Doc> orderedDocuments = splitTitleManifestFilter.getOrderedDocuments();
+			if (orderedDocuments != null && orderedDocuments.size() > 0){
+				writeDocumentsToFile(orderedDocuments,docToSplitBookFile);
+			}
+
+		} catch (ParserConfigurationException e) {
+			throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
+		} catch (SAXException e) {
+			throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
+		} catch (IOException e) {
+			throw new RuntimeException("An IOException occurred while generating the split title manifest.", e);
+		}
+	}
+	
+	/**
+	 * title.xml file for split books
+	 */
+	@Override
+	public void generateTitleXML(TitleMetadata titleMetadata, List<Doc>docList,final InputStream splitTitleXMLStream, final OutputStream titleManifest,final String altIdDirPath){
+		
+		try{
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		if (titleMetadata.getIsPilotBook())
+		{
+			altIdMap = getAltIdMap(titleMetadata.getTitleId(),altIdDirPath);			
+		}
+		
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		saxParserFactory.setNamespaceAware(Boolean.TRUE);
+		SAXParser saxParser = saxParserFactory.newSAXParser();
+		XMLReader xmlReader = saxParser.getXMLReader();
+		
+		SplitTitleManifestFilter splitTitleManifestFilter = new SplitTitleManifestFilter(titleMetadata,docList, altIdMap);
+		splitTitleManifestFilter.setParent(xmlReader);
+								
+		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+		props.setProperty("omit-xml-declaration", "yes");
+		
+		Serializer serializer = SerializerFactory.getSerializer(props);
+		serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
+		
+		splitTitleManifestFilter.setContentHandler(serializer.asContentHandler());
+		splitTitleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(splitTitleXMLStream)));
+		}
+		catch (ParserConfigurationException e) {
+			throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
+		}
+		catch (SAXException e) {
+			throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
+		}
+		catch (IOException e) {
+			throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
+		}
+	}
+	
+	/**
+	 * Writes the ordered list of documents to file
+	 * {@link ContentHandler}.
+	 * 
+	 * @throws SAXException
+	 *             if the data could not be written.
+	 */
+	protected void writeDocumentsToFile(List<Doc> orderedDocuments, String docToSplitBookFileName) throws SAXException, IOException {
+		File docToSplitBookFile = new File(docToSplitBookFileName);
+		BufferedWriter writer = null;
+		
+		try
+		{
+			writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"));
+			
+			if (orderedDocuments.size() > 0) {
+				for (Doc document : orderedDocuments) {
+					writer.append(document.getId());
+					writer.append("|");
+					writer.append(document.getSrc());
+					writer.append("|");
+					if (document.getSplitTitlePart() == 0) {
+						document.setSplitTitlePart(1);
+					}
+					writer.append(String.valueOf(document.getSplitTitlePart()));
+					if (document.getImageIdList() != null && document.getImageIdList().size() > 0 ){
+						writer.append("|");
+						int i = 0;
+						for (String img : document.getImageIdList()){
+							i = i++;
+							writer.append(img);
+							if (i != document.getImageIdList().size()){
+								writer.append(",");
+							}
+						}
+							
+					}
+					writer.append("\n");
+				}				
+			}
+		}
+		catch (IOException e)
+		{
+			String message = "Could not write out ImageMetadata to following file: " + 
+					docToSplitBookFile.getAbsolutePath();
+			LOG.error(message);
+			throw new IOException();  //EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close generated docToSplitBook file.", e);
+			}
+		}
+	}
+	
+	/**
+	 * @param fileName contains altId for corresponding Guid
+	 * @return a map  (Guid as a Key and altId as a Value) 
+	 */
+	protected Map<String,String> getAltIdMap(String titleId, String altIdFileDir) 
+	{
+		
+		String altIdFileName = titleId.replace("/", "_") + ".csv";
+	    
+		File altIdFile = new File(altIdFileDir, altIdFileName);
+		
+		Map<String,String> altIdMap = new HashMap<String,String>();
+		String line = null; 
+		BufferedReader stream = null;     
+		try 
+		{         
+		   stream = new BufferedReader(new FileReader(altIdFile));        
+		   while ((line = stream.readLine()) != null) 
+		   {             
+			 String[] splitted = line.split(",");
+			 if (splitted.length >= 2) {
+			 if (splitted[1].contains("/"))
+			 {
+				 splitted[1] = splitted[1].split("/")[0];
+			 }
+			 altIdMap.put(splitted[1], splitted[0]);       
+		   }
+		   }
+		} 
+		catch (IOException iox)
+		{
+		   throw new RuntimeException("Unable to find File : " + altIdFile.getAbsolutePath() + " " + iox);
+		}
+		finally 
+		{         
+		  if (stream != null)
+		  {
+		    try 
+		    {
+		       stream.close();
+		    }
+		    catch (IOException e) {
+				throw new RuntimeException("An IOException occurred while closing a file ", e);
+			}
+		  }
+		} 
+	
+		return altIdMap;
+	}
+	
 	public void setUuidGenerator(UuidGenerator uuidGenerator) {
 		this.uuidGenerator = uuidGenerator;
 	}
@@ -153,6 +366,15 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	
 	public void setPlaceholderDocumentService(PlaceholderDocumentService placeholderDocumentService) {
 		this.placeholderDocumentService = placeholderDocumentService;
+	}
+	
+	public ImageService getImageService() {
+		return imageService;
+	}
+
+
+	public void setImageService(ImageService imageService) {
+		this.imageService = imageService;
 	}
 	
 

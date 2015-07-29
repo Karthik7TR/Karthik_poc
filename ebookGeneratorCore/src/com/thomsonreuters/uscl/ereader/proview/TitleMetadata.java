@@ -143,6 +143,11 @@ public class TitleMetadata implements Serializable {
 	public void setFrontMatterTocLabel(String frontMatterTocLabel) {
 		this.frontMatterTocLabel = frontMatterTocLabel;
 	}
+	
+	
+	public void setTitleId(String titleId) {
+		this.titleId = titleId;
+	}
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

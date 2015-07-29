@@ -87,18 +87,32 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		LOG.debug("Generated title metadata for display name: " + titleMetadata.getDisplayName());
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
+		File splitTitleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
+		
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
+		String splitTocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_SPLITTOC_FILE);
 		OutputStream titleManifest = null;
+		OutputStream splitTitleManifest = null;
 		InputStream tocXml = null;
+		InputStream splitTocXml = null;
 		String status = "Completed";
 
 		try {
 			titleManifest = new FileOutputStream(titleXml);
+			splitTitleManifest = new FileOutputStream(splitTitleXml);
 			tocXml = new FileInputStream(tocXmlFile);
+			splitTocXml = new FileInputStream(splitTocXmlFile);
 			
 			File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 			//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
-			titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory);
+			if(bookDefinition.isSplitBook()){		
+				File transformedDocsDir= new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+				String docToSplitBookFile = 
+						getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+				titleMetadataService.generateSplitTitleManifest(splitTitleManifest, splitTocXml, titleMetadata, jobInstanceId, transformedDocsDir, docToSplitBookFile);
+			}
+			//TODO:If splitbook this method call is not needed
+			titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory, JobExecutionKey.ALT_ID_DIR_PATH);
 		} 
 		catch(Exception e)
 		{
@@ -108,6 +122,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		finally {
 			tocXml.close();
 			titleManifest.close();
+			splitTocXml.close();
+			splitTitleManifest.close();
 			PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobId);
 		    jobstats.setPublishStatus("generateTitleManifest : " + status);
@@ -141,7 +157,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 			{
 				numDocs++;
 				String[] line = input.split(",", -1);
-				Doc doc = new Doc(line[0], line[0]+".html");
+				Doc doc = new Doc(line[0], line[0]+".html", 0, null);
 				docToTocGuidList.add(doc);
 				
 				input = reader.readLine();

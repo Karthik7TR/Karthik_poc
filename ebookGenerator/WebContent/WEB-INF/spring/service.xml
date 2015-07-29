@@ -150,6 +150,7 @@
 		  p:docMetadataService-ref="docMetadataService"
 		  p:uuidGenerator-ref="uuidGenerator"
 		  p:fileUtilsFacade-ref="fileUtilsFacade"
+		  p:imageService-ref="imageService"
 		  p:placeholderDocumentService-ref="placeholderDocumentService"/>
 	
 	<bean id="fileUtilsFacade" class="com.thomsonreuters.uscl.ereader.util.FileUtilsFacadeImpl"/>
@@ -191,6 +192,8 @@
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="restTemplate"
 		  p:gatherAppContextUrl="${gather.context.url}"/>
+		  
+	<bean id="moveResourcesUtil" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil"/>
 		  
 	<bean id="docMetadataGuidParserService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserServiceImpl"/>
 		  

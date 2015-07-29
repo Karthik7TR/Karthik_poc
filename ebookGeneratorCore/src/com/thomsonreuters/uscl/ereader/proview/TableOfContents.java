@@ -37,6 +37,24 @@ public class TableOfContents implements TocNode {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+	
+	@Override
+	public void setSplitTitle(String splitTitle) {
+	}
+	
+	@Override
+	public String getSplitTitle() {
+		return EMPTY_STRING;
+	}
+	
+	@Override
+	public String getTitleBreakString() {
+		return EMPTY_STRING;
+	}
+
+	@Override
+	public void setTitleBreakString(String titleBreakString) {
+	}
 
 	@Override
 	public TocNode getParent() {

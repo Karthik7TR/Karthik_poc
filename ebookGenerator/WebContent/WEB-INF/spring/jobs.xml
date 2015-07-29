@@ -139,6 +139,7 @@
 			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
 			<fail on="FAILED"/>
 		</step>
+				
 		
 		<!-- Assemble the title -->
 		<step id="moveResourcesToAssemblyDirectory">
@@ -149,6 +150,18 @@
 		
 		<step id="generateTitleManifest">
 			<tasklet ref="generateTitleManifestTask"/>
+			<next on="COMPLETED" to="moveDecision"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Create titlemanifest and then move resources for split book -->
+		<decision id="moveDecision" decider="splitBookDecider">
+			<next on="SPLIT_BOOK" to="moveSplitBookResources" />
+			<next on="SINGLE_BOOK" to="assembleEBook" />
+		</decision>
+		
+		<step id="moveSplitBookResources">
+			<tasklet ref="createDirectoriesAndMoveResourcesTask"/>
 			<next on="COMPLETED" to="assembleEBook"/>
 			<fail on="FAILED"/>
 		</step>
@@ -254,10 +267,15 @@
 				p:htmlWrapperService-ref="htmlWrapperService"
 				p:publishingStatsService-ref="publishingStatsService"/>
 	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="parentTask"
-	            p:publishingStatsService-ref="publishingStatsService"/>
+	            p:publishingStatsService-ref="publishingStatsService"
+	            p:moveResourcesUtil-ref="moveResourcesUtil"/>
+	<beans:bean id="createDirectoriesAndMoveResourcesTask" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources" parent="parentTask"
+	            p:publishingStatsService-ref="publishingStatsService"
+	            p:titleMetadataService-ref="titleMetadataService"
+	            p:moveResourcesUtil-ref="moveResourcesUtil"/>
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
-				p:titleMetadataService-ref="titleMetadataService"/>						
+				p:titleMetadataService-ref="titleMetadataService"/>	
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" parent="parentTask"
 				p:eBookAssemblyService-ref="eBookAssemblyService"
 				p:publishingStatsService-ref="publishingStatsService"/>
