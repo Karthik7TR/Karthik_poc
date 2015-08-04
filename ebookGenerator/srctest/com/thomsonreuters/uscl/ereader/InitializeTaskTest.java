@@ -118,7 +118,7 @@ public class InitializeTaskTest {
 			
 			expectedWorkDirectory = new File(tempRootDir, dynamicPath);
 			File expectedEbookDirectory = new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
-			File expectedEbookFile = new File(expectedWorkDirectory, TITLE_ID + InitializeTask.BOOK_FILE_TYPE_SUFFIX);
+			File expectedEbookFile = new File(expectedWorkDirectory, TITLE_ID + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 			
 			File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY));
 			File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE));

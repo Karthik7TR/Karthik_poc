@@ -7,7 +7,9 @@ package com.thomsonreuters.uscl.ereader.deliver.step;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
@@ -21,7 +23,9 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -40,6 +44,15 @@ public class ArchiveBook extends AbstractSbTasklet {
 	private String environmentName;
 	private File archiveBaseDirectory;
 	private PublishingStatsService publishingStatsService;
+	private DocMetadataService docMetadataService;
+
+	public DocMetadataService getDocMetadataService() {
+		return docMetadataService;
+	}
+
+	public void setDocMetadataService(DocMetadataService docMetadataService) {
+		this.docMetadataService = docMetadataService;
+	}
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -53,6 +66,8 @@ public class ArchiveBook extends AbstractSbTasklet {
 				ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 				JobParameters jobParameters = getJobParameters(chunkContext);
 				String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
+				
+				BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
 	
 				// Calculate and create the target archive directory
 				File archiveDirectory = (bookVersion.endsWith(".0")) ?
@@ -62,12 +77,26 @@ public class ArchiveBook extends AbstractSbTasklet {
 					archiveDirectory.mkdirs();
 				}
 				
-				// Copy the ebook artifact file to the archive directory
-				String sourceFilename = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE);
-				File sourceFile = new File(sourceFilename);
-				String targetBasename = sourceFile.getName();
-				File targetFile = new File(archiveDirectory, targetBasename);
-				copyFile(sourceFile, targetFile);
+				if(bookDefinition.isSplitBook()){
+					File workDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.WORK_DIRECTORY));
+					if (workDirectory == null || !workDirectory.isDirectory()) {
+						throw new IOException("workDirectory must not be null and must be a directory.");
+					}
+					List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstance.getId());
+					for (String splitTitleId : splitTitles) {
+						splitTitleId = StringUtils.substringAfterLast(splitTitleId, "/");
+						File sourceFilename = new File(workDirectory, splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+						if(sourceFilename == null || !sourceFilename.exists()){
+							throw new IOException("eBook must not be null and should exists.");
+						}
+						archiveBook(jobExecutionContext, archiveDirectory,sourceFilename.getAbsolutePath());
+					}
+				}
+				else{
+					String sourceFilename = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_FILE);
+					archiveBook(jobExecutionContext, archiveDirectory,sourceFilename);
+				}				
+				
 			}
 		} 
 		catch (Exception e) 
@@ -82,6 +111,14 @@ public class ArchiveBook extends AbstractSbTasklet {
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);	
 		}
 		return ExitStatus.COMPLETED;
+	}
+	
+	private void archiveBook(final ExecutionContext jobExecutionContext, final File archiveDirectory, String sourceFilename) throws IOException{
+		// Copy the ebook artifact file to the archive directory		
+		File sourceFile = new File(sourceFilename);
+		String targetBasename = sourceFile.getName();
+		File targetFile = new File(archiveDirectory, targetBasename);
+		copyFile(sourceFile, targetFile);
 	}
 	
 	private void copyFile(File source, File target) throws IOException {

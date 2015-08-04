@@ -136,9 +136,27 @@
 		<!-- Fetch static images from a pre-existing filesystem directory tree -->
 		<step id="getStaticImages">
 			<tasklet ref="getStaticImagesTask"/>
-			<next on="COMPLETED" to="moveResourcesToAssemblyDirectory"/>
+			<next on="COMPLETED" to="moveDecision"/>
 			<fail on="FAILED"/>
 		</step>
+		
+		<!-- Create titlemanifest and then move resources for split book -->
+		<decision id="moveDecision" decider="splitBookDecider">
+			<next on="SPLIT_BOOK" to="generateTitleManifest" />
+			<next on="SINGLE_BOOK" to="moveResourcesToAssemblyDirectory" />
+		</decision>
+		
+		<step id="generateTitleManifest">
+			<tasklet ref="generateTitleManifestTask"/>
+			<next on="COMPLETED" to="nextTask"/>
+			<fail on="FAILED"/>
+		</step>
+		
+		<!-- Create titlemanifest and then move resources for split book -->
+		<decision id="nextTask" decider="splitBookDecider">
+			<next on="SPLIT_BOOK" to="moveSplitBookResources" />
+			<next on="SINGLE_BOOK" to="assembleEBook" />
+		</decision>
 				
 		
 		<!-- Assemble the title -->
@@ -146,19 +164,7 @@
 			<tasklet ref="moveResourcesToAssemblyDirectoryTask"/>
 			<next on="COMPLETED" to="generateTitleManifest"/>
 			<fail on="FAILED"/>
-		</step>
-		
-		<step id="generateTitleManifest">
-			<tasklet ref="generateTitleManifestTask"/>
-			<next on="COMPLETED" to="moveDecision"/>
-			<fail on="FAILED"/>
-		</step>
-		
-		<!-- Create titlemanifest and then move resources for split book -->
-		<decision id="moveDecision" decider="splitBookDecider">
-			<next on="SPLIT_BOOK" to="moveSplitBookResources" />
-			<next on="SINGLE_BOOK" to="assembleEBook" />
-		</decision>
+		</step>		
 		
 		<step id="moveSplitBookResources">
 			<tasklet ref="createDirectoriesAndMoveResourcesTask"/>
@@ -278,14 +284,17 @@
 				p:titleMetadataService-ref="titleMetadataService"/>	
 	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" parent="parentTask"
 				p:eBookAssemblyService-ref="eBookAssemblyService"
-				p:publishingStatsService-ref="publishingStatsService"/>
+				p:publishingStatsService-ref="publishingStatsService"
+				p:docMetadataService-ref="docMetadataService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="parentTask" 
 				p:proviewClient-ref="proviewClient"
-				p:publishingStatsService-ref="publishingStatsService"/>
+				p:publishingStatsService-ref="publishingStatsService"
+				p:docMetadataService-ref="docMetadataService"/>
 	<beans:bean id="archiveBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.ArchiveBook" parent="parentTask"
 				p:environmentName-ref="environmentName"
 				p:publishingStatsService-ref="publishingStatsService"
-				p:archiveBaseDirectory="${root.work.directory}/archive"/>
+				p:archiveBaseDirectory="${root.work.directory}/archive"
+				p:docMetadataService-ref="docMetadataService"/>
 
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService" />							

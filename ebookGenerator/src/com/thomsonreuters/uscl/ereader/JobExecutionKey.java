@@ -30,6 +30,13 @@ public class JobExecutionKey {
 	 */
 	public static final String EBOOK_FILE = "eBookFile";
 	
+	/**
+	 * The path to the assembled eBook on NAS.
+	 */
+	public static final String WORK_DIRECTORY = "workDirectory";
+	
+	public static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
+	
 	//Assemble directory for split files
 	public static final String ASSEMBLE_DIR = "assembleDirectory";
 	
@@ -104,6 +111,11 @@ public class JobExecutionKey {
 	 */
 	public static final String FORMAT_IMAGE_METADATA_DIR = "formatImageMetadataDir";
 	
+	
+	/**
+	 * The path to the splitEbook toc.xml files 
+	 */
+	public static final String SPLIT_EBOOK_TOC_DIR = "splitEbookTocDir";
 	
 	/**
 	 * The path to the splitEbook toc.xml files 

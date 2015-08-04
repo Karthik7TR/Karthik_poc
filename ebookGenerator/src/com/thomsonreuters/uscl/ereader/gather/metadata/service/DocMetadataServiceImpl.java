@@ -106,6 +106,11 @@ public class DocMetadataServiceImpl implements DocMetadataService {
 		docMetaPk.setDocUuid(docUuid);
 		return docMetadataDAO.findDocMetadataByPrimaryKey(docMetaPk);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<String> findDistinctSplitTitlesByJobId(Long jobInstanceId){
+		return docMetadataDAO.findDistinctSplitTitlesByJobId(jobInstanceId);
+	}
 
 	@Transactional(readOnly = true)
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(Long jobInstanceId){

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
@@ -80,7 +81,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
 		titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
 
-		addArtwork(jobExecutionContext, titleMetadata);
+		File coverArtFile = addArtwork(jobExecutionContext, titleMetadata);
 
 		OutputStream titleManifest = null;
 		InputStream splitTitleXMLStream = null;
@@ -108,9 +109,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 			// splitBooks
 			for (int i = 1; i <= parts; i++) {
 				firstSplitBook = false;
-				String splitTitle = bookDefinition.getTitleId() + "_pt" + i;
+				String splitTitle = bookDefinition.getTitleId() + "_pt" + i;				
 
 				titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName() + " part " + i);
+				titleMetadata.setTitleId(fullyQualifiedTitleId+ "_pt" + i);
 
 				String key = String.valueOf(i);
 
@@ -137,6 +139,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 				
 				// Only for first split book
 				if (i == 1) {
+					splitTitle = bookDefinition.getTitleId();
 					ArrayList<FrontMatterPdf> pdfList = new ArrayList<FrontMatterPdf>();
 					List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 					for (FrontMatterPage fmp : fmps) {
@@ -150,6 +153,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 								pdf.getPdfFilename());
 						assetsForSplitBook.add(asset);
 					}
+					titleMetadata.setTitleId(fullyQualifiedTitleId);
 					firstSplitBook = true;
 				}
 				
@@ -168,7 +172,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
 				titleMetadataService.generateTitleXML(titleMetadata, docList, splitTitleXMLStream, titleManifest,
 						JobExecutionKey.ALT_ID_DIR_PATH);
-				moveResouces(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList);
+				moveResouces(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
 
 			}
 		} catch (Exception e) {
@@ -192,8 +196,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * @throws IOException
 	 */
 
-	protected void moveResouces(final ExecutionContext jobExecutionContext, File ebookDirectory,
-			boolean firstSplitBook, List<String> imgList, List<Doc> docList) throws IOException {
+	public void moveResouces(final ExecutionContext jobExecutionContext, File ebookDirectory,
+			boolean firstSplitBook, List<String> imgList, List<Doc> docList, File coverArtFile) throws IOException {
 		// Move assets
 		File assetsDirectory = createAssetsDirectory(ebookDirectory);
 		// static images
@@ -211,6 +215,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, firstSplitBook);
 
 		File artworkDirectory = createArtworkDirectory(ebookDirectory);
+		FileUtils.copyFileToDirectory(coverArtFile, artworkDirectory);
 		moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
 
 		// Move Documents
@@ -364,13 +369,11 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
 	}
 
-	private void addArtwork(ExecutionContext jobExecutionContext, TitleMetadata titleMetadata) {
-		File coverArtFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
-		Artwork coverArt = titleMetadataService.createArtwork(coverArtFile); // factory
-																				// method,
-																				// returns
-																				// Artwork.
+	private File addArtwork(ExecutionContext jobExecutionContext, TitleMetadata titleMetadata) {
+		File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
+		Artwork coverArt = titleMetadataService.createArtwork(coverArtFile); 
 		titleMetadata.setArtwork(coverArt);
+		return coverArtFile;
 	}
 
 	/**

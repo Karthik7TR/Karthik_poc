@@ -7,6 +7,7 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,5 +70,7 @@ public interface DocMetadataService {
 	
 	public Map<String, String> findDistinctProViewFamGuidsByJobId(Long jobInstanceId);
 	
-	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite);	
+	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite);
+	
+	public List<String> findDistinctSplitTitlesByJobId(Long jobInstanceId);
 }

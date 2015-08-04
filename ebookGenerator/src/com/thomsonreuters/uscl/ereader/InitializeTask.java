@@ -41,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 public class InitializeTask extends AbstractSbTasklet {
 	private static final Logger log = Logger.getLogger(InitializeTask.class);
-	static final String BOOK_FILE_TYPE_SUFFIX = ".gz";
+	
 	private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
 
 	private File rootWorkDirectory; // "/nas/ebookbuilder/data"
@@ -147,6 +147,7 @@ public class InitializeTask extends AbstractSbTasklet {
 			File preprocessDirectory = new File(formatDirectory, "Preprocess");
 			File transformedDirectory = new File(formatDirectory, "Transformed");
 			File formatImageMetadataDirectory = new File(formatDirectory, "ImageMetadata");
+			File splitEbookTocDirectory = new File(formatDirectory, "splitToc");
 			File splitEbookDirectory = new File(formatDirectory, "splitEbook");
 			File postTransformDirectory = new File(formatDirectory, "PostTransform");
 			File createdLinksTransformDirectory = new File(formatDirectory, "CreatedLinksTransform");
@@ -158,13 +159,14 @@ public class InitializeTask extends AbstractSbTasklet {
 			transformedDirectory.mkdir();
 			formatImageMetadataDirectory.mkdir();
 			splitEbookDirectory.mkdir();
+			splitEbookTocDirectory.mkdir();
 			postTransformDirectory.mkdir();
 			createdLinksTransformDirectory.mkdir();
 			fixedTransformDirectory.mkdir();
 			htmlWrapperDirectory.mkdir();
 			frontMatterHTMLDiretory.mkdir();
 
-			File splitTocFile = new File(splitEbookDirectory, "splitToc.xml");
+			File splitTocFile = new File(splitEbookTocDirectory, "splitToc.xml");
 			//Format\splitEbook\doc-To-SplitBook.txt holds Doc Information
 			File docToSplitBook = new File(splitEbookDirectory, "doc-To-SplitBook.txt");
 			File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
@@ -182,10 +184,13 @@ public class InitializeTask extends AbstractSbTasklet {
 			
 			// Create the absolute path to the final e-book artifact - a GNU ZIP file
 			// "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
-			File ebookFile = new File(workDirectory, titleId + BOOK_FILE_TYPE_SUFFIX);
+			File ebookFile = new File(workDirectory, titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 			File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
 			//Format\splitEbook\splitTitle.xml holds Toc which is same in all split books.
 			File splitTitleXmlFile = new File(splitEbookDirectory, "splitTitle.xml");
+			
+			jobExecutionContext.putString(
+					JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
 			
 			jobExecutionContext.putString(
 					JobExecutionKey.DEDUPPING_FILE, deDuppingAnchorFile.getAbsolutePath());
@@ -232,6 +237,8 @@ public class InitializeTask extends AbstractSbTasklet {
 					JobExecutionKey.FORMAT_TRANSFORMED_DIR, transformedDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.FORMAT_IMAGE_METADATA_DIR, formatImageMetadataDirectory.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.SPLIT_EBOOK_TOC_DIR, splitEbookTocDirectory.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.SPLIT_EBOOK_DIR, splitEbookDirectory.getAbsolutePath());
 			jobExecutionContext.putString(

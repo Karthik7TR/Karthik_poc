@@ -37,15 +37,20 @@ public class MoveResourcesUtil {
 	/**
 	 * The file path to the ebookGenerator Cover Image.
 	 */
-	private static final String EBOOK_COVER_FILEPATH = "/apps/eBookBuilder/generator/images/cover/";
+	public static final String EBOOK_COVER_FILEPATH = "/apps/eBookBuilder/generator/images/cover/";
 
 	/**
 	 * The default file to the ebookGenerator Cover Image.
 	 */
-	private static final String DEFAULT_EBOOK_COVER_FILE = "/apps/eBookBuilder/staticContent/coverArt.PNG";
+	public static final String DEFAULT_EBOOK_COVER_FILE = "/apps/eBookBuilder/staticContent/coverArt.PNG";
 
 	public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
-			throws IOException {
+			throws IOException {		
+		File coverArt = createCoverArt(jobExecutionContext);
+		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
+	}
+	
+	public File createCoverArt(final ExecutionContext jobExecutionContext){
 		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		String titleCover = bookDefinition.getCoverImage();
 
@@ -54,8 +59,7 @@ public class MoveResourcesUtil {
 			coverArt = new File(DEFAULT_EBOOK_COVER_FILE);
 		}
 		jobExecutionContext.putString(JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
-
-		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
+		return coverArt;
 	}
 
 	public void copySourceToDestination(final File sourceDir, final File documentsDirectory) throws IOException {

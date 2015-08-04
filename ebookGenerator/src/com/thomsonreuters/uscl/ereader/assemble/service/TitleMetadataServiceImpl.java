@@ -152,7 +152,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	}
 	
 	/**
-	 * Generates splitToc.xml file for split books. 
+	 * Generates \Format\splitEbook\splitTitle.xml file for split books with TOC information. 
 	 * This file contains TOC information which is same for all splitBooks that belongs to a book
 	 */
 	@Override

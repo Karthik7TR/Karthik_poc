@@ -5,7 +5,10 @@
 */
 package com.thomsonreuters.uscl.ereader.assemble.step;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -30,6 +35,15 @@ public class AssembleEbook extends AbstractSbTasklet {
 	private static final Logger LOG = Logger.getLogger(AssembleEbook.class);
 	private EBookAssemblyService eBookAssemblyService;
 	private PublishingStatsService publishingStatsService;
+	private DocMetadataService docMetadataService;
+
+	public DocMetadataService getDocMetadataService() {
+		return docMetadataService;
+	}
+
+	public void setDocMetadataService(DocMetadataService docMetadataService) {
+		this.docMetadataService = docMetadataService;
+	}
 
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
@@ -43,10 +57,27 @@ public class AssembleEbook extends AbstractSbTasklet {
 		File eBookFile = new File(eBookFilePath);
 		
 		long startTime = System.currentTimeMillis();
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		System.out.println(" eBookDirectory --"+eBookDirectory.getAbsolutePath());
 		
 		try 
 		{
-		    eBookAssemblyService.assembleEBook(eBookDirectory, eBookFile);
+			if(!bookDefinition.isSplitBook()){			
+				eBookAssemblyService.assembleEBook(eBookDirectory, eBookFile);
+			}
+			else{
+				List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstanceId);
+				for(String splitTitleId : splitTitles){
+					splitTitleId = StringUtils.substringAfterLast(splitTitleId, "/");
+					File splitEbookFile = new File(getRequiredStringProperty(jobExecutionContext,JobExecutionKey.WORK_DIRECTORY), splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+					eBookDirectoryPath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DIR)+"/"+splitTitleId;
+					eBookDirectory = new File(eBookDirectoryPath);
+					if (eBookDirectory == null || !eBookDirectory.isDirectory()) {
+						throw new IOException("eBookDirectory must not be null and must be a directory.");
+					}
+					eBookAssemblyService.assembleEBook(eBookDirectory, splitEbookFile);
+				}
+			}
 		}
 		catch (Exception e)
 		{

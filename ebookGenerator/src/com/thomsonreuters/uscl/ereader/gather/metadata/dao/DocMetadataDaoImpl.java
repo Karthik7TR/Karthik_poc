@@ -6,6 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -156,6 +157,25 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		}
 		return docMap;
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<String> findDistinctSplitTitlesByJobId(Long jobInstanceId) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		List<String> docMetaList = session.createCriteria(DocMetadata.class)
+				.setProjection(Projections.distinct( (Projections.projectionList()
+						.add(Projections.property("splitBookTitleId")))))
+						.add( Restrictions.eq("jobInstanceId", jobInstanceId))
+						.list();
+		
+		List<String> splitTitleIdList = new ArrayList<String>();
+		
+		if(docMetaList.size() > 0){
+			splitTitleIdList.addAll(docMetaList);
+		}
+
+		return splitTitleIdList;
+	}
 	
 	@Override
 	@Transactional

@@ -6,6 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -58,4 +59,6 @@ public interface DocMetadataDao {
 	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite)
 			throws DataAccessException;
 
+	public List<String> findDistinctSplitTitlesByJobId(Long jobInstanceId)
+			throws DataAccessException;
 }

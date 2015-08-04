@@ -1340,6 +1340,10 @@ public class BookDefinition implements Serializable {
 			proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));	
 			proviewFeatures.add(new Feature("OnePassSSO", "next.westlaw.com"));			
 		}
+		if (isSplitBook()){
+			proviewFeatures.add(new Feature("FullAnchorMap"));
+			proviewFeatures.add(new Feature("CombinedTOC"));
+		}
 		return (proviewFeatures);
 	}
 

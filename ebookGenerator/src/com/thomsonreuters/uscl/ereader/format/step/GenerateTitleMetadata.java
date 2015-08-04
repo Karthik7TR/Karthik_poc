@@ -79,40 +79,34 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		//TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
 		
-		addArtwork(jobExecutionContext, titleMetadata);
-		addAssets(jobExecutionContext, titleMetadata);
+
 		
 		Long jobInstanceId = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 		
 		LOG.debug("Generated title metadata for display name: " + titleMetadata.getDisplayName());
 		
 		File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
-		File splitTitleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
 		
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
-		String splitTocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_SPLITTOC_FILE);
 		OutputStream titleManifest = null;
-		OutputStream splitTitleManifest = null;
 		InputStream tocXml = null;
-		InputStream splitTocXml = null;
 		String status = "Completed";
 
 		try {
 			titleManifest = new FileOutputStream(titleXml);
-			splitTitleManifest = new FileOutputStream(splitTitleXml);
 			tocXml = new FileInputStream(tocXmlFile);
-			splitTocXml = new FileInputStream(splitTocXmlFile);
 			
 			File documentsDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
 			//TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
-			if(bookDefinition.isSplitBook()){		
-				File transformedDocsDir= new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
-				String docToSplitBookFile = 
-						getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
-				titleMetadataService.generateSplitTitleManifest(splitTitleManifest, splitTocXml, titleMetadata, jobInstanceId, transformedDocsDir, docToSplitBookFile);
+			if(bookDefinition.isSplitBook()){	
+				splitBookTitle(titleMetadata,jobInstanceId,jobExecutionContext);				
 			}
-			//TODO:If splitbook this method call is not needed
-			titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory, JobExecutionKey.ALT_ID_DIR_PATH);
+			else{
+				addArtwork(jobExecutionContext, titleMetadata);
+				addAssets(jobExecutionContext, titleMetadata);
+				//TODO:If splitbook this method call is not needed
+				titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory, JobExecutionKey.ALT_ID_DIR_PATH);
+			}
 		} 
 		catch(Exception e)
 		{
@@ -122,8 +116,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		finally {
 			tocXml.close();
 			titleManifest.close();
-			splitTocXml.close();
-			splitTitleManifest.close();
 			PublishingStats jobstats = new PublishingStats();
 		    jobstats.setJobInstanceId(jobId);
 		    jobstats.setPublishStatus("generateTitleManifest : " + status);
@@ -131,6 +123,36 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		}
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	protected void splitBookTitle(final TitleMetadata titleMetadata, final Long jobInstanceId,
+			final ExecutionContext jobExecutionContext) throws Exception {
+		OutputStream splitTitleManifest = null;
+
+		InputStream splitTocXml = null;
+
+		try {
+
+			File splitTitleXml = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.SPLIT_TITLE_XML_FILE));
+
+			String splitTocXmlFile = getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.FORMAT_SPLITTOC_FILE);
+
+			splitTocXml = new FileInputStream(splitTocXmlFile);
+			splitTitleManifest = new FileOutputStream(splitTitleXml);
+			File transformedDocsDir = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+			String docToSplitBookFile = getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+			titleMetadataService.generateSplitTitleManifest(splitTitleManifest, splitTocXml, titleMetadata,
+					jobInstanceId, transformedDocsDir, docToSplitBookFile);
+		} catch (Exception e) {
+			throw (e);
+		} finally {
+			splitTocXml.close();
+			splitTitleManifest.close();
+		}
 	}
 
 	/**
