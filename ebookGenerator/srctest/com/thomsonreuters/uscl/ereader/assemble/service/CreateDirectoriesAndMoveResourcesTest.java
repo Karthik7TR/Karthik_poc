@@ -33,7 +33,7 @@ public class CreateDirectoriesAndMoveResourcesTest {
 		createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
 		tempFile = File.createTempFile("pirate", "ship");
 		URL url = this.getClass().getResource(FINE_NAME);
-		docToSplitBookFile = new File(url.getPath());
+		docToSplitBookFile = new File(url.toURI());
 		
 	}
 	
