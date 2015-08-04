@@ -29,11 +29,11 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		URL url = CreateDirectoriesAndMoveResourcesTest.class.getResource(FINE_NAME);
-		docToSplitBookFile = new File(url.getPath());
 
 		createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
 		tempFile = File.createTempFile("pirate", "ship");
+		URL url = this.getClass().getResource(FINE_NAME);
+		docToSplitBookFile = new File(url.getPath());
 		
 	}
 	
