@@ -62,13 +62,13 @@ public class MoveResourcesUtil {
 		return coverArt;
 	}
 
-	public void copySourceToDestination(final File sourceDir, final File documentsDirectory) throws IOException {
-		FileUtils.copyDirectory(sourceDir, documentsDirectory);
+	public void copySourceToDestination(final File sourceDir, final File destinationDirectory) throws IOException {
+		FileUtils.copyDirectory(sourceDir, destinationDirectory);
 	}
 	
-	public void copyFilesToDestination(final List<File> fileList, final File documentsDirectory) throws IOException {
+	public void copyFilesToDestination(final List<File> fileList, final File destinationDirectory) throws IOException {
 		for(File file : fileList){
-			FileUtils.copyFileToDirectory(file, documentsDirectory);
+			FileUtils.copyFileToDirectory(file, destinationDirectory);
 		}
 		
 	}
