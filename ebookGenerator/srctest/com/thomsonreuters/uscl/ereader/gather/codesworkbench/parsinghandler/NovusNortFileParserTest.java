@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -90,7 +91,8 @@ public class NovusNortFileParserTest {
 				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
 				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
 		
-		RelationshipNode root = parser.parseDocument(nort);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
 		
 		assertEquals(0, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
@@ -122,7 +124,8 @@ public class NovusNortFileParserTest {
 				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term></n-nortpayload></n-relpayload>"
 				+ "</n-relationship></n-load>");
 		
-		RelationshipNode root = parser.parseDocument(nort);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
 		
 		assertEquals(1, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
@@ -158,7 +161,8 @@ public class NovusNortFileParserTest {
 				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term></n-nortpayload></n-relpayload>"
 				+ "</n-relationship></n-load>");
 		
-		RelationshipNode root = parser.parseDocument(nort);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
 		
 		assertEquals(1, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS other text ending", root.getLabel());
@@ -191,7 +195,8 @@ public class NovusNortFileParserTest {
 				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>DELER_StaTX_DBAS</n-view></n-nortpayload>"
 				+ "</n-relpayload></n-relationship></n-load>");
 		
-		RelationshipNode root = parser.parseDocument(nort);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
 		
 		assertEquals(0, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
@@ -223,7 +228,8 @@ public class NovusNortFileParserTest {
 				+ "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>TAXDEL</n-view></n-nortpayload>"
 				+ "</n-relpayload></n-relationship></n-load>");
 		
-		RelationshipNode root = parser.parseDocument(nort);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
 		
 		assertEquals(0, root.getChildNodes().size());
 		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
@@ -235,6 +241,122 @@ public class NovusNortFileParserTest {
 		assertEquals(null , root.getParentNortGuid());
 		assertEquals(1.0 , root.getRank());
 
+	}
+	
+	@Test
+	public void testMultipleRoots() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540668\" control=\"ADD\">"
+				+ "<n-relbase>N11111111111111111111111111111111</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>2.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS 2</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		assertEquals(2, roots.size());
+		
+		RelationshipNode root = roots.get(0);
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(null, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1.0 , root.getRank());
+		
+		RelationshipNode root2 = roots.get(1);
+		assertEquals(0, root2.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS 2", root2.getLabel());
+		assertEquals(null, root2.getDocumentGuid());
+		assertEquals("gradehead", root2.getNodeType());
+		assertEquals("N11111111111111111111111111111111", root2.getNortGuid());
+		assertEquals("20050217000000", root2.getStartDateStr());
+		assertEquals("20970101235959", root2.getEndDateStr());
+		assertEquals(null , root2.getParentNortGuid());
+		assertEquals(2.0 , root2.getRank());
+
+	}
+	
+	@Test
+	public void testMultipleIdenticalRoots() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		try {
+			parser.parseDocument(nort);
+			fail("Test should throw SAXException");
+		} catch (SAXException e) {
+			//expected exception thrown
+			String expectedError = "Duplicate NORT node(s) found: N156AF7107C8011D9BF2BB0A94FBB0D8D";
+			if(!e.getMessage().contains(expectedError)) {
+				fail("Wrong failure message");
+			}
+		}
+	}
+	
+	@Test
+	public void testChangeRankRoots() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>2.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540668\" control=\"ADD\">"
+				+ "<n-relbase>N11111111111111111111111111111111</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
+				+ "<heading>CODE OF FEDERAL REGULATIONS 2</heading></n-label><node-type>gradehead</node-type>"
+				+ "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		assertEquals(2, roots.size());
+		
+		RelationshipNode root2 = roots.get(0);
+		assertEquals(0, root2.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS 2", root2.getLabel());
+		assertEquals(null, root2.getDocumentGuid());
+		assertEquals("gradehead", root2.getNodeType());
+		assertEquals("N11111111111111111111111111111111", root2.getNortGuid());
+		assertEquals("20050217000000", root2.getStartDateStr());
+		assertEquals("20970101235959", root2.getEndDateStr());
+		assertEquals(null , root2.getParentNortGuid());
+		assertEquals(1.0 , root2.getRank());
+		
+		RelationshipNode root = roots.get(1);
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(null, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(2.0 , root.getRank());
 	}
 	
 	private void addContentToFile(File file, String text) {

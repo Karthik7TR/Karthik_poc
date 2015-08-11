@@ -133,7 +133,7 @@ public class GenerateTocTask  extends AbstractSbTasklet
         		for (File nortFile: nortFiles)
         		{
         			NovusNortFileParser parser = new NovusNortFileParser(cutoffDate);
-        			rootNodes.add(parser.parseDocument(nortFile));
+        			rootNodes.addAll(parser.parseDocument(nortFile));
         		}
         	}
         	
