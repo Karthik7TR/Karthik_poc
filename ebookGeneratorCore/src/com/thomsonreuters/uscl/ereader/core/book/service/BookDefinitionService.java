@@ -5,9 +5,11 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 /**
  * Service methods that are common to both the Spring Batch generator engine and manager web applications.
@@ -63,6 +65,12 @@ public interface BookDefinitionService {
 	 * 
 	 */
 	public void updatePublishedStatus(Long bookId, boolean isPublishedOnce);
+	
+	/**
+	 * Update Node Guids with split book titles of book definition
+	 * 
+	 */
+	public void updateSplitNodeInfoSet(Long bookId, Collection<SplitNodeInfo> splitNodeInfoSet, String version);
 	
 	/**
 	 * Update the deleted status of the book definition

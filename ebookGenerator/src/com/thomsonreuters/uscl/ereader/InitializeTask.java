@@ -169,6 +169,8 @@ public class InitializeTask extends AbstractSbTasklet {
 			File splitTocFile = new File(splitEbookTocDirectory, "splitToc.xml");
 			//Format\splitEbook\doc-To-SplitBook.txt holds Doc Information
 			File docToSplitBook = new File(splitEbookDirectory, "doc-To-SplitBook.txt");
+			//Format\splitEbook\splitNodeInfo.txt holds Doc Information
+			File splitNodeInfoFile = new File(splitEbookDirectory, "splitNodeInfo.txt");
 			File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
 			
 			File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
@@ -245,6 +247,8 @@ public class InitializeTask extends AbstractSbTasklet {
 					JobExecutionKey.FORMAT_SPLITTOC_FILE, splitTocFile.getAbsolutePath());	
 			jobExecutionContext.putString(
 					JobExecutionKey.DOC_TO_SPLITBOOK_FILE, docToSplitBook.getAbsolutePath());
+			jobExecutionContext.putString(
+					JobExecutionKey.SPLIT_NODE_INFO_FILE, splitNodeInfoFile.getAbsolutePath());
 			jobExecutionContext.putString(
 					JobExecutionKey.FORMAT_POST_TRANSFORM_DIR, postTransformDirectory.getAbsolutePath());
 			jobExecutionContext.putString(

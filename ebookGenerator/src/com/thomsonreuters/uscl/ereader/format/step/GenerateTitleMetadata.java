@@ -145,8 +145,10 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 					JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 			String docToSplitBookFile = getRequiredStringProperty(jobExecutionContext,
 					JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+			String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.SPLIT_NODE_INFO_FILE);
 			titleMetadataService.generateSplitTitleManifest(splitTitleManifest, splitTocXml, titleMetadata,
-					jobInstanceId, transformedDocsDir, docToSplitBookFile);
+					jobInstanceId, transformedDocsDir, docToSplitBookFile, splitNodeInfoFile);
 		} catch (Exception e) {
 			throw (e);
 		} finally {

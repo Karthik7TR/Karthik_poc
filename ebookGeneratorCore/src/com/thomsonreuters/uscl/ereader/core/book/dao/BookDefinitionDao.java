@@ -5,12 +5,14 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 public interface BookDefinitionDao {
 	
@@ -81,5 +83,7 @@ public interface BookDefinitionDao {
 			boolean isAscending, int pageNumber, int itemsPerPage,
 			String proviewDisplayName, String fullyQualifiedTitleId, String isbn,
  String materialId, Date to, Date from, String status);
+	
+	public void saveBookDefinition(Long ebookDefinitionId, Collection<SplitNodeInfo> splitNodeInfoList, String newVersion);
 
 }

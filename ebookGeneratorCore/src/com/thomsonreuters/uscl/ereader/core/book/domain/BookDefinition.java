@@ -312,6 +312,10 @@ public class BookDefinition implements Serializable {
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<ExcludeDocument> excludeDocuments;
+	
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = false)
+	@Cascade({CascadeType.ALL})
+	Set<SplitNodeInfo> splitNodes;
 	/**
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
@@ -1044,6 +1048,30 @@ public class BookDefinition implements Serializable {
 	public void setExcludeDocuments(Collection<ExcludeDocument> excludeDocuments) {
 		this.excludeDocuments = new HashSet<ExcludeDocument>(excludeDocuments);
 	}
+	
+
+
+	public List<SplitNodeInfo> getSplitNodesAsList() {
+		if(splitNodes == null) {
+			splitNodes = new HashSet<SplitNodeInfo>();
+		}
+		// Change to list
+		List<SplitNodeInfo> splitNodeInfoList = new ArrayList<SplitNodeInfo>();
+		splitNodeInfoList.addAll(splitNodes);
+		return splitNodeInfoList;
+	}
+	
+	public Set<SplitNodeInfo> getSplitNodes() {
+		if(splitNodes == null) {
+			splitNodes = new HashSet<SplitNodeInfo>();
+		}
+		return splitNodes;
+	}
+
+	public void setSplitNodes(Collection<SplitNodeInfo> splitNodes) {
+		this.splitNodes.addAll(new HashSet<SplitNodeInfo>(splitNodes));
+	}
+
 	
 	public List<SplitDocument> getSplitDocuments() {
 		if(splitDocuments == null) {

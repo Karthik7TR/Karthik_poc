@@ -18,15 +18,16 @@ import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
-import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
@@ -100,7 +101,7 @@ public class AssembleAndDeliverIntegrationTest {
 		FileUtils.delete(tempFile);
 		//FileUtils.delete(eBook);
 	}
-
+	
 	private void bootstrapEbookDirectory() throws IOException {
 		tempFile = File.createTempFile("pirate", "ship");
 		eBookDirectory = new File(tempFile.getParentFile(), "eBook");
@@ -185,9 +186,13 @@ public class AssembleAndDeliverIntegrationTest {
 		titleMetadata.setMaterialId("1234");
 	}
 	
-	@Test
+	@Ignore
 	public void testPublishGoldDataToProView() throws Exception {
+		EBookAssemblyServiceImpl eBookAssemblyServiceImpl = new EBookAssemblyServiceImpl();
+		File eBookDirectory = new File("C:\\Ebook\\Stories\\demoBook\\test_analyticaltbooksplitimages_pt2");
+		File splitEbookFile = new File("C:\\Ebook\\Stories\\demoBook", "test_analyticaltbooksplitimages_pt2" + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 		
+		eBookAssemblyServiceImpl.assembleEBook(eBookDirectory, splitEbookFile);
 	}
 	
 }

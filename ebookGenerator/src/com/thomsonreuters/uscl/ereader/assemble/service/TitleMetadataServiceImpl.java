@@ -36,6 +36,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
@@ -157,7 +158,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	 */
 	@Override
 	public void generateSplitTitleManifest(final OutputStream titleManifest, final InputStream tocXml,
-			final TitleMetadata titleMetadata, final Long jobInstanceId, final File transformedDocsDir, final String docToSplitBookFile) {
+			final TitleMetadata titleMetadata, final Long jobInstanceId, final File transformedDocsDir, final String docToSplitBookFile, final String splitNodeInfoFile) {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
 		try {
@@ -170,9 +171,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 
 			Map<String, List<String>> docImageMap = imageService.getDocImageListMap(jobInstanceId);
 
-			SplitTocManifestFilter splitTitleManifestFilter = new SplitTocManifestFilter(titleMetadata,
+			SplitTocManifestFilter splitTocManifestFilter = new SplitTocManifestFilter(titleMetadata,
 					familyGuidMap, uuidGenerator, transformedDocsDir, fileUtilsFacade, placeholderDocumentService,docImageMap);
-			splitTitleManifestFilter.setParent(xmlReader);
+			splitTocManifestFilter.setParent(xmlReader);
 
 			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 			props.setProperty("omit-xml-declaration", "yes");
@@ -180,12 +181,17 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 			Serializer serializer = SerializerFactory.getSerializer(props);
 			serializer.setOutputStream(new EntityDecodedOutputStream(titleManifest, true));
 
-			splitTitleManifestFilter.setContentHandler(serializer.asContentHandler());
-			splitTitleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
+			splitTocManifestFilter.setContentHandler(serializer.asContentHandler());
+			splitTocManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
 			
-			List<Doc> orderedDocuments = splitTitleManifestFilter.getOrderedDocuments();
+			List<Doc> orderedDocuments = splitTocManifestFilter.getOrderedDocuments();
 			if (orderedDocuments != null && orderedDocuments.size() > 0){
 				writeDocumentsToFile(orderedDocuments,docToSplitBookFile);
+			}
+			
+			List<SplitNodeInfo> splitNodeInfoList = splitTocManifestFilter.getSplitNodeInfoList();
+			if (splitNodeInfoList != null && splitNodeInfoList.size() > 0){
+				writeSplitNodeInfoToFile(splitNodeInfoList,splitNodeInfoFile,titleMetadata);
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -245,6 +251,48 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	 * @throws SAXException
 	 *             if the data could not be written.
 	 */
+	protected void writeSplitNodeInfoToFile(List<SplitNodeInfo> splitNodeInfoList, String splitNodeInfoFile, final TitleMetadata titleMetadata) throws SAXException, IOException {
+		File docToSplitBookFile = new File(splitNodeInfoFile);
+		BufferedWriter writer = null;
+		
+		try
+		{
+			writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"));
+			
+			if (splitNodeInfoList.size() > 0) {
+				for (SplitNodeInfo splitNodeInfo : splitNodeInfoList) {
+					writer.append(splitNodeInfo.getSplitNodeGuid());
+					writer.append("|");
+					writer.append(splitNodeInfo.getSplitBookTitle());
+					writer.append("\n");
+				}				
+			}
+		}
+		catch (IOException e)
+		{
+			String message = "Could not write out ImageMetadata to following file: " + 
+					docToSplitBookFile.getAbsolutePath();
+			LOG.error(message);
+			throw new IOException();  //EBookFormatException(message, e);
+		}
+		finally
+		{
+			try
+			{
+				if (writer != null)
+				{
+					writer.close();
+				}
+			}
+			catch (IOException e)
+			{
+				LOG.error("Unable to close generated docToSplitBook file.", e);
+			}
+		}
+	}
+	
+	
+	
 	protected void writeDocumentsToFile(List<Doc> orderedDocuments, String docToSplitBookFileName) throws SAXException, IOException {
 		File docToSplitBookFile = new File(docToSplitBookFileName);
 		BufferedWriter writer = null;

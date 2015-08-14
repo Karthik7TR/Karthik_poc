@@ -173,6 +173,7 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 		
 	    transformedDirectory.mkdirs();
 	    File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");
+	    File splitNodeInfoFile = new File(transformedDirectory, "splitNodeInfo.txt");
 	    
 	    Map<String, String> familyGuidMap = new HashMap<String, String>();
 	    DocMetadataService mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
@@ -206,8 +207,7 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	    titleMetadataService.setFileUtilsFacade(mockFileUtilsFacade);
 	    EasyMock.replay(mockPlaceholderDocumentService);
 	    EasyMock.replay(mockFileUtilsFacade);
-
-	    titleMetadataService.generateSplitTitleManifest(resultStream,splitTitleXMLStream,titleMetadata, new Long(1), transformedDirectory, docToSplitBook.getAbsolutePath());
+	    titleMetadataService.generateSplitTitleManifest(resultStream,splitTitleXMLStream,titleMetadata, new Long(1), transformedDirectory, docToSplitBook.getAbsolutePath(), splitNodeInfoFile.getAbsolutePath());
 	    //System.out.println("resultStream "+resultStreamToString(resultStream));
 	   
 	    InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
@@ -218,7 +218,11 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	    
 	     URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Expected.txt");
 	     File expectedDocFile = new File(pathToClass.toURI());
+	     pathToClass = this.getClass().getResource("splitNodeInfo.txt");
+	     File expectedsplitNodeInfoFile = new File(pathToClass.toURI());
+	    // System.out.println("splitNodeInfoFile.getAbsolutePath() "+splitNodeInfoFile.getAbsolutePath());
 	    assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
+	    assertTrue("The files differ!", FileUtils.contentEquals(splitNodeInfoFile, expectedsplitNodeInfoFile));
 	    FileUtils.deleteQuietly(transformedDirectory);
 	}
 	

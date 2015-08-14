@@ -294,7 +294,8 @@
 				p:environmentName-ref="environmentName"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:archiveBaseDirectory="${root.work.directory}/archive"
-				p:docMetadataService-ref="docMetadataService"/>
+				p:docMetadataService-ref="docMetadataService"
+				p:bookDefinitionService-ref="bookDefinitionService"/>
 
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService" />							

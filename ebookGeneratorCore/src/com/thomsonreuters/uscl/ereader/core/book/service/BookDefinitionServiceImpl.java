@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 /**
  * Shared service methods used in both the Spring Batch engine and the dashboard web apps.
@@ -109,6 +111,15 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 			book.setIsDeletedFlag(isDeleted);
 			bookDefinitionDao.saveBookDefinition(book);
 		}
+	}
+	
+	/**
+	 * Update the book definition
+	 * 
+	 */
+	@Transactional
+	public void updateSplitNodeInfoSet(Long bookId, Collection<SplitNodeInfo> splitNodeInfoList, String version) {
+		bookDefinitionDao.saveBookDefinition(bookId,splitNodeInfoList,version);
 	}
 
 

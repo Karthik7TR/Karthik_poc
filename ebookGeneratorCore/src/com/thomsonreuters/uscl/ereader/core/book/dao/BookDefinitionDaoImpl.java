@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	// private static final Logger log =
@@ -193,4 +196,39 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 
 		return eBook;
 	}
+	
+	@Override
+	public void saveBookDefinition(Long bookId, Collection<SplitNodeInfo> newSplitNodeInfoList, String newVersion) {
+		Session session = sessionFactory.getCurrentSession();
+        
+		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
+				.add(Restrictions.eq("ebookDefinitionId", bookId))
+				.uniqueResult();
+		
+		
+		eBook.setLastUpdated(new Date());
+		
+		//Remove persisted rows if the version is same
+		List<SplitNodeInfo> listTobeRemoved = new ArrayList<SplitNodeInfo>();
+		for(SplitNodeInfo splitNodeInfo : eBook.getSplitNodes()){
+			if (splitNodeInfo.getBookVersionSubmitted().equalsIgnoreCase(newVersion)){
+				listTobeRemoved.add(splitNodeInfo);
+			}
+		}
+		
+		if (listTobeRemoved.size()>0){
+			for(SplitNodeInfo splitNodeInfo : listTobeRemoved){
+				if(eBook.getSplitNodes().contains(splitNodeInfo)){
+					eBook.getSplitNodes().remove(splitNodeInfo);
+				}
+			}
+		}
+		
+		eBook.getSplitNodes().addAll(newSplitNodeInfoList);
+
+		// attach child objects to book definition
+		session.merge(eBook);
+		session.flush();
+	}
+	
 }

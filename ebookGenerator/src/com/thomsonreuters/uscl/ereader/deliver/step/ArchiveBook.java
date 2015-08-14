@@ -5,9 +5,14 @@
 */
 package com.thomsonreuters.uscl.ereader.deliver.step;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -24,6 +29,8 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -45,6 +52,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 	private File archiveBaseDirectory;
 	private PublishingStatsService publishingStatsService;
 	private DocMetadataService docMetadataService;
+	private BookDefinitionService bookService;
 
 	public DocMetadataService getDocMetadataService() {
 		return docMetadataService;
@@ -53,6 +61,11 @@ public class ArchiveBook extends AbstractSbTasklet {
 	public void setDocMetadataService(DocMetadataService docMetadataService) {
 		this.docMetadataService = docMetadataService;
 	}
+	
+	@Required
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookService = service;
+	}
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -60,14 +73,37 @@ public class ArchiveBook extends AbstractSbTasklet {
 		String publishStatus = "Completed";
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobInstance.getId());
+	    ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+	    JobParameters jobParameters = getJobParameters(chunkContext);
+		String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);				
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
 		try {
+
+			try{
+				if (bookDefinition.isSplitBook()) {
+					// update table with Node Info
+					String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
+							JobExecutionKey.SPLIT_NODE_INFO_FILE);
+					List<SplitNodeInfo> currentsplitNodeList = new ArrayList<SplitNodeInfo>();
+					readDocImgFile(new File(splitNodeInfoFile), currentsplitNodeList, bookVersion, bookDefinition);
+
+					if (currentsplitNodeList != null || currentsplitNodeList.size() != 0) {
+						List<SplitNodeInfo> persistedSplitNodes = bookDefinition.getSplitNodesAsList();
+
+						boolean same = hasChanged(persistedSplitNodes, currentsplitNodeList, bookVersion);
+						if (!same) {
+							bookService.updateSplitNodeInfoSet(bookDefinition.getEbookDefinitionId(),
+									currentsplitNodeList, bookVersion);
+						}
+					}
+				}
+			}
+			catch(Exception e){
+				log.error("Failed to update splitBookInfo", e);
+				throw e;
+			}
 			// We only archive in the production environment
 			if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
-				ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-				JobParameters jobParameters = getJobParameters(chunkContext);
-				String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-				
-				BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
 	
 				// Calculate and create the target archive directory
 				File archiveDirectory = (bookVersion.endsWith(".0")) ?
@@ -112,6 +148,82 @@ public class ArchiveBook extends AbstractSbTasklet {
 		}
 		return ExitStatus.COMPLETED;
 	}
+	
+	/**
+	 * 
+	 * @param persistedsplitNodeList
+	 * @param currentsplitNodeList
+	 * @param currentVersion
+	 * @return
+	 */
+	public boolean hasChanged(List<SplitNodeInfo> persistedsplitNodeList,List<SplitNodeInfo> currentsplitNodeList,String currentVersion){
+		
+		if (persistedsplitNodeList == null || persistedsplitNodeList.size() == 0) {
+			return false;
+		} 
+		else{
+			List<SplitNodeInfo> sameVersionSplitNodes = new ArrayList<SplitNodeInfo>();
+			for (SplitNodeInfo splitNodeInfo : persistedsplitNodeList) {
+				if (splitNodeInfo.getBookVersionSubmitted().equalsIgnoreCase(currentVersion)) {
+					sameVersionSplitNodes.add(splitNodeInfo);
+				}
+			}
+			if(sameVersionSplitNodes == null || sameVersionSplitNodes.size() == 0){
+				return false;
+			}
+			else{
+				for (SplitNodeInfo splitNodeInfo : currentsplitNodeList) {
+					if(!sameVersionSplitNodes.contains(splitNodeInfo)){
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+		
+	}
+	
+	/**
+	 * The file contents are in this format bookDefinitionId|TocGuid|splitTitleID
+	 * @param docToSplitBook
+	 * @param splitNodeInfoList
+	 */
+	public void readDocImgFile(final File docToSplitBook, List<SplitNodeInfo> splitNodeInfoList, String bookVersion, BookDefinition bookDefinition) {
+		String line = null;
+		BufferedReader stream = null;
+		try {
+			stream = new BufferedReader(new FileReader(docToSplitBook));
+
+			while ((line = stream.readLine()) != null) {
+				
+				String[] splitted = line.split("\\|");				
+				
+				SplitNodeInfo splitNodeInfo = new SplitNodeInfo();
+				splitNodeInfo.setBookDefinition(bookDefinition);
+				splitNodeInfo.setBookVersionSubmitted(bookVersion);
+				String guid = splitted[0];
+				if(guid.length()>33){
+					guid = StringUtils.substring(guid, 0, 33);
+				}
+				splitNodeInfo.setSplitNodeGuid(guid);
+				splitNodeInfo.setSpitBookTitle(splitted[1]);	
+				splitNodeInfoList.add(splitNodeInfo);
+
+			}
+		} catch (IOException iox) {
+			throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					throw new RuntimeException("An IOException occurred while closing a file ", e);
+				}
+			}
+		}
+	}
+
 	
 	private void archiveBook(final ExecutionContext jobExecutionContext, final File archiveDirectory, String sourceFilename) throws IOException{
 		// Copy the ebook artifact file to the archive directory		

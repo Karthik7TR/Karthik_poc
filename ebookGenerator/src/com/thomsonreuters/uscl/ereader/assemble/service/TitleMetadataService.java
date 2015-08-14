@@ -40,8 +40,10 @@ public interface TitleMetadataService {
 	 * @param titleManifest the title manifest (title.xml) to create.
 	 * @param tocXml the TOC structure from which the &lt;toc&gt; &amp; &lt;docs&gt; portions of the manifest are to be derived.
 	 */
-	public void generateSplitTitleManifest(final OutputStream titleManifest, final InputStream tocXml, final TitleMetadata titleMetadata, final Long jobInstanceId, final File transformedDocsDir, final String docToSplitBookFile);
-	
+	public void generateSplitTitleManifest(final OutputStream titleManifest, final InputStream tocXml,
+			final TitleMetadata titleMetadata, final Long jobInstanceId, final File transformedDocsDir,
+			final String docToSplitBookFile, final String splitNodeInfoFile);
+
 	public void generateTitleXML(TitleMetadata titleMetadata, List<Doc>docList,final InputStream splitTitleXMLStream, final OutputStream titleManifest,final String altIdDirPath);
 
 }

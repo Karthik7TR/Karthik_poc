@@ -173,7 +173,11 @@ public class JobExecutionKey {
 	 */
 	public static final String SPLIT_TITLE_XML_FILE = "splitTitleXmlFile";
 	
+	// Path to Format\splitEbook\doc-To-SplitBook.txt
 	public static final String DOC_TO_SPLITBOOK_FILE = "documentToSplitBook";
+	
+	// Path to Format\splitEbook\splitNodeInfo.txt
+	public static final String SPLIT_NODE_INFO_FILE = "splitNodeInfo";
 	
 	public static final String ALT_ID_DIR_PATH = "/apps/eBookBuilder/generator/altId";
 	

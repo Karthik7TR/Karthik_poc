@@ -56,6 +56,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo</value>
 		  </list>
 		</property>
   	</bean>

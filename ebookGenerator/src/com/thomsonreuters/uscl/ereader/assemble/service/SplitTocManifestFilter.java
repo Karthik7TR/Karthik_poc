@@ -35,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 /**
  * A SAX event handler responsible for parsing a gathered TOC (an XML document)
@@ -99,7 +100,6 @@ class SplitTocManifestFilter extends XMLFilterImpl {
 	private FileUtilsFacade fileUtilsFacade;
 	private PlaceholderDocumentService placeholderDocumentService;
 	private File transformedDocsDir;
-	private String docToSplitBookFileName;
 	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
 
@@ -125,6 +125,7 @@ class SplitTocManifestFilter extends XMLFilterImpl {
 	private int titleBreakPart = 0;
 	private StringBuilder firstTitleBreak = new StringBuilder();
 	private Map<String, List<String>> docImageMap;
+	private List<SplitNodeInfo> splitNodeInfoList = new ArrayList<SplitNodeInfo>();
 
 	public StringBuilder getTitleBreak() {
 		return titleBreak;
@@ -519,6 +520,10 @@ class SplitTocManifestFilter extends XMLFilterImpl {
 			String title = node.getTitleBreakString();
 			super.characters(title.toCharArray(), 0, title.length());
 			super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
+			SplitNodeInfo splitNodeInfo = new SplitNodeInfo();
+			splitNodeInfo.setSplitNodeGuid(node.getTocGuid()); 
+			splitNodeInfo.setSpitBookTitle(node.getSplitTitle());
+			splitNodeInfoList.add(splitNodeInfo);
 		}
 		//
 		super.startElement(URI, ENTRY, ENTRY, getAttributes(node));
@@ -685,6 +690,16 @@ class SplitTocManifestFilter extends XMLFilterImpl {
 	
 	protected void setTableOfContents(final TableOfContents tableOfContents) {
 		this.tableOfContents = tableOfContents;
+	}
+	
+
+
+	public List<SplitNodeInfo> getSplitNodeInfoList() {
+		return splitNodeInfoList;
+	}
+
+	public void setSplitNodeInfoList(List<SplitNodeInfo> splitNodeInfoList) {
+		this.splitNodeInfoList = splitNodeInfoList;
 	}
 
 }
