@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.easymock.EasyMock;
 import org.junit.Before;

@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.xml.sax.SAXException;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusNortFileParser;
@@ -102,7 +102,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 
 	}
 	
@@ -136,7 +136,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(false, root.getPubTaggedHeadingExists());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 
 	}
 	
@@ -173,7 +173,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(true, root.getPubTaggedHeadingExists());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 
 	}
 	
@@ -206,7 +206,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 
 	}
 	
@@ -239,7 +239,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 
 	}
 	
@@ -272,7 +272,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(1.0 , root.getRank());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 		
 		RelationshipNode root2 = roots.get(1);
 		assertEquals(0, root2.getChildNodes().size());
@@ -283,7 +283,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root2.getStartDateStr());
 		assertEquals("20970101235959", root2.getEndDateStr());
 		assertEquals(null , root2.getParentNortGuid());
-		assertEquals(2.0 , root2.getRank());
+		assertEquals(2.0 , root2.getRank(), 0.0001);
 
 	}
 	
@@ -345,7 +345,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root2.getStartDateStr());
 		assertEquals("20970101235959", root2.getEndDateStr());
 		assertEquals(null , root2.getParentNortGuid());
-		assertEquals(1.0 , root2.getRank());
+		assertEquals(1.0 , root2.getRank(), 0.0001);
 		
 		RelationshipNode root = roots.get(1);
 		assertEquals(0, root.getChildNodes().size());
@@ -356,7 +356,7 @@ public class NovusNortFileParserTest {
 		assertEquals("20050217000000", root.getStartDateStr());
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
-		assertEquals(2.0 , root.getRank());
+		assertEquals(2.0 , root.getRank(), 0.0001);
 	}
 	
 	private void addContentToFile(File file, String text) {

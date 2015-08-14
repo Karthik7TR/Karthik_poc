@@ -19,7 +19,7 @@ import org.junit.rules.TemporaryFolder;
 
 import javax.xml.transform.Source;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * Unit test to validate XSL include resolutions.

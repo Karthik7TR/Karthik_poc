@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.displaytag.pagination.PaginatedList;
 import org.easymock.EasyMock;

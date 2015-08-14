@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.proview;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
