@@ -198,7 +198,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	}
 	
 	@Override
-	public void saveBookDefinition(Long bookId, Collection<SplitNodeInfo> newSplitNodeInfoList, String newVersion) {
+	public BookDefinition saveBookDefinition(Long bookId, Collection<SplitNodeInfo> newSplitNodeInfoList, String newVersion) {
 		Session session = sessionFactory.getCurrentSession();
         
 		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
@@ -222,13 +222,17 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 					eBook.getSplitNodes().remove(splitNodeInfo);
 				}
 			}
-		}
+		}	
+		
 		
 		eBook.getSplitNodes().addAll(newSplitNodeInfoList);
 
 		// attach child objects to book definition
-		session.merge(eBook);
+		eBook = (BookDefinition) session.merge(eBook);
+		
 		session.flush();
+		
+		return eBook;
 	}
 	
 }

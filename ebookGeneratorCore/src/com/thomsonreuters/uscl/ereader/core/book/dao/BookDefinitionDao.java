@@ -84,6 +84,6 @@ public interface BookDefinitionDao {
 			String proviewDisplayName, String fullyQualifiedTitleId, String isbn,
  String materialId, Date to, Date from, String status);
 	
-	public void saveBookDefinition(Long ebookDefinitionId, Collection<SplitNodeInfo> splitNodeInfoList, String newVersion);
+	public BookDefinition saveBookDefinition(Long ebookDefinitionId, Collection<SplitNodeInfo> splitNodeInfoList, String newVersion);
 
 }

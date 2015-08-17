@@ -1,17 +1,14 @@
 package com.thomsonreuters.uscl.ereader.deliver.step;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
@@ -120,7 +117,7 @@ public class ArchiveBookTest {
 		splitNodeInfo2.setSplitNodeGuid("splitNodeGuid");
 		persistedSplitNodes.add(splitNodeInfo2);
 		boolean actual = archiveBook.hasChanged(persistedSplitNodes, currentsplitNodeList, currentVersion);		
-		assertTrue(actual);
+		assertTrue(!actual);
 	}
 	
 	/**
@@ -142,6 +139,24 @@ public class ArchiveBookTest {
 		persistedSplitNodes.add(splitNodeInfo2);
 		boolean actual = archiveBook.hasChanged(persistedSplitNodes, currentsplitNodeList, currentVersion);		
 		assertTrue(!actual);
+	}
+	
+	
+	@Test
+	public void testSyncList7(){
+		List<SplitNodeInfo> currentsplitNodeList = new ArrayList<SplitNodeInfo>();
+		currentsplitNodeList.add(splitNodeInfo);
+		List<SplitNodeInfo> persistedSplitNodes = new ArrayList<SplitNodeInfo>();
+		SplitNodeInfo splitNodeInfo2 = new SplitNodeInfo();
+		BookDefinition bookDefinition = new BookDefinition();
+		bookDefinition.setEbookDefinitionId(new Long(1));
+		splitNodeInfo2.setBookDefinition(bookDefinition);
+		splitNodeInfo2.setBookVersionSubmitted("V1");
+		splitNodeInfo2.setSpitBookTitle("splitBookTitle");
+		splitNodeInfo2.setSplitNodeGuid("splitNodeGuid");
+		persistedSplitNodes.add(splitNodeInfo2);
+		boolean actual = archiveBook.hasChanged(persistedSplitNodes, currentsplitNodeList, currentVersion);		
+		assertTrue(actual);
 	}
 
 }

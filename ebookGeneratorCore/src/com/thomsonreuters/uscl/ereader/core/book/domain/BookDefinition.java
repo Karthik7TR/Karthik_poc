@@ -313,7 +313,7 @@ public class BookDefinition implements Serializable {
 	@Cascade({CascadeType.ALL})
 	Set<ExcludeDocument> excludeDocuments;
 	
-	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = false)
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
 	Set<SplitNodeInfo> splitNodes;
 	/**
@@ -1069,7 +1069,7 @@ public class BookDefinition implements Serializable {
 	}
 
 	public void setSplitNodes(Collection<SplitNodeInfo> splitNodes) {
-		this.splitNodes.addAll(new HashSet<SplitNodeInfo>(splitNodes));
+		this.splitNodes = new HashSet<SplitNodeInfo>(splitNodes);
 	}
 
 	

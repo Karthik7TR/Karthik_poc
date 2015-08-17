@@ -168,10 +168,13 @@ public class ArchiveBook extends AbstractSbTasklet {
 					sameVersionSplitNodes.add(splitNodeInfo);
 				}
 			}
-			if(sameVersionSplitNodes == null || sameVersionSplitNodes.size() == 0){
+			if(sameVersionSplitNodes.size() == 0){
 				return false;
 			}
-			else{
+			else if(sameVersionSplitNodes.size() >= 0 && sameVersionSplitNodes.size() != currentsplitNodeList.size() ){
+				return false;
+			}
+			else{				
 				for (SplitNodeInfo splitNodeInfo : currentsplitNodeList) {
 					if(!sameVersionSplitNodes.contains(splitNodeInfo)){
 						return false;
