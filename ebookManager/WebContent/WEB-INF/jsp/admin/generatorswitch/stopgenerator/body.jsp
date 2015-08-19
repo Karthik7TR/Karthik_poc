@@ -37,12 +37,12 @@ $(document).ready(function() {
 	<ul>
 		<c:forEach items="${infoMessages}" var="message">
 			<c:if test="${message.type == 'INFO'}">
-				<c:set var="class" value="infoMessageWarning"/>
+				<c:set var="cssClass" value="infoMessageWarning"/>
 			</c:if>
 			<c:if test="${message.type == 'ERROR'}">
-				<c:set var="class" value="infoMessageError"/>
+				<c:set var="cssClass" value="infoMessageError"/>
 			</c:if>
-			<li class="${class}">${message.text}</li>
+			<li class="${cssClass}">${message.text}</li>
 		</c:forEach>
 	</ul>
 </c:if>	   
