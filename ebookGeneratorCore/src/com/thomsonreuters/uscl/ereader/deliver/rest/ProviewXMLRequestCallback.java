@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
 
@@ -28,8 +30,13 @@ public class ProviewXMLRequestCallback  implements RequestCallback {
 		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
 		if (requestInputStream != null) {
 			long startTime = System.currentTimeMillis();
-			IOUtils.copy(requestInputStream, clientHttpRequest.getBody());		
-			
+			//IOUtils.copy(requestInputStream, clientHttpRequest.getBody());		
+			((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
+			    @Override
+			    public void writeTo(final OutputStream outputStream) throws IOException {
+			      IOUtils.copy(requestInputStream, outputStream);
+			    }
+			  });
 			long duration = System.currentTimeMillis() - startTime;
 			LOG.debug("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
 		}

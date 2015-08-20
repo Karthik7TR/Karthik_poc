@@ -254,7 +254,7 @@ public class ProviewClientImpl implements ProviewClient {
             throw new RuntimeException(e.toString(), e);
         }
     	
-        LOG.debug("Proview[+ Request: "+output.toString()+"]");
+        LOG.debug("Proview[ Request: "+output.toString()+"]");
     	return output.toString();
 	}
 	

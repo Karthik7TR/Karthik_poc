@@ -14,12 +14,12 @@ import java.util.List;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -27,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpClientFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
@@ -58,7 +59,7 @@ public class ProviewClientImplIntegrationTest {
 	private static final String PROVIEW_INVALID_PASSWORD = "PIRATES!";
 
 	private ProviewClientImpl proviewClient;
-	private DefaultHttpClient defaultHttpClient;
+	private CloseableAuthenticationHttpClientFactory defaultHttpClient;
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 
@@ -66,13 +67,16 @@ public class ProviewClientImplIntegrationTest {
 	public void setUp() throws Exception {
 		this.proviewClient = new ProviewClientImpl();
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+		requestFactory.setBufferRequestBody(false);
 
-		defaultHttpClient = new DefaultHttpClient();
+		defaultHttpClient = new CloseableAuthenticationHttpClientFactory("proviewpublishing.int.ci.thomsonreuters.com",PROVIEW_USERNAME,PROVIEW_PASSWORD);
+		/*defaultHttpClient = new DefaultHttpClient();
 		defaultHttpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
 				new UsernamePasswordCredentials(PROVIEW_USERNAME,
 						PROVIEW_PASSWORD));
-		requestFactory.setHttpClient(defaultHttpClient);
+		requestFactory.setHttpClient(defaultHttpClient);*/
+		requestFactory.setHttpClient(defaultHttpClient.getCloseableAuthenticationHttpClient());
 
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
 		restTemplate.getMessageConverters().add(
@@ -177,6 +181,8 @@ public class ProviewClientImplIntegrationTest {
 		}
 	}
 	
+	
+	
 	@Test
 	public void testCreateGroup()
 			throws Exception {
@@ -189,14 +195,14 @@ public class ProviewClientImplIntegrationTest {
 		groupDefinition.setName("Group Test");
 		groupDefinition.setType("standard");
 		groupDefinition.setOrder("newerfirst");
-		groupDefinition.setHeadTitle("uscl/sc/ca_evid");
+		groupDefinition.setHeadTitle("uscl/an/book_lohisplitnodeinfo");
 		
 		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
 		SubGroupInfo subGroupInfo = new SubGroupInfo();
 		subGroupInfo.setHeading("2014");
 		List<String> titleList = new ArrayList<String>();
-		titleList.add("uscl/sc/ca_evid");
-		titleList.add("uscl/an/ilcv");
+		titleList.add("uscl/an/book_lohisplitnodeinfo/v1");
+		titleList.add("uscl/an/book_lohisplitnodeinfo_pt2/v1");
 		subGroupInfo.setTitles(titleList);
 		subGroupInfoList.add(subGroupInfo);
 		groupDefinition.setSubGroupInfoList(subGroupInfoList);
@@ -239,7 +245,7 @@ public class ProviewClientImplIntegrationTest {
 	
 	
 
-	@Test
+/*	@Test
 	public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception {
 
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
@@ -264,5 +270,5 @@ public class ProviewClientImplIntegrationTest {
 			System.out.println(e.getMessage());
 			// expected
 		}
-	}
+	}*/
 }
