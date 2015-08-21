@@ -7,9 +7,6 @@ package com.thomsonreuters.uscl.ereader.deliver.step;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,8 +18,6 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -75,37 +70,12 @@ public class DeliverToProview extends AbstractSbTasklet {
 		try 
 		{	
 			if(bookDefinition.isSplitBook()){
-				
-				String majorVersion = versionNumber;
-				if(StringUtils.contains(versionNumber, '.')){
-					majorVersion = StringUtils.substringBefore(versionNumber, ".");
-				}
-				
-				int groupVersion = Integer.parseInt(StringUtils.substringAfterLast(versionNumber, ".")) + 1;
-				String groupId = getGroupId(bookDefinition, majorVersion);
-				GroupDefinition groupDefinition = new GroupDefinition();
-				groupDefinition.setGroupId(groupId);
-				groupDefinition.setGroupVersion(VERSION_NUMBER_PREFIX+String.valueOf(groupVersion));
-				groupDefinition.setHeadTitle(fullyQualifiedTitleId);
-				groupDefinition.setName(bookDefinition.getProviewDisplayName());
-				groupDefinition.setType("standard");
-				groupDefinition.setOrder("newerfirst");
-				int year = Calendar.getInstance().get(Calendar.YEAR);
-		        
-				List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
-				SubGroupInfo subGroupInfo = new SubGroupInfo();
-				subGroupInfo.setHeading(String.valueOf(year));
-				List<String> titleList = new ArrayList<String>();
-				
 				File workDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.WORK_DIRECTORY));
 				if (workDirectory == null || !workDirectory.isDirectory()) {
 					throw new IOException("workDirectory must not be null and must be a directory.");
 				}
 				List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstance);
-				
 				for (String splitTitleId : splitTitles) {
-					
-					titleList.add(splitTitleId+"/"+majorVersion);					
 					fullyQualifiedTitleId = splitTitleId;
 					splitTitleId = StringUtils.substringAfterLast(splitTitleId, "/");
 					eBook = new File(workDirectory, splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
@@ -114,12 +84,6 @@ public class DeliverToProview extends AbstractSbTasklet {
 					}
 					proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
 				}
-				
-				subGroupInfo.setTitles(titleList);
-				subGroupInfoList.add(subGroupInfo);
-				groupDefinition.setSubGroupInfoList(subGroupInfoList);
-				//Create group after publishing to Proview
-				proviewClient.createGroup(groupDefinition);
 			}
 			else{
 				proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
@@ -143,23 +107,6 @@ public class DeliverToProview extends AbstractSbTasklet {
 
       
 		return ExitStatus.COMPLETED;
-	}
-	
-	/**
-	 * Group ID is unique to each major version
-	 * @param bookDefinition
-	 * @param versionNumber
-	 * @return
-	 */
-	public String getGroupId(BookDefinition bookDefinition, String majorVersion){
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(bookDefinition.getPublisherCodes().getName());
-		buffer.append("/");
-		buffer.append(StringUtils.substringAfterLast(bookDefinition.getFullyQualifiedTitleId(), "/"));
-		buffer.append("_");
-		buffer.append(majorVersion);
-		
-		return buffer.toString();
 	}
 	
 	public void setProviewClient(ProviewClient proviewClient) {
