@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -146,6 +147,32 @@ public class GenerateSplitTocXMLTest {
 		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
 		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
 
+	}
+	
+	@Test
+	public void testIncorrectSplitToc() throws Exception {
+		boolean thrown = false;
+		splitTocGuidList = new ArrayList<String>();
+		String guid1 = "NF81E0E40C40911DA87C3A6A101BC03A2";
+		String guid2 = "NC1A2A41006F411DB956CABAE160C185B";
+		String guid3 = "N66C5A630FAFD11DA989FE57CEE210EFD";
+		String guid4 = "NF66DD160C24F11DD8003BB48904FDE9B";
+		splitTocGuidList.add(guid1);
+		splitTocGuidList.add(guid2);
+		splitTocGuidList.add(guid3);
+		splitTocGuidList.add(guid4);
+		URL url = GenerateSplitTocTask.class.getResource("toc.xml");
+		tocXml = new FileInputStream(url.getPath());
+		String titleBreakLabel = "Title part ";
+		try{
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+				tranformedDirectory, jobInstanceId,"splitTitle");
+		}
+		catch (RuntimeException e){
+			thrown = true;
+			Assert.assertEquals(true,e.getMessage().contains("Split occured at an incorrect level. NF81E0E40C40911DA87C3A6A101BC03A2, N66C5A630FAFD11DA989FE57CEE210EFD, NC1A2A41006F411DB956CABAE160C185B"));
+		}
+		assertTrue(thrown);
 	}
 
 	protected void writeDocumentLinkFile(File tFile, boolean addNewLine) {

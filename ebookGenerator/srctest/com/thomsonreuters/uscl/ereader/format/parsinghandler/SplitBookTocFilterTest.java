@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -79,8 +80,8 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><dummyTag>dummyValue</dummyTag><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr,expectedResult);
-		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr,expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
 	@Test
@@ -103,8 +104,8 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr,expectedResult);
-		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr,expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
 	@Test
@@ -121,8 +122,8 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><dummyTag>dummyValue</dummyTag><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr,expectedResult);
-		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr,expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
 	@Test
@@ -147,9 +148,137 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr,expectedResult);
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr,expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
+	}
+	
+	@Test
+	public void test6() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_4";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(1, wrongSplitTocNodes.size());
+		for (String tocNode : wrongSplitTocNodes){
+			assertEquals(guid1, tocNode);
+		}
 		
 	}
+	
+	@Test
+	public void test7() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_1";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(1, wrongSplitTocNodes.size());	
+		for (String tocNode : wrongSplitTocNodes){
+			assertEquals(guid1, tocNode);
+		}
+	}
+	
+	@Test
+	public void test8() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());		
+	}
+	
+	@Test
+	public void test9() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_4";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult = "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
+	}
+	
 	
 	
 	
@@ -168,7 +297,8 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr, expectedResult);
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
 	@Test
@@ -188,8 +318,8 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr, expectedResult);
-		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
 		
@@ -205,11 +335,13 @@ public class SplitBookTocFilterTest {
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
-		testHelper(xmlTestStr, expectedResult);
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
 	}
 	
-	public void testHelper(String inputXML, String expectedResult) throws SAXException
+	public List<String> testHelper(String inputXML, String expectedResult) throws SAXException
 	{
+		List<String> wrongSplitTocNode = new ArrayList<String>();
 		ByteArrayInputStream input = null;
 		ByteArrayOutputStream output = null;
 		try
@@ -221,6 +353,7 @@ public class SplitBookTocFilterTest {
 			
 			splitBookFilter.setContentHandler(serializer.asContentHandler());
 			splitBookFilter.parse(new InputSource(input));
+			wrongSplitTocNode = splitBookFilter.getWrongSplitTocNode();
 			
 			String result = output.toString();
 			
@@ -248,6 +381,8 @@ public class SplitBookTocFilterTest {
 				fail("Couldn't clean up resources: " + e.getMessage());
 			}
 		}
+
+		return wrongSplitTocNode;
 	}
 
 }

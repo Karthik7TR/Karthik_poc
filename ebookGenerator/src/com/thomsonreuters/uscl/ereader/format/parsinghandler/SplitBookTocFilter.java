@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	private static final Logger LOG = Logger.getLogger(SplitBookTocFilter.class);
 	
 	private boolean bufferingTocGuid = false;
+	private boolean leafNode = false;
 	private boolean foundMatch = false;
 	private boolean isEbook = false;
 	
@@ -39,6 +41,18 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	private StringBuffer tmpValue = new StringBuffer();
 	private Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
 	private Map<String,String>  elementValueMap = new LinkedHashMap<String,String>();
+	private List<String> wrongSplitTocNodes = new ArrayList<String>();
+	private String splitNode = "";
+
+
+	public List<String> getWrongSplitTocNode() {
+		return wrongSplitTocNodes;
+	}
+
+
+	public void setWrongSplitTocNode(List<String> wrongSplitTocNode) {
+		this.wrongSplitTocNodes = wrongSplitTocNode;
+	}
 
 
 	public String getSplitTilteId() {
@@ -97,7 +111,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		 if (EBOOK.equals(qName)) {
 			 isEbook = Boolean.TRUE;
 		 }
-		 if (EBOOK_TOC.equals(qName)) {
+		  if (EBOOK_TOC.equals(qName)) {
 			 //This title break is to write at the top after the <EBook>
 			 if(isEbook){
 				 	super.startElement(URI, EBOOK, EBOOK,EMPTY_ATTRIBUTES);
@@ -133,7 +147,8 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		}
 		
 		if (bufferingTocGuid) {
-			if (splitTocGuidList.contains(StringUtils.substring(tmpValue.toString(), 0,33))){
+			splitNode = StringUtils.substring(tmpValue.toString(), 0,33);
+			if (splitTocGuidList.contains(splitNode)){
 				foundMatch = true;					
 			}
 			bufferingTocGuid = Boolean.FALSE;
@@ -143,20 +158,27 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	
 		
 	
-	private void writeSplitToc(boolean isSplit) throws SAXException {
+	private void writeSplitToc(boolean isSplit) throws SAXException {		
 		if(isSplit){
 			super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 			number++;
 			String text = titleBreakText+number;
 			super.characters(text.toCharArray(), 0, text.length());
 			super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
-		}
+			if(!leafNode){
+				LOG.error("Split at TOC node GUID "+ splitNode +" is at an incorrect level");
+				wrongSplitTocNodes.add(splitNode);
+			}
+		}		
+		
+		 leafNode = Boolean.FALSE;
 		
 		super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);
 		
 		for (Map.Entry<String, String> entry : elementValueMap.entrySet()) {
 			//Adding Document Info
 			if(entry.getKey().equals(DOCUMENT_GUID) ){
+					leafNode = Boolean.TRUE;
 					DocumentInfo documentInfo = new DocumentInfo();
 					if (number > 1){
 						documentInfo.setSplitTitleId(splitTilteId+"_pt"+number);

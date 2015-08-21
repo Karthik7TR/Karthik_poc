@@ -51,8 +51,23 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 			splitBookTocFilter.setSplitTocGuidList(splitTocGuidList);
 			splitBookTocFilter.setTitleBreakText(titleBreakLabel);
 			splitBookTocFilter.setSplitTilteId(splitTitleId);
-
 			splitBookTocFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
+			
+
+			if(splitBookTocFilter.getWrongSplitTocNode().size() > 0){
+				StringBuffer eMessage = new StringBuffer("Split occured at an incorrect level. ");
+				int i = 1;
+				for (String tocGuid : splitBookTocFilter.getWrongSplitTocNode()){
+					if (i == splitBookTocFilter.getWrongSplitTocNode().size()){
+						eMessage.append(tocGuid);
+					}
+					else{
+						eMessage.append(tocGuid+", ");
+					}
+					i++;
+				}
+				throw new  RuntimeException(eMessage.toString());
+			}
 						
 			return splitBookTocFilter.getDocumentInfoMap();
 
