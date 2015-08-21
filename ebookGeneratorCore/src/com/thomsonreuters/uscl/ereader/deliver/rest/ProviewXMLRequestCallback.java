@@ -38,8 +38,9 @@ public class ProviewXMLRequestCallback  implements RequestCallback {
 			    }
 			  });
 			long duration = System.currentTimeMillis() - startTime;
-			LOG.debug("Wrote ebook to HTTP Request Body in " + duration + " milliseconds.");
+			LOG.debug("Created Proview Group in " + duration + " milliseconds.");
 		}
+		LOG.debug("ProView URI: " + clientHttpRequest.getURI().getPath());
 		LOG.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
 	}
 }
