@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.group.step;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -82,10 +83,12 @@ public class GroupEbooks extends AbstractSbTasklet {
 				GroupDefinition groupDefinition = new GroupDefinition();
 				String groupId = groupService.getGroupId(bookDefinition);
 				String groupName = groupService.getGroupName(documentTypeCode, bookDefinition.getEbookNames());
+				List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
+				
 				if (lastGroupVersionSubmitted != null){					
 					String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersionSubmitted);
-					//Always create new subgroup for the latest major version 
-					List<SubGroupInfo> subGroupInfoList = groupService.getSubGroupInfo(jobInstance,majorVersion);
+					//Always create new subgroup for the latest major version ;
+					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion));
 					//Add subgroups from Proview previous versions
 					if(proviewResponse != null){
 						subGroupInfoList.addAll(groupService.getSubGroupsFromProviewResponse(proviewResponse, majorVersion));
@@ -106,8 +109,8 @@ public class GroupEbooks extends AbstractSbTasklet {
 					groupDefinition.setHeadTitle(fullyQualifiedTitleId+"/"+majorVersion);
 					groupDefinition.setName(groupName);
 					groupDefinition.setType("standard");
-					
-					groupDefinition.setSubGroupInfoList(groupService.getSubGroupInfo(jobInstance,majorVersion));
+					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion));
+					groupDefinition.setSubGroupInfoList(subGroupInfoList);
 					
 				}	
 				//Create group with retry logic

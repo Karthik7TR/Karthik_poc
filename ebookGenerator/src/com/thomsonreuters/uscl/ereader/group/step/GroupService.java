@@ -16,6 +16,6 @@ public interface GroupService {
 	
 	public String getGroupName(DocumentTypeCode documentTypeCode, List<EbookName> names);
 	
-	public List<SubGroupInfo> getSubGroupInfo(Long jobInstance, String majorVersion);
+	public SubGroupInfo getSubGroupInfo(Long jobInstance, String majorVersion);
 
 }

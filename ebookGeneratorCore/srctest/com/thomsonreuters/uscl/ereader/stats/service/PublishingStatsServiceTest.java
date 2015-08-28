@@ -99,6 +99,30 @@ public class PublishingStatsServiceTest  {
 		EasyMock.verify(mockDao);
 	}
 	
+	@Test
+	public void testGetMaxGroupVersionById() {
+		Long ebookDefId = new Long(1);
+		
+		
+		EasyMock.expect(mockDao.getMaxGroupVersionById(ebookDefId)).andReturn(new Long(10));
+		EasyMock.replay(mockDao);
+		Long maxGroupVersion = service.getMaxGroupVersionById(ebookDefId);
+		Assert.assertEquals(new Long(10), maxGroupVersion);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testGetMaxGroupVersionByIdNoGroup() {
+		Long ebookDefId = new Long(1);
+		
+		
+		EasyMock.expect(mockDao.getMaxGroupVersionById(ebookDefId)).andReturn(null);
+		EasyMock.replay(mockDao);
+		Long maxGroupVersion = service.getMaxGroupVersionById(ebookDefId);
+		Assert.assertEquals(null, maxGroupVersion);
+		EasyMock.verify(mockDao);
+	}
+	
 //	@Test
 //	public void testMaxRowsInExcel() {
 //		PublishingStatsFilter filter = new PublishingStatsFilter();

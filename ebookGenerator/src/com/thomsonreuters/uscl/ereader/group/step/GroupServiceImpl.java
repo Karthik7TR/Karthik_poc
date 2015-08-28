@@ -132,13 +132,12 @@ public class GroupServiceImpl implements GroupService {
 
 	}
 	
-	public List<SubGroupInfo> getSubGroupInfo(Long jobInstance, String majorVersion){
+	public SubGroupInfo getSubGroupInfo(Long jobInstance, String majorVersion){
 		String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 		        "August", "September", "October", "November", "December" };
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		
-		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
 		SubGroupInfo subGroupInfo = new SubGroupInfo();
 		subGroupInfo.setHeading(monthName[cal.get(Calendar.MONTH)]+" "+String.valueOf(year));
 		List<String> titleList = new ArrayList<String>();
@@ -152,8 +151,8 @@ public class GroupServiceImpl implements GroupService {
 		}
 		
 		subGroupInfo.setTitles(titleList);
-		subGroupInfoList.add(subGroupInfo);
-		return subGroupInfoList;
+		
+		return subGroupInfo;
 	}
 	
 	public DocMetadataService getDocMetadataService() {
