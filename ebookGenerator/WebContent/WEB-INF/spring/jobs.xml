@@ -182,6 +182,12 @@
 		<step id="deliverEBook">
 			<tasklet ref="deliverEBookTask"/>
 			<fail on="FAILED"/>
+			<next on="COMPLETED" to="groupBook"/>
+		</step>
+		
+		<step id="groupBook">
+			<tasklet ref="groupEBookTask"/>
+			<fail on="FAILED"/>
 			<next on="COMPLETED" to="archiveBook"/>
 		</step>
 
@@ -290,6 +296,10 @@
 				p:proviewClient-ref="proviewClient"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:docMetadataService-ref="docMetadataService"/>
+	<beans:bean id="groupEBookTask" class="com.thomsonreuters.uscl.ereader.group.step.GroupEbooks" parent="parentTask" 
+				p:proviewClient-ref="proviewClient"
+				p:publishingStatsService-ref="publishingStatsService"
+				p:groupService-ref="groupService"/>
 	<beans:bean id="archiveBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.ArchiveBook" parent="parentTask"
 				p:environmentName-ref="environmentName"
 				p:publishingStatsService-ref="publishingStatsService"

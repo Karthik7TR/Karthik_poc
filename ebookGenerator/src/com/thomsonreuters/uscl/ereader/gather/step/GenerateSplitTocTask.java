@@ -38,8 +38,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 
 	private SplitBookTocParseService splitBookTocParseService;
-	private static final Long ANALYTICAL = new Long(1);
-
+	
 	private DocMetadataService docMetadataService;
 
 	private FileHandlingHelper fileHandlingHelper;
@@ -145,7 +144,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 			if (name.getSequenceNum() == 1) {
 				mainTitle.append(name.getBookNameText());
 				if (documentTypeCode == null
-						|| (documentTypeCode != null && !documentTypeCode.getId().equals(ANALYTICAL))) {
+						|| (documentTypeCode != null && !documentTypeCode.getId().equals(DocumentTypeCode.ANALYTICAL))) {
 					return mainTitle.append(" part ").toString();
 				}
 			}

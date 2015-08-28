@@ -161,7 +161,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.GET, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.getGroupDefinition(mockGroupDefinition);
+		String response = proviewClient.getProviewGroupInfo("uscl/groupTest","v1");
 		System.out.println("response "+response);
 		verifyAll();
 		Assert.assertEquals("", response);

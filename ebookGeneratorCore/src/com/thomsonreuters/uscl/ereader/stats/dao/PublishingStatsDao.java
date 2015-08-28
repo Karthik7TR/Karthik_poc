@@ -50,6 +50,12 @@ public interface PublishingStatsDao {
 	 * 
 	 */
 	public void deleteJobStats(PublishingStats jobstats);
+	/**
+	 * Get Maximum group version by book definition ID
+	 * where status is  'sendEmailNotification : Completed'
+	 * 
+	 */
+	public Long getMaxGroupVersionById(Long EbookDefId);
 	
 	/**
 	 * Update an existing job stats entity

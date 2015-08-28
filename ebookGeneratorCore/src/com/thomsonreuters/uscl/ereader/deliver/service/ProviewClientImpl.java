@@ -60,7 +60,7 @@ public class ProviewClientImpl implements ProviewClient {
 	private String createGroupUriTemplate;	
 	private String updateGroupStatusUriTemplate;
 	private String getGroupUriTemplate;
-
+	
 	public static final String ROOT_ELEMENT = "group";
 	
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
@@ -198,24 +198,23 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @return
 	 * @throws ProviewException
 	 */
-	public String getGroupDefinition(final GroupDefinition groupDefinition)
+	public String getProviewGroupInfo(final String groupId, final String groupVersion)
 			throws ProviewException {	
-
-
+		
+		
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupDefinition.getGroupId());
-		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
 
 		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
 				.getXMLRequestCallback();
-
+				
 		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
 				HttpMethod.GET, proviewXMLRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
 
-		//to-do response could be "stats cannot be changed from removed to removed"
 		return proviewResponse;
 	}
 	

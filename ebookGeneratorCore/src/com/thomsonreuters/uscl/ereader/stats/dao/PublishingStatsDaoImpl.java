@@ -76,6 +76,16 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		sessionFactory.getCurrentSession().delete(toRemove);
 		sessionFactory.getCurrentSession().flush();
 	}
+	
+	@Override
+	public Long getMaxGroupVersionById(Long eBookDefId){
+		Session session = sessionFactory.getCurrentSession();
+
+		 Query query = session.createQuery("select max(groupVersion) from PublishingStats "
+                 + "where ebookDefId = :ebookDefId ");
+         query.setParameter("ebookDefId", eBookDefId);
+         return (Long) query.uniqueResult();
+	}
 
 	@Override
 	public int updateJobStats(PublishingStats jobstats,
@@ -134,7 +144,12 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			hql.append("publishEndTimestamp = sysdate");
 		} else if (updateType.equals(StatsUpdateTypeEnum.GENERAL)) {
 
-		} else {
+		} else if (updateType.equals(StatsUpdateTypeEnum.GROUPEBOOK)){
+			hql.append("groupVersion = ");
+			hql.append(jobstats.getGroupVersion());
+		}
+		
+		else {
 			LOG.error("Unknown StatsUpdateTypeEnum");
 			// TODO: failure logic
 		}

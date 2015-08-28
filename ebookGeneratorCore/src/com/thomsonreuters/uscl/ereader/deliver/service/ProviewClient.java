@@ -41,7 +41,7 @@ public interface ProviewClient {
 	public String deleteGroup(final GroupDefinition groupDefinition)
 			throws ProviewException;
 	
-	public String getGroupDefinition(final GroupDefinition groupDefinition)
+	public String getProviewGroupInfo(final String groupId, final String groupVersion)
 			throws ProviewException;
 
 	public String getAllPublishedTitles() throws ProviewException;

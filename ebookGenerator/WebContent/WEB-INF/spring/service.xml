@@ -183,6 +183,9 @@
 	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
 			p:docMetadataDAO-ref="docMetaDataDao"/>	
 			
+	<bean id="groupService" class="com.thomsonreuters.uscl.ereader.group.step.GroupServiceImpl"
+			p:docMetadataService-ref="docMetadataService"/>	
+			
 	<bean id="paceMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl"
 			p:paceMetadataDAO-ref="paceMetaDataDao"/>	
 	

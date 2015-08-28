@@ -59,4 +59,6 @@ public interface PublishingStatsService {
 	
 	public Workbook createExcelDocument(PublishingStatsFilter filter);
 	
+	public Long getMaxGroupVersionById(Long ebookDefId);
+	
 }

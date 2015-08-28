@@ -101,6 +101,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	}
 	
 	@Override
+	@Transactional
+	public Long getMaxGroupVersionById(Long ebookDefId) {
+		return publishingStatsDAO.getMaxGroupVersionById(ebookDefId);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public Boolean hasIsbnBeenPublished(String isbn,  String titleId) {
 		String replacedIsbn = "";

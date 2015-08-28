@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class DocumentTypeCode implements Serializable {
 	//private static final Logger log = Logger.getLogger(DocumentTypeCode.class);
 	private static final long serialVersionUID = -401472676661960713L;
+	public static final Long ANALYTICAL = new Long(1);
 
 	@Id
 	@Column(name="DOCUMENT_TYPE_CODES_ID")

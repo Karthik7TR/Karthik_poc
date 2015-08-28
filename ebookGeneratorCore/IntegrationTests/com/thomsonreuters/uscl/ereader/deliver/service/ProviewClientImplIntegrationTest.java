@@ -213,7 +213,7 @@ public class ProviewClientImplIntegrationTest {
 			Assert.assertEquals(response.length(),0);
 			proviewClient.setGetGroupUriTemplate("http://"
 					+ PROVIEW_DOMAIN_PREFIX + "/v1/group/{groupId}/{groupVersionNumber}/info");
-			response = proviewClient.getGroupDefinition(groupDefinition);
+			response = proviewClient.getProviewGroupInfo("uscl/groupTest","v1");
 			Assert.assertEquals(response.length(),325);
 			updateStatusAndDelete(groupDefinition);
 			

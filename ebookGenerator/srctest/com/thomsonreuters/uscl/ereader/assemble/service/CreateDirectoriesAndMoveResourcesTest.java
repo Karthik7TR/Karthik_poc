@@ -142,7 +142,7 @@ public class CreateDirectoriesAndMoveResourcesTest {
 		Asset asset = new Asset();
 		asset = createDirectoriesAndMoveResources.getAssestsfromFile(tempFile);
 		
-		System.out.println(asset.toString());
+		//System.out.println(asset.toString());
 		assertTrue(asset !=null);
 		assertTrue(asset.getId().startsWith("pirate"));
 		assertTrue(asset.getSrc().startsWith("pirate"));

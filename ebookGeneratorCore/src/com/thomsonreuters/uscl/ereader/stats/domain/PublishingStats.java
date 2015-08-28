@@ -249,8 +249,12 @@ public class PublishingStats implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	Long largestPdfSize;	
-
 	
+	@Column(name = "GROUP_VERSION")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Long groupVersion;
+
 	public Date getPublishStartTimestamp() {
 		return publishStartTimestamp;
 	}
@@ -594,6 +598,15 @@ public class PublishingStats implements Serializable {
 		} else {
 			return null;
 		}
+	}
+	
+
+	public Long getGroupVersion() {
+		return groupVersion;
+	}
+
+	public void setGroupVersion(Long groupVersion) {
+		this.groupVersion = groupVersion;
 	}
 
 	@Override
