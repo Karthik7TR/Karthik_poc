@@ -48,7 +48,7 @@ public class SmokeTestController {
 		List<SmokeTest> statuses = new ArrayList<SmokeTest>();
 		URI uri = URI.create(imageVertical);
 		
-		statuses.add(smokeTestService.getApplicationStatus("Image Vertical", String.format("http://%s/CheckStatus", uri.getAuthority() )));
+		statuses.add(smokeTestService.getApplicationStatus("Image Vertical", String.format("http://%s/image/v1/StatusCheck", uri.getAuthority() )));
 		statuses.add(smokeTestService.getApplicationStatus("ProView", String.format("http://%s/v1/statuscheck", proviewHost.getHostName())));
 		statuses.add(smokeTestService.testConnection());
 		model.addAttribute("currentProperties", statuses);

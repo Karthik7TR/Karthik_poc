@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SingleImageMetadata {
 	
-	private String 	ttype;
 	private String 	guid;		// image GUID to retrieve
 	private MediaType	mediaType;	// image mime-type
 	private Long 	size;		// image size in bytes
@@ -65,10 +64,6 @@ public class SingleImageMetadata {
 	public Long getSize() {
 		return size;
 	}
-	@JsonProperty("TType")
-	public String getTtype() {
-		return ttype;
-	}
 	@JsonProperty("Width")
 	public Long getWidth() {
 		return width;
@@ -100,9 +95,6 @@ public class SingleImageMetadata {
 	}
 	public void setSize(Long size) {
 		this.size = size;
-	}
-	public void setTtype(String ttype) {
-		this.ttype = ttype;
 	}
 	public void setWidth(Long width) {
 		this.width = width;

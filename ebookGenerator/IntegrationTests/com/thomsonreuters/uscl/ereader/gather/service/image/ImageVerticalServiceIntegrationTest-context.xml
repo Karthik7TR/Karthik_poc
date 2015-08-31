@@ -13,8 +13,8 @@
 
 	<!-- Message converters and REST template for interacting with the RESTful web services -->
 	<bean id="jsonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
-	<bean id="imageMetadataHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"
-			  p:objectMapper-ref="jsonObjectMapper"/>
+	<bean id="imageMetadataHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"
+		  p:objectMapper-ref="jsonObjectMapper"/>
 	<!-- bean id="imageStreamHttpMessageConverter" class="com.thomsonreuters.uscl.ereader.gather.service.image.ImageStreamHttpMessageConverter"/ -->
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
       <property name="messageConverters">
@@ -34,7 +34,7 @@
 		<property name="maxActive" value="8" />
   	</bean>
   	
-  	<bean id="testSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+  	<bean id="testSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="testDataSource"/>
 		<property name="hibernateProperties">
 	      <props>
@@ -50,7 +50,7 @@
 		</property>
   	</bean>
 	
-  	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+  	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
 		  p:sessionFactory-ref="testSessionFactory"/>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -71,7 +71,7 @@
 	  
 	  <bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
 		  p:singletonRestTemplate-ref="restTemplate"
-		  p:imageVerticalRestServiceUrl="http://imageservice.dev.westlaw.com/image"
+		  p:imageVerticalRestServiceUrl="http://image.int.legalservices.qed.westlaw.com/image"
 		  p:sleepIntervalBetweenImages="500"
 		  p:urlVersion="v1"
 		  p:imageDao-ref="imageDao"
