@@ -38,6 +38,7 @@ public class ImageVerticalHttpRequestInterceptor implements
 		HttpHeaders httpHeaders = httpRequest.getHeaders();
 //log.debug("Setting HTTP request header: Accept="+desiredImageMediaType);
 		httpHeaders.add("Accept", desiredImageMediaType.toString());
+		httpHeaders.add("x-requested-mimetype", desiredImageMediaType.toString());
 		return execution.execute(httpRequest, body);
 	}
 }
