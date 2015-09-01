@@ -177,8 +177,10 @@ public class GroupEbooks extends AbstractSbTasklet {
 				}
 			}
 		} while (retryRequest && retryCount < getMaxNumberOfRetries());
-		if(retryRequest && retryCount == getMaxNumberOfRetries()){
-			throw new ProviewRuntimeException(errorMsg);
+		if (retryRequest && retryCount == getMaxNumberOfRetries()) {
+			throw new ProviewRuntimeException(
+					"Tried 3 times to create group and not succeeded. Proview might be down "
+					+ "or still in the process of loading parts of the book. Please try again later. ");
 		}
 
 	}

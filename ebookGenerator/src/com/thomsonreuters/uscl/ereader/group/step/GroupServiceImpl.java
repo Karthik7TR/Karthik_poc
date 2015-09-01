@@ -11,12 +11,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.util.XMLXpathEvaluator;
 
