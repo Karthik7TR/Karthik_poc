@@ -138,6 +138,10 @@ public class EditBookDefinitionControllerTest {
     	
     	setupDropdownMenuAndKeywords(1);
     	
+    	MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
+    	
     	ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
@@ -156,6 +160,7 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 
 	/**
@@ -167,6 +172,10 @@ public class EditBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	
     	setupDropdownMenuAndKeywords(1);
+    	
+    	MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
 
     	ModelAndView mav;
 		try {
@@ -191,6 +200,7 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -259,6 +269,10 @@ public class EditBookDefinitionControllerTest {
     	setupDropdownMenuAndKeywords(1);
     	setupMockServices(null, 1, true);
     	
+    	MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
+    	
     	ModelAndView mav;
 		try {
 			mav = handlerAdapter.handle(request, response, controller);
@@ -285,6 +299,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -369,7 +384,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expectLastCall().times(2);
+		EasyMock.expectLastCall().times(3);
 		EasyMock.replay(mockMiscConfigService);
 		
 		
@@ -419,6 +434,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.expectLastCall().times(2);
 		EasyMock.replay(mockMiscConfigService);
     	
     	ModelAndView mav;
@@ -643,7 +659,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expectLastCall().times(3);
+		EasyMock.expectLastCall().times(4);
 		EasyMock.replay(mockMiscConfigService);
 		
 		setupDropdownMenuAndKeywords(1);
@@ -768,6 +784,10 @@ public class EditBookDefinitionControllerTest {
     	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
 		EasyMock.replay(mockBookDefinitionService);
 		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
+		
 		setupDropdownMenuAndKeywords(2);
 		
     	ModelAndView mav;
@@ -789,6 +809,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -835,6 +856,10 @@ public class EditBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	
     	setupDropdownMenuAndKeywords(1);
+    	
+    	MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
 
     	ModelAndView mav;
 		try {
@@ -859,6 +884,7 @@ public class EditBookDefinitionControllerTest {
 		}
 		
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -926,6 +952,10 @@ public class EditBookDefinitionControllerTest {
 
     	setupMockServices(null, 1, true);
     	setupDropdownMenuAndKeywords(1);
+		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
     	
     	ModelAndView mav;
 		try {
@@ -953,6 +983,7 @@ public class EditBookDefinitionControllerTest {
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**

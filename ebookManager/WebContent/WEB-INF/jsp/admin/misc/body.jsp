@@ -93,7 +93,7 @@
 	</tr>
 	<tr>
 		<td>Maximum numbers of split parts:</td>
-		<td><form:input path="maxSplitParts" size="2"/></td>
+		<td><form:input path="<%=MiscConfig.Key.maxSplitParts.toString()%>" size="2"/></td>
 	</tr>
 	</table>		   
 	
