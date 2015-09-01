@@ -369,6 +369,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.expectLastCall().times(2);
 		EasyMock.replay(mockMiscConfigService);
 		
 		
@@ -415,6 +416,10 @@ public class EditBookDefinitionControllerTest {
     	
     	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(null);
 		EasyMock.replay(mockBookDefinitionService);
+		
+		MiscConfig miscConfig = new MiscConfig();
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.replay(mockMiscConfigService);
     	
     	ModelAndView mav;
 		try {
@@ -431,6 +436,7 @@ public class EditBookDefinitionControllerTest {
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockEditBookDefinitionService);
+		EasyMock.verify(mockMiscConfigService);
 	}
 	
 	/**
@@ -549,6 +555,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.expectLastCall().times(2);
 		EasyMock.replay(mockMiscConfigService);
     	
     	DocumentTypeCode code = new DocumentTypeCode();
@@ -636,6 +643,7 @@ public class EditBookDefinitionControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig();
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.expectLastCall().times(3);
 		EasyMock.replay(mockMiscConfigService);
 		
 		setupDropdownMenuAndKeywords(1);
