@@ -169,12 +169,12 @@ public class EditBookDefinitionController {
 			// Lock multivolume splitting for titles already published as single.
 			disableTitleFromSplit = miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit()
 					&& bookDef.isSplitLock();
-			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
 		}
 		
 		form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 		model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
+		model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 
 		initializeModel(model, form);
 		
@@ -252,6 +252,7 @@ public class EditBookDefinitionController {
 			disableTitleFromSplit = miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit()
 					&& bookDef.isSplitLock();
 			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
+			model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 		} else {
 			// Book Definition has been deleted from the database when user saved the book.
 			// Show error page
@@ -278,6 +279,7 @@ public class EditBookDefinitionController {
 
 		model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
 		model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
+		model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 		initializeModel(model, form);
 		
 		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_EDIT);

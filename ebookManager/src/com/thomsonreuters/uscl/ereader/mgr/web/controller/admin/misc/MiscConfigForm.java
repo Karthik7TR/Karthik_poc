@@ -15,6 +15,7 @@ public class MiscConfigForm extends MiscConfig {
 		setNovusEnvironment(config.getNovusEnvironment());
 		setProviewHostname(config.getProviewHostname());
 		setDisableExistingSingleTitleSplit(config.getDisableExistingSingleTitleSplit());
+		setMaxSplitParts(config.getMaxSplitParts());
 	}
 
 	public MiscConfig createMiscConfig() {

@@ -91,7 +91,10 @@
 			<form:radiobutton path="<%=MiscConfig.Key.disableExistingSingleTitleSplit.toString()%>" label="False" value="<%=Boolean.FALSE%>"/>
 		</td>
 	</tr>
-	
+	<tr>
+		<td>Maximum numbers of split parts:</td>
+		<td><form:input path="maxSplitParts" size="2"/></td>
+	</tr>
 	</table>		   
 	
 <div class="buttons">

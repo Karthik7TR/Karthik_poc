@@ -54,9 +54,10 @@ public class AppConfigServiceImpl implements AppConfigService {
 		// TODO: clean up once ProView adds notes migration for multivolume books
 		String disableExistingSingleTitleSplitString = getConfigValue(MiscConfig.Key.disableExistingSingleTitleSplit.toString());
 		boolean disableExistingSingleTitleSplit = (StringUtils.isNotBlank(disableExistingSingleTitleSplitString)) ? Boolean.valueOf(disableExistingSingleTitleSplitString) : true;
+		int maxSplitParts = Integer.parseInt(getConfigValue(MiscConfig.Key.maxSplitParts.toString()));
 
 		MiscConfig config = new MiscConfig(appLogLevel, rootLogLevel,
-								defaultNovusEnvironment, proviewHostname, disableExistingSingleTitleSplit);
+								defaultNovusEnvironment, proviewHostname, disableExistingSingleTitleSplit, maxSplitParts);
 		return config;
 	}
 

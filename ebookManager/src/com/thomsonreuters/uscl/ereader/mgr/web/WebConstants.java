@@ -89,6 +89,7 @@ public class WebConstants {
 	public static final String DEFAULT_PAGE_SIZE = "20";
 	public static final String KEY_DISABLE_TITLE_FROM_SPLIT = "disableTitleFromSplit";
 	public static final String KEY_IS_SPLIT_BOOK = "isSplitBook";
+	public static final String KEY_MAX_SPLIT_PARTS = "maxEbookSplitParts";
 	
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 
@@ -358,6 +359,5 @@ public class WebConstants {
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
-	public static final int MAX_EBOOK_SPLIT_SIZE = 5;
 
 }

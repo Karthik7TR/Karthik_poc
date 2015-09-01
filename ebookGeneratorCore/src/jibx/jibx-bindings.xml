@@ -25,6 +25,7 @@
         <value name="novusEnvironment" field="novusEnvironment" usage="required"/>
         <value name="proviewHostname" field="proviewHostname" usage="required"/>
         <value name="disableExistingSingleTitleSplit" field="disableExistingSingleTitleSplit" usage="optional"/>
+        <value name="maxSplitParts" field="maxSplitParts" usage="required"/>
     </mapping>
     
     <!-- Gather service REST response body for Toc and Doc requests -->

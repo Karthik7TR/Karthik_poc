@@ -11,7 +11,6 @@
 
 <%-- Popup Preview window specifications (used in function and in onclick() handler) --%>
 <c:set var="winSpecs" value="<%=WebConstants.FRONT_MATTER_PREVIEW_WINDOW_SPECS %>"/>
-<c:set var="splitSize" value="<%=WebConstants.MAX_EBOOK_SPLIT_SIZE %>"/>
 <c:choose>
 
 <c:when test="${previewHtml != null}">
@@ -435,7 +434,7 @@
 				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
 						<form:select  disabled="${disableTitleFromSplit}" path="splitEBookParts">
 							<form:option value="" label="SELECT" />
-							<c:forEach var="i" begin="2" end="${splitSize}" step="1" varStatus ="status">
+							<c:forEach var="i" begin="2" end="${maxEbookSplitParts}" step="1" varStatus ="status">
 								<form:option label="${i}" value="${i}"/>
 							</c:forEach>
 						</form:select>

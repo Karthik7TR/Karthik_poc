@@ -17,10 +17,11 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 public class MiscConfig {
 	private static Logger log = Logger.getLogger(MiscConfig.class);
 	/** Typesafe representation of the keys used to represent the throttling configuration */
-	public static enum Key { appLogLevel, rootLogLevel, novusEnvironment, proviewHostname, disableExistingSingleTitleSplit };
+	public static enum Key { appLogLevel, rootLogLevel, novusEnvironment, proviewHostname, disableExistingSingleTitleSplit, maxSplitParts};
 	
 	public static final Level DEFAULT_APP_LOG_LEVEL = Level.INFO;
 	public static final Level DEFAULT_ROOT_LOG_LEVEL = Level.ERROR;
+	public static final int MAX_EBOOK_SPLIT_SIZE = 5;
 	
 	/** Current application log4j logging level, String in order to serialize */
 	private String appLogLevel;
@@ -32,7 +33,7 @@ public class MiscConfig {
 	 * two properties to store the same property value so that we can have a serializable String field. */
 	private String proviewHostname;
 	private boolean disableExistingSingleTitleSplit;
-	
+	private int maxSplitParts;	
 	
 	public MiscConfig() {
 		super();
@@ -40,6 +41,7 @@ public class MiscConfig {
 		setRootLogLevel(DEFAULT_ROOT_LOG_LEVEL);
 		setNovusEnvironment(NovusEnvironment.Client); // Initial default
 		setDisableExistingSingleTitleSplit(true);
+		setMaxSplitParts(MAX_EBOOK_SPLIT_SIZE);
 		try {
 			setProviewHost(InetAddress.getLocalHost());
 		} catch (UnknownHostException e) {
@@ -50,8 +52,8 @@ public class MiscConfig {
 	 * Full constructor.
 	 */
 	public MiscConfig(Level appLogLevel, Level rootLogLevel,
-					  NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit) {
-		setAllProperties(appLogLevel, rootLogLevel, novusEnv, proviewHostname, disableExistingSingleTitleSplit);
+					  NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit, int maxSplitParts) {
+		setAllProperties(appLogLevel, rootLogLevel, novusEnv, proviewHostname, disableExistingSingleTitleSplit, maxSplitParts);
 	}
 
 	/**
@@ -60,18 +62,27 @@ public class MiscConfig {
 	 */
 	public void copy(MiscConfig config) {
 		setAllProperties(config.getAppLogLevel(), config.getRootLogLevel(),
-						 config.getNovusEnvironment(), config.getProviewHostname(), config.getDisableExistingSingleTitleSplit());
+						 config.getNovusEnvironment(), config.getProviewHostname(), config.getDisableExistingSingleTitleSplit(), config.getMaxSplitParts());
 	}
 
 	private synchronized void setAllProperties(Level appLogLevel, Level rootLogLevel,
-											   NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit) {
+											   NovusEnvironment novusEnv, String proviewHostname, boolean disableExistingSingleTitleSplit, int maxSplitParts) {
 		setAppLogLevel(appLogLevel);
 		setRootLogLevel(rootLogLevel);
 		setNovusEnvironment(novusEnv);
 		setProviewHostname(proviewHostname);
 		setDisableExistingSingleTitleSplit(disableExistingSingleTitleSplit);
+		setMaxSplitParts(maxSplitParts);
 	}
 
+
+	public int getMaxSplitParts() {
+		return maxSplitParts;
+	}
+	public void setMaxSplitParts(int maxSplitParts) {
+		this.maxSplitParts = maxSplitParts;
+	}
+	
 	public Level getAppLogLevel() {
 		return Level.toLevel(appLogLevel);
 	}
