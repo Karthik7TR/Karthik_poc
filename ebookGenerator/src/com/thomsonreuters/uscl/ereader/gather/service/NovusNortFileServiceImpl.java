@@ -50,6 +50,11 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 	private static final int NODECOUNT = 1;
 	private static final int SKIPCOUNT = 2;
 	private static final int RETRYCOUNT = 3;
+	List<String> splitTocGuidList = null;
+
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
 
 	public void retrieveNodes(List<RelationshipNode> rootNodes, Writer out,
 			int[] counters, int[] iParent, String YYYYMMDDHHmmss, List<ExcludeDocument> excludeDocuments,
@@ -269,7 +274,13 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 				} else {
 					iParent[0]++;
 				}
-
+				// To verify if the provided split Toc/Nort Node exists in the file
+				if (splitTocGuidList != null && guid.toString().length() >= 33){
+					String splitNode = StringUtils.substring(guid.toString(), 0,33);
+					if( splitTocGuidList.contains(splitNode)){
+						this.splitTocGuidList.remove(splitNode);
+					}
+				}
 				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid.toString());
 
 				try {
@@ -307,7 +318,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 	 * @throws Exception
 	 */
 	public GatherResponse findTableOfContents(List<RelationshipNode> rootNodes, File nortXmlFile, 
-			Date cutoffDate, List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries)
+			Date cutoffDate, List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries, List<String> splitTocGuidList)
 			throws GatherException {
 		
 		Writer out = null;
@@ -320,6 +331,10 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		
 		ArrayList<ExcludeDocument> copyExcludDocs = null;
+		
+		if(splitTocGuidList != null){
+			this.splitTocGuidList = splitTocGuidList;
+		}
 		
 		// Make a copy of the original excluded documents to check that all have been accounted for
 		if (excludeDocuments != null) {

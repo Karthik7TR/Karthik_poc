@@ -38,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortFilenameFilter;
@@ -156,11 +157,38 @@ public class GenerateTocTask  extends AbstractSbTasklet
     			writeEmtpyNodeReport(titleId, jobInstanceId, envName, wlNotificationNodeList, emptyNodeTargetListFile, emailRecipients, wlNotificationNodeSize, removedNodeSize);
     			
     		}
-        	
+    		
 			if(bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
 			{
+				List<String> splitTocGuidList = null;
+				
+				if (bookDefinition.isSplitBook()) {
+
+					List<SplitDocument> splitDocuments = (ArrayList<SplitDocument>) bookDefinition.getSplitDocuments();
+					splitTocGuidList = new ArrayList<String>();
+
+					for (SplitDocument splitDocument : splitDocuments) {
+						splitTocGuidList.add(splitDocument.getTocGuid());
+					}
+				}
+	        	
 				gatherResponse = novusNortFileService.findTableOfContents(rootNodes, tocFile, cutoffDate, 
-						excludeDocuments, renameTocEntries);
+						excludeDocuments, renameTocEntries, splitTocGuidList);
+				if (novusNortFileService.getSplitTocGuidList() != null && novusNortFileService.getSplitTocGuidList().size() > 0){
+					StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist.") ;
+					int i = 1;
+					for (String tocGuid : novusNortFileService.getSplitTocGuidList()){
+						if (i == novusNortFileService.getSplitTocGuidList().size()){
+							errorMessageBuffer.append(tocGuid);
+						}
+						else{
+							errorMessageBuffer.append(tocGuid+", ");
+						}
+						i++;
+					}
+					LOG.error(errorMessageBuffer);
+					gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessageBuffer.toString(), 0,0,0,"GENERATE TOC STEP FAILED NONEXISTENT TOC/NORT GUID");
+				}
 			}
 			else
 			{

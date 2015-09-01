@@ -28,6 +28,8 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 public interface NovusNortFileService {
 	
 	public GatherResponse findTableOfContents(List<RelationshipNode> rootNodes, File nortXmlFile, Date cutoffDate, 
-			List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries) throws GatherException; 
+			List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries, List<String> splitTocGuidList) throws GatherException; 
+	
+	public List<String> getSplitTocGuidList();
 
 }

@@ -68,7 +68,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		LOG.debug(gatherResponse);
 		
 		// Verify created files and directories
@@ -133,7 +133,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();		
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		
 		// Verify created files and directories
 		assertTrue(nortFile.exists());
@@ -207,7 +207,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		
 		// Verify created files and directories
 		Assert.assertTrue(nortFile.exists());
@@ -274,9 +274,9 @@ public class NovusNortFileServiceTest {
 		rootNodes.add(root2);
 
 		// Invoke the object under test
-		nortDir.mkdirs();	
+		nortDir.mkdirs();
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		
 		// Verify created files and directories
 		Assert.assertTrue(nortFile.exists());
@@ -324,6 +324,81 @@ public class NovusNortFileServiceTest {
 	}
 	
 	@Test
+	public void testSplitNodeExists () throws Exception {
+		File nortFile = new File(nortDir, "DblRootNode"+EBConstants.XML_FILE_EXTENSION);
+
+		Date date = new Date();
+		String YYYYM1DDHHmmss = createOneDayAheadString(date);
+		
+		// Create nodes
+		List<RelationshipNode> rootNodes = new ArrayList<RelationshipNode>();
+		RelationshipNode root = createRootNode("Root 1", YYYYM1DDHHmmss, "nortGuid a", 1);
+		createNode("Child 0a", YYYYM1DDHHmmss, root, "NORT_UUID_0a", "UUID_0a", 2);
+		createNode("Child 1a", YYYYM1DDHHmmss, root, "Iff5a5aac7c8f11da9de6e47d6d5aa7a5", "UUID_1a", 3);
+		createNode("Child 2a", YYYYM1DDHHmmss, root, "NORT_UUID_2a", null, 4);
+		createNode("Child 3a", YYYYM1DDHHmmss, root, "NORT_UUID_3a", "UUID_3a", 5);
+		createNode("Child 4a", YYYYM1DDHHmmss, root, "NORT_UUID_4a", "UUID_4a", 6);
+		rootNodes.add(root);
+		RelationshipNode root2 = createRootNode("Root 2", YYYYM1DDHHmmss, "nortGuid b", 1);
+		createNode("Child 0b", YYYYM1DDHHmmss, root2, "NORT_UUID_0b", null, 2);
+		rootNodes.add(root2);
+
+		// Invoke the object under test
+		nortDir.mkdirs();
+		
+		List<String> splitTocGuidList = new ArrayList<String>();
+		String guid1 = "Iff5a5a9d7c8f11da9de6e47d6d5aa7a5";
+		String guid2 = "Iff5a5aac7c8f11da9de6e47d6d5aa7a5";
+		splitTocGuidList.add(guid1);
+		splitTocGuidList.add(guid2);
+		
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList);
+		
+	
+		LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
+
+		Assert.assertEquals(1, novusNortFileService.getSplitTocGuidList().size());
+	}
+	
+	@Test
+	public void testNoSplitNode () throws Exception {
+		File nortFile = new File(nortDir, "DblRootNode"+EBConstants.XML_FILE_EXTENSION);
+
+		Date date = new Date();
+		String YYYYM1DDHHmmss = createOneDayAheadString(date);
+		
+		// Create nodes
+		List<RelationshipNode> rootNodes = new ArrayList<RelationshipNode>();
+		RelationshipNode root = createRootNode("Root 1", YYYYM1DDHHmmss, "nortGuid a", 1);
+		createNode("Child 0a", YYYYM1DDHHmmss, root, "Iff5a5a9d7c8f11da9de6e47d6d5aa7a5", "UUID_0a", 2);
+		createNode("Child 1a", YYYYM1DDHHmmss, root, "Iff5a5aac7c8f11da9de6e47d6d5aa7a5", "UUID_1a", 3);
+		createNode("Child 2a", YYYYM1DDHHmmss, root, "NORT_UUID_2a", null, 4);
+		createNode("Child 3a", YYYYM1DDHHmmss, root, "NORT_UUID_3a", "UUID_3a", 5);
+		createNode("Child 4a", YYYYM1DDHHmmss, root, "NORT_UUID_4a", "UUID_4a", 6);
+		rootNodes.add(root);
+		RelationshipNode root2 = createRootNode("Root 2", YYYYM1DDHHmmss, "nortGuid b", 1);
+		createNode("Child 0b", YYYYM1DDHHmmss, root2, "NORT_UUID_0b", null, 2);
+		rootNodes.add(root2);
+
+		// Invoke the object under test
+		nortDir.mkdirs();
+		
+		List<String> splitTocGuidList = new ArrayList<String>();
+		String guid1 = "Iff5a5a9d7c8f11da9de6e47d6d5aa7a5";
+		String guid2 = "Iff5a5aac7c8f11da9de6e47d6d5aa7a5";
+		splitTocGuidList.add(guid1);
+		splitTocGuidList.add(guid2);
+		
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList);
+		
+	
+		LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
+
+		Assert.assertEquals(0, novusNortFileService.getSplitTocGuidList().size());
+	}
+	
+	
+	@Test
 	public void testMissingDocSections () throws Exception {
 		File nortFile = new File(nortDir, "MissingSection"+EBConstants.XML_FILE_EXTENSION);
 		
@@ -342,7 +417,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		LOG.debug(gatherResponse);
 		
 		// Verify created files and directories
@@ -417,7 +492,7 @@ public class NovusNortFileServiceTest {
 		nortDir.mkdirs();
 	
 		try {
-			novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null);
+			novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.debug(e.getMessage());
@@ -431,7 +506,7 @@ public class NovusNortFileServiceTest {
 		
 		Date date = new Date();
 		List<RelationshipNode> nodes = new ArrayList<RelationshipNode>();
-		novusNortFileService.findTableOfContents(nodes, nortFile, date, null, null);
+		novusNortFileService.findTableOfContents(nodes, nortFile, date, null, null, null);
  	}
 	
 	private RelationshipNode createRootNode(String label, String dateStr, String nortGuid, int rank) {
