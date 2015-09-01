@@ -19,36 +19,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SingleImageMetadataResponse {
 	
-	private String data;
-	private String exception;
-	private Boolean isSuccessful;
+	private Header header;
+	private TraceInformation trace;
+	private ServiceStatus serviceStatus;
 	private SingleImageMetadata imageMetadata;
 	
-	@JsonProperty("Data")
-	public String getData() {
-		return data;
+	@JsonProperty("Header")
+	public Header getHeader() {
+		return header;
 	}
-	@JsonProperty("Exception")
-	public String getException() {
-		return exception;
+	@JsonProperty("Trace")
+	public TraceInformation getTrace() {
+		return trace;
 	}
-	@JsonProperty("IsSuccessful")
-	public Boolean getIsSuccessful() {
-		return isSuccessful;
+	@JsonProperty("ServiceStatus")
+	public ServiceStatus getServiceStatus() {
+		return serviceStatus;
 	}
 	@JsonProperty("SingleImageMetadata")
 	public SingleImageMetadata getImageMetadata() {
 		return imageMetadata;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setHeader(Header header) {
+		this.header = header;
 	}
-	public void setException(String exception) {
-		this.exception = exception;
+	public void setTrace(TraceInformation trace) {
+		this.trace = trace;
 	}
-	public void setIsSuccessful(Boolean isSuccessful) {
-		this.isSuccessful = isSuccessful;
+	public void setServiceStatus(ServiceStatus serviceStatus) {
+		this.serviceStatus = serviceStatus;
 	}
 	public void setImageMetadata(SingleImageMetadata imageMetadata) {
 		this.imageMetadata = imageMetadata;

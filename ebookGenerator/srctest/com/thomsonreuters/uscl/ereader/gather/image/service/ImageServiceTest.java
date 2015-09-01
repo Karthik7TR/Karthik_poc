@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDao;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
+import com.thomsonreuters.uscl.ereader.gather.image.domain.ServiceStatus;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadata;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageMetadataResponse;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.SingleImageResponse;
@@ -78,11 +79,12 @@ public class ImageServiceTest {
 	public void testFetchImageVerticalImages() {
 		try {
 			File imageDirectory = temporaryFolder.getRoot();
-
+			ServiceStatus serviceStatus = new ServiceStatus();
+			serviceStatus.setStatusCode(0);
 			
 			SingleImageMetadataResponse metadataResponse = new SingleImageMetadataResponse();
+			metadataResponse.setServiceStatus(serviceStatus);
 			metadataResponse.setImageMetadata(SINGLE_IMAGE_METADATA);
-			metadataResponse.setIsSuccessful(true);
 			
 			ImageVerticalRestTemplate mockImageVerticalRestTemplate = EasyMock.createMock(ImageVerticalRestTemplate.class);
 			EasyMock.expect(mockSingletonRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_METADATA_URL_PATTERN,
@@ -117,10 +119,12 @@ public class ImageServiceTest {
 	public void testFetchImageVerticalDownloadFailure() {
 		try {
 			File imageDirectory = temporaryFolder.getRoot();
-
+			ServiceStatus serviceStatus = new ServiceStatus();
+			serviceStatus.setStatusCode(0);
+			
 			SingleImageMetadataResponse metadataResponse = new SingleImageMetadataResponse();
+			metadataResponse.setServiceStatus(serviceStatus);
 			metadataResponse.setImageMetadata(SINGLE_IMAGE_METADATA);
-			metadataResponse.setIsSuccessful(true);
 			
 			ImageVerticalRestTemplate mockImageVerticalRestTemplate = EasyMock.createMock(ImageVerticalRestTemplate.class);
 			EasyMock.expect(mockSingletonRestTemplate.getForObject(ImageServiceImpl.SINGLE_IMAGE_METADATA_URL_PATTERN,
