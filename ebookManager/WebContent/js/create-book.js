@@ -489,27 +489,30 @@ $(function() {
 		
 		
 		$('#splitEBookParts').change(function () {
-			splitSize = $(this).val();	
+			splitSize = parseInt($(this).val());	
 			var size = 1;
+			if (isNaN(splitSize)){
+				splitSize = 0;
+				splitDocumentIndex = 0;
+			}
 			
 			$('#displaySplitDocument').children('.expandingBox').each(function() {
 				size = size + 1;
 				if (size > splitSize)
 				{
+					if (splitDocumentIndex > 0){
+						splitDocumentIndex = splitDocumentIndex - 1;
+					}
 					$(this).remove();
 				}
-			});			
-			
-			if (splitSize == "" ){
-				splitDocumentIndex = 0;
-			}
+			});		
 			
 			$("#displaySplitDocument").show();
 			
 			if (splitSize > size){			
 				for(var i = size; i < splitSize; i++) {
 					addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
-					splitDocumentIndex = parseInt(splitDocumentIndex) + 1;
+					splitDocumentIndex = splitDocumentIndex + 1;
 				}
 			}
 		});
