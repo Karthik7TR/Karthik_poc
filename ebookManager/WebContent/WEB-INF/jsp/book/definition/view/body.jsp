@@ -174,6 +174,10 @@ function submitForm(cmd)
 					<c:choose>
 						<c:when test="${ book.splitBook == true }">
 							<div class="row">
+								<label class="labelCol">SubGroup Heading</label>
+								<span class="field">${ book.subGroupHeading }</span>
+							</div>
+							<div class="row">
 								<label class="labelCol">Split Type</label>
 								<span class="field">
 									<c:choose>

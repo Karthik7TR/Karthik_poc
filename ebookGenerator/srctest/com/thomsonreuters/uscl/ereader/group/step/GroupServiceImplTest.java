@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.group.step;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.easymock.EasyMock;
@@ -16,8 +15,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
-import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 public class GroupServiceImplTest {
 	
@@ -111,13 +108,9 @@ public class GroupServiceImplTest {
 		 EasyMock.replay(mockDocMetadataService);
 		 groupService.setDocMetadataService(mockDocMetadataService);
 		 
-		 SubGroupInfo subGroup = groupService.getSubGroupInfo(jobInstanceId, "v1");
-		 String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
-			        "August", "September", "October", "November", "December" };
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get(Calendar.YEAR);
+		 SubGroupInfo subGroup = groupService.getSubGroupInfo(jobInstanceId, "v1","August");
 		 Assert.assertEquals(3,subGroup.getTitles().size());
-		 Assert.assertEquals(monthName[cal.get(Calendar.MONTH)]+" "+String.valueOf(year),subGroup.getHeading());
+		 Assert.assertEquals("August",subGroup.getHeading());
 		
 	}
 	

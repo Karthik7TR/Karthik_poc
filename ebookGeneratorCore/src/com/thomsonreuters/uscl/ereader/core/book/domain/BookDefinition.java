@@ -395,6 +395,12 @@ public class BookDefinition implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String isSplitLock;
 	
+	/**
+	 * 
+	 */
+	@Column(name = "SUBGROUP_HEADING")
+	@Basic(fetch = FetchType.EAGER)
+	String subGroupHeading;
 
 	/**
 	 */
@@ -914,7 +920,15 @@ public class BookDefinition implements Serializable {
 		this.splitEBookParts = splitEBookParts;
 	}
 	
-	
+
+	//Subgroup heading within the group
+	public String getSubGroupHeading() {
+		return subGroupHeading;
+	}
+
+	public void setSubGroupHeading(String subGroupHeading) {
+		this.subGroupHeading = subGroupHeading;
+	}
 
 	/**
 	 */
@@ -1255,6 +1269,7 @@ public class BookDefinition implements Serializable {
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 		setIsSplitBook(that.isSplitBook());
 		setIsSplitLock(that.isSplitLock());
+		setSubGroupHeading(that.subGroupHeading);
 	}
 
 	/**

@@ -27,6 +27,8 @@ public interface PublishingStatsDao {
 	
 	public List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId);
 	
+	public List<String> findSuccessfullyPublishedsubGroupById(Long ebookDefId);
+	
 	/**
 	 * Find Publishing stats
 	 * @param filter

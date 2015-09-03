@@ -136,6 +136,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			validateProdOnlyRequirements(form, errors);
 		}
     	
+    	if(form.isSplitBook()){
+    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
+    	}
+    	
 
 		if(!form.isSplitTypeAuto()){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", "error.required");

@@ -88,7 +88,7 @@ public class GroupEbooks extends AbstractSbTasklet {
 				if (lastGroupVersionSubmitted != null){					
 					String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersionSubmitted);
 					//Always create new subgroup for the latest major version ;
-					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion));
+					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion,bookDefinition.getSubGroupHeading()));
 					//Add subgroups from Proview previous versions
 					if(proviewResponse != null){
 						subGroupInfoList.addAll(groupService.getSubGroupsFromProviewResponse(proviewResponse, majorVersion));
@@ -109,7 +109,7 @@ public class GroupEbooks extends AbstractSbTasklet {
 					groupDefinition.setHeadTitle(fullyQualifiedTitleId+"/"+majorVersion);
 					groupDefinition.setName(groupName);
 					groupDefinition.setType("standard");
-					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion));
+					subGroupInfoList.add(groupService.getSubGroupInfo(jobInstance,majorVersion,bookDefinition.getSubGroupHeading()));
 					groupDefinition.setSubGroupInfoList(subGroupInfoList);
 					
 				}	

@@ -166,6 +166,14 @@ public class GenerateEbookController {
 			log.debug(e);
 		}
 	}
+	
+	private void setModelSubGroup(Long bookDefinitionId,
+			BookDefinition book, Model model) throws Exception {
+		boolean hasSubGroupChanged = publishingStatsService.hasSubGroupChanged(book.getSubGroupHeading(), bookDefinitionId);
+
+		// If publised, check for SubGroup Heading change 
+		model.addAttribute(WebConstants.KEY_IS_NEW_SUBGROUP, hasSubGroupChanged ? "Y": "N");
+	}
 
 	/**
 	 * 
@@ -254,6 +262,9 @@ public class GenerateEbookController {
 			
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
+			if (book.isSplitBook()){
+				setModelSubGroup(id, book, model);
+			}
 			setModelIsbn(id, book, model);
 
 		}

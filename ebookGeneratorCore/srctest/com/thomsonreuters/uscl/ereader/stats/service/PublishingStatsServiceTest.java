@@ -123,6 +123,31 @@ public class PublishingStatsServiceTest  {
 		EasyMock.verify(mockDao);
 	}
 	
+	@Test
+	public void testHasSubGroupChanged() {
+		Long ebookDefId = new Long(1);
+		List<String> subGroupHeadings = new ArrayList<String>(); 
+		
+		EasyMock.expect(mockDao.findSuccessfullyPublishedsubGroupById(ebookDefId)).andReturn(subGroupHeadings);
+		EasyMock.replay(mockDao);
+		boolean changed = service.hasSubGroupChanged("subGroupHeading", ebookDefId);
+		Assert.assertEquals(true,changed);
+		EasyMock.verify(mockDao);
+	}
+	
+	@Test
+	public void testHasSubGroupNotChanged() {
+		Long ebookDefId = new Long(1);
+		List<String> subGroupHeadings = new ArrayList<String>(); 
+		subGroupHeadings.add("subGroupHeading");
+		
+		EasyMock.expect(mockDao.findSuccessfullyPublishedsubGroupById(ebookDefId)).andReturn(subGroupHeadings);
+		EasyMock.replay(mockDao);
+		boolean changed = service.hasSubGroupChanged("subGroupHeading", ebookDefId);
+		Assert.assertEquals(false,changed);
+		EasyMock.verify(mockDao);
+	}
+	
 //	@Test
 //	public void testMaxRowsInExcel() {
 //		PublishingStatsFilter filter = new PublishingStatsFilter();

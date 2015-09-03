@@ -398,7 +398,10 @@ public class EbookAudit implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	String splitDocumentsConcat;
 	
-	
+	@Column(name = "SUBGROUP_HEADING")
+	@Basic(fetch = FetchType.EAGER)
+	String subGroupHeading;
+
 	/**
 	 */
 	public void setAuditId(Long auditId) {
@@ -848,6 +851,7 @@ public class EbookAudit implements Serializable {
 		setIsSplitBook(that.isSplitBook());
 		setIsSplitTypeAuto(that.isSplitTypeAuto());
 		setSplitEBookParts(that.getSplitEBookParts());
+		setSubGroupHeading(that.getSubGroupHeading());
 	}
 
 	/**
@@ -914,7 +918,8 @@ public class EbookAudit implements Serializable {
 		setFrontMatterTheme(that.frontMatterTheme);
 		setIsSplitBook(that.isSplitBook());
 		setIsSplitTypeAuto(that.isSplitTypeAuto());
-		setSplitEBookParts(that.getSplitEBookParts());		
+		setSplitEBookParts(that.getSplitEBookParts());	
+		setSubGroupHeading(that.getSubGroupHeading());
 	}
 	
 	@Transient
@@ -1000,7 +1005,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("isSplitTypeAuto=[").append(isSplitTypeAuto).append("] ");
 		buffer.append("isSplitBook=[").append(isSplitBook).append("] ");
 		buffer.append("SplitEBookParts=[").append(splitEBookParts).append("] ");
-
+		buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
 		return buffer.toString();
 	}
 
@@ -1309,6 +1314,14 @@ public class EbookAudit implements Serializable {
 
 	public void setSplitEBookParts(Integer splitEBookParts) {
 		this.splitEBookParts = splitEBookParts;
+	}	
+	
+	public String getSubGroupHeading() {
+		return subGroupHeading;
+	}
+
+	public void setSubGroupHeading(String subGroupHeading) {
+		this.subGroupHeading = subGroupHeading;
 	}
 	
 }

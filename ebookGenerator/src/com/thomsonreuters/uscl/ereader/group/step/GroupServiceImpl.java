@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.group.step;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -130,14 +129,11 @@ public class GroupServiceImpl implements GroupService {
 
 	}
 	
-	public SubGroupInfo getSubGroupInfo(Long jobInstance, String majorVersion){
-		String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
-		        "August", "September", "October", "November", "December" };
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
+	public SubGroupInfo getSubGroupInfo(Long jobInstance, String majorVersion, String subGroupHeading){
 		
 		SubGroupInfo subGroupInfo = new SubGroupInfo();
-		subGroupInfo.setHeading(monthName[cal.get(Calendar.MONTH)]+" "+String.valueOf(year));
+		
+		subGroupInfo.setHeading(subGroupHeading);
 		List<String> titleList = new ArrayList<String>();
 		
 		

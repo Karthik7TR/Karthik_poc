@@ -251,6 +251,7 @@
 					<form:hidden path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 					<form:hidden path="splitDocuments[${status.index}].note" />
 				</c:forEach>
+				<form:hidden path="subGroupHeading"/>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -418,6 +419,13 @@
 				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="false" />False
 				<div class="errorDiv">
 						<form:errors path="splitBook" cssClass="errorMessage" />
+				</div>
+			</div>			
+			<div id="subGroupId" style="display:none">
+				<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
+				<form:input disabled="${disableTitleFromSplit}" path="subGroupHeading" maxlength="18" />
+				<div class="errorDiv">
+					<form:errors path="subGroupHeading" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div id="splitTypeDiv" style="display:none">

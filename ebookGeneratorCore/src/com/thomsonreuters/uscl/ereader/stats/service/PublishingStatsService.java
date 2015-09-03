@@ -39,6 +39,14 @@ public interface PublishingStatsService {
 	
 	public Boolean hasIsbnBeenPublished(String isbn, String titleId);
 	
+	/**
+	 * To verify if subgroupheading has been updated with major version
+	 * @param subGroupHeading
+	 * @param Long ebookDefId
+	 * @return
+	 */
+	public Boolean hasSubGroupChanged(String subGroupHeading, Long ebookDefId);
+	
 	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
 	
 	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);

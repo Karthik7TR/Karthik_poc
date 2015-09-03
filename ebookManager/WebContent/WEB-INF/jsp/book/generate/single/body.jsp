@@ -179,6 +179,23 @@
 
 		return confirmed;
 	}
+	
+	function checkSubGroupHeading() {
+		var confirmed = true;
+		var isSplitBook = document.getElementById('isSplitBook').innerHTML;
+		var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
+		var isNewSUB = document.getElementById('isNewSUB').innerHTML;
+
+		if (isSplitBook == "true" && isMajorVersion == "Y") {	
+			if (isNewSUB == "N"){
+				alert("You are about to generate a book with major version. SubGroup heading must be changed for major version.");
+				confirmed= false;
+			}
+		}
+
+		return confirmed;
+		
+	}
 
 	function confirmValues() {
 
@@ -192,6 +209,9 @@
 					confirmed = checkPilotBookStatus();
 					if (confirmed) {
 						confirmed = checkSplitStatus();
+						if (confirmed) {
+							confirmed = checkSubGroupHeading();
+						}
 					}
 				}
 			}
@@ -312,6 +332,7 @@
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
 		  	<p id="isSplitBook">${isSplitBook}</p>
 		  	<p id="disableTitleFromSplit">${disableTitleFromSplit}</p>
+		  	<p id="isNewSUB">${isNewSUB}</p>
 		 </div>	
 		
 		<%-- Informational Messages area --%>

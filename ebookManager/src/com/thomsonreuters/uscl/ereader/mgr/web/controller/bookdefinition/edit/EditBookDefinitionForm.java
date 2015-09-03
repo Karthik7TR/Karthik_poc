@@ -103,6 +103,7 @@ public class EditBookDefinitionForm {
 	private boolean isSplitLock;
 	private Integer splitEBookParts;
 	private Collection<SplitDocument> splitDocuments;
+	private String subGroupHeading;
 
 	private String publishDateText;
 	
@@ -203,6 +204,7 @@ public class EditBookDefinitionForm {
 		bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
 		bookDef.setUseReloadContent(false);
 		bookDef.setIsSplitLock(false);
+		bookDef.setSubGroupHeading(null);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -274,6 +276,7 @@ public class EditBookDefinitionForm {
 			this.splitEBookParts = book.getSplitEBookParts();
 			this.isSplitLock = book.isSplitLock();
 			this.fmThemeText = book.getFrontMatterTheme();
+			this.subGroupHeading = book.getSubGroupHeading();
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -549,6 +552,7 @@ public class EditBookDefinitionForm {
 		book.setIsSplitTypeAuto(isSplitTypeAuto);
 		book.setSplitEBookParts(splitEBookParts);
 		book.setIsSplitLock(isSplitLock);
+		book.setSubGroupHeading(subGroupHeading);
 		
 		
 		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
@@ -674,7 +678,15 @@ public class EditBookDefinitionForm {
 	public void setExcludeDocumentsCopy(
 			Collection<ExcludeDocument> excludeDocumentsCopy) {
 		this.excludeDocumentsCopy = excludeDocumentsCopy;
-	}	
+	}
+
+	public String getSubGroupHeading() {
+		return subGroupHeading;
+	}
+
+	public void setSubGroupHeading(String subGroupHeading) {
+		this.subGroupHeading = subGroupHeading;
+	}
 
 	public boolean isRenameTocEntriesUsed() {
 		return isRenameTocEntriesUsed;

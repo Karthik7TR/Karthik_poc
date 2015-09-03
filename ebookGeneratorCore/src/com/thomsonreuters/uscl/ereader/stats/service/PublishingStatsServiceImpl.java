@@ -129,6 +129,21 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		}
 		return hasBeenPublished;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Boolean hasSubGroupChanged(String subGroupHeading, Long ebookDefId){
+		Boolean hasSubGroupChanged = true;
+		List<String> previousSubGroupList = publishingStatsDAO.findSuccessfullyPublishedsubGroupById(ebookDefId);
+		for(String previousSubGroupHeading : previousSubGroupList){
+			//previousSubGroupHeading could be null as it may be single book in previous version
+			if(previousSubGroupHeading != null && previousSubGroupHeading.equalsIgnoreCase(subGroupHeading)) {
+				hasSubGroupChanged = false;
+				break;
+			}
+		}
+		return hasSubGroupChanged;
+	}
 
 	@Override
 	@Transactional(readOnly = true)

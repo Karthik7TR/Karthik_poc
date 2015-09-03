@@ -454,12 +454,16 @@ $(function() {
 		
 		$('input:radio[name=splitBook]').change(function () {
 			var isSplitBook = $.trim($(this).val());
+			$("#subGroupId").hide();
 			$("#splitTypeDiv").hide();			
-			if(isSplitBook == "true" || isSplitBook == true) {				
+			if(isSplitBook == "true" || isSplitBook == true) {	
+				$("#subGroupId").show();
 				$("#splitTypeDiv").show();	
 				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
 			} 
 			else{
+				$("#subGroupHeading").val("");
+				$("#subGroupId").hide();
 				$("#splitTypeAuto").remove();
 				$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
 				$("#ebookSizeDiv").hide();
@@ -795,7 +799,9 @@ $(function() {
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
-		
+		if ($("input:radio[name=splitBook]:checked").val() == "true"){
+			showSelectOptions(true, "#subGroupId");
+		}
 		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
 		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")
 			showSelectOptions(true, "#ebookSizeDiv");
