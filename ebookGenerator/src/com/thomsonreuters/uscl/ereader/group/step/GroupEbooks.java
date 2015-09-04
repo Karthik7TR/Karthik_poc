@@ -35,12 +35,12 @@ public class GroupEbooks extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 	private GroupService groupService;
 	// retry parameters
-    private int baseRetryInterval = 10000; // in ms    
+    private int baseRetryInterval = 30000; // in ms    
 	private int maxNumberOfRetries = 3;
     // used to compute a multiplier for successive retries
     private int retryIntervalMultiplierBase = 5;
     // hard limit on the computed interval
-    private int maxRetryIntervalLimit = 300 * 1000; // 5 minutes
+    private int maxRetryIntervalLimit = 900 * 1000; // 15 minutes
 	
 	
 	public GroupService getGroupService() {
