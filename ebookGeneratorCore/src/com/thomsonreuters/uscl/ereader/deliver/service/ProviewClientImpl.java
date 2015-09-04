@@ -234,7 +234,6 @@ public class ProviewClientImpl implements ProviewClient {
            
             writeElement(writer, "name", groupDefinition.getName());
             writeElement(writer, "type",groupDefinition.getType());
-            writeElement(writer, "order", groupDefinition.getOrder());
             writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
             writer.writeStartElement("members");
             for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList())

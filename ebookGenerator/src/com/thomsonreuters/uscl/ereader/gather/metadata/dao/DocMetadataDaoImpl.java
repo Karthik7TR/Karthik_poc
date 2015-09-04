@@ -16,6 +16,7 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -166,6 +167,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 				.setProjection(Projections.distinct( (Projections.projectionList()
 						.add(Projections.property("splitBookTitleId")))))
 						.add( Restrictions.eq("jobInstanceId", jobInstanceId))
+						.addOrder(Order.asc("splitBookTitleId"))
 						.list();
 		
 		List<String> splitTitleIdList = new ArrayList<String>();
@@ -173,7 +175,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		if(docMetaList.size() > 0){
 			splitTitleIdList.addAll(docMetaList);
 		}
-
+		
 		return splitTitleIdList;
 	}
 	

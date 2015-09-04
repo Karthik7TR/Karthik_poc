@@ -89,7 +89,7 @@ public class ProviewClientImplTest
 	public void testRequestBody()
 			throws Exception {
 				
-		String expectedBody = "<group id=\"uscl/groupTest\"><name>Group Test</name><type>standard</type><order>newerfirst</order>"
+		String expectedBody = "<group id=\"uscl/groupTest\"><name>Group Test</name><type>standard</type>"
 				+ "<headtitle>uscl/sc/ca_evid</headtitle><members><subgroup heading=\"2014\"><title>uscl/sc/ca_evid</title><title>uscl/an/ilcv</title></subgroup></members></group>";
 		Assert.assertEquals(expectedBody,proviewClient.buildRequestBody(mockGroupDefinition));		
 		
