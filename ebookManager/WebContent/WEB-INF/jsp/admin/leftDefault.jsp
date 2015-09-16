@@ -34,6 +34,10 @@
 	<br/>
 	<a href="<%= WebConstants.MVC_ADMIN_MISC %>">Miscellanous Configuration</a><br/>
 	<br/>
+	Split Metrics
+	<ul>
+		<li><a href="<%= WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW %>">Document Type Metrics</a></li>
+	</ul>
 </c:if>
 
 Generator and Gatherer Switch

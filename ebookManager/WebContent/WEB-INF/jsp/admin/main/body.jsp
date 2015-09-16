@@ -44,6 +44,12 @@
 				<a href="<%= WebConstants.MVC_ADMIN_MISC %>">Miscellaneous Configuration</a>
 			</div>
 		</div>	
+		<div>
+			<h3>Split Metrics</h3>
+			<div class="buttons">
+				<a href="<%= WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW %>">Document Type Metrics</a>
+			</div>
+		</div>	
 	</c:if>
 	
 	

@@ -202,6 +202,8 @@ public interface CodeService {
 	 */
 	public void saveKeywordTypeCode(KeywordTypeCode keywordTypeCode);
 	
+	public void saveDocumentTypeMetric(DocumentTypeCode documentTypeCode);
+	
 	/**
 	 * Delete a KeywordTypeCode Code in the KEYWORD_TYPE_CODES table
 	 * @param keywordTypeCode

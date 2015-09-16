@@ -75,6 +75,13 @@
 		 </property>
 	</bean>
 	
+	<bean id="docTypeMetricController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.doctypemetric.DocTypeMetricController" 
+		p:codeService-ref="codeService">
+		<property name="validator">
+		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.doctypemetric.DocTypeMetricFormValidator"/>
+		 </property>
+	</bean>
+	
 	<bean id="keywordCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.KeywordCodeController" 
 		p:codeService-ref="codeService"
 		p:bookDefinitionService-ref="bookDefinitionService">

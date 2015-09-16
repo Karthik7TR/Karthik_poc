@@ -216,6 +216,11 @@ public class CodeServiceImpl implements CodeService {
 		dao.deleteDocumentTypeCode(documentTypeCode);
 	}
 	
+	@Transactional
+	public void saveDocumentTypeMetric(DocumentTypeCode documentTypeCode){
+		dao.saveDocumentTypeCode(documentTypeCode);
+	}
+	
 	
 	/**
 	 * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table

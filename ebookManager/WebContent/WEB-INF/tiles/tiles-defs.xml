@@ -144,6 +144,18 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/stateCode/common/createEditForm.jsp"/>
 	</definition>
 	
+	<definition name="_adminDocTypeMetricView" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/docTypeCode/list/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/docTypeCode/list/body.jsp"/>
+	</definition>
+	
+	<definition name="_adminDocTypeMetricEdit" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/docTypeCode/edit/title.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/admin/code/docTypeCode/edit/body.jsp"/>
+	</definition>
+	
 	<definition name="_adminKeywordCodeView" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/code/keywordCode/list/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>

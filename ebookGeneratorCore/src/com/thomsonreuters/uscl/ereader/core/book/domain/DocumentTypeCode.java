@@ -46,6 +46,11 @@ public class DocumentTypeCode implements Serializable {
 	@Column(name="USE_PUBLISH_CUTOFF_DATE_FLAG", nullable = false, length = 1)
 	private String usePublishCutoffDateFlag;
 	
+	@Column(name="THRESHOLD_VALUE")
+	Integer thresholdValue;
+	
+	@Column(name="THRESHOLD_PERCENT")
+	Integer thresholdPercent;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="LAST_UPDATED", nullable = false)
@@ -93,6 +98,22 @@ public class DocumentTypeCode implements Serializable {
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdatedTimeStampForDocType = lastUpdated;
+	}
+
+	public Integer getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(Integer thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
+
+	public Integer getThresholdPercent() {
+		return thresholdPercent;
+	}
+
+	public void setThresholdPercent(Integer thresholdPercent) {
+		this.thresholdPercent = thresholdPercent;
 	}
 
 	@Override

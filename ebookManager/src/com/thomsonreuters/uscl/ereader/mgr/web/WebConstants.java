@@ -26,6 +26,7 @@ public class WebConstants {
 	public static final String KEY_BOOK_GENERATE_CANCEL = "bookGenerateCancel";
 	public static final String KEY_JURIS_TYPE_CODE = "jurisTypeCode";
 	public static final String KEY_PUB_TYPE_CODE = "pubTypeCode";
+	public static final String KEY_DOC_TYPE_CODE = "docTypeCode";
 	public static final String KEY_STATE_CODE = "stateCode";
 	public static final String KEY_SUPPORT = "support";
 	public static final String KEY_KEYWORD_TYPE_CODE = "keywordTypeCode";
@@ -216,12 +217,14 @@ public class WebConstants {
 	public static final String MVC_ADMIN_JURIS_CODE_EDIT = "adminJurisCodeEdit.mvc";
 	public static final String MVC_ADMIN_JOB_THROTTLE_CONFIG = "adminJobThrottleConfig.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_VIEW = "adminKeywordCodeView.mvc";
+	public static final String MVC_ADMIN_DOCTYPE_METRIC_VIEW = "adminDocTypeMetricView.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_CREATE = "adminKeywordCodeCreate.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_DELETE = "adminKeywordCodeDelete.mvc";
 	public static final String MVC_ADMIN_KEYWORD_CODE_EDIT = "adminKeywordCodeEdit.mvc";
 	public static final String MVC_ADMIN_KEYWORD_VALUE_CREATE = "adminKeywordValueCreate.mvc";
 	public static final String MVC_ADMIN_KEYWORD_VALUE_DELETE = "adminKeywordValueDelete.mvc";
 	public static final String MVC_ADMIN_KEYWORD_VALUE_EDIT = "adminKeywordValueEdit.mvc";
+	public static final String MVC_ADMIN_DOCTYPE_METRIC_EDIT = "adminDocTypeMetricEdit.mvc";
 	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW = "adminPublishTypeCodeView.mvc";
 	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_CREATE = "adminPublishTypeCodeCreate.mvc";
 	public static final String MVC_ADMIN_PUBLISH_TYPE_CODE_DELETE = "adminPublishTypeCodeDelete.mvc";
@@ -283,12 +286,14 @@ public class WebConstants {
 	public static final String VIEW_ADMIN_JURIS_CODE_DELETE = "_adminJurisCodeDelete";
 	public static final String VIEW_ADMIN_JURIS_CODE_EDIT = "_adminJurisCodeEdit";
 	public static final String VIEW_ADMIN_KEYWORD_CODE_VIEW = "_adminKeywordCodeView";
+	public static final String VIEW_ADMIN_DOCTYPE_METRIC_VIEW = "_adminDocTypeMetricView";
 	public static final String VIEW_ADMIN_KEYWORD_CODE_CREATE = "_adminKeywordCodeCreate";
 	public static final String VIEW_ADMIN_KEYWORD_CODE_DELETE = "_adminKeywordCodeDelete";
 	public static final String VIEW_ADMIN_KEYWORD_CODE_EDIT = "_adminKeywordCodeEdit";
 	public static final String VIEW_ADMIN_KEYWORD_VALUE_CREATE = "_adminKeywordValueCreate";
 	public static final String VIEW_ADMIN_KEYWORD_VALUE_DELETE = "_adminKeywordValueDelete";
 	public static final String VIEW_ADMIN_KEYWORD_VALUE_EDIT = "_adminKeywordValueEdit";
+	public static final String VIEW_ADMIN_DOCTYPE_METRIC_EDIT = "_adminDocTypeMetricEdit";
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_VIEW = "_adminPublishTypeCodeView";
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_CREATE = "_adminPublishTypeCodeCreate";
 	public static final String VIEW_ADMIN_PUBLISH_TYPE_CODE_DELETE = "_adminPublishTypeCodeDelete";
