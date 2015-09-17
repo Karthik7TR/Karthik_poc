@@ -96,38 +96,7 @@ public class GroupServiceImpl implements GroupService {
 		buffer.append("/");
 		buffer.append(StringUtils.substringAfterLast(bookDefinition.getFullyQualifiedTitleId(), "/"));		
 		return buffer.toString();
-	}
-	
-	public String getGroupName(DocumentTypeCode documentTypeCode, List<EbookName> names) {
-
-		StringBuffer mainTitle = new StringBuffer();
-		String series = "";
-		String subTitle = "";
-
-		for (EbookName name : names) {
-			if (name.getSequenceNum() == 1) {
-				mainTitle.append(name.getBookNameText());				
-			}
-			else if(name.getSequenceNum() == 2 && name.getBookNameText() != null){
-				subTitle = " "+name.getBookNameText();
-			}
-			// Add series if the content type is Analytical or by default it
-			// should be main title.
-			else if (name.getSequenceNum() == 3 && name.getBookNameText() != null) {
-				series = " "+name.getBookNameText();
-			}
-		}
-		if (documentTypeCode == null
-				|| (documentTypeCode != null && !documentTypeCode.getId().equals(DocumentTypeCode.ANALYTICAL))) {
-			return mainTitle.append(subTitle).toString();
-		}
-
-		mainTitle.append(subTitle).append(series);
-		LOG.debug("Group Name :" + mainTitle.toString());
-
-		return mainTitle.toString();
-
-	}
+	}	
 	
 	public SubGroupInfo getSubGroupInfo(Long jobInstance, String majorVersion, String subGroupHeading){
 		

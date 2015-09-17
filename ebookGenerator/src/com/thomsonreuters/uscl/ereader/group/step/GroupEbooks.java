@@ -68,7 +68,6 @@ public class GroupEbooks extends AbstractSbTasklet {
 		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");
 		String publishStatus =  "Completed";
 		
-		DocumentTypeCode documentTypeCode = bookDefinition.getDocumentTypeCodes();
 		Long groupVersion = new Long(1);
 
 		try 
@@ -82,7 +81,7 @@ public class GroupEbooks extends AbstractSbTasklet {
 				Long lastGroupVersionSubmitted = getGroupVersionByBookDefinition(bookDefinition.getEbookDefinitionId());
 				GroupDefinition groupDefinition = new GroupDefinition();
 				String groupId = groupService.getGroupId(bookDefinition);
-				String groupName = groupService.getGroupName(documentTypeCode, bookDefinition.getEbookNames());
+				String groupName = bookDefinition.getGroupName();
 				List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
 				
 				if (lastGroupVersionSubmitted != null){					

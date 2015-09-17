@@ -401,6 +401,13 @@ public class BookDefinition implements Serializable {
 	@Column(name = "SUBGROUP_HEADING")
 	@Basic(fetch = FetchType.EAGER)
 	String subGroupHeading;
+	
+	/**
+	 * 
+	 */
+	@Column(name = "GROUP_NAME")
+	@Basic(fetch = FetchType.EAGER)
+	String groupName;
 
 	/**
 	 */
@@ -1320,6 +1327,8 @@ public class BookDefinition implements Serializable {
 		buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
 		buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
 		buffer.append("frontMatterTheme=[").append(frontMatterTheme).append("] ");
+		buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
+		buffer.append("groupName=[").append(groupName).append("] ");
 		
 		return buffer.toString();
 	}
@@ -1421,5 +1430,15 @@ public class BookDefinition implements Serializable {
 			}
 		}
 		return status;
+	}
+	
+
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 }

@@ -455,15 +455,19 @@ $(function() {
 		$('input:radio[name=splitBook]').change(function () {
 			var isSplitBook = $.trim($(this).val());
 			$("#subGroupId").hide();
+			$("#groupId").hide();
 			$("#splitTypeDiv").hide();			
 			if(isSplitBook == "true" || isSplitBook == true) {	
 				$("#subGroupId").show();
+				$("#groupId").show();
 				$("#splitTypeDiv").show();	
 				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
 			} 
 			else{
 				$("#subGroupHeading").val("");
 				$("#subGroupId").hide();
+				$("#groupName").val("");
+				$("#groupId").hide();
 				$("#splitTypeAuto").remove();
 				$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
 				$("#ebookSizeDiv").hide();
@@ -801,6 +805,7 @@ $(function() {
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
 		if ($("input:radio[name=splitBook]:checked").val() == "true"){
 			showSelectOptions(true, "#subGroupId");
+			showSelectOptions(true, "#groupId");
 		}
 		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
 		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")

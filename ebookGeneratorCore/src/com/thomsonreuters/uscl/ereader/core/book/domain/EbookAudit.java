@@ -401,6 +401,10 @@ public class EbookAudit implements Serializable {
 	@Column(name = "SUBGROUP_HEADING")
 	@Basic(fetch = FetchType.EAGER)
 	String subGroupHeading;
+	
+	@Column(name = "GROUP_NAME")
+	@Basic(fetch = FetchType.EAGER)
+	String groupName;
 
 	/**
 	 */
@@ -852,6 +856,7 @@ public class EbookAudit implements Serializable {
 		setIsSplitTypeAuto(that.isSplitTypeAuto());
 		setSplitEBookParts(that.getSplitEBookParts());
 		setSubGroupHeading(that.getSubGroupHeading());
+		setGroupName(that.getGroupName());
 	}
 
 	/**
@@ -1006,6 +1011,7 @@ public class EbookAudit implements Serializable {
 		buffer.append("isSplitBook=[").append(isSplitBook).append("] ");
 		buffer.append("SplitEBookParts=[").append(splitEBookParts).append("] ");
 		buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
+		buffer.append("groupName=[").append(groupName).append("] ");
 		return buffer.toString();
 	}
 
@@ -1322,6 +1328,14 @@ public class EbookAudit implements Serializable {
 
 	public void setSubGroupHeading(String subGroupHeading) {
 		this.subGroupHeading = subGroupHeading;
+	}	
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
 }

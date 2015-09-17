@@ -114,48 +114,5 @@ public class GroupServiceImplTest {
 		
 	}
 	
-	
-	@Test
-	public void testGetGroupNameNoSeries(){
-		
-		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
-		documentTypeCode.setId(new Long(2));
-		
-		List<EbookName> names = mockNames();
-		String groupName = groupService.getGroupName(documentTypeCode, names);
-		Assert.assertEquals("Main SubTitle",groupName);
-	}
-	
-	
-	@Test
-	public void testGetGroupName(){
-		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
-		documentTypeCode.setId(new Long(1));
-		
-		List<EbookName> names = mockNames();
-		String groupName = groupService.getGroupName(documentTypeCode, names);
-		Assert.assertEquals("Main SubTitle Series",groupName);
-	}
-	
-	protected List<EbookName> mockNames(){
-		List<EbookName> names = new ArrayList<EbookName>();
-		EbookName name1 = new EbookName();
-		name1.setSequenceNum(1);
-		name1.setBookNameText("Main");
-		
-		EbookName name2 = new EbookName();
-		name2.setSequenceNum(2);
-		name2.setBookNameText("SubTitle");
-		
-		EbookName name3 = new EbookName();
-		name3.setSequenceNum(3);
-		name3.setBookNameText("Series");
-		
-		names.add(name1);
-		names.add(name2);
-		names.add(name3);
-		
-		return names;
-	}
 
 }

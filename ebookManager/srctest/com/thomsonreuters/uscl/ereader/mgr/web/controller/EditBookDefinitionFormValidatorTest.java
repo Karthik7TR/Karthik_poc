@@ -443,6 +443,7 @@ public class EditBookDefinitionFormValidatorTest {
     	form.setSplitTypeAuto(false);
     	form.setSplitEBookParts(null);
     	form.setSubGroupHeading("");
+    	form.setGroupName("");
     	    	
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
@@ -456,6 +457,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("splitEBookParts").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockCodeService);
@@ -1082,7 +1084,8 @@ public class EditBookDefinitionFormValidatorTest {
     	book.setIsSplitBook(true);
     	book.setIsSplitTypeAuto(false);
     	book.setSplitEBookParts(new Integer(1));
-    	book.setSubGroupHeading("groupHeading");;
+    	book.setSubGroupHeading("groupHeading");
+    	book.setGroupName("groupName");
 		return book;
 	}
 	

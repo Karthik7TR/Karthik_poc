@@ -252,6 +252,7 @@
 					<form:hidden path="splitDocuments[${status.index}].note" />
 				</c:forEach>
 				<form:hidden path="subGroupHeading"/>
+				<form:hidden path="groupName"/>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -426,6 +427,13 @@
 				<form:input disabled="${disableTitleFromSplit}" path="subGroupHeading" maxlength="18" />
 				<div class="errorDiv">
 					<form:errors path="subGroupHeading" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="groupId" style="display:none">
+				<form:label path="groupName" class="labelCol">Group Name</form:label>
+				<form:input disabled="${disableTitleFromSplit}" path="groupName" />
+				<div class="errorDiv">
+					<form:errors path="groupName" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div id="splitTypeDiv" style="display:none">

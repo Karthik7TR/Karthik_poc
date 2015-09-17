@@ -138,6 +138,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     	
     	if(form.isSplitBook()){
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
+    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", "error.required");
     	}
     	
 

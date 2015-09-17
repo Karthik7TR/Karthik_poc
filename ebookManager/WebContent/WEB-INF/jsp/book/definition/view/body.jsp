@@ -178,6 +178,10 @@ function submitForm(cmd)
 								<span class="field">${ book.subGroupHeading }</span>
 							</div>
 							<div class="row">
+								<label class="labelCol">Group Name</label>
+								<span class="field">${ book.groupName }</span>
+							</div>
+							<div class="row">
 								<label class="labelCol">Split Type</label>
 								<span class="field">
 									<c:choose>
