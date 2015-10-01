@@ -229,6 +229,18 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
+	public List<PublishingStats> findPubStatsByEbookDefSort(Long EbookDefId){
+Session session = sessionFactory.getCurrentSession();
+	
+		
+		Criteria criteria = session.createCriteria(PublishingStats.class)
+				.add(Restrictions.eq("ebookDefId", EbookDefId))
+				.addOrder(Order.desc("jobInstanceId"));
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId) {
 		Session session = sessionFactory.getCurrentSession();
 		

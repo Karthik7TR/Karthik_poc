@@ -39,6 +39,8 @@ public interface PublishingStatsDao {
 	
 	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
 	
+	public List<PublishingStats> findPubStatsByEbookDefSort(Long EbookDefId);
+	
 	public int numberOfPublishingStats(PublishingStatsFilter filter); 
 	
 	/**

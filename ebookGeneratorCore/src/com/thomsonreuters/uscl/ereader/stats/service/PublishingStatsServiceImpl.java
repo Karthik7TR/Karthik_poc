@@ -43,6 +43,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	public PublishingStats findPublishingStatsByJobId(Long JobId) {
 		return publishingStatsDAO.findJobStatsByJobId(JobId);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PublishingStats> getPubStatsByEbookDefSort(Long EbookDefId){
+		return publishingStatsDAO.findPubStatsByEbookDefSort(EbookDefId);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
