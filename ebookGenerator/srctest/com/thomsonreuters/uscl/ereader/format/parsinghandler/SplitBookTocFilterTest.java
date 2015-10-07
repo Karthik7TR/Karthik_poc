@@ -1,15 +1,12 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.SAXParser;
@@ -20,13 +17,10 @@ import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
 import org.apache.xml.serializer.SerializerFactory;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 
 
 public class SplitBookTocFilterTest {
@@ -85,6 +79,32 @@ public class SplitBookTocFilterTest {
 	}
 	
 	@Test
+	public void testMissingDoc() throws Exception{
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult =  "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
+		
+	}
+	
+	@Test
 	public void test3() throws Exception{
 		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
 		splitTocGuidList.add(guid1);
@@ -106,6 +126,35 @@ public class SplitBookTocFilterTest {
 		
 		List<String> wrongSplitTocNodes = testHelper(xmlTestStr,expectedResult);
 		assertEquals(0, wrongSplitTocNodes.size());
+	}
+	
+	@Test
+	public void testMissingDoc2() throws Exception{
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
+		splitTocGuidList.add(guid1);
+		
+		String xmlTestStr = "<EBook>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		String expectedResult =  "<EBook>"
+				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
+				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
+				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+				+ "</EBookToc>"
+				+ "</EBook>";
+		
+		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
+		assertEquals(0, wrongSplitTocNodes.size());
+		
 	}
 	
 	@Test
@@ -278,9 +327,7 @@ public class SplitBookTocFilterTest {
 		List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
 		assertEquals(0, wrongSplitTocNodes.size());
 	}
-	
-	
-	
+		
 	
 	@Test
 	public void testSplitTocXML() throws SAXException

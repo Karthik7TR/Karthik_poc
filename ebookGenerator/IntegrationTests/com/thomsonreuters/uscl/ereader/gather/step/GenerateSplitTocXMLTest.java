@@ -55,11 +55,11 @@ public class GenerateSplitTocXMLTest {
 	public void setUp() throws Exception {
 		generateSplitTocTask = new GenerateSplitTocTask();
 
-		splitTocGuidList = new ArrayList<String>();
-		String guid1 = "Iff5a5a9d7c8f11da9de6e47d6d5aa7a5";
-		String guid2 = "Iff5a5aac7c8f11da9de6e47d6d5aa7a5";
-		splitTocGuidList.add(guid1);
-		splitTocGuidList.add(guid2);
+			splitTocGuidList = new ArrayList<String>();
+			String guid1 = "Iff5a5a9d7c8f11da9de6e47d6d5aa7a5";
+			String guid2 = "Iff5a5aac7c8f11da9de6e47d6d5aa7a5";
+			splitTocGuidList.add(guid1);
+			splitTocGuidList.add(guid2);
 
 		URL url = GenerateSplitTocTask.class.getResource(FINE_NAME);
 		tocXml = new FileInputStream(url.getPath());
@@ -147,6 +147,70 @@ public class GenerateSplitTocXMLTest {
 		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
 		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
 
+	}
+	
+	@Test
+	public void testWithMissingDoc() throws Exception {
+		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
+		
+		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
+		
+		splitTocGuidList = new ArrayList<String>();
+		String guid1 = "NF81E0E40C40911DA87C3A6A101BC03A2";
+		String guid2 = "NC1A2A41006F411DB956CABAE160C185B";
+		String guid3 = "N66C5A630FAFD11DA989FE57CEE210EFD";
+		String guid4 = "N712BD9A0FAFD11DA989FE57CEE210EFD34";
+		splitTocGuidList.add(guid1);
+		splitTocGuidList.add(guid2);
+		splitTocGuidList.add(guid3);
+		splitTocGuidList.add(guid4);
+
+		File documentFile1 = new File(tranformedDirectory, "Iff5a5a987c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile1, false);
+		File documentFile2 = new File(tranformedDirectory, "Iff5a5a9e7c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile2, false);
+		File documentFile3 = new File(tranformedDirectory, "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile3, true);
+		File documentFile5 = new File(tranformedDirectory, "Iff5a5aa17c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile5, false);
+		File documentFile4 = new File(tranformedDirectory, "Iff5a5aa47c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile4, true);
+		File documentFile6 = new File(tranformedDirectory, "Iff5a5aa77c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile6, false);
+		File documentFile7 = new File(tranformedDirectory, "Iff5a5aaa7c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile7, false);
+		File documentFile8 = new File(tranformedDirectory, "Iff5a81a27c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile8, false);
+		File documentFile9 = new File(tranformedDirectory, "Iff5a5aad7c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile9, false);
+		File documentFile10 = new File(tranformedDirectory, "Iff5a81a57c8f11da9de6e47d6d5aa7a5.transformed");
+		writeDocumentLinkFile(documentFile10, true);
+		
+		Assert.assertTrue(tranformedDirectory.exists());
+		Assert.assertTrue(splitTocFile.exists());
+
+		String titleBreakLabel = "Title part ";
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+				tranformedDirectory, jobInstanceId,"splitTitle");
+
+		Assert.assertTrue(splitTocFile.length() > 0);
+
+		assertTrue(FileUtils.readFileToString(splitTocFile).contains("<titlebreak>"));
+		
+		documentInfoMap = generateSplitTocTask.getDocumentInfoMap();
+		
+		DocumentInfo expectedDocInfo1  = new DocumentInfo();
+		expectedDocInfo1.setDocSize(new Long(146));
+		expectedDocInfo1.setSplitTitleId("splitTitle");
+		
+		DocumentInfo expectedDocInfo2  = new DocumentInfo();
+		expectedDocInfo2.setDocSize(new Long(219));
+		expectedDocInfo2.setSplitTitleId("splitTitle");
+		
+		DocumentInfo docInfo1 = documentInfoMap.get("Iff5a81a27c8f11da9de6e47d6d5aa7a5");
+		DocumentInfo docInfo2 = documentInfoMap.get("Iff5a5a9b7c8f11da9de6e47d6d5aa7a5");
+		Assert.assertEquals(expectedDocInfo1.toString(),docInfo1.toString());
+		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
 	}
 	
 	@Test

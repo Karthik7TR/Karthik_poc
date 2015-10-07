@@ -32,6 +32,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	private static final String EBOOK_TOC = "EBookToc";
 	private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 	private static final String DOCUMENT_GUID = "DocumentGuid";
+	private static final String MISSING_DOCUMENT = "MissingDocument";
 	
 	
 	private int number = 1;
@@ -187,6 +188,9 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 						documentInfo.setSplitTitleId(splitTilteId);
 					}
 					documentInfoMap.put(entry.getValue(),documentInfo);
+			}
+			else if (entry.getKey().equals(MISSING_DOCUMENT) ){
+				leafNode = Boolean.TRUE;
 			}
 			super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);
 			super.characters(entry.getValue().toCharArray(), 0, entry.getValue().length());
