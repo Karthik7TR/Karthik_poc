@@ -423,15 +423,19 @@
 				</div>
 			</div>				
 			<div id="groupId" style="display:none">
-				<form:label path="groupName" class="labelCol">Group Name</form:label>
-				<form:input disabled="${disableTitleFromSplit}" path="groupName" />
+				<div class="row">
+					<form:label path="groupName" class="labelCol">Group Name</form:label>
+					<form:input disabled="${disableTitleFromSplit}" path="groupName" />
+				</div>
 				<div class="errorDiv">
 					<form:errors path="groupName" cssClass="errorMessage" />
 				</div>
 			</div>		
 			<div id="subGroupId" style="display:none">
-				<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
-				<form:input disabled="${disableTitleFromSplit}" path="subGroupHeading" maxlength="18" />
+				<div class="row">
+					<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
+					<form:input disabled="${disableTitleFromSplit}" path="subGroupHeading" maxlength="18" />
+				</div>
 				<div class="errorDiv">
 					<form:errors path="subGroupHeading" cssClass="errorMessage" />
 				</div>
