@@ -27,6 +27,7 @@ import org.apache.xml.serializer.SerializerFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -69,7 +70,7 @@ public class AutoSplitGuiIdsHandlerTest {
 		Assert.assertEquals(new Integer(752), splitBookFilter.getMargin(7523));
 	}
 
-	@Test
+	@Ignore
 	public void testWithFile() throws Exception {
 		tocXml = new FileInputStream(tocFile);
 		Map<String, String> splitTocGuidList = testHelper(tocXml, 25, 10);

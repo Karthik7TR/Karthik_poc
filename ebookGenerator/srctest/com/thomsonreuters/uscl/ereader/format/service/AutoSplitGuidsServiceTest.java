@@ -15,6 +15,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -151,7 +152,7 @@ public class AutoSplitGuidsServiceTest {
 		Assert.assertEquals(expectTedGuidList.get(0), splitGuidList.get(0));
 	}
 	
-	@Test
+	@Ignore
 	public void testSplitPartListwithFile() throws Exception{
 		
 		InputStream tocXml;
