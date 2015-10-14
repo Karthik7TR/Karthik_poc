@@ -591,6 +591,9 @@ public class EditBookDefinitionFormValidatorTest {
     	populateFormDataAnalyticalToc();
     	SplitDocument document = new SplitDocument();
     	document.setNote("test");
+    	BookDefinition bookDefinition = new BookDefinition();
+    	bookDefinition.setEbookDefinitionId(new Long(1));
+    	document.setBookDefinition(bookDefinition);
     	form.getSplitDocuments().add(document);
     	
 		validator.validate(form, errors);
@@ -643,15 +646,22 @@ public class EditBookDefinitionFormValidatorTest {
 		EasyMock.replay(mockCodeService);
     	
     	populateFormDataAnalyticalToc();
-    	SplitDocument document = new SplitDocument();
-    	document.setNote("Test1");
-    	document.setTocGuid("123456789012345678901234567890123");
+    	
+    	BookDefinition bookDefinition = new BookDefinition();
+    	bookDefinition.setEbookDefinitionId(new Long(1));
+    	
+    	
+    	SplitDocument document1 = new SplitDocument();
+    	document1.setNote("Test1");
+    	document1.setTocGuid("123456789012345678901234567890123");
+    	document1.setBookDefinition(bookDefinition);
     	
     	SplitDocument document2 = new SplitDocument();
     	document2.setNote("Test2");
     	document2.setTocGuid("123456789012345678901234567890123");
+    	document2.setBookDefinition(bookDefinition);
     	
-    	form.getSplitDocuments().add(document);
+    	form.getSplitDocuments().add(document1);
     	form.getSplitDocuments().add(document2);
     	
 		validator.validate(form, errors);
