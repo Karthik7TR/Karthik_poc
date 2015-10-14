@@ -59,8 +59,7 @@ public class SendingEmailNotificationTest {
 		EasyMock.expect(service.findSplitDocuments(bookDefinition
 				.getEbookDefinitionId())).andReturn(persistedSplitDocuments);
 		EasyMock.replay(service);
-		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, url.getPath());
-		System.out.println(msg);
+		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, url.getPath());		
 		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value."));
 		EasyMock.verify(service);
 	}
