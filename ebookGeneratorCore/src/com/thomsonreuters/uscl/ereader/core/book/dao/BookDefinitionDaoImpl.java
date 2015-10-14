@@ -14,11 +14,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
@@ -195,6 +197,63 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 		session.flush();
 
 		return eBook;
+	}
+	
+	@Override
+	public BookDefinition saveSplitDocuments(Long bookId, Collection<SplitDocument> splitDocuments, int parts) {
+		Session session = sessionFactory.getCurrentSession();
+
+		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
+				.add(Restrictions.eq("ebookDefinitionId", bookId)).uniqueResult();
+		System.out.println("--------b--------" + eBook.getSplitDocuments());
+		eBook.getSplitDocuments().clear();
+		eBook.getSplitDocuments().addAll(splitDocuments);
+		eBook.setSplitEBookParts(new Integer(parts));
+		System.out.println("--------a--------" + eBook.getSplitDocuments());		
+		// attach child objects to book definition
+		eBook = (BookDefinition)session.merge(eBook);
+		session.flush();
+		//session.clear();
+		//tx.commit();
+		System.out.println("--------after flush--------" + eBook.getSplitDocuments());
+		//session.close();
+		return eBook;
+		
+	}
+	
+	public void removeSplitDocuments(Long bookId){
+		Session session = sessionFactory.getCurrentSession();
+
+		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
+				.add(Restrictions.eq("ebookDefinitionId", bookId)).uniqueResult();
+		System.out.println("--------remove--------" + eBook.getSplitDocuments());
+		eBook.getSplitDocuments().clear();
+		System.out.println("--------a- remove-------" + eBook.getSplitDocuments());		
+		// attach child objects to book definition
+		eBook = (BookDefinition)session.merge(eBook);
+		session.flush();
+		//session.clear();
+		//tx.commit();
+		System.out.println("----remove----after flush--------" + eBook.getSplitDocuments());
+		//session.close();
+	}
+	
+	public List<SplitDocument> getSplitDocumentsforBook(Long ebookDefinitionId){
+		BookDefinition bookDef = (BookDefinition) sessionFactory
+				.getCurrentSession().createCriteria(BookDefinition.class)
+				.add(Restrictions.eq("ebookDefinitionId", ebookDefinitionId))
+				.uniqueResult();
+		
+		return bookDef.getSplitDocumentsAsList();
+	}
+	
+	public Integer getSplitPartsForEbook(Long ebookDefinitionId){
+		BookDefinition bookDef = (BookDefinition) sessionFactory
+				.getCurrentSession().createCriteria(BookDefinition.class)
+				.add(Restrictions.eq("ebookDefinitionId", ebookDefinitionId))
+				.uniqueResult();
+
+		return bookDef.getSplitEBookParts();
 	}
 	
 	@Override

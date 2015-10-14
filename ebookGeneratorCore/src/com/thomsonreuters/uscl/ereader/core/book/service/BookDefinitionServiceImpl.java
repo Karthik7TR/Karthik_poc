@@ -7,12 +7,14 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 /**
@@ -143,5 +145,24 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
 		bookDefinitionDao.removeBookDefinition(ebookDefId);
 	}
 	
+	@Transactional
+	public BookDefinition saveSplitDocumentsforEBook(Long bookId, Collection<SplitDocument> splitDocuments,int parts){
+		return bookDefinitionDao.saveSplitDocuments(bookId,splitDocuments,parts);
+	}
+	
+	@Transactional(readOnly = true)
+	public Integer getSplitPartsForEbook(Long bookId){
+		return bookDefinitionDao.getSplitPartsForEbook(bookId);
+	}
+	
+	@Transactional
+	public void deleteSplitDocuments(Long bookId){
+		bookDefinitionDao.removeSplitDocuments(bookId);		
+	}
+	
+	@Transactional(readOnly = true)
+	public List<SplitDocument> findSplitDocuments(Long bookId){
+		return bookDefinitionDao.getSplitDocumentsforBook(bookId);	
+	}
 }
 

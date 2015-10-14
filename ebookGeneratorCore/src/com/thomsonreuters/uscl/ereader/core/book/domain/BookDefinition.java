@@ -1093,8 +1093,14 @@ public class BookDefinition implements Serializable {
 		this.splitNodes = new HashSet<SplitNodeInfo>(splitNodes);
 	}
 
+	public Set<SplitDocument> getSplitDocuments() {
+		if(splitDocuments == null) {
+			splitDocuments = new HashSet<SplitDocument>();
+		}
+		return splitDocuments;
+	}
 	
-	public List<SplitDocument> getSplitDocuments() {
+	public List<SplitDocument> getSplitDocumentsAsList() {
 		if(splitDocuments == null) {
 			splitDocuments = new HashSet<SplitDocument>();
 		}
@@ -1103,10 +1109,10 @@ public class BookDefinition implements Serializable {
 		documents.addAll(splitDocuments);
 		return documents;
 	}
-
+	
 	public void setSplitDocuments(Collection<SplitDocument> splitDocuments) {
-		this.splitDocuments = new HashSet<SplitDocument>(splitDocuments);
-	}
+		 this.splitDocuments = new HashSet<SplitDocument>(splitDocuments);
+	}	
 
 	public List<RenameTocEntry> getRenameTocEntries() {
 		if(renameTocEntries == null) {

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -99,6 +100,19 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		}
 		
 		session.flush();
+	}
+	
+	@Override
+	public void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		if (audit.getAuditId() != null) {
+			audit.setSplitDocumentsConcat(splitDocumentsConcat);
+			audit.setSplitEBookParts(new Integer(parts));
+			audit = (EbookAudit) session.merge(audit);
+		} 
+		
+		session.flush();		
 	}
 
 	@Override

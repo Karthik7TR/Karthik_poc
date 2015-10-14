@@ -79,12 +79,13 @@ public class SplitDocument implements Serializable {
 		return buffer.toString();
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((tocGuid == null) ? 0 : tocGuid.hashCode());
+		result = prime * result + ((tocGuid == null) ? 0 : tocGuid.hashCode());
+		result = prime * result + ((ebookDefinition.getEbookDefinitionId() == null) ? 0 : ebookDefinition.getEbookDefinitionId().hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		return result;
 	}
@@ -103,13 +104,19 @@ public class SplitDocument implements Serializable {
 				return false;
 		} else if (!tocGuid.equals(other.tocGuid))
 			return false;
+		if (ebookDefinition == null) {
+			if (other.ebookDefinition != null)
+				return false;
+		} else if (!ebookDefinition.getEbookDefinitionId().equals(other.ebookDefinition.getEbookDefinitionId()))
+			return false;
 		if (note == null) {
 			if (other.note != null)
 				return false;
 		} else if (!note.equals(other.note))
-			return false;
+			return false;		
 		return true;
 	}
+	
 
 	@Embeddable
 	public static class SplitDocumentPk implements Serializable{
@@ -150,6 +157,7 @@ public class SplitDocument implements Serializable {
 					+ ((tocGuid == null) ? 0 : tocGuid.hashCode());
 			return result;
 		}
+		
 
 		@Override
 		public boolean equals(Object obj) {

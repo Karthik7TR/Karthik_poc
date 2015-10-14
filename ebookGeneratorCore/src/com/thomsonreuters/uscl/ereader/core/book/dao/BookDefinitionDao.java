@@ -8,10 +8,12 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 public interface BookDefinitionDao {
@@ -78,6 +80,8 @@ public interface BookDefinitionDao {
 	 */
 
 	public BookDefinition saveBookDefinition(BookDefinition eBook);
+	
+	public BookDefinition saveSplitDocuments(Long ebookDefinitionId, Collection<SplitDocument> splitDocuments, int parts);
 
 	List<BookDefinition> findBookDefinitions(String sortProperty,
 			boolean isAscending, int pageNumber, int itemsPerPage,
@@ -85,5 +89,11 @@ public interface BookDefinitionDao {
  String materialId, Date to, Date from, String status);
 	
 	public BookDefinition saveBookDefinition(Long ebookDefinitionId, Collection<SplitNodeInfo> splitNodeInfoList, String newVersion);
+	
+	public Integer getSplitPartsForEbook(Long ebookDefinitionId);
+	
+	public void removeSplitDocuments(Long bookId);	
+	
+	public List<SplitDocument> getSplitDocumentsforBook(Long bookId);	
 
 }

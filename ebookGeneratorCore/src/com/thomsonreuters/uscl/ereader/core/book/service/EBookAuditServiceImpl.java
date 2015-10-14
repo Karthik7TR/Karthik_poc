@@ -75,6 +75,11 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 	}
 	
 	@Transactional
+	public void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts){
+		eBookAuditDAO.updateSpliDocumentsAudit(audit, splitDocumentsConcat,parts);
+	}
+	
+	@Transactional
 	public EbookAudit editIsbn(String titleId, String isbn) {
 		List<EbookAudit> audits = eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn);
 		EbookAudit latestAudit = null;

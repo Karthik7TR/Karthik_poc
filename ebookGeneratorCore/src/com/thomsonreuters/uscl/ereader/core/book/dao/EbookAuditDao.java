@@ -39,5 +39,7 @@ public interface EbookAuditDao {
 	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
 	
 	public int numberEbookAudits(EbookAuditFilter filter);
+	
+	public void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 
 }

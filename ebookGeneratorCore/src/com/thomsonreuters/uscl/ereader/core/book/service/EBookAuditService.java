@@ -50,5 +50,7 @@ public interface EBookAuditService {
 	public int numberEbookAudits(EbookAuditFilter filter);
 	
 	public EbookAudit editIsbn(String titleId, String isbn);
+	
+	public void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 
 }

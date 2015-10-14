@@ -7,8 +7,10 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 /**
@@ -89,4 +91,12 @@ public interface BookDefinitionService {
 	 * 
 	 */
 	public void removeBookDefinition(Long ebookDefId);
+	
+	public BookDefinition saveSplitDocumentsforEBook(Long bookId, Collection<SplitDocument> splitDocuments, int parts);
+	
+	public Integer getSplitPartsForEbook(Long bookId);
+	
+	public void deleteSplitDocuments(Long bookId);
+	
+	public List<SplitDocument> findSplitDocuments(Long bookId);
 }

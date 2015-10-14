@@ -308,6 +308,7 @@
 				p:bookDefinitionService-ref="bookDefinitionService"/>
 
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
-	            p:publishingStatsService-ref="publishingStatsService" />							
+	            p:publishingStatsService-ref="publishingStatsService" 
+	            p:autoSplitGuidsService-ref="autoSplitGuidsService" />							
 
 </beans:beans>

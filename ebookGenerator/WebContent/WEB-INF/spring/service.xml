@@ -190,7 +190,12 @@
 			p:paceMetadataDAO-ref="paceMetaDataDao"/>	
 	
 	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
-			p:publishingStatsDAO-ref="publishingStatsDao"/>			
+			p:publishingStatsDAO-ref="publishingStatsDao"/>	
+		
+	<bean id="autoSplitGuidsService" class="com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsServiceImpl"
+		  p:bookDefinitionService-ref="bookDefinitionService"
+		  p:eBookAuditService-ref="eBookAuditService"
+		  p:publishingStatsService-ref="publishingStatsService"/>		
 
 	<bean id="gatherService" class="com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherServiceImpl"
 		  p:restTemplate-ref="restTemplate"
