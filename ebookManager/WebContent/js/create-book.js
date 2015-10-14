@@ -810,7 +810,7 @@ $(function() {
 		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
 		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")
 			showSelectOptions(true, "#ebookSizeDiv");
-		if (splitSize > 1 ) {
+		if (splitSize > 1 && isSplitTypeAuto == "false") {
 			showSelectOptions("true", "#displaySplitDocument");
 		}
 		
