@@ -116,15 +116,14 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			buffer.append("\nTotal node count is " + tocNodeCount);
 			buffer.append("\n\nPlease find the below system suggested information");
 			buffer.append("\n\nTotal split parts " + (splitTocGuidList.size() + 1));
-			buffer.append("\n\nTOC/NORT guids ");
+			buffer.append("\n\nTOC/NORT guids \n");
 			for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
 				String uuid = entry.getKey();
 				String name = entry.getValue();
 				if (name != null && name.length() > 0) {
 					name = name.replaceAll("\\s++|\\n|\\r|\\?", " ");
-					;
 				}
-				buffer.append("\n" + uuid + "  :  " + name);
+				buffer.append(uuid + "  :  " + name+"\n" );
 			}
 		} catch (IOException iox) {
 			throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
