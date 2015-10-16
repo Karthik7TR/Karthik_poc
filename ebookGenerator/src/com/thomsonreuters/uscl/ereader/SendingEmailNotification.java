@@ -91,7 +91,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			if (tocNodeCount > thresholdValue){
 				 String msg =  getMetricsInfo(bookDefinition, tocNodeCount, jobInstanceId, tocXmlFile);
 				 body = body.concat(msg);
-				 subject = subject.concat("–Threshold Warning");
+				 subject = subject + "–Threshold Warning";
 			}
         }
         
@@ -116,7 +116,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			buffer.append("\nTotal node count is " + tocNodeCount);
 			buffer.append("\n\nPlease find the below system suggested information");
 			buffer.append("\n\nTotal split parts " + (splitTocGuidList.size() + 1));
-			buffer.append("\n\nTOC/NORT guids \n");
+			buffer.append("\n\nTOC/NORT guids \n\n");
 			for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
 				String uuid = entry.getKey();
 				String name = entry.getValue();
