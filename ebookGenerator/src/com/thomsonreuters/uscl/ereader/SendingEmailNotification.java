@@ -89,9 +89,9 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         	Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
         	String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 			if (tocNodeCount > thresholdValue){
-				 String msg =  getMetricsInfo(bookDefinition, tocNodeCount, jobInstanceId, tocXmlFile);
-				 body = body.concat(msg);
 				 subject = subject + "–Threshold Warning";
+				 String msg =  getMetricsInfo(bookDefinition, tocNodeCount, jobInstanceId, tocXmlFile, thresholdValue);
+				 body = body.concat(msg);
 			}
         }
         
@@ -101,7 +101,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 	}
     
 	public String getMetricsInfo(BookDefinition bookDefinition, Integer tocNodeCount, long jobInstanceId,
-			String tocXmlFile) {
+			String tocXmlFile, Integer thresholdValue) {
 		StringBuffer buffer = new StringBuffer();
 		InputStream tocInputSteam = null;
 		try {
@@ -110,9 +110,9 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			boolean metrics = true;
 			Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 			List<String> splitTocGuidList = autoSplitGuidsService.getAutoSplitNodes(tocInputSteam, bookDefinition,
-					tocNodeCount, jobInstanceId, metrics, splitGuidTextMap);
+					tocNodeCount, jobInstanceId, metrics);
 			splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
-			buffer.append("\n\n**WARNING**: The book exceeds threshold value.");
+			buffer.append("\n\n**WARNING**: The book exceeds threshold value "+thresholdValue);
 			buffer.append("\nTotal node count is " + tocNodeCount);
 			buffer.append("\n\nPlease find the below system suggested information");
 			buffer.append("\n\nTotal split parts " + (splitTocGuidList.size() + 1));
@@ -120,9 +120,6 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
 				String uuid = entry.getKey();
 				String name = entry.getValue();
-				if (name != null && name.length() > 0) {
-					name = name.replaceAll("\\s++|\\n|\\r|\\?", " ");
-				}
 				buffer.append(uuid + "  :  " + name+"\n" );
 			}
 		} catch (IOException iox) {

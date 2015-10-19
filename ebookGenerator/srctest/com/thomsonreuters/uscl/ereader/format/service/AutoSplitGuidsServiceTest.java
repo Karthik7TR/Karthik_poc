@@ -15,14 +15,13 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import com.thomsonreuters.uscl.ereader.SendingEmailNotification;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
-import com.thomsonreuters.uscl.ereader.format.parsinghandler.AutoSplitGuiIdsHandlerTest;
 
 public class AutoSplitGuidsServiceTest {
 
@@ -82,7 +81,7 @@ public class AutoSplitGuidsServiceTest {
 		EasyMock.replay(service);
 
 		List<String> splitGuidList = autoSplitGuidsService.getAutoSplitNodes(input, bookDefinition, new Integer(5),
-				jobInstanceId, false, splitGuidTextMap);
+				jobInstanceId, false);
 		EasyMock.verify(service);
 		Assert.assertEquals(expectTedGuidList.size(), splitGuidList.size());
 	}
@@ -112,7 +111,7 @@ public class AutoSplitGuidsServiceTest {
 		bookDefinition.setDocumentTypeCodes(dc);
 
 		List<String> splitGuidList = autoSplitGuidsService.getAutoSplitNodes(input, bookDefinition, new Integer(5),
-				jobInstanceId, true, splitGuidTextMap);
+				jobInstanceId, true);
 		EasyMock.verify(service);
 		Assert.assertEquals(0, splitGuidList.size());
 	}
@@ -142,7 +141,7 @@ public class AutoSplitGuidsServiceTest {
 		bookDefinition.setDocumentTypeCodes(dc);
 
 		List<String> splitGuidList = autoSplitGuidsService.getAutoSplitNodes(input, bookDefinition, new Integer(5),
-				jobInstanceId, true, splitGuidTextMap);
+				jobInstanceId, true);
 		EasyMock.verify(service);
 		
 		List<String> expectTedGuidList = new ArrayList<String>();
@@ -152,17 +151,16 @@ public class AutoSplitGuidsServiceTest {
 		Assert.assertEquals(expectTedGuidList.get(0), splitGuidList.get(0));
 	}
 	
-	@Ignore
+	
+	@Test
 	public void testSplitPartListwithFile() throws Exception{
 		
 		InputStream tocXml;
 		File tocFile;
-		URL url = AutoSplitGuiIdsHandlerTest.class.getResource("toc.xml");
+		URL url = SendingEmailNotification.class.getResource("toc.xml");
 		tocFile = new File(url.getPath());
 		tocXml = new FileInputStream(tocFile);
 		
-		
-		Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 				
 		EasyMock.expect(service.findSplitDocuments(bookDefinition
 				.getEbookDefinitionId())).andReturn(null);
@@ -174,13 +172,23 @@ public class AutoSplitGuidsServiceTest {
 		dc.setThresholdPercent(10);
 		bookDefinition.setDocumentTypeCodes(dc);
 
-		List<String> splitGuidList = autoSplitGuidsService.getAutoSplitNodes(tocXml, bookDefinition, new Integer(125),
-				jobInstanceId, true, splitGuidTextMap);
+		List<String> splitGuidList = autoSplitGuidsService.getAutoSplitNodes(tocXml, bookDefinition, new Integer(18262),
+				jobInstanceId, true);
 		EasyMock.verify(service);
 		
 		List<String> expectTedGuidList = new ArrayList<String>();
-		expectTedGuidList.add("N83D0A8501B3811DBA0038642A4AEA132");
+		expectTedGuidList.add("N0EDBB190E9CC11DAA52BDDAF0B15BA68");
 		
+		
+		
+		Map<String, String> splitGuidTextMap = new HashMap<String, String>();
+		splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
+		System.out.println(splitGuidTextMap.size());
+		for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
+			String uuid = entry.getKey();
+			String name = entry.getValue();
+			System.out.println(uuid + "  :  " + name+"\n" );
+		}
 		Assert.assertEquals(expectTedGuidList.size(), splitGuidList.size());
 		Assert.assertEquals(expectTedGuidList.get(0), splitGuidList.get(0));
 	}

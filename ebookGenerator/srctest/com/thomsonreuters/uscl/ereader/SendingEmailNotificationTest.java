@@ -8,7 +8,6 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -47,12 +46,8 @@ public class SendingEmailNotificationTest {
 		
 	}
 	
-	@Test
-	public void testMetrics(){
-	System.out.println("Ignore");	
-	}
 	
-	@Ignore
+	@Test
 	public void testMetricsIgnore(){
 		URL url = SendingEmailNotificationTest.class.getResource("toc.xml");
 		List<SplitDocument> persistedSplitDocuments = new ArrayList<SplitDocument>();
@@ -64,8 +59,9 @@ public class SendingEmailNotificationTest {
 		EasyMock.expect(service.findSplitDocuments(bookDefinition
 				.getEbookDefinitionId())).andReturn(persistedSplitDocuments);
 		EasyMock.replay(service);
-		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, url.getPath());		
-		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value."));
+		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, url.getPath(),10);	
+		System.out.println("msg "+msg);
+		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value"));
 		EasyMock.verify(service);
 	}
 }

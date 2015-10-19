@@ -1,21 +1,31 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.XMLFilterImpl;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.thomsonreuters.uscl.ereader.proview.TableOfContents;
 import com.thomsonreuters.uscl.ereader.proview.TocEntry;
 import com.thomsonreuters.uscl.ereader.proview.TocNode;
 
-public class AutoSplitNodesHandler extends XMLFilterImpl {
+public class AutoSplitNodesHandler extends DefaultHandler {
 
 	private int percentage;
 	private int level = 0;
@@ -57,14 +67,23 @@ public class AutoSplitNodesHandler extends XMLFilterImpl {
 		this.splitTocGuidList = splitTocGuidList;
 	}
 
-	public AutoSplitNodesHandler(){
-		
-	}
-	
 	public AutoSplitNodesHandler(Integer partSize, Integer thresholdPercent){
 		this.determinedPartSize = partSize;
 		this.percentage = thresholdPercent;
 		this.previousNode = tableOfContents;
+		
+	}
+	
+	public void parseInputStream(InputStream tocStream)
+			throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {		
+
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		SAXParser saxParser = saxParserFactory.newSAXParser();
+		Reader reader = new InputStreamReader(tocStream, "UTF-8");
+		InputSource is = new InputSource(reader);
+		is.setEncoding("UTF-8");
+		saxParser.parse(is, this);
+
 	}
 	
 	public int getDeterminedPartSize() {
@@ -206,7 +225,8 @@ public class AutoSplitNodesHandler extends XMLFilterImpl {
 				//Based on the depth get the split TocGuid
 				if (splitDepth != 0 ) {						
 					splitGuid = StringUtils.substring(splitGuid.toString(), 0,33);
-							
+					//Remove special characters
+					splitText = splitText.replaceAll("[^\\x20-\\x7e-\\n]", "");
 					splitTocTextMap.put(splitGuid,splitText);
 					splitTocGuidList.add(splitGuid);					
 					margin = getMargin(determinedPartSize-(splitMargin - determinedPartSize));						

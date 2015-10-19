@@ -2,30 +2,19 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.xml.serializer.Method;
-import org.apache.xml.serializer.OutputPropertiesFactory;
-import org.apache.xml.serializer.Serializer;
-import org.apache.xml.serializer.SerializerFactory;
 import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Required;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -71,7 +60,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 	}
 
 	public List<String> getAutoSplitNodes(InputStream tocInputStream, BookDefinition bookDefinition,
-			Integer tocNodeCount, Long jobInstanceId, boolean metrics, Map<String, String> splitGuidTextMap) {
+			Integer tocNodeCount, Long jobInstanceId, boolean metrics) {
 		try {
 
 			List<String> splitTocGuidList = new ArrayList<String>();
@@ -89,33 +78,11 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 			// update this has been removed for test util
 			Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
 			Integer thresholdPercent = bookDefinition.getDocumentTypeCodes().getThresholdPercent();
-			int partSize = getSizeforEachPart(thresholdValue, tocNodeCount);
-
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-			saxParserFactory.setNamespaceAware(Boolean.TRUE);
-			SAXParser saxParser = saxParserFactory.newSAXParser();
-			XMLReader xmlReader = saxParser.getXMLReader();
+			int partSize = getSizeforEachPart(thresholdValue, tocNodeCount);			
 			AutoSplitNodesHandler autoSplitNodesFilter = new AutoSplitNodesHandler(partSize, thresholdPercent);
-			autoSplitNodesFilter.setParent(xmlReader);
-
-			Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-			props.setProperty("omit-xml-declaration", "yes");
-
-			Serializer serializer = SerializerFactory.getSerializer(props);
-
-			autoSplitNodesFilter.setContentHandler(serializer.asContentHandler());
-
-			Reader reader = new InputStreamReader(tocInputStream, "UTF-8");
-			InputSource is = new InputSource(reader);
-			is.setEncoding("UTF-8");
-
-			autoSplitNodesFilter.parse(is);
-
-			if (splitGuidTextMap == null) {
-				splitGuidTextMap = new HashMap<String, String>();
-			}
-
-			splitGuidTextMap = autoSplitNodesFilter.getSplitTocTextMap();
+			autoSplitNodesFilter.parseInputStream(tocInputStream);
+			
+			this.splitGuidTextMap = autoSplitNodesFilter.getSplitTocTextMap();
 			splitTocGuidList = autoSplitNodesFilter.getSplitTocGuidList();
 
 			List<SplitDocument> splitDocuments = new ArrayList<SplitDocument>();
@@ -129,8 +96,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 				splitDocument.setNote(note);
 				splitDocuments.add(splitDocument);
 			}
-
-			this.splitGuidTextMap = splitGuidTextMap;
+			
 
 			if (!metrics) {
 				bookDefinitionService.saveSplitDocumentsforEBook(bookDefinition.getEbookDefinitionId(), splitDocuments,
