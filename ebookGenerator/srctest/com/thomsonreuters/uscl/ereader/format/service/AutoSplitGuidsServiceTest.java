@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.SendingEmailNotification;
+import com.thomsonreuters.uscl.ereader.SendingEmailNotificationTest;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
@@ -157,8 +157,8 @@ public class AutoSplitGuidsServiceTest {
 		
 		InputStream tocXml;
 		File tocFile;
-		URL url = SendingEmailNotification.class.getResource("toc.xml");
-		tocFile = new File(url.getPath());
+		URL url = SendingEmailNotificationTest.class.getResource("toc.xml");
+		tocFile = new File(url.toURI());
 		tocXml = new FileInputStream(tocFile);
 		
 				

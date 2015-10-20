@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,9 @@ public class SendingEmailNotificationTest {
 	
 	
 	@Test
-	public void testMetricsIgnore(){
+	public void testMetrics() throws Exception{
 		URL url = SendingEmailNotificationTest.class.getResource("toc.xml");
+		File toCFile = new File(url.toURI());
 		List<SplitDocument> persistedSplitDocuments = new ArrayList<SplitDocument>();
 		SplitDocument splitDocument = new SplitDocument();
 		splitDocument.setBookDefinition(bookDefinition);
@@ -59,7 +61,7 @@ public class SendingEmailNotificationTest {
 		EasyMock.expect(service.findSplitDocuments(bookDefinition
 				.getEbookDefinitionId())).andReturn(persistedSplitDocuments);
 		EasyMock.replay(service);
-		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, url.getPath(),10);	
+		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, toCFile.getPath(),10);	
 		System.out.println("msg "+msg);
 		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value"));
 		EasyMock.verify(service);

@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.thomsonreuters.uscl.ereader.SendingEmailNotification;
+import com.thomsonreuters.uscl.ereader.SendingEmailNotificationTest;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 
@@ -35,8 +35,8 @@ public class AutoSplitGuiIdsHandlerTest {
 	@Before
 	public void setUp() throws Exception {
 
-		URL url = SendingEmailNotification.class.getResource(FINE_NAME);
-		tocFile = new File(url.getPath());
+		URL url = SendingEmailNotificationTest.class.getResource(FINE_NAME);
+		tocFile = new File(url.toURI());
 
 	}
 
