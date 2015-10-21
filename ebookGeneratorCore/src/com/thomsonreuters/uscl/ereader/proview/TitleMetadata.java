@@ -40,6 +40,7 @@ public class TitleMetadata implements Serializable {
 	private String materialId;
 	private String copyright;
 	private String frontMatterTocLabel;
+	private String isbn;
 	private List<FrontMatterPage> frontMatterPages;
 
 	private Artwork artwork;
@@ -66,7 +67,7 @@ public class TitleMetadata implements Serializable {
 
 	public TitleMetadata(String fullyQualifiedTitleId, String versionNumber,
 			ArrayList<Feature> proviewFeatures, ArrayList<Keyword> keyWords,
-			ArrayList<Author> authors, boolean isPilotBook) {
+			ArrayList<Author> authors, boolean isPilotBook, String isbn) {
 		this.titleId = fullyQualifiedTitleId;
 		this.titleVersion = versionNumber;
 		this.lastUpdated = DATE_FORMAT.format(new Date());
@@ -82,6 +83,7 @@ public class TitleMetadata implements Serializable {
 			this.authorNames.add(".");
 		}
 		this.isPilotBook=isPilotBook;
+		this.isbn = isbn;
 	}
 
 	private void addDefaults() {
@@ -147,6 +149,14 @@ public class TitleMetadata implements Serializable {
 	
 	public void setTitleId(String titleId) {
 		this.titleId = titleId;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String toString() {

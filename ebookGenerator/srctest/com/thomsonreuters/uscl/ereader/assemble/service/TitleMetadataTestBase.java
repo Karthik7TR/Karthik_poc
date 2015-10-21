@@ -27,8 +27,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
  *
  */
 public abstract class TitleMetadataTestBase extends XMLTestCase {
-
-	
+	protected static final String EXPECTED_ISBN_VALUE = "987654321";
+	protected static final String EXPECTED_ISBN = "<isbn>"+ EXPECTED_ISBN_VALUE + "</isbn>";
 	
 	protected TitleMetadata getTitleMetadata() {
 		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
@@ -78,6 +78,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		tableOfContents.setChildren(tocEntries);
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
+		titleMetadata.setIsbn(EXPECTED_ISBN_VALUE);
 		return titleMetadata;
 	}
 	
@@ -131,6 +132,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase {
 		tableOfContents.setChildren(tocEntries);
 		titleMetadata.setTableOfContents(tableOfContents);
 		titleMetadata.setMaterialId("Plunder2");
+		titleMetadata.setIsbn(EXPECTED_ISBN_VALUE);
 		return titleMetadata;
 	}
 	

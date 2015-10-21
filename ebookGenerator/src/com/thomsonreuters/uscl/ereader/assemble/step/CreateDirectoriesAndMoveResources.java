@@ -1,3 +1,8 @@
+/*
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
 import java.io.BufferedReader;
@@ -75,7 +80,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber,
 				bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors(),
-				bookDefinition.getIsPilotBook());
+				bookDefinition.getIsPilotBook(), bookDefinition.getIsbnNormalized());
 		String materialId = bookDefinition.getMaterialId();
 
 		// TODO: verify that default of 1234 for material id is valid.

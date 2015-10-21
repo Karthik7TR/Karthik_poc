@@ -66,7 +66,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 		
-		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors(), bookDefinition.getIsPilotBook());
+		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber, bookDefinition.getProviewFeatures(), 
+				bookDefinition.getKeyWords(), bookDefinition.getAuthors(), bookDefinition.getIsPilotBook(), bookDefinition.getIsbnNormalized());
 		String materialId = bookDefinition.getMaterialId();
 		
 		//TODO: verify that default of 1234 for material id is valid.

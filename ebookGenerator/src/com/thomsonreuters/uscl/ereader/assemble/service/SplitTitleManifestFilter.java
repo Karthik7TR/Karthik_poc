@@ -1,3 +1,8 @@
+/*
+* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+* Proprietary and Confidential information of TRGR. Disclosure, Use or
+* Reproduction without the written authorization of TRGR is prohibited
+*/
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.IOException;
@@ -43,6 +48,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl {
 	private static final String VALUE_ATTRIBUTE = "value";
 	private static final String FEATURE_ELEMENT = "feature";
 	private static final String FEATURES_ELEMENT = "features";
+	private static final String ISBN_ELEMENT = "isbn";
 	private static final String NAME_ELEMENT = "name";
 	private static final String STATUS_ATTRIBUTE = "status";
 	private static final String ONLINEEXPIRATION_ATTRIBUTE = "onlineexpiration";
@@ -185,6 +191,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl {
 		if (!documentsList.isEmpty() && documentsList.size() > 0) {
 			writeDocuments();
 		}
+		writeISBN();
 		super.endElement(URI, TITLE_ELEMENT, TITLE_ELEMENT);
 		super.endDocument();
 	}
@@ -206,6 +213,17 @@ public class SplitTitleManifestFilter extends XMLFilterImpl {
 		super.endElement(URI, DOCS_ELEMENT, DOCS_ELEMENT);
 	}
 
+	/**
+	 * Writes the ISBN to the title.xml {@link ContentHandler}.
+	 * 
+	 * @throws SAXException if the data could not be written.
+	 */
+	protected void writeISBN() throws SAXException {
+			super.startElement(URI, ISBN_ELEMENT, ISBN_ELEMENT, EMPTY_ATTRIBUTES);
+			super.characters(titleMetadata.getIsbn().toCharArray(), 0, titleMetadata.getIsbn().length());
+			super.endElement(URI, ISBN_ELEMENT, ISBN_ELEMENT);
+	}
+	
 	/**
 	 * Writes an authors block to the {@link ContentHandler}.
 	 * 

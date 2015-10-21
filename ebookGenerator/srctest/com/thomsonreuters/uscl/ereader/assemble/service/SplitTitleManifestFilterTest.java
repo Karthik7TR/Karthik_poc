@@ -139,63 +139,63 @@ public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
 	public void testWriteAssets() throws Exception {
 		splitTitleManifestFilter.writeAssets();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_ASSETS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_ASSETS + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteAuthors() throws Exception {
 		splitTitleManifestFilter.writeAuthors();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_AUTHORS +  EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_AUTHORS + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteKeywords() throws Exception {
 		splitTitleManifestFilter.writeKeywords();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_KEYWORDS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_KEYWORDS + EXPECTED_ISBN +EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteCopyright() throws Exception {
 		splitTitleManifestFilter.writeCopyright();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_COPYRIGHT + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_COPYRIGHT + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testStartManifest() throws Exception {
 		splitTitleManifestFilter.startManifest();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX_SINGLETON + onlineexpiration + "\"/>", resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX_SINGLETON + onlineexpiration + "\">" + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 
 	@Test
 	public void testWriteDisplayName() throws Exception {
 		splitTitleManifestFilter.writeDisplayName();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_DISPLAYNAME +  EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_DISPLAYNAME + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteFeatures() throws Exception {
 		splitTitleManifestFilter.writeFeatures();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_FEATURES + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_FEATURES + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteMaterialId() throws Exception {
 		splitTitleManifestFilter.writeMaterialId();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_MATERIAL_ID + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_MATERIAL_ID + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testWriteCoverArt() throws Exception {
 		splitTitleManifestFilter.writeCoverArt();
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_ARTWORK + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_ARTWORK + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
@@ -204,13 +204,13 @@ public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
 		splitTitleManifestFilter.endDocument();
 		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX + onlineexpiration + "\">" +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
-				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
 	public void testEndDocumentWithoutParsingToc() throws Exception {
 		splitTitleManifestFilter.endDocument();
-		Assert.assertEquals(EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+		Assert.assertEquals(EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	@Test
@@ -219,7 +219,7 @@ public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
 		//System.out.println(resultStreamToString(resultStream));
 		Assert.assertEquals(EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX + onlineexpiration + "\">" +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
-				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_TOC + CASCADED_TOC + EXPECTED_DOCS + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + EXPECTED_TOC + CASCADED_TOC + EXPECTED_DOCS + EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
 	}
 	
 	
@@ -247,7 +247,7 @@ public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
 		String expectedToc = EXPECTED_TOC + "<entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"GENERATED_FAMILY_GUID/TOC_GUID3\"><text>3</text></entry><entry s=\"GENERATED_DOC_GUID/TOC_GUID4\"><text>4</text></entry></toc>";
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX + onlineexpiration + "\">" +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
-				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_END_MANIFEST;
+				EXPECTED_DISPLAYNAME + EXPECTED_AUTHORS + EXPECTED_KEYWORDS + EXPECTED_COPYRIGHT + expectedToc + expectedDocs + EXPECTED_ISBN + EXPECTED_END_MANIFEST;
 		
 		String input = "<title>"+expectedToc + expectedDocs+ EXPECTED_END_MANIFEST;
 		InputStream inputXml = new ByteArrayInputStream(input.getBytes());

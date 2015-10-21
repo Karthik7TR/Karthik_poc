@@ -576,7 +576,15 @@ public class BookDefinition implements Serializable {
 	public String getIsbn() {
 		return this.isbn;
 	}
-
+	
+	@Transient
+	public String getIsbnNormalized() {
+		if(StringUtils.isNotBlank(this.isbn)) {
+			return this.isbn.replaceAll("-|\\s", "");
+		}
+		return this.isbn;
+	}
+	
 	/**
 	 */
 	public void setPublishDateText(String publishDateText) {
