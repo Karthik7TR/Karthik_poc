@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
@@ -49,6 +50,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	private MoveResourcesUtil moveResourcesUtil;
 
 	private TitleMetadataService titleMetadataService;	
+	
+	BookDefinitionService bookDefinitionService;
 
 	/*
 	 * (non-Javadoc)
@@ -91,8 +94,14 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
 			File assembleDirectory = new File(getRequiredStringProperty(jobExecutionContext,
 					JobExecutionKey.ASSEMBLE_DIR));
-
-			int parts = bookDefinition.getSplitEBookParts();
+			int parts = 0;
+			if(bookDefinition.isSplitTypeAuto()){
+				parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
+			}
+			else{
+				parts = bookDefinition.getSplitEBookParts();
+			}
+			
 			String docToSplitBook = getRequiredStringProperty(jobExecutionContext,
 					JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
 
@@ -110,8 +119,12 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 			for (int i = 1; i <= parts; i++) {
 				firstSplitBook = false;
 				String splitTitle = bookDefinition.getTitleId() + "_pt" + i;				
-
-				titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName() + " part " + i);
+				StringBuffer proviewDisplayName = new StringBuffer();
+				proviewDisplayName.append(bookDefinition.getProviewDisplayName());
+				proviewDisplayName.append(" (eBook "+i);
+				proviewDisplayName.append(" of "+parts);
+				proviewDisplayName.append(")");
+				titleMetadata.setDisplayName(proviewDisplayName.toString());
 				titleMetadata.setTitleId(fullyQualifiedTitleId+ "_pt" + i);
 
 				String key = String.valueOf(i);
@@ -426,6 +439,15 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	@Required
 	public void setMoveResourcesUtil(MoveResourcesUtil moveResourcesUtil) {
 		this.moveResourcesUtil = moveResourcesUtil;
+	}
+
+	public BookDefinitionService getBookDefinitionService() {
+		return bookDefinitionService;
+	}
+
+	@Required
+	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
+		this.bookDefinitionService = bookDefinitionService;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -24,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
+import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsService;
 import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseService;
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -45,6 +48,8 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 
 	private Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
 	
+	private AutoSplitGuidsService autoSplitGuidsService;
+	
 	// retrieve list of all transformed files
 	List<File> transformedDocFiles = new ArrayList<File>();
 
@@ -58,7 +63,6 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
-		List<SplitDocument> splitDocuments =  bookDefinition.getSplitDocumentsAsList();
 		String splitTocFilePath = jobExecutionContext.getString(JobExecutionKey.FORMAT_SPLITTOC_FILE);
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		String transformDirectory = getRequiredStringProperty(jobExecutionContext,
@@ -79,8 +83,32 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 			splitTocXml = new FileOutputStream(splitTocFilePath);
 			List<String> splitTocGuidList = new ArrayList<String>();
 
+			List<SplitDocument> splitDocuments = bookDefinition.getSplitDocumentsAsList();
 			for (SplitDocument splitDocument : splitDocuments) {
 				splitTocGuidList.add(splitDocument.getTocGuid());
+			}
+			
+			Integer tocNodeCount = publishingStatsService.findPublishingStatsByJobId(jobInstanceId).getGatherTocNodeCount();				
+			
+			if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()) {
+				InputStream tocInputSteam = null;
+				try {
+					tocInputSteam = new FileInputStream(tocXmlFile);
+					boolean metrics = false;
+					splitTocGuidList = autoSplitGuidsService.getAutoSplitNodes(tocInputSteam, bookDefinition,
+							tocNodeCount, jobInstanceId, metrics);
+
+				} catch (IOException iox) {
+					throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
+				} finally {
+					if (tocInputSteam != null) {
+						try {
+							tocInputSteam.close();
+						} catch (IOException e) {
+							throw new RuntimeException("An IOException occurred while closing a file ", e);
+						}
+					}
+				}
 			}
 
 			generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel, transformDir, jobInstanceId, splitTitleId);
@@ -145,7 +173,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 				mainTitle.append(name.getBookNameText());
 				if (documentTypeCode == null
 						|| (documentTypeCode != null && !documentTypeCode.getId().equals(DocumentTypeCode.ANALYTICAL))) {
-					return mainTitle.append(" part ").toString();
+					return mainTitle.append(" eBook ").toString();
 				}
 			}
 			// Add series if the content type is Analytical or by default it
@@ -155,7 +183,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 			}
 		}
 
-		mainTitle.append(series).append(" part ");
+		mainTitle.append(series).append(" eBook ");
 
 		LOG.debug("titlebreak label" + mainTitle.toString());
 
@@ -198,6 +226,15 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 
 	public void setDocMetadataService(DocMetadataService docMetadataService) {
 		this.docMetadataService = docMetadataService;
+	}
+	
+	public AutoSplitGuidsService getAutoSplitGuidsService() {
+		return autoSplitGuidsService;
+	}
+	
+	@Required
+	public void setAutoSplitGuidsService(AutoSplitGuidsService autoSplitGuidsService) {
+		this.autoSplitGuidsService = autoSplitGuidsService;
 	}
 
 

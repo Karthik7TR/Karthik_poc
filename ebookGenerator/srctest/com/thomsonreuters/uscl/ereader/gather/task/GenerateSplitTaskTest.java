@@ -111,14 +111,14 @@ public class GenerateSplitTaskTest {
 		
 		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-		String titleBreakLabel = "Title part ";
+		String titleBreakLabel = "Title eBook ";
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
 				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-				+ "<EBook><titlebreak>Title part 1</titlebreak>"
+				+ "<EBook><titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>";
 		
 		//System.out.println(splitTocXml.toString());
@@ -189,7 +189,7 @@ public class GenerateSplitTaskTest {
 		
 		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, mockNames());
 		
-		Assert.assertEquals("Main-Series part ",titleBreakText);
+		Assert.assertEquals("Main-Series eBook ",titleBreakText);
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ public class GenerateSplitTaskTest {
 		names.remove(1);		
 		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, names);
 		//LOG.debug(titleBreakText);
-		Assert.assertEquals("Main part ",titleBreakText);
+		Assert.assertEquals("Main eBook ",titleBreakText);
 	}
 	
 	protected List<EbookName> mockNames(){

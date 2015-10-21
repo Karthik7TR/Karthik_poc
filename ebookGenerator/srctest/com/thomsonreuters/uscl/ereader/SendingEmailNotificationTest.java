@@ -16,6 +16,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
 import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsServiceImpl;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
 
 public class SendingEmailNotificationTest {
 	
@@ -25,6 +27,7 @@ public class SendingEmailNotificationTest {
 	Long jobInstanceId;
 	AutoSplitGuidsServiceImpl autoSplitGuidsService;
 	private BookDefinitionServiceImpl service;
+	private DocMetadataService docMetadataService;
 
 	@Before
 	public void setUp(){
@@ -33,6 +36,8 @@ public class SendingEmailNotificationTest {
 		bookDefinition.setEbookDefinitionId(bookId);
 		jobInstanceId = new Long(1);
 		this.service = EasyMock.createMock(BookDefinitionServiceImpl.class);
+		this.docMetadataService = EasyMock.createMock(DocMetadataServiceImpl.class);
+		sendingEmailNotification.setDocMetadataService(docMetadataService);
 		autoSplitGuidsService = new AutoSplitGuidsServiceImpl();
 		autoSplitGuidsService.setBookDefinitionService(service);
 		sendingEmailNotification.setAutoSplitGuidsService(autoSplitGuidsService);
@@ -47,6 +52,18 @@ public class SendingEmailNotificationTest {
 		
 	}
 	
+	@Test
+	public void testSplitMsg(){
+		List<String> splitTitles = new ArrayList<String>();
+		splitTitles.add("uscl/an/book_test_part1");
+		splitTitles.add("uscl/an/book_test_part2");
+		
+		EasyMock.expect(docMetadataService.findDistinctSplitTitlesByJobId(jobInstanceId)).andReturn(splitTitles);
+		EasyMock.replay(docMetadataService);
+		String msg = sendingEmailNotification.getBookPartsAndTitle(jobInstanceId, "uscl/an/book_test", "Book Test");
+		Assert.assertTrue(msg.contains("Proview display name : Book Test"));
+		EasyMock.verify(docMetadataService);
+	}
 	
 	@Test
 	public void testMetrics() throws Exception{
@@ -62,7 +79,6 @@ public class SendingEmailNotificationTest {
 				.getEbookDefinitionId())).andReturn(persistedSplitDocuments);
 		EasyMock.replay(service);
 		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, toCFile.getPath(),10);	
-		System.out.println("msg "+msg);
 		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value"));
 		EasyMock.verify(service);
 	}

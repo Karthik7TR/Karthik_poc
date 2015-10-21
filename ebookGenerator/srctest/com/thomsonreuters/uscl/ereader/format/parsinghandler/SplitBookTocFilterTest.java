@@ -44,7 +44,7 @@ public class SplitBookTocFilterTest {
 		splitBookFilter.setParent(saxParser.getXMLReader());
 		splitBookFilter.setSplitTocGuidList(splitTocGuidList);
 		
-		splitBookFilter.setTitleBreakText("Title part ");
+		splitBookFilter.setTitleBreakText("Title eBook ");
 		
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
 		props.setProperty("omit-xml-declaration", "yes");
@@ -68,9 +68,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><dummyTag>dummyValue</dummyTag><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
@@ -90,9 +90,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult =  "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
@@ -116,11 +116,11 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
@@ -142,11 +142,11 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult =  "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "</EBookToc>"
@@ -165,9 +165,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><dummyTag>dummyValue</dummyTag><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
@@ -188,11 +188,11 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
 				+ "</EBook>";
@@ -215,12 +215,12 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "</EBookToc>"
 				+ "</EBook>";
@@ -248,11 +248,11 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
@@ -281,12 +281,12 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
 				+ "</EBookToc>"
@@ -312,13 +312,13 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_0</Guid>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 3</titlebreak>"
+				+ "<titlebreak>Title eBook 3 of 3</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid></EBookToc>"
 				+ "</EBookToc>"
 				+ "</EBookToc>"
@@ -338,9 +338,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		
@@ -358,9 +358,9 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title part 2</titlebreak>"
+				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
 				+ "</EBook>";
@@ -378,7 +378,7 @@ public class SplitBookTocFilterTest {
 				+ "</EBook>";
 		
 		String expectedResult = "<EBook>"
-				+ "<titlebreak>Title part 1</titlebreak>"
+				+ "<titlebreak>Title eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
 				+ "</EBook>";
 		

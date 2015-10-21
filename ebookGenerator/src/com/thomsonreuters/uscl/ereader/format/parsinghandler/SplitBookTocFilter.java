@@ -117,7 +117,10 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 			 //This title break is to write at the top after the <EBook>
 			 if(isEbook){
 				 	super.startElement(URI, EBOOK, EBOOK,EMPTY_ATTRIBUTES);
-					String text = titleBreakText+1;
+				 	StringBuffer proviewDisplayName = new StringBuffer();
+					proviewDisplayName.append(titleBreakText);
+					proviewDisplayName.append("1 of "+(splitTocGuidList.size()+1));
+					String text = proviewDisplayName.toString();
 					super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 					super.characters(text.toCharArray(), 0, text.length());
 					super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
@@ -168,7 +171,11 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 			LOG.debug("TitleBreak has been added for splitNode "+splitNode+ " after "+total+" nodes");
 			total=0;
 			number++;
-			String text = titleBreakText+number;
+			StringBuffer proviewDisplayName = new StringBuffer();
+			proviewDisplayName.append(titleBreakText);
+			proviewDisplayName.append(number);
+			proviewDisplayName.append(" of "+(splitTocGuidList.size()+1));
+			String text = proviewDisplayName.toString();
 			super.characters(text.toCharArray(), 0, text.length());
 			super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
 			if(!leafNode){

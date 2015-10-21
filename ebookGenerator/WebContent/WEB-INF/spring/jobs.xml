@@ -98,7 +98,7 @@
 			<next on="SPLIT_BOOK" to="generateSplitToc" />
 			<next on="SINGLE_BOOK" to="formatHTMLTransformer" />
 		</decision>
-		
+		<!-- Toc will be generated with titlebreak elements  -->
 		<step id="generateSplitToc">
 			<tasklet ref="generateSplitTocTask"/>
 			<next on="COMPLETED" to="formatHTMLTransformer"/>
@@ -262,7 +262,8 @@
 				p:publishingStatsService-ref="publishingStatsService"
 				p:splitBookTocParseService-ref="splitBookTocParseService"
 				p:fileHandlingHelper-ref="transformedFileHandlingHelper"
-				p:docMetadataService-ref="docMetadataService"/>  
+				p:docMetadataService-ref="docMetadataService"
+				p:autoSplitGuidsService-ref="autoSplitGuidsService"/>  
 							
 	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
@@ -284,7 +285,8 @@
 	<beans:bean id="createDirectoriesAndMoveResourcesTask" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:titleMetadataService-ref="titleMetadataService"
-	            p:moveResourcesUtil-ref="moveResourcesUtil"/>
+	            p:moveResourcesUtil-ref="moveResourcesUtil"
+	            p:bookDefinitionService-ref="bookDefinitionService"/>
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="parentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:titleMetadataService-ref="titleMetadataService"/>	
@@ -309,6 +311,7 @@
 
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService" 
-	            p:autoSplitGuidsService-ref="autoSplitGuidsService" />							
+	            p:autoSplitGuidsService-ref="autoSplitGuidsService" 
+	            p:docMetadataService-ref="docMetadataService"/>							
 
 </beans:beans>

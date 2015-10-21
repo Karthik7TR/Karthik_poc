@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -39,6 +40,17 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 	private static final Logger log = Logger.getLogger(SendingEmailNotification.class);
 	private PublishingStatsService publishingStatsService;
 	private AutoSplitGuidsService autoSplitGuidsService;
+	private DocMetadataService docMetadataService;
+
+
+	@Required
+	public DocMetadataService getDocMetadataService() {
+		return docMetadataService;
+	}
+	
+	public void setDocMetadataService(DocMetadataService docMetadataService) {
+		this.docMetadataService = docMetadataService;
+	}
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
@@ -81,7 +93,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
         
 		String subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId();
-        String body =  String.format("%s\n\nProview Display Name: %s \nTitle ID: %s \nJob Instance ID: %d \nJob Execution ID: %d \nEnvironment: %s\n",
+        String body =  String.format("%s\n\nProview Display Name: %s \n\nTitle ID: %s \n\nJob Instance ID: %d \nJob Execution ID: %d \n\nEnvironment: %s\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
         if(!bookDefinition.isSplitBook()){
@@ -89,16 +101,34 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         	Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
         	String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 			if (tocNodeCount > thresholdValue){
-				 subject = subject + "–Threshold Warning";
+				 subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId() + " THRESHOLD WARNING";
 				 String msg =  getMetricsInfo(bookDefinition, tocNodeCount, jobInstanceId, tocXmlFile, thresholdValue);
 				 body = body.concat(msg);
 			}
+        }
+        else{
+        	String msg = getBookPartsAndTitle(jobInstanceId, bookDefinition.getFullyQualifiedTitleId(), bookDefinition.getProviewDisplayName());
+        	body = body.concat(msg);
         }
         
        
 
         EmailNotification.send(recipients, subject, body);
 	}
+    
+    public String getBookPartsAndTitle(long jobInstanceId, String fullyQualifiedTitle, String proviewDisplayName){
+    	StringBuffer buffer = new StringBuffer(); 
+    	List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstanceId);
+    	buffer.append("\nPlease find the below information regarding the split titles\n\n");
+    	buffer.append("Proview display name : "+proviewDisplayName);
+    	buffer.append("\n\nFully Qualified Title : "+fullyQualifiedTitle);
+    	buffer.append("\n\nTotal parts : "+splitTitles.size()+"\n\n");
+    	buffer.append("Split Title Id's :\n");
+    	for(String splitTitleId : splitTitles){
+    		buffer.append(splitTitleId+"\n");
+    	}
+    	return buffer.toString();
+    }
     
 	public String getMetricsInfo(BookDefinition bookDefinition, Integer tocNodeCount, long jobInstanceId,
 			String tocXmlFile, Integer thresholdValue) {
@@ -113,7 +143,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 					tocNodeCount, jobInstanceId, metrics);
 			splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
 			buffer.append("\n\n**WARNING**: The book exceeds threshold value "+thresholdValue);
-			buffer.append("\nTotal node count is " + tocNodeCount);
+			buffer.append("\n\nTotal node count is " + tocNodeCount);
 			buffer.append("\n\nPlease find the below system suggested information");
 			buffer.append("\n\nTotal split parts " + (splitTocGuidList.size() + 1));
 			buffer.append("\n\nTOC/NORT guids \n\n");
@@ -138,12 +168,6 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 
 	}
 	
-	public String condenseToOneLine(String string) {
-        string = string.replaceAll("\r", "");
-        string = string.replaceAll("\n", "");
-        string = string.replaceAll("\\s{2,}", "");
-        return string;
-    }
     
     public AutoSplitGuidsService getAutoSplitGuidsService() {
 		return autoSplitGuidsService;
