@@ -104,7 +104,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -173,7 +173,7 @@ public class TocServiceTest {
 
 	
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
 		} 
 		catch (Exception e)
 		{
@@ -231,7 +231,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockTocNode);
 		EasyMock.replay(mockNovusUtility);		
 		try {
-			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
+			gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -291,7 +291,7 @@ public class TocServiceTest {
 		EasyMock.replay(mockNovusUtility);		
 		
 		try {
-			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE);
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
 		} 
 		finally
 		{
@@ -391,7 +391,7 @@ public class TocServiceTest {
 				ArrayList<ExcludeDocument> excludeDocuments = new ArrayList();
 				mockExcludeDocument.setDocumentGuid("UUID_1a");
 				excludeDocuments.add(mockExcludeDocument);
-				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments, null, IS_FINAL_STAGE);
+				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments, null, IS_FINAL_STAGE, null, 0);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Assert.fail(e.getMessage());

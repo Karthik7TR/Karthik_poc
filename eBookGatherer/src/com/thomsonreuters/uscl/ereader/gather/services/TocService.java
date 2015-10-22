@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
@@ -17,6 +18,6 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 public interface TocService {
 	
 	public GatherResponse findTableOfContents(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, 
-			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) throws GatherException; 
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, List<String> splitTocGuidList, int thresholdValue) throws GatherException; 
 
 }

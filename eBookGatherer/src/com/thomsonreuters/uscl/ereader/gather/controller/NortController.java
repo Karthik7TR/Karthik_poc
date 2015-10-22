@@ -44,7 +44,7 @@ public class NortController {
 
 			gatherResponse = nortService.findTableOfContents(nortRequest.getDomainName(), nortRequest.getExpressionFilter(), 
 					nortXmlFile, nortRequest.getCutoffDate(),nortRequest.getExcludeDocuments(),nortRequest.getRenameTocEntries(), 
-					nortRequest.isFinalStage(), nortRequest.getUseReloadContent());
+					nortRequest.isFinalStage(), nortRequest.getUseReloadContent(),nortRequest.getSplitTocGuidList(),nortRequest.getThresholdValue());
 			
 				
 		} catch (GatherException e) {

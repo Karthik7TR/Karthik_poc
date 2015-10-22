@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -49,6 +50,27 @@ public class TocServiceImpl implements TocService {
 	private static final Logger LOG = Logger.getLogger(TocServiceImpl.class);
 
 	private Integer tocRetryCount;
+	
+	List<String> splitTocGuidList = null;
+	private static int splitTocCount = 0;
+	private int thresholdValue;
+	private boolean findSplitsAgain = false;
+	
+	public boolean isFindSplitsAgain() {
+		return findSplitsAgain;
+	}
+	
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
+	
+	public int getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(int thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
 
 	public void retrieveNodes(String guid, TOC _tocManager, Writer out,
 			int[] counter, int[] docCounter, int[] retryCounter, int[] intParent, ArrayList<ExcludeDocument> excludeDocuments,
@@ -251,6 +273,20 @@ public class TocServiceImpl implements TocService {
 				// <EBookToc>
 				// <Name>Primary Source with Annotations</Name>
 				// <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
+				
+				// To verify if the provided split Toc/Nort Node exists in the file
+				if (splitTocGuidList != null && guid.toString().length() >= 33){
+					splitTocCount++;
+					String splitNode = StringUtils.substring(guid.toString(), 0,33);
+					if( splitTocGuidList.contains(splitNode)){
+						if (splitTocCount > thresholdValue){
+							this.findSplitsAgain = true;
+							System.out.println("Caculate new autosplit--------------------");
+						}
+						splitTocCount = 0;						
+						this.splitTocGuidList.remove(splitNode);
+					}
+				}
 	
 				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
 						.toString());
@@ -336,7 +372,7 @@ public class TocServiceImpl implements TocService {
 	 */
 	public GatherResponse findTableOfContents(String guid,
 			String collectionName, File tocXmlFile, ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries,
-			boolean isFinalStage) throws GatherException {
+			boolean isFinalStage, List<String> splitTocGuidList, int thresholdValue) throws GatherException {
 		TOC _tocManager = null;
 		Writer out = null;
 		int[] counter = { 0 };
@@ -363,6 +399,12 @@ public class TocServiceImpl implements TocService {
 		_tocManager = getTocObject(collectionName, type, novusObject);
 		
 		ArrayList<ExcludeDocument> copyExcludDocs = null;
+		
+		if(splitTocGuidList != null){
+			this.splitTocGuidList = splitTocGuidList;
+		}
+		
+		this.thresholdValue = thresholdValue;
 		
 		// Make a copy of the original excluded documents to check that all have been accounted for
 		if (excludeDocuments != null) {
@@ -475,7 +517,8 @@ public class TocServiceImpl implements TocService {
 				gatherResponse.setNodeCount(counter[0]);
 				gatherResponse.setRetryCount(retryCounter[0]);
 				gatherResponse.setPublishStatus(publishStatus);
-
+				gatherResponse.setFindSplitsAgain(findSplitsAgain);
+				gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
 			}
 			novusObject.shutdownMQ();
 		}

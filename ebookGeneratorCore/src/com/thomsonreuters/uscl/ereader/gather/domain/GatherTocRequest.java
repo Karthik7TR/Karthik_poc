@@ -8,12 +8,14 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 
 public class GatherTocRequest {
 
@@ -23,13 +25,15 @@ public class GatherTocRequest {
 	private ArrayList<ExcludeDocument> excludeDocuments;
 	private ArrayList<RenameTocEntry> renameTocEntries;
 	private boolean isFinalStage;
+	private List<String> splitTocGuidList;
+	private int thresholdValue;
 
 	public GatherTocRequest(){
 		super();
 	}
 	
 	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, 
-			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage) {
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, List<String> splitTocGuidList, int thresholdValue) {
 		super();
 		this.guid = guid;
 		this.collectionName = collectionName;
@@ -37,8 +41,26 @@ public class GatherTocRequest {
 		this.excludeDocuments = excludeDocuments;
 		this.renameTocEntries = renameTocEntries;
 		this.isFinalStage = isFinalStage;
+		this.splitTocGuidList = splitTocGuidList;
+		this.thresholdValue = thresholdValue;
 	}
 
+	public int getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(int thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
+
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
+
+	public void setSplitTocGuidList(List<String> splitTocGuidList) {
+		this.splitTocGuidList = splitTocGuidList;
+	}
+	
 	public String getCollectionName() {
 		return collectionName;
 	}
@@ -48,7 +70,6 @@ public class GatherTocRequest {
 	public File getTocFile() {
 		return tocFile;
 	}
-
 
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;

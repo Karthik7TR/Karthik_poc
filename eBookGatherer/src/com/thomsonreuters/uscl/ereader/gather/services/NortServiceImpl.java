@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
@@ -57,10 +59,30 @@ public class NortServiceImpl implements NortService {
 	private static final int NODECOUNT = 1;
 	private static final int SKIPCOUNT = 2;
 	private static final int RETRYCOUNT = 3;
+	List<String> splitTocGuidList = null;
+	private static int splitTocCount = 0;
+	private int thresholdValue;
+	private boolean findSplitsAgain = false;
 
 	private NovusUtility novusUtility;
 
 	private Integer nortRetryCount;
+	
+	public boolean isFindSplitsAgain() {
+		return findSplitsAgain;
+	}
+	
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
+	
+	public int getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(int thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
 
 	public void retrieveNodes(NortManager _nortManager, Writer out,
 			int[] counters, int[] iParent, String YYYYMMDDHHmmss, ArrayList<ExcludeDocument> excludeDocuments,
@@ -370,6 +392,20 @@ public class NortServiceImpl implements NortService {
 				} else {
 					iParent[0]++;
 				}
+				
+				// To verify if the provided split Toc/Nort Node exists in the file
+				if (splitTocGuidList != null && guid.toString().length() >= 33){
+					splitTocCount++;
+					String splitNode = StringUtils.substring(guid.toString(), 0,33);
+					if( splitTocGuidList.contains(splitNode)){
+					//Check if the split exceeds threshold value
+						if (splitTocCount > thresholdValue){
+							this.findSplitsAgain = true;
+						}
+						splitTocCount = 0;						
+						this.splitTocGuidList.remove(splitNode);
+					}
+				}
 
 				// Example of output:
 				// <EBookToc>
@@ -457,7 +493,7 @@ public class NortServiceImpl implements NortService {
 	 */
 	public GatherResponse findTableOfContents(String domainName,
 			String expressionFilter, File nortXmlFile, Date cutoffDate, ArrayList<ExcludeDocument> excludeDocuments, 
-			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, boolean useReloadContent)
+			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, boolean useReloadContent, List<String> splitTocGuidList, int thresholdValue)
 			throws GatherException {
 		NortManager _nortManager = null;
 		Writer out = null;
@@ -480,6 +516,12 @@ public class NortServiceImpl implements NortService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		
 		ArrayList<ExcludeDocument> copyExcludDocs = null;
+		
+		if(splitTocGuidList != null){
+			this.splitTocGuidList = splitTocGuidList;
+		}
+		
+		this.thresholdValue = thresholdValue;
 		
 		// Make a copy of the original excluded documents to check that all have been accounted for
 		if (excludeDocuments != null) {
@@ -603,7 +645,8 @@ public class NortServiceImpl implements NortService {
 				gatherResponse.setSkipCount(counters[SKIPCOUNT]);
 				gatherResponse.setRetryCount(counters[RETRYCOUNT]);
 				gatherResponse.setPublishStatus(publishStatus);
-
+				gatherResponse.setFindSplitsAgain(findSplitsAgain);
+				gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
 			}
 
 			novusObject.shutdownMQ();

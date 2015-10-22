@@ -9,12 +9,14 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 
 public class GatherNortRequest {
 
@@ -26,6 +28,8 @@ public class GatherNortRequest {
 	private ArrayList<RenameTocEntry> renameTocEntries;
 	private boolean isFinalStage;
 	private boolean useReloadContent;
+	private List<String> splitTocGuidList;
+	private int thresholdValue;
 
 	public GatherNortRequest(){
 		super();
@@ -33,7 +37,7 @@ public class GatherNortRequest {
 	
 	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, 
 			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, 
-			boolean isFinalStage, boolean useReloadContent) {
+			boolean isFinalStage, boolean useReloadContent, List<String> splitTocGuidList, int thresholdValue) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
@@ -43,6 +47,24 @@ public class GatherNortRequest {
 		this.renameTocEntries = renameTocEntries;
 		this.isFinalStage = isFinalStage;
 		this.useReloadContent = useReloadContent;
+		this.splitTocGuidList = splitTocGuidList;
+		this.thresholdValue = thresholdValue;
+	}
+	
+	public int getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(int thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
+
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
+
+	public void setSplitTocGuidList(List<String> splitTocGuidList) {
+		this.splitTocGuidList = splitTocGuidList;
 	}
 	
 	public String getDomainName() {

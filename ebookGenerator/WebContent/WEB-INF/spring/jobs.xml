@@ -220,7 +220,8 @@
 	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="parentTask"
 				p:gatherService-ref="gatherService"
-				p:publishingStatsService-ref="publishingStatsService"/>				
+				p:publishingStatsService-ref="publishingStatsService"
+				p:bookDefinitionService-ref="bookDefinitionService"/>				
 	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="parentTask"
 				p:gatherService-ref="gatherService"
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"

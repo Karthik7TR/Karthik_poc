@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
@@ -28,6 +29,6 @@ public interface NortService {
 	
 	public GatherResponse findTableOfContents(String domainName, String expressionFilter, File nortXmlFile, Date cutoffDate, 
 			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage,
-			boolean useReloadContent) throws GatherException; 
+			boolean useReloadContent, List<String> splitTocGuidList, int thresholdValue) throws GatherException; 
 
 }

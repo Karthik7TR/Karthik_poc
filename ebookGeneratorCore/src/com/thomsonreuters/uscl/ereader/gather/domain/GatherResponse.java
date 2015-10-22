@@ -7,6 +7,8 @@
 
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
+import java.util.List;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -26,6 +28,25 @@ public class GatherResponse {
 	public int skipCount;
 	public int retryCount;
 	public int retryCount2;
+	
+	List<String> splitTocGuidList;
+	private boolean findSplitsAgain = false;
+	
+	public boolean isFindSplitsAgain() {
+		return findSplitsAgain;
+	}
+	
+	public void setFindSplitsAgain(boolean findSplitsAgain) {
+		this.findSplitsAgain = findSplitsAgain;
+	}
+	
+	public List<String> getSplitTocGuidList() {
+		return splitTocGuidList;
+	}
+	
+	public void setSplitTocGuidList(List<String> splitTocGuidList) {
+		this.splitTocGuidList = splitTocGuidList;
+	}
 	
 
 	public int expectedCount;

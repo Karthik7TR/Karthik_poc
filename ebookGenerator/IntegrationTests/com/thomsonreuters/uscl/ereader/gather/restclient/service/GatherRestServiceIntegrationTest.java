@@ -10,10 +10,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
-import org.junit.Assert;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -48,7 +48,7 @@ public class GatherRestServiceIntegrationTest  {
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
-		GatherTocRequest gatherTocRequest = new GatherTocRequest(ROOT_TOC_GUID_IMPH, TOC_COLLECTION_NAME, tocFile, null, null, true);
+		GatherTocRequest gatherTocRequest = new GatherTocRequest(ROOT_TOC_GUID_IMPH, TOC_COLLECTION_NAME, tocFile, null, null, true, null, 0);
 		
 		GatherResponse gatherResponse = gatherService.getToc(gatherTocRequest);
 		log.debug(gatherResponse);
@@ -70,7 +70,7 @@ public class GatherRestServiceIntegrationTest  {
 		File tempDir = temporaryFolder.getRoot();
 		File tocFile = new File(tempDir, "toc.xml");
 		Assert.assertTrue(tempDir.canWrite());
-		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile, new Date(),null, null, true, true);
+		GatherNortRequest gatherNortRequest = new GatherNortRequest(NORT_DOMAIN_NAME, NORT_FILTER_EXPRESSION, tocFile, new Date(),null, null, true, true, null, 0);
 		
 		GatherResponse gatherResponse = gatherService.getNort(gatherNortRequest);
 		log.debug(gatherResponse);
@@ -78,7 +78,8 @@ public class GatherRestServiceIntegrationTest  {
 		Assert.assertEquals(3, gatherResponse.getErrorCode());
 		Assert.assertTrue(tocFile.exists());
 		Assert.assertTrue(tocFile.length() > 0);
-	}
+	}	
+	
 	/**
 	 * Fetch a single DOC from Novus by invoking the Gather REST service.
 	 * Prod DOC GUIDS and collection name from S. Alic (1/20/12)
