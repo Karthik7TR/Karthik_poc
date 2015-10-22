@@ -61,6 +61,7 @@ public class SendingEmailNotificationTest {
 		EasyMock.expect(docMetadataService.findDistinctSplitTitlesByJobId(jobInstanceId)).andReturn(splitTitles);
 		EasyMock.replay(docMetadataService);
 		String msg = sendingEmailNotification.getBookPartsAndTitle(jobInstanceId, "uscl/an/book_test", "Book Test");
+		System.out.println("msg "+msg);
 		Assert.assertTrue(msg.contains("Proview display name : Book Test"));
 		EasyMock.verify(docMetadataService);
 	}
@@ -79,6 +80,7 @@ public class SendingEmailNotificationTest {
 				.getEbookDefinitionId())).andReturn(persistedSplitDocuments);
 		EasyMock.replay(service);
 		String msg = sendingEmailNotification.getMetricsInfo(bookDefinition, 100, jobInstanceId, toCFile.getPath(),10);	
+		System.out.println("msg "+msg);
 		Assert.assertTrue(msg.contains("**WARNING**: The book exceeds threshold value"));
 		EasyMock.verify(service);
 	}

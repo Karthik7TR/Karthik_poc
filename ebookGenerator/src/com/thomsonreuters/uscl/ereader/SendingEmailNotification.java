@@ -100,13 +100,14 @@ public class SendingEmailNotification extends AbstractSbTasklet {
         	Integer tocNodeCount = publishingStatsService.findPublishingStatsByJobId(jobInstanceId).getGatherTocNodeCount();
         	Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
         	String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
-			if (tocNodeCount > thresholdValue){
+			if (tocNodeCount >= thresholdValue){
 				 subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId() + " THRESHOLD WARNING";
 				 String msg =  getMetricsInfo(bookDefinition, tocNodeCount, jobInstanceId, tocXmlFile, thresholdValue);
 				 body = body.concat(msg);
 			}
         }
         else{
+        	subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId()+" (Split Book)";
         	String msg = getBookPartsAndTitle(jobInstanceId, bookDefinition.getFullyQualifiedTitleId(), bookDefinition.getProviewDisplayName());
         	body = body.concat(msg);
         }
