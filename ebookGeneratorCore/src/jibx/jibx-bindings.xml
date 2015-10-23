@@ -40,6 +40,12 @@
         <value name="retryCount2" field="retryCount2" usage="optional"/>
         <value name="expectedCount" field="expectedCount" usage="optional"/>
         <value name="publishStatus" field="publishStatus" usage="optional"/>
+        <structure name="splitGuids" usage="optional">
+	    	<collection field="splitTocGuidList" usage="optional">
+				<value name="guid" type="java.lang.String" usage="optional"/>
+			</collection>
+		</structure>
+		<value name="findSplitsAgain" field="findSplitsAgain" usage="optional"/>		
     </mapping>
     
     <!-- Gather Doc service REST request body -->
@@ -78,6 +84,12 @@
 		    	</structure>
 	    	</collection>  
 	    <value name="isFinalStage" field="isFinalStage" usage="required"/>
+	    <structure name="splitGuids" usage="optional">
+	    	<collection field="splitTocGuidList" usage="optional">
+				<value name="guid" type="java.lang.String" usage="optional"/>
+			</collection>
+		</structure>
+		<value name="thresholdValue" field="thresholdValue" usage="optional"/>
     </mapping>
     
     <!-- Gather table of contents (nort) service REST request body -->
@@ -104,6 +116,12 @@
 	    	</collection> 
 	    <value name="isFinalStage" field="isFinalStage" usage="required"/>
 	    <value name="useReloadContent" field="useReloadContent" usage="required"/>
+	    <structure name="splitGuids" usage="optional">
+	    	<collection field="splitTocGuidList" usage="optional">
+				<value name="guid" type="java.lang.String" usage="optional"/>
+			</collection>
+		</structure>
+		<value name="thresholdValue" field="thresholdValue" usage="optional"/>
     </mapping>
     
     <!-- Planned Outage -->

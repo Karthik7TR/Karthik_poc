@@ -279,9 +279,8 @@ public class TocServiceImpl implements TocService {
 					splitTocCount++;
 					String splitNode = StringUtils.substring(guid.toString(), 0,33);
 					if( splitTocGuidList.contains(splitNode)){
-						if (splitTocCount > thresholdValue){
+						if (splitTocCount >= thresholdValue){
 							this.findSplitsAgain = true;
-							System.out.println("Caculate new autosplit--------------------");
 						}
 						splitTocCount = 0;						
 						this.splitTocGuidList.remove(splitNode);

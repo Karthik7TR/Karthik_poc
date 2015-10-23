@@ -144,19 +144,23 @@ public class GetTocTask  extends AbstractSbTasklet {
 					i++;
 				}
 				LOG.error(errorMessageBuffer);
-				gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessageBuffer.toString(), 0,0,0,"GENERATE TOC STEP FAILED NONEXISTENT TOC/NORT GUID");
+				
+				GatherException gatherException = new GatherException(
+						errorMessageBuffer.toString(), GatherResponse.CODE_UNHANDLED_ERROR);
+    			throw gatherException;
 			}
     		
     		if(bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()){
     			Integer tocNodeCount = gatherResponse.getNodeCount();
 				if (tocNodeCount < thresholdValue){
-	    			StringBuffer eMessage = new StringBuffer("Cannot split the book into parts as node count"+tocNodeCount+" is less than threshold value "+thresholdValue);
+	    			StringBuffer eMessage = new StringBuffer("Cannot split the book into parts as node count "+tocNodeCount+" is less than threshold value "+thresholdValue);
 	    			throw new  RuntimeException(eMessage.toString());
 				}
 				else if(gatherResponse.isFindSplitsAgain()){
 						bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
 				}
-    		}
+    		}    		
+    		
         }
         catch (Exception e)
         {

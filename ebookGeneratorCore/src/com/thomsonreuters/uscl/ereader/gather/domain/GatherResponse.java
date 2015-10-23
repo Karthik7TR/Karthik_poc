@@ -7,7 +7,8 @@
 
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -29,7 +30,7 @@ public class GatherResponse {
 	public int retryCount;
 	public int retryCount2;
 	
-	List<String> splitTocGuidList;
+	ArrayList<String> splitTocGuidList;
 	private boolean findSplitsAgain = false;
 	
 	public boolean isFindSplitsAgain() {
@@ -40,12 +41,14 @@ public class GatherResponse {
 		this.findSplitsAgain = findSplitsAgain;
 	}
 	
-	public List<String> getSplitTocGuidList() {
+	public ArrayList<String> getSplitTocGuidList() {
 		return splitTocGuidList;
 	}
 	
-	public void setSplitTocGuidList(List<String> splitTocGuidList) {
-		this.splitTocGuidList = splitTocGuidList;
+	public void setSplitTocGuidList(Collection<String> splitTocGuidList) {
+		if ( splitTocGuidList != null){
+			this.splitTocGuidList = new ArrayList<String>(splitTocGuidList);
+		}
 	}
 	
 

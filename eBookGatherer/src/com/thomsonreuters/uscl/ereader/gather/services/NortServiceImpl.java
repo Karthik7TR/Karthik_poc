@@ -399,7 +399,7 @@ public class NortServiceImpl implements NortService {
 					String splitNode = StringUtils.substring(guid.toString(), 0,33);
 					if( splitTocGuidList.contains(splitNode)){
 					//Check if the split exceeds threshold value
-						if (splitTocCount > thresholdValue){
+						if (splitTocCount >= thresholdValue){
 							this.findSplitsAgain = true;
 						}
 						splitTocCount = 0;						

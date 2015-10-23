@@ -226,16 +226,10 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 
 		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
 				.add(Restrictions.eq("ebookDefinitionId", bookId)).uniqueResult();
-		System.out.println("--------remove--------" + eBook.getSplitDocuments());
-		eBook.getSplitDocuments().clear();
-		System.out.println("--------a- remove-------" + eBook.getSplitDocuments());		
+		eBook.getSplitDocuments().clear();	
 		// attach child objects to book definition
 		eBook = (BookDefinition)session.merge(eBook);
 		session.flush();
-		//session.clear();
-		//tx.commit();
-		System.out.println("----remove----after flush--------" + eBook.getSplitDocuments());
-		//session.close();
 	}
 	
 	public List<SplitDocument> getSplitDocumentsforBook(Long ebookDefinitionId){

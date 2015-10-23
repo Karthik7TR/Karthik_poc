@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
-import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 
 public class GatherNortRequest {
 
@@ -28,7 +28,7 @@ public class GatherNortRequest {
 	private ArrayList<RenameTocEntry> renameTocEntries;
 	private boolean isFinalStage;
 	private boolean useReloadContent;
-	private List<String> splitTocGuidList;
+	private ArrayList<String> splitTocGuidList;
 	private int thresholdValue;
 
 	public GatherNortRequest(){
@@ -37,7 +37,7 @@ public class GatherNortRequest {
 	
 	public GatherNortRequest(String domainName, String expressionFilter, File nortFile, Date cutoffDate, 
 			ArrayList<ExcludeDocument> excludeDocuments, ArrayList<RenameTocEntry> renameTocEntries, 
-			boolean isFinalStage, boolean useReloadContent, List<String> splitTocGuidList, int thresholdValue) {
+			boolean isFinalStage, boolean useReloadContent, Collection<String> splitTocGuidList, int thresholdValue) {
 		super();
 		this.domainName = domainName;
 		this.expressionFilter = expressionFilter;
@@ -47,7 +47,9 @@ public class GatherNortRequest {
 		this.renameTocEntries = renameTocEntries;
 		this.isFinalStage = isFinalStage;
 		this.useReloadContent = useReloadContent;
-		this.splitTocGuidList = splitTocGuidList;
+		if ( splitTocGuidList != null){
+			setSplitTocGuidList(splitTocGuidList);
+		}
 		this.thresholdValue = thresholdValue;
 	}
 	
@@ -60,11 +62,11 @@ public class GatherNortRequest {
 	}
 
 	public List<String> getSplitTocGuidList() {
-		return splitTocGuidList;
+		return this.splitTocGuidList;
 	}
 
-	public void setSplitTocGuidList(List<String> splitTocGuidList) {
-		this.splitTocGuidList = splitTocGuidList;
+	public void setSplitTocGuidList(Collection<String> splitTocGuidList) {
+		this.splitTocGuidList = new ArrayList<String>(splitTocGuidList);
 	}
 	
 	public String getDomainName() {
