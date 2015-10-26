@@ -93,7 +93,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
         
 		String subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId();
-        String body =  String.format("%s\t\nProview Display Name: %s \t\nTitle ID: %s \t\nJob Instance ID: %d \nJob Execution ID: %d \t\nEnvironment: %s\n",
+        String body =  String.format("%s\t\nProview Display Name: %s \t\nTitle ID: %s \t\nJob Instance ID: %d \t\nJob Execution ID: %d \t\nEnvironment: %s \t\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
         if(!bookDefinition.isSplitBook()){
@@ -151,7 +151,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
 				String uuid = entry.getKey();
 				String name = entry.getValue();
-				buffer.append(uuid + "  :  " + name+"\n" );
+				buffer.append(uuid + "  :  " + name+"\t\n" );
 			}
 		} catch (IOException iox) {
 			throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
