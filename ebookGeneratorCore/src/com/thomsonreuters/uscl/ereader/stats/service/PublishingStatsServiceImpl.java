@@ -353,4 +353,9 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	public void setPublishingStatsDAO(PublishingStatsDao dao) {
 		this.publishingStatsDAO = dao;
 	}
+	
+	@Transactional(readOnly = true)
+	public EbookAudit getMaxAuditId(Long eBookDefId){
+		return publishingStatsDAO.getMaxAuditId(eBookDefId);
+	}
 }

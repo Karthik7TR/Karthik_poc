@@ -93,7 +93,7 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
         
 		String subject = "eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId();
-        String body =  String.format("%s\n\nProview Display Name: %s \n\nTitle ID: %s \n\nJob Instance ID: %d \nJob Execution ID: %d \n\nEnvironment: %s\n",
+        String body =  String.format("%s\t\nProview Display Name: %s \t\nTitle ID: %s \t\nJob Instance ID: %d \nJob Execution ID: %d \t\nEnvironment: %s\n",
         					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
         					jobInstanceId, jobExecutionId, environment);
         if(!bookDefinition.isSplitBook()){
@@ -120,13 +120,13 @@ public class SendingEmailNotification extends AbstractSbTasklet {
     public String getBookPartsAndTitle(long jobInstanceId, String fullyQualifiedTitle, String proviewDisplayName){
     	StringBuffer buffer = new StringBuffer(); 
     	List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstanceId);
-    	buffer.append("\nPlease find the below information regarding the split titles\n\n");
+    	buffer.append("\nPlease find the below information regarding the split titles\t\n");
     	buffer.append("Proview display name : "+proviewDisplayName);
-    	buffer.append("\n\nFully Qualified Title : "+fullyQualifiedTitle);
-    	buffer.append("\n\nTotal parts : "+splitTitles.size()+"\n\n");
-    	buffer.append("Split Title Id's :\n");
+    	buffer.append("\t\nFully Qualified Title : "+fullyQualifiedTitle);
+    	buffer.append("\t\nTotal parts : "+splitTitles.size()+"\t\n");
+    	buffer.append("Split Title Id's :\t\n");
     	for(String splitTitleId : splitTitles){
-    		buffer.append(splitTitleId+"\n");
+    		buffer.append(splitTitleId+"\t\n");
     	}
     	return buffer.toString();
     }
@@ -143,11 +143,11 @@ public class SendingEmailNotification extends AbstractSbTasklet {
 			List<String> splitTocGuidList = autoSplitGuidsService.getAutoSplitNodes(tocInputSteam, bookDefinition,
 					tocNodeCount, jobInstanceId, metrics);
 			splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
-			buffer.append("\n\n**WARNING**: The book exceeds threshold value "+thresholdValue);
-			buffer.append("\n\nTotal node count is " + tocNodeCount);
-			buffer.append("\n\nPlease find the below system suggested information");
-			buffer.append("\n\nTotal split parts " + (splitTocGuidList.size() + 1));
-			buffer.append("\n\nTOC/NORT guids \n\n");
+			buffer.append("\t\n**WARNING**: The book exceeds threshold value "+thresholdValue);
+			buffer.append("\t\nTotal node count is " + tocNodeCount);
+			buffer.append("\t\nPlease find the below system suggested information");
+			buffer.append("\t\nTotal split parts " + (splitTocGuidList.size() + 1));
+			buffer.append("\t\nTOC/NORT guids \t\n");
 			for (Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
 				String uuid = entry.getKey();
 				String name = entry.getValue();

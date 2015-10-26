@@ -68,7 +68,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		LOG.debug(gatherResponse);
 		
 		// Verify created files and directories
@@ -133,7 +133,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();		
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		
 		// Verify created files and directories
 		assertTrue(nortFile.exists());
@@ -207,7 +207,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		
 		// Verify created files and directories
 		Assert.assertTrue(nortFile.exists());
@@ -276,7 +276,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		
 		// Verify created files and directories
 		Assert.assertTrue(nortFile.exists());
@@ -352,7 +352,7 @@ public class NovusNortFileServiceTest {
 		splitTocGuidList.add(guid1);
 		splitTocGuidList.add(guid2);
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList,0);
 		
 	
 		LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
@@ -389,7 +389,7 @@ public class NovusNortFileServiceTest {
 		splitTocGuidList.add(guid1);
 		splitTocGuidList.add(guid2);
 		
-		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList);
+		novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList,0);
 		
 	
 		LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
@@ -417,7 +417,7 @@ public class NovusNortFileServiceTest {
 		// Invoke the object under test
 		nortDir.mkdirs();
 		
-		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+		GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		LOG.debug(gatherResponse);
 		
 		// Verify created files and directories
@@ -492,7 +492,7 @@ public class NovusNortFileServiceTest {
 		nortDir.mkdirs();
 	
 		try {
-			novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null);
+			novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null,0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOG.debug(e.getMessage());
@@ -506,7 +506,7 @@ public class NovusNortFileServiceTest {
 		
 		Date date = new Date();
 		List<RelationshipNode> nodes = new ArrayList<RelationshipNode>();
-		novusNortFileService.findTableOfContents(nodes, nortFile, date, null, null, null);
+		novusNortFileService.findTableOfContents(nodes, nortFile, date, null, null, null,0);
  	}
 	
 	private RelationshipNode createRootNode(String label, String dateStr, String nortGuid, int rank) {

@@ -71,4 +71,6 @@ public interface PublishingStatsService {
 	
 	public Long getMaxGroupVersionById(Long ebookDefId);
 	
+	public EbookAudit getMaxAuditId(Long eBookDefId);
+	
 }

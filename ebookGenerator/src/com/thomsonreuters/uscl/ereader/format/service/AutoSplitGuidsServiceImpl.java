@@ -65,6 +65,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 
 			List<String> splitTocGuidList = new ArrayList<String>();
 
+			//Check split documents in database in case we might have deleted in earlier steps
 			List<SplitDocument> persistedSplitDocuments = bookDefinitionService.findSplitDocuments(bookDefinition
 					.getEbookDefinitionId());
 
@@ -74,8 +75,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 				}
 				return splitTocGuidList;
 			}
-
-			// update this has been removed for test util
+			
 			Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
 			Integer thresholdPercent = bookDefinition.getDocumentTypeCodes().getThresholdPercent();
 			int partSize = getSizeforEachPart(thresholdValue, tocNodeCount);			

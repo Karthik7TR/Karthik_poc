@@ -39,6 +39,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortFilenameFilter;
@@ -64,6 +65,8 @@ public class GenerateTocTask  extends AbstractSbTasklet
 	private PublishingStatsService publishingStatsService;
 	
 	private NovusNortFileService novusNortFileService;
+	
+	private BookDefinitionService bookDefinitionService;
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception 
@@ -172,8 +175,9 @@ public class GenerateTocTask  extends AbstractSbTasklet
 					}
 				}
 	        	
+				Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
 				gatherResponse = novusNortFileService.findTableOfContents(rootNodes, tocFile, cutoffDate, 
-						excludeDocuments, renameTocEntries, splitTocGuidList);
+						excludeDocuments, renameTocEntries, splitTocGuidList, thresholdValue.intValue());
 				if (novusNortFileService.getSplitTocGuidList() != null && novusNortFileService.getSplitTocGuidList().size() > 0){
 					StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist.") ;
 					int i = 1;
@@ -209,6 +213,19 @@ public class GenerateTocTask  extends AbstractSbTasklet
     			GatherException gatherException = new GatherException(
     					gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
     			throw gatherException;
+    		}
+    		if(bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()){
+    			Integer tocNodeCount = gatherResponse.getNodeCount();
+				Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
+				if (tocNodeCount < thresholdValue){
+	    			StringBuffer eMessage = new StringBuffer("Cannot split the book into parts as node count "+tocNodeCount+" is less than threshold value "+thresholdValue);
+	    			throw new  RuntimeException(eMessage.toString());
+				}
+				else{
+					if(novusNortFileService.isFindSplitsAgain()){
+						bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
+					}
+				}
     		}
         }
         catch (Exception e)
@@ -289,5 +306,14 @@ public class GenerateTocTask  extends AbstractSbTasklet
 	public void setNovusNortFileService(NovusNortFileService novusNortFileService) 
 	{
 		this.novusNortFileService = novusNortFileService;
+	}
+	
+	public BookDefinitionService getBookDefinitionService() {
+		return bookDefinitionService;
+	}
+
+	@Required
+	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
+		this.bookDefinitionService = bookDefinitionService;
 	}
 }

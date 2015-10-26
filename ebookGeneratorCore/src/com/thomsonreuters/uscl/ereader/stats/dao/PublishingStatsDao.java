@@ -73,5 +73,7 @@ public interface PublishingStatsDao {
 	public EbookAudit findAuditInfoByJobId(Long jobId);
 	
 	public List<PublishingStats> findAllPublishingStats();
+	
+	public EbookAudit getMaxAuditId(Long eBookDefId);
 
 }

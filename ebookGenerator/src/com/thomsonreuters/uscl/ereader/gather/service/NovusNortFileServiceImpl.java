@@ -50,7 +50,26 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 	private static final int NODECOUNT = 1;
 	private static final int SKIPCOUNT = 2;
 	private static final int RETRYCOUNT = 3;
+	private static int splitTocCount = 0;
 	List<String> splitTocGuidList = null;
+	private int thresholdValue;
+	private boolean findSplitsAgain = false;;
+
+	public boolean isFindSplitsAgain() {
+		return findSplitsAgain;
+	}
+
+	public void setFindSplitsAgain(boolean findSplitsAgain) {
+		this.findSplitsAgain = findSplitsAgain;
+	}
+
+	public int getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(int thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
 
 	public List<String> getSplitTocGuidList() {
 		return splitTocGuidList;
@@ -276,8 +295,13 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 				}
 				// To verify if the provided split Toc/Nort Node exists in the file
 				if (splitTocGuidList != null && guid.toString().length() >= 33){
+					splitTocCount++;
 					String splitNode = StringUtils.substring(guid.toString(), 0,33);
 					if( splitTocGuidList.contains(splitNode)){
+						if (splitTocCount >= thresholdValue){
+							this.findSplitsAgain = true;
+						}
+						splitTocCount = 0;						
 						this.splitTocGuidList.remove(splitNode);
 					}
 				}
@@ -318,7 +342,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 	 * @throws Exception
 	 */
 	public GatherResponse findTableOfContents(List<RelationshipNode> rootNodes, File nortXmlFile, 
-			Date cutoffDate, List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries, List<String> splitTocGuidList)
+			Date cutoffDate, List<ExcludeDocument> excludeDocuments, List<RenameTocEntry> renameTocEntries, List<String> splitTocGuidList, int thresholdValue)
 			throws GatherException {
 		
 		Writer out = null;
@@ -335,6 +359,8 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 		if(splitTocGuidList != null){
 			this.splitTocGuidList = splitTocGuidList;
 		}
+		
+		this.thresholdValue = thresholdValue;
 		
 		// Make a copy of the original excluded documents to check that all have been accounted for
 		if (excludeDocuments != null) {

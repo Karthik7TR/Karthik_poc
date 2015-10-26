@@ -86,6 +86,16 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
          query.setParameter("ebookDefId", eBookDefId);
          return (Long) query.uniqueResult();
 	}
+	
+	@Override
+	public EbookAudit getMaxAuditId(Long eBookDefId){
+		Session session = sessionFactory.getCurrentSession();
+
+		 Query query = session.createQuery("select max(audit) from PublishingStats "
+                 + "where ebookDefId = :ebookDefId ");
+         query.setParameter("ebookDefId", eBookDefId);
+         return (EbookAudit) query.uniqueResult();
+	}
 
 	@Override
 	public int updateJobStats(PublishingStats jobstats,
