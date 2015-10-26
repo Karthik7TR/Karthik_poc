@@ -23,8 +23,6 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsService;
 import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseService;
@@ -37,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class GenerateSplitTocTask extends AbstractSbTasklet {
 	// TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(GenerateSplitTocTask.class);
+	//private static final Logger LOG = Logger.getLogger(GenerateSplitTocTask.class);
 	private PublishingStatsService publishingStatsService;
 
 	private SplitBookTocParseService splitBookTocParseService;
@@ -74,9 +72,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 		InputStream tocXml = null;
 		OutputStream splitTocXml = null;
 
-		DocumentTypeCode documentTypeCode = bookDefinition.getDocumentTypeCodes();
-
-		titleBreakLabel = getTitleBreakLabel(documentTypeCode, bookDefinition.getEbookNames());
+		titleBreakLabel = "eBook ";
 
 		try {
 			tocXml = new FileInputStream(tocXmlFile);
@@ -161,34 +157,6 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 		
 		docMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-	}
-
-	public String getTitleBreakLabel(DocumentTypeCode documentTypeCode, List<EbookName> names) {
-
-		StringBuffer mainTitle = new StringBuffer();
-		String series = "";
-
-		for (EbookName name : names) {
-			if (name.getSequenceNum() == 1) {
-				mainTitle.append(name.getBookNameText());
-				if (documentTypeCode == null
-						|| (documentTypeCode != null && !documentTypeCode.getId().equals(DocumentTypeCode.ANALYTICAL))) {
-					return mainTitle.append(" eBook ").toString();
-				}
-			}
-			// Add series if the content type is Analytical or by default it
-			// should be main title.
-			else if (name.getSequenceNum() == 3) {
-				series = "-" + name.getBookNameText();
-			}
-		}
-
-		mainTitle.append(series).append(" eBook ");
-
-		LOG.debug("titlebreak label" + mainTitle.toString());
-
-		return mainTitle.toString();
-
 	}
 
 	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper) {

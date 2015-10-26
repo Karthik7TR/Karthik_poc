@@ -111,14 +111,14 @@ public class GenerateSplitTaskTest {
 		
 		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-		String titleBreakLabel = "Title eBook ";
+		String titleBreakLabel = "eBook ";
 		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
 				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-				+ "<EBook><titlebreak>Title eBook 1 of 2</titlebreak>"
+				+ "<EBook><titlebreak>eBook 1 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<titlebreak>Title eBook 2 of 2</titlebreak>"
+				+ "<titlebreak>eBook 2 of 2</titlebreak>"
 				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc></EBook>";
 		
 		//System.out.println(splitTocXml.toString());
@@ -181,48 +181,6 @@ public class GenerateSplitTaskTest {
 		Assert.assertEquals(expectedDocInfo2.toString(),docInfo2.toString());
 	
 	}
-	
-	@Test
-	public void testGetTitleBreakLabel(){
-		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
-		documentTypeCode.setId(new Long(1));
-		
-		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, mockNames());
-		
-		Assert.assertEquals("Main-Series eBook ",titleBreakText);
-	}
-	
-	@Test
-	public void testGetTitleBreakLabelNoSeries(){
-		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
-		documentTypeCode.setId(new Long(1));
-		
-		List<EbookName> names = mockNames();
-		names.remove(1);		
-		String titleBreakText = generateSplitTocTask.getTitleBreakLabel(documentTypeCode, names);
-		//LOG.debug(titleBreakText);
-		Assert.assertEquals("Main eBook ",titleBreakText);
-	}
-	
-	protected List<EbookName> mockNames(){
-		List<EbookName> names = new ArrayList<EbookName>();
-		EbookName name1 = new EbookName();
-		name1.setSequenceNum(1);
-		name1.setBookNameText("Main");
-		
-		EbookName name2 = new EbookName();
-		name2.setSequenceNum(3);
-		name2.setBookNameText("Series");
-		
-		names.add(name1);
-		names.add(name2);
-		
-		return names;
-	}
-	
-	
-
-	
 	
 	
 	
