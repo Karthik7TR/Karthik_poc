@@ -274,21 +274,6 @@ public class InitializeTask extends AbstractSbTasklet {
 			log.info("Image Service URL: " + System.getProperty("image.vertical.context.url") );
 			log.info("Proview Domain URL: " + System.getProperty("proview.domain") );			
 			
-			EbookAudit previousAudit = publishingStatsService.getMaxAuditId(bookDefinition.getEbookDefinitionId());
-			
-			if(previousAudit !=null){
-				//previous book is manual and currentbook is auto
-				if (previousAudit.isSplitBook() && !previousAudit.isSplitTypeAuto() && bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()){
-					//removesplitdocuments
-					log.info("Removing nodes as book has changed from manual to auto");
-					bookDefnService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
-				}
-				if (previousAudit.isSplitBook() && !bookDefinition.isSplitBook() ){
-					//removesplitdocuments
-					log.info("Removing nodes as book has changed from split to single");
-					bookDefnService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
-				}
-			}
 		}
 		catch (Exception e)
 		{
