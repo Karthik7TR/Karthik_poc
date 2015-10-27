@@ -35,7 +35,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -154,7 +153,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 	
 	/**
 	 * Generates \Format\splitEbook\splitTitle.xml file for split books with TOC information. 
-	 * This file contains TOC information which is same for all splitBooks that belongs to a book
+	 * This file contains TOC information which is same for all splitBooks
 	 */
 	@Override
 	public void generateSplitTitleManifest(final OutputStream titleManifest, final InputStream tocXml,
