@@ -36,7 +36,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	
 	
 	private int number = 1;
-	private static int total = 0;
+	private int total = 0;
 
 	private String splitTilteId;
 	private String titleBreakText;
@@ -168,7 +168,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		if(isSplit){
 			super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 
-			LOG.debug("TitleBreak has been added for splitNode "+splitNode+ " after "+total+" nodes");
+			LOG.debug("TitleBreak has been added at "+splitNode+ " and count "+total);
 			total=0;
 			number++;
 			StringBuffer proviewDisplayName = new StringBuffer();
