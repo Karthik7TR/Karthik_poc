@@ -124,8 +124,7 @@ public class GenerateSplitTocXMLTest {
 		Assert.assertTrue(tranformedDirectory.exists());
 		Assert.assertTrue(splitTocFile.exists());
 
-		String titleBreakLabel = "Title part ";
-		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, 
 				tranformedDirectory, jobInstanceId,"splitTitle");
 
 		Assert.assertTrue(splitTocFile.length() > 0);
@@ -188,9 +187,8 @@ public class GenerateSplitTocXMLTest {
 		
 		Assert.assertTrue(tranformedDirectory.exists());
 		Assert.assertTrue(splitTocFile.exists());
-
-		String titleBreakLabel = "Title part ";
-		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+		
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList,
 				tranformedDirectory, jobInstanceId,"splitTitle");
 
 		Assert.assertTrue(splitTocFile.length() > 0);
@@ -227,9 +225,9 @@ public class GenerateSplitTocXMLTest {
 		splitTocGuidList.add(guid4);
 		URL url = GenerateSplitTocTask.class.getResource("toc.xml");
 		tocXml = new FileInputStream(url.getPath());
-		String titleBreakLabel = "Title part ";
+		
 		try{
-		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, 
 				tranformedDirectory, jobInstanceId,"splitTitle");
 		}
 		catch (RuntimeException e){

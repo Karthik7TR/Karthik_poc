@@ -51,7 +51,7 @@ public class SplitBookTocParseServiceTest {
 
 		Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
 
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
 
 		/*System.out.println("-----taskMap---------");
 		for (Map.Entry<String, DocumentInfo> entry : documentInfoMap.entrySet()) {
@@ -83,7 +83,7 @@ public class SplitBookTocParseServiceTest {
 
 		tocXml = new ByteArrayInputStream(xmlTestStr.getBytes());
 
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
+		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
 
 		/*System.out.println("-----taskMap---------");
 		for (Map.Entry<String, DocumentInfo> entry : documentInfoMap.entrySet()) {
@@ -115,7 +115,7 @@ public class SplitBookTocParseServiceTest {
 						.getBytes());
 
 		try{
-			documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, title, splitTitleId);
+			documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
 		}
 		catch (RuntimeException e){
 			thrown = true;

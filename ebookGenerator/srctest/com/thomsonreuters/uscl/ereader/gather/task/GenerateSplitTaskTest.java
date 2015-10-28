@@ -111,8 +111,7 @@ public class GenerateSplitTaskTest {
 		
 		mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
 		
-		String titleBreakLabel = "eBook ";
-		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, 
 				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -149,7 +148,7 @@ public class GenerateSplitTaskTest {
 	
 	@Test
 	public void testGenerateSplitToc() throws Exception {
-		String titleBreakLabel = "Main";
+		
 		FileExtensionFilter fileExtFilter;
 		FileHandlingHelper mockfileHandlingHelper;
 		fileExtFilter = EasyMock.createMock(FileExtensionFilter.class);
@@ -163,7 +162,7 @@ public class GenerateSplitTaskTest {
 	        
 	        EasyMock.replay(fileExtFilter);
 	        EasyMock.replay(mockfileHandlingHelper);
-		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, titleBreakLabel,
+		generateSplitTocTask.generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, 
 				tranformedDirectory, jobInstanceId,"splitTitle");
 		
 		Map<String, DocumentInfo> documentInfoMap = generateSplitTocTask.getDocumentInfoMap();

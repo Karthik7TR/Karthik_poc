@@ -39,7 +39,6 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 	private int total = 0;
 
 	private String splitTilteId;
-	private String titleBreakText;
 	private StringBuffer tmpValue = new StringBuffer();
 	private Map<String,DocumentInfo> documentInfoMap = new HashMap<String,DocumentInfo>();
 	private Map<String,String>  elementValueMap = new LinkedHashMap<String,String>();
@@ -75,17 +74,6 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		this.documentInfoMap = documentInfoMap;
 	}
 
-
-	public String getTitleBreakText() {
-		return titleBreakText;
-	}
-
-
-	public void setTitleBreakText(String titleBreakText) {
-		this.titleBreakText = titleBreakText;
-	}
-	
-
 	public int getNumber() {
 		return number;
 	}
@@ -117,10 +105,10 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 			 //This title break is to write at the top after the <EBook>
 			 if(isEbook){
 				 	super.startElement(URI, EBOOK, EBOOK,EMPTY_ATTRIBUTES);
-				 	StringBuffer proviewDisplayName = new StringBuffer();
-					proviewDisplayName.append(titleBreakText);
-					proviewDisplayName.append("1 of "+(splitTocGuidList.size()+1));
-					String text = proviewDisplayName.toString();
+				 	StringBuffer titleBreakBuffer = new StringBuffer();
+				 	titleBreakBuffer.append("eBook 1 of ");
+				 	titleBreakBuffer.append(splitTocGuidList.size()+1);
+					String text = titleBreakBuffer.toString();
 					super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 					super.characters(text.toCharArray(), 0, text.length());
 					super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
@@ -168,11 +156,11 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 		if(isSplit){
 			super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 
-			LOG.debug("TitleBreak has been added at "+splitNode+ " and count "+total);
+			LOG.debug("TitleBreak has been added at "+splitNode+ ", count "+total+" and title "+splitTilteId);
 			total=0;
 			number++;
 			StringBuffer proviewDisplayName = new StringBuffer();
-			proviewDisplayName.append(titleBreakText);
+			proviewDisplayName.append("eBook ");
 			proviewDisplayName.append(number);
 			proviewDisplayName.append(" of "+(splitTocGuidList.size()+1));
 			String text = proviewDisplayName.toString();

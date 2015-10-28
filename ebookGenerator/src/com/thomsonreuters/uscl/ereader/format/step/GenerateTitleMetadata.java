@@ -105,7 +105,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 			else{
 				addArtwork(jobExecutionContext, titleMetadata);
 				addAssets(jobExecutionContext, titleMetadata);
-				//TODO:If splitbook this method call is not needed
 				titleMetadataService.generateTitleManifest(titleManifest, tocXml, titleMetadata, jobInstanceId, documentsDirectory, JobExecutionKey.ALT_ID_DIR_PATH);
 			}
 		} 

@@ -10,6 +10,6 @@ import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 public interface SplitBookTocParseService {
 
 	public Map<String,DocumentInfo> generateSplitBookToc(final InputStream tocXml, final OutputStream splitTocXml,
-			final List<String> splitTocGuidList, final String titleBreakLabel, final String splitTitleId);
+			final List<String> splitTocGuidList, final String splitTitleId);
 
 }
