@@ -30,9 +30,20 @@ public class GatherResponse {
 	public int retryCount;
 	public int retryCount2;
 	
-	ArrayList<String> splitTocGuidList;
+	private ArrayList<String> splitTocGuidList;
 	private boolean findSplitsAgain = false;
+	private ArrayList<String> duplicateTocGuids;
 	
+	public ArrayList<String> getDuplicateTocGuids() {
+		return duplicateTocGuids;
+	}
+
+	public void setDuplicateTocGuids(Collection<String> duplicateTocGuids) {
+		if ( duplicateTocGuids != null){
+			this.duplicateTocGuids = new ArrayList<String>(duplicateTocGuids);
+		}
+	}
+
 	public boolean isFindSplitsAgain() {
 		return findSplitsAgain;
 	}

@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
-import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
@@ -63,10 +62,21 @@ public class NortServiceImpl implements NortService {
 	private static int splitTocCount = 0;
 	private int thresholdValue;
 	private boolean findSplitsAgain = false;
-
+	private List<String> tocGuidList = new ArrayList<String>();
+	private List<String> duplicateTocGuids = new ArrayList<String>();
+	
 	private NovusUtility novusUtility;
 
 	private Integer nortRetryCount;
+	
+	public List<String> getDuplicateTocGuids() {
+		return duplicateTocGuids;
+	}
+
+	public void setDuplicateTocGuids(List<String> duplicateTocGuids) {
+		this.duplicateTocGuids = duplicateTocGuids;
+	}
+
 	
 	public boolean isFindSplitsAgain() {
 		return findSplitsAgain;
@@ -406,6 +416,11 @@ public class NortServiceImpl implements NortService {
 						this.splitTocGuidList.remove(splitNode);
 					}
 				}
+				
+				if(tocGuidList.contains(guid) && !duplicateTocGuids.contains(guid)){
+					duplicateTocGuids.add(guid);
+				}
+				tocGuidList.add(guid);
 
 				// Example of output:
 				// <EBookToc>
@@ -647,6 +662,7 @@ public class NortServiceImpl implements NortService {
 				gatherResponse.setPublishStatus(publishStatus);
 				gatherResponse.setFindSplitsAgain(findSplitsAgain);
 				gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
+				gatherResponse.setDuplicateTocGuids(this.duplicateTocGuids);
 			}
 
 			novusObject.shutdownMQ();

@@ -54,6 +54,16 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 	List<String> splitTocGuidList = null;
 	private int thresholdValue;
 	private boolean findSplitsAgain = false;;
+	private List<String> tocGuidList = new ArrayList<String>();
+	private List<String> duplicateTocGuids = new ArrayList<String>();
+	
+	public List<String> getDuplicateTocGuids() {
+		return duplicateTocGuids;
+	}
+
+	public void setDuplicateTocGuids(List<String> duplicateTocGuids) {
+		this.duplicateTocGuids = duplicateTocGuids;
+	}
 
 	public boolean isFindSplitsAgain() {
 		return findSplitsAgain;
@@ -305,6 +315,12 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 						this.splitTocGuidList.remove(splitNode);
 					}
 				}
+				
+				if(tocGuidList.contains(guid) && !duplicateTocGuids.contains(guid)){
+					duplicateTocGuids.add(guid);
+				}
+				tocGuidList.add(guid);
+				
 				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid.toString());
 
 				try {
@@ -473,7 +489,8 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 				gatherResponse.setSkipCount(counters[SKIPCOUNT]);
 				gatherResponse.setRetryCount(counters[RETRYCOUNT]);
 				gatherResponse.setPublishStatus(publishStatus);
-
+				gatherResponse.setDuplicateTocGuids(this.duplicateTocGuids);
+				gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
 			}
 		}
 

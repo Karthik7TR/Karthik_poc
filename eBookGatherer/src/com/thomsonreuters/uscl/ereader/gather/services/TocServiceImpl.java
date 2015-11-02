@@ -55,6 +55,16 @@ public class TocServiceImpl implements TocService {
 	private static int splitTocCount = 0;
 	private int thresholdValue;
 	private boolean findSplitsAgain = false;
+	private List<String> tocGuidList = new ArrayList<String>();
+	private List<String> duplicateTocGuids = new ArrayList<String>();
+	
+	public List<String> getDuplicateTocGuids() {
+		return duplicateTocGuids;
+	}
+
+	public void setDuplicateTocGuids(List<String> duplicateTocGuids) {
+		this.duplicateTocGuids = duplicateTocGuids;
+	}
 	
 	public boolean isFindSplitsAgain() {
 		return findSplitsAgain;
@@ -286,6 +296,11 @@ public class TocServiceImpl implements TocService {
 						this.splitTocGuidList.remove(splitNode);
 					}
 				}
+				
+				if(tocGuidList.contains(guid) && !duplicateTocGuids.contains(guid)){
+					duplicateTocGuids.add(guid);
+				}
+				tocGuidList.add(guid);
 	
 				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
 						.toString());
@@ -518,6 +533,7 @@ public class TocServiceImpl implements TocService {
 				gatherResponse.setPublishStatus(publishStatus);
 				gatherResponse.setFindSplitsAgain(findSplitsAgain);
 				gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
+				gatherResponse.setDuplicateTocGuids(this.duplicateTocGuids);
 			}
 			novusObject.shutdownMQ();
 		}

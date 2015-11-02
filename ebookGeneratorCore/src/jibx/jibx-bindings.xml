@@ -45,7 +45,12 @@
 				<value name="guid" type="java.lang.String" usage="optional"/>
 			</collection>
 		</structure>
-		<value name="findSplitsAgain" field="findSplitsAgain" usage="optional"/>		
+		<value name="findSplitsAgain" field="findSplitsAgain" usage="optional"/>
+		<structure name="dupTocGuids" usage="optional">
+	    	<collection field="duplicateTocGuids" usage="optional">
+				<value name="guid" type="java.lang.String" usage="optional"/>
+			</collection>
+		</structure>		
     </mapping>
     
     <!-- Gather Doc service REST request body -->

@@ -164,10 +164,11 @@ public class GenerateTocTask  extends AbstractSbTasklet
 			if(bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
 			{
 				List<String> splitTocGuidList = null;
+				List<SplitDocument> splitDocuments = null;
 				
 				if (bookDefinition.isSplitBook()) {
 
-					List<SplitDocument> splitDocuments = bookDefinition.getSplitDocumentsAsList();
+					splitDocuments = bookDefinition.getSplitDocumentsAsList();
 					splitTocGuidList = new ArrayList<String>();
 
 					for (SplitDocument splitDocument : splitDocuments) {
@@ -178,11 +179,11 @@ public class GenerateTocTask  extends AbstractSbTasklet
 				Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
 				gatherResponse = novusNortFileService.findTableOfContents(rootNodes, tocFile, cutoffDate, 
 						excludeDocuments, renameTocEntries, splitTocGuidList, thresholdValue.intValue());
-				if (novusNortFileService.getSplitTocGuidList() != null && novusNortFileService.getSplitTocGuidList().size() > 0){
-					StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist.") ;
+				if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0){
+					StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist. ") ;
 					int i = 1;
-					for (String tocGuid : novusNortFileService.getSplitTocGuidList()){
-						if (i == novusNortFileService.getSplitTocGuidList().size()){
+					for (String tocGuid : gatherResponse.getSplitTocGuidList()){
+						if (i == gatherResponse.getSplitTocGuidList().size()){
 							errorMessageBuffer.append(tocGuid);
 						}
 						else{
@@ -192,6 +193,15 @@ public class GenerateTocTask  extends AbstractSbTasklet
 					}
 					LOG.error(errorMessageBuffer);
 					gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessageBuffer.toString(), 0,0,0,"GENERATE TOC STEP FAILED NONEXISTENT TOC/NORT GUID");
+				}	
+				
+				//Check for duplicate tocGuids for manual splits
+				if (splitDocuments !=null){
+					List<String> splitTocGuids = new ArrayList<String>();
+					for (SplitDocument splitDocument : splitDocuments) {
+						splitTocGuids.add(splitDocument.getTocGuid());
+					}
+					duplicateTocCheck(splitTocGuids, gatherResponse.getDuplicateTocGuids());
 				}
 			}
 			else
@@ -226,6 +236,9 @@ public class GenerateTocTask  extends AbstractSbTasklet
 						bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
 					}
 				}
+				//Check for duplicate tocGuids for Auto splits
+				duplicateTocCheck(null, gatherResponse.getDuplicateTocGuids());
+				
     		}
         }
         catch (Exception e)
@@ -241,6 +254,35 @@ public class GenerateTocTask  extends AbstractSbTasklet
         }
 		
 		return ExitStatus.COMPLETED;
+	}
+	
+	/**
+	 * Thows Excpetion if duplicate Toc exists for split book
+	 * @param splitGuidList
+	 * @param dupGuidList
+	 * @throws Exception
+	 */
+	public void duplicateTocCheck(List<String> splitGuidList, List<String> dupGuidList) throws Exception {
+
+		if (dupGuidList != null && dupGuidList.size() > 0) {
+
+			StringBuffer eMessage = new StringBuffer("Duplicate TOC guids Found. Cannot split the book. ");
+
+			if (splitGuidList == null) {
+				throw new RuntimeException(eMessage.toString());
+			} else {
+				boolean dupFound = false;
+				for (String dupTocGuid : dupGuidList) {
+					if (splitGuidList.contains(dupTocGuid)) {
+						eMessage.append(dupTocGuid + " ");
+						dupFound = true;
+					}
+				}
+				if (dupFound) {
+					throw new RuntimeException(eMessage.toString());
+				}
+			}
+		}
 	}
 	
 		
