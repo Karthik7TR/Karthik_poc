@@ -62,8 +62,8 @@ public class NortServiceImpl implements NortService {
 	private static int splitTocCount = 0;
 	private int thresholdValue;
 	private boolean findSplitsAgain = false;
-	private List<String> tocGuidList = new ArrayList<String>();
-	private List<String> duplicateTocGuids = new ArrayList<String>();
+	private List<String> tocGuidList = null;
+	private List<String> duplicateTocGuids = null;
 	
 	private NovusUtility novusUtility;
 
@@ -535,6 +535,9 @@ public class NortServiceImpl implements NortService {
 		if(splitTocGuidList != null){
 			this.splitTocGuidList = splitTocGuidList;
 		}
+		
+		tocGuidList = new ArrayList<String>();
+		duplicateTocGuids = new ArrayList<String>();
 		
 		this.thresholdValue = thresholdValue;
 		

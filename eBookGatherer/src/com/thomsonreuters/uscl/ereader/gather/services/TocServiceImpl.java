@@ -55,8 +55,8 @@ public class TocServiceImpl implements TocService {
 	private static int splitTocCount = 0;
 	private int thresholdValue;
 	private boolean findSplitsAgain = false;
-	private List<String> tocGuidList = new ArrayList<String>();
-	private List<String> duplicateTocGuids = new ArrayList<String>();
+	private List<String> tocGuidList = null;
+	private List<String> duplicateTocGuids = null;
 	
 	public List<String> getDuplicateTocGuids() {
 		return duplicateTocGuids;
@@ -417,6 +417,9 @@ public class TocServiceImpl implements TocService {
 		if(splitTocGuidList != null){
 			this.splitTocGuidList = splitTocGuidList;
 		}
+		
+		tocGuidList = new ArrayList<String>();
+		duplicateTocGuids = new ArrayList<String>();
 		
 		this.thresholdValue = thresholdValue;
 		
