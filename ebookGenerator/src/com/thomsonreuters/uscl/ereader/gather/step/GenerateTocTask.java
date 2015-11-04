@@ -269,6 +269,9 @@ public class GenerateTocTask  extends AbstractSbTasklet
 			StringBuffer eMessage = new StringBuffer("Duplicate TOC guids Found. Cannot split the book. ");
 
 			if (splitGuidList == null) {
+				for (String dupTocGuid : dupGuidList) {
+					eMessage.append(dupTocGuid + " ");
+				}
 				throw new RuntimeException(eMessage.toString());
 			} else {
 				boolean dupFound = false;
