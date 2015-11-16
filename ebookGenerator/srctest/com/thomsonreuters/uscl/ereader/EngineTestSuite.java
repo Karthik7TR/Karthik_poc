@@ -31,7 +31,6 @@ import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.Novu
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusNortFileParserTest;
 import com.thomsonreuters.uscl.ereader.gather.image.dao.ImageDaoTest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceTest;
-import com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalJsonTest;
 import com.thomsonreuters.uscl.ereader.gather.service.NovusDocFileServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
@@ -67,7 +66,6 @@ import com.thomsonreuters.uscl.ereader.proview.rest.CloseableAuthenticationHttpC
 			//
 			ImageDaoTest.class,
 			ImageServiceTest.class,
-			ImageVerticalJsonTest.class,
 			InitializeTaskTest.class,
 			ProviewClientImplTest.class,
 			ProviewExceptionTest.class

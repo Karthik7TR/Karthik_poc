@@ -13,8 +13,9 @@ public class NovusUtility {
    private String docRetryCount;
    private String tocRetryCount;
    private String nortRetryCount;	
+   private String imgRetryCount;
 
-   /**
+/**
     * Flag to check if we want to get a list of missing doc list in one shot
     */
    
@@ -102,6 +103,15 @@ public class NovusUtility {
 
 	public String getShowMissDocsList() {
 		return showMissDocsList;
+	}
+
+	public String getImgRetryCount() {
+		return imgRetryCount;
+	}
+
+	@Required
+	public void setImgRetryCount(String imgRetryCount) {
+		this.imgRetryCount = imgRetryCount;
 	}
 
 

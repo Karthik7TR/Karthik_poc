@@ -7,6 +7,7 @@
 package com.thomsonreuters.uscl.ereader.gather.restclient.service;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
@@ -33,6 +34,8 @@ public interface GatherService {
 	 * @return
 	 */
 	public GatherResponse getDoc(GatherDocRequest gatherDocRequest);
+	
+	public GatherResponse getImg(GatherImgRequest imgRequest);
 	
 
 }

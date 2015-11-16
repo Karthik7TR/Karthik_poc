@@ -13,6 +13,8 @@ import java.util.Collection;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+
 public class GatherResponse {
 	
 	public static final int CODE_SUCCESS= 0;
@@ -33,7 +35,16 @@ public class GatherResponse {
 	private ArrayList<String> splitTocGuidList;
 	private boolean findSplitsAgain = false;
 	private ArrayList<String> duplicateTocGuids;
+	private ArrayList<ImgMetadataInfo> imageMetadataList ;
 	
+	public ArrayList<ImgMetadataInfo> getImageMetadataList() {
+		return imageMetadataList;
+	}
+
+	public void setImageMetadataList(ArrayList<ImgMetadataInfo> imageMetadataList) {
+		this.imageMetadataList = imageMetadataList;
+	}
+
 	public ArrayList<String> getDuplicateTocGuids() {
 		return duplicateTocGuids;
 	}
@@ -235,5 +246,5 @@ public class GatherResponse {
 		} else if (!publishStatus.equals(other.publishStatus))
 			return false;
 		return true;
-	}
+	}	
 }

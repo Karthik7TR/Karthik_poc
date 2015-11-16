@@ -17,6 +17,7 @@
 		  p:docRetryCount="3"    
 		  p:tocRetryCount="3"
 		  p:nortRetryCount="3"
+		  p:imgRetryCount="3"
 		  p:showMissDocsList="Y"/>		  
 
 	<bean id="docService" class="com.thomsonreuters.uscl.ereader.gather.services.DocServiceImpl"
@@ -30,6 +31,12 @@
 	<bean id="nortService" class="com.thomsonreuters.uscl.ereader.gather.services.NortServiceImpl"
 		  p:novusFactory-ref="novusFactory"
 		  p:novusUtility-ref="novusUtility"/>
+		  
+	<bean id="novusImgService" class="com.thomsonreuters.uscl.ereader.gather.services.NovusImgServiceImpl"
+		  p:novusFactory-ref="novusFactory"
+		  p:novusUtility-ref="novusUtility"
+		  p:missingImageGuidsFileBasename="missing_image_guids.txt"		  
+		  p:sleepIntervalBetweenImages="500"/>
 
 	<!-- Below is used to fetch the initial misc config (log4j logging levels) from a generator REST service that serves up the MiscConfig object
 		 as read from the database. --> 

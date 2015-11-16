@@ -50,8 +50,27 @@
 	    	<collection field="duplicateTocGuids" usage="optional">
 				<value name="guid" type="java.lang.String" usage="optional"/>
 			</collection>
-		</structure>		
+		</structure>	
+		<collection field="imageMetadataList"  usage="optional">
+			<structure  name="imgMetadataInfo" type="com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo" >
+				<value name="mimeType" field="mimeType" usage="optional"/>
+				<value name="size" field="size" usage="optional"/>
+				<value name="dimUnit" field="dimUnit" usage="optional"/>
+				<value name="height" field="height" usage="optional"/>
+				<value name="width" field="width" usage="optional"/>
+				<value name="dpi" field="dpi" usage="optional"/>
+				<value name="imgGuid" field="imgGuid" usage="optional"/>
+				<value name="docGuid" field="docGuid" usage="optional"/>
+			</structure>
+		</collection>
     </mapping>
+    
+
+    <mapping name="gatherImgRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest">
+		<value name="dynamicImageDirectory" field="dynamicImageDirectory" usage="required"/>
+		<value name="imgToDocManifestFile" field="imgToDocManifestFile" usage="required"/>
+		<value name="isFinalStage" field="isFinalStage" usage="required"/>
+     </mapping>
     
     <!-- Gather Doc service REST request body -->
     <mapping name="gatherDocRequest" class="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest">

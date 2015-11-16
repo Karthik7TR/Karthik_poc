@@ -9,12 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.batch.core.ExitStatus;
@@ -28,9 +24,13 @@ import org.springframework.util.Assert;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
+import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -44,6 +44,13 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 	//private static final Logger log = Logger.getLogger(GatherImageVerticalImagesTask.class);
 	private ImageService imageService;
 	private PublishingStatsService publishingStatsService;
+	private GatherService gatherService;
+	
+	@Required
+	public void setGatherService(GatherService service) 
+	{
+		this.gatherService = service;
+	}
 
 	@Override
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -69,25 +76,42 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		long jobInstanceId = jobInstance.getId();
 		String titleId = bookDefinition.getFullyQualifiedTitleId();
 		int imageGuidNum = 0;
-		int retrievedCound = 0;
+		int retrievedCount = 0;
 		
 		String stepStatus = "Completed";
 		try {
 			// Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
 			ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
-	
-			// Create list of image guids gathered from a previous step and stored in a flat text file, one per line
-			Map<String,String> imgDocGuidMap = readLinesFromTextFile(imageGuidFile);
 			
 			Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
 					
 			imageGuidNum = imgGuidSet.size();
 			
-			imageService.fetchImageVerticalImages(imgDocGuidMap, dynamicImageDestinationDirectory, jobInstanceId, titleId);
-			retrievedCound = imageGuidNum;
+			if (imageGuidNum > 0){
+				GatherImgRequest imgRequest = new GatherImgRequest(imageGuidFile,dynamicImageDestinationDirectory, jobInstanceId, bookDefinition.isFinalStage());
+				GatherResponse gatherResponse = gatherService.getImg(imgRequest);
+				
+				if(gatherResponse.getImageMetadataList() != null)
+				{
+					for (ImgMetadataInfo metadata : gatherResponse.getImageMetadataList()){
+						imageService.saveImageMetadata(metadata, jobInstanceId, titleId);
+						
+					}
+				}
+				retrievedCount = imageGuidNum;
+				
+				//gatherResponse.getNodeCount() missing image count
+				if (gatherResponse.getNodeCount() > 0){
+					//There could be same images to different documents
+					if(imageGuidNum > gatherResponse.getNodeCount()){
+					 retrievedCount = imageGuidNum - gatherResponse.getNodeCount();
+					}
+					throw new ImageException(String.format("Download of dynamic images failed because there were %d missing image(s) ", retrievedCount));
+					
+				}
+			}			
 			
 		} catch (ImageException e) {
-			retrievedCound = getMissingGuidsCount(e);
 			stepStatus = "Failed";
 			throw e; 
 		} catch (Exception e) {
@@ -97,57 +121,14 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 			PublishingStats jobstatsDoc = new PublishingStats();
 			jobstatsDoc.setJobInstanceId(jobInstanceId);
 			jobstatsDoc.setGatherImageExpectedCount(imageGuidNum);
-			jobstatsDoc.setGatherImageRetrievedCount(retrievedCound);
+			jobstatsDoc.setGatherImageRetrievedCount(retrievedCount);
 			jobstatsDoc.setPublishStatus("getDynamicImages : " + stepStatus);
 			publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
 		}
 		
 		return ExitStatus.COMPLETED;
 	}
-	
-	private int getMissingGuidsCount(ImageException e) {
-		int missingGuidNo = 0;
-		if(e != null ){
-			String stringMessage = e.getMessage();
-			Pattern intsOnly = Pattern.compile("\\d+"); 
-			Matcher makeMatch = intsOnly.matcher(stringMessage); 
-			makeMatch.find(); 
-			String inputInt = makeMatch.group(); 
-			missingGuidNo = Integer.parseInt(inputInt);
-		}
-		return missingGuidNo;
-	}	
-	/**
-	 * Reads the contents of a text file and return each line as an element in the returned list.
-	 * The file is assumed to already exist.
-	 * @file textFile the text file to process
-	 * @return a map of text strings, representing each file of the specified file
-	 */
-	public static Map<String,String> readLinesFromTextFile(File textFile) throws IOException {
-		Map<String,String> imgDocGuidMap = new HashMap<String,String>();
-		FileReader fileReader = new FileReader(textFile);
-		try {
-			BufferedReader reader = new BufferedReader(fileReader);
-			String textLine;
-			while ((textLine = reader.readLine()) != null) {
-				if (StringUtils.isNotBlank(textLine)) {
-					String[] imgGuids = textLine.split("\\|");
-					if (imgGuids.length > 1)
-					{
-					  imgDocGuidMap.put(imgGuids[0].trim(),imgGuids[1]);
-					}
-					else {
-						imgDocGuidMap.put(imgGuids[0].trim(),null);
-					}
-				}
-			}
-		} finally {
-			if (fileReader != null) {
-				fileReader.close();
-			}
-		}
-		return imgDocGuidMap;
-	}
+
 	
 	/**
 	 * Reads the contents of a text file and return each line as an element in the returned list.
@@ -158,8 +139,9 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 	private static Set<String> readImageGuidsFromTextFile(File textFile) throws IOException {
 		Set<String> imgGuidSet = new HashSet<String>();
 		FileReader fileReader = new FileReader(textFile);
+		BufferedReader reader = null;
 		try {
-			BufferedReader reader = new BufferedReader(fileReader);
+			reader = new BufferedReader(fileReader);
 			String textLine;
 			while ((textLine = reader.readLine()) != null) {
 				if (StringUtils.isNotBlank(textLine)) {
@@ -177,6 +159,9 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		} finally {
 			if (fileReader != null) {
 				fileReader.close();
+			}
+			if (reader != null) {
+				reader.close();
 			}
 		}
 		return imgGuidSet;

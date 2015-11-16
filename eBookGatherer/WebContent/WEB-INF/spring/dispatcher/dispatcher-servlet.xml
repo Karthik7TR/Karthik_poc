@@ -16,6 +16,7 @@
 	        <ref bean="nortRequestMessageConverter" />
 	        <ref bean="docRequestMessageConverter" />
 	        <ref bean="miscConfigMessageConverter" />
+	        <ref bean="imgRequestMessageConverter" />
 	      </list>
 	    </property>
 	</bean>

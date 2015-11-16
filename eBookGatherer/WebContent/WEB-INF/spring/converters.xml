@@ -13,6 +13,11 @@
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
         <property name="encoding" value="UTF-8"/>
     </bean>
+    
+    <bean id="jibxImgRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest"/>
+        <property name="encoding" value="UTF-8"/>
+    </bean>
 
   	<bean id="jibxTocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
         <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
@@ -42,6 +47,17 @@
 	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="jibxDocRequestMarshaller" />
         <property name="unmarshaller" ref="jibxDocRequestMarshaller" />
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/xml</value>
+                <value>application/xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="imgRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jibxImgRequestMarshaller" />
+        <property name="unmarshaller" ref="jibxImgRequestMarshaller" />
         <property name="supportedMediaTypes">
             <list>
                 <value>text/xml</value>

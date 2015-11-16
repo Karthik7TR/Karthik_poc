@@ -239,7 +239,8 @@
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask" parent="parentTask"
 				p:imageService-ref="imageService"
-				p:publishingStatsService-ref="publishingStatsService"/>
+				p:publishingStatsService-ref="publishingStatsService"
+				p:gatherService-ref="gatherService"/>
 	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 				p:imageService-ref="imageService"/>

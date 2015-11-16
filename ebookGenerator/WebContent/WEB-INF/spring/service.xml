@@ -164,21 +164,8 @@
 	<bean id="placeholderDocumentService" class="com.thomsonreuters.uscl.ereader.assemble.service.PlaceholderDocumentServiceImpl"
 		p:placeholderDocumentTemplateLocation="classpath:templates/placeholderDocumentTemplate.xml"/>
 
-	<!-- readTimeout: defines the read timeout (ms) for downloading images from the Image Vertical REST service -->
-	<bean id="imageVerticalHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"
-		   p:readTimeout="${image.vertical.read.timeout}"/>
-	<bean id="imageVerticalRestTemplateFactory" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageVerticalRestTemplateFactoryImpl"
-		  p:requestFactory-ref="imageVerticalHttpRequestFactory"/>
 	<bean id="imageService" class="com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl"
-		  p:singletonRestTemplate-ref="imageJsonRestTemplate"
-		  p:imageVerticalRestServiceUrl="${image.vertical.context.url}"
-		  p:sleepIntervalBetweenImages="500"
-		  p:urlVersion="v1"
-		  p:imageDao-ref="imageDao"
-		  p:imageVerticalRestTemplateFactory-ref="imageVerticalRestTemplateFactory"		  
-		  p:imageServiceMaxRetries="3"
-		  p:imageMetadataServiceMaxRetries="3"
-		  p:missingImageGuidsFileBasename="missing_image_guids.txt"/>		  
+		  p:imageDao-ref="imageDao"/>		  
 		  
 	<bean id="docMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl"
 			p:docMetadataDAO-ref="docMetaDataDao"/>	

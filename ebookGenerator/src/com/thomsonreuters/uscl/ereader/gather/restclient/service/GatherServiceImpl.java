@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
@@ -20,6 +21,7 @@ public class GatherServiceImpl implements GatherService {
 	public static String TOC_URL_PATTERN = "{context}/toc";
 	public static String NORT_URL_PATTERN = "{context}/nort";
 	public static String DOC_URL_PATTERN = "{context}/doc";
+	public static String IMG_URL_PATTERN = "{context}/img";
 	
 	private RestTemplate restTemplate;
 	private URL gatherAppContextUrl;
@@ -41,6 +43,13 @@ public class GatherServiceImpl implements GatherService {
 	@Override
 	public GatherResponse getDoc(GatherDocRequest docRequest) {
 		GatherResponse response = restTemplate.postForObject(DOC_URL_PATTERN, docRequest,
+				GatherResponse.class, gatherAppContextUrl.toString());
+		return response;	
+	}
+	
+	@Override
+	public GatherResponse getImg(GatherImgRequest imgRequest) {
+		GatherResponse response = restTemplate.postForObject(IMG_URL_PATTERN, imgRequest,
 				GatherResponse.class, gatherAppContextUrl.toString());
 		return response;	
 	}
