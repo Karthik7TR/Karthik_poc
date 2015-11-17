@@ -54,6 +54,15 @@ public class NovusImgServiceImpl implements NovusImgService {
 	private static final String PING_EXTENTION = "png";
 	private static final String PING_FORMAT = "PNG";
 	private static final String[] KNOWN_IMG_FORMATS = { "PNG", "TIF", "JPG", "GIF", "BMP" };
+	private List<String> uniqueImageGuids ;
+
+	public List<String> getUniqueImageGuids() {
+		return uniqueImageGuids;
+	}
+
+	public void setUniqueImageGuids(List<String> uniqueImageGuids) {
+		this.uniqueImageGuids = uniqueImageGuids;
+	}
 
 	/**
 	 * Reads imageGuids from file Format/doc-to-image-manifest.txt and gets
@@ -94,6 +103,8 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 			Find find = novus.getFind();
 			find.setResolveIncludes(true);
+			
+			uniqueImageGuids = new ArrayList<String>();
 
 			// Iterate the image GUID's and first fetch image data and then
 			// download the image bytes
@@ -105,7 +116,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 					String[] imgDocsArray = imgGuidList.split(",");
 					for (String imgGuid : imgDocsArray) {
 						if (!deDupImagesArray.contains(imgGuid)) {
-
+							
 							String imgMetadata = getImagesAndMetadata(find, imgGuid, fileWriter, docGuid,
 									imageDestinationDirectory);
 							if (imgMetadata != null && imgMetadata.length() > 0) {
@@ -208,7 +219,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 		Integer novusRetryCounter = 0;
 		String collection = null;
 		imgMetadataInfo = new ImgMetadataInfo();
-		boolean missingImage = true;
+		boolean missingMetadata = true;
 
 		while (novusRetryCounter < imgRetryCount) {
 			try {
@@ -217,13 +228,18 @@ public class NovusImgServiceImpl implements NovusImgService {
 				String mimeType = blob.getMimeType();
 
 				if (mimeType != null && mimeType.length() != 0) {
-					missingImage = false;
+					missingMetadata = false;
 
 					MediaType mediaType = MediaType.valueOf(mimeType);
 
 					String extension = null;
 
 					imgMetada = blob.getMetaData();
+					if (imgMetada == null || imgMetada.length() == 0){
+						missingMetadata = true;
+						Log.error("Metadata is missing for image Guid "+imageGuid+" NOVUS exception");
+						throw new Exception("NOVUS Exception");
+					}
 
 					File imageFile = null;
 
@@ -282,9 +298,13 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 		}
 
-		if (missingImage || novusRetryCounter == imgRetryCount) {
+		if (missingMetadata || novusRetryCounter == imgRetryCount) {
 			Log.error("Could not find dynamic image in NOVUS for imageGuid " + imageGuid);
-			missingImageCount++;
+			if(!uniqueImageGuids.contains(imageGuid)){
+				missingImageCount++;
+				uniqueImageGuids.add(imageGuid);
+			}
+			
 			writeFailedImageGuidToFile(missingImageFileWriter, imageGuid, docGuid);
 		}
 

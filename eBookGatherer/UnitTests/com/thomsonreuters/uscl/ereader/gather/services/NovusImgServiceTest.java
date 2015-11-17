@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,6 +112,7 @@ public class NovusImgServiceTest {
 		File missingImagesFile = new File(temporaryDirectory, "missing_doc.txt");
 		FileOutputStream stream = new FileOutputStream(missingImagesFile);
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
+		novusImgService.setUniqueImageGuids(new ArrayList<String>());
 		
 		String imageMeta = novusImgService.getImagesAndMetadata(mockFinder, "IMGGUID", fileWriter, "DOCGUID", temporaryDirectory);
 				
@@ -160,6 +162,7 @@ public class NovusImgServiceTest {
 		FileOutputStream stream = new FileOutputStream(missingImagesFile);
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		try{
+			novusImgService.setUniqueImageGuids(new ArrayList<String>());
 			novusImgService.getImagesAndMetadata(mockFinder, "IMGGUID", fileWriter, "DOCGUID", temporaryDirectory);
 		}
 		catch(Exception ex){
