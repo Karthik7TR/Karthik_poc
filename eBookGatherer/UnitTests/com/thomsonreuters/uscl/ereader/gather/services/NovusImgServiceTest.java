@@ -94,8 +94,6 @@ public class NovusImgServiceTest {
 	
 	@Test
 	public void testgetImagesAndData() throws Exception{
-		
-		//mockFinder.addBLOBInfo(null, "IMGGUID");
 		BLOB blob = null;
 				
 		EasyMock.expect(mockFinder.getBLOB(null, "IMGGUID")).andReturn(blob).times(3);		

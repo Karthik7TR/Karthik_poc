@@ -49,6 +49,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 	private ImgMetadataInfo imgMetadataInfo;
 
 	int missingImageCount;
+	int missingMetadataCount;
 
 	private static final String TIF = "tif";
 	private static final String PING_EXTENTION = "png";
@@ -99,6 +100,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 		FileOutputStream stream = new FileOutputStream(missingImagesFile);
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		missingImageCount = 0;
+		missingMetadataCount = 0;
 		try {
 
 			Find find = novus.getFind();
@@ -134,7 +136,8 @@ public class NovusImgServiceImpl implements NovusImgService {
 					}
 				} // end of for-loop
 				if ((missingImageCount > 0)) {
-					gatherResponse.setNodeCount(missingImageCount);
+					gatherResponse.setMissingImgCount(missingImageCount);
+					gatherResponse.setMissingMetadaCount(missingMetadataCount);
 				}
 			}
 
@@ -220,6 +223,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 		String collection = null;
 		imgMetadataInfo = new ImgMetadataInfo();
 		boolean missingMetadata = true;
+		boolean missingImage = true;
 
 		while (novusRetryCounter < imgRetryCount) {
 			try {
@@ -228,7 +232,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 				String mimeType = blob.getMimeType();
 
 				if (mimeType != null && mimeType.length() != 0) {
-					missingMetadata = false;
+					missingImage = false;
 
 					MediaType mediaType = MediaType.valueOf(mimeType);
 
@@ -236,10 +240,10 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 					imgMetada = blob.getMetaData();
 					if (imgMetada == null || imgMetada.length() == 0){
-						missingMetadata = true;
 						Log.error("Metadata is missing for image Guid "+imageGuid+" NOVUS exception");
 						throw new Exception("NOVUS Exception");
 					}
+					missingMetadata = false;
 
 					File imageFile = null;
 
@@ -298,10 +302,15 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 		}
 
-		if (missingMetadata || novusRetryCounter == imgRetryCount) {
+		if (missingMetadata || missingImage || novusRetryCounter == imgRetryCount) {
 			Log.error("Could not find dynamic image in NOVUS for imageGuid " + imageGuid);
 			if(!uniqueImageGuids.contains(imageGuid)){
-				missingImageCount++;
+				if (missingImage){
+					missingImageCount++;
+				}					
+				if (missingMetadata){
+					missingMetadataCount++;
+				}					
 				uniqueImageGuids.add(imageGuid);
 			}
 			

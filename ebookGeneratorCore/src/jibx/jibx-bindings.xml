@@ -63,6 +63,8 @@
 				<value name="docGuid" field="docGuid" usage="optional"/>
 			</structure>
 		</collection>
+		<value name="missingMetadaCount" field="missingMetadaCount" usage="optional"/>
+        <value name="missingImgCount" field="missingImgCount" usage="optional"/>
     </mapping>
     
 

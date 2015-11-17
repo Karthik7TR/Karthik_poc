@@ -101,9 +101,11 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 				retrievedCount = imageGuidNum;
 				
 				//gatherResponse.getNodeCount() missing image count
-				if (gatherResponse.getNodeCount() > 0){
-					retrievedCount = imageGuidNum - gatherResponse.getNodeCount();
-					throw new ImageException(String.format("Download of dynamic images failed because there were %d missing image(s) ", gatherResponse.getNodeCount()));
+				if (gatherResponse.getMissingImgCount() > 0 || gatherResponse.getMissingMetadaCount() > 0){
+					if (gatherResponse.getMissingImgCount() > 0){
+						retrievedCount = imageGuidNum - gatherResponse.getNodeCount();
+					}					
+					throw new ImageException(String.format("Download of dynamic images failed because there were %d missing image(s) and %d missing metadata", gatherResponse.getMissingImgCount(), gatherResponse.getMissingMetadaCount() ));
 					
 				}
 			}			
