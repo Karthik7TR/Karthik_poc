@@ -83,7 +83,7 @@ public class NovusImgServiceTest {
 		imgDocGuidMap.put("DOCGUID","IMGGUID,");
 		GatherResponse gatherResponse = novusImgService.fetchImages(imgDocGuidMap, temporaryDirectory, IS_FINAL_STAGE);
 		
-		assertTrue(gatherResponse.getNodeCount()==1);
+		assertTrue(gatherResponse.getMissingImgCount()==1);
 		assertTrue(gatherResponse.getImageMetadataList().size() == 0);
 		System.out.println(gatherResponse.getErrorMessage()+" : "+gatherResponse.getErrorCode());
 		
