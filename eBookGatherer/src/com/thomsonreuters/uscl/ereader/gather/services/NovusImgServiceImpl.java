@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.ImageConverter;
@@ -88,6 +89,8 @@ public class NovusImgServiceImpl implements NovusImgService {
 		GatherResponse gatherResponse = new GatherResponse();
 		Novus novus = null;
 		try {
+			//ToDo: This hardcoded line should be removed later with seeting in the configuration.
+			novusFactory.setNovusEnvironment(NovusEnvironment.Prod);
 			novus = novusFactory.createNovus(isFinalStage);
 		} catch (NovusException e) {
 			GatherException ge = new GatherException("Novus error occurred while creating Novus object " + e,
@@ -301,8 +304,8 @@ public class NovusImgServiceImpl implements NovusImgService {
 			}
 
 		}
-
-		if (missingMetadata || missingImage || novusRetryCounter == imgRetryCount) {
+		
+		if (missingMetadata || missingImage) {
 			Log.error("Could not find dynamic image in NOVUS for imageGuid " + imageGuid);
 			if(!uniqueImageGuids.contains(imageGuid)){
 				if (missingImage){
