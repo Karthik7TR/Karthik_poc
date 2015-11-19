@@ -33,7 +33,7 @@ public class NovusImageServiceTest {
 		imgDocGuidMap = new HashMap<String, String>();
 		NovusFactoryImpl novusFactory = new NovusFactoryImpl();
 		novusFactory.setBusinessUnit("WestCobalt");
-		novusFactory.setNovusEnvironment(NovusEnvironment.Prod);
+		novusFactory.setNovusEnvironment(NovusEnvironment.Client);
 		novusFactory.setProductName("EBOOKGENERATOR-USCL");
 
 		novusImgService.setNovusFactory(novusFactory);
@@ -57,10 +57,10 @@ public class NovusImageServiceTest {
 		novusImgService.setMissingImageGuidsFileBasename("missing_image_guids.txt");
 
 		imgDocGuidMap.put("DOCGUID1", "Ibf2635c0739211e585ec8cf559dfb9bd,Ibf287fb0739211e5863be83d2d715e2c,");
-		imgDocGuidMap.put("DOCGUID2", "Ic274eb90739211e58459cc439435cf58");
+		imgDocGuidMap.put("DOCGUID2", "I5d463990094d11e085f5891ac64a9905");
 		GatherResponse gatherResponse = novusImgService.fetchImages(imgDocGuidMap, dynamicImgDir, IS_FINAL_STAGE);
-		assertTrue(gatherResponse.getNodeCount()==0);
-		assertTrue(gatherResponse.getImageMetadataList().size() == 3);
+		assertTrue(gatherResponse.getMissingImgCount() == 2);
+		assertTrue(gatherResponse.getImageMetadataList().size() == 1);
 		
 		/*System.out.println(gatherResponse.getNodeCount());
 		List<ImgMetadataInfo> imageMetadataInfoList = gatherResponse.getImageMetadataList();

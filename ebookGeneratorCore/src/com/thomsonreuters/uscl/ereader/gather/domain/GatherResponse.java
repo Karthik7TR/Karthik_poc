@@ -31,7 +31,6 @@ public class GatherResponse {
 	public int skipCount;
 	public int retryCount;
 	public int retryCount2;
-	private int missingMetadaCount;
 	private int missingImgCount;
 	
 	
@@ -39,14 +38,6 @@ public class GatherResponse {
 	private boolean findSplitsAgain = false;
 	private ArrayList<String> duplicateTocGuids;
 	private ArrayList<ImgMetadataInfo> imageMetadataList ;
-	
-	public int getMissingMetadaCount() {
-		return missingMetadaCount;
-	}
-
-	public void setMissingMetadaCount(int missingMetataCount) {
-		this.missingMetadaCount = missingMetataCount;
-	}
 
 	public int getMissingImgCount() {
 		return missingImgCount;

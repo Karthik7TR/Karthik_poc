@@ -135,7 +135,6 @@ public class NovusImgServiceImpl implements NovusImgService {
 			novus.shutdownMQ();
 			gatherResponse.setImageMetadataList(imageMetadataList);
 			gatherResponse.setMissingImgCount(missingImageCount);
-			gatherResponse.setMissingMetadaCount(missingMetadataCount);
 			fileWriter.close();
 		}
 		return gatherResponse;
@@ -145,43 +144,33 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 	public ImgMetadataInfo getImagesAndMetadata(Find find, String imageGuid, Writer missingImageFileWriter, String docGuid,
 			File imageDirectory) throws GatherException, IOException {
-		String imgMetadata = null;
 		final Integer imgRetryCount = new Integer(novusUtility.getImgRetryCount());
 		Integer novusRetryCounter = 0;
 		String collection = null;
 		ImgMetadataInfo imgMetadataInfo = null;
-		boolean missingMetadata = true;
 		boolean missingImage = true;
 
 		while (novusRetryCounter < imgRetryCount) {
+			missingImage = true;
 			try {
 
 				BLOB blob = find.getBLOB(collection, imageGuid);
 				String mimeType = blob.getMimeType();
+				String imgMetadata = blob.getMetaData();
 
-				if (mimeType != null && mimeType.length() != 0) {
-					missingImage = false;
+				if (!isEmpty(mimeType) && !isEmpty(imgMetadata) ) {
+					
+					SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+					parserFactory.setNamespaceAware(true);
+					XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+					ImageMetadataHandler imageMetadataHandler = new ImageMetadataHandler();
+					reader.setContentHandler(imageMetadataHandler);
+					reader.parse(new InputSource(new StringReader(imgMetadata)));
+					imgMetadataInfo = imageMetadataHandler.getImgMetadataInfo();
 
 					MediaType mediaType = MediaType.valueOf(mimeType);
 
-					String extension = null;
-
-					imgMetadata = blob.getMetaData();
-					if (imgMetadata == null || imgMetadata.length() == 0){
-						Log.error("Metadata is missing for image Guid "+imageGuid+" NOVUS exception");
-						throw new Exception("NOVUS Exception");
-					}
-					else{
-						SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-						parserFactory.setNamespaceAware(true);
-						XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-						ImageMetadataHandler imageMetadataHandler = new ImageMetadataHandler();
-						reader.setContentHandler(imageMetadataHandler);
-						reader.parse(new InputSource(new StringReader(imgMetadata)));
-						imgMetadataInfo = imageMetadataHandler.getImgMetadataInfo();
-					}
-					missingMetadata = false;
-
+					String extension = null;					
 					File imageFile = null;
 
 					FileOutputStream fileOuputStream = null;
@@ -217,7 +206,13 @@ public class NovusImgServiceImpl implements NovusImgService {
 							fileOuputStream.close();
 						}
 					}
+					
+					missingImage = false;
 
+				}
+				else{
+					Log.error("MimeType/Metadata is null for image Guid "+imageGuid+". Throwing NOVUS exception explicitly");
+					throw new Exception("NOVUS Exception");
 				}
 
 				break;
@@ -225,13 +220,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 				try {
 					Log.error("Exception ocuured while retreiving image for imageGuid " + imageGuid);
 					novusRetryCounter = novusUtility.handleException(exception, novusRetryCounter, imgRetryCount);
-				} catch (NovusException e) {
-					Log.error("Failed with Novus Exception in NovusImgServiceImpl for imageGuid " + imageGuid);
-					GatherException ge = new GatherException(
-							"NovusException ocuured while retreiving image for imageGuid " + imageGuid, e,
-							GatherResponse.CODE_NOVUS_ERROR);
-					throw ge;
-				} catch (Exception e) {
+				}  catch (Exception e) {
 					Log.error("Exception in handleException() call from getImagesAndMetadata() " + e.getMessage());
 					novusRetryCounter++;
 				}
@@ -239,15 +228,10 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 		}
 		
-		if (missingMetadata || missingImage) {
+		if (missingImage) {
 			Log.error("Could not find dynamic image in NOVUS for imageGuid " + imageGuid);
 			if(!uniqueImageGuids.contains(imageGuid)){
-				if (missingImage){
-					missingImageCount++;
-				}					
-				if (missingMetadata){
-					missingMetadataCount++;
-				}					
+				missingImageCount++;
 				uniqueImageGuids.add(imageGuid);
 			}
 			
@@ -262,6 +246,15 @@ public class NovusImgServiceImpl implements NovusImgService {
 			throws IOException {
 		missingImageFileWriter.write(imageGuid + "," + docGuid);
 		missingImageFileWriter.write("\n");
+	}
+	
+	public boolean isEmpty(String string){
+		if(string == null){
+			return true;
+		}
+		else{
+			return StringUtils.isEmpty(string.trim());
+		}
 	}
 
 	/**

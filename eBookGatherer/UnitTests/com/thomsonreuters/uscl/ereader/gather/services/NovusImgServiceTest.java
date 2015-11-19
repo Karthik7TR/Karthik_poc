@@ -16,6 +16,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.springframework.util.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
@@ -60,6 +61,18 @@ public class NovusImgServiceTest {
 		temporaryDirectory = tempDirectory.newFolder("temp");
 		imgDocGuidMap = new HashMap<String,String>();
 		novusImgService.setMissingImageGuidsFileBasename("missing_doc.txt");
+	}
+	
+	@Test
+	public void testString(){
+		String str = null;
+		String str1 = new String();
+		String str2 = new String(" ");
+		String str3 = "new string";
+		assertTrue(novusImgService.isEmpty(str));
+		assertTrue(novusImgService.isEmpty(str1));
+		assertTrue(novusImgService.isEmpty(str2));
+		assertTrue(!novusImgService.isEmpty(str3));
 	}
 	
 	@Test
