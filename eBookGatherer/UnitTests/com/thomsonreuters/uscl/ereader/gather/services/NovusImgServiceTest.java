@@ -114,9 +114,9 @@ public class NovusImgServiceTest {
 		Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
 		novusImgService.setUniqueImageGuids(new ArrayList<String>());
 		
-		String imageMeta = novusImgService.getImagesAndMetadata(mockFinder, "IMGGUID", fileWriter, "DOCGUID", temporaryDirectory);
+		ImgMetadataInfo imgMetadataInfo = novusImgService.getImagesAndMetadata(mockFinder, "IMGGUID", fileWriter, "DOCGUID", temporaryDirectory);
 				
-		assertTrue(imageMeta==null);
+		assertTrue(imgMetadataInfo==null);
 	}
 	
 	@Test
@@ -172,19 +172,6 @@ public class NovusImgServiceTest {
 		assertTrue(!thrown);
 	}
 	
-		
-	@Test
-	public void testImgMetadataFromNovus() throws Exception {
-		
-		String imgMetadata="<n-metadata><img.md.block><img.md.image.format>application/pdf</img.md.image.format><img.md.pdf.block>"
-				+ "<img.md.image.bytes>28332</img.md.image.bytes><img.md.image.dpi>400</img.md.image.dpi><img.md.image.height>4400</img.md.image.height>"
-				+ "<img.md.image.width>3400</img.md.image.width><img.md.image.units>px</img.md.image.units></img.md.pdf.block></img.md.block></n-metadata>";
-		ImgMetadataInfo imgMetadataInfo = new ImgMetadataInfo();
-		novusImgService.setImgMetadataInfo(imgMetadataInfo);
-		novusImgService.getMetadataFromString(imgMetadata);	
-		assertTrue(imgMetadataInfo.getHeight() == 4400);
-		assertTrue(imgMetadataInfo.getWidth() == 3400);
-		assertTrue(imgMetadataInfo.getDimUnit().equals("px") );
-	}
+	
 
 }

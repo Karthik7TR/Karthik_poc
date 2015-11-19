@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.westgroup.novus.productapi.Find;
 
 public interface NovusImgService {
@@ -14,12 +15,10 @@ public interface NovusImgService {
 	public GatherResponse getImagesFromNovus(File imgToDocManifestFile, File getDynamicImageDirectory,
 			boolean isFinalStage);
 
-	public String getImagesAndMetadata(Find find, String imageGuid, Writer missingImageFileWriter, String docGuid,
+	public ImgMetadataInfo getImagesAndMetadata(Find find, String imageGuid, Writer missingImageFileWriter, String docGuid,
 			File imageDirectory) throws GatherException, IOException;
 
 	public GatherResponse fetchImages(final Map<String, String> imgDocGuidMap, File imageDestinationDirectory,
 			boolean isFinalStage) throws Exception;
-
-	public void getMetadataFromString(String imgMetadata);
 
 }

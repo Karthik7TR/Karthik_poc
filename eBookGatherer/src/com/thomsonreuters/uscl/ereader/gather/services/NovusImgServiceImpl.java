@@ -46,8 +46,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 	/** Milliseconds to sleep between each meta-data/bytes fetch */
 	private long sleepIntervalBetweenImages;
 
-	private static final Logger Log = Logger.getLogger(NovusImgServiceImpl.class);
-	private ImgMetadataInfo imgMetadataInfo;
+	private static final Logger Log = Logger.getLogger(NovusImgServiceImpl.class);	
 
 	int missingImageCount;
 	int missingMetadataCount;
@@ -122,10 +121,9 @@ public class NovusImgServiceImpl implements NovusImgService {
 					for (String imgGuid : imgDocsArray) {
 						if (!deDupImagesArray.contains(imgGuid)) {
 							
-							String imgMetadata = getImagesAndMetadata(find, imgGuid, fileWriter, docGuid,
-									imageDestinationDirectory);
-							if (imgMetadata != null && imgMetadata.length() > 0) {
-								getMetadataFromString(imgMetadata);
+							 ImgMetadataInfo imgMetadataInfo = getImagesAndMetadata(find, imgGuid, fileWriter, docGuid,
+									imageDestinationDirectory);	
+							if (imgMetadataInfo != null) {
 								imageMetadataList.add(imgMetadataInfo);
 							}
 
@@ -152,79 +150,15 @@ public class NovusImgServiceImpl implements NovusImgService {
 		return gatherResponse;
 	}
 
-	public void getMetadataFromString(String imgMetadata) {
+	
 
-		try {
-			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-			parserFactory.setNamespaceAware(true);
-
-			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-
-			reader.setContentHandler(new DefaultHandler() {
-				private static final String DPI = "img.md.image.dpi";
-				private static final String HEIGHT = "img.md.image.height";
-				private static final String WIDTH = "img.md.image.width";
-				private static final String DIM_UNITS = "img.md.image.units";
-
-				private StringBuffer charBuffer = null;
-
-				public void characters(char[] ch, int start, int length) throws SAXException {
-					if (charBuffer != null) {
-						charBuffer.append(new String(ch, start, length));
-					}
-				}
-
-				public void endElement(String uri, String localName, String qName) throws SAXException {
-					try {
-						String value = null;
-
-						if (charBuffer != null) {
-							value = StringUtils.trim(charBuffer.toString());
-							if (DPI.equalsIgnoreCase(qName)) {
-
-								imgMetadataInfo.setDpi(Long.valueOf(value));
-							} else if (HEIGHT.equalsIgnoreCase(qName)) {
-								imgMetadataInfo.setHeight(Long.valueOf(value));
-							} else if (WIDTH.equalsIgnoreCase(qName)) {
-								imgMetadataInfo.setWidth(Long.valueOf(value));
-							} else if (DIM_UNITS.equalsIgnoreCase(qName)) {
-								imgMetadataInfo.setDimUnit(value);
-							}
-						}
-
-						charBuffer = null;
-					} catch (Exception e) {
-						String message = "Exception occured during Novus IMGMetadata parsing endElement. The error message is: "
-								+ e.getMessage();
-						throw new RuntimeException(message, e);
-					}
-				}
-
-				public void startElement(String uri, String localName, String qName, Attributes atts)
-						throws SAXException {
-					charBuffer = new StringBuffer();
-					super.startElement(uri, localName, qName, atts);
-				}
-
-			});
-			reader.parse(new InputSource(new StringReader(imgMetadata)));
-		} catch (SAXException e) {
-			throw new RuntimeException(e);
-		} catch (ParserConfigurationException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-
-	public String getImagesAndMetadata(Find find, String imageGuid, Writer missingImageFileWriter, String docGuid,
+	public ImgMetadataInfo getImagesAndMetadata(Find find, String imageGuid, Writer missingImageFileWriter, String docGuid,
 			File imageDirectory) throws GatherException, IOException {
-		String imgMetada = null;
+		String imgMetadata = null;
 		final Integer imgRetryCount = new Integer(novusUtility.getImgRetryCount());
 		Integer novusRetryCounter = 0;
 		String collection = null;
-		imgMetadataInfo = new ImgMetadataInfo();
+		ImgMetadataInfo imgMetadataInfo = null;
 		boolean missingMetadata = true;
 		boolean missingImage = true;
 
@@ -241,10 +175,19 @@ public class NovusImgServiceImpl implements NovusImgService {
 
 					String extension = null;
 
-					imgMetada = blob.getMetaData();
-					if (imgMetada == null || imgMetada.length() == 0){
+					imgMetadata = blob.getMetaData();
+					if (imgMetadata == null || imgMetadata.length() == 0){
 						Log.error("Metadata is missing for image Guid "+imageGuid+" NOVUS exception");
 						throw new Exception("NOVUS Exception");
+					}
+					else{
+						SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+						parserFactory.setNamespaceAware(true);
+						XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+						ImageMetadataHandler imageMetadataHandler = new ImageMetadataHandler();
+						reader.setContentHandler(imageMetadataHandler);
+						reader.parse(new InputSource(new StringReader(imgMetadata)));
+						imgMetadataInfo = imageMetadataHandler.getImgMetadataInfo();
 					}
 					missingMetadata = false;
 
@@ -320,7 +263,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 			writeFailedImageGuidToFile(missingImageFileWriter, imageGuid, docGuid);
 		}
 
-		return imgMetada;
+		return imgMetadataInfo;
 
 	}
 
@@ -384,14 +327,6 @@ public class NovusImgServiceImpl implements NovusImgService {
 	@Required
 	public void setSleepIntervalBetweenImages(long interval) {
 		this.sleepIntervalBetweenImages = interval;
-	}
-
-	public ImgMetadataInfo getImgMetadataInfo() {
-		return imgMetadataInfo;
-	}
-
-	public void setImgMetadataInfo(ImgMetadataInfo imgMetadataInfo) {
-		this.imgMetadataInfo = imgMetadataInfo;
 	}
 
 }
