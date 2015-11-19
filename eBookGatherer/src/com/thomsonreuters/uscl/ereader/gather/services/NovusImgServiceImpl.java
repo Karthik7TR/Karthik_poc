@@ -129,15 +129,13 @@ public class NovusImgServiceImpl implements NovusImgService {
 						}// end of for-loop
 					}
 				} // end of for-loop
-				if ((missingImageCount > 0)) {
-					gatherResponse.setMissingImgCount(missingImageCount);
-					gatherResponse.setMissingMetadaCount(missingMetadataCount);
-				}
 			}
 
 		} finally {
 			novus.shutdownMQ();
 			gatherResponse.setImageMetadataList(imageMetadataList);
+			gatherResponse.setMissingImgCount(missingImageCount);
+			gatherResponse.setMissingMetadaCount(missingMetadataCount);
 			fileWriter.close();
 		}
 		return gatherResponse;
