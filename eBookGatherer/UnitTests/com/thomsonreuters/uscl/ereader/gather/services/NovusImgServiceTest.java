@@ -62,8 +62,7 @@ public class NovusImgServiceTest {
 		novusImgService.setMissingImageGuidsFileBasename("missing_doc.txt");
 	}
 	
-	//Test when hardocoded config is removed
-	@Ignore
+	@Test
 	public void testFetchImages() throws Exception{
 		
 		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
