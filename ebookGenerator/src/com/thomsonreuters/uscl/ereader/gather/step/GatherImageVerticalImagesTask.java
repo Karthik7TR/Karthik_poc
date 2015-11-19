@@ -89,7 +89,19 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 			
 			if (imageGuidNum > 0){
 				GatherImgRequest imgRequest = new GatherImgRequest(imageGuidFile,dynamicImageDestinationDirectory, jobInstanceId, bookDefinition.isFinalStage());
-				GatherResponse gatherResponse = gatherService.getImg(imgRequest);
+				GatherResponse gatherResponse = gatherService.getImg(imgRequest);						
+				
+				if (gatherResponse.getMissingImgCount() > 0 || gatherResponse.getMissingMetadaCount() > 0){
+					if (gatherResponse.getMissingImgCount() > 0){
+						retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
+					}					
+					throw new ImageException(
+							String.format(
+									"Download of dynamic images failed because there were %d missing image(s) and %d missing metadata",
+									gatherResponse.getMissingImgCount(), gatherResponse.getMissingMetadaCount()));
+
+				}
+				retrievedCount = imageGuidNum;
 				
 				if(gatherResponse.getImageMetadataList() != null)
 				{
@@ -97,16 +109,6 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 						imageService.saveImageMetadata(metadata, jobInstanceId, titleId);
 						
 					}
-				}
-				retrievedCount = imageGuidNum;
-				
-				//gatherResponse.getNodeCount() missing image count
-				if (gatherResponse.getMissingImgCount() > 0 || gatherResponse.getMissingMetadaCount() > 0){
-					if (gatherResponse.getMissingImgCount() > 0){
-						retrievedCount = imageGuidNum - gatherResponse.getNodeCount();
-					}					
-					throw new ImageException(String.format("Download of dynamic images failed because there were %d missing image(s) and %d missing metadata", gatherResponse.getMissingImgCount(), gatherResponse.getMissingMetadaCount() ));
-					
 				}
 			}			
 			
