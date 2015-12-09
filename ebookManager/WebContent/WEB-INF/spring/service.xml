@@ -47,6 +47,10 @@
             </list>
          </property>
   	</bean>
+	
+	<bean id="ebookGroupService" class="com.thomsonreuters.uscl.ereader.mgr.group.service.EbookGroupServiceImpl"
+	  	   p:groupDefinitionDao-ref="groupDefinitionDao"/>
+  		  
 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService"
 	  	  p:proviewClient-ref="proviewClient"

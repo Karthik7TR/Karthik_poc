@@ -15,7 +15,7 @@ public class UserPreferencesForm {
 	public static final String FORM_NAME = "preferencesForm";
 
 	public enum HomepageProperty {
-		LIBRARY, PROVIEW_LIST, AUDIT, JOBS, QUEUED, ADMINISTRATION
+		LIBRARY, PROVIEW_LIST, AUDIT, JOBS, QUEUED, ADMINISTRATION, GROUP_LIST
 	}
 	
 	private HomepageProperty startPage;
@@ -157,6 +157,9 @@ public class UserPreferencesForm {
 				break;
 			case ADMINISTRATION:
 				url = WebConstants.MVC_ADMIN_MAIN;
+				break;
+			case GROUP_LIST:
+				url = WebConstants.MVC_BOOK_GROUP_LIST;
 				break;
 			default:
 				url = WebConstants.MVC_BOOK_LIBRARY_LIST;

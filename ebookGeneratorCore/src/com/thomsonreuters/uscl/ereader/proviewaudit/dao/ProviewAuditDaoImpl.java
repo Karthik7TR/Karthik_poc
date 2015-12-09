@@ -6,6 +6,7 @@
 
 package com.thomsonreuters.uscl.ereader.proviewaudit.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +35,21 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 		this.sessionFactory = hibernateSessionFactory;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getBookStatus(String titleId, String version){
+		List<String> status = new ArrayList<String>();
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(ProviewAudit.class);
+			criteria.add(Restrictions.eq("titleId", titleId));
+			criteria.add(Restrictions.eq("bookVersion", version));
+			List<ProviewAudit> proviewAudits =  criteria.list();
+			for(ProviewAudit proviewAudit : proviewAudits){
+				status.add(proviewAudit.getProviewRequest());
+			}
+		return status;
+		
+	}
 
 	@Override
 	public void save(ProviewAudit audit) {

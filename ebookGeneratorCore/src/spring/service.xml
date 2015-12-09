@@ -73,7 +73,8 @@
 		  p:proviewRequestCallbackFactory-ref="proviewRequestCallbackFactory"
 		  p:proviewResponseExtractorFactory-ref="proviewResponseExtractorFactory"
 		  p:createGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
-		  p:updateGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/removed"
+		  p:removeGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/removed"
+		  p:promoteGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/final"
 		  p:getGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/info"/>
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">

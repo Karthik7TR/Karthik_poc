@@ -50,15 +50,15 @@ public class ProviewClientImpl implements ProviewClient {
 	private InetAddress proviewHost;
 	
 	private RestTemplate restTemplate;
-//	private String validationUriTemplate;
 	private String publishTitleUriTemplate;
 	private String getTitlesUriTemplate;
-//	private String publishingStatusUriTemplate;
 	private String deleteTitleUriTemplate;
 	private String removeTitleUriTemplate;
 	private String promoteTitleUriTemplate;
 	private String createGroupUriTemplate;	
-	private String updateGroupStatusUriTemplate;
+	private String removeGroupStatusUriTemplate;
+	private String promoteGroupStatusUriTemplate;
+
 	private String getGroupUriTemplate;
 	
 	public static final String ROOT_ELEMENT = "group";
@@ -145,7 +145,7 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @return
 	 * @throws ProviewException
 	 */
-	public String updateGroupStatus(final GroupDefinition groupDefinition)
+	public String removeGroup(final GroupDefinition groupDefinition)
 			throws ProviewException {	
 
 
@@ -157,7 +157,33 @@ public class ProviewClientImpl implements ProviewClient {
 		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
 				.getXMLRequestCallback();
 
-		String proviewResponse = restTemplate.execute(updateGroupStatusUriTemplate,
+		String proviewResponse = restTemplate.execute(removeGroupStatusUriTemplate,
+				HttpMethod.PUT, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * This request will update Group status to removed
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String promoteGroup(final String groupId, final String groupVersion)
+			throws ProviewException {	
+
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+
+		String proviewResponse = restTemplate.execute(promoteGroupStatusUriTemplate,
 				HttpMethod.PUT, proviewXMLRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
@@ -635,13 +661,13 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 	}
 	
 
-	public String getUpdateGroupStatusUriTemplate() {
-		return updateGroupStatusUriTemplate;
+	public String getRemoveGroupStatusUriTemplate() {
+		return removeGroupStatusUriTemplate;
 	}
 
 	@Required
-	public void setUpdateGroupStatusUriTemplate(String updateGroupStatusUriTemplate) {
-		this.updateGroupStatusUriTemplate = updateGroupStatusUriTemplate;
+	public void setRemoveGroupStatusUriTemplate(String updateGroupStatusUriTemplate) {
+		this.removeGroupStatusUriTemplate = updateGroupStatusUriTemplate;
 	}
 	
 
@@ -653,5 +679,15 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 	@Required
 	public void setGetGroupUriTemplate(String getGroupUriTemplate) {
 		this.getGroupUriTemplate = getGroupUriTemplate;
+	}
+	
+
+	public String getPromoteGroupStatusUriTemplate() {
+		return promoteGroupStatusUriTemplate;
+	}
+
+	@Required
+	public void setPromoteGroupStatusUriTemplate(String promoteGroupStatusUriTemplate) {
+		this.promoteGroupStatusUriTemplate = promoteGroupStatusUriTemplate;
 	}
 }

@@ -31,5 +31,7 @@ public interface ProviewAuditService {
 	public List<ProviewAudit> findProviewAudits(ProviewAuditFilter filter, ProviewAuditSort sort);
 	
 	public int numberProviewAudits(ProviewAuditFilter filter);
+	
+	public List<String> getBookStatus(String titleId, String version);
 
 }

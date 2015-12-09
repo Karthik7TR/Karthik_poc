@@ -13,11 +13,14 @@ public class WebConstants {
 	public static final String KEY_ENVIRONMENT_NAME = "environmentName";
 	public static final String KEY_SESSION_LIBRARY_FORM = "sessionLibraryBookForm"; // Library search criteria
 	public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
+	public static final String KEY_PROVIEW_GROUP_FORM = "proviewGroupForm";
 	public static final String KEY_PAGINATED_LIST = "paginatedList";
+	public static final String KEY_GROUP = "group";
 	public static final String KEY_PUBLISHING_STATS_LIST = "publishingStatsList";
 	public static final String KEY_ALL_LATEST_PROVIEW_TITLES = "allLatestProviewTitleInfo";
 	public static final String KEY_SELECTED_PROVIEW_TITLES = "selectedProviewTitleInfo";
 	public static final String KEY_ALL_PROVIEW_TITLES = "allProviewTitleInfo";
+	public static final String KEY_ALL_VERSIONS_GROUP = "allVersionsGroupInfo";
 	public static final String KEY_TOTAL_BOOK_SIZE = "resultSize";
 	public static final String KEY_BULK_PUBLISH_LIST = "bulkPublishList";
 	public static final String KEY_BULK_PUBLISH_SIZE = "bulkPublishtSize";
@@ -81,6 +84,12 @@ public class WebConstants {
 	public static final String KEY_PUBLISHING_STATS = "publishingStats";
 	public static final String KEY_IS_COMPLETE = "isComplete";
 	public static final String KEY_PILOT_BOOK_STATUS = "pilotBookStatus";
+	public static final String KEY_BOOK_ID = "bookDefinitionId";
+	public static final String KEY_PROVIEW_NAME = "proviewName";
+	public static final String KEY_GROUP_STATUS = "groupStatus";
+	public static final String KEY_PROVIEW_GROUP_ID="proviewGroupID";
+	public static final String KEY_GROUP_VERSION="groupVersion";
+	public static final String KEY_GROUP_NAME="groupName";
 	public static final String KEY_IS_NEW_ISBN = "isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID = "isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK = "bookDefinitionLock";
@@ -99,6 +108,9 @@ public class WebConstants {
 	public static final String KEY_JOB_EXECUTION = "jobExecution";
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
+	
+	public static final String KEY_GROUP_IDS = "groupIds";
+	
 	public static final String KEY_JOB_EXECUTIONS = "jobExecutions";
 	public static final String KEY_JOB_QUEUED_PAGE_AND_SORT = "jobsQueuedPageAndSort";
 	public static final String KEY_JOB_STEP_EXECUTION = "jobStepExecution";
@@ -152,7 +164,7 @@ public class WebConstants {
 	public static final String MVC_BOOK_DEFINITION_PROMOTION = "bookDefinitionPromotion.mvc";
 	public static final String MVC_BOOK_DEFINITION_DELETE = "bookDefinitionDelete.mvc";
 	public static final String MVC_BOOK_DEFINITION_RESTORE = "bookDefinitionRestore.mvc";
-	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";
+	public static final String MVC_BOOK_DEFINITION_VIEW_GET = "bookDefinitionViewGet.mvc";	
 	public static final String MVC_BOOK_DEFINITION_VIEW_POST = "bookDefinitionViewPost.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_PREVIEW = "generateEbookPreview.mvc";
 	public static final String MVC_BOOK_SINGLE_GENERATE_SUBMIT = "generateEbookSubmit.mvc";
@@ -186,9 +198,14 @@ public class WebConstants {
 	public static final String MVC_BOOK_JOB_METRICS = "eBookJobMetrics.mvc";
 
 	public static final String MVC_BOOK_AUDIT_LIST = "bookAuditList.mvc";
+	public static final String MVC_BOOK_GROUP_LIST = "bookGroupList.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT = "bookAuditListPageAndSort.mvc";
+	public static final String MVC_BOOK_GROUP_LIST_PAGE_AND_SORT = "bookGroupListPageAndSort.mvc";
 	public static final String MVC_BOOK_AUDIT_LIST_FILTER_POST = "bookAuditListFilterPost.mvc";
+	public static final String MVC_BOOK_GROUP_LIST_FILTER_POST = "bookGroupListFilterPost.mvc";
 	public static final String MVC_BOOK_AUDIT_CHANGE_ROW_COUNT = "bookAuditChangeRowCount.mvc";
+	public static final String MVC_BOOK_GROUP_CHANGE_ROW_COUNT = "bookGroupChangeRowCount.mvc";
+	public static final String MVC_GROUP_OPERATION = "groupOperation.mvc"; 
 	public static final String MVC_BOOK_AUDIT_SPECIFIC = "bookAudit.mvc";
 	public static final String MVC_BOOK_AUDIT_DETAIL = "bookAuditDetail.mvc";
 	
@@ -253,9 +270,11 @@ public class WebConstants {
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
 	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
+	public static final String MVC_GROUP_BOOK_ALL_VERSIONS = "groupBookAllVersions.mvc";
 	public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
 	public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
 	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
+	public static final String MVC_PROVIEW_GROUP_PROMOTE = "proviewGroupPromote.mvc";
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
@@ -337,6 +356,7 @@ public class WebConstants {
 	public static final String VIEW_BOOK_AUDIT = "_bookAudit";
 	public static final String VIEW_BOOK_AUDIT_DETAIL = "_bookAuditDetail";
 	public static final String VIEW_BOOK_AUDIT_LIST = "_bookAuditList";
+	public static final String VIEW_BOOK_GROUP_LIST = "_bookGroupList";
 	public static final String VIEW_PROVIEW_AUDIT_LIST = "_proviewAuditList";
 	public static final String VIEW_FRONT_MATTER_PREVIEW = "_bookDefinitionFrontMatterPreview";
 	public static final String VIEW_FRONT_MATTER_PREVIEW_CONTENT = "book/fmpreview/content/preview";
@@ -356,9 +376,11 @@ public class WebConstants {
 	public static final String VIEW_SUPPORT_PAGE_VIEW = "_supportPageView";
 	public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
 	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
+	public static final String VIEW_GROUP_TITLE_ALL_VERSIONS = "_proviewGroupAllVersions";
 	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
 	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
 	public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";
+	public static final String VIEW_PROVIEW_GROUP_PROMOTE = "_proviewGroupPromote";
 	public static final String VIEW_USER_PREFERENCES = "_userPreferences";
 
 	// Miscellaneous keys and constants used throughout the application.

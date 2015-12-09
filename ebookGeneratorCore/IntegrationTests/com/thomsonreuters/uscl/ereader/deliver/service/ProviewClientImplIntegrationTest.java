@@ -190,7 +190,7 @@ public class ProviewClientImplIntegrationTest {
 				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		GroupDefinition groupDefinition = new GroupDefinition();
-		groupDefinition.setGroupId("uscl/groupTest");
+		groupDefinition.setGroupId("uscl/groupFinalTest");
 		groupDefinition.setGroupVersion("v1");
 		groupDefinition.setName("Group Test");
 		groupDefinition.setType("standard");
@@ -223,15 +223,15 @@ public class ProviewClientImplIntegrationTest {
 	}
 	
 	private void updateStatusAndDelete(GroupDefinition groupDefinition) throws Exception{
-		proviewClient.setUpdateGroupStatusUriTemplate("http://"
-		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/removed");
+		proviewClient.setRemoveGroupStatusUriTemplate("http://"
+		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/final");
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		groupDefinition.setGroupId("uscl/groupTest");
 		groupDefinition.setGroupVersion("v1");
 
 		
 		try {
-			String response = proviewClient.updateGroupStatus(groupDefinition);
+			String response = proviewClient.removeGroup(groupDefinition);
 			Assert.assertEquals(response.contains("Title status changed to removed"),true);
 			response = proviewClient.deleteGroup(groupDefinition);
 			Assert.assertEquals(response.length(),0);

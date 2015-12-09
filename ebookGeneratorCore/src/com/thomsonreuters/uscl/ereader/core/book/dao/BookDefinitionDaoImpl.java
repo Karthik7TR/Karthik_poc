@@ -14,7 +14,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -205,18 +204,12 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
 
 		BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
 				.add(Restrictions.eq("ebookDefinitionId", bookId)).uniqueResult();
-		System.out.println("--------b--------" + eBook.getSplitDocuments());
 		eBook.getSplitDocuments().clear();
 		eBook.getSplitDocuments().addAll(splitDocuments);
-		eBook.setSplitEBookParts(new Integer(parts));
-		System.out.println("--------a--------" + eBook.getSplitDocuments());		
+		eBook.setSplitEBookParts(new Integer(parts));		
 		// attach child objects to book definition
 		eBook = (BookDefinition)session.merge(eBook);
 		session.flush();
-		//session.clear();
-		//tx.commit();
-		System.out.println("--------after flush--------" + eBook.getSplitDocuments());
-		//session.close();
 		return eBook;
 		
 	}

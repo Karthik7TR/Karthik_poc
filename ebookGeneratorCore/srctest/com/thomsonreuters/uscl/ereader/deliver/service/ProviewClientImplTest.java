@@ -193,7 +193,7 @@ public class ProviewClientImplTest
 			
 		getTitlesUriTemplate =  "/v1/group/groupId/groupVersionNumber/status/removed";
 		
-		proviewClient.setUpdateGroupStatusUriTemplate("http://"
+		proviewClient.setRemoveGroupStatusUriTemplate("http://"
 				+ PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);		
 		
 		EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
@@ -201,7 +201,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.PUT, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.updateGroupStatus(mockGroupDefinition);
+		String response = proviewClient.removeGroup(mockGroupDefinition);
 		System.out.println("response "+response);
 		verifyAll();
 			

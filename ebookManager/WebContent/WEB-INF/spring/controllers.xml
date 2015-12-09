@@ -38,6 +38,23 @@
 	<bean id="miscConfigRestController" class="com.thomsonreuters.uscl.ereader.core.web.controller.MiscConfigRestController"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
 	
+	<bean id="groupListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list.GroupListController" 
+	   p:publishingStatsService-ref="publishingStatsService"
+	   p:proviewClient-ref="proviewClient"
+	   p:bookDefinitionService-ref="bookDefinitionService"
+	   p:ebookGroupService-ref="ebookGroupService" 
+	   p:managerService-ref="managerService" 
+	   p:messageSourceAccessor-ref="messageSourceAccessor"
+	   p:proviewAuditService-ref="proviewAuditService"
+	   p:jobRequestService-ref="jobRequestService"/>
+	   
+	<bean id="groupListFilterController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list.GroupListFilterController"
+	   p:ebookGroupService-ref="ebookGroupService">
+		<property name="validator">
+			<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list.GroupFilterFormValidator"/>
+		</property>	
+	</bean>
+	   
 	<bean id="errorController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController" />
 	
 	<bean id="adminBookDefinitionLockController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock.BookDefinitionLockController" 
