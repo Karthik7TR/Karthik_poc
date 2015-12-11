@@ -27,10 +27,13 @@ $(document).ready(function() {
 });
 
 function submitGroupForm(command) {
-	$("#groupCmd").val(command);  // Set the form hidden field value for the operation discriminator
 	
-	$("#multiSelectForm").submit();	// POST the HTML form with the selected start/restart jobs
+		$("#groupCmd").val(command);  // Set the form hidden field value for the operation discriminator
+		
+		$("#multiSelectForm").submit();	// POST the HTML form with the selected start/restart jobs
+	
 }
+
 </script>
 <form:form id="multiSelectForm" action="<%=WebConstants.MVC_GROUP_OPERATION%>"
 		   commandName="<%=GroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
@@ -40,19 +43,32 @@ function submitGroupForm(command) {
 		   <form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
 		   <form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
 		   <form:hidden path="groupVersion" value="${groupVersion}"/>
-		   <spring:hasBindErrors name="<%=GroupListFilterForm.FORM_NAME%>">
+		<!--     
+		<spring:hasBindErrors name="<%=GroupListFilterForm.FORM_NAME%>">
 		<div class="errorBox">
 	      <b><spring:message code="please.fix.errors"/>:</b><br/>
 	      <form:errors path="*">
 	      	<ul>
-			<c:forEach items="${messages}" var="message">
-				<li style="color: black">${message}</li>
+			<c:forEach items="${errors.allErrors}" var="error">
+				<li style="color: black">${error}</li>
 			</c:forEach>
 	      	</ul>
 		  </form:errors>
 		  <br/>
 	    </div>
     </spring:hasBindErrors>
+    -->
+    
+     <spring:hasBindErrors name="<%=GroupListFilterForm.FORM_NAME%>">
+		 <b><spring:message code="please.fix.errors"/>:</b><br/>
+			<font color="red">
+		        <c:forEach var="error" items="${errors.allErrors}">
+       			 <b><spring:message message="${error}" /></b>
+        		 <br/>
+	        	</c:forEach>
+	        </font>
+	 </spring:hasBindErrors>
+    
 	<div class="row" id ="groupName">
 						<label class="labelCol" >Group Name:</label>
 						<span class="field">${ groupName }</span>
@@ -71,7 +87,7 @@ function submitGroupForm(command) {
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:column title="${selectAllElement}"  style="text-align: center">
-  		<form:checkbox path="groupIds" value="${group.id}"/>
+  		<form:checkbox path="groupIds" value="${group.id}" />
   	  </display:column>
   	  <display:column title="Subgroup Name" property="subGroupName" />
   	  <c:set var="values" value="${group.splitTitles}" />
@@ -89,6 +105,7 @@ function submitGroupForm(command) {
 	  <display:column title="Version" property="version" />
 	  <display:column title="Book Status" property="status" />
 	</display:table>
+	
 	<c:if test="${resultSize != 0}">
 	  <c:set var="disableButtons" value="disabled"/>
 	  <sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
@@ -100,7 +117,7 @@ function submitGroupForm(command) {
 		  <input type="button" ${disableButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
 		  <input type="button" ${disableButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
 	  </div>
-	  </c:if>
+	</c:if>
 </form:form>
 
 

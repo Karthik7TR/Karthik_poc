@@ -19,8 +19,9 @@ public class GroupXMLHandler extends DefaultHandler{
 	private StringBuffer charBuffer = null;
 	private String version;
 	private Map<String,String> versionSubGroupMap = new HashMap<String,String>();
+	
 	public Map<String, String> getSubGroupVersionMap() {
-		return versionSubGroupMap;
+		return this.versionSubGroupMap;
 	}
 
 	public void setSubGroupVersionMap(Map<String, String> subGroupVersionMap) {

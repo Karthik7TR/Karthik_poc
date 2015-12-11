@@ -21,6 +21,9 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +57,7 @@ public class GroupListController extends AbstractGroupController {
 	private ProviewClient proviewClient;
 	private PublishingStatsService publishingStatsService;
 	private BookDefinitionService bookDefinitionService;
-	private List<ProviewGroupInfo> proviewGroupInfoList;
+	
 	private JobRequestService jobRequestService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private ManagerService managerService;
@@ -62,11 +65,22 @@ public class GroupListController extends AbstractGroupController {
 	private static final Logger log = Logger.getLogger(GroupListController.class);
 	private String classGroupVersion;
 	private List<String> classGroupIdList;
+	private Validator validator;
+	
+	@InitBinder(GroupListFilterForm.FORM_NAME)
+	protected void initDataBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
 	public ManagerService getManagerService() {
 		return managerService;
 	}
 
+	@Required
+	public void setValidator(GroupListValidator validator) {
+		this.validator = validator;
+	}
+	
 	@Required
 	public void setManagerService(ManagerService managerService) {
 		this.managerService = managerService;
@@ -95,9 +109,9 @@ public class GroupListController extends AbstractGroupController {
 		this.jobRequestService = jobRequestService;
 	}
 
-	public List<ProviewGroupInfo> getProviewGroupInfoList() {
+	/*public List<ProviewGroupInfo> getProviewGroupInfoList() {
 		return proviewGroupInfoList;
-	}
+	}*/
 
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
@@ -195,15 +209,15 @@ public class GroupListController extends AbstractGroupController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS, method = RequestMethod.GET)
 	public ModelAndView singleGroupAllVersions(@RequestParam("id") String ebookDefinitionId, HttpSession httpSession,
-			Model model, @ModelAttribute(GroupListFilterForm.FORM_NAME) GroupListFilterForm form) throws Exception {
+			Model model, @ModelAttribute(GroupListFilterForm.FORM_NAME)  GroupListFilterForm form) throws Exception {
 
 		BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(Long
 				.valueOf(ebookDefinitionId));
 		String proviewGroupId = getGroupId(bookDefinition.getFullyQualifiedTitleId());
 		Long lastGroupVersionSubmitted = getGroupVersionByBookDefinition(bookDefinition.getEbookDefinitionId());
 		String proviewResponse = null;
-		proviewGroupInfoList = new ArrayList<ProviewGroupInfo>();
-		List<String> groupIds = new ArrayList<String>();
+		List<ProviewGroupInfo> proviewGroupInfoList = new ArrayList<ProviewGroupInfo>();
+		
 		if (lastGroupVersionSubmitted != null) {
 			proviewResponse = getGroupInfoByVersion(proviewGroupId, lastGroupVersionSubmitted);
 		}
@@ -224,79 +238,76 @@ public class GroupListController extends AbstractGroupController {
 				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, proviewGroupId);
 				model.addAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
 
-				List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
-				ProviewGroupInfo proviewGroupInfo = null;
-				Map<String, List<String>> versionTitlesMap = new HashMap<String, List<String>>();
-
-				for (SplitNodeInfo splitNodeInfo : splitNodes) {
-
-					List<String> uniqueSubGroupName = new ArrayList<String>();
-
-					// Split Title nodes doesn't have prefix v in version
-					String splitTitle = splitNodeInfo.getSplitBookTitle();
-					String version = "v" + splitNodeInfo.getBookVersionSubmitted();
-					if (versionTitlesMap.containsKey(version)) {
-						List<String> titles = versionTitlesMap.get(version);
-						titles.add(splitTitle);
-						versionTitlesMap.put(version, titles);
-					} else {
-						List<String> titles = new ArrayList<String>();
-						String firstSplitTitle = StringUtils.substringBeforeLast(splitTitle, "_pt");
-						titles.add(firstSplitTitle);
-						titles.add(splitTitle);
-						versionTitlesMap.put(version, titles);
-					}
-
-					String majorVersion = null;
-					if (StringUtils.contains(version, '.')) {
-						majorVersion = StringUtils.substringBefore(version, ".");
-					} else {
-						majorVersion = version;
-					}
-					if (versionSubGroupMap.containsKey(majorVersion)) {
-
-						String subgroupName = versionSubGroupMap.get(majorVersion);
-						if (!uniqueSubGroupName.contains(subgroupName)) {
-							proviewGroupInfo = new ProviewGroupInfo();
-							//System.out.println("sungroupName " + subgroupName);
-							proviewGroupInfo.setSubGroupName(subgroupName);
-							proviewGroupInfo.setVersion(version);
-							String bookStatus = getLatestBookStatus(proviewAuditService.getBookStatus(splitTitle,
-									version));
-							if (bookStatus == null) {
-								bookStatus = "Review";
-							}
-							proviewGroupInfo.setStatus(bookStatus);
-							uniqueSubGroupName.add(subgroupName);
-							proviewGroupInfo.setId(ebookDefinitionId + "/" + version);
-							groupIds.add(ebookDefinitionId + "/" + version);
-							proviewGroupInfoList.add(proviewGroupInfo);
-						}
-					}
-				}
-				for (ProviewGroupInfo pGroupInfo : proviewGroupInfoList) {
-					if (versionTitlesMap.containsKey(pGroupInfo.getVersion())) {
-						pGroupInfo.setSplitTitles(versionTitlesMap.get(pGroupInfo.getVersion()));
-					}
-				}
-
+				List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();							
+				proviewGroupInfoList = buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap, model,httpSession);
 			}
 
 		}
 
 		if (proviewGroupInfoList != null) {
-			if (proviewGroupInfoList.size() > 0) {
-				model.addAttribute(WebConstants.KEY_GROUP, proviewGroupInfoList.get(0));
-			}
 			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
-			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
-			model.addAttribute(WebConstants.KEY_GROUP_IDS, groupIds);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());			
 			model.addAttribute(GroupListFilterForm.FORM_NAME, form);
+			
+			httpSession.setAttribute(GroupListFilterForm.FORM_NAME, form);
+			httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
+			httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
+			httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
 		}
 		model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDefinition.getPilotBookStatus());
 		model.addAttribute(WebConstants.KEY_BOOK_ID, ebookDefinitionId);
-
+		
 		return new ModelAndView(WebConstants.VIEW_GROUP_TITLE_ALL_VERSIONS);
+	}
+	
+	public List<ProviewGroupInfo> buildProviewGroupInfoList(List<SplitNodeInfo> splitNodes, String ebookDefinitionId, Map<String,String> versionSubGroupMap, Model model, HttpSession httpSession){
+		List<ProviewGroupInfo> proviewGroupInfoList = new ArrayList<ProviewGroupInfo>();
+		List<String> groupIds = new ArrayList<String>();
+		
+		Map<String, List<String>> versionTitlesMap = getVersionTitleMapFromSplitNodeList(splitNodes);
+		List<String> uniqueVersion = new ArrayList<String>();
+		
+		for (SplitNodeInfo splitNodeInfo : splitNodes) {			
+
+			// Split Title nodes doesn't have prefix v in version
+			String splitTitle = splitNodeInfo.getSplitBookTitle();
+			String version = "v" + splitNodeInfo.getBookVersionSubmitted();
+			String majorVersion = null;
+			if (StringUtils.contains(version, '.')) {
+				majorVersion = StringUtils.substringBefore(version, ".");
+			} else {
+				majorVersion = version;
+			}
+			if (versionSubGroupMap.containsKey(majorVersion)) {
+
+				String subgroupName = versionSubGroupMap.get(majorVersion);
+				if (!uniqueVersion.contains(version)) {
+					ProviewGroupInfo proviewGroupInfo = new ProviewGroupInfo();
+					proviewGroupInfo.setSubGroupName(subgroupName);
+					proviewGroupInfo.setVersion(version);
+					String bookStatus = getLatestBookStatus(proviewAuditService.getBookStatus(splitTitle,
+							version));
+					if (bookStatus == null) {
+						bookStatus = "Review";
+					}
+					proviewGroupInfo.setStatus(bookStatus);
+					
+					uniqueVersion.add(version);
+					proviewGroupInfo.setId(ebookDefinitionId + "/" + version);
+					groupIds.add(ebookDefinitionId + "/" + version);
+					proviewGroupInfoList.add(proviewGroupInfo);
+				}
+			}
+		}
+		
+		for (ProviewGroupInfo pGroupInfo : proviewGroupInfoList) {
+			if (versionTitlesMap.containsKey(pGroupInfo.getVersion())) {
+				pGroupInfo.setSplitTitles(versionTitlesMap.get(pGroupInfo.getVersion()));
+			}
+		}
+		model.addAttribute(WebConstants.KEY_GROUP_IDS, groupIds);
+		httpSession.setAttribute(WebConstants.KEY_GROUP_IDS, groupIds);
+		return proviewGroupInfoList;
 	}
 
 	private String getLatestBookStatus(List<String> bookStatus) {
@@ -346,11 +357,11 @@ public class GroupListController extends AbstractGroupController {
 		
 		log.debug(form);
 		classGroupIdList = new ArrayList<String>();
+		
 		if (!errors.hasErrors()) {
 			GroupCmd command = form.getGroupCmd();
 			if (form.getGroupIds() != null && form.getGroupIds().size() > 0) {
 				classGroupIdList.addAll(form.getGroupIds());
-				System.out.println("classGroupIdList size in operation " + classGroupIdList.size());
 				model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
 				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_FORM,
@@ -358,21 +369,26 @@ public class GroupListController extends AbstractGroupController {
 								form.getProviewGroupID(), form.getGroupVersion()));
 
 			}
-			for (String groupId : form.getGroupIds()) {
-				String bookDefId = StringUtils.substringBefore(groupId, "/");
-				String version = StringUtils.substringAfterLast(groupId, "/v");
-				System.out.println("call groupOperation with ID " + bookDefId + " and version " + version);
-			}
 			if (command.equals(GroupCmd.PROMOTE)) {
 				return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
 			}
 
 		}
-		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
+		//If there is no selection then display the list
+		model.addAttribute(WebConstants.KEY_BOOK_ID, form.getBookDefinitionId());
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
+		model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
+		model.addAttribute(GroupListFilterForm.FORM_NAME, form);
+		if ( httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST) != null){
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST));
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, httpSession.getAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE));
+		}
+		model.addAttribute(WebConstants.KEY_GROUP_VERSION,httpSession.getAttribute(WebConstants.KEY_GROUP_VERSION));
+		return new ModelAndView(WebConstants.VIEW_GROUP_TITLE_ALL_VERSIONS);
 	}
 	
 	
-	private Map<String, List<String>> getVersionTitleMapFromSplitNodeList(List<SplitNodeInfo> splitNodes){
+	public Map<String, List<String>> getVersionTitleMapFromSplitNodeList(List<SplitNodeInfo> splitNodes){
 		Map<String, List<String>> versionTitlesMap = new HashMap<String, List<String>>();
 		
 		for (SplitNodeInfo splitNode : splitNodes) {
@@ -458,7 +474,6 @@ public class GroupListController extends AbstractGroupController {
 						model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
 						model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Final");
 					} catch (Exception e) {
-						model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Review");
 						success = false;
 						errorBuffer.append("Failed to promote group " + form.getProviewGroupID() + " and version "
 								+ form.getGroupVersion() + "." + e.getMessage());
@@ -470,6 +485,7 @@ public class GroupListController extends AbstractGroupController {
 					emailBody = successBuffer.toString();
 				} else {
 					emailSubject += "Failed";
+					model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Review");
 					if (successBuffer.length() > 0) {
 						successBuffer.append(errorBuffer);
 						model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
