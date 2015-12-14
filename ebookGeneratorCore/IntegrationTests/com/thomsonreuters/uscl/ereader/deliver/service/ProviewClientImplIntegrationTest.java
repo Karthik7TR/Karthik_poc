@@ -218,25 +218,28 @@ public class ProviewClientImplIntegrationTest {
 			updateStatusAndDelete(groupDefinition);
 			
 		} catch (ProviewRuntimeException e) {
-			// not expected
+			e.printStackTrace();
 		}
 	}
 	
 	private void updateStatusAndDelete(GroupDefinition groupDefinition) throws Exception{
 		proviewClient.setRemoveGroupStatusUriTemplate("http://"
-		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/final");
+		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/Removed");
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		groupDefinition.setGroupId("uscl/groupTest");
 		groupDefinition.setGroupVersion("v1");
+		proviewClient.setDeleteGroupUriTemplate("http://"
+				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
 
 		
 		try {
-			String response = proviewClient.removeGroup(groupDefinition);
-			Assert.assertEquals(response.contains("Title status changed to removed"),true);
-			response = proviewClient.deleteGroup(groupDefinition);
+			String response = proviewClient.removeGroup(groupDefinition.getGroupId(),groupDefinition.getGroupVersion());
+			Assert.assertEquals(response.contains("Group status changed to Removed"),true);
+			response = proviewClient.deleteGroup(groupDefinition.getGroupId(),groupDefinition.getGroupVersion());
 			Assert.assertEquals(response.length(),0);
 			
 		} catch (ProviewRuntimeException e) {
+			e.printStackTrace();
 			// expected
 		}
 		

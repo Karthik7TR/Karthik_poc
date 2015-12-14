@@ -58,7 +58,8 @@ public class ProviewClientImpl implements ProviewClient {
 	private String createGroupUriTemplate;	
 	private String removeGroupStatusUriTemplate;
 	private String promoteGroupStatusUriTemplate;
-
+	private String deleteGroupUriTemplate;
+	
 	private String getGroupUriTemplate;
 	
 	public static final String ROOT_ELEMENT = "group";
@@ -145,14 +146,14 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @return
 	 * @throws ProviewException
 	 */
-	public String removeGroup(final GroupDefinition groupDefinition)
+	public String removeGroup(final String groupId, final String groupVersion)
 			throws ProviewException {	
 
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupDefinition.getGroupId());
-		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
 
 		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
 				.getXMLRequestCallback();
@@ -197,19 +198,19 @@ public class ProviewClientImpl implements ProviewClient {
 	 * @return
 	 * @throws ProviewException
 	 */
-	public String deleteGroup(final GroupDefinition groupDefinition)
+	public String deleteGroup(final String groupId, final String groupVersion)
 			throws ProviewException {	
 
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupDefinition.getGroupId());
-		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
 
 		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
 				.getXMLRequestCallback();
 
-		String proviewResponse = restTemplate.execute(createGroupUriTemplate,
+		String proviewResponse = restTemplate.execute(deleteGroupUriTemplate,
 				HttpMethod.DELETE, proviewXMLRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
@@ -690,4 +691,14 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 	public void setPromoteGroupStatusUriTemplate(String promoteGroupStatusUriTemplate) {
 		this.promoteGroupStatusUriTemplate = promoteGroupStatusUriTemplate;
 	}
+	
+	public String getDeleteGroupUriTemplate() {
+		return deleteGroupUriTemplate;
+	}
+
+	@Required
+	public void setDeleteGroupUriTemplate(String deleteGroupUriTemplate) {
+		this.deleteGroupUriTemplate = deleteGroupUriTemplate;
+	}
+
 }

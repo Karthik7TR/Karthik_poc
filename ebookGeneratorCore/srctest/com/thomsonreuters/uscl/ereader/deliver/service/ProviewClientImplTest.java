@@ -174,6 +174,8 @@ public class ProviewClientImplTest
 				
 		proviewClient.setCreateGroupUriTemplate("http://"
 				+ PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
+		proviewClient.setDeleteGroupUriTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 		
 		
 		EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
@@ -181,7 +183,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.DELETE, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.deleteGroup(mockGroupDefinition);
+		String response = proviewClient.deleteGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
 		System.out.println("response "+response);
 		verifyAll();
 			
@@ -201,7 +203,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.PUT, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.removeGroup(mockGroupDefinition);
+		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
 		System.out.println("response "+response);
 		verifyAll();
 			

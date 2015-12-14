@@ -275,6 +275,8 @@ public class WebConstants {
 	public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
 	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
 	public static final String MVC_PROVIEW_GROUP_PROMOTE = "proviewGroupPromote.mvc";
+	public static final String MVC_PROVIEW_GROUP_REMOVE = "proviewGroupRemove.mvc";
+	public static final String MVC_PROVIEW_GROUP_DELETE = "proviewGroupDelete.mvc";
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
@@ -381,6 +383,8 @@ public class WebConstants {
 	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
 	public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";
 	public static final String VIEW_PROVIEW_GROUP_PROMOTE = "_proviewGroupPromote";
+	public static final String VIEW_PROVIEW_GROUP_REMOVE = "_proviewGroupRemove";
+	public static final String VIEW_PROVIEW_GROUP_DELETE = "_proviewGroupDelete";
 	public static final String VIEW_USER_PREFERENCES = "_userPreferences";
 
 	// Miscellaneous keys and constants used throughout the application.

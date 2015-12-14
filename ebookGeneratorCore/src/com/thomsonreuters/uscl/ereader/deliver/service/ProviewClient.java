@@ -35,13 +35,13 @@ public interface ProviewClient {
 	public String createGroup(final GroupDefinition groupDefinition)
 			throws ProviewException;
 	
-	public String removeGroup(final GroupDefinition groupDefinition)
+	public String removeGroup(final String groupId, final String groupVersion)
 			throws ProviewException;
 	
 	public String promoteGroup(final String groupId, final String groupVersion)
 			throws ProviewException;
 	
-	public String deleteGroup(final GroupDefinition groupDefinition)
+	public String deleteGroup(final String groupId, final String groupVersion)
 			throws ProviewException;
 	
 	public String getProviewGroupInfo(final String groupId, final String groupVersion)

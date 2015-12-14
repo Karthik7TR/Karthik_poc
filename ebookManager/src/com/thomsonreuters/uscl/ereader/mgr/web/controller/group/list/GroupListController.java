@@ -237,6 +237,9 @@ public class GroupListController extends AbstractGroupController {
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
 				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, proviewGroupId);
 				model.addAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
+				
+				httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
+				httpSession.setAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
 
 				List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();							
 				proviewGroupInfoList = buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap, model,httpSession);
@@ -252,7 +255,7 @@ public class GroupListController extends AbstractGroupController {
 			httpSession.setAttribute(GroupListFilterForm.FORM_NAME, form);
 			httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
 			httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
-			httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
+			
 		}
 		model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDefinition.getPilotBookStatus());
 		model.addAttribute(WebConstants.KEY_BOOK_ID, ebookDefinitionId);
@@ -372,6 +375,12 @@ public class GroupListController extends AbstractGroupController {
 			if (command.equals(GroupCmd.PROMOTE)) {
 				return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
 			}
+			else if (command.equals(GroupCmd.REMOVE)) {
+				return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_REMOVE);
+			}
+			else if (command.equals(GroupCmd.DELETE)) {
+				return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_DELETE);
+			}
 
 		}
 		//If there is no selection then display the list
@@ -422,100 +431,205 @@ public class GroupListController extends AbstractGroupController {
 			@ModelAttribute(GroupListFilterForm.FORM_NAME) GroupListFilterForm form, Model model) throws Exception {
 
 		
-		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
-
-		String emailBody = "";
-		String emailSubject = "Proview Promote Request Status: ";
-
-		StringBuffer errorBuffer = new StringBuffer();
-		StringBuffer successBuffer = new StringBuffer();
-		boolean success = true;
-
-		List<ProviewAudit> auditList = new ArrayList<ProviewAudit>();
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
 		try {
-			if (!isJobRunningForBook(model, form.getBookDefinitionId())) {
-				BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(new Long(form
-						.getBookDefinitionId()));
-				Date lastUpdate = bookDefinition.getLastUpdated();
-				
-				List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
-				Map<String, List<String>> versionTitlesMap = getVersionTitleMapFromSplitNodeList(splitNodes);
-
-				for (String groupId : classGroupIdList) {
-					String version = StringUtils.substringAfterLast(groupId, "/");
-					
-					if (versionTitlesMap.containsKey(version)) {
-						List<String> titles = versionTitlesMap.get(version);
-						for (String title : titles) {
-							try {
-								proviewClient.promoteTitle(title, version);
-								ProviewAudit audit = new ProviewAudit();
-								audit.setTitleId(title);
-								audit.setBookVersion(version);
-								auditList.add(audit);
-								successBuffer.append("Title " + title + " version " + version
-										+ " has been promoted successfully \t\n");
-							} catch (Exception e) {
-								success = false;
-								errorBuffer.append("Failed to promote title " + title + " and version " + version + "."
-										+ e.getMessage() + "\t\n\n");
-							}
-						}
-					}
-				}
-
-				if (success) {
-					try {
-						 proviewClient.promoteGroup(form.getProviewGroupID(),form.getGroupVersion());
-						String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
-								+ form.getGroupVersion() + ", Group name " + form.getGroupName()
-								+ " has been promoted successfully";
-						successBuffer.append(successMsg);
-						model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
-						model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Final");
-					} catch (Exception e) {
-						success = false;
-						errorBuffer.append("Failed to promote group " + form.getProviewGroupID() + " and version "
-								+ form.getGroupVersion() + "." + e.getMessage());
-					}
-				}
-
-				if (success) {
-					emailSubject += "Success";
-					emailBody = successBuffer.toString();
-				} else {
-					emailSubject += "Failed";
-					model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Review");
-					if (successBuffer.length() > 0) {
-						successBuffer.append(errorBuffer);
-						model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
-								"Partial failure: \t\n" + successBuffer.toString());
-						emailBody = "Partial failure: \n" + successBuffer.toString();
-					} else {
-						model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \t\n" + errorBuffer.toString());
-						emailBody = "Failed: \t\n" + errorBuffer.toString();
-					}
-
-				}
-
-				sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
-
-				for (ProviewAudit audit : auditList) {
-					proviewAuditService.save(form.createAudit(audit.getTitleId(), audit.getBookVersion(), lastUpdate,
-							"PROMOTE"));
-				}
-
+			boolean success = performGroupOperation(form,model,"Promote");
+			if(success){
+				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Final");
 			}
+			
 		} catch (Exception e) {
 
-			emailBody = "Group: " + form.getGroupName() + " could not be promoted to Proview.\n" + e.getMessage();
-			emailSubject += "Unsuccessful";
+			String emailBody = "Group: " + form.getGroupName() + " could not be promoted to Proview.\n" + e.getMessage();
+			String emailSubject = "Proview Promote Request Status: Unsuccessful";
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \n" + e.getMessage());
 			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
 		}
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
 	}
+	
+	
+	private boolean performGroupOperation(GroupListFilterForm form, Model model, String operation){
+		String emailBody = "";
+		String emailSubject = "Proview Promote Request Status: ";
+		
+		StringBuffer errorBuffer = new StringBuffer();
+		StringBuffer successBuffer = new StringBuffer();
+		boolean success = true;
+		
+		List<ProviewAudit> auditList = new ArrayList<ProviewAudit>();
+		if (!isJobRunningForBook(model,form.getBookDefinitionId())) {
+			BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(new Long(form
+					.getBookDefinitionId()));
+			Date lastUpdate = bookDefinition.getLastUpdated();
+			
+			List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
+			Map<String, List<String>> versionTitlesMap = getVersionTitleMapFromSplitNodeList(splitNodes);
+
+			for (String groupId : classGroupIdList) {
+				String version = StringUtils.substringAfterLast(groupId, "/");
+				
+				if (versionTitlesMap.containsKey(version)) {
+					List<String> titles = versionTitlesMap.get(version);
+					for (String title : titles) {
+						try {
+							doTitleOperation(operation, title, version);
+							ProviewAudit audit = new ProviewAudit();
+							audit.setTitleId(title);
+							audit.setBookVersion(version);
+							auditList.add(audit);
+							successBuffer.append("Title " + title + " version " + version
+									+ " has been "+operation+"ed successfully \t\n");
+						} catch (Exception e) {
+							success = false;
+							errorBuffer.append("Failed to "+operation+" title " + title + " and version " + version + "."
+									+ e.getMessage() + "\t\n\n");
+						}
+					}
+				}
+			}
+
+			if (success) {
+				try {
+					doGroupOperation(operation, form.getProviewGroupID(),form.getGroupVersion());
+					String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
+							+ form.getGroupVersion() + ", Group name " + form.getGroupName()
+							+ " has been "+operation+"ed successfully";
+					successBuffer.append(successMsg);
+					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
+				} catch (Exception e) {
+					success = false;
+					errorBuffer.append("Failed to "+operation+" group " + form.getProviewGroupID() + " and version "
+							+ form.getGroupVersion() + "." + e.getMessage());
+				}
+			}
+
+			if (success) {
+				emailSubject += "Success";
+				emailBody = successBuffer.toString();
+			} else {
+				emailSubject += "Failed";
+				model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
+				if (successBuffer.length() > 0) {
+					successBuffer.append(errorBuffer);
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+							"Partial failure: \t\n" + successBuffer.toString());
+					emailBody = "Partial failure: \n" + successBuffer.toString();
+				} else {
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \t\n" + errorBuffer.toString());
+					emailBody = "Failed: \t\n" + errorBuffer.toString();
+				}
+
+			}
+
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
+
+			for (ProviewAudit audit : auditList) {
+				proviewAuditService.save(form.createAudit(audit.getTitleId(), audit.getBookVersion(), lastUpdate,
+						operation.toUpperCase()));
+			}
+
+		}
+		return success;
+	}
+	
+	private void doTitleOperation(String operation, String title, String version) throws Exception {
+		switch (operation) {
+			case "Promote": {
+				proviewClient.promoteTitle(title, version);
+				break;
+			}
+			case "Remove": {
+				proviewClient.removeTitle(title, version);
+				break;
+			}
+			case "Delete": {
+				proviewClient.deleteTitle(title, version);
+				break;
+			}
+		}
+	}
+	
+	private void doGroupOperation(String operation, String groupId, String groupVersion) throws Exception {
+		switch (operation) {
+			case "Promote": {
+				proviewClient.promoteGroup(groupId,groupVersion);
+				break;
+			}
+			case "Remove": {
+				proviewClient.removeGroup(groupId,groupVersion);
+				break;
+			}
+			case "Delete": {
+				proviewClient.deleteGroup(groupId,groupVersion);
+				break;
+			}
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param form
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_REMOVE, method = RequestMethod.POST)
+	public ModelAndView proviewGroupRemovePost(
+			@ModelAttribute(GroupListFilterForm.FORM_NAME) GroupListFilterForm form,
+			Model model) throws Exception {
+
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
+		try {
+			boolean success =  performGroupOperation(form,model,"Remove");
+			if(success){
+				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Remove");
+			}
+			
+		} catch (Exception e) {
+
+			String emailBody = "Group: " + form.getGroupName() + " could not be removed from Proview.\n" + e.getMessage();
+			String emailSubject = "Proview Remove Request Status: Unsuccessful";
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \n" + e.getMessage());
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
+		}
+
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
+	}
+	
+	/**
+	 * 
+	 * @param form
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_DELETE, method = RequestMethod.POST)
+	public ModelAndView proviewGroupDeletePost(
+			@ModelAttribute(GroupListFilterForm.FORM_NAME) GroupListFilterForm form,
+			Model model) throws Exception {
+
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
+		try {
+			boolean success = performGroupOperation(form,model,"Delete");
+			if(success){
+				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Delete");
+			}
+			
+		} catch (Exception e) {
+
+			String emailBody = "Group: " + form.getGroupName() + " could not be Deleted from Proview.\n" + e.getMessage();
+			String emailSubject = "Proview Delete Request Status: Unsuccessful";
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \n" + e.getMessage());
+			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
+		}
+
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_DELETE);
+	}
+
+
 
 	private void sendEmail(String emailAddressString, String subject, String body) {
 
