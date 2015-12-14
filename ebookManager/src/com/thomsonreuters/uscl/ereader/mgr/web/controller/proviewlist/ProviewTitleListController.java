@@ -351,6 +351,8 @@ public class ProviewTitleListController {
 					// pilot book
 					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS,
 							bookDef.getPilotBookStatus());
+					model.addAttribute(WebConstants.KEY_IS_SPLIT_BOOK,
+							bookDef.isSplitBook());
 				}
 
 			}
