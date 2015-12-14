@@ -20,11 +20,11 @@ public class GroupXMLHandler extends DefaultHandler{
 	private String version;
 	private Map<String,String> versionSubGroupMap = new HashMap<String,String>();
 	
-	public Map<String, String> getSubGroupVersionMap() {
+	public Map<String, String> getVersionSubGroupMap() {
 		return this.versionSubGroupMap;
 	}
 
-	public void setSubGroupVersionMap(Map<String, String> subGroupVersionMap) {
+	public void setVersionSubGroupMap(Map<String, String> subGroupVersionMap) {
 		this.versionSubGroupMap = subGroupVersionMap;
 	}
 

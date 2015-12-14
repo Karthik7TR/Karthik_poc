@@ -7,7 +7,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list.GroupListFi
 
 public class GroupListValidator implements Validator {
 	
-	//private static final Logger log = Logger.getLogger(FilterFormValidator.class);
 	@SuppressWarnings("rawtypes")
 	@Override
     public boolean supports(Class clazz) {

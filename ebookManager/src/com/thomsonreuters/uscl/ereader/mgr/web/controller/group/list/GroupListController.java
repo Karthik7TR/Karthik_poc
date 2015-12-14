@@ -209,58 +209,70 @@ public class GroupListController extends AbstractGroupController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS, method = RequestMethod.GET)
 	public ModelAndView singleGroupAllVersions(@RequestParam("id") String ebookDefinitionId, HttpSession httpSession,
-			Model model, @ModelAttribute(GroupListFilterForm.FORM_NAME)  GroupListFilterForm form) throws Exception {
+			Model model, @ModelAttribute(GroupListFilterForm.FORM_NAME) GroupListFilterForm form) throws Exception {
+		try {
+			BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(Long
+					.valueOf(ebookDefinitionId));
+			String proviewGroupId = getGroupId(bookDefinition.getFullyQualifiedTitleId());
+			Long lastGroupVersionSubmitted = getGroupVersionByBookDefinition(bookDefinition.getEbookDefinitionId());
+			String proviewResponse = null;
+			List<ProviewGroupInfo> proviewGroupInfoList = new ArrayList<ProviewGroupInfo>();
 
-		BookDefinition bookDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(Long
-				.valueOf(ebookDefinitionId));
-		String proviewGroupId = getGroupId(bookDefinition.getFullyQualifiedTitleId());
-		Long lastGroupVersionSubmitted = getGroupVersionByBookDefinition(bookDefinition.getEbookDefinitionId());
-		String proviewResponse = null;
-		List<ProviewGroupInfo> proviewGroupInfoList = new ArrayList<ProviewGroupInfo>();
-		
-		if (lastGroupVersionSubmitted != null) {
-			proviewResponse = getGroupInfoByVersion(proviewGroupId, lastGroupVersionSubmitted);
-		}
-
-		if (proviewResponse != null) {
-			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-			parserFactory.setNamespaceAware(true);
-			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-			GroupXMLHandler groupXMLHandler = new GroupXMLHandler();
-			reader.setContentHandler(groupXMLHandler);
-			reader.parse(new InputSource(new StringReader(proviewResponse)));
-			Map<String, String> versionSubGroupMap = groupXMLHandler.getSubGroupVersionMap();
-
-			if (!versionSubGroupMap.isEmpty()) {
-
-				model.addAttribute(WebConstants.KEY_GROUP_NAME, groupXMLHandler.getGroupName());
-				model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
-				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, proviewGroupId);
-				model.addAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
-				
-				httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
-				httpSession.setAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
-
-				List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();							
-				proviewGroupInfoList = buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap, model,httpSession);
+			if (lastGroupVersionSubmitted != null) {
+				try {
+					proviewResponse = getGroupInfoByVersion(proviewGroupId, lastGroupVersionSubmitted);
+				} catch (Exception ex) {
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
+							"Proview Exception occured. Please contact your administrator.");
+					log.debug(ex.getMessage());
+				}
 			}
 
+			if (proviewResponse != null) {
+				SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+				parserFactory.setNamespaceAware(true);
+				XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+				GroupXMLHandler groupXMLHandler = new GroupXMLHandler();
+				reader.setContentHandler(groupXMLHandler);
+				reader.parse(new InputSource(new StringReader(proviewResponse)));
+				Map<String, String> versionSubGroupMap = groupXMLHandler.getVersionSubGroupMap();
+
+				if (!versionSubGroupMap.isEmpty()) {
+
+					model.addAttribute(WebConstants.KEY_GROUP_NAME, groupXMLHandler.getGroupName());
+					model.addAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
+					model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, proviewGroupId);
+					model.addAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
+
+					httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, classGroupVersion);
+					httpSession.setAttribute(WebConstants.KEY_GROUP_STATUS, groupXMLHandler.getGroupStatus());
+
+					List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
+					proviewGroupInfoList = buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap,
+							model, httpSession);
+				}
+
+			}
+
+			if (proviewGroupInfoList != null) {
+				model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
+				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
+				model.addAttribute(GroupListFilterForm.FORM_NAME, form);
+
+				httpSession.setAttribute(GroupListFilterForm.FORM_NAME, form);
+				httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
+				httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
+
+			}
+			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDefinition.getPilotBookStatus());
+			model.addAttribute(WebConstants.KEY_BOOK_ID, ebookDefinitionId);
+		} catch (Exception ex) {
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Exception occured. Please contact your administrator.");
+			log.debug(ex.getMessage());
 		}
 
-		if (proviewGroupInfoList != null) {
-			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
-			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());			
-			model.addAttribute(GroupListFilterForm.FORM_NAME, form);
-			
-			httpSession.setAttribute(GroupListFilterForm.FORM_NAME, form);
-			httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, proviewGroupInfoList);
-			httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewGroupInfoList.size());
-			
-		}
-		model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDefinition.getPilotBookStatus());
-		model.addAttribute(WebConstants.KEY_BOOK_ID, ebookDefinitionId);
-		
 		return new ModelAndView(WebConstants.VIEW_GROUP_TITLE_ALL_VERSIONS);
+
 	}
 	
 	public List<ProviewGroupInfo> buildProviewGroupInfoList(List<SplitNodeInfo> splitNodes, String ebookDefinitionId, Map<String,String> versionSubGroupMap, Model model, HttpSession httpSession){
@@ -329,8 +341,8 @@ public class GroupListController extends AbstractGroupController {
 		return status;
 	}
 
-	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException {
-		String response = null;
+	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws Exception {
+		String response = null;	
 		do {
 			try {
 				response = proviewClient.getProviewGroupInfo(groupId, "v" + groupVersion.toString());
@@ -342,9 +354,10 @@ public class GroupListController extends AbstractGroupController {
 					// deleted in Proview
 					groupVersion = groupVersion - 1;
 				} else {
-					throw new ProviewRuntimeException(ex.getMessage());
+					throw new Exception(ex);
 				}
 			}
+			
 		} while (groupVersion > 0);
 		return response;
 	}

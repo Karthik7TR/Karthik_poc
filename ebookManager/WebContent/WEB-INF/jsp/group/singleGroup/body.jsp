@@ -68,6 +68,13 @@ function submitGroupForm(command) {
 	        	</c:forEach>
 	        </font>
 	 </spring:hasBindErrors>
+	 
+	 <c:if test="${errMessage != null}">
+	    <div class="infoMessageError">
+	    	${errMessage}
+	    </div>
+	    <br/>
+	 </c:if>
     
 	<div class="row" id ="groupName">
 						<label class="labelCol" >Group Name:</label>

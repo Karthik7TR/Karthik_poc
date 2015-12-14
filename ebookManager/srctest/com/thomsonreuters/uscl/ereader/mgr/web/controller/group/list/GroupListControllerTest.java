@@ -74,23 +74,7 @@ public class GroupListControllerTest {
 		versionSubGroupMap = new HashMap<String,String>();
 		versionSubGroupMap.put("v1", "2014");
 	}
-
-	@Test
-	public void testPreviewContentSelection() throws Exception{
-		String proviewResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><group id=\"uscl/book_lohisplitnodeinfo\" status=\"Review\"><name>SplitNodeInfo</name>"
-				+ "<type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v1</headtitle><members><subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title>"
-				+ "<title>uscl/an/book_lohisplitnodeinfo_pt2/v1</title></subgroup></members></group>";
-		
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		parserFactory.setNamespaceAware(true);
-		XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-		GroupXMLHandler groupXMLHandler = new GroupXMLHandler();
-		reader.setContentHandler(groupXMLHandler);
-		reader.parse(new InputSource(new StringReader(proviewResponse)));
-		Map<String, String> versionSubGroupMap = groupXMLHandler.getSubGroupVersionMap();
-		Assert.assertEquals(versionSubGroupMap.size(),1);	
-		
-	}
+	
 	
 	@Test
 	public void testVersionTitleMap() throws Exception{		
@@ -117,6 +101,8 @@ public class GroupListControllerTest {
 		
 		List<ProviewGroupInfo> proviewGroupInfoList = groupListController.buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap, model,session);
 		Assert.assertEquals(proviewGroupInfoList.size(),2);	
+		Assert.assertEquals(3,proviewGroupInfoList.get(0).getSplitTitles().size());	
+		Assert.assertEquals(3,proviewGroupInfoList.get(1).getSplitTitles().size());	
 		/*for(ProviewGroupInfo proviewGroupInfo : proviewGroupInfoList ){
 			System.out.println(proviewGroupInfo.getSplitTitles());
 			System.out.println(proviewGroupInfo.toString());
@@ -141,6 +127,9 @@ public class GroupListControllerTest {
 		
 		List<ProviewGroupInfo> proviewGroupInfoList = groupListController.buildProviewGroupInfoList(splitNodes, ebookDefinitionId, versionSubGroupMap, model,session);
 		Assert.assertEquals(proviewGroupInfoList.size(),2);	
+		Assert.assertEquals(proviewGroupInfoList.size(),2);	
+		Assert.assertEquals(2,proviewGroupInfoList.get(0).getSplitTitles().size());	
+		Assert.assertEquals(3,proviewGroupInfoList.get(1).getSplitTitles().size());	
 		
 		/*for(ProviewGroupInfo proviewGroupInfo : proviewGroupInfoList ){
 			System.out.println(proviewGroupInfo.getSplitTitles());
