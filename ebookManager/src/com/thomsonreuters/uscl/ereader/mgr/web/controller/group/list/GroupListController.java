@@ -36,7 +36,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupInfo;
@@ -380,6 +379,7 @@ public class GroupListController extends AbstractGroupController {
 				classGroupIdList.addAll(form.getGroupIds());
 				model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
+				model.addAttribute(WebConstants.KEY_BOOK_ID, form.getBookDefinitionId());
 				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_FORM,
 						new GroupListFilterForm(form.getGroupName(), form.getBookDefinitionId(), form.getGroupIds(),
 								form.getProviewGroupID(), form.getGroupVersion()));
@@ -395,7 +395,7 @@ public class GroupListController extends AbstractGroupController {
 				return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_DELETE);
 			}
 
-		}
+		}		
 		//If there is no selection then display the list
 		model.addAttribute(WebConstants.KEY_BOOK_ID, form.getBookDefinitionId());
 		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
@@ -465,7 +465,7 @@ public class GroupListController extends AbstractGroupController {
 	
 	private boolean performGroupOperation(GroupListFilterForm form, Model model, String operation){
 		String emailBody = "";
-		String emailSubject = "Proview Promote Request Status: ";
+		String emailSubject = "Proview "+operation+" Request Status: ";
 		
 		StringBuffer errorBuffer = new StringBuffer();
 		StringBuffer successBuffer = new StringBuffer();
@@ -609,7 +609,7 @@ public class GroupListController extends AbstractGroupController {
 			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
 		}
 
-		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE);
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_REMOVE);
 	}
 	
 	/**
