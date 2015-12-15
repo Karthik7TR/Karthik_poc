@@ -52,10 +52,6 @@
 			<td><b>Comments (Optional)</b></td>
 			<td><form:textarea path="comments" /></td>
 		</tr>
-		<tr>
-			<td id="groupName"><b>Book:</b></td> 
-			<td>&nbsp;&nbsp;&nbsp;${bookDefinitionId}</td>
-		</tr>
 		</table>
 		
 		<div id="operationButtons" class="buttons">
