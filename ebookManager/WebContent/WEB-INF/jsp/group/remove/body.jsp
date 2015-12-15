@@ -56,7 +56,8 @@
 		</table>
 		
 		<div class="buttons">
-			<input id="RemoveButton" type="button" value="Remove" onclick="submitRemove()"/>
+			<input id="RemoveButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if> value="Remove" onclick="submitRemove()"/>
+			<button id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS%>?<%=WebConstants.KEY_ID%>=${bookDefinitionId}';">Cancel</button>	
 		</div>
 		
 		<td>

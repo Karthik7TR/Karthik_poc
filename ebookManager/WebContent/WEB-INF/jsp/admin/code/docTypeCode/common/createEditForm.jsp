@@ -11,16 +11,16 @@
 <form:form commandName="<%= DocTypeMetricForm.FORM_NAME %>">
 	<form:hidden path="name" />
 	<div class="row">
-		<form:label path="name">Name</form:label>
+		<form:label id="name" path="name">Name</form:label>
 		<form:input disabled="true" path="name"/>
 	</div>
 	<div class="row">
-		<form:label path="thresholdValue">Threshold Value</form:label>
+		<form:label id="thresholdValue" path="thresholdValue">Threshold Value</form:label>
 		<form:input path="thresholdValue"/>
 		<form:errors path="thresholdValue" cssClass="errorMessage"/>
 	</div>
 	<div class="row">
-		<form:label path="thresholdPercent">Threshold Percent</form:label>
+		<form:label id="thresholdPercent" path="thresholdPercent">Threshold Percent</form:label>
 		<form:input path="thresholdPercent"/>
 		<form:errors path="thresholdPercent" cssClass="errorMessage"/>
 	</div>

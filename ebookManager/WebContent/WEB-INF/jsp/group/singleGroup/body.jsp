@@ -30,7 +30,7 @@ function submitGroupForm(command) {
 	
 		$("#groupCmd").val(command);  // Set the form hidden field value for the operation discriminator
 		
-		$("#multiSelectForm").submit();	// POST the HTML form with the selected start/restart jobs
+		$("#multiSelectForm").submit();	// POST the HTML form with the selected versions
 	
 }
 

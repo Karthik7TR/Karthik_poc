@@ -16,7 +16,7 @@
  	<script type="text/javascript">
 		
  		function submitForm(){
- 			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response."; 			
+ 			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response."; 
 			$('#<%=GroupListFilterForm.FORM_NAME%>').submit();
   			return true; 
   		}
@@ -34,7 +34,6 @@
 	</script>
 
 <body>
-
   
  
 	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_PROMOTE%>"
@@ -53,10 +52,15 @@
 			<td><b>Comments (Optional)</b></td>
 			<td><form:textarea path="comments" /></td>
 		</tr>
+		<tr>
+			<td id="groupName"><b>Book:</b></td> 
+			<td>&nbsp;&nbsp;&nbsp;${bookDefinitionId}</td>
+		</tr>
 		</table>
 		
-		<div class="buttons">
-			<input id="promoteButton" type="button" value="Promote" onclick="submitPromote()"/>
+		<div id="operationButtons" class="buttons">
+			<input name="promoteButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  value="Promote" onclick="submitPromote() "/>
+			<button id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS%>?<%=WebConstants.KEY_ID%>=${bookDefinitionId}';">Cancel</button>
 		</div>
 		
 		<td>

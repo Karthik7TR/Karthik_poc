@@ -383,6 +383,7 @@ public class GroupListController extends AbstractGroupController {
 				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_FORM,
 						new GroupListFilterForm(form.getGroupName(), form.getBookDefinitionId(), form.getGroupIds(),
 								form.getProviewGroupID(), form.getGroupVersion()));
+				model.addAttribute(WebConstants.KEY_IS_COMPLETE, "false");
 
 			}
 			if (command.equals(GroupCmd.PROMOTE)) {
@@ -470,6 +471,7 @@ public class GroupListController extends AbstractGroupController {
 		StringBuffer errorBuffer = new StringBuffer();
 		StringBuffer successBuffer = new StringBuffer();
 		boolean success = true;
+		model.addAttribute(WebConstants.KEY_IS_COMPLETE, "true");
 		
 		List<ProviewAudit> auditList = new ArrayList<ProviewAudit>();
 		if (!isJobRunningForBook(model,form.getBookDefinitionId())) {
@@ -493,10 +495,10 @@ public class GroupListController extends AbstractGroupController {
 							audit.setBookVersion(version);
 							auditList.add(audit);
 							successBuffer.append("Title " + title + " version " + version
-									+ " has been "+operation+"ed successfully \t\n");
+									+ " has been "+operation+"d successfully \t\n");
 						} catch (Exception e) {
 							success = false;
-							errorBuffer.append("Failed to "+operation+" title " + title + " and version " + version + "."
+							errorBuffer.append("Failed to "+operation+" title " + title + " and version " + version + ".\t\n"
 									+ e.getMessage() + "\t\n\n");
 						}
 					}
@@ -508,7 +510,7 @@ public class GroupListController extends AbstractGroupController {
 					doGroupOperation(operation, form.getProviewGroupID(),form.getGroupVersion());
 					String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
 							+ form.getGroupVersion() + ", Group name " + form.getGroupName()
-							+ " has been "+operation+"ed successfully";
+							+ " has been "+operation+"d successfully";
 					successBuffer.append(successMsg);
 					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
 				} catch (Exception e) {
@@ -516,6 +518,9 @@ public class GroupListController extends AbstractGroupController {
 					errorBuffer.append("Failed to "+operation+" group " + form.getProviewGroupID() + " and version "
 							+ form.getGroupVersion() + "." + e.getMessage());
 				}
+			}
+			else{
+				errorBuffer.append("Group Id "+form.getProviewGroupID()+" Version "+form.getGroupVersion()+" could not be "+operation+"d");
 			}
 
 			if (success) {
