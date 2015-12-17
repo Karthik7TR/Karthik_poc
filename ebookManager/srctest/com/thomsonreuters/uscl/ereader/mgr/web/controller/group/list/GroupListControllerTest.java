@@ -1,33 +1,33 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerAdapter;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupInfo;
-import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
-import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
-import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class GroupListControllerTest {
 	
@@ -35,16 +35,32 @@ public class GroupListControllerTest {
 	List<SplitNodeInfo> splitNodes;
 	String ebookDefinitionId = "1";
 	Map<String,String> versionSubGroupMap;
-	//private HandlerAdapter handlerAdapter;
+	private HandlerAdapter handlerAdapter;
 	private MockHttpServletRequest request;
-	//private MockHttpServletResponse response;
+	private MockHttpServletResponse response;
 	private ProviewAuditService mockAuditService;
+	private BookDefinitionService mockBookDefinitionService;
+	private PublishingStatsService publishingStatsService;
+	private static final Long BOOK_DEF_ID = new Long(1234);
+	private BookDefinition mockBookDef;
+	private ProviewClient proviewClient;
 	
 	@Before
 	public void setUp() throws Exception {
 		groupListController = new GroupListController();
+		mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
+		groupListController.setBookDefinitionService(mockBookDefinitionService);
+		
+		publishingStatsService = EasyMock.createMock(PublishingStatsService.class);
+		groupListController.setPublishingStatsService(publishingStatsService);
+				
+		proviewClient = EasyMock.createMock(ProviewClient.class);
+		groupListController.setProviewClient(proviewClient);
+		
+		handlerAdapter = new AnnotationMethodHandlerAdapter();
 		request = new MockHttpServletRequest();
-		//response = new MockHttpServletResponse();
+		response = new MockHttpServletResponse();
+		mockBookDef = EasyMock.createMock(BookDefinition.class);
 		
 		
 		this.mockAuditService = EasyMock.createMock(ProviewAuditService.class);
@@ -136,5 +152,78 @@ public class GroupListControllerTest {
 			System.out.println(proviewGroupInfo.toString());
 		}*/
 		
+	}
+	
+	@Test
+	public void testViewAllVersions() throws Exception{
+		request.setRequestURI("/" + WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS);
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter(WebConstants.KEY_ID, "1234");
+		
+		EasyMock.expect(mockBookDef.getFullyQualifiedTitleId()).andReturn("uscl/an/abcd");
+		
+		EasyMock.expect(mockBookDef.getEbookDefinitionId()).andReturn(BOOK_DEF_ID);
+		
+		EasyMock.expect(mockBookDef.getSplitNodesAsList()).andReturn(splitNodes);
+		EasyMock.replay(mockBookDef);
+		
+		
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID)).andReturn(mockBookDef);
+		EasyMock.replay(mockBookDefinitionService);
+		
+		EasyMock.expect(publishingStatsService.getMaxGroupVersionById(BOOK_DEF_ID)).andReturn(new Long(1));
+		EasyMock.replay(publishingStatsService);
+		
+		
+		String proviewResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><group id=\"uscl/book_lohisplitnodeinfo\" status=\"Review\"><name>SplitNodeInfo</name>"
+				+ "<type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v1</headtitle><members><subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title>"
+				+ "<title>uscl/an/book_lohisplitnodeinfo_pt2/v1</title></subgroup></members></group>";
+		
+		EasyMock.expect(proviewClient.getProviewGroupInfo("uscl/abcd", "v1")).andReturn(proviewResponse);
+		EasyMock.replay(proviewClient);
+		
+		try {
+			ModelAndView mav = handlerAdapter.handle(request, response, groupListController);
+			Assert.assertNotNull(mav);
+			Assert.assertEquals(WebConstants.VIEW_GROUP_TITLE_ALL_VERSIONS, mav.getViewName());
+			// Verify the model
+			Map<String,Object> model = mav.getModel();
+			Assert.assertEquals("SplitNodeInfo", model.get(WebConstants.KEY_GROUP_NAME));
+			
+			Assert.assertEquals("Exception occured. Please contact your administrator.", model.get(WebConstants.KEY_ERR_MESSAGE));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGroupOperationPromote() throws Exception{
+		request.setRequestURI("/" + WebConstants.MVC_GROUP_OPERATION);
+		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("groupCmd", GroupListFilterForm.GroupCmd.PROMOTE.toString());
+		
+		try {
+			ModelAndView mav = handlerAdapter.handle(request, response, groupListController);
+			Assert.assertNotNull(mav);
+			Assert.assertEquals(WebConstants.VIEW_PROVIEW_GROUP_PROMOTE, mav.getViewName());
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGroupOperationRemove() throws Exception{
+		request.setRequestURI("/" + WebConstants.MVC_GROUP_OPERATION);
+		request.setMethod(HttpMethod.POST.name());
+		request.setParameter("groupCmd", GroupListFilterForm.GroupCmd.REMOVE.toString());
+		
+		try {
+			ModelAndView mav = handlerAdapter.handle(request, response, groupListController);
+			Assert.assertNotNull(mav);
+			Assert.assertEquals(WebConstants.VIEW_PROVIEW_GROUP_REMOVE, mav.getViewName());
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 }

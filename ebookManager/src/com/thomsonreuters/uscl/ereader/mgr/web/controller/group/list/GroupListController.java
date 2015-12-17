@@ -656,7 +656,7 @@ public class GroupListController extends AbstractGroupController {
 			emailAddresses.add(new InternetAddress(emailAddressString));
 			EmailNotification.send(emailAddresses, subject, body);
 		} catch (AddressException e) {
-
+			log.error(e);
 		}
 
 	}
