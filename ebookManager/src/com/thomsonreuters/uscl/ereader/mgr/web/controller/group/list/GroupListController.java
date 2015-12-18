@@ -65,6 +65,7 @@ public class GroupListController extends AbstractGroupController {
 	private String classGroupVersion;
 	private List<String> classGroupIdList;
 	private Validator validator;
+	private int SLEEP_TIME = 5000; 
 	
 	@InitBinder(GroupListFilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -490,6 +491,7 @@ public class GroupListController extends AbstractGroupController {
 					for (String title : titles) {
 						try {
 							doTitleOperation(operation, title, version);
+							Thread.sleep(SLEEP_TIME);
 							ProviewAudit audit = new ProviewAudit();
 							audit.setTitleId(title);
 							audit.setBookVersion(version);
