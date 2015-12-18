@@ -71,12 +71,11 @@ public class GetTocTask  extends AbstractSbTasklet {
 		ArrayList<RenameTocEntry> renameTocEntries = (ArrayList<RenameTocEntry>) bookDefinition.getRenameTocEntries();
 		
 		
-		List<String> splitTocGuidList = null;		
+		List<String> splitTocGuidList = new ArrayList<String>();		
 		List<SplitDocument> splitDocuments = null;
 		if (bookDefinition.isSplitBook()) {
 
 			splitDocuments = bookDefinition.getSplitDocumentsAsList();
-			splitTocGuidList = new ArrayList<String>();
 
 			for (SplitDocument splitDocument : splitDocuments) {
 				splitTocGuidList.add(splitDocument.getTocGuid());

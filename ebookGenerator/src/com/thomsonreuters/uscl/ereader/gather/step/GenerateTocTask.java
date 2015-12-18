@@ -163,13 +163,12 @@ public class GenerateTocTask  extends AbstractSbTasklet
     		
 			if(bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
 			{
-				List<String> splitTocGuidList = null;
+				List<String> splitTocGuidList = new ArrayList<String>();
 				List<SplitDocument> splitDocuments = null;
 				
 				if (bookDefinition.isSplitBook()) {
 
-					splitDocuments = bookDefinition.getSplitDocumentsAsList();
-					splitTocGuidList = new ArrayList<String>();
+					splitDocuments = bookDefinition.getSplitDocumentsAsList();					
 
 					for (SplitDocument splitDocument : splitDocuments) {
 						splitTocGuidList.add(splitDocument.getTocGuid());

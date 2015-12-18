@@ -404,7 +404,7 @@ public class NortServiceImpl implements NortService {
 				}
 				
 				// To verify if the provided split Toc/Nort Node exists in the file
-				if (splitTocGuidList != null && guid.toString().length() >= 33){
+				if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33){
 					splitTocCount++;
 					String splitNode = StringUtils.substring(guid.toString(), 0,33);
 					if( splitTocGuidList.contains(splitNode)){
@@ -532,9 +532,7 @@ public class NortServiceImpl implements NortService {
 		
 		ArrayList<ExcludeDocument> copyExcludDocs = null;
 		
-		if(splitTocGuidList != null){
-			this.splitTocGuidList = splitTocGuidList;
-		}
+		this.splitTocGuidList = splitTocGuidList;
 		
 		tocGuidList = new ArrayList<String>();
 		duplicateTocGuids = new ArrayList<String>();
