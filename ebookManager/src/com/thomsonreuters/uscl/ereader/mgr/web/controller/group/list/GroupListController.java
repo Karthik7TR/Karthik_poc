@@ -36,6 +36,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupInfo;
@@ -47,6 +48,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.list.GroupListFi
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -65,7 +67,10 @@ public class GroupListController extends AbstractGroupController {
 	private String classGroupVersion;
 	private List<String> classGroupIdList;
 	private Validator validator;
-	private int SLEEP_TIME = 5000; 
+	private int SLEEP_TIME = 3000; 
+	// retry parameters
+    private int baseRetryInterval = 10000; // in ms    
+	private int maxNumberOfRetries = 3;
 	
 	@InitBinder(GroupListFilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
@@ -108,10 +113,6 @@ public class GroupListController extends AbstractGroupController {
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
 	}
-
-	/*public List<ProviewGroupInfo> getProviewGroupInfoList() {
-		return proviewGroupInfoList;
-	}*/
 
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
@@ -300,8 +301,7 @@ public class GroupListController extends AbstractGroupController {
 					ProviewGroupInfo proviewGroupInfo = new ProviewGroupInfo();
 					proviewGroupInfo.setSubGroupName(subgroupName);
 					proviewGroupInfo.setVersion(version);
-					String bookStatus = getLatestBookStatus(proviewAuditService.getBookStatus(splitTitle,
-							version));
+					String bookStatus = proviewAuditService.getBookStatus(splitTitle,version);
 					if (bookStatus == null) {
 						bookStatus = "Review";
 					}
@@ -325,21 +325,6 @@ public class GroupListController extends AbstractGroupController {
 		return proviewGroupInfoList;
 	}
 
-	private String getLatestBookStatus(List<String> bookStatus) {
-		String status = null;
-		for (String bStatus : bookStatus) {
-			if (bStatus.equalsIgnoreCase("PROMOTE") && status == null) {
-				status = "Final";
-			} else if (bStatus.equalsIgnoreCase("REMOVE")) {
-				status = "Remove";
-			} else if (bStatus.equalsIgnoreCase("DELETE")) {
-				status = "Delete";
-				return status;
-			}
-
-		}
-		return status;
-	}
 
 	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws Exception {
 		String response = null;	
@@ -480,6 +465,8 @@ public class GroupListController extends AbstractGroupController {
 					.getBookDefinitionId()));
 			Date lastUpdate = bookDefinition.getLastUpdated();
 			
+			PublishingStats stats = publishingStatsService.findStatsByLastUpdated(bookDefinition.getEbookDefinitionId());
+			
 			List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
 			Map<String, List<String>> versionTitlesMap = getVersionTitleMapFromSplitNodeList(splitNodes);
 
@@ -490,8 +477,7 @@ public class GroupListController extends AbstractGroupController {
 					List<String> titles = versionTitlesMap.get(version);
 					for (String title : titles) {
 						try {
-							doTitleOperation(operation, title, version);
-							Thread.sleep(SLEEP_TIME);
+							doTitleOperation(operation, title, version, stats.getGatherTocNodeCount().intValue());
 							ProviewAudit audit = new ProviewAudit();
 							audit.setTitleId(title);
 							audit.setBookVersion(version);
@@ -554,18 +540,21 @@ public class GroupListController extends AbstractGroupController {
 		return success;
 	}
 	
-	private void doTitleOperation(String operation, String title, String version) throws Exception {
+	private void doTitleOperation(String operation, String title, String version, int tocCount) throws Exception {
 		switch (operation) {
 			case "Promote": {
 				proviewClient.promoteTitle(title, version);
+				Thread.sleep(SLEEP_TIME);
 				break;
 			}
 			case "Remove": {
 				proviewClient.removeTitle(title, version);
+				Thread.sleep(SLEEP_TIME);
 				break;
 			}
 			case "Delete": {
-				proviewClient.deleteTitle(title, version);
+				deleteTitleWithRetryLogic(title, version, tocCount);
+				Thread.sleep(baseRetryInterval);
 				break;
 			}
 		}
@@ -587,6 +576,49 @@ public class GroupListController extends AbstractGroupController {
 			}
 		}
 	}
+	
+	public void deleteTitleWithRetryLogic(String title, String version, int tocCount) throws ProviewException {
+		boolean retryRequest = true;
+
+		int retryCount = 0;
+		String errorMsg = "";
+		do {
+			try {
+				proviewClient.deleteTitle(title, version);
+				retryRequest = false;
+			} catch (ProviewRuntimeException ex) {
+				errorMsg = ex.getMessage();
+				if (errorMsg.startsWith("400") && errorMsg.contains("Title already exists in publishing queue")){
+
+					// retry a retriable request
+					int computedRetryInterval = baseRetryInterval + (baseRetryInterval * tocCount);
+					log.warn("Retriable status received: waiting " + SLEEP_TIME + "ms (retryCount: "
+							+ retryCount +")");
+
+					retryRequest = true;
+					retryCount++;
+
+					try {
+						Thread.sleep(computedRetryInterval);
+					} catch (InterruptedException e) {
+						log.error("InterruptedException during HTTP retry", e);
+					};
+				}else {
+					throw new ProviewRuntimeException(errorMsg);
+				}
+			}
+		} while (retryRequest && retryCount < getMaxNumberOfRetries());
+		if (retryRequest && retryCount == getMaxNumberOfRetries()) {
+			throw new ProviewRuntimeException(
+					"Tried 3 times to delete titile and not succeeded. Proview might be down "
+					+ "or still in the process of deleting the book. Please try again later. ");
+		}
+
+	}	
+	
+	public int getMaxNumberOfRetries() {
+        return this.maxNumberOfRetries;
+    }	
 	
 	
 	/**

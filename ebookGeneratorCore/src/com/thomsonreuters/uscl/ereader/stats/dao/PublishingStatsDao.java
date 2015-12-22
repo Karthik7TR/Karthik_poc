@@ -18,6 +18,8 @@ public interface PublishingStatsDao {
 	 */
 	public PublishingStats findJobStatsByJobId(Long JobId);	
 	
+	public PublishingStats findStatsByLastUpdated(Long jobId);
+	
 	/**
 	 * Find Publishing stats for ebook
 	 * @param EbookDefId

@@ -10,9 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -34,6 +33,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
+import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
@@ -53,6 +54,12 @@ public class ArchiveBook extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 	private DocMetadataService docMetadataService;
 	private BookDefinitionService bookService;
+	private ProviewAuditService proviewAuditService;
+	
+	@Required
+	public void setProviewAuditService(ProviewAuditService service) {
+		this.proviewAuditService = service;
+	}
 
 	public DocMetadataService getDocMetadataService() {
 		return docMetadataService;
@@ -80,6 +87,12 @@ public class ArchiveBook extends AbstractSbTasklet {
 		try {
 
 			try{
+				
+
+				ProviewAudit audit = createAudit(bookDefinition.getFullyQualifiedTitleId(), "v"+jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED), bookDefinition.getLastUpdated(),
+						"REVIEW",jobParameters.getString(JobParameterKey.USER_NAME));
+				proviewAuditService.save(audit);
+				
 				if (bookDefinition.isSplitBook()) {
 					// update table with Node Info
 					String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
@@ -88,6 +101,14 @@ public class ArchiveBook extends AbstractSbTasklet {
 					readDocImgFile(new File(splitNodeInfoFile), currentsplitNodeList, bookVersion, bookDefinition);
 
 					if (currentsplitNodeList != null || currentsplitNodeList.size() != 0) {
+						//Save to Proview Audit
+						for(SplitNodeInfo splitNodeInfo :  currentsplitNodeList){
+							audit = createAudit(splitNodeInfo.getSplitBookTitle(), "v"+splitNodeInfo.getBookVersionSubmitted(), bookDefinition.getLastUpdated(),
+									"REVIEW",jobParameters.getString(JobParameterKey.USER_NAME));
+							proviewAuditService.save(audit);
+						}
+						
+						
 						List<SplitNodeInfo> persistedSplitNodes = bookDefinition.getSplitNodesAsList();
 
 						boolean same = hasChanged(persistedSplitNodes, currentsplitNodeList, bookVersion);
@@ -147,6 +168,18 @@ public class ArchiveBook extends AbstractSbTasklet {
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);	
 		}
 		return ExitStatus.COMPLETED;
+	}
+	
+	public ProviewAudit createAudit(String splitTitleId, String bookVersion, Date lastUpdate, String command, String userName) {
+		ProviewAudit audit = new ProviewAudit();
+		audit.setAuditNote("Book Generated");
+		audit.setBookLastUpdated(lastUpdate);
+		audit.setBookVersion(bookVersion);
+		audit.setProviewRequest(command);
+		audit.setRequestDate(new Date());
+		audit.setTitleId(splitTitleId);
+		audit.setUsername(userName);
+		return audit;
 	}
 	
 	/**

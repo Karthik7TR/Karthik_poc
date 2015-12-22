@@ -28,6 +28,8 @@ public interface PublishingStatsService {
 	 */
 	public void savePublishingStats(PublishingStats jobstats);
 	
+	public PublishingStats findStatsByLastUpdated(Long jobId);
+	
 	/**
 	 * Save an existing DocMetadata entity
 	 * @param StatsUpdateTypeEnum 

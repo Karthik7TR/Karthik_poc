@@ -41,6 +41,21 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	public PublishingStatsDaoImpl(SessionFactory hibernateSessionFactory) {
 		this.sessionFactory = hibernateSessionFactory;
 	}
+	
+	@Override
+	public PublishingStats findStatsByLastUpdated(Long jobId){
+		StringBuffer hql = new StringBuffer(
+				"select ps from PublishingStats ps where ps.lastUpdated = (select max(ps2.lastUpdated) from PublishingStats ps2 where ps.ebookDefId = ps2.ebookDefId ");
+		hql.append(" and ps2.gatherTocNodeCount is not null)  ");
+		hql.append(" and ps.ebookDefId =  "); 
+		hql.append(jobId);
+		// Create query and populate it with where clause values
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql.toString());
+
+		PublishingStats pubStats = (PublishingStats) query.uniqueResult();
+		return (pubStats);		
+	}
 
 	@Override
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK) {

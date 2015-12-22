@@ -107,8 +107,7 @@ public class GroupListControllerTest {
 	public void tesBuildProviewList1() throws Exception{	
 		Model model =  new ExtendedModelMap();
 		
-		List<String> status = new ArrayList<String>();
-		status.add("Review");
+		String status = "Review";
 	
 		
 		EasyMock.expect(mockAuditService.getBookStatus(EasyMock.startsWith("abcde"),EasyMock.startsWith("v"))).andReturn(status).times(5);
@@ -131,8 +130,7 @@ public class GroupListControllerTest {
 	
 		Model model =  new ExtendedModelMap();
 		
-		List<String> status = new ArrayList<String>();
-		status.add("Review");
+		String status = "Review";;
 	
 		
 		EasyMock.expect(mockAuditService.getBookStatus(EasyMock.startsWith("abcde"),EasyMock.startsWith("v"))).andReturn(status).times(5);

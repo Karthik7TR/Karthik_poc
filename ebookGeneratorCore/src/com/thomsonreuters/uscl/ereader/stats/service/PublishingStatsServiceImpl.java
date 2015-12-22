@@ -52,6 +52,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public PublishingStats findStatsByLastUpdated(Long jobId){
+		return publishingStatsDAO.findStatsByLastUpdated(jobId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK) {
 		return publishingStatsDAO.findJobStatsByPubStatsPK(jobIdPK);
 	}

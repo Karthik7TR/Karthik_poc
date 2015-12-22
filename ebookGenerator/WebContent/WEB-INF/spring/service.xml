@@ -16,6 +16,8 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">      
 	
 
+	<bean id="proviewAuditService" class="com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditServiceImpl"
+  		  p:proviewAuditDao-ref="proviewAuditDao" />
 
   	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>

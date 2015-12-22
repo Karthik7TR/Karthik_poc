@@ -63,6 +63,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
+		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
 		  </list>
 		</property>
   	</bean>
@@ -109,6 +110,10 @@
 	<bean id="codeDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
+	
+	<bean id="proviewAuditDao" class="com.thomsonreuters.uscl.ereader.proviewaudit.dao.ProviewAuditDaoImpl">
+		<constructor-arg ref="sessionFactory" />
+	</bean>	
 	
 	<bean id="outageDao" class="com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDaoImpl">  
 		<constructor-arg ref="sessionFactory"/>

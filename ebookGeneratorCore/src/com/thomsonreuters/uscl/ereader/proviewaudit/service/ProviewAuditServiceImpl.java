@@ -54,7 +54,7 @@ public class ProviewAuditServiceImpl implements ProviewAuditService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<String> getBookStatus(String titleId, String version){
+	public String getBookStatus(String titleId, String version){
 		return dao.getBookStatus(titleId,version);
 	}
 

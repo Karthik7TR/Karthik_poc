@@ -32,6 +32,6 @@ public interface ProviewAuditDao {
 	
 	public int numberProviewAudits(ProviewAuditFilter filter);
 	
-	public List<String> getBookStatus(String titleId, String version);
+	public String getBookStatus(String titleId, String version);
 
 }

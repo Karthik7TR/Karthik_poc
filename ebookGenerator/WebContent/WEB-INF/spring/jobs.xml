@@ -310,7 +310,8 @@
 				p:publishingStatsService-ref="publishingStatsService"
 				p:archiveBaseDirectory="${root.work.directory}/archive"
 				p:docMetadataService-ref="docMetadataService"
-				p:bookDefinitionService-ref="bookDefinitionService"/>
+				p:bookDefinitionService-ref="bookDefinitionService"
+				p:proviewAuditService-ref="proviewAuditService"/>
 
 	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.SendingEmailNotification" parent="parentTask"
 	            p:publishingStatsService-ref="publishingStatsService" 

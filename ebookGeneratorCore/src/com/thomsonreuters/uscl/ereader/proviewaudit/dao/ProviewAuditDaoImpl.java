@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -21,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort.SortProperty;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 /**
  * DAO to manage ProviewAudit entities.
@@ -35,19 +37,25 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 		this.sessionFactory = hibernateSessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<String> getBookStatus(String titleId, String version){
-		List<String> status = new ArrayList<String>();
+	public String getBookStatus(String titleId, String version){
+		StringBuffer hql = new StringBuffer(
+				"select pa from ProviewAudit pa where (pa.titleId,pa.bookVersion,pa.requestDate) in ");
+		hql.append("(select pa2.titleId,pa2.bookVersion,max(pa2.requestDate) from ProviewAudit pa2 where");
+		hql.append(" pa.titleId = :titleId");
+		hql.append(" and pa.bookVersion =  :version"); 
+		hql.append(" group by pa2.titleId,pa2.bookVersion)");
+		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(ProviewAudit.class);
-			criteria.add(Restrictions.eq("titleId", titleId));
-			criteria.add(Restrictions.eq("bookVersion", version));
-			List<ProviewAudit> proviewAudits =  criteria.list();
-			for(ProviewAudit proviewAudit : proviewAudits){
-				status.add(proviewAudit.getProviewRequest());
-			}
-		return status;
+		Query query = session.createQuery(hql.toString());
+		query.setParameter("titleId", titleId);
+		query.setParameter("version", version);
+
+		ProviewAudit audit = (ProviewAudit) query.uniqueResult();
+		if(audit == null){
+			return null;
+		}
+		return audit.getProviewRequest();
 		
 	}
 
