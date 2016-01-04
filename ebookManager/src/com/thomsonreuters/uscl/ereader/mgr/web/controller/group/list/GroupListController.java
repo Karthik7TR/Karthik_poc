@@ -303,7 +303,10 @@ public class GroupListController extends AbstractGroupController {
 					proviewGroupInfo.setVersion(version);
 					String bookStatus = proviewAuditService.getBookStatus(splitTitle,version);
 					if (bookStatus == null) {
-						bookStatus = "Review";
+						bookStatus = "REVIEW";
+					}
+					else if (bookStatus.equalsIgnoreCase("PROMOTE")) {
+						bookStatus = "FINAL";
 					}
 					proviewGroupInfo.setStatus(bookStatus);
 					

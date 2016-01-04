@@ -56,7 +56,7 @@
 		
 		<div id="operationButtons" class="buttons">
 			<input name="promoteButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  value="Promote" onclick="submitPromote() "/>
-			<button id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS%>?<%=WebConstants.KEY_ID%>=${bookDefinitionId}';">Cancel</button>
+			<input id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_GROUP_BOOK_ALL_VERSIONS%>?<%=WebConstants.KEY_ID%>=${bookDefinitionId}';" value="Cancel"/>
 		</div>
 		
 		<td>
