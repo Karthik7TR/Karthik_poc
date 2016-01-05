@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.ContentHandler;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,10 +21,7 @@ import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
-import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.proview.Artwork;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
@@ -60,28 +57,18 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-class TitleManifestFilter extends XMLFilterImpl {
+class TitleManifestFilter extends AbstractTocManifestFilter {
 
 
-	private static final String DEFAULT_PUBLISHING_INFORMATION = "PUBLISHING INFORMATION";
 	private static final Logger LOG = Logger.getLogger(TitleManifestFilter.class);
-	private FileUtilsFacade fileUtilsFacade;
 	private PlaceholderDocumentService placeholderDocumentService;
-	private File documentsDirectory;
-	private TitleMetadata titleMetadata;
 	private UuidGenerator uuidGenerator;
 	Map<String,String> altIdMap = new HashMap<String,String>();
 		
 	private TableOfContents tableOfContents = new TableOfContents();
-	private TocNode currentNode;
-	private TocNode previousNode;
-	private int currentDepth = 0;
-	private int previousDepth = 0;
 	private Map<String, String> familyGuidMap;
-	private List<TocNode> nodesContainingDocuments = new ArrayList<TocNode>();
 	private Set<String> uniqueDocumentIds = new HashSet<String>();
 	private Set<String> uniqueFamilyGuids = new HashSet<String>();
-	private List<Doc> orderedDocuments = new ArrayList<Doc>();
 	private StringBuilder tocGuid = new StringBuilder();
 	private StringBuilder docGuid = new StringBuilder();
 	private StringBuilder textBuffer = new StringBuilder();
@@ -101,15 +88,9 @@ class TitleManifestFilter extends XMLFilterImpl {
 	private static final String ENTRY = "entry";
 	private static final String TEXT = "text";
 	private static final String MISSING_DOCUMENT = "MissingDocument";
-	private static final String ANCHOR_REFERENCE = "s";
 	private static final String HTML_EXTENSION = ".html";
 	
-	//Front Matter Text
-	private static final String TITLE_PAGE = "Title Page";
-	private static final String COPYRIGHT_PAGE = "Copyright Page";
-	private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE = "Additional Information or Research Assistance";
-	private static final String WESTLAW_NEXT = "WestlawNext";
-
+	
 	//ProView element and attribute constants
 	private static final String ARTWORK_ELEMENT = "artwork";
 	private static final String MATERIAL_ELEMENT = "material";
@@ -201,66 +182,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 		writeCopyright();
 	}
 	
-	public void buildFrontMatterTOCEntries() throws SAXException
-	{
-		currentDepth++;
-		currentNode = new TocEntry(currentDepth);
-		//Use ebook_definition.front_matter_toc_label
-		if (titleMetadata.getFrontMatterTocLabel() != null)
-		{		
-			currentNode.setText(titleMetadata.getFrontMatterTocLabel());
-		}
-		else
-		{		
-			currentNode.setText(DEFAULT_PUBLISHING_INFORMATION);
-		}
-		currentNode.setTocNodeUuid(FrontMatterFileName.PUBLISHING_INFORMATION+FrontMatterFileName.ANCHOR);
-		TocNode parentNode = determineParent();
-		currentNode.setParent(parentNode); // previousNode
-		parentNode.addChild(currentNode);
-		previousDepth = currentDepth;
-		previousNode = currentNode;
-
-		currentDepth++;
-		createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE);
-
-		createFrontMatterNode(FrontMatterFileName.COPYRIGHT, COPYRIGHT_PAGE);
-		
-		List<FrontMatterPage> frontMatterPagesList =  titleMetadata.getFrontMatterPages();
-
-		if (frontMatterPagesList != null)
-		{
-			// loop through additional frontMatter. PDFs will be taken care of in the assets.
-			for (FrontMatterPage front_matter_page : frontMatterPagesList)
-			{
-				createFrontMatterNode(FrontMatterFileName.ADDITIONAL_FRONT_MATTER + front_matter_page.getId(), front_matter_page.getPageTocLabel());
-			}
-		}
-		
-		
-		createFrontMatterNode(FrontMatterFileName.RESEARCH_ASSISTANCE, ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE);
-		
-		createFrontMatterNode(FrontMatterFileName.WESTLAWNEXT, WESTLAW_NEXT);
-		
-		currentDepth--;
-		currentDepth--;
-	}
-
-
-	public void createFrontMatterNode(String guidBase, String nodeText) throws SAXException
-	{
-		currentNode = new TocEntry(currentDepth);
-		currentNode.setDocumentUuid(guidBase);
-		currentNode.setText(nodeText);
-		currentNode.setTocNodeUuid(guidBase+FrontMatterFileName.ANCHOR);
-		TocNode parentNode = determineParent();
-		currentNode.setParent(parentNode); 
-		parentNode.addChild(currentNode);
-		previousDepth = currentDepth;
-		previousNode = currentNode;
-		orderedDocuments.add(new Doc(guidBase, guidBase+HTML_EXTENSION, 0, null));
-		nodesContainingDocuments.add(currentNode);  
-	}
 	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -268,7 +189,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 			currentDepth = 0;
 			previousDepth = 0;
 			// Add TOC NODES for Front Matter
-			buildFrontMatterTOCEntries();
+			buildFrontMatterTOCEntries(false);
 		}
 		else if (EBOOK_TOC.equals(qName)) { //we've reached the next element, time to add a new node to the tree.
 			currentDepth++;
@@ -309,19 +230,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 				throw new SAXException("An unexpected error occurred while generating a placeholder document for Toc Node: [" + tocGuid.toString() + "] while producing the title manifest.", e);
 			}
 		}
-	}
-
-	/**
-	 * Returns an anchor reference for a given toc node.
-	 * 
-	 * @param documentGuid the document uuid to include in the anchor reference.
-	 * @param tocEntry the toc entry containing a toc node guid.
-	 * @return Attributes the anchor reference in doc_guid/toc_guid format.
-	 */
-	protected Attributes getAttributes(TocNode tocNode) {
-		AttributesImpl attributes = new AttributesImpl();
-		attributes.addAttribute(URI, ANCHOR_REFERENCE, ANCHOR_REFERENCE, CDATA,  tocNode.getAnchorReference());
-		return attributes;
 	}
 
 	/**
@@ -409,23 +317,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 			}
 		}
 	}
-
-	/**
-	 * Duplicates the corresponding document in order to conform to ProView structural requirements.
-	 * 
-	 * @param sourceDocId the file to be copied.
-	 * @param destDocId the "new" copy of the file.
-	 */
-	private void copyHtmlDocument(String sourceDocId, String destDocId) throws SAXException {
-		LOG.debug("Copying " + sourceDocId + " to " + destDocId);
-		File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
-		File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
-		try {
-			fileUtilsFacade.copyFile(sourceFile, destFile);
-		} catch (IOException e) {
-			throw new SAXException("Could not make copy of duplicate HTML document referenced in the TOC: " + sourceDocId, e);
-		}
-	}
 	
 	/**
 	 * Emits the table of contents to the configured {@link ContentHandler}.
@@ -457,52 +348,7 @@ class TitleManifestFilter extends XMLFilterImpl {
 		}
 		super.endElement(URI, ENTRY, ENTRY);
 	}
-
-	/**
-	 * Determines which parent to add a node to by comparing the depth of the last added node to the current depth.
-	 * 
-	 * @return the parent to which the current node should be added.
-	 * @throws SAXException if an error occurs.
-	 */
-	protected TocNode determineParent() throws SAXException {
-		if (currentDepth > previousDepth) { //the node we are adding is a child, so add it to the current node.
-//			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode);
-			return previousNode;
-		}
-		else if ( currentDepth == previousDepth ) {
-//			LOG.debug("Determined parent of " + currentNode + " to be " + previousNode.getParent());
-			return previousNode.getParent();
-		}
-		else if (currentDepth < previousDepth) {
-			return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
-		}
-		else {
-			String message = "Could not determine parent when adding node: " + currentNode;
-			LOG.error(message);
-			throw new SAXException(message);
-		}
-	}
 	
-	/**
-	 * Travels up a node's ancestry until reaching the desired depth.
-	 * 
-	 * @param node the node whose ancestry to interrogate.
-	 * @param desiredDepth the depth to terminate the search. This could eventually be changed, if needed, to be a node ID if all nodes know who their immediate parent is (by identifier).
-	 */
-	protected TocNode searchForParentInAncestryOfNode(TocNode node, int desiredDepth) throws SAXException {
-		if (node.getDepth() == desiredDepth) {
-//			LOG.debug("Found parent in the ancestry: " + node);
-			return node;
-		}
-		else if (node.getDepth() < desiredDepth) {
-			String message = "Failed to identify a parent for node: " + node + " because of possibly bad depth assignment.  This is very likely a programming error in the TitleManifestFilter.";
-			LOG.error(message);
-			throw new SAXException(message); //could not find the parent, so bail.  This may need to be an exception case because it means that the way we are assigning depth to nodes is probably not implemented correctly.
-		}
-		else {
-			return searchForParentInAncestryOfNode(node.getParent(), desiredDepth);
-		}
-	}
 
 	/**
 	 * Writes the documents block to the owning {@link ContentHandler} and ends the title manifest.
@@ -519,62 +365,6 @@ class TitleManifestFilter extends XMLFilterImpl {
 		super.endDocument();
 	}
 
-	/**
-	 * Returns a list of TOC GUIDs that need to be cascaded into the generated
-	 * missing document. 
-	 * 
-	 * @param node document level node for which anchors need to be generated
-	 * @return list of TOC GUIDs for which Anchors need to be generated
-	 */
-	protected List<String> getAnchorsToBeGenerated(TocNode node)
-	{
-		String docGuid = node.getDocumentGuid();
-		List<String> anchors = new ArrayList<String>();
-		node = node.getParent();
-		while(node != null)
-		{
-			if (StringUtils.isBlank(node.getDocumentGuid()) || docGuid.equals(node.getDocumentGuid()))
-			{
-				anchors.add(node.getTocGuid());
-			}
-			else
-			{
-				break;
-			}
-			node = node.getParent();
-		}
-		return anchors;
-	}
-	
-	/**
-	 * Pushes document guids up through the ancestry into headings that didn't contain document references in order to satisfy ProView's TOC to text linking requirement.
-	 * 
-	 * @param toc the table of contents to operate on.
-	 */
-	protected void cascadeAnchors() {
-		for (TocNode document : nodesContainingDocuments) {
-			if (StringUtils.isBlank(document.getParent().getDocumentGuid())) {
-				cascadeAnchorUpwards(document.getParent(), document.getDocumentGuid());
-			}
-		}
-	}
-	
-	/**
-	 * Assigns a document uuid to this node and cascades recursively up the ancestry until a null node is found.
-	 * 
-	 * Exit conditions: stops cascading upwards if a document uuid exists in a parent or if a node does not have a parent.
-	 * 
-	 * @param node the current node to be interrogated.
-	 * @param documentUuid the document uuid to assign to the node if, and only if, it doesn't have one already.
-	 */
-	protected void cascadeAnchorUpwards(TocNode node, String documentUuid) {
-		if (StringUtils.isBlank(node.getDocumentGuid())) {
-			node.setDocumentUuid(documentUuid);
-			if (node.getParent() != null) {
-				cascadeAnchorUpwards(node.getParent(), documentUuid);
-			}
-		}
-	}
 
 	/**
 	 * Writes the ordered list of documents to the configured {@link ContentHandler}.

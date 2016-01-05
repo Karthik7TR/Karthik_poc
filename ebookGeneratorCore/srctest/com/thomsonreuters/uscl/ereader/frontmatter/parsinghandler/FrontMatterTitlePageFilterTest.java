@@ -179,17 +179,7 @@ public class FrontMatterTitlePageFilterTest {
 		
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
-	@Test
-	public void testFrontMatterPlaceholder_TOCHeadingAnchor() throws SAXException
-	{	
-		String xmlTestStr = "<test><frontMatterPlaceholder_TOCHeadingAnchor/></test>";
-		String expectedResult = "<test><a name=\"" + FrontMatterFileName.PUBLISHING_INFORMATION + 
-				FrontMatterFileName.ANCHOR + "\"/></test>";
-		
-		testHelper(xmlTestStr, expectedResult);
-	}
-	
+			
 	@Test
 	public void testFrontMatterPlaceholder_TitlePageAnchor() throws SAXException
 	{	

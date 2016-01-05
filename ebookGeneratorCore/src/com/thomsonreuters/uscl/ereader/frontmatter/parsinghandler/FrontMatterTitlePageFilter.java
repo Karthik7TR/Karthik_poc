@@ -24,7 +24,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 public class FrontMatterTitlePageFilter extends XMLFilterImpl
 {
 	/** Names of all the placeholder tags this filter handles */
-	private static final String TOC_HEADING_ANCHOR_TAG = "frontMatterPlaceholder_TOCHeadingAnchor";
 	private static final String TITLE_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_TitlePageAnchor";
 	private static final String BOOK_NAME_TAG = "frontMatterPlaceholder_bookname";
 	private static final String BOOK_NAME2_TAG = "frontMatterPlaceholder_bookname2";
@@ -60,14 +59,7 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
-		if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
-		{
-			AttributesImpl newAtts = new AttributesImpl();
-			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
-					FrontMatterFileName.PUBLISHING_INFORMATION + FrontMatterFileName.ANCHOR);
-			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
-		}
-		else if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
+		if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
 		{
 			AttributesImpl newAtts = new AttributesImpl();
 			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
@@ -135,11 +127,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
-		if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
-		{
-			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-		}
-		else if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
+		
+		 if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
 		{
 			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
 		}

@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 {
 	/** Names of all the placeholder tags this filter handles */
+	private static final String TOC_HEADING_ANCHOR_TAG = "frontMatterPlaceholder_TOCHeadingAnchor";
 	private static final String COPYRIGHT_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_CopyrightPageAnchor";
 	private static final String COPYRIGHT_TAG = "frontMatterPlaceholder_copyright";
 	private static final String COPYRIGHT_PAGE_TEXT_TAG = "frontMatterPlaceholder_copyrightPageText";
@@ -49,7 +50,14 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
-		if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
+		if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
+		{
+			AttributesImpl newAtts = new AttributesImpl();
+			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
+					FrontMatterFileName.PUBLISHING_INFORMATION + FrontMatterFileName.ANCHOR);
+			super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
+		}
+		else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
 		{
 			AttributesImpl newAtts = new AttributesImpl();
 			newAtts.addAttribute(uri, HTML_TAG_NAME_ATTRIBUTE, HTML_TAG_NAME_ATTRIBUTE, CDATA, 
@@ -87,7 +95,11 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
-		if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
+		if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
+		{
+			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
+		}
+		else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
 		{
 			super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
 		}

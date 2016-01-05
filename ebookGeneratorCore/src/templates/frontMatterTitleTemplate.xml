@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="er:#ebook_generator" />
 	</head>
 	<body>
-		<section><frontMatterPlaceholder_TOCHeadingAnchor/><frontMatterPlaceholder_TitlePageAnchor/>
+		<section><frontMatterPlaceholder_TitlePageAnchor/>
 			<div class="front_matter_page">
 				<div class="title_page">
 					<div class="bookname3">

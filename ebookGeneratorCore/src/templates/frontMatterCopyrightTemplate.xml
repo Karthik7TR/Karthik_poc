@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="er:#ebook_generator" />
 	</head>
 	<body>
-		<section><frontMatterPlaceholder_CopyrightPageAnchor/>
+		<section><frontMatterPlaceholder_TOCHeadingAnchor/><frontMatterPlaceholder_CopyrightPageAnchor/>
 			<div class="front_matter_page">
 				<div class="copyright_page">
 					<div class="copyright"><p><frontMatterPlaceholder_copyright/></p></div>

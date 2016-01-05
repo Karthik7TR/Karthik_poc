@@ -110,6 +110,16 @@ public class FrontMatterCopyrightPageFilterTest {
 		copyrightPageFilter = null;
 	}
 	
+	@Test
+	public void testFrontMatterPlaceholder_TOCHeadingAnchor() throws SAXException
+	{	
+		String xmlTestStr = "<test><frontMatterPlaceholder_TOCHeadingAnchor/></test>";
+		String expectedResult = "<test><a name=\"" + FrontMatterFileName.PUBLISHING_INFORMATION + 
+				FrontMatterFileName.ANCHOR + "\"/></test>";
+		
+		testHelper(xmlTestStr, expectedResult);
+	}
+	
 	/** 
 	 * Helper method that sets up the repeating pieces of each test and modifies the Table
 	 * values that are returned along with the input and output.
