@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -210,7 +208,7 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	    EasyMock.replay(mockPlaceholderDocumentService);
 	    EasyMock.replay(mockFileUtilsFacade);
 	    titleMetadataService.generateSplitTitleManifest(resultStream,splitTitleXMLStream,titleMetadata, new Long(1), transformedDirectory, docToSplitBook.getAbsolutePath(), splitNodeInfoFile.getAbsolutePath());
-	    System.out.println("resultStream "+resultStreamToString(resultStream));
+	    //System.out.println("resultStream "+resultStreamToString(resultStream));
 	   
 	    InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
 	    InputSource expected = new InputSource(SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TITLE.xml"));
@@ -255,25 +253,5 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	     File expectedDocFile = new File(pathToClass.toURI());
 	     assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
 	     FileUtils.deleteQuietly(transformedDirectory);
-	}
-	
-	@Ignore
-	@Test
-	public void testcreateCVSFile() throws Exception {
-		String FILE_NAME = "uscl_an_trg_clmdef.csv";
-		URL url = this.getClass().getResource(FILE_NAME);
-		
-		Map<String,String> altMap = titleMetadataService.getAltIdMap("uscl_an_trg_clmdef","C:/EclipseLuna/workspace/ebookGenerator/build/classes/com/thomsonreuters/uscl/ereader/assemble/service");
-		
-		System.out.println(""+altMap.size());
-		
-		Iterator it = altMap.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        String newFirstLineCite = pair.getKey().toString();
-	       System.out.println(newFirstLineCite + " = " + pair.getValue());
-	        
-	        
-	    }
 	}
 }
