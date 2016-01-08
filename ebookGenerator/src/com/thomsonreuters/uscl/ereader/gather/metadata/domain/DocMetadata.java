@@ -57,7 +57,7 @@ public class DocMetadata implements Serializable {
 	/**
 	 */
 
-	@Column(name = "DOC_UUID", length = 36, nullable = false)
+	@Column(name = "DOC_UUID", length = 40, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
 	@XmlElement
@@ -414,6 +414,10 @@ public class DocMetadata implements Serializable {
 		buffer.append("docType=[").append(docType).append("] ");
 		buffer.append("normalizedFirstlineCite=[")
 				.append(normalizedFirstlineCite).append("] ");
+		buffer.append("FirstlineCite=[")
+		.append(firstlineCite).append("] ");
+		buffer.append("firstlineCitePubpage=[")
+		.append(firstlineCitePubpage).append("] ");
 		buffer.append("findOrig=[").append(findOrig).append("] ");
 		buffer.append("serialNumber=[").append(serialNumber).append("] ");
 		buffer.append("collectionName=[").append(collectionName).append("] ");

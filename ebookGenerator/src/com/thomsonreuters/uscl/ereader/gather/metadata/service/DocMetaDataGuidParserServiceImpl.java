@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,9 +64,9 @@ public class DocMetaDataGuidParserServiceImpl implements
 		try {
 			docGuidList = parseXMLFile(tocFile);
 			createDocGuidListFile(docGuidsFile, docGuidList);
-		} catch (Exception e) {
-			String errMessage = "No XML files were found in specified directory. "
-					+ "Please verify that the correct XML path was specified.";
+		} 
+		catch (Exception e) {
+			String errMessage = "Exception occured while parsing tocFile. Please fix and try again.";
 			LOG.error(errMessage);
 			throw new EBookGatherException(errMessage, e);
 		}
@@ -102,7 +103,14 @@ public class DocMetaDataGuidParserServiceImpl implements
 			InputSource is = new InputSource(reader);
 			is.setEncoding("UTF-8");
 			saxParser.parse(is, handler);
-		} catch (IOException e) {
+		} 
+		catch (FileNotFoundException e){
+			String errMessage = "No XML file was found in specified directory. "
+					+ "Please verify that the correct XML path was specified.";
+			LOG.error(errMessage);
+			throw new EBookGatherException(errMessage, e);
+		}
+		catch (IOException e) {
 			String message = "Parser throw an exception while parsing the following file: "
 					+ xmlFile.getAbsolutePath();
 			LOG.error(message);
@@ -149,7 +157,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 				docGuid = (String) iterator.next();
 
 				if (docGuid != null) {
-					if (docGuid.length() < 32 || docGuid.length() >= 34) {
+					if (docGuid.length() < 32 || docGuid.length() > 40) {
 
 						String message = "Invalid GUID encountered in the Doc GUID list: "
 								+ docGuid;

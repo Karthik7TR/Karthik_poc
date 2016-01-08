@@ -72,7 +72,7 @@ public class AssembleEbook extends AbstractSbTasklet {
 					eBookDirectoryPath = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DIR)+"/"+splitTitleId;
 					eBookDirectory = new File(eBookDirectoryPath);
 					if (eBookDirectory == null || !eBookDirectory.isDirectory()) {
-						throw new IOException("eBookDirectory must not be null and must be a directory.");
+						throw new IOException("eBookDirectory must not be null and must be a directory."+eBookDirectoryPath);
 					}
 					eBookAssemblyService.assembleEBook(eBookDirectory, splitEbookFile);
 				}

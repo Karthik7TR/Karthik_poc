@@ -456,4 +456,108 @@ public class TocServiceTest {
 	    	fis.close();
 	    }
 	}
+	
+	
+	private List<TOCNode> getChildNodeswithDuplicateToc(int maxChildren, char prefix, int skipDoc) throws Exception {
+		List<TOCNode> childNodes = new ArrayList<TOCNode>();
+		
+		for (int i=0; i< maxChildren; i++) {
+			
+			TOCNode child = EasyMock.createMock(TOCNode.class);
+			EasyMock.expect(child.getName()).andReturn("Child " + i + prefix).anyTimes();
+			if (i == skipDoc )
+			{
+				EasyMock.expect(child.getDocGuid()).andReturn(null).times(2);
+			}
+			else
+			{
+				EasyMock.expect(child.getDocGuid()).andReturn("UUID_" + i+ prefix).times(2);
+			}
+			EasyMock.expect(child.getGuid()).andReturn("TABLE_OF_CONTENTS_DUPLICATE_UUID_" + i+ prefix).times(2);
+
+			if(i==0 && prefix == 'a')
+			{
+				TOCNode[] tocChildren = getChildNodes(1, 'b', skipDoc-1).toArray(new TOCNode[]{});
+				EasyMock.expect(child.getChildren()).andReturn(tocChildren).anyTimes();
+				EasyMock.expect(child.getChildrenCount()).andReturn(1).anyTimes();
+			}
+			else
+			{
+				EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
+				EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
+			}
+			
+			EasyMock.replay(child);
+			childNodes.add(child);
+		}
+		return childNodes;
+	}
+	
+	@Test
+	public void testSplitBook() throws Exception {
+
+		File tocFile = new File(tocDir, "TOC"+COLLECTION_NAME+TOC_GUID+EBConstants.XML_FILE_EXTENSION);
+		
+		System.out.println("tocFile "+tocFile.getAbsolutePath());
+		
+		List<String> splitTocGuidList = new ArrayList<String>();
+		String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_2";
+		splitTocGuidList.add(guid1);
+
+		// Record expected calls
+		EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
+		EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();		
+		EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
+		mockToc.setCollection(COLLECTION_NAME);
+		mockToc.setShowChildrenCount(true);
+		TOCNode[] children = new TOCNode[]{};
+
+		mockTocRootNode = mockTocNode;
+		
+		children = getChildNodeswithDuplicateToc(5, 'a', 999).toArray(new TOCNode[]{});
+		
+		//mock duplicate toc guid
+		//children[0].
+		System.out.println("children-----"+children[0].getGuid());
+//		EasyMock.expect(mockToc.getRootNodes()).andReturn(mockTocRootNode);
+		EasyMock.expect(mockToc.getNode(TOC_GUID)).andReturn(mockTocRootNode);
+		EasyMock.expect(mockTocNode.getName()).andReturn(" &lt; Root &amp;  &quot; Node&apos;s &gt; ").times(2); 
+		EasyMock.expect(mockTocNode.getDocGuid()).andReturn(null).anyTimes();
+		EasyMock.expect(mockTocNode.getGuid()).andReturn("tocGuid").anyTimes();
+		EasyMock.expect(mockTocNode.getChildrenCount()).andReturn(5).anyTimes();
+		EasyMock.expect(mockTocNode.getChildren()).andReturn(children).anyTimes();
+	
+		
+		//EasyMock.expect(mockToc.getRootNodes()).andReturn(tocNodes);
+		mockNovus.shutdownMQ();
+		tocDir.mkdirs();
+
+		// Set up for replay
+		EasyMock.replay(mockNovusFactory);
+		EasyMock.replay(mockNovus);
+		EasyMock.replay(mockToc);
+		EasyMock.replay(mockTocNode);
+		EasyMock.replay(mockNovusUtility);		
+
+		try {
+			tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, splitTocGuidList, 0);
+			System.out.println("tocService "+tocService.getDuplicateTocGuids());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+		finally {
+			// Temporary file will clean up after itself.
+		}
+		
+		Assert.assertEquals(1, tocService.getDuplicateTocGuids().size());
+		
+		String tocFileContents = readFileAsString(tocFile);
+		LOG.debug("tocFileContents =" + tocFileContents);
+		assertTrue(tocFileContents != null);		
+		
+		EasyMock.verify(mockNovusFactory);
+		EasyMock.verify(mockNovus);
+		EasyMock.verify(mockToc);
+	}
 }

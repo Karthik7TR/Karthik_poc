@@ -234,7 +234,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 			writer = new BufferedWriter(new FileWriter(docToImgMapFile));
 			for (String doc : docToImgMap.keySet())
 			{
-				if (doc == null || doc.length() < 32 || doc.length() >= 34)
+				if (doc == null || doc.length() < 32 || doc.length() > 40)
 				{
 					String message = "Invalid document GUID encountered in the Document to Image GUID map: " + doc;
 					LOG.error(message);

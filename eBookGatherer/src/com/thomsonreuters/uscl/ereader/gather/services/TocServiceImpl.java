@@ -297,10 +297,17 @@ public class TocServiceImpl implements TocService {
 					}
 				}
 				
-				if(tocGuidList.contains(guid) && !duplicateTocGuids.contains(guid)){
-					duplicateTocGuids.add(guid);
+				//843012:Update Generator for CWB Reorder Changes. For both TOC and Doc guids a six digit suffix has been added
+				//Add only first 33 characters to find the duplicate TOC
+				if (guid.toString().length() >= 33){
+					String guidForDupCheck = StringUtils.substring(guid.toString(), 0,33);
+					
+					if(tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck)){
+						duplicateTocGuids.add(guidForDupCheck);
+					}		
+					
+					tocGuidList.add(guidForDupCheck);
 				}
-				tocGuidList.add(guid);
 	
 				String payloadFormatted = (name.toString() + tocGuid.toString() + docGuid
 						.toString());

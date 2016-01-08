@@ -69,7 +69,8 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet {
 					String fileName =  metadataFile.getName();
 					if (fileName.lastIndexOf("-") > -1)
 					{
-						docCollectionName = fileName.substring(fileName.indexOf("-")+1, fileName.lastIndexOf("-")); 
+						int startIndex = fileName.indexOf("-")+1;
+						docCollectionName = fileName.substring(startIndex, fileName.indexOf("-", startIndex)); 
 					}
 					docMetadataService.parseAndStoreDocMetadata(titleId,
 						        jobInstanceId, docCollectionName, metadataFile);				     
