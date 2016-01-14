@@ -169,7 +169,8 @@ public class DocMetaDataGuidParserServiceImpl implements
 
 					for (String tocGuid : tocGuidList) {
 						if (tocGuid != null) {
-							if (tocGuid.length() < 32 || tocGuid.length() >= 44) {
+							//TOC guild can be more than 44 characters due to 6digit suffix being added to the TOC after '-' 
+							if ( tocGuid.length() < 32 || (tocGuid.length() >= 44 && !tocGuid.contains("-"))) {
 
 								String message = "Invalid Toc GUID encountered in the Doc GUID list: "
 										+ tocGuid;
