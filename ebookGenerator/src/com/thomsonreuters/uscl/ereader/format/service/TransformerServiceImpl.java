@@ -65,6 +65,8 @@ public class TransformerServiceImpl implements TransformerService
 	
 	private Map<String, String> xsltFileNameByCollectionName = new HashMap<String, String>();
 	
+	private File staticContentDir;
+	
 	@Required
 	public void setGenerateDocumentDataBlockService(
 			GenerateDocumentDataBlockService generateDocumentDataBlockService) {
@@ -100,9 +102,12 @@ public class TransformerServiceImpl implements TransformerService
 	 */
 	@Override
 	public int transformXMLDocuments(final File preprocessDir, final File metaDir, final File imgMetaDir,
-			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations) 
+			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations, final File staticContentDir) 
 					throws EBookFormatException 
 	{
+		
+		this.staticContentDir = staticContentDir;
+		
         if (preprocessDir == null || !preprocessDir.isDirectory())
         {
         	throw new IllegalArgumentException("preprocessDir must be a directory, not null or a regular file.");
@@ -131,7 +136,7 @@ public class TransformerServiceImpl implements TransformerService
         
         try
         {
-	        File mapperFile = new File("/apps/eBookBuilder/staticContent/ContentTypeMapData.xml");
+	        File mapperFile = new File(this.staticContentDir,"ContentTypeMapData.xml");
 	        
 	        XSLMapperParser xslMapperParser = new XSLMapperParser();
 	        xsltFileNameByCollectionName = xslMapperParser.parseDocument(mapperFile);
@@ -330,7 +335,13 @@ public class TransformerServiceImpl implements TransformerService
 	        XSLIncludeResolver resolver = new XSLIncludeResolver();
 	        resolver.setIncludeAnnotations(includeAnnotations);
 	        transFact.setURIResolver(resolver);
-	 
+	        File platformDir = new File(this.staticContentDir.getAbsolutePath()+"/Platform");
+	        resolver.setPlatformDir(platformDir);
+	        File westlawNextDir = new File(this.staticContentDir.getAbsolutePath()+"/WestlawNext/DefaultProductView");
+	        resolver.setWestlawNextDir(westlawNextDir);
+	        File emptyXSLFile = new File(this.staticContentDir.getAbsolutePath()+"/Platform/Universal/_Empty.xsl");
+	        resolver.setEmptyXSL(emptyXSLFile);
+	       
 	        Transformer transformer = transFact.newTransformer(xsltSource);
 	        
 	        transformer.setErrorListener(new SimpleSAXErrorListener());
@@ -420,7 +431,7 @@ public class TransformerServiceImpl implements TransformerService
 	protected File getXSLT(String collection, String docType) 
 			throws EBookFormatException
 	{
-		File xsltDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/DefaultProductView/ContentTypes");
+		File xsltDir = new File(this.staticContentDir.getAbsolutePath()+"/WestlawNext/DefaultProductView/ContentTypes");
 		String xsltName = null;		
 		
 		File xslt = null;

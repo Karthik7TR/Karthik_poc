@@ -71,8 +71,8 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 			
 			
 			moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
-			moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory,true);			
-			moveResourcesUtil.moveStylesheet(jobExecutionContext, assetsDirectory);
+			moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory,true);		
+			moveResourcesUtil.moveStylesheet(assetsDirectory);
 	    }
 	    catch (Exception e)
 	    {

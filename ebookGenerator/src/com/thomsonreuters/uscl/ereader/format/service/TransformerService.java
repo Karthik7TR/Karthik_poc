@@ -36,6 +36,6 @@ public interface TransformerService
      * @throws EBookFormatException if an error occurs during the process.
 	 */
 	public int transformXMLDocuments(final File preprocessDir, final File metaDir, final File imgMetaDir,
-			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations) 
+			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations, final File staticContentDir) 
 					throws EBookFormatException;
 }

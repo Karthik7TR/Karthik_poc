@@ -216,7 +216,8 @@
 				p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:ebookAuditService-ref="eBookAuditService"
-				p:bookDefnService-ref="bookDefinitionService"/>
+				p:bookDefnService-ref="bookDefinitionService"
+				p:staticContentDirectory="${static.content.dir}"/>
 	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
 	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="parentTask"
 				p:gatherService-ref="gatherService"

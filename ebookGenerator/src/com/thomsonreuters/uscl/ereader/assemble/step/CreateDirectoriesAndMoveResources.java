@@ -222,8 +222,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
 				JobExecutionKey.IMAGE_STATIC_DEST_DIR));
 		moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
-		// Style sheets
-		moveResourcesUtil.moveStylesheet(jobExecutionContext, assetsDirectory);
+		// Style sheets			
+		moveResourcesUtil.moveStylesheet(assetsDirectory);
 		// Dynamic images
 		File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
 				JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
@@ -347,8 +347,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		ArrayList<Asset> assests = new ArrayList<Asset>();
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
 				JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+		String staticContentDir = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.STATIC_CONTENT_DIR);
 		assests.addAll(getAssestsfromDirectories(staticImagesDir));
-		File stylesheet = new File(MoveResourcesUtil.DOCUMENT_CSS_FILE);
+		File stylesheet = new File(staticContentDir,MoveResourcesUtil.DOCUMENT_CSS_FILE);
 		assests.add(getAssestsfromFile(stylesheet));
 		stylesheet = new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE);
 		assests.add(getAssestsfromFile(stylesheet));

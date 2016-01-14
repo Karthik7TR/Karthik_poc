@@ -34,7 +34,12 @@ public class ImageServiceImpl implements ImageService {
 	/** The DAO for persisting image meta-data */
 	private ImageDao imageDao;
 	
-	
+	private File staticContentDirectory;
+
+	@Required
+	public void setStaticContentDirectory(File staticContentDirectory) {
+		this.staticContentDirectory = staticContentDirectory;
+	}
 	
 	/**
 	 * If the metadata content type is an image, then return a desired type of "image/png"
@@ -139,8 +144,7 @@ public class ImageServiceImpl implements ImageService {
 	 *         in the tree
 	 */
 	private File searchFileTree(String basename) {
-		File staticImageFile = new File(
-				"/apps/eBookBuilder/staticContent/images", basename);
+		File staticImageFile = new File(staticContentDirectory.getAbsolutePath()+"/images", basename);
 		if (staticImageFile.exists()) {
 			return staticImageFile;
 		} else {

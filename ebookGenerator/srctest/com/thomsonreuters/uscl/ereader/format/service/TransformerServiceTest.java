@@ -48,6 +48,8 @@ public class TransformerServiceTest
     protected File imgMetaFile;
     protected File imgMetaFile2;
     
+    protected File staticContentDirectory = new File("/apps/ebookbuilder/staticContent");
+    
     protected String titleId;
     
     protected Long jobId;
@@ -143,7 +145,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(null, null, null, null, null, null, false);
+    		transService.transformXMLDocuments(null, null, null, null, null, null, false,staticContentDirectory);
     	}
     	catch(EBookFormatException e)
     	{
@@ -160,7 +162,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, false);
+    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, false, staticContentDirectory);
     	}
     	catch(EBookFormatException e)
     	{
@@ -192,7 +194,7 @@ public class TransformerServiceTest
     {
     	try
     	{
-    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId, false));
+    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId, false, staticContentDirectory));
     	}
     	catch(EBookFormatException e)
     	{

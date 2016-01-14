@@ -56,6 +56,8 @@ public class JobExecutionKey {
 	
 	public static final String CODES_WORKBENCH_ROOT_LANDING_STRIP_DIR = "rootCodesWorkbenchLandingStripDir";
 	
+	public static final String STATIC_CONTENT_DIR = "staticContentDirectory";
+	
 	/**
 	 * Destination directory for images fetched from the Image Vertical REST service, these are considered dynamic images.
 	 */

@@ -50,7 +50,9 @@ public class InitializeTask extends AbstractSbTasklet {
 	private PublishingStatsService publishingStatsService;
 	private EBookAuditService eBookAuditService;
 	private BookDefinitionService bookDefnService;
-	
+	private File staticContentDirectory;	
+		
+
 	@Override
 	public ExitStatus executeStep(StepContribution contribution,
 								  ChunkContext chunkContext) throws Exception 
@@ -78,6 +80,14 @@ public class InitializeTask extends AbstractSbTasklet {
 			log.info("TOC Root Guid: " + bookDefinition.getRootTocGuid());
 			log.info("NORT Domain: " + bookDefinition.getNortDomain());
 			log.info("NORT Filter: " + bookDefinition.getNortFilterView());	
+			
+			if(!staticContentDirectory.exists()){
+				throw new IllegalStateException("Expected staticContent directory does not exist: " + 
+						staticContentDirectory.getAbsolutePath());
+			}
+			jobExecutionContext.putString(
+					JobExecutionKey.STATIC_CONTENT_DIR, 
+					staticContentDirectory.getAbsolutePath());
 			
 			if(bookDefinition.getSourceType().equals(SourceType.FILE)) {
 				if (!rootCodesWorkbenchLandingStrip.exists()) {
@@ -314,6 +324,10 @@ public class InitializeTask extends AbstractSbTasklet {
 	@Required
 	public void setRootCodesWorkbenchLandingStrip(File rootDir) {
 		this.rootCodesWorkbenchLandingStrip = rootDir;
+	}
+	@Required
+	public void setStaticContentDirectory(File staticContentDirectory) {
+		this.staticContentDirectory = staticContentDirectory;
 	}
 	@Required
 	public void setEnvironmentName(String envName) {

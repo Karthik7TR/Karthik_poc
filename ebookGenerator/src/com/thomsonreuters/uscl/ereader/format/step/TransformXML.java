@@ -72,11 +72,13 @@ public class TransformXML extends AbstractSbTasklet
 		PublishingStats jobstats = new PublishingStats();
 	    jobstats.setJobInstanceId(jobId);
 		String stepStatus = "Completed";
+		
+		File staticContentDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR));			 
 	    
 		try {
 			long startTime = System.currentTimeMillis();
 			int numDocsTransformed = transformerService.transformXMLDocuments(
-					preprocessDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations());
+					preprocessDir, metadataDir, imgMetadataDir, transformDir, titleId, jobId, bookDefinition.getIncludeAnnotations(), staticContentDir);
 			long endTime = System.currentTimeMillis();
 			long elapsedTime = endTime - startTime;
 			

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -29,7 +30,7 @@ public class MoveResourcesUtil {
 	/**
 	 * The file path to the CSS file to apply on the documents.
 	 */
-	public static final String DOCUMENT_CSS_FILE = "/apps/eBookBuilder/staticContent/document.css";
+	public static final String DOCUMENT_CSS_FILE = "document.css";
 	/**
 	 * The file path to the ebookGenerator CSS file used by front matter.
 	 */
@@ -42,7 +43,13 @@ public class MoveResourcesUtil {
 	/**
 	 * The default file to the ebookGenerator Cover Image.
 	 */
-	public static final String DEFAULT_EBOOK_COVER_FILE = "/apps/eBookBuilder/staticContent/coverArt.PNG";
+	public static final String DEFAULT_EBOOK_COVER_FILE = "coverArt.PNG";
+	private File staticContentDirectory;
+
+	@Required
+	public void setStaticContentDirectory(File staticContentDirectory) {
+		this.staticContentDirectory = staticContentDirectory;
+	}
 
 	public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
 			throws IOException {		
@@ -56,7 +63,7 @@ public class MoveResourcesUtil {
 
 		File coverArt = new File(EBOOK_COVER_FILEPATH + titleCover);
 		if (!coverArt.exists()) {
-			coverArt = new File(DEFAULT_EBOOK_COVER_FILE);
+			coverArt = new File(staticContentDirectory, DEFAULT_EBOOK_COVER_FILE);
 		}
 		jobExecutionContext.putString(JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
 		return coverArt;
@@ -128,9 +135,9 @@ public class MoveResourcesUtil {
 
 	}
 
-	protected void moveStylesheet(final ExecutionContext jobExecutionContext, final File assetsDirectory)
-			throws IOException {
-		File stylesheet = new File(DOCUMENT_CSS_FILE);
+	protected void moveStylesheet(final File assetsDirectory)
+			throws IOException {		
+		File stylesheet = new File(staticContentDirectory, DOCUMENT_CSS_FILE);
 		FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
 		stylesheet = new File(EBOOK_GENERATOR_CSS_FILE);
 		FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);

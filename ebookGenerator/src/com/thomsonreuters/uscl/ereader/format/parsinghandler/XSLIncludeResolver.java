@@ -39,9 +39,9 @@ public class XSLIncludeResolver implements URIResolver
 	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
 	private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
 	private List<String> includedXSLTs = new ArrayList<String>();
-	private File emptyXSL = new File("/apps/eBookBuilder/staticContent/Platform/Universal/_Empty.xsl");
-	private File platformDir = new File("/apps/eBookBuilder/staticContent/Platform");
-	private File westlawNextDir = new File("/apps/eBookBuilder/staticContent/WestlawNext/DefaultProductView");
+	private File emptyXSL ;
+	private File platformDir ;
+	private File westlawNextDir ;
 	
 	public File getPlatformDir() {
 		return platformDir;
