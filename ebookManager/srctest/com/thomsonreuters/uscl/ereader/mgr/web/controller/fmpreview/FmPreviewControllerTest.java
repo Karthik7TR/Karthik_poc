@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.fmpreview;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +45,29 @@ public class FmPreviewControllerTest {
 		controller = new FmPreviewController();
 		controller.setBookDefinitionService(mockBookDefinitionService);
 		controller.setFrontMatterService(mockFrontMatterService);
+	}
+	
+	@Test
+	public void testPreviewContentSelectionFromEdit() throws Exception {
+		String frontMatterPreviewHtml = "something";
+		
+		request.setRequestURI("/" + WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT);
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter(WebConstants.KEY_ID, BOOK_DEF_ID.toString());
+		// Set the HttpSession attribute
+		request.getSession().setAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, frontMatterPreviewHtml);
+		 
+		try {
+			ModelAndView mav = handlerAdapter.handle(request, response, controller);
+			Assert.assertNotNull(mav);
+            Assert.assertEquals(WebConstants.VIEW_FRONT_MATTER_PREVIEW_CONTENT, mav.getViewName());
+            // Verify the model
+	        Map<String,Object> model = mav.getModel();
+	        // retrieve the text set in attribute WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML
+            Assert.assertEquals(frontMatterPreviewHtml, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
+	        } catch (Exception e) {
+	        	Assert.fail(e.getMessage());
+	        }
 	}
 
 	@Test
