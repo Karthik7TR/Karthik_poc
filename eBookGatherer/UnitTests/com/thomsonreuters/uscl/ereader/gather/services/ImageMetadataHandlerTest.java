@@ -43,6 +43,20 @@ public class ImageMetadataHandlerTest {
 	}
 	
 	@Test
+	public void testMetadataString2() throws Exception{
+		String imgMetadata = "<n-metadata><img.md.block><format>application/pdf</format><img.md.pdf.block>"
+				+ "<img.md.image.bytes>80995</img.md.image.bytes><dpi>400</dpi><height>4400</height>"
+				+ "<width>3400</width><units>px</units></img.md.pdf.block></img.md.block></n-metadata>";
+		reader.parse(new InputSource(new StringReader(imgMetadata)));
+		ImgMetadataInfo imgMetadataInfo = imageMetadataHandler.getImgMetadataInfo();
+		assertTrue(imgMetadataInfo!=null);
+		assertTrue(imgMetadataInfo.getDimUnit().equals("px"));
+		assertTrue(imgMetadataInfo.getDpi().equals(new Long(400)));
+		assertTrue(imgMetadataInfo.getHeight().equals(new Long(4400)));
+		assertTrue(imgMetadataInfo.getWidth().equals(new Long(3400)));
+	}
+	
+	@Test
 	public void testMetadataStringNoInfo() throws Exception{
 		String imgMetadata = "<n-metadata/>";
 		reader.parse(new InputSource(new StringReader(imgMetadata)));

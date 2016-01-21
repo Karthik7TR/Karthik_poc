@@ -9,10 +9,10 @@ import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageMetadataHandler extends XMLFilterImpl {
 	
-	private static final String DPI = "img.md.image.dpi";
-	private static final String HEIGHT = "img.md.image.height";
-	private static final String WIDTH = "img.md.image.width";
-	private static final String DIM_UNITS = "img.md.image.units";
+	private static final String DPI = "dpi";
+	private static final String HEIGHT = "height";
+	private static final String WIDTH = "width";
+	private static final String DIM_UNITS = "units";
 	private ImgMetadataInfo imgMetadataInfo = new ImgMetadataInfo();
 	private StringBuffer charBuffer = null;
 	
@@ -36,13 +36,13 @@ public class ImageMetadataHandler extends XMLFilterImpl {
 
 			if (charBuffer != null) {
 				value = StringUtils.trim(charBuffer.toString());
-				if (DPI.equalsIgnoreCase(qName)) {
+				if (qName.contains(DPI)) {
 					this.imgMetadataInfo.setDpi(Long.valueOf(value));
-				} else if (HEIGHT.equalsIgnoreCase(qName)) {
+				} else if (qName.contains(HEIGHT)) {
 					this.imgMetadataInfo.setHeight(Long.valueOf(value));
-				} else if (WIDTH.equalsIgnoreCase(qName)) {
+				} else if (qName.contains(WIDTH)) {
 					this.imgMetadataInfo.setWidth(Long.valueOf(value));
-				} else if (DIM_UNITS.equalsIgnoreCase(qName)) {
+				} else if (qName.contains(DIM_UNITS)) {
 					this.imgMetadataInfo.setDimUnit(value);
 				}
 			}
