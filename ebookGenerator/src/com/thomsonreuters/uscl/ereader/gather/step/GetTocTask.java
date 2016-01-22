@@ -130,6 +130,7 @@ public class GetTocTask  extends AbstractSbTasklet {
     			throw gatherException;
     		}
     		
+    		boolean deletePreviousSplits = false;
     		//Error out if the splitGuid does not exist
 			if (bookDefinition.isSplitBook()) {
 				//Check for duplicate tocGuids for manual splits
@@ -141,23 +142,27 @@ public class GetTocTask  extends AbstractSbTasklet {
 					duplicateTocCheck(splitTocGuids, gatherResponse.getDuplicateTocGuids());
 				}
 				if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0) {
-
-					StringBuffer errorMessageBuffer = new StringBuffer(
-							"TOC/NORT guid provided for the split does not exist.");
-					int i = 1;
-					for (String tocGuid : gatherResponse.getSplitTocGuidList()) {
-						if (i == gatherResponse.getSplitTocGuidList().size()) {
-							errorMessageBuffer.append(tocGuid);
-						} else {
-							errorMessageBuffer.append(tocGuid + ", ");
+					if (bookDefinition.isSplitTypeAuto()) {
+						deletePreviousSplits = true;
+					} 
+					else {
+						StringBuffer errorMessageBuffer = new StringBuffer(
+								"TOC/NORT guid provided for the split does not exist.");
+						int i = 1;
+						for (String tocGuid : gatherResponse.getSplitTocGuidList()) {
+							if (i == gatherResponse.getSplitTocGuidList().size()) {
+								errorMessageBuffer.append(tocGuid);
+							} else {
+								errorMessageBuffer.append(tocGuid + ", ");
+							}
+							i++;
 						}
-						i++;
-					}
-					LOG.error(errorMessageBuffer);
+						LOG.error(errorMessageBuffer);
 
-					GatherException gatherException = new GatherException(errorMessageBuffer.toString(),
-							GatherResponse.CODE_UNHANDLED_ERROR);
-					throw gatherException;
+						GatherException gatherException = new GatherException(errorMessageBuffer.toString(),
+								GatherResponse.CODE_UNHANDLED_ERROR);
+						throw gatherException;
+					}
 				}
 			}
     		
@@ -167,7 +172,7 @@ public class GetTocTask  extends AbstractSbTasklet {
 	    			StringBuffer eMessage = new StringBuffer("Cannot split the book into parts as node count "+tocNodeCount+" is less than threshold value "+thresholdValue);
 	    			throw new  RuntimeException(eMessage.toString());
 				}
-				else if(gatherResponse.isFindSplitsAgain()){
+				else if(gatherResponse.isFindSplitsAgain() || deletePreviousSplits){
 						bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
 				}
 				//Check for duplicate tocGuids for Auto splits

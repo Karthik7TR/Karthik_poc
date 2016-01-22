@@ -161,6 +161,8 @@ public class GenerateTocTask  extends AbstractSbTasklet
     			
     		}
     		
+        	boolean deletePreviousSplits = false;
+        	
 			if(bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
 			{
 				List<String> splitTocGuidList = new ArrayList<String>();
@@ -179,19 +181,24 @@ public class GenerateTocTask  extends AbstractSbTasklet
 				gatherResponse = novusNortFileService.findTableOfContents(rootNodes, tocFile, cutoffDate, 
 						excludeDocuments, renameTocEntries, splitTocGuidList, thresholdValue.intValue());
 				if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0){
-					StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist. ") ;
-					int i = 1;
-					for (String tocGuid : gatherResponse.getSplitTocGuidList()){
-						if (i == gatherResponse.getSplitTocGuidList().size()){
-							errorMessageBuffer.append(tocGuid);
+					if (bookDefinition.isSplitTypeAuto()) {
+						deletePreviousSplits = true;
+					} 
+					else {
+						StringBuffer errorMessageBuffer = new StringBuffer("TOC/NORT guid provided for the split does not exist. ") ;
+						int i = 1;
+						for (String tocGuid : gatherResponse.getSplitTocGuidList()){
+							if (i == gatherResponse.getSplitTocGuidList().size()){
+								errorMessageBuffer.append(tocGuid);
+							}
+							else{
+								errorMessageBuffer.append(tocGuid+", ");
+							}
+							i++;
 						}
-						else{
-							errorMessageBuffer.append(tocGuid+", ");
-						}
-						i++;
+						LOG.error(errorMessageBuffer);
+						gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessageBuffer.toString(), 0,0,0,"GENERATE TOC STEP FAILED NONEXISTENT TOC/NORT GUID");
 					}
-					LOG.error(errorMessageBuffer);
-					gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessageBuffer.toString(), 0,0,0,"GENERATE TOC STEP FAILED NONEXISTENT TOC/NORT GUID");
 				}	
 				
 				//Check for duplicate tocGuids for manual splits
@@ -231,7 +238,7 @@ public class GenerateTocTask  extends AbstractSbTasklet
 	    			throw new  RuntimeException(eMessage.toString());
 				}
 				else{
-					if(novusNortFileService.isFindSplitsAgain()){
+					if(novusNortFileService.isFindSplitsAgain() || deletePreviousSplits){
 						bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
 					}
 				}
