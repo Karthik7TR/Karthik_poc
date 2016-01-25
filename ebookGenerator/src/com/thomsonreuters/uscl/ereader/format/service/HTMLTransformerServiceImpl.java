@@ -452,9 +452,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 				{
 					writer.write(anchors);
 					writer.write("|");
-					if (guidAnchorEntry.getKey().equalsIgnoreCase("I0D0DBF80A33011E4AF1FB9529643FEAA")){
-						LOG.info(guidAnchorEntry.getKey()+" createAnchorTargetList "+anchors);
-					}
 				}
 				writer.newLine();
 			}

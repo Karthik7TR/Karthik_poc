@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,7 +138,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 			}
 		}	
 		File anchorTargetListFile = new File(srcDir.getAbsolutePath(), "anchorTargetFile");
-		
 		
 		HashMap<String, HashSet<String>>  targetAnchors = readTargetAnchorFile(anchorTargetListFile);
 		HashMap<String, HashSet<String>> dupTargetAnchors = new HashMap<String, HashSet<String>>();
@@ -292,12 +290,9 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		else 
 		{
 			BufferedReader reader = null;
-			InputStreamReader r = null;
 			try
 			{
 				reader = new BufferedReader(new FileReader(anchorTargetListFile));
-				r = new InputStreamReader(new FileInputStream(anchorTargetListFile));
-				LOG.info(anchorTargetListFile.getAbsolutePath()+" ---------- "+r.getEncoding());
 				String input = reader.readLine();
 				while (input != null)
 				{
@@ -338,10 +333,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 					if (reader != null)
 					{
 						reader.close();
-					}
-					if (r != null)
-					{
-						r.close();
 					}
 				}
 				catch (IOException e)

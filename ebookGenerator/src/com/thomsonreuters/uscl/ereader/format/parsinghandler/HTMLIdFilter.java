@@ -10,13 +10,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
-
-import com.thomsonreuters.uscl.ereader.format.service.HTMLTransformerServiceImpl;
 
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
@@ -34,8 +31,6 @@ public class HTMLIdFilter extends XMLFilterImpl {
 	private int anchorAddedCntr = 0;
 	private int goodStartCntr = 0;
 	private ArrayList<Integer> goodCntrList = new ArrayList<Integer>();
-	
-	private static final Logger LOG = Logger.getLogger(HTMLIdFilter.class);
 
 	public String getCurrentGuid() 
 	{
@@ -97,10 +92,6 @@ public class HTMLIdFilter extends XMLFilterImpl {
 					// add anchor id after <span id="co_footnote_I6a32d800568d11e199970000837bc6dd"> like
 					// <a name="er:#I38680d13677511dc8ebc0000837214a9/co_footnote_I6a32d800568d11e199970000837bc6dd">
 					String fullyQualifiedId = "er:#" + guid + "/" + atts.getValue("id");
-					
-					if (fullyQualifiedId.contains("I0D0DBF80A33011E4AF1FB9529643FEAA")){
-						LOG.info(" fullyQualifiedId "+fullyQualifiedId);
-					}
 					
 					//determine if should be duplicate guid instead!
 					if ( ((nameAnchors != null && !nameAnchors.contains(fullyQualifiedId)) || nameAnchors == null)
