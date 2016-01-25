@@ -313,7 +313,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             return resolvedAttributes;
         }
         
-        StringBuffer ebookResourceIdentifier = new StringBuffer();
+        StringBuilder ebookResourceIdentifier = new StringBuilder();
         
         String splitTitleId = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()
                 .get(docGuid).getSplitBookTitle();
