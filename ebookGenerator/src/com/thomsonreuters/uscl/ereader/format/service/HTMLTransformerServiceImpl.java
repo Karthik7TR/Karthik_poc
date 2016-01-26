@@ -441,7 +441,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 		try
 		{
 			LOG.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
-			writer = new BufferedWriter(new FileWriter(anchorTargetListFile));
+			writer =  new BufferedWriter(new OutputStreamWriter(
+				    new FileOutputStream(anchorTargetListFile), "UTF-8"));
 			
 			for (Entry<String, HashSet<String>> guidAnchorEntry : targetAnchors.entrySet())
 			{
