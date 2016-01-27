@@ -451,7 +451,8 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 				writer.write(",");
 				for (String anchors : guidAnchorEntry.getValue())
 				{
-					writer.write(anchors);
+					String convertedString = org.apache.commons.codec.binary.StringUtils.newStringUtf8(anchors.getBytes());
+					writer.write(convertedString);
 					writer.write("|");
 				}
 				writer.newLine();
