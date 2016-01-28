@@ -11,9 +11,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -278,7 +278,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			BufferedReader reader = null;
 			try
 			{
-				reader = new BufferedReader(new FileReader(anchorTargetListFile));
+				reader = new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"));
 				String input = reader.readLine();
 				while (input != null)
 				{
@@ -356,7 +356,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 			BufferedReader reader = null;
 			try
 			{
-				reader = new BufferedReader(new FileReader(anchorTargetListFile));
+				reader = new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"));
 				String input = reader.readLine();
 				while (input != null)
 				{
@@ -420,7 +420,8 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		BufferedWriter writer = null;
 		try 
 		{
-			writer = new BufferedWriter(new FileWriter(anchorUnlinkTargetListFile));
+			writer = new BufferedWriter(new OutputStreamWriter(
+				    new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8"));
 			
 			writer.write("Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, "
 					+ "Removed Link, Target Document Guid, Target Doc Family Guid, Target "
