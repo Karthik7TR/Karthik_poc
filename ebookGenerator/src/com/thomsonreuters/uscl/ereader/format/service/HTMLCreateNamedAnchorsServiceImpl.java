@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -356,7 +357,8 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		BufferedWriter writer = null;
 		try
 		{
-			writer = new BufferedWriter(new FileWriter(anchorTargetListFile));
+			writer =  new BufferedWriter(new OutputStreamWriter(
+				    new FileOutputStream(anchorTargetListFile), "UTF-8"));
 			
 			for (Entry<String, HashSet<String>> guidAnchorEntry : targetAnchors.entrySet())
 			{
