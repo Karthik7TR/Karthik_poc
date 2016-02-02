@@ -85,10 +85,10 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 	private static final String EXPECTED_START_MANIFEST_PREFIX = "<title apiversion=\"v1\" titleversion=\"v1\" id=\"yarr/pirates\" lastupdated=\"";
 	private static final String EXPECTED_START_MANIFEST_SUFFIX = "\" language=\"eng\" status=\"Review\" onlineexpiration=\"";
 	private static final String EXPECTED_START_MANIFEST_SUFFIX_SINGLETON = "\" language=\"eng\" status=\"Review\" onlineexpiration=\"";
-	private static final String EXPECTED_TOC = "<toc><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry>";
+	private static final String EXPECTED_TOC = "<toc><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry>";
 	private static final String CASCADED_TOC = "<entry s=\"DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc>";
-	private static final String EXPECTED_DOCS_TOC_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/>";
-	private static final String EXPECTED_ALT_ID_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" altid=\"9 doc_0001\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" altid=\"3 doc_0002\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" altid=\"3 doc_0004\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" altid=\"1 doc_0005\" src=\"WestlawNext.html\"/>";
+	private static final String EXPECTED_DOCS_TOC_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"Westlaw\" src=\"Westlaw.html\"/>";
+	private static final String EXPECTED_ALT_ID_ENTRIES = "<docs><doc id=\"FrontMatterTitle\" altid=\"9 doc_0001\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" altid=\"3 doc_0002\" src=\"Copyright.html\"/><doc id=\"ResearchAssistance\" altid=\"3 doc_0004\" src=\"ResearchAssistance.html\"/><doc id=\"Westlaw\" altid=\"1 doc_0005\" src=\"Westlaw.html\"/>";
 	private static final String EXPECTED_DOCS = EXPECTED_DOCS_TOC_ENTRIES + "<doc id=\"DOC_GUID\" src=\"DOC_GUID.html\"/></docs>";
 	private static final String EXPECTED_END_MANIFEST = "</title>";
 	File altIdDir;
@@ -259,8 +259,8 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedDocs = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"AdditionalFrontMatter1\" src=\"AdditionalFrontMatter1.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"WestlawNext\" src=\"WestlawNext.html\"/><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
-		String expectedToc = "<toc><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expectedDocs = "<docs><doc id=\"FrontMatterTitle\" src=\"FrontMatterTitle.html\"/><doc id=\"Copyright\" src=\"Copyright.html\"/><doc id=\"AdditionalFrontMatter1\" src=\"AdditionalFrontMatter1.html\"/><doc id=\"ResearchAssistance\" src=\"ResearchAssistance.html\"/><doc id=\"Westlaw\" src=\"Westlaw.html\"/><doc id=\"FAM_GUID1\" src=\"DOC_GUID1.html\"/><doc id=\"FAM_GUID2\" src=\"DOC_GUID2.html\"/><doc id=\"FAM_GUID3\" src=\"DOC_GUID3.html\"/></docs>";
+		String expectedToc = "<toc><entry s=\"FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry><entry s=\"FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
 
 		String expected = EXPECTED_START_MANIFEST_PREFIX + lastupdated + EXPECTED_START_MANIFEST_SUFFIX + onlineexpiration + "\">" +
 				EXPECTED_FEATURES + EXPECTED_MATERIAL_ID + EXPECTED_ARTWORK + EXPECTED_ASSETS +
@@ -526,7 +526,7 @@ public class TitleManifestFilterTest extends TitleMetadataTestBase {
 		filter.setParent(xmlReader);
 		filter.setContentHandler(serializer.asContentHandler());
 		filter.parse(new InputSource(inputXml));
-				
+
 		System.out.println(resultStreamToString(resultStream));
 		
 		
