@@ -112,7 +112,7 @@ public class FrontMatterWestlawNextPageFilterTest {
 	public void testFrontMatterPlaceholder_WestlawNextPageAnchor() throws SAXException
 	{	
 		String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
-		String expectedResult = "<test><a name=\"" + FrontMatterFileName.WESTLAWNEXT + 
+		String expectedResult = "<test><a name=\"" + FrontMatterFileName.WESTLAW + 
 				FrontMatterFileName.ANCHOR + "\"> </a></test>";
 		
 		testHelper(xmlTestStr, expectedResult);

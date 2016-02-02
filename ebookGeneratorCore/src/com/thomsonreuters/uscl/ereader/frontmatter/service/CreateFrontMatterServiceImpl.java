@@ -97,7 +97,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 		
 		LOG.debug("Front Matter Research Assistance HTML page generated.");
 		
-		File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAWNEXT + HTML_EXTENSION);
+		File westlawNextPage = new File(outputDir, FrontMatterFileName.WESTLAW + HTML_EXTENSION);
 		writeHTMLFile(westlawNextPage, generateWestlawNextPage());
 		
 		LOG.debug("Front Matter WestlawNext HTML page generated.");

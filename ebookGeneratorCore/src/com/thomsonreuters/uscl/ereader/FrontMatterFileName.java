@@ -17,7 +17,7 @@ public class FrontMatterFileName {
 	/** This is the ADDITIONAL INFORMATION OR RESEARCH ASSISTANCE */
 	public static final String RESEARCH_ASSISTANCE = "ResearchAssistance";
 	/** This is the WestlawNext GUIDE */
-	public static final String WESTLAWNEXT = "WestlawNext";
+	public static final String WESTLAW = "Westlaw";
 
     /** This will be appended to the file names to generate unique anchor names for each page. */
     public static final String ANCHOR = "Anchor";
