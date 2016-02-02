@@ -52,7 +52,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 	private static final String TITLE_PAGE = "Title Page";
 	private static final String COPYRIGHT_PAGE = "Copyright Page";
 	private static final String ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE = "Additional Information or Research Assistance";
-	private static final String WESTLAW_NEXT = "WestlawNext";
+	private static final String WESTLAW = "Westlaw";
 
 	public void buildFrontMatterTOCEntries(boolean isSplitBook) throws SAXException {
 		currentDepth++;
@@ -95,7 +95,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
 		createFrontMatterNode(FrontMatterFileName.RESEARCH_ASSISTANCE, ADDITIONAL_INFORMATION_OR_RESEARCH_ASSISTANCE, isSplitBook);
 
-		createFrontMatterNode(FrontMatterFileName.WESTLAWNEXT, WESTLAW_NEXT, isSplitBook);
+		createFrontMatterNode(FrontMatterFileName.WESTLAW, WESTLAW, isSplitBook);
 
 		currentDepth--;
 		currentDepth--;
