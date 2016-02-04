@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
@@ -55,7 +56,6 @@ public class ProviewClientImplTest
 	private ProviewXMLRequestCallback mockXMLRequestCallback;
 	private ProviewResponseExtractor mockResponseExtractor;
 	private GroupDefinition mockGroupDefinition;
-	
 	
 	@Before
 	public void setUp() throws Exception
@@ -208,6 +208,69 @@ public class ProviewClientImplTest
 		verifyAll();
 			
 		Assert.assertEquals("", response);
+	}
+	
+	@Test
+	public void testAllGroupStatus() throws Exception {
+			
+		getTitlesUriTemplate =  "/v1/group/groupId/groupVersionNumber/status/removed";
+		
+		proviewClient.setRemoveGroupStatusUriTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);		
+		
+		EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.PUT, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
+		
+		replayAll();
+		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
+		//System.out.println("response "+response);
+		verifyAll();
+			
+		Assert.assertEquals("", response);
+	}
+	
+	@Test
+	public void testGetAllGroups() throws Exception {
+		String allGroupsUriTemplate="/v1/group/uscl";
+		
+		proviewClient.setAllGroupsUriTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + allGroupsUriTemplate);
+		
+		String expectedResponse = "YARR!";
+		
+		EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + allGroupsUriTemplate, HttpMethod.GET, mockRequestCallback, mockResponseExtractor, urlParameters)).andReturn("YARR!");
+		
+		replayAll();
+		String response = proviewClient.getAllProviewGroups();
+		verifyAll();		
+		assertTrue("Response did not match expected result!", response.equals(expectedResponse));
+
+	}
+	
+	@Test
+	public void testSinglePublishedTitle() throws Exception {
+		String singleTitleTemplate = "/v1/titles/titleId";
+		
+		proviewClient.setSingleTitleTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+		urlParameters.put("titleId", "uscl/sc/ca_evid");
+		
+		String expectedResponse = "YARR!";
+		EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate, HttpMethod.GET, mockRequestCallback, mockResponseExtractor, urlParameters)).andReturn("YARR!");		
+		
+		replayAll();
+		String response = proviewClient.getSinglePublishedTitle("uscl/sc/ca_evid");
+		verifyAll();		
+		Assert.assertEquals(expectedResponse, response);
+
 	}
 	
 	private Map<String, String> createURLParameters(){

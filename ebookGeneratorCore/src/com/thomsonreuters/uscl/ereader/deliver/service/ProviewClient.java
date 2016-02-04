@@ -28,6 +28,8 @@ public interface ProviewClient {
 	public void setProviewHostname(String hostname) throws UnknownHostException;
 	public void setProviewHost(InetAddress host);
 	
+	public String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException;
+	
 	public String publishTitle(final String fullyQualifiedTitleId,
 			final String versionNumber, final File eBook)
 			throws ProviewException;
@@ -79,4 +81,6 @@ public interface ProviewClient {
 	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(
 			Map<String, ProviewTitleContainer> titleMap)
 			throws ProviewException;
+	
+	public String getAllProviewGroups() throws ProviewException ;
 }

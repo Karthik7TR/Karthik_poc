@@ -9,13 +9,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
@@ -181,6 +178,37 @@ public class ProviewClientImplIntegrationTest {
 		}
 	}
 	
+	@Test
+	public void testGetAllGroupsHappyPath() throws Exception {
+		proviewClient.setProviewHost(InetAddress.getLocalHost());
+		proviewClient.setAllGroupsUriTemplate("http://"
+				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/uscl");
+		boolean thrown = false;
+		try {
+		  proviewClient.getAllProviewGroups();
+		} catch (ProviewRuntimeException e) {
+			thrown = true;
+		}
+		
+		Assert.assertEquals(false,thrown);
+		
+	}
+	
+	@Test
+	public void testGetSinglePublishedTitle() throws Exception {
+		proviewClient.setProviewHost(InetAddress.getLocalHost());
+		proviewClient.setSingleTitleTemplate("http://"
+				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/titles/{titleId}");		
+		try{
+		 proviewClient.getSinglePublishedTitle("uscl/an/book_lohisplitnodeinfo");
+		} catch (Exception e) {
+			if (!e.getMessage().contains("uscl/an/book_lohisplitnodeinfo does not exist")) {
+				fail("Expected an exception as title doesn't exist on ProView!");
+			}
+			
+		}
+		
+	}
 	
 	
 	@Test

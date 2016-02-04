@@ -61,7 +61,9 @@ public class ProviewClientImpl implements ProviewClient {
 	private String deleteGroupUriTemplate;
 	
 	private String getGroupUriTemplate;
-	
+	private String allGroupsUriTemplate;
+	private String singleTitleTemplate;
+
 	public static final String ROOT_ELEMENT = "group";
 	
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
@@ -246,6 +248,36 @@ public class ProviewClientImpl implements ProviewClient {
 	}
 	
 	
+	/**
+	 * Request will get group definition
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	@Override
+	public String getAllProviewGroups() throws ProviewException {
+		
+		String proviewResponse = null;
+		try{
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+
+		 proviewResponse = restTemplate.execute(allGroupsUriTemplate,
+					HttpMethod.GET,
+					proviewRequestCallbackFactory.getStreamRequestCallback(),
+					proviewResponseExtractorFactory.getResponseExtractor(),
+					urlParameters);
+		 
+		} catch (Exception e) {
+			LOG.debug(e);
+			throw new ProviewException(e.getMessage());
+		}
+
+		return proviewResponse;
+	}
+	
+	
 	protected String buildRequestBody(GroupDefinition groupDefinition)
 	{
 		
@@ -411,13 +443,32 @@ public class ProviewClientImpl implements ProviewClient {
 		String response = null;
 		try {
 			Map<String, String> urlParameters = new HashMap<String, String>();
-LOG.debug("Proview host: " + proviewHost.getHostName());		
+			LOG.debug("Proview host: " + proviewHost.getHostName());		
 			urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 			response = restTemplate.execute(getTitlesUriTemplate,
 					HttpMethod.GET,
 					proviewRequestCallbackFactory.getStreamRequestCallback(),
 					proviewResponseExtractorFactory.getResponseExtractor(),
 					urlParameters);
+		} catch (Exception e) {
+			LOG.debug(e);
+			throw new ProviewException(e.getMessage());
+		}
+
+		return response;
+	}
+	
+	@Override
+	public String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException {
+		String response = null;
+		try {
+			Map<String, String> urlParameters = new HashMap<String, String>();
+			LOG.debug("Proview host: " + proviewHost.getHostName());
+			urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+			urlParameters.put("titleId", fullyQualifiedTitleId);
+			response = restTemplate.execute(singleTitleTemplate, HttpMethod.GET,
+					proviewRequestCallbackFactory.getStreamRequestCallback(),
+					proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
 		} catch (Exception e) {
 			LOG.debug(e);
 			throw new ProviewException(e.getMessage());
@@ -701,4 +752,22 @@ LOG.debug("Proview host: " + proviewHost.getHostName());
 		this.deleteGroupUriTemplate = deleteGroupUriTemplate;
 	}
 
+	public String getAllGroupsUriTemplate() {
+		return allGroupsUriTemplate;
+	}
+
+	@Required
+	public void setAllGroupsUriTemplate(String allGroupsUriTemplate) {
+		this.allGroupsUriTemplate = allGroupsUriTemplate;
+	}
+
+
+	public String getSingleTitleTemplate() {
+		return singleTitleTemplate;
+	}
+
+	@Required
+	public void setSingleTitleTemplate(String singleTitleTemplate) {
+		this.singleTitleTemplate = singleTitleTemplate;
+	}
 }
