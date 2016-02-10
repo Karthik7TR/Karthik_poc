@@ -63,6 +63,7 @@ public class ProviewClientImpl implements ProviewClient {
 	private String getGroupUriTemplate;
 	private String allGroupsUriTemplate;
 	private String singleTitleTemplate;
+	private String singleTitleByVersionUriTemplate;
 
 	public static final String ROOT_ELEMENT = "group";
 	
@@ -477,6 +478,34 @@ public class ProviewClientImpl implements ProviewClient {
 		return response;
 	}
 
+	@Override
+	public String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version)
+			throws ProviewException {
+		String response = null;
+		try {
+		if (StringUtils.isBlank(fullyQualifiedTitleId) && StringUtils.isBlank(version)) {
+			throw new IllegalArgumentException(
+					"Cannot get publishing status for titleId: "
+							+ fullyQualifiedTitleId +" and version "+version
+							+ ". Both titleId and version should be provided.");
+		}
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", version);
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		response = restTemplate.execute(singleTitleByVersionUriTemplate, HttpMethod.GET,
+				proviewRequestCallbackFactory.getXMLRequestCallback(),
+				proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
+		
+		} catch (Exception e) {
+			LOG.debug(e);
+			throw new ProviewException(e.getMessage());
+		}
+		return response;
+	}
+	
+	
 //	@Override
 //	public String getPublishingStatus(String fullyQualifiedTitleId)
 //			throws ProviewException {
@@ -560,6 +589,18 @@ public class ProviewClientImpl implements ProviewClient {
 
 		return parser.process(allPublishedTitleResponse);
 
+	}
+	
+	@Override
+	public Map<String, ProviewGroup> getAllProviewGroupInfo()
+			throws ProviewException {
+		
+		String allGroupsResponse = getAllProviewGroups();
+
+		ProviewGroupsParser parser = new ProviewGroupsParser();
+
+		return parser.process(allGroupsResponse);
+		
 	}
 
 	/*
@@ -769,5 +810,16 @@ public class ProviewClientImpl implements ProviewClient {
 	@Required
 	public void setSingleTitleTemplate(String singleTitleTemplate) {
 		this.singleTitleTemplate = singleTitleTemplate;
+	}	
+
+
+	public String getSingleTitleByVersionUriTemplate() {
+		return singleTitleByVersionUriTemplate;
 	}
+
+	@Required
+	public void setSingleTitleByVersionUriTemplate(String singleTitleByVersionUriTemplate) {
+		this.singleTitleByVersionUriTemplate = singleTitleByVersionUriTemplate;
+	}
+	
 }

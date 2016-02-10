@@ -86,6 +86,30 @@ public class ProviewClientImplTest
 	}
 	
 	@Test
+	public void getSingleTitleInfoByVersion() throws Exception{
+		String singleTitleByVersionUriTemplate =  "/v1/titles/titleId/eBookVersionNumber";
+		
+		proviewClient.setSingleTitleByVersionUriTemplate("http://"
+				+ PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate);
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+		urlParameters.put("titleId", "uscl/an/coi");
+		urlParameters.put("eBookVersionNumber", "v1.0");
+		
+		EasyMock.expect(mockRequestCallbackFactory.getXMLRequestCallback()).andReturn(mockXMLRequestCallback);
+		EasyMock.expect(mockResponseExtractorFactory.getResponseExtractor()).andReturn(mockResponseExtractor);
+		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate, HttpMethod.GET, mockXMLRequestCallback, mockResponseExtractor, urlParameters)).andReturn("");
+		
+		replayAll();
+		String response = proviewClient.getSingleTitleInfoByVersion("uscl/an/coi", "v1.0");
+		System.out.println("response "+response);
+		verifyAll();
+			
+		Assert.assertEquals("", response);
+	}
+	
+	@Test
 	public void testRequestBody()
 			throws Exception {
 				

@@ -34,6 +34,9 @@ public interface ProviewClient {
 			final String versionNumber, final File eBook)
 			throws ProviewException;
 	
+	public String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version)
+			throws ProviewException;
+	
 	public String createGroup(final GroupDefinition groupDefinition)
 			throws ProviewException;
 	
@@ -59,6 +62,9 @@ public interface ProviewClient {
 
 	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
 			throws ProviewException;
+	
+	public Map<String, ProviewGroup> getAllProviewGroupInfo()
+			throws ProviewException;
 
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
 			throws ProviewException;
@@ -83,4 +89,5 @@ public interface ProviewClient {
 			throws ProviewException;
 	
 	public String getAllProviewGroups() throws ProviewException ;
+	
 }

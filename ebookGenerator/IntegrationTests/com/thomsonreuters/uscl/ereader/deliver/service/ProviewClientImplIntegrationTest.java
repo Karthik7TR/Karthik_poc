@@ -25,7 +25,6 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
-import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 
 /**
@@ -104,6 +103,21 @@ public class ProviewClientImplIntegrationTest
 			//expected
 		}
 	}
+	
+	@Test
+	public void getSingleTitleInfoByVersion() throws Exception{		
+		try{
+		String singleTitleByVersionUriTemplate =  "/v1/titles/{titleId}/{eBookVersionNumber}";
+		proviewClient.setProviewHost(InetAddress.getLocalHost());
+		proviewClient.setSingleTitleByVersionUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate);
+		String publisherInformation = proviewClient.getSingleTitleInfoByVersion("uscl/an/coi", "v1.0");
+		System.out.println("publisherInformation : "+publisherInformation);
+		}
+		catch (Exception e) {
+			assertTrue(e.toString().contains("uscl/an/coi/v1.0 does not exist"));
+		}
+	}
+	
 	
 	@Test
 	public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception {
