@@ -5,6 +5,8 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +112,26 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
 		Assert.assertEquals(3, errors.getAllErrors().size());
 	}
+	
+	@Test
+	public void testFileExist() throws Exception {
+	form.setIsComplete(true);
+	        form.setSourceType(SourceType.FILE);
+	        URL url = EditBookDefinitionFormValidatorTest.class.getResource("test.xml");
+	        File dir = new File(url.toURI());
+	        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(
+	                                        analyticalCode);
+	        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+	        EasyMock.replay(mockCodeService);
+	        form.setCodesWorkbenchBookName("/");
+	        validator.setRootCodesWorkbenchLandingStrip(dir);
+	        validator.validate(form, errors);
+	 
+	        Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
+	 
+	        Assert.assertEquals(13, errors.getAllErrors().size());
+	}
+
 
 	/**
      * Test Analytical Title Validation
