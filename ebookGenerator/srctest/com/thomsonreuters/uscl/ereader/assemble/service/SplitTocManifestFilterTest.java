@@ -63,7 +63,7 @@ public class SplitTocManifestFilterTest extends TitleMetadataTestBase {
     File altIdFile;
     	    
     
-	private static final String EXPECTED__SPLIT_TOC = "<toc><titlebreak/><entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"yarr/pirates#Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry>";	
+	private static final String EXPECTED__SPLIT_TOC = "<toc><titlebreak/><entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"yarr/pirates#WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry>";	
 	private static final String EXPECTED_END_MANIFEST = "</title>";
 	File altIdDir;
 	
@@ -120,6 +120,65 @@ public class SplitTocManifestFilterTest extends TitleMetadataTestBase {
 	}
 	
 	@Test
+	public void testVoidInput() throws Exception {
+		try{
+			SplitTocManifestFilter titleMeta = new SplitTocManifestFilter(null, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter hMap = new SplitTocManifestFilter(titleMetadata, null, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter uuidGen = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), null, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter transDocDir = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, null, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter falseDocDir = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, new File("test"), mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter fUtilsFac = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, null, mockPlaceholderDocumentService, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+		
+		try{
+			SplitTocManifestFilter placeDocService = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, null, docImageMap);
+			fail("Should throw IllegalArugmentException");
+		}catch(IllegalArgumentException e){
+			// expected exception
+			e.printStackTrace();
+		}
+	}
+		
+	@Test
 	public void testStartDocument() throws Exception {
 		splitTocManifestFilterTest.startDocument();
 		splitTocManifestFilterTest.endDocument();
@@ -140,7 +199,7 @@ public class SplitTocManifestFilterTest extends TitleMetadataTestBase {
 				+"<entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text>"
 				+ "<entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry>"
 				+ "<entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry>"
-				+ "<entry s=\"yarr/pirates#Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry><entry s=\"yarr/pirates#DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc></title>";
+				+ "<entry s=\"yarr/pirates#WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry><entry s=\"yarr/pirates#DOC_GUID/TOC_GUID\"><text>BLARGH</text></entry></toc></title>";
 		Assert.assertEquals(expected, resultStreamToString(resultStream));
 	}
 	
@@ -169,7 +228,7 @@ public class SplitTocManifestFilterTest extends TitleMetadataTestBase {
 				"<EBookToc><Name>3</Name><Guid>TOC_GUID3</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>" +
 				"</EBook>";
 		
-		String expectedToc = "<toc><titlebreak/><entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"yarr/pirates#AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"yarr/pirates#Westlaw/WestlawAnchor\"><text>Westlaw</text></entry></entry><entry s=\"yarr/pirates#FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"yarr/pirates#FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"yarr/pirates#FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
+		String expectedToc = "<toc><titlebreak/><entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry><entry s=\"yarr/pirates#Copyright/PublishingInformationAnchor\"><text>PUBLISHING INFORMATION</text><entry s=\"yarr/pirates#Copyright/CopyrightAnchor\"><text>Copyright Page</text></entry><entry s=\"yarr/pirates#AdditionalFrontMatter1/AdditionalFrontMatter1Anchor\"><text>Pirates Toc Page</text></entry><entry s=\"yarr/pirates#ResearchAssistance/ResearchAssistanceAnchor\"><text>Additional Information or Research Assistance</text></entry><entry s=\"yarr/pirates#WestlawNext/WestlawNextAnchor\"><text>WestlawNext</text></entry></entry><entry s=\"yarr/pirates#FAM_GUID1/TOC_GUID1\"><text>1</text></entry><entry s=\"yarr/pirates#FAM_GUID2/TOC_GUID2\"><text>2</text></entry><entry s=\"yarr/pirates#FAM_GUID3/TOC_GUID3\"><text>3</text></entry></toc>";
 
 		String expected = "<title>"+ expectedToc + EXPECTED_END_MANIFEST;
 		
