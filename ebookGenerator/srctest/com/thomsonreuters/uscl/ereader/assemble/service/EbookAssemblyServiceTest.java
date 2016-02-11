@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
@@ -21,6 +22,8 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException;
 
 /**
  * Component tests for the eBookAssemblyService.
@@ -56,6 +59,19 @@ public class EbookAssemblyServiceTest
 	{
 		FileUtils.deleteQuietly(eBookDirectory);
 		FileUtils.deleteQuietly(eBook);
+	}
+	
+	@Test
+	public void testAssembleEBookProtectedFile() throws Exception {
+		try{
+			File none = new File("none");
+			none.setWritable(false);
+			assemblyService.assembleEBook(eBookDirectory, none);
+			fail("Should throw FileNotFoundException");
+		} catch (EBookAssemblyException e){
+			//expected exception
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

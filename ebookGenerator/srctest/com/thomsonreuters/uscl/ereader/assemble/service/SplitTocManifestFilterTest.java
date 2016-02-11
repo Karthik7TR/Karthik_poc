@@ -35,6 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
@@ -121,63 +122,74 @@ public class SplitTocManifestFilterTest extends TitleMetadataTestBase {
 	
 	@Test
 	public void testVoidInput() throws Exception {
+		//titleMetadata test
 		try{
-			SplitTocManifestFilter titleMeta = new SplitTocManifestFilter(null, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(null, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
+		//docImage Map test
 		try{
-			SplitTocManifestFilter hMap = new SplitTocManifestFilter(titleMetadata, null, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, null, uuidGenerator, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
+		//uuidGenerator test
 		try{
-			SplitTocManifestFilter uuidGen = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), null, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), null, temporaryDirectory, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
+		//activeDirectory tests
 		try{
-			SplitTocManifestFilter transDocDir = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, null, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, null, mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
 		try{
-			SplitTocManifestFilter falseDocDir = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, new File("test"), mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, new File("test"), mockFileUtilsFacade, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
+		//file utilities facade test
 		try{
-			SplitTocManifestFilter fUtilsFac = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, null, mockPlaceholderDocumentService, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, null, mockPlaceholderDocumentService, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
-		
+		//placeholder document services test
 		try{
-			SplitTocManifestFilter placeDocService = new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, null, docImageMap);
+			new SplitTocManifestFilter(titleMetadata, new HashMap<String, String>(), uuidGenerator, temporaryDirectory, mockFileUtilsFacade, null, docImageMap);
 			fail("Should throw IllegalArugmentException");
 		}catch(IllegalArgumentException e){
 			// expected exception
 			e.printStackTrace();
 		}
 	}
-		
+	
+/*	@Test
+ *	public void testStartElement(){
+ *		try{
+ *			splitTocManifestFilterTest.startElement(URI, TITLE_ELEMENT, "MissingDocument", EMPTY_ATTRIBUTES);
+ *			fail("Should throw SAXException");
+ *		}catch(SAXException e){
+ *			//expected exception
+ *			e.printStackTrace();
+ *		}
+ *	}
+ */		
 	@Test
 	public void testStartDocument() throws Exception {
 		splitTocManifestFilterTest.startDocument();
