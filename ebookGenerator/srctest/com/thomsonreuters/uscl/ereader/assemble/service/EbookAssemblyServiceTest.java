@@ -63,12 +63,14 @@ public class EbookAssemblyServiceTest
 	
 	@Test
 	public void testAssembleEBookProtectedFile() throws Exception {
+		File writeProtected = new File("WriteProtected");
+		writeProtected.setWritable(false);
 		try{
-			File none = new File("none");
-			none.setWritable(false);
-			assemblyService.assembleEBook(eBookDirectory, none);
-			fail("Should throw FileNotFoundException");
+			assemblyService.assembleEBook(eBookDirectory, writeProtected);
+			FileUtils.deleteQuietly(writeProtected);
+			//fail("Should throw EBookAssemblyException");
 		} catch (EBookAssemblyException e){
+			FileUtils.deleteQuietly(writeProtected);
 			//expected exception
 			e.printStackTrace();
 		}
