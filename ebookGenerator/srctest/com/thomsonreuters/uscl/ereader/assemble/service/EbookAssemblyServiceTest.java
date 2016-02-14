@@ -35,6 +35,7 @@ public class EbookAssemblyServiceTest
 	private File eBookDirectory;
 	private File titleXml;
 	private File eBook;
+	private File writeProtected;
 
 	private EBookAssemblyService assemblyService;
 	
@@ -47,6 +48,8 @@ public class EbookAssemblyServiceTest
 		eBookDirectory = new File(eBook.getParentFile(), "eBookDirectory");
 		eBookDirectory.mkdirs();
 		titleXml = new File(eBookDirectory, "title.xml");
+		writeProtected = new File(eBookDirectory, "WriteProtected");
+		writeProtected.setReadOnly();
 				
 		OutputStream outputStream = new FileOutputStream(titleXml);
 		outputStream.write("<title/>".getBytes());
@@ -59,18 +62,17 @@ public class EbookAssemblyServiceTest
 	{
 		FileUtils.deleteQuietly(eBookDirectory);
 		FileUtils.deleteQuietly(eBook);
+		FileUtils.deleteQuietly(writeProtected);
 	}
 	
 	@Test
 	public void testAssembleEBookProtectedFile() throws Exception {
-		File writeProtected = new File("WriteProtected");
-		writeProtected.setWritable(false);
+		File writeProtected = new File(eBookDirectory, "WriteProtected");
+		writeProtected.setReadOnly();
 		try{
 			assemblyService.assembleEBook(eBookDirectory, writeProtected);
-			FileUtils.deleteQuietly(writeProtected);
-			//fail("Should throw EBookAssemblyException");
+			fail("Should throw EBookAssemblyException");
 		} catch (EBookAssemblyException e){
-			FileUtils.deleteQuietly(writeProtected);
 			//expected exception
 			e.printStackTrace();
 		}
