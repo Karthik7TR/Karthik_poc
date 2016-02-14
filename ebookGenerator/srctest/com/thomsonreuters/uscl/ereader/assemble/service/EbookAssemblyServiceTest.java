@@ -67,8 +67,6 @@ public class EbookAssemblyServiceTest
 	
 	@Test
 	public void testAssembleEBookProtectedFile() throws Exception {
-		File writeProtected = new File(eBookDirectory, "WriteProtected");
-		writeProtected.setReadOnly();
 		try{
 			assemblyService.assembleEBook(eBookDirectory, writeProtected);
 			fail("Should throw EBookAssemblyException");
