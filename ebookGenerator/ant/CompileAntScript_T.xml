@@ -70,7 +70,7 @@
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
- 
+    <mkdir dir="${logs.dir}"/>
   </target>
 
    
@@ -225,17 +225,6 @@
 	     Identify the external task(s) here.
 		 - - - - - - - - - - - - - - - - - -->
   <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="classpath.findbugs" />
-
-  <!-- - - - - - - - - - - - - - - - - -
-         target: -init
-         description: Perform all initialization tasks like creating 
-                      directories that do not exist, etc.
-         - - - - - - - - - - - - - - - - - -->
-  <target name="-init">
-    <echo level="verbose">Creating temporary directory ('${dir.tmpBuildDir}') and logs directory ('${logs.dir}'), if they do not exist. ...</echo>
-    <mkdir dir="${dir.tmpBuildDir}"/>
-    <mkdir dir="${logs.dir}"/>
-  </target>
 
   <!-- ================================= 
 	     target: findBugsMain 
