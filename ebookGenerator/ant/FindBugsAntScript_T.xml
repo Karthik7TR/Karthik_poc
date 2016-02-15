@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<project name="ebookGenerator_Compile_Script" default="findBugsMain" basedir="..\">
+<project name="FindBugs" default="findBugsMain" basedir="..\">
   <property environment="env" />
   <property file="ant/ant-global.properties" />
   <property name="log.file" value="FindBugsReport.html" />

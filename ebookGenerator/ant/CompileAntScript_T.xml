@@ -31,7 +31,7 @@
     </fileset>
   </path>
 
-  <include file="../ant/FindBugsAntScript_T.xml"/>
+  <include file="../ant/FindBugsAntScript_T.xml" as="nested"/>
   <!-- =================================
           target: normal_build
           description: This is the entry target for a "normal" build. It will compile the main source 
