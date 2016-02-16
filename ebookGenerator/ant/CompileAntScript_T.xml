@@ -247,7 +247,7 @@
   <property name="NASlocation" value="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$" />
   
   <target name="publishToNAS">
-     <condition property="dirdoesnt.exists">
+    <condition property="dirdoesnt.exists">
        <not>
           <available file="Z:\" type="dir"/>
        </not>
@@ -255,9 +255,18 @@
     <echo level="verbose">
        dir doesn't exist - ${dirdoesnt.exists}
     </echo>
-    <exec executable="cmd.exe">
-      <arg line="/c net use Z: /persistent:yes ${NASlocation} /user:Ecomqc\svctfsngservice Ac*r0s$4"/>
-    </exec>
-    <mkdir dir="Z:/eBookGenerator_T"/>
+    <istrue value="${dirdoesnt.exists}">
+      <exec executable="cmd.exe">
+        <arg line="/c net use Z: /persistent:yes ${NASlocation} /user:Ecomqc\svctfsngservice Ac*r0s$4"/>
+      </exec>
+    </istrue>
+    <condition property="NASdoesnt.exists">
+       <not>
+          <available file="Z:\" type="dir"/>
+       </not>
+    </condition>   
+    <istrue value="${NASdoesnt.exists}">
+      <mkdir dir="Z:/eBookGenerator_T"/>
+    </istrue>
   </target>
 </project>
