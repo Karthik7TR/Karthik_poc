@@ -249,7 +249,7 @@
   <target name="publishToNAS">
     <condition property="dir.doesntexists">
       <not>
-        <available location="Z:\" type="dir"/>
+        <available file="Z:\" type="dir"/>
       </not>
     </condition>
     <exec executable="cmd.exe" if="dir.doesntexists">
