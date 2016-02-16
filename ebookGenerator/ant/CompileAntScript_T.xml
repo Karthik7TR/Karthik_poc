@@ -255,6 +255,10 @@
     <!-- copy war file to ReleaseNAS -->
     <copyfile src="${dir.binaries}/${warFilename}" dest="Z:/eBookGenerator/31.1.100/${warFilename}"/>
 
+    <!--copy deploy  resources-->
+    <copy todir="Z:/eBookGenerator/31.1.100/" overwrite="true" verbose="Copying deploy context files to Release NAS directory">
+      <fileset dir="${dir.source}/ebookGenerator/deploy"/>
+    </copy>
   </target>
   
   <!--Deploy-->
