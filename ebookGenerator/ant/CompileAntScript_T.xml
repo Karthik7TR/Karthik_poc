@@ -253,7 +253,27 @@
       <mkdir dir="Z:/eBookGenerator_T"/>
 
     <!-- copy war file to ReleaseNAS -->
-    <copyfile src="${dir.binaries}/${warFilename}" dest="Z:/eBookGenerator_T/${warFilename}"/>
+    <copyfile src="${dir.binaries}/${warFilename}" dest="Z:/eBookGenerator/31.1.100/${warFilename}"/>
+
+  </target>
+  
+  <!--Deploy-->
+  <property file="ant\deploy.properties" />
+
+  <!-- Must pass deploy_version in from the UI. -->
+  <property name="deploy_version" value="" />
+
+  <property name="numeric_deploy_version" value="31.1.100" />
+  <!-- This does all the work.  We first do a undeploy, then a deploy of hte application. -->
+  <target name="fulldeploy" description="this does the full deploy of a war file">
+
+    <sshexec host="${DEPLOY_SERVER}"
+    username="${CURRENT_USER}"
+    password="${CURRENT_PASSWORD}"
+    trust="yes"
+    
+    command="cd /appserver/deployment;sleep 1m;./deploycicontent ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>
+    <!--command="cd /appserver/deployment;./deploycikp ${numeric_deploy_version} application=${APPLICATION} username=${NODE_AGENT_USER} password=${NODE_AGENT_PASSWORD}"/>-->
 
   </target>
 </project>
