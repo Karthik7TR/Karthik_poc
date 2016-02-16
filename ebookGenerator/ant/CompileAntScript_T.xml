@@ -255,18 +255,20 @@
     <echo level="verbose">
        dir doesn't exist - ${dirdoesnt.exists}
     </echo>
-    <istrue value="${dirdoesnt.exists}">
+    <condition property="${dirdoesnt.exists}" value="true">
       <exec executable="cmd.exe">
         <arg line="/c net use Z: /persistent:yes ${NASlocation} /user:Ecomqc\svctfsngservice Ac*r0s$4"/>
       </exec>
-    </istrue>
+    </condition>
+    
     <condition property="NASdoesnt.exists">
        <not>
           <available file="Z:\" type="dir"/>
        </not>
     </condition>   
-    <istrue value="${NASdoesnt.exists}">
+    
+    <condition property="${NASdoesnt.exists}" value="true">
       <mkdir dir="Z:/eBookGenerator_T"/>
-    </istrue>
+    </condition>
   </target>
 </project>
