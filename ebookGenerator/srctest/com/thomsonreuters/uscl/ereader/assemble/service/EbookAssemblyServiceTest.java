@@ -35,7 +35,6 @@ public class EbookAssemblyServiceTest
 	private File eBookDirectory;
 	private File titleXml;
 	private File eBook;
-	private File writeProtected;
 
 	private EBookAssemblyService assemblyService;
 	
@@ -48,8 +47,6 @@ public class EbookAssemblyServiceTest
 		eBookDirectory = new File(eBook.getParentFile(), "eBookDirectory");
 		eBookDirectory.mkdirs();
 		titleXml = new File(eBookDirectory, "title.xml");
-		writeProtected = new File(eBookDirectory, "WriteProtected");
-		writeProtected.setReadOnly();
 				
 		OutputStream outputStream = new FileOutputStream(titleXml);
 		outputStream.write("<title/>".getBytes());
@@ -62,18 +59,71 @@ public class EbookAssemblyServiceTest
 	{
 		FileUtils.deleteQuietly(eBookDirectory);
 		FileUtils.deleteQuietly(eBook);
-		FileUtils.deleteQuietly(writeProtected);
 	}
 	
 	@Test
 	public void testAssembleEBookProtectedFile() throws Exception {
+		File writeProtected = new File(eBookDirectory, "WriteProtected");
+		writeProtected.setReadOnly();
 		try{
 			assemblyService.assembleEBook(eBookDirectory, writeProtected);
 			fail("Should throw EBookAssemblyException");
 		} catch (EBookAssemblyException e){
 			//expected exception
 			e.printStackTrace();
+		} finally {
+			FileUtils.deleteQuietly(writeProtected);
 		}
+	}
+	
+	@Test
+	public void testGetLargestContent() throws Exception {
+		String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed"
+				+ " do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+				+ " Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+				+ " laboris nisi ut aliquip ex ea commodo consequat. Duis aute"
+				+ " irure dolor in reprehenderit in voluptate velit esse cillum"
+				+ " dolore eu fugiat nulla pariatur. Excepteur sint occaecat"
+				+ " cupidatat non proident, sunt in culpa qui officia deserunt"
+				+ " mollit anim id est laborum.";
+		File temp4 = new File(eBookDirectory, "temp4.txt");
+		FileOutputStream out = new FileOutputStream(temp4);
+		out.write((loremIpsum+loremIpsum).getBytes());
+		out.close();
+		File temp2 = new File(eBookDirectory, "temp2.txt");
+		out = new FileOutputStream(temp2);
+		out.write(loremIpsum.getBytes());
+		out.close();
+		File temp3 = new File(eBookDirectory, "temp3.dat");
+		out = new FileOutputStream(temp3);
+		out.write(loremIpsum.getBytes());
+		out.close();
+		assertTrue(temp4.length() == (assemblyService.getLargestContent(eBookDirectory.getAbsolutePath(), ".txt")));
+		//assertTrue(temp4.length() == (assemblyService.getLargestContent(eBookDirectory.getAbsolutePath(), ".dat,.txt")));
+		
+		File temp1 = new File(eBookDirectory, "temp1.png");
+		out = new FileOutputStream(temp1);
+		out.write((loremIpsum+loremIpsum+loremIpsum).getBytes());
+		out.flush();
+		out.close();
+		out = null;
+		assertTrue(temp1.length() == (assemblyService.getLargestContent(eBookDirectory.getAbsolutePath(), ".txt,.png")));
+		// the program is very resistant to actually deleting these files.
+		// not fully deleting these files here causes testAssembleHappyPath() to fail
+		
+		//temp1.delete();
+		//temp2.delete();
+		//temp3.delete();
+		//temp4.delete();
+		FileUtils.deleteQuietly(temp1);
+		FileUtils.deleteQuietly(temp2);
+		FileUtils.deleteQuietly(temp3);
+		FileUtils.deleteQuietly(temp4);
+		//temp1 = null;
+		//temp2 = null;
+		//temp3 = null;
+		//temp4 = null;
+		//System.gc();
 	}
 	
 	@Test
