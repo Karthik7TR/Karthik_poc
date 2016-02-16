@@ -252,10 +252,8 @@
       </exec>
       <mkdir dir="Z:/eBookGenerator_T"/>
 
-    <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
-    <copy todir="Z:/eBookGenerator_T" overwrite="true">
-      <fileset dir="${dir.binaries}/${warFilename}"/>
-    </copy>
+    <!-- copy war file to ReleaseNAS -->
+    <copyfile src="${dir.binaries}/${warFilename}" dest="Z:/eBookGenerator_T/${warFilename}"/>
 
   </target>
 </project>
