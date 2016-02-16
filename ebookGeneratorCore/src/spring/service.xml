@@ -78,7 +78,8 @@
 		  p:promoteGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/final"
 		  p:getGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/info"
 		  p:allGroupsUriTemplate="http://{proviewHost}/v1/group/uscl"
-		  p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"/>
+		  p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
+		  p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"/>
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
 	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>
