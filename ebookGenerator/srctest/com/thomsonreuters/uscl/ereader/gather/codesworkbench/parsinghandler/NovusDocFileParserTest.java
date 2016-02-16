@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +34,8 @@ public class NovusDocFileParserTest {
 	private NovusDocFileParser parser;
 	private GatherResponse gatherResponse;
 	private HashMap<String, Integer> docGuidsMap;
+	private HashMap<String, HashMap<Integer, String>> documentLevelMap;
+	private Integer documentLevel = 2;
 	
 	private Integer numberOfDocuments = 0;
 	
@@ -46,7 +47,9 @@ public class NovusDocFileParserTest {
 		docGuidsMap.put("2", 1);
 		numberOfDocuments = docGuidsMap.size();
 		gatherResponse = new GatherResponse();
-		parser = new NovusDocFileParser("collectionName", docGuidsMap, cwbDir, cwbDir, gatherResponse, 0);
+		documentLevelMap = new HashMap<>();
+		parser = new NovusDocFileParser("collectionName", docGuidsMap, cwbDir, cwbDir, gatherResponse, 0, 
+				documentLevel, documentLevelMap);
 	}
 	
 	@Test
@@ -112,6 +115,27 @@ public class NovusDocFileParserTest {
 				+ "<n-document guid=\"3\" control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document>"
 				+ "<n-document guid=\"4\" control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document>"
 				+ "</n-load>");
+		
+		parser.parseXML(nort);
+		
+		Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+	}
+	
+	@Test
+	public void testDuplicateDocInAnotherContentSet() throws GatherException {
+		String docGuid = "1";
+		docGuidsMap.clear();
+		docGuidsMap.put(docGuid + "-" + documentLevel, 1);
+		numberOfDocuments = docGuidsMap.size();
+		
+		HashMap<Integer, String> levelMap = new HashMap<>();
+		levelMap.put(1, docGuid);
+		documentLevelMap.put(docGuid, levelMap);
+		
+		File nort = new File(cwbDir, "none.xml");
+		addContentToFile(nort, "<n-load>"
+				+ "<n-document guid=\"" + docGuid + "\" control=\"ADD\"><n-metadata><md.uuid>" + docGuid + "</md.uuid>"
+				+ "</n-metadata><n-docbody></n-docbody></n-document></n-load>");
 		
 		parser.parseXML(nort);
 		

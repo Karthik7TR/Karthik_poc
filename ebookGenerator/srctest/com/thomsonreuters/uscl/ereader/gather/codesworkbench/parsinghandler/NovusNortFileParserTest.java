@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,12 +37,15 @@ public class NovusNortFileParserTest {
 	public TemporaryFolder testFiles = new TemporaryFolder();
 	private File cwbDir;
 	private NovusNortFileParser parser;
+	private HashMap<String, HashMap<Integer, String>> documentLevelMap = null;
+	private Integer documentLevel = 1;
 	
 	@Before
 	public void setUp() throws IOException {
 		cwbDir = testFiles.newFolder("cwb");
 		Date date = new Date();
-		parser = new NovusNortFileParser(date);
+		documentLevelMap = new HashMap<>();
+		parser = new NovusNortFileParser(date, documentLevel, documentLevelMap);
 	}
 	
 	@Test
@@ -357,6 +361,96 @@ public class NovusNortFileParserTest {
 		assertEquals("20970101235959", root.getEndDateStr());
 		assertEquals(null , root.getParentNortGuid());
 		assertEquals(2.0 , root.getRank(), 0.0001);
+	}
+	
+	@Test
+	public void testDocumentGuidFirstTime() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-doc-guid>" + docGuid +"</n-doc-guid>"
+				+ "<n-rank>1.0</n-rank><n-label><heading>CODE OF FEDERAL REGULATIONS</heading></n-label>"
+				+ "<node-type>gradehead</node-type><graft-point-flag>Y</graft-point-flag>"
+				+ "<term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
+		
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(docGuid, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(false, root.getPubTaggedHeadingExists());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1.0 , root.getRank(), 0.0001);
+	}
+	
+	@Test
+	public void testDuplicateDocumentSameLevel() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-doc-guid>" + docGuid +"</n-doc-guid>"
+				+ "<n-rank>1.0</n-rank><n-label><heading>CODE OF FEDERAL REGULATIONS</heading></n-label>"
+				+ "<node-type>gradehead</node-type><graft-point-flag>Y</graft-point-flag>"
+				+ "<term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		HashMap<Integer, String> levelMap = new HashMap<>();
+		levelMap.put(documentLevel, docGuid);
+		documentLevelMap.put(docGuid, levelMap);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
+		
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(docGuid, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(false, root.getPubTaggedHeadingExists());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1.0 , root.getRank(), 0.0001);
+	}
+	
+	@Test
+	public void testDuplicateDocumentDifferentLevel() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
+		File nort = new File(cwbDir, "none.xml");
+		String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
+		addContentToFile(nort, "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
+				+ "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
+				+ "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+				+ "<n-end-date>20970101235959</n-end-date><n-doc-guid>" + docGuid +"</n-doc-guid>"
+				+ "<n-rank>1.0</n-rank><n-label><heading>CODE OF FEDERAL REGULATIONS</heading></n-label>"
+				+ "<node-type>gradehead</node-type><graft-point-flag>Y</graft-point-flag>"
+				+ "<term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
+				+ "</n-nortpayload></n-relpayload></n-relationship></n-load>");
+		
+		HashMap<Integer, String> levelMap = new HashMap<>();
+		levelMap.put(documentLevel + 1, docGuid);
+		documentLevelMap.put(docGuid, levelMap);
+		List<RelationshipNode> roots = parser.parseDocument(nort);
+		RelationshipNode root = roots.get(0);
+		
+		assertEquals(0, root.getChildNodes().size());
+		assertEquals("CODE OF FEDERAL REGULATIONS", root.getLabel());
+		assertEquals(docGuid + "-" + documentLevel, root.getDocumentGuid());
+		assertEquals("gradehead", root.getNodeType());
+		assertEquals("N156AF7107C8011D9BF2BB0A94FBB0D8D", root.getNortGuid());
+		assertEquals("20050217000000", root.getStartDateStr());
+		assertEquals("20970101235959", root.getEndDateStr());
+		assertEquals(false, root.getPubTaggedHeadingExists());
+		assertEquals(null , root.getParentNortGuid());
+		assertEquals(1.0 , root.getRank(), 0.0001);
 	}
 	
 	private void addContentToFile(File file, String text) {

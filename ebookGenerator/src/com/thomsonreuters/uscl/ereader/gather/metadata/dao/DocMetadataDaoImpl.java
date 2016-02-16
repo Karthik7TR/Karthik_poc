@@ -204,6 +204,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 		@SuppressWarnings("unchecked")
 		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
 	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
+	    .addOrder(Order.desc("docUuid"))
 	    .list();
 		
 		documentMetadataSet.addAll(docMetaList);

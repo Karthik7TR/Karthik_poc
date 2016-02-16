@@ -16,14 +16,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -64,20 +60,24 @@ public class NovusNortFileParser extends DefaultHandler {
 	private static final String N_VIEW = NORT_PAYLOAD + "/n-view";
 	private Date cutoffDate;
 	private XpathStack xpathStack = null;
+	private final int nortFileLevel;
 	
-	private HashMap<String, RelationshipNode> nortNodeMap = new HashMap<String, RelationshipNode>();
+	private HashMap<String, RelationshipNode> nortNodeMap = new HashMap<>();
+	private HashMap<String, HashMap<Integer, String>> documentLevelMap = null;
 	
 	private List<RelationshipNode> roots = new ArrayList<RelationshipNode>();
 	private List<RelationshipNode> duplicateNodes = new ArrayList<RelationshipNode>();
 	private RelationshipNode currentNode;
 	private StringBuffer tempVal = null;
 	
-	public NovusNortFileParser(Date cutoffDate) {
+	public NovusNortFileParser(Date cutoffDate, int nortFileLevel, HashMap<String, HashMap<Integer, String>> documentMap) {
 		super();
 		this.cutoffDate = cutoffDate;
+		this.nortFileLevel = nortFileLevel;
+		this.documentLevelMap = documentMap;
 		xpathStack = new XpathStack();
 	}
-	
+
 	public List<RelationshipNode> parseDocument(File nortFile) throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
 		// get a factory
 		SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -197,7 +197,30 @@ public class NovusNortFileParser extends DefaultHandler {
 		        	currentNode.setPubTaggedHeadingExists(pubTaggedHeadingExists);
 	        	}
 	        } else if (currentXpath.equalsIgnoreCase(DOC_GUID)) {
-	        	currentNode.setDocumentGuid(value);
+	        	String docGuid = value;
+	        	if(documentLevelMap.containsKey(docGuid)) {
+	        		HashMap<Integer, String> nortLevelMap = documentLevelMap.get(docGuid);
+	        		
+	        		if(nortLevelMap.containsKey(nortFileLevel)) {
+	        			// duplicate docGuid found and also exists in NORT Level map
+	        			// use DOC GUID from NORT Level map
+	        			docGuid = nortLevelMap.get(nortFileLevel);
+	        		} else {
+	        			// duplicate docGuid found but DOC GUID does not exist in this NORT Level
+	        			// generate new docGuid to fix bug: CA Dwyer duplicate doc conflict.  Multiple extracts from
+	        			// same content set produces same documents with different prelims.  This is a special case.
+	        			// Duplicate documents within same content set can reuse the same document.
+	        			docGuid = docGuid + "-" + nortFileLevel;
+	        			nortLevelMap.put(nortFileLevel, docGuid);
+	        			documentLevelMap.put(docGuid, nortLevelMap);
+	        		}
+	        	} else {
+	        		// First time seeing the document
+	        		HashMap<Integer, String> nortLevelMap = new HashMap<>();
+	        		nortLevelMap.put(nortFileLevel,docGuid);
+	        		documentLevelMap.put(docGuid, nortLevelMap);
+	        	}
+	        	currentNode.setDocumentGuid(docGuid);
 	        } else if (currentXpath.equalsIgnoreCase(RANK)) {
 	        	double rank = Double.valueOf(value);
 	        	currentNode.setRank(rank);

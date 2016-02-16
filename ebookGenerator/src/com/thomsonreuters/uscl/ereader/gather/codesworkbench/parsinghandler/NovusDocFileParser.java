@@ -13,12 +13,14 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
@@ -32,30 +34,36 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 public class NovusDocFileParser {
 	private static final Logger Log = Logger.getLogger(NovusDocFileParser.class);
 	
-	private static String CHARSET = "UTF-8";	// explicitly set the character set
-	private static String N_DOCUMENT = "n-document";
-	private static String N_DOCBODY = "n-docbody";
-	private static String N_METADATA = "n-metadata";
+	private final static String CHARSET = "UTF-8";	// explicitly set the character set
+	private final static String N_DOCUMENT = "n-document";
+	private final static String N_DOCBODY = "n-docbody";
+	private final static String N_METADATA = "n-metadata";
+	private final static String MD_UUID = "md.uuid";
 	private XMLInputFactory xmlInputFactory;
 	private XMLOutputFactory xmlOutFactory;
+	private XMLEventFactory xmlEventFactory;
 	
 	private boolean isDocbody = false;
 	private boolean isMetadata = false;
+	private boolean isDocGuid = false;
 	private boolean foundDocument = false;
 	private String docGuid = null;
 	private String docCollectionName;
 	private HashMap<String, Integer> docGuidsMap;
+	private HashMap<String, HashMap<Integer, String>> documentLevelMap = null;
 	private File contentDestinationDirectory; 
 	private File metadataDestinationDirectory;
 	private Integer tocSequence;
+	private int nortFileLevel;
 	private GatherResponse gatherResponse;
 	
 	public NovusDocFileParser(String docCollectionName, HashMap<String, Integer> docGuidsMap,
 			File contentDestinationDirectory, File metadataDestinationDirectory, GatherResponse gatherResponse,
-			Integer tocSequence) {
+			Integer tocSequence, int nortFileLevel, HashMap<String, HashMap<Integer, String>> documentLevelMap) {
 		this.xmlInputFactory = XMLInputFactory.newFactory();
 		this.xmlInputFactory.setProperty("javax.xml.stream.isCoalescing", true);
 		this.xmlOutFactory = XMLOutputFactory.newFactory();
+		this.xmlEventFactory = XMLEventFactory.newInstance();
 		
 		this.docCollectionName = docCollectionName;
 		this.docGuidsMap = docGuidsMap;
@@ -63,6 +71,8 @@ public class NovusDocFileParser {
 		this.metadataDestinationDirectory = metadataDestinationDirectory;
 		this.gatherResponse = gatherResponse;
 		this.tocSequence = tocSequence;
+		this.nortFileLevel = nortFileLevel;
+		this.documentLevelMap = documentLevelMap;
 	}
 	
 	public void parseXML(File docFile) throws GatherException {
@@ -84,6 +94,29 @@ public class NovusDocFileParser {
 					if(element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT)) {
 						Attribute guid = element.getAttributeByName(QName.valueOf("guid"));
 						docGuid = guid.getValue();
+						
+						if(documentLevelMap.containsKey(docGuid)) {
+			        		HashMap<Integer, String> nortLevelMap = documentLevelMap.get(docGuid);
+			        		
+			        		if(nortLevelMap.containsKey(nortFileLevel)) {
+			        			// duplicate docGuid found and also exists in NORT Level map
+			        			// use DOC GUID from NORT Level map
+			        			docGuid = nortLevelMap.get(nortFileLevel);
+			        		} else {
+			        			// duplicate docGuid found but DOC GUID does not exist in this NORT Level
+			        			// generate new docGuid to fix bug: CA Dwyer duplicate doc conflict.  Multiple extracts from
+			        			// same content set produces same documents with different prelims.  This is a special case.
+			        			// Duplicate documents within same content set can reuse the same document.
+			        			docGuid = docGuid + "-" + nortFileLevel;
+			        			nortLevelMap.put(nortFileLevel, docGuid);
+			        			documentLevelMap.put(docGuid, nortLevelMap);
+			        		}
+			        	} else {
+			        		// First time seeing the document
+			        		HashMap<Integer, String> nortLevelMap = new HashMap<>();
+			        		nortLevelMap.put(nortFileLevel,docGuid);
+			        		documentLevelMap.put(docGuid, nortLevelMap);
+			        	}
 						
 						if(docGuidsMap.containsKey(docGuid)) {
 							foundDocument = true;
@@ -108,8 +141,21 @@ public class NovusDocFileParser {
 					} else if (element.getName().getLocalPart().equalsIgnoreCase(N_METADATA) && foundDocument) {
 						isMetadata = true;
 						metaDocFoundCounter++;
+					} else if(element.getName().getLocalPart().equalsIgnoreCase(MD_UUID) && foundDocument) {
+						isDocGuid = true;
 					}
 				}
+				// Change Document GUID when not matching docGuid from n-document.
+				if(event.isCharacters()) {
+					if(isDocGuid) {
+						Characters character = event.asCharacters();
+						String data = character.getData();
+						if(!docGuid.equalsIgnoreCase(data)) {
+							event = xmlEventFactory.createCharacters(docGuid);
+						}
+					}
+				}
+				
 				// write out to files if condition is met
 				if(isDocbody) {
 					docbodyWriter.add(event);
@@ -131,6 +177,8 @@ public class NovusDocFileParser {
 						metadataOutput.close();
 					} else if(element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT)) {
 						foundDocument = false;
+					} else if(element.getName().getLocalPart().equalsIgnoreCase(MD_UUID)) {
+						isDocGuid = false;
 					}
 				}
 			}

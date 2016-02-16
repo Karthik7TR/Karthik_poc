@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.jms.IllegalStateException;
@@ -112,6 +113,8 @@ public class GenerateTocTask  extends AbstractSbTasklet
 
         	List<RelationshipNode> rootNodes = new ArrayList<RelationshipNode>();
         	// Get root nodes from NORT files
+        	HashMap<String, HashMap<Integer, String>> documentMap = new HashMap<>();
+        	int nortFileLevel = 1;
         	for(NortFileLocation location : nortFileLocations) 
         	{
         		String contentPath = String.format("%s/%s", cwbBookName, location.getLocationName());
@@ -136,8 +139,9 @@ public class GenerateTocTask  extends AbstractSbTasklet
         		
         		for (File nortFile: nortFiles)
         		{
-        			NovusNortFileParser parser = new NovusNortFileParser(cutoffDate);
+        			NovusNortFileParser parser = new NovusNortFileParser(cutoffDate, nortFileLevel, documentMap);
         			rootNodes.addAll(parser.parseDocument(nortFile));
+        			nortFileLevel++;
         		}
         	}
         	

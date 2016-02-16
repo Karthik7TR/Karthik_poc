@@ -56,6 +56,8 @@ public class NovusDocFileServiceImpl implements NovusDocFileService {
 				Writer writer = new OutputStreamWriter(stream, CHARSET)) {
 			
 			Integer tocSequence = 0;
+			HashMap<String, HashMap<Integer, String>> documentLevelMap = new HashMap<>();
+        	int nortFileLevel = 1;
 			for (NortFileLocation fileLocation : fileLocations) {
 				String contentPath = String.format("%s/%s", cwbBookName, fileLocation.getLocationName());
         		File contentDirectory = new File(rootCodesWorkbenchLandingStrip, contentPath);
@@ -91,9 +93,11 @@ public class NovusDocFileServiceImpl implements NovusDocFileService {
 						
 					
 					NovusDocFileParser parser = new NovusDocFileParser(docCollectionName, docGuidsMap, 
-							contentDestinationDirectory, metadataDestinationDirectory, gatherResponse, tocSequence);
+							contentDestinationDirectory, metadataDestinationDirectory, gatherResponse, tocSequence, 
+							nortFileLevel, documentLevelMap);
 					parser.parseXML(docFile);
 					tocSequence = parser.getTocSequence();
+					nortFileLevel++;
         		}
 			}
 			
