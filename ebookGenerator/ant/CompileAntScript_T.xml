@@ -242,5 +242,19 @@
       <class location="${path.jarFile}" />
     </findbugs>
   </target>
+ 
+<!--PublishToReleaseNAS-->
+  <property name="NASlocation" value="\\cobaltreleaseqc.int.westgroup.com\cobaltreleaseqc$" />
   
+  <target name="publishToNAS">
+    <condition property="dir.doesntexists">
+      <not>
+        <available file="Z:" type="dir"/>
+      </not>
+    </condition>
+    <exec executable="cmd.exe" if="dir.doesntexists">
+      <arg line="/c net use Z: /persistent:yes ${NASlocation} /user:Ecomqc\svctfsngservice Ac*r0s$4"/>
+    </exec>
+    <mkdir dir="Z:/eBookGenerator_T"/>
+  </target>
 </project>
