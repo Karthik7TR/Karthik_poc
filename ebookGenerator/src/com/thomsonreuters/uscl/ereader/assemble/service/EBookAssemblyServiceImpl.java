@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
@@ -98,35 +99,25 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 		return docCount; 
 	}
 	/**
-	 * gets back largest content file size for passed in file path and content type (file Extention)
+	 * gets back largest content file size for passed in file path and content type (file Extension, may contain multiple csv extensions)
 	 */
 	@Override
-	public long getLargestContent(final String contentFolderPath,String fileExtention)
-	{
-		CharSequence charSeq = ",";
-		boolean multiExtention= false; 
-		if(fileExtention.contains(charSeq)){
-			multiExtention = true;
-		}
-		
+	public long getLargestContent(final String contentFolderPath,String fileExtension)
+	{ 
+		String[] extensions;
+		extensions = fileExtension.split(",");
+						
 		long largestFileSize = 0; 
 		File contentDri = new File(contentFolderPath); 
 		File fileList[] = contentDri.listFiles();
-		for (File file : fileList) {
-			if(!multiExtention){
-				if(file.getAbsolutePath().endsWith(fileExtention)){
-					if(largestFileSize <file.length()){
+		for (File file : fileList) {						//every file in directory
+			for (String extend : extensions){				//every extension input
+				if(file.getAbsolutePath().endsWith(extend)){
+					if(largestFileSize < file.length()){
 						largestFileSize = file.length();
 					}
+					break;									//file extension identified, no need to check more
 				}
-			}else{
-				// images folder can contain css files which we dont want consider while finding largest image file. 
-				if(file.getAbsolutePath().endsWith(".png") || file.getAbsolutePath().endsWith(".jpeg") || file.getAbsolutePath().endsWith(".gif")){
-					if(largestFileSize <file.length()){
-						largestFileSize = file.length();
-					}
-				}
-				
 			}
 		}
 	
