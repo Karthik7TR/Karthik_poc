@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +43,8 @@ public class CreateDirectoriesAndMoveResourcesTest {
 
 		createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
 		tempFile = File.createTempFile("pirate", "ship");
+		tempRootDir = new File(tempFile.getParentFile(), "ebookDir");
+		tempRootDir.mkdirs();
 		URL url = this.getClass().getResource(FILE_NAME);
 		docToSplitBookFile = new File(url.toURI());			
 
@@ -51,21 +53,29 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	@After
 	public void tearDown() throws Exception {
 		 FileUtils.delete(tempFile);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetAssestsFromDir() {
-		createDirectoriesAndMoveResources.getAssestsfromDirectories(null);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetAssestsfromFileException() {
-		createDirectoriesAndMoveResources.getAssestsfromFile(null);
+		 FileUtils.delete(tempRootDir);
 	}
 
 	@Test
-	public void testGetAssestsfromFile() {
-		Asset asset = createDirectoriesAndMoveResources.getAssestsfromFile(tempFile);
+	public void testGetassetsFromDir() throws Exception {
+		try{
+			createDirectoriesAndMoveResources.getAssetsfromDirectories( null);
+			fail("should have thrown IllegalArgumentException");
+		}catch ( IllegalArgumentException e){
+			e.printStackTrace();
+			List<Asset> assets = createDirectoriesAndMoveResources.getAssetsfromDirectories(tempRootDir);
+			boolean keepGoing = true;
+		}
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetAssetsfromFileException() {
+		createDirectoriesAndMoveResources.getAssetsfromFile(null);
+	}
+
+	@Test
+	public void testGetAssetsfromFile() {
+		Asset asset = createDirectoriesAndMoveResources.getAssetsfromFile(tempFile);
 		assertTrue(asset.getId().contains("pirate"));
 	}
 
@@ -125,10 +135,10 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	}
 	
 	@Test
-	public void testgetAssests(){
+	public void testgetAssets(){
 		boolean thrown = false;
 		try{
-			createDirectoriesAndMoveResources.getAssestsfromDirectories(tempRootDir);
+			createDirectoriesAndMoveResources.getAssetsfromDirectories(null);
 		}
 		catch (IllegalArgumentException e){
 			thrown = true;
@@ -138,9 +148,9 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	
 	
 	@Test
-	public void testgetAssest(){
+	public void testgetasset(){
 		Asset asset = new Asset();
-		asset = createDirectoriesAndMoveResources.getAssestsfromFile(tempFile);
+		asset = createDirectoriesAndMoveResources.getAssetsfromFile(tempFile);
 		
 		//System.out.println(asset.toString());
 		assertTrue(asset !=null);

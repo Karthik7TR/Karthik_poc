@@ -117,7 +117,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 			readDocImgFile(new File(docToSplitBook), docMap, splitBookImgMap);
 
 			// Assets that are needed for all books
-			ArrayList<Asset> assetsForAllbooks = getAssestsListForAllBooks(jobExecutionContext, bookDefinition);
+			ArrayList<Asset> assetsForAllbooks = getAssetsListForAllBooks(jobExecutionContext, bookDefinition);
 
 			// Create title.xml and directories needed. Move content for all
 			// splitBooks
@@ -342,28 +342,28 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * @param jobExecutionContext
 	 * @param bookDefinition
 	 */
-	protected ArrayList<Asset> getAssestsListForAllBooks(final ExecutionContext jobExecutionContext,
+	protected ArrayList<Asset> getAssetsListForAllBooks(final ExecutionContext jobExecutionContext,
 			BookDefinition bookDefinition) {
-		ArrayList<Asset> assests = new ArrayList<Asset>();
+		ArrayList<Asset> assets = new ArrayList<Asset>();
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
 				JobExecutionKey.IMAGE_STATIC_DEST_DIR));
 		String staticContentDir = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.STATIC_CONTENT_DIR);
-		assests.addAll(getAssestsfromDirectories(staticImagesDir));
+		assets.addAll(getAssetsfromDirectories(staticImagesDir));
 		File stylesheet = new File(staticContentDir,MoveResourcesUtil.DOCUMENT_CSS_FILE);
-		assests.add(getAssestsfromFile(stylesheet));
+		assets.add(getAssetsfromFile(stylesheet));
 		stylesheet = new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE);
-		assests.add(getAssestsfromFile(stylesheet));
+		assets.add(getAssetsfromFile(stylesheet));
 
 		File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
 		List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
 		for (File file : frontMatterImagesDir.listFiles()) {
 			if (!filter.contains(file)) {
 				Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-				assests.add(asset);
+				assets.add(asset);
 			}
 
 		}
-		return assests;
+		return assets;
 	}
 
 	/**
@@ -373,18 +373,18 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * @param bookDefinition
 	 * @return
 	 */
-	public List<Asset> getAssestsfromDirectories(File directory) {
-		List<Asset> assests = new ArrayList<Asset>();
+	public List<Asset> getAssetsfromDirectories(File directory) {
+		List<Asset> assets = new ArrayList<Asset>();
 		if (directory == null || !directory.isDirectory()) {
 			throw new IllegalArgumentException("Directory must not be null and must be a directory.");
 		}
 		for (File file : directory.listFiles()) {
 			Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-			assests.add(asset);
+			assets.add(asset);
 
 		}
 
-		return assests;
+		return assets;
 
 	}
 
@@ -402,7 +402,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * @param bookDefinition
 	 * @return
 	 */
-	public Asset getAssestsfromFile(File file) {
+	public Asset getAssetsfromFile(File file) {
 		if (file == null || !file.exists()) {
 			throw new IllegalArgumentException("File must not be null and should exist.");
 		}
