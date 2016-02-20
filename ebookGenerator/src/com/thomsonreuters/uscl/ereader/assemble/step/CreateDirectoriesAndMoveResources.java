@@ -190,7 +190,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
 				titleMetadataService.generateTitleXML(titleMetadata, docList, splitTitleXMLStream, titleManifest,
 						JobExecutionKey.ALT_ID_DIR_PATH);
-				moveResouces(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
+				moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
 
 			}
 		} catch (Exception e) {
@@ -214,7 +214,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * @throws IOException
 	 */
 
-	public void moveResouces(final ExecutionContext jobExecutionContext, File ebookDirectory,
+	public void moveResources(final ExecutionContext jobExecutionContext, File ebookDirectory,
 			boolean firstSplitBook, List<String> imgList, List<Doc> docList, File coverArtFile) throws IOException {
 		// Move assets
 		File assetsDirectory = createAssetsDirectory(ebookDirectory);

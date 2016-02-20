@@ -4,7 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,6 +18,7 @@ import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 
@@ -42,9 +46,8 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	public void setUp() throws Exception {
 
 		createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
-		tempFile = File.createTempFile("pirate", "ship");
-		tempRootDir = new File(tempFile.getParentFile(), "ebookDir");
-		tempRootDir.mkdirs();
+		tempRootDir = new File((Files.createTempDirectory("YarrMatey")).toString());
+		tempFile =  makeFile(tempRootDir, "pirate.ship", "don't crash");
 		URL url = this.getClass().getResource(FILE_NAME);
 		docToSplitBookFile = new File(url.toURI());			
 
@@ -55,22 +58,69 @@ public class CreateDirectoriesAndMoveResourcesTest {
 		 FileUtils.delete(tempFile);
 		 FileUtils.delete(tempRootDir);
 	}
+	
+	private File makeFile(File directory, String name, String content)
+	{
+		try{
+			File file = new File(directory, name);
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(content.getBytes());
+			out.close();
+			return file;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	@Ignore
+	@Test
+	public void testAddArtwork(){
+		//add after making test for MoveResourcesUtil.java
+	}
+	
+	@Ignore
+	@Test
+	public void testMovesResources() throws Exception{
+		jobExecutionContext = new ExecutionContext();
+		jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR, tempRootDir.getAbsolutePath());
+		List<String> imglist = new ArrayList<String>();
+		List<Doc> doclist = new ArrayList<Doc>();
+		File tempImg = makeFile(tempRootDir, "img.png", "totally an image file");
+		createDirectoriesAndMoveResources.moveResources(jobExecutionContext, tempRootDir, true, imglist, doclist, tempImg);
+	}
 
 	@Test
-	public void testGetassetsFromDir() throws Exception {
+	public void testGetAssetsFromDir() throws Exception {
 		try{
-			createDirectoriesAndMoveResources.getAssetsfromDirectories( null);
+			createDirectoriesAndMoveResources.getAssetsfromDirectories(null);
 			fail("should have thrown IllegalArgumentException");
 		}catch ( IllegalArgumentException e){
 			e.printStackTrace();
+			File temp2 = makeFile(tempRootDir, "ninja.star", "totally exists");
 			List<Asset> assets = createDirectoriesAndMoveResources.getAssetsfromDirectories(tempRootDir);
-			boolean keepGoing = true;
+			//Asset constructor format: Asset( [file name w/o extension], [file name] )
+			
+			Asset check = assets.get(1);
+			assertTrue(check.getId().equals("pirate"));
+			assertTrue(check.getSrc().equals("pirate.ship"));
+			
+			check = assets.get(0);
+			assertTrue(check.getId().equals("ninja"));
+			assertTrue(check.getSrc().equals("ninja.star"));
+			
+			FileUtils.delete(temp2);
 		}
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testGetAssetsfromFileException() {
-		createDirectoriesAndMoveResources.getAssetsfromFile(null);
+		try{
+			createDirectoriesAndMoveResources.getAssetsfromFile(null);
+			fail("should have thrown IllegalArgumentException");
+		}catch(IllegalArgumentException e){
+			//expected exception
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -115,7 +165,7 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	
 	
 	@Test
-	public void testMoveResources() throws Exception {	
+	public void testMoveResourcesNotFound() throws Exception {	
 		
 		List<String> imgList = new ArrayList<String>();
 		List<Doc> docList = new ArrayList<Doc>();
@@ -126,7 +176,7 @@ public class CreateDirectoriesAndMoveResourcesTest {
 			this.jobExecutionContext = new ExecutionContext();;
 			jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR,"dir");
 			createDirectoriesAndMoveResources.setMoveResourcesUtil(moveResourcesUtil);
-			createDirectoriesAndMoveResources.moveResouces(jobExecutionContext, tempRootDir, false, imgList, docList, tempFile);
+			createDirectoriesAndMoveResources.moveResources(jobExecutionContext, tempRootDir, false, imgList, docList, tempFile);
 		}
 		catch (FileNotFoundException e){
 			thrown = true;
@@ -135,7 +185,7 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	}
 	
 	@Test
-	public void testgetAssets(){
+	public void testGetAssetsNullInput(){
 		boolean thrown = false;
 		try{
 			createDirectoriesAndMoveResources.getAssetsfromDirectories(null);
@@ -148,14 +198,13 @@ public class CreateDirectoriesAndMoveResourcesTest {
 	
 	
 	@Test
-	public void testgetasset(){
+	public void testGetAsset(){
 		Asset asset = new Asset();
 		asset = createDirectoriesAndMoveResources.getAssetsfromFile(tempFile);
-		
-		//System.out.println(asset.toString());
+		System.out.println(asset.toString());
 		assertTrue(asset !=null);
-		assertTrue(asset.getId().startsWith("pirate"));
-		assertTrue(asset.getSrc().startsWith("pirate"));
+		assertTrue(asset.getId().equals("pirate"));
+		assertTrue(asset.getSrc().equals("pirate.ship"));
 	}
 	
 
