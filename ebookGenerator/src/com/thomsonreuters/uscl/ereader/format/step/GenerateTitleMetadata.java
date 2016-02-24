@@ -61,7 +61,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
 		Long jobId = getJobInstance(chunkContext).getId();
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);

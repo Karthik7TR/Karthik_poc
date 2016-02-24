@@ -57,7 +57,7 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 				
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		
 		// Assert the state of the filesystem image directory and expected input files
 		File dynamicImageDestinationDirectory = new File(getRequiredStringProperty(jobExecutionContext,

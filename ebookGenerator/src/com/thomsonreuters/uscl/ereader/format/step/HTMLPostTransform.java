@@ -51,7 +51,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		
 		String titleId = bookDefinition.getTitleId();
 		Long jobId = jobInstance.getId();

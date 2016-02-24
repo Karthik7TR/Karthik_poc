@@ -52,7 +52,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		String publishStatus = "Completed";
 				
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		
 		File tocFile = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE));
 		File docsDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_DOCS_DIR));

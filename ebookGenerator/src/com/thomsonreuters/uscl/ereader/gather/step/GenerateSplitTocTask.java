@@ -60,7 +60,7 @@ public class GenerateSplitTocTask extends AbstractSbTasklet {
 		Long jobInstanceId = jobInstance.getId();
 
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		String splitTocFilePath = jobExecutionContext.getString(JobExecutionKey.FORMAT_SPLITTOC_FILE);
 		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
 		String transformDirectory = getRequiredStringProperty(jobExecutionContext,

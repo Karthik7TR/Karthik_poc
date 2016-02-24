@@ -42,7 +42,7 @@ public class PreprocessXML extends AbstractSbTasklet
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobInstance jobInstance = getJobInstance(chunkContext);
 		
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);	
 
 		Long jobId = jobInstance.getId();
 

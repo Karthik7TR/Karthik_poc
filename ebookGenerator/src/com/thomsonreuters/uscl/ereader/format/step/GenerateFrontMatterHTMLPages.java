@@ -51,7 +51,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
 		File frontMatterTargetDir = new File(frontMatterTargetDirectory);
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(
-				JobExecutionKey.EBOOK_DEFINITON);
+				JobExecutionKey.EBOOK_DEFINITION);
 		
 		Long jobInstance = chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 

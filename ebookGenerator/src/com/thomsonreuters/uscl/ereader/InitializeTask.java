@@ -72,7 +72,7 @@ public class InitializeTask extends AbstractSbTasklet {
 			String titleId = bookDefinition.getTitleId();
 			
 			// Place data on the JobExecutionContext for use in later steps
-			jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITON, bookDefinition);
+			jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
 	
 			log.info("titleId (Fully Qualified): " + bookDefinition.getTitleId());
 			log.info("hostname: " + jobParams.getString(JobParameterKey.HOST_NAME));

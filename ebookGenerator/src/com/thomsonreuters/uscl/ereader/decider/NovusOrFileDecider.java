@@ -14,7 +14,7 @@ public class NovusOrFileDecider implements JobExecutionDecider {
 	@Override
 	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
 
-		BookDefinition bookDefinition = (BookDefinition)jobExecution.getExecutionContext().get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecution.getExecutionContext().get(JobExecutionKey.EBOOK_DEFINITION);
 		if(SourceType.FILE.equals(bookDefinition.getSourceType())) {
 			return new FlowExecutionStatus("NAS_FILE");
 		} else {

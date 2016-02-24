@@ -13,7 +13,7 @@ public class SplitBookDecider implements JobExecutionDecider {
 	@Override
 	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
 
-		BookDefinition bookDefinition = (BookDefinition)jobExecution.getExecutionContext().get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecution.getExecutionContext().get(JobExecutionKey.EBOOK_DEFINITION);
 		if(bookDefinition.isSplitBook()) {
 			return new FlowExecutionStatus("SPLIT_BOOK");
 		} else {

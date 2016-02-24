@@ -57,7 +57,7 @@ public class AssembleEbook extends AbstractSbTasklet {
 		File eBookFile = new File(eBookFilePath);
 		
 		long startTime = System.currentTimeMillis();
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		
 		try 
 		{

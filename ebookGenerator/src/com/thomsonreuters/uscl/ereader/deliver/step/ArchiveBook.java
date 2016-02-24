@@ -83,7 +83,7 @@ public class ArchiveBook extends AbstractSbTasklet {
 	    ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 	    JobParameters jobParameters = getJobParameters(chunkContext);
 		String bookVersion = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);				
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		try {
 
 			try{

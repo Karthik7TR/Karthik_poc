@@ -59,7 +59,7 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 		int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
 					
 		JobInstance jobInstance = getJobInstance(chunkContext);
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);	
+		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);	
 		String titleId = bookDefinition.getTitleId();
 		boolean keyciteToplineFlag = bookDefinition.getKeyciteToplineFlag();
 		
