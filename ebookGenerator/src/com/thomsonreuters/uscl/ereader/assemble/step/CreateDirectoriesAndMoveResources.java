@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.assemble.step;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 		PublishingStats jobstats = new PublishingStats();
 		jobstats.setJobInstanceId(jobId);
 		String publishStatus = "Completed";
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
@@ -341,9 +342,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	 * 
 	 * @param jobExecutionContext
 	 * @param bookDefinition
+	 * @throws FileNotFoundException 
 	 */
 	protected ArrayList<Asset> getAssetsListForAllBooks(final ExecutionContext jobExecutionContext,
-			BookDefinition bookDefinition) {
+			BookDefinition bookDefinition) throws FileNotFoundException {
 		ArrayList<Asset> assets = new ArrayList<Asset>();
 		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
 				JobExecutionKey.IMAGE_STATIC_DEST_DIR));

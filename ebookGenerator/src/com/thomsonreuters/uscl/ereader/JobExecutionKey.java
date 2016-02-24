@@ -213,5 +213,5 @@ public class JobExecutionKey {
 	/**
 	 * Book Definition Object. Used by different steps in the batch process
 	 */
-	public static final String EBOOK_DEFINITON = "bookDefn";	
+	public static final String EBOOK_DEFINITION = "bookDefn";	
 }

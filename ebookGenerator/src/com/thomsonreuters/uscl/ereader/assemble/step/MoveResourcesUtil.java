@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,13 @@ public class MoveResourcesUtil {
 	public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
 			throws IOException {		
 		File coverArt = createCoverArt(jobExecutionContext);
+		boolean check = coverArt.exists();
+		check = artworkDirectory.exists();
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
 	
 	public File createCoverArt(final ExecutionContext jobExecutionContext){
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		String titleCover = bookDefinition.getCoverImage();
 
 		File coverArt = new File(EBOOK_COVER_FILEPATH + titleCover);
@@ -83,7 +86,7 @@ public class MoveResourcesUtil {
 	public void moveFrontMatterImages(final ExecutionContext jobExecutionContext, final File assetsDirectory,
 			boolean move) throws IOException {
 
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITON);
+		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 		File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
 
 		List<File> filter = filterFiles(frontMatterImagesDir, bookDefinition);
@@ -117,10 +120,16 @@ public class MoveResourcesUtil {
 	 * @param frontMatterImagesDir
 	 * @param bookDefinition
 	 * @return
+	 * @throws FileNotFoundException 
 	 */
-	public List<File> filterFiles(File frontMatterImagesDir, BookDefinition bookDefinition) {
+	public List<File> filterFiles(File frontMatterImagesDir, BookDefinition bookDefinition) throws FileNotFoundException {
 		List<File> filter = new ArrayList<File>();
-
+		if(!frontMatterImagesDir.exists()){
+			throw new FileNotFoundException("frontMatterImagesDirectory not found");
+		}
+		if(frontMatterImagesDir.listFiles() == null){
+			return filter;
+		}
 		for (File file : frontMatterImagesDir.listFiles()) {
 			if (!bookDefinition.getFrontMatterTheme().equalsIgnoreCase(FrontMatterTitlePageFilter.AAJ_PRESS_THEME)
 					&& file.getName().startsWith("AAJ")) {

@@ -80,7 +80,7 @@ public class MoveResourcesUtilTest {
 	public void testcreateCoverArt() throws Exception {
 
 		BookDefinition bookDefinition = new BookDefinition();
-		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITON, bookDefinition);
+		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
 		moveResourcesUtil.createCoverArt(jobExecutionContext);
 		String actual = StringUtils.substringAfterLast(jobExecutionContext.get(JobExecutionKey.COVER_ART_PATH)
 				.toString(), "\\");
@@ -103,24 +103,28 @@ public class MoveResourcesUtilTest {
 		BookDefinition bookDefinition = new BookDefinition();
 		bookDefinition.setFrontMatterTheme("AAJ");
 		bookDefinition.setKeyciteToplineFlag(true);
-		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITON, bookDefinition);
+		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
+		File canI = new File("/apps/eBookBuilder/coreStatic/images");
+		File[] check = canI.listFiles();
+		canI.mkdir();
+		check = canI.listFiles();
 		try {
 			moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, tempRootDir, false);
 		}
 
-		catch (FileNotFoundException e) {
+		catch (NullPointerException e) {
 			thrown = true;
 		}
 		Assert.assertTrue(tempRootDir.exists());
 		assertTrue(!thrown);
 	}
 	
-	@Ignore
+	
 	@Test
 	public void testmoveCoverArt() throws Exception {
 		boolean thrown = false;
 		BookDefinition bookDefinition = new BookDefinition();
-		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITON, bookDefinition);
+		jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
 		try {
 		moveResourcesUtil.moveCoverArt(jobExecutionContext, tempRootDir);
 		}
