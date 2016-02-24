@@ -119,7 +119,7 @@ public class MoveResourcesUtilTest {
 		assertTrue(!thrown);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testmoveCoverArt() throws Exception {
 		boolean thrown = false;
