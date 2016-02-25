@@ -8,7 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -199,12 +199,13 @@ public class DocMetadataDaoImpl implements DocMetadataDao {
 	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId) {
 		Session session = sessionFactory.getCurrentSession();
 		
-		Set<DocMetadata> documentMetadataSet = new HashSet<DocMetadata>();
+		// Using LinkedHashSet to preserve insertion order based on what is returned from DB
+		Set<DocMetadata> documentMetadataSet = new LinkedHashSet<DocMetadata>();
 		
 		@SuppressWarnings("unchecked")
 		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
 	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
-	    .addOrder(Order.desc("docUuid"))
+	    .addOrder(Order.asc("docUuid"))
 	    .list();
 		
 		documentMetadataSet.addAll(docMetaList);

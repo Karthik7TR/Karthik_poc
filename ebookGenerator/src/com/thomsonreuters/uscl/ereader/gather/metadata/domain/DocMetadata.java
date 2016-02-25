@@ -57,7 +57,7 @@ public class DocMetadata implements Serializable {
 	/**
 	 */
 
-	@Column(name = "DOC_UUID", length = 40, nullable = false)
+	@Column(name = "DOC_UUID", length = 42, nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
 	@XmlElement

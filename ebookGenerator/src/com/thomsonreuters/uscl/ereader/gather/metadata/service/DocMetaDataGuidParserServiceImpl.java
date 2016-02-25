@@ -157,7 +157,7 @@ public class DocMetaDataGuidParserServiceImpl implements
 				docGuid = (String) iterator.next();
 
 				if (docGuid != null) {
-					if (docGuid.length() < 32 || docGuid.length() > 40) {
+					if (docGuid.length() < 32 || docGuid.length() > 42) {
 
 						String message = "Invalid GUID encountered in the Doc GUID list: "
 								+ docGuid;

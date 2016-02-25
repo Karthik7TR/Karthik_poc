@@ -525,6 +525,7 @@ public class NovusNortFileServiceTest {
 		node.setLabel(label);
 		node.setNodeType("node");
 		node.setNortGuid(nortGuid);
+		node.setNortRank(0);
 		node.setRank(rank);
 		node.setStartDateStr(dateStr);
 		

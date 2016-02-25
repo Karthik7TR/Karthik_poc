@@ -14,6 +14,7 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	private String parentNortGuid;
 	private RelationshipNode parentNode;
 	private List<RelationshipNode> childNodes = new ArrayList<RelationshipNode>();
+	private Integer nortRank;
 	private double rank;
 	private String label;
 	private String startDateStr;
@@ -49,6 +50,12 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	}
 	public void setChildNodes(List<RelationshipNode> children) {
 		this.childNodes = children;
+	}
+	public Integer getNortRank() {
+		return nortRank;
+	}
+	public void setNortRank(Integer nortRank) {
+		this.nortRank = nortRank;
 	}
 	public double getRank() {
 		return rank;
@@ -140,15 +147,26 @@ public class RelationshipNode implements Comparable<RelationshipNode> {
 	
 	@Override
 	public int compareTo(RelationshipNode o) {
-		Double node1 = this.getRank();
-		Double node2 = o.getRank();
+		// Order by NORT rank first
+		Integer nodeOneNortRank = this.getNortRank();
+		Integer nodeTwoNortRank = o.getNortRank();
+		
+		// If NORT rank is tied, rank by TOC rank.
+		Double nodeOneRank = this.getRank();
+		Double nodeTwoRank = o.getRank();
 
-		if (node1 > node2 ) {
+		if (nodeOneNortRank > nodeTwoNortRank ) {
 			return 1;
-		} else if (node1 < node2) {
+		} else if (nodeOneNortRank < nodeTwoNortRank) {
 			return -1;
 		} else {
-			return 0;
+			if (nodeOneRank > nodeTwoRank ) {
+				return 1;
+			} else if (nodeOneRank < nodeTwoRank) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	}
 	

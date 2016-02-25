@@ -210,7 +210,12 @@ public class NovusNortFileParser extends DefaultHandler {
 	        			// generate new docGuid to fix bug: CA Dwyer duplicate doc conflict.  Multiple extracts from
 	        			// same content set produces same documents with different prelims.  This is a special case.
 	        			// Duplicate documents within same content set can reuse the same document.
-	        			docGuid = docGuid + "-" + nortFileLevel;
+	        			if(docGuid.contains("-")) {
+	        				docGuid = docGuid + nortFileLevel;
+	        			} else {
+	        				docGuid = docGuid + "-" + nortFileLevel;
+	        			}
+	        			
 	        			nortLevelMap.put(nortFileLevel, docGuid);
 	        			documentLevelMap.put(docGuid, nortLevelMap);
 	        		}
@@ -244,6 +249,7 @@ public class NovusNortFileParser extends DefaultHandler {
     }
     
     private void addCurrentNodeToMap() throws SAXException {
+    	currentNode.setNortRank(this.nortFileLevel);
     	String endDateStr = currentNode.getEndDateStr();
 		DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date endDate = null;

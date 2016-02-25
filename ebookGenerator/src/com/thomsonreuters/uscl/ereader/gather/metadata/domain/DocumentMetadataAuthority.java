@@ -39,16 +39,31 @@ public class DocumentMetadataAuthority {
 		}
 		this.docMetadataSet = docMetadataSet;
 		for (DocMetadata docMetadata : docMetadataSet) {
+
 			if (docMetadata.getNormalizedFirstlineCite() == null && docMetadata.getFindOrig() != null)
 			{
-				//handle content that does not have normalized cite in metadata, for example: Sampson and Tindall
-				docMetadataKeyedByCite.put(docMetadata.getFindOrig(), docMetadata);
+				// Prevent overwriting of value with duplicate find orig
+				if(!docMetadataKeyedByCite.containsKey(docMetadata.getFindOrig())) 
+				{
+					//handle content that does not have normalized cite in metadata, for example: Sampson and Tindall
+					docMetadataKeyedByCite.put(docMetadata.getFindOrig(), docMetadata);
+				}
 			}
 			else
 			{
-				docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
+				// Prevent overwriting of value with duplicate normalized firstline cite.
+				if(!docMetadataKeyedByCite.containsKey(docMetadata.getNormalizedFirstlineCite())) 
+				{
+					docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
+				}
 			}
-			docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
+			
+			// Prevent overwriting of value with duplicate serial number
+			if(!docMetadataKeyedBySerialNumber.containsKey(docMetadata.getSerialNumber())) 
+			{
+				docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
+			}
+			
 			docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
 			docMetadataKeyedByProViewId.put(docMetadata.getProViewId(), docMetadata);
 			
