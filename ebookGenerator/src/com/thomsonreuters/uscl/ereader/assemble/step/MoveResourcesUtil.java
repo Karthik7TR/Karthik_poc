@@ -55,8 +55,6 @@ public class MoveResourcesUtil {
 	public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
 			throws IOException {		
 		File coverArt = createCoverArt(jobExecutionContext);
-		boolean check = coverArt.exists();
-		check = artworkDirectory.exists();
 		FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
 	}
 	
@@ -125,10 +123,7 @@ public class MoveResourcesUtil {
 	public List<File> filterFiles(File frontMatterImagesDir, BookDefinition bookDefinition) throws FileNotFoundException {
 		List<File> filter = new ArrayList<File>();
 		if(!frontMatterImagesDir.exists()){
-			throw new FileNotFoundException("frontMatterImagesDirectory not found");
-		}
-		if(frontMatterImagesDir.listFiles() == null){
-			return filter;
+			throw new FileNotFoundException("Directory not found:  " + frontMatterImagesDir.getPath());
 		}
 		for (File file : frontMatterImagesDir.listFiles()) {
 			if (!bookDefinition.getFrontMatterTheme().equalsIgnoreCase(FrontMatterTitlePageFilter.AAJ_PRESS_THEME)

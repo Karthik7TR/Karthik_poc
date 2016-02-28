@@ -338,7 +338,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 	}
 
 	/**
-	 * All split books gets static,.css files and fronmatter images
+	 * All split books gets static,.css files and frontmatter images
 	 * 
 	 * @param jobExecutionContext
 	 * @param bookDefinition
