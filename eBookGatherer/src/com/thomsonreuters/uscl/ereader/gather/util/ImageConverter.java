@@ -1,20 +1,18 @@
 package com.thomsonreuters.uscl.ereader.gather.util;
 
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
 
 import com.sun.media.jai.codec.ByteArraySeekableStream;
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageDecoder;
-import com.sun.media.jai.codec.ImageEncoder;
-import com.sun.media.jai.codec.PNGEncodeParam;
 import com.sun.media.jai.codec.SeekableStream;
 
 public class ImageConverter {	
-	
-	private static final String TIFF_FORMAT = "tiff";
+
 	private static final Logger Log = Logger.getLogger(ImageConverter.class);
 	
 	public static void convertByteImg(byte[] imgBytes,String outputImagePath, String formatName) throws Exception {
@@ -23,23 +21,16 @@ public class ImageConverter {
 		SeekableStream stream = null;
         try {
         	stream = new ByteArraySeekableStream(imgBytes);
-            ImageDecoder decoder = ImageCodec.createImageDecoder(TIFF_FORMAT, stream, null);
-            RenderedImage renderedImage = decoder.decodeAsRenderedImage(0);
-            outputStream = new FileOutputStream(outputImagePath);
-        	
-        	PNGEncodeParam  param =   PNGEncodeParam.getDefaultEncodeParam(renderedImage);        	 
-        	ImageEncoder   encoder=   ImageCodec.createImageEncoder(formatName, outputStream, param); 
-        	 
-        	encoder.encode(renderedImage);
-        	
-        	
+        	outputStream = new FileOutputStream(outputImagePath);
+        	BufferedImage image = ImageIO.read(stream);
+        	ImageIO.write(image, formatName, outputStream);
         }
-        catch (java.io.IOException ioe) {
-        	Log.error("IOException at ImageConverter "+ioe);
-            throw new Exception(ioe);
+        catch (IOException ioe) {
+        	Log.error("IOException at ImageConverter " + ioe);
+            throw new IOException(ioe);
         } 
         catch (Exception ex) {
-        	Log.error("IOException at ImageConverter "+ex);
+        	Log.error("Exception at ImageConverter " + ex);
             throw new Exception(ex);
         }
         finally{
@@ -50,7 +41,6 @@ public class ImageConverter {
         		stream.close();
             }
         }
-	}
-	
+	}	
 
 }
