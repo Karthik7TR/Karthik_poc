@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
+import javax.imageio.ImageIO;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -33,10 +35,12 @@ public class ImgController {
 		LOG.debug(">>> ImgController");
 		GatherResponse gatherResponse = new GatherResponse();
 		try {
+			// Load ImageIO plugins
+			ImageIO.scanForPlugins();
 			gatherResponse = novusImgService.getImagesFromNovus(imgRequest.getImgToDocManifestFile(),
 					imgRequest.getDynamicImageDirectory(), imgRequest.isFinalStage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
 		return new ModelAndView(EBConstants.VIEW_RESPONSE);
