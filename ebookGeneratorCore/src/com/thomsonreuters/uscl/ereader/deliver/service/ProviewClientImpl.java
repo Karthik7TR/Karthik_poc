@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -505,6 +506,22 @@ public class ProviewClientImpl implements ProviewClient {
 		return response;
 	}
 	
+	/*@Override
+	public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception {
+		String proviewResponse = getSingleTitleInfoByVersion(fullyQualifiedTitleId, version);
+		String status=null;	
+		
+		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+		parserFactory.setNamespaceAware(true);
+		XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+		ProviewSingleTitleParser proviewSingleTitleParser = new ProviewSingleTitleParser();
+		reader.setContentHandler(proviewSingleTitleParser);
+		reader.parse(new InputSource(new StringReader(proviewResponse)));
+		status = proviewSingleTitleParser.getStatus();
+		return status;
+		
+	}*/
+	
 	
 //	@Override
 //	public String getPublishingStatus(String fullyQualifiedTitleId)
@@ -592,7 +609,7 @@ public class ProviewClientImpl implements ProviewClient {
 	}
 	
 	@Override
-	public Map<String, ProviewGroup> getAllProviewGroupInfo()
+	public List<ProviewGroup> getAllProviewGroupInfo()
 			throws ProviewException {
 		
 		String allGroupsResponse = getAllProviewGroups();

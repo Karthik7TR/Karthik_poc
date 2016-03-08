@@ -20,7 +20,7 @@
 		<li><a href="<%=WebConstants.MVC_BOOK_AUDIT_LIST%>">AUDIT</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_SUMMARY%>">JOBS</a></li>
 		<li><a href="<%=WebConstants.MVC_JOB_QUEUE%>">QUEUED</a></li>
-		<li><a href="<%=WebConstants.MVC_BOOK_GROUP_LIST%>">GROUP LIST</a></li>
+		<li><a href="<%=WebConstants.MVC_PROVIEW_GROUPS%>">GROUP LIST</a></li>
 		
 		
 		<%-- Check if user has role to access create book definition --%>

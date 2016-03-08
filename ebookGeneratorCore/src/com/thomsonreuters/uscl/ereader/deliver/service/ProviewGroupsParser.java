@@ -2,8 +2,8 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -17,7 +17,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class ProviewGroupsParser {
-	private Map<String, ProviewGroup> groupMap = new HashMap<String, ProviewGroup>();
+	private List<ProviewGroup> proviewGroupList = new ArrayList<ProviewGroup>();
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class ProviewGroupsParser {
 	 * @return Generate a map of the ProviewGroupContainer objects where the key
 	 *         is the title id.
 	 */
-	public Map<String, ProviewGroup> process(String xml) {
+	public List<ProviewGroup> process(String xml) {
 		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
 
 		try {
@@ -37,9 +37,9 @@ public class ProviewGroupsParser {
 			reader.setContentHandler(new DefaultHandler() {
 				private static final String GROUP_TAG = "group";
 				private static final String NAME_TAG = "name";
-				private static final String HEAD_TITLE = "headtitle";
 				private static final String ID = "id";
 				private static final String VERSION = "version";
+				private static final String STATUS = "status";
 
 				private StringBuffer charBuffer = null;
 				private ProviewGroup proviewGroup;
@@ -70,23 +70,12 @@ public class ProviewGroupsParser {
 						if (charBuffer != null) {
 							value = StringUtils.trim(charBuffer.toString());
 						}
-						if (HEAD_TITLE.equals(qName)) {
-							value = StringUtils.substringBeforeLast(value, "/");
-							proviewGroup.setTitleId(value);
-						}
 						if (NAME_TAG.equals(qName)) {
 							proviewGroup.setGroupName(value);
 						}
 
-						if (GROUP_TAG.equals(qName)) {
-							if (groupMap.get(proviewGroup.getGroupId()) != null) {
-								ProviewGroup oldProviewGroup = groupMap.get(proviewGroup.getTitleId());
-								if (oldProviewGroup.getGroupVersion() < proviewGroup.getGroupVersion()) {
-									groupMap.put(proviewGroup.getTitleId(), proviewGroup);
-								}
-							} else {
-								groupMap.put(proviewGroup.getTitleId(), proviewGroup);
-							}
+						if (GROUP_TAG.equals(qName)) {	
+							proviewGroupList.add(proviewGroup);
 						}
 
 						charBuffer = null;
@@ -114,12 +103,10 @@ public class ProviewGroupsParser {
 							charBuffer = new StringBuffer();
 							proviewGroup = new ProviewGroup();
 							proviewGroup.setGroupId(atts.getValue(ID));
-							String groupVersion = StringUtils.substringAfter(atts.getValue(VERSION), "v");
-							proviewGroup.setGroupVersion(new Integer(groupVersion));
+							proviewGroup.setGroupVersion(atts.getValue(VERSION));
+							proviewGroup.setGroupStatus(atts.getValue(STATUS));
+							proviewGroup.setGroupIdByVersion(atts.getValue(ID)+"/"+atts.getValue(VERSION));
 
-						}
-						if (HEAD_TITLE.equals(qName)) {
-							charBuffer = new StringBuffer();
 						}
 						if (NAME_TAG.equals(qName)) {
 							charBuffer = new StringBuffer();
@@ -133,7 +120,7 @@ public class ProviewGroupsParser {
 				}
 			});
 			reader.parse(new InputSource(new StringReader(xml)));
-			return groupMap;
+			return proviewGroupList;
 		} catch (SAXException e) {
 			throw new RuntimeException(e);
 		} catch (ParserConfigurationException e) {

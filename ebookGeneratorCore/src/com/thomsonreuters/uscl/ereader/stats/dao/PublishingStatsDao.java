@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.stats.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -31,6 +32,7 @@ public interface PublishingStatsDao {
 	
 	public List<String> findSuccessfullyPublishedsubGroupById(Long ebookDefId);
 	
+	public Map<String,String> findSubGroupByVersion(Long boofDefnition);
 	/**
 	 * Find Publishing stats
 	 * @param filter

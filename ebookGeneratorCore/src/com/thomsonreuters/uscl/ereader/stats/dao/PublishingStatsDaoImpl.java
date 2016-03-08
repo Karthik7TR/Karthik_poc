@@ -5,7 +5,9 @@
  */
 package com.thomsonreuters.uscl.ereader.stats.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;
 
 public class PublishingStatsDaoImpl implements PublishingStatsDao {
 
@@ -75,6 +77,37 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 				.add(Restrictions.eq("jobInstanceId", JobId)).uniqueResult();
 
 		return (pubStats);
+	}
+	
+	@Override
+	public Map<String,String> findSubGroupByVersion(Long boofDefnition) {
+		StringBuffer hql = new StringBuffer(
+				"select ps.BOOK_VERSION_SUBMITTED,a.SUBGROUP_HEADING,max(a.last_updated) from ebook_audit a join PUBLISHING_STATS ps on a.AUDIT_ID = ps.AUDIT_ID"
+				+ " where ps.ebook_definition_id = ");
+		hql.append(boofDefnition);
+		hql.append(" group by ps.BOOK_VERSION_SUBMITTED,a.SUBGROUP_HEADING");
+		System.out.println(hql);
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createSQLQuery(hql.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> objectList = query.list();
+		
+		Map<String,String> eBookSubgroupVersionMap = new HashMap<String,String>();
+		
+		for(Object[] arr : objectList)
+		{
+			String bookVersionSubmitted;
+			String subGroupHeading;
+			bookVersionSubmitted = "v"+arr[0].toString();
+			if(arr[1] != null){
+				subGroupHeading = arr[1].toString();
+				eBookSubgroupVersionMap.put(bookVersionSubmitted,subGroupHeading);
+			}
+			
+			
+		}
+		return eBookSubgroupVersionMap;
+
 	}
 
 	@Override

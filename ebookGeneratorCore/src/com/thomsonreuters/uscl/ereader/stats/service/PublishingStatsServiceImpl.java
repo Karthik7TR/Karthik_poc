@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -42,6 +43,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	@Transactional(readOnly = true)
 	public PublishingStats findPublishingStatsByJobId(Long JobId) {
 		return publishingStatsDAO.findJobStatsByJobId(JobId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Map<String,String> findSubGroupByVersion(Long boofDefnition){
+		return publishingStatsDAO.findSubGroupByVersion(boofDefnition);
 	}
 	
 	@Override

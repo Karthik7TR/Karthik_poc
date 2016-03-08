@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
@@ -36,6 +37,8 @@ public interface ProviewClient {
 	
 	public String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version)
 			throws ProviewException;
+
+	//public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
 	
 	public String createGroup(final GroupDefinition groupDefinition)
 			throws ProviewException;
@@ -63,7 +66,7 @@ public interface ProviewClient {
 	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
 			throws ProviewException;
 	
-	public Map<String, ProviewGroup> getAllProviewGroupInfo()
+	public List<ProviewGroup> getAllProviewGroupInfo()
 			throws ProviewException;
 
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)

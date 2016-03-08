@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProviewGroup  implements Serializable {
 
@@ -8,14 +9,44 @@ public class ProviewGroup  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4229230493652304110L;
-	private String proviewName;
-	private String titleId;
-	private String groupName;
-	private String bookVersion;
-	private Integer groupVersion;
-	private String groupId;
-	private String bookDefId;
+	private String proviewName;	
+	private String groupName;	
+	private String groupVersion;
+	private String groupId;	
+	private String groupIdByVersion;
+	//For second screen
+	private List<GroupDetails> groupDetailList;
+	private String groupStatus;
+	
+	public String getGroupIdByVersion() {
+		return groupIdByVersion;
+	}
 
+	public void setGroupIdByVersion(String groupIdByVersion) {
+		this.groupIdByVersion = groupIdByVersion;
+	}
+	
+
+	public String getGroupStatus() {
+		return groupStatus;
+	}
+
+	public void setGroupStatus(String groupStatus) {
+		this.groupStatus = groupStatus;
+	}
+
+	public List<GroupDetails> getGroupDetailList() {
+		return groupDetailList;
+	}
+
+	public void setGroupDetailList(List<GroupDetails> bookInfoList) {
+		this.groupDetailList = bookInfoList;
+	}
+
+	// Begin These fields can be deleted 
+	private String titleId;
+	private String bookVersion;
+	private String bookDefId;
 	public String getBookDefId() {
 		return bookDefId;
 	}
@@ -23,6 +54,23 @@ public class ProviewGroup  implements Serializable {
 	public void setBookDefId(String bookDefId) {
 		this.bookDefId = bookDefId;
 	}
+	
+	public String getBookVersion() {
+		return bookVersion;
+	}
+
+	public void setBookVersion(String bookVersion) {
+		this.bookVersion = bookVersion;
+	}
+
+	public String getTitleId() {
+		return titleId;
+	}
+
+	public void setTitleId(String titleId) {
+		this.titleId = titleId;
+	}
+	// End These fields can be deleted 
 
 	public String getGroupId() {
 		return groupId;
@@ -32,11 +80,11 @@ public class ProviewGroup  implements Serializable {
 		this.groupId = groupId;
 	}
 
-	public Integer getGroupVersion() {
+	public String getGroupVersion() {
 		return groupVersion;
 	}
 
-	public void setGroupVersion(Integer groupVersion) {
+	public void setGroupVersion(String groupVersion) {
 		this.groupVersion = groupVersion;
 	}
 
@@ -56,22 +104,7 @@ public class ProviewGroup  implements Serializable {
 		this.proviewName = proviewName;
 	}
 	
-	public String getBookVersion() {
-		return bookVersion;
-	}
-
-	public void setBookVersion(String bookVersion) {
-		this.bookVersion = bookVersion;
-	}
-
-	public String getTitleId() {
-		return titleId;
-	}
-
-	public void setTitleId(String titleId) {
-		this.titleId = titleId;
-	}
-
+	
 
 	@Override
 	public int hashCode() {
@@ -79,11 +112,9 @@ public class ProviewGroup  implements Serializable {
 		int result = 1;
 		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
 		result = prime * result + ((proviewName == null) ? 0 : proviewName.hashCode());
-		result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
-		result = prime * result + ((bookVersion == null) ? 0 : bookVersion.hashCode());
 		result = prime * result + ((groupVersion == null) ? 0 : groupVersion.hashCode());
 		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
-		result = prime * result + ((bookDefId == null) ? 0 : bookDefId.hashCode());
+		result = prime * result + ((groupStatus == null) ? 0 : groupStatus.hashCode());
 		return result;
 	}
 
@@ -106,15 +137,10 @@ public class ProviewGroup  implements Serializable {
 				return false;
 		} else if (!proviewName.equals(proviewName))
 			return false;
-		if (titleId == null) {
-			if (other.titleId != null)
+		if (groupStatus == null) {
+			if (other.groupStatus != null)
 				return false;
-		} else if (!titleId.equals(other.titleId))
-			return false;
-		if (bookVersion == null) {
-			if (other.bookVersion != null)
-				return false;
-		} else if (!bookVersion.equals(other.bookVersion))
+		} else if (!groupStatus.equals(other.groupStatus))
 			return false;
 		if (groupVersion == null) {
 			if (other.groupVersion != null)
@@ -126,18 +152,75 @@ public class ProviewGroup  implements Serializable {
 				return false;
 		} else if (!groupId.equals(other.groupId))
 			return false;
-		if (bookDefId == null) {
-			if (other.bookDefId != null)
-				return false;
-		} else if (!bookDefId.equals(other.groupId))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ProviewGroup [titleId=" + titleId + ", bookVersion=" + bookVersion + ", bookDefId=" + bookDefId
+		return "ProviewGroup [ groupId=" + groupId + "groupStatus="+ groupStatus
 				+ ", groupName=" + groupName + ", groupVersion=" + groupVersion + ",proviewTitle=" + proviewName + "]";
+	}
+	
+		
+	public static class GroupDetails implements Serializable{
+		
+		private static final long serialVersionUID = -4229230493652304110L;
+		private String bookStatus;
+		private List<String> titleIdList; 
+		private String subGroupName;
+		private List<String> titleIdListWithVersion; 
+		public List<String> getTitleIdListWithVersion() {
+			return titleIdListWithVersion;
+		}
+
+		public void setTitleIdListWithVersion(List<String> titleIdListWithVersion) {
+			this.titleIdListWithVersion = titleIdListWithVersion;
+		}
+		private String bookVersion;
+		private String id;
+		private String proviewDisplayName;
+
+		public String getProviewDisplayName() {
+			return proviewDisplayName;
+		}
+
+		public void setProviewDisplayName(String proviewDisplayName) {
+			this.proviewDisplayName = proviewDisplayName;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+		
+		public String getBookVersion() {
+			return bookVersion;
+		}
+		public void setBookVersion(String bookVersion) {
+			this.bookVersion = bookVersion;
+		}
+		public String getSubGroupName() {
+			return subGroupName;
+		}
+		public void setSubGroupName(String subGroupName) {
+			this.subGroupName = subGroupName;
+		}
+		public String getBookStatus() {
+			return bookStatus;
+		}
+		public void setBookStatus(String bookStatus) {
+			this.bookStatus = bookStatus;
+		}
+		public List<String> getTitleIdList() {
+			return titleIdList;
+		}
+		public void setTitleIdList(List<String> titleList) {
+			this.titleIdList = titleList;
+		}
+		
 	}
 
 }

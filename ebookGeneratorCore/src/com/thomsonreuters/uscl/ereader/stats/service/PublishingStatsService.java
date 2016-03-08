@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -21,6 +22,7 @@ public interface PublishingStatsService {
 	 */
 	public PublishingStats findPublishingStatsByJobId(Long JobId);
 	
+	public Map<String,String> findSubGroupByVersion(Long boofDefnition);
 	
 	/**
 	 * Save an Job Stats entry

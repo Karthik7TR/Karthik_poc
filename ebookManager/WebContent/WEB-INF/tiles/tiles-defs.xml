@@ -54,6 +54,32 @@
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewlist/delete/body.jsp"/>
 	</definition>
 	
+	<definition name="_proviewGroups" extends="twoColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/list/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/list/body.jsp"/>
+	  <put-attribute name="left" value="/WEB-INF/jsp/proviewgroup/list/left.jsp"/>
+	</definition>
+	
+	<definition name="_proviewGroupTitleAllVersions" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/singleGroup/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/singleGroup/body.jsp"/>
+	</definition>
+	
+	<definition name="_proviewGroupBookPromote" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/promote/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/promote/body.jsp"/>
+	</definition>
+	
+	<definition name="_proviewGroupBookDelete" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/delete/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/delete/body.jsp"/>
+	</definition>
+	
+	<definition name="_proviewGroupBookRemove" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/remove/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/remove/body.jsp"/>
+	</definition>
+	
 	<definition name="_adminBookLockDelete" extends="twoColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/admin/bookdefinition/lock/delete/title.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/admin/leftDefault.jsp"/>
@@ -309,7 +335,7 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/create/title.jsp"/>
 	</definition>
 	
-	<definition name="_bookGroupList" extends="twoColumnDefinition">
+	<!--  <definition name="_bookGroupList" extends="twoColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/group/list/body.jsp"/>
 	  <put-attribute name="left" value="/WEB-INF/jsp/group/list/left.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/group/list/title.jsp"/>
@@ -333,7 +359,7 @@
 	<definition name="_proviewGroupDelete" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/group/delete/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/group/delete/body.jsp"/>
-	</definition>
+	</definition>-->
 	
 	<definition name="_bookDefinitionCopy" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/copy/body.jsp"/>
