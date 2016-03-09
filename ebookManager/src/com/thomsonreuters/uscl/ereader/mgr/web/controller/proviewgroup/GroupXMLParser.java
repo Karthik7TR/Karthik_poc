@@ -24,15 +24,15 @@ public class GroupXMLParser extends DefaultHandler{
 	//private String version;
 	private String headTitle;
 	private List<String> titleIdList;
-	private Map<String,String> subGroupVersion = new  HashMap<String,String>();
+	private Map<String,String> subGroupVersionMap = new  HashMap<String,String>();
 	private String version;
 
-	public Map<String, String> getSubGroupVersion() {
-		return subGroupVersion;
+	public Map<String, String> getSubGroupVersionMap() {
+		return subGroupVersionMap;
 	}
 
-	public void setSubGroupVersion(Map<String, String> subGroupVersion) {
-		this.subGroupVersion = subGroupVersion;
+	public void setSubGroupVersion(Map<String, String> subGroupVersionMap) {
+		this.subGroupVersionMap = subGroupVersionMap;
 	}
 
 	public List<String> getTitleIdList() {
@@ -98,10 +98,10 @@ public class GroupXMLParser extends DefaultHandler{
 			String value = null;
 			
 			if (SUBGROUP.equalsIgnoreCase(qName)) {
-				if (!subGroupName.isEmpty()){
+				if (subGroupName != null && subGroupName.length() > 0){
 				 subGroupTitleList.put(subGroupName, titleIdList);
 				 if (!version.isEmpty()){
-					 subGroupVersion.put(subGroupName,version);
+					 subGroupVersionMap.put(subGroupName,version);
 					 version = null;
 				 }
 				}			    
@@ -123,7 +123,7 @@ public class GroupXMLParser extends DefaultHandler{
 
 			charBuffer = null;
 		} catch (Exception e) {
-			String message = "Exception occured during Novus IMGMetadata parsing endElement. The error message is: "
+			String message = "Exception occured while parsing Proview Response for Group. The error message is: "
 					+ e.getMessage();
 			throw new RuntimeException(message, e);
 		}

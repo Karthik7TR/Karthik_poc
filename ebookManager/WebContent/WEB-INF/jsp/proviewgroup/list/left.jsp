@@ -70,8 +70,8 @@
 	
 	<div class="wildCard">Wildcard: %</div>
 	
-	<input type="button" value="Search" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.SEARCH%>')"/>
-	<input type="button" value="Reset" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.RESET%>')"/>
+	<input id="searchButton" type="button" value="Search" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.SEARCH%>')"/>
+	<input id="resetButton" type="button" value="Reset" onclick="submitFilterForm('<%=ProviewGroupListFilterForm.FilterCommand.RESET%>')"/>
 	
 	
 	

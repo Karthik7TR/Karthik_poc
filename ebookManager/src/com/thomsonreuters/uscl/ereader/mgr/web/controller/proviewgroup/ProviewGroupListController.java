@@ -259,7 +259,7 @@ private Validator validator;
 					pilotBookStatus = bookDefinition.getPilotBookStatus();
 					bookDefinitionId = bookDefinition.getEbookDefinitionId().toString();
 
-					Map<String, String> subGroupVersionMap = groupXMLParser.getSubGroupVersion();
+					Map<String, String> subGroupVersionMap = groupXMLParser.getSubGroupVersionMap();
 					if(subGroupVersionMap != null && subGroupVersionMap.size() > 0){
 						groupDetailsList = getGroupDetailsforSplitTitles(bookDefinition, subGroupVersionMap, bookDefinitionId, model);
 					}
@@ -785,7 +785,7 @@ private Validator validator;
 		}
 	}
 		
-	public void deleteTitleWithRetryLogic(String title, String version, int tocCount) throws ProviewException {
+	protected void deleteTitleWithRetryLogic(String title, String version, int tocCount) throws ProviewException {
 		boolean retryRequest = true;
 
 		int retryCount = 0;
@@ -842,7 +842,7 @@ private Validator validator;
 	}
 
 	
-	public Map<String, List<String>> getVersionTitleMapFromSplitNodeList(List<SplitNodeInfo> splitNodes){
+	protected Map<String, List<String>> getVersionTitleMapFromSplitNodeList(List<SplitNodeInfo> splitNodes){
 		Map<String, List<String>> versionTitlesMap = new HashMap<String, List<String>>();
 		
 		for (SplitNodeInfo splitNode : splitNodes) {
@@ -864,7 +864,7 @@ private Validator validator;
 		return versionTitlesMap;
 	}
 	
-	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws Exception {
+	protected String getGroupInfoByVersion(String groupId, Long groupVersion) throws Exception {
 		String response = null;	
 		do {
 			try {

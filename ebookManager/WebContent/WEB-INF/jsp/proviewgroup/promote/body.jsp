@@ -54,7 +54,7 @@
 		</table>
 		
 		<div id="operationButtons" class="buttons">
-			<input name="promoteButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  value="Promote" onclick="submitPromote() "/>
+			<input id="promoteButton" name="promoteButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  value="Promote" onclick="submitPromote() "/>
 			<input id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
 		</div>
 		

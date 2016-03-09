@@ -130,15 +130,15 @@ function submitGroupForm(command) {
 	  <div class="buttons">
 		  		<c:choose>
 		  			<c:when test="${pilotBookStatus != pilotInProgress}">
-		  				<input value="Promote to Final"  ${disableButtons} type="button"  onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
+		  				<input id="promoteButton" value="Promote to Final"  ${disableButtons} type="button"  onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
 		  			</c:when>
 		  			<c:otherwise>
 		  				Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting. 
 		  			</c:otherwise>
 		  		</c:choose>
-		  <input type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
-		  <input type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
-		  <input type="button" ${disableRemoveButtons} value="Edit Group" />
+		  <input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
+		  <input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
+		  <input id="editButton" type="button" ${disableRemoveButtons} value="Edit Group" />
 	  </div>
 	</c:if>
 </form:form>

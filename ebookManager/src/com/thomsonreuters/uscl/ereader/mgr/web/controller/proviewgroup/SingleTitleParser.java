@@ -22,7 +22,7 @@ public class SingleTitleParser extends DefaultHandler {
 	private static final String VERSION_TAG = "version";
 	private static final String LAST_UPDATE = "lastupdate";
 	private static final String TITLE = "title";
-	private static final String SPLIT_BOOK_NAMING_CONVENTION = "(eBook ";
+	private static final String SPLIT_BOOK_NAMING_CONVENTION = " (eBook ";
 	
 	private List<GroupDetails> GroupDetailsList = new ArrayList<GroupDetails>();
 	
