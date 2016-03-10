@@ -251,8 +251,6 @@
 					<form:hidden path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 					<form:hidden path="splitDocuments[${status.index}].note" />
 				</c:forEach>
-				<form:hidden path="subGroupHeading"/>
-				<form:hidden path="groupName"/>
 			</c:if>
 			<c:if test="${disableOptions}">
 				<%-- Hidden fields needed when options are disabled.
@@ -422,24 +420,6 @@
 						<form:errors path="splitBook" cssClass="errorMessage" />
 				</div>
 			</div>				
-			<div id="groupId" style="display:none">
-				<div class="row">
-					<form:label path="groupName" class="labelCol">Group Name</form:label>
-					<form:input disabled="${disableTitleFromSplit}" path="groupName" />
-				</div>
-				<div class="errorDiv">
-					<form:errors path="groupName" cssClass="errorMessage" />
-				</div>
-			</div>		
-			<div id="subGroupId" style="display:none">
-				<div class="row">
-					<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
-					<form:input disabled="${disableTitleFromSplit}" path="subGroupHeading" maxlength="18" />
-				</div>
-				<div class="errorDiv">
-					<form:errors path="subGroupHeading" cssClass="errorMessage" />
-				</div>
-			</div>
 			<div id="splitTypeDiv" style="display:none">
 				<div class="row">
 					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>	
@@ -763,6 +743,30 @@
 			<div id="addTableViewerRow" class="row" style="display:none;">
 				<label class="labelCol">Table Viewer</label>
 				<input type="button" id="addTableViewer" value="add" />
+			</div>
+			<div class="row">
+				<form:label path="groupsEnabled" class="labelCol">Enable Groups</form:label>
+				<form:radiobutton path="groupsEnabled" value="true" />True
+				<form:radiobutton path="groupsEnabled" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="groupsEnabled" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id=displayProviewGroup>
+				<div class="row">
+					<form:label path="groupName" class="labelCol">Group Name</form:label>
+					<form:input path="groupName" />
+				</div>
+				<div class="errorDiv">
+					<form:errors path="groupName" cssClass="errorMessage" />
+				</div>
+				<div class="row">
+					<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
+					<form:input path="subGroupHeading" maxlength="18" />
+				</div>
+				<div class="errorDiv">
+					<form:errors path="subGroupHeading" cssClass="errorMessage" />
+				</div>
 			</div>
 		</div>
 	</div>

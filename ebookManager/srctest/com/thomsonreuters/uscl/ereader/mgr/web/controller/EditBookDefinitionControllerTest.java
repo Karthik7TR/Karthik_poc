@@ -215,6 +215,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", titleId);
+    	request.setParameter("groupsEnabled", "false");
 
     	setupDropdownMenuAndKeywords(2);
     	
@@ -324,6 +325,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("docCollectionName", "sdfdsfdsf");
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
+    	request.setParameter("groupsEnabled", "false");
     	request.setParameter("isComplete", "true");
     	request.setParameter("validateForm", "false");
     	
@@ -556,6 +558,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
+    	request.setParameter("groupsEnabled", "false");
     	request.setParameter("validateForm", "false");
 		request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
     	request.setMethod(HttpMethod.POST.name());
@@ -716,6 +719,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
+    	request.setParameter("groupsEnabled", "false");
     	request.setParameter("validateForm", "false");
 		request.setParameter("bookdefinitionId", Long.toString(BOOK_DEFINITION_ID));
     	request.setMethod(HttpMethod.POST.name());
@@ -899,6 +903,7 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("pubAbbr", "abcd");
     	request.setParameter("publisher", "uscl");
     	request.setParameter("titleId", titleId);
+    	request.setParameter("groupsEnabled", "false");
 
     	
     	BookDefinition expectedBook = createBookDef(titleId);
@@ -1009,13 +1014,14 @@ public class EditBookDefinitionControllerTest {
     	request.setParameter("tocCollectionName", "sdfdsfdsf");
     	request.setParameter("isbn", "978-193-5-18235-1");
     	request.setParameter("isComplete", "true");
+    	request.setParameter("groupsEnabled", "false");
     	request.setParameter("validateForm", "false");
 
     	
     	BookDefinition expectedBook = createBookDef(titleId);
     	EasyMock.expect(mockBookDefinitionService.saveBookDefinition(EasyMock.anyObject(BookDefinition.class))).andReturn(expectedBook);
     	setupMockServices(null, 1, true);
-    	
+		
     	mockAuditService.saveEBookAudit(EasyMock.anyObject(EbookAudit.class));
     	EasyMock.replay(mockAuditService);
     	

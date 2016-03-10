@@ -103,6 +103,9 @@ public class EditBookDefinitionForm {
 	private boolean isSplitLock;
 	private Integer splitEBookParts;
 	private Collection<SplitDocument> splitDocuments;
+	
+	// Proview Group information
+	private boolean isGroupsEnabled;
 	private String subGroupHeading;
 	private String groupName;
 
@@ -180,6 +183,7 @@ public class EditBookDefinitionForm {
 		this.isSplitLock = false;
 		this.isSplitTypeAuto = true;
 		this.splitDocuments = new AutoPopulatingList<SplitDocument>(SplitDocument.class);
+		this.isGroupsEnabled = true;
 	}
 	
 	/**
@@ -206,7 +210,6 @@ public class EditBookDefinitionForm {
 		bookDef.setUseReloadContent(false);
 		bookDef.setIsSplitLock(false);
 		bookDef.setSubGroupHeading(null);
-		bookDef.setGroupName(null);
 		
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
@@ -278,8 +281,14 @@ public class EditBookDefinitionForm {
 			this.splitEBookParts = book.getSplitEBookParts();
 			this.isSplitLock = book.isSplitLock();
 			this.fmThemeText = book.getFrontMatterTheme();
-			this.subGroupHeading = book.getSubGroupHeading();
-			this.groupName = book.getGroupName();
+			
+			// Determine if ProView groups are set
+			if(StringUtils.isBlank(book.getGroupName())) {
+				this.isGroupsEnabled = false;
+			} else {
+				this.groupName = book.getGroupName();
+				this.subGroupHeading = book.getSubGroupHeading();
+			}
 			
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
@@ -1150,6 +1159,14 @@ public class EditBookDefinitionForm {
 
 	public void setInsTagStyleEnabled(boolean isInsTagStyleEnabled) {
 		this.isInsTagStyleEnabled = isInsTagStyleEnabled;
+	}
+	
+	public boolean isGroupsEnabled() {
+		return isGroupsEnabled;
+	}
+
+	public void setGroupsEnabled(boolean isGroupsEnabled) {
+		this.isGroupsEnabled = isGroupsEnabled;
 	}
 
 	public boolean isDelTagStyleEnabled() {

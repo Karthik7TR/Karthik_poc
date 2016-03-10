@@ -95,7 +95,7 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("titleId").getCode());
 		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-		Assert.assertEquals(7, errors.getAllErrors().size());
+		Assert.assertEquals(8, errors.getAllErrors().size());
 	}
 	
 	/**
@@ -110,26 +110,57 @@ public class EditBookDefinitionFormValidatorTest {
 		Assert.assertEquals("error.required", errors.getFieldError("pubInfo").getCode());
 		Assert.assertEquals("error.required", errors.getFieldError("contentTypeId").getCode());
 		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
-		Assert.assertEquals(3, errors.getAllErrors().size());
+		Assert.assertEquals(4, errors.getAllErrors().size());
+	}
+	
+	@Test
+	public void testNoGroups() {
+		form.setGroupsEnabled(false);
+		// verify errors
+		validator.validate(form, errors);
+		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+		Assert.assertEquals(7, errors.getAllErrors().size());
+	}
+	
+	@Test
+	public void testGroupName() {
+		form.setGroupsEnabled(true);
+		// verify errors
+		validator.validate(form, errors);
+		Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
+		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+		Assert.assertEquals(8, errors.getAllErrors().size());
+	}
+	
+	@Test
+	public void testSubGroupRequiredForSplit() {
+		form.setSplitBook(true);
+		form.setGroupsEnabled(true);
+		// verify errors
+		validator.validate(form, errors);
+		Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
+		Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());
+		Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+		Assert.assertEquals(9, errors.getAllErrors().size());
 	}
 	
 	@Test
 	public void testFileExist() throws Exception {
-	form.setIsComplete(true);
-	        form.setSourceType(SourceType.FILE);
-	        URL url = EditBookDefinitionFormValidatorTest.class.getResource("test.xml");
-	        File dir = new File(url.toURI());
-	        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(
-	                                        analyticalCode);
-	        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
-	        EasyMock.replay(mockCodeService);
-	        form.setCodesWorkbenchBookName("/");
-	        validator.setRootCodesWorkbenchLandingStrip(dir);
-	        validator.validate(form, errors);
-	 
-	        Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
-	 
-	        Assert.assertEquals(13, errors.getAllErrors().size());
+		form.setIsComplete(true);
+        form.setSourceType(SourceType.FILE);
+        URL url = EditBookDefinitionFormValidatorTest.class.getResource("test.xml");
+        File dir = new File(url.toURI());
+        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(
+                                        analyticalCode);
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(mockCodeService);
+        form.setCodesWorkbenchBookName("/");
+        validator.setRootCodesWorkbenchLandingStrip(dir);
+        validator.validate(form, errors);
+ 
+        Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
+ 
+        Assert.assertEquals(14, errors.getAllErrors().size());
 	}
 
 
@@ -464,8 +495,8 @@ public class EditBookDefinitionFormValidatorTest {
 		form.setSplitBook(true);
     	form.setSplitTypeAuto(false);
     	form.setSplitEBookParts(null);
-    	form.setSubGroupHeading("");
-    	form.setGroupName("");
+    	form.setSubGroupHeading(null);
+    	form.setGroupName(null);
     	    	
 		validator.validate(form, errors);
 		Assert.assertEquals("error.required", errors.getFieldError("proviewDisplayName").getCode());
@@ -1011,6 +1042,27 @@ public class EditBookDefinitionFormValidatorTest {
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.not.exist", errors.getFieldError("frontMatters[0].frontMatterSections[0].pdfs[0].pdfFilename").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	@Test
+	public void testGroupsRequiredForSplitBook() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+    	EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	form.setValidateForm(true);
+    	form.setSplitBook(true);
+    	form.setGroupsEnabled(false);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required", errors.getFieldError("groupsEnabled").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

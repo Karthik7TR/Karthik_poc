@@ -174,14 +174,6 @@ function submitForm(cmd)
 					<c:choose>
 						<c:when test="${ book.splitBook == true }">						
 							<div class="row">
-								<label class="labelCol">Group Name</label>
-								<span class="field">${ book.groupName }</span>
-							</div>
-							<div class="row">
-								<label class="labelCol">SubGroup Heading</label>
-								<span class="field">${ book.subGroupHeading }</span>
-							</div>
-							<div class="row">
 								<label class="labelCol">Split Type</label>
 								<span class="field">
 									<c:choose>
@@ -352,6 +344,17 @@ function submitForm(cmd)
 						<label class="labelCol">Pilot Book: Notes Migration</label>
 						<span class="field">${ fn:toLowerCase(book.pilotBookStatus) }</span>
 					</div>
+					<c:if test="${not empty book.groupName}">
+						<div class="row">
+							<label class="labelCol">Group Name</label>
+							<span class="field">${ book.groupName }</span>
+						</div>
+						<div class="row">
+							<label class="labelCol">SubGroup Heading</label>
+							<span class="field">${ book.subGroupHeading }</span>
+						</div>
+					</c:if>
+					
 				</div>
 			</div>
 		</div>

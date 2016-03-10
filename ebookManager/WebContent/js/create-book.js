@@ -454,20 +454,12 @@ $(function() {
 		
 		$('input:radio[name=splitBook]').change(function () {
 			var isSplitBook = $.trim($(this).val());
-			$("#subGroupId").hide();
-			$("#groupId").hide();
 			$("#splitTypeDiv").hide();			
 			if(isSplitBook == "true" || isSplitBook == true) {	
-				$("#subGroupId").show();
-				$("#groupId").show();
 				$("#splitTypeDiv").show();	
 				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
 			} 
 			else{
-				$("#subGroupHeading").val("");
-				$("#subGroupId").hide();
-				$("#groupName").val("");
-				$("#groupId").hide();
 				$("#splitTypeAuto").remove();
 				$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
 				$("#ebookSizeDiv").hide();
@@ -658,6 +650,14 @@ $(function() {
 			showSelectOptions($(this).val(), "#displayRenameTocEntry");
 		});
 		
+		$('input:radio[name=groupsEnabled]').change(function () {
+			showSelectOptions($(this).val(), "#displayProviewGroup");
+			if($(this).val() == "false" || $(this).val() == false) {
+				$("#groupName").val("");
+				$("#subGroupHeading").val("");
+			}
+		});
+		
 		$('input:radio[name=tableViewersUsed]').change(function () {
 			showSelectOptions($(this).val(), "#displayTableViewer");
 			showSelectOptions($(this).val(), "#addTableViewerRow");
@@ -803,15 +803,20 @@ $(function() {
 		showSelectOptions($("input:radio[name=renameTocEntriesUsed]:checked").val(), "#displayRenameTocEntry");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#displayTableViewer");
 		showSelectOptions($("input:radio[name=tableViewersUsed]:checked").val(), "#addTableViewerRow");
-		if ($("input:radio[name=splitBook]:checked").val() == "true"){
-			showSelectOptions(true, "#subGroupId");
+		if ($("input:radio[name=groupsEnabled]:checked").val() == "true"){
 			showSelectOptions(true, "#groupId");
 		}
 		showSelectOptions($("input:radio[name=splitBook]:checked").val(), "#splitTypeDiv");
-		if (isSplitTypeAuto == false || isSplitTypeAuto == "false")
+		if (isSplitTypeAuto == false || isSplitTypeAuto == "false") {
 			showSelectOptions(true, "#ebookSizeDiv");
+		}
 		if (splitSize > 1 && isSplitTypeAuto == "false") {
 			showSelectOptions("true", "#displaySplitDocument");
+		}
+		
+		enabledGroup = $("input:radio[name=groupsEnabled]:checked").val()
+		if(enabledGroup == false || enabledGroup == "false") {
+			showSelectOptions(false, "#displayProviewGroup");
 		}
 		
 		textboxHint("additionFrontMatterBlock");

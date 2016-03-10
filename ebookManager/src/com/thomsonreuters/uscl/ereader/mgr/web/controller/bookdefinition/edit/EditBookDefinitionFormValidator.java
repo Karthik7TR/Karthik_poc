@@ -134,14 +134,21 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			
 			validateProviewKeywords(errors);
 			validateProdOnlyRequirements(form, errors);
+			
+			if(form.isSplitBook()){
+        		if(!form.isGroupsEnabled()) {
+        			errors.rejectValue("groupsEnabled", "error.required");
+        		}
+        	}
 		}
     	
-    	if(form.isSplitBook()){
-    		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
+    	if(form.isGroupsEnabled()) {
     		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", "error.required");
+    		if(form.isSplitBook()){
+        		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
+        	}
     	}
     	
-
 		if(!form.isSplitTypeAuto()){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", "error.required");
 			if(form.getSplitEBookParts() != null && form.getSplitEBookParts() > 0){
