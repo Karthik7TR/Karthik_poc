@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\BuildExtensions\Microsoft.TeamFoundation.Build.Extensions.Ant.targets" />
+  <Target Name="Message">
+      <Message Text="Project File Name = $(MSBuildProjectFile)" />
+  </Target>
+  <Target Name="CallAnt">
+    <AntBuildFile Include="$/Cobalt eBook Builder/Development/ebookGenerator/ant/CompileAntScript_T.xml">
+      <Targets>normal_build,publishToNAS,fulldeploy</Targets>
+      <Properties>BinariesRoot=$(BinariesRoot);BuildDefinitionName=$(BuildDefinitionName);BuildDefinitionUri=$(BuildDefinitionUri);BuildDirectory=$(BuildDirectory);BuildNumber=$(BuildNumber);DropLocation=$(DropLocation);LogLocation=$(LogLocation);SourceGetVersion=$(SourceGetVersion);TestResultsRoot=$(TestResultsRoot);TeamProject=$(TeamProject);WorkspaceName=$(WorkspaceName);WorkspaceOwner=$(WorkspaceOwner)</Properties>
+      <Lib></Lib>
+    </AntBuildFile>
+  </Target>
+</Project>
