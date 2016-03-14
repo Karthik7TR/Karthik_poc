@@ -332,15 +332,15 @@ private Validator validator;
 			}
 		}
 		
-		
+		//If title status is removed Proview throws 404 status code
+		try{
 			String response = proviewClient.getSinglePublishedTitle(fullyQualifiedTitleId);
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 			parserFactory.setNamespaceAware(true);
 			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
 			SingleTitleParser singleTitleParser = new SingleTitleParser();
 			reader.setContentHandler(singleTitleParser);
-			reader.parse(new InputSource(new StringReader(response)));
-		
+			reader.parse(new InputSource(new StringReader(response)));			
 		    List<GroupDetails> proviewGroupDetails = singleTitleParser.getGroupDetailsList();
 		
 			for(GroupDetails groupDetail : proviewGroupDetails){
@@ -353,6 +353,15 @@ private Validator validator;
 					versionTitleMap.put(groupDetail.getBookVersion(), titles);
 				}
 			}
+		}
+		catch (ProviewException ex) {
+				String errorMsg = ex.getMessage();
+				//The versions of the title must have been removed.
+				if (errorMsg.startsWith("404") && errorMsg.contains("does not exist")){
+					return versionTitleMap;
+				}
+			
+		}
 		
 		return versionTitleMap;
 	}
@@ -695,8 +704,8 @@ private Validator validator;
 			
 
 			for (String bookTitleWithVersion : titlesString) {
-				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/");
-				String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/");
+				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
+				String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
 						try {
 							doTitleOperation(operation, title, version, stats.getGatherTocNodeCount().intValue());
 							ProviewAudit audit = new ProviewAudit();
