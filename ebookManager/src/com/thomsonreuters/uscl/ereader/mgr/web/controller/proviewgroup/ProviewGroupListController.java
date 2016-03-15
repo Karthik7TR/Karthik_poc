@@ -698,10 +698,11 @@ private Validator validator;
 			
 			String[] titlesString = {} ;
 			for (String bookTitlesWithVersion : form.getGroupIds()) {
-				bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]", "");
-				titlesString = bookTitlesWithVersion.split(",");
+				if(!bookTitlesWithVersion.isEmpty()){
+					bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]", "");
+					titlesString = bookTitlesWithVersion.split(",");	
+				}
 			}
-			
 
 			for (String bookTitleWithVersion : titlesString) {
 				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
