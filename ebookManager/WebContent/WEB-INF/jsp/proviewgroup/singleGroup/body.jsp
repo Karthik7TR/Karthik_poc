@@ -27,7 +27,19 @@ $(document).ready(function() {
 });
 
 function submitGroupForm(command) {
-	
+		var confirmed = false;
+		var groupStatus = document.theForm.elements["groupStatus"].value;
+		var warn = !document.getElementById('groupChecked').checked
+					&& (groupStatus=="Review"
+						|| (command=="REMOVE" && (groupStatus!="Remove"))
+						|| (command=="DELETE" && (groupStatus=="Review"||groupStatus=="Final")));
+		if (warn){
+			formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
+			confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " ebooks separately?");
+			if (!confirmed){
+				return;
+			}
+		}
 		$("#groupCmd").val(command);  // Set the form hidden field value for the operation discriminator
 		
 		$("#multiSelectForm").submit();	// POST the HTML form with the selected versions
@@ -47,7 +59,7 @@ function submitGroupForm(command) {
     
      <spring:hasBindErrors name="<%=ProviewGroupListFilterForm.FORM_NAME%>">
 		 <b><spring:message code="please.fix.errors"/>:</b><br/>
-			<font color="red">
+			<font color="red">	
 		        <c:forEach var="error" items="${errors.allErrors}">
        			 <b><spring:message message="${error}" /></b>
         		 <br/>
@@ -84,7 +96,7 @@ function submitGroupForm(command) {
 	</div>	
 	<div class="row" id ="groupOp">
 		<form:label path="groupOperation">Group:</form:label>
-		<form:checkbox path="groupOperation"/>
+		<form:checkbox path="groupOperation" id='groupChecked' value='false'/>
 	</div>
 	
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
