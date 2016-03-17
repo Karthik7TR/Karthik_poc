@@ -124,7 +124,7 @@ public class ProviewGroupListFilterController {
 						.replaceAll("%", "");
 			}
 
-			if (filterForm.getProviewGroupID() != null && filterForm.getGroupName().length() > 0) {
+			if (filterForm.getProviewGroupID() != null && filterForm.getProviewGroupID().length() > 0) {
 				if (filterForm.getProviewGroupID().endsWith("%")
 						&& filterForm.getProviewGroupID().startsWith("%")) {
 					groupIdBothWayWildCard = true;
