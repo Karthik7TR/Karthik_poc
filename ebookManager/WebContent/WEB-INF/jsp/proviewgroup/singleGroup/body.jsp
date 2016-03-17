@@ -29,13 +29,32 @@ $(document).ready(function() {
 function submitGroupForm(command) {
 		var confirmed = false;
 		var groupStatus = document.theForm.elements["groupStatus"].value;
+		var formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
 		var warn = !document.getElementById('groupChecked').checked
 					&& (groupStatus=="Review"
 						|| (command=="REMOVE" && (groupStatus!="Remove"))
-						|| (command=="DELETE" && (groupStatus=="Review"||groupStatus=="Final")));
+						|| (command=="DELETE" && (groupStatus=="Final")));
 		if (warn){
-			formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
-			confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " ebooks separately?");
+			confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " eBooks separately?");
+			if (!confirmed){
+				return;
+			}
+		}
+		var selected = false;
+		var x = document.getElementsByName('groupIds');
+		for (i=0;i<x.length;i++){
+			if(x[i].type == "checkbox" && x[i].checked){
+				selected=true;
+				break;
+			}
+		}
+		warn = document.getElementById('groupChecked').checked
+				&& !selected;
+		if (warn&&groupStatus=="Final"&&command=="PROMOTE"){
+			alert("Group is already Final, please select eBooks or cancel.")
+			return;
+		}else if(warn){
+			confirmed = confirm("You have selected the Group box with no corresponding eBook titles checked.  Do you want to proceed?")
 			if (!confirmed){
 				return;
 			}
