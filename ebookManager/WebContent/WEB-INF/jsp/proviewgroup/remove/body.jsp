@@ -21,25 +21,30 @@
   			return true; 
   		}
 		
- 		 function submitRemove(){
- 			 var confirmed = confirm("Are you sure to Remove?");
- 			 if (confirmed){
- 				 submitForm();
- 			 }
- 			 
- 			 return confirmed;
- 		 }
-		
+		function submitRemove(){
+			var confirmed = confirm("Are you sure to Remove?");
+			if (confirmed){
+				submitForm();
+			}
+			return confirmed;
+		}
 		
 	</script>
 
 <body>
 
-  
- 
 	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_REMOVE%>"
 			   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
-	
+		<td>
+				<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
+				<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
+		  		<form:hidden path="groupVersion" value="${groupVersion}"/>
+				<form:hidden path="groupIds" value="${groupIds}"/>
+		  		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>	
+		  		<form:hidden path="groupName" value="${groupName}"/>
+		  		<form:hidden path="groupOperation" value="${groupOperation}"/>			
+		</td>
+		
 		<table>		   
 		<tr>
 			<td id="groupName"><b>Group Name:</b></td> 
@@ -49,27 +54,18 @@
 			<td id="status"><b>Group Status:</b></td> 
 			<td>&nbsp;&nbsp;&nbsp;${groupStatus}</td>
 		</tr>
-		<tr>
-			<td><b>Comments (Optional)</b></td>
-			<td><form:textarea path="comments" /></td>
-		</tr>
+		<c:if test="${!(empty proviewGroupListFilterForm.groupIds)}">
+			<tr>
+				<td><b>Comments (Optional)</b></td>
+				<td><form:textarea path="comments" /></td>
+			</tr>
+		</c:if>
 		</table>
 		
 		<div class="buttons">
 			<input id="RemoveButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if> value="Remove" onclick="submitRemove()"/>
 			<input id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>	
 		</div>
-		
-		<td>
-				<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
-				<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
-		  		<form:hidden path="groupVersion" value="${groupVersion}"/>
-				<form:hidden path="groupIds" value="${groupIds}"/>
-		  		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>	
-		  		<form:hidden path="groupName" value="${groupName}"/>
-		  		<form:hidden path="groupOperation" value="${groupOperation}"/>			
-				
-		</td>
 		
 		<%-- Informational Messages area --%>
 		<div id="submitStatus" style="background: yellow;">
@@ -89,7 +85,6 @@
 	    </c:if>
 		
 	</form:form>
-  
   
 </body>
 </html>

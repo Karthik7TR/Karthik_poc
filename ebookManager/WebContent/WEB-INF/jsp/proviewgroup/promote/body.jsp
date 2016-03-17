@@ -13,31 +13,38 @@
 
 <html>
 <head>
- 	<script type="text/javascript">
+	<script type="text/javascript">
 		
- 		function submitForm(){
- 			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response."; 
+		function submitForm(){
+			document.getElementById('submitStatus').innerHTML = "ProView request submitted... waiting for response."; 
 			$('#<%=ProviewGroupListFilterForm.FORM_NAME%>').submit();
-  			return true; 
-  		}
+			return true; 
+		}
 		
- 		 function submitPromote(){
- 			  var confirmed = confirm("Are you sure you do want to Promote?");
-	 			 if (confirmed){
-	 				 submitForm();
-	 			 }
-	 		 return confirmed;
- 		 }
-		
+		function submitPromote(){
+ 			var confirmed = confirm("Are you sure you do want to Promote?");
+	 		if (confirmed){
+	 			submitForm();
+	 		}
+	 		return confirmed;
+		}
 		
 	</script>
 
 <body>
-  
- 
+
 	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE%>"
 			   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
-	
+		<td>
+				<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
+				<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
+		  		<form:hidden path="groupVersion" value="${groupVersion}"/>
+		  		<form:hidden path="groupIds" value="${groupIds}"/>
+		  		<form:hidden path="groupName" value="${groupName}"/>
+		  		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
+		  		<form:hidden path="groupOperation" value="${groupOperation}"/>	
+		</td>
+		
 		<table>		   
 		<tr>
 			<td id="groupName"><b>Group Name:</b></td> 
@@ -47,27 +54,18 @@
 			<td id="status"><b>Group Status:</b></td> 
 			<td>&nbsp;&nbsp;&nbsp;${groupStatus}</td>
 		</tr>
-		<tr>
-			<td><b>Comments (Optional)</b></td>
-			<td><form:textarea path="comments" /></td>
-		</tr>
+		<c:if test="${!(empty proviewGroupListFilterForm.groupIds)}">
+			<tr>
+				<td><b>Comments (Optional)</b></td>
+				<td><form:textarea path="comments" /></td>
+			</tr>
+		</c:if>
 		</table>
 		
 		<div id="operationButtons" class="buttons">
 			<input id="promoteButton" name="promoteButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  value="Promote" onclick="submitPromote() "/>
 			<input id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
 		</div>
-		
-		<td>
-				<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
-				<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
-		  		<form:hidden path="groupVersion" value="${groupVersion}"/>
-		  		<form:hidden path="groupIds" value="${groupIds}"/>
-		  		<form:hidden path="groupName" value="${groupName}"/>
-		  		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
-		  		<form:hidden path="groupOperation" value="${groupOperation}"/>	
-				
-		</td>
 		
 		<%-- Informational Messages area --%>
 		<div id="submitStatus" style="background: yellow;">
@@ -87,7 +85,6 @@
 	    </c:if>
 		
 	</form:form>
-  
   
 </body>
 </html>
