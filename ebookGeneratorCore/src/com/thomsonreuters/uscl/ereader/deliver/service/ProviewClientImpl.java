@@ -63,6 +63,8 @@ public class ProviewClientImpl implements ProviewClient {
 	
 	private String getGroupUriTemplate;
 	private String allGroupsUriTemplate;
+	private String singleGroupUriTemplate;
+
 	private String singleTitleTemplate;
 	private String singleTitleByVersionUriTemplate;
 
@@ -224,7 +226,7 @@ public class ProviewClientImpl implements ProviewClient {
 	}
 	
 	/**
-	 * Request will get group definition
+	 * Request will get group definition by version
 	 * @param groupDefinition
 	 * @return
 	 * @throws ProviewException
@@ -242,6 +244,28 @@ public class ProviewClientImpl implements ProviewClient {
 				.getXMLRequestCallback();
 				
 		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * Request will get all versions of group definition by Id
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getProviewGroupById(final String groupId) throws ProviewException{
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+				
+		String proviewResponse = restTemplate.execute(singleGroupUriTemplate,
 				HttpMethod.GET, proviewXMLRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
@@ -298,8 +322,10 @@ public class ProviewClientImpl implements ProviewClient {
             writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
             writer.writeStartElement("members");
             for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList())
-            {    writer.writeStartElement("subgroup");  
+            {    writer.writeStartElement("subgroup"); 
+            	if(subGroupInfo.getHeading() != null && subGroupInfo.getHeading().length() > 0){
             		writer.writeAttribute("heading", subGroupInfo.getHeading());
+            	}
             	for (String title : subGroupInfo.getTitles()){
             		writeElement(writer, "title", title); 
             	}
@@ -839,4 +865,13 @@ public class ProviewClientImpl implements ProviewClient {
 		this.singleTitleByVersionUriTemplate = singleTitleByVersionUriTemplate;
 	}
 	
+
+	public String getSingleGroupUriTemplate() {
+		return singleGroupUriTemplate;
+	}
+
+	@Required
+	public void setSingleGroupUriTemplate(String singleGroupUriTemplate) {
+		this.singleGroupUriTemplate = singleGroupUriTemplate;
+	}
 }

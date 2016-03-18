@@ -78,6 +78,7 @@
 		  p:promoteGroupStatusUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/status/final"
 		  p:getGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}/info"
 		  p:allGroupsUriTemplate="http://{proviewHost}/v1/group/uscl"
+		  p:singleGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}"
 		  p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
 		  p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"/>
 		  

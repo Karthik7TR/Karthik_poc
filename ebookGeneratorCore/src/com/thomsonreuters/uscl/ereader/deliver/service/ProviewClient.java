@@ -55,6 +55,10 @@ public interface ProviewClient {
 	public String getProviewGroupInfo(final String groupId, final String groupVersion)
 			throws ProviewException;
 
+	public String getProviewGroupById(final String groupId)
+			throws ProviewException;
+
+	
 	public String getAllPublishedTitles() throws ProviewException;
 
 //	public String getPublishingStatus(final String fullyQualifiedTitleId)
