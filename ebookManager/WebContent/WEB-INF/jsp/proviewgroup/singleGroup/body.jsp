@@ -28,9 +28,18 @@ $(document).ready(function() {
 
 function submitGroupForm(command) {
 		var confirmed = false;
+		var selected = false;
+		var x = document.getElementsByName('groupIds');
+		for (i=0;i<x.length;i++){
+			if(x[i].type == "checkbox" && x[i].checked){
+				selected=true;
+				break;
+			}
+		}
 		var groupStatus = document.theForm.elements["groupStatus"].value;
 		var formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
 		var warn = !document.getElementById('groupChecked').checked
+					&& selected
 					&& (groupStatus=="Review"
 						|| (command=="REMOVE" && (groupStatus!="Remove"))
 						|| (command=="DELETE" && (groupStatus=="Final")));
@@ -38,14 +47,6 @@ function submitGroupForm(command) {
 			confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " eBooks separately?");
 			if (!confirmed){
 				return;
-			}
-		}
-		var selected = false;
-		var x = document.getElementsByName('groupIds');
-		for (i=0;i<x.length;i++){
-			if(x[i].type == "checkbox" && x[i].checked){
-				selected=true;
-				break;
 			}
 		}
 		warn = document.getElementById('groupChecked').checked
@@ -67,33 +68,33 @@ function submitGroupForm(command) {
 
 </script>
 <form:form id="multiSelectForm" action="<%=WebConstants.MVC_PROVIEW_GROUP_OPERATION%>"
-		   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
-		   <form:hidden path="groupCmd"/>
-		   <form:hidden path="groupName" value="${groupName}"/>
-		   <form:hidden path="groupStatus" value="${groupStatus}"/>
-		   <form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
-		   <form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
-		   <form:hidden path="groupVersion" value="${groupVersion}"/>
+			commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
+			<form:hidden path="groupCmd"/>
+			<form:hidden path="groupName" value="${groupName}"/>
+			<form:hidden path="groupStatus" value="${groupStatus}"/>
+			<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
+			<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
+			<form:hidden path="groupVersion" value="${groupVersion}"/>
 		
-    
-     <spring:hasBindErrors name="<%=ProviewGroupListFilterForm.FORM_NAME%>">
-		 <b><spring:message code="please.fix.errors"/>:</b><br/>
+	
+	<spring:hasBindErrors name="<%=ProviewGroupListFilterForm.FORM_NAME%>">
+		<b><spring:message code="please.fix.errors"/>:</b><br/>
 			<font color="red">	
-		        <c:forEach var="error" items="${errors.allErrors}">
-       			 <b><spring:message message="${error}" /></b>
-        		 <br/>
-	        	</c:forEach>
-	        </font>
-	 </spring:hasBindErrors>
-	 
-	 <c:if test="${errMessage != null}">
-	    <div class="infoMessageError">
-	    	${errMessage}
-	    </div>
-	    <br/>
-	 </c:if>
-	 
-	 <c:set var="isSuperUser" value="false"/>
+				<c:forEach var="error" items="${errors.allErrors}">
+					<b><spring:message message="${error}" /></b>
+					<br/>
+				</c:forEach>
+			</font>
+	</spring:hasBindErrors>
+	
+	<c:if test="${errMessage != null}">
+		<div class="infoMessageError">
+			${errMessage}
+		</div>
+		<br/>
+	</c:if>
+	
+	<c:set var="isSuperUser" value="false"/>
 		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 			<c:set var="isSuperUser" value="true"/>
 		</sec:authorize>
@@ -102,7 +103,7 @@ function submitGroupForm(command) {
 			<c:set var="isPlusOrSuperUser" value="true"/>
 		</sec:authorize>
 	<c:set var="pilotInProgress" value="<%= PilotBookStatus.IN_PROGRESS.toString() %>" />
-    
+	
 	<div class="row" id ="groupName">
 						<label class="labelCol" >Group Name:</label>
 						<span class="field">${ groupName }</span>
@@ -120,59 +121,54 @@ function submitGroupForm(command) {
 	
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-				   requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>"
-				   sort="external">
-	  
-	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
-	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  <display:column title="${selectAllElement}"  style="text-align: center">
-  		<form:checkbox path="groupIds" value="${groupDetail.titleIdListWithVersion}" />
-  	  </display:column>
-  	  <display:column title="Subgroup Name" property="subGroupName" />
-  	  <c:set var="values" value="${groupDetail.titleIdList}" />
-	  <display:column title="Title ID" style="text-align: left">
-		  <table class="displayTagTable">						
-						<c:forEach items="${values}" var="value" varStatus="status">
-							<tbody>								
-								<tr >									
-									<td>${ value }</td>
-								</tr>
-							</tbody>
-						</c:forEach>
-				</table>
-	  </display:column>
-	  <display:column title="Proview Display Name" property="proviewDisplayName" />
-	  <display:column title="Version" property="bookVersion" />
-	  <display:column title="Book Status" property="bookStatus" />
+					requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>"
+					sort="external">
+		
+		<display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
+		<display:setProperty name="paging.banner.onepage" value=" " />
+		<display:column title="${selectAllElement}"  style="text-align: center">
+			<form:checkbox path="groupIds" value="${groupDetail.titleIdListWithVersion}" />
+		</display:column>
+		<display:column title="Subgroup Name" property="subGroupName" />
+		<c:set var="values" value="${groupDetail.titleIdList}" />
+		<display:column title="Title ID" style="text-align: left">
+			<table class="displayTagTable">
+					<c:forEach items="${values}" var="value" varStatus="status">
+						<tbody>
+							<tr >
+								<td>${ value }</td>
+							</tr>
+						</tbody>
+					</c:forEach>
+			</table>
+		</display:column>
+		<display:column title="Proview Display Name" property="proviewDisplayName" />
+		<display:column title="Version" property="bookVersion" />
+		<display:column title="Book Status" property="bookStatus" />
 	</display:table>
 	
 	<c:if test="${resultSize != 0}">
-	  <c:set var="disableButtons" value="disabled"/>
-	  <sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
-	  	<c:set var="disableButtons" value=""/>
-	  </sec:authorize>
-	  <c:set var="disableRemoveButtons" value="disabled"/>
-	  <sec:authorize access="hasRole('ROLE_SUPERUSER')">
-	  	<c:set var="disableRemoveButtons" value=""/>
-	  </sec:authorize>
-	  
-	 
-	  
-	  <div class="buttons">
-		  		<c:choose>
-		  			<c:when test="${pilotBookStatus != pilotInProgress}">
-		  				<input id="promoteButton" value="Promote to Final"  ${disableButtons} type="button"  onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
-		  			</c:when>
-		  			<c:otherwise>
-		  				Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting. 
-		  			</c:otherwise>
-		  		</c:choose>
-		  <input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
-		  <input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
-		  <input id="editButton" type="button" ${disableRemoveButtons} value="Edit Group" />
-	  </div>
+		<c:set var="disableButtons" value="disabled"/>
+		<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
+			<c:set var="disableButtons" value=""/>
+		</sec:authorize>
+		<c:set var="disableRemoveButtons" value="disabled"/>
+		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
+			<c:set var="disableRemoveButtons" value=""/>
+		</sec:authorize>
+		
+		<div class="buttons">
+			<c:choose>
+				<c:when test="${pilotBookStatus != pilotInProgress}">
+					<input id="promoteButton" value="Promote to Final"  ${disableButtons} type="button"  onclick="submitGroupForm('<%=GroupCmd.PROMOTE%>')"/> &nbsp;
+				</c:when>
+				<c:otherwise>
+					Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting. 
+				</c:otherwise>
+			</c:choose>
+			<input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
+			<input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
+			<input id="editButton" type="button" ${disableRemoveButtons} value="Edit Group" />
+		</div>
 	</c:if>
 </form:form>
-
-
-
