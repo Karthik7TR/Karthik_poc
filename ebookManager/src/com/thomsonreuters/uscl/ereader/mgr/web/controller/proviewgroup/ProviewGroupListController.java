@@ -402,11 +402,6 @@ private Validator validator;
 		// Both titles from SplitTitles and Proview titles are merged together
 		versionSplitTitleMap = mergeVersionTitlesMap(versionSplitTitleMap, versionTitleMap);
 
-		// This gives Version-Subgroup map based on publishingstats and
-		// ebookaudit as information from Proview does not give for minor title
-		Map<String, String> ebookVersionSubGroupMap = publishingStatsService.findSubGroupByVersion(bookDefinition
-				.getEbookDefinitionId());
-
 		List<String> uniqueVersion = new ArrayList<String>();
 
 		if (!subGroupVersionMap.isEmpty()) {
@@ -430,11 +425,7 @@ private Validator validator;
 							uniqueVersion.add(splitVersion);
 
 							groupDetails = new GroupDetails();
-							if (ebookVersionSubGroupMap.containsKey(splitVersion)) {
-								groupDetails.setSubGroupName(ebookVersionSubGroupMap.get(splitVersion));
-							} else {
-								groupDetails.setSubGroupName("");
-							}
+							groupDetails.setSubGroupName(entry.getKey());
 
 							List<String> titleIdList = new ArrayList<String>();
 							titleIdList.add(splitTitleId);
