@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.group.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +12,8 @@ import org.junit.Test;
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
 import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 
 public class GroupServiceImplTest {
@@ -41,8 +44,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testGetGroupInfoByVersion() throws Exception {
+		ProviewClient proviewClient = EasyMock.createMock(ProviewClient.class);
+		groupService.setProviewClient(proviewClient);
+		
+		EasyMock.expect(proviewClient.getProviewGroupInfo("uscl/groupT", "v10")).andReturn("");
+    	EasyMock.replay(proviewClient);
+		
 		String response = groupService.getGroupInfoByVersion("uscl/groupT", new Long(10));
-		Assert.assertEquals(null,response);
+		Assert.assertEquals("",response);
 	}
 	
 	@Test
