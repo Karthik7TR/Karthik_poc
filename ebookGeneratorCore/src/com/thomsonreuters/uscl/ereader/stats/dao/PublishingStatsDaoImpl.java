@@ -81,12 +81,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 	
 	@Override
 	public Map<String,String> findSubGroupByVersion(Long boofDefnition) {
-		StringBuffer hql = new StringBuffer(
-				"select ps.BOOK_VERSION_SUBMITTED,a.SUBGROUP_HEADING,max(a.last_updated) from ebook_audit a join PUBLISHING_STATS ps on a.AUDIT_ID = ps.AUDIT_ID"
-				+ " where ps.ebook_definition_id = ");
-		hql.append(boofDefnition);
-		hql.append(" group by ps.BOOK_VERSION_SUBMITTED,a.SUBGROUP_HEADING");
-		System.out.println(hql);
+		
+		StringBuffer hql = new StringBuffer("select ps.BOOK_VERSION_SUBMITTED, a.SUBGROUP_HEADING from PUBLISHING_STATS ps inner join(");
+				hql.append( " select BOOK_VERSION_SUBMITTED,max(last_updated) as maxt from PUBLISHING_STATS where ebook_definition_id=");
+				hql.append(boofDefnition);
+				hql.append(" group by BOOK_VERSION_SUBMITTED) b on b.maxt = ps.last_updated"); 
+				hql.append(" join ebook_audit a on a.AUDIT_ID = ps.AUDIT_ID order by ps.BOOK_VERSION_SUBMITTED ");
+		
+	
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());
 		@SuppressWarnings("unchecked")
