@@ -23,13 +23,14 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
+import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 
 public class GroupEbooksIntegrationTest {
 
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.demo.thomsonreuters.com";
 	private static final String PROVIEW_USERNAME = "publisher";
 	private static final String PROVIEW_PASSWORD = "f9R_zBq37a";
-	private GroupEbooks groupEbooks;
+	private GroupServiceImpl groupEbooks;
 	private CloseableAuthenticationHttpClientFactory defaultHttpClient;
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
@@ -60,7 +61,7 @@ public class GroupEbooksIntegrationTest {
 
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		
-		groupEbooks = new GroupEbooks();
+		groupEbooks = new GroupServiceImpl();
 		groupEbooks.setProviewClient(proviewClient);
 	}
 
