@@ -62,9 +62,8 @@ public class GroupServiceImpl implements GroupService {
 	
 	public GroupDefinition buildGroupDefinition(String groupName, String subGroupHeading,
 			String fullyQualifiedTitleId, String majorVersion, List<String> splitTitles) throws Exception{
-		GroupDefinition gp = new GroupDefinition();
-		gp.setType("standard");
-		gp.setName(groupName);
+		GroupDefinition groupDefinition = new GroupDefinition();
+		groupDefinition.setName(groupName);
 		
 		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
 		SubGroupInfo subGroupInfo = new SubGroupInfo();		
@@ -72,15 +71,15 @@ public class GroupServiceImpl implements GroupService {
 		
 		//For split books
 		if(splitTitles != null && !splitTitles.isEmpty()){
-			gp.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
+			groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
 			subGroupInfoList.add(getSubGroupInfo(majorVersion,subGroupHeading,splitTitles));
-			gp.setSubGroupInfoList(subGroupInfoList);
-			return gp;
+			groupDefinition.setSubGroupInfoList(subGroupInfoList);
+			return groupDefinition;
 		}
 		//For single books
 		//If no subgroup provided then 
 		if (!StringUtils.isEmpty(subGroupHeading) ){
-			gp.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
+			groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
 			subGroupInfo.setHeading(subGroupHeading);
 			String number = StringUtils.substringAfter(majorVersion, "v");
 			if(Integer.parseInt(number) > 1)
@@ -93,20 +92,19 @@ public class GroupServiceImpl implements GroupService {
 			
 		}
 		else{
-			gp.setHeadTitle(fullyQualifiedTitleId);
+			groupDefinition.setHeadTitle(fullyQualifiedTitleId);
 			titleList.add(fullyQualifiedTitleId);
 		}
 		subGroupInfo.setTitles(titleList);
 		subGroupInfoList.add(subGroupInfo);
-		gp.setSubGroupInfoList(subGroupInfoList);
-		return gp;
+		groupDefinition.setSubGroupInfoList(subGroupInfoList);
+		return groupDefinition;
 	}
 	
 	
 	public GroupDefinition getGroupDefinitionForSplitBooks(String groupInfoXML, String majorVersion,
 			String newGroupName, String newSubGroupHeading, String fullyQualifiedTitleId, List<String> newSubGroupTitleList) throws Exception{
 		GroupDefinition groupDefinition =  new GroupDefinition();
-		groupDefinition.setType("standard");
 		boolean createGroup = false;
 		boolean versionChange = false;
 
@@ -391,6 +389,9 @@ public class GroupServiceImpl implements GroupService {
 		return subGroupInfo;
 	}
 	
+	/**
+	 * Send Group definition to Proview to create a group
+	 */
 	public void createGroup(GroupDefinition groupDefinition) throws ProviewException {
 		boolean retryRequest = true;
 
@@ -480,6 +481,64 @@ public class GroupServiceImpl implements GroupService {
 		return groupVersion;
 	}
     
+     
+    /**
+     * Group will be created based on user input. splitTitles will be null if book is not a splitbook
+     */
+	public Long generateGroupForEbook(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles)
+			throws Exception {
+		Long groupVersion = new Long(0);
+
+		String groupName = bookDefinition.getGroupName();
+
+		if (StringUtils.isEmpty(groupName)) {
+			throw new ProviewException("Group Name cannot be empty");
+		}
+
+		String majorVersion = bookVersion;
+		if (StringUtils.contains(bookVersion, '.')) {
+			majorVersion = StringUtils.substringBefore(bookVersion, ".");
+		}
+		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
+
+		String groupId = getGroupId(bookDefinition);
+		String subGroupHeading = bookDefinition.getSubGroupHeading();
+		Long lastGroupVersion = getLastGroupVersionById(groupId);
+		GroupDefinition groupDefinition = null;
+
+		if (lastGroupVersion != null) {
+			String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersion);
+
+			if (bookDefinition.isSplitBook()) {
+				groupDefinition = getGroupDefinitionForSplitBooks(proviewResponse, majorVersion, groupName,
+						subGroupHeading, fullyQualifiedTitleId, splitTitles);
+			} else {
+				groupDefinition = getGroupDefinitionForSingleBooks(proviewResponse, majorVersion, groupName,
+						subGroupHeading, fullyQualifiedTitleId);
+			}
+			groupVersion = lastGroupVersion;
+			// Increment the group version if the group exists.
+			if (groupDefinition != null) {
+				groupVersion = lastGroupVersion + 1;
+			}
+
+		} else {
+			// Group version will be 1 if no group exists
+			//splitTitles is null for single books.
+			groupVersion = groupVersion + 1;
+			groupDefinition = buildGroupDefinition(groupName, subGroupHeading, fullyQualifiedTitleId, majorVersion,
+					splitTitles);
+		}
+
+		if (groupDefinition != null) {
+			groupDefinition.setGroupId(groupId);
+			groupDefinition.setType("standard");
+			groupDefinition.setGroupVersion(VERSION_NUMBER_PREFIX + String.valueOf(groupVersion));
+			createGroup(groupDefinition);
+		}
+		return groupVersion;
+	}
+    
     public int getMaxNumberOfRetries() {
         return this.maxNumberOfRetries;
     }	
@@ -495,6 +554,6 @@ public class GroupServiceImpl implements GroupService {
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
-	}
+	}	
 
 }

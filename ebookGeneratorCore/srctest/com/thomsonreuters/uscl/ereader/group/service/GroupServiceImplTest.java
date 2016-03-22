@@ -61,7 +61,6 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals("splitTitle/v1",groupDef.getHeadTitle());
 		Assert.assertEquals("groupName",groupDef.getName());
-		Assert.assertEquals("standard",groupDef.getType());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().size());
 		
 		Assert.assertEquals("2015",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -105,7 +104,6 @@ public class GroupServiceImplTest {
 			
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v3",groupDef.getHeadTitle());
 			Assert.assertEquals("Group Test",groupDef.getName());
-			Assert.assertEquals("standard",groupDef.getType());
 			Assert.assertEquals(3,groupDef.getSubGroupInfoList().size());
 			
 			Assert.assertEquals("2016",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -133,7 +131,6 @@ public class GroupServiceImplTest {
 			
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals("Group Test1",groupDef.getName());
-			Assert.assertEquals("standard",groupDef.getType());
 			Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
 			
 			Assert.assertEquals("2015",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -156,7 +153,6 @@ public class GroupServiceImplTest {
 			
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals("Group Test1",groupDef.getName());
-			Assert.assertEquals("standard",groupDef.getType());
 			Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
 			
 			Assert.assertEquals("2016",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -179,7 +175,6 @@ public class GroupServiceImplTest {
 			
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals("Group Test",groupDef.getName());
-			Assert.assertEquals("standard",groupDef.getType());
 			Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
 			
 			Assert.assertEquals("2016",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -203,7 +198,6 @@ public class GroupServiceImplTest {
 			
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals("Group Test",groupDef.getName());
-			Assert.assertEquals("standard",groupDef.getType());
 			Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
 			
 			Assert.assertEquals("2015",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -276,7 +270,6 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo",groupDef.getHeadTitle());
 		Assert.assertEquals("Group Test1",groupDef.getName());
-		Assert.assertEquals("standard",groupDef.getType());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().size());
 		Assert.assertEquals(null,groupDef.getSubGroupInfoList().get(0).getHeading());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().get(0).getTitles().size());
@@ -451,7 +444,6 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals("uscl/an/book_singlebookgroup/v1",groupDef.getHeadTitle());
 		Assert.assertEquals("groupName",groupDef.getName());
-		Assert.assertEquals("standard",groupDef.getType());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().size());
 		
 		Assert.assertEquals("2015",groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -466,7 +458,6 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals("uscl/an/book_singlebookgroup",groupDef.getHeadTitle());
 		Assert.assertEquals("groupName",groupDef.getName());
-		Assert.assertEquals("standard",groupDef.getType());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().size());
 		
 		Assert.assertEquals(null,groupDef.getSubGroupInfoList().get(0).getHeading());
@@ -505,7 +496,6 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals("uscl/an/book_singlebookgroup",groupDef.getHeadTitle());
 		Assert.assertEquals("Group Test",groupDef.getName());
-		Assert.assertEquals("standard",groupDef.getType());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().size());
 		
 		Assert.assertEquals(null,groupDef.getSubGroupInfoList().get(0).getHeading());

@@ -55,94 +55,26 @@ public class GroupEbooks extends AbstractSbTasklet {
 		
 		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);		
 
-		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		String versionNumber = FormatConstants.VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-		
+		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
 		long startTime = System.currentTimeMillis();
 		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");
 		String publishStatus =  "Completed";
-		String groupName = bookDefinition.getGroupName();
+		
 		
 		Long groupVersion = new Long(0);
 
 		try 
 		{	
-			String majorVersion = versionNumber;
-			if(StringUtils.contains(versionNumber, '.')){
-				majorVersion = StringUtils.substringBefore(versionNumber, ".");
-			}
-			String groupId = groupService.getGroupId(bookDefinition);
-			Long lastGroupVersion = groupService.getLastGroupVersionById(groupId);
-			String subGroupHeading = bookDefinition.getSubGroupHeading();
-			
-			if(bookDefinition.isSplitBook()){
-				GroupDefinition groupDefinition = null;
-				String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
-						JobExecutionKey.SPLIT_NODE_INFO_FILE);
-				List<String> splitTitles = readSplitNodeInforFile(splitNodeInfoFile,fullyQualifiedTitleId);
-				
-				if (lastGroupVersion != null){					
-					String proviewResponse = groupService.getGroupInfoByVersion(groupId, lastGroupVersion);
-					
-					//Add subgroups from Proview previous versions
-					if(proviewResponse != null){
-						groupDefinition = groupService.getGroupDefinitionForSplitBooks(proviewResponse, majorVersion,groupName, subGroupHeading, fullyQualifiedTitleId, splitTitles);
-						groupVersion = lastGroupVersion;
-						//Increment the group version if group has to be created.
-						 if (groupDefinition != null){
-							 groupVersion = lastGroupVersion + 1;	
-						 }
-					}
-					
-				}					
-				else{	
-					groupVersion = groupVersion + 1;
-					groupDefinition = groupService.buildGroupDefinition(groupName,subGroupHeading, fullyQualifiedTitleId, majorVersion, splitTitles);
-					
-				}	
-				if(groupDefinition != null){
-					groupDefinition.setGroupId(groupId);
-					groupDefinition.setType("standard");
-					groupDefinition.setGroupVersion(FormatConstants.VERSION_NUMBER_PREFIX+String.valueOf(groupVersion));
-					groupService.createGroup(groupDefinition);
+						
+			if (!StringUtils.isEmpty(bookDefinition.getGroupName())) {
+				List<String> splitTitles = null;
+				if (bookDefinition.isSplitBook()) {
+					String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
+							JobExecutionKey.SPLIT_NODE_INFO_FILE);
+					splitTitles = readSplitNodeInforFile(splitNodeInfoFile, fullyQualifiedTitleId);
 				}
-				
-				
-				
-			}
-			else if (!StringUtils.isEmpty(groupName)){
-				
-				GroupDefinition groupDefinition = null;									
-				
-				if (lastGroupVersion != null){	
-					
-					String proviewResponse = groupService.getGroupInfoByVersion(groupId, lastGroupVersion);
-					if (proviewResponse != null) {
-						groupDefinition = groupService.getGroupDefinitionForSingleBooks(proviewResponse, majorVersion,
-								groupName, subGroupHeading, fullyQualifiedTitleId);
-						groupVersion = lastGroupVersion;
-						// Increment the group version if it exists in Proview.
-						if (groupDefinition != null) {
-							groupVersion = lastGroupVersion + 1;
-						}
-					}
-				}					
-				else{
-					groupVersion = groupVersion + 1;
-					groupDefinition = groupService.buildGroupDefinition(groupName,subGroupHeading, fullyQualifiedTitleId, majorVersion,null);
-					
-				}	
-				//Create group with retry logic
-				/**
-				 * Creategroup should be the last line before catching exception
-				 * so it can be assumed that group was not created if an exception is thrown before this step
-				 * it is safe to insert group version as null in publishing stats
-				 */
-				if(groupDefinition != null){
-					groupDefinition.setGroupId(groupId);					
-					groupDefinition.setGroupVersion(FormatConstants.VERSION_NUMBER_PREFIX+String.valueOf(groupVersion));
-					groupService.createGroup(groupDefinition);
-				}
+				groupVersion = groupService.generateGroupForEbook(bookDefinition, versionNumber, splitTitles);
 			}
 		} 
 		catch (Exception e) 
@@ -169,14 +101,10 @@ public class GroupEbooks extends AbstractSbTasklet {
 	
 	
 	
-	
-	
-	
-    
-    /*
+	/*
 	 * Reads the file at Format\splitEbook\splitNodeInfo.txt and gets the split titles
 	 */
-	public List<String> readSplitNodeInforFile(final String splitNodeInfoFilePath, String fullyQualifiedTitleId) {
+	protected List<String> readSplitNodeInforFile(final String splitNodeInfoFilePath, String fullyQualifiedTitleId) {
 		
 		 File splitNodeInfoFile = new File(splitNodeInfoFilePath);
 		List<String> splitTitles = new ArrayList<String>();
@@ -205,6 +133,10 @@ public class GroupEbooks extends AbstractSbTasklet {
 		}
 		return splitTitles;
 	}
+	
+	
+    
+    
 	
 	
 	
