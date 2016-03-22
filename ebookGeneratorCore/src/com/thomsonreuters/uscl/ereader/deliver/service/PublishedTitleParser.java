@@ -50,6 +50,7 @@ public class PublishedTitleParser {
 			reader.setContentHandler(new DefaultHandler() {
 				private static final String TITLE_TAG = "title";
 				private static final String ID = "id";
+				private static final String NAME = "name";
 				private static final String VERSION = "version";
 				private static final String PUBLISHER = "publisher";
 				private static final String LAST_UPDATE = "lastupdate";
@@ -89,7 +90,9 @@ public class PublishedTitleParser {
 
 						if (TITLE_TAG.equals(qName)) {
 
-							proviewTitleInfo.setTitle(value);
+							if(StringUtils.isNotBlank(value)) {
+								proviewTitleInfo.setTitle(value);
+							}
 
 							if (titleMap.get(proviewTitleInfo.getTitleId()) == null) {
 								titleMap.put(proviewTitleInfo.getTitleId(),
@@ -129,6 +132,7 @@ public class PublishedTitleParser {
 							proviewTitleInfo = new ProviewTitleInfo();
 
 							proviewTitleInfo.setTitleId(atts.getValue(ID));
+							proviewTitleInfo.setTitle(atts.getValue(NAME));
 							proviewTitleInfo.setVersion(atts.getValue(VERSION));
 							proviewTitleInfo.setPublisher(atts
 									.getValue(PUBLISHER));

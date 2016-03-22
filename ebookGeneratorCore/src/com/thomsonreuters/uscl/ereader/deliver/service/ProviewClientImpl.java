@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -132,7 +132,7 @@ public class ProviewClientImpl implements ProviewClient {
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("groupId", groupDefinition.getGroupId());
-		urlParameters.put("groupVersionNumber", groupDefinition.getGroupVersion());
+		urlParameters.put("groupVersionNumber", groupDefinition.getProviewGroupVersionString());
 
 		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
 				.getXMLRequestCallback();
@@ -581,17 +581,24 @@ public class ProviewClientImpl implements ProviewClient {
 
 		ProviewTitleInfo latestProviewVersion = null;
 
-		String allPublishedTitleResponse = getAllPublishedTitles();
-
-		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleContainer> titleMap = parser
-				.process(allPublishedTitleResponse);
-
-		ProviewTitleContainer proviewTitleContainer = titleMap
-				.get(fullyQualifiedTitleId);
-
-		if (proviewTitleContainer != null) {
-			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+		try {
+			String allPublishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
+	
+			PublishedTitleParser parser = new PublishedTitleParser();
+			Map<String, ProviewTitleContainer> titleMap = parser
+					.process(allPublishedTitleResponse);
+	
+			ProviewTitleContainer proviewTitleContainer = titleMap
+					.get(fullyQualifiedTitleId);
+	
+			if (proviewTitleContainer != null) {
+				latestProviewVersion = proviewTitleContainer.getLatestVersion();
+			}
+		} catch (ProviewException ex) {
+			String errorMessage = ex.getMessage();
+			if(!errorMessage.contains("does not exist")) {
+				throw ex;
+			}
 		}
 
 		return latestProviewVersion;

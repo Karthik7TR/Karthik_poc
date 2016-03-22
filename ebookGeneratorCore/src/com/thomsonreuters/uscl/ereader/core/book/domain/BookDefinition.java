@@ -935,6 +935,13 @@ public class BookDefinition implements Serializable {
 		this.splitEBookParts = splitEBookParts;
 	}
 	
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 	//Subgroup heading within the group
 	public String getSubGroupHeading() {
@@ -1290,7 +1297,8 @@ public class BookDefinition implements Serializable {
 		setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
 		setIsSplitBook(that.isSplitBook());
 		setIsSplitLock(that.isSplitLock());
-		setSubGroupHeading(that.subGroupHeading);
+		setSubGroupHeading(that.getSubGroupHeading());
+		setGroupName(that.getGroupName());
 	}
 
 	/**
@@ -1444,15 +1452,5 @@ public class BookDefinition implements Serializable {
 			}
 		}
 		return status;
-	}
-	
-
-
-	public String getGroupName() {
-		return groupName;
-	}
-
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
 	}
 }

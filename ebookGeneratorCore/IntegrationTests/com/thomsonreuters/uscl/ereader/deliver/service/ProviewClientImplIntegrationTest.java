@@ -47,6 +47,8 @@ public class ProviewClientImplIntegrationTest {
 	private String removeTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/removed";
 	private String promoteTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/final";
 	private String deleteTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
+	private String getSingleTitleTemplate = "/v1/titles/{titleId}";
+	private String getSingleGroupTemplate = "/v1/group/{groupId}";
 	private String validateTitleUriTemplate = "";
 
 	private static final String PROVIEW_USERNAME = "publisher";
@@ -66,7 +68,7 @@ public class ProviewClientImplIntegrationTest {
 		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 		requestFactory.setBufferRequestBody(false);
 
-		defaultHttpClient = new CloseableAuthenticationHttpClientFactory("proviewpublishing.int.ci.thomsonreuters.com",PROVIEW_USERNAME,PROVIEW_PASSWORD);
+		defaultHttpClient = new CloseableAuthenticationHttpClientFactory(PROVIEW_DOMAIN_PREFIX,PROVIEW_USERNAME,PROVIEW_PASSWORD);
 		/*defaultHttpClient = new DefaultHttpClient();
 		defaultHttpClient.getCredentialsProvider().setCredentials(
 				new AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT),
@@ -198,9 +200,9 @@ public class ProviewClientImplIntegrationTest {
 	public void testGetSinglePublishedTitle() throws Exception {
 		proviewClient.setProviewHost(InetAddress.getLocalHost());
 		proviewClient.setSingleTitleTemplate("http://"
-				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/titles/{titleId}");		
+				+ PROVIEW_DOMAIN_PREFIX + getSingleTitleTemplate);
 		try{
-		 proviewClient.getSinglePublishedTitle("uscl/an/book_lohisplitnodeinfo");
+			proviewClient.getSinglePublishedTitle("uscl/an/book_lohisplitnodeinfo");
 		} catch (Exception e) {
 			if (!e.getMessage().contains("uscl/an/book_lohisplitnodeinfo does not exist")) {
 				fail("Expected an exception as title doesn't exist on ProView!");
@@ -209,6 +211,7 @@ public class ProviewClientImplIntegrationTest {
 		}
 		
 	}
+
 	
 	
 	@Test
@@ -219,7 +222,7 @@ public class ProviewClientImplIntegrationTest {
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		GroupDefinition groupDefinition = new GroupDefinition();
 		groupDefinition.setGroupId("uscl/groupFinalTest");
-		groupDefinition.setGroupVersion("v1");
+		groupDefinition.setProviewGroupVersionString("v1");
 		groupDefinition.setName("Group Test");
 		groupDefinition.setType("standard");
 		groupDefinition.setOrder("newerfirst");
@@ -255,15 +258,15 @@ public class ProviewClientImplIntegrationTest {
 		+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}/status/Removed");
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		groupDefinition.setGroupId("uscl/groupTest");
-		groupDefinition.setGroupVersion("v1");
+		groupDefinition.setProviewGroupVersionString("v1");
 		proviewClient.setDeleteGroupUriTemplate("http://"
 				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
 
 		
 		try {
-			String response = proviewClient.removeGroup(groupDefinition.getGroupId(),groupDefinition.getGroupVersion());
+			String response = proviewClient.removeGroup(groupDefinition.getGroupId(),groupDefinition.getProviewGroupVersionString());
 			Assert.assertEquals(response.contains("Group status changed to Removed"),true);
-			response = proviewClient.deleteGroup(groupDefinition.getGroupId(),groupDefinition.getGroupVersion());
+			response = proviewClient.deleteGroup(groupDefinition.getGroupId(),groupDefinition.getProviewGroupVersionString());
 			Assert.assertEquals(response.length(),0);
 			
 		} catch (ProviewRuntimeException e) {

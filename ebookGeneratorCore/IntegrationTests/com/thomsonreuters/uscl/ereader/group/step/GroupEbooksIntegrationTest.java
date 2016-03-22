@@ -98,7 +98,7 @@ public class GroupEbooksIntegrationTest {
 	protected GroupDefinition mockGroup(){			
 		GroupDefinition groupDefinition = new GroupDefinition();
 		groupDefinition.setGroupId("uscl/groupTest");
-		groupDefinition.setGroupVersion("v1");
+		groupDefinition.setProviewGroupVersionString("v1");
 		groupDefinition.setName("Group Test");
 		groupDefinition.setType("standard");
 		groupDefinition.setOrder("newerfirst");

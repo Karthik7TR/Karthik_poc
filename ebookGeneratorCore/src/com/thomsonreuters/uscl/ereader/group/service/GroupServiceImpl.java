@@ -29,9 +29,6 @@ public class GroupServiceImpl implements GroupService {
     private int retryIntervalMultiplierBase = 5;
     // hard limit on the computed interval
     private int maxRetryIntervalLimit = 900 * 1000; // 15 minutes
-    public static final String VERSION_NUMBER_PREFIX = "v";
-
-	
 	
 	public Long getLastGroupVerionFromProviewResponse(String response) throws Exception {
 		Long groupVersion = null;
@@ -450,7 +447,7 @@ public class GroupServiceImpl implements GroupService {
 		String response = null;
 		do {
 			try {
-				response = proviewClient.getProviewGroupInfo(groupId, VERSION_NUMBER_PREFIX
+				response = proviewClient.getProviewGroupInfo(groupId, GroupDefinition.VERSION_NUMBER_PREFIX
 						+ groupVersion.toString());
 				return response;
 			} catch (ProviewRuntimeException ex) {
@@ -485,7 +482,7 @@ public class GroupServiceImpl implements GroupService {
     /**
      * Group will be created based on user input. splitTitles will be null if book is not a splitbook
      */
-	public Long generateGroupForEbook(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles)
+	public GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles)
 			throws Exception {
 		Long groupVersion = new Long(0);
 
@@ -533,10 +530,9 @@ public class GroupServiceImpl implements GroupService {
 		if (groupDefinition != null) {
 			groupDefinition.setGroupId(groupId);
 			groupDefinition.setType("standard");
-			groupDefinition.setGroupVersion(VERSION_NUMBER_PREFIX + String.valueOf(groupVersion));
-			createGroup(groupDefinition);
+			groupDefinition.setGroupVersion(groupVersion);
 		}
-		return groupVersion;
+		return groupDefinition;
 	}
     
     public int getMaxNumberOfRetries() {

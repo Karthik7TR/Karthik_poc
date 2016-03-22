@@ -1,19 +1,21 @@
 package com.thomsonreuters.uscl.ereader;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDefinition {
-	
-	
+import org.apache.commons.lang.StringUtils;
 
+public class GroupDefinition {
+	public static final String VERSION_NUMBER_PREFIX = "v";
+	
 	private String groupId;	
 	private String name;
 	private String type;
 	private String order;
 	private String headTitle;
-	private String groupVersion;
+	private Long groupVersion;
 	
-	private List<SubGroupInfo> subGroupInfoList;
+	private List<SubGroupInfo> subGroupInfoList = new ArrayList<>();
 	
 	public String getGroupId() {
 		return groupId;
@@ -63,18 +65,30 @@ public class GroupDefinition {
 		this.subGroupInfoList = subGroupInfoList;
 	}
 	
-	public String getGroupVersion() {
+	public void addSubGroupInfo(SubGroupInfo subGroupInfo) {
+		this.subGroupInfoList.add(subGroupInfo);
+	}
+	
+	public Long getGroupVersion() {
 		return groupVersion;
 	}
 
-	public void setGroupVersion(String groupVersion) {
+	public void setGroupVersion(Long groupVersion) {
 		this.groupVersion = groupVersion;
 	}
+	
+	public String getProviewGroupVersionString() {
+		return VERSION_NUMBER_PREFIX + String.valueOf(groupVersion);
+	}
 
+	public void setProviewGroupVersionString(String version) {
+		String numberStr = StringUtils.substringAfterLast(version, "v");
+		this.groupVersion = Long.valueOf(numberStr);
+	}
 	
 	public static class SubGroupInfo {
 		private String heading;
-		private List<String> titles;
+		private List<String> titles = new ArrayList<String>();
 		
 
 		public String getHeading() {
@@ -86,8 +100,11 @@ public class GroupDefinition {
 		public List<String> getTitles() {
 			return titles;
 		}
-		public void setTitles(List<String> title) {
-			this.titles = title;
+		public void addTitle(String title) {
+			this.titles.add(title);
+		}
+		public void setTitles(List<String> titles) {
+			this.titles = titles;
 		}
 		
 	}

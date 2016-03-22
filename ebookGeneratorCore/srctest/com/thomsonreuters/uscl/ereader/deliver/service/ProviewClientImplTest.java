@@ -1,5 +1,5 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -25,7 +25,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
-import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
@@ -207,7 +206,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.DELETE, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.deleteGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
+		String response = proviewClient.deleteGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getProviewGroupVersionString());
 		System.out.println("response "+response);
 		verifyAll();
 			
@@ -227,7 +226,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.PUT, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
+		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getProviewGroupVersionString());
 		System.out.println("response "+response);
 		verifyAll();
 			
@@ -247,7 +246,7 @@ public class ProviewClientImplTest
 		EasyMock.expect(mockRestTemplate.execute("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate, HttpMethod.PUT, mockXMLRequestCallback, mockResponseExtractor, createURLParameters())).andReturn("");
 		
 		replayAll();
-		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getGroupVersion());
+		String response = proviewClient.removeGroup(mockGroupDefinition.getGroupId(),mockGroupDefinition.getProviewGroupVersionString());
 		//System.out.println("response "+response);
 		verifyAll();
 			
@@ -310,7 +309,7 @@ public class ProviewClientImplTest
 		GroupDefinition groupDefinition = new GroupDefinition();
 		
 		groupDefinition.setGroupId("uscl/groupTest");
-		groupDefinition.setGroupVersion("v1");
+		groupDefinition.setProviewGroupVersionString("v1");
 		groupDefinition.setName("Group Test");
 		groupDefinition.setType("standard");
 		groupDefinition.setOrder("newerfirst");

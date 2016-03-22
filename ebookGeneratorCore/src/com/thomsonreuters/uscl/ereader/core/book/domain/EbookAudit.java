@@ -925,6 +925,7 @@ public class EbookAudit implements Serializable {
 		setIsSplitTypeAuto(that.isSplitTypeAuto());
 		setSplitEBookParts(that.getSplitEBookParts());	
 		setSubGroupHeading(that.getSubGroupHeading());
+		setGroupName(that.getGroupName());
 	}
 	
 	@Transient

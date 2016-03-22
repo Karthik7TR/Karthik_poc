@@ -31,6 +31,6 @@ public interface GroupService {
 	 
 	 public Long getLastGroupVersionById(String groupId) throws Exception;
 	 
-	 public Long generateGroupForEbook(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles) throws Exception;
+	 public GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles) throws Exception;
 
 }
