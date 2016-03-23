@@ -455,8 +455,10 @@ private Validator validator;
 								groupDetailsList.add(groupDetails);
 
 							} else {
+								//Proview responds with '‘Title does not exist’ when title is in either removed or deleted status 
 								String status = proviewAuditService.getBookStatus(splitTitleId, splitVersion);
-								groupDetails.setProviewDisplayName(bookDefinition.getProviewDisplayName());
+								String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookDefinition.getEbookDefinitionId(),splitVersion);
+								groupDetails.setProviewDisplayName(proviewDisplayName);
 								groupDetails.setBookStatus(status);
 								groupDetailsList.add(groupDetails);
 							}

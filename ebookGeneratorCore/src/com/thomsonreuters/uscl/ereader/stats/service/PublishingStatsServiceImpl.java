@@ -53,6 +53,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	
 	@Override
 	@Transactional(readOnly = true)
+	public String findNameByBoofDefAndVersion(Long boofDefnition, String version){
+		return publishingStatsDAO.findNameByIdAndVersion(boofDefnition,version);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public List<PublishingStats> getPubStatsByEbookDefSort(Long EbookDefId){
 		return publishingStatsDAO.findPubStatsByEbookDefSort(EbookDefId);
 	}

@@ -33,6 +33,9 @@ public interface PublishingStatsDao {
 	public List<String> findSuccessfullyPublishedsubGroupById(Long ebookDefId);
 	
 	public Map<String,String> findSubGroupByVersion(Long boofDefnition);
+	
+	public String findNameByIdAndVersion(Long boofDefnition, String version);
+	
 	/**
 	 * Find Publishing stats
 	 * @param filter

@@ -111,6 +111,22 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		return eBookSubgroupVersionMap;
 
 	}
+	
+	public String findNameByIdAndVersion(Long boofDefnition, String version) {		
+		StringBuffer hql = new StringBuffer(
+				"select a.PROVIEW_DISPLAY_NAME from PUBLISHING_STATS ps inner join(");
+		hql.append(" select BOOK_VERSION_SUBMITTED,max(last_updated) as maxt from PUBLISHING_STATS where ebook_definition_id=");
+		hql.append(boofDefnition);
+		hql.append(" and BOOK_VERSION_SUBMITTED= '");
+		hql.append(StringUtils.substringAfter(version, "v")+"'");
+		hql.append(" group by BOOK_VERSION_SUBMITTED) b on b.maxt = ps.last_updated");
+		hql.append(" join ebook_audit a on a.AUDIT_ID = ps.AUDIT_ID order by ps.BOOK_VERSION_SUBMITTED ");
+
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createSQLQuery(hql.toString());
+		String proviewDisplayName = (String) query.uniqueResult();
+		return proviewDisplayName;
+	}
 
 	@Override
 	public void saveJobStats(PublishingStats jobstats) {

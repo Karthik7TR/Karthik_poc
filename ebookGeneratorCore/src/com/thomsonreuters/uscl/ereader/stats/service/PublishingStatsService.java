@@ -24,6 +24,8 @@ public interface PublishingStatsService {
 	
 	public Map<String,String> findSubGroupByVersion(Long boofDefnition);
 	
+	public String findNameByBoofDefAndVersion(Long boofDefnition, String version);
+	
 	/**
 	 * Save an Job Stats entry
 	 * 
