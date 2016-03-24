@@ -1,8 +1,8 @@
-<!--
-	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+<%--
+	Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
--->
+--%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,32 +11,30 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-<html>
-<head>
-
-<body>
-
   <script type="text/javascript">
- 
   function changeNewVersion(versionTypeSelection){
 	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
 	 var newVersion = "";
 	 var isMajorVersion;
 	 var isSplitBook = document.getElementById('isSplitBook').innerHTML;
 	 var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
+	 $("#nextMajorVersionGroup").hide();
+	 $("#currentMajorVersionGroup").hide();
 	 
-	
 	 if (newVersionType == "OVERWRITE"){
 		 newVersion = '${newOverwriteVersionNumber}';
 		 isMajorVersion = "N";
+		 $("#currentMajorVersionGroup").show();
 	 }
 	 else if (newVersionType == "MINOR"){
 		 newVersion = '${newMinorVersionNumber}';
 		 isMajorVersion = "N";
+		 $("#currentMajorVersionGroup").show();
 	 }
 	 else if (newVersionType == "MAJOR"){
 		 newVersion = '${newMajorVersionNumber}';
 		 isMajorVersion = "Y";
+		 $("#nextMajorVersionGroup").show();
 	 }
 	 else if (newVersionType == ""){
 		 newVersion = "";
@@ -180,21 +178,17 @@
 		return confirmed;
 	}
 	
-	function checkSubGroupHeading() {
+	function groupValidation() {
 		var confirmed = true;
-		var isSplitBook = document.getElementById('isSplitBook').innerHTML;
 		var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
-		var isNewSUB = document.getElementById('isNewSUB').innerHTML;
+		var errorMessage = "${groupNextErrorMessage}";
 
-		if (isSplitBook == "true" && isMajorVersion == "Y") {	
-			if (isNewSUB == "N"){
-				alert("You are about to generate a book with major version. SubGroup heading must be changed for major version.");
-				confirmed= false;
-			}
+		if (errorMessage && isMajorVersion == "Y") {	
+			alert(errorMessage);
+			confirmed= false;
 		}
 
 		return confirmed;
-		
 	}
 
 	function confirmValues() {
@@ -210,7 +204,7 @@
 					if (confirmed) {
 						confirmed = checkSplitStatus();
 						if (confirmed) {
-							confirmed = checkSubGroupHeading();
+							confirmed = groupValidation();
 						}
 					}
 				}
@@ -219,8 +213,9 @@
 
 		return confirmed;
 	}
-  
-    
+	
+$(document).ready(function() {
+})
   </script>
   
  <c:choose>
@@ -311,16 +306,143 @@
 			  </form:select>
 			 </td>
 		  </tr>
-		  
-		
-		  
-		
 		</table>
+		
+		<c:if test="${not empty book.groupName}">
+		<div id="currentMajorVersionGroup" style="display:none;">
+		<c:choose>
+			<c:when test="${groupCurrentPreview != null}">
+				<div>Group Detail</div>
+				<div class="dynamicRow">
+					<label>Group Id</label>
+					<span class="field">${groupCurrentPreview.groupId}</span>
+				</div>
+				<div class="dynamicRow">
+					<label>Group Name</label>
+					<span class="field">${groupCurrentPreview.name}</span>
+				</div>
+				<div class="dynamicRow">
+					<label>Group Version</label>
+					<span class="field">${groupCurrentPreview.groupVersion}</span>
+				</div>
+				<div class="dynamicRow">
+					<label>Group Type</label>
+					<span class="field">${groupCurrentPreview.type}</span>
+				</div>
+				<div class="dynamicRow">
+					<label>Head Title</label>
+					<span class="field">${groupCurrentPreview.headTitle}</span>
+				</div>
+				<div class="expandingBox">
+				<c:forEach items="${ groupCurrentPreview.subGroupInfoList }" var="subGroup" varStatus="count">
+					<c:if test="${not empty subGroup.heading }">
+						<div class="dynamicRow">
+							<label>Subgroup ${count.index + 1} Heading:</label>
+							<span class="field"> ${ subGroup.heading }</span>
+						</div>
+					</c:if>
+					<c:forEach items="${ subGroup.titles }" var="title">
+						<div class="dynamicRow">
+							<label>eBook Title ID:</label>
+							<span class="field"> ${ title }</span>
+						</div>
+					</c:forEach>
+				</c:forEach>
+				</div>
+			</c:when>
+			<c:when test="${empty errMessage}">
+				Group already in ProView
+			</c:when>
+		</c:choose>
+		</div>
+		
+		<div id="nextMajorVersionGroup" style="display:none;">
+			<c:choose>
+				<c:when test="${not empty groupNextErrorMessage}">
+					<div class="infoMessageError">
+				    	${groupNextErrorMessage}
+				    </div>
+				    <br/>
+				</c:when>
+				<c:when test="${groupNextPreview != null}">
+					<div>Group Detail</div>
+					<div class="dynamicRow">
+						<label>Group Id</label>
+						<span class="field">${groupNextPreview.groupId}</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Group Name</label>
+						<span class="field">${groupNextPreview.name}</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Group Version</label>
+						<span class="field">${groupNextPreview.groupVersion}</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Group Type</label>
+						<span class="field">${groupNextPreview.type}</span>
+					</div>
+					<div class="dynamicRow">
+						<label>Head Title</label>
+						<span class="field">${groupNextPreview.headTitle}</span>
+					</div>
+					<div class="expandingBox">
+					<c:forEach items="${ groupNextPreview.subGroupInfoList }" var="subGroup" varStatus="count">
+						<c:if test="${not empty subGroup.heading }">
+							<div class="dynamicRow">
+								<label>Subgroup ${count.index + 1} Heading:</label>
+								<span class="field"> ${ subGroup.heading }</span>
+							</div>
+						</c:if>
+						<c:forEach items="${ subGroup.titles }" var="title">
+							<div class="dynamicRow">
+								<label>eBook Title ID:</label>
+								<span class="field"> ${ title }</span>
+							</div>
+						</c:forEach>
+					</c:forEach>
+					</div>
+				</c:when>
+				<c:when test="${empty errMessage}">
+					Group already in ProView
+				</c:when>
+			</c:choose>
+		</div>
+		</c:if>
+		
+		<%-- Warning Messages area --%>
+	    <c:if test="${warningMessage != null}">
+	    <div class="infoMessageWarning">
+	    	${warningMessage}
+	    </div>
+	    <br/> 
+	    </c:if>
+	   
+	    <%-- Error Messages area --%>
+	    <c:if test="${errMessage != null}">
+	    <div class="infoMessageError">
+	    	${errMessage}
+	    </div>
+	    <br/>
+	    </c:if>
+	    
 		<div class="buttons">
-			<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+			<c:if test="${empty errMessage}">
+				<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
+			</c:if>
 			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=GenerateBookForm.Command.EDIT%>')" ${superPublisherPublisherplusVisibility}/>
+			<input id="groupButton" type="button" value="Create/Edit Group" onclick="submitEdit('<%=GenerateBookForm.Command.GROUP%>')" ${superPublisherPublisherplusVisibility}/>
 			<input id="editButton" type="button" value="Cancel" onclick="submitEdit('<%=GenerateBookForm.Command.CANCEL%>')" ${superPublisherPublisherplusVisibility} />
 		</div>
+		
+		<%-- Informational Messages area --%>
+	    <c:if test="${infoMessage != null}">
+	    <div class="infoMessageSuccess">
+	    	${infoMessage}
+	    </div>
+	    <br/> 
+	    </c:if>
+	    
 		<div style="visibility: hidden"> 
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
@@ -335,27 +457,9 @@
 		  	<p id="isNewSUB">${isNewSUB}</p>
 		 </div>	
 		
-		<%-- Informational Messages area --%>
-	    <c:if test="${infoMessage != null}">
-	    <div class="infoMessageSuccess">
-	    	${infoMessage}
-	    </div>
-	    <br/>
-	    </c:if>
-	    <%-- Error Messages area --%>
-	    <c:if test="${errMessage != null}">
-	    <div class="infoMessageError">
-	    	${errMessage}
-	    </div>
-	    <br/>
-	    </c:if>
-		
 	</form:form>
   </c:when>
   <c:otherwise>
   	No book found
   </c:otherwise>
   </c:choose>
-  
-</body>
-</html>

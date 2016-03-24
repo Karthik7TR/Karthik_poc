@@ -86,6 +86,19 @@ public class GroupDefinition {
 		this.groupVersion = Long.valueOf(numberStr);
 	}
 	
+	public Boolean subgroupExists() {
+		boolean subgroupExists = false;
+		for(SubGroupInfo subGroupInfo : this.subGroupInfoList) {
+			String subHeading = subGroupInfo.getHeading();
+			if(StringUtils.isNotBlank(subHeading)) {
+				subgroupExists = true;
+				break;
+			}
+		}
+		
+		return subgroupExists;
+	}
+	
 	public static class SubGroupInfo {
 		private String heading;
 		private List<String> titles = new ArrayList<String>();

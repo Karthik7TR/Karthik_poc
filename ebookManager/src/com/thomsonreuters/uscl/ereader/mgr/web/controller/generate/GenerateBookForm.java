@@ -12,7 +12,7 @@ public class GenerateBookForm {
 	public static final String FORM_NAME = "generateBookForm";
 
 	public enum Command {
-		EDIT, GENERATE, CANCEL
+		EDIT, GENERATE, GROUP, CANCEL
 	};
 
 	public enum Version {

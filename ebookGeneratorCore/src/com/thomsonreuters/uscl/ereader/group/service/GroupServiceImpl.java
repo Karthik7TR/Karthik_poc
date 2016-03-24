@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
@@ -81,7 +82,7 @@ public class GroupServiceImpl implements GroupService {
 			String number = StringUtils.substringAfter(majorVersion, "v");
 			if(Integer.parseInt(number) > 1)
 			{
-				throw new ProviewException("Cannot have a subgroup with no subgroups for previous versions");
+				throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
 			}
 			else{
 				titleList.add(fullyQualifiedTitleId+ "/" + majorVersion);
@@ -147,7 +148,7 @@ public class GroupServiceImpl implements GroupService {
 								if(versionChange )
 								{
 										if(oldSubgroupHeading.equalsIgnoreCase(newSubGroupHeading)){
-											throw new ProviewException("Subgroupname should be changed for every major version");
+											throw new ProviewException(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE);
 										}
 										else{
 											createGroup = true;
@@ -531,6 +532,21 @@ public class GroupServiceImpl implements GroupService {
 			groupDefinition.setGroupId(groupId);
 			groupDefinition.setType("standard");
 			groupDefinition.setGroupVersion(groupVersion);
+		}
+		return groupDefinition;
+	}
+	
+	public GroupDefinition getLastGroupDefinition(BookDefinition bookDefinition) throws Exception {
+		GroupDefinition groupDefinition = null;
+		String groupId = getGroupId(bookDefinition);
+		Long lastGroupVersion = getLastGroupVersionById(groupId);
+		if (lastGroupVersion != null) {
+			String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersion);
+			ProViewGroupsParser parser = new ProViewGroupsParser();
+			List<GroupDefinition> groups = parser.parse(proviewResponse);
+			if(groups.size() == 1) {
+				groupDefinition = groups.get(0);
+			}
 		}
 		return groupDefinition;
 	}

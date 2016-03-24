@@ -185,7 +185,8 @@
 		p:publishingStatsService-ref="publishingStatsService" 
 		p:managerService-ref="managerService"
 		p:outageService-ref="outageService"
-		p:miscConfigSyncService-ref="miscConfigSyncService"/>
+		p:miscConfigSyncService-ref="miscConfigSyncService"
+		p:groupService-ref="groupService"/>
 
 	<bean id="jobExecutionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController"
 		p:jobService-ref="jobService"

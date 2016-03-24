@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -35,6 +37,7 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -46,11 +49,14 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class GenerateEbookController {
 	private static final Logger log = Logger
 			.getLogger(GenerateEbookController.class);
+	
+	private static String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
 
 	private BookDefinitionService bookDefinitionService;
 	private String environmentName;
 	private MessageSourceAccessor messageSourceAccessor;
 	private ProviewClient proviewClient;
+	private GroupService groupService;
 	private JobRequestService jobRequestService;
 	private PublishingStatsService publishingStatsService;
 	private ManagerService managerService;
@@ -125,7 +131,7 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.BOOK_STATUS_IN_PROVIEW, status);
 		model.addAttribute(WebConstants.KEY_OVERWRITE_ALOOWED,
 				REVIEW_STATUS.equals(status) ? "Y" : "N");
-		
+
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
 
 	}
@@ -167,12 +173,86 @@ public class GenerateEbookController {
 		}
 	}
 	
-	private void setModelSubGroup(Long bookDefinitionId,
-			BookDefinition book, Model model) throws Exception {
-		boolean hasSubGroupChanged = publishingStatsService.hasSubGroupChanged(book.getSubGroupHeading(), bookDefinitionId);
+	private Integer getMajorVersion(String versionStr) {
+		Double valueDouble = Double.valueOf(versionStr);
+		return valueDouble.intValue();
+	}
+	
+	private void setModelGroup(Long bookDefinitionId, BookDefinition book, Model model,
+			GenerateBookForm form) {
+		Integer currentVersion = getMajorVersion(form.getNewMinorVersion());
+		Integer nextVersion = getMajorVersion(form.getNewMajorVersion());
 
-		// If publised, check for SubGroup Heading change 
-		model.addAttribute(WebConstants.KEY_IS_NEW_SUBGROUP, hasSubGroupChanged ? "Y": "N");
+		GroupDefinition currentGroup = null;
+		GroupDefinition nextGroup = null;
+		try {
+			// Setup next groups
+			if(StringUtils.isNotBlank(book.getGroupName())) {
+				List<String> splitTitles = createSplitTitles(book, currentVersion);
+				currentGroup = groupService.createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + currentVersion, splitTitles);
+				splitTitles = createSplitTitles(book, nextVersion);
+				nextGroup = groupService.createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + nextVersion, splitTitles);
+			}
+			
+			GroupDefinition lastGroupDefinition = groupService.getLastGroupDefinition(book);
+			if(lastGroupDefinition != null) {
+				
+				if(lastGroupDefinition.subgroupExists()) {
+					if(StringUtils.isNotBlank(book.getGroupName()) &&
+							StringUtils.isBlank(book.getSubGroupHeading())) {
+						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, "Previous group in ProView had subgroup(s). Currently, book definition is setup to have no subgroup.");
+					} else if(StringUtils.isBlank(book.getGroupName())) {
+						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, 
+								String.format(REMOVE_GROUP_WARNING_MESSAGE, book.getFullyQualifiedTitleId()));
+					}
+				} else {
+					if(StringUtils.isBlank(book.getGroupName())) {
+						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, 
+								String.format(REMOVE_GROUP_WARNING_MESSAGE, book.getFullyQualifiedTitleId()));
+					}
+				}
+			}
+		} catch (ProviewException e) {
+			String errorMessage = e.getMessage();
+			if(errorMessage.equalsIgnoreCase(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE)) {
+				// If publised, check for SubGroup Heading change 
+				model.addAttribute(WebConstants.KEY_GROUP_NEXT_ERROR, e.getMessage());
+			} else if(errorMessage.equalsIgnoreCase(CoreConstants.SUBGROUP_ERROR_MESSAGE)) {
+				if(currentGroup != null && nextGroup == null) {
+					model.addAttribute(WebConstants.KEY_GROUP_NEXT_ERROR, e.getMessage());
+				} else {
+					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, e.getMessage());
+				}
+			}
+			log.debug(e);
+		} catch (Exception e) {
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, e.getMessage());
+			log.debug(e);
+		}
+		
+		model.addAttribute(WebConstants.KEY_GROUP_CURRENT_PREVIEW, currentGroup);
+		model.addAttribute(WebConstants.KEY_GROUP_NEXT_PREVIEW, nextGroup);
+	}
+	
+	private List<String> createSplitTitles(BookDefinition book, Integer version) {
+		List<String> splitTitles = null;
+		if(book.isSplitBook()) {
+			splitTitles = new ArrayList<>();
+			if(book.isSplitTypeAuto()) {
+				splitTitles.add("Auto Split");
+			} else {
+				int count = book.getSplitDocuments().size();
+				String titleId = book.getFullyQualifiedTitleId();
+				splitTitles.add(titleId + "/v" + version);
+				for(int i = 0; i < count; i++) {
+					int part = i + 2;
+					String nextTitleId = titleId + "_pt" + part + "/v" + version;
+					splitTitles.add(nextTitleId);
+				}
+			}
+		}
+		
+		return splitTitles;
 	}
 
 	/**
@@ -262,8 +342,9 @@ public class GenerateEbookController {
 			
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
-			if (book.isSplitBook()){
-				setModelSubGroup(id, book, model);
+			
+			if(StringUtils.isNotBlank(form.getNewMajorVersion())) {
+				setModelGroup(id, book, model, form);
 			}
 			setModelIsbn(id, book, model);
 
@@ -487,6 +568,11 @@ public class GenerateEbookController {
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
+	}
+	
+	@Required
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
 	}
 
 	public JobRequestService getJobRequestService() {

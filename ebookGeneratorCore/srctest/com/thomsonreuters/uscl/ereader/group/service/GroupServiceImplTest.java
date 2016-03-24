@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
@@ -223,7 +224,7 @@ public class GroupServiceImplTest {
 		}
 		catch(ProviewException ex){
 			thrown = true;
-			Assert.assertTrue(ex.getMessage().contains("Subgroupname should be changed for every major version"));
+			Assert.assertTrue(ex.getMessage().contains(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE));
 		}
 		
 		Assert.assertTrue(thrown);
@@ -474,7 +475,7 @@ public class GroupServiceImplTest {
 		}
 		catch(ProviewException ex){
 			thrown = true;
-			Assert.assertTrue(ex.getMessage().contains("Cannot have a subgroup with no subgroups for previous versions"));
+			Assert.assertTrue(ex.getMessage().contains(CoreConstants.SUBGROUP_ERROR_MESSAGE));
 		}
 		
 		Assert.assertTrue(thrown);

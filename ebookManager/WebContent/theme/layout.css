@@ -792,3 +792,25 @@ div.ui-datepicker{
 #splitWarning {
 	display: none;
 }
+
+#currentMajorVersionGroup,
+#nextMajorVersionGroup {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+#currentMajorVersionGroup .dynamicRow label,
+#nextMajorVersionGroup .dynamicRow label{
+	width: 10em;
+	float:left;
+}
+
+#currentMajorVersionGroup .expandingBox,
+#nextMajorVersionGroup .expandingBox{
+	margin-left: 1em;
+	margin-bottom: 0.5em;
+}
+
+
+
+

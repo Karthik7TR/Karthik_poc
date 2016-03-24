@@ -25,12 +25,14 @@ public interface GroupService {
 	public GroupDefinition getGroupDefinitionForSplitBooks(String proviewResponse, String majorVersion,
 			String newGroupName, String subGroupHeading, String fullyQualifiedTitleId, List<String> subGroupInfoList) throws Exception;
 	
-	 public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException;
+	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException;
 	 
-	 public void createGroup(GroupDefinition groupDefinition) throws ProviewException;
+	public void createGroup(GroupDefinition groupDefinition) throws ProviewException;
 	 
-	 public Long getLastGroupVersionById(String groupId) throws Exception;
+	public Long getLastGroupVersionById(String groupId) throws Exception;
 	 
-	 public GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles) throws Exception;
+	public GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles) throws Exception;
+	 
+	public GroupDefinition getLastGroupDefinition(BookDefinition bookDefinition) throws Exception;
 
 }

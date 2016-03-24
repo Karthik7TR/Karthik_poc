@@ -67,6 +67,8 @@ public class WebConstants {
 	public static final String KEY_INFO_MESSAGE = "infoMessage";
 	public static final String KEY_INFO_MESSAGES = "infoMessages";
 	public static final String KEY_ERR_MESSAGE = "errMessage";
+	public static final String KEY_WARNING_MESSAGE = "warningMessage";
+	
 	public static final String KEY_CONTENT_TYPES = "contentTypes";
 	public static final String KEY_STATES = "states";
 	public static final String KEY_YEARS = "years";
@@ -112,6 +114,9 @@ public class WebConstants {
 	public static final String KEY_MAX_SPLIT_PARTS = "maxEbookSplitParts";
 	public static final String KEY_SUBGROUP_HEADING = "subGroupHeading";
 	public static final String KEY_IS_NEW_SUBGROUP = "isNewSUB";
+	public static final String KEY_GROUP_CURRENT_PREVIEW = "groupCurrentPreview";
+	public static final String KEY_GROUP_NEXT_PREVIEW = "groupNextPreview";
+	public static final String KEY_GROUP_NEXT_ERROR = "groupNextErrorMessage";
 	
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 
