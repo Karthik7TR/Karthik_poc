@@ -37,7 +37,12 @@ public class ImageMetadataHandler extends XMLFilterImpl {
 			if (charBuffer != null) {
 				value = StringUtils.trim(charBuffer.toString());
 				if (qName.contains(DPI)) {
-					this.imgMetadataInfo.setDpi(Long.valueOf(value));
+					if(StringUtils.isEmpty(value)){
+						this.imgMetadataInfo.setDpi(new Long(0));
+					}
+					else{
+						this.imgMetadataInfo.setDpi(Long.valueOf(value));
+					}
 				} else if (qName.contains(HEIGHT)) {
 					this.imgMetadataInfo.setHeight(Long.valueOf(value));
 				} else if (qName.contains(WIDTH)) {
