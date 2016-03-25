@@ -39,4 +39,6 @@ public class CoreConstants {
 	public static final String SUBGROUP_ERROR_MESSAGE = "No subgroup(s) in previous groups.  Please set a group with subgroup before generating.";
 	public static final String DUPLICATE_SUBGROUP_ERROR_MESSAGE = "Subgroup heading already exsists for previous versions.";
 	
+	public static final String EMPTY_GROUP_ERROR_MESSAGE = "Group name cannot be empty.";
+	
 }

@@ -240,7 +240,7 @@ public class GroupServiceImpl implements GroupService {
 		// The headtitle will not have a version at the end, if all the versions
 		// of the title are grouped together
 		if (StringUtils.isEmpty(versionOnHeadTitle) ){
-			if (createGroup) {				
+			if (createGroup || !StringUtils.isEmpty(newSubGroupHeading) ) {				
 				// A new group will be created if there is change in group name
 				// and no subgroups
 				groupDefinition = buildGroupDefinition(newGroupName,newSubGroupHeading,fullyQualifiedTitleId,majorVersion,null);
@@ -497,7 +497,7 @@ public class GroupServiceImpl implements GroupService {
 		String groupName = bookDefinition.getGroupName();
 
 		if (StringUtils.isEmpty(groupName)) {
-			throw new ProviewException("Group Name cannot be empty");
+			throw new ProviewException(CoreConstants.EMPTY_GROUP_ERROR_MESSAGE);
 		}
 
 		String majorVersion = bookVersion;
