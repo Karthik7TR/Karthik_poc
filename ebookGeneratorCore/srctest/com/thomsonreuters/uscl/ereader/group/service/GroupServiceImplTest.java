@@ -97,6 +97,26 @@ public class GroupServiceImplTest {
 	}
 	
 	@Test
+	public void testDuplicateSubgroupSplitBook() throws Exception {
+		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<group id=\"uscl/grouptest\" status=\"Review\"><name>Group Test</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v2</headtitle>"
+				+ "<members><subgroup heading=\"2015\"><title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup>"
+				+ "<subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title></subgroup></members></group>";
+		boolean thrown = false;
+		splitTitles = new ArrayList<String>();
+		splitTitles.add("uscl/an/book_lohisplitnodeinfo/v3");
+		splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt2/v3");
+		try{
+			groupService.getGroupDefinitionForSplitBooks(groupInfoXML, "v3", "Group Test", "2014", "uscl/an/book_lohisplitnodeinfo",splitTitles);
+		}catch(ProviewException ex){
+				thrown = true;
+				Assert.assertTrue(ex.getMessage().contains(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE));
+			}
+		Assert.assertTrue(thrown);
+	}
+	
+	
+	@Test
 	public void testGetGroupDefVersionChange() throws Exception {
 			splitTitles = new ArrayList<String>();
 			splitTitles.add("uscl/an/book_lohisplitnodeinfo");
@@ -540,6 +560,39 @@ public class GroupServiceImplTest {
 		Assert.assertEquals("2014",groupDef.getSubGroupInfoList().get(1).getHeading());
 		Assert.assertEquals(1,groupDef.getSubGroupInfoList().get(1).getTitles().size());
 		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getSubGroupInfoList().get(1).getTitles().get(0));
+	}
+	
+	@Test
+	public void testDuplicateSubgroupSingleBook() throws Exception {
+		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<group id=\"uscl/grouptest\" status=\"Review\"><name>Group Test</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v2</headtitle>"
+				+ "<members><subgroup heading=\"2015\"><title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup>"
+				+ "<subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title></subgroup></members></group>";
+		boolean thrown = false;
+		try{
+			groupService.getGroupDefinitionForSingleBooks(groupInfoXML, "v3", "Group Test", "2014", "uscl/an/book_lohisplitnodeinfo");
+		}catch(ProviewException ex){
+				thrown = true;
+				Assert.assertTrue(ex.getMessage().contains(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE));
+			}
+		Assert.assertTrue(thrown);
+	}
+	
+	@Test
+	public void testGroupWithSubgroupNameChangeSingleBook() throws Exception {
+		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<group id=\"uscl/grouptest\" status=\"Review\"><name>Group Test</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v2</headtitle>"
+				+ "<members><subgroup heading=\"2015\"><title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup>"
+				+ "<subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title></subgroup></members></group>";
+		
+		GroupDefinition groupDef =	groupService.getGroupDefinitionForSingleBooks(groupInfoXML, "v2", "Group Test", "2016", "uscl/an/book_lohisplitnodeinfo");
+		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
+		Assert.assertEquals("Group Test",groupDef.getName());
+		Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
+		
+		Assert.assertEquals("2016",groupDef.getSubGroupInfoList().get(0).getHeading());
+		Assert.assertEquals("2014",groupDef.getSubGroupInfoList().get(1).getHeading());
+		
 	}
 
 }

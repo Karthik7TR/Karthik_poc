@@ -187,6 +187,9 @@ public class GroupServiceImpl implements GroupService {
 								
 							}
 							else{
+								if(oldSubgroupHeading.equalsIgnoreCase(newSubGroupHeading)){
+									throw new ProviewException(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE);
+								}
 								//Add all the previous subgroups
 								subGroupInfo = getSubgroupInfo(oldSubgroupHeading,subGroup);
 								subGroupInfoList.add(subGroupInfo);
@@ -272,6 +275,7 @@ public class GroupServiceImpl implements GroupService {
 							SubGroupInfo subGroupInfo = new SubGroupInfo();
 							String oldSubHeading = attributeNode.getTextContent();
 							if (i == 0) {
+								//If newsubgroup is empty then create a basic group with all versions grouped together
 								if(StringUtils.isEmpty(newSubGroupHeading)){
 									groupDefinition = buildGroupDefinition(newGroupName,newSubGroupHeading,fullyQualifiedTitleId,majorVersion, null);
 									return groupDefinition;
@@ -316,6 +320,9 @@ public class GroupServiceImpl implements GroupService {
 									subGroupInfoList.add(getSubgroupInfo(oldSubHeading,subGroup));
 								}
 							} else {
+								if(oldSubHeading.equalsIgnoreCase(newSubGroupHeading)){
+									throw new ProviewException(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE);
+								}
 								subGroupInfoList.add(getSubgroupInfo(oldSubHeading,subGroup));
 							}
 						}
