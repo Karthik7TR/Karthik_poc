@@ -518,5 +518,28 @@ public class GroupServiceImplTest {
 		
 		Assert.assertEquals(null,groupDef);
 	}
+	
+	@Test
+	public void testSingleBookNoSubChangeMajorVersion() throws Exception {
+		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<group id=\"uscl/grouptest\" status=\"Review\"><name>Group Test</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v2</headtitle>"
+				+ "<members><subgroup heading=\"2015\"><title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup>"
+				+ "<subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title></subgroup></members></group>";
+		
+		GroupDefinition groupDef = groupService.getGroupDefinitionForSingleBooks(groupInfoXML, "v3", "Group Test", "2015", "uscl/an/book_lohisplitnodeinfo");
+		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v3",groupDef.getHeadTitle());
+		Assert.assertEquals("Group Test",groupDef.getName());
+		Assert.assertEquals("standard",groupDef.getType());
+		Assert.assertEquals(2,groupDef.getSubGroupInfoList().size());
+		
+		Assert.assertEquals("2015",groupDef.getSubGroupInfoList().get(0).getHeading());
+		Assert.assertEquals(2,groupDef.getSubGroupInfoList().get(0).getTitles().size());
+		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v3",groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
+		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getSubGroupInfoList().get(0).getTitles().get(1));
+		
+		Assert.assertEquals("2014",groupDef.getSubGroupInfoList().get(1).getHeading());
+		Assert.assertEquals(1,groupDef.getSubGroupInfoList().get(1).getTitles().size());
+		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getSubGroupInfoList().get(1).getTitles().get(0));
+	}
 
 }
