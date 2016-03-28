@@ -109,9 +109,14 @@ function submitGroupForm(command) {
 						<span class="field">${ groupName }</span>
 	
 	</div>
-	<div class="row" >
+	<div class="row" id="groupSatus">
 						<label class="labelCol">Group Status:</label>
 						<span class="field">${ groupStatus }</span>
+	
+	</div>	
+	<div class="row" id="groupVersion">
+						<label class="labelCol">Group Version:</label>
+						<span class="field">v${ groupVersion }</span>
 	
 	</div>	
 	<div class="row" id ="groupOp">
