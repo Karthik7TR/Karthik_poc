@@ -84,7 +84,6 @@ public class GroupEbooksIntegrationTest {
 	public void testCreateGroup() throws ProviewException{
 		proviewClient.setCreateGroupUriTemplate("http://"
 				+ "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");	
-		groupEbooks.setBaseRetryInterval(100);
 		boolean thrown = false;
 		try{
 		groupEbooks.createGroup(mockGroup());

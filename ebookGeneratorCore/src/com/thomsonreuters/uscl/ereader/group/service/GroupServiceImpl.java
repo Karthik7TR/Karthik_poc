@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -22,14 +23,8 @@ import com.thomsonreuters.uscl.ereader.util.XMLXpathEvaluator;
 public class GroupServiceImpl implements GroupService {
 	
 	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
-	private ProviewClient proviewClient;
-	// retry parameters
-    private int baseRetryInterval = 30000; // in ms    
+	private ProviewClient proviewClient;  
 	private int maxNumberOfRetries = 3;
-    // used to compute a multiplier for successive retries
-    private int retryIntervalMultiplierBase = 5;
-    // hard limit on the computed interval
-    private int maxRetryIntervalLimit = 900 * 1000; // 15 minutes
 	
 	public Long getLastGroupVerionFromProviewResponse(String response) throws Exception {
 		Long groupVersion = null;
@@ -400,6 +395,13 @@ public class GroupServiceImpl implements GroupService {
 	public void createGroup(GroupDefinition groupDefinition) throws ProviewException {
 		boolean retryRequest = true;
 
+		//Most of the books should finish in two minutes
+		try{
+		TimeUnit.MINUTES.sleep(2);
+		} catch (InterruptedException e) {
+			LOG.error("InterruptedException during HTTP retry", e);
+		};
+		
 		int retryCount = 0;
 		String errorMsg = "";
 		do {
@@ -409,17 +411,16 @@ public class GroupServiceImpl implements GroupService {
 			} catch (ProviewRuntimeException ex) {
 				errorMsg = ex.getMessage();
 				if (errorMsg.startsWith("400") && errorMsg.contains("This Title does not exist")){
-					// retry a retriable request
-					int computedRetryInterval = computeRetryInterval(retryCount);
+					// retry a retriable request					
 
-					LOG.warn("Retriable status received: waiting " + computedRetryInterval + "ms (retryCount: "
+					LOG.warn("Retriable status received: waiting " + 15 + "minutes (retryCount: "
 							+ retryCount +")");
 
 					retryRequest = true;
 					retryCount++;
 
 					try {
-						Thread.sleep(computedRetryInterval);
+						TimeUnit.MINUTES.sleep(15);
 					} catch (InterruptedException e) {
 						LOG.error("InterruptedException during HTTP retry", e);
 					};
@@ -436,20 +437,6 @@ public class GroupServiceImpl implements GroupService {
 
 	}
 	
-	
-	/**
-     * Compute an interval that grows somewhat randomly with each retry attempt.
-     * 
-     * @param retryCount
-     * @return
-     */
-    protected int computeRetryInterval(int retryCount) {
-        int randomnessMultiplier = (int) Math.pow(retryIntervalMultiplierBase, Math.max(0, retryCount - 1));
-        int randomnessInterval = (int) ((Math.random() - 0.5) * 2 * getBaseRetryInterval() * randomnessMultiplier);
-        int multiplier = (int) Math.pow(retryIntervalMultiplierBase, retryCount);
-        int interval = Math.max(getBaseRetryInterval(), (getBaseRetryInterval() * multiplier) + randomnessInterval);
-        return Math.min(interval, maxRetryIntervalLimit);
-    }
     
     public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException {
 		String response = null;
@@ -562,13 +549,6 @@ public class GroupServiceImpl implements GroupService {
         return this.maxNumberOfRetries;
     }	
 	
-	public int getBaseRetryInterval() {
-		return baseRetryInterval;
-	}
-
-	public void setBaseRetryInterval(int baseRetryInterval) {
-		this.baseRetryInterval = baseRetryInterval;
-	}
 	
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
