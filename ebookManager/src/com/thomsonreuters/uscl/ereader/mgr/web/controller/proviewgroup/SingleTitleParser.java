@@ -17,12 +17,15 @@ public class SingleTitleParser extends DefaultHandler {
 	private String status;
 	private String name;
 	private String lastUpdate;
+	private String titleId;
 	private static final String STATUS_TAG = "status";
 	private static final String NAME_TAG = "name";
 	private static final String VERSION_TAG = "version";
 	private static final String LAST_UPDATE = "lastupdate";
 	private static final String TITLE = "title";
 	private static final String SPLIT_BOOK_NAMING_CONVENTION = " (eBook ";
+	private static final String ID = "id";
+			
 	
 	private List<GroupDetails> GroupDetailsList = new ArrayList<GroupDetails>();
 	
@@ -78,12 +81,15 @@ public class SingleTitleParser extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		try {
 			if (TITLE.equals(qName)){
-				GroupDetails GroupDetails = new GroupDetails();
-				GroupDetails.setBookStatus(status);
-				GroupDetails.setBookVersion(version);
+				GroupDetails groupDetails = new GroupDetails();
+				groupDetails.setBookStatus(status);
+				groupDetails.setBookVersion(version);
 				name = StringUtils.substringBeforeLast(name, SPLIT_BOOK_NAMING_CONVENTION);
-				GroupDetails.setProviewDisplayName(name);
-				GroupDetailsList.add(GroupDetails);
+				groupDetails.setProviewDisplayName(name);				
+				groupDetails.setTitleId(titleId);
+				String [] setTitleIdWithVersion = {titleId+"/"+version};
+				groupDetails.setTitleIdtWithVersionArray(setTitleIdWithVersion);
+				GroupDetailsList.add(groupDetails);
 			}
 		} catch (Exception e) {
 			String message = "ProviewSingleTitleParser: Exception occured during parsing endElement. The error message is: "
@@ -102,6 +108,7 @@ public class SingleTitleParser extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		try {
 			if(TITLE.equals(qName)){
+				this.titleId = atts.getValue(ID);
 				this.status = atts.getValue(STATUS_TAG);
 				this.version = atts.getValue(VERSION_TAG);
 				this.name = atts.getValue(NAME_TAG);

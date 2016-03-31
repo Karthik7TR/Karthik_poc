@@ -42,9 +42,9 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 		StringBuffer hql = new StringBuffer(
 				"select pa from ProviewAudit pa where (pa.titleId,pa.bookVersion,pa.requestDate) in ");
 		hql.append("(select pa2.titleId,pa2.bookVersion,max(pa2.requestDate) from ProviewAudit pa2 where");
-		hql.append(" pa.titleId = :titleId");
-		hql.append(" and pa.bookVersion =  :version"); 
-		hql.append(" group by pa2.titleId,pa2.bookVersion)");
+		hql.append(" pa2.titleId = :titleId");
+		hql.append(" and pa2.bookVersion =  :version"); 
+		hql.append(" and pa2.proviewRequest not in ('PROMOTE','REVIEW') group by pa2.titleId,pa2.bookVersion)");
 		// Create query and populate it with where clause values
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql.toString());
@@ -57,6 +57,23 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao {
 		}
 		return audit.getProviewRequest();
 		
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ProviewAudit> findRemovedAndDeletedVersions(String titleId) {
+		StringBuffer hql = new StringBuffer(
+				"select pa from ProviewAudit pa where (pa.titleId,pa.bookVersion,pa.requestDate) in ");
+		hql.append("(select pa2.titleId,pa2.bookVersion,max(pa2.requestDate) from ProviewAudit pa2 where");
+		hql.append(" pa2.titleId = :titleId");
+		hql.append(" and pa2.proviewRequest not in ('PROMOTE','REVIEW')  ");
+		hql.append(" group by pa2.titleId,pa2.bookVersion) order by pa.id");
+		// Create query and populate it with where clause values
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql.toString());
+		query.setParameter("titleId", titleId);
+
+		return  query.list();
 	}
 
 	@Override

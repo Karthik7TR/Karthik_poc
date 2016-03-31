@@ -96,6 +96,7 @@ public class WebConstants {
 	public static final String KEY_PUBLISHING_STATS = "publishingStats";
 	public static final String KEY_IS_COMPLETE = "isComplete";
 	public static final String KEY_PILOT_BOOK_STATUS = "pilotBookStatus";
+	public static final String KEY_SHOW_SUBGROUP = "showSubgroup";
 	public static final String KEY_BOOK_ID = "bookDefinitionId";
 	public static final String KEY_PROVIEW_NAME = "proviewName";
 	public static final String KEY_GROUP_STATUS = "groupStatus";

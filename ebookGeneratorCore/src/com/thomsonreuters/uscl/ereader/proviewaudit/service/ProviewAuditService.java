@@ -33,5 +33,7 @@ public interface ProviewAuditService {
 	public int numberProviewAudits(ProviewAuditFilter filter);
 	
 	public String getBookStatus(String titleId, String version);
+	
+	public List<ProviewAudit> getRemovedAndDeletedVersions(String fullyQualifiedTitleId);
 
 }

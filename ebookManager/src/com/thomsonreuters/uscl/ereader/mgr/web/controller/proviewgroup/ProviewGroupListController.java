@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -49,7 +50,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGr
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
@@ -65,13 +65,10 @@ public class ProviewGroupListController {
 	private PublishingStatsService publishingStatsService;
 
 	private static final Logger log = Logger.getLogger(ProviewGroupListController.class);
-	private int SLEEP_TIME = 3000; 
-	// retry parameters
-    private int baseRetryInterval = 10000; // in milliseconds    
+	// retry parameters      
 	private int maxNumberOfRetries = 3;
 	
-
-private Validator validator;
+	private Validator validator;
 	
 	
 	@InitBinder(ProviewGroupListFilterForm.FORM_NAME)
@@ -260,8 +257,15 @@ private Validator validator;
 					bookDefinitionId = bookDefinition.getEbookDefinitionId().toString();
 
 					Map<String, String> subGroupVersionMap = groupXMLParser.getSubGroupVersionMap();
+					List<String> titleIdList = groupXMLParser.getTitleIdList();
+					
 					if(subGroupVersionMap != null && subGroupVersionMap.size() > 0){
-						groupDetailsList = getGroupDetailsforSplitTitles(bookDefinition, subGroupVersionMap, bookDefinitionId, model);
+						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
+						groupDetailsList = getGroupDetailsWithSubGroups(bookDefinition, subGroupVersionMap, bookDefinitionId);
+					}
+					else if (titleIdList != null && titleIdList.size() > 0){			
+						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
+						groupDetailsList = getGroupDetailsWithNoSubgroups(titleIdList.get(0), bookDefinition.getEbookDefinitionId());
 					}
 					
 					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, pilotBookStatus);
@@ -290,13 +294,102 @@ private Validator validator;
 
 		} catch (Exception ex) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Exception occured. Please contact your administrator.");
-			log.debug(ex.getStackTrace());
+			log.error(ex.getMessage());
 		}
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);		
 		
 	}
 	
+	/**
+	 * For single titles. Gets book details from Proview and removed/deleted details from ProviewAudit
+	 * @param fullyQualifiedTitleId
+	 * @param bookdefId
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String fullyQualifiedTitleId, Long bookdefId)
+			throws Exception {
+		// Details of a boook from Proview
+		List<GroupDetails> groupDetailsList = getTitleInfoFromProviewForSingleBooks(fullyQualifiedTitleId);
+		List<String> versions = new ArrayList<String>();
+		for (GroupDetails details : groupDetailsList) {
+			details.setId(bookdefId.toString() + "/" + details.getBookVersion());
+			versions.add(details.getBookVersion());
+		}
+		List<GroupDetails> removedGroupDetails = new ArrayList<GroupDetails>();
+		// //Details of a book from ebook as Proview doesn't not give the
+		// removed/deleted versions
+		List<ProviewAudit> removedAuditList = proviewAuditService.getRemovedAndDeletedVersions(fullyQualifiedTitleId);
+		for (ProviewAudit audit : removedAuditList) {
+			if (!versions.contains(audit.getBookVersion())) {
+				GroupDetails groupDetails = new GroupDetails();
+				groupDetails.setBookStatus(audit.getProviewRequest());
+				groupDetails.setBookVersion(audit.getBookVersion());
+				String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookdefId,
+						audit.getBookVersion());
+				groupDetails.setProviewDisplayName(proviewDisplayName);
+				groupDetails.setTitleId(fullyQualifiedTitleId);
+				String[] stringArray = { fullyQualifiedTitleId + "/" + audit.getBookVersion() };
+				groupDetails.setTitleIdtWithVersionArray(stringArray);
+				groupDetails.setId(bookdefId.toString() + "/" + audit.getBookVersion());
+				removedGroupDetails.add(groupDetails);
+			}
+		}
+		groupDetailsList.addAll(removedGroupDetails);
+		return groupDetailsList;
+	}
+	
+	protected List<GroupDetails> getTitleInfoFromProviewForSingleBooks(String fullyQualifiedTitleId) throws Exception {
+
+		List<GroupDetails> proviewGroupDetails = new ArrayList<GroupDetails>();
+
+		// If title status is removed Proview throws 404 status code
+		try {
+			String response = proviewClient.getSinglePublishedTitle(fullyQualifiedTitleId);
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			parserFactory.setNamespaceAware(true);
+			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+			SingleTitleParser singleTitleParser = new SingleTitleParser();
+			reader.setContentHandler(singleTitleParser);
+			reader.parse(new InputSource(new StringReader(response)));
+			proviewGroupDetails = singleTitleParser.getGroupDetailsList();
+
+		} catch (ProviewException ex) {
+			String errorMsg = ex.getMessage();
+			// The versions of the title must have been removed.
+			if (errorMsg.startsWith("404") && errorMsg.contains("does not exist")) {
+				return proviewGroupDetails;
+			}
+
+		}
+
+		return proviewGroupDetails;
+	}
+	
+	/**
+	 * The methods provides all the single titles which are removed/deleted in Proview_audit table
+	 * @param fullyQualifiedTitleId
+	 * @param versionSplitTitleMap
+	 * @return
+	 */
+	protected Map<String, List<String>> getSingleTitlesFromProviewAudit(String fullyQualifiedTitleId,
+			Map<String, List<String>> versionSplitTitleMap) {
+		Map<String, List<String>> versionSingleTitleMap = new HashMap<String, List<String>>();
+		List<String> singleTitle = new ArrayList<String>();
+		singleTitle.add(fullyQualifiedTitleId);
+
+		// //Details of a boook from ebook as Proview doesn't not give the
+		// removed/deleted versions
+		List<ProviewAudit> removedAuditList = proviewAuditService.getRemovedAndDeletedVersions(fullyQualifiedTitleId);
+		for (ProviewAudit audit : removedAuditList) {
+			if (versionSplitTitleMap.isEmpty() || !versionSplitTitleMap.containsKey(audit.getBookVersion())) {
+				versionSingleTitleMap.put(audit.getBookVersion(), singleTitle);
+			}
+		}
+		return versionSingleTitleMap;
+
+	}
 	
 	protected Map<String,List<String>> getSplitTitlesFromEbook(List<SplitNodeInfo> splitNodes){
 		Map<String,List<String>> versionSplitTitleMap = new HashMap<String,List<String>>();
@@ -387,13 +480,19 @@ private Validator validator;
 	
 	 
 	
-	protected List<GroupDetails> getGroupDetailsforSplitTitles(BookDefinition bookDefinition,
-			Map<String, String> subGroupVersionMap, String bookDefinitionId, Model model) throws Exception {
+	protected List<GroupDetails> getGroupDetailsWithSubGroups(BookDefinition bookDefinition,
+			Map<String, String> subGroupVersionMap, String bookDefinitionId) throws Exception {
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
 		List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
 
 		// This gives all the parts of of titleId for each version
 		Map<String, List<String>> versionSplitTitleMap = getSplitTitlesFromEbook(splitNodes);
+		//This gives all single titles which are removed/deleted from proviewAudit
+		Map<String, List<String>> versionSingleTitleMap = getSingleTitlesFromProviewAudit(bookDefinition.getFullyQualifiedTitleId(), versionSplitTitleMap);
+		if (!versionSingleTitleMap.isEmpty()){
+			versionSplitTitleMap.putAll(versionSingleTitleMap);
+		}
+		
 		// ProviewDisplayName,status information from Proview
 		Map<String, GroupDetails> proviewTitleInfoList = new HashMap<String, GroupDetails>();
 		// This gives version and their corresponding titles from Proview
@@ -457,10 +556,13 @@ private Validator validator;
 							} else {
 								//Proview responds with '‘Title does not exist’ when title is in either removed or deleted status 
 								String status = proviewAuditService.getBookStatus(splitTitleId, splitVersion);
-								String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookDefinition.getEbookDefinitionId(),splitVersion);
-								groupDetails.setProviewDisplayName(proviewDisplayName);
-								groupDetails.setBookStatus(status);
-								groupDetailsList.add(groupDetails);
+								//If the version is not in audit table than it must have been removed in Proview
+								if (status != null){
+									String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookDefinition.getEbookDefinitionId(),splitVersion);
+									groupDetails.setProviewDisplayName(proviewDisplayName);
+									groupDetails.setBookStatus(status);
+									groupDetailsList.add(groupDetails);
+								}
 							}
 
 						} else {
@@ -696,12 +798,10 @@ private Validator validator;
 					.getBookDefinitionId()));
 			Date lastUpdate = bookDefinition.getLastUpdated();
 			
-			PublishingStats stats = publishingStatsService.findStatsByLastUpdated(bookDefinition.getEbookDefinitionId());
-			
 			String[] titlesString = {} ;
 			for (String bookTitlesWithVersion : form.getGroupIds()) {
 				if(!bookTitlesWithVersion.isEmpty()){
-					bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]", "");
+					bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]|\\{|\\}", "");
 					titlesString = bookTitlesWithVersion.split(",");	
 				}
 			}
@@ -709,8 +809,8 @@ private Validator validator;
 			for (String bookTitleWithVersion : titlesString) {
 				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
 				String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
-						try {
-							doTitleOperation(operation, title, version, stats.getGatherTocNodeCount().intValue());
+					try {
+							doTitleOperation(operation, title, version);
 							ProviewAudit audit = new ProviewAudit();
 							audit.setTitleId(title);
 							audit.setBookVersion(version);
@@ -726,7 +826,7 @@ private Validator validator;
 
 			
 			if (success && form.isGroupOperation()) {
-				try {
+			 try {
 					doGroupOperation(operation, form.getProviewGroupID(),"v"+form.getGroupVersion());
 					String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
 							+ form.getGroupVersion() + ", Group name " + form.getGroupName()
@@ -777,29 +877,29 @@ private Validator validator;
 		return success;
 	}
 	
-	private void doTitleOperation(String operation, String title, String version, int tocCount) throws Exception {
+	private void doTitleOperation(String operation, String title, String version) throws Exception {
 		switch (operation) {
 			case "Promote": {
 				proviewClient.promoteTitle(title, version);
-				Thread.sleep(SLEEP_TIME);
+				TimeUnit.SECONDS.sleep(3);
 				break;
 			}
 			case "Remove": {
 				proviewClient.removeTitle(title, version);
-				Thread.sleep(SLEEP_TIME);
+				TimeUnit.SECONDS.sleep(3);
 				break;
 			}
 			case "Delete": {
-				deleteTitleWithRetryLogic(title, version, tocCount);
-				Thread.sleep(baseRetryInterval);
+				deleteTitleWithRetryLogic(title, version);
+				TimeUnit.SECONDS.sleep(3);
 				break;
 			}
 		}
 	}
 		
-	protected void deleteTitleWithRetryLogic(String title, String version, int tocCount) throws ProviewException {
+	protected void deleteTitleWithRetryLogic(String title, String version) throws ProviewException {
 		boolean retryRequest = true;
-
+		int baseRetryInterval = 15; // in milliseconds 
 		int retryCount = 0;
 		String errorMsg = "";
 		do {
@@ -809,17 +909,13 @@ private Validator validator;
 			} catch (ProviewRuntimeException ex) {
 				errorMsg = ex.getMessage();
 				if (errorMsg.startsWith("400") && errorMsg.contains("Title already exists in publishing queue")){
-
-					// retry a retriable request
-					int computedRetryInterval = baseRetryInterval + (baseRetryInterval * tocCount);
-					log.warn("Retriable status received: waiting " + SLEEP_TIME + "ms (retryCount: "
-							+ retryCount +")");
-
 					retryRequest = true;
 					retryCount++;
 
 					try {
-						Thread.sleep(computedRetryInterval);
+						TimeUnit.SECONDS.sleep(baseRetryInterval);
+						//increment by 15 seconds every time
+						baseRetryInterval = baseRetryInterval + 15;
 					} catch (InterruptedException e) {
 						log.error("InterruptedException during HTTP retry", e);
 					};

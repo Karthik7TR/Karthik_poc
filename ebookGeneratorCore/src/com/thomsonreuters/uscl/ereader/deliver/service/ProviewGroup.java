@@ -168,7 +168,33 @@ public class ProviewGroup  implements Serializable {
 		private String bookStatus;
 		private List<String> titleIdList; 
 		private String subGroupName;
-		private List<String> titleIdListWithVersion; 
+		private List<String> titleIdListWithVersion;
+		private String bookVersion;
+		private String id;
+		private String proviewDisplayName;
+		
+		//These are for titles with no subgroups
+		private String[] titleIdWithVersionArray;
+		private String titleId;
+		
+
+		public String getTitleId() {
+			return titleId;
+		}
+
+		public void setTitleId(String titleId) {
+			this.titleId = titleId;
+		}
+
+		public String[] getTitleIdWithVersionArray() {
+			return titleIdWithVersionArray;
+		}
+
+		public void setTitleIdtWithVersionArray(String[] titleIdWithVersionArray) {
+			this.titleIdWithVersionArray = titleIdWithVersionArray;
+		}
+		
+		
 		public List<String> getTitleIdListWithVersion() {
 			return titleIdListWithVersion;
 		}
@@ -176,9 +202,7 @@ public class ProviewGroup  implements Serializable {
 		public void setTitleIdListWithVersion(List<String> titleIdListWithVersion) {
 			this.titleIdListWithVersion = titleIdListWithVersion;
 		}
-		private String bookVersion;
-		private String id;
-		private String proviewDisplayName;
+		
 
 		public String getProviewDisplayName() {
 			return proviewDisplayName;

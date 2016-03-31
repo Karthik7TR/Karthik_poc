@@ -14,8 +14,6 @@ import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
-import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 
 public class GroupServiceImplTest {
 	

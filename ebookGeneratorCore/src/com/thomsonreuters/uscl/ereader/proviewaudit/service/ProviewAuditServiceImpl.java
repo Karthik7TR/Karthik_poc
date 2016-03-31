@@ -33,6 +33,11 @@ public class ProviewAuditServiceImpl implements ProviewAuditService {
 		dao.save(audit);
 	}
 	
+	@Transactional(readOnly=true)
+	public List<ProviewAudit> getRemovedAndDeletedVersions(String fullyQualifiedTitleId) {
+		return dao.findRemovedAndDeletedVersions(fullyQualifiedTitleId);
+	}
+	
 	/**
 	 * Return all ProviewAudit that are filtered
 	 * @return

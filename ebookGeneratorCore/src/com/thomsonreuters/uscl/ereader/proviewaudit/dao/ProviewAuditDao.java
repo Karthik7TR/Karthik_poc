@@ -33,5 +33,7 @@ public interface ProviewAuditDao {
 	public int numberProviewAudits(ProviewAuditFilter filter);
 	
 	public String getBookStatus(String titleId, String version);
+	
+	public List<ProviewAudit> findRemovedAndDeletedVersions(String titleId);
 
 }
