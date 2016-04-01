@@ -256,7 +256,7 @@ public class ProviewGroupListController {
 					pilotBookStatus = bookDefinition.getPilotBookStatus();
 					bookDefinitionId = bookDefinition.getEbookDefinitionId().toString();
 
-					Map<String, String> subGroupVersionMap = groupXMLParser.getSubGroupVersionMap();
+					Map<String, List<String>> subGroupVersionMap = groupXMLParser.getSubGroupVersionListMap();
 					List<String> titleIdList = groupXMLParser.getTitleIdList();
 					
 					if(subGroupVersionMap != null && subGroupVersionMap.size() > 0){
@@ -414,14 +414,16 @@ public class ProviewGroupListController {
 		return versionSplitTitleMap;
 	}
 	
-	protected Map<String,List<String>> getTitleInfoFromProview(String fullyQualifiedTitleId, Map<String, String> subGroupVersionMap, Map<String, GroupDetails> proviewTitleInfoList) throws Exception{
+	protected Map<String,List<String>> getTitleInfoFromProview(String fullyQualifiedTitleId, Map<String, List<String>> subGroupVersionMap, Map<String, GroupDetails> proviewTitleInfoList) throws Exception{
 		List<String> allMajorVersions = new ArrayList<String>();
 		
 		Map<String,List<String>> versionTitleMap = new HashMap<String,List<String>>();
-		for (Map.Entry<String, String> entry : subGroupVersionMap.entrySet()) {
-			String majorVersionOfSubgroup = "v"+StringUtils.substringBefore(entry.getValue(), ".");
-			if(!allMajorVersions.contains(majorVersionOfSubgroup)){
-				allMajorVersions.add(majorVersionOfSubgroup);
+		for (Map.Entry<String, List<String>> entry : subGroupVersionMap.entrySet()) {
+			for(String version : entry.getValue()){
+				String majorVersionOfSubgroup = "v"+StringUtils.substringBefore(version, ".");
+				if(!allMajorVersions.contains(majorVersionOfSubgroup)){
+					allMajorVersions.add(majorVersionOfSubgroup);
+				}
 			}
 		}
 		
@@ -481,7 +483,7 @@ public class ProviewGroupListController {
 	 
 	
 	protected List<GroupDetails> getGroupDetailsWithSubGroups(BookDefinition bookDefinition,
-			Map<String, String> subGroupVersionMap, String bookDefinitionId) throws Exception {
+			Map<String, List<String>> subGroupVersionMap, String bookDefinitionId) throws Exception {
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
 		List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
 
@@ -501,86 +503,100 @@ public class ProviewGroupListController {
 		// Both titles from SplitTitles and Proview titles are merged together
 		versionSplitTitleMap = mergeVersionTitlesMap(versionSplitTitleMap, versionTitleMap);
 
-		// This gives Version-Subgroup map based on publishingstats and
+		/* 
+		 * subgroup might be created independent of book creation
+			So getting the subgroup from ebook audit table may not the right subgroupname. 
+			Commenting this part if group creation inserts the right values in ebook audit
+		 // This gives Version-Subgroup map based on publishingstats and
 		// ebookaudit as information from Proview does not give for minor title
 		Map<String, String> ebookVersionSubGroupMap = publishingStatsService.findSubGroupByVersion(bookDefinition
-				.getEbookDefinitionId());
+				.getEbookDefinitionId());*/
 
 		List<String> uniqueVersion = new ArrayList<String>();
 
-		if (!subGroupVersionMap.isEmpty()) {
-			// entry.getValue is major version
-			for (Map.Entry<String, String> entry : subGroupVersionMap.entrySet()) {
-
-				Map<String, List<String>> filteredSplitTitles = filterSplitTitles(versionSplitTitleMap,
-						entry.getValue());
-
-				for (Map.Entry<String, List<String>> map : filteredSplitTitles.entrySet()) {
-
-					String splitVersion = map.getKey();
-
-					List<String> splitTitlesofVersion = map.getValue();
-
-					GroupDetails groupDetails = null;
-					for (String splitTitleId : splitTitlesofVersion) {
-
-						if (!uniqueVersion.contains(splitVersion)) {
-
-							uniqueVersion.add(splitVersion);
-
-							groupDetails = new GroupDetails();
-							if (ebookVersionSubGroupMap.containsKey(splitVersion)) {
-								groupDetails.setSubGroupName(ebookVersionSubGroupMap.get(splitVersion));
-							} else {
-								groupDetails.setSubGroupName("");
-							}
-
-							List<String> titleIdList = new ArrayList<String>();
-							titleIdList.add(splitTitleId);
-							groupDetails.setTitleIdList(titleIdList);
-
-							groupDetails.setBookVersion(map.getKey());
-
-							groupDetails.setId(bookDefinitionId + "/" + splitVersion);
-
-							List<String> titlesWithVersion = new ArrayList<String>();
-							titlesWithVersion.add(splitTitleId + "/" + splitVersion);
-							groupDetails.setTitleIdListWithVersion(titlesWithVersion);
-
-							if (proviewTitleInfoList.containsKey(splitVersion)) {
-								GroupDetails titileInfo = proviewTitleInfoList.get(splitVersion);
-								groupDetails.setProviewDisplayName(titileInfo.getProviewDisplayName());
-								groupDetails.setBookStatus(titileInfo.getBookStatus());
-								groupDetailsList.add(groupDetails);
-
-							} else {
-								//Proview responds with '‘Title does not exist’ when title is in either removed or deleted status 
-								String status = proviewAuditService.getBookStatus(splitTitleId, splitVersion);
-								//If the version is not in audit table than it must have been removed in Proview
-								if (status != null){
-									String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookDefinition.getEbookDefinitionId(),splitVersion);
-									groupDetails.setProviewDisplayName(proviewDisplayName);
-									groupDetails.setBookStatus(status);
+		
+			// entry.getValue could be is either a list of versions if subgroup has more than one version 
+			//or a single version
+			for (Map.Entry<String, List<String>> entry : subGroupVersionMap.entrySet()) {
+				//Each Subgroup may have more than one major version
+				for (String version : entry.getValue())
+				{
+					//Filter titles will give all the minor versions
+					Map<String, List<String>> filteredSplitTitles = filterSplitTitles(versionSplitTitleMap,
+							version);
+	
+					for (Map.Entry<String, List<String>> map : filteredSplitTitles.entrySet()) {
+	
+						String splitVersion = map.getKey();
+	
+						List<String> splitTitlesofVersion = map.getValue();
+	
+						GroupDetails groupDetails = null;
+						for (String splitTitleId : splitTitlesofVersion) {
+							
+							// For split titles versions will be same so the titles will be added to same groupDetails object
+							if (!uniqueVersion.contains(splitVersion)) {
+	
+								uniqueVersion.add(splitVersion);
+	
+								groupDetails = new GroupDetails();
+								//subgroup might have been created independent to book creation/edit
+								//So getting the subgroup from ebook audit table may not have right subgroupname
+								groupDetails.setSubGroupName(entry.getKey());
+								//Do not delete the below commented part. It can be used later when subgroup is inserted in audit whenever it changes
+								/*if (ebookVersionSubGroupMap.containsKey(splitVersion)) {
+									groupDetails.setSubGroupName(ebookVersionSubGroupMap.get(splitVersion));
+								} else {
+									groupDetails.setSubGroupName("");
+								}*/
+	
+								List<String> titleIdList = new ArrayList<String>();
+								titleIdList.add(splitTitleId);
+								groupDetails.setTitleIdList(titleIdList);
+	
+								groupDetails.setBookVersion(map.getKey());
+	
+								groupDetails.setId(bookDefinitionId + "/" + splitVersion);
+	
+								List<String> titlesWithVersion = new ArrayList<String>();
+								titlesWithVersion.add(splitTitleId + "/" + splitVersion);
+								groupDetails.setTitleIdListWithVersion(titlesWithVersion);
+	
+								if (proviewTitleInfoList.containsKey(splitVersion)) {
+									GroupDetails titileInfo = proviewTitleInfoList.get(splitVersion);
+									groupDetails.setProviewDisplayName(titileInfo.getProviewDisplayName());
+									groupDetails.setBookStatus(titileInfo.getBookStatus());
 									groupDetailsList.add(groupDetails);
+	
+								} else {
+									//Proview responds with '‘Title does not exist’ when title is in either removed or deleted status 
+									String status = proviewAuditService.getBookStatus(splitTitleId, splitVersion);
+									//If the version is not in audit table than it must have been removed through Proview Publishing UI
+									if (status != null){
+										String proviewDisplayName = publishingStatsService.findNameByBoofDefAndVersion(bookDefinition.getEbookDefinitionId(),splitVersion);
+										groupDetails.setProviewDisplayName(proviewDisplayName);
+										groupDetails.setBookStatus(status);
+										groupDetailsList.add(groupDetails);
+									}
 								}
+	
+							} else {
+	
+								List<String> titleIdList = groupDetails.getTitleIdList();
+								titleIdList.add(splitTitleId);
+								groupDetails.setTitleIdList(titleIdList);
+	
+								List<String> titlesWithVersion = groupDetails.getTitleIdListWithVersion();
+								titlesWithVersion.add(splitTitleId + "/" + groupDetails.getBookVersion());
+								groupDetails.setTitleIdListWithVersion(titlesWithVersion);
+	
 							}
-
-						} else {
-
-							List<String> titleIdList = groupDetails.getTitleIdList();
-							titleIdList.add(splitTitleId);
-							groupDetails.setTitleIdList(titleIdList);
-
-							List<String> titlesWithVersion = groupDetails.getTitleIdListWithVersion();
-							titlesWithVersion.add(splitTitleId + "/" + groupDetails.getBookVersion());
-							groupDetails.setTitleIdListWithVersion(titlesWithVersion);
-
 						}
 					}
-				}
+			   }
 			}
 
-		}
+		
 		return groupDetailsList;
 	}
 

@@ -39,8 +39,8 @@ public class GroupXMLParserTest {
 		Assert.assertEquals("GroupQED",groupXMLParser.getGroupName());	
 		Assert.assertEquals("Final",groupXMLParser.getGroupStatus());	
 		Assert.assertEquals("uscl/an/book_grouptestqed/v1",groupXMLParser.getHeadTitle());
-		Assert.assertEquals(1,groupXMLParser.getSubGroupVersionMap().size());
-		Assert.assertEquals(true,groupXMLParser.getSubGroupVersionMap().containsKey("SubGroup"));
+		Assert.assertEquals(1,groupXMLParser.getSubGroupVersionListMap().size());
+		Assert.assertEquals(true,groupXMLParser.getSubGroupVersionListMap().containsKey("SubGroup"));
 		Assert.assertEquals(3,groupXMLParser.getTitleIdList().size());
 	}
 	
@@ -64,8 +64,8 @@ public class GroupXMLParserTest {
 		Assert.assertEquals("GroupQED",groupXMLParser.getGroupName());	
 		Assert.assertEquals("Final",groupXMLParser.getGroupStatus());	
 		Assert.assertEquals("uscl/an/book_grouptestqed/v1",groupXMLParser.getHeadTitle());
-		Assert.assertEquals(0,groupXMLParser.getSubGroupVersionMap().size());
-		Assert.assertEquals(false,groupXMLParser.getSubGroupVersionMap().containsKey("SubGroup"));
+		Assert.assertEquals(0,groupXMLParser.getSubGroupVersionListMap().size());
+		Assert.assertEquals(false,groupXMLParser.getSubGroupVersionListMap().containsKey("SubGroup"));
 		Assert.assertEquals(3,groupXMLParser.getTitleIdList().size());
 	}
 

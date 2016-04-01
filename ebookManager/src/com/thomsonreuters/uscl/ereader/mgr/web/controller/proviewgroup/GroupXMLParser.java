@@ -24,15 +24,25 @@ public class GroupXMLParser extends DefaultHandler{
 	//private String version;
 	private String headTitle;
 	private List<String> titleIdList;
-	private Map<String,String> subGroupVersionMap = new  HashMap<String,String>();
+	private Map<String,List<String>> subGroupVersionListMap = new  HashMap<String,List<String>>();
 	private String version;
+	private List<String> versionList;
+	private Map<String,List<String>> subGroupTitleList = new HashMap<String,List<String>>();
 
-	public Map<String, String> getSubGroupVersionMap() {
-		return subGroupVersionMap;
+	public List<String> getVersionList() {
+		return versionList;
 	}
 
-	public void setSubGroupVersion(Map<String, String> subGroupVersionMap) {
-		this.subGroupVersionMap = subGroupVersionMap;
+	public void setVersionList(List<String> versionList) {
+		this.versionList = versionList;
+	}
+
+	public Map<String, List<String>> getSubGroupVersionListMap() {
+		return subGroupVersionListMap;
+	}
+
+	public void setSubGroupVersionListMap(Map<String, List<String>> subGroupVersionListMap) {
+		this.subGroupVersionListMap = subGroupVersionListMap;
 	}
 
 	public List<String> getTitleIdList() {
@@ -41,9 +51,7 @@ public class GroupXMLParser extends DefaultHandler{
 
 	public void setTitleIdList(List<String> titleIdList) {
 		this.titleIdList = titleIdList;
-	}
-
-	private Map<String,List<String>> subGroupTitleList = new HashMap<String,List<String>>();
+	}	
 	
 
 	public Map<String, List<String>> getSubGroupTitleList() {
@@ -100,8 +108,8 @@ public class GroupXMLParser extends DefaultHandler{
 			if (SUBGROUP.equalsIgnoreCase(qName)) {
 				if (subGroupName != null && subGroupName.length() > 0){
 				 subGroupTitleList.put(subGroupName, titleIdList);
-				 if (!version.isEmpty()){
-					 subGroupVersionMap.put(subGroupName,version);
+				 if (!versionList.isEmpty()){
+					 subGroupVersionListMap.put(subGroupName,versionList);
 					 version = null;
 				 }
 				}			    
@@ -114,6 +122,10 @@ public class GroupXMLParser extends DefaultHandler{
 				}
 				else if (TITLE.equalsIgnoreCase(qName)){
 					version = StringUtils.substringAfterLast(value, "/v");
+					//Subgroups may have more than 1 version
+					if(!StringUtils.isEmpty(version) && !versionList.contains(version)){
+						versionList.add(version);
+					}
 					titleIdList.add(value);
 				}
 				else if (HEADTITLE.equalsIgnoreCase(qName)){
@@ -140,6 +152,7 @@ public class GroupXMLParser extends DefaultHandler{
 		if(SUBGROUP.equalsIgnoreCase(qName)){
 			subGroupName = atts.getValue("heading");
 			titleIdList = new ArrayList<String>();
+			versionList = new ArrayList<String>();
 		}
 		super.startElement(uri, localName, qName, atts);
 	}
