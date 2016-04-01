@@ -120,7 +120,8 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		hql.append(" and BOOK_VERSION_SUBMITTED= '");
 		hql.append(StringUtils.substringAfter(version, "v")+"'");
 		hql.append(" group by BOOK_VERSION_SUBMITTED) b on b.maxt = ps.last_updated");
-		hql.append(" join ebook_audit a on a.AUDIT_ID = ps.AUDIT_ID order by ps.BOOK_VERSION_SUBMITTED ");
+		hql.append(" join ebook_audit a on a.AUDIT_ID = ps.AUDIT_ID and a.ebook_definition_id= ");
+		hql.append(boofDefnition);
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createSQLQuery(hql.toString());

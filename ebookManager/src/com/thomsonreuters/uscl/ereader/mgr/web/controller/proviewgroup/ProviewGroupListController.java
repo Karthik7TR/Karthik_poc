@@ -294,6 +294,7 @@ public class ProviewGroupListController {
 
 		} catch (Exception ex) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Exception occured. Please contact your administrator.");
+			ex.printStackTrace();
 			log.error(ex.getMessage());
 		}
 
