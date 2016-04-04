@@ -261,10 +261,12 @@ public class ProviewGroupListController {
 					
 					if(subGroupVersionMap != null && subGroupVersionMap.size() > 0){
 						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
+						httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
 						groupDetailsList = getGroupDetailsWithSubGroups(bookDefinition, subGroupVersionMap, bookDefinitionId);
 					}
 					else if (titleIdList != null && titleIdList.size() > 0){			
 						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
+						httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 						groupDetailsList = getGroupDetailsWithNoSubgroups(titleIdList.get(0), bookDefinition.getEbookDefinitionId());
 					}
 					
@@ -490,7 +492,7 @@ public class ProviewGroupListController {
 
 		// This gives all the parts of of titleId for each version
 		Map<String, List<String>> versionSplitTitleMap = getSplitTitlesFromEbook(splitNodes);
-		//This gives all single titles which are removed/deleted from proviewAudit
+		//This gives all single titles which are removed/deleted from proviewAudit that are not included in the above list
 		Map<String, List<String>> versionSingleTitleMap = getSingleTitlesFromProviewAudit(bookDefinition.getFullyQualifiedTitleId(), versionSplitTitleMap);
 		if (!versionSingleTitleMap.isEmpty()){
 			versionSplitTitleMap.putAll(versionSingleTitleMap);
@@ -602,7 +604,7 @@ public class ProviewGroupListController {
 	}
 
 	/**
-	 * Gets all the titles of minor/major version
+	 * Gets all the titles of minor/major version for a major version 
 	 * @param versionSplitTitleMap
 	 * @param version
 	 * @return
@@ -663,6 +665,7 @@ public class ProviewGroupListController {
 		if ( httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST) != null){
 			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST));
 			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, httpSession.getAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE));
+			model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, httpSession.getAttribute(WebConstants.KEY_SHOW_SUBGROUP));
 		}
 		
 		model.addAttribute(WebConstants.KEY_GROUP_VERSION,httpSession.getAttribute(WebConstants.KEY_GROUP_VERSION));
