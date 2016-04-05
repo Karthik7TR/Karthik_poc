@@ -844,18 +844,25 @@ public class ProviewGroupListController {
 						}
 			}
 
+			String groupRequest = operation;
 			
 			if (success && form.isGroupOperation()) {
 			 try {
+				 	
 					doGroupOperation(operation, form.getProviewGroupID(),"v"+form.getGroupVersion());
+					//Group will be deleted when users removes group
+					if(operation.equalsIgnoreCase("Remove")){
+						groupRequest = "Delete";
+						doGroupOperation(groupRequest, form.getProviewGroupID(),"v"+form.getGroupVersion());
+					}
 					String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
 							+ form.getGroupVersion() + ", Group name " + form.getGroupName()
-							+ " has been "+operation+"d successfully";
+							+ " has been "+groupRequest+"d successfully";
 					successBuffer.append(successMsg);
 					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
 				} catch (Exception e) {
 					success = false;
-					errorBuffer.append("Failed to "+operation+" group " + form.getProviewGroupID() + " and version "
+					errorBuffer.append("Failed to "+groupRequest+" group " + form.getProviewGroupID() + " and version "
 							+ form.getGroupVersion() + "." + e.getMessage());
 				}
 			}

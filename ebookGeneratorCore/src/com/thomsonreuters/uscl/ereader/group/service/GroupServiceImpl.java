@@ -424,7 +424,16 @@ public class GroupServiceImpl implements GroupService {
 					} catch (InterruptedException e) {
 						LOG.error("InterruptedException during HTTP retry", e);
 					};
-				}else {
+				}
+				else if (errorMsg.startsWith("400")
+						&& (errorMsg.contains("GroupId already exists with same version") || 
+								errorMsg.contains("Version Should be greater"))) {
+					retryRequest = true;
+					retryCount++;
+					Long groupVersion = groupDefinition.getGroupVersion();
+					groupDefinition.setGroupVersion(groupVersion + 1);
+				}
+				else {
 					throw new ProviewRuntimeException(errorMsg);
 				}
 			}
