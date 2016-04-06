@@ -169,6 +169,17 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 		}
 		return hasSubGroupChanged;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Boolean hasBeenGrouped(Long ebookDefId){
+		Boolean hasBeenGrouped = true;
+		Long previousGroupBook = publishingStatsDAO.findSuccessfullyPublishedGroupBook(ebookDefId);
+		if (previousGroupBook ==null){
+			return false;
+		}
+		return hasBeenGrouped;
+	}
 
 	@Override
 	@Transactional(readOnly = true)

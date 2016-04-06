@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
@@ -17,7 +18,7 @@ public interface GroupService {
 	public GroupDefinition getGroupDefinitionForSingleBooks(String groupInfoXML, String majorVersion, String newGroupName,
 			String subGroupHeading, String fullyQualifiedTitleId) throws Exception;
 
-	public Long getLastGroupVerionFromProviewResponse(String response) throws Exception;
+	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception;
 
 	public GroupDefinition buildGroupDefinition(String groupName, String subGroupHeading, String fullyQualifiedTitleId,
 			String majorVersion, List<String> splitTitles) throws Exception;
@@ -35,4 +36,5 @@ public interface GroupService {
 	 
 	public GroupDefinition getLastGroupDefinition(BookDefinition bookDefinition) throws Exception;
 
+	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception;
 }

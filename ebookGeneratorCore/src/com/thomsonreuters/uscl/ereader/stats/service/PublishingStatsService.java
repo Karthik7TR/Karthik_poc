@@ -34,6 +34,8 @@ public interface PublishingStatsService {
 	
 	public PublishingStats findStatsByLastUpdated(Long jobId);
 	
+	public Boolean hasBeenGrouped(Long ebookDefId);
+	
 	/**
 	 * Save an existing DocMetadata entity
 	 * @param StatsUpdateTypeEnum 

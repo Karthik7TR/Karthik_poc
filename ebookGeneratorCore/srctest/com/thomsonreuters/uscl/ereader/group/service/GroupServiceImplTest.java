@@ -432,7 +432,21 @@ public class GroupServiceImplTest {
 		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><groups><group id=\"uscl/book_singlebookgroup\" status=\"Review\" version=\"v1\">"
 				+ "<name>Single book Group</name><type>standard</type><headtitle>uscl/an/book_singlebookgroup</headtitle><members><subgroup>"
 				+ "<title>uscl/an/book_singlebookgroup</title></subgroup></members></group></groups>";
-		Assert.assertEquals("1",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML).toString());
+		List<String> groupVersions = new ArrayList<String>();
+		Assert.assertEquals("1",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML,groupVersions).toString());
+	}
+	
+	@Test
+	public void testAllGroupVersions()  throws Exception{
+		groupInfoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><groups><group id=\"uscl/book_singlebookgroup\" status=\"Review\" version=\"v1\">"
+				+ "<name>Single book Group</name><type>standard</type><headtitle>uscl/an/book_singlebookgroup</headtitle><members><subgroup>"
+				+ "<title>uscl/an/book_singlebookgroup</title></subgroup></members></group>"
+				+ "<group id=\"uscl/book_singlebookgroup\" status=\"Review\" version=\"v2\">"
+				+ "<name>Single book Group</name><type>standard</type><headtitle>uscl/an/book_singlebookgroup</headtitle><members><subgroup>"
+				+ "<title>uscl/an/book_singlebookgroup</title></subgroup></members></group></groups>";
+		List<String> groupVersions = new ArrayList<String>();
+		groupService.getLastGroupVerionFromProviewResponse(groupInfoXML,groupVersions);
+		Assert.assertEquals(2,groupVersions.size());
 	}
 
 	@Test
@@ -443,7 +457,8 @@ public class GroupServiceImplTest {
 				+ "<group id=\"uscl/book_singlebookgroup\" status=\"Review\" version=\"v2\">"
 				+ "<name>Single book Group</name><type>standard</type><headtitle>uscl/an/book_singlebookgroup</headtitle><members><subgroup>"
 				+ "<title>uscl/an/book_singlebookgroup</title></subgroup></members></group></groups>";
-		Assert.assertEquals("2",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML).toString());
+		List<String> groupVersions = new ArrayList<String>();
+		Assert.assertEquals("2",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML,groupVersions).toString());
 	}
 	
 	@Test
@@ -454,7 +469,8 @@ public class GroupServiceImplTest {
 				+ "<group id=\"uscl/book_singlebookgroup\" status=\"Review\" version=\"v1\">"
 				+ "<name>Single book Group</name><type>standard</type><headtitle>uscl/an/book_singlebookgroup</headtitle><members><subgroup>"
 				+ "<title>uscl/an/book_singlebookgroup</title></subgroup></members></group></groups>";
-		Assert.assertEquals("2",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML).toString());
+		List<String> groupVersions = new ArrayList<String>();
+		Assert.assertEquals("2",groupService.getLastGroupVerionFromProviewResponse(groupInfoXML,groupVersions).toString());
 	}
 	
 	@Test

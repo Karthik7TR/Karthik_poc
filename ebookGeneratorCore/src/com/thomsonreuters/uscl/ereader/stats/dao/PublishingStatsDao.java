@@ -21,6 +21,8 @@ public interface PublishingStatsDao {
 	
 	public PublishingStats findStatsByLastUpdated(Long jobId);
 	
+	public Long findSuccessfullyPublishedGroupBook(Long ebookDefId);
+	
 	/**
 	 * Find Publishing stats for ebook
 	 * @param EbookDefId

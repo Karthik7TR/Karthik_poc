@@ -73,12 +73,15 @@ public class GroupEbooks extends AbstractSbTasklet {
 					String splitNodeInfoFile = getRequiredStringProperty(jobExecutionContext,
 							JobExecutionKey.SPLIT_NODE_INFO_FILE);
 					splitTitles = readSplitNodeInforFile(splitNodeInfoFile, fullyQualifiedTitleId);
-				}
+				}				
 				GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, versionNumber, splitTitles);
 				if(groupDefinition != null) {
 					groupService.createGroup(groupDefinition);
 					groupVersion = groupDefinition.getGroupVersion();
 				}
+			}
+			else if (publishingStatsService.hasBeenGrouped(bookDefinition.getEbookDefinitionId())){
+				groupService.removeAllPreviousGroups(bookDefinition);
 			}
 		} 
 		catch (Exception e) 

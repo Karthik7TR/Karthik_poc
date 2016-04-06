@@ -345,6 +345,20 @@ Session session = sessionFactory.getCurrentSession();
 		return criteria.list();
 	}
 	
+	public Long findSuccessfullyPublishedGroupBook(Long ebookDefId) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Criteria criteria = session.createCriteria(PublishingStats.class)
+				.createAlias("audit", "book")
+				.setFetchMode("audit", FetchMode.JOIN)
+				.add(Restrictions.eq("book.ebookDefinitionId", ebookDefId))
+				.add(Restrictions.in("publishStatus", new String[]{PublishingStats.SEND_EMAIL_COMPLETE, 
+						PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
+				.add(Restrictions.isNotNull("book.groupName"))
+				.setProjection( Projections.distinct( Projections.property("book.ebookDefinitionId")));
+		return (Long) criteria.uniqueResult();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort) {
 

@@ -26,7 +26,7 @@ public class GroupServiceImpl implements GroupService {
 	private ProviewClient proviewClient;  
 	private int maxNumberOfRetries = 3;
 	
-	public Long getLastGroupVerionFromProviewResponse(String response) throws Exception {
+	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception {
 		Long groupVersion = null;
 		XMLXpathEvaluator extractor = new XMLXpathEvaluator(response);
 		NodeList groups = extractor.evaluateNodeList("groups/group");
@@ -41,6 +41,7 @@ public class GroupServiceImpl implements GroupService {
 					if (attributeName.equalsIgnoreCase("version")) {
 						Long version = Long
 								.valueOf(StringUtils.substringAfterLast(attributeNode.getTextContent(), "v"));
+						groupVersions.add(attributeNode.getTextContent());
 						if (groupVersion == null || groupVersion < version) {
 							groupVersion = Long.valueOf(version);
 						}
@@ -471,15 +472,18 @@ public class GroupServiceImpl implements GroupService {
 		Long groupVersion = null;
 		try {
 			String response = proviewClient.getProviewGroupById(groupId);
-			return getLastGroupVerionFromProviewResponse(response);
+			List<String> groupVersions = new ArrayList<String> ();
+			return getLastGroupVerionFromProviewResponse(response, groupVersions);
 		} catch (ProviewRuntimeException ex) {
 			String errorMsg = ex.getMessage();
 			LOG.debug(errorMsg);
 			if (errorMsg.startsWith("404") && errorMsg.contains("No such groups exist")){
 				return groupVersion;
 			}
-		}
-		return groupVersion;
+			else{
+				throw new Exception(ex);
+			}
+		}		
 	}
     
      
@@ -552,6 +556,30 @@ public class GroupServiceImpl implements GroupService {
 			}
 		}
 		return groupDefinition;
+	}
+	
+	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception {
+		String groupId = getGroupId(bookDefinition);
+		List<String> groupVersions = new ArrayList<String>();
+		try {
+			String response = proviewClient.getProviewGroupById(groupId);
+			getLastGroupVerionFromProviewResponse(response, groupVersions);
+		} catch (ProviewRuntimeException ex) {
+			String errorMsg = ex.getMessage();
+			LOG.debug(errorMsg);
+			if (errorMsg.startsWith("404") && errorMsg.contains("No such groups exist")) {
+				LOG.debug("Group does not exist. Exception can be ignored");
+			} else {
+				throw new Exception(ex);
+			}
+		}
+
+		for (String groupVersion : groupVersions) {
+			proviewClient.removeGroup(groupId, groupVersion);
+			TimeUnit.SECONDS.sleep(2);
+			proviewClient.deleteGroup(groupId, groupVersion);			
+		}
+
 	}
     
     public int getMaxNumberOfRetries() {
