@@ -267,7 +267,14 @@ public class ProviewGroupListController {
 					else if (titleIdList != null && titleIdList.size() > 0){			
 						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 						httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
-						groupDetailsList = getGroupDetailsWithNoSubgroups(titleIdList.get(0), bookDefinition.getEbookDefinitionId());
+						List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
+						List<String> splitVersions = new ArrayList<String> ();
+						for(SplitNodeInfo splitNode :  splitNodes){
+							if(!splitVersions.contains("v"+splitNode.getBookVersionSubmitted())){
+								splitVersions.add("v"+splitNode.getBookVersionSubmitted());
+							}
+						}
+						groupDetailsList = getGroupDetailsWithNoSubgroups(titleIdList.get(0), bookDefinition.getEbookDefinitionId(), splitVersions);
 					}
 					
 					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, pilotBookStatus);
@@ -311,7 +318,7 @@ public class ProviewGroupListController {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String fullyQualifiedTitleId, Long bookdefId)
+	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String fullyQualifiedTitleId, Long bookdefId, List<String> splitVersions)
 			throws Exception {
 		// Details of a boook from Proview
 		List<GroupDetails> groupDetailsList = getTitleInfoFromProviewForSingleBooks(fullyQualifiedTitleId);
@@ -325,7 +332,7 @@ public class ProviewGroupListController {
 		// removed/deleted versions
 		List<ProviewAudit> removedAuditList = proviewAuditService.getRemovedAndDeletedVersions(fullyQualifiedTitleId);
 		for (ProviewAudit audit : removedAuditList) {
-			if (!versions.contains(audit.getBookVersion())) {
+			if (!versions.contains(audit.getBookVersion()) && !splitVersions.contains(audit.getBookVersion())) {
 				GroupDetails groupDetails = new GroupDetails();
 				groupDetails.setBookStatus(audit.getProviewRequest());
 				groupDetails.setBookVersion(audit.getBookVersion());
