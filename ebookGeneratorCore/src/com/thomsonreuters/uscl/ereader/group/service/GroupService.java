@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
@@ -15,16 +14,13 @@ public interface GroupService {
 	public SubGroupInfo getSubGroupInfo(String majorVersion, String subGroupHeading,
 			List<String> splitTitles)  throws Exception;
 
-	public GroupDefinition getGroupDefinitionForSingleBooks(String groupInfoXML, String majorVersion, String newGroupName,
-			String subGroupHeading, String fullyQualifiedTitleId) throws Exception;
-
 	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception;
 
 	public GroupDefinition buildGroupDefinition(String groupName, String subGroupHeading, String fullyQualifiedTitleId,
 			String majorVersion, List<String> splitTitles) throws Exception;
 	
-	public GroupDefinition getGroupDefinitionForSplitBooks(String proviewResponse, String majorVersion,
-			String newGroupName, String subGroupHeading, String fullyQualifiedTitleId, List<String> subGroupInfoList) throws Exception;
+	public GroupDefinition getGroupDefinitionforAllBooks(String proviewResponse, String majorVersion, String newGroupName,
+			String newSubGroupHeading, String fullyQualifiedTitleId, List<String> splitTitles, boolean versionChange, boolean isSplitBook) throws Exception;
 	
 	public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException;
 	 

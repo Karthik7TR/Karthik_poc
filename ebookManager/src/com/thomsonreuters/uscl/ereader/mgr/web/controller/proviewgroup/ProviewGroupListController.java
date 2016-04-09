@@ -323,11 +323,26 @@ public class ProviewGroupListController {
 		// Details of a boook from Proview
 		List<GroupDetails> groupDetailsList = getTitleInfoFromProviewForSingleBooks(fullyQualifiedTitleId);
 		List<String> versions = new ArrayList<String>();
+		
+		List<GroupDetails> listTobeRemoved = new  ArrayList<GroupDetails>();;
 		for (GroupDetails details : groupDetailsList) {
 			details.setId(bookdefId.toString() + "/" + details.getBookVersion());
 			versions.add(details.getBookVersion());
+			if(splitVersions.contains(details.getBookVersion())){
+				listTobeRemoved.add(details);
+			}
+		}		
+		
+		
+		List<GroupDetails> groupDetailsinRemovedStatus = new ArrayList<GroupDetails>();
+		if (listTobeRemoved.size()>0){
+			for(GroupDetails removeDetails : listTobeRemoved){
+				if(groupDetailsList.contains(removeDetails)){
+					groupDetailsList.remove(removeDetails);
+				}
+			}
 		}
-		List<GroupDetails> removedGroupDetails = new ArrayList<GroupDetails>();
+		
 		// //Details of a book from ebook as Proview doesn't not give the
 		// removed/deleted versions
 		List<ProviewAudit> removedAuditList = proviewAuditService.getRemovedAndDeletedVersions(fullyQualifiedTitleId);
@@ -343,10 +358,10 @@ public class ProviewGroupListController {
 				String[] stringArray = { fullyQualifiedTitleId + "/" + audit.getBookVersion() };
 				groupDetails.setTitleIdtWithVersionArray(stringArray);
 				groupDetails.setId(bookdefId.toString() + "/" + audit.getBookVersion());
-				removedGroupDetails.add(groupDetails);
+				groupDetailsinRemovedStatus.add(groupDetails);
 			}
 		}
-		groupDetailsList.addAll(removedGroupDetails);
+		groupDetailsList.addAll(groupDetailsinRemovedStatus);
 		return groupDetailsList;
 	}
 	

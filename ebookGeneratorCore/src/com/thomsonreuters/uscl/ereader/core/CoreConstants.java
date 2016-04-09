@@ -35,8 +35,10 @@ public class CoreConstants {
 	
 	public static final String PROD_ENVIRONMENT_NAME = "prodcontent";
 	
-	public static final String SUBGROUP_SPLIT_ERROR_MESSAGE = "Subgroup name should be changed for every major version for split book.";
-	public static final String SUBGROUP_ERROR_MESSAGE = "No subgroup(s) in previous groups.  Please set a group with subgroup before generating.";
+	public static final String SUBGROUP_SPLIT_ERROR_MESSAGE = "Subgroup name should be changed for every major version of splitBook.";
+	
+	public static final String SUBGROUP_ERROR_MESSAGE = "No subgroup(s) in previous groups.  Please create a group with subgroup before generating.";
+	
 	public static final String DUPLICATE_SUBGROUP_ERROR_MESSAGE = "Subgroup heading already exsists for previous versions.";
 	
 	public static final String EMPTY_GROUP_ERROR_MESSAGE = "Group name cannot be empty.";
