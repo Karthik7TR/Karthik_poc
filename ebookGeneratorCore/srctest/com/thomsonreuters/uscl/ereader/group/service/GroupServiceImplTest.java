@@ -13,6 +13,8 @@ import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 
@@ -867,8 +869,15 @@ public class GroupServiceImplTest {
 		
 		BookDefinition bookDefinition = new BookDefinition();
 		bookDefinition.setEbookDefinitionId(new Long(1));
-		
+		boolean thrown = false;
+		try{
 		groupService.validateResponse(bookDefinition, groupInfoXML,"v2");
+		}
+		catch(ProviewException ex){
+			thrown = true;		}
+		
+		Assert.assertTrue(!thrown);
+
 	}
 	
 	@Test
@@ -961,5 +970,36 @@ public class GroupServiceImplTest {
 		}
 		
 		Assert.assertTrue(thrown);
+	}
+	
+	@Test
+	public void testGroupIdWithContentType(){
+		BookDefinition bookDefinition = new BookDefinition();
+		DocumentTypeCode dc = new DocumentTypeCode();
+		dc.setAbbreviation("sc");
+		bookDefinition.setDocumentTypeCodes(dc);
+		PublisherCode publisherCode = new PublisherCode();
+		publisherCode.setId(new Long(1));
+		publisherCode.setName("ucl");
+		bookDefinition.setPublisherCodes(publisherCode);
+		bookDefinition.setFullyQualifiedTitleId("uscl/sc/book_abcd");
+		
+		String groupId = groupService.getGroupId(bookDefinition);
+		Assert.assertEquals("ucl/sc_book_abcd",groupId);
+		
+		
+	}
+	
+	@Test
+	public void testGroupIdWithNoContentType(){
+		BookDefinition bookDefinition = new BookDefinition();
+		PublisherCode publisherCode = new PublisherCode();
+		publisherCode.setId(new Long(1));
+		publisherCode.setName("ucl");
+		bookDefinition.setPublisherCodes(publisherCode);
+		bookDefinition.setFullyQualifiedTitleId("uscl/book_abcd");
+		
+		String groupId = groupService.getGroupId(bookDefinition);
+		Assert.assertEquals("ucl/book_abcd",groupId);
 	}
 }

@@ -134,6 +134,13 @@ public class GroupServiceImpl implements GroupService {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(bookDefinition.getPublisherCodes().getName());
 		buffer.append("/");
+		String contentType = null;
+		if(bookDefinition.getDocumentTypeCodes() != null){
+			contentType = bookDefinition.getDocumentTypeCodes().getAbbreviation();
+		}
+		if(!StringUtils.isEmpty(contentType)){
+			buffer.append(contentType+"_");
+		}		
 		buffer.append(StringUtils.substringAfterLast(bookDefinition.getFullyQualifiedTitleId(), "/"));		
 		return buffer.toString();
 	}	
