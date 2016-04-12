@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 
@@ -29,6 +30,8 @@ public class ProviewGroupListFilterForm {
 	private String groupVersion;
 	private String groupStatus;
 	private List<String> groupIds;
+	private List<String> groupMembers;
+	private List<GroupDetails> groupDetails;
 	private Long bookDefinitionId;
 	private String comments;
 	private boolean groupOperation;
@@ -62,7 +65,23 @@ public class ProviewGroupListFilterForm {
 	public void setGroupIds(List<String> groupIds) {
 		this.groupIds = groupIds;
 	}
+	
+	public List<String> getGroupMembers() {
+		return groupMembers;
+	}
 
+	public void setGroupMembers(List<String> groupMembers) {
+		this.groupMembers = groupMembers;
+	}
+
+	public List<GroupDetails> getGroupDetails() {
+		return groupDetails;
+	}
+
+	public void setGroupDetails(List<GroupDetails> groupDetails) {
+		this.groupDetails = groupDetails;
+	}
+	
 	public String getProviewGroupID() {
 		return proviewGroupID;
 	}

@@ -29,9 +29,9 @@ $(document).ready(function() {
 function submitGroupForm(command) {
 		var confirmed = false;
 		var selected = false;
-		var x = document.getElementsByName('groupIds');
+		var x = document.getElementsByName('groupMembers');
 		for (i=0;i<x.length;i++){
-			if(x[i].type == "checkbox" && x[i].checked){
+			if(x[i].checked){
 				selected=true;
 				break;
 			}
@@ -133,32 +133,29 @@ function submitGroupForm(command) {
 		<display:setProperty name="paging.banner.onepage" value=" " />
 		
 		<c:choose>
-		 <c:when test="${showSubgroup}">
-			<display:column title="${selectAllElement}"  style="text-align: center">
-				<form:checkbox path="groupIds" value="${groupDetail.titleIdListWithVersion}" />
-			</display:column>
-			
+			<c:when test="${showSubgroup}">
+				<display:column title="${selectAllElement}"  style="text-align: center">
+					<form:checkbox path="groupMembers" value="${groupDetail.id}" />
+				</display:column>
 				<display:column title="Subgroup Name" property="subGroupName" />
-			
+				
 				<c:set var="values" value="${groupDetail.titleIdList}" />
 				<display:column title="Title ID" style="text-align: left">
 					<table class="displayTagTable">
 							<c:forEach items="${values}" var="value" varStatus="status">
 								<tbody>
-									<tr >
-										<td>${ value }</td>
-									</tr>
+									<tr><td>${ value }</td></tr>
 								</tbody>
 							</c:forEach>
 					</table>
 				</display:column>
-		  </c:when>
-		  <c:otherwise>
-		  <display:column title="${selectAllElement}"  style="text-align: center">
-				<form:checkbox path="groupIds" value="${groupDetail.titleIdWithVersionArray}" />
-			</display:column>
-			<display:column title="Title ID" property= "titleId" />
-		  </c:otherwise>
+			</c:when>
+			<c:otherwise>
+				<display:column title="${selectAllElement}"  style="text-align: center">
+					<form:checkbox path="groupMembers" value="${groupDetail.id}" />
+				</display:column>
+				<display:column title="Title ID" property= "titleId" />
+			</c:otherwise>
 		</c:choose>
 		
 		<display:column title="Proview Display Name" property="proviewDisplayName" />

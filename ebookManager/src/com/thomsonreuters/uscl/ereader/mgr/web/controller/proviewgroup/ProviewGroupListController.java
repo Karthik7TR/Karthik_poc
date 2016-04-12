@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -223,7 +224,7 @@ public class ProviewGroupListController {
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 							"Proview Exception occured. Please contact your administrator.");
 					log.debug(ex.getMessage());
-				}			
+				}
 
 			
 			if (proviewResponse != null) {
@@ -264,7 +265,7 @@ public class ProviewGroupListController {
 						httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
 						groupDetailsList = getGroupDetailsWithSubGroups(bookDefinition, subGroupVersionMap, bookDefinitionId);
 					}
-					else if (titleIdList != null && titleIdList.size() > 0){			
+					else if (titleIdList != null && titleIdList.size() > 0){
 						model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 						httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 						List<SplitNodeInfo> splitNodes = bookDefinition.getSplitNodesAsList();
@@ -307,7 +308,7 @@ public class ProviewGroupListController {
 			log.error(ex.getMessage());
 		}
 
-		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);		
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);
 		
 	}
 	
@@ -461,7 +462,7 @@ public class ProviewGroupListController {
 			SingleTitleParser singleTitleParser = new SingleTitleParser();
 			reader.setContentHandler(singleTitleParser);
 			reader.parse(new InputSource(new StringReader(response)));			
-		    List<GroupDetails> proviewGroupDetails = singleTitleParser.getGroupDetailsList();
+			List<GroupDetails> proviewGroupDetails = singleTitleParser.getGroupDetailsList();
 		
 			for(GroupDetails groupDetail : proviewGroupDetails){
 				//This condition will make sure only versions that are in the group are added
@@ -499,7 +500,7 @@ public class ProviewGroupListController {
 			for (Map.Entry<String, List<String>> entry : titleMap.entrySet()) {
 				if(!splitMap.containsKey(entry.getKey())){
 					versionSingleSplitMap.put(entry.getKey(), entry.getValue());
-				}				
+				}
 			}
 		}
 		return versionSingleSplitMap;
@@ -618,7 +619,7 @@ public class ProviewGroupListController {
 							}
 						}
 					}
-			   }
+				}
 			}
 
 		
@@ -635,7 +636,7 @@ public class ProviewGroupListController {
 		Map<String, List<String>> filterTitles = new HashMap<String, List<String>>();
 		for (Map.Entry<String, List<String>> map : versionSplitTitleMap.entrySet()) {
 			String minorVersion = map.getKey();
-			if(minorVersion.startsWith("v"+version)){				
+			if(minorVersion.startsWith("v"+version)){
 				filterTitles.put(minorVersion, map.getValue());
 			}
 		}
@@ -656,15 +657,33 @@ public class ProviewGroupListController {
 		
 		if (!errors.hasErrors()) {
 			GroupCmd command = form.getGroupCmd();
-			if (form.getGroupIds() != null && form.getGroupIds().size() > 0) {				
+			List<GroupDetails> groupDetails = new ArrayList<GroupDetails>();
+			List<String> groupIds = new ArrayList<String>();
+			for(String id:((form.getGroupMembers() == null) ? groupIds : form.getGroupMembers())){
+				for(GroupDetails subgroup:(List<GroupDetails>) httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST)){
+					if(subgroup.getId().equals(id)){
+						groupDetails.add(subgroup);
+						if(subgroup.getTitleId() == null){
+							groupIds.add(subgroup.getTitleIdListWithVersion().toString());
+						} else {
+							groupIds.add(Arrays.toString(subgroup.getTitleIdWithVersionArray()));
+						}
+						break;
+					}
+				}
+			}
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetails);
+			form.setGroupIds(groupIds);
+			if (form.getGroupMembers() != null && form.getGroupMembers().size() > 0) {
 				
 				model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
 				model.addAttribute(WebConstants.KEY_BOOK_ID, form.getBookDefinitionId());
 				String groupByVersion = form.getProviewGroupID()+"/"+form.getGroupVersion();
-				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_LIST_FILTER_FORM,
-						new ProviewGroupListFilterForm(form.getGroupName(), form.getBookDefinitionId(), form.getGroupIds(),
-								form.getProviewGroupID(), form.getGroupVersion(),groupByVersion, form.isGroupOperation()));
+				ProviewGroupListFilterForm listFilterForm = new ProviewGroupListFilterForm(form.getGroupName(), form.getBookDefinitionId(), form.getGroupIds(),
+						form.getProviewGroupID(), form.getGroupVersion(),groupByVersion, form.isGroupOperation());
+				listFilterForm.setGroupMembers(form.getGroupMembers());
+				model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_LIST_FILTER_FORM, listFilterForm);
 				model.addAttribute(WebConstants.KEY_IS_COMPLETE, "false");
 
 			}
@@ -704,7 +723,7 @@ public class ProviewGroupListController {
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_BOOK_PROMOTE, method = RequestMethod.POST)
 	public ModelAndView proviewTitlePromotePost(
 			@ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) ProviewGroupListFilterForm form, Model model) throws Exception {
-		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 		try {
 			boolean success = performGroupOperation(form,model,"Promote");
 			if(success){
@@ -735,7 +754,7 @@ public class ProviewGroupListController {
 			@ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) ProviewGroupListFilterForm form,
 			Model model) throws Exception {
 
-		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 		try {
 			boolean success =  performGroupOperation(form,model,"Remove");
 			if(success){
@@ -765,7 +784,7 @@ public class ProviewGroupListController {
 			@ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) ProviewGroupListFilterForm form,
 			Model model) throws Exception {
 
-		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());		
+		model.addAttribute(WebConstants.KEY_GROUP_NAME, form.getGroupName());
 		try {
 			boolean success = performGroupOperation(form,model,"Delete");
 			if(success){
@@ -832,7 +851,7 @@ public class ProviewGroupListController {
 		StringBuffer errorBuffer = new StringBuffer();
 		StringBuffer successBuffer = new StringBuffer();
 		boolean success = true;
-		model.addAttribute(WebConstants.KEY_IS_COMPLETE, "true");			
+		model.addAttribute(WebConstants.KEY_IS_COMPLETE, "true");
 		
 		List<ProviewAudit> auditList = new ArrayList<ProviewAudit>();
 		if (!isJobRunningForBook(model,form.getBookDefinitionId())) {
@@ -844,10 +863,12 @@ public class ProviewGroupListController {
 			for (String bookTitlesWithVersion : form.getGroupIds()) {
 				if(!bookTitlesWithVersion.isEmpty()){
 					bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]|\\{|\\}", "");
-					titlesString = bookTitlesWithVersion.split(",");	
+					if(!bookTitlesWithVersion.isEmpty()){
+						titlesString = bookTitlesWithVersion.split(",");
+					}
 				}
 			}
-
+			
 			for (String bookTitleWithVersion : titlesString) {
 				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
 				String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
@@ -912,16 +933,12 @@ public class ProviewGroupListController {
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \t\n" + errorBuffer.toString());
 					emailBody = "Failed: \t\n" + errorBuffer.toString();
 				}
-
 			}
-
 			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
-
 			for (ProviewAudit audit : auditList) {
 				proviewAuditService.save(form.createAudit(audit.getTitleId(), audit.getBookVersion(), lastUpdate,
 						operation.toUpperCase(), form.getComments()));
 			}
-
 		}
 		return success;
 	}
@@ -978,8 +995,7 @@ public class ProviewGroupListController {
 					"Tried 3 times to delete titile and not succeeded. Proview might be down "
 					+ "or still in the process of deleting the book. Please try again later. ");
 		}
-
-	}	
+	}
 	
 	private void doGroupOperation(String operation, String groupId, String groupVersion) throws Exception {
 		switch (operation) {
@@ -1213,6 +1229,6 @@ public class ProviewGroupListController {
 	}
 	
 	public int getMaxNumberOfRetries() {
-        return this.maxNumberOfRetries;
-    }	
+		return this.maxNumberOfRetries;
+	}
 }

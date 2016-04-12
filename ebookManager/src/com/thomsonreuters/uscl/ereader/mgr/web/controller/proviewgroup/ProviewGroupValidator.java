@@ -22,7 +22,7 @@ public class ProviewGroupValidator implements Validator {
 		if ((form.getGroupCmd() == GroupCmd.PROMOTE) ||
 			(form.getGroupCmd() == GroupCmd.DELETE) || 
 			(form.getGroupCmd() == GroupCmd.REMOVE) ) {
-			if (form.getGroupIds() == null || form.getGroupIds().size() == 0)  {
+			if (form.getGroupMembers() == null || form.getGroupMembers().size() == 0)  {
 				if (!form.isGroupOperation()){
 					errors.reject("error.required.versionselection");
 				}
