@@ -1,0 +1,55 @@
+<!--Copyright 2015: Thomson Reuters. All Rights Reserved. Proprietary and 
+	Confidential information of Thomson Reuters. Disclosure, Use or Reproduction 
+	without the written authorization of Thomson Reuters is prohibited. -->
+<CollectionMappingData>
+	<ContentType ContentTypeId="1" ContentTypeName="TestContentType" FermiContentTypeId="1" FermiContentTypeName="Pending/Proposed Regulations" ShortTitleMappingElement="[#SEP#]{&quot;Name&quot;:&quot;Title&quot;,&quot;Element&quot;:&quot;md.title&quot;,&quot;Scope&quot;:&quot;metadata&quot;}[#SEP#]/Document/n-metadata/metadata.block/md.descriptions/md.title" Stylesheet="TestStylesheet.xsl" CitationMapping="[#SEP#]{&quot;Name&quot;:&quot;Cite&quot;,&quot;Element&quot;:&quot;md.second.line.cite&quot;,&quot;Scope&quot;:&quot;metadata&quot;,&quot;TerminatingElement&quot;:&quot;md.identifiers&quot;}[#SEP#]/Document/n-docbody//content.metadata.block[1]/cmd.identifiers/cmd.cites//node()[self::cmd.second.line.cite | self::cmd.alternative.cite][1]|/Document/n-metadata/metadata.block/md.identifiers/md.cites/md.second.line.cite" Exclusion="" PersistExclusion="" PreviewData="1000" OptimizeStylesheet="N" MetadocDomain="" ContentReleased="Y">
+			<FixedHeaderData>
+				<Object Type="Container" HtmlEntity="div" CssClasses="" HtmlID="co_docHeaderTitle">
+					<ChildElements>
+						<Object Type="Container" HtmlEntity="h2" CssClasses="" HtmlID="co_docHeaderTitleLine">
+							<ChildElements>
+								<Object Type="TitleBlock" ExtraData="Testing" StringLiteralValue="" UseOfLiteral="0" IsDate="false" IsMetaInfoTitle="true" IsMetaInfoCite="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/topic[last()]" Xpath2="/Document/n-docbody/doc/snl" Xpath3="/Document/n-docbody/doc/agncy[last()]" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="title" Link="1" MaxLength="95" TruncationPostfix="..." />
+							</ChildElements>
+						</Object>
+						<Object Type="Container" HtmlEntity="ul" CssClasses="co_document_indicators" HtmlID="co_documentStatusIcons">
+							<ChildElements>
+								<Object Type="ExternalWidget" WidgetCreationFunction="AddDocumentStatusIndicators" ResolveOnServer="true" />
+							</ChildElements>
+						</Object>
+						<Object Type="Container" HtmlEntity="h3" CssClasses="" HtmlID="co_docHeaderCitation">
+							<ChildElements>
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" IsDate="false" MetadocFieldName="" Xpath1="/Document/n-metadata/metadata.block/md.identifiers/md.cites/md.first.line.cite" Xpath2="" Xpath3="" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="firstLineCite" Link="0" />
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" IsDate="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/hg0//text()" Xpath2="/Document/n-docbody/doc/ht" Xpath3="/Document/n-metadata/metadata.block/md.publications/md.publication/md.pubname" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="pubName" Link="0" />
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" IsDate="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/hg1//text()" Xpath2="/Document/n-docbody/doc/hg2//text()" Xpath3="/Document/n-docbody/doc/voln" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="department" Link="0" />
+							</ChildElements>
+						</Object>
+					</ChildElements>
+				</Object>
+			</FixedHeaderData>
+			<DeliveryFixedHeaderData>
+				<Object Type="Container" HtmlEntity="div" CssClasses="" HtmlID="co_docHeaderTitle">
+					<ChildElements>
+						<Object Type="Container" HtmlEntity="h2" CssClasses="" HtmlID="co_docHeaderTitleLine">
+							<ChildElements>
+								<Object Type="TitleBlock" ExtraData="Tester" StringLiteralValue="" UseOfLiteral="0" IsDate="false" IsMetaInfoTitle="true" IsMetaInfoCite="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/topic[last()]" Xpath2="/Document/n-docbody/doc/snl" Xpath3="/Document/n-docbody/doc/agncy[last()]" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="sectionDescNum" Link="1" MaxLength="95" TruncationPostfix="..." />
+							</ChildElements>
+						</Object>
+						<Object Type="Container" HtmlEntity="ul" CssClasses="co_document_indicators" HtmlID="co_documentStatusIcons">
+							<ChildElements>
+								<Object Type="ExternalWidget" WidgetCreationFunction="AddDocumentStatusIndicators" ResolveOnServer="true" />
+							</ChildElements>
+						</Object>
+						<Object Type="Container" HtmlEntity="h3" CssClasses="" HtmlID="co_docHeaderCitation">
+							<ChildElements>
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" PostfixFieldSeparator=" | " IsDate="false" MetadocFieldName="" Xpath1="/Document/n-metadata/metadata.block/md.identifiers/md.cites/md.first.line.cite" Xpath2="" Xpath3="" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="firstLineCite" Link="0" />
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" PostfixFieldSeparator=" | " IsDate="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/hg0//text()" Xpath2="/Document/n-docbody/doc/ht" Xpath3="/Document/n-metadata/metadata.block/md.publications/md.publication/md.pubname" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="pubName" Link="0" />
+								<Object Type="TitleBlock" ExtraData="Test" StringLiteralValue="" UseOfLiteral="0" IsDate="false" MetadocFieldName="" Xpath1="/Document/n-docbody/doc/hg1//text()" Xpath2="/Document/n-docbody/doc/hg2//text()" Xpath3="/Document/n-docbody/doc/voln" CanBeMissing="0" Substitution="" HtmlEntity="span" CssClasses="" HtmlID="department" Link="0" />
+							</ChildElements>
+						</Object>
+					</ChildElements>
+				</Object>
+			</DeliveryFixedHeaderData>
+		</ContentType>
+	<CollectionGroup CollectionName="test" SubgroupName="Default" ContentTypeName="TestContentType"></CollectionGroup>
+</CollectionMappingData>
+

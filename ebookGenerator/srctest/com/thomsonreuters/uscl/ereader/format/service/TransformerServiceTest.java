@@ -5,200 +5,314 @@
 */
 package com.thomsonreuters.uscl.ereader.format.service;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
 
-import javax.xml.transform.Transformer;
-
+import org.apache.commons.io.FileUtils;
+import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * JUnit test for the Transformer service.
  * 
- * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
+ * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
 public class TransformerServiceTest 
 {
-    protected TransformerServiceImpl transService;
+	private TransformerServiceImpl transformerService;
+    private File tempRootDir;	//root directory for all test files
+    private String guid;
+
+    /*  arguments  */
+    private File srcDir;		//input, contains .preprocess files
+    private File metaDir;
+    private File imgMetaDir;
+    private File targetDir;		//output, contains .transformed files
+    private String titleID;
+    private long jobID;
+    private boolean includeAnnotations;
+    private File staticContentDir;
     
-    protected File emptyXMLDir;
-    protected File xmlDir;
-    protected File metaDir;
-    protected File imgMetaDir;
-    protected File transDir;
+    /*  service mocks and return values  */
+    private DocMetadataServiceImpl metadataMoc;
+    private DocMetadata docMeta;
+    private GenerateDocumentDataBlockServiceImpl dataBlockService;
+    private InputStream dataStream;
     
-    protected File xmlFile;
-    protected File xmlFile2;
-    protected File metaFile;
-    protected File metaFile2;
-    protected File imgMetaFile;
-    protected File imgMetaFile2;
+	/** makeFile( File directory, String name, String content )
+	 * 		helper method to streamline file creation
+	 * @param directory		Location the new file will be created in
+	 * @param name			Name of the new file
+	 * @param content		Content to be written into the new file
+	 * @return			returns a File object directing to the new file
+	 * 					returns null if any errors occur
+	 */
+	private File makeFile(File directory, String name, String content)
+	{
+		try{
+			File file = new File(directory, name);
+			file.createNewFile();
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(content.getBytes());
+			out.flush();
+			out.close();
+			return file;
+		}catch(Exception e){
+			return null;
+		}
+	}
     
-    protected File staticContentDirectory = new File("/apps/ebookbuilder/staticContent");
-    
-    protected String titleId;
-    
-    protected Long jobId;
-    
-    @Rule
-    public TemporaryFolder testFiles = new TemporaryFolder();
-    
-    /**
-     * Create the Transformer Service and initialize test variables.
-     * 
-     * @throws Exception issues encountered during set up
-     */
     @Before
-    public void setUp() throws Exception 
-    {
+    public void setUp(){
+    	this.transformerService = new TransformerServiceImpl();
+    	
+    	this.tempRootDir = new File(System.getProperty("java.io.tmpdir")+"\\EvenMoreTemp");
+		this.tempRootDir.mkdir();
+		this.guid = "ebook_source_test";
+		
+		/*  TransformXMLDocuments arguments  */
+		this.srcDir = new File("srctest\\com\\thomsonreuters\\uscl\\ereader\\format\\service");
+		this.metaDir = new File(tempRootDir.getAbsolutePath(),"MetaDirectory");
+		this.metaDir.mkdir();
+		makeFile(metaDir,guid+".xml","");
+		this.imgMetaDir = new File(tempRootDir.getAbsolutePath(),"imageMetaDirectory");
+		this.imgMetaDir.mkdir();
+		makeFile(imgMetaDir, guid+".imgMeta","");
+		this.targetDir = new File(tempRootDir.getAbsolutePath(), "TransformedDirectory");
+		this.targetDir.mkdir();
+		this.titleID = "yarr/pirates";
+		this.jobID = 987654321;
+		this.includeAnnotations = true;
+		this.staticContentDir = new File("srctest\\com\\thomsonreuters\\uscl\\ereader\\format\\service\\staticContent");
+	    
+		/*  service mocks and return values  */
     	FileExtensionFilter filter = new FileExtensionFilter();
-    	filter.setAcceptedFileExtensions(new String[]{".transformed"});
-    	FileHandlingHelper ioHelper = new FileHandlingHelper();
-    	ioHelper.setFilter(filter);
-    	
-    	//create instance of service
-    	transService = new TransformerServiceImpl();
-    	transService.setfileHandlingHelper(ioHelper);
-    	
-    	//setup static title and job identifies
-    	titleId = "uscl/cr/unitTestTitle";
-    	jobId = 23L;
-    	
-    	//set up XML directories
-    	emptyXMLDir = testFiles.newFolder("TransformerTestEmptyXMLDir");
-    	
-    	xmlDir = testFiles.newFolder("TransformerTestXML");
-    	
-    	metaDir = testFiles.newFolder("TransformerTestMetadata");
-    	imgMetaDir = testFiles.newFolder("TransformerTestImageMetadata");
-    	
-    	transDir = testFiles.newFolder("TransformerTestTransformed");
-    	
-    	String xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><n-docbody>";
-    	String xmlStr2 = "</n-docbody>";
-    	
-    	xmlFile = new File(xmlDir, "xmlFile1.xml");
-    	OutputStream outputStream = new FileOutputStream(xmlFile);
-		outputStream.write(xmlStr.getBytes());
-		outputStream.write("1".getBytes());
-		outputStream.write(xmlStr2.getBytes());
-		outputStream.flush();
-		outputStream.close();
+    	filter.setAcceptedFileExtensions(new String[]{"preprocess"});
+		FileHandlingHelper helper= new FileHandlingHelper();
+		helper.setFilter(filter);
+		this.transformerService.setfileHandlingHelper(helper);
 		
-    	xmlFile2 = new File(xmlDir, "xmlFile2.xml");
-    	OutputStream outputStream2 = new FileOutputStream(xmlFile2);
-    	outputStream2.write(xmlStr.getBytes());
-    	outputStream2.write("2".getBytes());
-    	outputStream2.write(xmlStr2.getBytes());
-    	outputStream2.flush();
-    	outputStream2.close();
-    	
-    	metaFile = new File(metaDir, "collection-xmlFile1.xml");
-    	OutputStream outputMeta = new FileOutputStream(metaFile);
-    	outputMeta.write("<n-metadata></n-metadata>".getBytes());
-    	outputMeta.flush();
-    	outputMeta.close();
-    	
-    	metaFile2 = new File(metaDir, "collection-xmlFile2.xml");
-    	OutputStream outputMeta2 = new FileOutputStream(metaFile2);
-    	outputMeta2.write("<n-metadata></n-metadata>".getBytes());
-    	outputMeta2.flush();
-    	outputMeta2.close();
-    	
-    	imgMetaFile = new File(imgMetaDir, "xmlFile1.imgMeta");
-    	OutputStream outputImgMeta = new FileOutputStream(imgMetaFile);
-    	outputImgMeta.write("<ImageMetadata></ImageMetadata>".getBytes());
-    	outputImgMeta.flush();
-    	outputImgMeta.close();
-    	imgMetaFile2 = new File(imgMetaDir, "xmlFile2.imgMeta");
-    	OutputStream outputImgMeta2 = new FileOutputStream(imgMetaFile2);
-    	outputImgMeta2.write("<ImageMetadata></ImageMetadata>".getBytes());
-    	outputImgMeta2.flush();
-    	outputImgMeta2.close();
+		this.metadataMoc = EasyMock.createMock(DocMetadataServiceImpl.class);
+		this.transformerService.setdocMetadataService(metadataMoc);
 		
-    	File txtFile = new File(xmlDir, "txtFile.txt");
-    	txtFile.createNewFile();
-    	File htmlFile = new File(xmlDir, "htmlFile.html");
-    	htmlFile.createNewFile();
+		this.dataBlockService = EasyMock.createMock(GenerateDocumentDataBlockServiceImpl.class);
+		this.transformerService.setGenerateDocumentDataBlockService(dataBlockService);
+		
+		this.docMeta = new DocMetadata();
+		this.docMeta.setTitleId(titleID);
+		this.docMeta.setJobInstanceId(jobID);
+		this.docMeta.setDocUuid(guid);
+		this.docMeta.setCollectionName("test");
+		
+		String currentDate = "20160703113830";
+		StringBuffer documentDataBlocks = new StringBuffer();
+		documentDataBlocks.append("<document-data>");
+		documentDataBlocks.append("<collection>");
+		documentDataBlocks.append(docMeta.getCollectionName());
+		documentDataBlocks.append("</collection>");
+		documentDataBlocks.append("<datetime>"+currentDate+"</datetime>");  
+		documentDataBlocks.append("<versioned>");
+		documentDataBlocks.append("False");
+		documentDataBlocks.append("</versioned>");
+		documentDataBlocks.append("<doc-type></doc-type>");
+		documentDataBlocks.append("<cite></cite>"); 
+		documentDataBlocks.append("</document-data>");
+		this.dataStream = new ByteArrayInputStream(documentDataBlocks.toString().getBytes());
     }
+    
+	@After
+	public void tearDown() throws Exception{
+	/*  recursively deletes the root directory, and all its subdirectories and files  */
+		FileUtils.deleteDirectory(tempRootDir);
+	}
     
     /**
-     * Verifies that an IllegalArgumentException is thrown when no parameters are specified.
-     * 
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullArgsTransformXMLDocuments()
-    {
-    	try
-    	{
-    		transService.transformXMLDocuments(null, null, null, null, null, null, false,staticContentDirectory);
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised instead of IllegalArgumentException");
-    	}
-    }
-    
-    /**
-     * Verifies that an IllegalArgumentException is thrown when a file is passed in instead of source directory.
-     * 
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testBadSourceDirTransformXMLDocuments()
-    {
-    	try
-    	{
-    		transService.transformXMLDocuments(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, false, staticContentDirectory);
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised instead of IllegalArgumentException " +
-    				"when XML file instead of directory was passed in");
-    	}
-    }
-    
-    @Ignore
-    @Test
-    public void testTransformFileCreation()
-    {
-    	try
-    	{
-    		assertEquals(0, transDir.listFiles().length);
-    		Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
-    		transService.transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleId, jobId, xsltCache, false);
-    		assertEquals(1, transDir.listFiles().length);
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised instead of transforming XML file");
-    	}
-    }
-    
-    @Ignore
-    @Test
-    public void testTransformAllXMLFiles()
-    {
-    	try
-    	{
-    		assertEquals(2, transService.transformXMLDocuments(xmlDir, metaDir, imgMetaDir, transDir, titleId, jobId, false, staticContentDirectory));
-    	}
-    	catch(EBookFormatException e)
-    	{
-    		fail("EBookFormatException raised instead of transforming XML file");
-    	}
-    }
+	 * TransformerService should take a source directory with ".preprocess" files generated by XMLPreprocessService 
+	 * and perform the second step necessary to transform them into html files. The resulting ".transformed" files are
+	 * created in the target directory
+	 */
+	@Test
+	public void TestTransformerServiceHappyPath()
+	{
+		int numDocs = -1;
+		boolean thrown = false;
+		
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			numDocs = transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(Exception e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(!thrown);
+		assertTrue(numDocs == 1);
+		
+		File preprocess = new File(targetDir.getAbsolutePath(), "ebook_source_test.transformed");
+		assertTrue(preprocess.exists());
+	}
+	
+	@Test
+	public void TestBadStaticDir()
+	{
+		boolean thrown = false;
+		this.staticContentDir = srcDir;		// does not contain ContentTypeMapData.xml
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(EBookFormatException e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+		
+	@Test
+	public void TestNullsrcDir() throws EBookFormatException
+	{
+		boolean thrown = false;
+		this.srcDir = null;
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(IllegalArgumentException e){
+			e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+	
+	@Test
+	public void TestNonexistentTargetDir()
+	{
+		int numDocs = -1;
+		boolean thrown = false;
+		FileUtils.deleteQuietly(targetDir);
+		
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			numDocs = transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(Exception e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(!thrown);		//should be able to create target directory on the fly and continue running
+		assertTrue(numDocs == 1);
+		
+		File preprocess1 = new File(targetDir.getAbsolutePath(), "ebook_source_test.transformed");
+		assertTrue(preprocess1.exists());
+	}
+	
+	@Test
+	public void TestBadsrcDir()
+	{
+		boolean thrown = false;
+		this.srcDir = staticContentDir;		// contains no preprocessed files
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(EBookFormatException e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+	
+	@Test
+	public void TestNullDocMetadata()
+	{
+		boolean thrown = false;
+		
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(null);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(EBookFormatException e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+	
+	@Test
+	public void TestBadDocMetadata()
+	{
+		boolean thrown = false;
+		
+		try{
+			docMeta.setDocType("not_Real");
+			docMeta.setCollectionName("not_Real");
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(EBookFormatException e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
+	
+	@Test
+	public void TestNullMetadataFile()
+	{
+		boolean thrown = false;
+		
+		try{
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			EasyMock.expect(dataBlockService.getDocumentDataBlockAsStream(titleID, jobID, guid)).andReturn(dataStream);
+			EasyMock.replay(dataBlockService);
+			
+			transformerService.transformXMLDocuments(srcDir, targetDir, imgMetaDir, targetDir, titleID, jobID, includeAnnotations, staticContentDir);
+		}catch(EBookFormatException e){
+			//e.printStackTrace();
+			thrown = true;
+		}
+		assertTrue(thrown);
+	}
 }
