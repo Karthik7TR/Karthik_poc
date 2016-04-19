@@ -1,1 +1,1 @@
-<div class="pageTitle">Promote Group to Final in ProView</div>
+<div class="pageTitle">Promote selected items to Final in ProView</div>

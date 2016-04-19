@@ -1,1 +1,1 @@
-<div class="pageTitle">Remove Group in ProView</div>
+<div class="pageTitle">Remove selected items in ProView</div>
