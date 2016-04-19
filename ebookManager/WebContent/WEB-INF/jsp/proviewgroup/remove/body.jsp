@@ -55,14 +55,20 @@
 		</td>
 		
 		<table>
-			<tr>
-				<td id="groupName"><b>Group Name:</b></td> 
-				<td>&nbsp;&nbsp;&nbsp;${groupName}</td>
-			</tr>
-			<tr>
-				<td id="status"><b>Group Status:</b></td> 
-				<td>&nbsp;&nbsp;&nbsp;${groupStatus}</td>
-			</tr>
+			<c:if test="${proviewGroupListFilterForm.groupOperation}">
+				<tr>
+					<td id="groupName"><b>Group Name:</b></td> 
+					<td>&nbsp;&nbsp;&nbsp;${groupName}</td>
+				</tr>
+				<tr>
+					<td id="status"><b>Group Status:</b></td> 
+					<td>&nbsp;&nbsp;&nbsp;${groupStatus}</td>
+				</tr>
+				<tr>
+					<td id="groupVersion"><b>Group Version:</b></td>
+					<td>&nbsp;&nbsp;&nbsp;v${ groupVersion }</td>
+				</tr>
+			</c:if>
 			<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 							requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>"
 							sort="external">
@@ -106,7 +112,7 @@
 		
 		<div class="buttons">
 			<input id="RemoveButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if> value="Remove" onclick="submitRemove()"/>
-			<input id="cancelButton" type="button"  <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
+			<input id="cancelButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
 		</div>
 		
 		<%-- Informational Messages area --%>
@@ -130,4 +136,3 @@
 	
 </body>
 </html>
-	
