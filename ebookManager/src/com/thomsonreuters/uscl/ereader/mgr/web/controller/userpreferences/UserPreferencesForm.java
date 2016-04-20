@@ -25,12 +25,14 @@ public class UserPreferencesForm {
 	private String libraryFilterTitleId;
 	private String jobSummaryFilterProviewName;
 	private String jobSummaryFilterTitleId;
+	private String groupFilterName;
+	private String groupFilterId;
 	private List<String> emails;
 
 	public UserPreferencesForm() {
 		super();
 		this.startPage = HomepageProperty.LIBRARY;
-
+		
 		emails = new AutoPopulatingList<String>(String.class);
 	}
 	
@@ -50,6 +52,8 @@ public class UserPreferencesForm {
 			libraryFilterTitleId = preference.getLibraryTitleId();
 			jobSummaryFilterProviewName = preference.getJobSummaryProviewName();
 			jobSummaryFilterTitleId = preference.getJobSummaryTitleId();
+			groupFilterName = preference.getGroupListGroupName();
+			groupFilterId = preference.getGroupListGroupId();
 			emails = preference.getEmailAddressList();
 		}
 	}
@@ -62,6 +66,8 @@ public class UserPreferencesForm {
 		preference.setJobSummaryTitleId(jobSummaryFilterTitleId);
 		preference.setLibraryProviewName(libraryFilterProviewName);
 		preference.setLibraryTitleId(libraryFilterTitleId);
+		preference.setGroupListGroupName(groupFilterName);
+		preference.setGroupListGroupId(groupFilterId);
 		preference.setStartPage(startPage.toString());
 		
 		String emailStr = StringUtils.join(emails, ",");
@@ -126,6 +132,22 @@ public class UserPreferencesForm {
 		this.jobSummaryFilterTitleId = jobSummaryFilterTitleId;
 	}
 
+	public String getGroupFilterName() {
+		return groupFilterName;
+	}
+
+	public void setGroupFilterName(String groupFilterName) {
+		this.groupFilterName = groupFilterName;
+	}
+	
+	public String getGroupFilterId() {
+		return groupFilterId;
+	}
+
+	public void setGroupFilterId(String groupFilterId) {
+		this.groupFilterId = groupFilterId;
+	}
+	
 	public List<String> getEmails() {
 		return emails;
 	}
@@ -159,7 +181,7 @@ public class UserPreferencesForm {
 				url = WebConstants.MVC_ADMIN_MAIN;
 				break;
 			case GROUP_LIST:
-				url = WebConstants.MVC_BOOK_GROUP_LIST;
+				url = WebConstants.MVC_PROVIEW_GROUPS;
 				break;
 			default:
 				url = WebConstants.MVC_BOOK_LIBRARY_LIST;

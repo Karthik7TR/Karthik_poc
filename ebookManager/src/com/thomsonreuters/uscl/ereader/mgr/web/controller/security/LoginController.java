@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 
@@ -82,8 +83,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = WebConstants.MVC_SEC_LOGIN, method = RequestMethod.POST) 
 	public ModelAndView handleLoginFormPost(@ModelAttribute(LoginForm.FORM_NAME) @Valid LoginForm form,
-			   					   BindingResult errors,
-			   					   Model model) {
+									BindingResult errors, Model model) {
 		log.debug(form);
 		String viewName = (!errors.hasErrors()) ? WebConstants.VIEW_SEC_LOGIN_AUTO : WebConstants.VIEW_SEC_LOGIN;
 		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
@@ -122,6 +122,11 @@ public class LoginController {
 		jobSummaryFilterForm.setProviewDisplayName(preferenceForm.getJobSummaryFilterProviewName());
 		jobSummaryFilterForm.setTitleId(preferenceForm.getJobSummaryFilterTitleId());
 		httpSession.setAttribute(FilterForm.FORM_NAME, jobSummaryFilterForm);
+		
+		ProviewGroupListFilterForm groupListFilterForm = new ProviewGroupListFilterForm();
+		groupListFilterForm.setGroupName(preferenceForm.getGroupFilterName());
+		groupListFilterForm.setProviewGroupID(preferenceForm.getGroupFilterId());
+		httpSession.setAttribute(ProviewGroupListFilterForm.FORM_NAME, groupListFilterForm);
 		
 		return new ModelAndView(new RedirectView(preferenceForm.getURL()));
 	}

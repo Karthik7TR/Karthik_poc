@@ -28,13 +28,13 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
 
 	@SuppressWarnings("rawtypes")
 	@Override
-    public boolean supports(Class clazz) {
+	public boolean supports(Class clazz) {
 		return (UserPreferencesForm.class.isAssignableFrom(clazz));
-    }
+	}
 
 	@Override
-    public void validate(Object obj, Errors errors) {
-    	
+	public void validate(Object obj, Errors errors) {
+	
 		UserPreferencesForm form = (UserPreferencesForm) obj;
 		
 		// MaxLength Validations
@@ -44,6 +44,8 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getJobSummaryFilterTitleId(), "jobSummaryFilterTitleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_1024});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getLibraryFilterProviewName(), "libraryFilterProviewName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
 		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getLibraryFilterTitleId(), "libraryFilterTitleId", new Object[] {"Title ID", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getGroupFilterName(), "groupFilterName", new Object[] {"ProView Display Name", MAXIMUM_CHARACTER_1024});
+		checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getGroupFilterId(), "groupFilterId", new Object[] {"Group ID", MAXIMUM_CHARACTER_1024});
 		
 		HomepageProperty startPage = form.getStartPage();
 		if(startPage != null) {
@@ -51,7 +53,7 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
 		} else {
 			errors.rejectValue("startPage", "error.required");
 		}
-
+		
 		List<String> emails = form.getEmails();
 		EmailValidator validator = EmailValidator.getInstance();
 		List<String> checkDuplicateEmails = new ArrayList<String>();

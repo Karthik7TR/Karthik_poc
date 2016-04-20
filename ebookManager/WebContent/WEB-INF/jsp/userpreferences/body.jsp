@@ -99,6 +99,24 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="filterBox">
+		<label class="labelCol">Group List Filters</label>
+		<div class="row">
+			<label>Group Name</label>
+			<form:input path="groupFilterName"/>
+			<div class="errorDiv">
+				<form:errors path="groupFilterName" cssClass="errorMessage" />
+			</div>
+		</div>
+		<div class="row">
+			<label>Group ID</label>
+			<form:input path="groupFilterId"/>
+			<div class="errorDiv">
+				<form:errors path="groupFilterId" cssClass="errorMessage" />
+			</div>
+		</div>
+	</div>
 
 	<div class="row">
 		<label class="labelCol">Email</label>
@@ -133,6 +151,7 @@
 				<form:option label="<%=UserPreferencesForm.HomepageProperty.ADMINISTRATION.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.ADMINISTRATION.toString() %>"/>
 			</c:if>
 			<form:option label="<%=UserPreferencesForm.HomepageProperty.AUDIT.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.AUDIT.toString() %>"/>
+			<form:option label="<%=UserPreferencesForm.HomepageProperty.GROUP_LIST.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.GROUP_LIST.toString() %>"/>
 			<form:option label="<%=UserPreferencesForm.HomepageProperty.JOBS.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.JOBS.toString() %>"/>
 			<form:option label="<%=UserPreferencesForm.HomepageProperty.LIBRARY.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.LIBRARY.toString() %>"/>
 			<form:option label="<%=UserPreferencesForm.HomepageProperty.PROVIEW_LIST.toString()%>" value="<%=UserPreferencesForm.HomepageProperty.PROVIEW_LIST.toString() %>"/>

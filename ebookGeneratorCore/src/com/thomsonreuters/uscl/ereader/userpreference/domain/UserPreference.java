@@ -28,10 +28,10 @@ public class UserPreference implements Serializable {
 	@Column(name = "USER_NAME", length = 1024, nullable = false)
 	@Id
 	String userName;
-
+	
 	@Column(name = "EMAIL_LIST", length = 2048)
 	String emails;
-
+	
 	@Column(name = "LIBRARY_PROVIEW_NAME_FILTER", length = 1024)
 	String libraryProviewName;
 	
@@ -49,6 +49,12 @@ public class UserPreference implements Serializable {
 	
 	@Column(name = "JOB_SUM_TITLE_ID_FILTER", length = 1024)
 	String jobSummaryTitleId;
+	
+	@Column(name = "GROUP_NAME_FILTER", length = 1024)
+	String groupListGroupName;
+	
+	@Column(name = "GROUP_ID_FILTER", length = 1024)
+	String groupListGroupId;
 	
 	@Column(name = "START_PAGE", length = 64)
 	String startPage;
@@ -121,6 +127,22 @@ public class UserPreference implements Serializable {
 		this.jobSummaryTitleId = jobSummaryTitleId;
 	}
 
+	public String getGroupListGroupName() {
+		return groupListGroupName;
+	}
+
+	public void setGroupListGroupName(String groupListGroupName) {
+		this.groupListGroupName = groupListGroupName;
+	}
+
+	public String getGroupListGroupId() {
+		return groupListGroupId;
+	}
+
+	public void setGroupListGroupId(String groupListGroupId) {
+		this.groupListGroupId = groupListGroupId;
+	}
+
 	public String getStartPage() {
 		return startPage;
 	}
@@ -128,7 +150,7 @@ public class UserPreference implements Serializable {
 	public void setStartPage(String startPage) {
 		this.startPage = startPage;
 	}
-	
+
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
@@ -141,11 +163,12 @@ public class UserPreference implements Serializable {
 	public List<String> getEmailAddressList() {
 		return toStringEmailAddressList(emails);
 	}
+
 	@Transient
 	public List<InternetAddress> getInternetEmailAddressList() {
 		return toInternetAddressList(toStringEmailAddressList(emails));
 	}
-	
+
 	public static List<String> toStringEmailAddressList(String addressCsv) {
 		String[] recipientArray = StringUtils.split(addressCsv, ",");
 		if(recipientArray != null) {
