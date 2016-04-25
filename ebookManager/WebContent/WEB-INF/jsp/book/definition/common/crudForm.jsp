@@ -762,7 +762,7 @@
 				</div>
 				<div class="row">
 					<form:label path="subGroupHeading" class="labelCol">SubGroup Heading</form:label>
-					<form:input path="subGroupHeading" maxlength="18" />
+					<form:input path="subGroupHeading" />
 				</div>
 				<div class="errorDiv">
 					<form:errors path="subGroupHeading" cssClass="errorMessage" />
