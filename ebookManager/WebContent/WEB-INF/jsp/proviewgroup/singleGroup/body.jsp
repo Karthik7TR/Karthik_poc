@@ -27,18 +27,62 @@ $(document).ready(function() {
 });
 
 function submitGroupForm(command) {
-		var confirmed = false;
-		var selected = false;
+		var confirmed = false;		// confirm with user via pop-up
+		var selected = false;		// any subgroups selected?
+		var warn = false;			// whether the user should be asked for confirmation
+		
+		var isReview = true;		// has a book or group of indicated status been selected?
+		var isRemove = false;
+		var isDelete = false;
+		
+		var subgroups = new Array();
+		<c:forEach items="${paginatedList}" var="subgroup">
+			groupDetails = new Object();
+			//add version number
+			groupDetails.status ="${subgroup.bookStatus}";
+			subgroups.push(groupDetails);
+		</c:forEach>
+		
 		var x = document.getElementsByName('groupMembers');
+		var formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
+		var groupStatus = document.theForm.elements["groupStatus"].value;
 		for (i=0;i<x.length;i++){
 			if(x[i].checked){
 				selected=true;
-				break;
+				if(subgroups[i].status.toUpperCase() != "REVIEW"){
+					isReview = false;
+				}
+				if(subgroups[i].status.toUpperCase() == "REMOVE"){
+					isRemove = true;
+				}
+				if(subgroups[i].status.toUpperCase() == "DELETE"){
+					isDelete = true;
+				}
 			}
 		}
-		var groupStatus = document.theForm.elements["groupStatus"].value;
-		var formatedcommand = command.charAt(0).toUpperCase() + command.slice(1).toLowerCase();
-		var warn = !document.getElementById('groupChecked').checked
+
+		if (document.getElementById('groupChecked').checked){
+			isReview = isReview && (groupStatus == "Review");
+		}
+		
+		if(isDelete){
+			alert("Cannot operate on an item with Status: Delete.");
+			return;
+		}
+		if(!isReview&&(formatedcommand=="Promote")){
+			alert("All selected items must have Status: Review.");
+			return;
+		}
+		if(isRemove&&(formatedcommand=="Remove")){
+			alert("Cannot remove an item with Status: Remove.");
+			return;
+		}
+		if(!isRemove&&(formatedcommand=="Delete")){
+			alert("All selected items must have Status: Remove.");
+			return;
+		}
+		
+		warn = !document.getElementById('groupChecked').checked
 					&& selected
 					&& (groupStatus=="Review"
 						|| (command=="REMOVE" && (groupStatus!="Remove"))
@@ -51,10 +95,7 @@ function submitGroupForm(command) {
 		}
 		warn = document.getElementById('groupChecked').checked
 				&& !selected;
-		if (warn&&groupStatus=="Final"&&command=="PROMOTE"){
-			alert("Group is already Final, please select eBooks or cancel.")
-			return;
-		}else if(warn){
+		if(warn){
 			confirmed = confirm("You have selected the Group box with no corresponding eBook titles checked.  Do you want to proceed?")
 			if (!confirmed){
 				return;

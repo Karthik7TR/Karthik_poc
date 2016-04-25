@@ -127,7 +127,7 @@
 		<c:forEach items="${preferencesForm.emails}" var="email" varStatus="eStatus">
 			<div class="expandingBox">
 				<form:input path="emails[${eStatus.index}]" />
-				<input type="button" value="Delete" class="rdelete" title="Delete Email" />
+				<input type="button" id="deleteButton" value="Delete" class="rdelete" title="Delete Email" />
 				<div class="errorDiv">
 					<form:errors path="emails[${eStatus.index}]" cssClass="errorMessage" />
 				</div>
