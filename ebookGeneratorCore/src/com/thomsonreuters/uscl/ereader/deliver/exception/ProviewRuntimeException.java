@@ -13,9 +13,23 @@ package com.thomsonreuters.uscl.ereader.deliver.exception;
  */
 public class ProviewRuntimeException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
+	private String statusCode;
 	
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
 	public ProviewRuntimeException(String message) {
 		super(message);
+	}
+	
+	public ProviewRuntimeException(String statusCode, String message) {
+		super(message);
+		this.statusCode = statusCode;		
 	}
 	
 	public ProviewRuntimeException(String message, Throwable cause){

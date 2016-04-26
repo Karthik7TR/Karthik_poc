@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +22,10 @@ import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -34,6 +38,22 @@ public class GroupEbooks extends AbstractSbTasklet {
 	
 	private PublishingStatsService publishingStatsService;
 	private GroupService groupService;
+
+	private int maxNumberOfRetries = 3;
+	private int sleepTimeInMinutes = 15;
+	private int baseSleepTimeInMinutes=2;
+	
+	public void setSleepTimeInMinutes(int sleepTimeInMinutes) {
+		this.sleepTimeInMinutes = sleepTimeInMinutes;
+	}
+
+	public void setBaseSleepTimeInMinutes(int baseSleepTimeInMinutes) {
+		this.baseSleepTimeInMinutes = baseSleepTimeInMinutes;
+	}
+    
+    public int getMaxNumberOfRetries() {
+        return this.maxNumberOfRetries;
+    }	
 	
 	
 	
@@ -76,7 +96,7 @@ public class GroupEbooks extends AbstractSbTasklet {
 				}				
 				GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, versionNumber, splitTitles);
 				if(groupDefinition != null) {
-					groupService.createGroup(groupDefinition);
+					createGroupWithRetry(groupDefinition);
 					groupVersion = groupDefinition.getGroupVersion();
 				}
 			}
@@ -104,6 +124,59 @@ public class GroupEbooks extends AbstractSbTasklet {
 
       
 		return ExitStatus.COMPLETED;
+	}
+	
+	protected void createGroupWithRetry(GroupDefinition groupDefinition) {
+		boolean retryRequest = true;
+
+		//Most of the books should finish in two minutes
+		try{
+		TimeUnit.MINUTES.sleep(baseSleepTimeInMinutes);
+		} catch (InterruptedException e) {
+			LOG.error("InterruptedException during HTTP retry", e);
+		};
+		
+		int retryCount = 0;
+		String errorMsg = "";
+		do {
+			try {
+				groupService.createGroup(groupDefinition);
+				retryRequest = false;
+			} catch (ProviewException ex) {
+				errorMsg = ex.getMessage();
+				if (errorMsg.equalsIgnoreCase(CoreConstants.NO_TITLE_IN_PROVIEW)){
+					// retry a retriable request					
+
+					LOG.warn("Retriable status received: waiting " + sleepTimeInMinutes + "minutes (retryCount: "
+							+ retryCount +")");
+
+					retryRequest = true;
+					retryCount++;
+
+					try {
+						TimeUnit.MINUTES.sleep(sleepTimeInMinutes);
+					} catch (InterruptedException e) {
+						LOG.error("InterruptedException during HTTP retry", e);
+					};
+				}
+				else if (errorMsg.equalsIgnoreCase(CoreConstants.GROUP_AND_VERSION_EXISTS)) {
+					retryRequest = true;
+					retryCount++;
+					Long groupVersion = groupDefinition.getGroupVersion() + 1;
+					LOG.warn("Incrementing group version "+groupVersion);
+					groupDefinition.setGroupVersion(groupVersion);
+				}
+				else {
+					throw new ProviewRuntimeException(errorMsg);
+				}
+			}
+		} while (retryRequest && retryCount < getMaxNumberOfRetries());
+		if (retryRequest && retryCount == getMaxNumberOfRetries()) {
+			throw new ProviewRuntimeException(
+					"Tried 3 times to create group and not succeeded. Proview might be down "
+					+ "or still in the process of loading parts of the book. Please try again later. ");
+		}
+
 	}
 	
 	

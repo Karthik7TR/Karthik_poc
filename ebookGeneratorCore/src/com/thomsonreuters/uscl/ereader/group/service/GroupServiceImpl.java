@@ -26,17 +26,6 @@ public class GroupServiceImpl implements GroupService {
 	
 	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
 	private ProviewClient proviewClient;  
-	private int maxNumberOfRetries = 3;
-	private int sleepTimeInMinutes = 15;
-	private int baseSleepTimeInMinutes=2;
-	
-	public void setSleepTimeInMinutes(int sleepTimeInMinutes) {
-		this.sleepTimeInMinutes = sleepTimeInMinutes;
-	}
-
-	public void setBaseSleepTimeInMinutes(int baseSleepTimeInMinutes) {
-		this.baseSleepTimeInMinutes = baseSleepTimeInMinutes;
-	}
 
 
 	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception {
@@ -182,58 +171,24 @@ public class GroupServiceImpl implements GroupService {
 	 * Send Group definition to Proview to create a group
 	 */
 	public void createGroup(GroupDefinition groupDefinition) throws ProviewException {
-		boolean retryRequest = true;
-
-		//Most of the books should finish in two minutes
-		try{
-		TimeUnit.MINUTES.sleep(baseSleepTimeInMinutes);
-		} catch (InterruptedException e) {
-			LOG.error("InterruptedException during HTTP retry", e);
-		};
-		
-		int retryCount = 0;
-		String errorMsg = "";
-		do {
-			try {
-				proviewClient.createGroup(groupDefinition);
-				retryRequest = false;
-			} catch (ProviewRuntimeException ex) {
-				errorMsg = ex.getMessage();
-				if (errorMsg.startsWith("400") && errorMsg.contains("This Title does not exist")){
-					// retry a retriable request					
-
-					LOG.warn("Retriable status received: waiting " + sleepTimeInMinutes + "minutes (retryCount: "
-							+ retryCount +")");
-
-					retryRequest = true;
-					retryCount++;
-
-					try {
-						TimeUnit.MINUTES.sleep(sleepTimeInMinutes);
-					} catch (InterruptedException e) {
-						LOG.error("InterruptedException during HTTP retry", e);
-					};
-				}
-				else if (errorMsg.startsWith("400")
-						&& (errorMsg.contains("GroupId already exists with same version") || 
-								errorMsg.contains("Version Should be greater"))) {
-					retryRequest = true;
-					retryCount++;
-					Long groupVersion = groupDefinition.getGroupVersion() + 1;
-					LOG.warn("Incrementing group version "+groupVersion);
-					groupDefinition.setGroupVersion(groupVersion);
-				}
-				else {
-					throw new ProviewRuntimeException(errorMsg);
+		try {
+			proviewClient.createGroup(groupDefinition);
+		} catch (ProviewRuntimeException ex) {
+			String errorMsg = ex.getMessage();
+			if (ex.getStatusCode().equalsIgnoreCase("400")) {
+				if (errorMsg.contains("This Title does not exist")) {
+					throw new ProviewException(CoreConstants.NO_TITLE_IN_PROVIEW);
+				} else if (errorMsg.contains("GroupId already exists with same version")
+						|| errorMsg.contains("Version Should be greater")) {
+					throw new ProviewException(CoreConstants.GROUP_AND_VERSION_EXISTS);
+				} else {
+					throw new ProviewException(errorMsg);
 				}
 			}
-		} while (retryRequest && retryCount < getMaxNumberOfRetries());
-		if (retryRequest && retryCount == getMaxNumberOfRetries()) {
-			throw new ProviewRuntimeException(
-					"Tried 3 times to create group and not succeeded. Proview might be down "
-					+ "or still in the process of loading parts of the book. Please try again later. ");
+			else{
+				throw new ProviewException(errorMsg);
+			}
 		}
-
 	}
 	
     
@@ -558,10 +513,6 @@ public class GroupServiceImpl implements GroupService {
 		}
 
 	}
-    
-    public int getMaxNumberOfRetries() {
-        return this.maxNumberOfRetries;
-    }	
 	
 	
 	@Required

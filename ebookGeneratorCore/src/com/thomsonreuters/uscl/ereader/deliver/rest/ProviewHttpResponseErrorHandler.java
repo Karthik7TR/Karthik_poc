@@ -35,8 +35,8 @@ public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
 		String responseBody = IOUtils.toString(clientHttpResponse.getBody());
 		LOG.error("HTTP HEADERS: " + clientHttpResponse.getHeaders().toString());
 		LOG.error("HTTP STATUS: " + statusCode);
-		LOG.error("HTTP BODY: " + responseBody);
-		throw new ProviewRuntimeException(statusCode + responseBody);
+		LOG.error("HTTP BODY: " + responseBody);		
+		throw new ProviewRuntimeException(statusCode, responseBody);
 	}
 
 	/**
@@ -49,7 +49,12 @@ public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
 	 */
 	@Override
 	public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
-		return (clientHttpResponse.getStatusCode() != HttpStatus.OK) ? Boolean.TRUE : Boolean.FALSE;
+		if (clientHttpResponse.getStatusCode() == HttpStatus.OK) {
+			return false;
+		} else if (clientHttpResponse.getStatusCode() == HttpStatus.CREATED) {
+			return false;
+		}
+		return true;
 	}
 
 }
