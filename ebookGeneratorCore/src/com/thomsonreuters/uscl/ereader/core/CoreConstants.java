@@ -43,4 +43,8 @@ public class CoreConstants {
 	
 	public static final String EMPTY_GROUP_ERROR_MESSAGE = "Group name cannot be empty.";
 	
+	public static final String NO_TITLE_IN_PROVIEW = "Title does not exist in Proview.";
+	
+	public static final String GROUP_AND_VERSION_EXISTS = "Group already exists in Proview.";
+	
 }
