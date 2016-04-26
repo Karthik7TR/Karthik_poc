@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
@@ -121,10 +123,13 @@ public class GroupXMLParser extends DefaultHandler{
 					groupName = value;
 				}
 				else if (TITLE.equalsIgnoreCase(qName)){
-					version = StringUtils.substringAfterLast(value, "/v");
-					//Subgroups may have more than 1 version
-					if(!StringUtils.isEmpty(version) && !versionList.contains(version)){
-						versionList.add(version);
+					Pattern trimmer = Pattern.compile("/v+\\d");
+					Matcher m = trimmer.matcher(value);
+					if (m.find()) {
+						version = StringUtils.substringAfterLast(value, "/v");
+						if(!versionList.contains(version)){
+							versionList.add(version);
+						}
 					}
 					titleIdList.add(value);
 				}

@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.group.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -273,17 +275,29 @@ public class GroupServiceImpl implements GroupService {
 		}		
 	}
     
+    public boolean isTitleWithVersion(String fullyQualifiedTitle){
+    	//Sammple title with version uscl/an/abcd/v1
+    	Pattern trimmer = Pattern.compile("/v+\\d");
+		Matcher m = trimmer.matcher(fullyQualifiedTitle);
+		if (m.find()) {
+			return true;
+		}
+		return false;
+    }
+    
 	public boolean validateResponse(BookDefinition bookDefinition, String proviewResponse, String majorVersion) throws Exception {
 		XMLXpathEvaluator extractor = new XMLXpathEvaluator(proviewResponse);
 		String subGroup = extractor.evaluate("group/members/subgroup/@heading");
 		String  headTtile = extractor.evaluateNode("group/headtitle").getTextContent();	
-		String  versionOnHeadTtile = StringUtils.substringAfterLast(headTtile, "/v");
-		
+		String  versionOnHeadTtile = null;
 		boolean versionChange = false;
 		
-		if(!StringUtils.isEmpty(versionOnHeadTtile) && !majorVersion.equalsIgnoreCase("v"+versionOnHeadTtile)){
-			versionChange = true;
-		}
+		if(isTitleWithVersion(headTtile)){
+			versionOnHeadTtile = StringUtils.substringAfterLast(headTtile, "/");
+			if(!majorVersion.equalsIgnoreCase(versionOnHeadTtile)){
+				versionChange = true;
+			}
+		}			
 		
 		// No subgroups but book definition requires subgroup
 		if (StringUtils.isEmpty(subGroup) && !StringUtils.isEmpty(bookDefinition.getSubGroupHeading())) {
@@ -320,7 +334,7 @@ public class GroupServiceImpl implements GroupService {
 		GroupDefinition groupDefinition = null;
 		XMLXpathEvaluator extractor = new XMLXpathEvaluator(proviewResponse);
 		String groupName = extractor.evaluate("group/name");
-		//check to see if this gives first in the list
+		
 		String subGroupHeading = extractor.evaluate("group/members/subgroup/@heading");
 		
 		NodeList subgroups = extractor.evaluateNodeList("group/members/subgroup");
@@ -335,17 +349,19 @@ public class GroupServiceImpl implements GroupService {
 					break;
 				}
 				String title = firstSubGroupTitles.item(count).getTextContent();
-				title = StringUtils.substringAfterLast(title, "/v");
-				if(StringUtils.isEmpty(title)){
+				//All split books will have versions at the end in the title tag
+				if (!isTitleWithVersion(title)){
 					isFirstSubgroupSplitBook = false;
 					break;
 				}
 				else{
-					if(!versionList.isEmpty() && !versionList.contains(title)){
+					String versionOfTtile = StringUtils.substringAfterLast(title, "/v");
+					//version will be same if the titles belong to parts of a splittitle 
+					if(!versionList.isEmpty() && !versionList.contains(versionOfTtile)){
 						isFirstSubgroupSplitBook = false;
 						break;
 					}
-					versionList.add(title);
+					versionList.add(versionOfTtile);
 				}
 				
 			}
@@ -410,9 +426,11 @@ public class GroupServiceImpl implements GroupService {
 					if(!versionChange && !isFirstSubgroupSplitBook){
 						for (int count = 0; count < firstSubGroupTitles.getLength(); count++) {
 							String title = firstSubGroupTitles.item(count).getTextContent();
-							title = StringUtils.substringAfterLast(title, "/v");
-							if(!StringUtils.isEmpty(title) && !majorVersion.equalsIgnoreCase("v"+title)){
-								titleList.add(firstSubGroupTitles.item(count).getTextContent());
+							if (isTitleWithVersion(title)) {
+								String versionOfTitle = StringUtils.substringAfterLast(title, "/");
+								if(!majorVersion.equalsIgnoreCase(versionOfTitle)){
+									titleList.add(firstSubGroupTitles.item(count).getTextContent());
+								}
 							}
 						}
 					}

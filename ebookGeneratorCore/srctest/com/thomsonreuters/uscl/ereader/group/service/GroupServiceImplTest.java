@@ -45,6 +45,15 @@ public class GroupServiceImplTest {
 	}
 	
 	@Test
+	public void testTitleWithVersion(){
+		Assert.assertTrue(groupService.isTitleWithVersion("us/an/ascl/v1.0"));
+		Assert.assertTrue(groupService.isTitleWithVersion("us/an/ascl/v1"));
+		Assert.assertTrue(groupService.isTitleWithVersion("us/an/ascl/v10.00"));
+		Assert.assertFalse(groupService.isTitleWithVersion("us/an/ascl/va"));
+		Assert.assertTrue(groupService.isTitleWithVersion("us/an/vascl/v1"));
+	}
+	
+	@Test
 	public void testGetGroupInfoByVersion() throws Exception {
 		ProviewClient proviewClient = EasyMock.createMock(ProviewClient.class);
 		groupService.setProviewClient(proviewClient);

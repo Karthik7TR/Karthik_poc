@@ -33,4 +33,6 @@ public interface GroupService {
 	public GroupDefinition getLastGroupDefinition(BookDefinition bookDefinition) throws Exception;
 
 	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception;
+	
+	 public boolean isTitleWithVersion(String fullyQualifiedTitle);
 }
