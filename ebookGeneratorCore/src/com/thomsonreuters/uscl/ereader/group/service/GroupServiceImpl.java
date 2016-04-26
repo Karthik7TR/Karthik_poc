@@ -25,7 +25,18 @@ public class GroupServiceImpl implements GroupService {
 	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
 	private ProviewClient proviewClient;  
 	private int maxNumberOfRetries = 3;
+	private int sleepTimeInMinutes = 15;
+	private int baseSleepTimeInMinutes=2;
 	
+	public void setSleepTimeInMinutes(int sleepTimeInMinutes) {
+		this.sleepTimeInMinutes = sleepTimeInMinutes;
+	}
+
+	public void setBaseSleepTimeInMinutes(int baseSleepTimeInMinutes) {
+		this.baseSleepTimeInMinutes = baseSleepTimeInMinutes;
+	}
+
+
 	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception {
 		Long groupVersion = null;
 		XMLXpathEvaluator extractor = new XMLXpathEvaluator(response);
@@ -173,7 +184,7 @@ public class GroupServiceImpl implements GroupService {
 
 		//Most of the books should finish in two minutes
 		try{
-		TimeUnit.MINUTES.sleep(2);
+		TimeUnit.MINUTES.sleep(baseSleepTimeInMinutes);
 		} catch (InterruptedException e) {
 			LOG.error("InterruptedException during HTTP retry", e);
 		};
@@ -189,14 +200,14 @@ public class GroupServiceImpl implements GroupService {
 				if (errorMsg.startsWith("400") && errorMsg.contains("This Title does not exist")){
 					// retry a retriable request					
 
-					LOG.warn("Retriable status received: waiting " + 15 + "minutes (retryCount: "
+					LOG.warn("Retriable status received: waiting " + sleepTimeInMinutes + "minutes (retryCount: "
 							+ retryCount +")");
 
 					retryRequest = true;
 					retryCount++;
 
 					try {
-						TimeUnit.MINUTES.sleep(15);
+						TimeUnit.MINUTES.sleep(sleepTimeInMinutes);
 					} catch (InterruptedException e) {
 						LOG.error("InterruptedException during HTTP retry", e);
 					};
@@ -206,8 +217,9 @@ public class GroupServiceImpl implements GroupService {
 								errorMsg.contains("Version Should be greater"))) {
 					retryRequest = true;
 					retryCount++;
-					Long groupVersion = groupDefinition.getGroupVersion();
-					groupDefinition.setGroupVersion(groupVersion + 1);
+					Long groupVersion = groupDefinition.getGroupVersion() + 1;
+					LOG.warn("Incrementing group version "+groupVersion);
+					groupDefinition.setGroupVersion(groupVersion);
 				}
 				else {
 					throw new ProviewRuntimeException(errorMsg);
