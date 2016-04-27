@@ -1,7 +1,12 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,9 +22,11 @@ import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.util.XMLXpathEvaluator;
 
 public class GroupServiceImpl implements GroupService {
@@ -514,6 +521,45 @@ public class GroupServiceImpl implements GroupService {
 
 	}
 	
+	/**
+     * Get list of ProView titles that belong in the group for given book definition.
+     * Note: adds pilot titles for Analytical titles based on fully qualified title id contains _waspilot
+     */
+	@SuppressWarnings("unchecked")
+	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception {
+		Set<SplitNodeInfo> splitNodeInfos = bookDef.getSplitNodes();
+		
+		// Get fully qualified title IDs of all split titles
+		Set<String> splitTitles = new HashSet<String>();
+		if(splitNodeInfos != null && splitNodeInfos.size() > 0) {
+			for(SplitNodeInfo splitNodeInfo: splitNodeInfos) {
+				splitTitles.add(splitNodeInfo.getSplitBookTitle());
+			}
+		}
+		// Add current fully qualified title Id
+		splitTitles.add(bookDef.getFullyQualifiedTitleId());
+		List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
+		for(String title: splitTitles) {
+			List<ProviewTitleInfo> proviewTitleInfo = proviewClient.getMajorVersionProviewTitles(title);
+			proviewTitleInfos.addAll(proviewTitleInfo);
+		}
+		// sort split/single books before adding pilot books
+		Collections.sort(proviewTitleInfos);
+		
+		// account for Analytical pilot books which do not have book definition
+		if(bookDef.getFullyQualifiedTitleId().contains("_waspilot")) {
+			String pilotTitleId = bookDef.getFullyQualifiedTitleId().replace("_waspilot", "");
+			List<ProviewTitleInfo> proviewTitleInfo = proviewClient.getMajorVersionProviewTitles(pilotTitleId);
+			proviewTitleInfos.addAll(proviewTitleInfo);
+		}
+		
+		Map<String, ProviewTitleInfo> proviewTitleMap = new LinkedHashMap<>();
+		for(ProviewTitleInfo info: proviewTitleInfos) {
+			String key = info.getTitleId() + "/v" + info.getMajorVersion();
+			proviewTitleMap.put(key, info);
+		}
+		return proviewTitleMap;
+	}
 	
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {

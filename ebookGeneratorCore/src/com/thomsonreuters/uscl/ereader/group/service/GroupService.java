@@ -1,11 +1,13 @@
 package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 
 public interface GroupService {
 
@@ -34,5 +36,7 @@ public interface GroupService {
 
 	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception;
 	
-	 public boolean isTitleWithVersion(String fullyQualifiedTitle);
+	public boolean isTitleWithVersion(String fullyQualifiedTitle);
+	
+	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception;
 }

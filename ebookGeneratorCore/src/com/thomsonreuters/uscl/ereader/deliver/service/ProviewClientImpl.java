@@ -580,27 +580,11 @@ public class ProviewClientImpl implements ProviewClient {
 			final String fullyQualifiedTitleId) throws ProviewException {
 
 		ProviewTitleInfo latestProviewVersion = null;
+		ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
 
-		try {
-			String allPublishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
-	
-			PublishedTitleParser parser = new PublishedTitleParser();
-			Map<String, ProviewTitleContainer> titleMap = parser
-					.process(allPublishedTitleResponse);
-	
-			ProviewTitleContainer proviewTitleContainer = titleMap
-					.get(fullyQualifiedTitleId);
-	
-			if (proviewTitleContainer != null) {
-				latestProviewVersion = proviewTitleContainer.getLatestVersion();
-			}
-		} catch (ProviewException ex) {
-			String errorMessage = ex.getMessage();
-			if(!errorMessage.contains("does not exist")) {
-				throw ex;
-			}
+		if (proviewTitleContainer != null) {
+			latestProviewVersion = proviewTitleContainer.getLatestVersion();
 		}
-
 		return latestProviewVersion;
 	}
 
@@ -614,13 +598,24 @@ public class ProviewClientImpl implements ProviewClient {
 	public ProviewTitleContainer getProviewTitleContainer(
 			final String fullyQualifiedTitleId) throws ProviewException {
 
-		String allPublishedTitleResponse = getAllPublishedTitles();
+		ProviewTitleContainer proviewTitleContainer = null;
+		try {
+			String publishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
+	
+			PublishedTitleParser parser = new PublishedTitleParser();
+			Map<String, ProviewTitleContainer> titleMap = parser
+					.process(publishedTitleResponse);
+	
+			proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
+	
+		} catch (ProviewException ex) {
+			String errorMessage = ex.getMessage();
+			if(!errorMessage.contains("does not exist")) {
+				throw ex;
+			}
+		}
 
-		PublishedTitleParser parser = new PublishedTitleParser();
-		Map<String, ProviewTitleContainer> titleMap = parser
-				.process(allPublishedTitleResponse);
-
-		return titleMap.get(fullyQualifiedTitleId);
+		return proviewTitleContainer;
 	}
 
 	/*
@@ -716,6 +711,14 @@ public class ProviewClientImpl implements ProviewClient {
 		} else {
 			return false;
 		}
+	}
+	
+	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException {
+		ProviewTitleContainer container = getProviewTitleContainer(titleId);
+		if(container != null) {
+			return container.getAllMajorVersions();
+		}
+		return new ArrayList<ProviewTitleInfo>();
 	}
 
 //	private void logResponse(final ResponseEntity responseEntity) {

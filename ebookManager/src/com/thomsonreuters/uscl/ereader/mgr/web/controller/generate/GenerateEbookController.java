@@ -129,7 +129,7 @@ public class GenerateEbookController {
 		model.addAttribute(WebConstants.KEY_NEW_MINOR_VERSION_NUMBER,
 				newMinorVersion);
 		model.addAttribute(WebConstants.BOOK_STATUS_IN_PROVIEW, status);
-		model.addAttribute(WebConstants.KEY_OVERWRITE_ALOOWED,
+		model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED,
 				REVIEW_STATUS.equals(status) ? "Y" : "N");
 
 		model.addAttribute(GenerateBookForm.FORM_NAME, form);
@@ -354,6 +354,10 @@ public class GenerateEbookController {
 				SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
 		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
 				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
+		model.addAttribute(WebConstants.KEY_SUPER_USER_ONLY,
+				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
+		
+		
 
 		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE,
 				outageService.getAllPlannedOutagesToDisplay());
@@ -497,6 +501,11 @@ public class GenerateEbookController {
 					"Book generation cancelled");
 			mav = new ModelAndView(new RedirectView(
 					WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
+			break;
+		}
+		case GROUP: {
+			mav = new ModelAndView(new RedirectView(
+					WebConstants.MVC_GROUP_DEFINITION_EDIT + queryString));
 			break;
 		}
 

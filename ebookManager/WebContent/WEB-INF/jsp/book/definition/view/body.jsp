@@ -499,6 +499,7 @@ function submitForm(cmd)
 						</c:if>
 						<input type="submit" ${copyGenerateBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
 						<input type="submit" ${copyGenerateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
+						<input type="submit" ${superUser} value="Create/Edit Group" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GROUP%>')"/>
 						<input type="submit" ${superUser} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 					</c:when>
 					<c:otherwise>

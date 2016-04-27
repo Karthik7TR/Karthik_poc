@@ -817,6 +817,37 @@ div.ui-datepicker{
 	margin-bottom: 0.5em;
 }
 
+#groups {
+	max-height: 30em;
+	overflow-y: auto;
+}
 
+#groups .group {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	background: aliceblue;
+	padding-bottom: 1px;
+}
+
+#notgrouped ul.drop,
+#groups ul.drop { 
+	list-style-type: none; 
+	margin: 1em; 
+	padding: 0.3em;
+	border: solid 1px; 
+	min-height: 1em;
+ }
+
+#notgrouped ul.drop li,
+#groups ul.drop li { 
+	margin: 5px; 
+	padding: 5px; 
+	font-size: 1.2em; 
+}
+
+#notgrouped div.bookInfo,
+#groups div.bookInfo { 
+	font-size: 0.7em;
+}
 
 

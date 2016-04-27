@@ -69,7 +69,7 @@ public class ProViewGroupsParser {
 						Attribute versionAttr= element.asStartElement().getAttributeByName(new QName(GROUP_VERSION));
 						
 						groupDefinition.setGroupId(idAttr.getValue());
-						groupDefinition.setOrder(statusAttr.getValue());
+						groupDefinition.setStatus(statusAttr.getValue());
 						groupDefinition.setProviewGroupVersionString(versionAttr.getValue());
 					} else if(element.getName().getLocalPart().equalsIgnoreCase(SUBGROUP)) {
 						subGroupInfo = new SubGroupInfo();

@@ -97,4 +97,7 @@ public interface ProviewClient {
 	
 	public String getAllProviewGroups() throws ProviewException ;
 	
+	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) 
+			throws ProviewException;
+	
 }

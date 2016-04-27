@@ -77,6 +77,9 @@ public class ViewBookDefinitionController {
 			case EDIT:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT+queryString));
 				break;
+			case GROUP:
+				mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT+queryString));
+				break; 
 			case GENERATE:
 				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW+queryString));
 				break;

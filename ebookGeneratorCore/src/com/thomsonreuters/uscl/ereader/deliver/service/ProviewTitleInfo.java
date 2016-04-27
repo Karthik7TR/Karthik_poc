@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -8,13 +8,15 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Placeholder for proview title info
  * 
  * @author U0057241
  * 
  */
-public class ProviewTitleInfo implements Serializable {
+public class ProviewTitleInfo implements Serializable, Comparable<ProviewTitleInfo> {
 
 	/**
 	 * 
@@ -43,6 +45,33 @@ public class ProviewTitleInfo implements Serializable {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	
+	public Integer getMajorVersion() {
+		Integer majorVersion = null;
+		String version = StringUtils.substringAfter(this.version, "v");
+		String number = StringUtils.substringBefore(version, ".");
+		try {
+			if(StringUtils.isNotBlank(number)) {
+				majorVersion = Integer.valueOf(number);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return majorVersion;
+	}
+	
+	public Integer getMinorVersion() {
+		Integer minorVersion = null;
+		String number = StringUtils.substringAfter(this.version, ".");
+		try {
+			if(StringUtils.isNotBlank(number)) {
+				minorVersion = Integer.valueOf(number);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return minorVersion;
 	}
 
 	public String getTitleId() {
@@ -147,6 +176,16 @@ public class ProviewTitleInfo implements Serializable {
 		return "ProviewTitleInfo [titleId=" + titleId + ", vesrion=" + version
 				+ ", publisher=" + publisher + ", lastupdate=" + lastupdate
 				+ ", status=" + status + ", title=" + title + "]";
+	}
+
+	@Override
+	public int compareTo(ProviewTitleInfo info) {
+		int version  = info.getMajorVersion().compareTo(this.getMajorVersion());
+		
+		if(version == 0) {
+			return this.getTitleId().compareToIgnoreCase(info.getTitleId());
+		} 
+		return version;
 	}
 
 }

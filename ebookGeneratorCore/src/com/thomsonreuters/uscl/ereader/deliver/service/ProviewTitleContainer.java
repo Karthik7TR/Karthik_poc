@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -8,7 +8,10 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProviewTitleContainer implements Serializable {
 	/**
@@ -72,6 +75,43 @@ public class ProviewTitleContainer implements Serializable {
 
 		}
 		return latestProviewTitleInfo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ProviewTitleInfo> getAllMajorVersions() {
+		Map<Integer, ProviewTitleInfo> map = new HashMap<>();
+		
+		for (ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
+			Integer majorVersion = proviewTitleInfo.getMajorVersion();
+			Integer minorVersion = proviewTitleInfo.getMinorVersion();
+			if(minorVersion != null) {
+				// Using Proview new versioning system with major/minor
+				if(!map.containsKey(majorVersion)) {
+					map.put(majorVersion, proviewTitleInfo);
+				} else {
+					ProviewTitleInfo currentInfo = map.get(majorVersion);
+					Integer currentMinorVersion = currentInfo.getMinorVersion();
+					if(minorVersion != null && minorVersion > currentMinorVersion) {
+						map.put(majorVersion, proviewTitleInfo);
+					}
+				}
+			} else {
+				// Using Proview old versioning system.  Only has major version.
+				Integer key = 0;
+				if(!map.containsKey(key)) {
+					map.put(key, proviewTitleInfo);
+				} else {
+					ProviewTitleInfo previousTitleInfo = map.get(key);
+					if(proviewTitleInfo.getMajorVersion() > previousTitleInfo.getMajorVersion()) {
+						map.put(key, proviewTitleInfo);
+					}
+				}
+			}
+		}
+		List<ProviewTitleInfo> list = new ArrayList<>(map.values());
+		Collections.sort(list);
+		
+		return list;
 	}
 
 	/**

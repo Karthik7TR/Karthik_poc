@@ -30,6 +30,7 @@
 </c:otherwise>
 </c:choose>
 <script type="text/javascript" src="js/create-book.js"></script>
+<script type="text/javascript" src="js/common-form.js"></script>
 <script type="text/javascript" src="js/sourceType.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/additional-methods.min.js"></script>

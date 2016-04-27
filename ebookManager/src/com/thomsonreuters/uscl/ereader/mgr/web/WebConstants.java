@@ -81,6 +81,7 @@ public class WebConstants {
 	public static final String KEY_DISPLAY_OUTAGE = "displayOutage";
 	public static final String KEY_IS_PUBLISHED = "isPublished";
 	public static final String KEY_SUPER_PUBLISHER_PUBLISHERPLUS = "superPublisherPublisherplusVisibility";
+	public static final String KEY_SUPER_USER_ONLY = "superUserVisibility";
 	public static final String KEY_IS_IN_JOB_REQUEST = "isInJobRequest";
 	public static final String KEY_VERSION_NUMBER = "versionNumber";
 	public static final String KEY_NEW_MAJOR_VERSION_NUMBER = "newMajorVersionNumber";
@@ -106,7 +107,7 @@ public class WebConstants {
 	public static final String KEY_IS_NEW_ISBN = "isNewISBN";
 	public static final String KEY_IS_NEW_MTERIAL_ID = "isNewMaterialId";
 	public static final String KEY_BOOK_DEFINITION_LOCK = "bookDefinitionLock";
-	public static final String KEY_OVERWRITE_ALOOWED = "overwriteAllowed";
+	public static final String KEY_OVERWRITE_ALLOWED = "overwriteAllowed";
 	public static final String BOOK_STATUS_IN_PROVIEW = "bookStatusInProview";
 	public static final String KEY_PAGE_SIZE = "pageSize";
 	public static final String DEFAULT_PAGE_SIZE = "20";
@@ -118,6 +119,7 @@ public class WebConstants {
 	public static final String KEY_GROUP_CURRENT_PREVIEW = "groupCurrentPreview";
 	public static final String KEY_GROUP_NEXT_PREVIEW = "groupNextPreview";
 	public static final String KEY_GROUP_NEXT_ERROR = "groupNextErrorMessage";
+	public static final String KEY_GROUP_STATUS_IN_PROVIEW = "groupStatusInProview";
 	
 	public static final String KEY_FRONT_MATTER_PREVIEW_HTML = "previewHtml";
 
@@ -300,6 +302,7 @@ public class WebConstants {
 	public static final String MVC_PROVIEW_GROUP_BOOK_PROMOTE = "proviewGroupBookPromote.mvc";
 	public static final String MVC_PROVIEW_GROUP_BOOK_REMOVE = "proviewGroupBookRemove.mvc";
 	public static final String MVC_PROVIEW_GROUP_BOOK_DELETE = "proviewGroupBookDelete.mvc";
+	public static final String MVC_GROUP_DEFINITION_EDIT = "proviewGroupDefinitionEdit.mvc";
 
 	// Security related URI's
 	public static final String MVC_SEC_ACCESS_DENIED = "accessDenied.mvc";
@@ -413,6 +416,7 @@ public class WebConstants {
 	public static final String VIEW_PROVIEW_GROUP_BOOK_PROMOTE = "_proviewGroupBookPromote";
 	public static final String VIEW_PROVIEW_GROUP_BOOK_REMOVE = "_proviewGroupBookRemove";
 	public static final String VIEW_PROVIEW_GROUP_BOOK_DELETE = "_proviewGroupBookDelete";
+	public static final String VIEW_GROUP_DEFINITION_EDIT = "_groupDefinitionEdit";
 	public static final String VIEW_USER_PREFERENCES = "_userPreferences";
 
 	// Miscellaneous keys and constants used throughout the application.
@@ -420,5 +424,7 @@ public class WebConstants {
 	public static final String TITLE_ID = "fullyQualifiedTitleId";
 	public static final String TITLE = "title";
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
+	
+	public static final String ERROR_PROVIEW = "Proview Exception occured. Please check if ProView outage was set.  Otherwise, please contact your administrator.";
 
 }

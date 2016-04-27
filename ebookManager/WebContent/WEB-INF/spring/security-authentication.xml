@@ -114,6 +114,8 @@
 		<sec:intercept-url pattern="/adminMisc*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/adminAuditBook*" access="hasRole('ROLE_SUPERUSER')"/>
 		
+		<sec:intercept-url pattern="/proviewGroupDefinitionEdit.mvc" access="hasRole('ROLE_SUPERUSER')"/>
+		
 		<sec:intercept-url pattern="/proviewTitleRemove*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/proviewTitleDelete*" access="hasRole('ROLE_SUPERUSER')"/>
 		<sec:intercept-url pattern="/proviewTitlePromote*" access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')"/>

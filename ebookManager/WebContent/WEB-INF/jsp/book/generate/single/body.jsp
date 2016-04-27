@@ -431,7 +431,7 @@ $(document).ready(function() {
 				<input id="generateButton" type="button" value="Generate Book" onclick="submitGenerate('<%=GenerateBookForm.Command.GENERATE%>')" ${superPublisherPublisherplusVisibility} />
 			</c:if>
 			<input id="editButton" type="button" value="Edit Book Definition" onclick="submitEdit('<%=GenerateBookForm.Command.EDIT%>')" ${superPublisherPublisherplusVisibility}/>
-			<input id="groupButton" type="button" value="Create/Edit Group" onclick="submitEdit('<%=GenerateBookForm.Command.GROUP%>')" ${superPublisherPublisherplusVisibility}/>
+			<input id="groupButton" type="button" value="Create/Edit Group" onclick="submitEdit('<%=GenerateBookForm.Command.GROUP%>')" ${superUserVisibility}/>
 			<input id="editButton" type="button" value="Cancel" onclick="submitEdit('<%=GenerateBookForm.Command.CANCEL%>')" ${superPublisherPublisherplusVisibility} />
 		</div>
 		

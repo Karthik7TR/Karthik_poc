@@ -11,6 +11,7 @@ public class GroupDefinition {
 	private String groupId;	
 	private String name;
 	private String type;
+	private String status;
 	private String order;
 	private String headTitle;
 	private Long groupVersion;
@@ -41,6 +42,14 @@ public class GroupDefinition {
 		this.type = type;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getOrder() {
 		return order;
 	}
@@ -55,6 +64,15 @@ public class GroupDefinition {
 
 	public void setHeadTitle(String headTitle) {
 		this.headTitle = headTitle;
+	}
+	
+	public String getFirstSubgroupHeading() {
+		String subgroupHeading = null;
+		if(subGroupInfoList != null && subGroupInfoList.size() > 0) {
+			SubGroupInfo subGroupInfo = subGroupInfoList.get(0);
+			subgroupHeading = subGroupInfo.getHeading();
+		}
+		return subgroupHeading;
 	}
 
 	public List<SubGroupInfo> getSubGroupInfoList() {
