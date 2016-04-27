@@ -1,5 +1,5 @@
 <!--
-	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+	Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
 -->
@@ -225,7 +225,6 @@ function submitGroupForm(command) {
 			</c:choose>
 			<input id="removeButton" type="button" ${disableRemoveButtons} value="Remove" onclick="submitGroupForm('<%=GroupCmd.REMOVE%>')"/>&nbsp;
 			<input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
-			<input id="editButton" type="button" ${disableRemoveButtons} value="Edit Group" />
 		</div>
 	</c:if>
 </form:form>

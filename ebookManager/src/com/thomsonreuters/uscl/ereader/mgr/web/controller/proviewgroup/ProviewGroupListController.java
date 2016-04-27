@@ -573,7 +573,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 									groupDetailsList.add(groupDetails);
 									
 								} else {
-									//Proview responds with '‘Title does not exist’ when title is in either removed or deleted status 
+									//Proview responds with 'Title does not exist' when title is in either removed or deleted status 
 									String status = proviewAuditService.getBookStatus(splitTitleId, splitVersion);
 									//If the version is not in audit table than it must have been removed through Proview Publishing UI
 									if (status != null){
@@ -943,7 +943,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				retryRequest = false;
 			} catch (ProviewRuntimeException ex) {
 				errorMsg = ex.getMessage();
-				if (errorMsg.startsWith("400") && errorMsg.contains("Title already exists in publishing queue")){
+				if (ex.getStatusCode().equals("400") && errorMsg.contains("Title already exists in publishing queue")){
 					retryRequest = true;
 					retryCount++;
 					
@@ -1013,7 +1013,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				response = proviewClient.getProviewGroupInfo(groupId, "v" + groupVersion.toString());
 				return response;
 			} catch (ProviewRuntimeException ex) {
-				if (ex.getMessage().startsWith("400") && ex.toString().contains("No such group id and version exist")) {
+				if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
 					// go down the version by one if the current version is
 					// deleted in Proview
 					groupVersion = groupVersion - 1;

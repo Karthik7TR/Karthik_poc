@@ -337,7 +337,7 @@ public class GroupListController extends AbstractGroupController {
 				classGroupVersion = "v" + groupVersion;
 				return response;
 			} catch (ProviewRuntimeException ex) {
-				if (ex.getMessage().startsWith("400") && ex.toString().contains("No such group id and version exist")) {
+				if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
 					// go down the version by one if the current version is
 					// deleted in Proview
 					groupVersion = groupVersion - 1;
@@ -591,7 +591,7 @@ public class GroupListController extends AbstractGroupController {
 				retryRequest = false;
 			} catch (ProviewRuntimeException ex) {
 				errorMsg = ex.getMessage();
-				if (errorMsg.startsWith("400") && errorMsg.contains("Title already exists in publishing queue")){
+				if (ex.getStatusCode().equals("400") && errorMsg.contains("Title already exists in publishing queue")){
 
 					// retry a retriable request
 					int computedRetryInterval = baseRetryInterval + (baseRetryInterval * tocCount);

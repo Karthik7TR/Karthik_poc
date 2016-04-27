@@ -37,7 +37,7 @@
 					<jsp:include page="../common/crudForm.jsp" />
 					<div class="buttons">
 						<form:button id="confirm">Create Group</form:button>
-						<button id="cancel" type="button">Cancel</button>
+						<button type="button" onclick="location.href ='<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}';">Cancel</button>
 					</div>
 				</form:form>
 			</div>

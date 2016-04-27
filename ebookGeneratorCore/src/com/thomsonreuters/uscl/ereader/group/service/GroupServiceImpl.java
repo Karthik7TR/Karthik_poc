@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.group.service;
 
 import java.util.ArrayList;
@@ -207,7 +212,7 @@ public class GroupServiceImpl implements GroupService {
 						+ groupVersion.toString());
 				return response;
 			} catch (ProviewRuntimeException ex) {
-				if (ex.getMessage().startsWith("400") && ex.toString().contains("No such group id and version exist")) {
+				if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
 					// go down the version by one if the current version is
 					// deleted in Proview
 					groupVersion = groupVersion - 1;
@@ -228,7 +233,7 @@ public class GroupServiceImpl implements GroupService {
 		} catch (ProviewRuntimeException ex) {
 			String errorMsg = ex.getMessage();
 			LOG.debug(errorMsg);
-			if (errorMsg.startsWith("404") && errorMsg.contains("No such groups exist")){
+			if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")){
 				return groupVersion;
 			}
 			else{
@@ -506,7 +511,7 @@ public class GroupServiceImpl implements GroupService {
 		} catch (ProviewRuntimeException ex) {
 			String errorMsg = ex.getMessage();
 			LOG.debug(errorMsg);
-			if (errorMsg.startsWith("404") && errorMsg.contains("No such groups exist")) {
+			if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")) {
 				LOG.debug("Group does not exist. Exception can be ignored");
 			} else {
 				throw new Exception(ex);
