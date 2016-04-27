@@ -110,10 +110,32 @@ public class GroupEbooksTest {
 		}
 		
 		Assert.assertEquals(new Long(1),groupDef.getGroupVersion());
-		Assert.assertFalse(thrown);
-		
-		
+		Assert.assertFalse(thrown);		
 		
 	}
 
+	@Test
+	public void testCreateGroup4() throws Exception{
+		GroupDefinition groupDef = new GroupDefinition();
+		groupDef.setGroupVersion(new Long(1));
+		groupEbooks.setBaseSleepTimeInMinutes(0);
+		groupEbooks.setSleepTimeInMinutes(0);
+
+		exp = new ProviewException("Error thrown explicitly");
+
+		groupService.createGroup(groupDef);
+		EasyMock.expectLastCall().andThrow(exp).anyTimes();
+		EasyMock.replay(groupService);
+		boolean thrown = false;
+		try {
+			groupEbooks.createGroupWithRetry(groupDef);
+		} catch (ProviewRuntimeException ex) {
+			Assert.assertEquals(new Long(1), groupDef.getGroupVersion());
+			Assert.assertEquals(false, ex.getMessage().contains("Tried 3 times"));
+			thrown = true;
+		}
+
+		Assert.assertTrue(thrown);
+		
+	}
 }
