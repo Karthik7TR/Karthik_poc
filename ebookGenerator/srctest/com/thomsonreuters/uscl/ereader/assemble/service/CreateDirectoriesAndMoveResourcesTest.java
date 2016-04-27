@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -110,6 +111,35 @@ public class CreateDirectoriesAndMoveResourcesTest {
 			
 			FileUtils.delete(temp2);
 		}
+	}
+	
+	@Test
+	public void testDuplicateAssets() {
+		Map<String, List<String>> splitBookImgMap = new HashMap<String, List<String>>();
+		List<String> imgList1 = new ArrayList<String>();
+		imgList1.add("img1.xml");
+		imgList1.add("img2.xml");
+		
+		splitBookImgMap.put("Doc1",imgList1);
+		
+		List<String> imgList2 = new ArrayList<String>();
+		imgList2.add("img0.xml");
+		imgList2.add("img2.xml");
+		splitBookImgMap.put("Doc2",imgList2);
+		
+		ArrayList<Asset> assetsForSplitBook = new ArrayList<Asset>();
+		
+		for (Map.Entry<String, List<String>> entry : splitBookImgMap.entrySet()) {
+			for (String imgFileName : entry.getValue()) {
+				Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
+				//To avoid duplicate asset
+				if(!assetsForSplitBook.contains(asset)){
+					assetsForSplitBook.add(asset);
+				}
+			}
+		}
+		
+		assertTrue(assetsForSplitBook.size()==3);
 	}
 
 	@Test

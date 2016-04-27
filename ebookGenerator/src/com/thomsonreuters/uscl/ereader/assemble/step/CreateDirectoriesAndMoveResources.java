@@ -146,7 +146,11 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 					imgList = splitBookImgMap.get(key);
 					for (String imgFileName : imgList) {
 						Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
-						assetsForSplitBook.add(asset);
+						//To avoid duplicate asset
+						if(!assetsForSplitBook.contains(asset)){
+							assetsForSplitBook.add(asset);
+						}
+						
 					}
 				}
 				

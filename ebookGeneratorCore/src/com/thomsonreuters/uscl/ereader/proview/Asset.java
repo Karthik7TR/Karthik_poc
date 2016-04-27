@@ -43,5 +43,25 @@ public class Asset {
 		return src;
 	}
 	
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Asset))
+			return false;
+		Asset equalCheck = (Asset) obj;
+		if ((id == null && equalCheck.id != null)
+				|| (id != null && equalCheck.id == null))
+			return false;
+		if (id != null && !id.equals(equalCheck.id))
+			return false;
+		if ((src == null && equalCheck.src != null)
+				|| (src != null && equalCheck.src == null))
+			return false;
+		if (src != null
+				&& !src.equals(equalCheck.src))
+			return false;
+		return true;
+	}
+	
 	
 }
