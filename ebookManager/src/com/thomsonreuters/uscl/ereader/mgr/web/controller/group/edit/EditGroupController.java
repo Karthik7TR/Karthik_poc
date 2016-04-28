@@ -58,7 +58,7 @@ public class EditGroupController {
 	 * @param titleId the primary key of the book as required query string parameter.
 	 */
 	@RequestMapping(value=WebConstants.MVC_GROUP_DEFINITION_EDIT, method = RequestMethod.GET)
-	public ModelAndView editGroupDefintionGet(
+	public ModelAndView editGroupDefinitionGet(
 				@RequestParam("id") Long id,
 				@ModelAttribute(EditGroupDefinitionForm.FORM_NAME) EditGroupDefinitionForm form,
 				BindingResult bindingResult,
@@ -85,7 +85,6 @@ public class EditGroupController {
 				
 				// TODO: Need to refactor to account for types standard, periodicals, ereference.
 				form.setGroupType("standard");
-				
 				
 				Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
 				setupModel(model, bookDef, proviewTitleMap.size());
@@ -120,11 +119,10 @@ public class EditGroupController {
 	 * @return
 	 */
 	@RequestMapping(value=WebConstants.MVC_GROUP_DEFINITION_EDIT, method = RequestMethod.POST)
-	public ModelAndView editGroupDefintionPost(HttpSession httpSession,
+	public ModelAndView editGroupDefinitionPost(HttpSession httpSession,
 				@ModelAttribute(EditGroupDefinitionForm.FORM_NAME) @Valid EditGroupDefinitionForm form,
 				BindingResult bindingResult,
 				Model model) throws Exception {
-
 
 		BookDefinition bookDef = null;
 		try {

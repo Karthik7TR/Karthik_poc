@@ -44,6 +44,8 @@ public class EditGroupDefinitionForm {
 		super();
 		this.notGrouped = new Subgroup();
 		this.subgroups = new AutoPopulatingList<Subgroup>(Subgroup.class);
+		this.hasSplitTitles = false;
+		this.includeSubgroup = false;
 	}
 	
 	public GroupDefinition createGroupDefinition(Collection<ProviewTitleInfo> proviewTitleInfos) {
