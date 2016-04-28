@@ -489,8 +489,8 @@
 	</definition>
 	
 	<definition name="_groupDefinitionEdit" extends="oneColumnDefinition">
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/definition/edit/body.jsp"/>
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/definition/edit/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/definition/edit/body.jsp"/>
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/definition/edit/title.jsp"/>
 	</definition>
  
 </tiles-definitions>
