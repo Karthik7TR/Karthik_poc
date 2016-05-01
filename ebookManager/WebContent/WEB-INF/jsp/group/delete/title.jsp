@@ -1,1 +1,0 @@
-<div class="pageTitle">Delete Group in ProView</div>

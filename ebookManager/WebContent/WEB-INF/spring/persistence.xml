@@ -107,12 +107,6 @@
 	<bean id="libraryListMapper" class="com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListRowMapper"
 		  p:authorService-ref="authorService"/>
 		  
-	<bean id="groupDefinitionDao" class="com.thomsonreuters.uscl.ereader.mgr.group.dao.GroupDefinitionDaoImpl" p:jdbcTemplate-ref="jdbcTemplate">
-		 <constructor-arg ref="sessionFactory"/>
-	</bean>
-		  
-	<bean id="groupListRowMapper" class="com.thomsonreuters.uscl.ereader.mgr.group.dao.GroupListRowMapper"/>
-	
 	<bean id="eBookAuditDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.EBookAuditDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	

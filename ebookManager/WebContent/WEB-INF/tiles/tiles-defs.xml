@@ -335,32 +335,6 @@
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/create/title.jsp"/>
 	</definition>
 	
-	<!--  <definition name="_bookGroupList" extends="twoColumnDefinition">
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/list/body.jsp"/>
-	  <put-attribute name="left" value="/WEB-INF/jsp/group/list/left.jsp"/>
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/list/title.jsp"/>
-	</definition>
-	
-	<definition name="_proviewGroupAllVersions" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/singleGroup/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/singleGroup/body.jsp"/>
-	</definition>
-	
-	<definition name="_proviewGroupPromote" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/promote/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/promote/body.jsp"/>
-	</definition>
-	
-	<definition name="_proviewGroupRemove" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/remove/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/remove/body.jsp"/>
-	</definition>
-	
-	<definition name="_proviewGroupDelete" extends="oneColumnDefinition">
-	  <put-attribute name="title" value="/WEB-INF/jsp/group/delete/title.jsp"/>
-	  <put-attribute name="body" value="/WEB-INF/jsp/group/delete/body.jsp"/>
-	</definition>-->
-	
 	<definition name="_bookDefinitionCopy" extends="oneColumnDefinition">
 	  <put-attribute name="body" value="/WEB-INF/jsp/book/definition/copy/body.jsp"/>
 	  <put-attribute name="title" value="/WEB-INF/jsp/book/definition/copy/title.jsp"/>
