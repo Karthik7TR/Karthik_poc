@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
   	<link rel="stylesheet" href="theme/jquery-ui-1.8.17.custom.css" />
 	<link rel="stylesheet" href="theme/layout.css"/>
 	<link rel="stylesheet" href="theme/displaytag-table.css"/>
