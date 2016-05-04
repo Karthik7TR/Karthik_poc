@@ -11,8 +11,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-<html>
-<head>
  	<script type="text/javascript">
 		
  		function submitForm(cmd){
@@ -33,11 +31,6 @@
 		
 		
 	</script>
-
-<body>
-
-  
- 
 	<form:form action="<%=WebConstants.MVC_PROVIEW_TITLE_PROMOTE%>"
 			   commandName="<%=ProviewTitleForm.FORM_NAME%>" name="theForm" method="post">
 	
@@ -90,8 +83,4 @@
 	    </c:if>
 		
 	</form:form>
-  
-  
-</body>
-</html>
 	

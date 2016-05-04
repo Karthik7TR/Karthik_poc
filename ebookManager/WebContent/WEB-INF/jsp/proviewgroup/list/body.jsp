@@ -8,8 +8,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupForm"%>
 
-<html>
-<head>
 <script type="text/javascript">
 		function refresh(){
 			$('#command').val('<%=ProviewGroupForm.Command.REFRESH%>');
@@ -23,9 +21,6 @@
 			return true; 
 		}
 </script>
-</head>
-
-	
 	
 		<%-- Informational Messages area --%>
 		<c:if test="${infoMessage != null}">
@@ -87,5 +82,3 @@
 	</div>
 	
 	</form:form>
-
-</html>	

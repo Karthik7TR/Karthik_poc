@@ -3,7 +3,6 @@
 	Proprietary and Confidential information of TRGR. Disclosure, Use or
 	Reproduction without the written authorization of TRGR is prohibited
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo"%>
 <%@page import="java.util.Date"%>

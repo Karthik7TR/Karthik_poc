@@ -9,8 +9,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus"%>
 
-<html>
-<head>
 <script type="text/javascript">
 function openFullcreenWindow(url)
 {
@@ -18,7 +16,6 @@ function openFullcreenWindow(url)
 }
 
 </script>
-</head>
 	<c:set var="isSuperUser" value="false"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="isSuperUser" value="true"/>
@@ -65,5 +62,3 @@ function openFullcreenWindow(url)
 		  	</display:column>
 	  	</c:if>
 	</display:table>
-	
-</html>	

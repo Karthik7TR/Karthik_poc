@@ -11,8 +11,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-<html>
-<head>
 	<script type="text/javascript">
 		
 		function submitForm(){
@@ -39,20 +37,16 @@
 			padding: 2px 30px !important;
 		}
 	</style>
-<body>
-
 	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_REMOVE%>"
 			   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
-		<td>
-				<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
-				<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
-				<form:hidden path="groupVersion" value="${groupVersion}"/>
-				<form:hidden path="groupIds" value="${groupIds}"/>
-				<form:hidden path="groupMembers" value="${groupMembers}"/>
-				<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
-				<form:hidden path="groupName" value="${groupName}"/>
-				<form:hidden path="groupOperation" value="${groupOperation}"/>
-		</td>
+		<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
+		<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
+		<form:hidden path="groupVersion" value="${groupVersion}"/>
+		<form:hidden path="groupIds" value="${groupIds}"/>
+		<form:hidden path="groupMembers" value="${groupMembers}"/>
+		<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
+		<form:hidden path="groupName" value="${groupName}"/>
+		<form:hidden path="groupOperation" value="${groupOperation}"/>
 		
 		<table>
 			<c:choose>
@@ -71,7 +65,7 @@
 					</tr>
 				</c:when>
 				<c:otherwise>
-					<td>Group not selected</td>
+					<tr><td>Group not selected</td></tr>
 				</c:otherwise>
 			</c:choose>
 			<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
@@ -138,6 +132,3 @@
 		</c:if>
 		
 	</form:form>
-	
-</body>
-</html>

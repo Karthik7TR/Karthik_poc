@@ -8,8 +8,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm"%>
 
-<html>
-<head>
 <script type="text/javascript">
 		function refresh(){
 			$('#command').val('<%=ProviewTitleForm.Command.REFRESH%>');
@@ -23,8 +21,6 @@
 			return true; 
 		}
 </script>		
-</head>
-
 	<c:set var="DATE_FORMAT" value="<%=CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	
 		<%-- Informational Messages area --%>
@@ -96,5 +92,3 @@
 	
 	
 	</form:form>
-
-</html>	

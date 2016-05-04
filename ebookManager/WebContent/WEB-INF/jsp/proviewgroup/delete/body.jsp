@@ -11,8 +11,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
-<html>
-<head>
 	<script type="text/javascript">
 		
 		function submitForm(){
@@ -39,8 +37,6 @@
 			padding: 2px 30px !important;
 		}
 	</style>
-<body>
-
 	<form:form action="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_DELETE%>"
 			   commandName="<%=ProviewGroupListFilterForm.FORM_NAME%>" name="theForm" method="post">
 		<td>
@@ -137,6 +133,3 @@
 		</c:if>
 		
 	</form:form>
-
-</body>
-</html>
