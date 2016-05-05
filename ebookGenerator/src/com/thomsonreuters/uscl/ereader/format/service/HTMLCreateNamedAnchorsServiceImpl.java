@@ -15,7 +15,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -191,8 +190,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 		String guid = fileName.substring(0, fileName.indexOf("."));
 		FileInputStream inStream = null;
 		FileOutputStream outStream = null;
-		SequenceInputStream intermediateStream = null;
-		SequenceInputStream wrappedStream = null;
 		try
 		{
 //			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
@@ -261,14 +258,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 				if (inStream != null)
 				{
 					inStream.close();
-				}
-				if (wrappedStream != null)
-				{
-					wrappedStream.close();
-				}
-				if (intermediateStream != null)
-				{
-					intermediateStream.close();
 				}
 				if (outStream != null)
 				{
