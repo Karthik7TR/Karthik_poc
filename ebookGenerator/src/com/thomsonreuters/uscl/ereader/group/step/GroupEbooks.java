@@ -18,7 +18,6 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -26,6 +25,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -95,7 +95,8 @@ public class GroupEbooks extends AbstractSbTasklet {
 					splitTitles = readSplitNodeInforFile(splitNodeInfoFile, fullyQualifiedTitleId);
 				}				
 				GroupDefinition groupDefinition = groupService.createGroupDefinition(bookDefinition, versionNumber, splitTitles);
-				if(groupDefinition != null) {
+				GroupDefinition previousGroupDefinition = groupService.getLastGroup(bookDefinition);
+				if(!groupDefinition.isSimilarGroup(previousGroupDefinition)) {
 					createGroupWithRetry(groupDefinition);
 					groupVersion = groupDefinition.getGroupVersion();
 				}

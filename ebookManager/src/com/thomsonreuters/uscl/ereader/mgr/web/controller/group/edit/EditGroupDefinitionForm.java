@@ -15,10 +15,10 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.AutoPopulatingList;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
 public class EditGroupDefinitionForm {
 	//private static final Logger log = Logger.getLogger(EditGroupDefinitionForm.class);

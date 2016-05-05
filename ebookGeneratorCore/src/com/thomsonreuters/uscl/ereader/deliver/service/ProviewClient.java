@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -8,11 +8,9 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 
 /**
@@ -76,7 +74,7 @@ public interface ProviewClient {
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
 			throws ProviewException;
 
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo()
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo()
 			throws ProviewException;
 
 	public String removeTitle(final String fullyQualifiedTitleId,
@@ -91,13 +89,10 @@ public interface ProviewClient {
 	public ProviewTitleContainer getProviewTitleContainer(
 			final String fullyQualifiedTitleId) throws ProviewException;
 
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(
 			Map<String, ProviewTitleContainer> titleMap)
 			throws ProviewException;
 	
 	public String getAllProviewGroups() throws ProviewException ;
-	
-	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) 
-			throws ProviewException;
 	
 }

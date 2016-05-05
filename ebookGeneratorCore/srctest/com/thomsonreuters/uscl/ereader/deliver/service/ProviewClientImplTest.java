@@ -23,13 +23,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractor;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
 /**
  * Component tests for ProviewClientImpl.

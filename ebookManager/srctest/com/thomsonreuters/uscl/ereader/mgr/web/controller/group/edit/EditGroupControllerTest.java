@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.gorup.edit;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,13 +25,13 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -104,7 +104,7 @@ public class EditGroupControllerTest {
 		
 		Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
 		EasyMock.expect(mockGroupService.getGroupId(book)).andReturn(groupId);
-		EasyMock.expect(mockGroupService.getLastGroupDefinition(book)).andReturn(null);
+		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
 		EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
 		EasyMock.replay(mockGroupService);
 		
@@ -191,7 +191,7 @@ public class EditGroupControllerTest {
     	
     	Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
     	EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
-		EasyMock.expect(mockGroupService.getLastGroupVersionById(groupId)).andReturn(1L);
+		EasyMock.expect(mockGroupService.getLastGroup(groupId)).andReturn(null);
 		mockGroupService.createGroup(EasyMock.anyObject(GroupDefinition.class));
 		EasyMock.replay(mockGroupService);
     	
@@ -248,7 +248,7 @@ public class EditGroupControllerTest {
     	
     	Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(fullyQualifiedTitleId);
     	EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
-		EasyMock.expect(mockGroupService.getLastGroupDefinition(book)).andReturn(null);
+		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
 		EasyMock.replay(mockGroupService);
     	
     	ModelAndView mav;

@@ -29,13 +29,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
 /**
  * This class is responsible for interacting with ProView via their REST
@@ -655,10 +654,10 @@ public class ProviewClientImpl implements ProviewClient {
 	 * getAllLatestProviewTitleInfo()
 	 */
 	@Override
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo()
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo()
 			throws ProviewException {
 
-		ArrayList<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
 
 		Map<String, ProviewTitleContainer> titleMap = getAllProviewTitleInfo();
 
@@ -675,11 +674,11 @@ public class ProviewClientImpl implements ProviewClient {
 	}
 
 	@Override
-	public ArrayList<ProviewTitleInfo> getAllLatestProviewTitleInfo(
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(
 			Map<String, ProviewTitleContainer> titleMap)
 			throws ProviewException {
 
-		ArrayList<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
 
 		for (String bookId : titleMap.keySet()) {
 			ProviewTitleContainer titleContainer = titleMap.get(bookId);
@@ -713,14 +712,6 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 	}
 	
-	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException {
-		ProviewTitleContainer container = getProviewTitleContainer(titleId);
-		if(container != null) {
-			return container.getAllMajorVersions();
-		}
-		return new ArrayList<ProviewTitleInfo>();
-	}
-
 //	private void logResponse(final ResponseEntity responseEntity) {
 //		LOG.debug("Response Headers: "
 //				+ responseEntity.getHeaders().toSingleValueMap());

@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -80,7 +80,7 @@ public class EditGroupController {
 				form.setFullyQualifiedTitleId(bookDef.getFullyQualifiedTitleId());
 				form.setGroupId(groupId);
 				
-				GroupDefinition group = groupService.getLastGroupDefinition(bookDef);
+				GroupDefinition group = groupService.getLastGroup(bookDef);
 				setupVersion(group, form, model);
 				
 				// TODO: Need to refactor to account for types standard, periodicals, ereference.
@@ -147,12 +147,12 @@ public class EditGroupController {
 				GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values());
 				
 				// determine group version
-				Long groupVersion = groupService.getLastGroupVersionById(groupDefinition.getGroupId());
-				if(groupVersion != null) {
+				GroupDefinition lastGroup = groupService.getLastGroup(groupDefinition.getGroupId());
+				if(lastGroup != null) {
 					if(form.getVersionType().equals(Version.MAJOR)) {
-						groupDefinition.setGroupVersion(groupVersion + 1);
+						groupDefinition.setGroupVersion(lastGroup.getGroupVersion() + 1);
 					} else {
-						groupDefinition.setGroupVersion(groupVersion);
+						groupDefinition.setGroupVersion(lastGroup.getGroupVersion());
 					}
 				} else {
 					// first group being created
@@ -178,7 +178,7 @@ public class EditGroupController {
 			}
 		}
 		
-		GroupDefinition group = groupService.getLastGroupDefinition(bookDef);
+		GroupDefinition group = groupService.getLastGroup(bookDef);
 		setupVersion(group, form, model);
 		setupModel(model, bookDef, proviewTitleMap.size());
 		return new ModelAndView(WebConstants.VIEW_GROUP_DEFINITION_EDIT);

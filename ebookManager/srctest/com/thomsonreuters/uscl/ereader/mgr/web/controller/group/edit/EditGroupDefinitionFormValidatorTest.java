@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.mgr.web.controller.gorup.edit;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
 import java.util.Arrays;
 

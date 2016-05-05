@@ -22,10 +22,10 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
-public class ProViewGroupsParser {
+public class GroupDefinitionParser {
 	private static final String GROUP = "group";
 	private static final String GROUP_NAME = "name";
 	private static final String GROUP_TYPE = "type";
@@ -42,7 +42,7 @@ public class ProViewGroupsParser {
 	
 	
 	
-	public ProViewGroupsParser() {
+	public GroupDefinitionParser() {
 		factory = XMLInputFactory.newInstance();
 		factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false);
 	}
@@ -68,9 +68,15 @@ public class ProViewGroupsParser {
 						Attribute statusAttr= element.asStartElement().getAttributeByName(new QName(GROUP_STATUS));
 						Attribute versionAttr= element.asStartElement().getAttributeByName(new QName(GROUP_VERSION));
 						
-						groupDefinition.setGroupId(idAttr.getValue());
-						groupDefinition.setStatus(statusAttr.getValue());
-						groupDefinition.setProviewGroupVersionString(versionAttr.getValue());
+						if(idAttr != null) {
+							groupDefinition.setGroupId(idAttr.getValue());
+						}
+						if(statusAttr != null) {
+							groupDefinition.setStatus(statusAttr.getValue());
+						}
+						if(versionAttr != null) {
+							groupDefinition.setProviewGroupVersionString(versionAttr.getValue());
+						}
 					} else if(element.getName().getLocalPart().equalsIgnoreCase(SUBGROUP)) {
 						subGroupInfo = new SubGroupInfo();
 						Attribute subheadingAttr = element.asStartElement().getAttributeByName(new QName(SUBGROUP_HEADING));

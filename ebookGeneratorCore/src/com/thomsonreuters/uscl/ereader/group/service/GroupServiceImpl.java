@@ -19,125 +19,24 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import com.thomsonreuters.uscl.ereader.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import com.thomsonreuters.uscl.ereader.util.XMLXpathEvaluator;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
 public class GroupServiceImpl implements GroupService {
 	
 	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
+	private GroupDefinitionParser proviewGroupParser = new GroupDefinitionParser();
 	private ProviewClient proviewClient;  
 
-
-	public Long getLastGroupVerionFromProviewResponse(String response, List<String> groupVersions) throws Exception {
-		Long groupVersion = null;
-		XMLXpathEvaluator extractor = new XMLXpathEvaluator(response);
-		NodeList groups = extractor.evaluateNodeList("groups/group");
-
-		for (int i = 0; i < groups.getLength(); i++) {
-			Node group = groups.item(i);
-			NamedNodeMap attributesMap = group.getAttributes();
-			if (attributesMap != null && attributesMap.getLength() > 0) {
-				for (int j = 0; j < attributesMap.getLength(); j++) {
-					Node attributeNode = attributesMap.item(j);
-					String attributeName = attributeNode.getNodeName();
-					if (attributeName.equalsIgnoreCase("version")) {
-						Long version = Long
-								.valueOf(StringUtils.substringAfterLast(attributeNode.getTextContent(), "v"));
-						groupVersions.add(attributeNode.getTextContent());
-						if (groupVersion == null || groupVersion < version) {
-							groupVersion = Long.valueOf(version);
-						}
-					}
-				}
-			}
-
-		}
-		return groupVersion;
-
-	}
-	
-	public GroupDefinition buildGroupDefinition(String groupName, String subGroupHeading,
-			String fullyQualifiedTitleId, String majorVersion, List<String> splitTitles) throws Exception{
-		GroupDefinition groupDefinition = new GroupDefinition();
-		groupDefinition.setName(groupName);
-		
-		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
-		SubGroupInfo subGroupInfo = new SubGroupInfo();		
-		List<String> titleList = new ArrayList<String>();
-		
-		//For split books
-		if(splitTitles != null && !splitTitles.isEmpty()){
-			groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
-			subGroupInfoList.add(getSubGroupInfo(majorVersion,subGroupHeading,splitTitles));
-			groupDefinition.setSubGroupInfoList(subGroupInfoList);
-			return groupDefinition;
-		}
-		//For single books
-		//If no subgroup provided then 
-		if (!StringUtils.isEmpty(subGroupHeading) ){
-			groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
-			subGroupInfo.setHeading(subGroupHeading);
-			String number = StringUtils.substringAfter(majorVersion, "v");
-			if(Integer.parseInt(number) > 1)
-			{
-				throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
-			}
-			else{
-				titleList.add(fullyQualifiedTitleId+ "/" + majorVersion);
-			}
-			
-		}
-		else{
-			groupDefinition.setHeadTitle(fullyQualifiedTitleId);
-			titleList.add(fullyQualifiedTitleId);
-		}
-		subGroupInfo.setTitles(titleList);
-		subGroupInfoList.add(subGroupInfo);
-		groupDefinition.setSubGroupInfoList(subGroupInfoList);
-		return groupDefinition;
-	}
-	
-	
-	protected List<SubGroupInfo> getPreviousSubgroups(NodeList subGroups, int index){
-		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
-		if(subGroups.getLength() < index){
-			return subGroupInfoList;
-		}
-		for (int i = index; i < subGroups.getLength(); i++) {
-			SubGroupInfo subGroupInfo = new SubGroupInfo();
-			Node subGroup = subGroups.item(i);
-			Node headingNodeAttr = subGroup.getAttributes().getNamedItem("heading");
-			String heading = headingNodeAttr != null ? headingNodeAttr.getNodeValue() : null;
-			if(!StringUtils.isEmpty(heading)){
-				subGroupInfo.setHeading(heading);
-			}
-			NodeList titles = subGroup.getChildNodes();
-			List<String> titleList = new ArrayList<String>();
-			if (titles.getLength() > 0) {
-				for (int count = 0; count < titles.getLength(); count++) {
-					String title = titles.item(count).getTextContent();
-					titleList.add(title);
-				}
-			}
-			subGroupInfo.setTitles(titleList);
-			subGroupInfoList.add(subGroupInfo);
-		}
-		
-		return subGroupInfoList;
-	}
-	
 	/**
 	 * Group ID is unique to each major version
 	 * @param bookDefinition
@@ -152,31 +51,82 @@ public class GroupServiceImpl implements GroupService {
 		if(bookDefinition.getDocumentTypeCodes() != null){
 			contentType = bookDefinition.getDocumentTypeCodes().getAbbreviation();
 		}
-		if(!StringUtils.isEmpty(contentType)){
+		if(!StringUtils.isBlank(contentType)){
 			buffer.append(contentType+"_");
 		}		
 		buffer.append(StringUtils.substringAfterLast(bookDefinition.getFullyQualifiedTitleId(), "/"));		
 		return buffer.toString();
-	}	
+	}
 	
-	public SubGroupInfo getSubGroupInfo(String majorVersion, String subGroupHeading,
-			List<String> splitTitles) throws Exception{
-
-		SubGroupInfo subGroupInfo = new SubGroupInfo();
-		
-		if(StringUtils.isEmpty(subGroupHeading)){
-			throw new ProviewException("Subgroup name cannot be empty");
+	public List<GroupDefinition> getGroups(BookDefinition bookDefinition) throws Exception {
+		String groupId = getGroupId(bookDefinition);
+		return getGroups(groupId);
+	}
+	
+	public List<GroupDefinition> getGroups(String groupId) throws Exception {
+		try{
+			String response = proviewClient.getProviewGroupById(groupId);
+			GroupDefinitionParser parser = new GroupDefinitionParser();
+			List<GroupDefinition> groups = parser.parse(response);
+			// sort by group versions
+			Collections.sort(groups);
+			return groups;
+		} catch (ProviewRuntimeException ex) {
+			String errorMsg = ex.getMessage();
+			LOG.debug(errorMsg);
+			if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")) {
+				LOG.debug("Group does not exist. Exception can be ignored");
+			} else {
+				throw new Exception(ex);
+			}
 		}
-		
-		subGroupInfo.setHeading(subGroupHeading);
-		List<String> titleList = new ArrayList<String>();
-		for (String splitTitleId : splitTitles) {
-			titleList.add(splitTitleId + "/" + majorVersion);
-		}
-
-		subGroupInfo.setTitles(titleList);
-
-		return subGroupInfo;
+		return null;
+	}
+	
+	public GroupDefinition getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException {
+			try {
+				String response = proviewClient.getProviewGroupInfo(groupId, GroupDefinition.VERSION_NUMBER_PREFIX
+						+ groupVersion.toString());
+				List<GroupDefinition> groups = proviewGroupParser.parse(response);
+				if(groups.size() == 1) {
+					return groups.get(0);
+				}
+			} catch (ProviewRuntimeException ex) {
+				if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
+					// ignore and return null
+				} else {
+					throw new ProviewException(ex.getMessage());
+				}
+			} catch(Exception ex) {
+				throw new ProviewException(ex.getMessage());
+			}
+		return null;
+	}
+	
+	public GroupDefinition getGroupInfoByVersionAutoDecrement(String groupId, Long groupVersion) throws ProviewException {
+		GroupDefinition group = null;
+		do {
+			group = getGroupInfoByVersion(groupId, groupVersion);
+			if(group == null) {
+				groupVersion = groupVersion - 1;
+			} else {
+				break;
+			}
+		} while (groupVersion > 0);
+		return group;
+	}
+	
+	public GroupDefinition getLastGroup(BookDefinition book) throws Exception {
+		String groupId = getGroupId(book);
+		return getLastGroup(groupId);
+	}
+    
+    public GroupDefinition getLastGroup(String groupId) throws Exception{
+    	List<GroupDefinition> groups = getGroups(groupId);
+    	if(groups != null && groups.size() > 0) {
+    		return groups.get(0);
+    	}
+		return null;
 	}
 	
 	/**
@@ -203,325 +153,188 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 	
-    
-    public String getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException {
-		String response = null;
-		do {
-			try {
-				response = proviewClient.getProviewGroupInfo(groupId, GroupDefinition.VERSION_NUMBER_PREFIX
-						+ groupVersion.toString());
-				return response;
-			} catch (ProviewRuntimeException ex) {
-				if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
-					// go down the version by one if the current version is
-					// deleted in Proview
-					groupVersion = groupVersion - 1;
-				} else {
-					throw new ProviewRuntimeException(ex.getMessage());
-				}
-			}
-		} while (groupVersion > 0);
-		return response;
-	}
-    
-    public Long getLastGroupVersionById(String groupId) throws Exception{
-		Long groupVersion = null;
-		try {
-			String response = proviewClient.getProviewGroupById(groupId);
-			List<String> groupVersions = new ArrayList<String> ();
-			return getLastGroupVerionFromProviewResponse(response, groupVersions);
-		} catch (ProviewRuntimeException ex) {
-			String errorMsg = ex.getMessage();
-			LOG.debug(errorMsg);
-			if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")){
-				return groupVersion;
-			}
-			else{
-				throw new Exception(ex);
-			}
-		}		
-	}
-    
     public boolean isTitleWithVersion(String fullyQualifiedTitle){
     	//Sammple title with version uscl/an/abcd/v1
-    	Pattern trimmer = Pattern.compile("/v+\\d");
-		Matcher m = trimmer.matcher(fullyQualifiedTitle);
-		if (m.find()) {
-			return true;
-		}
+    	if(StringUtils.isNotBlank(fullyQualifiedTitle)) {
+	    	Pattern trimmer = Pattern.compile("/v\\d+(\\.\\d+)?$");
+			Matcher m = trimmer.matcher(fullyQualifiedTitle);
+			if (m.find()) {
+				return true;
+			}
+    	}
 		return false;
     }
-    
-	public boolean validateResponse(BookDefinition bookDefinition, String proviewResponse, String majorVersion) throws Exception {
-		XMLXpathEvaluator extractor = new XMLXpathEvaluator(proviewResponse);
-		String subGroup = extractor.evaluate("group/members/subgroup/@heading");
-		String  headTtile = extractor.evaluateNode("group/headtitle").getTextContent();	
-		String  versionOnHeadTtile = null;
-		boolean versionChange = false;
-		
-		if(isTitleWithVersion(headTtile)){
-			versionOnHeadTtile = StringUtils.substringAfterLast(headTtile, "/");
-			if(!majorVersion.equalsIgnoreCase(versionOnHeadTtile)){
-				versionChange = true;
-			}
-		}			
-		
-		// No subgroups but book definition requires subgroup
-		if (StringUtils.isEmpty(subGroup) && !StringUtils.isEmpty(bookDefinition.getSubGroupHeading())) {
-			throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
-		}
-		if (!StringUtils.isEmpty(bookDefinition.getSubGroupHeading())) {
-			NodeList subGroups = extractor.evaluateNodeList("group/members/subgroup");
-			for (int i = 0; i < subGroups.getLength(); i++) {
-				Node item = subGroups.item(i);
-				Node headingNodeAttr = item.getAttributes().getNamedItem("heading");
-				String heading = headingNodeAttr != null ? headingNodeAttr.getNodeValue() : null;
-				
-				if (!StringUtils.isEmpty(heading) && bookDefinition.getSubGroupHeading().equalsIgnoreCase(heading)) {
-					//Every major version should have a subgroup heading changed for split books not necessary for single boooks
-					if(versionChange && i==0 && bookDefinition.isSplitBook()){
-					throw new ProviewException(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE);
-					}
-					//Previous subgroups should not have same subgroupName
-					else if(i==1){
-						throw new ProviewException(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE);
-					}
-				}			
-				
-			}
-			
-		}
-		
-		return versionChange;
-	}
-	
-	public GroupDefinition getGroupDefinitionforAllBooks(String proviewResponse, String majorVersion, String newGroupName,
-			String newSubGroupHeading, String fullyQualifiedTitleId, List<String> splitTitles, boolean versionChange, boolean isSplitBook) throws Exception {
-		boolean createGroup = false;
-		GroupDefinition groupDefinition = null;
-		XMLXpathEvaluator extractor = new XMLXpathEvaluator(proviewResponse);
-		String groupName = extractor.evaluate("group/name");
-		
-		String subGroupHeading = extractor.evaluate("group/members/subgroup/@heading");
-		
-		NodeList subgroups = extractor.evaluateNodeList("group/members/subgroup");
-		NodeList firstSubGroupTitles = subgroups.item(0).getChildNodes();
-		boolean isFirstSubgroupSplitBook = true;
-		
-		if (firstSubGroupTitles.getLength() > 0) {
-			List<String> versionList = new ArrayList<String>();
-			for (int count = 0; count < firstSubGroupTitles.getLength(); count++) {
-				if(firstSubGroupTitles.getLength() == 1){
-					isFirstSubgroupSplitBook = false;
-					break;
-				}
-				String title = firstSubGroupTitles.item(count).getTextContent();
-				//All split books will have versions at the end in the title tag
-				if (!isTitleWithVersion(title)){
-					isFirstSubgroupSplitBook = false;
-					break;
-				}
-				else{
-					String versionOfTtile = StringUtils.substringAfterLast(title, "/v");
-					//version will be same if the titles belong to parts of a splittitle 
-					if(!versionList.isEmpty() && !versionList.contains(versionOfTtile)){
-						isFirstSubgroupSplitBook = false;
-						break;
-					}
-					versionList.add(versionOfTtile);
-				}
-				
-			}
-		}
-
-		if (!groupName.equalsIgnoreCase(newGroupName)) {
-			createGroup = true;
-		}
-		else if(StringUtils.isEmpty(subGroupHeading) && !StringUtils.isEmpty(newSubGroupHeading) ) {
-			createGroup = true;
-		}
-		else if(!StringUtils.isEmpty(subGroupHeading) && !subGroupHeading.equalsIgnoreCase(newSubGroupHeading)){
-				createGroup = true;			
-		}
-		else if (!StringUtils.isEmpty(subGroupHeading) && subGroupHeading.equalsIgnoreCase(newSubGroupHeading)
-				&& versionChange) {
-
-			createGroup = true;
-		}
-		else if (isSplitBook){	
-			//Change in the number of splits
-			if(firstSubGroupTitles.getLength() != splitTitles.size()  || versionChange){
-				createGroup = true;
-			}	
-			//Change from single to split
-			else if (!isFirstSubgroupSplitBook){
-				createGroup = true;
-			}
-		}
-		//From split title to Single title
-		else if(isFirstSubgroupSplitBook){
-			createGroup = true;
-		}
-		
-		if(createGroup){
-			if(StringUtils.isEmpty(newSubGroupHeading)){
-				//build group for single book for all versions
-				groupDefinition = buildGroupDefinition(newGroupName, newSubGroupHeading, fullyQualifiedTitleId, majorVersion,
-						splitTitles);
-				return groupDefinition;
-			}
-			
-			else {
-					groupDefinition = new GroupDefinition();
-					groupDefinition.setName(newGroupName);
-					int index = 1;
-					NodeList subGroups = extractor.evaluateNodeList("group/members/subgroup");
-				    groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
-					SubGroupInfo subGroupInfo = new SubGroupInfo();
-					subGroupInfo.setHeading(newSubGroupHeading);
-					List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
-					List<String> titleList = new ArrayList<String>();
-					
-					if(splitTitles != null && !splitTitles.isEmpty()){
-						for (String splitTitleId : splitTitles) {
-							titleList.add(splitTitleId + "/" + majorVersion);
-						}						
-					}
-					else{
-						titleList.add(fullyQualifiedTitleId + "/" + majorVersion);
-					}
-					if(!versionChange && !isFirstSubgroupSplitBook){
-						for (int count = 0; count < firstSubGroupTitles.getLength(); count++) {
-							String title = firstSubGroupTitles.item(count).getTextContent();
-							if (isTitleWithVersion(title)) {
-								String versionOfTitle = StringUtils.substringAfterLast(title, "/");
-								if(!majorVersion.equalsIgnoreCase(versionOfTitle)){
-									titleList.add(firstSubGroupTitles.item(count).getTextContent());
-								}
-							}
-						}
-					}
-					
-					//For single titles we allow different versions to same subgroup
-					if(versionChange && subGroupHeading.equalsIgnoreCase(newSubGroupHeading)){						
-							if( subGroups.getLength() >0){
-								NodeList titles = subGroups.item(0).getChildNodes();
-								if (titles.getLength() > 0) {
-									for (int count = 0; count < titles.getLength(); count++) {
-										String title = titles.item(count).getTextContent();
-										titleList.add(title);
-									}
-								}
-							}
-					}
-					else if (versionChange){
-						index = 0;
-					}
-					subGroupInfo.setTitles(titleList);
-					subGroupInfoList.add(subGroupInfo);
-										
-					//Add all previous subgroups
-					subGroupInfoList.addAll(getPreviousSubgroups(subGroups,index));						
-					groupDefinition.setSubGroupInfoList(subGroupInfoList);
-					
-					return groupDefinition;
-			}
-		}
-		
-
-		return groupDefinition;
-	}
      
     /**
      * Group will be created based on user input. splitTitles will be null if book is not a splitbook
      */
 	public GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles)
 			throws Exception {
-		Long groupVersion = new Long(0);
-
-		String groupName = bookDefinition.getGroupName();
-
-		if (StringUtils.isEmpty(groupName)) {
-			throw new ProviewException(CoreConstants.EMPTY_GROUP_ERROR_MESSAGE);
-		}
-
-		String majorVersion = bookVersion;
-		if (StringUtils.contains(bookVersion, '.')) {
-			majorVersion = StringUtils.substringBefore(bookVersion, ".");
-		}
 		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-
-		String groupId = getGroupId(bookDefinition);
+		String groupName = bookDefinition.getGroupName();
 		String subGroupHeading = bookDefinition.getSubGroupHeading();
-		Long lastGroupVersion = getLastGroupVersionById(groupId);
-		GroupDefinition groupDefinition = null;
+		String groupId = getGroupId(bookDefinition);
+		GroupDefinition lastGroupDefinition = getLastGroup(groupId);
+		
+		String majorVersionStr = bookVersion;
+		if (StringUtils.contains(bookVersion, '.')) {
+			majorVersionStr = StringUtils.substringBefore(bookVersion, ".");
+		}
+		// check errors in book definition compared to previous group
+		validate(bookDefinition, lastGroupDefinition, majorVersionStr);
 
-		if (lastGroupVersion != null) {
-			String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersion);
+		GroupDefinition groupDefinition = createNewGroupDefinition(groupName, subGroupHeading, fullyQualifiedTitleId, majorVersionStr,
+				splitTitles);
+		if (lastGroupDefinition != null && StringUtils.isNotBlank(subGroupHeading)) {
+			Set<String> existingTitles = new HashSet<String>();
+			SubGroupInfo firstSubGroupInfo = groupDefinition.getSubGroupInfoList().get(0);
+
+			for(String title: firstSubGroupInfo.getTitles()) {
+				existingTitles.add(title);
+			}
 			
-			boolean versionChange = false;
-			if(!majorVersion.equalsIgnoreCase("v1")){
-				versionChange = validateResponse(bookDefinition,proviewResponse,majorVersion);
+			// Add titles from previous group if it had subgroups
+			if(lastGroupDefinition.subgroupExists()) {
+				for(SubGroupInfo previousSubGroupInfo: lastGroupDefinition.getSubGroupInfoList()) {
+					String previousSubgroupHeading = previousSubGroupInfo.getHeading();
+					if(subGroupHeading.equalsIgnoreCase(previousSubgroupHeading)) {
+						// Subgroup heading matches, add titles to currently created subgroup
+						copyTitlesInSubgroup(previousSubGroupInfo, firstSubGroupInfo, existingTitles, fullyQualifiedTitleId,
+								majorVersionStr);
+					} else {
+						// Create new subgroups to add to group
+						SubGroupInfo newSubGroupInfo = new SubGroupInfo();
+						newSubGroupInfo.setHeading(previousSubGroupInfo.getHeading());
+						copyTitlesInSubgroup(previousSubGroupInfo, newSubGroupInfo, existingTitles, fullyQualifiedTitleId,
+								majorVersionStr);
+						// Only add subgroup if title(s) exists
+						if(newSubGroupInfo.getTitles().size() > 0) {
+							groupDefinition.addSubGroupInfo(newSubGroupInfo);
+						}
+					}
+				}
 			}
-			groupDefinition = getGroupDefinitionforAllBooks(proviewResponse, majorVersion, groupName,
-					subGroupHeading, fullyQualifiedTitleId, splitTitles, versionChange, bookDefinition.isSplitBook());			
-			groupVersion = lastGroupVersion;
-			// Increment the group version if the group exists.
-			if (groupDefinition != null) {
-				groupVersion = lastGroupVersion + 1;
-			}
-
+		} 
+		
+		// set group version
+		if (lastGroupDefinition != null) {
+			groupDefinition.setGroupVersion(lastGroupDefinition.getGroupVersion() + 1);
 		} else {
-			// Group version will be 1 if no group exists
-			//splitTitles is null for single books.
-			groupVersion = groupVersion + 1;
-			groupDefinition = buildGroupDefinition(groupName, subGroupHeading, fullyQualifiedTitleId, majorVersion,
-					splitTitles);
+			groupDefinition.setGroupVersion(1L);
 		}
-
-		if (groupDefinition != null) {
-			groupDefinition.setGroupId(groupId);
-			groupDefinition.setType("standard");
-			groupDefinition.setGroupVersion(groupVersion);
-		}
+		groupDefinition.setGroupId(groupId);
+		groupDefinition.setType("standard");
 		return groupDefinition;
 	}
 	
-	public GroupDefinition getLastGroupDefinition(BookDefinition bookDefinition) throws Exception {
-		GroupDefinition groupDefinition = null;
-		String groupId = getGroupId(bookDefinition);
-		Long lastGroupVersion = getLastGroupVersionById(groupId);
-		if (lastGroupVersion != null) {
-			String proviewResponse = getGroupInfoByVersion(groupId, lastGroupVersion);
-			ProViewGroupsParser parser = new ProViewGroupsParser();
-			List<GroupDefinition> groups = parser.parse(proviewResponse);
-			if(groups.size() == 1) {
-				groupDefinition = groups.get(0);
+	private void validate(BookDefinition book, GroupDefinition previousGroup, String majorVersionStr) throws ProviewException {
+		String currentSubgroupName = book.getSubGroupHeading();
+		String previousHeadTitle = previousGroup != null ? previousGroup.getHeadTitle(): null;
+		Boolean majorVersionChange = false;
+		Integer majorVersion = null;
+		if (StringUtils.contains(majorVersionStr, 'v')) {
+			majorVersion = Integer.valueOf(StringUtils.substringAfter(majorVersionStr, "v"));
+		}
+		
+		if(isTitleWithVersion(previousHeadTitle)){
+			String versionOnPreviousHeadTtile = StringUtils.substringAfterLast(previousHeadTitle, "/");
+			if(!majorVersionStr.equalsIgnoreCase(versionOnPreviousHeadTtile)){
+				majorVersionChange = true;
 			}
 		}
+		
+		if (StringUtils.isBlank(book.getGroupName())) {
+			throw new ProviewException(CoreConstants.EMPTY_GROUP_ERROR_MESSAGE);
+		}
+		
+		if(book.isSplitBook() && StringUtils.isBlank(currentSubgroupName)) {
+			throw new ProviewException("Subgroup name cannot be empty");
+		}
+		
+		if(majorVersion > 1 && StringUtils.isNotBlank(currentSubgroupName) && (previousGroup == null || 
+				(previousGroup != null && StringUtils.isBlank(previousGroup.getFirstSubgroupHeading())))) {
+			throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
+		}
+		
+		if(previousGroup != null) {
+			List<SubGroupInfo> previousSubgroups = previousGroup.getSubGroupInfoList();
+			for(int i=0; i < previousSubgroups.size(); i++) {
+				SubGroupInfo subGroupInfo = previousSubgroups.get(i);
+				String previousSubgroupHeading = subGroupInfo.getHeading();
+				
+				if(StringUtils.isNotBlank(currentSubgroupName) ) {
+					//Every major version should have a subgroup heading changed for split books
+					if(i == 0 && majorVersionChange && book.isSplitBook() && currentSubgroupName.equalsIgnoreCase(previousSubgroupHeading)) {
+						throw new ProviewException(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE);
+					}
+					// Check for duplicate subgroup heading starting from index 1 and up.
+					// First subgroup (index 0) can have the same subgroup heading
+					if(i > 0 && currentSubgroupName.equalsIgnoreCase(previousSubgroupHeading)) {
+						throw new ProviewException(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE);
+					}
+				}
+			}
+		}
+	}
+	
+	private void copyTitlesInSubgroup(SubGroupInfo previousSubGroupInfo, SubGroupInfo currentSubGroupInfo,
+			Set<String> currentTitles, String fullyQualifiedTitleId, String majorVersionStr) {
+		// Subgroup heading matches, add titles to currently created subgroup
+		for(String title: previousSubGroupInfo.getTitles()) {
+			if(!currentTitles.contains(title)) {
+				if(StringUtils.endsWithIgnoreCase(title, majorVersionStr) &&
+						StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
+					// skip adding titles from previous group if it contains the same title id and major version
+					// Accounts for cases where previous minor version book had more parts compared to current minor version.
+					// The additional parts should not be added because number of split books changed with the minor update.
+				} else {
+					// Add titles that are not already in subgroup
+					currentSubGroupInfo.addTitle(title);
+				}
+			}
+		}
+	}
+	
+	private GroupDefinition createNewGroupDefinition(String groupName, String subGroupHeading,
+			String fullyQualifiedTitleId, String majorVersion, List<String> splitTitles) throws Exception{
+		GroupDefinition groupDefinition = new GroupDefinition();
+		groupDefinition.setName(groupName);
+		
+		List<SubGroupInfo> subGroupInfoList = new ArrayList<SubGroupInfo>();
+		SubGroupInfo subGroupInfo = new SubGroupInfo();		
+		List<String> titleList = new ArrayList<String>();
+		
+		if(StringUtils.isNotBlank(subGroupHeading)) {
+			groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
+			subGroupInfo.setHeading(subGroupHeading);
+			
+			//For split books
+			if(splitTitles != null && !splitTitles.isEmpty()){
+				for (String splitTitleId : splitTitles) {
+					titleList.add(splitTitleId + "/" + majorVersion);
+				}
+			} else {
+				titleList.add(fullyQualifiedTitleId+ "/" + majorVersion);
+			}
+			
+		} else{
+			groupDefinition.setHeadTitle(fullyQualifiedTitleId);
+			titleList.add(fullyQualifiedTitleId);
+		}
+		
+		subGroupInfo.setTitles(titleList);
+		subGroupInfoList.add(subGroupInfo);
+		groupDefinition.setSubGroupInfoList(subGroupInfoList);
 		return groupDefinition;
 	}
 	
 	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception {
-		String groupId = getGroupId(bookDefinition);
-		List<String> groupVersions = new ArrayList<String>();
-		try {
-			String response = proviewClient.getProviewGroupById(groupId);
-			getLastGroupVerionFromProviewResponse(response, groupVersions);
-		} catch (ProviewRuntimeException ex) {
-			String errorMsg = ex.getMessage();
-			LOG.debug(errorMsg);
-			if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")) {
-				LOG.debug("Group does not exist. Exception can be ignored");
-			} else {
-				throw new Exception(ex);
-			}
-		}
+		List<GroupDefinition> GroupDefinition = getGroups(bookDefinition);
 
-		for (String groupVersion : groupVersions) {
-			proviewClient.removeGroup(groupId, groupVersion);
+		for (GroupDefinition group : GroupDefinition) {
+			proviewClient.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
 			TimeUnit.SECONDS.sleep(2);
-			proviewClient.deleteGroup(groupId, groupVersion);			
+			proviewClient.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());			
 		}
 
 	}
@@ -530,7 +343,6 @@ public class GroupServiceImpl implements GroupService {
      * Get list of ProView titles that belong in the group for given book definition.
      * Note: adds pilot titles for Analytical titles based on fully qualified title id contains _waspilot
      */
-	@SuppressWarnings("unchecked")
 	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception {
 		Set<SplitNodeInfo> splitNodeInfos = bookDef.getSplitNodes();
 		
@@ -545,7 +357,7 @@ public class GroupServiceImpl implements GroupService {
 		splitTitles.add(bookDef.getFullyQualifiedTitleId());
 		List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
 		for(String title: splitTitles) {
-			List<ProviewTitleInfo> proviewTitleInfo = proviewClient.getMajorVersionProviewTitles(title);
+			List<ProviewTitleInfo> proviewTitleInfo = getMajorVersionProviewTitles(title);
 			proviewTitleInfos.addAll(proviewTitleInfo);
 		}
 		// sort split/single books before adding pilot books
@@ -554,7 +366,7 @@ public class GroupServiceImpl implements GroupService {
 		// account for Analytical pilot books which do not have book definition
 		if(bookDef.getFullyQualifiedTitleId().contains("_waspilot")) {
 			String pilotTitleId = bookDef.getFullyQualifiedTitleId().replace("_waspilot", "");
-			List<ProviewTitleInfo> proviewTitleInfo = proviewClient.getMajorVersionProviewTitles(pilotTitleId);
+			List<ProviewTitleInfo> proviewTitleInfo = getMajorVersionProviewTitles(pilotTitleId);
 			proviewTitleInfos.addAll(proviewTitleInfo);
 		}
 		
@@ -564,6 +376,14 @@ public class GroupServiceImpl implements GroupService {
 			proviewTitleMap.put(key, info);
 		}
 		return proviewTitleMap;
+	}
+	
+	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException {
+		ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
+		if(container != null) {
+			return container.getAllMajorVersions();
+		}
+		return new ArrayList<ProviewTitleInfo>();
 	}
 	
 	@Required

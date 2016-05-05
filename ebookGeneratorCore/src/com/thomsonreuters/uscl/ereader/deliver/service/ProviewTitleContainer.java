@@ -77,7 +77,6 @@ public class ProviewTitleContainer implements Serializable {
 		return latestProviewTitleInfo;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<ProviewTitleInfo> getAllMajorVersions() {
 		Map<Integer, ProviewTitleInfo> map = new HashMap<>();
 		

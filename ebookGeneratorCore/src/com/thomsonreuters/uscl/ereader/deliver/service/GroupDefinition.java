@@ -1,11 +1,16 @@
-package com.thomsonreuters.uscl.ereader;
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-public class GroupDefinition {
+public class GroupDefinition implements Comparable<GroupDefinition> {
 	public static final String VERSION_NUMBER_PREFIX = "v";
 	
 	private String groupId;	
@@ -117,6 +122,33 @@ public class GroupDefinition {
 		return subgroupExists;
 	}
 	
+	public Boolean isSimilarGroup(GroupDefinition previousGroup) {
+		if (this == previousGroup) {
+			return true;
+		} else if (previousGroup == null) {
+			return false;
+		}
+		
+		if(!StringUtils.equals(name, previousGroup.getName())) {
+			return false;
+		} else if(!StringUtils.equalsIgnoreCase(headTitle, previousGroup.getHeadTitle())) {
+			return false;
+		}
+		
+		if(subGroupInfoList.size() != previousGroup.getSubGroupInfoList().size()) {
+			return false;
+		}
+		
+		for(int i = 0; i < subGroupInfoList.size(); i++) {
+			SubGroupInfo currentSubgroup = subGroupInfoList.get(i);
+			SubGroupInfo previousSubgroup = previousGroup.getSubGroupInfoList().get(i);
+			if(!currentSubgroup.equals(previousSubgroup)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static class SubGroupInfo {
 		private String heading;
 		private List<String> titles = new ArrayList<String>();
@@ -137,6 +169,42 @@ public class GroupDefinition {
 		public void setTitles(List<String> titles) {
 			this.titles = titles;
 		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((heading == null) ? 0 : heading.hashCode());
+			result = prime * result
+					+ ((titles == null) ? 0 : titles.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SubGroupInfo other = (SubGroupInfo) obj;
+			if (heading == null) {
+				if (other.heading != null)
+					return false;
+			} else if (!heading.equals(other.heading))
+				return false;
+			if (titles == null) {
+				if (other.titles != null)
+					return false;
+			} else if (!titles.equals(other.titles))
+				return false;
+			return true;
+		}
 		
+	}
+
+	@Override
+	public int compareTo(GroupDefinition o) {
+		return o.getGroupVersion().compareTo(this.getGroupVersion());
 	}
 }
