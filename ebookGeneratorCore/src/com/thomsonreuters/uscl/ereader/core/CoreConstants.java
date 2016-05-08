@@ -47,4 +47,8 @@ public class CoreConstants {
 	
 	public static final String GROUP_AND_VERSION_EXISTS = "Group already exists in Proview.";
 	
+	public static final String TTILE_IN_QUEUE = "Title already exists in publishing queue";
+	
+	public static final String TTILE_STATUS_REMOVED = "Title status changed to removed";
+	
 }

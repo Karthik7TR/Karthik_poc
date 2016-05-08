@@ -1,27 +1,28 @@
 package com.thomsonreuters.uscl.ereader.deliver.step;
 
+import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 
 public class DeliverToProviewTest {
 	private DeliverToProview deliverToProview;
 	BookDefinition bookDefinition;
+	ProviewException exp;
+	ProviewClient proviewClient;
 	
 	@Before
 	public void setUp() throws Exception
 	{
+		proviewClient = EasyMock.createMock(ProviewClient.class);
 		deliverToProview = new DeliverToProview();
-		bookDefinition = new BookDefinition();
-		PublisherCode publisherCode = new PublisherCode();
-		publisherCode.setId(new Long(1));
-		publisherCode.setName("ucl");
-		bookDefinition.setPublisherCodes(publisherCode);
-		bookDefinition.setFullyQualifiedTitleId("/fullyQualifiedTitleId");
 	}
 	
 	@After
@@ -30,19 +31,89 @@ public class DeliverToProviewTest {
 		
 	}
 	
-	@Ignore
+	
 	@Test
-	public void testGroupId(){
-		//String actualGroupId =deliverToProview.getGroupId(bookDefinition, "1");
-		//Assert.assertEquals("ucl/fullyQualifiedTitleId_1",actualGroupId);
+	public void testRetry() throws ProviewException{
+		
+		
+		deliverToProview.setProviewClient(proviewClient);
+		String title = "abcd";
+		String version = "1.0";
+		
+		exp = new ProviewException(CoreConstants.TTILE_IN_QUEUE);
+		proviewClient.removeTitle(title, version);
+		EasyMock.expectLastCall().andThrow(exp).anyTimes();
+		EasyMock.replay(proviewClient);
+    	
+		deliverToProview.setBaseSleepTimeInMinutes(0);
+		deliverToProview.setSleepTimeInMinutes(0);
+
+		
+		boolean thrown = false;
+		try {
+			deliverToProview.removeGroupWithRetry(title,version);
+		} catch (ProviewRuntimeException ex) {
+			Assert.assertEquals(true, ex.getMessage().contains("Tried 3 t"
+					+ "imes"));
+			thrown = true;
+		}
+
+		Assert.assertTrue(thrown);
 	}
 	
-	@Ignore
 	@Test
-	public void testGroupId2(){
-		bookDefinition.setFullyQualifiedTitleId("a/b/c");
-		//String actualGroupId =deliverToProview.getGroupId(bookDefinition, "11");
-		//Assert.assertEquals("ucl/c_11",actualGroupId);
+	public void testRetryRemove() throws ProviewException{		
+		
+		deliverToProview.setProviewClient(proviewClient);
+		String title = "abcd";
+		String version = "1.0";
+		
+		exp = new ProviewException("exception occurred");
+		proviewClient.removeTitle(title, version);
+		EasyMock.expectLastCall().andThrow(exp).anyTimes();
+		EasyMock.replay(proviewClient);
+    	
+		deliverToProview.setBaseSleepTimeInMinutes(0);
+		deliverToProview.setSleepTimeInMinutes(0);
+
+		
+		boolean thrown = false;
+		try {
+			deliverToProview.removeGroupWithRetry(title,version);
+		} catch (ProviewRuntimeException ex) {
+			Assert.assertEquals(false, ex.getMessage().contains("Tried 3 t"
+					+ "imes"));
+			thrown = true;
+		}
+
+		Assert.assertTrue(thrown);
 	}
+	
+	@Test
+	public void testRetryDelete() throws ProviewException{		
+		
+		deliverToProview.setProviewClient(proviewClient);
+		String title = "abcd";
+		String version = "1.0";
+		
+		EasyMock.expect(proviewClient.removeTitle(title, version)).andReturn("200");
+		EasyMock.expect(proviewClient.deleteTitle(title, version)).andReturn("200");
+    	EasyMock.replay(proviewClient);
+    	
+		deliverToProview.setBaseSleepTimeInMinutes(0);
+		deliverToProview.setSleepTimeInMinutes(0);
+
+		
+		boolean thrown = false;
+		try {
+			deliverToProview.removeGroupWithRetry(title,version);
+		} catch (ProviewRuntimeException ex) {
+			thrown = true;
+		}
+
+		Assert.assertFalse(thrown);
+	}
+	
+	
 	
 }

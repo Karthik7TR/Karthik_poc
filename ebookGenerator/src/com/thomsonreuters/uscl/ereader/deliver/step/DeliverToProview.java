@@ -7,7 +7,9 @@ package com.thomsonreuters.uscl.ereader.deliver.step;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +23,10 @@ import org.springframework.beans.factory.annotation.Required;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
@@ -41,6 +46,21 @@ public class DeliverToProview extends AbstractSbTasklet {
 	private ProviewClient proviewClient;
 	private PublishingStatsService publishingStatsService;
 	private DocMetadataService docMetadataService;
+	private int maxNumberOfRetries = 2;
+	private int sleepTimeInMinutes = 15;
+	private int baseSleepTimeInMinutes=2;
+	
+	public void setSleepTimeInMinutes(int sleepTimeInMinutes) {
+		this.sleepTimeInMinutes = sleepTimeInMinutes;
+	}
+	
+	public void setBaseSleepTimeInMinutes(int baseSleepTimeInMinutes) {
+		this.baseSleepTimeInMinutes = baseSleepTimeInMinutes;
+	}
+    
+    public int getMaxNumberOfRetries() {
+        return this.maxNumberOfRetries;
+    }
 
 	public DocMetadataService getDocMetadataService() {
 		return docMetadataService;
@@ -66,7 +86,7 @@ public class DeliverToProview extends AbstractSbTasklet {
 		long startTime = System.currentTimeMillis();
 		LOG.debug("Publishing eBook [" + fullyQualifiedTitleId+ "] to Proview.");
 		String publishStatus =  "Completed";
-
+		List<String> successfullyPublishisedList = new ArrayList<String>();
 		try 
 		{	
 			if(bookDefinition.isSplitBook()){
@@ -76,13 +96,15 @@ public class DeliverToProview extends AbstractSbTasklet {
 				}
 				List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(jobInstance);
 				for (String splitTitleId : splitTitles) {
+					
 					fullyQualifiedTitleId = splitTitleId;
 					splitTitleId = StringUtils.substringAfterLast(splitTitleId, "/");
 					eBook = new File(workDirectory, splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 					if(eBook == null || !eBook.exists()){
-						throw new IOException("eBook must not be null and should exists.");
+						throw new IOException("eBook cannot be null and contact ebook support for furthur analysis.");
 					}
-					proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
+					proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);					
+					successfullyPublishisedList.add(fullyQualifiedTitleId);
 				}
 			}
 			else{
@@ -92,6 +114,10 @@ public class DeliverToProview extends AbstractSbTasklet {
 		catch (Exception e) 
 		{
 			publishStatus =  "Failed";
+			//Remove parts of the book when there is a failure
+			for(String splitTitle : successfullyPublishisedList ){
+				removeGroupWithRetry(splitTitle, versionNumber);
+			}
 			throw(e);
 		}
 		finally
@@ -107,6 +133,55 @@ public class DeliverToProview extends AbstractSbTasklet {
 
       
 		return ExitStatus.COMPLETED;
+	}
+	
+	protected void removeGroupWithRetry(String splitTitle, String versionNumber) {
+		boolean retryRequest = true;
+
+		//Most of the books should finish in two minutes
+		try{
+		TimeUnit.MINUTES.sleep(baseSleepTimeInMinutes);
+		} catch (InterruptedException e) {
+			LOG.error("InterruptedException during HTTP retry", e);
+		};
+		
+		int retryCount = 0;
+		String errorMsg = "";
+		do {
+			try {
+				String response = proviewClient.removeTitle(splitTitle, versionNumber);
+				if(response.contains("200")){
+					proviewClient.deleteTitle(splitTitle, versionNumber);
+				}
+				retryRequest = false;
+			} catch (ProviewException ex) {
+				errorMsg = ex.getMessage();
+				if (errorMsg.equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE)){
+					// retry a retriable request					
+
+					LOG.warn("Retriable status received: waiting " + sleepTimeInMinutes + "minutes (retryCount: "
+							+ retryCount +")");
+
+					retryRequest = true;
+					retryCount++;
+
+					try {
+						TimeUnit.MINUTES.sleep(sleepTimeInMinutes);
+					} catch (InterruptedException e) {
+						LOG.error("InterruptedException during HTTP retry", e);
+					};
+				}
+				else {
+					throw new ProviewRuntimeException(errorMsg);
+				}
+			}
+		} while (retryRequest && retryCount < getMaxNumberOfRetries());
+		if (retryRequest && retryCount == getMaxNumberOfRetries()) {
+			throw new ProviewRuntimeException(
+					"Tried 3 times to remove part of the split title. Proview might be down "
+					+ "or still in the process of loading the book. Please try again later. ");
+		}
+
 	}
 	
 	public void setProviewClient(ProviewClient proviewClient) {
