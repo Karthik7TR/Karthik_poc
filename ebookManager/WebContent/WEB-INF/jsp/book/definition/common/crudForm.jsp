@@ -317,8 +317,8 @@
 			<div id="displayFILE" style="display:none">
 				<div class="row">
 					<label class="labelCol">Choose CWB Book</label>
-					<button id="cwbFolderButton" ${disableUnderPubPlusRoleButton} type="button">Choose</button>&nbsp;
-					<button id="cwbFolderClearButton" ${disableUnderPubPlusRoleButton} type="button">Clear</button>
+					<button id="cwbFolderButton" type="button">Choose</button>&nbsp;
+					<button id="cwbFolderClearButton" type="button">Clear</button>
 				</div>
 				<div class="row">
 					<form:hidden path="codesWorkbenchBookName" />
@@ -341,8 +341,8 @@
 									<form:errors path="nortFileLocations[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 								</div>
 								<form:hidden class="sequence" path="nortFileLocations[${aStatus.index}].sequenceNum" />
-								<button type="button" ${disableUnderPubPlusRoleButton} class="moveUp">Up</button>
-								<button type="button" ${disableUnderPubPlusRoleButton} class="moveDown">Down</button>
+								<button type="button" class="moveUp">Up</button>
+								<button type="button" class="moveDown">Down</button>
 								<div class="dynamicRow">
 									<span>${fileLocation.locationName}</span>
 									<form:hidden path="nortFileLocations[${aStatus.index}].nortFileLocationId" />
