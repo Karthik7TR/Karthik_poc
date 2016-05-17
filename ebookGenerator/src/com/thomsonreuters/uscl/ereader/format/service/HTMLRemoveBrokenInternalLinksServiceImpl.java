@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -177,8 +176,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 		String guid = fileName.substring(0, fileName.indexOf("."));
 		FileInputStream inStream = null;
 		FileOutputStream outStream = null;
-		SequenceInputStream intermediateStream = null;
-		SequenceInputStream wrappedStream = null;
 		try
 		{
 			
@@ -245,14 +242,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 				if (inStream != null)
 				{
 					inStream.close();
-				}
-				if (wrappedStream != null)
-				{
-					wrappedStream.close();
-				}
-				if (intermediateStream != null)
-				{
-					intermediateStream.close();
 				}
 				if (outStream != null)
 				{

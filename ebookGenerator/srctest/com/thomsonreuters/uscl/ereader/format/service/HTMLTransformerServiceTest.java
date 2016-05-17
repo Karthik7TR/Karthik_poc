@@ -306,4 +306,36 @@ public class HTMLTransformerServiceTest {
 		assertTrue(!thrown);
 		
 	}
+	
+	
+	/**
+	 * extend coverage to the function includeDeduppingAnchorRecords( .. )
+	 */
+	@Test
+	public void testDeduppingAnchorRecords()
+	{
+		int numDocs = -1;
+		boolean thrown = false;
+		
+		File srcFile = makeFile(targetDir,title+".transformed","<title><src id=\"1234\"/><src id=\"1234\"/></title>");
+		
+		try{
+			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title,jobId,title)).andReturn(docMeta);
+			EasyMock.replay(metadataMoc);
+			
+			numDocs = transformerService.transformHTML(targetDir, targetDir, staticImgList, tableViewers, title, jobId, 
+					targetAnchors, docsGuidFile, deDuppingFile, isHighlight, isStrikethrough, delEditorNodeHeading, version);
+		}catch(Exception e){
+			//e.printStackTrace();
+			thrown = true;
+		}finally{
+			FileUtils.deleteQuietly(srcFile);
+		}
+		assertTrue(!thrown);
+		assertTrue(numDocs == 1);
+		
+		File postTransform = new File(targetDir.getAbsolutePath(), title+".posttransform");
+		assertTrue(postTransform.exists());
+	}
 }
