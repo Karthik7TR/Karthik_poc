@@ -189,7 +189,8 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 				if ((excludeDocuments != null) &&(excludeDocuments.size() > 0)
 						&& (copyExcludeDocuments != null)){
 					for (ExcludeDocument excludeDocument : excludeDocuments) {
-						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
+//						if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
+						if (StringUtils.containsIgnoreCase(documentGuid, excludeDocument.getDocumentGuid())) {
 							excludeDocumentFound = true;
 							copyExcludeDocuments.remove(excludeDocument);
 							break;
@@ -226,7 +227,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 				if ((renameTocEntries != null) &&(renameTocEntries.size() > 0)
 						&& (copyRenameTocEntries != null)){
 					for (RenameTocEntry renameTocEntry : renameTocEntries) {
-						if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
+						if (StringUtils.containsIgnoreCase(guid, renameTocEntry.getTocGuid())) {
 							label = StringEscapeUtils.escapeXml(renameTocEntry.getNewLabel());
 							copyRenameTocEntries.remove(renameTocEntry);
 							break;
