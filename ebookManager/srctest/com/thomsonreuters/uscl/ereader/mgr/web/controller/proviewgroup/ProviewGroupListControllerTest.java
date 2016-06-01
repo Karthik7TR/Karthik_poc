@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
@@ -26,8 +27,10 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -35,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -61,9 +65,9 @@ public class ProviewGroupListControllerTest {
 		this.response =new MockHttpServletResponse();
 		
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
-		this.mockOutageService = EasyMock.createMock(OutageService.class);
+		this.mockOutageService = EasyMock.createMock(OutageServiceImpl.class);
 		this.mockProviewClient = EasyMock.createMock(ProviewClient.class);
-		this.mockManagerService = EasyMock.createMock(ManagerService.class);
+		this.mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
 		this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
 		this.mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
 		this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
@@ -71,7 +75,6 @@ public class ProviewGroupListControllerTest {
 		this.mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
 		
 		this.controller = new ProviewGroupListController();
-		controller.setBookDefinitionService(mockBookDefinitionService);
 		controller.setJobRequestService(mockJobRequestService);
 		controller.setManagerService(mockManagerService);
 		controller.setMessageSourceAccessor(mockMessageSourceAccessor);
@@ -82,60 +85,19 @@ public class ProviewGroupListControllerTest {
 		this.mockProviewTitleInfo = new ArrayList<ProviewTitleInfo>();
 	}
 	
-	@Test
-	public void testSelectedLatestProviewGroupInfo() throws Exception {
-		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUPS);
-		request.setMethod(HttpMethod.GET.name());
-		HttpSession session = request.getSession();
-		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchSavedProviewGroupForm(session));
-		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-		mockTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-		session.setAttribute(ProviewTitleForm.FORM_NAME, mockTitleForm);
-		session.setAttribute(WebConstants.KEY_PAGE_SIZE, mockTitleForm.getObjectsPerPage());
-		List<ProviewGroup> allProviewGroups = new ArrayList<ProviewGroup>();
-		ArrayList<ProviewTitleInfo> testAllLatestTitleInfo = new ArrayList<>();
-		
-		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);
-		//EasyMock.expect(mockProviewClient.getAllLatestProviewTitleInfo(testAllTitleInfo)).andReturn(testAllLatestTitleInfo);
-		EasyMock.replay(mockProviewClient);
-		
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		
-		assertNotNull(mav);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
-		Map<String,Object> model = mav.getModel();
-		Assert.assertEquals(model.get(WebConstants.KEY_PAGE_SIZE), "20");
-		
-		EasyMock.verify(mockProviewClient);
-	}
-	
-	@Test
-	public void testSingleGroupAllTitles() throws Exception {
-		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("groupIdByVersion", "groupId/v1");
-		HttpSession session = request.getSession();
-		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchSavedProviewGroupForm(session));
-		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-		mockTitleForm.setTitleId(WebConstants.KEY_TITLE_ID);
-		Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
-		testAllTitleInfo.put(mockTitleForm.getTitleId(), new ProviewTitleContainer());
-		
-		EasyMock.expect(controller.getGroupInfoByVersion("groupId", new Long(1))).andReturn(null);
-		
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		assertNotNull(mav);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);
-		
-	}
-	
+	/**
+	 * Test /ebookManager/proviewGroups.mvc 	command = REFRESH
+	 * @throws Exception
+	 */
 	@Test
 	public void testPostSelectionsForGroupsRefresh() throws Exception {
 		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUPS);
 		request.setMethod(HttpMethod.POST.name());
 		request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
-		ArrayList<ProviewGroup> allProviewGroups = new ArrayList<>();
+		Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<String, ProviewGroupContainer>();
+		List<ProviewGroup> allLatestProviewGroups = new ArrayList<ProviewGroup>();
 		
+		EasyMock.expect(mockProviewClient.getAllLatestProviewGroupInfo(allProviewGroups)).andReturn(allLatestProviewGroups);
 		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);
 		EasyMock.replay(mockProviewClient);
 		
@@ -145,6 +107,10 @@ public class ProviewGroupListControllerTest {
 		EasyMock.verify(mockProviewClient);
 	}
 	
+	/**
+	 * Test /ebookManager/proviewGroups.mvc		command = PAGESIZE
+	 * @throws Exception
+	 */
 	@Test
 	public void testPostSelectionsForGroupsPagesize() throws Exception {
 		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUPS);
@@ -161,9 +127,122 @@ public class ProviewGroupListControllerTest {
 		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
 	}
 	
+	/**
+	 * Test /ebookManager/proviewGroups.mvc		method = GET
+	 * @throws Exception
+	 */
+	@Ignore
+	@Test
+	public void testAllLatestProviewGroupsList() throws Exception {
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUPS);
+		request.setMethod(HttpMethod.GET.name());
+		HttpSession session = request.getSession();
+		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
+		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
+		mockTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
+		session.setAttribute(ProviewTitleForm.FORM_NAME, mockTitleForm);
+		session.setAttribute(WebConstants.KEY_PAGE_SIZE, mockTitleForm.getObjectsPerPage());
+		Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<String, ProviewGroupContainer>();
+		List<ProviewGroup> allLatestProviewGroups = new ArrayList<ProviewGroup>();
+		
+		EasyMock.expect(mockProviewClient.getAllLatestProviewGroupInfo(allProviewGroups)).andReturn(allLatestProviewGroups);
+		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);
+		EasyMock.replay(mockProviewClient);
+		
+		ModelAndView mav = handlerAdapter.handle(request, response, controller);
+		
+		assertNotNull(mav);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUPS);
+		Map<String,Object> model = mav.getModel();
+		Assert.assertEquals(model.get(WebConstants.KEY_PAGE_SIZE), "20");
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	/**
+	 * Test /ebookManager/proviewGroupsAllVersions.mvc?groupIds=<groupID>
+	 * @throws Exception 
+	 */
+	@Test
+	public void testSingleGroupAllVersions() throws Exception {
+		String groupId = "groupID";
+		
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter("groupIds", groupId);
+		HttpSession session = request.getSession();
+		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
+		
+		ProviewGroupContainer container = EasyMock.createMock(ProviewGroupContainer.class);
+		Map<String, ProviewGroupContainer> allProviewGroups = EasyMock.createMock(Map.class);
+		List<ProviewGroup> allGroupVersions = new ArrayList<ProviewGroup>();
+		
+		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);
+		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(allProviewGroups.get(groupId)).andReturn(container);
+		EasyMock.replay(allProviewGroups);
+		EasyMock.expect(container.getProviewGroups()).andReturn(allGroupVersions);
+		EasyMock.replay(container);
+		
+		ModelAndView mav = handlerAdapter.handle(request, response, controller);
+		assertNotNull(mav);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+	}
+	
+	/**
+	 * Test /ebookManager/proviewGroupSingleVersion.mvc?groupIdByVersion=<groupIDsbyVersion>
+	 * @throws Exception 
+	 */
+	@Ignore
+	@Test
+	public void testSingleGroupTitleSingleVersionWithSubgroups() throws Exception {
+		String groupId = "testID";
+		String version = "v1";
+		
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION );
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter("groupIdByVersion", groupId+"/"+version);
+		HttpSession session = request.getSession();
+		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
+		
+		String proviewResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<group id=\"testID\" status=\"Review\" version=\"v1\">"
+				+ "<name>testGroup</name><type>standard</type><headtitle>testID</headtitle>"
+				+ "<members><subgroup heading=\"SubGroup\"><title>testID/v1</title>"
+				+ "<title>testID_pt2/v1</title><title>testID_pt3/v1</title>"
+				+ "</subgroup></members></group>"; 
+		
+		EasyMock.expect(mockProviewClient.getProviewGroupInfo(groupId,version)).andReturn(proviewResponse);
+		EasyMock.expect(mockProviewClient.getSinglePublishedTitle(groupId)).andReturn(proviewResponse); //?
+		EasyMock.replay(mockProviewClient);
+		
+		ModelAndView mav = handlerAdapter.handle(request, response, controller);
+		assertNotNull(mav);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+	}
+	@Ignore
+	@Test
+	public void testSingleGroupAllTitles() throws Exception {
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
+		request.setMethod(HttpMethod.GET.name());
+		request.setParameter("groupIdByVersion", "groupId/v1");
+		HttpSession session = request.getSession();
+		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
+		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
+		mockTitleForm.setTitleId(WebConstants.KEY_TITLE_ID);
+		Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
+		testAllTitleInfo.put(mockTitleForm.getTitleId(), new ProviewTitleContainer());
+		
+		//EasyMock.expect(controller.getGroupInfoByVersion("groupId", new Long(1))).andReturn(null);
+		
+		ModelAndView mav = handlerAdapter.handle(request, response, controller);
+		assertNotNull(mav);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+	}
+	@Ignore
 	@Test
 	public void testSingleGroupTitleAllVersions() throws Exception {
-		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS);
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
 		request.setMethod(HttpMethod.GET.name());
 		request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
 		request.setParameter("groupIdByVersion", "12131/v1");
@@ -200,7 +279,7 @@ public class ProviewGroupListControllerTest {
 		EasyMock.replay(mockProviewClient);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
 	
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockProviewClient);
@@ -300,12 +379,12 @@ public class ProviewGroupListControllerTest {
 		request.setSession(session);
 				
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
 	}
-	
+	@Ignore
 	@Test
 	public void testGetGroupDetailsWithNoSubgroups() throws Exception {
-		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS);
+		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
 		request.setMethod(HttpMethod.GET.name());
 		request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
 		request.setParameter("groupIdByVersion", "12131/v1");
@@ -347,7 +426,7 @@ public class ProviewGroupListControllerTest {
 		EasyMock.replay(mockPublishingStatsService);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
 	
 		EasyMock.verify(mockBookDefinitionService);
 		EasyMock.verify(mockProviewClient);

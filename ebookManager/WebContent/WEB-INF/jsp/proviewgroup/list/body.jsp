@@ -69,10 +69,11 @@
 		
 		<display:column title="Group Name" property="groupName" sortable="true"/>
 		<display:column title="Group ID" property="groupId" sortable="true"/>
-		<display:column title="Group Version" property="groupVersion" sortable="true"/>
-		<display:column title="Group Status" property="groupStatus" />
+		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
+	  	<display:column title="Latest Version" property="groupVersion" sortable="true"/>
+		<display:column title="Latest Status" property="groupStatus" />
 		<display:column title="Action" sortable="false" media="html">
-			<a href="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${proviewGroup.groupIdByVersion}">View Group details</a>
+			<a href="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>?<%=WebConstants.KEY_GROUP_IDS%>=${proviewGroup.groupId}">View all versions</a>
 		</display:column>
 		
 	</display:table>

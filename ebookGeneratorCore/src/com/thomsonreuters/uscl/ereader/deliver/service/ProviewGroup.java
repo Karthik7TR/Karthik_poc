@@ -3,20 +3,33 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.Serializable;
 import java.util.List;
 
-public class ProviewGroup  implements Serializable {
+import org.apache.commons.lang.StringUtils;
+
+public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4229230493652304110L;
 	private String proviewName;	
-	private String groupName;	
+	private String groupName;
 	private String groupVersion;
-	private String groupId;	
+	private String groupId;
 	private String groupIdByVersion;
+	private Integer totalNumberOfVersions;
+	private String headTitle;
+	private List<SubgroupInfo> subgroupInfoList;
 	//For second screen
 	private List<GroupDetails> groupDetailList;
 	private String groupStatus;
+	
+	public Integer getTotalNumberOfVersions() {
+		return totalNumberOfVersions;
+	}
+
+	public void setTotalNumberOfVersions(Integer totalNumberOfVersions) {
+		this.totalNumberOfVersions = totalNumberOfVersions;
+	}
 	
 	public String getGroupIdByVersion() {
 		return groupIdByVersion;
@@ -41,6 +54,22 @@ public class ProviewGroup  implements Serializable {
 
 	public void setGroupDetailList(List<GroupDetails> bookInfoList) {
 		this.groupDetailList = bookInfoList;
+	}
+
+	public List<SubgroupInfo> getSubgroupInfoList() {
+		return subgroupInfoList;
+	}
+
+	public void setSubgroupInfoList(List<SubgroupInfo> subgroupInfoList) {
+		this.subgroupInfoList = subgroupInfoList;
+	}
+
+	public String getHeadTitle() {
+		return headTitle;
+	}
+
+	public void setHeadTitle(String headTitle) {
+		this.headTitle = headTitle;
 	}
 
 	// Begin These fields can be deleted 
@@ -87,7 +116,33 @@ public class ProviewGroup  implements Serializable {
 	public void setGroupVersion(String groupVersion) {
 		this.groupVersion = groupVersion;
 	}
-
+	
+	public Integer getVersion() {
+		Integer majorVersion = null;
+		String number = StringUtils.substringAfter(this.groupVersion, "v");
+		try {
+			if(StringUtils.isNotBlank(number)) {
+				majorVersion = Integer.valueOf(number);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return majorVersion;
+	}
+	
+	/*public Integer getMinorVersion() {
+		Integer minorVersion = null;
+		String number = StringUtils.substringAfter(this.groupVersion, ".");
+		try {
+			if(StringUtils.isNotBlank(number)) {
+				minorVersion = Integer.valueOf(number);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return minorVersion;
+	}
+	*/
 	public String getGroupName() {
 		return groupName;
 	}
@@ -161,8 +216,35 @@ public class ProviewGroup  implements Serializable {
 				+ ", groupName=" + groupName + ", groupVersion=" + groupVersion + ",proviewTitle=" + proviewName + "]";
 	}
 	
+	@Override
+	public int compareTo(ProviewGroup info) {
+		int version  = info.getVersion().compareTo(this.getVersion());
 		
-	public static class GroupDetails implements Serializable{
+		if(version == 0) {
+			return this.getTitleId().compareToIgnoreCase(info.getTitleId());
+		} 
+		return version;
+	}
+	
+	public static class SubgroupInfo{
+		private List<String> titleIdList;
+		private String subGroupName;
+		
+		public List<String> getTitleIdList() {
+			return titleIdList;
+		}
+		public void setTitleIdList(List<String> titleIdList) {
+			this.titleIdList = titleIdList;
+		}
+		public String getSubGroupName() {
+			return subGroupName;
+		}
+		public void setSubGroupName(String subGroupName) {
+			this.subGroupName = subGroupName;
+		}
+	}
+		
+	public static class GroupDetails implements Serializable, Comparable<GroupDetails>{
 		
 		private static final long serialVersionUID = -4229230493652304110L;
 		private String bookStatus;
@@ -226,6 +308,21 @@ public class ProviewGroup  implements Serializable {
 		public void setBookVersion(String bookVersion) {
 			this.bookVersion = bookVersion;
 		}
+		
+		public Integer getMajorVersion() {
+			Integer majorVersion = null;
+			String version = StringUtils.substringAfter(bookVersion, "v");
+			String number = StringUtils.substringBefore(version, ".");
+			try {
+				if(StringUtils.isNotBlank(number)) {
+					majorVersion = Integer.valueOf(number);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			return majorVersion;
+		}
+		
 		public String getSubGroupName() {
 			return subGroupName;
 		}
@@ -243,6 +340,16 @@ public class ProviewGroup  implements Serializable {
 		}
 		public void setTitleIdList(List<String> titleList) {
 			this.titleIdList = titleList;
+		}
+
+		@Override
+		public int compareTo(GroupDetails info) {
+			int version  = info.getBookVersion().compareTo(this.getBookVersion());
+			
+			if(version == 0) {
+				return info.getTitleId().compareToIgnoreCase(this.getTitleId());
+			} 
+			return version;
 		}
 		
 	}

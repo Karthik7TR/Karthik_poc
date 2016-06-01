@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -28,6 +30,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallback;
@@ -35,6 +39,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactor
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 
 /**
  * This class is responsible for interacting with ProView via their REST
@@ -71,59 +76,131 @@ public class ProviewClientImpl implements ProviewClient {
 	
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle
-	 * (java.lang.String, java.lang.String, java.io.File)
+	
+/*----------------------ProviewGroup operations--------------------------*/
+	
+	/**
+ 	 * Request will get group definition
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
 	 */
 	@Override
-	public String publishTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber, final File eBook)
-			throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"fullyQualifiedTitleId cannot be null or empty, but was ["
-							+ fullyQualifiedTitleId + "].");
-		}
-		if (StringUtils.isBlank(eBookVersionNumber)) {
-			throw new IllegalArgumentException(
-					"eBookVersionNumber must not be null or empty, but was ["
-							+ eBookVersionNumber + "].");
-		}
-		FileInputStream ebookInputStream;
-
-		try {
-			ebookInputStream = new FileInputStream(eBook);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(
-					"Cannot send a null or empty File to ProView.", e);
-		}
+	public String getAllProviewGroups() throws ProviewException {
+		
+		String proviewResponse = null;
+		try{
 
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getStreamRequestCallback();
-		proviewRequestCallback.setEbookInputStream(ebookInputStream);
-
-		String proviewResponse = restTemplate.execute(publishTitleUriTemplate,
-				HttpMethod.PUT, proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
-
-		// logResponse(response);
+		 proviewResponse = restTemplate.execute(allGroupsUriTemplate,
+					HttpMethod.GET,
+					proviewRequestCallbackFactory.getStreamRequestCallback(),
+					proviewResponseExtractorFactory.getResponseExtractor(),
+					urlParameters);
+		 
+		} catch (Exception e) {
+			LOG.debug(e);
+			throw new ProviewException(e.getMessage());
+		}
 
 		return proviewResponse;
 	}
 	
+	@Override
+	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo()
+			throws ProviewException {
+		
+		String allGroupsResponse = getAllProviewGroups();
+		System.out.println(allGroupsResponse);
+		ProviewGroupsParser parser = new ProviewGroupsParser();
+		return parser.process(allGroupsResponse);
+		
+	}
 	
+	@Override
+	public List<ProviewGroup> getAllLatestProviewGroupInfo() throws ProviewException {
+
+		List<ProviewGroup> allLatestProviewTitles = new ArrayList<ProviewGroup>();
+		Map<String, ProviewGroupContainer> groupMap = getAllProviewGroupInfo();
+
+		for (String groupId : groupMap.keySet()) {
+			
+			ProviewGroupContainer groupContainer = groupMap.get(groupId);
+			ProviewGroup latestVersion = groupContainer.getLatestVersion();
+			
+			latestVersion.setTotalNumberOfVersions(groupContainer
+					.getProviewGroups().size());
+			
+			allLatestProviewTitles.add(latestVersion);
+		}
+		return allLatestProviewTitles;
+	}
+	
+	@Override
+	public List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap)
+			throws ProviewException {
+		List<ProviewGroup> allLatestProviewGroups = new ArrayList<ProviewGroup>();
+
+		for (String groupId : groupMap.keySet()) {
+			ProviewGroupContainer groupContainer = groupMap.get(groupId);
+			ProviewGroup latestVersion = groupContainer.getLatestVersion();
+			latestVersion.setTotalNumberOfVersions(groupContainer
+					.getProviewGroups().size());
+			allLatestProviewGroups.add(latestVersion);
+		}
+
+		return allLatestProviewGroups;
+	}
+	
+	/**
+	 * Request will get group definition by version
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getProviewGroupInfo(final String groupId, final String groupVersion)
+			throws ProviewException {	
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+				
+		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+
+	/**
+	 * Request will get all versions of group definition by Id
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getProviewGroupById(final String groupId) throws ProviewException{
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+				
+		String proviewResponse = restTemplate.execute(singleGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}	
+
 	public String createGroup(final GroupDefinition groupDefinition)
 			throws ProviewException {	
 
@@ -138,6 +215,32 @@ public class ProviewClientImpl implements ProviewClient {
 		proviewXMLRequestCallback.setRequestInputStream(requestBody);
 
 		String proviewResponse = restTemplate.execute(createGroupUriTemplate,
+				HttpMethod.PUT, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * This request will update Group status to promote
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String promoteGroup(final String groupId, final String groupVersion)
+			throws ProviewException {	
+
+
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+
+		String proviewResponse = restTemplate.execute(promoteGroupStatusUriTemplate,
 				HttpMethod.PUT, proviewXMLRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
@@ -172,32 +275,6 @@ public class ProviewClientImpl implements ProviewClient {
 	}
 	
 	/**
-	 * This request will update Group status to removed
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	public String promoteGroup(final String groupId, final String groupVersion)
-			throws ProviewException {	
-
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupId);
-		urlParameters.put("groupVersionNumber", groupVersion);
-
-		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
-				.getXMLRequestCallback();
-
-		String proviewResponse = restTemplate.execute(promoteGroupStatusUriTemplate,
-				HttpMethod.PUT, proviewXMLRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-	
-	/**
 	 * Request will delete group
 	 * @param groupDefinition
 	 * @return
@@ -223,248 +300,9 @@ public class ProviewClientImpl implements ProviewClient {
 		//to-do response could be "status cannot be changed from removed to removed"
 		return proviewResponse;
 	}
+
+/*-----------------------Proview Title operations-----------------------------*/
 	
-	/**
-	 * Request will get group definition by version
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	public String getProviewGroupInfo(final String groupId, final String groupVersion)
-			throws ProviewException {	
-		
-		
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupId);
-		urlParameters.put("groupVersionNumber", groupVersion);
-
-		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
-				.getXMLRequestCallback();
-				
-		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
-				HttpMethod.GET, proviewXMLRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-	
-	/**
-	 * Request will get all versions of group definition by Id
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	public String getProviewGroupById(final String groupId) throws ProviewException{
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupId);
-
-		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
-				.getXMLRequestCallback();
-				
-		String proviewResponse = restTemplate.execute(singleGroupUriTemplate,
-				HttpMethod.GET, proviewXMLRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-	
-	
-	/**
-	 * Request will get group definition
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	@Override
-	public String getAllProviewGroups() throws ProviewException {
-		
-		String proviewResponse = null;
-		try{
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-
-		 proviewResponse = restTemplate.execute(allGroupsUriTemplate,
-					HttpMethod.GET,
-					proviewRequestCallbackFactory.getStreamRequestCallback(),
-					proviewResponseExtractorFactory.getResponseExtractor(),
-					urlParameters);
-		 
-		} catch (Exception e) {
-			LOG.debug(e);
-			throw new ProviewException(e.getMessage());
-		}
-
-		return proviewResponse;
-	}
-	
-	
-	protected String buildRequestBody(GroupDefinition groupDefinition)
-	{
-		
-			OutputStream output = new ByteArrayOutputStream();
-    	
-    	XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        try {
-            XMLStreamWriter writer = outputFactory.createXMLStreamWriter(
-                    output, "UTF-8");
-
-            writer.writeStartElement(ROOT_ELEMENT);
-            writer.writeAttribute("id", groupDefinition.getGroupId());
-           
-            writeElement(writer, "name", groupDefinition.getName());
-            writeElement(writer, "type",groupDefinition.getType());
-            writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
-            writer.writeStartElement("members");
-            for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList())
-            {    writer.writeStartElement("subgroup"); 
-            	if(subGroupInfo.getHeading() != null && subGroupInfo.getHeading().length() > 0){
-            		writer.writeAttribute("heading", subGroupInfo.getHeading());
-            	}
-            	for (String title : subGroupInfo.getTitles()){
-            		writeElement(writer, "title", title); 
-            	}
-                writer.writeEndElement();
-            }
-            writer.writeEndElement();
-            writer.writeEndElement();
-            writer.close();
-
-        } catch (XMLStreamException e) {
-            throw new RuntimeException(e.toString(), e);
-        }
-    	
-        LOG.debug("Proview[ Request: "+output.toString()+"]");
-    	return output.toString();
-	}
-	
-	 /**
-	    * Compose the search request body.
-	    * @param writer
-	    * @param name
-	    * @param value
-	    * @throws XMLStreamException
-	    */   		
-	 protected void writeElement(XMLStreamWriter writer, String name, Object value) throws XMLStreamException {
-	        if (value != null) {
-	            writer.writeStartElement(name);
-	            writer.writeCharacters(value.toString().trim());
-	            writer.writeEndElement();
-	        }
-	    }
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle
-	 * (java.lang.String, java.lang.String)
-	 */
-	public String deleteTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"fullyQualifiedTitleId cannot be null or empty, but was ["
-							+ fullyQualifiedTitleId + "].");
-		}
-		if (StringUtils.isBlank(eBookVersionNumber)) {
-			throw new IllegalArgumentException(
-					"eBookVersionNumber must not be null or empty, but was ["
-							+ eBookVersionNumber + "].");
-		}
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getStreamRequestCallback();
-
-		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
-				HttpMethod.DELETE, proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#removeTitle
-	 * (java.lang.String, java.lang.String)
-	 */
-	public String removeTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"fullyQualifiedTitleId cannot be null or empty, but was ["
-							+ fullyQualifiedTitleId + "].");
-		}
-		if (StringUtils.isBlank(eBookVersionNumber)) {
-			throw new IllegalArgumentException(
-					"eBookVersionNumber must not be null or empty, but was ["
-							+ eBookVersionNumber + "].");
-		}
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getStreamRequestCallback();
-
-		String proviewResponse = restTemplate.execute(removeTitleUriTemplate,
-				HttpMethod.PUT, proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle
-	 * (java.lang.String, java.lang.String)
-	 */
-	public String promoteTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"fullyQualifiedTitleId cannot be null or empty, but was ["
-							+ fullyQualifiedTitleId + "].");
-		}
-		if (StringUtils.isBlank(eBookVersionNumber)) {
-			throw new IllegalArgumentException(
-					"eBookVersionNumber must not be null or empty, but was ["
-							+ eBookVersionNumber + "].");
-		}
-
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getStreamRequestCallback();
-
-		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
-				HttpMethod.PUT, proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-
 	@Override
 	public String getAllPublishedTitles() throws ProviewException {
 		String response = null;
@@ -483,6 +321,135 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		return response;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getAllProviewTitleInfo()
+	 */
+	@Override
+	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
+			throws ProviewException {
+
+		String allPublishedTitleResponse = getAllPublishedTitles();
+
+		PublishedTitleParser parser = new PublishedTitleParser();
+
+		return parser.process(allPublishedTitleResponse);
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getProviewTitleContainer(java.lang.String)
+	 */
+	@Override
+	public ProviewTitleContainer getProviewTitleContainer(
+			final String fullyQualifiedTitleId) throws ProviewException {
+
+		ProviewTitleContainer proviewTitleContainer = null;
+		try {
+			String publishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
+	
+			PublishedTitleParser parser = new PublishedTitleParser();
+			Map<String, ProviewTitleContainer> titleMap = parser
+					.process(publishedTitleResponse);
+	
+			proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
+	
+		} catch (ProviewException ex) {
+			String errorMessage = ex.getMessage();
+			if(!errorMessage.contains("does not exist")) {
+				throw ex;
+			}
+		}
+
+		return proviewTitleContainer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getAllLatestProviewTitleInfo()
+	 */
+	@Override
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo()
+			throws ProviewException {
+
+		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+
+		Map<String, ProviewTitleContainer> titleMap = getAllProviewTitleInfo();
+
+		for (String bookId : titleMap.keySet()) {
+			ProviewTitleContainer titleContainer = titleMap.get(bookId);
+			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			latestVersion.setTotalNumberOfVersions(titleContainer
+					.getProviewTitleInfos().size());
+			allLatestProviewTitles.add(latestVersion);
+		}
+
+		return allLatestProviewTitles;
+	}
+
+	@Override
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(
+			Map<String, ProviewTitleContainer> titleMap)
+			throws ProviewException {
+
+		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
+
+		for (String bookId : titleMap.keySet()) {
+			ProviewTitleContainer titleContainer = titleMap.get(bookId);
+			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
+			latestVersion.setTotalNumberOfVersions(titleContainer
+					.getProviewTitleInfos().size());
+			allLatestProviewTitles.add(latestVersion);
+		}
+
+		return allLatestProviewTitles;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
+	 * getCurrentProviewTitleInfo(java.lang.String)
+	 */
+	@Override
+	public ProviewTitleInfo getLatestProviewTitleInfo(
+			final String fullyQualifiedTitleId) throws ProviewException {
+
+		ProviewTitleInfo latestProviewVersion = null;
+		ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
+
+		if (proviewTitleContainer != null) {
+			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+		}
+		return latestProviewVersion;
+	}
+	
+	@Override
+	public List<GroupDetails> getSingleTitleGroupDetails(String fullyQualifiedTitleId) throws ProviewException {
+		
+		List<GroupDetails> proviewGroupDetails = new ArrayList<GroupDetails>();
+		try {
+			String response = getSinglePublishedTitle(fullyQualifiedTitleId);
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			parserFactory.setNamespaceAware(true);
+			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
+			ProviewSingleTitleParser singleTitleParser = new ProviewSingleTitleParser();
+			reader.setContentHandler(singleTitleParser);
+			reader.parse(new InputSource(new StringReader(response)));
+			proviewGroupDetails = singleTitleParser.getGroupDetailsList();
+		} catch (Exception e) {
+			throw new ProviewException(e.getMessage());
+		}
+		return proviewGroupDetails;
 	}
 	
 	@Override
@@ -531,192 +498,238 @@ public class ProviewClientImpl implements ProviewClient {
 		return response;
 	}
 	
-	/*@Override
-	public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception {
-		String proviewResponse = getSingleTitleInfoByVersion(fullyQualifiedTitleId, version);
-		String status=null;	
-		
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		parserFactory.setNamespaceAware(true);
-		XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-		ProviewSingleTitleParser proviewSingleTitleParser = new ProviewSingleTitleParser();
-		reader.setContentHandler(proviewSingleTitleParser);
-		reader.parse(new InputSource(new StringReader(proviewResponse)));
-		status = proviewSingleTitleParser.getStatus();
-		return status;
-		
-	}*/
-	
-	
-//	@Override
-//	public String getPublishingStatus(String fullyQualifiedTitleId)
-//			throws ProviewException {
-//		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-//			throw new IllegalArgumentException(
-//					"Cannot get publishing status for titleId: "
-//							+ fullyQualifiedTitleId
-//							+ ". The titleId must not be null or empty.");
-//		}
-//
-//		Map<String, String> urlParameters = new HashMap<String, String>();
-//		urlParameters.put("titleId", fullyQualifiedTitleId);
-//		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-//		ResponseEntity responseEntity = restTemplate.getForEntity(
-//				publishingStatusUriTemplate, String.class, urlParameters);
-//		logResponse(responseEntity);
-//
-//		return responseEntity.getBody().toString();
-//	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getCurrentProviewTitleInfo(java.lang.String)
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle
+	 * (java.lang.String, java.lang.String)
 	 */
-	@Override
-	public ProviewTitleInfo getLatestProviewTitleInfo(
-			final String fullyQualifiedTitleId) throws ProviewException {
-
-		ProviewTitleInfo latestProviewVersion = null;
-		ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
-
-		if (proviewTitleContainer != null) {
-			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+	public String promoteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
 		}
-		return latestProviewVersion;
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+		
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getStreamRequestCallback();
+		
+		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+		
+		return proviewResponse;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getProviewTitleContainer(java.lang.String)
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle
+	 * (java.lang.String, java.lang.String, java.io.File)
 	 */
 	@Override
-	public ProviewTitleContainer getProviewTitleContainer(
-			final String fullyQualifiedTitleId) throws ProviewException {
-
-		ProviewTitleContainer proviewTitleContainer = null;
+	public String publishTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber, final File eBook)
+			throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+		FileInputStream ebookInputStream;
+		
 		try {
-			String publishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
+			ebookInputStream = new FileInputStream(eBook);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(
+					"Cannot send a null or empty File to ProView.", e);
+		}
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+		
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getStreamRequestCallback();
+		proviewRequestCallback.setEbookInputStream(ebookInputStream);
+		
+		String proviewResponse = restTemplate.execute(publishTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+		
+		// restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
+		
+		// logResponse(response);
+		
+		return proviewResponse;
+	}
 	
-			PublishedTitleParser parser = new PublishedTitleParser();
-			Map<String, ProviewTitleContainer> titleMap = parser
-					.process(publishedTitleResponse);
-	
-			proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
-	
-		} catch (ProviewException ex) {
-			String errorMessage = ex.getMessage();
-			if(!errorMessage.contains("does not exist")) {
-				throw ex;
+	protected String buildRequestBody(GroupDefinition groupDefinition)
+	{
+		
+		OutputStream output = new ByteArrayOutputStream();
+		
+		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+		try {
+			XMLStreamWriter writer = outputFactory.createXMLStreamWriter(
+					output, "UTF-8");
+			
+			writer.writeStartElement(ROOT_ELEMENT);
+			writer.writeAttribute("id", groupDefinition.getGroupId());
+			
+			writeElement(writer, "name", groupDefinition.getName());
+			writeElement(writer, "type",groupDefinition.getType());
+			writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
+			writer.writeStartElement("members");
+			for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList()) {
+				writer.writeStartElement("subgroup"); 
+				if(subGroupInfo.getHeading() != null && subGroupInfo.getHeading().length() > 0){
+					writer.writeAttribute("heading", subGroupInfo.getHeading());
+				}
+				for (String title : subGroupInfo.getTitles()){
+					writeElement(writer, "title", title); 
+				}
+				writer.writeEndElement();
 			}
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.close();
+			
+		} catch (XMLStreamException e) {
+			throw new RuntimeException(e.toString(), e);
 		}
-
-		return proviewTitleContainer;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getAllProviewTitleInfo()
-	 */
-	@Override
-	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
-			throws ProviewException {
-
-		String allPublishedTitleResponse = getAllPublishedTitles();
-
-		PublishedTitleParser parser = new PublishedTitleParser();
-
-		return parser.process(allPublishedTitleResponse);
-
+		
+		LOG.debug("Proview[ Request: "+output.toString()+"]");
+	return output.toString();
 	}
 	
-	@Override
-	public List<ProviewGroup> getAllProviewGroupInfo()
-			throws ProviewException {
-		
-		String allGroupsResponse = getAllProviewGroups();
-
-		ProviewGroupsParser parser = new ProviewGroupsParser();
-
-		return parser.process(allGroupsResponse);
-		
+	/**
+	* Compose the search request body.
+	* @param writer
+	* @param name
+	* @param value
+	* @throws XMLStreamException
+	*/
+	protected void writeElement(XMLStreamWriter writer, String name, Object value) throws XMLStreamException {
+		if (value != null) {
+			writer.writeStartElement(name);
+			writer.writeCharacters(value.toString().trim());
+			writer.writeEndElement();
+		}
 	}
-
+	 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#
-	 * getAllLatestProviewTitleInfo()
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle
+	 * (java.lang.String, java.lang.String)
 	 */
-	@Override
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo()
-			throws ProviewException {
-
-		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
-
-		Map<String, ProviewTitleContainer> titleMap = getAllProviewTitleInfo();
-
-		for (String bookId : titleMap.keySet()) {
-			ProviewTitleContainer titleContainer = titleMap.get(bookId);
-			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
-			latestVersion.setTotalNumberOfVersions(titleContainer
-					.getProviewTitleInfos().size());
-			allLatestProviewTitles.add(latestVersion);
+	public String deleteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
 		}
-
-		return allLatestProviewTitles;
-
-	}
-
-	@Override
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(
-			Map<String, ProviewTitleContainer> titleMap)
-			throws ProviewException {
-
-		List<ProviewTitleInfo> allLatestProviewTitles = new ArrayList<ProviewTitleInfo>();
-
-		for (String bookId : titleMap.keySet()) {
-			ProviewTitleContainer titleContainer = titleMap.get(bookId);
-			ProviewTitleInfo latestVersion = titleContainer.getLatestVersion();
-			latestVersion.setTotalNumberOfVersions(titleContainer
-					.getProviewTitleInfos().size());
-			allLatestProviewTitles.add(latestVersion);
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
 		}
-
-		return allLatestProviewTitles;
-
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+		
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getStreamRequestCallback();
+		
+		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
+				HttpMethod.DELETE, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+		
+		return proviewResponse;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#removeTitle
+	 * (java.lang.String, java.lang.String)
+	 */
+	public String removeTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+		
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getStreamRequestCallback();
+		
+		String proviewResponse = restTemplate.execute(removeTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+		
+		return proviewResponse;
+	}
+	
 	@Override
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
 			throws ProviewException {
-
+		
 		String allPublishedTitleResponse = getAllPublishedTitles();
-
+		
 		PublishedTitleParser parser = new PublishedTitleParser();
 		Map<String, ProviewTitleContainer> titleMap = parser
 				.process(allPublishedTitleResponse);
-
+		
 		ProviewTitleContainer proviewTitleContainer = titleMap
 				.get(fullyQualifiedTitleId);
-
+		
 		if (proviewTitleContainer != null) {
 			return proviewTitleContainer.hasBeenPublished();
 		} else {
 			return false;
 		}
 	}
-	
-//	private void logResponse(final ResponseEntity responseEntity) {
-//		LOG.debug("Response Headers: "
-//				+ responseEntity.getHeaders().toSingleValueMap());
-//		LOG.debug("Response Body:" + responseEntity.getBody().toString());
-//	}
 	
 	/**
 	 * Allows for the dynamic setting of this host name "on the fly".
@@ -726,19 +739,15 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setProviewHostname(String hostname) throws UnknownHostException {
 		setProviewHost(InetAddress.getByName(hostname));
 	}
-
+	
 	public void setProviewHost(InetAddress host) {
 		this.proviewHost = host;
 	}
-
+	
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
-
-//	public void setValidationUriTemplate(String validationUriTemplate) {
-//		this.validationUriTemplate = validationUriTemplate;
-//	}
-
+	
 	@Required
 	public void setPublishTitleUriTemplate(String publishTitleUriTemplate) {
 		this.publishTitleUriTemplate = publishTitleUriTemplate;
@@ -752,16 +761,12 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getCreateGroupUriTemplate() {
 		return createGroupUriTemplate;
 	}
-
+	
 	@Required
 	public void setCreateGroupUriTemplate(String createGroupUriTemplate) {
 		this.createGroupUriTemplate = createGroupUriTemplate;
 	}
-
-//	public void setPublishingStatusUriTemplate(
-//			String publishingStatusUriTemplate) {
-//		this.publishingStatusUriTemplate = publishingStatusUriTemplate;
-//	}
+	
 	@Required
 	public void setProviewRequestCallbackFactory(
 			ProviewRequestCallbackFactory proviewRequestCallbackFactory) {
@@ -775,12 +780,12 @@ public class ProviewClientImpl implements ProviewClient {
 	public String getDeleteTitleUriTemplate() {
 		return deleteTitleUriTemplate;
 	}
-
+	
 	@Required
 	public void setDeleteTitleUriTemplate(String deleteTitleUriTemplate) {
 		this.deleteTitleUriTemplate = deleteTitleUriTemplate;
 	}
-
+	
 	public String getRemoveTitleUriTemplate() {
 		return removeTitleUriTemplate;
 	}
@@ -788,7 +793,7 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setRemoveTitleUriTemplate(String removeTitleUriTemplate) {
 		this.removeTitleUriTemplate = removeTitleUriTemplate;
 	}
-
+	
 	public String getPromoteTitleUriTemplate() {
 		return promoteTitleUriTemplate;
 	}
@@ -797,7 +802,6 @@ public class ProviewClientImpl implements ProviewClient {
 		this.promoteTitleUriTemplate = promoteTitleUriTemplate;
 	}
 	
-
 	public String getRemoveGroupStatusUriTemplate() {
 		return removeGroupStatusUriTemplate;
 	}
@@ -806,8 +810,6 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setRemoveGroupStatusUriTemplate(String updateGroupStatusUriTemplate) {
 		this.removeGroupStatusUriTemplate = updateGroupStatusUriTemplate;
 	}
-	
-
 	
 	public String getGetGroupUriTemplate() {
 		return getGroupUriTemplate;
@@ -818,7 +820,6 @@ public class ProviewClientImpl implements ProviewClient {
 		this.getGroupUriTemplate = getGroupUriTemplate;
 	}
 	
-
 	public String getPromoteGroupStatusUriTemplate() {
 		return promoteGroupStatusUriTemplate;
 	}
@@ -846,7 +847,6 @@ public class ProviewClientImpl implements ProviewClient {
 		this.allGroupsUriTemplate = allGroupsUriTemplate;
 	}
 
-
 	public String getSingleTitleTemplate() {
 		return singleTitleTemplate;
 	}
@@ -856,7 +856,6 @@ public class ProviewClientImpl implements ProviewClient {
 		this.singleTitleTemplate = singleTitleTemplate;
 	}	
 
-
 	public String getSingleTitleByVersionUriTemplate() {
 		return singleTitleByVersionUriTemplate;
 	}
@@ -865,7 +864,6 @@ public class ProviewClientImpl implements ProviewClient {
 	public void setSingleTitleByVersionUriTemplate(String singleTitleByVersionUriTemplate) {
 		this.singleTitleByVersionUriTemplate = singleTitleByVersionUriTemplate;
 	}
-	
 
 	public String getSingleGroupUriTemplate() {
 		return singleGroupUriTemplate;

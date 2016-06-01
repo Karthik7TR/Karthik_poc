@@ -69,7 +69,7 @@
 				</c:otherwise>
 			</c:choose>
 			<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-							requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>"
+							requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>"
 							sort="external">
 				
 				<display:setProperty name="basic.msg.empty_list">No subgroups selected</display:setProperty>
@@ -111,7 +111,7 @@
 		
 		<div class="buttons">
 			<input id="RemoveButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if> value="Remove" onclick="submitRemove()"/>
-			<input id="cancelButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_BOOK_VERSIONS%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
+			<input id="cancelButton" type="button" <c:if test="${isComplete == true}"><c:out value="disabled='disabled'"/></c:if>  onclick=" location.href ='<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${groupIdByVersion}';" value="Cancel"/>
 		</div>
 		
 		<%-- Informational Messages area --%>

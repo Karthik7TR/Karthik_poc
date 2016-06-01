@@ -1,10 +1,16 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -16,17 +22,25 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.SubgroupInfo;
+
+/**
+ * Parse all Group info from proview
+ * @author uc209819
+ *
+ */
 public class ProviewGroupsParser {
-	private List<ProviewGroup> proviewGroupList = new ArrayList<ProviewGroup>();
+	
+	private Map<String, ProviewGroupContainer> groupMap = new HashMap<String, ProviewGroupContainer>();
 
 	/**
 	 * 
 	 * @param xml
 	 *            all title info from proview
 	 * @return Generate a map of the ProviewGroupContainer objects where the key
-	 *         is the title id.
+	 *         is the group id.
 	 */
-	public List<ProviewGroup> process(String xml) {
+	public Map<String, ProviewGroupContainer> process(String xml) {
 		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
 
 		try {
@@ -35,14 +49,18 @@ public class ProviewGroupsParser {
 
 			XMLReader reader = parserFactory.newSAXParser().getXMLReader();
 			reader.setContentHandler(new DefaultHandler() {
-				private static final String GROUP_TAG = "group";
-				private static final String NAME_TAG = "name";
+				private static final String GROUP = "group";
+				private static final String SUBGROUP = "subgroup";
+				private static final String HEADTITLE ="headtitle";
+				private static final String NAME = "name";
+				private static final String TITLE = "title";	
 				private static final String ID = "id";
 				private static final String VERSION = "version";
 				private static final String STATUS = "status";
 
 				private StringBuffer charBuffer = null;
 				private ProviewGroup proviewGroup;
+				private SubgroupInfo subgroup;
 
 				/*
 				 * (non-Javadoc)
@@ -70,14 +88,25 @@ public class ProviewGroupsParser {
 						if (charBuffer != null) {
 							value = StringUtils.trim(charBuffer.toString());
 						}
-						if (NAME_TAG.equals(qName)) {
+						if (NAME.equals(qName)) {
 							proviewGroup.setGroupName(value);
 						}
-
-						if (GROUP_TAG.equals(qName)) {	
-							proviewGroupList.add(proviewGroup);
+						else if(HEADTITLE.equals(qName)){
+							proviewGroup.setHeadTitle(StringUtils.substringBeforeLast(value,"/v"));
 						}
-
+						else if (GROUP.equals(qName)) {	
+							if (groupMap.get(proviewGroup.getGroupId()) == null) {
+								groupMap.put(proviewGroup.getGroupId(), 
+										new ProviewGroupContainer());
+							}
+							groupMap.get(proviewGroup.getGroupId())
+									.getProviewGroups()
+									.add(proviewGroup);
+						}
+						else if (TITLE.equals(qName)){
+							subgroup.getTitleIdList().add(value);
+						}
+						
 						charBuffer = null;
 					} catch (Exception e) {
 						String message = "PublishedTitleParser: Exception occured during PublishedTitleParser parsing endElement. The error message is: "
@@ -98,17 +127,23 @@ public class ProviewGroupsParser {
 				public void startElement(String uri, String localName, String qName, Attributes atts)
 						throws SAXException {
 					try {
-						if (GROUP_TAG.equals(qName))
+						charBuffer = new StringBuffer();
+						if (GROUP.equals(qName))
 						{
-							charBuffer = new StringBuffer();
 							proviewGroup = new ProviewGroup();
+							proviewGroup.setSubgroupInfoList(new ArrayList<SubgroupInfo>());							
 							proviewGroup.setGroupId(atts.getValue(ID));
-							proviewGroup.setGroupVersion(atts.getValue(VERSION));
 							proviewGroup.setGroupStatus(atts.getValue(STATUS));
+							proviewGroup.setGroupVersion(atts.getValue(VERSION));
 							proviewGroup.setGroupIdByVersion(atts.getValue(ID)+"/"+atts.getValue(VERSION));
-
 						}
-						if (NAME_TAG.equals(qName)) {
+						else if(SUBGROUP.equals(qName)){
+							subgroup = new SubgroupInfo();
+							subgroup.setSubGroupName(atts.getValue("heading"));
+							subgroup.setTitleIdList(new ArrayList<String>());
+							proviewGroup.getSubgroupInfoList().add(subgroup);
+						}
+						else if (NAME.equals(qName)) {
 							charBuffer = new StringBuffer();
 						}
 					} catch (Exception e) {
@@ -120,7 +155,7 @@ public class ProviewGroupsParser {
 				}
 			});
 			reader.parse(new InputSource(new StringReader(xml)));
-			return proviewGroupList;
+			return groupMap;
 		} catch (SAXException e) {
 			throw new RuntimeException(e);
 		} catch (ParserConfigurationException e) {

@@ -1,1 +1,2 @@
-<div class="pageTitle">Group Information of Title</div>
+<div class="pageTitle">Group Version List</div>
+<br/>

@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -19,55 +18,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGr
 
 @Controller
 public class ProviewGroupListFilterController extends BaseProviewGroupListController{
-
-	/**
-	 * @param httpSession
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private List<ProviewGroup> fetchAllLatestProviewGroups(HttpSession httpSession) {
-		List<ProviewGroup> allLatestProviewGroupList = (List<ProviewGroup>) httpSession
-				.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS);
-		return allLatestProviewGroupList;
-	}
-
-	/**
-	 * @param httpSession
-	 * @param selectedProviewGroupList
-	 */
-	private void saveSelectedProviewGroups(HttpSession httpSession, List<ProviewGroup> selectedProviewGroupList) {
-		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroupList);
-	}
-
-	/**
-	 * @param httpSession
-	 * @param filterForm
-	 */
-	private void saveProviewGroupListFilterForm(HttpSession httpSession, ProviewGroupListFilterForm filterForm) {
-		httpSession.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
-	}
-
-	/**
-	 * @param httpSession
-	 * @return
-	 */
-	protected ProviewGroupForm fetchSavedProviewGroupForm(
-			HttpSession httpSession) {
-		ProviewGroupForm form = (ProviewGroupForm) httpSession
-				.getAttribute(ProviewGroupForm.FORM_NAME);
-		if (form == null) {
-			form = new ProviewGroupForm();
-		}
-		return form;
-	}
-
-	/**
-	 * @param httpSession
-	 * @param form
-	 */
-	private void saveProviewGroupForm(HttpSession httpSession,ProviewGroupForm form) {
-		httpSession.setAttribute(ProviewGroupForm.FORM_NAME, form);
-	}
 
 	/**
 	 * Handle submit/post of a new set of filter criteria.
@@ -90,7 +40,7 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
 		saveSelectedProviewGroups(httpSession, selectedProviewGroupList);
 		saveProviewGroupListFilterForm(httpSession, filterForm);
 		
-		ProviewGroupForm proviewGroupForm = fetchSavedProviewGroupForm(httpSession);
+		ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
 		if (proviewGroupForm == null) {
 			proviewGroupForm = new ProviewGroupForm();
 			proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);

@@ -54,6 +54,7 @@ public class ProviewTitleListController {
 	 * @param httpSession
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(
 			HttpSession httpSession) {
 		List<ProviewTitleInfo> allLatestProviewTitleInfo = (List<ProviewTitleInfo>) httpSession
@@ -66,6 +67,7 @@ public class ProviewTitleListController {
 	 * @param httpSession
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(
 			HttpSession httpSession) {
 		List<ProviewTitleInfo> allLatestProviewTitleInfo = (List<ProviewTitleInfo>) httpSession
@@ -102,6 +104,7 @@ public class ProviewTitleListController {
 	 * @param httpSession
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(
 			HttpSession httpSession) {
 		Map<String, ProviewTitleContainer> allProviewTitleInfo = (Map<String, ProviewTitleContainer>) httpSession
@@ -263,21 +266,16 @@ public class ProviewTitleListController {
 				try {
 					if (allProviewTitleInfo == null) {
 
-						allProviewTitleInfo = proviewClient
-								.getAllProviewTitleInfo();
-						saveAllProviewTitleInfo(httpSession,
-								allProviewTitleInfo);
+						allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
+						saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
 					}
 
-					allLatestProviewTitleInfo = proviewClient
-							.getAllLatestProviewTitleInfo(allProviewTitleInfo);
-					saveAllLatestProviewTitleInfo(httpSession,
-							allLatestProviewTitleInfo);
+					allLatestProviewTitleInfo = proviewClient.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+					saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
 					selectedProviewTitleInfo = allLatestProviewTitleInfo;
 
-					saveSelectedProviewTitleInfo(httpSession,
-							selectedProviewTitleInfo);
+					saveSelectedProviewTitleInfo(httpSession,selectedProviewTitleInfo);
 
 				} catch (ProviewException e) {
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
@@ -290,14 +288,11 @@ public class ProviewTitleListController {
 
 		if (selectedProviewTitleInfo != null) {
 
-			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,
-					selectedProviewTitleInfo);
-			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,
-					selectedProviewTitleInfo.size());
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST,selectedProviewTitleInfo);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE,selectedProviewTitleInfo.size());
 		}
 
-		model.addAttribute(ProviewListFilterForm.FORM_NAME,
-				fetchSavedProviewListFilterForm(httpSession));
+		model.addAttribute(ProviewListFilterForm.FORM_NAME,fetchSavedProviewListFilterForm(httpSession));
 
 		ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
 		if (proviewTitleForm == null) {

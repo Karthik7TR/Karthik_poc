@@ -43,6 +43,7 @@ public class WebConstants {
 	public static final String KEY_ID = "id";
 	public static final String KEY_TITLE_ID = "titleId";
 	public static final String KEY_GROUP_BY_VERSION_ID = "groupIdByVersion";
+	public static final String KEY_HEAD_TITLE = "headTitle";
 	public static final String KEY_STATUS = "status";
 	public static final String KEY_SORT_BY = "sortBy";
 	public static final String KEY_PAGE_NUMBER = "pageNumber";
@@ -124,7 +125,7 @@ public class WebConstants {
 	public static final String KEY_JOB_EXECUTION_ID = "jobExecutionId";
 	public static final String KEY_JOB_EXECUTION_IDS = "jobExecutionIds";
 	
-	//public static final String KEY_GROUP_IDS = "groupIds";
+	public static final String KEY_GROUP_IDS = "groupIds";
 	
 	public static final String KEY_JOB_EXECUTIONS = "jobExecutions";
 	public static final String KEY_JOB_QUEUED_PAGE_AND_SORT = "jobsQueuedPageAndSort";
@@ -283,7 +284,8 @@ public class WebConstants {
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
 	public static final String MVC_PROVIEW_GROUPS = "proviewGroups.mvc";
 	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
-	public static final String MVC_PROVIEW_GROUP_BOOK_VERSIONS = "proviewGroupBookVersions.mvc";
+	public static final String MVC_PROVIEW_GROUP_ALL_VERSIONS = "proviewGroupAllVersions.mvc";
+	public static final String MVC_PROVIEW_GROUP_SINGLE_VERSION = "proviewGroupSingleVersions.mvc";
 	public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
 	public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
 	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
@@ -395,7 +397,8 @@ public class WebConstants {
 	public static final String VIEW_PROVIEW_GROUPS = "_proviewGroups";
 	public static final String VIEW_PROVIEW_TITLES = "_proviewTitles";
 	public static final String VIEW_PROVIEW_TITLE_ALL_VERSIONS = "_proviewTitleAllVersions";
-	public static final String VIEW_PROVIEW_GROUP_TITLE_ALL_VERSIONS = "_proviewGroupTitleAllVersions";
+	public static final String VIEW_PROVIEW_GROUP_ALL_VERSIONS = "_proviewGroupAllVersions";
+	public static final String VIEW_PROVIEW_GROUP_SINGLE_VERSION = "_proviewGroupSingleVersion";
 	public static final String VIEW_PROVIEW_TITLE_REMOVE = "_proviewTitleRemove";
 	public static final String VIEW_PROVIEW_TITLE_DELETE = "_proviewTitleDelete";
 	public static final String VIEW_PROVIEW_TITLE_PROMOTE = "_proviewTitlePromote";

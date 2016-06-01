@@ -1,22 +1,42 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
+
 public class ProviewSingleTitleParser extends DefaultHandler {
-	private String version;
-	private String status;
-	private String name;
-	private String lastUpdate;
+
 	private static final String STATUS_TAG = "status";
 	private static final String NAME_TAG = "name";
 	private static final String VERSION = "version";
 	private static final String LAST_UPDATE = "lastupdate";
+	private static final String TITLE = "title";
+	private static final String SPLIT_BOOK_NAMING_CONVENTION = " (eBook ";
+	private static final String ID = "id";
+			
+	private String version;
+	private String status;
+	private String name;
+	private String lastUpdate;
+	private String titleId;
+	private List<GroupDetails> GroupDetailsList = new ArrayList<GroupDetails>();
 	
 	private static final Logger LOG = Logger.getLogger(ProviewSingleTitleParser.class);
+	
+	public List<GroupDetails> getGroupDetailsList() {
+		return GroupDetailsList;
+	}
+
+	public void setGroupDetailsList(List<GroupDetails> GroupDetailsList) {
+		this.GroupDetailsList = GroupDetailsList;
+	}
 
 	public String getVersion() {
 		return version;
@@ -78,15 +98,23 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 			}
 			if (NAME_TAG.equals(qName)) {
 				this.name = value;
-			}
-			if (STATUS_TAG.equals(qName)) {
+			}else if (STATUS_TAG.equals(qName)) {
 				this.status = value;
-			}
-			if (LAST_UPDATE.equals(qName)) {
+			}else if (LAST_UPDATE.equals(qName)) {
 				this.lastUpdate = value;
-			}
-			if (VERSION.equals(qName)) {
+			}else if (VERSION.equals(qName)) {
 				this.version = value;
+			}
+			if (TITLE.equals(qName)){
+				GroupDetails groupDetails = new GroupDetails();
+				groupDetails.setBookStatus(status);
+				groupDetails.setBookVersion(version);
+				name = StringUtils.substringBeforeLast(name, SPLIT_BOOK_NAMING_CONVENTION);
+				groupDetails.setProviewDisplayName(name);				
+				groupDetails.setTitleId(titleId);
+				String [] setTitleIdWithVersion = {titleId+"/"+version};
+				groupDetails.setTitleIdtWithVersionArray(setTitleIdWithVersion);
+				GroupDetailsList.add(groupDetails);
 			}
 			
 			charBuffer = null;
@@ -108,6 +136,12 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 		try {
 			if (NAME_TAG.equals(qName) || STATUS_TAG.equals(qName) || LAST_UPDATE.equals(qName) || VERSION.equals(qName)) {
 				charBuffer = new StringBuffer();
+			}else if(TITLE.equals(qName)){
+				this.titleId = atts.getValue(ID);
+				this.status = atts.getValue(STATUS_TAG);
+				this.version = atts.getValue(VERSION);
+				this.name = atts.getValue(NAME_TAG);
+				this.lastUpdate = atts.getValue(LAST_UPDATE);
 			}
 		} catch (Exception e) {
 			String message = "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "

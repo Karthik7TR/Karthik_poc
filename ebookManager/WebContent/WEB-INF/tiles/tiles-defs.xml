@@ -60,9 +60,14 @@
 	  <put-attribute name="left" value="/WEB-INF/jsp/proviewgroup/list/left.jsp"/>
 	</definition>
 	
-	<definition name="_proviewGroupTitleAllVersions" extends="oneColumnDefinition">
+	<definition name="_proviewGroupAllVersions" extends="oneColumnDefinition">
 	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/singleGroup/title.jsp"/>
 	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/singleGroup/body.jsp"/>
+	</definition>
+	
+	<definition name="_proviewGroupSingleVersion" extends="oneColumnDefinition">
+	  <put-attribute name="title" value="/WEB-INF/jsp/proviewgroup/singleVersion/title.jsp"/>
+	  <put-attribute name="body" value="/WEB-INF/jsp/proviewgroup/singleVersion/body.jsp"/>
 	</definition>
 	
 	<definition name="_proviewGroupBookPromote" extends="oneColumnDefinition">
