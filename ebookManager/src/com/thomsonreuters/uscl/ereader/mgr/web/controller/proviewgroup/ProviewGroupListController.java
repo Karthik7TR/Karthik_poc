@@ -62,13 +62,13 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	// retry parameters
 	private int maxNumberOfRetries = 3;
 	private Validator validator;
-
-
+	
+	
 	@InitBinder(ProviewGroupListFilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
 	}
-
+	
 	public Validator getValidator() {
 		return validator;
 	}
@@ -77,7 +77,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	public void setValidator(Validator validator) {
 		this.validator = validator;
 	}
-
+	
 	/**
 	 * 
 	 * @param httpSession
@@ -116,7 +116,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
 			model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
 			break;
-
+			
 		case PAGESIZE:
 			saveProviewGroupForm(httpSession, form);
 			List<ProviewGroup> selectedProviewGroup = fetchSelectedProviewGroups(httpSession);
@@ -144,12 +144,12 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		
 		List<ProviewGroup> selectedProviewGroups = fetchSelectedProviewGroups(httpSession);
 		ProviewGroupListFilterForm filterForm = fetchProviewGroupListFilterForm(httpSession);
-
+		
 		if (selectedProviewGroups == null) {
-
+			
 			List<ProviewGroup> allLatestProviewGroups = fetchAllLatestProviewGroups(httpSession);
 			if (allLatestProviewGroups == null) {
-
+				
 				Map<String, ProviewGroupContainer> allProviewGroups = fetchAllProviewGroups(httpSession);
 				
 				try {
@@ -167,8 +167,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 					}
 					saveSelectedProviewGroups(httpSession, selectedProviewGroups);
 					model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroups);
-
-
+					
+					
 				} catch (ProviewException e) {
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
 							"Proview Exception occured. Please contact your administrator.");
@@ -181,9 +181,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroups.size());
 		}
 		model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
-
+		
 		ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
-		if (proviewGroupForm == null) {
+		if (proviewGroupForm.getObjectsPerPage() == null) {
 			proviewGroupForm = new ProviewGroupForm();
 			proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
 			saveProviewGroupForm(httpSession, proviewGroupForm);
@@ -224,7 +224,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allGroupVersions.size());
 			}
 		}
-
+		
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
 	}
 	
@@ -246,6 +246,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		try {
 			String groupId = StringUtils.substringBeforeLast(groupIdByVersion, "/v");
 			String version = StringUtils.substringAfterLast(groupIdByVersion, "/v");
+			form.setProviewGroupID(groupId);
 			
 			Map<String, ProviewGroupContainer> allProviewGroups = fetchAllProviewGroups(httpSession);
 			
@@ -256,7 +257,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			
 			ProviewGroupContainer proviewGroupContainer = allProviewGroups.get(groupId);
 			ProviewGroup proviewGroup = proviewGroupContainer.getGroupByVersion(version);
-			List<GroupDetails> groupDetailsList = null;// proviewGroup.getGroupDetailList();
+			List<GroupDetails> groupDetailsList = null;
 			
 			String headTitleID = proviewGroup.getHeadTitle();
 			
@@ -279,7 +280,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				groupDetailsList = getGroupDetailsWithSubGroups(headTitleID, version, proviewGroupContainer);
 				for (GroupDetails groupDetail:groupDetailsList){
 					Collections.sort(groupDetail.getTitleIdList());
-					Collections.sort(groupDetail.getTitleIdListWithVersion());
 				}
 			}
 			else if (proviewGroup != null && proviewGroup.getSubgroupInfoList() != null) {
@@ -316,30 +316,29 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		for (SubgroupInfo subgroup : selectedGroup.getSubgroupInfoList()) {		// multiple split books in a group
 			for (String titleIdVersion : subgroup.getTitleIdList()){		// for each split in a split book
 				String titleId = StringUtils.substringBeforeLast(titleIdVersion, "/v").trim();
-				String version1 = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();	// book major version
+				String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();	// book major version
 				Integer  majorVersion = null;
-				if (!version1.equals("")){
-					majorVersion = Integer.valueOf(version1);
+				if (!titleMajorVersion.equals("")){
+					majorVersion = Integer.valueOf(titleMajorVersion);
 				}
 				
 				ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
-				for (ProviewTitleInfo title : container.getProviewTitleInfos()){			// for each minor version
-					if (title.getMajorVersion().equals(majorVersion)){		// check its major version
-						GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
-						if (groupDetails == null) {
-							groupDetails = new GroupDetails();
-							groupDetailsMap.put(title.getVersion(),groupDetails);
-							
-							groupDetails.setSubGroupName(subgroup.getSubGroupName());
-							groupDetails.setId(titleId);
-							groupDetails.setTitleIdList(new ArrayList<String>());
-							groupDetails.setTitleIdListWithVersion(new ArrayList<String>());
-							groupDetails.setProviewDisplayName(title.getTitle());
-							groupDetails.setBookVersion(title.getVersion());
-							groupDetails.setBookStatus(title.getStatus());
+				if (container != null) {
+					for (ProviewTitleInfo title : container.getProviewTitleInfos()){			// for each minor version
+						if (title.getMajorVersion().equals(majorVersion)){		// check its major version
+							GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
+							if (groupDetails == null) {
+								groupDetails = new GroupDetails();
+								groupDetailsMap.put(title.getVersion(),groupDetails);
+								
+								groupDetails.setSubGroupName(subgroup.getSubGroupName());
+								groupDetails.setId(titleId);
+								groupDetails.setTitleIdList(new ArrayList<ProviewTitleInfo>());
+								groupDetails.setProviewDisplayName(title.getTitle());
+								groupDetails.setBookVersion(title.getVersion());
+							}
+							groupDetails.addTitleInfo(title);
 						}
-						groupDetails.getTitleIdList().add(title.getTitleId());
-						groupDetails.getTitleIdListWithVersion().add(title.getTitleId()+title.getVersion());
 					}
 				}
 			}
@@ -575,86 +574,87 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		model.addAttribute(WebConstants.KEY_IS_COMPLETE, "true");
 		
 		List<ProviewAudit> auditList = new ArrayList<ProviewAudit>();
-			String[] titlesString = {} ;
-			for (String bookTitlesWithVersion : form.getGroupIds()) {
-				if(!bookTitlesWithVersion.isEmpty()){
-					bookTitlesWithVersion=bookTitlesWithVersion.replaceAll("\\[|\\]|\\{|\\}", "");
-					if(!bookTitlesWithVersion.isEmpty()){
-						titlesString = bookTitlesWithVersion.split(",");
-					}
+		String[] titlesString = {};
+		for (String bookTitlesWithVersion : form.getGroupIds()) {
+			if (!bookTitlesWithVersion.isEmpty()) {
+				bookTitlesWithVersion = bookTitlesWithVersion.replaceAll("\\[|\\]|\\{|\\}", "");
+				if (!bookTitlesWithVersion.isEmpty()) {
+					titlesString = bookTitlesWithVersion.split(",");
 				}
 			}
-			
-			for (String bookTitleWithVersion : titlesString) {
-				String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
-				String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
-					try {
-							doTitleOperation(operation, title, version);
-							ProviewAudit audit = new ProviewAudit();
-							audit.setTitleId(title);
-							audit.setBookVersion(version);
-							auditList.add(audit);
-							successBuffer.append("Title " + title + " version " + version
-									+ " has been "+operation+"d successfully \t\n");
-						} catch (Exception e) {
-							success = false;
-							errorBuffer.append("Failed to "+operation+" title " + title + " and version " + version + ".\t\n"
-									+ e.getMessage() + "\t\n\n");
-						}
-			}
-			
-			String groupRequest = operation;
-			
-			if (success && form.isGroupOperation()) {
+		}
+		
+		for (String bookTitleWithVersion : titlesString) {
+			String version = StringUtils.substringAfterLast(bookTitleWithVersion, "/").trim();
+			String title = StringUtils.substringBeforeLast(bookTitleWithVersion, "/").trim();
 			try {
-					
-					doGroupOperation(operation, form.getProviewGroupID(),"v"+form.getGroupVersion());
-					//Group will be deleted when users removes group
-					if(operation.equalsIgnoreCase("Remove")){
-						groupRequest = "Delete";
-						doGroupOperation(groupRequest, form.getProviewGroupID(),"v"+form.getGroupVersion());
-					}
-					String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version "
-							+ form.getGroupVersion() + ", Group name " + form.getGroupName()
-							+ " has been "+groupRequest+"d successfully";
-					successBuffer.append(successMsg);
-					model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
-				} catch (Exception e) {
-					success = false;
-					errorBuffer.append("Failed to "+groupRequest+" group " + form.getProviewGroupID() + " and version "
-							+ form.getGroupVersion() + "." + e.getMessage());
-				}
-			}
-			else if(success && !form.isGroupOperation()){
-				String successMsg = "Selected Titles have been "+operation+"d successfully";
-				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
-			}
-			else{
-				errorBuffer.append("Group Id "+form.getProviewGroupID()+" Version "+form.getGroupVersion()+" could not be "+operation+"d");
-			}
-			
-			if (success) {
-				emailSubject += "Success";
-				emailBody = successBuffer.toString();
-				
-			} else {
-				emailSubject += "Failed";
-				model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
-				if (successBuffer.length() > 0) {
-					successBuffer.append(errorBuffer);
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
-							"Partial failure: \t\n" + successBuffer.toString());
-					emailBody = "Partial failure: \n" + successBuffer.toString();
+				doTitleOperation(operation, title, version);
+				ProviewAudit audit = new ProviewAudit();
+				audit.setTitleId(title);
+				audit.setBookVersion(version);
+				auditList.add(audit);
+				successBuffer.append(
+						"Title " + title + " version " + version + " has been " + operation + "d successfully \t\n");
+			} catch (Exception e) {
+				if (e.getMessage().contains("Title status cannot be changed from Final to Final")) {
+					successBuffer.append(title + version + " unchanged. Status: Final\n");
 				} else {
-					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \t\n" + errorBuffer.toString());
-					emailBody = "Failed: \t\n" + errorBuffer.toString();
+					success = false;
+					errorBuffer.append("Failed to " + operation + " title " + title + " and version " + version
+							+ ".\t\n" + e.getMessage() + "\t\n\n");
 				}
 			}
-			sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
-			for (ProviewAudit audit : auditList) {
-				proviewAuditService.save(form.createAudit(audit.getTitleId(), audit.getBookVersion(), new Date(),//lastUpdate,
-						operation.toUpperCase(), form.getComments()));
+		}
+		
+		String groupRequest = operation;
+		
+		if (success && form.isGroupOperation()) {
+			try {
+				
+				doGroupOperation(operation, form.getProviewGroupID() + "/v" + form.getGroupVersion());
+				// Group will be deleted when users removes group
+				if (operation.equalsIgnoreCase("Remove")) {
+					groupRequest = "Delete";
+					doGroupOperation(groupRequest, form.getProviewGroupID() + "/v" + form.getGroupVersion());
+				}
+				String successMsg = "GroupID " + form.getProviewGroupID() + ", Group version " + form.getGroupVersion()
+						+ ", Group name " + form.getGroupName() + " has been " + groupRequest + "d successfully";
+				successBuffer.append(successMsg);
+				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
+			} catch (Exception e) {
+				success = false;
+				errorBuffer.append("Failed to " + groupRequest + " group " + form.getProviewGroupID() + " and version "
+						+ form.getGroupVersion() + "." + e.getMessage());
 			}
+		} else if (success && !form.isGroupOperation()) {
+			String successMsg = "Selected Titles have been " + operation + "d successfully";
+			model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: \t\n" + successMsg);
+		} else {
+			errorBuffer.append("Group Id " + form.getProviewGroupID() + " Version " + form.getGroupVersion()
+					+ " could not be " + operation + "d");
+		}
+		
+		if (success) {
+			emailSubject += "Success";
+			emailBody = successBuffer.toString();
+			
+		} else {
+			emailSubject += "Failed";
+			model.addAttribute(WebConstants.KEY_GROUP_STATUS, form.getGroupStatus());
+			if (successBuffer.length() > 0) {
+				successBuffer.append(errorBuffer);
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Partial failure: \t\n" + successBuffer.toString());
+				emailBody = "Partial failure: \n" + successBuffer.toString();
+			} else {
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed: \t\n" + errorBuffer.toString());
+				emailBody = "Failed: \t\n" + errorBuffer.toString();
+			}
+		}
+		sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
+		for (ProviewAudit audit : auditList) {
+			proviewAuditService.save(form.createAudit(audit.getTitleId(), audit.getBookVersion(), new Date(), // lastUpdate,
+					operation.toUpperCase(), form.getComments()));
+		}
 		return success;
 	}
 	
@@ -678,18 +678,21 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		}
 	}
 	
-	private void doGroupOperation(String operation, String groupId, String groupVersion) throws Exception {
+	private void doGroupOperation(String operation, String groupIdByVersion) throws Exception {
 		switch (operation) {
 			case "Promote": {
-				proviewClient.promoteGroup(groupId,groupVersion);
+				proviewClient.promoteGroup(StringUtils.substringBeforeLast(groupIdByVersion,"/v"),
+						StringUtils.substringAfterLast(groupIdByVersion,"/"));
 				break;
 			}
 			case "Remove": {
-				proviewClient.removeGroup(groupId,groupVersion);
+				proviewClient.removeGroup(StringUtils.substringBeforeLast(groupIdByVersion,"/v"),
+						StringUtils.substringAfterLast(groupIdByVersion,"/"));
 				break;
 			}
 			case "Delete": {
-				proviewClient.deleteGroup(groupId,groupVersion);
+				proviewClient.deleteGroup(StringUtils.substringBeforeLast(groupIdByVersion,"/v"),
+						StringUtils.substringAfterLast(groupIdByVersion,"/"));
 				break;
 			}
 		}

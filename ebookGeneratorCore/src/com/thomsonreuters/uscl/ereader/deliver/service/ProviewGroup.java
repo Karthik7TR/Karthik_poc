@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,8 +19,9 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 	private String groupIdByVersion;
 	private Integer totalNumberOfVersions;
 	private String headTitle;
+	//subgroup information parsed from proview xml
 	private List<SubgroupInfo> subgroupInfoList;
-	//For second screen
+	//For third screen
 	private List<GroupDetails> groupDetailList;
 	private String groupStatus;
 	
@@ -39,7 +41,6 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 		this.groupIdByVersion = groupIdByVersion;
 	}
 	
-
 	public String getGroupStatus() {
 		return groupStatus;
 	}
@@ -247,10 +248,9 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 	public static class GroupDetails implements Serializable, Comparable<GroupDetails>{
 		
 		private static final long serialVersionUID = -4229230493652304110L;
+		private List<ProviewTitleInfo> titleInfoList;
 		private String bookStatus;
-		private List<String> titleIdList; 
 		private String subGroupName;
-		private List<String> titleIdListWithVersion;
 		private String bookVersion;
 		private String id;
 		private String proviewDisplayName;
@@ -276,15 +276,21 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 			this.titleIdWithVersionArray = titleIdWithVersionArray;
 		}
 		
+		public List<String> getTitleIdList() {
+			List<String> titleIdList = new ArrayList<String>();
+			for (ProviewTitleInfo title : titleInfoList) {
+				titleIdList.add(title.getTitleId());
+			}
+			return titleIdList;
+		}
 		
 		public List<String> getTitleIdListWithVersion() {
+			List<String> titleIdListWithVersion = new ArrayList<String>();
+			for (ProviewTitleInfo title : titleInfoList) {
+				titleIdListWithVersion.add(title.getTitleId()+"/"+title.getVersion());
+			}
 			return titleIdListWithVersion;
 		}
-
-		public void setTitleIdListWithVersion(List<String> titleIdListWithVersion) {
-			this.titleIdListWithVersion = titleIdListWithVersion;
-		}
-		
 
 		public String getProviewDisplayName() {
 			return proviewDisplayName;
@@ -335,11 +341,35 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 		public void setBookStatus(String bookStatus) {
 			this.bookStatus = bookStatus;
 		}
-		public List<String> getTitleIdList() {
-			return titleIdList;
+		public List<ProviewTitleInfo> getTitleInfoList() {
+			return titleInfoList;
 		}
-		public void setTitleIdList(List<String> titleList) {
-			this.titleIdList = titleList;
+		public void setTitleIdList(List<ProviewTitleInfo> titleInfoList) {
+			this.titleInfoList = titleInfoList;
+			for (ProviewTitleInfo titleInfo : titleInfoList) {
+				if (updateStatus(titleInfo)) {
+					bookStatus = titleInfo.getStatus();
+				}
+			}
+		}
+		public void addTitleInfo(ProviewTitleInfo titleInfo) {
+			if (titleInfoList == null) {
+				titleInfoList = new ArrayList<ProviewTitleInfo>();
+			}
+			if(updateStatus(titleInfo)) {
+				bookStatus = titleInfo.getStatus();
+			}
+			titleInfoList.add(titleInfo);
+		}
+		
+		private boolean updateStatus(ProviewTitleInfo titleInfo) {
+			if ("review".equalsIgnoreCase(bookStatus)) {
+				return false;
+			}
+			if ("review".equalsIgnoreCase(titleInfo.getStatus())) {
+				return true;
+			}
+			return false;
 		}
 
 		@Override

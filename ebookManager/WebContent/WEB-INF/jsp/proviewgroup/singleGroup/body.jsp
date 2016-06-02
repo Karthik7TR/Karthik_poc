@@ -37,8 +37,8 @@
 	  	<display:setProperty name="paging.banner.onepage" value=" " />
 	  	<display:column title="Group Name" property="groupName" sortable="true"/>
 	  	<display:column title="Group ID" property="groupId" sortable="true"/>
-	  	<display:column title="Latest Version" property="groupVersion" sortable="true"/>
 	  	<display:column title="Group Status" property="groupStatus" sortable="true"/>
+	  	<display:column title="Latest Version" property="groupVersion" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 					<a href="<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${proviewGroup.groupIdByVersion}">View Group details</a>
 		</display:column>

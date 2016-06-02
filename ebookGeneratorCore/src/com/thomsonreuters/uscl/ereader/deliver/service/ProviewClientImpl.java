@@ -113,7 +113,6 @@ public class ProviewClientImpl implements ProviewClient {
 			throws ProviewException {
 		
 		String allGroupsResponse = getAllProviewGroups();
-		System.out.println(allGroupsResponse);
 		ProviewGroupsParser parser = new ProviewGroupsParser();
 		return parser.process(allGroupsResponse);
 		

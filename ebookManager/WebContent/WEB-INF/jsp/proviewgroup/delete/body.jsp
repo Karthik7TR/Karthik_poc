@@ -20,7 +20,7 @@
 		}
 		
 		function submitDelete(){
-			var confirmed = confirm("Are you sure to Delete?");
+			var confirmed = confirm("Are you sure you want to Delete?");
 			if (confirmed){
 				submitForm();
 			}
@@ -54,11 +54,15 @@
 				<c:when test="${proviewGroupListFilterForm.groupOperation}">
 					<tr>
 						<td id="groupName"><b>Group Name:</b></td> 
-						<td>&nbsp;&nbsp;&nbsp;${groupName}</td>
+						<td>&nbsp;&nbsp;&nbsp;${ groupName }</td>
+					</tr>
+					<tr>
+						<td id="headTitle"><b>Head Title:</b></td> 
+						<td>&nbsp;&nbsp;&nbsp;${ headTitle }</td>
 					</tr>
 					<tr>
 						<td id="status"><b>Group Status:</b></td> 
-						<td>&nbsp;&nbsp;&nbsp;${groupStatus}</td>
+						<td>&nbsp;&nbsp;&nbsp;${ groupStatus }</td>
 					</tr>
 					<tr>
 						<td id="groupVersion"><b>Group Version:</b></td>

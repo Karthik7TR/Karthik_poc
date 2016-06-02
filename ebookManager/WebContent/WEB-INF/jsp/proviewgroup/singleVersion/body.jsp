@@ -102,7 +102,6 @@ function submitGroupForm(command) {
 			<form:hidden path="groupCmd"/>
 			<form:hidden path="groupName" value="${groupName}"/>
 			<form:hidden path="groupStatus" value="${groupStatus}"/>
-			<form:hidden path="groupIdByVersion" value="${groupIdByVersion}"/>
 			<form:hidden path="bookDefinitionId" value="${bookDefinitionId}"/>
 			<form:hidden path="proviewGroupID" value="${proviewGroupID}"/>
 			<form:hidden path="groupVersion" value="${groupVersion}"/>
@@ -181,27 +180,37 @@ function submitGroupForm(command) {
 		
 			<c:when test="${showSubgroup}">
 				<display:column title="Subgroup Name" property="subGroupName" />
-				<c:set var="values" value="${groupDetail.titleIdList}" />
+				<display:column title="Proview Display Name" property="proviewDisplayName" />
+				<c:set var="values" value="${groupDetail.titleInfoList}" />
 				<display:column title="Title ID" style="text-align: left">
 					<table class="displayTagTable">
-							<c:forEach items="${values}" var="value" varStatus="status">
+							<c:forEach items="${ values }" var="value" varStatus="status">
 								<tbody>
-									<tr><td>${ value }</td></tr>
+									<tr><td>${ value.titleId }</td></tr>
 								</tbody>
 							</c:forEach>
+					</table>
+				</display:column>
+				<display:column title="Book Status" style="text-align: left">
+					<table class="displayTagTable">
+						<c:forEach items="${values}" var="value" varStatus="status">
+							<tbody>
+								<tr><td>${ value.status }</td></tr>
+							</tbody>
+						</c:forEach>
 					</table>
 				</display:column>
 			</c:when>
 			
 			<c:otherwise>
+				<display:column title="Proview Display Name" property="proviewDisplayName" />
 				<display:column title="Title ID" property= "titleId" />
+				<display:column title="Book Status" property="bookStatus" />
 			</c:otherwise>
 			
 		</c:choose>
 		
-		<display:column title="Proview Display Name" property="proviewDisplayName" />
 		<display:column title="Version" property="bookVersion" />
-		<display:column title="Book Status" property="bookStatus" />
 	</display:table>
 	
 	<c:set var="disableButtons" value="disabled"/>
