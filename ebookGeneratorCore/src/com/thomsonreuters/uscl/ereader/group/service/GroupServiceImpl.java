@@ -330,11 +330,13 @@ public class GroupServiceImpl implements GroupService {
 	
 	public void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception {
 		List<GroupDefinition> GroupDefinition = getGroups(bookDefinition);
-
-		for (GroupDefinition group : GroupDefinition) {
-			proviewClient.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
-			TimeUnit.SECONDS.sleep(2);
-			proviewClient.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());			
+		
+		if(GroupDefinition != null){
+			for (GroupDefinition group : GroupDefinition) {
+				proviewClient.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
+				TimeUnit.SECONDS.sleep(2);
+				proviewClient.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());			
+			}
 		}
 
 	}
