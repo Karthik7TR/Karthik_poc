@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl;
@@ -58,7 +60,7 @@ public class ProviewGroupListControllerTest {
 	private PublishingStatsService mockPublishingStatsService;
 	
 	@Before
-	public void SetUp() throws Exception {
+	public void setUp() throws Exception {
 		this.request = new MockHttpServletRequest();
 		this.response =new MockHttpServletResponse();
 		
@@ -81,6 +83,11 @@ public class ProviewGroupListControllerTest {
 		controller.setPublishingStatsService(mockPublishingStatsService);
 		
 		new ArrayList<ProviewTitleInfo>();
+	}
+	
+	@After
+	public void reset() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 	
 	/**

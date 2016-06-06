@@ -96,7 +96,6 @@ public class UserPreferencesControllerTest {
 	/**
      * Test the POST to the User Preferences Success
      */
-	@Ignore
 	@Test
 	public void testPostPreferences() {
 		request.setRequestURI("/"+ WebConstants.MVC_USER_PREFERENCES);
