@@ -40,6 +40,6 @@
 	  	<display:column title="Group Status" property="groupStatus" sortable="true"/>
 	  	<display:column title="Latest Version" property="groupVersion" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
-					<a href="<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${proviewGroup.groupIdByVersion}">View Group details</a>
+					<a id="viewGroupDetails" href="<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>?<%=WebConstants.KEY_GROUP_BY_VERSION_ID%>=${proviewGroup.groupIdByVersion}">View Group details</a>
 		</display:column>
 	</display:table>
