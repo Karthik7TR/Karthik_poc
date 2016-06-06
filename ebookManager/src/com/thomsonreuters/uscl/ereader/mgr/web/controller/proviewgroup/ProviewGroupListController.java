@@ -125,7 +125,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
 			model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
 			model.addAttribute(ProviewGroupForm.FORM_NAME, form);
-			
 			break;
 		}
 		
@@ -479,7 +478,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			if(success){
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Final");
 			}
-			
 		} catch (Exception e) {
 			
 			String emailBody = "Group: " + form.getGroupName() + " could not be promoted to Proview.\n" + e.getMessage();
@@ -509,7 +507,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			if(success){
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Remove");
 			}
-			
 		} catch (Exception e) {
 			
 			String emailBody = "Group: " + form.getGroupName() + " could not be removed from Proview.\n" + e.getMessage();
@@ -539,7 +536,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			if(success){
 				model.addAttribute(WebConstants.KEY_GROUP_STATUS, "Delete");
 			}
-			
 		} catch (Exception e) {
 			
 			String emailBody = "Group: " + form.getGroupName() + " could not be Deleted from Proview.\n" + e.getMessage();
@@ -597,7 +593,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 						"Title " + title + " version " + version + " has been " + operation + "d successfully \t\n");
 			} catch (Exception e) {
 				if (e.getMessage().contains("Title status cannot be changed from Final to Final")) {
-					successBuffer.append(title + version + " unchanged. Status: Final\n");
+					successBuffer.append(title + "/" + version + " unchanged. Status: Final\n");
 				} else {
 					success = false;
 					errorBuffer.append("Failed to " + operation + " title " + title + " and version " + version

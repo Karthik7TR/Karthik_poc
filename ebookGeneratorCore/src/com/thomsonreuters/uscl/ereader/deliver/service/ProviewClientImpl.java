@@ -501,42 +501,6 @@ public class ProviewClientImpl implements ProviewClient {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle
-	 * (java.lang.String, java.lang.String)
-	 */
-	public String promoteTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException {
-		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
-			throw new IllegalArgumentException(
-					"fullyQualifiedTitleId cannot be null or empty, but was ["
-							+ fullyQualifiedTitleId + "].");
-		}
-		if (StringUtils.isBlank(eBookVersionNumber)) {
-			throw new IllegalArgumentException(
-					"eBookVersionNumber must not be null or empty, but was ["
-							+ eBookVersionNumber + "].");
-		}
-		
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("titleId", fullyQualifiedTitleId);
-		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
-		
-		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
-				.getStreamRequestCallback();
-		
-		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
-				HttpMethod.PUT, proviewRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-		
-		return proviewResponse;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#publishTitle
 	 * (java.lang.String, java.lang.String, java.io.File)
 	 */
@@ -584,68 +548,14 @@ public class ProviewClientImpl implements ProviewClient {
 		return proviewResponse;
 	}
 	
-	protected String buildRequestBody(GroupDefinition groupDefinition)
-	{
-		
-		OutputStream output = new ByteArrayOutputStream();
-		
-		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-		try {
-			XMLStreamWriter writer = outputFactory.createXMLStreamWriter(
-					output, "UTF-8");
-			
-			writer.writeStartElement(ROOT_ELEMENT);
-			writer.writeAttribute("id", groupDefinition.getGroupId());
-			
-			writeElement(writer, "name", groupDefinition.getName());
-			writeElement(writer, "type",groupDefinition.getType());
-			writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
-			writer.writeStartElement("members");
-			for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList()) {
-				writer.writeStartElement("subgroup"); 
-				if(subGroupInfo.getHeading() != null && subGroupInfo.getHeading().length() > 0){
-					writer.writeAttribute("heading", subGroupInfo.getHeading());
-				}
-				for (String title : subGroupInfo.getTitles()){
-					writeElement(writer, "title", title); 
-				}
-				writer.writeEndElement();
-			}
-			writer.writeEndElement();
-			writer.writeEndElement();
-			writer.close();
-			
-		} catch (XMLStreamException e) {
-			throw new RuntimeException(e.toString(), e);
-		}
-		
-		LOG.debug("Proview[ Request: "+output.toString()+"]");
-	return output.toString();
-	}
-	
-	/**
-	* Compose the search request body.
-	* @param writer
-	* @param name
-	* @param value
-	* @throws XMLStreamException
-	*/
-	protected void writeElement(XMLStreamWriter writer, String name, Object value) throws XMLStreamException {
-		if (value != null) {
-			writer.writeStartElement(name);
-			writer.writeCharacters(value.toString().trim());
-			writer.writeEndElement();
-		}
-	}
-	 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#promoteTitle
 	 * (java.lang.String, java.lang.String)
 	 */
-	public String deleteTitle(final String fullyQualifiedTitleId,
+	public String promoteTitle(final String fullyQualifiedTitleId,
 			final String eBookVersionNumber) throws ProviewException {
 		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
 			throw new IllegalArgumentException(
@@ -666,8 +576,8 @@ public class ProviewClientImpl implements ProviewClient {
 		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
 				.getStreamRequestCallback();
 		
-		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
-				HttpMethod.DELETE, proviewRequestCallback,
+		String proviewResponse = restTemplate.execute(promoteTitleUriTemplate,
+				HttpMethod.PUT, proviewRequestCallback,
 				proviewResponseExtractorFactory.getResponseExtractor(),
 				urlParameters);
 		
@@ -709,6 +619,42 @@ public class ProviewClientImpl implements ProviewClient {
 		
 		return proviewResponse;
 	}
+	 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient#deleteTitle
+	 * (java.lang.String, java.lang.String)
+	 */
+	public String deleteTitle(final String fullyQualifiedTitleId,
+			final String eBookVersionNumber) throws ProviewException {
+		if (StringUtils.isBlank(fullyQualifiedTitleId)) {
+			throw new IllegalArgumentException(
+					"fullyQualifiedTitleId cannot be null or empty, but was ["
+							+ fullyQualifiedTitleId + "].");
+		}
+		if (StringUtils.isBlank(eBookVersionNumber)) {
+			throw new IllegalArgumentException(
+					"eBookVersionNumber must not be null or empty, but was ["
+							+ eBookVersionNumber + "].");
+		}
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("titleId", fullyQualifiedTitleId);
+		urlParameters.put("eBookVersionNumber", eBookVersionNumber);
+		
+		ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory
+				.getStreamRequestCallback();
+		
+		String proviewResponse = restTemplate.execute(deleteTitleUriTemplate,
+				HttpMethod.DELETE, proviewRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+		
+		return proviewResponse;
+	}
 	
 	@Override
 	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
@@ -728,6 +674,60 @@ public class ProviewClientImpl implements ProviewClient {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	* Compose the search request body.
+	* @param writer
+	* @param name
+	* @param value
+	* @throws XMLStreamException
+	*/
+	protected void writeElement(XMLStreamWriter writer, String name, Object value) throws XMLStreamException {
+		if (value != null) {
+			writer.writeStartElement(name);
+			writer.writeCharacters(value.toString().trim());
+			writer.writeEndElement();
+		}
+	}
+	
+	protected String buildRequestBody(GroupDefinition groupDefinition)
+	{
+		
+		OutputStream output = new ByteArrayOutputStream();
+		
+		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+		try {
+			XMLStreamWriter writer = outputFactory.createXMLStreamWriter(
+					output, "UTF-8");
+			
+			writer.writeStartElement(ROOT_ELEMENT);
+			writer.writeAttribute("id", groupDefinition.getGroupId());
+			
+			writeElement(writer, "name", groupDefinition.getName());
+			writeElement(writer, "type",groupDefinition.getType());
+			writeElement(writer, "headtitle", groupDefinition.getHeadTitle());
+			writer.writeStartElement("members");
+			for (SubGroupInfo subGroupInfo : groupDefinition.getSubGroupInfoList()) {
+				writer.writeStartElement("subgroup"); 
+				if(subGroupInfo.getHeading() != null && subGroupInfo.getHeading().length() > 0){
+					writer.writeAttribute("heading", subGroupInfo.getHeading());
+				}
+				for (String title : subGroupInfo.getTitles()){
+					writeElement(writer, "title", title); 
+				}
+				writer.writeEndElement();
+			}
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.close();
+			
+		} catch (XMLStreamException e) {
+			throw new RuntimeException(e.toString(), e);
+		}
+		
+		LOG.debug("Proview[ Request: "+output.toString()+"]");
+	return output.toString();
 	}
 	
 	/**

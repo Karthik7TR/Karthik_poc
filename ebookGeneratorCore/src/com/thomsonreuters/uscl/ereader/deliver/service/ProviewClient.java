@@ -26,83 +26,60 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails
 public interface ProviewClient {
 
 	public void setProviewHostname(String hostname) throws UnknownHostException;
+
 	public void setProviewHost(InetAddress host);
-	
-	/*  proview group  */ 
-	public String getAllProviewGroups() throws ProviewException ;
 
-	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo()
-			throws ProviewException;
-	
-	public List<ProviewGroup> getAllLatestProviewGroupInfo() 
-			throws ProviewException;
-	
-	public List<ProviewGroup> getAllLatestProviewGroupInfo(
-			Map<String, ProviewGroupContainer> groupMap) 
-			throws ProviewException;
+	/* proview group */
+	public String getAllProviewGroups() throws ProviewException;
 
-	public String getProviewGroupInfo(final String groupId, final String groupVersion)
-			throws ProviewException;
-	
-	public String getProviewGroupById(final String groupId)
-			throws ProviewException;
-	
-	public String createGroup(final GroupDefinition groupDefinition)
-			throws ProviewException;
-	
-	public String promoteGroup(final String groupId, final String groupVersion)
-			throws ProviewException;
-	
-	public String removeGroup(final String groupId, final String groupVersion)
-			throws ProviewException;
-	
-	public String deleteGroup(final String groupId, final String groupVersion)
-			throws ProviewException;
+	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo() throws ProviewException;
 
-	/*  proview list  */	
+	public List<ProviewGroup> getAllLatestProviewGroupInfo() throws ProviewException;
+
+	public List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap) throws ProviewException;
+
+	public String getProviewGroupInfo(final String groupId, final String groupVersion) throws ProviewException;
+
+	public String getProviewGroupById(final String groupId) throws ProviewException;
+
+	public String createGroup(final GroupDefinition groupDefinition) throws ProviewException;
+
+	public String promoteGroup(final String groupId, final String groupVersion) throws ProviewException;
+
+	public String removeGroup(final String groupId, final String groupVersion) throws ProviewException;
+
+	public String deleteGroup(final String groupId, final String groupVersion) throws ProviewException;
+
+	/* proview list */
 	public String getAllPublishedTitles() throws ProviewException;
-	
-	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo()
-			throws ProviewException;
-	
-	public ProviewTitleContainer getProviewTitleContainer(
-			final String fullyQualifiedTitleId) throws ProviewException;
-		
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo()
-			throws ProviewException;
-	
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(
-			Map<String, ProviewTitleContainer> titleMap)
-			throws ProviewException;
 
-	public ProviewTitleInfo getLatestProviewTitleInfo(
-			final String fullyQualifiedTitleId) throws ProviewException;
-	
+	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo() throws ProviewException;
+
+	public ProviewTitleContainer getProviewTitleContainer(final String fullyQualifiedTitleId) throws ProviewException;
+
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException;
+
+	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap) throws ProviewException;
+
+	public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException;
+
 	public List<GroupDetails> getSingleTitleGroupDetails(String fullyQualifiedTitleId) throws ProviewException;
-	
+
 	public String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException;
-	
-	public String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version)
-			throws ProviewException;
 
-	public String publishTitle(final String fullyQualifiedTitleId,
-			final String versionNumber, final File eBook)
-			throws ProviewException;
+	public String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException;
 
-	public String promoteTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException;
-	
-	public String removeTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException;
+	public String publishTitle(final String fullyQualifiedTitleId, final String versionNumber, final File eBook) throws ProviewException;
 
-	public String deleteTitle(final String fullyQualifiedTitleId,
-			final String eBookVersionNumber) throws ProviewException;
+	public String promoteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException;
 
-	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId)
-			throws ProviewException;
-	
-//	public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
-	
-//	public String getPublishingStatus(final String fullyQualifiedTitleId)
-//			throws ProviewException;
+	public String removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException;
+
+	public String deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException;
+
+	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId) throws ProviewException;
+
+	// public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
+
+	// public String getPublishingStatus(final String fullyQualifiedTitleId) throws ProviewException;
 }

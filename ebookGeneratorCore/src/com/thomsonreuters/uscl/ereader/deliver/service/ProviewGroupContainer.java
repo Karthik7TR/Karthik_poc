@@ -49,18 +49,9 @@ public class ProviewGroupContainer implements Serializable {
 		for (ProviewGroup proviewGroup : proviewGroups) {
 
 			String currentVersion = proviewGroup.getGroupVersion().substring(1);
-			String majorPart;
 			Integer intVersion = 0;
-
-			if (currentVersion.contains(".")) {
-				majorPart = currentVersion.substring(0,
-						currentVersion.indexOf("."));
-				intVersion = Integer.parseInt(majorPart);
-
-			} else {
-				majorPart = currentVersion;
-				intVersion = Integer.parseInt(majorPart);
-			}
+			
+			intVersion = Integer.parseInt(currentVersion);
 
 			if (intVersion > latestVersion) {
 				latestProviewGroup = proviewGroup;

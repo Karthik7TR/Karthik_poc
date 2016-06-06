@@ -34,53 +34,20 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 		return GroupDetailsList;
 	}
 
-	public void setGroupDetailsList(List<GroupDetails> GroupDetailsList) {
-		this.GroupDetailsList = GroupDetailsList;
-	}
-
 	public String getVersion() {
 		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public String getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(String lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
 	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	private StringBuffer charBuffer = null;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
-	 */
-	public void characters(char[] ch, int start, int length) throws SAXException {
-		if (charBuffer != null) {
-			charBuffer.append(new String(ch, start, length));
-		}
 	}
 
 	/*
@@ -91,20 +58,6 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		try {
-			String value = null;
-
-			if (charBuffer != null) {
-				value = StringUtils.trim(charBuffer.toString());
-			}
-			if (NAME_TAG.equals(qName)) {
-				this.name = value;
-			}else if (STATUS_TAG.equals(qName)) {
-				this.status = value;
-			}else if (LAST_UPDATE.equals(qName)) {
-				this.lastUpdate = value;
-			}else if (VERSION.equals(qName)) {
-				this.version = value;
-			}
 			if (TITLE.equals(qName)){
 				GroupDetails groupDetails = new GroupDetails();
 				groupDetails.setBookStatus(status);
@@ -117,7 +70,6 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 				GroupDetailsList.add(groupDetails);
 			}
 			
-			charBuffer = null;
 		} catch (Exception e) {
 			String message = "ProviewSingleTitleParser: Exception occured during parsing endElement. The error message is: "
 					+ e.getMessage();
@@ -134,9 +86,7 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 	 */
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		try {
-			if (NAME_TAG.equals(qName) || STATUS_TAG.equals(qName) || LAST_UPDATE.equals(qName) || VERSION.equals(qName)) {
-				charBuffer = new StringBuffer();
-			}else if(TITLE.equals(qName)){
+			if(TITLE.equals(qName)){
 				this.titleId = atts.getValue(ID);
 				this.status = atts.getValue(STATUS_TAG);
 				this.version = atts.getValue(VERSION);
