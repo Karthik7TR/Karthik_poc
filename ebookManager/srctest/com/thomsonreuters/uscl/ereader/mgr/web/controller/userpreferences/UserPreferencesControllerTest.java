@@ -13,6 +13,7 @@ import java.util.Map;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -95,6 +96,7 @@ public class UserPreferencesControllerTest {
 	/**
      * Test the POST to the User Preferences Success
      */
+	@Ignore
 	@Test
 	public void testPostPreferences() {
 		request.setRequestURI("/"+ WebConstants.MVC_USER_PREFERENCES);
