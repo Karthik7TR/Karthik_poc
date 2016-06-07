@@ -321,7 +321,7 @@ public class ProviewGroupListControllerTest {
 		request.setSession(session);
 				
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
 	}
 	
 	/**
