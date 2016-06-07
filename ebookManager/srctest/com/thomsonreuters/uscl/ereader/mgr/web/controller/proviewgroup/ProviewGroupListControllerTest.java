@@ -138,16 +138,29 @@ public class ProviewGroupListControllerTest {
 	 */
 	@Test
 	public void testAllLatestProviewGroupsList() throws Exception {
+		String groupName = "GroupName";
+		String groupId = "GroupID";
+		
 		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_GROUPS);
 		request.setMethod(HttpMethod.GET.name());
 		HttpSession session = request.getSession();
+		
+		ProviewGroupListFilterForm filterForm = new ProviewGroupListFilterForm();
+		filterForm.setGroupName("%"+groupName);
+		filterForm.setProviewGroupID("%"+groupId);
+		session.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
 		session.setAttribute(ProviewGroupForm.FORM_NAME, controller.fetchProviewGroupForm(session));
+		
 		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
 		mockTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
 		session.setAttribute(ProviewTitleForm.FORM_NAME, mockTitleForm);
 		session.setAttribute(WebConstants.KEY_PAGE_SIZE, mockTitleForm.getObjectsPerPage());
 		Map<String, ProviewGroupContainer> allProviewGroups = new HashMap<String, ProviewGroupContainer>();
 		List<ProviewGroup> allLatestProviewGroups = new ArrayList<ProviewGroup>();
+		ProviewGroup proviewGroup = new ProviewGroup();
+		proviewGroup.setGroupName(groupName);
+		proviewGroup.setGroupId(groupId);
+		allLatestProviewGroups.add(proviewGroup);
 		
 		EasyMock.expect(mockProviewClient.getAllLatestProviewGroupInfo(allProviewGroups)).andReturn(allLatestProviewGroups);
 		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);

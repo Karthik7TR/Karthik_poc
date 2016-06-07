@@ -29,9 +29,8 @@ $(document).ready(function() {
 function submitGroupForm(command) {
 		var confirmed = false;		// confirm with user via pop-up
 		var selected = false;		// any subgroups selected?
-		var warn = false;			// whether the user should be asked for confirmation
 		var group = true;
-		if( $('groupChecked').length) {
+		if( document.getElementById('groupChecked') != undefined) {
 			group = document.getElementById('groupChecked').checked;
 		} else {
 			selected = true;
@@ -62,32 +61,29 @@ function submitGroupForm(command) {
 				}
 			}
 		}
-
-		if (group){
-			isReview = isReview && (groupStatus == "Review");
-		}
-		
-		if(!isReview&&(formatedcommand=="Promote")){
-			alert("All selected items must have Status: Review.");
-			return;
-		}
-		if(!isRemove&&(formatedcommand=="Delete")){
-			alert("All selected items must have Status: Remove.");
-			return;
-		}
-		
-		warn = !group && selected;
-		if (warn){
-			confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " eBooks separately?");
-			if (!confirmed){
+		if (selected || group){
+			if (group){
+				isReview = isReview && (groupStatus == "Review");
+			}
+			
+			if (!isReview && (formatedcommand=="Promote")){
+				alert("All selected items must have Status: Review.");
+				return;
+			} else if (!isRemove && (formatedcommand=="Delete")){
+				alert("All selected items must have Status: Remove.");
 				return;
 			}
-		}
-		warn = group && !selected;
-		if(warn){
-			confirmed = confirm("You have selected the Group box with no corresponding eBook titles checked.  Do you want to proceed?")
-			if (!confirmed){
-				return;
+		
+			if (!group && selected){
+				confirmed = confirm("Group not checked: Are you sure you want to " + formatedcommand + " eBooks separately?");
+				if (!confirmed){
+					return;
+				}
+			} else if (group && !selected){
+				confirmed = confirm("You have selected the Group box with no corresponding eBook titles checked.  Do you want to proceed?")
+				if (!confirmed){
+					return;
+				}
 			}
 		}
 		$("#groupCmd").val(command);  // Set the form hidden field value for the operation discriminator
