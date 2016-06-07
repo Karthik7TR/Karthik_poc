@@ -140,7 +140,7 @@ function submitGroupForm(command) {
 	
 	</div>
 	<div class="row" id ="headTitle">
-						<label class="labelCol" >Head Title:</label>
+						<label class="labelCol" >Group Head Title:</label>
 						<span class="field">${ headTitle }</span>
 	
 	</div>

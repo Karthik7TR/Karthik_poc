@@ -458,7 +458,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		}
 		
 		model.addAttribute(WebConstants.KEY_GROUP_VERSION,httpSession.getAttribute(WebConstants.KEY_GROUP_VERSION));
-		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_ALL_VERSIONS);
+		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
 	}
 	
 	/**
