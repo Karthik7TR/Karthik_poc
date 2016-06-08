@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -48,6 +47,18 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 	 */
 	public boolean canBeMerged(EbookAudit entity) {
 		return true;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Long findMaxAuditId(){
+		Session session = sessionFactory.getCurrentSession();
+
+		Long ebookAuditMax = (Long) session.createCriteria(EbookAudit.class)
+		.setProjection( Projections.projectionList()
+				.add(  Projections.max("auditId"))  )
+	    .uniqueResult();
+		return(ebookAuditMax);
 	}
 
 	/*
@@ -145,6 +156,28 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 		.add( Restrictions.eq("ebookDefinitionId", ebookDefId))
 	    .uniqueResult();
 		return(ebookAuditMax);
+	}
+	
+	@Transactional(readOnly=true)
+	public EbookAudit findEbookAuditIdByTtileId(String titleId)
+	throws DataAccessException {
+				
+		StringBuffer hql = new StringBuffer(
+				"select pa from EbookAudit pa where (pa.auditId) in ");
+		hql.append("(select max(pa2.auditId) from EbookAudit pa2 where");
+		hql.append(" pa2.titleId = :titleId)");
+		
+		// Create query and populate it with where clause values
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql.toString());
+		query.setParameter("titleId", titleId);
+
+		EbookAudit audit = (EbookAudit) query.uniqueResult();
+		if(audit == null){
+			return null;
+		}
+		return audit;
+		
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -9,6 +9,7 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
@@ -39,6 +40,10 @@ public interface EbookAuditDao {
 	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
 	
 	public int numberEbookAudits(EbookAuditFilter filter);
+	
+	public Long findMaxAuditId();
+	
+	public EbookAudit findEbookAuditIdByTtileId(String titleId);
 	
 	public void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 

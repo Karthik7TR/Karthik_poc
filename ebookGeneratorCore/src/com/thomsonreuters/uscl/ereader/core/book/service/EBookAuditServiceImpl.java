@@ -74,6 +74,18 @@ public class EBookAuditServiceImpl implements EBookAuditService {
 		return eBookAuditDAO.numberEbookAudits(filter);
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public Long findMaxAuditId(){
+		return eBookAuditDAO.findMaxAuditId();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public EbookAudit findEbookAuditIdByTtileId(String titleId){
+		return eBookAuditDAO.findEbookAuditIdByTtileId(titleId);
+	}
+	
 	@Transactional
 	public void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts){
 		eBookAuditDAO.updateSpliDocumentsAudit(audit, splitDocumentsConcat,parts);

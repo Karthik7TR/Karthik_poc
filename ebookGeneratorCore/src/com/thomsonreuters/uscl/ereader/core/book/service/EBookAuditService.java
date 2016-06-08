@@ -8,6 +8,8 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
@@ -33,7 +35,10 @@ public interface EBookAuditService {
 	/**
 	 */
 	public EbookAudit findEBookAuditByPrimaryKey(Long auditId);
+	
+	public Long findMaxAuditId();
 
+	public EbookAudit findEbookAuditIdByTtileId(String titleId);
 
 	/**
 	 * Find max audit id for ebook Definition Id
