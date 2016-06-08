@@ -315,6 +315,10 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 			this.bookVersion = bookVersion;
 		}
 		
+		public String getIdWithVersion() {
+			return id+"/"+bookVersion;
+		}
+		
 		public Integer getMajorVersion() {
 			Integer majorVersion = null;
 			String version = StringUtils.substringAfter(bookVersion, "v");

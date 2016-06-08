@@ -170,7 +170,7 @@ function submitGroupForm(command) {
 		<display:setProperty name="paging.banner.onepage" value=" " />
 		
 		<display:column title="${selectAllElement}"  style="text-align: center">
-			<form:checkbox path="groupMembers" value="${groupDetail.id}" />
+			<form:checkbox path="groupMembers" value="${groupDetail.idWithVersion}" />
 		</display:column>
 		<c:choose>
 		

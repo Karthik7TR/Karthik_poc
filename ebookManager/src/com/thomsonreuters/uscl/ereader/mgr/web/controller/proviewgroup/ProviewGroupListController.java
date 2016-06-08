@@ -375,18 +375,22 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String headTitleId, ProviewGroup proviewGroup)
 			throws Exception {
 		
+		List<GroupDetails> groupDetailsAllVersions = new ArrayList<GroupDetails>();
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
 		try {
-			groupDetailsList = proviewClient.getSingleTitleGroupDetails(headTitleId);
+			groupDetailsAllVersions = proviewClient.getSingleTitleGroupDetails(headTitleId);
 		} catch (ProviewException ex) {
 			String errorMsg = ex.getMessage();
 			// The versions of the title must have been removed.
 			if (errorMsg.startsWith("404") && errorMsg.contains("does not exist")) {
-				return groupDetailsList;
+				return groupDetailsAllVersions;
 			}
 		}
-		for (GroupDetails details : groupDetailsList) {
-			details.setId(details.getTitleId() + "/" + details.getBookVersion());
+		for (GroupDetails details : groupDetailsAllVersions) {
+			if (details.getMajorVersion().equals(proviewGroup.getVersion())) {
+				details.setId(details.getTitleId() + "/" + details.getBookVersion());
+				groupDetailsList.add(details);
+			}
 		}
 		
 		return groupDetailsList;
@@ -409,7 +413,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			List<String> groupIds = new ArrayList<String>();
 			for(String id:((form.getGroupMembers() == null) ? groupIds : form.getGroupMembers())){
 				for(GroupDetails subgroup: fetchPaginatedList(httpSession)){
-					if(subgroup.getId().equals(id)){
+					if(subgroup.getIdWithVersion().equals(id)){
 						groupDetails.add(subgroup);
 						if(subgroup.getTitleId() == null){
 							groupIds.add(subgroup.getTitleIdListWithVersion().toString());
