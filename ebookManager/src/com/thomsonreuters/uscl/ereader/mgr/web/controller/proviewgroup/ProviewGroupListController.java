@@ -375,22 +375,18 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String headTitleId, ProviewGroup proviewGroup)
 			throws Exception {
 		
-		List<GroupDetails> groupDetailsAllVersions = new ArrayList<GroupDetails>();
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
 		try {
-			groupDetailsAllVersions = proviewClient.getSingleTitleGroupDetails(headTitleId);
+			groupDetailsList = proviewClient.getSingleTitleGroupDetails(headTitleId);
 		} catch (ProviewException ex) {
 			String errorMsg = ex.getMessage();
 			// The versions of the title must have been removed.
 			if (errorMsg.startsWith("404") && errorMsg.contains("does not exist")) {
-				return groupDetailsAllVersions;
+				return groupDetailsList;
 			}
 		}
-		for (GroupDetails details : groupDetailsAllVersions) {
-			if (details.getMajorVersion().equals(proviewGroup.getVersion())) {
+		for (GroupDetails details : groupDetailsList) {
 				details.setId(details.getTitleId() + "/" + details.getBookVersion());
-				groupDetailsList.add(details);
-			}
 		}
 		
 		return groupDetailsList;
