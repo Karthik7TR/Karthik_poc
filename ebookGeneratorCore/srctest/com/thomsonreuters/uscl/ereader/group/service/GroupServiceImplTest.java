@@ -1273,4 +1273,35 @@ public class GroupServiceImplTest {
 		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1", subgroupInfo2.getTitles().get(0));
 		Assert.assertEquals("uscl/an/book_lohisplitnodeinfo_pt2/v1", subgroupInfo2.getTitles().get(1));
 	}
+	
+	@Test
+	public void testMajorVersion() {
+		ProviewTitleContainer proviewTitleContainer = new ProviewTitleContainer();
+		ProviewTitleInfo title = new ProviewTitleInfo();
+		title.setTitleId("uscl/an/title_id");
+		title.setVersion("v2");
+		List<ProviewTitleInfo> titleList = new ArrayList<ProviewTitleInfo>();
+		titleList.add(title);
+
+		ProviewTitleInfo title1 = new ProviewTitleInfo();
+		title1.setTitleId("uscl/an/title_id");
+		title1.setVersion("v3");
+		titleList.add(title1);
+
+		proviewTitleContainer.setProviewTitleInfos(titleList);
+
+		String titleId = "uscl/an/title_id";
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer("uscl/an/title_id")).andReturn(proviewTitleContainer);
+			EasyMock.replay(mockProviewClient);
+
+			List<ProviewTitleInfo> proviewTitleInfo = groupService.getMajorVersionProviewTitles(titleId);			
+			Assert.assertEquals(new Integer(3), proviewTitleInfo.get(0).getMajorVersion());
+			Assert.assertEquals(1, proviewTitleInfo.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }
