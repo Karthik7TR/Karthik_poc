@@ -117,9 +117,8 @@ function submitGroupForm(command) {
 		<div class="infoMessageError">
 			${errMessage}
 		</div>
-		<br/>
+		<br>
 	</c:if>
-	
 	<c:set var="isSuperUser" value="false"/>
 		<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 			<c:set var="isSuperUser" value="true"/>
@@ -166,7 +165,17 @@ function submitGroupForm(command) {
 					requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>"
 					>
 		
-		<display:setProperty name="basic.msg.empty_list"><br/>No subgroups found.<br/><br/></display:setProperty>
+		<display:setProperty name="basic.msg.empty_list">
+			<c:if test="${warningMessage != null }">
+				<div class="errorMessage">
+					<br/><b>No information found in ProView for titles:</b><br/>
+					<c:forEach items="${warningMessage}" var="title" varStatus="status">
+						"${title}"<br/>
+					</c:forEach>
+				</div>
+				<br>
+			</c:if>
+		</display:setProperty>
 		<display:setProperty name="paging.banner.onepage" value=" " />
 		
 		<display:column title="${selectAllElement}"  style="text-align: center">

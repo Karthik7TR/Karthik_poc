@@ -276,7 +276,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 					&& proviewGroup.getSubgroupInfoList().get(0).getSubGroupName() != null) {
 				model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
 				httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
-				groupDetailsList = getGroupDetailsWithSubGroups(headTitleID, version, proviewGroupContainer);
+				groupDetailsList = getGroupDetailsWithSubGroups(version, proviewGroupContainer);
 				for (GroupDetails groupDetail:groupDetailsList){
 					Collections.sort(groupDetail.getTitleIdList());
 				}
@@ -285,10 +285,10 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 				httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
 				
-				groupDetailsList = getGroupDetailsWithNoSubgroups(headTitleID, proviewGroup);
+				groupDetailsList = getGroupDetailsWithNoSubgroups(proviewGroup);
 			}
 			
-			if (groupDetailsList != null) {	
+			if (groupDetailsList != null) {
 				Collections.sort(groupDetailsList);
 				savePaginatedList(httpSession,groupDetailsList);
 				httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, groupDetailsList.size());
@@ -296,8 +296,15 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetailsList);
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, groupDetailsList.size());
 				model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, form);
+			} else {
+				httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
+				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
 			}
 		
+		} catch (ProviewException e) {
+			String msg = e.getMessage().replaceAll("\\[|\\]|\\{|\\}", "");
+			model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, Arrays.asList(msg.split("\\s*,\\s*")));
+			httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, 0);
 		} catch (Exception ex) {
 			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Exception occured. Please contact your administrator.");
 			ex.printStackTrace();
@@ -307,38 +314,44 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
 	}
 	
-	protected List<GroupDetails> getGroupDetailsWithSubGroups(String headTitleID, String version, ProviewGroupContainer proviewGroupContainer) throws Exception {
+	protected List<GroupDetails> getGroupDetailsWithSubGroups(String version, ProviewGroupContainer proviewGroupContainer) throws Exception {
 		
 		Map<String,GroupDetails> groupDetailsMap = new HashMap<String,GroupDetails>();
+		List<String> notFound = new ArrayList<String>();
 		
 		ProviewGroup selectedGroup = proviewGroupContainer.getGroupByVersion(version);
-		for (SubgroupInfo subgroup : selectedGroup.getSubgroupInfoList()) {		// multiple split books in a group
-			for (String titleIdVersion : subgroup.getTitleIdList()){		// for each split in a split book
+		for (SubgroupInfo subgroup : selectedGroup.getSubgroupInfoList()) {		// multiple subgroups in a group
+			for (String titleIdVersion : subgroup.getTitleIdList()){		// for each (split) title in a subgroup
 				String titleId = StringUtils.substringBeforeLast(titleIdVersion, "/v").trim();
-				String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();	// book major version
+				String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();	// selected major version for book
 				Integer  majorVersion = null;
 				if (!titleMajorVersion.equals("")){
 					majorVersion = Integer.valueOf(titleMajorVersion);
 				}
-				
-				ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
-				if (container != null) {
-					for (ProviewTitleInfo title : container.getProviewTitleInfos()){			// for each minor version
-						if (title.getMajorVersion().equals(majorVersion)){		// check its major version
-							GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
-							if (groupDetails == null) {
-								groupDetails = new GroupDetails();
-								groupDetailsMap.put(title.getVersion(),groupDetails);
-								
-								groupDetails.setSubGroupName(subgroup.getSubGroupName());
-								groupDetails.setId(titleId);
-								groupDetails.setTitleIdList(new ArrayList<ProviewTitleInfo>());
-								groupDetails.setProviewDisplayName(title.getTitle());
-								groupDetails.setBookVersion(title.getVersion());
+				try {
+					ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
+					if (container != null) {
+						for (ProviewTitleInfo title : container.getProviewTitleInfos()){		// for each minor version
+							if (title.getMajorVersion().equals(majorVersion)){					// check its major version
+								GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
+								if (groupDetails == null) {
+									groupDetails = new GroupDetails();
+									groupDetailsMap.put(title.getVersion(),groupDetails);
+									
+									groupDetails.setSubGroupName(subgroup.getSubGroupName());
+									groupDetails.setId(titleId);
+									groupDetails.setTitleIdList(new ArrayList<ProviewTitleInfo>());
+									groupDetails.setProviewDisplayName(title.getTitle());
+									groupDetails.setBookVersion(title.getVersion());
+								}
+								groupDetails.addTitleInfo(title);
 							}
-							groupDetails.addTitleInfo(title);
 						}
+					} else {
+						notFound.add(titleId);
 					}
+				} catch (ProviewException e) {
+					notFound.add(titleId);
 				}
 			}
 		}
@@ -362,6 +375,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			}
 		}
 		*/
+		if (notFound.size()>0) {
+			throw new ProviewException(notFound.toString());
+		}
 		return new ArrayList<GroupDetails>(groupDetailsMap.values());
 	}
 	
@@ -372,23 +388,29 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(String headTitleId, ProviewGroup proviewGroup)
+	protected List<GroupDetails> getGroupDetailsWithNoSubgroups(ProviewGroup proviewGroup)
 			throws Exception {
 		
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
-		try {
-			groupDetailsList = proviewClient.getSingleTitleGroupDetails(headTitleId);
-		} catch (ProviewException ex) {
-			String errorMsg = ex.getMessage();
-			// The versions of the title must have been removed.
-			if (errorMsg.startsWith("404") && errorMsg.contains("does not exist")) {
-				return groupDetailsList;
+		List<String> notFound = new ArrayList<String>();
+		SubgroupInfo subgroup = proviewGroup.getSubgroupInfoList().get(0);
+			for (String titleId : subgroup.getTitleIdList()) {
+				try {
+					groupDetailsList.addAll(proviewClient.getSingleTitleGroupDetails(titleId));
+				} catch (ProviewException ex) {
+					String errorMsg = ex.getMessage();
+					// The versions of the title must have been removed.
+					if (errorMsg.contains("does not exist")) {
+						notFound.add(titleId);
+					}
+				}
 			}
-		}
 		for (GroupDetails details : groupDetailsList) {
 				details.setId(details.getTitleId() + "/" + details.getBookVersion());
 		}
-		
+		if (notFound.size()>0) {
+			throw new ProviewException(notFound.toString());
+		}
 		return groupDetailsList;
 	}
 	

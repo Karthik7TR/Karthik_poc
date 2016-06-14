@@ -263,7 +263,7 @@ public class ProviewGroupListControllerTest {
 		
 		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups).times(2);
 		EasyMock.expect(mockProviewClient.getProviewTitleContainer(titleId)).andReturn(titleContainer);
-		EasyMock.expect(mockProviewClient.getSingleTitleGroupDetails(groupId)).andReturn(groupDetails);
+		EasyMock.expect(mockProviewClient.getSingleTitleGroupDetails(titleIdv)).andReturn(groupDetails);
 		EasyMock.replay(mockProviewClient);
 						
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -284,13 +284,14 @@ public class ProviewGroupListControllerTest {
 		request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
 		request.setParameter("groupCmd", GroupCmd.PROMOTE.toString());
 		List<String> groupMembers = new ArrayList<>();
-		groupMembers.add("test");
+		groupMembers.add("test/v1");
 		request.setParameter("groupMembers", groupMembers.toString());
 		HttpSession session = request.getSession();
 		List<GroupDetails> subgroup = new ArrayList<>();
 		GroupDetails details = new GroupDetails();
-		details.setId("[test]");
+		details.setId("[test");
 		details.setTitleId("titleTest");
+		details.setBookVersion("v1]");
 		String[] aString = {"test1", "test2"};
 		details.setTitleIdtWithVersionArray(aString);
 		subgroup.add(details);
