@@ -211,13 +211,6 @@ public class GenerateEbookController {
 								String.format(REMOVE_GROUP_WARNING_MESSAGE, book.getFullyQualifiedTitleId()));
 					}
 				}
-				//If groups are similar then new group will not be created
-				if(nextGroup.isSimilarGroup(lastGroupDefinition)) {
-					nextGroup.setGroupVersion(lastGroupDefinition.getGroupVersion());
-				}
-				if(currentGroup.isSimilarGroup(lastGroupDefinition)) {
-					currentGroup.setGroupVersion(lastGroupDefinition.getGroupVersion());
-				}
 			}
 		} catch (ProviewException e) {
 			String errorMessage = e.getMessage();

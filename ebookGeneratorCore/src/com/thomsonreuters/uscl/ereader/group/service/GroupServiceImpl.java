@@ -218,7 +218,12 @@ public class GroupServiceImpl implements GroupService {
 		
 		// set group version
 		if (lastGroupDefinition != null) {
-			groupDefinition.setGroupVersion(lastGroupDefinition.getGroupVersion() + 1);
+			if(lastGroupDefinition.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)){
+				groupDefinition.setGroupVersion(lastGroupDefinition.getGroupVersion());
+			}
+			else{
+				groupDefinition.setGroupVersion(lastGroupDefinition.getGroupVersion() + 1);
+			}
 		} else {
 			groupDefinition.setGroupVersion(1L);
 		}

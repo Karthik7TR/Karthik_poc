@@ -13,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 public class GroupDefinition implements Comparable<GroupDefinition> {
 	public static final String VERSION_NUMBER_PREFIX = "v";
 	
+	public static final String REVIEW_STATUS = "Review";
+	
 	private String groupId;	
 	private String name;
 	private String type;

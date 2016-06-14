@@ -34,7 +34,6 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm.Version;
 
 @Controller
 public class EditGroupController {
@@ -149,10 +148,10 @@ public class EditGroupController {
 				// determine group version
 				GroupDefinition lastGroup = groupService.getLastGroup(groupDefinition.getGroupId());
 				if(lastGroup != null) {
-					if(form.getVersionType().equals(Version.MAJOR)) {
-						groupDefinition.setGroupVersion(lastGroup.getGroupVersion() + 1);
-					} else {
+					if(lastGroup.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)) {
 						groupDefinition.setGroupVersion(lastGroup.getGroupVersion());
+					} else {
+						groupDefinition.setGroupVersion(lastGroup.getGroupVersion() + 1);
 					}
 				} else {
 					// first group being created
