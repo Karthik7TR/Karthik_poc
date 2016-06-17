@@ -1,12 +1,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+
+import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
@@ -65,7 +65,7 @@ public class ManagerServiceImplTest {
 	public void tearDown() {
 		try {
 			FileUtils.deleteDirectory(tempRootDir);
-		} catch (IOException e) {
+		} catch (Exception e) {
 		}
 	}
 
@@ -167,7 +167,7 @@ public class ManagerServiceImplTest {
 
 		service.cleanupOldPlannedOutages(daysBack);
 	}
-	
+
 	@Test
 	public void testCleanupOldTransientMetadata() {
 		int numberLastMajorVersionKept = 0;
