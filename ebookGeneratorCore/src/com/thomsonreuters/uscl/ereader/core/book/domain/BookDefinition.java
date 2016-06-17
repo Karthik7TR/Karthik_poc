@@ -301,6 +301,11 @@ public class BookDefinition implements Serializable {
 	 */
 	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Cascade({CascadeType.ALL})
+	Set<PilotBook> pilotBooks;
+	/**
+	 */
+	@OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade({CascadeType.ALL})
 	Set<EbookName> ebookNames;
 	/**
 	 */
@@ -1033,6 +1038,25 @@ public class BookDefinition implements Serializable {
 	
 	/**
 	 */
+	public void setPilotBooks(Collection<PilotBook> pilotBooks) {
+		this.pilotBooks = new java.util.LinkedHashSet<PilotBook>(pilotBooks);
+	}
+
+	/**
+	 */
+	public ArrayList<PilotBook> getPilotBooks() {
+		if (pilotBooks == null) {
+			pilotBooks = new java.util.LinkedHashSet<PilotBook>();
+		}	
+		// Sort by sequence numbers
+		ArrayList<PilotBook> pilotBookList = new ArrayList<PilotBook>();
+		pilotBookList.addAll(pilotBooks);
+		Collections.sort(pilotBookList);	
+		return pilotBookList;
+	}
+	
+	/**
+	 */
 	public void setNortFileLocations(Collection<NortFileLocation> nortFileLocations) {
 		this.nortFileLocations = new java.util.LinkedHashSet<NortFileLocation>(nortFileLocations);
 	}
@@ -1278,6 +1302,7 @@ public class BookDefinition implements Serializable {
 		setIsAuthorDisplayVertical(that.isAuthorDisplayVertical());
 		setAdditionalTrademarkInfo(that.getAdditionalTrademarkInfo());
 		setAuthors(new java.util.LinkedHashSet<Author>(that.getAuthors()));
+		setPilotBooks(new java.util.LinkedHashSet<PilotBook>(that.getPilotBooks()));
 		setNortFileLocations(new java.util.LinkedHashSet<NortFileLocation>(that.getNortFileLocations()));
 		setEbookNames(new java.util.LinkedHashSet<EbookName>(that.getEbookNames()));
 		setFrontMatterPages(new java.util.LinkedHashSet<FrontMatterPage>(that.getFrontMatterPages()));

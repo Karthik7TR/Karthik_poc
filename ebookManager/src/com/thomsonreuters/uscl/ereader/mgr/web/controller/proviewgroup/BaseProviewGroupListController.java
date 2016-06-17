@@ -12,76 +12,70 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public abstract class BaseProviewGroupListController {
-	
-	protected List<ProviewGroup> filterProviewGroupList(ProviewGroupListFilterForm filterForm, 
-						List<ProviewGroup> allLatestProviewGroups ){
-		
+
+	protected List<ProviewGroup> filterProviewGroupList(ProviewGroupListFilterForm filterForm,
+			List<ProviewGroup> allLatestProviewGroups) {
+
 		List<ProviewGroup> selectedProviewGroupList = new ArrayList<ProviewGroup>();
-		
+
 		boolean groupNameBothWayWildCard = false;
 		boolean groupNameEndsWithWildCard = false;
 		boolean groupNameStartsWithWildCard = false;
 		boolean groupIdBothWayWildCard = false;
 		boolean groupIdEndsWithWildCard = false;
 		boolean groupIdStartsWithWildCard = false;
-		String  groupNameSearchTerm = filterForm.getGroupName();
+		String groupNameSearchTerm = filterForm.getGroupName();
 		String groupIdSearchTerm = filterForm.getProviewGroupID();
-		
-		if ( groupNameSearchTerm != null && groupNameSearchTerm.length() > 0 ) {
-			if (groupNameSearchTerm.endsWith("%")
-					&& groupNameSearchTerm.startsWith("%")) {
+
+		if (groupNameSearchTerm != null && groupNameSearchTerm.length() > 0) {
+			if (groupNameSearchTerm.endsWith("%") && groupNameSearchTerm.startsWith("%")) {
 				groupNameBothWayWildCard = true;
-			
+
 			} else if (groupNameSearchTerm.endsWith("%")) {
-				groupNameStartsWithWildCard  = true;
-			
+				groupNameStartsWithWildCard = true;
+
 			} else if (groupNameSearchTerm.startsWith("%")) {
 				groupNameEndsWithWildCard = true;
 			}
-			
+
 			groupNameSearchTerm = groupNameSearchTerm.replaceAll("%", "");
 		}
-		
+
 		if (groupIdSearchTerm != null && groupIdSearchTerm.length() > 0) {
-			if (groupIdSearchTerm.endsWith("%")
-					&& groupIdSearchTerm.startsWith("%")) {
+			if (groupIdSearchTerm.endsWith("%") && groupIdSearchTerm.startsWith("%")) {
 				groupIdBothWayWildCard = true;
-			
+
 			} else if (groupIdSearchTerm.endsWith("%")) {
 				groupIdStartsWithWildCard = true;
-			
+
 			} else if (groupIdSearchTerm.startsWith("%")) {
 				groupIdEndsWithWildCard = true;
 			}
-			
+
 			groupIdSearchTerm = groupIdSearchTerm.replaceAll("%", "");
 		}
-		
+
 		for (ProviewGroup proviewGroup : allLatestProviewGroups) {
-			
+
 			boolean selected = true;
-			
+
 			if (groupNameSearchTerm != null && groupNameSearchTerm.length() > 0) {
 				if (proviewGroup.getGroupName() == null) {
 					selected = false;
 				} else {
 					if (groupNameBothWayWildCard) {
-						if (!proviewGroup.getGroupName().contains(
-								groupNameSearchTerm)) {
+						if (!proviewGroup.getGroupName().contains(groupNameSearchTerm)) {
 							selected = false;
 						}
 					} else if (groupNameEndsWithWildCard) {
-						if (!proviewGroup.getGroupName().endsWith(
-								groupNameSearchTerm)) {
+						if (!proviewGroup.getGroupName().endsWith(groupNameSearchTerm)) {
 							selected = false;
 						}
 					} else if (groupNameStartsWithWildCard) {
-						if (!proviewGroup.getGroupName().startsWith(
-								groupNameSearchTerm)) {
+						if (!proviewGroup.getGroupName().startsWith(groupNameSearchTerm)) {
 							selected = false;
 						}
-					} else if (!proviewGroup.getGroupName().equals(
-							groupNameSearchTerm)) {
+					} else if (!proviewGroup.getGroupName().equals(groupNameSearchTerm)) {
 						selected = false;
 					}
 				}
@@ -91,23 +85,20 @@ public abstract class BaseProviewGroupListController {
 					if (proviewGroup.getGroupId() == null) {
 						selected = false;
 					} else {
-						
+
 						if (groupIdBothWayWildCard) {
 							if (!proviewGroup.getGroupId().contains(groupIdSearchTerm)) {
 								selected = false;
 							}
 						} else if (groupIdEndsWithWildCard) {
-							if (!proviewGroup.getGroupId().endsWith(
-									groupIdSearchTerm)) {
+							if (!proviewGroup.getGroupId().endsWith(groupIdSearchTerm)) {
 								selected = false;
 							}
 						} else if (groupIdStartsWithWildCard) {
-							if (!proviewGroup.getGroupId().startsWith(
-									groupIdSearchTerm)) {
+							if (!proviewGroup.getGroupId().startsWith(groupIdSearchTerm)) {
 								selected = false;
 							}
-						} else if (!proviewGroup.getGroupId().equals(
-								groupIdSearchTerm)) {
+						} else if (!proviewGroup.getGroupId().equals(groupIdSearchTerm)) {
 							selected = false;
 						}
 					}
@@ -119,7 +110,7 @@ public abstract class BaseProviewGroupListController {
 		}
 		return selectedProviewGroupList;
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @param filterForm
@@ -127,7 +118,6 @@ public abstract class BaseProviewGroupListController {
 	protected void saveProviewGroupListFilterForm(HttpSession httpSession, ProviewGroupListFilterForm filterForm) {
 		httpSession.setAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
 	}
-	
 
 	/**
 	 * @param httpSession
@@ -141,7 +131,7 @@ public abstract class BaseProviewGroupListController {
 		}
 		return form;
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @param allProviewGroups
@@ -149,7 +139,7 @@ public abstract class BaseProviewGroupListController {
 	protected void saveAllProviewGroups(HttpSession httpSession, Map<String, ProviewGroupContainer> allProviewGroups) {
 		httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS, allProviewGroups);
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @return
@@ -160,7 +150,7 @@ public abstract class BaseProviewGroupListController {
 				.getAttribute(WebConstants.KEY_ALL_PROVIEW_GROUPS);
 		return allProviewGroups;
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @param selectedProviewGroupList
@@ -168,7 +158,7 @@ public abstract class BaseProviewGroupListController {
 	protected void saveSelectedProviewGroups(HttpSession httpSession, List<ProviewGroup> selectedProviewGroupList) {
 		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, selectedProviewGroupList);
 	}
-	
+
 	/**
 	 * 
 	 * @param httpSession
@@ -178,11 +168,11 @@ public abstract class BaseProviewGroupListController {
 	protected List<ProviewGroup> fetchSelectedProviewGroups(HttpSession httpSession) {
 		return (List<ProviewGroup>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS);
 	}
-	
+
 	protected void savePaginatedList(HttpSession httpSession, List<GroupDetails> groupDetailsList) {
 		httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, groupDetailsList);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected List<GroupDetails> fetchPaginatedList(HttpSession httpSession) {
 		return (List<GroupDetails>) httpSession.getAttribute(WebConstants.KEY_PAGINATED_LIST);
@@ -192,24 +182,22 @@ public abstract class BaseProviewGroupListController {
 	 * @param httpSession
 	 * @param form
 	 */
-	protected void saveProviewGroupForm(HttpSession httpSession,ProviewGroupForm form) {
+	protected void saveProviewGroupForm(HttpSession httpSession, ProviewGroupForm form) {
 		httpSession.setAttribute(ProviewGroupForm.FORM_NAME, form);
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @return
 	 */
-	protected ProviewGroupForm fetchProviewGroupForm(
-			HttpSession httpSession) {
-		ProviewGroupForm form = (ProviewGroupForm) httpSession
-				.getAttribute(ProviewGroupForm.FORM_NAME);
+	protected ProviewGroupForm fetchProviewGroupForm(HttpSession httpSession) {
+		ProviewGroupForm form = (ProviewGroupForm) httpSession.getAttribute(ProviewGroupForm.FORM_NAME);
 		if (form == null) {
 			form = new ProviewGroupForm();
 		}
 		return form;
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @param allLatestProviewGroups
@@ -217,7 +205,7 @@ public abstract class BaseProviewGroupListController {
 	protected void saveAllLatestProviewGroups(HttpSession httpSession, List<ProviewGroup> allLatestProviewGroups) {
 		httpSession.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_GROUPS, allLatestProviewGroups);
 	}
-	
+
 	/**
 	 * @param httpSession
 	 * @return

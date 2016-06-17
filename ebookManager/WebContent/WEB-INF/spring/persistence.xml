@@ -57,6 +57,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
 		  </list>
 		</property>
   	</bean>
@@ -87,6 +88,10 @@
 	</bean>
 	
 	<bean id="authorDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.AuthorDaoImpl">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="pilotBookDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.PilotBookDaoImpl">
 		<constructor-arg ref="sessionFactory"/>
 	</bean>
 	

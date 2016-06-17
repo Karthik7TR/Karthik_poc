@@ -23,6 +23,14 @@
 			<div class="infoMessageError">
 				${errMessage}
 			</div>
+			<c:if test="${warningMessage != null }">
+				<div class="errorMessage">
+				<br/><b>No information found for titles:</b><br/>
+					<c:forEach items="${warningMessage}" var="title" varStatus="status">
+						"${title}"<br/>
+					</c:forEach>
+				</div>
+			</c:if>
 			<br/>
 		</c:when>
 		<c:when test="${book == null}">  <%-- if no book definition was found for BookDefinitionId --%>

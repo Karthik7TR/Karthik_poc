@@ -39,6 +39,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
@@ -46,9 +47,10 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class EditBookDefinitionForm {
-	//private static final Logger log = Logger.getLogger(EditBookDefinitionForm.class);
+	// private static final Logger log =
+	// Logger.getLogger(EditBookDefinitionForm.class);
 	public static final String FORM_NAME = "editBookDefinitionForm";
-	
+
 	private static final int PUBLISHER_INDEX = 0;
 	private static final int PRODUCT_CODE_INDEX = 1;
 	private static final int TITLE_NAME_INDEX = 2;
@@ -59,6 +61,7 @@ public class EditBookDefinitionForm {
 	private String copyright;
 	private String copyrightPageText;
 	private String materialId;
+	private List<PilotBook> pilotBookInfo;
 	private List<Author> authorInfo;
 	private List<NortFileLocation> nortFileLocations;
 	private List<FrontMatterPage> frontMatters;
@@ -77,11 +80,11 @@ public class EditBookDefinitionForm {
 	private Collection<DocumentCurrency> documentCurrenciesCopy;
 	private String codesWorkbenchBookName;
 	private SourceType sourceType;
-	
+
 	private boolean isFinalStage;
 	private boolean isAuthorDisplayVertical;
 	private String frontMatterTocLabel;
-	
+
 	private String rootTocGuid;
 	private String docCollectionName;
 	private String tocCollectionName;
@@ -103,14 +106,14 @@ public class EditBookDefinitionForm {
 	private boolean isSplitLock;
 	private Integer splitEBookParts;
 	private Collection<SplitDocument> splitDocuments;
-	
+
 	// Proview Group information
 	private boolean isGroupsEnabled;
 	private String subGroupHeading;
 	private String groupName;
 
 	private String publishDateText;
-	
+
 	// Keywords used in Proview
 	private Collection<String> keywords;
 
@@ -135,16 +138,19 @@ public class EditBookDefinitionForm {
 	private EbookName frontMatterTitle = new EbookName();
 	private EbookName frontMatterSubtitle = new EbookName();
 	private EbookName frontMatterSeries = new EbookName();
-	
-	/** Used to preview front matter, holds the FM page sequence number that uniquely identifies
-	    what page the user want to preview. */
+
+	/**
+	 * Used to preview front matter, holds the FM page sequence number that
+	 * uniquely identifies what page the user want to preview.
+	 */
 	private Long selectedFrontMatterPreviewPage;
-	
+
 	private boolean validateForm;
-	
+
 	public EditBookDefinitionForm() {
 		super();
 		this.authorInfo = new AutoPopulatingList<Author>(Author.class);
+		this.pilotBookInfo = new AutoPopulatingList<PilotBook>(PilotBook.class);
 		this.nortFileLocations = new AutoPopulatingList<NortFileLocation>(NortFileLocation.class);
 		this.frontMatters = new AutoPopulatingList<FrontMatterPage>(FrontMatterPage.class);
 		this.excludeDocuments = new AutoPopulatingList<ExcludeDocument>(ExcludeDocument.class);
@@ -185,10 +191,10 @@ public class EditBookDefinitionForm {
 		this.splitDocuments = new AutoPopulatingList<SplitDocument>(SplitDocument.class);
 		this.isGroupsEnabled = true;
 	}
-	
+
 	/**
-	 * Reset some book definition fields before copying
-	 * in to the form
+	 * Reset some book definition fields before copying in to the form
+	 * 
 	 * @param bookDef
 	 */
 	public void copyBookDefinition(BookDefinition bookDef, List<KeywordTypeCode> keywordCodes) {
@@ -210,27 +216,27 @@ public class EditBookDefinitionForm {
 		bookDef.setUseReloadContent(false);
 		bookDef.setIsSplitLock(false);
 		bookDef.setSubGroupHeading(null);
-		
+
 		// Need to null surrogate and foreign keys.
 		// New keys will be made when Copy of Book Definition is saved.
-		for(EbookName name : bookDef.getEbookNames()) {
+		for (EbookName name : bookDef.getEbookNames()) {
 			name.setEbookDefinition(null);
 			name.setEbookNameId(null);
 		}
-		for(Author author: bookDef.getAuthors()) {
+		for (Author author : bookDef.getAuthors()) {
 			author.setAuthorId(null);
 			author.setEbookDefinition(null);
 		}
-		for(NortFileLocation fileLocation : bookDef.getNortFileLocations()) {
+		for (NortFileLocation fileLocation : bookDef.getNortFileLocations()) {
 			fileLocation.setNortFileLocationId(null);
 			fileLocation.setEbookDefinition(null);
 		}
-		
+
 		initialize(bookDef, keywordCodes);
 	}
-	
+
 	public void initialize(BookDefinition book, List<KeywordTypeCode> keywordCodes) {
-		if(book != null) {
+		if (book != null) {
 			this.bookdefinitionId = book.getEbookDefinitionId();
 			this.titleId = book.getFullyQualifiedTitleId();
 			this.proviewDisplayName = book.getProviewDisplayName();
@@ -244,6 +250,7 @@ public class EditBookDefinitionForm {
 			this.nortFilterView = book.getNortFilterView();
 			this.isbn = book.getIsbn();
 			this.authorInfo = book.getAuthors();
+			this.pilotBookInfo = book.getPilotBooks();
 			this.nortFileLocations = book.getNortFileLocations();
 			this.frontMatters = book.getFrontMatterPages();
 			this.publishDateText = book.getPublishDateText();
@@ -281,30 +288,29 @@ public class EditBookDefinitionForm {
 			this.splitEBookParts = book.getSplitEBookParts();
 			this.isSplitLock = book.isSplitLock();
 			this.fmThemeText = book.getFrontMatterTheme();
-			
+
 			// Determine if ProView groups are set
-			if(StringUtils.isBlank(book.getGroupName())) {
+			if (StringUtils.isBlank(book.getGroupName())) {
 				this.isGroupsEnabled = false;
 			} else {
 				this.groupName = book.getGroupName();
 				this.subGroupHeading = book.getSubGroupHeading();
 			}
-			
+
 			// Determine if ExcludeDocuments are present in Book Definition
 			if (book.getExcludeDocuments().size() > 0) {
 				this.isExcludeDocumentsUsed = true;
 			}
-			
+
 			// Determine if RenameTocEntries are present in Book Definition
 			if (book.getRenameTocEntries().size() > 0) {
 				this.isRenameTocEntriesUsed = true;
 			}
-			
-			if(this.tableViewers.size() > 0) {
+
+			if (this.tableViewers.size() > 0) {
 				this.isTableViewersUsed = true;
 			}
-			
-			
+
 			// Determine if Publish Cut-off Date is used
 			Date date = book.getPublishCutoffDate();
 			if (date != null) {
@@ -312,33 +318,34 @@ public class EditBookDefinitionForm {
 				this.publicationCutoffDate = sdf.format(date);
 				this.isPublicationCutoffDateUsed = true;
 			}
-			
+
 			/*
-			 * Field keywords needs to be assembled in sorted order of KeywordTypeCode
-			 * This is to get the path to correctly show the selected value on the Edit/Copy 
-			 * Book Definition form.  The values are selected based on the index in keywords field
+			 * Field keywords needs to be assembled in sorted order of
+			 * KeywordTypeCode This is to get the path to correctly show the
+			 * selected value on the Edit/Copy Book Definition form. The values
+			 * are selected based on the index in keywords field
 			 */
 			HashMap<KeywordTypeCode, String> keywordMap = new LinkedHashMap<KeywordTypeCode, String>();
-			for(KeywordTypeCode keywordCode : keywordCodes) {
+			for (KeywordTypeCode keywordCode : keywordCodes) {
 				keywordMap.put(keywordCode, "");
 			}
-			
+
 			Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValues();
-			for(KeywordTypeValue value : keywordValues) {
+			for (KeywordTypeValue value : keywordValues) {
 				keywordMap.put(value.getKeywordTypeCode(), value.getId().toString());
 			}
-			
+
 			this.keywords.addAll(keywordMap.values());
-					
+
 			setupFrontMatterNames(book.getEbookNames());
-			
+
 			parseTitleId(book);
 		}
 	}
-	
-	private void setupFrontMatterNames(List<EbookName> names){
-		for(EbookName name: names){
-			switch(name.getSequenceNum()){
+
+	private void setupFrontMatterNames(List<EbookName> names) {
+		for (EbookName name : names) {
+			switch (name.getSequenceNum()) {
 			case 1:
 				this.frontMatterTitle = name;
 				break;
@@ -353,13 +360,13 @@ public class EditBookDefinitionForm {
 			}
 		}
 	}
-	
+
 	public void loadBookDefinition(BookDefinition book) throws ParseException {
 		book.setEbookDefinitionId(bookdefinitionId);
-		
+
 		List<Author> authors = new ArrayList<Author>();
 		int i = 1;
-		for(Author author : authorInfo) {
+		for (Author author : authorInfo) {
 			Author authorCopy = new Author();
 			authorCopy.copy(author);
 			authorCopy.setEbookDefinition(book);
@@ -369,18 +376,31 @@ public class EditBookDefinitionForm {
 			i++;
 		}
 		book.setAuthors(authors);
-		
+
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		i = 1;
+		for (PilotBook pilotBook : pilotBookInfo) {
+			PilotBook pilotBookCopy = new PilotBook();
+			pilotBookCopy.copy(pilotBook);
+			pilotBookCopy.setEbookDefinition(book);
+			// Update the sequence number to be in order
+			pilotBookCopy.setSequenceNum(i);
+			pilotBooks.add(pilotBookCopy);
+			i++;
+		}
+		book.setPilotBooks(pilotBooks);
+
 		// Add Front Matter Book Names
 		Set<EbookName> ebookNames = new HashSet<EbookName>();
-		if(!frontMatterTitle.isEmpty()){
+		if (!frontMatterTitle.isEmpty()) {
 			frontMatterTitle.setEbookDefinition(book);
 			ebookNames.add(frontMatterTitle);
 		}
-		if(!frontMatterSubtitle.isEmpty()){
+		if (!frontMatterSubtitle.isEmpty()) {
 			frontMatterSubtitle.setEbookDefinition(book);
 			ebookNames.add(frontMatterSubtitle);
 		}
-		if(!frontMatterSeries.isEmpty()){
+		if (!frontMatterSeries.isEmpty()) {
 			frontMatterSeries.setEbookDefinition(book);
 			ebookNames.add(frontMatterSeries);
 		}
@@ -388,15 +408,15 @@ public class EditBookDefinitionForm {
 
 		List<FrontMatterPage> pages = new ArrayList<FrontMatterPage>();
 		i = 1;
-		for(FrontMatterPage page : frontMatters) {
+		for (FrontMatterPage page : frontMatters) {
 			FrontMatterPage pageCopy = new FrontMatterPage();
 			pageCopy.copy(page);
-			
+
 			int j = 1;
-			for(FrontMatterSection section : pageCopy.getFrontMatterSections()) {
+			for (FrontMatterSection section : pageCopy.getFrontMatterSections()) {
 				int k = 1;
-				for(FrontMatterPdf pdf : section.getPdfs()){
-					//Set foreign key on Pdf
+				for (FrontMatterPdf pdf : section.getPdfs()) {
+					// Set foreign key on Pdf
 					pdf.setSection(section);
 					// Update the sequence numbers to be in order
 					pdf.setSequenceNum(k);
@@ -416,134 +436,134 @@ public class EditBookDefinitionForm {
 			i++;
 		}
 		book.setFrontMatterPages(pages);
-		
+
 		// Compare with copy to determine if date needs update
-		for(ExcludeDocument document : excludeDocuments) {
+		for (ExcludeDocument document : excludeDocuments) {
 			boolean exists = false;
 			document.setBookDefinition(book);
-			for(ExcludeDocument documentCopy : excludeDocumentsCopy) {
-				if(document.equals(documentCopy)) {
+			for (ExcludeDocument documentCopy : excludeDocumentsCopy) {
+				if (document.equals(documentCopy)) {
 					exists = true;
 				}
 			}
 			// Update date
-			if(!exists) {
+			if (!exists) {
 				document.setLastUpdated(new Date());
 			}
 		}
 		book.setExcludeDocuments(excludeDocuments);
-				
-		for(SplitDocument document : splitDocuments) {
+
+		for (SplitDocument document : splitDocuments) {
 			document.setBookDefinition(book);
 		}
 		book.setSplitDocuments(splitDocuments);
-		
+
 		// Compare with copy to determine if date needs update
-		for(RenameTocEntry label : renameTocEntries) {
+		for (RenameTocEntry label : renameTocEntries) {
 			boolean exists = false;
 			label.setBookDefinition(book);
-			for(RenameTocEntry labelCopy : renameTocEntriesCopy) {
-				if(label.equals(labelCopy)) {
+			for (RenameTocEntry labelCopy : renameTocEntriesCopy) {
+				if (label.equals(labelCopy)) {
 					exists = true;
 				}
 			}
 			// Update date
-			if(!exists) {
+			if (!exists) {
 				label.setLastUpdated(new Date());
 			}
 		}
 		book.setRenameTocEntries(renameTocEntries);
-		
+
 		// Compare with copy to determine if date needs update
-		for(TableViewer document : tableViewers) {
+		for (TableViewer document : tableViewers) {
 			boolean exists = false;
 			document.setBookDefinition(book);
-			for(TableViewer documentCopy : tableViewersCopy) {
-				if(document.equals(documentCopy)) {
+			for (TableViewer documentCopy : tableViewersCopy) {
+				if (document.equals(documentCopy)) {
 					exists = true;
 				}
 			}
 			// Update date
-			if(!exists) {
+			if (!exists) {
 				document.setLastUpdated(new Date());
 			}
 		}
 		book.setTableViewers(tableViewers);
-		
-		for(DocumentCopyright documentCopyright: documentCopyrights) {
+
+		for (DocumentCopyright documentCopyright : documentCopyrights) {
 			boolean exists = false;
 			documentCopyright.setBookDefinition(book);
-			for(DocumentCopyright documentCopyrightCopy : documentCopyrightsCopy) {
-				if(documentCopyright.equals(documentCopyrightCopy)) {
+			for (DocumentCopyright documentCopyrightCopy : documentCopyrightsCopy) {
+				if (documentCopyright.equals(documentCopyrightCopy)) {
 					exists = true;
 				}
 			}
 			// Update date
-			if(!exists) {
+			if (!exists) {
 				documentCopyright.setLastUpdated(new Date());
 			}
 		}
 		book.setDocumentCopyrights(documentCopyrights);
-		
-		for(DocumentCurrency documentCurrency : documentCurrencies) {
+
+		for (DocumentCurrency documentCurrency : documentCurrencies) {
 			boolean exists = false;
 			documentCurrency.setBookDefinition(book);
-			for(DocumentCurrency documentCurrencyCopy : documentCurrenciesCopy) {
-				if(documentCurrency.equals(documentCurrencyCopy)) {
+			for (DocumentCurrency documentCurrencyCopy : documentCurrenciesCopy) {
+				if (documentCurrency.equals(documentCurrencyCopy)) {
 					exists = true;
 				}
 			}
 			// Update date
-			if(!exists) {
+			if (!exists) {
 				documentCurrency.setLastUpdated(new Date());
 			}
 		}
 		book.setDocumentCurrencies(documentCurrencies);
-		
+
 		book.setAutoUpdateSupportFlag(autoUpdateSupport);
 		book.setCopyright(copyright);
 		book.setCopyrightPageText(copyrightPageText);
 		book.setCurrency(currency);
 		book.setAdditionalTrademarkInfo(additionalTrademarkInfo);
-		
+
 		DocumentTypeCode dtc = new DocumentTypeCode();
 		dtc.setId(contentTypeId != null ? contentTypeId : 0L);
 		book.setDocumentTypeCodes(dtc);
 		book.setEbookDefinitionCompleteFlag(isComplete);
 		book.setFullyQualifiedTitleId(titleId);
 		book.setCoverImage(this.createCoverImageName());
-		
+
 		book.setIsbn(isbn);
 		book.setEnableCopyFeatureFlag(enableCopyFeatureFlag);
 		book.setPilotBookStatus(pilotBookStatus);
 		book.setKeyciteToplineFlag(keyCiteToplineFlag);
 
 		Set<KeywordTypeValue> keywordValues = new HashSet<KeywordTypeValue>();
-		for(String id : keywords) {
-			if(StringUtils.isNotBlank(id)) {
+		for (String id : keywords) {
+			if (StringUtils.isNotBlank(id)) {
 				KeywordTypeValue keywordValue = new KeywordTypeValue();
 				keywordValue.setId(Long.valueOf(id));
 				keywordValues.add(keywordValue);
 			}
 		}
 		book.setKeywordTypeValues(keywordValues);
-		
+
 		book.setMaterialId(materialId);
 		book.setNortDomain(nortDomain);
 		book.setNortFilterView(nortFilterView);
 		book.setProviewDisplayName(proviewDisplayName);
-		
+
 		// Parse Date
-		DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN); 
-		Date date = publicationCutoffDate != null? (Date)formatter.parse(publicationCutoffDate) : null; 
+		DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
+		Date date = publicationCutoffDate != null ? (Date) formatter.parse(publicationCutoffDate) : null;
 		book.setPublishCutoffDate(date);
 
 		book.setPublishDateText(publishDateText);
-		
+
 		PublisherCode publishercode = new PublisherCode();
 		publishercode.setName(publisher);
 		book.setPublisherCodes(publishercode);
-		
+
 		book.setRootTocGuid(rootTocGuid);
 		book.setSearchIndexFlag(searchIndex);
 		book.setTocCollectionName(tocCollectionName);
@@ -553,10 +573,10 @@ public class EditBookDefinitionForm {
 		book.setIncludeAnnotations(includeAnnotations);
 		book.setIsFinalStage(isFinalStage);
 		book.setUseReloadContent(useReloadContent);
-		
+
 		book.setSourceType(sourceType);
 		book.setCwbBookName(codesWorkbenchBookName);
-		
+
 		book.setIsInsStyleFlag(isInsTagStyleEnabled);
 		book.setIsDelStyleFlag(isDelTagStyleEnabled);
 		book.setIsRemoveEditorNoteHeadFlag(isRemoveEditorNoteHeading);
@@ -566,11 +586,10 @@ public class EditBookDefinitionForm {
 		book.setIsSplitLock(isSplitLock);
 		book.setSubGroupHeading(subGroupHeading);
 		book.setGroupName(groupName);
-		
-		
+
 		List<NortFileLocation> tempNortFileLocations = new ArrayList<NortFileLocation>();
 		i = 1;
-		for(NortFileLocation nortFileLocation : nortFileLocations) {
+		for (NortFileLocation nortFileLocation : nortFileLocations) {
 			NortFileLocation fileLocationCopy = new NortFileLocation();
 			fileLocationCopy.copy(nortFileLocation);
 			fileLocationCopy.setEbookDefinition(book);
@@ -582,19 +601,19 @@ public class EditBookDefinitionForm {
 		book.setNortFileLocations(tempNortFileLocations);
 		book.setFrontMatterTheme(fmThemeText);
 	}
-	
+
 	private void parseTitleId(BookDefinition book) {
-		DocumentTypeCode documentType = book.getDocumentTypeCodes(); 
-		if(documentType != null) {
+		DocumentTypeCode documentType = book.getDocumentTypeCodes();
+		if (documentType != null) {
 			this.contentTypeId = documentType.getId();
 		}
-		
+
 		// Parse titleId
 		String[] fullyqualifiedtitleArray = this.titleId.split("/");
-		String [] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
-		
+		String[] titleIdArray = fullyqualifiedtitleArray[TITLE_NAME_INDEX].split("_");
+
 		this.publisher = fullyqualifiedtitleArray[PUBLISHER_INDEX];
-	
+
 		if (documentType.getName().equals(WebConstants.DOCUMENT_TYPE_ANALYTICAL)) {
 			this.pubAbbr = titleIdArray[0];
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
@@ -610,30 +629,30 @@ public class EditBookDefinitionForm {
 			this.pubInfo = createPubInfo(documentType, titleIdArray);
 		}
 	}
-	
+
 	private String createPubInfo(DocumentTypeCode documentType, String[] titleId) {
 		int index;
 		StringBuilder pubInfo = new StringBuilder();
-		
+
 		if (documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_COURT_RULES)) {
 			index = 2;
-		} else if(documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_ANALYTICAL) || 
-				documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
+		} else if (documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_ANALYTICAL)
+				|| documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_SLICE_CODES)) {
 			index = 1;
 		} else {
 			index = 0;
 		}
-		
-		for(int i = index; i < titleId.length ; i++) {
+
+		for (int i = index; i < titleId.length; i++) {
 			pubInfo.append(titleId[i]);
 			pubInfo.append("_");
 		}
 		if (pubInfo.length() > 0)
 			pubInfo.deleteCharAt(pubInfo.length() - 1);
-		
+
 		return pubInfo.toString();
 	}
-	
+
 	public Long getBookdefinitionId() {
 		return bookdefinitionId;
 	}
@@ -658,7 +677,6 @@ public class EditBookDefinitionForm {
 		this.proviewDisplayName = proviewDisplayName;
 	}
 
-	
 	public List<FrontMatterPage> getFrontMatters() {
 		return frontMatters;
 	}
@@ -666,7 +684,6 @@ public class EditBookDefinitionForm {
 	public void setFrontMatters(List<FrontMatterPage> frontMatters) {
 		this.frontMatters = frontMatters;
 	}
-
 
 	public boolean isExcludeDocumentsUsed() {
 		return isExcludeDocumentsUsed;
@@ -688,8 +705,7 @@ public class EditBookDefinitionForm {
 		return excludeDocumentsCopy;
 	}
 
-	public void setExcludeDocumentsCopy(
-			Collection<ExcludeDocument> excludeDocumentsCopy) {
+	public void setExcludeDocumentsCopy(Collection<ExcludeDocument> excludeDocumentsCopy) {
 		this.excludeDocumentsCopy = excludeDocumentsCopy;
 	}
 
@@ -700,7 +716,6 @@ public class EditBookDefinitionForm {
 	public void setSubGroupHeading(String subGroupHeading) {
 		this.subGroupHeading = subGroupHeading;
 	}
-	
 
 	public String getGroupName() {
 		return groupName;
@@ -730,8 +745,7 @@ public class EditBookDefinitionForm {
 		return renameTocEntriesCopy;
 	}
 
-	public void setRenameTocEntriesCopy(
-			Collection<RenameTocEntry> renameTocEntriesCopy) {
+	public void setRenameTocEntriesCopy(Collection<RenameTocEntry> renameTocEntriesCopy) {
 		this.renameTocEntriesCopy = renameTocEntriesCopy;
 	}
 
@@ -763,8 +777,7 @@ public class EditBookDefinitionForm {
 		return documentCopyrights;
 	}
 
-	public void setDocumentCopyrights(
-			Collection<DocumentCopyright> documentCopyrights) {
+	public void setDocumentCopyrights(Collection<DocumentCopyright> documentCopyrights) {
 		this.documentCopyrights = documentCopyrights;
 	}
 
@@ -772,8 +785,7 @@ public class EditBookDefinitionForm {
 		return documentCopyrightsCopy;
 	}
 
-	public void setDocumentCopyrightsCopy(
-			Collection<DocumentCopyright> documentCopyrightsCopy) {
+	public void setDocumentCopyrightsCopy(Collection<DocumentCopyright> documentCopyrightsCopy) {
 		this.documentCopyrightsCopy = documentCopyrightsCopy;
 	}
 
@@ -781,8 +793,7 @@ public class EditBookDefinitionForm {
 		return documentCurrencies;
 	}
 
-	public void setDocumentCurrencies(
-			Collection<DocumentCurrency> documentCurrencies) {
+	public void setDocumentCurrencies(Collection<DocumentCurrency> documentCurrencies) {
 		this.documentCurrencies = documentCurrencies;
 	}
 
@@ -790,8 +801,7 @@ public class EditBookDefinitionForm {
 		return documentCurrenciesCopy;
 	}
 
-	public void setDocumentCurrenciesCopy(
-			Collection<DocumentCurrency> documentCurrenciesCopy) {
+	public void setDocumentCurrenciesCopy(Collection<DocumentCurrency> documentCurrenciesCopy) {
 		this.documentCurrenciesCopy = documentCurrenciesCopy;
 	}
 
@@ -833,6 +843,14 @@ public class EditBookDefinitionForm {
 
 	public void setAuthorInfo(List<Author> authorInfo) {
 		this.authorInfo = authorInfo;
+	}
+
+	public List<PilotBook> getPilotBookInfo() {
+		return pilotBookInfo;
+	}
+
+	public void setPilotBookInfo(List<PilotBook> pilotBookInfo) {
+		this.pilotBookInfo = pilotBookInfo;
 	}
 
 	public boolean getIsAuthorDisplayVertical() {
@@ -898,7 +916,7 @@ public class EditBookDefinitionForm {
 	public void setContentTypeId(Long contentTypeId) {
 		this.contentTypeId = contentTypeId;
 	}
-	
+
 	public String getFmThemeText() {
 		return fmThemeText;
 	}
@@ -954,7 +972,7 @@ public class EditBookDefinitionForm {
 	public void setKeywords(Collection<String> keywords) {
 		this.keywords = keywords;
 	}
-	
+
 	public String getCurrency() {
 		return currency;
 	}
@@ -962,7 +980,7 @@ public class EditBookDefinitionForm {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	
+
 	public boolean getIsComplete() {
 		return isComplete;
 	}
@@ -1018,11 +1036,11 @@ public class EditBookDefinitionForm {
 	public void setSearchIndex(boolean searchIndex) {
 		this.searchIndex = searchIndex;
 	}
-	
+
 	public boolean getUseReloadContent() {
 		return useReloadContent;
 	}
-	
+
 	public void setUseReloadContent(boolean useReloadContent) {
 		this.useReloadContent = useReloadContent;
 	}
@@ -1058,7 +1076,7 @@ public class EditBookDefinitionForm {
 	public void setPubInfo(String pubInfo) {
 		this.pubInfo = pubInfo;
 	}
-	
+
 	public String getProductCode() {
 		return productCode;
 	}
@@ -1082,7 +1100,7 @@ public class EditBookDefinitionForm {
 	public void setPubAbbr(String pubAbbr) {
 		this.pubAbbr = pubAbbr;
 	}
-	
+
 	public String getComment() {
 		return comment;
 	}
@@ -1122,13 +1140,15 @@ public class EditBookDefinitionForm {
 	public void setValidateForm(boolean validateForm) {
 		this.validateForm = validateForm;
 	}
+
 	public Long getSelectedFrontMatterPreviewPage() {
 		return selectedFrontMatterPreviewPage;
 	}
+
 	public void setSelectedFrontMatterPreviewPage(Long fmPageSeqNum) {
 		this.selectedFrontMatterPreviewPage = fmPageSeqNum;
 	}
-	
+
 	public SourceType getSourceType() {
 		return sourceType;
 	}
@@ -1160,7 +1180,7 @@ public class EditBookDefinitionForm {
 	public void setInsTagStyleEnabled(boolean isInsTagStyleEnabled) {
 		this.isInsTagStyleEnabled = isInsTagStyleEnabled;
 	}
-	
+
 	public boolean isGroupsEnabled() {
 		return isGroupsEnabled;
 	}
@@ -1176,15 +1196,14 @@ public class EditBookDefinitionForm {
 	public void setDelTagStyleEnabled(boolean isDelTagStyleEnabled) {
 		this.isDelTagStyleEnabled = isDelTagStyleEnabled;
 	}
-	
+
 	public boolean isRemoveEditorNoteHeading() {
 		return isRemoveEditorNoteHeading;
 	}
-	
+
 	public void setRemoveEditorNoteHeading(boolean isRemoveEditorNoteHeading) {
 		this.isRemoveEditorNoteHeading = isRemoveEditorNoteHeading;
 	}
-	
 
 	public boolean isSplitBook() {
 		return isSplitBook;
@@ -1193,7 +1212,7 @@ public class EditBookDefinitionForm {
 	public void setSplitBook(boolean isSplitBook) {
 		this.isSplitBook = isSplitBook;
 	}
-		
+
 	public Collection<SplitDocument> getSplitDocuments() {
 		return splitDocuments;
 	}
@@ -1209,7 +1228,6 @@ public class EditBookDefinitionForm {
 	public void setSplitTypeAuto(boolean isSplitTypeAuto) {
 		this.isSplitTypeAuto = isSplitTypeAuto;
 	}
-	
 
 	public Integer getSplitEBookParts() {
 		return splitEBookParts;
@@ -1218,7 +1236,6 @@ public class EditBookDefinitionForm {
 	public void setSplitEBookParts(Integer splitEBookParts) {
 		this.splitEBookParts = splitEBookParts;
 	}
-	
 
 	public boolean isSplitLock() {
 		return isSplitLock;
@@ -1231,7 +1248,7 @@ public class EditBookDefinitionForm {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
+
 	public String createCoverImageName() {
 		String[] titleIdArray = titleId.split("/");
 		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
@@ -1239,95 +1256,103 @@ public class EditBookDefinitionForm {
 		buffer.append(".png");
 		return buffer.toString();
 	}
-	
+
 	public String createPilotBookCsvName() {
 		String[] titleIdArray = titleId.split("/");
 		StringBuilder buffer = new StringBuilder(StringUtils.join(titleIdArray, "_"));
 		buffer.append(".csv");
 		return buffer.toString();
 	}
-	
+
 	public void removeEmptyRows() {
-		//Clear out empty author
-        for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
-        	Author author = i.next();
-            if (author == null || author.isNameEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out empty NortFileLocation
-        for (Iterator<NortFileLocation> i = nortFileLocations.iterator(); i.hasNext();) {
-        	NortFileLocation fileLocation = i.next();
-            if (fileLocation == null || fileLocation.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out empty ExcludeDocument
-        for (Iterator<ExcludeDocument> i = excludeDocuments.iterator(); i.hasNext();) {
-        	ExcludeDocument document = i.next();
-            if (document == null || document.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out empty RenameTocEntry
-        for (Iterator<RenameTocEntry> i = renameTocEntries.iterator(); i.hasNext();) {
-        	RenameTocEntry label = i.next();
-            if (label == null || label.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        // Clear out empty Tableviewer
-        for (Iterator<TableViewer> i = tableViewers.iterator(); i.hasNext();) {
-        	TableViewer document = i.next();
-            if (document == null || document.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        // Clear out empty DocumentCurrency
-        for (Iterator<DocumentCurrency> i = documentCurrencies.iterator(); i.hasNext();) {
-        	DocumentCurrency currency = i.next();
-            if (currency == null || currency.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        // Clear out empty DocumentCopyright
-        for (Iterator<DocumentCopyright> i = documentCopyrights.iterator(); i.hasNext();) {
-        	DocumentCopyright copyright = i.next();
-            if (copyright == null || copyright.isEmpty()) {
-                i.remove();
-            }
-        }
-        
-        //Clear out front matter line
-	    for (Iterator<FrontMatterPage> i = frontMatters.iterator(); i.hasNext();) {
-	    	FrontMatterPage page = i.next();
-	    	
-	        if (page == null) {
-	        	// Remove page from Collection
-	            i.remove();
-	        } else {
-	        	for(Iterator<FrontMatterSection> j = page.getFrontMatterSections().iterator(); j.hasNext();) {
-	        		FrontMatterSection section = j.next();
-	        		if(section == null) {
-	        			// Remove Section from Collection
-	        			j.remove();
-	        		} else {
-	        			for(Iterator<FrontMatterPdf> k = section.getPdfs().iterator(); k.hasNext();) {
-	        				FrontMatterPdf pdf = k.next();
-	        				if (pdf == null || pdf.isEmpty()) {
-	        					// Remove Pdf from Collection
-	        					k.remove();
-	        				}
-	        			}
-	        		}
-	        	}
-	        }
-	    }
-    }
+		// Clear out empty author
+		for (Iterator<Author> i = authorInfo.iterator(); i.hasNext();) {
+			Author author = i.next();
+			if (author == null || author.isNameEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty pilot books
+		for (Iterator<PilotBook> i = pilotBookInfo.iterator(); i.hasNext();) {
+			PilotBook book = i.next();
+			if (book == null || book.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty NortFileLocation
+		for (Iterator<NortFileLocation> i = nortFileLocations.iterator(); i.hasNext();) {
+			NortFileLocation fileLocation = i.next();
+			if (fileLocation == null || fileLocation.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty ExcludeDocument
+		for (Iterator<ExcludeDocument> i = excludeDocuments.iterator(); i.hasNext();) {
+			ExcludeDocument document = i.next();
+			if (document == null || document.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty RenameTocEntry
+		for (Iterator<RenameTocEntry> i = renameTocEntries.iterator(); i.hasNext();) {
+			RenameTocEntry label = i.next();
+			if (label == null || label.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty Tableviewer
+		for (Iterator<TableViewer> i = tableViewers.iterator(); i.hasNext();) {
+			TableViewer document = i.next();
+			if (document == null || document.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty DocumentCurrency
+		for (Iterator<DocumentCurrency> i = documentCurrencies.iterator(); i.hasNext();) {
+			DocumentCurrency currency = i.next();
+			if (currency == null || currency.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out empty DocumentCopyright
+		for (Iterator<DocumentCopyright> i = documentCopyrights.iterator(); i.hasNext();) {
+			DocumentCopyright copyright = i.next();
+			if (copyright == null || copyright.isEmpty()) {
+				i.remove();
+			}
+		}
+
+		// Clear out front matter line
+		for (Iterator<FrontMatterPage> i = frontMatters.iterator(); i.hasNext();) {
+			FrontMatterPage page = i.next();
+
+			if (page == null) {
+				// Remove page from Collection
+				i.remove();
+			} else {
+				for (Iterator<FrontMatterSection> j = page.getFrontMatterSections().iterator(); j.hasNext();) {
+					FrontMatterSection section = j.next();
+					if (section == null) {
+						// Remove Section from Collection
+						j.remove();
+					} else {
+						for (Iterator<FrontMatterPdf> k = section.getPdfs().iterator(); k.hasNext();) {
+							FrontMatterPdf pdf = k.next();
+							if (pdf == null || pdf.isEmpty()) {
+								// Remove Pdf from Collection
+								k.remove();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -254,6 +254,7 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 		private String bookVersion;
 		private String id;
 		private String proviewDisplayName;
+		private boolean isPilotBook = false;
 		
 		//These are for titles with no subgroups
 		private String[] titleIdWithVersionArray;
@@ -298,6 +299,14 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 
 		public void setProviewDisplayName(String proviewDisplayName) {
 			this.proviewDisplayName = proviewDisplayName;
+		}
+
+		public boolean isPilotBook() {
+			return isPilotBook;
+		}
+
+		public void setPilotBook(boolean isPilotBook) {
+			this.isPilotBook = isPilotBook;
 		}
 
 		public String getId() {
@@ -378,15 +387,24 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 
 		@Override
 		public int compareTo(GroupDetails info) {
-			int version  = info.getBookVersion().compareTo(this.getBookVersion());
-			
-			if(version == 0) {
-				return info.getTitleId().compareToIgnoreCase(this.getTitleId());
-			} 
+
+			int version = 0;
+			if (info.isPilotBook() ^ this.isPilotBook()) {
+				version = this.isPilotBook() ? 1 : -1;
+			} else {
+				version = -info.getProviewDisplayName().compareTo(this.getProviewDisplayName());
+				if (version == 0) {
+					version = info.getBookVersion().compareTo(this.getBookVersion());
+					if (version == 0) {
+						String infoId = info.getTitleId() == null ? info.getId() : info.getTitleId();
+						String thisId = this.getTitleId() == null ? this.getId() : this.getTitleId();
+						version = infoId.compareToIgnoreCase(thisId);
+					}
+				}
+			}
 			return version;
 		}
-		
-	}
 
+	}
 }
 

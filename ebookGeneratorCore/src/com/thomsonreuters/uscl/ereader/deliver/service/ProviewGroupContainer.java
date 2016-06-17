@@ -33,8 +33,8 @@ public class ProviewGroupContainer implements Serializable {
 		this.proviewGroups = proviewGroups;
 	}
 
-	public String getGroupName(){
-		return proviewGroups.get(0).getProviewName();
+	public String getGroupId(){
+		return proviewGroups.get(0).getGroupId();
 	}
 	
 	/**

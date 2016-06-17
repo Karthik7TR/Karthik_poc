@@ -2,6 +2,7 @@ $(function() {
 	$(document).ready(function() {
 		// Declare Global Variables
 		var authorIndex = parseInt($("#numberOfAuthors").val());
+		var pilotBookIndex = parseInt($("#numberOfPilotBooks").val());
 		var frontMatterPageIndex = parseInt($("#numberOfFrontMatters").val());
 		var excludeDocumentIndex = parseInt($("#numberOfExcludeDocuments").val());
 		var renameTocEntryIndex = parseInt($("#numberOfRenameTocEntries").val());
@@ -98,6 +99,31 @@ $(function() {
 					$('#publishDetailDiv').hide();
 				}
 			}
+		};
+		
+		var addPilotBookRow = function() {
+			var expandingBox = $("<div>").addClass("expandingBox");
+			var id = "pilotBookInfo" + pilotBookIndex;
+			var name = "pilotBookInfo[" + pilotBookIndex + "]";
+			
+			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			
+			// Add sequence number
+			var lastChild = $("#addPilotBookHere .expandingBox:last-child");
+			var lastSequenceNum = getSequenceNumber(lastChild);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			expandingBox.append(sequenceBox);
+			
+			// Add title information
+			expandingBox.append(addDynamicRow("input", id, name, "pilotBookTitleId", "Title ID"));
+			expandingBox.append(addDynamicRow("textarea", id, name, "pilotBookNote", "Note"));
+			
+			// Add delete button
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pilot Book").attr("type", "button").val("Delete"));
+		
+			$("#addPilotBookHere").append(expandingBox);
+			pilotBookIndex = pilotBookIndex + 1;
 		};
 		
 		// Add another author row
@@ -551,6 +577,14 @@ $(function() {
 			// IE8 bug: forcing reflow/redraw to resize the parent div 
 			$('#authorName').hide();
 			$('#authorName').show();
+		});
+		
+		$('#addPilotBook').click(function () {
+			addPilotBookRow();
+			
+			// IE8 bug: forcing reflow/redraw to resize the parent div 
+			$('#pilotBook').hide();
+			$('#pilotBook').show();
 		});
 		
 		$('#addExcludeDocument').click(function () {

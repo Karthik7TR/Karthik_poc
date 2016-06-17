@@ -112,58 +112,30 @@ public class EditGroupDefinitionFormTest {
 	}
 	
 	@Test
-	public void initializeNotGroupedTest() {
-		BookDefinition book = createBookDef(TITLE_ID);
-		Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(TITLE_ID);
+	public void initializeWithSubgroupsTest() {
 		
-		form.initialize(book, proviewTitleMap, null);
-		
-		Subgroup notGrouped = form.getNotGrouped();
-		
-		Assert.assertNull(notGrouped.getHeading());
-		Assert.assertEquals(1, notGrouped.getTitles().size());
-		
-		Title title = notGrouped.getTitles().get(0);
-		Assert.assertEquals(TITLE_ID, title.getTitleId());
-		Assert.assertEquals(PROVIEW_DISPLAY_NAME, title.getProviewName());
-		Assert.assertEquals(new Integer(1), title.getVersion());
-		
-		Assert.assertEquals(0, form.getSubgroups().size());
-		Assert.assertFalse(form.getHasSplitTitles());
-	}
-	
-	@Test
-	public void initializeGroupedTest() {
-		String subgroupHeading = "subheading";
 		BookDefinition book = createBookDef(TITLE_ID);
 		Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(TITLE_ID);
 		GroupDefinition group = new GroupDefinition();
-		group.setGroupId(GROUP_ID);
-		group.setGroupVersion(1L);
-		group.setHeadTitle(TITLE_ID);
-		group.setName(GROUP_NAME);
-		group.setStatus("review");
-		group.setType(GROUP_TYPE);
-		SubGroupInfo subgroupInfo = new SubGroupInfo();
-		subgroupInfo.setHeading(subgroupHeading);
-		subgroupInfo.addTitle(TITLE_ID + "/v1");
-		group.addSubGroupInfo(subgroupInfo);
 		
-		form.initialize(book, proviewTitleMap, group);
+		ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
+		proviewTitleInfo.setTitleId(TITLE_ID+"_pt2");
+		proviewTitleMap.put(TITLE_ID, proviewTitleInfo);
+
 		
-		Assert.assertFalse(form.getHasSplitTitles());
-		Subgroup notGrouped = form.getNotGrouped();
-		Assert.assertNull(notGrouped.getHeading());
-		Assert.assertEquals(0, notGrouped.getTitles().size());
+		List<SubGroupInfo> subgroupList = new ArrayList<SubGroupInfo>();
+		group.setSubGroupInfoList(subgroupList);
+		SubGroupInfo subgroup = new SubGroupInfo();
+		subgroupList.add(subgroup);
+		subgroup.setHeading("a");
+		subgroup.addTitle(TITLE_ID);
 		
+		form.initialize(book, proviewTitleMap, proviewTitleMap, group);
+		
+		Assert.assertTrue(form.getIncludeSubgroup());
 		Assert.assertEquals(1, form.getSubgroups().size());
-		Subgroup subgroup = form.getSubgroups().get(0);
-		Assert.assertEquals(1, subgroup.getTitles().size());
-		Title title = subgroup.getTitles().get(0);
-		Assert.assertEquals(TITLE_ID, title.getTitleId());
-		Assert.assertEquals(PROVIEW_DISPLAY_NAME, title.getProviewName());
-		Assert.assertEquals(new Integer(1), title.getVersion());
-		
+		Assert.assertEquals(1, form.getNotGrouped().getTitles().size());
+
 	}
 	
 	private Map<String, ProviewTitleInfo> createProviewTitleMap(String fullyQualifiedTitleId) {

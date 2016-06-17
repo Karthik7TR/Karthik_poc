@@ -224,6 +224,14 @@ public class EbookAudit implements Serializable {
 	/**
 	 */
 
+	@Column(name = "PILOT_BOOKS_CONCAT", length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+
+	String pilotBooksConcat;	
+
+	/**
+	 */
+
 	@Column(name = "BOOK_NAMES_CONCAT", length = 2048)
 	@Basic(fetch = FetchType.EAGER)
 	String bookNamesConcat;
@@ -706,6 +714,14 @@ public class EbookAudit implements Serializable {
 		return this.authorNamesConcat;
 	}
 
+	public String getPilotBooksConcat() {
+		return pilotBooksConcat;
+	}
+
+	public void setPilotBooksConcat(String pilotBookConcat) {
+		this.pilotBooksConcat = pilotBookConcat;
+	}
+	
 	/**
 	 */
 	public void setBookNamesConcat(String bookNamesConcat) {
@@ -824,6 +840,7 @@ public class EbookAudit implements Serializable {
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setAuthorNamesConcat(that.getAuthorNamesConcat());
+		setPilotBooksConcat(that.getPilotBooksConcat());
 		setBookNamesConcat(that.getBookNamesConcat());
 		setKeywordsConcat(that.getKeywordsConcat());
 		setAuditNote(that.getAuditNote());
@@ -892,6 +909,7 @@ public class EbookAudit implements Serializable {
 		setEbookDefinitionCompleteFlag(that.getEbookDefinitionCompleteFlag());
 		setPublishedOnceFlag(that.getPublishedOnceFlag());
 		setAuthorNamesConcat(maxString(concatString(that.getAuthors()), MAX_CHARACTER_2048));
+		setPilotBooksConcat(maxString(concatString(that.getPilotBooks()), MAX_CHARACTER_1024));
 		setBookNamesConcat(maxString(concatString(that.getEbookNames()), MAX_CHARACTER_2048));
 		setKeywordsConcat(maxString(concatString(that.getKeywordTypeValues()), MAX_CHARACTER_1024));
 		setAuditNote(note);

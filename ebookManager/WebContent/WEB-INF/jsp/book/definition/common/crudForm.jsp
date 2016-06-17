@@ -733,6 +733,7 @@
 			<div class="row" style="font-size:.7em; text-align: center;">
 				*Only Super Users are able to modify above options.
 			</div>
+			
 			<div class="row">
 				<form:label path="tableViewersUsed" class="labelCol">Enable Table Viewer</form:label>
 				<form:radiobutton path="tableViewersUsed" value="true" />Yes
@@ -767,6 +768,40 @@
 				</div>
 				<div class="errorDiv">
 					<form:errors path="subGroupHeading" cssClass="errorMessage" />
+				</div>
+				<div id="pilotBook" class="row">
+					<form:label path="pilotBookInfo" class="labelCol">Pilot Books</form:label>
+					<input type="button" id="addPilotBook" value="add" />
+					<div class="errorDiv">
+						<form:errors path="pilotBookInfo" cssClass="errorMessage" />
+					</div>
+					<div id="addPilotBookHere">
+						<c:forEach items="${editBookDefinitionForm.pilotBookInfo}" var="book" varStatus="aStatus">
+							<div class="expandingBox">
+								<div class="errorDiv">
+									<form:errors path="pilotBookInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
+								</div>
+								<button class="moveUp" type="button">Up</button>
+								<button class="moveDown" type="button">Down</button>
+								<form:hidden path="pilotBookInfo[${aStatus.index}].sequenceNum" class="sequence"/>
+								<div class="dynamicRow">
+									<label>Title ID</label>
+									<form:input path="pilotBookInfo[${aStatus.index}].pilotBookTitleId" />
+									<div class="errorDiv">
+										<form:errors path="pilotBookInfo[${aStatus.index}].pilotBookTitleId" cssClass="errorMessage" />
+									</div>
+								</div>
+								<div class="dynamicRow">
+									<label>Note</label>
+									<form:input path="pilotBookInfo[${aStatus.index}].note" />
+									<div class="errorDiv">
+										<form:errors path="pilotBookInfo[${aStatus.index}].note" cssClass="errorMessage" />
+									</div>
+								</div>
+								<input type="button" value="Delete" class="rdelete" title="Delete Pilot Book" />
+							</div>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1050,6 +1085,7 @@
 <input id="documentTypeAnalyticalAbbr" type="hidden" value="<%=WebConstants.DOCUMENT_TYPE_ANALYTICAL_ABBR%>" />
 <input id="documentTypeCourtRulesAbbr" type="hidden" value="<%=WebConstants.DOCUMENT_TYPE_COURT_RULES_ABBR%>" />
 <input id="documentTypeSliceCodesAbbr" type="hidden" value="<%=WebConstants.DOCUMENT_TYPE_SLICE_CODES_ABBR%>" />
+<input id="numberOfPilotBooks" type="hidden" value="${numberOfPilotBooks}" />
 <input id="numberOfAuthors" type="hidden" value="${numberOfAuthors}" />
 <input id="numberOfFrontMatters" type="hidden" value="${numberOfFrontMatters}" />
 <input id="numberOfExcludeDocuments" type="hidden" value="${numberOfExcludeDocuments}" />

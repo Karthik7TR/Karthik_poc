@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -29,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
@@ -41,7 +43,7 @@ public class EditGroupController {
 	private BookDefinitionService bookDefinitionService;
 	private GroupService groupService;
 	private EBookAuditService auditService;
-
+	
 	private Validator validator;
 
 	@InitBinder(EditGroupDefinitionForm.FORM_NAME)
@@ -86,8 +88,15 @@ public class EditGroupController {
 				form.setGroupType("standard");
 				
 				Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
+				Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
+				proviewTitleMap.putAll(pilotBookMap);
+				
 				setupModel(model, bookDef, proviewTitleMap.size());
-				form.initialize(bookDef, proviewTitleMap, group);
+				form.initialize(bookDef, proviewTitleMap, pilotBookMap, group);
+			} catch (ProviewException ex) {
+				setupModel(model, bookDef, 1);
+				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, WebConstants.ERROR_PROVIEW);
+				model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, Arrays.asList(ex.getMessage().split("\\s*,\\s*")));
 			} catch (Exception e) {
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, WebConstants.ERROR_PROVIEW);
 			}
@@ -95,22 +104,28 @@ public class EditGroupController {
 
 		return new ModelAndView(WebConstants.VIEW_GROUP_DEFINITION_EDIT);
 	}
-	
-	
+
 	private void setupVersion(GroupDefinition group, EditGroupDefinitionForm form, Model model) {
 		String status = null;
-		if(group != null) {
+		if (group != null) {
 			status = group.getStatus();
 		}
-		
+
 		model.addAttribute(WebConstants.KEY_GROUP_STATUS_IN_PROVIEW, status);
-		model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED,
-				"review".equalsIgnoreCase(status) ? "Y" : "N");
+		if ("review".equalsIgnoreCase(status)) {
+			String formatedVersion = EditGroupDefinitionForm.Version.OVERWRITE.toString();
+			formatedVersion = formatedVersion.charAt(0)+formatedVersion.substring(1).toLowerCase();
+			model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
+		} else {
+			String formatedVersion = EditGroupDefinitionForm.Version.MAJOR.toString();
+			formatedVersion = formatedVersion.charAt(0)+formatedVersion.substring(1).toLowerCase();
+			model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
+		}
 	}
-	
-	
+
 	/**
 	 * Handle the in-bound POST to the Book Definition edit view page.
+	 * 
 	 * @param titleId
 	 * @param form
 	 * @param bindingResult
@@ -139,6 +154,10 @@ public class EditGroupController {
 		}
 		
 		Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
+		if (form.getIncludePilotBook()) {
+			Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
+			proviewTitleMap.putAll(pilotBookMap);
+		}
 		
 		if(!bindingResult.hasErrors()) {
 			try {

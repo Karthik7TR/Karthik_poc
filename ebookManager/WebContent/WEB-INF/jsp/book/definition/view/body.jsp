@@ -353,6 +353,14 @@ function submitForm(cmd)
 							<label class="labelCol">SubGroup Heading</label>
 							<span class="field">${ book.subGroupHeading }</span>
 						</div>
+						<div class="row">
+						<label class="labelCol">Pilot Books</label>
+						<c:forEach items="${book.pilotBooks}" var="pilotBook">
+								<div class="field">${fn:escapeXml(pilotBook.pilotBookTitleId) }</div>
+								<div class="field wordwrap"> ${fn:escapeXml(pilotBook.note)}</div>
+								<br>
+						</c:forEach>
+					</div>
 					</c:if>
 					
 				</div>

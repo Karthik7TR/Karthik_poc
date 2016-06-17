@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
 import java.io.File;
 import java.net.URL;
@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
@@ -607,6 +608,29 @@ public class EditBookDefinitionFormValidatorTest {
 	}
 	
 	/**
+	 * Test Author required fields
+	 */
+	@Test
+	public void testPilotBookRequiredFields() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	PilotBook pilot = new PilotBook();
+    	pilot.setPilotBookTitleId("Test");
+    	form.getPilotBookInfo().add(pilot);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.required.field", errors.getFieldError("pilotBookInfo[0].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
 	 * Test ExcludeDocument required fields
 	 */
 	@Test
@@ -926,6 +950,35 @@ public class EditBookDefinitionFormValidatorTest {
 		validator.validate(form, errors);
 		Assert.assertTrue(errors.hasErrors());
 		Assert.assertEquals("error.sequence.number", errors.getFieldError("authorInfo[1].sequenceNum").getCode());
+		
+		EasyMock.verify(mockBookDefinitionService);
+	}
+	
+	/**
+	 * Test Author duplicate sequence numbers
+	 */
+	@Test
+	public void testPilotBookDuplicateSequence() {
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class))).andReturn(null).times(1);
+    	EasyMock.replay(mockBookDefinitionService);
+    	
+    	EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(analyticalCode).times(1);
+		EasyMock.replay(mockCodeService);
+    	
+    	populateFormDataAnalyticalToc();
+    	PilotBook pilot = new PilotBook();
+    	pilot.setPilotBookTitleId("Test");
+    	pilot.setSequenceNum(1);
+    	form.getPilotBookInfo().add(pilot);
+    	
+    	PilotBook pilot2 = new PilotBook();
+    	pilot2.setPilotBookTitleId("Test2");
+    	pilot2.setSequenceNum(1);
+    	form.getPilotBookInfo().add(pilot2);
+    	
+		validator.validate(form, errors);
+		Assert.assertTrue(errors.hasErrors());
+		Assert.assertEquals("error.sequence.number", errors.getFieldError("pilotBookInfo[1].sequenceNum").getCode());
 		
 		EasyMock.verify(mockBookDefinitionService);
 	}

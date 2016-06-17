@@ -6,7 +6,7 @@ $(function() {
         	$(this).attr("id", "notGrouped.titles" + groupIdx + "." + type)
         	.attr("name", "notGrouped.titles[" + groupIdx + "]." + type);
         });
-        
+    	
         $("#groups .group").each(function(idx){
         	$(this).find("li input").each(function(idx) {
         		var groupIdx = $(this).closest(".group").index();
@@ -57,13 +57,26 @@ $(function() {
     var determineSubgroups = function() {
     	var radio = $('input:radio[name=includeSubgroup]:checked');
     	var isSubgroup = $.trim(radio.val());
-		$("#notgrouped").hide();	
+		$("#notgrouped").hide();
+		$("#showPilotBooks").show();
+		determinePilotBooks();
 		$(".rightDefinitionForm").hide();
 		
 		if(isSubgroup == "true" || isSubgroup == true) {	
 			$("#notgrouped").show();	
+			$("#showPilotBooks").hide();
+			$("#includePilotBook").val(true);
 			$(".rightDefinitionForm").show();
 		} 
+    };
+    
+    var determinePilotBooks = function() {
+    	var radio = $('input:radio[name=includePilotBook]:checked');
+    	var pilotBooks = $.trim(radio.val());
+		$("#displayPilotBooks").hide();
+    	if (pilotBooks == "true" || pilotBooks == true) {
+    		$("#displayPilotBooks").show();
+    	}
     };
     
 	$(document).ready(function() {
@@ -77,6 +90,10 @@ $(function() {
 		 
 		 $('input:radio[name=includeSubgroup]').change(function () {
 			 determineSubgroups();
+		 });
+		 
+		 $('input:radio[name=includePilotBook]').change(function () {
+			determinePilotBooks(); 
 		 });
 		 
 		 // Setup Button Click handlers 
@@ -119,5 +136,6 @@ $(function() {
 			$( "#delete-confirm" ).dialog( "open" );
 		});
 		determineSubgroups();
+		determinePilotBooks();
 	})
 });

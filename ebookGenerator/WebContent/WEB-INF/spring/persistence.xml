@@ -64,6 +64,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
 		  </list>
 		</property>
   	</bean>

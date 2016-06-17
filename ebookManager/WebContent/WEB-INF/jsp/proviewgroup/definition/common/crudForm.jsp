@@ -62,16 +62,40 @@
 			</div>
 		</div>
 		<div class="row">
-			<form:label path="versionType">ProView Version Type:</form:label>
-			<form:select path="versionType" multiple="false" >
-				<form:option label="Select version" value="<%=EditGroupDefinitionForm.Version.NONE.toString()%>"/>
-				<c:if test="${overwriteAllowed == 'Y'}">
-					<form:option label="<%=EditGroupDefinitionForm.Version.OVERWRITE.toString()%>" value="<%=EditGroupDefinitionForm.Version.OVERWRITE.toString()%>"/>
-				</c:if>
-				<form:option label="<%=EditGroupDefinitionForm.Version.MAJOR.toString()%>" value="<%=EditGroupDefinitionForm.Version.MAJOR.toString()%>"/>
-			</form:select>
+			<label>ProView Version Type:</label>
+			<span>${ overwriteAllowed }</span>
 			<div class="errorDiv">
 				<form:errors path="versionType" cssClass="errorMessage" />
+			</div>
+		</div>
+		<div id="showPilotBooks">
+			<div class="row">
+				<form:label path="includePilotBook">Include Pilot Book(s):</form:label>
+				<form:radiobutton path="includePilotBook" value="true" />True
+				<form:radiobutton path="includePilotBook" value="false" />False
+				<div class="errorDiv">
+					<form:errors path="includePilotBook" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div id="displayPilotBooks">
+				<div><br>Included Pilot Books:</div>
+				<div class="errorDiv">
+					<form:errors path="pilotBooks" cssClass="errorMessage" />
+				</div>
+				<ol id="pilotTitles">
+					<c:forEach items="${editGroupDefinitionForm.pilotBooks.titles}" var="pilotBook" varStatus="pilotStatus">
+						<li class="ui-state-default">
+							<div class="bookInfo">
+								<div>ProView Name: ${pilotBook.proviewName}</div>
+								<div>Title ID: ${pilotBook.titleId}</div>
+								<div>Major Version: ${pilotBook.version}</div>
+								<form:hidden attr="titleId" path="pilotBooks.titles[${pilotStatus.index}].titleId" />
+								<form:hidden attr="proviewName" path="pilotBooks.titles[${pilotStatus.index}].proviewName" />
+								<form:hidden attr="version" path="pilotBooks.titles[${pilotStatus.index}].version" />
+							</div>
+						</li>
+					</c:forEach>
+				</ol>
 			</div>
 		</div>
 		<div id="notgrouped">

@@ -39,6 +39,8 @@ public interface GroupService {
 	
 	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception;
 	
+	public Map<String, ProviewTitleInfo> getPilotBooksForGroup(BookDefinition book) throws Exception;
+	
 	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException;
 	
 }

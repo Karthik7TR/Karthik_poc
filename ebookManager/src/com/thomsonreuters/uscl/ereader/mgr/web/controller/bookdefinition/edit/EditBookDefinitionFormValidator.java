@@ -33,6 +33,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
@@ -93,6 +94,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		checkMaxLength(errors, MAXIMUM_CHARACTER_2048, form.getFrontMatterSeries().getBookNameText(), "frontMatterSeries.bookNameText", new Object[] {"Series", MAXIMUM_CHARACTER_2048});
 
 		validateAuthors(form, errors);
+		validatePilotBooks(form, errors);
 		validateExcludeDocuments(form, errors);
 		validateRenameTocEntries(form, errors);
 		validateTableViewers(form, errors);
@@ -282,6 +284,26 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authorInfo["+ i +"].authorLastName", "error.author.last.name");
 			// Check duplicate sequence numbers exist
 			checkDuplicateSequenceNumber(errors, author.getSequenceNum(), "authorInfo["+ i +"].sequenceNum", authorSequenceChecker);
+			i++;
+		}
+	}
+	
+	private void validatePilotBooks(EditBookDefinitionForm form, Errors errors) {
+		// Require last name to be filled if there are pilot books
+		// Also check max character length for all the fields
+    	List<PilotBook> books = form.getPilotBookInfo();
+    	// Sort the pilot books before validations
+		Collections.sort(books);
+		form.setPilotBookInfo(books);
+		List<Integer> pilotBookSequenceChecker = new ArrayList<Integer>();
+    	int i = 0;
+		for(PilotBook book : books) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pilotBookInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_40, book.getPilotBookTitleId(), "pilotBookInfo["+ i +"].pilotBookTitleId", new Object[] {"pilotBookTitleId", MAXIMUM_CHARACTER_40});
+			checkMaxLength(errors, MAXIMUM_CHARACTER_512, book.getNote(), "pilotBookInfo["+ i +"].note", new Object[] {"Notes", MAXIMUM_CHARACTER_2048});
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pilotBookInfo["+ i +"].pilotBookTitleId", "error.pilotBook.titleId");
+			// Check duplicate sequence numbers exist
+			checkDuplicateSequenceNumber(errors, book.getSequenceNum(), "pilotBookInfo["+ i +"].sequenceNum", pilotBookSequenceChecker);
 			i++;
 		}
 	}

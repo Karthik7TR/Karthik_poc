@@ -41,10 +41,8 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
 		saveProviewGroupListFilterForm(httpSession, filterForm);
 		
 		ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
-		if (proviewGroupForm == null) {
-			proviewGroupForm = new ProviewGroupForm();
+		if (proviewGroupForm.getObjectsPerPage() == null) {
 			proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-			saveProviewGroupForm(httpSession, proviewGroupForm);
 		}
 		model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
 		model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());

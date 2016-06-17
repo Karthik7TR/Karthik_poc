@@ -472,17 +472,20 @@ a:hover {
 	width:100%;
 }
 
+.bookDefinitionCRUD #pilotBook .sequenceNumber
 .bookDefinitionCRUD #authorName .sequenceNumber,
 .bookDefinitionCRUD #nameLine .sequenceNumber{
 	width: 30px;
 }
 
+.bookDefinitionCRUD #pilotBook input.blur,
 .bookDefinitionCRUD #authorName input.blur,
 .bookDefinitionCRUD #nameLine input.blur,
 .bookDefinitionCRUD #additionFrontMatterBlock input.blur {
   color:#808080;
 }
 
+.bookDefinitionCRUD #pilotBook .row,
 .bookDefinitionCRUD #authorName .row,
 .bookDefinitionCRUD #nameLine .row {
 	text-align: right;

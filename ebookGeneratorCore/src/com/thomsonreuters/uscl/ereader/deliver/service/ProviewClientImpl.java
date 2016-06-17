@@ -107,6 +107,53 @@ public class ProviewClientImpl implements ProviewClient {
 
 		return proviewResponse;
 	}
+
+	/**
+	 * Request will get all versions of group definition by Id
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getProviewGroupById(final String groupId) throws ProviewException{
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+				
+		String proviewResponse = restTemplate.execute(singleGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
+	
+	/**
+	 * Request will get group definition by version
+	 * @param groupDefinition
+	 * @return
+	 * @throws ProviewException
+	 */
+	public String getProviewGroupInfo(final String groupId, final String groupVersion)
+			throws ProviewException {	
+		
+		Map<String, String> urlParameters = new HashMap<String, String>();
+		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+		urlParameters.put("groupId", groupId);
+		urlParameters.put("groupVersionNumber", groupVersion);
+
+		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
+				.getXMLRequestCallback();
+				
+		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
+				HttpMethod.GET, proviewXMLRequestCallback,
+				proviewResponseExtractorFactory.getResponseExtractor(),
+				urlParameters);
+
+		return proviewResponse;
+	}
 	
 	@Override
 	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo()
@@ -115,7 +162,14 @@ public class ProviewClientImpl implements ProviewClient {
 		String allGroupsResponse = getAllProviewGroups();
 		ProviewGroupsParser parser = new ProviewGroupsParser();
 		return parser.process(allGroupsResponse);
+	}
+	
+	@Override
+	public ProviewGroupContainer getProviewGroupContainerById(String titleId) throws ProviewException {
 		
+		String allGroupsResponse = getProviewGroupById(titleId);
+		ProviewGroupsParser parser = new ProviewGroupsParser();
+		return parser.process(allGroupsResponse).get(titleId);
 	}
 	
 	@Override
@@ -151,53 +205,6 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 
 		return allLatestProviewGroups;
-	}
-	
-	/**
-	 * Request will get group definition by version
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	public String getProviewGroupInfo(final String groupId, final String groupVersion)
-			throws ProviewException {	
-		
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupId);
-		urlParameters.put("groupVersionNumber", groupVersion);
-
-		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
-				.getXMLRequestCallback();
-				
-		String proviewResponse = restTemplate.execute(getGroupUriTemplate,
-				HttpMethod.GET, proviewXMLRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
-	}
-
-	/**
-	 * Request will get all versions of group definition by Id
-	 * @param groupDefinition
-	 * @return
-	 * @throws ProviewException
-	 */
-	public String getProviewGroupById(final String groupId) throws ProviewException{
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-		urlParameters.put("groupId", groupId);
-
-		ProviewXMLRequestCallback proviewXMLRequestCallback = proviewRequestCallbackFactory
-				.getXMLRequestCallback();
-				
-		String proviewResponse = restTemplate.execute(singleGroupUriTemplate,
-				HttpMethod.GET, proviewXMLRequestCallback,
-				proviewResponseExtractorFactory.getResponseExtractor(),
-				urlParameters);
-
-		return proviewResponse;
 	}	
 
 	public String createGroup(final GroupDefinition groupDefinition)

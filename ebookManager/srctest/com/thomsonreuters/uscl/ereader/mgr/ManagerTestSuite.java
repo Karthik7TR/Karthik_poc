@@ -9,14 +9,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.DeleteBookDefinitionControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.EditBookDefinitionFormValidatorTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.DeleteBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.EditBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.EditBookDefinitionFormValidatorTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.ErrorControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.GenerateEbookControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.LoginControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.SmokeTestControllerTest;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.ViewBookDefinitionControllerTest;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.ViewBookDefinitionControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeControllerTest;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode.JurisdictionCodeFormValidatorTest;

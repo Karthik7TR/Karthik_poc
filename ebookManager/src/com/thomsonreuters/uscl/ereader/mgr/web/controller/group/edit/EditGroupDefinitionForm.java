@@ -35,14 +35,17 @@ public class EditGroupDefinitionForm {
 	private Version versionType;
 	private Boolean hasSplitTitles;
 	private Boolean includeSubgroup;
+	private Boolean includePilotBook;
 	private String groupName;
 	private Subgroup notGrouped;
 	private List<Subgroup> subgroups;
+	private Subgroup pilotBooks;
 	private String comment;
 	
 	public EditGroupDefinitionForm() {
 		super();
 		this.notGrouped = new Subgroup();
+		this.pilotBooks = new Subgroup();
 		this.subgroups = new AutoPopulatingList<Subgroup>(Subgroup.class);
 		this.hasSplitTitles = false;
 		this.includeSubgroup = false;
@@ -89,8 +92,10 @@ public class EditGroupDefinitionForm {
 		return groupDefinition;
 	}
 	
-	public void initialize(BookDefinition book, Map<String, ProviewTitleInfo> proviewTitleMap, GroupDefinition group) {
+	public void initialize(BookDefinition book, Map<String, ProviewTitleInfo> proviewTitleMap,
+			Map<String, ProviewTitleInfo> pilotBookMap, GroupDefinition group) {
 		includeSubgroup = false;
+		includePilotBook = false;
 		if(book != null) {
 			Boolean containsSplitTitle = false;
 			for(ProviewTitleInfo titleInfo: proviewTitleMap.values()) {
@@ -130,6 +135,16 @@ public class EditGroupDefinitionForm {
 				}
 			}
 		}
+		
+		pilotBooks = new Subgroup();
+		for (ProviewTitleInfo titleInfo: pilotBookMap.values()) {
+			includePilotBook = true;
+			Title title = new Title();
+			title.setVersion(titleInfo.getMajorVersion());
+			title.setTitleId(titleInfo.getTitleId());
+			pilotBooks.addTitle(title);
+		}
+		
 		// Add titles that are not subgrouped
 		Subgroup subgroup = new Subgroup();
 		for(ProviewTitleInfo titleInfo: proviewTitleMap.values()) {
@@ -198,6 +213,14 @@ public class EditGroupDefinitionForm {
 		this.includeSubgroup = includeSubgroup;
 	}
 
+	public Boolean getIncludePilotBook() {
+		return includePilotBook;
+	}
+
+	public void setIncludePilotBook(Boolean includePilotBook) {
+		this.includePilotBook = includePilotBook;
+	}
+
 	public String getGroupName() {
 		return groupName;
 	}
@@ -212,6 +235,14 @@ public class EditGroupDefinitionForm {
 
 	public void setNotGrouped(Subgroup notGrouped) {
 		this.notGrouped = notGrouped;
+	}
+	
+	public Subgroup getPilotBooks() {
+		return pilotBooks;
+	}
+	
+	public void setPilotBooks(Subgroup pilotBooks) {
+		this.pilotBooks = pilotBooks;
 	}
 
 	public List<Subgroup> getSubgroups() {

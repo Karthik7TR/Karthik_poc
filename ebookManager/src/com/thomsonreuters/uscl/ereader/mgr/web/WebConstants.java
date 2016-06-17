@@ -53,6 +53,7 @@ public class WebConstants {
 	public static final String KEY_JOB = "job";
 	public static final String KEY_DISMISS_OUTAGE = "dismissOutage";
 	public static final String KEY_NUMBER_OF_AUTHORS = "numberOfAuthors";
+	public static final String KEY_NUMBER_OF_PILOT_BOOKS = "numberOfPilotBooks";
 	public static final String KEY_NUMBER_OF_NAME_LINES = "numberOfNameLines";
 	public static final String KEY_NUMBER_OF_FRONT_MATTERS = "numberOfFrontMatters";
 	public static final String KEY_NUMBER_OF_EXCLUDE_DOCUMENTS = "numberOfExcludeDocuments";

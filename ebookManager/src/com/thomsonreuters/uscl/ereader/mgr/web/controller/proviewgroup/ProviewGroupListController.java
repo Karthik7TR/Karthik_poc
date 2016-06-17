@@ -108,10 +108,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, new ProviewGroupListFilterForm());
 			
 			ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
-			if (proviewGroupForm == null) {
-				proviewGroupForm = new ProviewGroupForm();
+			if (proviewGroupForm.getObjectsPerPage() == null) {
 				proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
-				saveProviewGroupForm(httpSession, proviewGroupForm);
 			}
 			model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
 			model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
@@ -319,35 +317,58 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		Map<String,GroupDetails> groupDetailsMap = new HashMap<String,GroupDetails>();
 		List<String> notFound = new ArrayList<String>();
 		
+		String rootGroupId = proviewGroupContainer.getGroupId();
+		rootGroupId = StringUtils.substringAfter(rootGroupId, "_");
+		
 		ProviewGroup selectedGroup = proviewGroupContainer.getGroupByVersion(version);
-		for (SubgroupInfo subgroup : selectedGroup.getSubgroupInfoList()) {		// multiple subgroups in a group
-			for (String titleIdVersion : subgroup.getTitleIdList()){		// for each (split) title in a subgroup
+		// loop through each subgroup identified by ProView
+		for (SubgroupInfo subgroup : selectedGroup.getSubgroupInfoList()) {
+			
+			// loop through each distinct title in a subgroup listed by ProView
+			for (String titleIdVersion : subgroup.getTitleIdList()){
+				
+				// gather Identifying information for the title
 				String titleId = StringUtils.substringBeforeLast(titleIdVersion, "/v").trim();
-				String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();	// selected major version for book
+				String titleMajorVersion = StringUtils.substringAfterLast(titleIdVersion, "/v").trim();
 				Integer  majorVersion = null;
 				if (!titleMajorVersion.equals("")){
 					majorVersion = Integer.valueOf(titleMajorVersion);
 				}
+				
 				try {
 					ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
 					if (container != null) {
-						for (ProviewTitleInfo title : container.getProviewTitleInfos()){		// for each minor version
-							if (title.getMajorVersion().equals(majorVersion)){					// check its major version
-								GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
+						
+						// loop through all the versions of a title on ProView
+						for (ProviewTitleInfo title : container.getProviewTitleInfos()){
+							
+							// check if major version in the group matches the major version of the current title
+							if (title.getMajorVersion().equals(majorVersion)){
+								String key = StringUtils.substringBeforeLast(title.getTitleId(), "_pt")
+										+ title.getVersion();
+								// is there already a subgroup for this title?
+								GroupDetails groupDetails = groupDetailsMap.get(key);
 								if (groupDetails == null) {
 									groupDetails = new GroupDetails();
-									groupDetailsMap.put(title.getVersion(),groupDetails);
+									groupDetailsMap.put(key,groupDetails);
 									
 									groupDetails.setSubGroupName(subgroup.getSubGroupName());
 									groupDetails.setId(titleId);
 									groupDetails.setTitleIdList(new ArrayList<ProviewTitleInfo>());
 									groupDetails.setProviewDisplayName(title.getTitle());
 									groupDetails.setBookVersion(title.getVersion());
+									
+									// check if pilot book, set flag for sorting
+									String rootTitleId = titleId.replaceFirst(".*/.*/", "");
+									if (!rootGroupId.equals(StringUtils.substringBeforeLast(rootTitleId, "_pt"))) {
+										groupDetails.setPilotBook(true);
+									}
 								}
 								groupDetails.addTitleInfo(title);
 							}
 						}
 					} else {
+						//accumulate list of titleIDs not found by ProView
 						notFound.add(titleId);
 					}
 				} catch (ProviewException e) {
@@ -355,27 +376,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 				}
 			}
 		}
-		//	attempt at displaying titles in minor versions not in latest version
-		/*
-		for (ProviewGroup proviewGroup : proviewGroupContainer.getProviewGroups()){
-			if (!proviewGroup.getVersion().equals(Integer.valueOf(version))){
-				for (SubgroupInfo subgroup : proviewGroup.getSubgroupInfoList()) {
-					for (String titleIdVersion : subgroup.getTitleIdList()){
-						String titleId = StringUtils.substringBeforeLast(titleIdVersion, "/v").trim();
-						ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
-						for (ProviewTitleInfo title : container.getProviewTitleInfos()){
-							GroupDetails groupDetails = groupDetailsMap.get(title.getVersion());
-							if (groupDetails != null && !groupDetails.getTitleIdList().contains(title.getTitleId())) {
-								groupDetails.getTitleIdList().add(title.getTitleId());
-								groupDetails.getTitleIdListWithVersion().add(title.getTitleId()+title.getVersion());
-							}
-						}
-					}
-				}
-			}
-		}
-		*/
 		if (notFound.size()>0) {
+			// show list of TitleIDs not in ProView
 			throw new ProviewException(notFound.toString());
 		}
 		return new ArrayList<GroupDetails>(groupDetailsMap.values());
@@ -393,21 +395,36 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		
 		List<GroupDetails> groupDetailsList = new ArrayList<GroupDetails>();
 		List<String> notFound = new ArrayList<String>();
+		
+		String rootGroupId = proviewGroup.getGroupId();
+		rootGroupId = StringUtils.substringAfter(rootGroupId, "_");
+		
 		SubgroupInfo subgroup = proviewGroup.getSubgroupInfoList().get(0);
-			for (String titleId : subgroup.getTitleIdList()) {
-				try {
-					groupDetailsList.addAll(proviewClient.getSingleTitleGroupDetails(titleId));
-				} catch (ProviewException ex) {
-					String errorMsg = ex.getMessage();
-					// The versions of the title must have been removed.
-					if (errorMsg.contains("does not exist")) {
-						notFound.add(titleId);
-					}
+		for (String titleId : subgroup.getTitleIdList()) {
+			// get group details for each titleID directly from the ProView response parser
+			try {
+				groupDetailsList.addAll(proviewClient.getSingleTitleGroupDetails(titleId));
+			} catch (ProviewException ex) {
+				String errorMsg = ex.getMessage();
+				// The versions of the title must have been removed.
+				if (errorMsg.contains("does not exist")) {
+					notFound.add(titleId);
+				} else {
+					// unexpected exception
+					throw ex;
 				}
 			}
-		for (GroupDetails details : groupDetailsList) {
-				details.setId(details.getTitleId() + "/" + details.getBookVersion());
 		}
+		for (GroupDetails details : groupDetailsList) {
+			// set pilot book flag for sorting
+			String rootTitleId = details.getTitleId().replaceFirst(".*/.*/", "");
+			if (!rootGroupId.equals(StringUtils.substringBeforeLast(rootTitleId, "_pt"))) {
+				details.setPilotBook(true);
+			}
+			// add version to the title ID field
+			details.setId(details.getTitleId() + "/" + details.getBookVersion());
+		}
+		// display all title IDs that were not found 
 		if (notFound.size()>0) {
 			throw new ProviewException(notFound.toString());
 		}

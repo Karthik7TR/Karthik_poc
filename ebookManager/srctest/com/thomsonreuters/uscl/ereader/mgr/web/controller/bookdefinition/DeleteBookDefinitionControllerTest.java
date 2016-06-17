@@ -3,7 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
-package com.thomsonreuters.uscl.ereader.mgr.web.controller;
+package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,9 +42,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.
 
 public class DeleteBookDefinitionControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+DeleteBookDefinitionForm.FORM_NAME;
-	private BookDefinition BOOK_DEFINITION = new BookDefinition();
+	private BookDefinition bookDefinition = new BookDefinition();
 	private static final Long BOOK_DEFINITION_ID = 1L;
-	private BookDefinitionLock BOOK_DEFINITION_LOCK;
+	private BookDefinitionLock bookDefinitionLock;
     private DeleteBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -81,31 +81,31 @@ public class DeleteBookDefinitionControllerTest {
     	validator.setJobRequestService(mockJobRequestService);
     	controller.setValidator(validator);	
     	
-    	BOOK_DEFINITION_LOCK = new BookDefinitionLock();
-    	BOOK_DEFINITION_LOCK.setCheckoutTimestamp(new Date());
-    	BOOK_DEFINITION_LOCK.setEbookDefinitionLockId(1L);
-    	BOOK_DEFINITION_LOCK.setFullName("name");
-    	BOOK_DEFINITION_LOCK.setUsername("username");
+    	bookDefinitionLock = new BookDefinitionLock();
+    	bookDefinitionLock.setCheckoutTimestamp(new Date());
+    	bookDefinitionLock.setEbookDefinitionLockId(1L);
+    	bookDefinitionLock.setFullName("name");
+    	bookDefinitionLock.setUsername("username");
     	
     	
-    	BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_ID);
-    	BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_ID);
-    	BOOK_DEFINITION.setFullyQualifiedTitleId("something");
-    	BOOK_DEFINITION.setCopyright("something");
-    	BOOK_DEFINITION.setSourceType(SourceType.NORT);
-    	BOOK_DEFINITION.setIsDeletedFlag(false);
-    	BOOK_DEFINITION.setEbookDefinitionCompleteFlag(false);
-    	BOOK_DEFINITION.setAutoUpdateSupportFlag(true);
-    	BOOK_DEFINITION.setSearchIndexFlag(true);
-    	BOOK_DEFINITION.setPublishedOnceFlag(false);
-    	BOOK_DEFINITION.setOnePassSsoLinkFlag(true);
-    	BOOK_DEFINITION.setKeyciteToplineFlag(true);
-    	BOOK_DEFINITION.setIsAuthorDisplayVertical(true);
-    	BOOK_DEFINITION.setEnableCopyFeatureFlag(false);
-    	BOOK_DEFINITION.setDocumentTypeCodes(new DocumentTypeCode());
-    	BOOK_DEFINITION.setPublisherCodes(new PublisherCode());
-    	BOOK_DEFINITION.setIsSplitBook(false);
-    	BOOK_DEFINITION.setIsSplitTypeAuto(true);
+    	bookDefinition.setEbookDefinitionId(BOOK_DEFINITION_ID);
+    	bookDefinition.setEbookDefinitionId(BOOK_DEFINITION_ID);
+    	bookDefinition.setFullyQualifiedTitleId("something");
+    	bookDefinition.setCopyright("something");
+    	bookDefinition.setSourceType(SourceType.NORT);
+    	bookDefinition.setIsDeletedFlag(false);
+    	bookDefinition.setEbookDefinitionCompleteFlag(false);
+    	bookDefinition.setAutoUpdateSupportFlag(true);
+    	bookDefinition.setSearchIndexFlag(true);
+    	bookDefinition.setPublishedOnceFlag(false);
+    	bookDefinition.setOnePassSsoLinkFlag(true);
+    	bookDefinition.setKeyciteToplineFlag(true);
+    	bookDefinition.setIsAuthorDisplayVertical(true);
+    	bookDefinition.setEnableCopyFeatureFlag(false);
+    	bookDefinition.setDocumentTypeCodes(new DocumentTypeCode());
+    	bookDefinition.setPublisherCodes(new PublisherCode());
+    	bookDefinition.setIsSplitBook(false);
+    	bookDefinition.setIsSplitTypeAuto(true);
 	}
 
 	/**
@@ -117,9 +117,9 @@ public class DeleteBookDefinitionControllerTest {
 		request.setParameter("id", BOOK_DEFINITION_ID.toString());
     	request.setMethod(HttpMethod.GET.name());
 
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(BOOK_DEFINITION);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDefinition);
     	EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
-    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(BOOK_DEFINITION)).andReturn(null);
+    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
     	EasyMock.replay(mockBookDefinitionService);
     	EasyMock.replay(mockJobRequestService);
     	EasyMock.replay(mockLockService);
@@ -162,7 +162,7 @@ public class DeleteBookDefinitionControllerTest {
     	request.setMethod(HttpMethod.POST.name());
     	
     	EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(BOOK_DEFINITION)).andReturn(null);
+    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
     	EasyMock.replay(mockJobRequestService);
     	EasyMock.replay(mockLockService);
 
@@ -204,12 +204,12 @@ public class DeleteBookDefinitionControllerTest {
 		request.setParameter("Action", DeleteBookDefinitionForm.Action.DELETE.toString());
     	request.setMethod(HttpMethod.POST.name());
     	
-    	BOOK_DEFINITION.setPublishedOnceFlag(false);
+    	bookDefinition.setPublishedOnceFlag(false);
 
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(BOOK_DEFINITION);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDefinition);
     	mockBookDefinitionService.removeBookDefinition(BOOK_DEFINITION_ID);
     	EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(BOOK_DEFINITION)).andReturn(null);
+    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
     	EasyMock.replay(mockBookDefinitionService);
     	EasyMock.replay(mockJobRequestService);
     	EasyMock.replay(mockLockService);
@@ -254,12 +254,12 @@ public class DeleteBookDefinitionControllerTest {
 		request.setParameter("Action", DeleteBookDefinitionForm.Action.DELETE.toString());
     	request.setMethod(HttpMethod.POST.name());
     	
-    	BOOK_DEFINITION.setPublishedOnceFlag(true);
+    	bookDefinition.setPublishedOnceFlag(true);
 
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(BOOK_DEFINITION);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDefinition);
     	mockBookDefinitionService.updateDeletedStatus(BOOK_DEFINITION_ID, true);
     	EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(BOOK_DEFINITION)).andReturn(null);
+    	EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
     	EasyMock.replay(mockBookDefinitionService);
     	EasyMock.replay(mockJobRequestService);
     	EasyMock.replay(mockLockService);
@@ -301,7 +301,7 @@ public class DeleteBookDefinitionControllerTest {
 		request.setParameter("id", BOOK_DEFINITION_ID.toString());
     	request.setMethod(HttpMethod.GET.name());
 
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(BOOK_DEFINITION);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDefinition);
     	EasyMock.replay(mockBookDefinitionService);
     	
     	ModelAndView mav;
@@ -317,7 +317,7 @@ public class DeleteBookDefinitionControllerTest {
 	        
 	        BookDefinition book = (BookDefinition) model.get(WebConstants.KEY_BOOK_DEFINITION);
 	        
-	        Assert.assertEquals(BOOK_DEFINITION, book);
+	        Assert.assertEquals(bookDefinition, book);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -370,9 +370,9 @@ public class DeleteBookDefinitionControllerTest {
 		request.setParameter("Action", DeleteBookDefinitionForm.Action.RESTORE.toString());
     	request.setMethod(HttpMethod.POST.name());
     	
-    	BOOK_DEFINITION.setPublishedOnceFlag(false);
+    	bookDefinition.setPublishedOnceFlag(false);
 
-    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(BOOK_DEFINITION);
+    	EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(bookDefinition);
     	mockBookDefinitionService.updateDeletedStatus(BOOK_DEFINITION_ID, false);
     	EasyMock.replay(mockBookDefinitionService);
     	

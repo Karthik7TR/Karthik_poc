@@ -32,15 +32,17 @@ public interface ProviewClient {
 	/* proview group */
 	public String getAllProviewGroups() throws ProviewException;
 
+	public String getProviewGroupById(final String groupId) throws ProviewException;
+
+	public String getProviewGroupInfo(final String groupId, final String groupVersion) throws ProviewException;
+
 	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo() throws ProviewException;
+	
+	public ProviewGroupContainer getProviewGroupContainerById(String titleId) throws ProviewException;
 
 	public List<ProviewGroup> getAllLatestProviewGroupInfo() throws ProviewException;
 
 	public List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap) throws ProviewException;
-
-	public String getProviewGroupInfo(final String groupId, final String groupVersion) throws ProviewException;
-
-	public String getProviewGroupById(final String groupId) throws ProviewException;
 
 	public String createGroup(final GroupDefinition groupDefinition) throws ProviewException;
 

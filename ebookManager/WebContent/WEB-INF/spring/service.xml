@@ -18,6 +18,9 @@
   	<bean id="authorService" class="com.thomsonreuters.uscl.ereader.core.book.service.AuthorServiceImpl"
   		  p:authorDAO-ref="authorDao"/>
   		  
+  	<bean id="pilotBookService" class="com.thomsonreuters.uscl.ereader.core.book.service.PilotBookServiceImpl"
+  		  p:pilotBookDAO-ref="pilotBookDao"/>
+  		  
     <bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
   		  p:eBookAuditDAO-ref="eBookAuditDao" />
   		  

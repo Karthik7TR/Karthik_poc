@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -74,7 +75,7 @@ public class GroupServiceImplTest {
 	private ProviewClient mockProviewClient;
 	private List<String> splitTitles = null;
 	
-	private BookDefinition BOOK_DEFINITION = null;
+	private BookDefinition bookDefinition = null;
 	
 	@Before
 	public void setUp() throws Exception
@@ -87,23 +88,23 @@ public class GroupServiceImplTest {
 		splitTitles.add("uscl/an/book_lohisplitnodeinfo");
 		splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt2");
 		
-		BOOK_DEFINITION = new BookDefinition();
-		BOOK_DEFINITION.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
-		BOOK_DEFINITION.setGroupName(GROUP_NAME);
-		BOOK_DEFINITION.setSubGroupHeading(SUBGROUP_NAME);
+		bookDefinition = new BookDefinition();
+		bookDefinition.setFullyQualifiedTitleId(FULLY_QUALIFIED_TITLE_ID);
+		bookDefinition.setGroupName(GROUP_NAME);
+		bookDefinition.setSubGroupHeading(SUBGROUP_NAME);
 		
 		DocumentTypeCode documentTypeCode = new DocumentTypeCode();
     	documentTypeCode.setId(Long.parseLong("1"));
     	documentTypeCode.setAbbreviation("an");
     	documentTypeCode.setName("Analytical");
-    	BOOK_DEFINITION.setDocumentTypeCodes(documentTypeCode);
+    	bookDefinition.setDocumentTypeCodes(documentTypeCode);
     	
     	PublisherCode publisherCode = new PublisherCode();
     	publisherCode.setId(1L);
     	publisherCode.setName("uscl");
-    	BOOK_DEFINITION.setPublisherCodes(publisherCode);
+    	bookDefinition.setPublisherCodes(publisherCode);
     	
-    	BOOK_DEFINITION.setIsSplitBook(true);
+    	bookDefinition.setIsSplitBook(true);
 	}
 	
 	@Test
@@ -140,7 +141,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(type, group.getType());
 		} catch(Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -172,7 +173,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(type, group.getType());
 		} catch(Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -198,14 +199,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testBuildGroupDefinitionForSplits() {
-    	String groupId = groupService.getGroupId(BOOK_DEFINITION);
+    	String groupId = groupService.getGroupId(bookDefinition);
 
 		GroupDefinition groupDef;
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andThrow(new ProviewRuntimeException("404", "No such groups exist"));
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", splitTitles);
+			groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", splitTitles);
 			
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID + "/v1", groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME, groupDef.getName());
@@ -217,7 +218,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo_pt2/v1", groupDef.getSubGroupInfoList().get(0).getTitles().get(1));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -225,14 +226,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSplitEmptySubgroup() throws Exception{
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(null);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andThrow(new ProviewRuntimeException("404", "No such groups exist"));
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", splitTitles);
+			groupService.createGroupDefinition(bookDefinition, "v1.0", splitTitles);
 			Assert.fail();
 		}
 		catch(ProviewException ex){
@@ -248,13 +249,13 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testNoPreviousSubgroupsError() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andThrow(new ProviewRuntimeException("404", "No such groups exist"));
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+			groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 			Assert.fail();
 		}
 		catch(Exception ex){
@@ -269,13 +270,13 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testNoPreviousSubgroupsError2() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_NO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+			groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 			Assert.fail();
 		}
 		catch(Exception ex){
@@ -290,14 +291,14 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testNoPreviousSubgroupsError3() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_NO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+			groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 			Assert.fail();
 		}
 		catch(Exception ex){
@@ -308,15 +309,15 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testEmptyGroup() {
-		BOOK_DEFINITION.setGroupName(null);
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setGroupName(null);
+		bookDefinition.setSubGroupHeading(null);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andThrow(new ProviewRuntimeException("404", "No such groups exist"));
 	    	EasyMock.replay(mockProviewClient);
 	    	
-			groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", splitTitles);
+			groupService.createGroupDefinition(bookDefinition, "v1.0", splitTitles);
 			Assert.fail();
 		}
 		catch(Exception ex){
@@ -327,14 +328,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testDuplicateSubgroupHeading() {
-		BOOK_DEFINITION.setSubGroupHeading("2014");
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading("2014");
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 
-	    	groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", splitTitles);
+	    	groupService.createGroupDefinition(bookDefinition, "v3.0", splitTitles);
 	    	Assert.fail();
 		} catch (Exception e) {
 			Assert.assertTrue(e.getMessage().contains(CoreConstants.DUPLICATE_SUBGROUP_ERROR_MESSAGE));
@@ -345,14 +346,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testDuplicateSubgroupHeadingSplitBook() {
-		BOOK_DEFINITION.setSubGroupHeading("2014");
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading("2014");
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 
-	    	groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", splitTitles);
+	    	groupService.createGroupDefinition(bookDefinition, "v3.0", splitTitles);
 	    	Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -364,19 +365,19 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSimilarGroupDef() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML).times(2);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition lastGroup = groupService.getLastGroup(BOOK_DEFINITION);
-	    	GroupDefinition currentGroup = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+	    	GroupDefinition lastGroup = groupService.getLastGroup(bookDefinition);
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 	    	Assert.assertTrue(currentGroup.isSimilarGroup(lastGroup));
 	    	
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -385,15 +386,15 @@ public class GroupServiceImplTest {
 	@Test
 	public void testGetGroupDefVersionChange() {
 		String subgroupName = "2016";
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
+		bookDefinition.setSubGroupHeading(subgroupName);
 		
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v3.0", splitTitles);
 
 			Assert.assertEquals(subgroupName,groupDef.getSubGroupInfoList().get(0).getHeading());
 			Assert.assertEquals(2,groupDef.getSubGroupInfoList().get(0).getTitles().size());
@@ -403,7 +404,7 @@ public class GroupServiceImplTest {
 			assertGroup(groupDef, GROUP_NAME,FULLY_QUALIFIED_TITLE_ID + "/v3",  "2015", "2014", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -413,18 +414,18 @@ public class GroupServiceImplTest {
 	public void testGetGroupDefGroupNameChangeOnlyChange() {
 		String groupName = "ChangeName";
 		
-		BOOK_DEFINITION.setGroupName(groupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setGroupName(groupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 	    	assertGroup(groupDef, groupName, FULLY_QUALIFIED_TITLE_ID + "/v2", "2015", "2014", 0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -434,19 +435,19 @@ public class GroupServiceImplTest {
 	public void testGetGroupDefGpSubGpNameChange() {
 		String groupName = "GroupChangeName";
 		String subGroupName = "SubGroupChangeName";
-		BOOK_DEFINITION.setGroupName(groupName);
-		BOOK_DEFINITION.setSubGroupHeading(subGroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setGroupName(groupName);
+		bookDefinition.setSubGroupHeading(subGroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 	    	assertGroup(groupDef, groupName, FULLY_QUALIFIED_TITLE_ID + "/v2", subGroupName, "2014", 0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -455,18 +456,18 @@ public class GroupServiceImplTest {
 	@Test
 	public void testGetGroupDefSubGpNameChangeOnly() {
 		String subGroupName = "SubGroupChangeName";
-		BOOK_DEFINITION.setSubGroupHeading(subGroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(subGroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 	    	assertGroup(groupDef, GROUP_NAME, FULLY_QUALIFIED_TITLE_ID + "/v2", subGroupName, "2014", 0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -481,13 +482,13 @@ public class GroupServiceImplTest {
 		splitTitles.add("uscl/an/book_lohisplitnodeinfo");
 		splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt2");
 		splitTitles.add("uscl/an/book_lohisplitnodeinfo_pt3");
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.1", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.1", splitTitles);
 	    	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -505,7 +506,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo_pt2/v1",groupDef.getSubGroupInfoList().get(1).getTitles().get(1));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -513,13 +514,13 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSplitSubgroupNameChangeOnMajorVersionUpdate() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", splitTitles);
+	    	groupService.createGroupDefinition(bookDefinition, "v3.0", splitTitles);
 	    	Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -532,16 +533,16 @@ public class GroupServiceImplTest {
 	@Test
 	public void testGroupNameChangeWithNoSubGroups() {
 		String groupName = "GroupNameChange";
-		BOOK_DEFINITION.setGroupName(groupName);
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setGroupName(groupName);
+		bookDefinition.setSubGroupHeading(null);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_NO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(groupName,groupDef.getName());
@@ -551,7 +552,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -562,15 +563,15 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testVersionChangeOnly() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		BOOK_DEFINITION.setSubGroupHeading("2014");
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		bookDefinition.setSubGroupHeading("2014");
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -583,7 +584,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",subgroupInfo.getTitles().get(1));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -593,15 +594,15 @@ public class GroupServiceImplTest {
 	public void testGroupSubGroupVersionChange() {
 		String groupName = "change name";
 		String subgroupName = "sub change name";
-		BOOK_DEFINITION.setGroupName(groupName);
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setGroupName(groupName);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(groupName,groupDef.getName());
@@ -616,7 +617,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getSubGroupInfoList().get(1).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -625,14 +626,14 @@ public class GroupServiceImplTest {
 	@Test
 	public void testSubGroupVersionChange() {
 		String subgroupName = "sub change name";
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -647,7 +648,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getSubGroupInfoList().get(1).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -655,13 +656,13 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testLastGroup() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 		
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(MULTIPLE_GROUP_INFO_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.getLastGroup(BOOK_DEFINITION);
+	    	GroupDefinition groupDef = groupService.getLastGroup(bookDefinition);
 	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -674,7 +675,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,subgroupInfo.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -682,13 +683,13 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testAllGroupsVersionDescendingForBook() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 		
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(MULTIPLE_GROUP_INFO_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	List<GroupDefinition> groups = groupService.getGroups(BOOK_DEFINITION);
+	    	List<GroupDefinition> groups = groupService.getGroups(bookDefinition);
 	    	Assert.assertEquals(2 ,groups.size());
 	    	
 	    	// Check order
@@ -698,7 +699,7 @@ public class GroupServiceImplTest {
 	    	Assert.assertEquals(new Long(1), group2.getGroupVersion());
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -706,15 +707,15 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSubGroupsToNoSub() {
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(null);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -725,7 +726,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -736,14 +737,14 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testSingleBookNoSubChangeMajorVersion() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v3.0", null);
 	
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v3",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -761,7 +762,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",subgroupInfo2.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -770,15 +771,15 @@ public class GroupServiceImplTest {
 	@Test
 	public void testSingleBookSubgroupNameChange() {
 		String subgroupName = "random name";
-		BOOK_DEFINITION.setIsSplitBook(false);
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", null);
 	
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -795,7 +796,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",subgroupInfo2.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -803,14 +804,14 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testNoToYesSubgroupSingleBook() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_NO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID + "/v1",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -820,7 +821,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID + "/v1", groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -832,15 +833,15 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testYesToNoSubgroupSingleBook() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		bookDefinition.setSubGroupHeading(null);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -850,7 +851,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -862,15 +863,15 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testYesToNoSubgroupSingleBook2() {
-		BOOK_DEFINITION.setIsSplitBook(false);
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setIsSplitBook(false);
+		bookDefinition.setSubGroupHeading(null);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SINGLE_TITLE_TWO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -880,7 +881,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -891,13 +892,13 @@ public class GroupServiceImplTest {
 	 */
 	@Test
 	public void testSingleBookToSplitVersion() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_NO_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", splitTitles);
 	    	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -909,7 +910,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo_pt2/v1",groupDef.getSubGroupInfoList().get(0).getTitles().get(1));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -917,13 +918,13 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSingleBookWithSubgroupToSplitVersion() {
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.0", splitTitles);
 	    	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -936,7 +937,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1",groupDef.getSubGroupInfoList().get(0).getTitles().get(2));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -948,14 +949,14 @@ public class GroupServiceImplTest {
 	@Test
 	public void testSingleBookWithSubgroupToSplitVersionMinorUpdate() {
 		String subgroupName = "changing it";
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v2.2", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v2.2", splitTitles);
 	    	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v2",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -973,7 +974,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1", subgroupInfo2.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -982,14 +983,14 @@ public class GroupServiceImplTest {
 	@Test
 	public void testSingleBookWithSubgroupToSplitVersionMajorUpdate() {
 		String subgroupName = "2016";
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_MULTIPLE_SINGLE_TITLE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v3.0", splitTitles);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v3.0", splitTitles);
 	    	
 	    	Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v3",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -1008,7 +1009,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo/v1", subgroupInfo2.getTitles().get(1));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -1016,15 +1017,15 @@ public class GroupServiceImplTest {
 	
 	@Test
 	public void testSplitBookToSingleWithNoSubgroup() {
-		BOOK_DEFINITION.setSubGroupHeading(null);
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(null);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_ONE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID,groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -1036,7 +1037,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, subgroupInfo1.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -1045,15 +1046,15 @@ public class GroupServiceImplTest {
 	@Test
 	public void testSplitBookToSingleWithSubgroup() {
 		String subgroupName = "sub group name change";
-		BOOK_DEFINITION.setSubGroupHeading(subgroupName);
-		BOOK_DEFINITION.setIsSplitBook(false);
-		String groupId = groupService.getGroupId(BOOK_DEFINITION);
+		bookDefinition.setSubGroupHeading(subgroupName);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
 
 		try {
 			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_SPLIT_ONE_SUBGROUP_XML);
 	    	EasyMock.replay(mockProviewClient);
 	    	
-	    	GroupDefinition groupDef = groupService.createGroupDefinition(BOOK_DEFINITION, "v1.0", null);
+	    	GroupDefinition groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
 	    	
 	    	Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID + "/v1",groupDef.getHeadTitle());
 			Assert.assertEquals(GROUP_NAME,groupDef.getName());
@@ -1065,7 +1066,7 @@ public class GroupServiceImplTest {
 			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID + "/v1", subgroupInfo1.getTitles().get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		
 		EasyMock.verify(mockProviewClient);
@@ -1105,15 +1106,41 @@ public class GroupServiceImplTest {
 	@Test
 	public void testGetProViewTitlesForGroupNoTitles() {
 		try {
-			EasyMock.expect(mockProviewClient.getProviewTitleContainer(BOOK_DEFINITION.getFullyQualifiedTitleId())).andReturn(null);
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer(bookDefinition.getFullyQualifiedTitleId())).andReturn(null);
 	    	EasyMock.replay(mockProviewClient);
 			
-			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(BOOK_DEFINITION);
+			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDefinition);
 			Assert.assertEquals(0, proviewTitleMap.size());
 		} catch(Exception e) {
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGetPilotBooksForGroup() {
+		String pilotBookTitleId = "titleID";
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId(pilotBookTitleId);
+		List<PilotBook> pilotBookList = new ArrayList<PilotBook>();
+		pilotBookList.add(pilotBook);
+		bookDefinition.setPilotBooks(pilotBookList);
+		
+		ProviewTitleContainer titleContainer = new ProviewTitleContainer();
+		List<ProviewTitleInfo> titleInfoList = new ArrayList<ProviewTitleInfo>();
+		titleContainer.setProviewTitleInfos(titleInfoList);
+		ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+		titleInfo.setVersion("v2");
+		titleInfoList.add(titleInfo);
+		try {
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer(pilotBookTitleId)).andReturn(titleContainer);
+			EasyMock.replay(mockProviewClient);
+			
+			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getPilotBooksForGroup(bookDefinition);
+			Assert.assertEquals(1, proviewTitleMap.size());
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 	
 	@Test
@@ -1132,13 +1159,13 @@ public class GroupServiceImplTest {
 		ProviewTitleContainer container = new ProviewTitleContainer();
 		container.setProviewTitleInfos(proviewTitleInfos);
 		try {
-			EasyMock.expect(mockProviewClient.getProviewTitleContainer(BOOK_DEFINITION.getFullyQualifiedTitleId())).andReturn(container);
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer(bookDefinition.getFullyQualifiedTitleId())).andReturn(container);
 	    	EasyMock.replay(mockProviewClient);
 			
-			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(BOOK_DEFINITION);
+			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDefinition);
 			Assert.assertEquals(1, proviewTitleMap.size());
 		} catch(Exception e) {
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockProviewClient);
 	}
@@ -1171,11 +1198,11 @@ public class GroupServiceImplTest {
 		
 		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
 		SplitNodeInfo splitNodeInfo = new SplitNodeInfo();
-		splitNodeInfo.setBookDefinition(BOOK_DEFINITION);
+		splitNodeInfo.setBookDefinition(bookDefinition);
 		splitNodeInfo.setBookVersionSubmitted("v2.0");
 		splitNodeInfo.setSpitBookTitle("uscl/an/test_pt2");
 		splitNodes.add(splitNodeInfo);
-		BOOK_DEFINITION.setSplitNodes(splitNodes);
+		bookDefinition.setSplitNodes(splitNodes);
 		
 		proviewTitleInfos = new ArrayList<>();
 		proviewTitleInfo = new ProviewTitleInfo();
@@ -1194,23 +1221,23 @@ public class GroupServiceImplTest {
 		
 		try {
 			EasyMock.expect(mockProviewClient.getProviewTitleContainer("uscl/an/test_pt2")).andReturn(container2);
-			EasyMock.expect(mockProviewClient.getProviewTitleContainer(BOOK_DEFINITION.getFullyQualifiedTitleId())).andReturn(container);
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer(bookDefinition.getFullyQualifiedTitleId())).andReturn(container);
 	    	EasyMock.replay(mockProviewClient);
 			
-			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(BOOK_DEFINITION);
+			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDefinition);
 			Assert.assertEquals(3, proviewTitleMap.size());
 			Assert.assertTrue(proviewTitleMap.containsKey("uscl/an/test/v1"));
 			Assert.assertTrue(proviewTitleMap.containsKey("uscl/an/test/v2"));
 			Assert.assertTrue(proviewTitleMap.containsKey("uscl/an/test_pt2/v2"));
 		} catch(Exception e) {
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockProviewClient);
 	}
 	
 	@Test
 	public void testGetProViewTitlesForGroupPilotBook() {
-		BOOK_DEFINITION.setFullyQualifiedTitleId("uscl/an/test_waspilot");
+		bookDefinition.setFullyQualifiedTitleId("uscl/an/test_waspilot");
 		List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
 		ProviewTitleInfo proviewTitleInfo = new ProviewTitleInfo();
 		proviewTitleInfo.setLastupdate("date");
@@ -1241,16 +1268,14 @@ public class GroupServiceImplTest {
 		
 		
 		try {
-			EasyMock.expect(mockProviewClient.getProviewTitleContainer("uscl/an/test")).andReturn(container2);
-			EasyMock.expect(mockProviewClient.getProviewTitleContainer(BOOK_DEFINITION.getFullyQualifiedTitleId())).andReturn(container);
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer(bookDefinition.getFullyQualifiedTitleId())).andReturn(container);
 	    	EasyMock.replay(mockProviewClient);
 			
-			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(BOOK_DEFINITION);
-			Assert.assertEquals(2, proviewTitleMap.size());
-			Assert.assertTrue(proviewTitleMap.containsKey("uscl/an/test/v10"));
+			Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDefinition);
+			Assert.assertEquals(1, proviewTitleMap.size());
 			Assert.assertTrue(proviewTitleMap.containsKey("uscl/an/test_waspilot/v1"));
 		} catch(Exception e) {
-			Assert.fail();
+			Assert.fail(e.getMessage());
 		}
 		EasyMock.verify(mockProviewClient);
 	}

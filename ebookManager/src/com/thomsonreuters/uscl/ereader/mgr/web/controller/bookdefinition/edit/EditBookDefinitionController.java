@@ -43,7 +43,6 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService;
 
 @Controller
 public class EditBookDefinitionController {
@@ -378,6 +377,7 @@ public class EditBookDefinitionController {
 	private void initializeModel(Model model, EditBookDefinitionForm form) {
 		// Get Collection sizes to display on form
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS,form.getAuthorInfo().size());
+		model.addAttribute(WebConstants.KEY_NUMBER_OF_PILOT_BOOKS,form.getPilotBookInfo().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_FRONT_MATTERS,form.getFrontMatters().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_EXCLUDE_DOCUMENTS, form.getExcludeDocuments().size());
 		model.addAttribute(WebConstants.KEY_NUMBER_OF_RENAME_TOC_ENTRIES, form.getRenameTocEntries().size());
