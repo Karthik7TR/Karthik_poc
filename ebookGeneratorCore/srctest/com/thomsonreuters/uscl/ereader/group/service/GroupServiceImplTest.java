@@ -1329,4 +1329,233 @@ public class GroupServiceImplTest {
 			Assert.fail();
 		}
 	}
+	
+	private static final String GROUP_INFO_PILOT_BOOK_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<group id=\""+GROUP_ID+"\" status=\"Review\" version=\"v1\">"
+			+ "<name>"+GROUP_NAME+"</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup>"
+			+ "<title>uscl/an/book_lohisplitnodeinfo</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	private static final String GROUP_INFO_PILOT_BOOK_INSUB_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<group id=\""+GROUP_ID+"\" status=\"Review\" version=\"v1\">"
+			+ "<name>"+GROUP_NAME+"</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup heading=\"2015\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v1</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	private static final String GROUP_INFO_PILOT_BOOK_PREVIOUS_SUB_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<group id=\""+GROUP_ID+"\" status=\"Review\" version=\"v1\">"
+			+ "<name>"+GROUP_NAME+"</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup heading=\"2016\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup><subgroup heading=\"2015\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v1</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	
+	@Test
+	public void testGroupForPilotBook() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading(null);
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
+	    	
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals(null, currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().get(0).getTitles().size());	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGroupForPilotBookWithSubgroup() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading("2015");
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
+	    	
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals("2015", currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().get(0).getTitles().size());
+	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGroupForPilotBookInFirstSub() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading("2015");
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_INSUB_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
+	    	
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals("2015", currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().get(0).getTitles().size());
+	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGroupForPilotBookWithVersionChange() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading("2016");
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_INSUB_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v2.0", null);	    	
+	    	
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals("2016", currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().get(0).getTitles().size());
+	    	Assert.assertEquals("2015", currentGroup.getSubGroupInfoList().get(1).getHeading());
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().get(1).getTitles().size());
+	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGroupForPilotBookWithNameChange() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading("2016");
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_INSUB_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
+	    	
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals("2016", currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().get(0).getTitles().size());
+	    	Assert.assertEquals("2015", currentGroup.getSubGroupInfoList().get(1).getHeading());
+	    	Assert.assertEquals(1, currentGroup.getSubGroupInfoList().get(1).getTitles().size());
+	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
+	
+	@Test
+	public void testGroupForPilotBookWithVersion() {
+		String groupId = groupService.getGroupId(bookDefinition);
+		
+		List<PilotBook> pilotBooks = new ArrayList<PilotBook>();
+		PilotBook pilotBook = new PilotBook();
+		pilotBook.setPilotBookTitleId("uscl/an/book_pilotBook");
+		pilotBooks.add(pilotBook );
+		bookDefinition.setPilotBooks(pilotBooks);
+		bookDefinition.setSubGroupHeading("2016");
+		bookDefinition.setIsSplitBook(false);
+		Set<SplitNodeInfo> splitNodes = new HashSet<SplitNodeInfo>();
+		bookDefinition.setSplitNodes(splitNodes);
+		
+
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andReturn(GROUP_INFO_PILOT_BOOK_PREVIOUS_SUB_XML);
+	    	EasyMock.replay(mockProviewClient);
+	    	
+	    	GroupDefinition currentGroup = groupService.createGroupDefinition(bookDefinition, "v3.0", null);
+	    	
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().size());
+	    	Assert.assertEquals("2016", currentGroup.getSubGroupInfoList().get(0).getHeading());
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().get(0).getTitles().size());
+	    	Assert.assertEquals("2015", currentGroup.getSubGroupInfoList().get(1).getHeading());
+	    	Assert.assertEquals(2, currentGroup.getSubGroupInfoList().get(1).getTitles().size());
+	    	 
+	    	
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		EasyMock.verify(mockProviewClient);
+	}
 }

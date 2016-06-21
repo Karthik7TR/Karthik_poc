@@ -188,37 +188,50 @@ public class GroupServiceImpl implements GroupService {
 
 		GroupDefinition groupDefinition = createNewGroupDefinition(groupName, subGroupHeading, fullyQualifiedTitleId,
 				majorVersionStr, splitTitles);
-		if (lastGroupDefinition != null && StringUtils.isNotBlank(subGroupHeading)) {
+		if (lastGroupDefinition != null) {
 			Set<String> existingTitles = new HashSet<String>();
 			SubGroupInfo firstSubGroupInfo = groupDefinition.getSubGroupInfoList().get(0);
 
 			for (String title : firstSubGroupInfo.getTitles()) {
 				existingTitles.add(title);
 			}
+			if (StringUtils.isNotBlank(subGroupHeading)) {				
 
-			// Add titles from previous group if it had subgroups
-			if (lastGroupDefinition.subgroupExists()) {
-				for (SubGroupInfo previousSubGroupInfo : lastGroupDefinition.getSubGroupInfoList()) {
-					String previousSubgroupHeading = previousSubGroupInfo.getHeading();
-					if (subGroupHeading.equalsIgnoreCase(previousSubgroupHeading)) {
-						// Subgroup heading matches, add titles to currently
-						// created subgroup
-						copyTitlesInSubgroup(previousSubGroupInfo, firstSubGroupInfo, existingTitles,
-								fullyQualifiedTitleId, majorVersionStr);
-					} else {
-						// Create new subgroups to add to group
-						SubGroupInfo newSubGroupInfo = new SubGroupInfo();
-						newSubGroupInfo.setHeading(previousSubGroupInfo.getHeading());
-						copyTitlesInSubgroup(previousSubGroupInfo, newSubGroupInfo, existingTitles,
-								fullyQualifiedTitleId, majorVersionStr);
-						// Only add subgroup if title(s) exists
-						if (newSubGroupInfo.getTitles().size() > 0) {
-							groupDefinition.addSubGroupInfo(newSubGroupInfo);
+				// Add titles from previous group if it had subgroups
+				if (lastGroupDefinition.subgroupExists()) {
+					for (SubGroupInfo previousSubGroupInfo : lastGroupDefinition.getSubGroupInfoList()) {
+						String previousSubgroupHeading = previousSubGroupInfo.getHeading();
+						if (subGroupHeading.equalsIgnoreCase(previousSubgroupHeading)) {
+							// Subgroup heading matches, add titles to currently
+							// created subgroup
+							copyTitlesInSubgroup(previousSubGroupInfo, firstSubGroupInfo, existingTitles,
+									fullyQualifiedTitleId, majorVersionStr);
+						} else {
+							// Create new subgroups to add to group
+							SubGroupInfo newSubGroupInfo = new SubGroupInfo();
+							newSubGroupInfo.setHeading(previousSubGroupInfo.getHeading());
+							copyTitlesInSubgroup(previousSubGroupInfo, newSubGroupInfo, existingTitles,
+									fullyQualifiedTitleId, majorVersionStr);
+							// Only add subgroup if title(s) exists
+							if (newSubGroupInfo.getTitles().size() > 0) {
+								groupDefinition.addSubGroupInfo(newSubGroupInfo);
+							}
 						}
 					}
 				}
+			} else if (bookDefinition.getPilotBooks() !=null && bookDefinition.getPilotBooks().size() > 0 ){
+				/*
+				 * User will explicitly create groups for pilot books.
+				 * Pilot book should be added when a book is generated if they are added previously by the user 
+				 */
+				if (!lastGroupDefinition.subgroupExists() && lastGroupDefinition.getSubGroupInfoList().size() == 1 ){					
+					List<String> previousTitles = lastGroupDefinition.getSubGroupInfoList().get(0).getTitles();
+					copyPilotBooksFromPreviousGroup(firstSubGroupInfo, existingTitles, previousTitles, bookDefinition);
+				}
 			}
 		}
+			
+		
 
 		// set group version
 		if (lastGroupDefinition != null) {
@@ -234,6 +247,28 @@ public class GroupServiceImpl implements GroupService {
 		groupDefinition.setGroupId(groupId);
 		groupDefinition.setType("standard");
 		return groupDefinition;
+	}
+	
+	/**
+	 * User will explicitly create groups for pilot books.
+	 * Pilot book should be added when a book is generated if they are added previously by the user 
+	 * @param currentSubGroupInfo
+	 * @param existingTitles
+	 * @param previousTitles
+	 * @param bookDefinition
+	 */
+	private void copyPilotBooksFromPreviousGroup(SubGroupInfo currentSubGroupInfo, Set<String> existingTitles, List<String> previousTitles, BookDefinition bookDefinition){
+		
+		List<String> pilotBookTitleIdList = new ArrayList<String>();
+		for(PilotBook pilotBook : bookDefinition.getPilotBooks()){
+			pilotBookTitleIdList.add(pilotBook.getPilotBookTitleId());
+		}
+		for(String title : previousTitles){			
+			if(!existingTitles.contains(title) && pilotBookTitleIdList.contains(title)){
+				currentSubGroupInfo.addTitle(title);
+			}
+			
+		}
 	}
 
 	private void validate(BookDefinition book, GroupDefinition previousGroup, String majorVersionStr)
@@ -360,8 +395,7 @@ public class GroupServiceImpl implements GroupService {
 
 	/**
 	 * Get list of ProView titles that belong in the group for given book
-	 * definition. Note: adds pilot titles for Analytical titles based on fully
-	 * qualified title id contains _waspilot
+	 * definition. 
 	 */
 	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception {
 		Set<SplitNodeInfo> splitNodeInfos = bookDef.getSplitNodes();
