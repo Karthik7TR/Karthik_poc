@@ -42,6 +42,7 @@ public class PilotBookServiceImpl implements PilotBookService{
 		if (existingPilotBook != null) {
 			if (existingPilotBook != pilotBook) {
 				existingPilotBook.setPilotBookTitleId(pilotBook.getPilotBookTitleId());
+				existingPilotBook.setNote(pilotBook.getNote());
 				existingPilotBook.setEbookDefinition(pilotBook.getEbookDefinition());
 				}
 			pilotBookDAO.savePilotBook(existingPilotBook);

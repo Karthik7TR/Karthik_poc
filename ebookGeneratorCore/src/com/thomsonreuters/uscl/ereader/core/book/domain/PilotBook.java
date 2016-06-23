@@ -88,6 +88,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
 	public void copy(PilotBook that) {
 		setPilotBookTitleId(that.getPilotBookTitleId());
 		setSequenceNum(that.getSequenceNum());
+		setNote(that.getNote());
 		setEbookDefinition(that.getEbookDefinition());
 	}
 	

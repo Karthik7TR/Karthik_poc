@@ -106,8 +106,8 @@ $(function() {
 			var id = "pilotBookInfo" + pilotBookIndex;
 			var name = "pilotBookInfo[" + pilotBookIndex + "]";
 			
-			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
-			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
+			expandingBox.append($("<button>").attr("type","button").attr("id","pilotUp." +pilotBookIndex).addClass("moveUp").html("Up"));
+			expandingBox.append($("<button>").attr("type","button").attr("id","pilotDown." +pilotBookIndex).addClass("moveDown").html("Down"));
 			
 			// Add sequence number
 			var lastChild = $("#addPilotBookHere .expandingBox:last-child");

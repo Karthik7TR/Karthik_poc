@@ -781,8 +781,8 @@
 								<div class="errorDiv">
 									<form:errors path="pilotBookInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 								</div>
-								<button class="moveUp" type="button">Up</button>
-								<button class="moveDown" type="button">Down</button>
+								<button id="pilotUp" class="moveUp" type="button">Up</button>
+								<button id="pilotDown" class="moveDown" type="button">Down</button>
 								<form:hidden path="pilotBookInfo[${aStatus.index}].sequenceNum" class="sequence"/>
 								<div class="dynamicRow">
 									<label>Title ID</label>
