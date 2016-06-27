@@ -6,20 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -36,7 +31,6 @@ import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 
 public class GroupEbooks extends AbstractSbTasklet {
 
@@ -114,15 +108,8 @@ public class GroupEbooks extends AbstractSbTasklet {
 		catch (Exception e) 
 		{
 			groupVersion = null;
-			//For pilot books we will not fail the job. 
-			if(bookDefinition.getPilotBooks() != null && bookDefinition.getPilotBooks().size() > 0){
-				LOG.error("GroupEbooks failed : " + e.getStackTrace());
-				sendEmailNotification(chunkContext);
-			}
-			else{
-				publishStatus =  "Failed";
-				throw(e);
-			}
+			publishStatus =  "Failed";
+			throw(e);
 		}
 		finally
 		{
@@ -138,30 +125,6 @@ public class GroupEbooks extends AbstractSbTasklet {
 
       
 		return ExitStatus.COMPLETED;
-	}
-	
-	protected void sendEmailNotification(ChunkContext chunkContext) throws Exception {
-		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParams = getJobParameters(chunkContext);
-
-		StepContext stepContext = chunkContext.getStepContext();
-		StepExecution stepExecution = stepContext.getStepExecution();
-
-		long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
-		long jobExecutionId = stepExecution.getJobExecutionId();
-
-		String username = jobParams.getString(JobParameterKey.USER_NAME);
-		Collection<InternetAddress> recipients = coreService.getEmailRecipientsByUsername(username);
-		
-		String environment  = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
-		BookDefinition bookDefinition = (BookDefinition)jobExecutionContext.get(EBOOK_DEFINITON);
-        
-		String subject = "eBook Failed to create group - " + bookDefinition.getFullyQualifiedTitleId();
-        String body =  String.format("%s\t\nProview Display Name: %s \t\nTitle ID: %s \t\nJob Instance ID: %d \t\nJob Execution ID: %d \t\nEnvironment: %s \t\n",
-        					subject, bookDefinition.getProviewDisplayName(), bookDefinition.getFullyQualifiedTitleId(),
-        					jobInstanceId, jobExecutionId, environment);      
-
-        EmailNotification.send(recipients, subject, body);
 	}
 	
 	protected void createGroupWithRetry(GroupDefinition groupDefinition) {
