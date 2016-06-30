@@ -89,7 +89,14 @@ public class EditGroupController {
 				
 				Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
 				Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
-				proviewTitleMap.putAll(pilotBookMap);
+				if (pilotBookMap.size()>0){
+				   proviewTitleMap.putAll(pilotBookMap);
+				}
+				if(groupService.getPilotBooksNotFound().size()>0){
+					String msg = groupService.getPilotBooksNotFound().toString();
+					msg = msg.replaceAll("\\[|\\]|\\{|\\}", "");
+					model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, "Pilot books are not available in Proview "+Arrays.asList(msg.split("\\s*,\\s*")));
+				}
 				
 				setupModel(model, bookDef, proviewTitleMap.size());
 				form.initialize(bookDef, proviewTitleMap, pilotBookMap, group);

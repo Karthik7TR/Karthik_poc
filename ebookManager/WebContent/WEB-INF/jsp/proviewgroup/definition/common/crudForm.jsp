@@ -18,7 +18,7 @@
 
 <%-- Error Messages area from Proview --%>
 <c:if test="${warningMessage != null}">
-	<div class="infoMessageError">
+	<div class="infoMessageWarning">
 		${warningMessage}
 	</div>
 	<br/>

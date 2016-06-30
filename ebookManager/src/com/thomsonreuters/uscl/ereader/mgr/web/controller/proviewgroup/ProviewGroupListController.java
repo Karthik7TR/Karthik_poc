@@ -62,8 +62,17 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 	// retry parameters
 	private int maxNumberOfRetries = 3;
 	private Validator validator;
-	
-	
+	private String booksNotFoundMsg;
+		
+
+	public String getBooksNotFoundMsg() {
+		return booksNotFoundMsg;
+	}
+
+	public void setBooksNotFoundMsg(String booksNotFoundMsg) {
+		this.booksNotFoundMsg = booksNotFoundMsg;
+	}
+
 	@InitBinder(ProviewGroupListFilterForm.FORM_NAME)
 	protected void initDataBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
@@ -270,6 +279,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			httpSession.setAttribute(WebConstants.KEY_GROUP_BY_VERSION_ID, groupIdByVersion);
 			httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, version);
 			
+			this.booksNotFoundMsg = null;
 			if(proviewGroup != null && proviewGroup.getSubgroupInfoList() != null 
 					&& proviewGroup.getSubgroupInfoList().get(0).getSubGroupName() != null) {
 				model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
@@ -297,6 +307,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			} else {
 				httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
+			}
+			
+			if (booksNotFoundMsg != null){
+				booksNotFoundMsg = booksNotFoundMsg.replaceAll("\\[|\\]|\\{|\\}", "");
+				model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, "Books were deleted from Proview "+Arrays.asList(booksNotFoundMsg.split("\\s*,\\s*")));
 			}
 		
 		} catch (ProviewException e) {
@@ -377,8 +392,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 			}
 		}
 		if (notFound.size()>0) {
-			// show list of TitleIDs not in ProView
-			throw new ProviewException(notFound.toString());
+			setBooksNotFoundMsg(notFound.toString());
 		}
 		return new ArrayList<GroupDetails>(groupDetailsMap.values());
 	}
@@ -426,7 +440,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController{
 		}
 		// display all title IDs that were not found 
 		if (notFound.size()>0) {
-			throw new ProviewException(notFound.toString());
+			setBooksNotFoundMsg(notFound.toString());
 		}
 		return groupDetailsList;
 	}

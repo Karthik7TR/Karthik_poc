@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,13 +33,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroupContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupController;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDefinitionFormValidator;
 
 public class EditGroupControllerTest {
 	private static final String BINDING_RESULT_KEY = BindingResult.class.getName()+"."+EditGroupDefinitionForm.FORM_NAME;
@@ -107,6 +104,8 @@ public class EditGroupControllerTest {
 		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
 		EasyMock.expect(mockGroupService.getProViewTitlesForGroup(book)).andReturn(proviewTitleMap);
 		EasyMock.expect(mockGroupService.getPilotBooksForGroup(book)).andReturn(new LinkedHashMap<String,ProviewTitleInfo>());
+		EasyMock.expect(mockGroupService.getPilotBooksNotFound()).andReturn(new ArrayList<String>());
+		
 		EasyMock.replay(mockGroupService);
 		
 		ModelAndView mav;

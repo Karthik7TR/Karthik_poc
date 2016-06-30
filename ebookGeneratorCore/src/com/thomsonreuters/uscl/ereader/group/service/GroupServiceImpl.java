@@ -37,6 +37,7 @@ public class GroupServiceImpl implements GroupService {
 	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
 	private GroupDefinitionParser proviewGroupParser = new GroupDefinitionParser();
 	private ProviewClient proviewClient;
+	private List<String> pilotBooksNotFound; 
 
 	/**
 	 * Group ID is unique to each major version
@@ -178,6 +179,15 @@ public class GroupServiceImpl implements GroupService {
 		String subGroupHeading = bookDefinition.getSubGroupHeading();
 		String groupId = getGroupId(bookDefinition);
 		GroupDefinition lastGroupDefinition = getLastGroup(groupId);
+		
+		/*
+		* This check is to make sure only available titles will be added to the group from previous
+		*/
+		List<ProviewTitleInfo> proviewTitleInfoList = getMajorVersionProviewTitles(fullyQualifiedTitleId);
+		List<Integer> majorVersionList = new ArrayList<Integer>(); 
+		for(ProviewTitleInfo ProviewTitleInfo :proviewTitleInfoList ){
+			majorVersionList.add(ProviewTitleInfo.getMajorVersion());
+		}
 
 		String majorVersionStr = bookVersion;
 		if (StringUtils.contains(bookVersion, '.')) {
@@ -205,13 +215,13 @@ public class GroupServiceImpl implements GroupService {
 							// Subgroup heading matches, add titles to currently
 							// created subgroup
 							copyTitlesInSubgroup(previousSubGroupInfo, firstSubGroupInfo, existingTitles,
-									fullyQualifiedTitleId, majorVersionStr);
+									fullyQualifiedTitleId, majorVersionStr,majorVersionList);
 						} else {
 							// Create new subgroups to add to group
 							SubGroupInfo newSubGroupInfo = new SubGroupInfo();
 							newSubGroupInfo.setHeading(previousSubGroupInfo.getHeading());
 							copyTitlesInSubgroup(previousSubGroupInfo, newSubGroupInfo, existingTitles,
-									fullyQualifiedTitleId, majorVersionStr);
+									fullyQualifiedTitleId, majorVersionStr,majorVersionList);
 							// Only add subgroup if title(s) exists
 							if (newSubGroupInfo.getTitles().size() > 0) {
 								groupDefinition.addSubGroupInfo(newSubGroupInfo);
@@ -327,7 +337,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	private void copyTitlesInSubgroup(SubGroupInfo previousSubGroupInfo, SubGroupInfo currentSubGroupInfo,
-			Set<String> currentTitles, String fullyQualifiedTitleId, String majorVersionStr) {
+			Set<String> currentTitles, String fullyQualifiedTitleId, String majorVersionStr, List<Integer> majorVersionList) throws ProviewException{
 		// Subgroup heading matches, add titles to currently created subgroup
 		for (String title : previousSubGroupInfo.getTitles()) {
 			if (!currentTitles.contains(title)) {
@@ -339,14 +349,56 @@ public class GroupServiceImpl implements GroupService {
 					// more parts compared to current minor version.
 					// The additional parts should not be added because number
 					// of split books changed with the minor update.
-				} else {
-					// Add titles that are not already in subgroup
+				} else if (isTitleInProview(title,majorVersionList,fullyQualifiedTitleId)){
+					//Add titles that are not already in subgroup
 					currentSubGroupInfo.addTitle(title);
 				}
 			}
 		}
 	}
+	
+	
+	/**
+	 * Check if title exists in proview and add to the list
+	 * These titles might have been deleted and doesn't exist in Proview but exists in group
+	 * @param title
+	 * @return
+	 */
+	private boolean isTitleInProview(String title, List<Integer> majorVersionList, String fullyQualifiedTitleId)
+			throws ProviewException {
+		if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
+			Integer majorVersion = null;
+			String version = StringUtils.substringAfterLast(title, "/v");
+			String number = StringUtils.substringBefore(version, ".");
+			if (StringUtils.isNotBlank(number)) {
+				majorVersion = Integer.valueOf(number);
+			}
+			if (majorVersionList.contains(majorVersion)) {
+				return true;
+			}
+		}
+		// It must be a pilot book
+		else {
+			title = StringUtils.substringBeforeLast(title, "/v");
+			try {
+				proviewClient.getSinglePublishedTitle(title);
+				return true;
+			} catch (Exception ex) {
+				String errorMessage = ex.getMessage();
+				if (errorMessage.contains("does not exist")) {
+					return false;
 
+				} else {
+					throw ex;
+				}
+			}
+		}
+
+		return false;
+
+	}
+	
+	
 	private GroupDefinition createNewGroupDefinition(String groupName, String subGroupHeading,
 			String fullyQualifiedTitleId, String majorVersion, List<String> splitTitles) throws Exception {
 		GroupDefinition groupDefinition = new GroupDefinition();
@@ -424,10 +476,22 @@ public class GroupServiceImpl implements GroupService {
 		}
 		return proviewTitleMap;
 	}
+	
+	
+
+	@Override
+	public List<String> getPilotBooksNotFound() {
+		return pilotBooksNotFound;
+	}
+
+	public void setPilotBooksNotFound(List<String> pilotBooksNotFound) {
+		this.pilotBooksNotFound = pilotBooksNotFound;
+	}
 
 	@Override
 	public Map<String, ProviewTitleInfo> getPilotBooksForGroup(BookDefinition book) throws Exception {
 		Map<String, ProviewTitleInfo> pilotBooks = new LinkedHashMap<String, ProviewTitleInfo>();
+		pilotBooksNotFound = new ArrayList<String>();
 		List<PilotBook> bookList = book.getPilotBooks();
 		List<String> notFoundList = new ArrayList<String>();
 		for (PilotBook pilotBook : bookList) {
@@ -446,25 +510,37 @@ public class GroupServiceImpl implements GroupService {
 							latest = titleInfo;
 						}
 					}
+					pilotBooks.put(latest.getTitleId()+"/v"+latest.getMajorVersion(), latest);
 				}
-				pilotBooks.put(latest.getTitleId()+"/v"+latest.getMajorVersion(), latest);
+				
 			} catch (Exception e) {
 				notFoundList.add(pilotBook.getPilotBookTitleId());
 			}
 		}
 		if (notFoundList.size() > 0) {
+			for(String pilotBookNotFound : notFoundList){
+				pilotBooksNotFound.add(pilotBookNotFound);
+			}
 			String msg = notFoundList.toString();
 			msg = msg.replaceAll("\\[|\\]|\\{|\\}", "");
-			throw new ProviewException(msg);
 		}
 		
 		return pilotBooks;
 	}
 
 	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException {
-		ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
-		if (container != null) {
-			return container.getAllMajorVersions();
+		try {
+			ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
+			if (container != null) {
+				return container.getAllMajorVersions();
+			}
+
+		} catch (ProviewException ex) {
+			String errorMessage = ex.getMessage();
+
+			if (!errorMessage.contains("does not exist")) {
+				throw ex;
+			}
 		}
 		return new ArrayList<ProviewTitleInfo>();
 	}

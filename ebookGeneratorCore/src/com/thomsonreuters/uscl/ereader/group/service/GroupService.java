@@ -43,4 +43,6 @@ public interface GroupService {
 	
 	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException;
 	
+	public List<String> getPilotBooksNotFound();
+	
 }

@@ -358,7 +358,6 @@ public class ProviewClientImpl implements ProviewClient {
 			final String fullyQualifiedTitleId) throws ProviewException {
 
 		ProviewTitleContainer proviewTitleContainer = null;
-		try {
 			String publishedTitleResponse = getSinglePublishedTitle(fullyQualifiedTitleId);
 	
 			PublishedTitleParser parser = new PublishedTitleParser();
@@ -366,13 +365,6 @@ public class ProviewClientImpl implements ProviewClient {
 					.process(publishedTitleResponse);
 	
 			proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
-	
-		} catch (ProviewException ex) {
-			String errorMessage = ex.getMessage();
-			if(!errorMessage.contains("does not exist")) {
-				throw ex;
-			}
-		}
 
 		return proviewTitleContainer;
 	}
@@ -427,14 +419,20 @@ public class ProviewClientImpl implements ProviewClient {
 	 * getCurrentProviewTitleInfo(java.lang.String)
 	 */
 	@Override
-	public ProviewTitleInfo getLatestProviewTitleInfo(
-			final String fullyQualifiedTitleId) throws ProviewException {
-
+	public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException {
 		ProviewTitleInfo latestProviewVersion = null;
-		ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
+		try {
 
-		if (proviewTitleContainer != null) {
-			latestProviewVersion = proviewTitleContainer.getLatestVersion();
+			ProviewTitleContainer proviewTitleContainer = getProviewTitleContainer(fullyQualifiedTitleId);
+
+			if (proviewTitleContainer != null) {
+				latestProviewVersion = proviewTitleContainer.getLatestVersion();
+			}
+		} catch (ProviewException ex) {
+			String errorMessage = ex.getMessage();
+			if (!errorMessage.contains("does not exist")) {
+				throw ex;
+			}
 		}
 		return latestProviewVersion;
 	}

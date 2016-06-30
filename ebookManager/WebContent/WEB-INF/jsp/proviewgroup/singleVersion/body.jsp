@@ -160,6 +160,13 @@ function submitGroupForm(command) {
 		</c:otherwise>
 	</c:choose>
 	
+	<c:if test="${warningMessage != null}">
+	    <div class="infoMessageWarning">
+	    	${warningMessage}
+	    </div>
+	    <br/> 
+	    </c:if>
+	
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
 					requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>"
@@ -171,7 +178,7 @@ function submitGroupForm(command) {
 					<br/><b>No information found in ProView for titles:</b><br/>
 					<c:forEach items="${warningMessage}" var="title" varStatus="status">
 						"${title}"<br/>
-					</c:forEach>
+					</c:forEach>					
 				</div>
 				<br>
 			</c:if>

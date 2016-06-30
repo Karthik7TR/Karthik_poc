@@ -288,6 +288,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		}
 	}
 	
+	
 	private void validatePilotBooks(EditBookDefinitionForm form, Errors errors) {
 		// Require last name to be filled if there are pilot books
 		// Also check max character length for all the fields
@@ -300,6 +301,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 		for(PilotBook book : books) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pilotBookInfo["+ i +"].sequenceNum", "error.required.field", new Object[] {"Sequence Number"});
 			checkMaxLength(errors, MAXIMUM_CHARACTER_40, book.getPilotBookTitleId(), "pilotBookInfo["+ i +"].pilotBookTitleId", new Object[] {"pilotBookTitleId", MAXIMUM_CHARACTER_40});
+			if (!book.getPilotBookTitleId().startsWith("uscl/")){
+				errors.rejectValue("pilotBookInfo["+ i +"].pilotBookTitleId", "error.pilotBook.titleId");
+			}
 			checkMaxLength(errors, MAXIMUM_CHARACTER_512, book.getNote(), "pilotBookInfo["+ i +"].note", new Object[] {"Notes", MAXIMUM_CHARACTER_2048});
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pilotBookInfo["+ i +"].pilotBookTitleId", "error.pilotBook.titleId");
 			// Check duplicate sequence numbers exist
