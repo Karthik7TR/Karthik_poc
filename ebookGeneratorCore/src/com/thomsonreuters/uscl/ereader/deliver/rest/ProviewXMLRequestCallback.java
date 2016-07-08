@@ -25,12 +25,12 @@ public class ProviewXMLRequestCallback  implements RequestCallback {
 
 	@Override
 	public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
-		clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_XML_VALUE);
-		
+		clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_XML_VALUE + "; charset=UTF-8");
+
 		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
 		if (requestInputStream != null) {
 			long startTime = System.currentTimeMillis();
-			//IOUtils.copy(requestInputStream, clientHttpRequest.getBody());		
+			//IOUtils.copy(requestInputStream, clientHttpRequest.getBody());
 			((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
 			    @Override
 			    public void writeTo(final OutputStream outputStream) throws IOException {

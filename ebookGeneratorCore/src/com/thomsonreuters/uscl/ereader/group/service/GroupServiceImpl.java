@@ -5,6 +5,7 @@
  */
 package com.thomsonreuters.uscl.ereader.group.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -153,6 +154,8 @@ public class GroupServiceImpl implements GroupService {
 			} else {
 				throw new ProviewException(errorMsg);
 			}
+		} catch (UnsupportedEncodingException e) {
+			throw new ProviewException(e.getMessage());
 		}
 	}
 

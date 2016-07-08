@@ -11,10 +11,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,9 +209,9 @@ public class ProviewClientImpl implements ProviewClient {
 	}	
 
 	public String createGroup(final GroupDefinition groupDefinition)
-			throws ProviewException {	
+			throws ProviewException, UnsupportedEncodingException {	
 
-		InputStream requestBody = new ByteArrayInputStream(buildRequestBody(groupDefinition).getBytes());
+		InputStream requestBody = new ByteArrayInputStream(buildRequestBody(groupDefinition).getBytes("UTF-8"));
 		Map<String, String> urlParameters = new HashMap<String, String>();
 		urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
 		urlParameters.put("groupId", groupDefinition.getGroupId());
@@ -696,10 +697,10 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 	}
 	
-	protected String buildRequestBody(GroupDefinition groupDefinition)
+	protected String buildRequestBody(GroupDefinition groupDefinition) throws UnsupportedEncodingException
 	{
 		
-		OutputStream output = new ByteArrayOutputStream();
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		
 		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 		try {
@@ -732,7 +733,7 @@ public class ProviewClientImpl implements ProviewClient {
 		}
 		
 		LOG.debug("Proview[ Request: "+output.toString()+"]");
-	return output.toString();
+	return output.toString(StandardCharsets.UTF_8.displayName());
 	}
 	
 	/**

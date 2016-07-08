@@ -6,6 +6,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -44,7 +45,7 @@ public interface ProviewClient {
 
 	public List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap) throws ProviewException;
 
-	public String createGroup(final GroupDefinition groupDefinition) throws ProviewException;
+	public String createGroup(final GroupDefinition groupDefinition) throws ProviewException, UnsupportedEncodingException;
 
 	public String promoteGroup(final String groupId, final String groupVersion) throws ProviewException;
 
