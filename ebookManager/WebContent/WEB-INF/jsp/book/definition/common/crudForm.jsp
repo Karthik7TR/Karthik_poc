@@ -798,7 +798,7 @@
 										<form:errors path="pilotBookInfo[${aStatus.index}].note" cssClass="errorMessage" />
 									</div>
 								</div>
-								<input type="button" value="Delete" class="rdelete" title="Delete Pilot Book" />
+								<input id="pilotDelete" type="button" value="Delete" class="rdelete" title="Delete Pilot Book" />
 							</div>
 						</c:forEach>
 					</div>
@@ -941,8 +941,8 @@
 							<div class="errorDiv">
 								<form:errors path="authorInfo[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 							</div>
-							<button class="moveUp" type="button">Up</button>
-							<button class="moveDown" type="button">Down</button>
+							<button id="authorUp" class="moveUp" type="button">Up</button>
+							<button id="authorDown" class="moveDown" type="button">Down</button>
 							<form:hidden path="authorInfo[${aStatus.index}].authorId"/>
 							<form:hidden path="authorInfo[${aStatus.index}].sequenceNum" class="sequence"/>
 							<div class="dynamicRow">
@@ -991,7 +991,7 @@
 								Use Comma Before Suffix
 								<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
 							</div>
-							<input type="button" value="Delete" class="rdelete" title="Delete Author" />
+							<input id="authorDelete" type="button" value="Delete" class="rdelete" title="Delete Author" />
 						</div>
 					</c:forEach>
 				</div>
