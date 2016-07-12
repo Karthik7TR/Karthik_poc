@@ -255,6 +255,7 @@ public class ProviewGroupListControllerTest {
 		ProviewTitleInfo title = new ProviewTitleInfo();
 		title.setVersion("v1.3");
 		title.setTitle(titleId);
+		title.setLastupdate("5");
 		proviewTitles.add(title);
 
 		List<GroupDetails> groupDetails = new ArrayList<GroupDetails>();

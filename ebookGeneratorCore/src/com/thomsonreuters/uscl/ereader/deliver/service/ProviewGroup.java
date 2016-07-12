@@ -252,6 +252,7 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 		private String bookStatus;
 		private String subGroupName;
 		private String bookVersion;
+		private String lastupdate;
 		private String id;
 		private String proviewDisplayName;
 		private boolean isPilotBook = false;
@@ -324,6 +325,14 @@ public class ProviewGroup  implements Serializable, Comparable<ProviewGroup> {
 			this.bookVersion = bookVersion;
 		}
 		
+		public String getLastupdate() {
+			return lastupdate;
+		}
+
+		public void setLastupdate(String lastupdate) {
+			this.lastupdate = lastupdate;
+		}
+
 		public String getIdWithVersion() {
 			return id+"/"+bookVersion;
 		}

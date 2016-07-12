@@ -223,6 +223,7 @@ function submitGroupForm(command) {
 		</c:choose>
 		
 		<display:column title="Version" property="bookVersion" />
+		<display:column title="Last Update" property="lastupdate" />
 	</display:table>
 	
 	<c:set var="disableButtons" value="disabled"/>
