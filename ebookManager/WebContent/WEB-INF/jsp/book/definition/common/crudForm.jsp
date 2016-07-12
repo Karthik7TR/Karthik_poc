@@ -798,7 +798,7 @@
 										<form:errors path="pilotBookInfo[${aStatus.index}].note" cssClass="errorMessage" />
 									</div>
 								</div>
-								<input id="pilotDelete" type="button" value="Delete" class="rdelete" title="Delete Pilot Book" />
+								<input type="button" value="Delete" class="rdelete" title="Delete Pilot Book" />
 							</div>
 						</c:forEach>
 					</div>
@@ -991,7 +991,7 @@
 								Use Comma Before Suffix
 								<form:checkbox path="authorInfo[${aStatus.index}].useCommaBeforeSuffix"  title="Comma After Suffix" />
 							</div>
-							<input id="authorDelete" type="button" value="Delete" class="rdelete" title="Delete Author" />
+							<input type="button" value="Delete" class="rdelete" title="Delete Author" />
 						</div>
 					</c:forEach>
 				</div>

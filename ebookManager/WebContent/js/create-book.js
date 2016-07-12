@@ -112,7 +112,7 @@ $(function() {
 			// Add sequence number
 			var lastChild = $("#addPilotBookHere .expandingBox:last-child");
 			var lastSequenceNum = getSequenceNumber(lastChild);
-			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id).attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
 			expandingBox.append(sequenceBox);
 			
 			// Add title information
@@ -120,7 +120,7 @@ $(function() {
 			expandingBox.append(addDynamicRow("textarea", id, name, "pilotBookNote", "Note"));
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pilot Book").attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pilot Book").attr("type", "button").attr("id","pilotDelete"+pilotBookIndex).val("Delete"));
 		
 			$("#addPilotBookHere").append(expandingBox);
 			pilotBookIndex = pilotBookIndex + 1;
@@ -138,7 +138,7 @@ $(function() {
 			// Add sequence number
 			var lastChild = $("#addAuthorHere .expandingBox:last-child");
 			var lastSequenceNum = getSequenceNumber(lastChild);
-			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id +".sequenceNum").attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
+			var sequenceBox = $("<input>").attr("type","hidden").addClass("sequence").attr("id",id).attr("name", name + ".sequenceNum").attr("value",lastSequenceNum + 1);
 			expandingBox.append(sequenceBox);
 			
 			// Add author name input boxes
@@ -158,7 +158,7 @@ $(function() {
 			expandingBox.append(useCommaBeforeSuffix);
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").attr("id","authorDelete"+authorIndex).val("Delete"));
 		
 			$("#addAuthorHere").append(expandingBox);
 			authorIndex = authorIndex + 1;
