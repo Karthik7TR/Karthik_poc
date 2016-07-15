@@ -65,5 +65,5 @@
 	<div>
 		The filter is applied to the results shown in the file.  The maximum amount of rows on the Excel file cannot exceed 65535.
 	</div>
-	<a href="<%= WebConstants.MVC_STATS_DOWNLOAD %>">Download Excel</a>
+	<a id="excelExport" href="<%= WebConstants.MVC_STATS_DOWNLOAD %>">Download Excel</a>
 

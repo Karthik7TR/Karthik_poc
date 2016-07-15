@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,10 +12,14 @@ import java.util.concurrent.TimeUnit;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -90,6 +95,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
 			saveAllProviewGroups(httpSession, allProviewGroups);
 			saveAllLatestProviewGroups(httpSession, allLatestProviewGroups);
+			saveSelectedProviewGroups(httpSession, allLatestProviewGroups);
 
 			if (allLatestProviewGroups != null) {
 				model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewGroups);
@@ -108,9 +114,9 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
 		case PAGESIZE:
 			saveProviewGroupForm(httpSession, form);
-			List<ProviewGroup> selectedProviewGroup = fetchSelectedProviewGroups(httpSession);
-			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroup);
-			model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroup.size());
+			List<ProviewGroup> selectedProviewGroups = fetchSelectedProviewGroups(httpSession);
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroups);
+			model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroups.size());
 			model.addAttribute(WebConstants.KEY_PAGE_SIZE, form.getObjectsPerPage());
 			model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, fetchProviewGroupListFilterForm(httpSession));
 			model.addAttribute(ProviewGroupForm.FORM_NAME, form);
@@ -118,6 +124,26 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 		}
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
+	}
+	
+	@RequestMapping(value=WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
+	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+		
+		GroupListExcelExportService excelExportService = new GroupListExcelExportService();
+		Workbook wb = excelExportService.createExcelDocument(httpSession);
+		
+		try {
+			Date date = new Date();
+			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
+			String stringDate = s.format(date);
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-Disposition", "attachment; filename="+GroupListExcelExportService.GROUPS_NAME+ stringDate +".xls");
+			ServletOutputStream out = response.getOutputStream();
+			wb.write(out);
+			out.flush();
+		} catch(Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
 	/**

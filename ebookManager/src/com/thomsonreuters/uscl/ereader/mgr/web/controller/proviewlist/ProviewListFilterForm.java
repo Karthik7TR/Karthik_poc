@@ -36,7 +36,6 @@ public class ProviewListFilterForm {
 		this.titleId = titleId;
 		this.minVersions = minVersions;
 		this.maxVersions = maxVersions;
-		this.filterCommand = filterCommand;
 	}
 
 	public Integer getMinVersionsInt() {

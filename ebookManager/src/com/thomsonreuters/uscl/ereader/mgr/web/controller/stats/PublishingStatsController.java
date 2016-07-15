@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 
 
 @Controller
@@ -117,9 +116,8 @@ public class PublishingStatsController extends BasePublishingStatsController {
 	@RequestMapping(value=WebConstants.MVC_STATS_DOWNLOAD, method = RequestMethod.GET)
 	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
 		
-		PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
-		PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
-		Workbook wb = publishingStatsService.createExcelDocument(publishingStatsFilter);
+		StatsExcelExportService excelExportService = new StatsExcelExportService();
+		Workbook wb = excelExportService.createExcelDocument(httpSession);
 		
 		try {
 			Date date = new Date();

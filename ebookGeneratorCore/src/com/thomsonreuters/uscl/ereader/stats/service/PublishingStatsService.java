@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.ss.usermodel.Workbook;
-
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -74,8 +72,6 @@ public interface PublishingStatsService {
 	public Date findLastPublishDateForBook(Long EbookDefId);
 	
 	public List<PublishingStats> findAllPublishingStats();
-	
-	public Workbook createExcelDocument(PublishingStatsFilter filter);
 	
 	public Long getMaxGroupVersionById(Long ebookDefId);
 	

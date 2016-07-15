@@ -283,10 +283,12 @@ public class WebConstants {
 	
 	// Proview related URI's
 	public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
-	public static final String MVC_PROVIEW_GROUPS = "proviewGroups.mvc";
 	public static final String MVC_PROVIEW_TITLE_ALL_VERSIONS = "proviewTitleAllVersions.mvc";
+	public static final String MVC_PROVIEW_TITLE_DOWNLOAD = "proviewTitleDownload.mvc";
+	public static final String MVC_PROVIEW_GROUPS = "proviewGroups.mvc";
 	public static final String MVC_PROVIEW_GROUP_ALL_VERSIONS = "proviewGroupAllVersions.mvc";
-	public static final String MVC_PROVIEW_GROUP_SINGLE_VERSION = "proviewGroupSingleVersions.mvc";
+	public static final String MVC_PROVIEW_GROUP_SINGLE_VERSION = "proviewGroupSingleVersion.mvc";
+	public static final String MVC_PROVIEW_GROUP_DOWNLOAD = "proviewGroupDownload.mvc";
 	public static final String MVC_PROVIEW_TITLE_REMOVE = "proviewTitleRemove.mvc";
 	public static final String MVC_PROVIEW_TITLE_PROMOTE = "proviewTitlePromote.mvc";
 	public static final String MVC_PROVIEW_TITLE_DELETE = "proviewTitleDelete.mvc";
@@ -419,5 +421,4 @@ public class WebConstants {
 	public static final int NUMBER_BOOK_DEF_SHOWN = 10;
 	
 	public static final String ERROR_PROVIEW = "Proview Exception occured. Please check if ProView outage was set.  Otherwise, please contact your administrator.";
-
 }

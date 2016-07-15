@@ -70,6 +70,7 @@ public abstract class BasePublishingStatsController {
 		// Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
 		PaginatedList paginatedList = createPaginatedList(pageAndSort, filterForm);
 		model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+		httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 	}
 	
 	/**
