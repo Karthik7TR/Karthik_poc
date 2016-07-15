@@ -169,7 +169,7 @@ function submitGroupForm(command) {
 	
 	<c:set var="selectAllElement" value="<input type='checkbox' id='selectAll' value='false' />"/>
 	<display:table id="groupDetail" name="<%=WebConstants.KEY_PAGINATED_LIST%>" class="displayTagTable" cellpadding="2" 
-					requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS%>"
+					requestURI="<%=WebConstants.MVC_PROVIEW_GROUP_SINGLE_VERSION%>"
 					>
 		
 		<display:setProperty name="basic.msg.empty_list">

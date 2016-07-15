@@ -65,6 +65,7 @@ public class ProviewSingleTitleParser extends DefaultHandler {
 				name = StringUtils.substringBeforeLast(name, SPLIT_BOOK_NAMING_CONVENTION);
 				groupDetails.setProviewDisplayName(name);				
 				groupDetails.setTitleId(titleId);
+				groupDetails.setLastupdate(lastUpdate);
 				String [] setTitleIdWithVersion = {titleId+"/"+version};
 				groupDetails.setTitleIdtWithVersionArray(setTitleIdWithVersion);
 				GroupDetailsList.add(groupDetails);
