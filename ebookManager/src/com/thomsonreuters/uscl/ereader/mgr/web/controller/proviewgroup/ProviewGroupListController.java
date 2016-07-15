@@ -280,6 +280,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 			model.addAttribute(WebConstants.KEY_HEAD_TITLE, headTitleID);
 			model.addAttribute(WebConstants.KEY_GROUP_STATUS, proviewGroup.getGroupStatus());
 			model.addAttribute(WebConstants.KEY_GROUP_VERSION, version);
+			model.addAttribute(WebConstants.KEY_PROVIEW_GROUP_ID, groupId);
 			model.addAttribute(WebConstants.KEY_GROUP_BY_VERSION_ID, groupIdByVersion);
 
 			httpSession.setAttribute(WebConstants.KEY_GROUP_NAME, proviewGroup.getGroupName());

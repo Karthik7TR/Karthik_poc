@@ -134,6 +134,11 @@ function submitGroupForm(command) {
 						<span class="field">${ groupName }</span>
 	
 	</div>
+	<div class="row" id ="groupId">
+						<label class="labelCol" >Group ID:</label>
+						<span class="field">${ proviewGroupID }</span>
+	
+	</div>
 	<div class="row" id ="headTitle">
 						<label class="labelCol" >Group Head Title:</label>
 						<span class="field">${ headTitle }</span>
