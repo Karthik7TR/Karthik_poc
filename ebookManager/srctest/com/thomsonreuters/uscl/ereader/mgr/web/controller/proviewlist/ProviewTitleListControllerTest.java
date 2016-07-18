@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
@@ -192,6 +192,22 @@ public class ProviewTitleListControllerTest {
 		
 		Assert.assertEquals(1, model.get("resultSize"));
 		
+	}
+	
+	@Test
+	public void testDownloadProviewListExcel() throws Exception {
+		request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD);
+		request.setMethod(HttpMethod.GET.name());
+
+		List<ProviewTitleInfo> titles = new ArrayList<ProviewTitleInfo>();
+		
+		HttpSession session = request.getSession();
+		session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, titles);
+		request.setSession(session);
+		handlerAdapter.handle(request, response, controller);
+
+		ServletOutputStream outStream = response.getOutputStream();
+		Assert.assertTrue(!outStream.toString().isEmpty());
 	}
 	
 	@Test

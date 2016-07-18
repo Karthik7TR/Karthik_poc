@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import org.easymock.EasyMock;
@@ -278,6 +279,22 @@ public class ProviewGroupListControllerTest {
 		mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
 		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
+	}
+	
+	@Test
+	public void testDownloadProviewGroupExcel() throws Exception {
+		request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD);
+		request.setMethod(HttpMethod.GET.name());
+
+		List<ProviewGroup> groups = new ArrayList<ProviewGroup>();
+		
+		HttpSession session = request.getSession();
+		session.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_GROUPS, groups);
+		request.setSession(session);
+		handlerAdapter.handle(request, response, controller);
+
+		ServletOutputStream outStream = response.getOutputStream();
+		Assert.assertTrue(!outStream.toString().isEmpty());
 	}
 
 	@Test

@@ -18,6 +18,8 @@ public abstract class BaseExcelExportService {
 
 	protected String[] EXCEL_HEADER;
 	protected String SHEET_NAME;
+	
+	protected abstract void fillRows(Sheet sheet, CellStyle cellStyle, HttpSession session);
 
 	@Transactional(readOnly = true)
 	public Workbook createExcelDocument(HttpSession httpSession) {
@@ -40,9 +42,5 @@ public abstract class BaseExcelExportService {
 		fillRows(sheet, cellStyle, httpSession);
 
 		return wb;
-	}
-
-	protected void fillRows(Sheet sheet, CellStyle cellStyle, HttpSession session) {
-		// override in child classes
 	}
 }

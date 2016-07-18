@@ -12,13 +12,13 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.ioutil.BaseExcelExportService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
-public class GroupListExcelExportService extends BaseExcelExportService {
+public class ProviewGroupExcelExportService extends BaseExcelExportService {
 
 	public static final String GROUPS_NAME = "ProviewGroups";
 	public static final String[] GROUPS_HEADER = { "Group Name", "Group ID", "Latest Status", "Total Versions",
 			"Latest Version" };
 
-	public GroupListExcelExportService() {
+	public ProviewGroupExcelExportService() {
 		super();
 		SHEET_NAME = GROUPS_NAME;
 		EXCEL_HEADER = GROUPS_HEADER;
@@ -29,7 +29,7 @@ public class GroupListExcelExportService extends BaseExcelExportService {
 
 		List<ProviewGroup> groups = fetchSelectedProviewGroups(session);
 		if (groups == null) {
-			// add error handling
+			throw new NullPointerException("No Group Information Found");
 		}
 		int rowIndex = 1;
 		for (ProviewGroup group : groups) {

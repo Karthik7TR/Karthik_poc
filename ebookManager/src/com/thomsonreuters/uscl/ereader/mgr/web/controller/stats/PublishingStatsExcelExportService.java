@@ -12,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.BaseExcelExportService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
-public class StatsExcelExportService extends BaseExcelExportService {
+public class PublishingStatsExcelExportService extends BaseExcelExportService {
 
 	public static final String STATS_NAME = "Publishing Stats";
 	public static final String[] STATS_HEADER = { "TITLE_ID", "PROVIEW_DISPLAY_NAME", "JOB_INSTANCE_ID", "AUDIT_ID",
@@ -25,7 +25,7 @@ public class StatsExcelExportService extends BaseExcelExportService {
 			"PUBLISH_END_TIMESTAMP", "LAST_UPDATED", "BOOK_SIZE", "LARGEST_DOC_SIZE", "LARGEST_IMAGE_SIZE",
 			"LARGEST_PDF_SIZE" };
 
-	public StatsExcelExportService() {
+	public PublishingStatsExcelExportService() {
 		super();
 		EXCEL_HEADER = STATS_HEADER;
 		SHEET_NAME = STATS_NAME;
@@ -36,7 +36,7 @@ public class StatsExcelExportService extends BaseExcelExportService {
 
 		List<PublishingStats> stats = fetchPaginatedList(session);
 		if (stats == null) {
-			// add error handling
+			throw new NullPointerException("No Publishing Statistics Found");
 		}
 		Cell cell = null;
 
@@ -49,7 +49,7 @@ public class StatsExcelExportService extends BaseExcelExportService {
 			if (stat.getJobInstanceId() != null) {
 				row.createCell(2).setCellValue(stat.getJobInstanceId());
 			}
-			if (stat.getAudit() != null && stat.getAudit().getAuditId() != null) {
+			if (stat.getAudit().getAuditId() != null) {
 				row.createCell(3).setCellValue(stat.getAudit().getAuditId());
 			}
 			if (stat.getEbookDefId() != null) {
@@ -156,6 +156,6 @@ public class StatsExcelExportService extends BaseExcelExportService {
 	private List<PublishingStats> fetchPaginatedList(HttpSession session) {
 		PublishingStatsPaginatedList paginated = (PublishingStatsPaginatedList) session
 				.getAttribute(WebConstants.KEY_PAGINATED_LIST);
-		return paginated.getList();
+		return paginated==null ? null : paginated.getList();
 	}
 }

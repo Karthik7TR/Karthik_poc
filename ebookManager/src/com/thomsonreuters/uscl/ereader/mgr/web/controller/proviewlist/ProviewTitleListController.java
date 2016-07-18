@@ -55,12 +55,10 @@ public class ProviewTitleListController {
 	private ManagerService managerService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobRequestService jobRequestService;
-	
+
 	private static final Logger log = Logger.getLogger(ProviewTitleListController.class);
 
-
 	/**
-	 * 
 	 * @param httpSession
 	 * @return
 	 */
@@ -72,18 +70,15 @@ public class ProviewTitleListController {
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @param selectedProviewTitleInfo
 	 */
 	private void saveSelectedProviewTitleInfo(HttpSession httpSession,
 			List<ProviewTitleInfo> selectedProviewTitleInfo) {
 		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
-
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @param allLatestProviewTitleInfo
 	 */
@@ -93,7 +88,6 @@ public class ProviewTitleListController {
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @return
 	 */
@@ -105,7 +99,6 @@ public class ProviewTitleListController {
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @return
 	 */
@@ -117,18 +110,15 @@ public class ProviewTitleListController {
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @param allProviewTitleInfo
 	 */
 	private void saveAllProviewTitleInfo(HttpSession httpSession,
 			Map<String, ProviewTitleContainer> allProviewTitleInfo) {
 		httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, allProviewTitleInfo);
-
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @return
 	 */
@@ -141,24 +131,20 @@ public class ProviewTitleListController {
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @return
 	 */
 	protected ProviewTitleForm fetchSavedProviewTitleForm(HttpSession httpSession) {
 		ProviewTitleForm form = (ProviewTitleForm) httpSession.getAttribute(ProviewTitleForm.FORM_NAME);
-
 		return form;
 	}
 
 	/**
-	 * 
 	 * @param httpSession
 	 * @param form
 	 */
 	private void saveProviewTitleForm(HttpSession httpSession, ProviewTitleForm form) {
 		httpSession.setAttribute(ProviewTitleForm.FORM_NAME, form);
-
 	}
 
 	private void sendEmail(String emailAddressString, String subject, String body) {
@@ -170,7 +156,6 @@ public class ProviewTitleListController {
 		} catch (AddressException e) {
 
 		}
-
 	}
 
 	/**
@@ -229,23 +214,24 @@ public class ProviewTitleListController {
 
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
 	}
-	
-	@RequestMapping(value=WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
-	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
-		
+
+	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD, method = RequestMethod.GET)
+	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		ProviewListExcelExportService excelExportService = new ProviewListExcelExportService();
-		Workbook wb = excelExportService.createExcelDocument(httpSession);
-		
 		try {
+			Workbook wb = excelExportService.createExcelDocument(httpSession);
 			Date date = new Date();
 			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
 			String stringDate = s.format(date);
 			response.setContentType("application/vnd.ms-excel");
-			response.setHeader("Content-Disposition", "attachment; filename="+ProviewListExcelExportService.TITLES_NAME+ stringDate +".xls");
+			response.setHeader("Content-Disposition",
+					"attachment; filename=" + ProviewListExcelExportService.TITLES_NAME + stringDate + ".xls");
 			ServletOutputStream out = response.getOutputStream();
 			wb.write(out);
 			out.flush();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
 	}

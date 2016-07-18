@@ -116,10 +116,10 @@ public class PublishingStatsController extends BasePublishingStatsController {
 	@RequestMapping(value=WebConstants.MVC_STATS_DOWNLOAD, method = RequestMethod.GET)
 	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
 		
-		StatsExcelExportService excelExportService = new StatsExcelExportService();
-		Workbook wb = excelExportService.createExcelDocument(httpSession);
+		PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
 		
 		try {
+			Workbook wb = excelExportService.createExcelDocument(httpSession);
 			Date date = new Date();
 			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
 			String stringDate = s.format(date);

@@ -28,7 +28,7 @@ public class ProviewListExcelExportService extends BaseExcelExportService {
 
 		List<ProviewTitleInfo> titles = fetchSelectedProviewTitleInfo(session);
 		if (titles == null) {
-			// add error handling
+			throw new NullPointerException("No Title Information Found");
 		}
 		int rowIndex = 1;
 		for (ProviewTitleInfo title : titles) {

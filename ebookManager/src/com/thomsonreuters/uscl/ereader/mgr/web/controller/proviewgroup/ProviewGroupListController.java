@@ -127,17 +127,16 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 	}
 	
 	@RequestMapping(value=WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD, method = RequestMethod.GET)
-	public void downloadPublishingStatsExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
+	public void downloadProviewGroupExcel(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response) {
 		
-		GroupListExcelExportService excelExportService = new GroupListExcelExportService();
-		Workbook wb = excelExportService.createExcelDocument(httpSession);
-		
+		ProviewGroupExcelExportService excelExportService = new ProviewGroupExcelExportService();
 		try {
+			Workbook wb = excelExportService.createExcelDocument(httpSession);
 			Date date = new Date();
 			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
 			String stringDate = s.format(date);
 			response.setContentType("application/vnd.ms-excel");
-			response.setHeader("Content-Disposition", "attachment; filename="+GroupListExcelExportService.GROUPS_NAME+ stringDate +".xls");
+			response.setHeader("Content-Disposition", "attachment; filename="+ProviewGroupExcelExportService.GROUPS_NAME+ stringDate +".xls");
 			ServletOutputStream out = response.getOutputStream();
 			wb.write(out);
 			out.flush();
