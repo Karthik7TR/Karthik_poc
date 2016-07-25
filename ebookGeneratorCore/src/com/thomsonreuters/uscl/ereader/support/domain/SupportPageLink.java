@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.support.domain;
 
 import java.io.Serializable;
@@ -18,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @Entity
 @Table(name = "SUPPORT_PAGE_LINK")
 public class SupportPageLink implements Serializable {
-	//private static Logger log = Logger.getLogger(SupportPageLink.class);
+	//private static Logger log = LogManager.getLogger(SupportPageLink.class);
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "SUPPORT_LINK_ID", nullable = false)

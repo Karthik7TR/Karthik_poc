@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
@@ -5,13 +10,10 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TitleMetadataTest {
-	
-	private static final Logger LOG = Logger.getLogger(TitleMetadataTest.class);
 	
 	@Before
 	public void setUp() {

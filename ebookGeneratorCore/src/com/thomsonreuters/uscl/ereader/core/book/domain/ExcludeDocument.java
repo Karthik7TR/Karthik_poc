@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -18,8 +23,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -28,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 @Table(name = "EXCLUDE_DOCUMENT")
 @IdClass(ExcludeDocument.ExcludeDocumentPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "ExcludeDocument")
+@XmlRootElement(name="excludeDocument", namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain")
 public class ExcludeDocument implements Serializable {
 	private static final long serialVersionUID = 8698522630203083821L;
 
@@ -36,13 +41,16 @@ public class ExcludeDocument implements Serializable {
 	BookDefinition ebookDefinition;
 
 	@Id
+	@XmlElement(name="documentGuid", required=true)
 	String documentGuid;
 	
 	@Column(name = "NOTE", length = 512, nullable=false)
+	@XmlElement(name="note", required=true)
 	String note;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable=false)
+	@XmlElement(name="lastUpdated", required=true)
 	Date lastUpdated;
 	
 	public BookDefinition getBookDefinition() {
@@ -53,28 +61,25 @@ public class ExcludeDocument implements Serializable {
 		this.ebookDefinition = bookDefinition;
 	}
 
-	public String getDocumentGuid() {
-		return documentGuid;
-	}
-
 	public void setDocumentGuid(String documentGuid) {
 		this.documentGuid = documentGuid;
 	}
-
-	public String getNote() {
-		return note;
+	public String getDocumentGuid() {
+		return documentGuid;
 	}
 
 	public void setNote(String note) {
 		this.note = note;
 	}
-
-	public Date getLastUpdated() {
-		return lastUpdated;
+	public String getNote() {
+		return note;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
 	}
 
 	@Transient

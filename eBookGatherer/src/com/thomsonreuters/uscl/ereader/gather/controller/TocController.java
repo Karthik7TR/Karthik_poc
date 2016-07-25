@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -8,7 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.gather.services.TocService;
 
 @Controller
 public class TocController {
-	private static Logger LOG = Logger.getLogger(TocController.class);
+	private static Logger LOG = LogManager.getLogger(TocController.class);
 	
 	@Autowired
 	public TocService tocService;

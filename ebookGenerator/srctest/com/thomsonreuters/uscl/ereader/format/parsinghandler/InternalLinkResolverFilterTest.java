@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +24,7 @@ import java.util.Properties;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -54,7 +55,7 @@ import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
  */
 public class InternalLinkResolverFilterTest
 {
-    private static Logger LOG = Logger.getLogger(InternalLinkResolverFilterTest.class);
+    private static Logger LOG = LogManager.getLogger(InternalLinkResolverFilterTest.class);
     InternalLinkResolverFilter internalLinkResolverFilter;
     private InternalLinkResolverFilter internalLinksFilter;
     private Serializer serializer;

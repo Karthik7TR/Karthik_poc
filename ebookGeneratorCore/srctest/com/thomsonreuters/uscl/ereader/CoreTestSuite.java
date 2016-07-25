@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader;
 
 import org.junit.runner.RunWith;
@@ -22,7 +23,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceTest;
 import com.thomsonreuters.uscl.ereader.core.service.CoreServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
-import com.thomsonreuters.uscl.ereader.gather.domain.JibxMarshallingTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoTest;
@@ -34,7 +34,7 @@ import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServ
 @RunWith(Suite.class)
 @SuiteClasses({ BookDefinitionTest.class, BookDefinitionDaoTest.class,
 		BookDefinitionServiceTest.class, FileExtensionFilterTest.class,
-		FileHandlingHelperTest.class, JibxMarshallingTest.class,
+		FileHandlingHelperTest.class, jaxb.JAXBMarshallingTest.class,
 		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class, CoreServiceTest.class,
 		ProviewClientImplTest.class, EbookAuditDaoTest.class,
 		OutageProcessorTest.class, OutageServiceTest.class, PlannedOutageTest.class,

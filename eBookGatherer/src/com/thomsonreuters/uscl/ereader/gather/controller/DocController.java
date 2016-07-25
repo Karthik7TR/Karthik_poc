@@ -1,12 +1,12 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
 
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import com.thomsonreuters.uscl.ereader.gather.services.DocService;
 
 @Controller
 public class DocController {
-	private static Logger LOG = Logger.getLogger(DocController.class);
+	private static Logger LOG = LogManager.getLogger(DocController.class);
 
 	public DocService docService;
 
@@ -34,7 +34,7 @@ public class DocController {
 		try {
 			gatherResponse = docService.fetchDocuments(docRequest.getGuids(), docRequest.getCollectionName(),
 					   				  docRequest.getContentDestinationDirectory(),
-					   				  docRequest.getMetadataDestinationDirectory(), docRequest.isFinalStage(),
+					   				  docRequest.getMetadataDestinationDirectory(), docRequest.getIsFinalStage(),
 					   				  docRequest.getUseReloadContent());
 		} catch (GatherException e) {
 			String errorMessage = e.getMessage();

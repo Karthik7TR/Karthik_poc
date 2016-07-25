@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 
 @Controller
 public class JobSummaryController extends BaseJobSummaryController {
-	private static final Logger log = Logger.getLogger(JobSummaryController.class);
+	private static final Logger log = LogManager.getLogger(JobSummaryController.class);
 	private GeneratorRestClient generatorRestClient;
 	private Validator validator;
 	private MessageSourceAccessor messageSourceAccessor;

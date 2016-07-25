@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.ioutil;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 /**
  * Static helper that contains generic file handling helper methods.
@@ -19,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class FileHandlingHelper 
 {
-	private static final Logger LOG = Logger.getLogger(FileHandlingHelper.class);
+	private static final Logger LOG = LogManager.getLogger(FileHandlingHelper.class);
 	
 	private FileExtensionFilter filter;
 	

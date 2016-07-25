@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -12,7 +12,7 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,7 +42,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 public class DocMetadataServiceTest {
-	private static Logger LOG = Logger.getLogger(DocMetadataServiceTest.class);
+	private static Logger LOG = LogManager.getLogger(DocMetadataServiceTest.class);
 	public Timestamp UPDATE_DATE = getCurrentTimeStamp();
 	/**
 	 * The service being tested, injected by Spring.

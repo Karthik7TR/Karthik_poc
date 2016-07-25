@@ -42,7 +42,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails
  */
 public class ProviewClientImplTest {
 	// private static final Logger LOG =
-	// Logger.getLogger(ProviewClientImplTest.class);
+	// LogManager.getLogger(ProviewClientImplTest.class);
 
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
 	private static InetAddress PROVIEW_HOST;
@@ -115,11 +115,11 @@ public class ProviewClientImplTest {
 	@Test
 	public void testGetProviewGroupContainerById() throws Exception {
 		String groupId = "testGroupId";
-		String response = "<groups><group id=\""+groupId+"\" status=\"Test\" version=\"v1\">"
+		String response = "<groups><group id=\"" + groupId + "\" status=\"Test\" version=\"v1\">"
 				+ "<name>Test Group</name><type>standard</type><headtitle>testTitleId</headtitle>"
 				+ "<members><subgroup><title>test1</title><title>test2</title></subgroup></members>"
 				+ "</group></groups>";
-		
+
 		String singleGroupUriTemplate = "";
 		proviewClient.setSingleGroupUriTemplate(singleGroupUriTemplate);
 		Map<String, String> urlParameters = new HashMap<String, String>();
@@ -496,13 +496,18 @@ public class ProviewClientImplTest {
 		verifyAll();
 	}
 
-	/** makeFile( File directory, String name, String content )
-	 * 		helper method to streamline file creation
-	 * @param directory		Location the new file will be created in
-	 * @param name			Name of the new file
-	 * @param content		Content to be written into the new file
-	 * @return			returns a File object directing to the new file
-	 * 					returns null if any errors occur
+	/**
+	 * makeFile( File directory, String name, String content ) helper method to
+	 * streamline file creation
+	 * 
+	 * @param directory
+	 *            Location the new file will be created in
+	 * @param name
+	 *            Name of the new file
+	 * @param content
+	 *            Content to be written into the new file
+	 * @return returns a File object directing to the new file returns null if
+	 *         any errors occur
 	 */
 	private File makeFile(File directory, String name, String content) {
 		try {

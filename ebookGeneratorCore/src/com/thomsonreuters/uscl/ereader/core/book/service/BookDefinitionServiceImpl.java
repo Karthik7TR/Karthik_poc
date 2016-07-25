@@ -1,14 +1,13 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
  * Shared service methods used in both the Spring Batch engine and the dashboard web apps.
  */
 public class BookDefinitionServiceImpl implements BookDefinitionService {
-	//private static final Logger log = Logger.getLogger(BookDefinitionServiceImpl.class);
+	//private static final Logger log = LogManager.getLogger(BookDefinitionServiceImpl.class);
 	private BookDefinitionDao bookDefinitionDao;
 	
 	@Override

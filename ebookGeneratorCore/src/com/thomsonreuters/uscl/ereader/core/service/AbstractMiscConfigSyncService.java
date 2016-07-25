@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.service;
 
 import java.net.InetAddress;
@@ -21,7 +26,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
  *
  */
 public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncService  {
-	//private static Logger log = Logger.getLogger(AbstractMiscConfigSyncService.class);
+	//private static Logger log = LogManager.getLogger(AbstractMiscConfigSyncService.class);
 	
 	private MiscConfig miscConfig;
 	

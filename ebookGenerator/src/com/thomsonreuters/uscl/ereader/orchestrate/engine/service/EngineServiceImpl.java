@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import java.io.PrintWriter;
@@ -13,7 +14,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 
 
 public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
-	private static Logger log = Logger.getLogger(EngineServiceImpl.class);
+	private static Logger log = LogManager.getLogger(EngineServiceImpl.class);
 	private String environmentName;  // like "ci" or "test"
 	private JobRegistry jobRegistry;
 	private JobOperator jobOperator;

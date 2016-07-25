@@ -3,6 +3,7 @@
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import java.io.ByteArrayInputStream;
@@ -27,6 +28,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
@@ -51,7 +53,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails
  */
 public class ProviewClientImpl implements ProviewClient {
 
-	private static final Logger LOG = Logger.getLogger(ProviewClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(ProviewClientImpl.class);
 	public static final String PROVIEW_HOST_PARAM = "proviewHost";
 	private InetAddress proviewHost;
 	

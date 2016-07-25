@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -22,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderCompara
 
 public class JobRequestServiceImpl implements JobRequestService {
 
-	//private static final Logger log = Logger.getLogger(JobRequestServiceImpl.class);
+	//private static final Logger log = LogManager.getLogger(JobRequestServiceImpl.class);
 	private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
 
 	public JobRequestDao jobRequestDao;

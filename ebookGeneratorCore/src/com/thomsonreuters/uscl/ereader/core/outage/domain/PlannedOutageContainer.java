@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.outage.domain;
 
 import java.util.ArrayList;
@@ -11,7 +16,7 @@ import java.util.Date;
  * It is updated via a push from the manager application when the operator adds/updates/deletes on the fly. 
  */
 public class PlannedOutageContainer {
-	//private static final Logger log = Logger.getLogger(PlannedOutageContainer.class);
+	//private static final Logger log = LogManager.getLogger(PlannedOutageContainer.class);
 
 	private Collection<PlannedOutage> outages = new ArrayList<PlannedOutage>();
 	

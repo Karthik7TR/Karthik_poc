@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode;
 
 import java.util.List;
@@ -28,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode.Keyw
 
 @Controller
 public class KeywordCodeController {
-	//private static final Logger log = Logger.getLogger(PubdictionCodeController.class);
+	//private static final Logger log = LogManager.getLogger(PubdictionCodeController.class);
 	
 	private CodeService codeService;
 	private BookDefinitionService bookService;

@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.BufferedReader;
@@ -26,7 +27,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -59,7 +60,7 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  */
 public class TitleMetadataServiceImpl implements TitleMetadataService {
 
-	private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(TitleMetadataServiceImpl.class);
 	private static final String STYLESHEET_ID = "css";
 	//These FilenameFilter instances are de-facto singletons. As there is only ONE instance of TitleMetadataServiceImpl in the Spring Application Context.
 //	private final ImageFilter IMAGE_FILTER = new ImageFilter(); 

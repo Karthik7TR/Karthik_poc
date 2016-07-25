@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.sql.ResultSet;
@@ -7,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Required;
@@ -21,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 public class JobDaoImpl implements JobDao {
 	
-	private static final Logger log = Logger.getLogger(JobDaoImpl.class);
+	private static final Logger log = LogManager.getLogger(JobDaoImpl.class);
 	private static final JobSummaryRowMapper JOB_SUMMARY_ROW_MAPPER = new JobSummaryRowMapper();
 	private static final JobExecutionIdRowMapper JOB_EXECUTION_ID_ROW_MAPPER = new JobExecutionIdRowMapper();
 	private JdbcTemplate jdbcTemplate;
@@ -30,7 +36,7 @@ public class JobDaoImpl implements JobDao {
 	public int getStartedJobCount() {
 		String sql = String.format("select count(*) from BATCH_JOB_EXECUTION where (status = '%s') or (status = '%s')",
 								   BatchStatus.STARTING.toString(), BatchStatus.STARTED.toString());
-		int count = jdbcTemplate.queryForInt(sql);
+		int count = jdbcTemplate.queryForObject(sql, Integer.class);
 		return count;
 	}
 

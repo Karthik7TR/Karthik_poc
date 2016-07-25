@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -18,8 +23,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -28,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 @Table(name = "RENAME_TOC_ENTRY")
 @IdClass(RenameTocEntry.RenameTocEntryPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "RenameTocEntry")
+@XmlRootElement(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "RenameTocEntry")
 public class RenameTocEntry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -36,19 +41,24 @@ public class RenameTocEntry implements Serializable {
 	BookDefinition ebookDefinition;
 
 	@Id
+	@XmlElement(name="tocGuid", required=true)
 	String tocGuid;
 	
 	@Column(name = "OLD_LABEL", length = 1024, nullable=false)
+	@XmlElement(name="oldLabel", required=true)
 	String oldLabel;
 	
 	@Column(name = "NEW_LABEL", length = 1024, nullable=false)
+	@XmlElement(name="newLabel", required=true)
 	String newLabel;
 	
 	@Column(name = "NOTE", length = 512, nullable=false)
+	@XmlElement(name="note", required=true)
 	String note;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable=false)
+	@XmlElement(name="lastUpdated", required=true)
 	Date lastUpdated;
 	
 	public BookDefinition getBookDefinition() {
@@ -59,44 +69,39 @@ public class RenameTocEntry implements Serializable {
 		this.ebookDefinition = bookDefinition;
 	}
 
-	public String getTocGuid() {
-		return tocGuid;
-	}
-
 	public void setTocGuid(String tocGuid) {
 		this.tocGuid = tocGuid;
 	}
-
-	public String getOldLabel() {
-		return oldLabel;
+	public String getTocGuid() {
+		return tocGuid;
 	}
 
 	public void setOldLabel(String oldLabel) {
 		this.oldLabel = oldLabel;
 	}
-
-	public String getNewLabel() {
-		return newLabel;
+	public String getOldLabel() {
+		return oldLabel;
 	}
 
 	public void setNewLabel(String newLabel) {
 		this.newLabel = newLabel;
 	}
-
-	public String getNote() {
-		return note;
+	public String getNewLabel() {
+		return newLabel;
 	}
 
 	public void setNote(String note) {
 		this.note = note;
 	}
-
-	public Date getLastUpdated() {
-		return lastUpdated;
+	public String getNote() {
+		return note;
 	}
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
 	}
 
 	@Transient

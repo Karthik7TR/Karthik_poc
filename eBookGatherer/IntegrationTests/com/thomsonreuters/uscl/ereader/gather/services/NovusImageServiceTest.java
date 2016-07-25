@@ -1,10 +1,14 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -14,7 +18,6 @@ import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class NovusImageServiceTest {
 

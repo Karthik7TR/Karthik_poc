@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
 	// private static final Logger log =
-	// Logger.getLogger(BookDefinitionDaoImpl.class);
+	// LogManager.getLogger(BookDefinitionDaoImpl.class);
 	private SessionFactory sessionFactory;
 
 	public BookDefinitionDaoImpl(SessionFactory sessFactory) {

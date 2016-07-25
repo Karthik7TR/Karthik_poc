@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPr
 
 @Component("editBookDefinitionFormValidator")
 public class UserPreferencesFormValidator extends BaseFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(UserPreferencesFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(UserPreferencesFormValidator.class);
 	
 	private static final int MAXIMUM_CHARACTER_64 = 64;
 	private static final int MAXIMUM_CHARACTER_256 = 256;

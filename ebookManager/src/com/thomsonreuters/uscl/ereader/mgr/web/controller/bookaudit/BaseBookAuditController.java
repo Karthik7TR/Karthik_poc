@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFor
  * Methods common to, and needed by both the BookAuditController and the FilterFormController.
  */
 public abstract class BaseBookAuditController {
-	//private static final Logger log = Logger.getLogger(BaseBookAuditController.class);
+	//private static final Logger log = LogManager.getLogger(BaseBookAuditController.class);
 	protected static final String PAGE_AND_SORT_NAME = "auditPageAndSort";
 	protected EBookAuditService auditService;
 	

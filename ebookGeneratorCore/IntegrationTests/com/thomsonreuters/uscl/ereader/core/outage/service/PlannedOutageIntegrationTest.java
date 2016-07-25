@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.outage.service;
 
 import java.util.Calendar;
@@ -22,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 @ContextConfiguration
 @Transactional
 public class PlannedOutageIntegrationTest {
-	//private static Logger log = Logger.getLogger(PlannedOutageIntegrationTest.class);
+	//private static Logger log = LogManager.getLogger(PlannedOutageIntegrationTest.class);
 	private static final Long OUTAGE_TYPE_ID = 99999L;
 	private static final Date DATE = new Date();
 	private OutageType OUTAGE_TYPE;

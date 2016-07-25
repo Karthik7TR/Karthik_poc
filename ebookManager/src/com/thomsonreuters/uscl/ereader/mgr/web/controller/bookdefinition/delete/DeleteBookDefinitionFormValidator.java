@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 public class DeleteBookDefinitionFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(DeleteBookDefinitionFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(DeleteBookDefinitionFormValidator.class);
 	private JobRequestService jobRequestService;
 	private BookDefinitionLockService bookLockService;
 

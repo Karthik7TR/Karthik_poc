@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 @ContextConfiguration
 @Transactional
 public class CodeServiceIntegrationTest  {
-	private static final Logger log = Logger.getLogger(CodeServiceIntegrationTest.class);
+	private static final Logger log = LogManager.getLogger(CodeServiceIntegrationTest.class);
 	@Autowired
 	private CodeService service;
 	

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc;
 
 import java.net.InetSocketAddress;
@@ -8,7 +13,7 @@ import java.util.StringTokenizer;
 
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 
 @Controller
 public class MiscConfigController {
-	private static final Logger log = Logger.getLogger(MiscConfigController.class);
+	private static final Logger log = LogManager.getLogger(MiscConfigController.class);
 	/** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
 	private List<InetSocketAddress> gathererSocketAddrs;
 	private List<InetSocketAddress> generatorSocketAddrs;

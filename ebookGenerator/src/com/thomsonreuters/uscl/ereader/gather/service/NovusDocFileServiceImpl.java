@@ -1,5 +1,5 @@
 /*
- * Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 import javax.jms.IllegalStateException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
@@ -34,7 +34,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 public class NovusDocFileServiceImpl implements NovusDocFileService {
 	private static String CHARSET = "UTF-8";	// explicitly set the character set
 
-	private static final Logger Log = Logger.getLogger(NovusDocFileServiceImpl.class);
+	private static final Logger Log = LogManager.getLogger(NovusDocFileServiceImpl.class);
 
 	public GatherResponse  fetchDocuments(HashMap<String, Integer> docGuidsMap, File rootCodesWorkbenchLandingStrip, 
 			String cwbBookName,  List<NortFileLocation> fileLocations, File contentDestinationDirectory, 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration threashold="all">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
+		</Console>
+		<RollingFile name="rollingFileAppender" filename="/apps/eBookBuilder/ebookGatherer.log" filepattern="/apps/eBookBuilder/ebookGatherer-${server}.log">
+			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10mb" />
+			</Policies>
+			<DefaultRolloverStrategy max="5" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.thomsonreuters.uscl.ereaderGather" level="debug"
+			additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingFileAppender" />
+		</Logger>
+		<Root level="warn">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingFileAppender" />
+		</Root>
+	</Loggers>
+</Configuration>

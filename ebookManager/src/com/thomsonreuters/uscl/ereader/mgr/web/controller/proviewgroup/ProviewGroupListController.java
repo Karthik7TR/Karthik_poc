@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -63,7 +68,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 	private JobRequestService jobRequestService;
 	private PublishingStatsService publishingStatsService;
 
-	private static final Logger log = Logger.getLogger(ProviewGroupListController.class);
+	private static final Logger log = LogManager.getLogger(ProviewGroupListController.class);
 	// retry parameters
 	private int maxNumberOfRetries = 3;
 	private Validator validator;

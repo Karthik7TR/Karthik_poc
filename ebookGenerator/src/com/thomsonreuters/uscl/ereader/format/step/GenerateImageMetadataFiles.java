@@ -1,13 +1,14 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
@@ -30,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class GenerateImageMetadataFiles extends AbstractSbTasklet {
 	
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(GenerateImageMetadataFiles.class);
+	private static final Logger LOG = LogManager.getLogger(GenerateImageMetadataFiles.class);
 	
 	private GenerateImageMetadataBlockService imgMetaBlockService;
 	

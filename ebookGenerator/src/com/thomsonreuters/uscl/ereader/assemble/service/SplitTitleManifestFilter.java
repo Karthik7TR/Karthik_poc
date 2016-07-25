@@ -1,8 +1,9 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.proview.TocNode;
 public class SplitTitleManifestFilter extends XMLFilterImpl {
 
 	// private static final Logger LOG =
-	// Logger.getLogger(SplitTitleManifestFilter.class);
+	// LogManager.getLogger(SplitTitleManifestFilter.class);
 	private TitleMetadata titleMetadata;
 	Map<String, String> altIdMap = new HashMap<String, String>();
 

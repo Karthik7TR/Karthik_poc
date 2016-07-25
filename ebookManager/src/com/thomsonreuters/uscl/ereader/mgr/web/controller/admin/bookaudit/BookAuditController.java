@@ -1,8 +1,9 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit;
 
 import java.util.List;
@@ -38,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
 public class BookAuditController {
-	//private static final Logger log = Logger.getLogger(BookAuditController.class);
+	//private static final Logger log = LogManager.getLogger(BookAuditController.class);
 	private EBookAuditService auditService;
 	private PublishingStatsService publishingStatsService; 
 	

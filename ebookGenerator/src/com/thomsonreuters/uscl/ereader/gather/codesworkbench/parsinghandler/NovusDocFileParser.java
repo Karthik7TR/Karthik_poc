@@ -1,8 +1,9 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
 import java.io.File;
@@ -25,14 +26,14 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
 public class NovusDocFileParser {
-	private static final Logger Log = Logger.getLogger(NovusDocFileParser.class);
+	private static final Logger Log = LogManager.getLogger(NovusDocFileParser.class);
 	
 	private final static String CHARSET = "UTF-8";	// explicitly set the character set
 	private final static String N_DOCUMENT = "n-document";

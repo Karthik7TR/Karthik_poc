@@ -1,13 +1,15 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseExtractor;
@@ -19,7 +21,7 @@ import org.springframework.web.client.ResponseExtractor;
  *
  */
 public class ProviewResponseExtractor implements ResponseExtractor<String> {
-	private static final Logger LOG = Logger.getLogger(ProviewResponseExtractor.class);
+	private static final Logger LOG = LogManager.getLogger(ProviewResponseExtractor.class);
 	
 	/**
 	 * Logs the ProView HTTP response for publishing operations and returns the response body as a unicode string.

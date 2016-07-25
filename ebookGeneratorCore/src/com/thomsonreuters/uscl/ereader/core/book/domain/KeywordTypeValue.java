@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "KEYWORD_TYPE_VALUES")
 public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue> {
 	// private static final Logger log =
-	// Logger.getLogger(KeywordTypeValue.class);
+	// LogManager.getLogger(KeywordTypeValue.class);
 	private static final long serialVersionUID = 8698248929292091625L;
 
 	private Long id;

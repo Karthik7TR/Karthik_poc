@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.step;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
@@ -45,7 +46,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 public class GenerateTitleMetadata extends AbstractSbTasklet {
 
-	private static final Logger LOG = Logger.getLogger(GenerateTitleMetadata.class);
+	private static final Logger LOG = LogManager.getLogger(GenerateTitleMetadata.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
 	private TitleMetadataService titleMetadataService;
 	

@@ -1,8 +1,9 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -37,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 	@NamedQuery(name = "findEbookAuditByPrimaryKey", query = "select myEbookAudit from EbookAudit myEbookAudit where myEbookAudit.auditId = :auditId") })
 @Table(name = "EBOOK_AUDIT")
 public class EbookAudit implements Serializable {
-	//private static final Logger log = Logger.getLogger(EbookAudit.class);
+	//private static final Logger log = LogManager.getLogger(EbookAudit.class);
 	private static final long serialVersionUID = 2L;
 	
 	// Lowered the Max characters to account for some unicode characters

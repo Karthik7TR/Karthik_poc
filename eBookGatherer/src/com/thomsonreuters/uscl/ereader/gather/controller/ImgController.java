@@ -1,8 +1,13 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +23,7 @@ import com.thomsonreuters.uscl.ereader.gather.services.NovusImgService;
 
 @Controller
 public class ImgController {
-	private static Logger LOG = Logger.getLogger(ImgController.class);
+	private static Logger LOG = LogManager.getLogger(ImgController.class);
 	public NovusImgService novusImgService;
 	
 	public NovusImgService getNovusImgService() {

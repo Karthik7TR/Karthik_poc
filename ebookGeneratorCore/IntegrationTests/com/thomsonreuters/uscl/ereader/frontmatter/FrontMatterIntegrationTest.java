@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.frontmatter;
 
 import java.util.Collection;
@@ -32,7 +37,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 public class FrontMatterIntegrationTest {
-	//private static Logger log = Logger.getLogger(FrontMatterIntegrationTest.class);
+	//private static Logger log = LogManager.getLogger(FrontMatterIntegrationTest.class);
 	private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
 	private static Date UPDATE_DATE = new Date();
 	

@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import java.util.List;
@@ -29,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrar
  * Methods common to, and needed by both the BookLibraryController and the BookLibraryFilterController.
  */
 public abstract class BaseBookLibraryController {
-	//private static final Logger log = Logger.getLogger(BaseBookLibraryController.class);
+	//private static final Logger log = LogManager.getLogger(BaseBookLibraryController.class);
 	public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
 	protected LibraryListService libraryService;
 	protected CodeService codeService;

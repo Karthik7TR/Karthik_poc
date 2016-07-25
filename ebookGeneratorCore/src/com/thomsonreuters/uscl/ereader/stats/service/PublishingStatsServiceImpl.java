@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.Date;
@@ -21,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 public class PublishingStatsServiceImpl implements PublishingStatsService {
 
 	// private static final Logger LOG =
-	// Logger.getLogger(PublishingStatsServiceImpl.class);
+	// LogManager.getLogger(PublishingStatsServiceImpl.class);
 	private PublishingStatsDao publishingStatsDAO;
 
 	@Override

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.ByteArrayInputStream;
@@ -20,8 +25,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.apache.tools.ant.util.FileUtils;
+ import org.apache.tools.ant.util.FileUtils;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -42,7 +46,6 @@ import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 
 public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
-	private static final Logger LOG = Logger.getLogger(TitleManifestFilterTest.class);
 	UuidGenerator uuidGenerator;
 	SAXParserFactory saxParserFactory;
 	SplitTitleManifestFilter splitTitleManifestFilter;
@@ -275,4 +278,3 @@ public class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
 	}
 	
 }
-

@@ -1,29 +1,19 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.text;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 /// <summary>
 /// The citation link extension class will extend the xslt process to support generating a url or flag color text for a given citation/entity.
 /// </summary>
 public class CitationLinkExtensionAdapter
 {
-    private static final Logger LOG = Logger.getLogger(CitationLinkExtensionAdapter.class);
+    private static final Logger LOG = LogManager.getLogger(CitationLinkExtensionAdapter.class);
 
 
     public CitationLinkExtensionAdapter() throws Exception

@@ -1,8 +1,9 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.BufferedReader;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
  */
 public class InternalLinkResolverFilter extends XMLFilterImpl
 {
-    private static final Logger LOG = Logger.getLogger(InternalLinkResolverFilter.class);
+    private static final Logger LOG = LogManager.getLogger(InternalLinkResolverFilter.class);
     private static final String ANCHOR_ELEMENT = "a";
     private static final String HREF = "href";
     private static final Long PUB_NOT_PRESENT = Long.MIN_VALUE;

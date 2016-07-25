@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsF
 @Controller
 public class PublishingStatsController extends BasePublishingStatsController {
 	
-	private static final Logger log = Logger.getLogger(PublishingStatsController.class);
+	private static final Logger log = LogManager.getLogger(PublishingStatsController.class);
 	
 	/**
 	 * Handle initial in-bound HTTP get request to the page.

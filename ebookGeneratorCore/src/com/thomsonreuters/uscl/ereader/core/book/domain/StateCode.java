@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -32,7 +33,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "StateCode")
 public class StateCode implements Serializable {
-	//private static final Logger log = Logger.getLogger(StateCode.class);
+	//private static final Logger log = LogManager.getLogger(StateCode.class);
 	private static final long serialVersionUID = -6419698127062095582L;
 	
 	@Id

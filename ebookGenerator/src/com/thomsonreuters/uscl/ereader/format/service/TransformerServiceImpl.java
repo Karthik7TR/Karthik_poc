@@ -1,8 +1,9 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
@@ -32,7 +33,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -52,7 +53,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  */
 public class TransformerServiceImpl implements TransformerService
 {
-	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 	
 	private static final String START_WRAPPER_TAG = "<Document>" ;
 	private static final String END_WRAPPER_TAG = "</Document>";

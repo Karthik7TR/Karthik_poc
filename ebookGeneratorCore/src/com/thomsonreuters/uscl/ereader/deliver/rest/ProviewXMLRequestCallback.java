@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
@@ -5,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.http.StreamingHttpOutputMessage;
@@ -12,7 +18,7 @@ import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
 
 public class ProviewXMLRequestCallback  implements RequestCallback {
-	private static final Logger LOG = Logger.getLogger(ProviewXMLRequestCallback.class);
+	private static final Logger LOG = LogManager.getLogger(ProviewXMLRequestCallback.class);
 
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";

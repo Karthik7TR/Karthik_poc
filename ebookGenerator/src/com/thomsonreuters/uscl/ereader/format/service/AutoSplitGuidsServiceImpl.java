@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.IOException;
@@ -11,7 +16,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.SAXException;
@@ -30,7 +35,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
 	PublishingStatsService publishingStatsService;
 	EBookAuditService eBookAuditService;
 
-	private static final Logger LOG = Logger.getLogger(AutoSplitGuidsServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(AutoSplitGuidsServiceImpl.class);
 	private Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 
 	public Map<String, String> getSplitGuidTextMap() {

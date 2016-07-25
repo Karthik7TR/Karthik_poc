@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.io.File;
@@ -44,7 +45,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(EditBookDefinitionFormValidator.class);
 	private static final int MAXIMUM_CHARACTER_40 = 40;
 	private static final int MAXIMUM_CHARACTER_64 = 64;
 	private static final int MAXIMUM_CHARACTER_512 = 512;

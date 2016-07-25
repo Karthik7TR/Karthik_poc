@@ -1,8 +1,9 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.frontmatter.service;
 
 import java.io.BufferedWriter;
@@ -20,7 +21,7 @@ import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -51,7 +52,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
  */
 public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, ResourceLoaderAware
 {
-	private static final Logger LOG = Logger.getLogger(CreateFrontMatterServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(CreateFrontMatterServiceImpl.class);
 	private static final String HTML_EXTENSION = ".html";
 	private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
 	private static final String WLN_LOGO_PLACEHOLDER = "er:#EBook_Generator_WestlawNextLogo";

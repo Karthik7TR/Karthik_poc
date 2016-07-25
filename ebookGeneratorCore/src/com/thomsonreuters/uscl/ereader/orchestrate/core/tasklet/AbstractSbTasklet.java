@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
 import java.io.File;
@@ -17,7 +18,7 @@ import java.util.List;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -45,7 +46,7 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
  * This is a specific requirement for eReader.
  */
 public abstract class AbstractSbTasklet implements Tasklet {
-	private static final Logger LOG = Logger.getLogger(AbstractSbTasklet.class);
+	private static final Logger LOG = LogManager.getLogger(AbstractSbTasklet.class);
 	public static final String EBOOK_DEFINITON = "bookDefn";
 	public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
 	public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";

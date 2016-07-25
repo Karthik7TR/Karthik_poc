@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 @Controller
 public class JobInstanceController {
-//	private static final Logger log = Logger.getLogger(JobInstanceController.class);
+//	private static final Logger log = LogManager.getLogger(JobInstanceController.class);
 	private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
 	
 	private JobService jobService;

@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.step;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -45,7 +46,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  */
 public class ArchiveBook extends AbstractSbTasklet {
 
-	private static final Logger log = Logger.getLogger(ArchiveBook.class);
+	private static final Logger log = LogManager.getLogger(ArchiveBook.class);
 	public static final String MAJOR_ARCHIVE_DIR = "major";
 	public static final String MINOR_ARCHIVE_DIR = "minor";
 

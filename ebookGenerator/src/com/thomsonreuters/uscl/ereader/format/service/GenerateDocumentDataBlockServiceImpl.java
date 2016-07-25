@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +11,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -25,7 +26,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServic
 public class GenerateDocumentDataBlockServiceImpl implements
 		GenerateDocumentDataBlockService {
 	
-	private static final Logger LOG = Logger.getLogger(GenerateDocumentDataBlockServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(GenerateDocumentDataBlockServiceImpl.class);
 	private DocMetadataService docMetadataService;
 
 

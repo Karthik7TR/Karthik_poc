@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +26,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.TocService;
 
 public class TocControllerTest {
-	//private static Logger log = Logger.getLogger(TocControllerTest.class);
+	//private static Logger log = LogManager.getLogger(TocControllerTest.class);
     private TocService mockTocService;
     private TocController controller;
     

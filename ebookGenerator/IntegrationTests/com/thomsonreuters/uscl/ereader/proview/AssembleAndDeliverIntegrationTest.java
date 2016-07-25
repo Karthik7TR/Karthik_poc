@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.io.File;
@@ -14,19 +15,16 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl;
-import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataServiceImpl;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
@@ -48,10 +46,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 public class AssembleAndDeliverIntegrationTest {
-	private static final Logger LOG = Logger.getLogger(AssembleAndDeliverIntegrationTest.class);
 	
-	private EBookAssemblyService eBookAssemblyService;
-	private TitleMetadataService titleMetadataService;
 	private ProviewClientImpl proviewClient;
 	private DefaultHttpClient defaultHttpClient;
 	private TitleMetadata titleMetadata;
@@ -71,9 +66,7 @@ public class AssembleAndDeliverIntegrationTest {
 	private static final String CSS_FILENAME = "document.css";
 	
 	private File tempFile;
-	private File eBook;
 	private File eBookDirectory;
-	private File titleXml;
 	private File documentsDirectory;
 	private File assetsDirectory;
 	private File artworkDirectory;
@@ -89,8 +82,8 @@ public class AssembleAndDeliverIntegrationTest {
 		titleId = "regression_test";
 		titleIdFullyQualified = TITLE_ID_PREFIX + titleId;
 		setUpProviewClient();
-		titleMetadataService = new TitleMetadataServiceImpl();
-		eBookAssemblyService = new EBookAssemblyServiceImpl();
+		new TitleMetadataServiceImpl();
+		new EBookAssemblyServiceImpl();
 		setUpTitleMetadata();
 		bootstrapEbookDirectory();
 	}
@@ -106,7 +99,7 @@ public class AssembleAndDeliverIntegrationTest {
 		tempFile = File.createTempFile("pirate", "ship");
 		eBookDirectory = new File(tempFile.getParentFile(), "eBook");
 		eBookDirectory.mkdirs();
-		titleXml = new File(eBookDirectory, "title.xml");
+		new File(eBookDirectory, "title.xml");
 		documentsDirectory = new File(eBookDirectory, "documents");
 		artworkDirectory = new File(eBookDirectory, "artwork");
 		assetsDirectory = new File(eBookDirectory, "assets");
@@ -114,7 +107,7 @@ public class AssembleAndDeliverIntegrationTest {
 		artworkDirectory.mkdirs();
 		assetsDirectory.mkdirs();
 		
-		eBook = new File(tempFile.getParentFile(), titleId + ".gz");
+		new File(tempFile.getParentFile(), titleId + ".gz");
 		
 		FileOutputStream codeOfConductOutputStream = new FileOutputStream(new File(documentsDirectory, codeOfConduct.getSrc()));
 		FileOutputStream plunderingOutputStream = new FileOutputStream(new File(documentsDirectory, plundering.getSrc()));
@@ -146,7 +139,7 @@ public class AssembleAndDeliverIntegrationTest {
 				new UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
 		requestFactory.setHttpClient(defaultHttpClient);
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
-		restTemplate.getMessageConverters().add(new ProviewMessageConverter());
+		restTemplate.getMessageConverters().add(new ProviewMessageConverter<>());
 		restTemplate.setErrorHandler(new ProviewHttpResponseErrorHandler());
 		proviewClient.setRestTemplate(restTemplate);
 		

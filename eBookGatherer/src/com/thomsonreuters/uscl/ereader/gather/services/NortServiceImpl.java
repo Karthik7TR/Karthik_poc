@@ -1,5 +1,5 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
@@ -53,7 +53,7 @@ public class NortServiceImpl implements NortService {
 
 	private NovusFactory novusFactory;
 
-	private static final Logger LOG = Logger.getLogger(NortServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(NortServiceImpl.class);
 	private static final int DOCCOUNT = 0;
 	private static final int NODECOUNT = 1;
 	private static final int SKIPCOUNT = 2;

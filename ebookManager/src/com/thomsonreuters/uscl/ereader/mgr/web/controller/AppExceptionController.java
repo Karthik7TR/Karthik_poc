@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
  */
 @Controller
 public class AppExceptionController {
-	// private static final Logger log = Logger.getLogger(AppExceptionController.class);
+	// private static final Logger log = LogManager.getLogger(AppExceptionController.class);
 	
 	@RequestMapping(value=WebConstants.MVC_APP_EXCEPTION, method = RequestMethod.GET)
 	public ModelAndView handleException(HttpServletRequest request, HttpServletResponse response)

@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.group.edit.EditGroupDe
 
 @Component("editGroupDefinitionFormValidator")
 public class EditGroupDefinitionFormValidator extends BaseFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(EditGroupDefinitionFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(EditGroupDefinitionFormValidator.class);
 	private static final int MAXIMUM_CHARACTER_1024 = 1024;
 
 

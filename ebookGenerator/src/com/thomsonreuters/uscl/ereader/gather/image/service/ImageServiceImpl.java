@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.io.File;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKe
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageServiceImpl implements ImageService {
-	 private static final Logger log = Logger.getLogger(ImageServiceImpl.class);
+	 private static final Logger log = LogManager.getLogger(ImageServiceImpl.class);
 	
 	
 	/** The DAO for persisting image meta-data */

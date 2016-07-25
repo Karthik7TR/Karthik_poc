@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.step;
 
 import static org.junit.Assert.assertTrue;
@@ -17,8 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 public class GenerateSplitTocXMLTest {
 
-	private static Logger LOG = Logger.getLogger(GenerateSplitTocXMLTest.class);
+	private static Logger LOG = LogManager.getLogger(GenerateSplitTocXMLTest.class);
 	private static final String FINE_NAME = "split_toc_InputFile.xml";
 
 	GenerateSplitTocTask generateSplitTocTask;

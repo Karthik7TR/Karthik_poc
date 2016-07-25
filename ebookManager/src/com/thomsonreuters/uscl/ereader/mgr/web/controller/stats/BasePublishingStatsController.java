@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.util.List;
@@ -27,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  * Methods common to, and needed by both the PublishingStatsController and the PublishingStatsFilterController.
  */
 public abstract class BasePublishingStatsController {
-	//private static final Logger log = Logger.getLogger(BasePublishingStatsController.class);
+	//private static final Logger log = LogManager.getLogger(BasePublishingStatsController.class);
 	protected static final String PAGE_AND_SORT_NAME = "publishingStatsPageAndSort";
 	protected PublishingStatsService publishingStatsService;
 	

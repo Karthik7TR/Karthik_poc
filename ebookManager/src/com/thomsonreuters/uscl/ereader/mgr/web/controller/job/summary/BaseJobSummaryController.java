@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.Collections;
@@ -27,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
  * Methods common to, and needed by both the JobSummaryController and the FilterFormController.
  */
 public abstract class BaseJobSummaryController {
-	//private static final Logger log = Logger.getLogger(BaseJobSummaryController.class);
+	//private static final Logger log = LogManager.getLogger(BaseJobSummaryController.class);
 	protected JobService jobService;
 	protected OutageService outageService;
 	

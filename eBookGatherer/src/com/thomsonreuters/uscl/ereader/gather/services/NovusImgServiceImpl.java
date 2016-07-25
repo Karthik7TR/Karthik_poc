@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.BufferedReader;
@@ -17,7 +22,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.xml.sax.InputSource;
@@ -41,7 +46,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 	/** Milliseconds to sleep between each meta-data/bytes fetch */
 	private long sleepIntervalBetweenImages;
 
-	private static final Logger Log = Logger.getLogger(NovusImgServiceImpl.class);	
+	private static final Logger Log = LogManager.getLogger(NovusImgServiceImpl.class);	
 
 	int missingImageCount;
 	int missingMetadataCount;

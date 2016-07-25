@@ -1,5 +1,5 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 
 public class ManagerServiceImpl implements ManagerService {
-	private static final Logger log = Logger.getLogger(ManagerServiceImpl.class);
+	private static final Logger log = LogManager.getLogger(ManagerServiceImpl.class);
 	
 	private static final String GENERATOR_REST_SYNC_MISC_CONFIG_TEMPLATE =
 							"http://%s:%d/%s/"+CoreConstants.URI_SYNC_MISC_CONFIG;

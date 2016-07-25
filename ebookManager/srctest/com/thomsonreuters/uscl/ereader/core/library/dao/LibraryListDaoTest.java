@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.library.dao;
 
 import java.util.ArrayList;
@@ -9,7 +14,6 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDaoImpl;
 import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListRowMapper;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
@@ -21,8 +25,7 @@ public class LibraryListDaoTest {
 	private static final Integer EXPECTED_NUMBER_BOOKS = 1;
 	private LibraryListDaoImpl dao;
 	private JdbcTemplate mockJdbcTemplate;
-	
-	
+
 	@Before
 	public void setUp() {
 		this.mockJdbcTemplate = EasyMock.createMock(JdbcTemplate.class);
@@ -35,29 +38,33 @@ public class LibraryListDaoTest {
 	public void testFindBookDefinitions() {
 		LibraryListFilter filter = new LibraryListFilter();
 		LibraryListSort sort = new LibraryListSort();
-		
-		EasyMock.expect(mockJdbcTemplate.query(EasyMock.anyObject(String.class), EasyMock.anyObject(LibraryListRowMapper.class), new Object[]{})).andReturn(EXPECTED_LIBRARY_LIST);
+
+		EasyMock.expect(mockJdbcTemplate.query(EasyMock.anyObject(String.class),
+				EasyMock.anyObject(LibraryListRowMapper.class), new Object[] {})).andReturn(EXPECTED_LIBRARY_LIST);
 		EasyMock.replay(mockJdbcTemplate);
-		
+
 		List<LibraryList> actualList = dao.findBookDefinitions(filter, sort);
 		Assert.assertNotNull(actualList);
 		Assert.assertEquals(EXPECTED_LIBRARY_LIST, actualList);
-		
+
 		EasyMock.verify(mockJdbcTemplate);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCountNumberOfBookDefinitions() {
 		LibraryListFilter filter = new LibraryListFilter();
-		
-		EasyMock.expect(mockJdbcTemplate.queryForInt(EasyMock.anyObject(String.class), new Object[]{})).andReturn(EXPECTED_NUMBER_BOOKS);
+
+		EasyMock.expect(mockJdbcTemplate.queryForObject(EasyMock.anyObject(String.class),
+				EasyMock.anyObject(Object[].class), EasyMock.anyObject(String.class.getClass())))
+				.andReturn(EXPECTED_NUMBER_BOOKS);
 		EasyMock.replay(mockJdbcTemplate);
-		
+
 		Integer actual = dao.numberOfBookDefinitions(filter);
-		
+
 		Assert.assertEquals(EXPECTED_NUMBER_BOOKS, actual);
-		
+
 		EasyMock.verify(mockJdbcTemplate);
 	}
-	
+
 }

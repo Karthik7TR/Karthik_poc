@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.IOException;
@@ -11,7 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -27,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
 
 public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
 
-	private static final Logger LOG = Logger.getLogger(SplitBookTocParseServiceImpl.class);	
+	private static final Logger LOG = LogManager.getLogger(SplitBookTocParseServiceImpl.class);	
 	
 	
 

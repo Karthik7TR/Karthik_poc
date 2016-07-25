@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.io.BufferedWriter;
@@ -11,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 @Transactional
 public class AltIDFileCreationUtil {
 
-	private static Logger LOG = Logger.getLogger(AltIDFileCreationUtil.class);
+	private static Logger LOG = LogManager.getLogger(AltIDFileCreationUtil.class);
 
 	@Autowired
 	protected DocMetadataService documentMetadataService;

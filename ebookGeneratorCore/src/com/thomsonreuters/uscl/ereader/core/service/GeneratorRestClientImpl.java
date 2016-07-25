@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.service;
 
 import java.net.URL;
@@ -15,7 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 
 public class GeneratorRestClientImpl implements GeneratorRestClient {
-	//private static final Logger log = Logger.getLogger(GeneratorRestServiceClientImpl.class);
+	//private static final Logger log = LogManager.getLogger(GeneratorRestServiceClientImpl.class);
 	
 	private static final String GENERATOR_REST_STOP_JOB_URL_PATTERN =
 							"{context}/service/stop/job/{jobExecutionId}";

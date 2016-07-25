@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.stub;
 
 import java.util.Date;
@@ -13,7 +18,7 @@ import org.springframework.batch.item.ExecutionContext;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 
 public class StubTasklet extends AbstractSbTasklet {
-//	private static final Logger log = Logger.getLogger(StubTasklet.class);
+//	private static final Logger log = LogManager.getLogger(StubTasklet.class);
 
 	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		StepContext stepContext = chunkContext.getStepContext();

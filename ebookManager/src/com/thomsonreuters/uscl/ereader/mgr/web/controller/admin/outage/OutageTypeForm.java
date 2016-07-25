@@ -1,14 +1,15 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 
 public class OutageTypeForm {
-	//private static final Logger log = Logger.getLogger(OutageTypeForm.class);
+	//private static final Logger log = LogManager.getLogger(OutageTypeForm.class);
 	public static final String FORM_NAME = "outageTypeForm";
 	
 	private Long outageTypeId;

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.ArrayList;
@@ -17,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 
 public class JobServiceImpl implements JobService {
 	
-	//private static final Logger log = Logger.getLogger(JobServiceImpl.class);
+	//private static final Logger log = LogManager.getLogger(JobServiceImpl.class);
 	private JobDao dao;
 	private JobExplorer jobExplorer;
 	

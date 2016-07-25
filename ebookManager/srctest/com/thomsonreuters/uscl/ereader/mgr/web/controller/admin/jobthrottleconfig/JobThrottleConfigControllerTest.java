@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig;
 
 import static org.junit.Assert.assertEquals;
@@ -83,7 +84,7 @@ public class JobThrottleConfigControllerTest {
 		request.setParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), String.valueOf(config.getCoreThreadPoolSize()));
 		request.setParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), String.valueOf(config.isStepThrottleEnabled()));
 		request.setParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
-		request.setParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrotttleStepMaxJobs()));
+		request.setParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), String.valueOf(config.getThrottleStepMaxJobs()));
 		
 		InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
 		List<String> stepNames = Arrays.asList("a", "b", "c");

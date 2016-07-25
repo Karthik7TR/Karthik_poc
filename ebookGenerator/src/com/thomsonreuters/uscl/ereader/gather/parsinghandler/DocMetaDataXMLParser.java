@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.parsinghandler;
 
 import java.io.File;
@@ -10,7 +15,7 @@ import java.util.Date;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -20,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 
 public class DocMetaDataXMLParser extends DefaultHandler {
-	private static final Logger LOG = Logger.getLogger(DocMetaDataXMLParser.class);
+	private static final Logger LOG = LogManager.getLogger(DocMetaDataXMLParser.class);
 	
 	private final static String MD_ROOT_ID = "n-metadata";
 	private final static String MD_UUID = "md.uuid";

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,7 +34,7 @@ import com.thomsonreuters.uscl.ereader.util.Ssh;
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 public class ServerAccessServiceImpl implements ServerAccessService {
-	private static final Logger log = Logger.getLogger(ServerAccessServiceImpl.class);
+	private static final Logger log = LogManager.getLogger(ServerAccessServiceImpl.class);
 	private static enum Operation {START, STOP};
 	
 	private JobCleanupService jobCleanupService;

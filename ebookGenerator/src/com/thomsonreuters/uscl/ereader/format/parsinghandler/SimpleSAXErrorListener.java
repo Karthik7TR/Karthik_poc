@@ -1,14 +1,15 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.TransformerException;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 /**
  * Error Listener that can be used by any SAX transformer.
@@ -17,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class SimpleSAXErrorListener implements ErrorListener
 {
-	private static final Logger LOG = Logger.getLogger(SimpleSAXErrorListener.class);
+	private static final Logger LOG = LogManager.getLogger(SimpleSAXErrorListener.class);
 
 	@Override
 	public void error(TransformerException exception)

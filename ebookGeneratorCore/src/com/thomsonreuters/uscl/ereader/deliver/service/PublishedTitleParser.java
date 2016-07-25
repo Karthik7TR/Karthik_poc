@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -15,7 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -40,7 +40,7 @@ public class PublishedTitleParser {
 	 *         is the title id.
 	 */
 	public Map<String, ProviewTitleContainer> process(String xml) {
-		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
+		final Logger LOG = LogManager.getLogger(PublishedTitleParser.class);
 
 		try {
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();

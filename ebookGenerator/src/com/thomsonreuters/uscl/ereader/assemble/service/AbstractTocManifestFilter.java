@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.File;
@@ -6,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -22,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 
 public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
 
-	private static final Logger LOG = Logger.getLogger(AbstractTocManifestFilter.class);
+	private static final Logger LOG = LogManager.getLogger(AbstractTocManifestFilter.class);
 
 	public static final String URI = "";
 	public static final String TITLE_ELEMENT = "title";

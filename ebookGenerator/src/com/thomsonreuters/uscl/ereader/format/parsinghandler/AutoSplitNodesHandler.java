@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.IOException;
@@ -15,7 +20,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -94,7 +99,7 @@ public class AutoSplitNodesHandler extends DefaultHandler {
 		this.determinedPartSize = determinedPartSize;
 	}
 
-	private static final Logger LOG = Logger.getLogger(AutoSplitNodesHandler.class);
+	private static final Logger LOG = LogManager.getLogger(AutoSplitNodesHandler.class);
 
 	private TableOfContents tableOfContents = new TableOfContents();
 

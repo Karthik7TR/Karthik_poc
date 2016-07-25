@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.main;
 
 import org.springframework.stereotype.Controller;
@@ -9,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class AdminController {
-	//private static final Logger log = Logger.getLogger(AdminController.class);
+	//private static final Logger log = LogManager.getLogger(AdminController.class);
 
 	/**
 	 * Handle initial in-bound HTTP get request to the page.

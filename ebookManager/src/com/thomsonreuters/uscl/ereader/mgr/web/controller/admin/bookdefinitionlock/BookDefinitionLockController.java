@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -18,7 +23,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class BookDefinitionLockController {
-	//private static final Logger log = Logger.getLogger(BookDefinitionLockController.class);
+	//private static final Logger log = LogManager.getLogger(BookDefinitionLockController.class);
 	
 	private BookDefinitionLockService bookLockService;
 	

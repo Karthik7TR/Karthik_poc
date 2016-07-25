@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -35,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 public class GenerateImageMetadataBlockServiceImpl implements
 		GenerateImageMetadataBlockService {
 	
-	private static final Logger LOG = Logger.getLogger(GenerateImageMetadataBlockServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(GenerateImageMetadataBlockServiceImpl.class);
 
 	private ImageService imgService;
 

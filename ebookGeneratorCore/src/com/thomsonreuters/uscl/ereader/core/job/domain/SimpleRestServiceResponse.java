@@ -1,4 +1,12 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.job.domain;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -7,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Encapsulates a generic response from a REST service provider.
  * This object is marshalled and becomes the body of the REST response back to the REST client.
  */
+@XmlRootElement(name="simpleRestServiceResponse")
 public class SimpleRestServiceResponse {
 	
 	private Long id;
@@ -46,12 +55,15 @@ public class SimpleRestServiceResponse {
 	public String getMessage() {
 		return message;
 	}
+	@XmlElement(name="id", required=false)
 	public void setId(Long id) {
 		this.id = id;
 	}
+	@XmlElement(name="success", required=true)
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
+	@XmlElement(name="message", required=false)
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -59,5 +71,29 @@ public class SimpleRestServiceResponse {
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleRestServiceResponse other = (SimpleRestServiceResponse) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (success != other.success)
+			return false;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
+		return true;
 	}
 }

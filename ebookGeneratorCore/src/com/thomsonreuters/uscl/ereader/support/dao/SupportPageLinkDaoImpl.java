@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -22,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
  */
 
 public class SupportPageLinkDaoImpl implements SupportPageLinkDao {
-	//private static Logger log = Logger.getLogger(UserPreferenceDaoImpl.class);
+	//private static Logger log = LogManager.getLogger(UserPreferenceDaoImpl.class);
 	private SessionFactory sessionFactory;
 
 	public SupportPageLinkDaoImpl(SessionFactory hibernateSessionFactory) {

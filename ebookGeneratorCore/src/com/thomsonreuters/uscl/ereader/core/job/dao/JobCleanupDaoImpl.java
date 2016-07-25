@@ -1,13 +1,15 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.job.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -32,7 +34,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao {
 	private static final String EXIT_STATUS_UNKNOWN = ExitStatus.UNKNOWN.getExitCode();
 	private static final String EXIT_STATUS_EXECUTING = ExitStatus.EXECUTING.getExitCode();
 	
-	private static final Logger log = Logger.getLogger(JobCleanupDaoImpl.class);
+	private static final Logger log = LogManager.getLogger(JobCleanupDaoImpl.class);
 	private SessionFactory sessionFactory;
 	
 	

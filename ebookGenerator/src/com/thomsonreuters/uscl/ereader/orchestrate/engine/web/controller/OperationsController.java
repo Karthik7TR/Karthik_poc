@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.Date;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.job.flow.FlowJob;
 import org.springframework.batch.core.launch.JobExecutionNotRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
@@ -42,7 +43,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
  */
 @Controller
 public class OperationsController {
-	private static final Logger log = Logger.getLogger(OperationsController.class);
+	private static final Logger log = LogManager.getLogger(OperationsController.class);
 	private EngineService engineService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private AppConfigService appConfigService;

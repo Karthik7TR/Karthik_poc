@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/oxm	 http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+           http://www.springframework.org/schema/tx 	 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
            
 
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
@@ -21,26 +23,25 @@
       </property>
 	</bean>
 
-	 <bean id="jibxDocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
-        <property name="encoding" value="UTF-8"/>
-     </bean>	
-	 <bean id="jibxTocRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
-        <property name="encoding" value="UTF-8"/>
-     </bean>
-     	 <bean id="jibxNortRequestMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest"/>
-        <property name="encoding" value="UTF-8"/>
-     </bean>
-	<bean id="jibxResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse"/>
-        <property name="encoding" value="UTF-8"/>
-    </bean>
+	 <oxm:jaxb2-marshaller id="jaxbDocRequestMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.gather.domain.GatherDocRequest"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="jaxbTocRequestMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="jaxbNortRequestMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="jaxbResponseMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse"/>
+	</oxm:jaxb2-marshaller>
 
 	<bean id="docRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jibxDocRequestMarshaller" />
-        <property name="unmarshaller" ref="jibxDocRequestMarshaller" />
+        <property name="marshaller" ref="jaxbDocRequestMarshaller" />
+        <property name="unmarshaller" ref="jaxbDocRequestMarshaller" />
         <property name="supportedMediaTypes">
             <list>
                 <value>text/xml</value>
@@ -49,8 +50,8 @@
         </property>
     </bean>	
 	<bean id="tocRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jibxTocRequestMarshaller" />
-        <property name="unmarshaller" ref="jibxTocRequestMarshaller" />
+        <property name="marshaller" ref="jaxbTocRequestMarshaller" />
+        <property name="unmarshaller" ref="jaxbTocRequestMarshaller" />
         <property name="supportedMediaTypes">
             <list>
                 <value>text/xml</value>
@@ -59,8 +60,8 @@
         </property>
     </bean>
     <bean id="nortRequestMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jibxNortRequestMarshaller" />
-        <property name="unmarshaller" ref="jibxNortRequestMarshaller" />
+        <property name="marshaller" ref="jaxbNortRequestMarshaller" />
+        <property name="unmarshaller" ref="jaxbNortRequestMarshaller" />
         <property name="supportedMediaTypes">
             <list>
                 <value>text/xml</value>
@@ -69,8 +70,8 @@
         </property>
     </bean>
     <bean id="responseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jibxResponseMarshaller" />
-        <property name="unmarshaller" ref="jibxResponseMarshaller" />
+        <property name="marshaller" ref="jaxbResponseMarshaller" />
+        <property name="unmarshaller" ref="jaxbResponseMarshaller" />
     </bean>
     
 	

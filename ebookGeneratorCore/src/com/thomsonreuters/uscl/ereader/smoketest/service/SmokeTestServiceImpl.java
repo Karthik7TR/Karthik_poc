@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.smoketest.service;
 
 import java.io.File;
@@ -30,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
  */
 public class SmokeTestServiceImpl implements SmokeTestService
 {
-	//private static final Logger log = Logger.getLogger(SmokeTestServiceImpl.class);
+	//private static final Logger log = LogManager.getLogger(SmokeTestServiceImpl.class);
 	public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
 	
 	private SmokeTestDao dao;

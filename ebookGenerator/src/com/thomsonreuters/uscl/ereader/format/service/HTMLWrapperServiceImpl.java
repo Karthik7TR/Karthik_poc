@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  */
 public class HTMLWrapperServiceImpl implements HTMLWrapperService
 {
-	private static final Logger LOG = Logger.getLogger(TransformerServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService;

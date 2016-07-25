@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.BufferedOutputStream;
@@ -11,11 +12,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarOutputStream;
 
@@ -31,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException
  */
 public class EBookAssemblyServiceImpl implements EBookAssemblyService
 {
-	private static final Logger LOG = Logger.getLogger(EBookAssemblyServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(EBookAssemblyServiceImpl.class);
 	
 	/**
 	 * Assembles an eBook given an eBookDirectory where the files reside and a file to stream the output to.

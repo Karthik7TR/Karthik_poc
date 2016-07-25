@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.NortService;
 
 public class NortControllerTest {
-	//private static Logger log = Logger.getLogger(NortControllerTest.class);
+	//private static Logger log = LogManager.getLogger(NortControllerTest.class);
     private NortService mockNortService;
     private NortController controller;
     

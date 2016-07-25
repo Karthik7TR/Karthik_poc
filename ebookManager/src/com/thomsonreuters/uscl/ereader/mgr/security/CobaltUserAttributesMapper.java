@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.security;
 
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ import javax.naming.directory.Attributes;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapRdn;
@@ -27,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
 public class CobaltUserAttributesMapper implements AttributesMapper {
-	private static final Logger log = Logger.getLogger(CobaltUserAttributesMapper.class);
+	private static final Logger log = LogManager.getLogger(CobaltUserAttributesMapper.class);
 	private static final String ATTR_COMMON_NAME = "cn";
 	private static final String ATTR_EMAIL_ADDR = "mail";
 	private static final String ATTR_FIRST_NAME = "givenName";

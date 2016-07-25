@@ -1,8 +1,13 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import java.net.UnknownHostException;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpC
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 
 public class GeneratorMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
-	private static Logger log = Logger.getLogger(GeneratorMiscConfigSyncService.class);
+	private static Logger log = LogManager.getLogger(GeneratorMiscConfigSyncService.class);
 
 	private CloseableAuthenticationHttpClientFactory httpClientFactory;
 	private ProviewClient proviewClient;

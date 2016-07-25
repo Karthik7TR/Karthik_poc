@@ -22,28 +22,28 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 @Entity
-@Table(name="OUTAGE_TYPE")
+@Table(name = "OUTAGE_TYPE")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/outage/domain", name = "OutageType")
 public class OutageType implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(name = "OUTAGE_TYPE_ID", nullable = false)
 	@Id
-	@SequenceGenerator(name="outageTypeIdSequence", sequenceName="OUTAGE_TYPE_ID_SEQ")
-	@GeneratedValue(generator="outageTypeIdSequence")
+	@SequenceGenerator(name = "outageTypeIdSequence", sequenceName = "OUTAGE_TYPE_ID_SEQ")
+	@GeneratedValue(generator = "outageTypeIdSequence")
 	private Long id;
-	
-	@Column(name = "SYSTEM", nullable = false, length=128)
+
+	@Column(name = "SYSTEM", nullable = false, length = 128)
 	private String system;
-	
-	@Column(name = "SUB_SYSTEM", nullable = false, length=128)
+
+	@Column(name = "SUB_SYSTEM", nullable = false, length = 128)
 	private String subSystem;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
-	
+
 	@OneToMany
 	@Basic(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "OUTAGE_TYPE_ID", referencedColumnName = "OUTAGE_TYPE_ID") })
@@ -97,6 +97,10 @@ public class OutageType implements Serializable {
 		return result;
 	}
 
+	/*
+	 * A more extensive .equals method is nested in the outageEquals(..) method
+	 * in JAXBMarshallingTest.java
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

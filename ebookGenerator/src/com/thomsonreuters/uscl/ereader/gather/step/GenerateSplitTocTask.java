@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.step;
 
 import java.io.File;
@@ -12,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepContribution;
@@ -35,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 public class GenerateSplitTocTask extends AbstractSbTasklet {
 	// TODO: Use logger API to get Logger instance to job-specific appender.
-	//private static final Logger LOG = Logger.getLogger(GenerateSplitTocTask.class);
+	//private static final Logger LOG = LogManager.getLogger(GenerateSplitTocTask.class);
 	private PublishingStatsService publishingStatsService;
 
 	private SplitBookTocParseService splitBookTocParseService;

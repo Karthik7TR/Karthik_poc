@@ -1,15 +1,16 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -42,7 +43,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 	
     private HashSet<String> nameAnchors;
 	private HashMap<String, HashSet<String>> targetAnchors;
-	private static final Logger LOG = Logger.getLogger(HTMLAnchorFilter.class);
+	private static final Logger LOG = LogManager.getLogger(HTMLAnchorFilter.class);
 
 	private String currentGuid;
 	

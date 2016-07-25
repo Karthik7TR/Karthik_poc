@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.controller;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +18,6 @@ import org.junit.Assert;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -26,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.services.DocService;
 
 public class DocControllerTest {
-	//private static Logger log = Logger.getLogger(DocControllerTest.class);
+	//private static Logger log = LogManager.getLogger(DocControllerTest.class);
     private DocService mockDocService;
     private DocController controller;
     

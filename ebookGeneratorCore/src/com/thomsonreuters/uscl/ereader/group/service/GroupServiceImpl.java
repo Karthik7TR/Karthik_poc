@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
@@ -35,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupI
 
 public class GroupServiceImpl implements GroupService {
 
-	private static final Logger LOG = Logger.getLogger(GroupServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
 	private GroupDefinitionParser proviewGroupParser = new GroupDefinitionParser();
 	private ProviewClient proviewClient;
 	private List<String> pilotBooksNotFound; 

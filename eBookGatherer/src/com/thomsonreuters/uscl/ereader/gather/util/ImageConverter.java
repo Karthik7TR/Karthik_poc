@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.util;
 
 import java.awt.image.BufferedImage;
@@ -6,14 +11,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 import com.sun.media.jai.codec.ByteArraySeekableStream;
 import com.sun.media.jai.codec.SeekableStream;
 
 public class ImageConverter {	
 
-	private static final Logger Log = Logger.getLogger(ImageConverter.class);
+	private static final Logger Log = LogManager.getLogger(ImageConverter.class);
 	
 	public static void convertByteImg(byte[] imgBytes,String outputImagePath, String formatName) throws Exception {
 		

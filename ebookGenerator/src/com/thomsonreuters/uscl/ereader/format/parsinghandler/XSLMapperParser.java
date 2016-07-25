@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.File;
@@ -17,7 +18,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -31,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
 public class XSLMapperParser extends DefaultHandler {
-	private static final Logger LOG = Logger.getLogger(XSLMapperParser.class);
+	private static final Logger LOG = LogManager.getLogger(XSLMapperParser.class);
 	
 	private static final String CONTENT_TYPE = "ContentType";
 	private static final String COLLECTION_GROUP = "CollectionGroup";

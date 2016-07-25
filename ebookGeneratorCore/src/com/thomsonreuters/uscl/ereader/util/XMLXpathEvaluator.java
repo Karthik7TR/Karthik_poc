@@ -1,8 +1,9 @@
 /*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.util;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -38,7 +39,7 @@ import org.xml.sax.SAXException;
  * Note that the entity resolver is disabled during parsing
  */
 public class XMLXpathEvaluator {
-    private static final Logger logger = Logger.getLogger(XMLXpathEvaluator.class);
+    private static final Logger logger = LogManager.getLogger(XMLXpathEvaluator.class);
     private XPath xpath;
     private Document domDocument;
     

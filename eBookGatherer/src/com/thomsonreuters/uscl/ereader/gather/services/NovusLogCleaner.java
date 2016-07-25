@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import java.io.File;
@@ -5,11 +10,11 @@ import java.io.FileFilter;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public class NovusLogCleaner {
-	private static final Logger log = Logger.getLogger(NovusLogCleaner.class);
+	private static final Logger log = LogManager.getLogger(NovusLogCleaner.class);
 	
 	private static final String NOVUS_LOG_FOLDER = "/home/asadmin/";
 	

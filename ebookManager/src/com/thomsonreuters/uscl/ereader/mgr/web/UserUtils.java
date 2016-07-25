@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -11,13 +11,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 
 public class UserUtils {
-	private static final Logger log = Logger.getLogger(UserUtils.class);
+	private static final Logger log = LogManager.getLogger(UserUtils.class);
 	
 	public enum SecurityRole { ROLE_SUPERUSER, ROLE_PUBLISHER_PLUS, ROLE_PUBLISHER, ROLE_SUPPORT, ROLE_GUEST, ROLE_EDITOR };
 

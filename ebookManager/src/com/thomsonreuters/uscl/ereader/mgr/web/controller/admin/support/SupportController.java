@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support;
 
 import javax.validation.Valid;
@@ -23,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.support.service.SupportPageLinkService;
 
 @Controller
 public class SupportController {
-	//private static final Logger log = Logger.getLogger(SupportController.class);
+	//private static final Logger log = LogManager.getLogger(SupportController.class);
 	
 	private SupportPageLinkService service;
 	protected Validator validator;

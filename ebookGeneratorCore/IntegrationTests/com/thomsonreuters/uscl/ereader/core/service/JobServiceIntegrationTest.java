@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.core.service;
 
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 import org.junit.Assert;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
@@ -31,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 @ContextConfiguration
 @Transactional
 public class JobServiceIntegrationTest  {
-	private static final Logger log = Logger.getLogger(JobServiceIntegrationTest.class);
+	private static final Logger log = LogManager.getLogger(JobServiceIntegrationTest.class);
 	@Autowired
 	private JobService service;
 	

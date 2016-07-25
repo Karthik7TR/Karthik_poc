@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Required;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThro
  * throttled) then the specified job will be run.
  */
 public class JobRunQueuePoller {
-	private static final Logger log = Logger.getLogger(JobRunQueuePoller.class);
+	private static final Logger log = LogManager.getLogger(JobRunQueuePoller.class);
 
 	private EngineService engineService;
 	private JobStartupThrottleService jobStartupThrottleService;

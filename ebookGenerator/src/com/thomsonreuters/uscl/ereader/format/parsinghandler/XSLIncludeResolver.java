@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.File;
@@ -22,7 +23,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -36,7 +37,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  */
 public class XSLIncludeResolver implements URIResolver 
 {
-	private static final Logger LOG = Logger.getLogger(XSLIncludeResolver.class);
+	private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
 	private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL ;

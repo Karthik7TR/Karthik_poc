@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.task;
 
 import static org.junit.Assert.assertTrue;
@@ -16,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,8 +29,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.format.service.SplitBookTocParseServiceImpl;
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -47,7 +50,7 @@ public class GenerateSplitTaskTest {
 	GenerateSplitTocTask generateSplitTocTask;
 	
 	
-	private static Logger LOG = Logger.getLogger(GenerateSplitTaskTest.class);
+	private static Logger LOG = LogManager.getLogger(GenerateSplitTaskTest.class);
 	
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();

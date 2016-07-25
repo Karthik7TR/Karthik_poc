@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete;
 
 import javax.validation.Valid;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class DeleteBookDefinitionController {
-	//private static final Logger log = Logger.getLogger(DeleteBookDefinitionController.class);
+	//private static final Logger log = LogManager.getLogger(DeleteBookDefinitionController.class);
 
 	private BookDefinitionService bookDefinitionService;
 	private EBookAuditService auditService;

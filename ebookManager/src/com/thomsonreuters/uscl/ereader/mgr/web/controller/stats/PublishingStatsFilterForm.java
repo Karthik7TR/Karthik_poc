@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.text.ParseException;
@@ -24,7 +25,7 @@ public class PublishingStatsFilterForm {
 	public static final String FORM_NAME = "publishingStatsFilterForm";
 	public enum FilterCommand { SEARCH, RESET };
 	
-	//private static final Logger log = Logger.getLogger(PublishingStatsFilterForm.class);
+	//private static final Logger log = LogManager.getLogger(PublishingStatsFilterForm.class);
 	
 	private String titleId;
 	private String proviewDisplayName;

@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
  * A DisplayTag PaginatedList implementation for paging through the part lists of publishing stats.
  */
 public class PublishingStatsPaginatedList implements PaginatedList {
-	//private static final Logger log = Logger.getLogger(PublishingStatsPaginatedList.class);
+	//private static final Logger log = LogManager.getLogger(PublishingStatsPaginatedList.class);
 	
 	private List<PublishingStats> partialList;
 	private int pageNumber;		// Which page number of data is this

@@ -1,10 +1,15 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.stats;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashSet;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +43,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 public class StatsServiceIntegrationTest {
-	private static Logger LOG = Logger.getLogger(StatsServiceIntegrationTest.class);
+	private static Logger LOG = LogManager.getLogger(StatsServiceIntegrationTest.class);
 	private Timestamp UPDATE_DATE = getCurrentTimeStamp();
 	private static Long JOB_INSTANCE_ID = (long) 1234567890;
 	private static String BOOK_TITLE = "uscl/an/TEST";

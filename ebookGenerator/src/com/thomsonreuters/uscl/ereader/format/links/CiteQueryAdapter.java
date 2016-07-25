@@ -1,11 +1,12 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.links;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.trgr.cobalt.util.urlbuilder.CiteQuery;
@@ -25,7 +26,7 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
  */
 public class CiteQueryAdapter
 {
-    private static final Logger LOG = Logger.getLogger(CiteQueryAdapter.class);
+    private static final Logger LOG = LogManager.getLogger(CiteQueryAdapter.class);
     private static String HOSTNAME;
     private static String MUD_PARAMETERS_RS;
     private static String MUD_PARAMETERS_VR;

@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 
 import java.text.ParseException;
@@ -25,7 +26,7 @@ public class BookAuditFilterForm {
 	public enum FilterCommand { SEARCH, RESET };
 	public enum Action {DELETE, CREATE, EDIT, RESTORE};
 	
-	//private static final Logger log = Logger.getLogger(FilterForm.class);
+	//private static final Logger log = LogManager.getLogger(FilterForm.class);
 	
 	private String titleId;
 	private String proviewDisplayName;

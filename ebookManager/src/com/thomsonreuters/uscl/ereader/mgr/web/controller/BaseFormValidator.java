@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ import org.springframework.validation.Errors;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 
 public abstract class BaseFormValidator {
-	//private static final Logger log = Logger.getLogger(EditBookDefinitionFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(EditBookDefinitionFormValidator.class);
 
 	protected void checkMaxLength(Errors errors, int maxValue ,String text, String fieldName,  Object[]  args) {
 		if (StringUtils.isNotEmpty(text)) {

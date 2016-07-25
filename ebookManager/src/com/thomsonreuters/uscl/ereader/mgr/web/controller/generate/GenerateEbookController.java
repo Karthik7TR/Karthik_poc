@@ -13,7 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
@@ -47,7 +47,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
 @Controller
 public class GenerateEbookController {
-	private static final Logger log = Logger.getLogger(GenerateEbookController.class);
+	private static final Logger log = LogManager.getLogger(GenerateEbookController.class);
 
 	private static String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
 

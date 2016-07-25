@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 
 public class BookDefinitionLockForm {
-	//private static final Logger log = Logger.getLogger(BookDefinitionLockForm.class);
+	//private static final Logger log = LogManager.getLogger(BookDefinitionLockForm.class);
 	public static final String FORM_NAME = "bookDefinitionLockForm";
 	
 	private Long bookDefinitionLockId;

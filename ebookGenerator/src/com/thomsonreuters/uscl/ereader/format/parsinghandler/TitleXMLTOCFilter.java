@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.BufferedReader;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -28,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  */
 public class TitleXMLTOCFilter extends XMLFilterImpl{
 	
-	private static final Logger LOG = Logger.getLogger(TitleXMLTOCFilter.class);
+	private static final Logger LOG = LogManager.getLogger(TitleXMLTOCFilter.class);
 	private Map<String, String> anchors;
 	
 	public TitleXMLTOCFilter(File anchorMap) throws EBookFormatException

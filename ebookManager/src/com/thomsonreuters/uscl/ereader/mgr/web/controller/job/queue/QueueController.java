@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 
 import java.util.Collections;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
  */
 @Controller
 public class QueueController {
-	private static final Logger log = Logger.getLogger(QueueController.class);
+	private static final Logger log = LogManager.getLogger(QueueController.class);
 	private JobRequestService jobRequestService;
 	private OutageService outageService;
 	private Validator validator;

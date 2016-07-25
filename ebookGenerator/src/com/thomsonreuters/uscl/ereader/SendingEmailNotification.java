@@ -1,6 +1,9 @@
-/**
- * 
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.FileInputStream;
@@ -13,7 +16,7 @@ import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
@@ -37,7 +40,7 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
  */
 public class SendingEmailNotification extends AbstractSbTasklet {
 	
-	private static final Logger log = Logger.getLogger(SendingEmailNotification.class);
+	private static final Logger log = LogManager.getLogger(SendingEmailNotification.class);
 	private PublishingStatsService publishingStatsService;
 	private AutoSplitGuidsService autoSplitGuidsService;
 	private DocMetadataService docMetadataService;

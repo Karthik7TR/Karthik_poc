@@ -1,8 +1,9 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.BufferedWriter;
@@ -31,7 +32,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -66,7 +67,7 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  */
 public class HTMLTransformerServiceImpl implements HTMLTransformerService
 {
-	private static final Logger LOG = Logger.getLogger(HTMLTransformerServiceImpl.class);
+	private static final Logger LOG = LogManager.getLogger(HTMLTransformerServiceImpl.class);
 	
 	private FileHandlingHelper fileHandlingHelper;
 	private ImageService imgService;

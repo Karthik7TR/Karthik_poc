@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.services;
 
 import static org.junit.Assert.assertTrue;
@@ -12,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,7 +47,7 @@ public class TocServiceTest {
 	private TOCNode mockTocNode;
 	private TocServiceImpl tocService;
 	private File tocDir = null;
-	private static Logger LOG = Logger.getLogger(TocServiceTest.class);
+	private static Logger LOG = LogManager.getLogger(TocServiceTest.class);
 	private NovusUtility mockNovusUtility;
 	private ExcludeDocument mockExcludeDocument;
 	private GatherResponse gatherResponse;
@@ -240,8 +245,8 @@ public class TocServiceTest {
 			// Temporary file will clean up after itself.
 		}
 		LOG.debug(gatherResponse);
-		assertTrue(gatherResponse.docCount == 4);
-		assertTrue(gatherResponse.nodeCount == 7);
+		assertTrue(gatherResponse.getDocCount() == 4);
+		assertTrue(gatherResponse.getNodeCount() == 7);
 		
 		String tocFileContents = readFileAsString(tocFile);
 		LOG.debug("tocFileContents =" + tocFileContents);
@@ -388,7 +393,7 @@ public class TocServiceTest {
 			EasyMock.replay(mockTocNode);
 			EasyMock.replay(mockNovusUtility);		
 			try {
-				ArrayList<ExcludeDocument> excludeDocuments = new ArrayList();
+				ArrayList<ExcludeDocument> excludeDocuments = new ArrayList<ExcludeDocument>();
 				mockExcludeDocument.setDocumentGuid("UUID_1a");
 				excludeDocuments.add(mockExcludeDocument);
 				gatherResponse = tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, excludeDocuments, null, IS_FINAL_STAGE, null, 0);
@@ -400,8 +405,8 @@ public class TocServiceTest {
 				// Temporary file will clean up after itself.
 			}
 			LOG.debug(gatherResponse);
-			assertTrue(gatherResponse.docCount == 3);
-			assertTrue(gatherResponse.nodeCount == 7);
+			assertTrue(gatherResponse.getDocCount() == 3);
+			assertTrue(gatherResponse.getNodeCount() == 7);
 			
 			String tocFileContents = readFileAsString(tocFile);
 			LOG.debug("tocFileContents =" + tocFileContents);

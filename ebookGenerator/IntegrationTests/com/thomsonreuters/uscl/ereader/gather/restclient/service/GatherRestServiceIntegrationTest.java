@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -10,9 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,7 +28,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class GatherRestServiceIntegrationTest  {
-	private static Logger log = Logger.getLogger(GatherRestServiceIntegrationTest.class);
+	private static Logger log = LogManager.getLogger(GatherRestServiceIntegrationTest.class);
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	

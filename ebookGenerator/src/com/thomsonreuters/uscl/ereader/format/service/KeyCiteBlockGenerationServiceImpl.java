@@ -1,8 +1,9 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.ByteArrayInputStream;
@@ -11,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -26,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
  */
 public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGenerationService
 {
-    private static final Logger LOG = Logger.getLogger(KeyCiteBlockGenerationServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(KeyCiteBlockGenerationServiceImpl.class);
     private DocMetadataService docMetadataService;
     private String hostname;
     private String mudParamRS;

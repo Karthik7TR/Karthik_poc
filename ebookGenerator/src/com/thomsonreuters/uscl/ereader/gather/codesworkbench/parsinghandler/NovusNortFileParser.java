@@ -1,8 +1,9 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
 import java.io.File;
@@ -26,7 +27,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -41,7 +42,7 @@ import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.XpathStack;
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
 public class NovusNortFileParser extends DefaultHandler {
-	private static final Logger LOG = Logger.getLogger(NovusNortFileParser.class);
+	private static final Logger LOG = LogManager.getLogger(NovusNortFileParser.class);
 
 	private static final String N_LOAD = "/n-load";
 	private static final String RELATIONSHIP = N_LOAD + "/n-relationship"; 

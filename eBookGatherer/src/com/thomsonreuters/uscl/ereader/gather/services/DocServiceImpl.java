@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -15,7 +15,7 @@ import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
@@ -39,7 +39,7 @@ public class DocServiceImpl implements DocService {
 
 	private static final int META_RETRY_COUNTER = 0;
 
-	private static final Logger Log = Logger.getLogger(DocServiceImpl.class);
+	private static final Logger Log = LogManager.getLogger(DocServiceImpl.class);
 
 	private NovusFactory novusFactory;
 	

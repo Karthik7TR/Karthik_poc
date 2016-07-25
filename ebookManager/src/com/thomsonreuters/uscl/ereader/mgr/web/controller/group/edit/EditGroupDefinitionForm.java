@@ -21,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 
 public class EditGroupDefinitionForm {
-	//private static final Logger log = Logger.getLogger(EditGroupDefinitionForm.class);
+	//private static final Logger log = LogManager.getLogger(EditGroupDefinitionForm.class);
 	public static final String FORM_NAME = "editGroupDefinitionForm";
 	
 	public enum Version {

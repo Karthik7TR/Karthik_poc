@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
  * Methods common to, and needed by both the ProviewAuditController and the ProviewAuditFilterController.
  */
 public abstract class BaseProviewAuditController {
-	//private static final Logger log = Logger.getLogger(BaseProviewAuditController.class);
+	//private static final Logger log = LogManager.getLogger(BaseProviewAuditController.class);
 	protected static final String PAGE_AND_SORT_NAME = "proviewAuditPageAndSort";
 	protected ProviewAuditService auditService;
 	

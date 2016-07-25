@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +13,7 @@ import org.springframework.validation.Validator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 
 public class JobThrottleConfigFormValidator extends BaseFormValidator implements Validator {
-	//private static final Logger log = Logger.getLogger(JobThrottleConfigFormValidator.class);
+	//private static final Logger log = LogManager.getLogger(JobThrottleConfigFormValidator.class);
 
 	@SuppressWarnings("rawtypes")
 	@Override

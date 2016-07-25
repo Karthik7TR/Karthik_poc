@@ -1,5 +1,5 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment"%>
-<%@page import="org.apache.log4j.Level"%>
+<%@page import="org.apache.log4j.Level" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigForm"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"%>
@@ -9,7 +9,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 <form:form action="<%=WebConstants.MVC_ADMIN_MISC %>"
 		   commandName="<%=MiscConfigForm.FORM_NAME%>" method="post">

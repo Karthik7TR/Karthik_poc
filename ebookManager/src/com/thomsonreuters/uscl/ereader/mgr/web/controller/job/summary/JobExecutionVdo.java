@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
  * messy to calculate directly within the JSP. 
  */
 public class JobExecutionVdo {
-	//private static final Logger log = Logger.getLogger(JobExecutionVdo.class);
+	//private static final Logger log = LogManager.getLogger(JobExecutionVdo.class);
 	private static final Comparator<StepExecution> STEP_START_TIME_COMPARATOR = new StepStartTimeComparator();
 	/** Comparator to sort lists of properties into ascending key order */
 	private static final Comparator<Map.Entry<String,?>> MAP_ENTRY_KEY_COMPARATOR = new MapEntryKeyComparator();

@@ -1,13 +1,12 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,7 +38,6 @@ public class InitializeTaskTest {
 	
 	private static final Long JOB_ID = System.currentTimeMillis();
 	private static final String TITLE_ID = "JunitTestTitleId";
-	private static final Long EBOOK_DEFINITION_ID_VAL = (long) 1234;
 	private static final String DATE_STAMP = new SimpleDateFormat("yyyyMMdd").format(new Date());
 	private InitializeTask task;
 	private StepContribution stepContrib;

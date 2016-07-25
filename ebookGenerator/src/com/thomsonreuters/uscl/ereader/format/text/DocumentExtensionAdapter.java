@@ -1,8 +1,9 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.text;
 
 import java.io.UnsupportedEncodingException;
@@ -17,7 +18,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.WordUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 /**
  * This class serves as an adapter to ensure that any calls to DocumentExtension, during the
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class DocumentExtensionAdapter
 {
-    private static final Logger LOG = Logger.getLogger(DocumentExtensionAdapter.class);
+    private static final Logger LOG = LogManager.getLogger(DocumentExtensionAdapter.class);
 
 
     public DocumentExtensionAdapter() throws Exception

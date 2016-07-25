@@ -1,8 +1,17 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.job.domain;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+@XmlRootElement(name="jobThrottleConfig")
 public class JobThrottleConfig {
 	
 	/** Typesafe representation of the keys used to represent the throttling configuration */
@@ -15,7 +24,7 @@ public class JobThrottleConfig {
 	/** The step name at which the throttle is applied */
 	private String throttleStepName = null;
 	/** The limit of jobs up to the specified throttle step name */
-	private int throtttleStepMaxJobs = 2;
+	private int throttleStepMaxJobs = 2;
 
 	public JobThrottleConfig() {
 		super();
@@ -35,7 +44,7 @@ public class JobThrottleConfig {
 	 */
 	public void copy(JobThrottleConfig config) {
 		setAllProperties(config.getCoreThreadPoolSize(), config.isStepThrottleEnabled(),
-						 config.getThrottleStepName(), config.getThrotttleStepMaxJobs());
+						 config.getThrottleStepName(), config.getThrottleStepMaxJobs());
 	}
 
 	private synchronized void setAllProperties(int coreThreadPoolSize, boolean stepThrottleEnabled,
@@ -43,7 +52,7 @@ public class JobThrottleConfig {
 		setCoreThreadPoolSize(coreThreadPoolSize);
 		setStepThrottleEnabled(stepThrottleEnabled);
 		setThrottleStepName(throttleStepName);
-		setThrotttleStepMaxJobs(throtttleStepMaxJobs);
+		setThrottleStepMaxJobs(throtttleStepMaxJobs);
 	}
 
 	public int getCoreThreadPoolSize() {
@@ -55,20 +64,24 @@ public class JobThrottleConfig {
 	public String getThrottleStepName() {
 		return throttleStepName;
 	}
-	public int getThrotttleStepMaxJobs() {
-		return throtttleStepMaxJobs;
+	public int getThrottleStepMaxJobs() {
+		return throttleStepMaxJobs;
 	}
+	@XmlElement(name="coreThreadPoolSize", required=true)
 	public void setCoreThreadPoolSize(int coreThreadPoolSize) {
 		this.coreThreadPoolSize = coreThreadPoolSize;
 	}
+	@XmlElement(name="stepThrottleEnabled", required=true)
 	public void setStepThrottleEnabled(boolean stepThrottleEnabled) {
 		this.stepThrottleEnabled = stepThrottleEnabled;
 	}
+	@XmlElement(name="throttleStepName", required=true)
 	public void setThrottleStepName(String throttleStepName) {
 		this.throttleStepName = throttleStepName;
 	}
-	public void setThrotttleStepMaxJobs(int throtttleStepMaxJobs) {
-		this.throtttleStepMaxJobs = throtttleStepMaxJobs;
+	@XmlElement(name="throttleStepMaxJobs", required=true)
+	public void setThrottleStepMaxJobs(int throttleStepMaxJobs) {
+		this.throttleStepMaxJobs = throttleStepMaxJobs;
 	}
 
 	public String toString() {
@@ -84,7 +97,7 @@ public class JobThrottleConfig {
 		result = prime
 				* result
 				+ ((throttleStepName == null) ? 0 : throttleStepName.hashCode());
-		result = prime * result + throtttleStepMaxJobs;
+		result = prime * result + throttleStepMaxJobs;
 		return result;
 	}
 
@@ -106,7 +119,7 @@ public class JobThrottleConfig {
 				return false;
 		} else if (!throttleStepName.equals(other.throttleStepName))
 			return false;
-		if (throtttleStepMaxJobs != other.throtttleStepMaxJobs)
+		if (throttleStepMaxJobs != other.throttleStepMaxJobs)
 			return false;
 		return true;
 	}

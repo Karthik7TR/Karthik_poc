@@ -1,8 +1,13 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
@@ -16,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
  *
  */
 public class ManagerAppConfigLoader implements AppConfigLoader {
-	private static Logger log = Logger.getLogger(ManagerAppConfigLoader.class);
+	private static Logger log = LogManager.getLogger(ManagerAppConfigLoader.class);
 	
 	private AppConfigService appConfigService;
 	private MiscConfigSyncService miscConfigSyncService;

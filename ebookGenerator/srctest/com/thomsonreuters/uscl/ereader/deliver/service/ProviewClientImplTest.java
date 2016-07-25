@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import static org.junit.Assert.assertTrue;
@@ -32,7 +33,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFact
  */
 public class ProviewClientImplTest 
 {
-	//private static final Logger LOG = Logger.getLogger(ProviewClientImplTest.class);
+	//private static final Logger LOG = LogManager.getLogger(ProviewClientImplTest.class);
 	
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
 	private static InetAddress PROVIEW_HOST;

@@ -1,14 +1,15 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.format.links;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 import com.trgr.cobalt.util.urlbuilder.Container;
 import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
@@ -31,7 +32,7 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
  */
 public class UrlBuilderAdapter
 {
-    private static Logger LOG = Logger.getLogger(UrlBuilderAdapter.class);
+    private static Logger LOG = LogManager.getLogger(UrlBuilderAdapter.class);
     private static UrlBuilder URL_BUILDER;
     private static String HOSTNAME;
     private static String MUD_PARAMETERS_RS;

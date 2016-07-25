@@ -39,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
 @Controller
 public class EditGroupController {
-	//private static final Logger log = Logger.getLogger(EditGroupController.class);
+	//private static final Logger log = LogManager.getLogger(EditGroupController.class);
 	private BookDefinitionService bookDefinitionService;
 	private GroupService groupService;
 	private EBookAuditService auditService;

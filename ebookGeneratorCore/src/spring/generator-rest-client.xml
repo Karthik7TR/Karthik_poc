@@ -1,96 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- 
-	Beans needed by all clients to the ebookGenerator REST service operations.
-	See the generator OperationsController for the service implementations.
- -->
- 
+<!-- Beans needed by all clients to the ebookGenerator REST service operations. 
+	See the generator OperationsController for the service implementations. -->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						   http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 	<!-- MARSHALLERS -->
 	
-	<bean id="jobThrottleConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
-        <property name="encoding" value="UTF-8"/>
-    </bean>
-    <bean id="miscConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"/>
-        <property name="encoding" value="UTF-8"/>
-    </bean>
-    <bean id="outageMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage"/>
-        <property name="encoding" value="UTF-8"/>
-    </bean>
-    <bean id="simpleResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-        <property name="targetClass" value="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse"/>
-        <property name="encoding" value="UTF-8"/>
-    </bean>
+	<oxm:jaxb2-marshaller id="jobThrottleConfigMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="miscConfigMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="outageMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage"/>
+	</oxm:jaxb2-marshaller>
+	
+	<oxm:jaxb2-marshaller id="simpleResponseMarshaller">
+		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse"/>
+	</oxm:jaxb2-marshaller>
+	
+	<!-- bean id="jobThrottleConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+		<property name="targetClass"
+			value="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	<bean id="miscConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+		<property name="targetClass"
+			value="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	<bean id="outageMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+		<property name="targetClass"
+			value="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage" />
+		<property name="encoding" value="UTF-8" />
+	</bean>
+	<bean id="simpleResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
+		<property name="targetClass"
+			value="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse" />
+		<property name="encoding" value="UTF-8" />
+	</bean-->
 
 	<!-- MESSAGE CONVERTERS -->
-	 
-	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
-	<bean id="jobThrottleConfigMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jobThrottleConfigMarshaller" />
-        <property name="unmarshaller" ref="jobThrottleConfigMarshaller" />
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/xml</value>
-                <value>application/xml</value>
-            </list>
-        </property>
-    </bean>
- 	<bean id="miscConfigMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="miscConfigMarshaller" />
-        <property name="unmarshaller" ref="miscConfigMarshaller" />
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/xml</value>
-                <value>application/xml</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="outageMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="outageMarshaller" />
-        <property name="unmarshaller" ref="outageMarshaller" />
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/xml</value>
-                <value>application/xml</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="simpleResponseMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-    	<property name="marshaller" ref="simpleResponseMarshaller" />
-        <property name="unmarshaller" ref="simpleResponseMarshaller" />
-    </bean>
-    
-    <!-- VIEWS -->
-    
-    <bean id ="simpleResponseView" class="org.springframework.web.servlet.view.xml.MarshallingView" >
-      <property name="marshaller" ref="simpleResponseMarshaller" />
-      <property name="modelKey" value="simpleResponse"/>
-      <property name="contentType" value="text/xml"/>
-  	</bean>
-    
-    <!-- REST Template for making REST requests to the ebookGenerator REST service endpoints -->
-    
-	<bean id="generatorRestTemplate" class="org.springframework.web.client.RestTemplate">
-      <property name="messageConverters">
-        <list>
-          <ref bean="stringHttpMessageConverter"/>
-          <ref bean="jobThrottleConfigMessageConverter"/>
-          <ref bean="miscConfigMessageConverter"/>
-          <ref bean="simpleResponseMessageConverter"/>
-          <ref bean="outageMessageConverter"/>
-        </list>
-      </property>
+
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter" />
+	<bean id="jobThrottleConfigMessageConverter"
+		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="marshaller" ref="jobThrottleConfigMarshaller" />
+		<property name="unmarshaller" ref="jobThrottleConfigMarshaller" />
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/xml</value>
+				<value>application/xml</value>
+			</list>
+		</property>
 	</bean>
-  		  
+	<bean id="miscConfigMessageConverter"
+		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="marshaller" ref="miscConfigMarshaller" />
+		<property name="unmarshaller" ref="miscConfigMarshaller" />
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/xml</value>
+				<value>application/xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="outageMessageConverter"
+		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="marshaller" ref="outageMarshaller" />
+		<property name="unmarshaller" ref="outageMarshaller" />
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/xml</value>
+				<value>application/xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="simpleResponseMessageConverter"
+		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="marshaller" ref="simpleResponseMarshaller" />
+		<property name="unmarshaller" ref="simpleResponseMarshaller" />
+	</bean>
+
+	<!-- VIEWS -->
+
+	<bean id="simpleResponseView"
+		class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<property name="marshaller" ref="simpleResponseMarshaller" />
+		<property name="modelKey" value="simpleResponse" />
+		<property name="contentType" value="text/xml" />
+	</bean>
+
+	<!-- REST Template for making REST requests to the ebookGenerator REST service 
+		endpoints -->
+
+	<bean id="generatorRestTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringHttpMessageConverter" />
+				<ref bean="jobThrottleConfigMessageConverter" />
+				<ref bean="miscConfigMessageConverter" />
+				<ref bean="simpleResponseMessageConverter" />
+				<ref bean="outageMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

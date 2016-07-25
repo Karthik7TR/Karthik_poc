@@ -15,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -41,7 +42,7 @@ public class ProviewGroupsParser {
 	 *         is the group id.
 	 */
 	public Map<String, ProviewGroupContainer> process(String xml) {
-		final Logger LOG = Logger.getLogger(PublishedTitleParser.class);
+		final Logger LOG = LogManager.getLogger(ProviewGroupsParser.class);
 
 		try {
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();

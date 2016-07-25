@@ -1,8 +1,9 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.assemble.service;
 
 import java.io.ByteArrayInputStream;
@@ -18,7 +19,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Serializer;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Difference;
@@ -46,7 +46,6 @@ import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
  */
 public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 
-	private static final Logger LOG = Logger.getLogger(TitleMetadataServiceImplTest.class);
 	
 	private TitleMetadataServiceImpl titleMetadataService;
 	

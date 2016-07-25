@@ -1,5 +1,5 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -9,7 +9,10 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -17,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 
+@XmlRootElement(name="gatherTocRequest", namespace="com.thomsonreuters.uscl.ereader.gather.domain")
 public class GatherTocRequest {
 
 	private String guid;
@@ -73,13 +77,17 @@ public class GatherTocRequest {
 		return tocFile;
 	}
 
+	@XmlElement(name="collectionName", required=true)
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
-
+	
+	@XmlElement(name="guid", required=true)
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
+	
+	@XmlElement(name="tocFile", required=true)
 	public void setTocFile(File tocFile) {
 		this.tocFile = tocFile;
 	}
@@ -132,7 +140,8 @@ public class GatherTocRequest {
 	public ArrayList<ExcludeDocument> getExcludeDocuments() {
 		return excludeDocuments;
 	}
-
+	
+	@XmlElementWrapper(name="excludeDocument", required=false)
 	public void setExcludeDocuments(ArrayList<ExcludeDocument> excludeDocuments) {
 		this.excludeDocuments = excludeDocuments;
 	}
@@ -141,6 +150,7 @@ public class GatherTocRequest {
 		return renameTocEntries;
 	}
 
+	@XmlElementWrapper(name="renameTocEntry", required=false)
 	public void setRenameTocEntries(ArrayList<RenameTocEntry> renameTocEntries) {
 		this.renameTocEntries = renameTocEntries;
 	}
@@ -148,7 +158,7 @@ public class GatherTocRequest {
 	public boolean isFinalStage() {
 		return isFinalStage;
 	}
-
+	@XmlElement(name="isFinalStage", required=true)
 	public void setFinalStage(boolean isFinalStage) {
 		this.isFinalStage = isFinalStage;
 	}

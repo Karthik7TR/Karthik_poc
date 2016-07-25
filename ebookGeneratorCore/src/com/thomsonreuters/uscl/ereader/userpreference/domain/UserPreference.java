@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.userpreference.domain;
 
 import java.io.Serializable;
@@ -17,12 +22,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 
 @Entity
 @Table(name = "USER_PREFERENCE")
 public class UserPreference implements Serializable {
-	private static Logger log = Logger.getLogger(UserPreference.class);
+	private static Logger log = LogManager.getLogger(UserPreference.class);
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "USER_NAME", length = 1024, nullable = false)

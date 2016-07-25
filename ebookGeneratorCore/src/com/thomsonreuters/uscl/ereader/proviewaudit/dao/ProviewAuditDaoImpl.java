@@ -1,12 +1,11 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
 
 package com.thomsonreuters.uscl.ereader.proviewaudit.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +21,6 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditFilter;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort.SortProperty;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 /**
  * DAO to manage ProviewAudit entities.

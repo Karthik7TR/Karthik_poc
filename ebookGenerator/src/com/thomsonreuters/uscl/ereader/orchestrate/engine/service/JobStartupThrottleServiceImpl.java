@@ -1,14 +1,15 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -28,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.job.service.AppConfigService;
  */
 public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService{
 	
-	private static final Logger log = Logger.getLogger(JobStartupThrottleServiceImpl.class);
+	private static final Logger log = LogManager.getLogger(JobStartupThrottleServiceImpl.class);
 	
 	public JobExplorer jobExplorer;
 	public JobRepository jobRepository;
@@ -68,7 +69,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 
 		}
 		if ((runningJobExecutions != null) &&
-			(runningJobExecutions.size() >= jobThrottleConfig.getThrotttleStepMaxJobs())) {
+			(runningJobExecutions.size() >= jobThrottleConfig.getThrottleStepMaxJobs())) {
 			/**
 			 * we found that for some reason jobExplorer.findRunningJobExecutions
 			 * can return even failed jobs . so to get actual number of jobs running we are iterating 
@@ -96,7 +97,7 @@ public class JobStartupThrottleServiceImpl implements  JobStartupThrottleService
 					}
 				}
 			}
-			if(jobNotDoneWithKeyStep < jobThrottleConfig.getThrotttleStepMaxJobs()){
+			if(jobNotDoneWithKeyStep < jobThrottleConfig.getThrottleStepMaxJobs()){
 				jobPullFlag = true;
 			}else{
 				jobPullFlag = false;

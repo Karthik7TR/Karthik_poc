@@ -1,8 +1,9 @@
 /*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
+
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
  * A DisplayTag PaginatedList implementation for paging through a list of job run requests.
  */
 public class QueuePaginatedList<SortProperty> implements PaginatedList {
-	//private static final Logger log = Logger.getLogger(JobPaginatedList.class);
+	//private static final Logger log = LogManager.getLogger(JobPaginatedList.class);
 	
 	private List<JobRequest> partialList;
 	private int fullListSize;

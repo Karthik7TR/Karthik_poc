@@ -1,13 +1,15 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -23,7 +25,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException
  */
 public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
 
-	private static final Logger LOG = Logger.getLogger(ProviewHttpResponseErrorHandler.class);
+	private static final Logger LOG = LogManager.getLogger(ProviewHttpResponseErrorHandler.class);
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.client.ResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)

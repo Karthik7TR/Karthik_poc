@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.core.outage.domain;
 
 import java.io.Serializable;
@@ -16,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -23,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 
 @Entity
+@XmlRootElement(name="outage")
 @Table(name="PLANNED_OUTAGE")
 public class PlannedOutage implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -74,6 +82,9 @@ public class PlannedOutage implements Serializable {
 	@Transient
 	private Operation operation;
 
+	/*
+	 * a more extensive equals method exists in JAXBMarshallingTest, but this should be sufficient
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -162,11 +173,12 @@ public class PlannedOutage implements Serializable {
 	public void setAllClearEmailSent(boolean allClearEmailSent) {
 		this.allClearEmailSent = ( (allClearEmailSent) ? "Y" : "N");
 	}
-
+	
+	@XmlElement(name="endTime", required=false)
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-
+	@XmlElement(name="id", required=true)
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -187,7 +199,8 @@ public class PlannedOutage implements Serializable {
 	public void setOutageType(OutageType outageType) {
 		this.outageType = outageType;
 	}
-
+	
+	@XmlElement(name="reason", required=false)
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
@@ -195,7 +208,7 @@ public class PlannedOutage implements Serializable {
 	public void setServersImpacted(String serversImpacted) {
 		this.serversImpacted = serversImpacted;
 	}
-
+	@XmlElement(name="startTime", required=false)
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}

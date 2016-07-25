@@ -1,8 +1,9 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.gather.step;
 
 import java.io.BufferedReader;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class GenerateDocAndMetadataTask extends AbstractSbTasklet
 {
 	//TODO: Use logger API to get Logger instance to job-specific appender.
-	private static final Logger LOG = Logger.getLogger(GenerateDocAndMetadataTask.class);
+	private static final Logger LOG = LogManager.getLogger(GenerateDocAndMetadataTask.class);
 	private DocMetaDataGuidParserService docMetaDataParserService;
 	private PublishingStatsService publishingStatsService;
 	private NovusDocFileService novusDocFileService;

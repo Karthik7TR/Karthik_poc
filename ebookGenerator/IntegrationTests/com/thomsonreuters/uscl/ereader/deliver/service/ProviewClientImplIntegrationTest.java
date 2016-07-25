@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
 import static org.junit.Assert.assertTrue;
@@ -14,7 +15,7 @@ import java.net.InetAddress;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,16 +35,11 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFact
  */
 public class ProviewClientImplIntegrationTest 
 {
-	private static final Logger LOG = Logger.getLogger(ProviewClientImplIntegrationTest.class);
+	private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 	
 	private static final String PROVIEW_DOMAIN_PREFIX = "trp0002-14:9008";
 	private String getTitlesUriTemplate = "/v1/titles/uscl/all";
 	private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
-	private String validateTitleUriTemplate = "";
-
-	private static final String PROVIEW_USERNAME = "publisher";
-	private static final String PROVIEW_PASSWORD = "f9R_zBq37a";
-	
 	private static final String PROVIEW_INVALID_USERNAME = "YARR";
 	private static final String PROVIEW_INVALID_PASSWORD = "PIRATES!";
 	

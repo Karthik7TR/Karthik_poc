@@ -1,8 +1,9 @@
 /*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
+
 package com.thomsonreuters.uscl.ereader;
 
 import java.io.File;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 import javax.jms.IllegalStateException;
 
-import org.apache.log4j.Logger;
+ import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -40,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  *
  */
 public class InitializeTask extends AbstractSbTasklet {
-	private static final Logger log = Logger.getLogger(InitializeTask.class);
+	private static final Logger log = LogManager.getLogger(InitializeTask.class);
 	
 	private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
 

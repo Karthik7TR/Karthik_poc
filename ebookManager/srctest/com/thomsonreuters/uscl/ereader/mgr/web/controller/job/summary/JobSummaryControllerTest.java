@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
 import static org.junit.Assert.assertNotNull;
@@ -38,7 +43,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecuti
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 
 public class JobSummaryControllerTest {
-	//private static final Logger log = Logger.getLogger(JobSummaryControllerTest.class);
+	//private static final Logger log = LogManager.getLogger(JobSummaryControllerTest.class);
 	public static final int JOB_EXEC_ID_COUNT = 50;
 	private JobSummaryController controller;
 	private MockHttpServletRequest request;

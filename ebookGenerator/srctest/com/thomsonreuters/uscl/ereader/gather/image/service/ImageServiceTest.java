@@ -1,3 +1,8 @@
+/*
+ * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited
+ */
 package com.thomsonreuters.uscl.ereader.gather.image.service;
 
 import java.util.Collections;
@@ -17,7 +22,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKe
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageServiceTest {
-	//private static final Logger log = Logger.getLogger(ImageServiceTest.class);
+	//private static final Logger log = LogManager.getLogger(ImageServiceTest.class);
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	private static final Long JOB_INSTANCE_ID = 1965l;
@@ -44,7 +49,7 @@ public class ImageServiceTest {
 		imgMetadataInfo.setDimUnit(stringValue);
 		imgMetadataInfo.setDocGuid(DOC_GUID);
 		imgMetadataInfo.setDpi(longValue);
-		imgMetadataInfo.setGuid(stringValue);
+		imgMetadataInfo.setImgGuid(stringValue);
 		imgMetadataInfo.setHeight(longValue);
 		imgMetadataInfo.setSize(longValue);
 		imgMetadataInfo.setMimeType("img");
