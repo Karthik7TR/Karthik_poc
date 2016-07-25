@@ -1,114 +1,112 @@
 ﻿<?xml version="1.0"?>
 <project name="ebookGeneratorCore_Compile_Script" default="normal_build" basedir="..\">
-  <property environment="env" />
-  <property file="ant/ant-global.properties" />
-  <property name="IsCoverageBuild" value="false"/>
-  <property name="DisplayCopiedFilesInWar" value="false"/>
-  <property name="dir.ebookGenerator" value="../ebookGenerator"/>
-  <property name="dir.ebookGeneratorCore" value="../ebookGeneratorCore"/>
-  <property name="dir.webContent" value="WebContent"/>
+	<property environment="env" />
+	<property file="ant/ant-global.properties" />
+	<property name="IsCoverageBuild" value="false" />
+	<property name="DisplayCopiedFilesInWar" value="false" />
+	<property name="dir.ebookGenerator" value="../ebookGenerator" />
+	<property name="dir.ebookGeneratorCore" value="../ebookGeneratorCore" />
+	<property name="dir.webContent" value="WebContent" />
 
-  <!--- - - - - - - - - - - - - - - - -
+	<!--- - - - - - - - - - - - - - - - -
            Create the master class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
-  <path id="classpath.compile">
-    <!-- These are the cobalt group specific libraries that all the projects should include. -->
-    <fileset dir="${dir.librariesPath}">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${env.buildextensionroot}">
-      <include name="JUnit/*.jar"/>
-      <include name="OtherLibraries/**/*.jar"/>
-    </fileset>
-  </path>
+	<path id="classpath.compile">
+		<!-- These are the cobalt group specific libraries that all the projects should include. -->
+		<fileset dir="${dir.librariesPath}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${env.buildextensionroot}">
+			<include name="JUnit/*.jar" />
+			<include name="OtherLibraries/**/*.jar" />
+		</fileset>
+	</path>
 
-  <!-- =================================
+	<!-- =================================
           target: normal_build
           description: This is the entry target for a "normal" build. It will compile the main source 
                        code and the unit tests. Integration tests will not be compiled since 
                        it is part of the coverage build. 
          ================================= -->
-  <target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -createJar, -compile_unitTests">
-    <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
-  </target>
+	<target name="normal_build" description="Normal build for the ebookGenerator project" depends="-init, -compile-java-core, -createJar, -compile_unitTests">
+		<echo level="info" message="Normal (aka Non-Coverage) build has completed." />
+	</target>
 
-  <!-- =================================
+	<!-- =================================
           target: coverage_build
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -createJar, -compile_unitTests">
-    <echo level="info" message="Coverage build has completed." />
-  </target>
+	<target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-java-core, -createJar, -compile_unitTests">
+		<echo level="info" message="Coverage build has completed." />
+	</target>
 
-  <!-- - - - - - - - - - - - - - - - - -
+	<!-- - - - - - - - - - - - - - - - - -
           target: -init
           description: Perform all initialization tasks like cleaning up old compiled code, 
                        create directories that do not exist, etc.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-init">
-  	<antcall target="-clean"/>
-    <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
-    <mkdir dir="${dir.binaries}"/>
-    <mkdir dir="${dir.testBinaries}"/>
-    <mkdir dir="${dir.dist}"/>
-  </target>
+	<target name="-init">
+		<antcall target="-clean" />
+		<echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
+		<mkdir dir="${dir.binaries}" />
+		<mkdir dir="${dir.testBinaries}" />
+		<mkdir dir="${dir.dist}" />
+	</target>
 
-  <!-- - - - - - - - - - - - - - - - - - 
+	<!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
                         folder. The code will be compiled using version 1.7 of the SDK.
 	- - - - - - - - - - - - - - - - - -->
-  <target name="-compile-java-core">
-    <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.binaries}" source="1.7" target="1.7"
-           debug="${IsCoverageBuild}">
-      <src path="${dir.ebookGeneratorCore}"/>
-      <classpath refid="classpath.compile"/>
-    </javac>
-  </target>
+	<target name="-compile-java-core">
+		<echo level="verbose">Compiling the source code...</echo>
+		<javac destdir="${dir.binaries}" source="1.7" target="1.7" debug="${IsCoverageBuild}">
+			<src path="${dir.ebookGeneratorCore}" />
+			<classpath refid="classpath.compile" />
+		</javac>
+	</target>
 
-  <!-- - - - - - - - - - - - - - - - - - 
+	<!-- - - - - - - - - - - - - - - - - - 
           target: -compile_unitTests                      
           description: Compile the unit test source code and place the compiled libraries in the 
                        respective binary folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-compile_unitTests">
-    <echo level="verbose">Compiling the unit test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
-      <src path="${dir.unitTestSource}"/>
-      <classpath>
-        <pathelement path="${dir.binaries}"/>
-        <path refid="classpath.compile"/>
-      </classpath>
-    </javac>
-  </target>
+	<target name="-compile_unitTests">
+		<echo level="verbose">Compiling the unit test source code...</echo>
+		<javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
+			<src path="${dir.unitTestSource}" />
+			<classpath>
+				<pathelement path="${dir.binaries}" />
+				<path refid="classpath.compile" />
+			</classpath>
+		</javac>
+	</target>
 
-  <!-- - - - - - - - - - - - - - - - - - 
+	<!-- - - - - - - - - - - - - - - - - - 
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
-  <target name="-createJar" >
-    <echo level="verbose">Packaging the code into a JAR file...</echo>
-    <jar jarfile="${path.jarFile}"
-         manifest="${dir.source}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.binaries}" casesensitive="yes">
-        <exclude name="**/*.java"/>
-      </fileset>
-      <fileset dir="${dir.ebookGeneratorCore}/src" casesensitive="yes">
-        <exclude name="**/*.java"/>
-      </fileset>
-    </jar>
-  </target>
+	<target name="-createJar">
+		<echo level="verbose">Packaging the code into a JAR file...</echo>
+		<jar jarfile="${path.jarFile}" manifest="${dir.source}\META-INF\MANIFEST.MF">
+			<fileset dir="${dir.binaries}" casesensitive="yes">
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="${dir.ebookGeneratorCore}/src" casesensitive="yes">
+				<exclude name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
 
-  <target name="-clean">
-    <echo level="info">Removing temporary work files and folders.</echo>
-    <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-  </target>
+	<target name="-clean">
+		<echo level="info">Removing temporary work files and folders.</echo>
+		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+	</target>
 
-  <!-- Delete all work files and the artifact of the build -->
-  <target name="realclean" depends="-clean">
-  	<delete dir="${dir.dist}"/>
-  </target>
+	<!-- Delete all work files and the artifact of the build -->
+	<target name="realclean" depends="-clean">
+		<delete dir="${dir.dist}" />
+	</target>
 </project>
