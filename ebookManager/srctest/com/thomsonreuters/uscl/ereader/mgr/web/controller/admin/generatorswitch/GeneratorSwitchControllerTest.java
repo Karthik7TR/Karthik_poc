@@ -99,7 +99,6 @@ public class GeneratorSwitchControllerTest {
     	try {
 			EasyMock.expect(mockServerAccessService.stopServer(property, property, property, property, property)).andReturn("done");
 		} catch (EBookServerException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     	EasyMock.replay(mockGeneratorProperties);
@@ -206,7 +205,6 @@ public class GeneratorSwitchControllerTest {
     	try {
 			EasyMock.expect(mockServerAccessService.startServer(property, property, property, property, property)).andReturn("done");
 		} catch (EBookServerException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     	EasyMock.replay(mockGeneratorProperties);

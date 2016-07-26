@@ -13,7 +13,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+
 public class TitleMetadataTest {
+	
+	private String titleId = "yarr/pirates";
+	private String titleVersion = "v1";
+	private String displayName = "YARR! The Comprehensive Guide to Plundering the Seven Seas.";
+	private String materialId = "Plunder2";
+	private String copyright = "The High Seas Trading Company.";
+	private Artwork artwork = new Artwork("swashbuckling.gif");
+
+	private TableOfContents tableOfContents = new TableOfContents();
+	private ArrayList<String> authorNames = new ArrayList<String>();
+	private ArrayList<Doc> documents = new ArrayList<Doc>();
+	private ArrayList<Asset> assets = new ArrayList<Asset>();
+	private ArrayList<Feature> proviewFeatures;
+	private ArrayList<Keyword> keywords = new ArrayList<Keyword>();
+	private boolean isPilotBook;
 	
 	@Before
 	public void setUp() {
@@ -43,30 +60,35 @@ public class TitleMetadataTest {
 		Assert.assertTrue("jurisdiction should be a period character, but was: " + jurisdiction, ".".equals(jurisdiction.getText()));
 	}
 	
+	@Test
+	public void testEqualsMethod() {
+		TitleMetadata one = getTitleMetadata();
+		TitleMetadata two = new TitleMetadata(titleId, titleVersion, proviewFeatures, keywords, new ArrayList<Author>(), isPilotBook, copyright );
+		two.setAuthors(authorNames);
+		Assert.assertTrue(one.equals(two));
+		Assert.assertTrue(!one.equals(new TitleMetadata()));
+	}
+	
 	private TitleMetadata getTitleMetadata() {
-		TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
-		titleMetadata.setCopyright("The High Seas Trading Company.");
-		titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
+		TitleMetadata titleMetadata = new TitleMetadata(titleId, titleVersion);
+		titleMetadata.setCopyright(copyright);
+		titleMetadata.setArtwork(artwork);
 		Doc pirates = new Doc("1", "pirates.htm", 0, null);
 		Doc scallywags = new Doc("2", "scallywags.htm", 0, null);
 		Doc landlubbers = new Doc("3", "landlubbers.htm", 0, null);
-		ArrayList<Doc> documents = new ArrayList<Doc>();
 		documents.add(pirates);
 		documents.add(scallywags);
 		documents.add(landlubbers);
 		titleMetadata.setDocuments(documents);
-		titleMetadata.setDisplayName("YARR! The Comprehensive Guide to Plundering the Seven Seas.");
-		ArrayList<String> authors = new ArrayList<String>();
-		authors.add(new String("Captain Jack Sparrow"));
-		authors.add(new String("Davey Jones"));
-		titleMetadata.setAuthors(authors);
+		titleMetadata.setDisplayName(displayName);
+		authorNames.add(new String("Captain Jack Sparrow"));
+		authorNames.add(new String("Davey Jones"));
+		titleMetadata.setAuthors(authorNames);
 		Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
 		Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");
-		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 		keywords.add(publisher);
 		keywords.add(jurisdiction);
 		titleMetadata.setKeywords(keywords);
-		ArrayList<Asset> assets = new ArrayList<Asset>();
 		assets.add(new Asset("123", "BlackPearl.png"));
 		assets.add(new Asset("456", "PiratesCove.png"));
 		assets.add(new Asset("789", "Tortuga.png"));
@@ -87,10 +109,9 @@ public class TitleMetadataTest {
 			scallywagging.addChild(child);
 		}
 		tocEntries.add(scallywagging);
-		TableOfContents tableOfContents = new TableOfContents();
 		tableOfContents.setChildren(tocEntries);
 		titleMetadata.setTableOfContents(tableOfContents);
-		titleMetadata.setMaterialId("Plunder2");
+		titleMetadata.setMaterialId(materialId);
 		return titleMetadata;
 	}
 }

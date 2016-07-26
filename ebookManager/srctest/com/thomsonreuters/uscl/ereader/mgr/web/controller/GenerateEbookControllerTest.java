@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import org.easymock.EasyMock;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -86,15 +89,17 @@ public class GenerateEbookControllerTest {
 		controller.setPublishingStatsService(mockPublishingStatsService);
 		controller.setManagerService(mockManagerService);
 		controller.setOutageService(mockOutageService);
+		controller.setMiscConfigSyncService(mockMiscConfigService);
 	}
 
 	/**
 	 * Test the GET of one book selected to generator preview
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGenerateEbookPreviewGET() {
+	public void testGenerateEbookPreviewGET() throws Exception {
 		Long bookDefinitionId = new Long(127);
-		BookDefinition book = null;/*new BookDefinition();
+		BookDefinition book = new BookDefinition();
 		book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
 		book.setEbookDefinitionCompleteFlag(true);
 		book.setIsSplitBook(false);
@@ -103,18 +108,20 @@ public class GenerateEbookControllerTest {
 		
 		MiscConfig miscConfig = new MiscConfig(); // having trouble working with this class
 		miscConfig.setDisableExistingSingleTitleSplit(true);
-	*/	
+	
 		request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
 		request.setMethod(HttpMethod.GET.name());
 		request.setParameter("id", bookDefinitionId.toString());
 
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
 		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-	/*	EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(null);
-		EasyMock.expect(miscConfig.getDisableExistingSingleTitleSplit()).andReturn(true);
+		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+		EasyMock.expect(mockProviewClient.getLatestProviewTitleInfo(null)).andReturn(null);
+		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(null);
+		EasyMock.expect(mockPublishingStatsService.hasIsbnBeenPublished(null, null)).andReturn(false);
 		EasyMock.expect(docType.getUsePublishCutoffDateFlag()).andReturn(true);
 		EasyMock.replay(docType);
-	*/	replayAll();
+		replayAll();
 	
 		ModelAndView mav;
 		try {

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0"?>
+<!DOCTYPE xml>
 <project name="ebookGeneratorCore_CodeCoverage_Script" default="doNothing" basedir="..\">
   <property environment="env" />
   <property file="ant/ant-global.properties" />

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0"?>
+<!DOCTYPE xml>
 <project name="ebookManager_Compile_Script" default="normal_build" basedir="..">
   <property environment="env" />
   <property file="ant/ant-global.properties" />

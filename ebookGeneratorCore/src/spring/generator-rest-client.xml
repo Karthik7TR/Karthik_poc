@@ -29,27 +29,6 @@
 	<oxm:jaxb2-marshaller id="simpleResponseMarshaller">
 		<oxm:class-to-be-bound name="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse"/>
 	</oxm:jaxb2-marshaller>
-	
-	<!-- bean id="jobThrottleConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-		<property name="targetClass"
-			value="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig" />
-		<property name="encoding" value="UTF-8" />
-	</bean>
-	<bean id="miscConfigMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-		<property name="targetClass"
-			value="com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig" />
-		<property name="encoding" value="UTF-8" />
-	</bean>
-	<bean id="outageMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-		<property name="targetClass"
-			value="com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage" />
-		<property name="encoding" value="UTF-8" />
-	</bean>
-	<bean id="simpleResponseMarshaller" class="org.springframework.oxm.jibx.JibxMarshaller">
-		<property name="targetClass"
-			value="com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse" />
-		<property name="encoding" value="UTF-8" />
-	</bean-->
 
 	<!-- MESSAGE CONVERTERS -->
 

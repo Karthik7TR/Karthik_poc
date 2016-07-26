@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0"?>
+<!DOCTYPE xml>
 <project name="Cobalt ebookGather Developer Ant Build" basedir="." default="main">
   <property file="ant-global.properties" />
   <property name="testResultsFolder" location="../TestResults"/>

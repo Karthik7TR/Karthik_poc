@@ -15,7 +15,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.DefaultHttpClient;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;

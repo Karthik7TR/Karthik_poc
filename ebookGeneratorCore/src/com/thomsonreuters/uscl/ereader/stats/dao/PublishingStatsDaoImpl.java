@@ -252,7 +252,6 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 			result = query.executeUpdate();
 			session.flush();
 		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

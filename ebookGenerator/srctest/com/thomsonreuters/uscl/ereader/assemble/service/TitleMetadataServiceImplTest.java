@@ -39,22 +39,23 @@ import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+
 /**
  * Tests for the TitleMetadataServiceImpl
  * 
- * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
+ * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris
+ *         Schwartz</a> u0081674
  */
 public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 
-	
 	private TitleMetadataServiceImpl titleMetadataService;
-	
+
 	File assetsDirectory;
 	File documentsDiretory;
 	File tocXml;
 	File artwork;
 	File tempDir;
-	
+
 	File asset1;
 	File asset2;
 	File asset3;
@@ -64,17 +65,16 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	TitleMetadata titleMetadata;
 	UuidGenerator uuidGenerator;
 	FileUtilsFacade mockFileUtilsFacade;
-    PlaceholderDocumentService mockPlaceholderDocumentService;
-	
+	PlaceholderDocumentService mockPlaceholderDocumentService;
+
 	@Before
 	public void setUp() throws Exception {
 		titleMetadataService = new TitleMetadataServiceImpl();
 		File tempFile = File.createTempFile("boot", "strap");
 		tempDir = tempFile.getParentFile();
-		
-		
+
 	}
-	
+
 	private void createAssets() throws Exception {
 		assetsDirectory = new File(tempDir, "assets");
 		assetsDirectory.mkdirs();
@@ -86,7 +86,7 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 		createAsset(asset3);
 	}
 
-	private void createAsset(File asset) throws Exception{
+	private void createAsset(File asset) throws Exception {
 		FileOutputStream fileOutputStream = new FileOutputStream(asset);
 		fileOutputStream.write("YARR!".getBytes());
 		fileOutputStream.flush();
@@ -94,145 +94,147 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 	}
 
 	@After
-	public void tearDown(){
+	public void tearDown() {
 		FileUtils.deleteQuietly(assetsDirectory);
 		FileUtils.deleteQuietly(documentsDiretory);
 		FileUtils.deleteQuietly(tocXml);
 		FileUtils.deleteQuietly(artwork);
 	}
-	
+
 	@Test
 	public void testCreateArtworkHappyPath() throws Exception {
 		File coverArt = File.createTempFile("cover", ".png");
 		Artwork artwork = titleMetadataService.createArtwork(coverArt);
 		String coverSrc = coverArt.getName();
 		FileUtils.deleteQuietly(coverArt);
-		assertTrue("Expected cover art name to match: " + coverSrc + ", but was: " + artwork.getSrc(), artwork.getSrc().equals(coverSrc));
+		assertTrue("Expected cover art name to match: " + coverSrc + ", but was: " + artwork.getSrc(),
+				artwork.getSrc().equals(coverSrc));
 	}
-	
+
 	@Test
 	public void testAddArtworkFailsDueToNullFile() throws Exception {
 		boolean thrown = false;
-		try{
-		titleMetadataService.createArtwork(null);
-		}
-		catch (IllegalArgumentException e){
+		try {
+			titleMetadataService.createArtwork(null);
+		} catch (IllegalArgumentException e) {
 			thrown = true;
 		}
 		assertTrue(thrown);
 	}
-	
+
 	@Test
 	public void testAddAssetsHappyPath() throws Exception {
 		createAssets();
-		TitleMetadata titleMetadata = new TitleMetadata();
 		ArrayList<Asset> actualAssets = titleMetadataService.createAssets(assetsDirectory);
 		assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
 	}
-	
+
 	@Test
 	public void testGenerateTitleXML() throws Exception {
-	    resultStream = new ByteArrayOutputStream(1024);
-	    
-	    URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
-	    altIdFile = new File(pathToClass.toURI());
-	    List<Doc> docList = new ArrayList<Doc>();
-	    titleMetadata = getTitleMetadata();
-	    InputStream splitTitleXMLStream = TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE.xml");
-	    
-	    titleMetadataService.generateTitleXML(titleMetadata, docList, splitTitleXMLStream, resultStream, altIdFile.getParent());
-	    InputSource expected = new InputSource(TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE_MANIFEST.xml"));
-	    //System.out.println("resultStream "+resultStreamToString(resultStream));
-	    InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
-	    DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
+		resultStream = new ByteArrayOutputStream(1024);
+
+		URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
+		altIdFile = new File(pathToClass.toURI());
+		List<Doc> docList = new ArrayList<Doc>();
+		titleMetadata = getTitleMetadata();
+		InputStream splitTitleXMLStream = TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE.xml");
+
+		titleMetadataService.generateTitleXML(titleMetadata, docList, splitTitleXMLStream, resultStream,
+				altIdFile.getParent());
+		InputSource expected = new InputSource(
+				TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE_MANIFEST.xml"));
+		// System.out.println("resultStream
+		// "+resultStreamToString(resultStream));
+		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
 		List<Difference> differences = diff.getAllDifferences();
-		Assert.assertTrue(differences.size() == 1); //the only thing that should be different between the control file and this run is the last updated date.
+		// the only thing that should be different between the control file and
+		// this run is the last updated date.
+		Assert.assertTrue(differences.size() == 1);
 		Difference difference = differences.iterator().next();
 		String actualDifferenceLocation = difference.getTestNodeDetail().getXpathLocation();
 		String expectedDifferenceLocation = "/title[1]/@lastupdated";
 		Assert.assertEquals(expectedDifferenceLocation, actualDifferenceLocation);
 	}
-	
-	private String resultStreamToString(ByteArrayOutputStream resultStream) throws Exception {
-		return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
-	}
-	
-	 @Rule
-	    public TemporaryFolder tempDirectory = new TemporaryFolder();
-	 
+
+	@Rule
+	public TemporaryFolder tempDirectory = new TemporaryFolder();
+
 	@Test
 	public void testGenerateSplitTitleManifest() throws Exception {
-	    resultStream = new ByteArrayOutputStream(1024);
-	    
-	    titleMetadata = getTitleMetadata();
-	    titleMetadata.setTitleId("uscl/an/book_splittitletest");
-	    InputStream splitTitleXMLStream = TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TOC.xml");
-	    	   
-	    File transformedDirectory = new File(tempDir,"transformed");
-		
-	    transformedDirectory.mkdirs();
-	    File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");
-	    File splitNodeInfoFile = new File(transformedDirectory, "splitNodeInfo.txt");
-	    
-	    Map<String, String> familyGuidMap = new HashMap<String, String>();
-	    DocMetadataService mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
-	    titleMetadataService.setDocMetadataService(mockDocMetadataService);
-	    EasyMock.expect( mockDocMetadataService.findDistinctProViewFamGuidsByJobId(new Long(1))).andReturn(familyGuidMap);
-	    EasyMock.replay(mockDocMetadataService);
-	    
-	    
-	    
-	    ImageService mockImgService = EasyMock.createMock(ImageService.class);
-	    titleMetadataService.setImageService(mockImgService);
-	    
-	    Map<String, List<String>> mapping = new HashMap<String, List<String>>();
-	    List<String> imgFileNames = new ArrayList<String>();
-	    imgFileNames.add("img1.html");
-	    imgFileNames.add("img2.html");
-	    List<String> imgFileNames2 = new ArrayList<String>();
-	    imgFileNames2.add("img5.html");
-		mapping.put("N0B264080BFE211D8AE2C9667069B36F5",imgFileNames);
-		mapping.put("NBAB9EEC1AFF711D8803AE0632FEDDFBF",imgFileNames2);
-		
-	    EasyMock.expect( mockImgService.getDocImageListMap(new Long(1))).andReturn(mapping);
-	    EasyMock.replay(mockImgService);
-	    
-	    uuidGenerator = new UuidGenerator();
-	    titleMetadataService.setUuidGenerator(uuidGenerator);
-	    
-	    mockFileUtilsFacade = EasyMock.createMock(FileUtilsFacade.class);
-	    mockPlaceholderDocumentService = EasyMock.createMock(PlaceholderDocumentService.class);
-	    titleMetadataService.setPlaceholderDocumentService(mockPlaceholderDocumentService);
-	    titleMetadataService.setFileUtilsFacade(mockFileUtilsFacade);
-	    EasyMock.replay(mockPlaceholderDocumentService);
-	    EasyMock.replay(mockFileUtilsFacade);
-	    titleMetadataService.generateSplitTitleManifest(resultStream,splitTitleXMLStream,titleMetadata, new Long(1), transformedDirectory, docToSplitBook.getAbsolutePath(), splitNodeInfoFile.getAbsolutePath());
-	    //System.out.println("resultStream "+resultStreamToString(resultStream));
-	   
-	    InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
-	    InputSource expected = new InputSource(SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TITLE.xml"));
-	    DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
-	    List<Difference> differences = diff.getAllDifferences();
-	    Assert.assertTrue(differences.size() == 0);
-	    
-	     URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Expected.txt");
-	     File expectedDocFile = new File(pathToClass.toURI());
-	     pathToClass = this.getClass().getResource("splitNodeInfo.txt");
-	     File expectedsplitNodeInfoFile = new File(pathToClass.toURI());
-	    // System.out.println("splitNodeInfoFile.getAbsolutePath() "+splitNodeInfoFile.getAbsolutePath());
-	    assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
-	    assertTrue("The files differ!", FileUtils.contentEquals(splitNodeInfoFile, expectedsplitNodeInfoFile));
-	    FileUtils.deleteQuietly(transformedDirectory);
+		resultStream = new ByteArrayOutputStream(1024);
+
+		titleMetadata = getTitleMetadata();
+		titleMetadata.setTitleId("uscl/an/book_splittitletest");
+		InputStream splitTitleXMLStream = TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TOC.xml");
+
+		File transformedDirectory = new File(tempDir, "transformed");
+
+		transformedDirectory.mkdirs();
+		File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");
+		File splitNodeInfoFile = new File(transformedDirectory, "splitNodeInfo.txt");
+
+		Map<String, String> familyGuidMap = new HashMap<String, String>();
+		DocMetadataService mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
+		titleMetadataService.setDocMetadataService(mockDocMetadataService);
+		EasyMock.expect(mockDocMetadataService.findDistinctProViewFamGuidsByJobId(new Long(1)))
+				.andReturn(familyGuidMap);
+		EasyMock.replay(mockDocMetadataService);
+
+		ImageService mockImgService = EasyMock.createMock(ImageService.class);
+		titleMetadataService.setImageService(mockImgService);
+
+		Map<String, List<String>> mapping = new HashMap<String, List<String>>();
+		List<String> imgFileNames = new ArrayList<String>();
+		imgFileNames.add("img1.html");
+		imgFileNames.add("img2.html");
+		List<String> imgFileNames2 = new ArrayList<String>();
+		imgFileNames2.add("img5.html");
+		mapping.put("N0B264080BFE211D8AE2C9667069B36F5", imgFileNames);
+		mapping.put("NBAB9EEC1AFF711D8803AE0632FEDDFBF", imgFileNames2);
+
+		EasyMock.expect(mockImgService.getDocImageListMap(new Long(1))).andReturn(mapping);
+		EasyMock.replay(mockImgService);
+
+		uuidGenerator = new UuidGenerator();
+		titleMetadataService.setUuidGenerator(uuidGenerator);
+
+		mockFileUtilsFacade = EasyMock.createMock(FileUtilsFacade.class);
+		mockPlaceholderDocumentService = EasyMock.createMock(PlaceholderDocumentService.class);
+		titleMetadataService.setPlaceholderDocumentService(mockPlaceholderDocumentService);
+		titleMetadataService.setFileUtilsFacade(mockFileUtilsFacade);
+		EasyMock.replay(mockPlaceholderDocumentService);
+		EasyMock.replay(mockFileUtilsFacade);
+		titleMetadataService.generateSplitTitleManifest(resultStream, splitTitleXMLStream, titleMetadata, new Long(1),
+				transformedDirectory, docToSplitBook.getAbsolutePath(), splitNodeInfoFile.getAbsolutePath());
+		// System.out.println("resultStream
+		// "+resultStreamToString(resultStream));
+
+		InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
+		InputSource expected = new InputSource(SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TITLE.xml"));
+		DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
+		List<Difference> differences = diff.getAllDifferences();
+		Assert.assertTrue(differences.size() == 0);
+
+		URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Expected.txt");
+		File expectedDocFile = new File(pathToClass.toURI());
+		pathToClass = this.getClass().getResource("splitNodeInfo.txt");
+		File expectedsplitNodeInfoFile = new File(pathToClass.toURI());
+		// System.out.println("splitNodeInfoFile.getAbsolutePath()
+		// "+splitNodeInfoFile.getAbsolutePath());
+		assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
+		assertTrue("The files differ!", FileUtils.contentEquals(splitNodeInfoFile, expectedsplitNodeInfoFile));
+		FileUtils.deleteQuietly(transformedDirectory);
 	}
-	
+
 	@Test
 	public void testWriteDocumentsToFile() throws Exception {
-		
+
 		File tempDir = new File(System.getProperty("java.io.tmpdir"));
-	    File transformedDirectory = new File(tempDir,"transformed");
-	    transformedDirectory.mkdirs();
-	    File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");
-	    
+		File transformedDirectory = new File(tempDir, "transformed");
+		transformedDirectory.mkdirs();
+		File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");
+
 		List<Doc> orderedDocuments = new ArrayList<Doc>();
 		List<String> imgFileNames = new ArrayList<String>();
 		imgFileNames.add("img1.html");
@@ -246,11 +248,11 @@ public class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
 		orderedDocuments.add(doc2);
 		Doc doc3 = new Doc("DocId3", "Src3", 3, null);
 		orderedDocuments.add(doc3);
-		
+
 		titleMetadataService.writeDocumentsToFile(orderedDocuments, docToSplitBook.getAbsolutePath());
-		 URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Ex.txt");
-	     File expectedDocFile = new File(pathToClass.toURI());
-	     assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
-	     FileUtils.deleteQuietly(transformedDirectory);
+		URL pathToClass = this.getClass().getResource("doc-To-SplitBook_Ex.txt");
+		File expectedDocFile = new File(pathToClass.toURI());
+		assertTrue("The files differ!", FileUtils.contentEquals(docToSplitBook, expectedDocFile));
+		FileUtils.deleteQuietly(transformedDirectory);
 	}
 }
