@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
+import com.thomsonreuters.uscl.ereader.assemble.exception.PlaceholderDocumentServiceException;
+
 /**
  * Tests for the PlaceholderDocumentService.
  * 
@@ -29,78 +31,86 @@ public class PlaceholderDocumentServiceImplTest {
 	private static final String TEST_PLACEHOLDER_DOCUMENT_TEMPLATE_LOCATION = "Tortuga";
 	ResourceLoader mockResourceLoader;
 	Resource mockPlaceholderDocumentResource;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		mockResourceLoader = EasyMock.createMock(ResourceLoader.class);
 		mockPlaceholderDocumentResource = EasyMock.createMock(Resource.class);
-		ByteArrayInputStream testDocumentTemplateInputStream = new ByteArrayInputStream("<html><head/><body><displaytext/></body></html>".getBytes());
+		ByteArrayInputStream testDocumentTemplateInputStream = new ByteArrayInputStream(
+				"<html><head/><body><displaytext/></body></html>".getBytes());
 		EasyMock.expect(mockPlaceholderDocumentResource.getInputStream()).andReturn(testDocumentTemplateInputStream);
-		EasyMock.expect(mockResourceLoader.getResource(TEST_PLACEHOLDER_DOCUMENT_TEMPLATE_LOCATION)).andReturn(mockPlaceholderDocumentResource);
+		EasyMock.expect(mockResourceLoader.getResource(TEST_PLACEHOLDER_DOCUMENT_TEMPLATE_LOCATION)).andReturn(
+				mockPlaceholderDocumentResource);
 		placeholderDocumentService = new PlaceholderDocumentServiceImpl();
 		placeholderDocumentService.setPlaceholderDocumentTemplateLocation(TEST_PLACEHOLDER_DOCUMENT_TEMPLATE_LOCATION);
 		placeholderDocumentService.setResourceLoader(mockResourceLoader);
 	}
-	
+
 	@After
 	public void tearDown() throws Exception {
-		
+
 	}
 
 	private void replayAll() {
 		EasyMock.replay(mockPlaceholderDocumentResource);
 		EasyMock.replay(mockResourceLoader);
 	}
-	
+
 	private void verifyAll() {
 		EasyMock.verify(mockPlaceholderDocumentResource);
 		EasyMock.verify(mockResourceLoader);
 	}
-	
+
 	@Test
 	public void placeholderDocumentServiceImplHappyPath() throws Exception {
 		ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(resultStream, "YARR!", "tocGuid", new ArrayList<String>());
+		placeholderDocumentService.generatePlaceholderDocument(resultStream, "YARR!", "tocGuid",
+				new ArrayList<String>());
 		verifyAll();
 		String expected = "<html><head/><body>YARR!</body></html>";
 		Assert.assertArrayEquals(expected.getBytes(), resultStream.toByteArray());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullFirstArgument() throws Exception {
 		replayAll();
 		placeholderDocumentService.generatePlaceholderDocument(null, "YARR!", "tocGuid", new ArrayList<String>());
 		verifyAll();
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullSecondArgument() throws Exception {
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), null, "tocGuid", new ArrayList<String>());
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), null, "tocGuid",
+				new ArrayList<String>());
 		verifyAll();
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void placeholderDocumentServiceThrowsIllegalArgumentExceptionNullThirdArgument() throws Exception {
 		replayAll();
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", null, new ArrayList<String>());
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", null,
+				new ArrayList<String>());
 		verifyAll();
 	}
-	@Test(expected=IllegalArgumentException.class)
+
+	@Test(expected = IllegalArgumentException.class)
 	public void testBadlyConfiguredTemplateLocation() throws Exception {
 		ResourceLoader resourceLoader = EasyMock.createMock(ResourceLoader.class);
-		EasyMock.expect(resourceLoader.getResource(null)).andThrow(new NullPointerException("ARR! YE NULL BE POINTY, LANDLUBBER!"));
+		EasyMock.expect(resourceLoader.getResource(null)).andThrow(new NullPointerException(
+				"ARR! YE NULL BE POINTY, LANDLUBBER!"));
 		placeholderDocumentService = new PlaceholderDocumentServiceImpl();
 		placeholderDocumentService.setPlaceholderDocumentTemplateLocation(null);
 		placeholderDocumentService.setResourceLoader(resourceLoader);
-		
+
 		EasyMock.replay(resourceLoader);
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid", new ArrayList<String>());
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid",
+				new ArrayList<String>());
 		EasyMock.verify(resourceLoader);
 	}
-	
-	@Test(expected=PlaceholderDocumentServiceException.class)
+
+	@Test(expected = PlaceholderDocumentServiceException.class)
 	public void testIOExceptionCausesPlaceholderDocumentServiceExceptionToBeThrown() throws Exception {
 		ResourceLoader resourceLoader = EasyMock.createMock(ResourceLoader.class);
 		Resource resource = EasyMock.createMock(Resource.class);
@@ -109,10 +119,11 @@ public class PlaceholderDocumentServiceImplTest {
 		placeholderDocumentService = new PlaceholderDocumentServiceImpl();
 		placeholderDocumentService.setPlaceholderDocumentTemplateLocation(TEST_PLACEHOLDER_DOCUMENT_TEMPLATE_LOCATION);
 		placeholderDocumentService.setResourceLoader(resourceLoader);
-		
+
 		EasyMock.replay(resourceLoader);
 		EasyMock.replay(resource);
-		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid", new ArrayList<String>());
+		placeholderDocumentService.generatePlaceholderDocument(new ByteArrayOutputStream(), "YARR!", "tocGuid",
+				new ArrayList<String>());
 		EasyMock.verify(resourceLoader);
 		EasyMock.verify(resource);
 	}

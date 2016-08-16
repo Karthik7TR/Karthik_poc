@@ -1,5 +1,5 @@
 /*
-* Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -24,6 +24,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.thomsonreuters.uscl.ereader.assemble.exception.PlaceholderDocumentServiceException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.PlaceholderDocumentFilter;
 
 /**
@@ -37,8 +38,8 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 	private ResourceLoader resourceLoader;
 
 	@Override
-	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid, List<String> anchors) 
-			throws PlaceholderDocumentServiceException {
+	public void generatePlaceholderDocument(OutputStream documentStream, String displayText, String tocGuid,
+			List<String> anchors) throws PlaceholderDocumentServiceException {
 		if (StringUtils.isBlank(displayText)) {
 			throw new IllegalArgumentException("displayText must not be null or empty. Was: [" + displayText + "]");
 		}
@@ -46,33 +47,35 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 			throw new IllegalArgumentException("tocGuid must not be null or empty. Was: [" + tocGuid + "]");
 		}
 		if (documentStream == null) {
-			throw new IllegalArgumentException("The OutputStream to write the placeholder document to must not be null. Confirm that the caller of this method has supplied a valid OutputStream.");
+			throw new IllegalArgumentException(
+					"The OutputStream to write the placeholder document to must not be null. Confirm that the caller of this method has supplied a valid OutputStream.");
 		}
 		if (StringUtils.isBlank(placeholderDocumentTemplateLocation)) {
-			throw new IllegalArgumentException("The placeholderDocumentTemplateLocation was not configured properly (missing or null). This is likely a Spring configuration error that needs to be resolved by a developer.");
+			throw new IllegalArgumentException(
+					"The placeholderDocumentTemplateLocation was not configured properly (missing or null). This is likely a Spring configuration error that needs to be resolved by a developer.");
 		}
-		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText, tocGuid, anchors);
-		
+		PlaceholderDocumentFilter placeholderDocumentFilter = new PlaceholderDocumentFilter(displayText, tocGuid,
+				anchors);
+
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
-		
+
 		Serializer serializer = SerializerFactory.getSerializer(props);
 		serializer.setOutputStream(documentStream);
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-		
+
 		try {
 			placeholderDocumentFilter.setParent(saxParserFactory.newSAXParser().getXMLReader());
 			placeholderDocumentFilter.setContentHandler(serializer.asContentHandler());
 			placeholderDocumentFilter.parse(new InputSource(getPlaceholderDocumentTemplate().getInputStream()));
-		}
-		catch (IOException e) {
-			throw new PlaceholderDocumentServiceException("An IOException occurred while generating the placeholder document.", e);
-		} 
-		catch (SAXException e) {
+		} catch (IOException e) {
+			throw new PlaceholderDocumentServiceException(
+					"An IOException occurred while generating the placeholder document.", e);
+		} catch (SAXException e) {
 			throw new PlaceholderDocumentServiceException("Could not generate placeholder document", e);
-		}
-		catch (ParserConfigurationException e) {
-			throw new PlaceholderDocumentServiceException("An exception occurred when configuring the parser to generate the placeholder document.", e);
+		} catch (ParserConfigurationException e) {
+			throw new PlaceholderDocumentServiceException(
+					"An exception occurred when configuring the parser to generate the placeholder document.", e);
 		}
 	}
 
@@ -84,7 +87,7 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
 	public void setPlaceholderDocumentTemplateLocation(String placeholderDocumentTemplateLocation) {
 		this.placeholderDocumentTemplateLocation = placeholderDocumentTemplateLocation;
 	}
-	
+
 	private Resource getPlaceholderDocumentTemplate() {
 		return this.resourceLoader.getResource(this.placeholderDocumentTemplateLocation);
 	}

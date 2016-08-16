@@ -1,5 +1,5 @@
 /*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -27,64 +27,63 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
  *
  */
 public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
-	
 
-	
 	/**
 	 * To update publishingStatsService table.
 	 */
 	private PublishingStatsService publishingStatsService;
-	
+
 	private MoveResourcesUtil moveResourcesUtil;
-	
-	/* (non-Javadoc)
-	 * @see com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet#executeStep(org.springframework.batch.core.StepContribution, org.springframework.batch.core.scope.context.ChunkContext)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.
+	 * AbstractSbTasklet#executeStep(org.springframework.batch.core. StepContribution,
+	 * org.springframework.batch.core.scope.context.ChunkContext)
 	 */
 	@Override
-	public ExitStatus executeStep(StepContribution contribution,
-			ChunkContext chunkContext) throws Exception {
+	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		Long jobId = getJobInstance(chunkContext).getId();
 		PublishingStats jobstats = new PublishingStats();
-	    jobstats.setJobInstanceId(jobId);
-	    String publishStatus = "Completed";
-		
-	    try 
-	    {
-			File ebookDirectory = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey  .EBOOK_DIRECTORY));
+		jobstats.setJobInstanceId(jobId);
+		String publishStatus = "Completed";
+
+		try {
+			File ebookDirectory = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.EBOOK_DIRECTORY));
 			File assetsDirectory = createAssetsDirectory(ebookDirectory);
 			File artworkDirectory = createArtworkDirectory(ebookDirectory);
 			File documentsDirectory = createDocumentsDirectory(ebookDirectory);
-			
-			File frontMatter = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+
+			File frontMatter = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
 			moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
-			
-			File transformedDocsDir= new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+
+			File transformedDocsDir = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 			moveResourcesUtil.copySourceToDestination(transformedDocsDir, documentsDirectory);
-			
-			//Images
-			File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
-			File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+
+			// Images
+			File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
+			File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
+					JobExecutionKey.IMAGE_STATIC_DEST_DIR));
 			moveResourcesUtil.copySourceToDestination(dynamicImagesDir, assetsDirectory);
 			moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
-			
-			
-			
+
 			moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
-			moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory,true);		
+			moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, true);
 			moveResourcesUtil.moveStylesheet(assetsDirectory);
-	    }
-	    catch (Exception e)
-	    {
-	    	publishStatus = "Failed";
-	    	throw (e);
-	    }
-		finally 
-		{
-		    jobstats.setPublishStatus("moveResourcesToAssemblyDirectory: " + publishStatus);
+		} catch (Exception e) {
+			publishStatus = "Failed";
+			throw e;
+		} finally {
+			jobstats.setPublishStatus("moveResourcesToAssemblyDirectory: " + publishStatus);
 			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
 		}
-			
+
 		return ExitStatus.COMPLETED;
 	}
 
@@ -98,17 +97,16 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
 		return artworkDirectory;
 	}
 
-	private File createAssetsDirectory (final File parentDirectory) {
+	private File createAssetsDirectory(final File parentDirectory) {
 		File assetsDirectory = new File(parentDirectory, "assets");
 		return assetsDirectory;
 	}
-	
 
 	@Required
 	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
 		this.publishingStatsService = publishingStatsService;
 	}
-	
+
 	public MoveResourcesUtil getMoveResourcesUtil() {
 		return moveResourcesUtil;
 	}

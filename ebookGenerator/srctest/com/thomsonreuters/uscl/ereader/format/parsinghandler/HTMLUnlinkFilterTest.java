@@ -44,18 +44,16 @@ public class HTMLUnlinkFilterTest {
 	private final String currentGuid = "ABC1234";
 	private final String foundAnchor = "er:#ABC1234/foundAnchor";
 	private final String foundAnchorId = "foundAnchor";
-	
-	
+
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(true);
 		SAXParser saxParser = factory.newSAXParser();
 		HashMap<String, HashSet<String>> targetAnchors = new HashMap<String, HashSet<String>>();
 		HashSet<String> hs = new HashSet<String>();
 		hs.add(foundAnchor);
-		hs.add(foundAnchor+"new");
+		hs.add(foundAnchor + "new");
 		targetAnchors.put(currentGuid, hs);
 		ArrayList<String> unlinkDocMetadataList = new ArrayList<String>();
 		DocMetadata unlinkDocMetadata = new DocMetadata();
@@ -65,215 +63,234 @@ public class HTMLUnlinkFilterTest {
 		unlinkFilter.setTargetAnchors(targetAnchors);
 		unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
 		unlinkFilter.setUnlinkDocMetadata(unlinkDocMetadata);
-		
+
 		Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<String, DocMetadata>();
+		DocMetadata docMeta = new DocMetadata();
+		docMeta.setDocUuid("docUuid");
+		docMeta.setDocFamilyUuid("familyUuid");
+		docMeta.setNormalizedFirstlineCite("FirstlineCite");
+		docMeta.setSerialNumber(127L);
+		docMetadataKeyedByProViewId.put(currentGuid, docMeta);
 		unlinkFilter.setDocMetadataKeyedByProViewId(docMetadataKeyedByProViewId);
 		Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
 		props.setProperty("omit-xml-declaration", "yes");
 		serializer = SerializerFactory.getSerializer(props);
-	
-	
+
 	}
-	
+
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 		serializer = null;
 		unlinkFilter = null;
 	}
-	
-	/** 
-	 * Helper method that sets up the repeating pieces of each test and modifies the ImageService
-	 * values that are returned along with the input and output.
+
+	/**
+	 * Helper method that sets up the repeating pieces of each test and modifies the ImageService values that are
+	 * returned along with the input and output.
 	 * 
 	 * @param inputXML input string for the test.
 	 * @param expectedResult the expected output for the specified input string.
 	 */
-	public void testHelper(String inputXML, String expectedResult) throws SAXException
-	{
+	public void testHelper(String inputXML, String expectedResult) throws SAXException {
 		ByteArrayInputStream input = null;
 		ByteArrayOutputStream output = null;
-		try
-		{
+		try {
 			input = new ByteArrayInputStream(inputXML.getBytes());
 			output = new ByteArrayOutputStream();
-			
+
 			serializer.setOutputStream(output);
-			
+
 			unlinkFilter.setContentHandler(serializer.asContentHandler());
 			unlinkFilter.parse(new InputSource(input));
-			
+
 			String result = output.toString();
-			
+
 			assertEquals(expectedResult, result);
-		}
-		catch (SAXException e)
-		{
+		} catch (SAXException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			fail("Encountered exception during test: " + e.getMessage());
-		}
-		finally
-		{
-			try
-			{
-				if (input != null)
-				{
+		} finally {
+			try {
+				if (input != null) {
 					input.close();
 				}
-				if (output != null)
-				{
+				if (output != null) {
 					output.close();
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				fail("Could clean up resources: " + e.getMessage());
 			}
 		}
 	}
-	
-	
+
 	@Test
-	public void testRemoveAnchorTagFromId() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
+	public void testRemoveAnchorTagFromId() throws SAXException {
+
+		String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
 		String expectedResult = "<test><sup>1</sup></test>";
-		
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testRemoveAnchorTagFromIdTwice() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a><a href=\""+foundAnchor+ "\"><sup>2</sup></a></test>";
+	public void testRemoveConsecutiveNestedAnchorTag() throws SAXException {
+
+		String xmlTestStr = "<test><div><a href=\"er:abc/efg\"><span id=\"" + foundAnchorId
+				+ "notinlist\" class=\"KG\"><a href=\"" + foundAnchor + "\"><strong>1<br/>break</strong></a><a href=\""
+				+ foundAnchor + "\"><strong>1<br/>break</strong></a></span></a></div></test>";
+		String expectedResult = "<test><div><a href=\"er:abc/efg\"><span id=\"" + foundAnchorId
+				+ "notinlist\" class=\"KG\"><strong>1<br/>break</strong><strong>1<br/>break</strong></span></a></div></test>";
+		testHelper(xmlTestStr, expectedResult);
+
+	}
+
+	@Test
+	public void testRemoveAnchorTagFromIdTwice() throws SAXException {
+
+		String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a><a href=\"" + foundAnchor
+				+ "\"><sup>2</sup></a></test>";
 		String expectedResult = "<test><sup>1</sup><sup>2</sup></test>";
-		
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testRemoveAnchorTagFromIdWithEmbededTags() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><sup id=\""+foundAnchorId+ "\"><a href=\""+foundAnchor+ "\"><strong>1</strong></a></sup></test>";
-		String expectedResult = "<test><sup id=\""+foundAnchorId+ "\"><strong>1</strong></sup></test>";
-		
+	public void testRemoveAnchorTagFromIdWithEmbededTags() throws SAXException {
+
+		String xmlTestStr = "<test><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><strong>1</strong></a></sup></test>";
+		String expectedResult = "<test><sup id=\"" + foundAnchorId + "\"><strong>1</strong></sup></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+
 	@Test
-	public void testRemoveAnchorTagFromIdWithExtraTags() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong>1</strong></a></sup></test>";
-		String expectedResult = "<test><div>divVal</div><sup id=\""+foundAnchorId+ "\"><strong>1</strong></sup></test>";
-				
+	public void testRemoveAnchorTagFromIdWithExtraTags() throws SAXException {
+
+		String xmlTestStr = "<test><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><strong>1</strong></a></sup></test>";
+		String expectedResult = "<test><div>divVal</div><sup id=\"" + foundAnchorId
+				+ "\"><strong>1</strong></sup></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+
 	@Test
-	public void testRemoveAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong>1</strong></a></sup></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><strong>1</strong></sup></div></test>";
-				
+	public void testRemoveAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><strong>1</strong></a></sup></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId
+				+ "\"><strong>1</strong></sup></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+
 	@Test
-	public void testRemoveAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId+ "\" class=\"KG\"><strong>1</strong></span></a></sup></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><span id=\""+foundAnchorId+ "\" class=\"KG\"><strong>1</strong></span></sup></div></test>";
-				
+	public void testRemoveAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><span id=\"" + foundAnchorId + "\" class=\"KG\"><strong>1</strong></span></a></sup></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><span id=\""
+				+ foundAnchorId + "\" class=\"KG\"><strong>1</strong></span></sup></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testRemoveAnchorTagFromTwoIdDifferentNamesNested() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\"><strong>1</strong></a></span></a></sup></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><span id=\""+foundAnchorId+ "new\" class=\"KG\"><strong>1</strong></span></sup></div></test>";
-				
+	public void testRemoveAnchorTagFromTwoIdDifferentNamesNested() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><span id=\"" + foundAnchorId + "new\" class=\"KG\"><a href=\"" + foundAnchor
+				+ "new\"><strong>1</strong></a></span></a></sup></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><span id=\""
+				+ foundAnchorId + "new\" class=\"KG\"><strong>1</strong></span></sup></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testRemoveAnchorTagFromTwoIdDifferentNames() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\">SupText</a></sup><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\"><strong>1</strong></a></span></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\">SupText</sup><span id=\""+foundAnchorId+ "new\" class=\"KG\"><strong>1</strong></span></div></test>";
-				
+	public void testRemoveAnchorTagFromTwoIdDifferentNames() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\">SupText</a></sup><span id=\"" + foundAnchorId + "new\" class=\"KG\"><a href=\"" + foundAnchor
+				+ "new\"><strong>1</strong></a></span></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\">SupText</sup><span id=\""
+				+ foundAnchorId + "new\" class=\"KG\"><strong>1</strong></span></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testDoNotRemoveAnchorTagFromSpanNotInTargetList() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><span id=\""+foundAnchorId + "notinlist\" class=\"KG\"><a href=\"" + foundAnchor +"notinlist\"><strong>1<br/>break</strong></a></span></a></sup></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><sup id=\""+foundAnchorId+ "\"><span id=\""+foundAnchorId+ "notinlist\" class=\"KG\"><a href=\"" + foundAnchor +"notinlist\"><strong>1<br/>break</strong></a></span></sup></div></test>";
-				
+	public void testDoNotRemoveAnchorTagFromSpanNotInTargetList() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><a href=\"" + foundAnchor
+				+ "\"><span id=\"" + foundAnchorId + "notinlist\" class=\"KG\"><a href=\"" + foundAnchor
+				+ "notinlist\"><strong>1<br/>break</strong></a></span></a></sup></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><span id=\""
+				+ foundAnchorId + "notinlist\" class=\"KG\"><a href=\"" + foundAnchor
+				+ "notinlist\"><strong>1<br/>break</strong></a></span></sup></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testRemoveAnchorTagWithNestingTags() throws SAXException
-	{
-		
-		String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><a href=\"" + foundAnchor +"\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\"><a href=\"" + foundAnchor +"new\">text</a></span></strong><strong>1<br/>break</strong></a></sup></strong></div></test>";
-		String expectedResult = "<test><div><div>divVal</div><strong><sup id=\""+foundAnchorId+ "\"><strong><span id=\""+foundAnchorId+ "new\" class=\"KG\">text</span></strong><strong>1<br/>break</strong></sup></strong></div></test>";
-				
+	public void testRemoveAnchorTagWithNestingTags() throws SAXException {
+
+		String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\"" + foundAnchorId + "\"><a href=\""
+				+ foundAnchor + "\"><strong><span id=\"" + foundAnchorId + "new\" class=\"KG\"><a href=\"" + foundAnchor
+				+ "new\">text</a></span></strong><strong>1<br/>break</strong></a></sup></strong></div></test>";
+		String expectedResult = "<test><div><div>divVal</div><strong><sup id=\"" + foundAnchorId
+				+ "\"><strong><span id=\"" + foundAnchorId
+				+ "new\" class=\"KG\">text</span></strong><strong>1<br/>break</strong></sup></strong></div></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
-	
+
 	@Test
-	public void testNoIdField() throws SAXException
-	{
-		
+	public void testNoIdField() throws SAXException {
+
 		String xmlTestStr = "<test><div>divVal</div><strong>1</strong></test>";
 		String expectedResult = "<test><div>divVal</div><strong>1</strong></test>";
-				
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testReplaceAnchorTagFromId() throws SAXException
-	{
+	public void testReplaceAnchorTagFromId() throws SAXException {
 		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
-		anchorDupTargets.put(foundAnchor, foundAnchor+"new");
+		anchorDupTargets.put(foundAnchor, foundAnchor + "new");
 		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
 
-		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
-		String expectedResult = "<test><a href=\""+foundAnchor+ "new\"><sup>1</sup></a></test>";
-		
+		String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+		String expectedResult = "<test><a href=\"" + foundAnchor + "new\"><sup>1</sup></a></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testReplaceAnchorTagFromIdMultiple() throws SAXException
-	{
+	public void testReplaceAnchorTagFromIdMultiple() throws SAXException {
 		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
-		anchorDupTargets.put(foundAnchor, foundAnchor+"_new2");
-		anchorDupTargets.put(foundAnchor, foundAnchor+"new");
+		anchorDupTargets.put(foundAnchor, foundAnchor + "_new2");
+		anchorDupTargets.put(foundAnchor, foundAnchor + "new");
 		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
 
-		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
-		String expectedResult = "<test><a href=\""+foundAnchor+ "new\"><sup>1</sup></a></test>";
-		
+		String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+		String expectedResult = "<test><a href=\"" + foundAnchor + "new\"><sup>1</sup></a></test>";
+
 		testHelper(xmlTestStr, expectedResult);
 	}
+
 	@Test
-	public void testNOReplaceAnchorTagFromIdMultiple() throws SAXException
-	{
+	public void testNOReplaceAnchorTagFromIdMultiple() throws SAXException {
 		HashMap<String, String> anchorDupTargets = new HashMap<String, String>();
-		anchorDupTargets.put(foundAnchor+"new", foundAnchor+"_new2");
+		anchorDupTargets.put(foundAnchor + "new", foundAnchor + "_new2");
 		unlinkFilter.setAnchorDupTargets(anchorDupTargets);
 
-		String xmlTestStr = "<test><a href=\""+foundAnchor+ "\"><sup>1</sup></a></test>";
+		String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
 		String expectedResult = "<test><sup>1</sup></test>";
-		
+
 		testHelper(xmlTestStr, expectedResult);
 	}
 }

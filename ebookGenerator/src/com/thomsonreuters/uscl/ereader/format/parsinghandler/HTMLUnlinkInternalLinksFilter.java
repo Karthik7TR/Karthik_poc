@@ -1,5 +1,5 @@
 /*
-* Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved.
+* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
 * Proprietary and Confidential information of TRGR. Disclosure, Use or
 * Reproduction without the written authorization of TRGR is prohibited
 */
@@ -26,8 +26,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 /**
  * Filter that handles various Anchor "<a>" tags and transforms them as needed.
  *
- * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a>
- *         u0076257
+ * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
 public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 
@@ -94,15 +93,14 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		if (qName.equalsIgnoreCase("a")) {
-			if (atts != null && atts.getValue("href") != null
-					&& atts.getValue("href").startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT)
-					&& atts.getValue("href").contains("/")) {
+			if (atts != null && atts.getValue("href") != null && atts.getValue("href").startsWith(
+					FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT) && atts.getValue("href").contains("/")) {
 				String guid = currentGuid;
 
 				String attsHrefValue = atts.getValue("href");
 				// hrefLink value without split title
-				attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
-						+ StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#"));
+				attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT + StringUtils.substring(
+						attsHrefValue, attsHrefValue.indexOf("#"));
 
 				// Get the string list after # regex '/'
 				String guidList[] = attsHrefValue.split("/");
@@ -131,11 +129,11 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 						// hrefLink value without split title
 						String splitTitle = StringUtils.substring(newAttsHrefValue, newAttsHrefValue.indexOf("er:") + 3,
 								newAttsHrefValue.indexOf("#"));
-						newAttsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
-								+ StringUtils.substring(newAttsHrefValue, newAttsHrefValue.indexOf("#"));
+						newAttsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT + StringUtils
+								.substring(newAttsHrefValue, newAttsHrefValue.indexOf("#"));
 
-						if (attsHrefValue != null && newAtts.getIndex("href") >= 0
-								&& !attsHrefValue.equals(newAttsHrefValue)) {
+						if (attsHrefValue != null && newAtts.getIndex("href") >= 0 && !attsHrefValue.equals(
+								newAttsHrefValue)) {
 							int indexHrefId = newAtts.getIndex("href");
 							// Add split title to the new link if exists
 							if (splitTitle.length() > 0) {
@@ -149,8 +147,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 
 					} else {
 						// remove anchor with no target.
-						openAnchors.push(false); // invalid link denoted by
-													// FALSE
+						openAnchors.push(false); // bad link denoted by FALSE
 
 						// write out link information for email report
 						if (unlinkDocMetadataList == null) {
@@ -230,8 +227,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equalsIgnoreCase("a")) {
-			// If the latest anchor was valid (TRUE) add the </a>
-			// if it was removed (FALSE) don't.
+			// If the latest anchor was valid (TRUE) add the </a> if it was removed (FALSE) don't.
 			if (openAnchors.pop()) {
 				super.endElement(uri, localName, qName);
 			}
