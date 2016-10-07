@@ -126,7 +126,7 @@ public class GenerateTocTask  extends AbstractSbTasklet
 				}
 
         		File[] nortFiles = contentDirectory.listFiles(new NortFilenameFilter());
-        		if(nortFiles.length == 0) 
+        		if(nortFiles == null || nortFiles.length == 0) 
         		{
         			throw new IllegalStateException("Expected Codes Workbench nort file but none exists: " + 
 							contentDirectory.getAbsolutePath());

@@ -270,7 +270,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
 		}
 		catch (IOException e)
 		{
-			String message = "Could not write out Slit Node information to following file: " + 
+			String message = "Could not write out Split Node information to following file: " + 
 					docToSplitBookFile.getAbsolutePath();
 			LOG.error(message);
 			throw new IOException();  //EBookFormatException(message, e);

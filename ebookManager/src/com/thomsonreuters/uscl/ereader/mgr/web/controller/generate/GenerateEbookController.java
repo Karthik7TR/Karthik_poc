@@ -13,7 +13,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
@@ -49,7 +50,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 public class GenerateEbookController {
 	private static final Logger log = LogManager.getLogger(GenerateEbookController.class);
 
-	private static String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
+	private static final String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
 
 	private BookDefinitionService bookDefinitionService;
 	private String environmentName;
@@ -95,8 +96,7 @@ public class GenerateEbookController {
 	 * @return
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
-	public ModelAndView doPost(@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form, Model model,
-			HttpSession session) {
+	public ModelAndView doPost(@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form, Model model, HttpSession session) {
 
 		log.debug(form);
 
@@ -124,8 +124,7 @@ public class GenerateEbookController {
 
 			boolean jobAlreadyQueued = jobRequestService.isBookInJobRequest(book.getEbookDefinitionId());
 			if (jobAlreadyQueued) {
-				Object[] args = { book.getFullyQualifiedTitleId(), queuePriorityLabel,
-						"This book is already in the job queue" };
+				Object[] args = { book.getFullyQualifiedTitleId(), queuePriorityLabel, "This book is already in the job queue" };
 				String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				log.error(errMessage);
@@ -136,8 +135,7 @@ public class GenerateEbookController {
 			} else {
 				JobExecution runningJobExecution = managerService.findRunningJob(book.getEbookDefinitionId());
 				if (runningJobExecution != null) {
-					Object[] args = { book.getFullyQualifiedTitleId(), version,
-							runningJobExecution.getId().toString() };
+					Object[] args = { book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString() };
 					String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);
 					model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);
 				} else {
@@ -208,8 +206,8 @@ public class GenerateEbookController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.GET)
-	public ModelAndView generateEbookPreview(@RequestParam("id") Long id,
-			@ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form, Model model) throws Exception {
+	public ModelAndView generateEbookPreview(@RequestParam("id") Long id, @ModelAttribute(GenerateBookForm.FORM_NAME) GenerateBookForm form,
+			Model model) throws Exception {
 
 		BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 		if (book != null) {
@@ -217,7 +215,7 @@ public class GenerateEbookController {
 			if (book.isDeletedFlag()) {
 				return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
 			}
-			
+
 			String cutOffDate = null;
 			if (book.getPublishCutoffDate() != null) {
 				cutOffDate = formatter.format(book.getPublishCutoffDate().getTime());
@@ -226,16 +224,16 @@ public class GenerateEbookController {
 			model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
 			model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 			model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE, cutOffDate);
-			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
-					book.getDocumentTypeCodes().getUsePublishCutoffDateFlag() ? "Y" : "N");
-			model.addAttribute(WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
-					isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate()) ? "Y" : "N");
+			model.addAttribute(WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE, book.getDocumentTypeCodes().getUsePublishCutoffDateFlag() ? "Y"
+					: "N");
+			model.addAttribute(WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY, isCutOffDateGreaterOrEqualToday(book
+					.getPublishCutoffDate()) ? "Y" : "N");
 
 			model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.getEbookDefinitionCompleteFlag());
 			model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
 			model.addAttribute(WebConstants.KEY_IS_SPLIT_BOOK, book.isSplitBook());
-			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT,
-					miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit());
+			model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, miscConfigService.getMiscConfig()
+					.getDisableExistingSingleTitleSplit());
 
 			form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
 			setModelVersion(model, form, book.getFullyQualifiedTitleId());
@@ -245,12 +243,10 @@ public class GenerateEbookController {
 			}
 			setModelIsbn(id, book, model);
 		}
-		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER,
-				SecurityRole.ROLE_PUBLISHER_PLUS };
-		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS,
-				UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
-		model.addAttribute(WebConstants.KEY_SUPER_USER_ONLY,
-				UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? "" : "disabled=\"disabled\"");
+		SecurityRole[] roles = { SecurityRole.ROLE_PUBLISHER, SecurityRole.ROLE_SUPERUSER, SecurityRole.ROLE_PUBLISHER_PLUS };
+		model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, UserUtils.isUserInRole(roles) ? "" : "disabled=\"disabled\"");
+		model.addAttribute(WebConstants.KEY_SUPER_USER_ONLY, UserUtils.isUserInRole(SecurityRole.ROLE_SUPERUSER) ? ""
+				: "disabled=\"disabled\"");
 
 		model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 		return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
@@ -343,8 +339,7 @@ public class GenerateEbookController {
 			calculateVersionNumbers(model, form, currentVersion, status);
 
 		} catch (ProviewException e) {
-			model.addAttribute(WebConstants.KEY_ERR_MESSAGE,
-					"Proview Exception occured. Please contact your administrator.");
+			model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Proview Exception occured. Please contact your administrator.");
 			log.debug(e);
 		}
 	}
@@ -364,11 +359,10 @@ public class GenerateEbookController {
 			// Setup next groups
 			if (StringUtils.isNotBlank(book.getGroupName())) {
 				List<String> splitTitles = createSplitTitles(book, currentVersion);
-				currentGroup = groupService.createGroupDefinition(book,
-						GroupDefinition.VERSION_NUMBER_PREFIX + currentVersion, splitTitles);
+				currentGroup = groupService.createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + currentVersion,
+						splitTitles);
 				splitTitles = createSplitTitles(book, nextVersion);
-				nextGroup = groupService.createGroupDefinition(book,
-						GroupDefinition.VERSION_NUMBER_PREFIX + nextVersion, splitTitles);
+				nextGroup = groupService.createGroupDefinition(book, GroupDefinition.VERSION_NUMBER_PREFIX + nextVersion, splitTitles);
 			}
 
 			GroupDefinition lastGroupDefinition = groupService.getLastGroup(book);
@@ -379,13 +373,13 @@ public class GenerateEbookController {
 						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE,
 								"Previous group in ProView had subgroup(s). Currently, book definition is setup to have no subgroup.");
 					} else if (StringUtils.isBlank(book.getGroupName())) {
-						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE,
-								String.format(REMOVE_GROUP_WARNING_MESSAGE, book.getFullyQualifiedTitleId()));
+						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, String.format(REMOVE_GROUP_WARNING_MESSAGE, book
+								.getFullyQualifiedTitleId()));
 					}
 				} else {
 					if (StringUtils.isBlank(book.getGroupName())) {
-						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE,
-								String.format(REMOVE_GROUP_WARNING_MESSAGE, book.getFullyQualifiedTitleId()));
+						model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, String.format(REMOVE_GROUP_WARNING_MESSAGE, book
+								.getFullyQualifiedTitleId()));
 					}
 				}
 				// If groups are similar then new group will not be created
@@ -399,7 +393,7 @@ public class GenerateEbookController {
 		} catch (ProviewException e) {
 			String errorMessage = e.getMessage();
 			if (errorMessage.equalsIgnoreCase(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE)) {
-				// If publised, check for SubGroup Heading change
+				// If published, check for SubGroup Heading change
 				model.addAttribute(WebConstants.KEY_GROUP_NEXT_ERROR, e.getMessage());
 			} else if (errorMessage.equalsIgnoreCase(CoreConstants.SUBGROUP_ERROR_MESSAGE)) {
 				if (currentGroup != null && nextGroup == null) {
@@ -427,10 +421,10 @@ public class GenerateEbookController {
 			} else {
 				int count = book.getSplitDocuments().size();
 				String titleId = book.getFullyQualifiedTitleId();
-				splitTitles.add(titleId + "/v" + version);
+				splitTitles.add(titleId);
 				for (int i = 0; i < count; i++) {
 					int part = i + 2;
-					String nextTitleId = titleId + "_pt" + part + "/v" + version;
+					String nextTitleId = titleId + "_pt" + part;
 					splitTitles.add(nextTitleId);
 				}
 			}
@@ -447,8 +441,7 @@ public class GenerateEbookController {
 	 */
 	private void setModelIsbn(Long bookDefinitionId, BookDefinition book, Model model) {
 
-		boolean isPublished = publishingStatsService.hasIsbnBeenPublished(book.getIsbn(),
-				book.getFullyQualifiedTitleId());
+		boolean isPublished = publishingStatsService.hasIsbnBeenPublished(book.getIsbn(), book.getFullyQualifiedTitleId());
 
 		// If publised, ISBN is not new
 		model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isPublished ? "N" : "Y");
